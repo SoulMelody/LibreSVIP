@@ -38,7 +38,6 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
-from construct import Optional as CSOptional
 
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
@@ -181,9 +180,7 @@ class ClassRegistryAdapter(RegistryAdapter):
 class ObjectRegistryAdapter(RegistryAdapter):
     def _decode(self, obj, context, path):
         if obj.get("array_info", None):
-            objects_by_id[threading.get_ident()][
-                obj.array_info.object_id
-            ] = obj
+            objects_by_id[threading.get_ident()][obj.array_info.object_id] = obj
         else:
             objects_by_id[threading.get_ident()][obj.object_id] = obj
         return obj
@@ -191,9 +188,7 @@ class ObjectRegistryAdapter(RegistryAdapter):
 
 class LibraryRegistryAdapter(RegistryAdapter):
     def _decode(self, obj, context, path):
-        libraries_by_id[threading.get_ident()][
-            obj.library_id
-        ] = obj.library_name
+        libraries_by_id[threading.get_ident()][obj.library_id] = obj.library_name
         return obj
 
 
@@ -201,10 +196,7 @@ class MemberReferenceAdapter(RegistryAdapter):
     def _decode(self, obj, context, path):
         ref_cache = references_by_id[threading.get_ident()]
         if obj.id_ref not in ref_cache:
-            result = {
-                "id_ref": obj.id_ref,
-                "real_obj": None
-            }
+            result = {"id_ref": obj.id_ref, "real_obj": None}
             ref_cache[obj.id_ref] = result
         return ref_cache[obj.id_ref]
 
@@ -392,15 +384,17 @@ MemberTypeInfo = Struct(
 
 MemberValueWithType = Struct(
     "binary_type_enum"
-    / Computed(lambda this: (this._.member_type_info["binary_type_enums"][this._._index])),
+    / Computed(
+        lambda this: (this._.member_type_info["binary_type_enums"][this._._index])
+    ),
     "value"
     / Switch(
         lambda this: this.binary_type_enum,
         {
             "Primitive": PrimitiveType(
-                lambda this: this._.member_type_info["additional_infos"][
-                    this._._index
-                ]["info"]
+                lambda this: this._.member_type_info["additional_infos"][this._._index][
+                    "info"
+                ]
             ),
         },
         default=LazyBound(lambda: Record),
@@ -435,17 +429,15 @@ ClassWithId = ObjectRegistryAdapter(
         "class_info"
         / Computed(
             lambda this: (
-                classes_by_id[threading.get_ident()][
-                    this.metadata_id
-                ]["class_info"]
+                classes_by_id[threading.get_ident()][this.metadata_id]["class_info"]
             )
         ),
         "member_type_info"
         / Computed(
             lambda this: (
-                classes_by_id[threading.get_ident()][
-                    this.metadata_id
-                ].get("member_type_info", None)
+                classes_by_id[threading.get_ident()][this.metadata_id].get(
+                    "member_type_info", None
+                )
             )
         ),
         "member_values"
@@ -493,22 +485,25 @@ BinaryArray = ObjectRegistryAdapter(
                     "Rectangular",
                     "RectangularOffset",
                 ]
-                and this.rank == 1 and this.lengths[0] > 0
+                and this.rank == 1
+                and this.lengths[0] > 0
             ),
             RepeatUntil(
                 lambda obj, lst, ctx: (
-                    (len(lst) + sum(
-                        (x.real_obj.obj.null_count - 1) for x in lst
-                        if "obj" in x.real_obj and "null_count" in x.real_obj.obj
-                    )) >= obj["total"]
+                    (
+                        len(lst)
+                        + sum(
+                            (x.real_obj.obj.null_count - 1)
+                            for x in lst
+                            if "obj" in x.real_obj and "null_count" in x.real_obj.obj
+                        )
+                    )
+                    >= obj["total"]
                 ),
                 Struct(
-                    "total" / Computed(
-                        lambda this: (
-                            this._.lengths[0]
-                        )
-                    ),
-                    "real_obj" / Switch(
+                    "total" / Computed(lambda this: (this._.lengths[0])),
+                    "real_obj"
+                    / Switch(
                         lambda this: this._.binary_type_enum,
                         {
                             "Primitive": PrimitiveType(
@@ -519,8 +514,8 @@ BinaryArray = ObjectRegistryAdapter(
                             "String": LengthPrefixedString(),
                         },
                         default=LazyBound(lambda: Record),
-                    )
-                )
+                    ),
+                ),
             ),
         )
         # TODO: implement multidimensional arrays
@@ -541,13 +536,15 @@ ArrayOfValueWithCode = PrefixedArray(Int32sl, ValueWithCode)
 
 MemberPrimitiveTyped = (
     "record_type_enum" / Computed(RecordTypeEnum.MemberPrimitiveTyped),
-    "value" / ValueWithCode
+    "value" / ValueWithCode,
 )
 
-MemberReference = MemberReferenceAdapter(Struct(
-    "record_type_enum" / Computed(RecordTypeEnum.MemberReference),
-    "id_ref" / Int32sl,
-))
+MemberReference = MemberReferenceAdapter(
+    Struct(
+        "record_type_enum" / Computed(RecordTypeEnum.MemberReference),
+        "id_ref" / Int32sl,
+    )
+)
 
 BinaryLibrary = LibraryRegistryAdapter(
     Struct(
@@ -572,7 +569,8 @@ ArraySinglePrimitive = ObjectRegistryAdapter(
         "record_type_enum" / Computed(RecordTypeEnum.ArraySinglePrimitive),
         "array_info" / ArrayInfo,
         "primitive_type_enum" / PrimitiveTypeEnum,
-        "member_values" / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
+        "member_values"
+        / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
     )
 )
 
@@ -669,7 +667,11 @@ Record = Struct(
     ),
 )
 
-RecordStream = RepeatUntil(lambda obj, lst, ctx: obj is None or obj["record_type_enum"] == RecordTypeEnum.MessageEnd, Record)
+RecordStream = RepeatUntil(
+    lambda obj, lst, ctx: obj is None
+    or obj["record_type_enum"] == RecordTypeEnum.MessageEnd,
+    Record,
+)
 
 
 SVIPFile = Struct(

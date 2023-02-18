@@ -120,7 +120,7 @@ def get_option_widgets(prefix: str):
 
 
 def initialize(server: Server):
-    state, ui, ctrl = server.state, server.ui, server.controller
+    state, ctrl = server.state, server.controller
     id2file_format = [
         {"value": identifier, "text": f"{plugin.file_format} (*.{plugin.suffix})"}
         for identifier, plugin in plugin_registry.items()
@@ -235,6 +235,8 @@ def initialize(server: Server):
     @state.change("input_format")
     def handle_input_change(input_format, **kwargs):
         plugin_input = plugin_registry[input_format]
+        if state.auto_reset:
+            state.files_to_convert = []
         if hasattr(plugin_input.plugin_object, "load"):
             input_option = get_type_hints(plugin_input.plugin_object.load)["options"]
             build_fields_info(input_option, "input_options")
@@ -242,8 +244,6 @@ def initialize(server: Server):
     @state.change("output_format")
     def handle_output_change(output_format, **kwargs):
         plugin_output = plugin_registry[output_format]
-        with ui.output_options as container:
-            container.clear()
         if hasattr(plugin_output.plugin_object, "dump"):
             output_option = get_type_hints(plugin_output.plugin_object.dump)["options"]
             build_fields_info(output_option, "output_options")
