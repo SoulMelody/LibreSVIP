@@ -1,0 +1,3206 @@
+{
+  "zhi": [
+    "affricate",
+    "vowel"
+  ],
+  "chi": [
+    "affricate",
+    "vowel"
+  ],
+  "shi": [
+    "fricative",
+    "vowel"
+  ],
+  "ri": [
+    "semivowel",
+    "vowel"
+  ],
+  "zi": [
+    "affricate",
+    "vowel"
+  ],
+  "ci": [
+    "affricate",
+    "vowel"
+  ],
+  "si": [
+    "fricative",
+    "vowel"
+  ],
+  "ba": [
+    "stop",
+    "vowel"
+  ],
+  "pa": [
+    "stop",
+    "vowel"
+  ],
+  "ma": [
+    "nasal",
+    "vowel"
+  ],
+  "fa": [
+    "fricative",
+    "vowel"
+  ],
+  "da": [
+    "stop",
+    "vowel"
+  ],
+  "ta": [
+    "stop",
+    "vowel"
+  ],
+  "na": [
+    "nasal",
+    "vowel"
+  ],
+  "la": [
+    "liquid",
+    "vowel"
+  ],
+  "ga": [
+    "stop",
+    "vowel"
+  ],
+  "ka": [
+    "stop",
+    "vowel"
+  ],
+  "ha": [
+    "aspirate",
+    "vowel"
+  ],
+  "zha": [
+    "affricate",
+    "vowel"
+  ],
+  "cha": [
+    "affricate",
+    "vowel"
+  ],
+  "sha": [
+    "fricative",
+    "vowel"
+  ],
+  "ra": [
+    "semivowel",
+    "vowel"
+  ],
+  "za": [
+    "affricate",
+    "vowel"
+  ],
+  "ca": [
+    "affricate",
+    "vowel"
+  ],
+  "sa": [
+    "fricative",
+    "vowel"
+  ],
+  "bo": [
+    "stop",
+    "diphthong"
+  ],
+  "po": [
+    "stop",
+    "diphthong"
+  ],
+  "mo": [
+    "nasal",
+    "diphthong"
+  ],
+  "fo": [
+    "fricative",
+    "diphthong"
+  ],
+  "do": [
+    "stop",
+    "vowel"
+  ],
+  "to": [
+    "stop",
+    "vowel"
+  ],
+  "no": [
+    "nasal",
+    "vowel"
+  ],
+  "lo": [
+    "liquid",
+    "vowel"
+  ],
+  "go": [
+    "stop",
+    "vowel"
+  ],
+  "ko": [
+    "stop",
+    "vowel"
+  ],
+  "ho": [
+    "aspirate",
+    "vowel"
+  ],
+  "zho": [
+    "affricate",
+    "vowel"
+  ],
+  "cho": [
+    "affricate",
+    "vowel"
+  ],
+  "sho": [
+    "fricative",
+    "vowel"
+  ],
+  "ro": [
+    "semivowel",
+    "vowel"
+  ],
+  "zo": [
+    "affricate",
+    "vowel"
+  ],
+  "co": [
+    "affricate",
+    "vowel"
+  ],
+  "so": [
+    "fricative",
+    "vowel"
+  ],
+  "be": [
+    "stop",
+    "vowel"
+  ],
+  "pe": [
+    "stop",
+    "vowel"
+  ],
+  "me": [
+    "nasal",
+    "vowel"
+  ],
+  "fe": [
+    "fricative",
+    "vowel"
+  ],
+  "de": [
+    "stop",
+    "vowel"
+  ],
+  "te": [
+    "stop",
+    "vowel"
+  ],
+  "ne": [
+    "nasal",
+    "vowel"
+  ],
+  "le": [
+    "liquid",
+    "vowel"
+  ],
+  "ge": [
+    "stop",
+    "vowel"
+  ],
+  "ke": [
+    "stop",
+    "vowel"
+  ],
+  "he": [
+    "aspirate",
+    "vowel"
+  ],
+  "zhe": [
+    "affricate",
+    "vowel"
+  ],
+  "che": [
+    "affricate",
+    "vowel"
+  ],
+  "she": [
+    "fricative",
+    "vowel"
+  ],
+  "re": [
+    "semivowel",
+    "vowel"
+  ],
+  "ze": [
+    "affricate",
+    "vowel"
+  ],
+  "ce": [
+    "affricate",
+    "vowel"
+  ],
+  "se": [
+    "fricative",
+    "vowel"
+  ],
+  "bai": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pai": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "mai": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fai": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "dai": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "tai": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nai": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "lai": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gai": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "kai": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hai": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zhai": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "chai": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "shai": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "rai": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zai": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "cai": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "sai": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "bei": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pei": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "mei": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fei": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "dei": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "tei": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nei": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "lei": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gei": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "kei": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hei": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zhei": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "chei": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "shei": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "rei": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zei": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "cei": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "sei": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "bao": [
+    "stop",
+    "diphthong"
+  ],
+  "pao": [
+    "stop",
+    "diphthong"
+  ],
+  "mao": [
+    "nasal",
+    "diphthong"
+  ],
+  "fao": [
+    "fricative",
+    "diphthong"
+  ],
+  "dao": [
+    "stop",
+    "diphthong"
+  ],
+  "tao": [
+    "stop",
+    "diphthong"
+  ],
+  "nao": [
+    "nasal",
+    "diphthong"
+  ],
+  "lao": [
+    "liquid",
+    "diphthong"
+  ],
+  "gao": [
+    "stop",
+    "diphthong"
+  ],
+  "kao": [
+    "stop",
+    "diphthong"
+  ],
+  "hao": [
+    "aspirate",
+    "diphthong"
+  ],
+  "zhao": [
+    "affricate",
+    "diphthong"
+  ],
+  "chao": [
+    "affricate",
+    "diphthong"
+  ],
+  "shao": [
+    "fricative",
+    "diphthong"
+  ],
+  "rao": [
+    "semivowel",
+    "diphthong"
+  ],
+  "zao": [
+    "affricate",
+    "diphthong"
+  ],
+  "cao": [
+    "affricate",
+    "diphthong"
+  ],
+  "sao": [
+    "fricative",
+    "diphthong"
+  ],
+  "bou": [
+    "stop",
+    "diphthong"
+  ],
+  "pou": [
+    "stop",
+    "diphthong"
+  ],
+  "mou": [
+    "nasal",
+    "diphthong"
+  ],
+  "fou": [
+    "fricative",
+    "diphthong"
+  ],
+  "dou": [
+    "stop",
+    "diphthong"
+  ],
+  "tou": [
+    "stop",
+    "diphthong"
+  ],
+  "nou": [
+    "nasal",
+    "diphthong"
+  ],
+  "lou": [
+    "liquid",
+    "diphthong"
+  ],
+  "gou": [
+    "stop",
+    "diphthong"
+  ],
+  "kou": [
+    "stop",
+    "diphthong"
+  ],
+  "hou": [
+    "aspirate",
+    "diphthong"
+  ],
+  "zhou": [
+    "affricate",
+    "diphthong"
+  ],
+  "chou": [
+    "affricate",
+    "diphthong"
+  ],
+  "shou": [
+    "fricative",
+    "diphthong"
+  ],
+  "rou": [
+    "semivowel",
+    "diphthong"
+  ],
+  "zou": [
+    "affricate",
+    "diphthong"
+  ],
+  "cou": [
+    "affricate",
+    "diphthong"
+  ],
+  "sou": [
+    "fricative",
+    "diphthong"
+  ],
+  "ban": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pan": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "man": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fan": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "dan": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "tan": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nan": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "lan": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gan": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "kan": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "han": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zhan": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "chan": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "shan": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "ran": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zan": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "can": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "san": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "ben": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pen": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "men": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fen": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "den": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "ten": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nen": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "len": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gen": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "ken": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hen": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zhen": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "chen": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "shen": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "ren": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zen": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "cen": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "sen": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "bang": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pang": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "mang": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fang": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "dang": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "tang": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nang": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "lang": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gang": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "kang": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hang": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zhang": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "chang": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "shang": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "rang": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zang": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "cang": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "sang": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "beng": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "peng": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "meng": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "feng": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "deng": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "teng": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "neng": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "leng": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "geng": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "keng": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "heng": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zheng": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "cheng": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "sheng": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "reng": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zeng": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "ceng": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "seng": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "bi": [
+    "stop",
+    "vowel"
+  ],
+  "pi": [
+    "stop",
+    "vowel"
+  ],
+  "mi": [
+    "nasal",
+    "vowel"
+  ],
+  "fi": [
+    "fricative",
+    "vowel"
+  ],
+  "di": [
+    "stop",
+    "vowel"
+  ],
+  "ti": [
+    "stop",
+    "vowel"
+  ],
+  "ni": [
+    "nasal",
+    "vowel"
+  ],
+  "li": [
+    "liquid",
+    "vowel"
+  ],
+  "gi": [
+    "stop",
+    "vowel"
+  ],
+  "ki": [
+    "stop",
+    "vowel"
+  ],
+  "hi": [
+    "aspirate",
+    "vowel"
+  ],
+  "ji": [
+    "affricate",
+    "vowel"
+  ],
+  "qi": [
+    "fricative",
+    "vowel"
+  ],
+  "xi": [
+    "fricative",
+    "vowel"
+  ],
+  "bia": [
+    "stop",
+    "diphthong"
+  ],
+  "pia": [
+    "stop",
+    "diphthong"
+  ],
+  "mia": [
+    "nasal",
+    "diphthong"
+  ],
+  "fia": [
+    "fricative",
+    "diphthong"
+  ],
+  "dia": [
+    "stop",
+    "diphthong"
+  ],
+  "tia": [
+    "stop",
+    "diphthong"
+  ],
+  "nia": [
+    "nasal",
+    "diphthong"
+  ],
+  "lia": [
+    "liquid",
+    "diphthong"
+  ],
+  "gia": [
+    "stop",
+    "diphthong"
+  ],
+  "kia": [
+    "stop",
+    "diphthong"
+  ],
+  "hia": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jia": [
+    "affricate",
+    "diphthong"
+  ],
+  "qia": [
+    "fricative",
+    "diphthong"
+  ],
+  "xia": [
+    "fricative",
+    "diphthong"
+  ],
+  "bio": [
+    "stop",
+    "diphthong"
+  ],
+  "pio": [
+    "stop",
+    "diphthong"
+  ],
+  "mio": [
+    "nasal",
+    "diphthong"
+  ],
+  "fio": [
+    "fricative",
+    "diphthong"
+  ],
+  "dio": [
+    "stop",
+    "diphthong"
+  ],
+  "tio": [
+    "stop",
+    "diphthong"
+  ],
+  "nio": [
+    "nasal",
+    "diphthong"
+  ],
+  "lio": [
+    "liquid",
+    "diphthong"
+  ],
+  "gio": [
+    "stop",
+    "diphthong"
+  ],
+  "kio": [
+    "stop",
+    "diphthong"
+  ],
+  "hio": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jio": [
+    "affricate",
+    "diphthong"
+  ],
+  "qio": [
+    "fricative",
+    "diphthong"
+  ],
+  "xio": [
+    "fricative",
+    "diphthong"
+  ],
+  "bie": [
+    "stop",
+    "diphthong"
+  ],
+  "pie": [
+    "stop",
+    "diphthong"
+  ],
+  "mie": [
+    "nasal",
+    "diphthong"
+  ],
+  "fie": [
+    "fricative",
+    "diphthong"
+  ],
+  "die": [
+    "stop",
+    "diphthong"
+  ],
+  "tie": [
+    "stop",
+    "diphthong"
+  ],
+  "nie": [
+    "nasal",
+    "diphthong"
+  ],
+  "lie": [
+    "liquid",
+    "diphthong"
+  ],
+  "gie": [
+    "stop",
+    "diphthong"
+  ],
+  "kie": [
+    "stop",
+    "diphthong"
+  ],
+  "hie": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jie": [
+    "affricate",
+    "diphthong"
+  ],
+  "qie": [
+    "fricative",
+    "diphthong"
+  ],
+  "xie": [
+    "fricative",
+    "diphthong"
+  ],
+  "biai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "piai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "miai": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fiai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "diai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tiai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "niai": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "liai": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "giai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kiai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "hiai": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "jiai": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "qiai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xiai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "biao": [
+    "stop",
+    "diphthong"
+  ],
+  "piao": [
+    "stop",
+    "diphthong"
+  ],
+  "miao": [
+    "nasal",
+    "diphthong"
+  ],
+  "fiao": [
+    "fricative",
+    "diphthong"
+  ],
+  "diao": [
+    "stop",
+    "diphthong"
+  ],
+  "tiao": [
+    "stop",
+    "diphthong"
+  ],
+  "niao": [
+    "nasal",
+    "diphthong"
+  ],
+  "liao": [
+    "liquid",
+    "diphthong"
+  ],
+  "giao": [
+    "stop",
+    "diphthong"
+  ],
+  "kiao": [
+    "stop",
+    "diphthong"
+  ],
+  "hiao": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jiao": [
+    "affricate",
+    "diphthong"
+  ],
+  "qiao": [
+    "fricative",
+    "diphthong"
+  ],
+  "xiao": [
+    "fricative",
+    "diphthong"
+  ],
+  "biu": [
+    "stop",
+    "diphthong"
+  ],
+  "piu": [
+    "stop",
+    "diphthong"
+  ],
+  "miu": [
+    "nasal",
+    "diphthong"
+  ],
+  "fiu": [
+    "fricative",
+    "diphthong"
+  ],
+  "diu": [
+    "stop",
+    "diphthong"
+  ],
+  "tiu": [
+    "stop",
+    "diphthong"
+  ],
+  "niu": [
+    "nasal",
+    "diphthong"
+  ],
+  "liu": [
+    "liquid",
+    "diphthong"
+  ],
+  "giu": [
+    "stop",
+    "diphthong"
+  ],
+  "kiu": [
+    "stop",
+    "diphthong"
+  ],
+  "hiu": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jiu": [
+    "affricate",
+    "diphthong"
+  ],
+  "qiu": [
+    "fricative",
+    "diphthong"
+  ],
+  "xiu": [
+    "fricative",
+    "diphthong"
+  ],
+  "bian": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "pian": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "mian": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fian": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "dian": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tian": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "nian": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "lian": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "gian": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kian": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "hian": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "jian": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "qian": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xian": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "bin": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pin": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "min": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fin": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "din": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "tin": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nin": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "lin": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gin": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "kin": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hin": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "jin": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "qin": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "xin": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "biang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "piang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "miang": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fiang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "diang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tiang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "niang": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "liang": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "giang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kiang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "hiang": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "jiang": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "qiang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xiang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "bing": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "ping": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "ming": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fing": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "ding": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "ting": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "ning": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "ling": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "ging": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "king": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hing": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "jing": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "qing": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "xing": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "bu": [
+    "stop",
+    "vowel"
+  ],
+  "pu": [
+    "stop",
+    "vowel"
+  ],
+  "mu": [
+    "nasal",
+    "vowel"
+  ],
+  "fu": [
+    "fricative",
+    "vowel"
+  ],
+  "du": [
+    "stop",
+    "vowel"
+  ],
+  "tu": [
+    "stop",
+    "vowel"
+  ],
+  "nu": [
+    "nasal",
+    "vowel"
+  ],
+  "lu": [
+    "liquid",
+    "vowel"
+  ],
+  "gu": [
+    "stop",
+    "vowel"
+  ],
+  "ku": [
+    "stop",
+    "vowel"
+  ],
+  "hu": [
+    "aspirate",
+    "vowel"
+  ],
+  "ju": [
+    "affricate",
+    "vowel"
+  ],
+  "qu": [
+    "fricative",
+    "vowel"
+  ],
+  "xu": [
+    "fricative",
+    "vowel"
+  ],
+  "zhu": [
+    "affricate",
+    "vowel"
+  ],
+  "chu": [
+    "affricate",
+    "vowel"
+  ],
+  "shu": [
+    "fricative",
+    "vowel"
+  ],
+  "ru": [
+    "semivowel",
+    "vowel"
+  ],
+  "zu": [
+    "affricate",
+    "vowel"
+  ],
+  "cu": [
+    "affricate",
+    "vowel"
+  ],
+  "su": [
+    "fricative",
+    "vowel"
+  ],
+  "bua": [
+    "stop",
+    "diphthong"
+  ],
+  "pua": [
+    "stop",
+    "diphthong"
+  ],
+  "mua": [
+    "nasal",
+    "diphthong"
+  ],
+  "fua": [
+    "fricative",
+    "diphthong"
+  ],
+  "dua": [
+    "stop",
+    "diphthong"
+  ],
+  "tua": [
+    "stop",
+    "diphthong"
+  ],
+  "nua": [
+    "nasal",
+    "diphthong"
+  ],
+  "lua": [
+    "liquid",
+    "diphthong"
+  ],
+  "gua": [
+    "stop",
+    "diphthong"
+  ],
+  "kua": [
+    "stop",
+    "diphthong"
+  ],
+  "hua": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jua": [
+    "affricate",
+    "diphthong"
+  ],
+  "qua": [
+    "fricative",
+    "diphthong"
+  ],
+  "xua": [
+    "fricative",
+    "diphthong"
+  ],
+  "zhua": [
+    "affricate",
+    "diphthong"
+  ],
+  "chua": [
+    "affricate",
+    "diphthong"
+  ],
+  "shua": [
+    "fricative",
+    "diphthong"
+  ],
+  "rua": [
+    "semivowel",
+    "diphthong"
+  ],
+  "zua": [
+    "affricate",
+    "diphthong"
+  ],
+  "cua": [
+    "affricate",
+    "diphthong"
+  ],
+  "sua": [
+    "fricative",
+    "diphthong"
+  ],
+  "buo": [
+    "stop",
+    "diphthong"
+  ],
+  "puo": [
+    "stop",
+    "diphthong"
+  ],
+  "muo": [
+    "nasal",
+    "diphthong"
+  ],
+  "fuo": [
+    "fricative",
+    "diphthong"
+  ],
+  "duo": [
+    "stop",
+    "diphthong"
+  ],
+  "tuo": [
+    "stop",
+    "diphthong"
+  ],
+  "nuo": [
+    "nasal",
+    "diphthong"
+  ],
+  "luo": [
+    "liquid",
+    "diphthong"
+  ],
+  "guo": [
+    "stop",
+    "diphthong"
+  ],
+  "kuo": [
+    "stop",
+    "diphthong"
+  ],
+  "huo": [
+    "aspirate",
+    "diphthong"
+  ],
+  "juo": [
+    "affricate",
+    "diphthong"
+  ],
+  "quo": [
+    "fricative",
+    "diphthong"
+  ],
+  "xuo": [
+    "fricative",
+    "diphthong"
+  ],
+  "zhuo": [
+    "affricate",
+    "diphthong"
+  ],
+  "chuo": [
+    "affricate",
+    "diphthong"
+  ],
+  "shuo": [
+    "fricative",
+    "diphthong"
+  ],
+  "ruo": [
+    "semivowel",
+    "diphthong"
+  ],
+  "zuo": [
+    "affricate",
+    "diphthong"
+  ],
+  "cuo": [
+    "affricate",
+    "diphthong"
+  ],
+  "suo": [
+    "fricative",
+    "diphthong"
+  ],
+  "buai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "puai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "muai": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fuai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "duai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tuai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "nuai": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "luai": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "guai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kuai": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "huai": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "juai": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "quai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xuai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "zhuai": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "chuai": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "shuai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "ruai": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "zuai": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "cuai": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "suai": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "bui": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "pui": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "mui": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fui": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "dui": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tui": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "nui": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "lui": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "gui": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kui": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "hui": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "jui": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "qui": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xui": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "zhui": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "chui": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "shui": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "rui": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "zui": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "cui": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "sui": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "buan": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "puan": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "muan": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fuan": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "duan": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tuan": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "nuan": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "luan": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "guan": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kuan": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "huan": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "juan": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "quan": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xuan": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "zhuan": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "chuan": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "shuan": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "ruan": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "zuan": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "cuan": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "suan": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "bun": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "pun": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "mun": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fun": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "dun": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tun": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "nun": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "lun": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "gun": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kun": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "hun": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "jun": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "qun": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xun": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "zhun": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "chun": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "shun": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "run": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "zun": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "cun": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "sun": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "buang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "puang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "muang": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fuang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "duang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tuang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "nuang": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "luang": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "guang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kuang": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "huang": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "juang": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "quang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xuang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "zhuang": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "chuang": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "shuang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "ruang": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "zuang": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "cuang": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "suang": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "bong": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "pong": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "mong": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "fong": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "dong": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "tong": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "nong": [
+    "nasal",
+    "vowel",
+    "coda"
+  ],
+  "long": [
+    "liquid",
+    "vowel",
+    "coda"
+  ],
+  "gong": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "kong": [
+    "stop",
+    "vowel",
+    "coda"
+  ],
+  "hong": [
+    "aspirate",
+    "vowel",
+    "coda"
+  ],
+  "zhong": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "chong": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "shong": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "rong": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "zong": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "cong": [
+    "affricate",
+    "vowel",
+    "coda"
+  ],
+  "song": [
+    "fricative",
+    "vowel",
+    "coda"
+  ],
+  "bv": [
+    "stop",
+    "vowel"
+  ],
+  "byu": [
+    "stop",
+    "vowel"
+  ],
+  "pv": [
+    "stop",
+    "vowel"
+  ],
+  "pyu": [
+    "stop",
+    "vowel"
+  ],
+  "mv": [
+    "nasal",
+    "vowel"
+  ],
+  "myu": [
+    "nasal",
+    "vowel"
+  ],
+  "fv": [
+    "fricative",
+    "vowel"
+  ],
+  "fyu": [
+    "fricative",
+    "vowel"
+  ],
+  "dv": [
+    "stop",
+    "vowel"
+  ],
+  "dyu": [
+    "stop",
+    "vowel"
+  ],
+  "tv": [
+    "stop",
+    "vowel"
+  ],
+  "tyu": [
+    "stop",
+    "vowel"
+  ],
+  "nv": [
+    "nasal",
+    "vowel"
+  ],
+  "nyu": [
+    "nasal",
+    "vowel"
+  ],
+  "lv": [
+    "liquid",
+    "vowel"
+  ],
+  "lyu": [
+    "liquid",
+    "vowel"
+  ],
+  "gv": [
+    "stop",
+    "vowel"
+  ],
+  "gyu": [
+    "stop",
+    "vowel"
+  ],
+  "kv": [
+    "stop",
+    "vowel"
+  ],
+  "kyu": [
+    "stop",
+    "vowel"
+  ],
+  "hv": [
+    "aspirate",
+    "vowel"
+  ],
+  "hyu": [
+    "aspirate",
+    "vowel"
+  ],
+  "jv": [
+    "affricate",
+    "vowel"
+  ],
+  "jyu": [
+    "affricate",
+    "vowel"
+  ],
+  "qv": [
+    "fricative",
+    "vowel"
+  ],
+  "qyu": [
+    "fricative",
+    "vowel"
+  ],
+  "xv": [
+    "fricative",
+    "vowel"
+  ],
+  "xyu": [
+    "fricative",
+    "vowel"
+  ],
+  "zhv": [
+    "affricate",
+    "vowel"
+  ],
+  "zhyu": [
+    "affricate",
+    "vowel"
+  ],
+  "chv": [
+    "affricate",
+    "vowel"
+  ],
+  "chyu": [
+    "affricate",
+    "vowel"
+  ],
+  "shv": [
+    "fricative",
+    "vowel"
+  ],
+  "shyu": [
+    "fricative",
+    "vowel"
+  ],
+  "rv": [
+    "semivowel",
+    "vowel"
+  ],
+  "ryu": [
+    "semivowel",
+    "vowel"
+  ],
+  "zv": [
+    "affricate",
+    "vowel"
+  ],
+  "zyu": [
+    "affricate",
+    "vowel"
+  ],
+  "cv": [
+    "affricate",
+    "vowel"
+  ],
+  "cyu": [
+    "affricate",
+    "vowel"
+  ],
+  "sv": [
+    "fricative",
+    "vowel"
+  ],
+  "syu": [
+    "fricative",
+    "vowel"
+  ],
+  "bve": [
+    "stop",
+    "diphthong"
+  ],
+  "bue": [
+    "stop",
+    "diphthong"
+  ],
+  "pve": [
+    "stop",
+    "diphthong"
+  ],
+  "pue": [
+    "stop",
+    "diphthong"
+  ],
+  "mve": [
+    "nasal",
+    "diphthong"
+  ],
+  "mue": [
+    "nasal",
+    "diphthong"
+  ],
+  "fve": [
+    "fricative",
+    "diphthong"
+  ],
+  "fue": [
+    "fricative",
+    "diphthong"
+  ],
+  "dve": [
+    "stop",
+    "diphthong"
+  ],
+  "due": [
+    "stop",
+    "diphthong"
+  ],
+  "tve": [
+    "stop",
+    "diphthong"
+  ],
+  "tue": [
+    "stop",
+    "diphthong"
+  ],
+  "nve": [
+    "nasal",
+    "diphthong"
+  ],
+  "nue": [
+    "nasal",
+    "diphthong"
+  ],
+  "lve": [
+    "liquid",
+    "diphthong"
+  ],
+  "lue": [
+    "liquid",
+    "diphthong"
+  ],
+  "gve": [
+    "stop",
+    "diphthong"
+  ],
+  "gue": [
+    "stop",
+    "diphthong"
+  ],
+  "kve": [
+    "stop",
+    "diphthong"
+  ],
+  "kue": [
+    "stop",
+    "diphthong"
+  ],
+  "hve": [
+    "aspirate",
+    "diphthong"
+  ],
+  "hue": [
+    "aspirate",
+    "diphthong"
+  ],
+  "jve": [
+    "affricate",
+    "diphthong"
+  ],
+  "jue": [
+    "affricate",
+    "diphthong"
+  ],
+  "qve": [
+    "fricative",
+    "diphthong"
+  ],
+  "que": [
+    "fricative",
+    "diphthong"
+  ],
+  "xve": [
+    "fricative",
+    "diphthong"
+  ],
+  "xue": [
+    "fricative",
+    "diphthong"
+  ],
+  "zhve": [
+    "affricate",
+    "diphthong"
+  ],
+  "zhue": [
+    "affricate",
+    "diphthong"
+  ],
+  "chve": [
+    "affricate",
+    "diphthong"
+  ],
+  "chue": [
+    "affricate",
+    "diphthong"
+  ],
+  "shve": [
+    "fricative",
+    "diphthong"
+  ],
+  "shue": [
+    "fricative",
+    "diphthong"
+  ],
+  "rve": [
+    "semivowel",
+    "diphthong"
+  ],
+  "rue": [
+    "semivowel",
+    "diphthong"
+  ],
+  "zve": [
+    "affricate",
+    "diphthong"
+  ],
+  "zue": [
+    "affricate",
+    "diphthong"
+  ],
+  "cve": [
+    "affricate",
+    "diphthong"
+  ],
+  "cue": [
+    "affricate",
+    "diphthong"
+  ],
+  "sve": [
+    "fricative",
+    "diphthong"
+  ],
+  "sue": [
+    "fricative",
+    "diphthong"
+  ],
+  "biong": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "piong": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "miong": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "fiong": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "diong": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "tiong": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "niong": [
+    "nasal",
+    "diphthong",
+    "coda"
+  ],
+  "liong": [
+    "liquid",
+    "diphthong",
+    "coda"
+  ],
+  "giong": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "kiong": [
+    "stop",
+    "diphthong",
+    "coda"
+  ],
+  "hiong": [
+    "aspirate",
+    "diphthong",
+    "coda"
+  ],
+  "jiong": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "qiong": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "xiong": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "zhiong": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "chiong": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "shiong": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "riong": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "ziong": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "ciong": [
+    "affricate",
+    "diphthong",
+    "coda"
+  ],
+  "siong": [
+    "fricative",
+    "diphthong",
+    "coda"
+  ],
+  "a": [
+    "vowel"
+  ],
+  "o": [
+    "vowel"
+  ],
+  "e": [
+    "vowel"
+  ],
+  "ai": [
+    "vowel",
+    "coda"
+  ],
+  "ei": [
+    "vowel",
+    "coda"
+  ],
+  "ao": [
+    "diphthong"
+  ],
+  "ou": [
+    "diphthong"
+  ],
+  "an": [
+    "vowel",
+    "coda"
+  ],
+  "en": [
+    "vowel",
+    "coda"
+  ],
+  "ang": [
+    "vowel",
+    "coda"
+  ],
+  "ong": [
+    "vowel",
+    "coda"
+  ],
+  "eng": [
+    "vowel",
+    "coda"
+  ],
+  "er": [
+    "vowel",
+    "coda"
+  ],
+  "i": [
+    "vowel"
+  ],
+  "u": [
+    "vowel"
+  ],
+  "v": [
+    "vowel"
+  ],
+  "yi": [
+    "vowel"
+  ],
+  "wu": [
+    "vowel"
+  ],
+  "yu": [
+    "vowel"
+  ],
+  "ya": [
+    "semivowel",
+    "diphthong"
+  ],
+  "ia": [
+    "semivowel",
+    "diphthong"
+  ],
+  "yo": [
+    "semivowel",
+    "diphthong"
+  ],
+  "io": [
+    "semivowel",
+    "diphthong"
+  ],
+  "ye": [
+    "semivowel",
+    "diphthong"
+  ],
+  "ie": [
+    "semivowel",
+    "diphthong"
+  ],
+  "yai": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "iai": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "yao": [
+    "semivowel",
+    "diphthong"
+  ],
+  "iao": [
+    "semivowel",
+    "diphthong"
+  ],
+  "you": [
+    "semivowel",
+    "diphthong"
+  ],
+  "iou": [
+    "semivowel",
+    "diphthong"
+  ],
+  "yan": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "ian": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "yin": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "in": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "yang": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "iang": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "ying": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "ing": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "wa": [
+    "semivowel",
+    "diphthong"
+  ],
+  "ua": [
+    "semivowel",
+    "diphthong"
+  ],
+  "wo": [
+    "semivowel",
+    "diphthong"
+  ],
+  "uo": [
+    "semivowel",
+    "diphthong"
+  ],
+  "wai": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "uai": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "wei": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "wui": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "ui": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "wan": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "uan": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "wen": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "uen": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "wang": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "uang": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "weng": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "wong": [
+    "semivowel",
+    "vowel",
+    "coda"
+  ],
+  "yue": [
+    "semivowel",
+    "diphthong"
+  ],
+  "ue": [
+    "semivowel",
+    "diphthong"
+  ],
+  "yve": [
+    "semivowel",
+    "diphthong"
+  ],
+  "ve": [
+    "semivowel",
+    "diphthong"
+  ],
+  "yuan": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "van": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "yun": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "vn": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "yong": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ],
+  "iong": [
+    "semivowel",
+    "diphthong",
+    "coda"
+  ]
+}

@@ -1,0 +1,129 @@
+[tool.poetry]
+name = "libresvip"
+version = "0.0.1"
+description = "Universal Converter for Singing Voice Projects"
+authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.12"
+confz = "^1.8.1"
+loguru = "^0.6.0"
+more-itertools = "^9.0.0"
+platformdirs = "^2.6.0"
+portion = "^2.3.1"
+pydantic = "^1.10.5"
+pydub = "^0.25.1"
+pypinyin = "^0.47.1"
+regex = "^2022.10.31"
+setuptools = "^67.3.2"
+typer = { extras = ["all"], version = "^0.7.0" }
+wanakana-python = "^1.2.2"
+yapsy = "^1.12.2"
+
+[tool.poetry.group.webui.dependencies]
+trame = "^2.3.2"
+pywebview = "^3.7.2"
+
+[tool.poetry.group.linux_desktop.dependencies]
+qtpy = { version = "^2.3.0", markers = "sys_platform == 'linux'" }
+PySide6 = { version = "^6.4.2", markers = "sys_platform == 'linux'" }
+
+[tool.poetry.group.ujson.dependencies]
+ujson = "^5.7.0"
+
+[tool.poetry.group.bike.dependencies]
+pycryptodome = "^3.17"
+zstandard = "^0.19.0"
+
+[tool.poetry.group.protobuf.dependencies]
+pure-protobuf = "^2.2.3"
+
+[tool.poetry.group.midi.dependencies]
+mido = "^1.2.10"
+
+[tool.poetry.group.subtitle.dependencies]
+pysrt = "^1.1.2"
+
+[tool.poetry.group.binary.dependencies]
+construct-typing = "^0.5.5"
+
+[tool.poetry.group.xml.dependencies]
+xsdata-pydantic = "^22.10"
+
+[tool.poetry.group.yaml.dependencies]
+pydantic-yaml = { extras = ["pyyaml"], version = "^0.8.1" }
+
+[tool.poetry.group.text.dependencies]
+textx = "^3.1.1"
+jinja2 = "^3.1.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+pytest-datadir = "^1.4.1"
+isort = "^5.12.0"
+pre-commit = "^2.20.0"
+poethepoet = "^0.16.5"
+ruff = "^0.0.245"
+xsdata = { extras = ["cli"], version = "^22.12" }
+datamodel-code-generator = "^0.14.1"
+black = "^23.1.0"
+mypy = "^1.0.1"
+
+[tool.poe.env]
+PYTHONUTF8 = "1"
+
+[tool.poe.tasks]
+cli = "python -m libresvip.cli"
+gui = "python -m libresvip.web"
+web = "python -m libresvip.web --exec_mode=main"
+
+[tool.pytest.ini_options]
+addopts = "-s -p no:warnings"
+testpaths = "tests"
+
+[tool.isort]
+line_length = 100
+profile = "black"
+
+[tool.ruff]
+src = ['libresvip', 'tests']
+select = [
+    # "ANN", # annotations
+    # "B",   # bugbear
+    "C4",  # comprehensions
+    "E",   # style errors
+    "F",   # flakes
+    "I",   # import sorting
+    "N",   # naming
+    "PGH", # pygrep-hooks
+    "PLC", # pylint convention
+    "PLE", # pylint error
+    # "PLR", # pylint refactor
+    # "RUF", # Ruff
+    "T10", # debugger
+    # "UP",  # upgrade
+    "W",   # style warnings
+    "YTT", # sys.version
+]
+ignore = [
+    "C408", # Unnecessary `dict` call (rewrite as a literal)
+    "E402", # Module level import not at top of file
+    "E501", # Line too long
+    "E731", # Do not assign a lambda expression, use a def
+    "N802", # Function name should be lowercase
+    "N806", # Variable in function should be lowercase
+]
+line-length = 100
+fix = true
+
+[tool.ruff.isort]
+known-first-party = ['libresvip', 'tests']
+
+[[tool.poetry.source]]
+name = "bfsu"
+default = true
+url = "https://mirrors.bfsu.edu.cn/pypi/web/simple/"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

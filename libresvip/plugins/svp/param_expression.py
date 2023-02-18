@@ -1,0 +1,257 @@
+import abc
+import dataclasses
+import enum
+import operator
+from typing import Callable, Iterable, List
+
+from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.model.point import Point
+from libresvip.utils import find_last_index
+
+from .interval_utils import position_to_ticks
+from .layer_generator import (
+    BaseLayerGenerator,
+    GaussianLayerGenerator,
+    NoteStruct,
+    VibratoLayerGenerator,
+)
+from .model import SVNote
+
+
+class ParamOperators(enum.Enum):
+    ADD = operator.add
+    SUB = operator.sub
+    MUL = operator.mul
+    DIV = operator.truediv
+
+
+class ParamExpression(abc.ABC):
+    @abc.abstractmethod
+    def value_at_ticks(self, ticks: int):
+        pass
+
+    def __add__(self, other):
+        if isinstance(other, int):
+            return TranslationalParam(
+                self,
+                other,
+            )
+        else:
+            return CompoundParam(
+                self,
+                ParamOperators.ADD,
+                other,
+            )
+
+    def __sub__(self, other):
+        if isinstance(other, int):
+            return self + (-other)
+        else:
+            return CompoundParam(
+                self,
+                ParamOperators.SUB,
+                other,
+            )
+
+    def __mul__(self, other):
+        if isinstance(other, int):
+            return ScaledParam(
+                self,
+                other,
+            )
+        else:
+            return CompoundParam(
+                self,
+                ParamOperators.MUL,
+                other,
+            )
+
+    def __truediv__(self, other):
+        if isinstance(other, int):
+            return self * (1 / other)
+        else:
+            return CompoundParam(
+                self,
+                ParamOperators.DIV,
+                other,
+            )
+
+
+@dataclasses.dataclass
+class ScaledParam(ParamExpression):
+    expression: ParamExpression
+    ratio: float
+
+    def value_at_ticks(self, ticks: int):
+        return int(round(self.ratio * self.expression.value_at_ticks(ticks)))
+
+
+@dataclasses.dataclass
+class TranslationalParam(ParamExpression):
+    expression: ParamExpression
+    offset: int
+
+    def value_at_ticks(self, ticks: int):
+        return self.expression.value_at_ticks(ticks) + self.offset
+
+
+@dataclasses.dataclass
+class CurveGenerator(ParamExpression):
+    base_value: int = dataclasses.field(init=False)
+    interpolation: Callable[[float], float] = dataclasses.field(init=False)
+    point_list: List[Point] = dataclasses.field(init=False)
+    _point_list: dataclasses.InitVar[Iterable[Point]]
+    _interpolation: dataclasses.InitVar[Callable[[float], float]]
+    _base_value: dataclasses.InitVar[int] = 0
+
+    def __post_init__(self, _point_list, _interpolation, _base_value=0):
+        self.point_list = []
+        current_pos = -1
+        current_sum = 0
+        overlap_count = 0
+        for pos, value in _point_list:
+            if pos == current_pos or current_pos < 0:
+                current_sum += value
+                overlap_count += 1
+            else:
+                self.point_list.append(
+                    Point(current_pos, round(current_sum / overlap_count))
+                )
+                current_sum = value
+                overlap_count = 1
+            current_pos = pos
+        if current_pos != -1:
+            self.point_list.append(
+                Point(current_pos, round(current_sum / overlap_count))
+            )
+        self.interpolation = _interpolation
+        self.base_value = _base_value
+
+    def value_at_ticks(self, ticks: int) -> int:
+        if len(self.point_list) == 0:
+            return self.base_value
+        index = find_last_index(self.point_list, lambda point: point.x <= ticks)
+        if index == -1:
+            return self.point_list[0].y
+        if index == len(self.point_list) - 1:
+            return self.point_list[-1].y
+        r = self.interpolation(
+            (ticks - self.point_list[index].x)
+            / (self.point_list[index + 1].x - self.point_list[index].x)
+        )
+        return round(
+            (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
+        )
+
+    def get_converted_curve(self, step: int) -> List[Point]:
+        result = []
+        if len(self.point_list) == 0:
+            result.append(Point(-192000, self.base_value))
+            result.append(Point(1073741823, self.base_value))
+            return result
+        prev_point = self.point_list[0]
+        result.append(Point(-192000, prev_point.y))
+        result.append(Point(prev_point.x, prev_point.y))
+        for current_point in self.point_list[1:]:
+            if prev_point.y == self.base_value and current_point.y == self.base_value:
+                result.append(Point(prev_point.x, self.base_value))
+                result.append(Point(current_point.x, self.base_value))
+            else:
+                for p in range(prev_point.x + step, current_point.x, step):
+                    r = self.interpolation(
+                        (p - prev_point.x) / (current_point.x - prev_point.x)
+                    )
+                    v = round((1 - r) * prev_point.y + r * current_point.y)
+                    result.append(Point(p, v))
+            prev_point = current_point
+        result.append(Point(prev_point.x, prev_point.y))
+        result.append(Point(1073741823, prev_point.y))
+        return result
+
+
+@dataclasses.dataclass
+class CompoundParam(ParamExpression):
+    expr1: ParamExpression
+    op: ParamOperators
+    expr2: ParamExpression
+
+    def value_at_ticks(self, ticks: int):
+        ticks1 = self.expr1.value_at_ticks(ticks)
+        ticks2 = self.expr2.value_at_ticks(ticks)
+        if self.op == ParamOperators.ADD:
+            return ticks1 + ticks2
+        elif self.op == ParamOperators.SUB:
+            return ticks1 - ticks2
+        elif self.op == ParamOperators.MUL:
+            return ticks1 * ticks2
+        elif self.op == ParamOperators.DIV:
+            return ticks1 / ticks2
+        raise NotImplementedError
+
+
+@dataclasses.dataclass
+class PitchGenerator(ParamExpression):
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    pitch_diff: ParamExpression = dataclasses.field(init=False)
+    vibrato_env: ParamExpression = dataclasses.field(init=False)
+    base_layer: BaseLayerGenerator = dataclasses.field(init=False)
+    gaussian_layer: GaussianLayerGenerator = dataclasses.field(init=False)
+    vibrato_layer: VibratoLayerGenerator = dataclasses.field(init=False)
+    _synchronizer: dataclasses.InitVar[TimeSynchronizer]
+    _pitch_diff: dataclasses.InitVar[ParamExpression]
+    _vibrato_env: dataclasses.InitVar[ParamExpression]
+    _note_list: dataclasses.InitVar[List[SVNote]]
+
+    def __post_init__(
+        self,
+        _synchronizer: TimeSynchronizer,
+        _pitch_diff: ParamExpression,
+        _vibrato_env: ParamExpression,
+        _note_list: List[SVNote],
+    ):
+        self.synchronizer = _synchronizer
+        self.pitch_diff = _pitch_diff
+        self.vibrato_env = _vibrato_env
+        if not len(_note_list):
+            return
+        note_structs = [
+            NoteStruct(
+                key=sv_note.pitch,
+                start=_synchronizer.get_actual_secs_from_ticks(
+                    position_to_ticks(sv_note.onset)
+                ),
+                end=_synchronizer.get_actual_secs_from_ticks(
+                    position_to_ticks(sv_note.onset + sv_note.duration)
+                ),
+                slide_offset=sv_note.attributes.transition_offset,
+                slide_left=sv_note.attributes.slide_left,
+                slide_right=sv_note.attributes.slide_right,
+                depth_left=sv_note.attributes.depth_left,
+                depth_right=sv_note.attributes.depth_right,
+                vibrato_start=sv_note.attributes.vibrato_start,
+                vibrato_left=sv_note.attributes.vibrato_left,
+                vibrato_right=sv_note.attributes.vibrato_right,
+                vibrato_depth=sv_note.attributes.vibrato_depth,
+                vibrato_frequency=sv_note.attributes.vibrato_frequency,
+                vibrato_phase=sv_note.attributes.vibrato_phase,
+            )
+            for sv_note in _note_list
+        ]
+        self.base_layer = BaseLayerGenerator(note_structs)
+        self.vibrato_layer = VibratoLayerGenerator(note_structs)
+        self.gaussian_layer = GaussianLayerGenerator(note_structs)
+
+    def value_at_ticks(self, ticks: int):
+        return self.value_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
+
+    def value_at_secs(self, secs: float) -> int:
+        ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
+        result = round(
+            self.base_layer.pitch_at_secs(secs)
+            + self.pitch_diff.value_at_ticks(ticks)
+            + self.vibrato_layer.pitch_diff_at_secs(secs)
+            * self.vibrato_env.value_at_ticks(ticks)
+            / 1000
+            + self.gaussian_layer.pitch_diff_at_secs(secs)
+        )
+        return result
