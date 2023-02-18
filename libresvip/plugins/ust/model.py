@@ -56,13 +56,13 @@ UTAUOptionalAttr:
     (key='PBY' '=' pby*=FLOAT[','] ','? LineBreak) |
     (key='PBM' '=' pbm*=UTAUPBM LineBreak) |
     (key='VBR' '=' vbr*=FLOAT[','] ','? LineBreak) |
-    (key=/\$[^=]+/ '=' value=/.+/ LineBreak)
+    (key=/$[^=]+/ '=' value=/.+/ LineBreak)
 ;
 UTAUTrack:
     notes+=UTAUNote
     '[#TRACKEND]' LineBreak?
 ;
-UTAUNoteType: /(\d+|PREV|NEXT|INSERT|DELETE)/;
+UTAUNoteType: /(\\d+|PREV|NEXT|INSERT|DELETE)/;
 UTAUNote:
     '[#' note_type=UTAUNoteType ']' LineBreak
     'Length=' length=INT LineBreak

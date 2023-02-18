@@ -67,8 +67,6 @@ def print_plugin_details(plugin):
     )
     if plugin.description:
         typer.echo(f"\n描述：\n{plugin.description}")
-    if plugin.requirements:
-        typer.echo(f"\n环境要求：\n{plugin.requirements}")
     op_arr = ["输入", "输出"]
     options_arr = [
         get_type_hints(plugin.plugin_object.load).get("options", None),

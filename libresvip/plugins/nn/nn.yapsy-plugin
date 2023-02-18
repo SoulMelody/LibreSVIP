@@ -1,5 +1,5 @@
 [Core]
-name = NN
+name = NiaoNiao
 module = niaoniao_converter
 
 [Documentation]

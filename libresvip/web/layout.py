@@ -19,7 +19,7 @@ def initialize(server: Server):
     state.trame__title = state.translations[state.lang]["LibreSVIP"]
     state.temp_dir = tempfile.mkdtemp(prefix="libresvip")
     os.makedirs(state.temp_dir, exist_ok=True)
-    # state.trame__icon
+    # state.trame__favicon
 
     def clean_temp_dir():
         shutil.rmtree(state.temp_dir, ignore_errors=True)

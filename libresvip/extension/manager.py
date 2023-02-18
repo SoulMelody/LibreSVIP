@@ -1,4 +1,7 @@
 import base64
+import imp
+import pathlib
+import sys
 
 from pkg_resources.extern.packaging.version import Version
 from yapsy.AutoInstallPluginManager import AutoInstallPluginManager
@@ -9,8 +12,51 @@ from yapsy.PluginManager import PluginManager
 from ..core.constants import app_dir, pkg_dir
 from .base import LyricConverterBase, ParamConverterBase, SVSConverterBase
 
+plugin_namespace = "libresvip.plugins"
 
-class ParamExtractorPluginInfo(PluginInfo):
+
+def _importModule(plugin_module_name, candidate_filepath):
+    """
+    Import a module, trying either to find it as a single file or as a directory.
+
+    .. note:: Isolated and provided to be reused, but not to be reimplemented !
+    """
+    # use imp to correctly load the plugin as a module
+    candidate_filepath = pathlib.Path(candidate_filepath)
+
+    if candidate_filepath.is_dir():
+        candidate_module = imp.load_module(
+            plugin_module_name,
+            None,
+            str(candidate_filepath),
+            ("py", "r", imp.PKG_DIRECTORY),
+        )
+    else:
+        candidate_filepath = candidate_filepath.with_suffix(".py")
+        plugin_dirname = candidate_filepath.parent.name
+        plugin_package = f"{plugin_namespace}.{plugin_dirname}"
+        package_path = candidate_filepath.parent / "__init__.py"
+        with open(package_path, "r") as package_file:
+            sys.modules[plugin_package] = imp.load_module(
+                plugin_package,
+                package_file,
+                str(package_path),
+                ("py", "r", imp.PY_SOURCE),
+            )
+        with open(candidate_filepath, "r") as plugin_file:
+            candidate_module = imp.load_module(
+                plugin_module_name,
+                plugin_file,
+                str(candidate_filepath),
+                ("py", "r", imp.PY_SOURCE),
+            )
+    return candidate_module
+
+
+PluginManager._importModule = _importModule
+
+
+class LibreSvipPluginInfo(PluginInfo):
     def _get_description(self):
         return (
             self.details.get("Documentation", "Description")
@@ -103,11 +149,9 @@ class ParamExtractorPluginInfo(PluginInfo):
         super()._ensureDetailsDefaultsAreBackwardCompatible()
 
 
-plugin_locator = PluginFileLocator(plugin_info_cls=ParamExtractorPluginInfo)
+plugin_locator = PluginFileLocator(plugin_info_cls=LibreSvipPluginInfo)
 plugin_locator.setPluginPlaces(
-    [
-        str(pkg_dir / "plugins"),
-    ]
+    [str(pkg_dir / "plugins"), str(app_dir.user_config_path / "plugins")]
 )
 _plugin_manager = PluginManager(
     categories_filter={
