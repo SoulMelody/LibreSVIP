@@ -2,7 +2,7 @@ import abc
 import inspect
 import sys
 from types import SimpleNamespace
-from typing import Annotated, List, Literal, Optional, TypeVar, Union
+from typing import Annotated, List, Literal, Optional, Union
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
 from pydantic import Field, validator
@@ -69,9 +69,6 @@ class TimeSignature(BaseModel):
     denominator: int = Field(default=4, alias="Denominator")
 
 
-ParamCurveType = TypeVar("ParamCurveType", bound="ParamCurve")
-
-
 class ParamCurve(BaseModel):
     points: Points = Field(default_factory=Points, alias="PointList")
 
@@ -89,9 +86,7 @@ class ParamCurve(BaseModel):
         yield "TotalPointsCount", len(self.points)
         yield from super()._iter(*args, **kwargs)
 
-    def reduce_sample_rate(
-        self, interval: int, interrupt_value: int = 0
-    ) -> ParamCurveType:
+    def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> Self:
         if interval <= 0:
             return self
         points = self.points

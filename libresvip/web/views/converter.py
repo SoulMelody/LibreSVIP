@@ -71,7 +71,7 @@ def get_dialog_widget(prefix: str):
                     vuetify.VSpacer()
                     vuetify.VBtn(
                         "{{ translations[lang]['Close'] }}",
-                        color="primary",
+                        color="grey",
                         click=f"{prefix}_format_info = false",
                     )
     return template

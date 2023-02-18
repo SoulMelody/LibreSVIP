@@ -13,7 +13,7 @@ class Author:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -24,18 +24,16 @@ class Data:
         metadata={
             "name": "Index",
             "type": "Attribute",
-        }
+        },
     )
     repeat: Optional[int] = field(
         default=None,
         metadata={
             "name": "Repeat",
             "type": "Attribute",
-        }
+        },
     )
-    value: Optional[Union[float, int, Decimal]] = field(
-        default=None
-    )
+    value: Optional[Union[float, int, Decimal]] = field(default=None)
 
 
 @dataclass
@@ -45,7 +43,7 @@ class Dictionary:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -56,14 +54,14 @@ class Dynamics:
         metadata={
             "name": "Clock",
             "type": "Attribute",
-        }
+        },
     )
     value: Optional[int] = field(
         default=None,
         metadata={
             "name": "Value",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -74,7 +72,7 @@ class Extension:
         metadata={
             "name": "VerticalRatio",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -85,77 +83,77 @@ class Group:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
     id: Optional[str] = field(
         default=None,
         metadata={
             "name": "Id",
             "type": "Attribute",
-        }
+        },
     )
     category: Optional[str] = field(
         default=None,
         metadata={
             "name": "Category",
             "type": "Attribute",
-        }
+        },
     )
     name: Optional[str] = field(
         default=None,
         metadata={
             "name": "Name",
             "type": "Attribute",
-        }
+        },
     )
     color: Optional[str] = field(
         default=None,
         metadata={
             "name": "Color",
             "type": "Attribute",
-        }
+        },
     )
     volume: Optional[float] = field(
         default=None,
         metadata={
             "name": "Volume",
             "type": "Attribute",
-        }
+        },
     )
     pan: Optional[int] = field(
         default=None,
         metadata={
             "name": "Pan",
             "type": "Attribute",
-        }
+        },
     )
     is_solo: Optional[bool] = field(
         default=None,
         metadata={
             "name": "IsSolo",
             "type": "Attribute",
-        }
+        },
     )
     is_muted: Optional[bool] = field(
         default=None,
         metadata={
             "name": "IsMuted",
             "type": "Attribute",
-        }
+        },
     )
     cast_id: Optional[str] = field(
         default=None,
         metadata={
             "name": "CastId",
             "type": "Attribute",
-        }
+        },
     )
     language: Optional[str] = field(
         default=None,
         metadata={
             "name": "Language",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -166,21 +164,21 @@ class Key:
         metadata={
             "name": "Clock",
             "type": "Attribute",
-        }
+        },
     )
     fifths: Optional[int] = field(
         default=None,
         metadata={
             "name": "Fifths",
             "type": "Attribute",
-        }
+        },
     )
     mode: Optional[int] = field(
         default=None,
         metadata={
             "name": "Mode",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -191,49 +189,49 @@ class Note:
         metadata={
             "name": "Clock",
             "type": "Attribute",
-        }
+        },
     )
     pitch_step: Optional[int] = field(
         default=None,
         metadata={
             "name": "PitchStep",
             "type": "Attribute",
-        }
+        },
     )
     pitch_octave: Optional[int] = field(
         default=None,
         metadata={
             "name": "PitchOctave",
             "type": "Attribute",
-        }
+        },
     )
     duration: Optional[int] = field(
         default=None,
         metadata={
             "name": "Duration",
             "type": "Attribute",
-        }
+        },
     )
     lyric: Optional[str] = field(
         default=None,
         metadata={
             "name": "Lyric",
             "type": "Attribute",
-        }
+        },
     )
     phonetic: Optional[str] = field(
         default=None,
         metadata={
             "name": "Phonetic",
             "type": "Attribute",
-        }
+        },
     )
     do_re_mi: Optional[bool] = field(
         default=None,
         metadata={
             "name": "DoReMi",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -244,14 +242,14 @@ class ReferenceState:
         metadata={
             "name": "Current",
             "type": "Attribute",
-        }
+        },
     )
     previous: Optional[str] = field(
         default=None,
         metadata={
             "name": "Previous",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -262,14 +260,14 @@ class Sound:
         metadata={
             "name": "Clock",
             "type": "Attribute",
-        }
+        },
     )
     tempo: Optional[int] = field(
         default=None,
         metadata={
             "name": "Tempo",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -280,21 +278,21 @@ class SoundSetting:
         metadata={
             "name": "Rhythm",
             "type": "Attribute",
-        }
+        },
     )
     tempo: Optional[float] = field(
         default=120.0,
         metadata={
             "name": "Tempo",
             "type": "Attribute",
-        }
+        },
     )
     master_volume: Optional[float] = field(
         default=None,
         metadata={
             "name": "MasterVolume",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -305,21 +303,21 @@ class SoundSource:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
     id: Optional[str] = field(
         default=None,
         metadata={
             "name": "Id",
             "type": "Attribute",
-        }
+        },
     )
     name: Optional[str] = field(
         default=None,
         metadata={
             "name": "Name",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -330,21 +328,21 @@ class Time:
         metadata={
             "name": "Clock",
             "type": "Attribute",
-        }
+        },
     )
     beats: Optional[int] = field(
         default=None,
         metadata={
             "name": "Beats",
             "type": "Attribute",
-        }
+        },
     )
     beat_type: Optional[int] = field(
         default=None,
         metadata={
             "name": "BeatType",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -355,14 +353,14 @@ class ViewScale:
         metadata={
             "name": "Horizontal",
             "type": "Attribute",
-        }
+        },
     )
     vertical: Optional[Union[int, Decimal]] = field(
         default=None,
         metadata={
             "name": "Vertical",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -373,7 +371,7 @@ class Beat:
         metadata={
             "name": "Time",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -384,14 +382,14 @@ class C0:
         metadata={
             "name": "Length",
             "type": "Attribute",
-        }
+        },
     )
     data: List[Union[Data, float, Decimal]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -402,14 +400,14 @@ class Groups:
         metadata={
             "name": "ActiveGroup",
             "type": "Attribute",
-        }
+        },
     )
     group: List[Group] = field(
         default_factory=list,
         metadata={
             "name": "Group",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -420,14 +418,14 @@ class LogF0:
         metadata={
             "name": "Length",
             "type": "Attribute",
-        }
+        },
     )
     data: List[Union[Data, Decimal, float]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -438,28 +436,28 @@ class Score:
         metadata={
             "name": "Alpha",
             "type": "Attribute",
-        }
+        },
     )
     emotion0: Optional[Union[float, int]] = field(
         default=None,
         metadata={
             "name": "Emotion0",
             "type": "Attribute",
-        }
+        },
     )
     emotion1: Optional[Union[float, int]] = field(
         default=None,
         metadata={
             "name": "Emotion1",
             "type": "Attribute",
-        }
+        },
     )
     key: Optional[Key] = field(
         default=None,
         metadata={
             "name": "Key",
             "type": "Element",
-        }
+        },
     )
     dynamics: List[Dynamics] = field(
         default_factory=list,
@@ -467,7 +465,7 @@ class Score:
             "name": "Dynamics",
             "type": "Element",
             "sequential": True,
-        }
+        },
     )
     note: List[Note] = field(
         default_factory=list,
@@ -475,7 +473,7 @@ class Score:
             "name": "Note",
             "type": "Element",
             "sequential": True,
-        }
+        },
     )
 
 
@@ -486,42 +484,42 @@ class SongEditor:
         metadata={
             "name": "Partition",
             "type": "Attribute",
-        }
+        },
     )
     quantize: Optional[int] = field(
         default=None,
         metadata={
             "name": "Quantize",
             "type": "Attribute",
-        }
+        },
     )
     mode: Optional[int] = field(
         default=None,
         metadata={
             "name": "Mode",
             "type": "Attribute",
-        }
+        },
     )
     editing_tool: Optional[int] = field(
         default=None,
         metadata={
             "name": "EditingTool",
             "type": "Attribute",
-        }
+        },
     )
     view_scale: Optional[ViewScale] = field(
         default=None,
         metadata={
             "name": "ViewScale",
             "type": "Element",
-        }
+        },
     )
     reference_state: Optional[ReferenceState] = field(
         default=None,
         metadata={
             "name": "ReferenceState",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -532,7 +530,7 @@ class SoundSources:
         metadata={
             "name": "SoundSource",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -546,21 +544,21 @@ class Tts:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
     dictionary: Optional[Dictionary] = field(
         default=None,
         metadata={
             "name": "Dictionary",
             "type": "Element",
-        }
+        },
     )
     sound_sources: Optional[object] = field(
         default=None,
         metadata={
             "name": "SoundSources",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -571,14 +569,14 @@ class TalkEditor:
         metadata={
             "name": "Partition",
             "type": "Attribute",
-        }
+        },
     )
     extension: Optional[Extension] = field(
         default=None,
         metadata={
             "name": "Extension",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -589,7 +587,7 @@ class Tempo:
         metadata={
             "name": "Sound",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -600,21 +598,21 @@ class Timeline:
         metadata={
             "name": "Partition",
             "type": "Attribute",
-        }
+        },
     )
     current_position: Optional[XmlTime] = field(
         default=None,
         metadata={
             "name": "CurrentPosition",
             "type": "Attribute",
-        }
+        },
     )
     view_scale: Optional[ViewScale] = field(
         default=None,
         metadata={
             "name": "ViewScale",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -625,14 +623,14 @@ class Timing:
         metadata={
             "name": "Length",
             "type": "Attribute",
-        }
+        },
     )
     data: List[Union[Data, Decimal, float]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -643,14 +641,14 @@ class VibAmp:
         metadata={
             "name": "Length",
             "type": "Attribute",
-        }
+        },
     )
     data: List[Union[Data, float, Decimal, int]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -661,14 +659,14 @@ class VibFrq:
         metadata={
             "name": "Length",
             "type": "Attribute",
-        }
+        },
     )
     data: List[Union[Data, float, Decimal]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -679,35 +677,35 @@ class Parameter:
         metadata={
             "name": "Timing",
             "type": "Element",
-        }
+        },
     )
     log_f0: Optional[LogF0] = field(
         default=None,
         metadata={
             "name": "LogF0",
             "type": "Element",
-        }
+        },
     )
     c0: Optional[C0] = field(
         default=None,
         metadata={
             "name": "C0",
             "type": "Element",
-        }
+        },
     )
     vib_amp: Optional[VibAmp] = field(
         default=None,
         metadata={
             "name": "VibAmp",
             "type": "Element",
-        }
+        },
     )
     vib_frq: Optional[VibFrq] = field(
         default=None,
         metadata={
             "name": "VibFrq",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -721,21 +719,21 @@ class Svss:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
     dictionary: Optional[Dictionary] = field(
         default=None,
         metadata={
             "name": "Dictionary",
             "type": "Element",
-        }
+        },
     )
     sound_sources: Optional[SoundSources] = field(
         default=None,
         metadata={
             "name": "SoundSources",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -746,21 +744,21 @@ class Generation:
         metadata={
             "name": "Author",
             "type": "Element",
-        }
+        },
     )
     tts: Optional[Tts] = field(
         default=None,
         metadata={
             "name": "TTS",
             "type": "Element",
-        }
+        },
     )
     svss: Optional[Svss] = field(
         default=None,
         metadata={
             "name": "SVSS",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -771,35 +769,35 @@ class Song:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
     tempo: Optional[Tempo] = field(
         default=None,
         metadata={
             "name": "Tempo",
             "type": "Element",
-        }
+        },
     )
     beat: Optional[Beat] = field(
         default=None,
         metadata={
             "name": "Beat",
             "type": "Element",
-        }
+        },
     )
     score: Optional[Score] = field(
         default=None,
         metadata={
             "name": "Score",
             "type": "Element",
-        }
+        },
     )
     parameter: Optional[Parameter] = field(
         default=None,
         metadata={
             "name": "Parameter",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -810,70 +808,70 @@ class Unit:
         metadata={
             "name": "Version",
             "type": "Attribute",
-        }
+        },
     )
     id: Optional[object] = field(
         default=None,
         metadata={
             "name": "Id",
             "type": "Attribute",
-        }
+        },
     )
     category: Optional[str] = field(
         default=None,
         metadata={
             "name": "Category",
             "type": "Attribute",
-        }
+        },
     )
     group: Optional[str] = field(
         default=None,
         metadata={
             "name": "Group",
             "type": "Attribute",
-        }
+        },
     )
     start_time: Optional[XmlTime] = field(
         default=None,
         metadata={
             "name": "StartTime",
             "type": "Attribute",
-        }
+        },
     )
     duration: Optional[XmlTime] = field(
         default=None,
         metadata={
             "name": "Duration",
             "type": "Attribute",
-        }
+        },
     )
     cast_id: Optional[str] = field(
         default=None,
         metadata={
             "name": "CastId",
             "type": "Attribute",
-        }
+        },
     )
     language: Optional[str] = field(
         default=None,
         metadata={
             "name": "Language",
             "type": "Attribute",
-        }
+        },
     )
     song: Optional[Song] = field(
         default=None,
         metadata={
             "name": "Song",
             "type": "Element",
-        }
+        },
     )
     file_path: Optional[str] = field(
         default=None,
         metadata={
             "name": "FilePath",
             "type": "Attribute",
-        }
+        },
     )
 
 
@@ -884,7 +882,7 @@ class Units:
         metadata={
             "name": "Unit",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -895,49 +893,49 @@ class Scene:
         metadata={
             "name": "Id",
             "type": "Attribute",
-        }
+        },
     )
     timeline: Optional[Timeline] = field(
         default=None,
         metadata={
             "name": "Timeline",
             "type": "Element",
-        }
+        },
     )
     talk_editor: Optional[TalkEditor] = field(
         default=None,
         metadata={
             "name": "TalkEditor",
             "type": "Element",
-        }
+        },
     )
     song_editor: Optional[SongEditor] = field(
         default=None,
         metadata={
             "name": "SongEditor",
             "type": "Element",
-        }
+        },
     )
     units: Optional[Units] = field(
         default=None,
         metadata={
             "name": "Units",
             "type": "Element",
-        }
+        },
     )
     groups: Optional[Groups] = field(
         default=None,
         metadata={
             "name": "Groups",
             "type": "Element",
-        }
+        },
     )
     sound_setting: Optional[SoundSetting] = field(
         default=None,
         metadata={
             "name": "SoundSetting",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -948,14 +946,14 @@ class Sequence:
         metadata={
             "name": "Id",
             "type": "Attribute",
-        }
+        },
     )
     scene: Optional[Scene] = field(
         default=None,
         metadata={
             "name": "Scene",
             "type": "Element",
-        }
+        },
     )
 
 

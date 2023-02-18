@@ -28,7 +28,6 @@ from .xstudio_models import (
     XSNote,
     XSSongBeat,
     XSSongTempo,
-    fullname2classes
 )
 
 
@@ -107,12 +106,12 @@ class SvipWriter(NrbfIOBase):
             ref = references_by_id[self.cur_thread_id][not_written]
             if dataclasses.is_dataclass(ref["real_obj"]):
                 self.svip_file["record_stream"].append(
-                    self.write_dataclass(ref["real_obj"], not_written, ref["subcon_class_name"])
+                    self.write_dataclass(
+                        ref["real_obj"], not_written, ref["subcon_class_name"]
+                    )
                 )
             else:
-                self.svip_file["record_stream"].append(
-                    ref["real_obj"]
-                )
+                self.svip_file["record_stream"].append(ref["real_obj"])
 
         self.svip_file["record_stream"].append(
             {
@@ -140,14 +139,10 @@ class SvipWriter(NrbfIOBase):
                 "id_ref": object_id,
             },
         }
-        if subcon_class_name is not None and '`1' in subcon_class_name:
-            subcon_class_name = subcon_class_name.split('[[', 1)[-1].split(', ', 1)[0]
+        if subcon_class_name is not None and "`1" in subcon_class_name:
+            subcon_class_name = subcon_class_name.split("[[", 1)[-1].split(", ", 1)[0]
         if object_id not in references_by_id[self.cur_thread_id]:
-            references_by_id[
-                self.cur_thread_id
-            ][
-                object_id
-            ] = {
+            references_by_id[self.cur_thread_id][object_id] = {
                 "id_ref": object_id,
                 "subcon_class_name": subcon_class_name,
                 "real_obj": value,
@@ -191,29 +186,32 @@ class SvipWriter(NrbfIOBase):
                 "lower_bounds": None,
                 "binary_type_enum": BinaryTypeEnum.Class,
                 "info": {
-                    "type_name": type_name.replace("InstrumentTrack", "ITrack").replace("SingingTrack", "ITrack"),
+                    "type_name": type_name.replace("InstrumentTrack", "ITrack").replace(
+                        "SingingTrack", "ITrack"
+                    ),
                     "library_id": library_id,
                 },
                 "member_values": [
                     {
                         "total": padded_length,
-                        "real_obj": self.create_reference(value, self.enq(), type_name)
-                    } for value in values
+                        "real_obj": self.create_reference(value, self.enq(), type_name),
+                    }
+                    for value in values
                 ],
             },
         }
         if len(values) < padded_length:
-            result["obj"]["member_values"].append({
-                "total": padded_length,
-                "real_obj": self.write_null_array(padded_length - len(values))
-            })
+            result["obj"]["member_values"].append(
+                {
+                    "total": padded_length,
+                    "real_obj": self.write_null_array(padded_length - len(values)),
+                }
+            )
         references_by_id[self.cur_thread_id][object_id] = {
             "id_ref": object_id,
-            "real_obj": result
+            "real_obj": result,
         }
-        ref = self.create_reference(
-            result, object_id, None
-        )
+        ref = self.create_reference(result, object_id, None)
         return ref
 
     def create_primitive_array(self, values):
@@ -226,23 +224,27 @@ class SvipWriter(NrbfIOBase):
                     "length": len(values),
                 },
                 "primitive_type_enum": PrimitiveTypeEnum.Byte,
-                "member_values": values
+                "member_values": values,
             },
         }
         references_by_id[self.cur_thread_id][object_id] = {
             "id_ref": object_id,
-            "real_obj": result
+            "real_obj": result,
         }
-        ref = self.create_reference(
-            result, object_id, None
-        )
+        ref = self.create_reference(result, object_id, None)
         return ref
 
     def write_dataclass(self, obj, object_id, subcon_class_name=None):
-        fields = sorted(dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0))
+        fields = sorted(
+            dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0)
+        )
         class_name = obj.__class__.__doc__
 
-        if subcon_class_name is not None and class_name.endswith('List') and subcon_class_name != class_name:
+        if (
+            subcon_class_name is not None
+            and class_name.endswith("List")
+            and subcon_class_name != class_name
+        ):
             class_name = f"{class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
 
         if class_name not in self.class_defs:
@@ -262,7 +264,9 @@ class SvipWriter(NrbfIOBase):
                 },
             }
             if class_name.startswith("System."):
-                result["record_type_enum"] = RecordTypeEnum.SystemClassWithMembersAndTypes
+                result[
+                    "record_type_enum"
+                ] = RecordTypeEnum.SystemClassWithMembersAndTypes
             else:
                 if class_name.startswith("SingingTool.Model."):
                     result["obj"]["library_id"] = self.model_library_id
@@ -276,13 +280,22 @@ class SvipWriter(NrbfIOBase):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
-                    if field.name == 'edited_power_line' and self.svip_file["version"] != '7.0.0':
+                    if (
+                        field.name == "edited_power_line"
+                        and self.svip_file["version"] != "7.0.0"
+                    ):
                         continue
                     if issubclass(field_type, str):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(BinaryTypeEnum.String)
-                        result["obj"]["member_type_info"]["additional_infos"].append({"info": None})
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                            BinaryTypeEnum.String
+                        )
+                        result["obj"]["member_type_info"]["additional_infos"].append(
+                            {"info": None}
+                        )
                     elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(BinaryTypeEnum.Primitive)
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                            BinaryTypeEnum.Primitive
+                        )
                         if issubclass(field_type, bool):
                             primitive_type_enum = PrimitiveTypeEnum.Boolean
                         elif issubclass(field_type, float):
@@ -292,122 +305,167 @@ class SvipWriter(NrbfIOBase):
                                 primitive_type_enum = PrimitiveTypeEnum.Single
                         else:
                             primitive_type_enum = PrimitiveTypeEnum.Int32
-                        result["obj"]["member_type_info"]["additional_infos"].append({"info": primitive_type_enum})
+                        result["obj"]["member_type_info"]["additional_infos"].append(
+                            {"info": primitive_type_enum}
+                        )
                     elif issubclass(field_type, list):
                         values = getattr(obj, field.name)
                         if len(values) > 0:
                             subcon_class_name = values[0].__class__.__doc__
 
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(BinaryTypeEnum.Class)
-                        result["obj"]["member_type_info"]["additional_infos"].append({"info": {
-                            "type_name": subcon_class_name.replace("InstrumentTrack", "ITrack").replace("SingingTrack", "ITrack") + '[]',
-                            "library_id": self.model_library_id,
-                        }})
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                            BinaryTypeEnum.Class
+                        )
+                        result["obj"]["member_type_info"]["additional_infos"].append(
+                            {
+                                "info": {
+                                    "type_name": subcon_class_name.replace(
+                                        "InstrumentTrack", "ITrack"
+                                    ).replace("SingingTrack", "ITrack")
+                                    + "[]",
+                                    "library_id": self.model_library_id,
+                                }
+                            }
+                        )
                     elif issubclass(field_type, bytes):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(BinaryTypeEnum.PrimitiveArray)
-                        result["obj"]["member_type_info"]["additional_infos"].append({"info": PrimitiveTypeEnum.Byte})
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                            BinaryTypeEnum.PrimitiveArray
+                        )
+                        result["obj"]["member_type_info"]["additional_infos"].append(
+                            {"info": PrimitiveTypeEnum.Byte}
+                        )
                     elif dataclasses.is_dataclass(field_type):
                         sub_class_name = field_type.__doc__
-                        if field.name == 'tempo_list':
+                        if field.name == "tempo_list":
                             subcon_class_name = XSSongTempo.__doc__
-                        elif field.name == 'beat_list':
+                        elif field.name == "beat_list":
                             subcon_class_name = XSSongBeat.__doc__
-                        elif field.name == 'note_list':
+                        elif field.name == "note_list":
                             subcon_class_name = XSNote.__doc__
-                        elif field.name == 'track_list':
+                        elif field.name == "track_list":
                             subcon_class_name = XSITrack.__doc__
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
 
                         if sub_class_name.startswith("System."):
-                            result["obj"]["member_type_info"]["binary_type_enums"].append(BinaryTypeEnum.SystemClass)
-                            result["obj"]["member_type_info"]["additional_infos"].append({
-                                "info": sub_class_name,
-                            })
+                            result["obj"]["member_type_info"][
+                                "binary_type_enums"
+                            ].append(BinaryTypeEnum.SystemClass)
+                            result["obj"]["member_type_info"][
+                                "additional_infos"
+                            ].append(
+                                {
+                                    "info": sub_class_name,
+                                }
+                            )
                         else:
-                            result["obj"]["member_type_info"]["binary_type_enums"].append(BinaryTypeEnum.Class)
-                            result["obj"]["member_type_info"]["additional_infos"].append({
-                                "info": {
-                                    "type_name": sub_class_name,
-                                    "library_id": self.model_library_id if sub_class_name.startswith("SingingTool.Model.") else self.lib_library_id,
-                                },
-                            })
+                            result["obj"]["member_type_info"][
+                                "binary_type_enums"
+                            ].append(BinaryTypeEnum.Class)
+                            result["obj"]["member_type_info"][
+                                "additional_infos"
+                            ].append(
+                                {
+                                    "info": {
+                                        "type_name": sub_class_name,
+                                        "library_id": self.model_library_id
+                                        if sub_class_name.startswith(
+                                            "SingingTool.Model."
+                                        )
+                                        else self.lib_library_id,
+                                    },
+                                }
+                            )
                     else:
                         raise Exception(f"Unknown type {field_type}")
                     value = getattr(obj, field.name)
                     if value is None:
-                        result["obj"]["member_values"].append({
-                            "value": {
-                                "record_type_enum": RecordTypeEnum.ObjectNull,
-                                "obj": {}
+                        result["obj"]["member_values"].append(
+                            {
+                                "value": {
+                                    "record_type_enum": RecordTypeEnum.ObjectNull,
+                                    "obj": {},
+                                }
                             }
-                        })
+                        )
                     else:
                         if issubclass(field_type, str):
-                            result["obj"]["member_values"].append({
-                                "value": self.create_string(value or "")
-                            })
+                            result["obj"]["member_values"].append(
+                                {"value": self.create_string(value or "")}
+                            )
                         elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
-                            result["obj"]["member_values"].append({
-                                "value": value
-                            })
+                            result["obj"]["member_values"].append({"value": value})
                         elif issubclass(field_type, list):
                             if len(value) > 0:
                                 subcon_class_name = value[0].__class__.__doc__
-                            result["obj"]["member_values"].append({
-                                "value": self.write_binary_array(value, subcon_class_name, self.model_library_id)
-                            })
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.write_binary_array(
+                                        value, subcon_class_name, self.model_library_id
+                                    )
+                                }
+                            )
                         elif issubclass(field_type, bytes):
-                            result["obj"]["member_values"].append({
-                                "value": self.create_primitive_array(getattr(obj, field.name))
-                            })
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.create_primitive_array(
+                                        getattr(obj, field.name)
+                                    )
+                                }
+                            )
                         elif dataclasses.is_dataclass(field_type):
                             sub_class_name = field_type.__doc__
-                            if field.name == 'tempo_list':
+                            if field.name == "tempo_list":
                                 subcon_class_name = XSSongTempo.__doc__
-                            elif field.name == 'beat_list':
+                            elif field.name == "beat_list":
                                 subcon_class_name = XSSongBeat.__doc__
-                            elif field.name == 'note_list':
+                            elif field.name == "note_list":
                                 subcon_class_name = XSNote.__doc__
-                            elif field.name == 'track_list':
+                            elif field.name == "track_list":
                                 subcon_class_name = XSITrack.__doc__
 
                             if sub_class_name.endswith("List"):
                                 sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
                             if field.name == "buf_1":
                                 obj_id = self.id_max
-                            elif hasattr(field_type, 'value'):
+                            elif hasattr(field_type, "value"):
                                 self.id_max += 1
                                 obj_id = self.id_max
                             else:
                                 obj_id = self.enq()
-                            if hasattr(field_type, 'value'):
-                                result["obj"]["member_values"].append({
-                                    "value": self.write_dataclass(
-                                        value,
-                                        -obj_id,
-                                        sub_class_name
-                                    )
-                                })
-                            elif field.name.endswith("_line") and not len(value.line_param):
-                                result["obj"]["member_values"].append({
-                                    "value": {
-                                        "record_type_enum": RecordTypeEnum.ObjectNull,
-                                        "obj": {}
+                            if hasattr(field_type, "value"):
+                                result["obj"]["member_values"].append(
+                                    {
+                                        "value": self.write_dataclass(
+                                            value, -obj_id, sub_class_name
+                                        )
                                     }
-                                })
+                                )
+                            elif field.name.endswith("_line") and not len(
+                                value.line_param
+                            ):
+                                result["obj"]["member_values"].append(
+                                    {
+                                        "value": {
+                                            "record_type_enum": RecordTypeEnum.ObjectNull,
+                                            "obj": {},
+                                        }
+                                    }
+                                )
                             else:
-                                result["obj"]["member_values"].append({
-                                    "value": self.create_reference(
-                                        value,
-                                        obj_id,
-                                        sub_class_name
-                                    )}
+                                result["obj"]["member_values"].append(
+                                    {
+                                        "value": self.create_reference(
+                                            value, obj_id, sub_class_name
+                                        )
+                                    }
                                 )
                         else:
                             raise Exception(f"Unknown type {field_type}")
-                    result["obj"]["class_info"]["member_names"].append(field.metadata["alias"])
+                    result["obj"]["class_info"]["member_names"].append(
+                        field.metadata["alias"]
+                    )
                     result["obj"]["class_info"]["member_count"] += 1
             self.class_defs[class_name] = result
             classes_by_id[self.cur_thread_id][object_id] = result["obj"]
@@ -416,7 +474,9 @@ class SvipWriter(NrbfIOBase):
                 "record_type_enum": RecordTypeEnum.ClassWithId,
                 "obj": {
                     "object_id": object_id,
-                    "metadata_id": self.class_defs[class_name]["obj"]["class_info"]["object_id"],
+                    "metadata_id": self.class_defs[class_name]["obj"]["class_info"][
+                        "object_id"
+                    ],
                     "member_values": [],
                 },
             }
@@ -428,78 +488,93 @@ class SvipWriter(NrbfIOBase):
                     else:
                         field_type = field.type
 
-                    if field.name == 'edited_power_line' and self.svip_file["version"] != '7.0.0':
+                    if (
+                        field.name == "edited_power_line"
+                        and self.svip_file["version"] != "7.0.0"
+                    ):
                         continue
                     value = getattr(obj, field.name)
                     if value is None:
-                        result["obj"]["member_values"].append({
-                            "value": {
-                                "record_type_enum": RecordTypeEnum.ObjectNull,
-                                "obj": {}
+                        result["obj"]["member_values"].append(
+                            {
+                                "value": {
+                                    "record_type_enum": RecordTypeEnum.ObjectNull,
+                                    "obj": {},
+                                }
                             }
-                        })
+                        )
                     else:
                         if issubclass(field_type, str):
-                            result["obj"]["member_values"].append({
-                                "value": self.create_string(value or "")
-                            })
+                            result["obj"]["member_values"].append(
+                                {"value": self.create_string(value or "")}
+                            )
                         elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
-                            result["obj"]["member_values"].append({
-                                "value": value
-                            })
+                            result["obj"]["member_values"].append({"value": value})
                         elif issubclass(field_type, list):
                             if len(value) > 0:
                                 subcon_class_name = value[0].__class__.__doc__
-                            result["obj"]["member_values"].append({
-                                "value": self.write_binary_array(value, subcon_class_name, self.model_library_id)
-                            })
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.write_binary_array(
+                                        value, subcon_class_name, self.model_library_id
+                                    )
+                                }
+                            )
                         elif issubclass(field_type, bytes):
-                            result["obj"]["member_values"].append({
-                                "value": self.create_primitive_array(getattr(obj, field.name))
-                            })
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.create_primitive_array(
+                                        getattr(obj, field.name)
+                                    )
+                                }
+                            )
                         elif dataclasses.is_dataclass(field_type):
                             sub_class_name = field_type.__doc__
-                            if field.name == 'tempo_list':
+                            if field.name == "tempo_list":
                                 subcon_class_name = XSSongTempo.__doc__
-                            elif field.name == 'beat_list':
+                            elif field.name == "beat_list":
                                 subcon_class_name = XSSongBeat.__doc__
-                            elif field.name == 'note_list':
+                            elif field.name == "note_list":
                                 subcon_class_name = XSNote.__doc__
-                            elif field.name == 'track_list':
+                            elif field.name == "track_list":
                                 subcon_class_name = XSITrack.__doc__
 
                             if sub_class_name.endswith("List"):
                                 sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
                             if field.name == "buf_1":
                                 obj_id = self.id_max
-                            elif hasattr(field_type, 'value'):
+                            elif hasattr(field_type, "value"):
                                 self.id_max += 1
                                 obj_id = self.id_max
                             else:
                                 obj_id = self.enq()
-                            if hasattr(field_type, 'value'):
-                                result["obj"]["member_values"].append({
-                                    "value": self.write_dataclass(
-                                        value,
-                                        -obj_id,
-                                        sub_class_name
-                                    )
-                                })
-                            elif field.name.endswith("_line") and not len(value.line_param):
-                                result["obj"]["member_values"].append({
-                                    "value": {
-                                        "record_type_enum": RecordTypeEnum.ObjectNull,
-                                        "obj": {}
+                            if hasattr(field_type, "value"):
+                                result["obj"]["member_values"].append(
+                                    {
+                                        "value": self.write_dataclass(
+                                            value, -obj_id, sub_class_name
+                                        )
                                     }
-                                })
+                                )
+                            elif field.name.endswith("_line") and not len(
+                                value.line_param
+                            ):
+                                result["obj"]["member_values"].append(
+                                    {
+                                        "value": {
+                                            "record_type_enum": RecordTypeEnum.ObjectNull,
+                                            "obj": {},
+                                        }
+                                    }
+                                )
                             else:
-                                result["obj"]["member_values"].append({
-                                    "value": self.create_reference(
-                                        value,
-                                        obj_id,
-                                        sub_class_name
-                                    )
-                                })
+                                result["obj"]["member_values"].append(
+                                    {
+                                        "value": self.create_reference(
+                                            value, obj_id, sub_class_name
+                                        )
+                                    }
+                                )
                         else:
                             raise Exception(f"Unknown type {field_type}")
         return result

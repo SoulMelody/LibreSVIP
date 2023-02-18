@@ -51,11 +51,15 @@ class DiffSingerParser:
             cur_time = self.synchronizer.get_actual_ticks_from_secs(ds_item.offset)
             prev_is_breath = False
             phone_complete = True
-            for (phone, phone_dur, note, note_dur, is_slur,) in zip(
+            for (
+                phone,
+                phone_dur,
+                note,
+                is_slur,
+            ) in zip(
                 ds_item.ph_seq.split(" "),
                 ds_item.ph_dur.split(" "),
                 ds_item.note_seq.split(" "),
-                ds_item.note_dur_seq.split(" "),
                 ds_item.is_slur_seq.split(" "),
             ):
                 phone_dur = self.synchronizer.get_actual_ticks_from_secs(
@@ -143,7 +147,7 @@ class DiffSingerParser:
 
     def parse_pitch(self, ds_items: List[DsItem]) -> ParamCurve:
         points = Points(__root__=[])
-        points.append(Point(-192000, -100))
+        points.append(Point.start_point())
         for ds_item in ds_items:
             f0_timestep = float(ds_item.f0_timestep)
             points.append(
@@ -174,5 +178,5 @@ class DiffSingerParser:
                     -100,
                 )
             )
-        points.append(Point(1073741823, -100))
+        points.append(Point.end_point())
         return ParamCurve(PointList=points)

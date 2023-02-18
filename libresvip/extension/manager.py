@@ -1,6 +1,6 @@
 import base64
-from packaging.version import Version
 
+from pkg_resources.extern.packaging.version import Version
 from yapsy.AutoInstallPluginManager import AutoInstallPluginManager
 from yapsy.PluginFileLocator import PluginFileLocator
 from yapsy.PluginInfo import PluginInfo

@@ -5,7 +5,7 @@ import enum
 import math
 import struct
 from itertools import chain
-from typing import List, NamedTuple, Optional
+from typing import List, Literal, NamedTuple, Optional
 
 from more_itertools import chunked
 
@@ -34,19 +34,26 @@ class XSLineParam:
     def __post_init__(self):
         self.nodes = []
         if len(self.line_param) >= 4:
-            node_count, = struct.unpack("<i", bytearray(self.line_param[:4]))
+            (node_count,) = struct.unpack("<i", bytearray(self.line_param[:4]))
             self.nodes.extend(
                 XSLineParamNode(value=value, pos=pos)
-                for value, pos in
-                chunked(struct.unpack(f"<{node_count * 2}i", bytearray(self.line_param[4: 4 + node_count * 8])), 2)
+                for value, pos in chunked(
+                    struct.unpack(
+                        f"<{node_count * 2}i",
+                        bytearray(self.line_param[4 : 4 + node_count * 8]),
+                    ),
+                    2,
+                )
             )
 
     def convert_to_param(self):
         self.line_param = struct.pack("<i", len(self.nodes))
-        self.line_param += struct.pack(f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes))
+        self.line_param += struct.pack(
+            f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes)
+        )
         expected_len = max(64, 2 ** math.ceil(math.log2(len(self.line_param))))
         if len(self.line_param) < expected_len:
-            self.line_param += b'\x00' * (expected_len - len(self.line_param))
+            self.line_param += b"\x00" * (expected_len - len(self.line_param))
 
 
 @dataclasses.dataclass
@@ -55,17 +62,11 @@ class XSVibratoStyle:
 
     amp_line: XSLineParam = dataclasses.field(
         default_factory=XSLineParam,
-        metadata={
-            "alias": "_ampLine",
-            "order": 0
-        },
+        metadata={"alias": "_ampLine", "order": 0},
     )
     freq_line: XSLineParam = dataclasses.field(
         default_factory=XSLineParam,
-        metadata={
-            "alias": "_freqLine",
-            "order": 1
-        },
+        metadata={"alias": "_freqLine", "order": 1},
     )
     is_anti_phase: bool = dataclasses.field(
         default=False,
@@ -81,17 +82,11 @@ class XSVibratoPercentInfo:
 
     start_percent: float = dataclasses.field(
         default=0,
-        metadata={
-            "alias": "_startPercent",
-            "order": 0
-        },
+        metadata={"alias": "_startPercent", "order": 0},
     )
     end_percent: float = dataclasses.field(
         default=100,
-        metadata={
-            "alias": "_endPercent",
-            "order": 1
-        },
+        metadata={"alias": "_endPercent", "order": 1},
     )
 
 
@@ -134,10 +129,7 @@ class XSReverbPreset:
 class XSIOverlappable:
     overlapped: bool = dataclasses.field(
         default=False,
-        metadata={
-            "alias": to_backing_field("Overlaped"),
-            "order": 6
-        },
+        metadata={"alias": to_backing_field("Overlaped"), "order": 6},
     )
 
 
@@ -147,17 +139,11 @@ class XSBeatSize:
 
     x: int = dataclasses.field(
         default=0,
-        metadata={
-            "alias": "_x",
-            "order": 0
-        },
+        metadata={"alias": "_x", "order": 0},
     )
     y: int = dataclasses.field(
         default=0,
-        metadata={
-            "alias": "_y",
-            "order": 1
-        },
+        metadata={"alias": "_y", "order": 1},
     )
 
 
@@ -245,73 +231,43 @@ class XSNote(XSIOverlappable):
 
     start_pos: int = dataclasses.field(
         default=0,
-        metadata={
-            "alias": "_startPos",
-            "order": 0
-        },
+        metadata={"alias": "_startPos", "order": 0},
     )
     width_pos: int = dataclasses.field(
         default=480,
-        metadata={
-            "alias": "_widthPos",
-            "order": 1
-        },
+        metadata={"alias": "_widthPos", "order": 1},
     )
     key_index: int = dataclasses.field(
         default=60,
-        metadata={
-            "alias": "_keyIndex",
-            "order": 2
-        },
+        metadata={"alias": "_keyIndex", "order": 2},
     )
     lyric: str = dataclasses.field(
         default="",
-        metadata={
-            "alias": "_lyric",
-            "order": 3
-        },
+        metadata={"alias": "_lyric", "order": 3},
     )
     pronouncing: str = dataclasses.field(
         default="",
-        metadata={
-            "alias": "_pronouncing",
-            "order": 4
-        },
+        metadata={"alias": "_pronouncing", "order": 4},
     )
     head_tag: XSNoteHeadTag = dataclasses.field(
         default_factory=XSNoteHeadTag,
-        metadata={
-            "alias": "_headTag",
-            "order": 5
-        },
+        metadata={"alias": "_headTag", "order": 5},
     )
     note_phone_info: Optional[XSNotePhoneInfo] = dataclasses.field(
         default=None,
-        metadata={
-            "alias": to_backing_field("NotePhoneInfo"),
-            "order": 7
-        },
+        metadata={"alias": to_backing_field("NotePhoneInfo"), "order": 7},
     )
     vibrato_percent: int = dataclasses.field(
         default=0,
-        metadata={
-            "alias": to_backing_field("VibratoPercent"),
-            "order": 8
-        },
+        metadata={"alias": to_backing_field("VibratoPercent"), "order": 8},
     )
     vibrato: Optional[XSVibratoStyle] = dataclasses.field(
         default=None,
-        metadata={
-            "alias": to_backing_field("Vibrato"),
-            "order": 9
-        },
+        metadata={"alias": to_backing_field("Vibrato"), "order": 9},
     )
     vibrato_percent_info: Optional[XSVibratoPercentInfo] = dataclasses.field(
         default=None,
-        metadata={
-            "alias": to_backing_field("VibratoPercentInfo"),
-            "order": 10
-        },
+        metadata={"alias": to_backing_field("VibratoPercentInfo"), "order": 10},
     )
 
 
@@ -406,7 +362,7 @@ class XSITrack(abc.ABC):
 class XSSingingTrack(XSITrack):
     """SingingTool.Model.SingingTrack"""
 
-    track_type: XSTrackType = XSTrackType.Singing
+    track_type: Literal[XSTrackType.Singing] = XSTrackType.Singing
     volume: float = dataclasses.field(
         default=0.7,
         metadata={
@@ -483,7 +439,7 @@ class XSSingingTrack(XSITrack):
 class XSInstrumentTrack(XSITrack):
     """SingingTool.Model.InstrumentTrack"""
 
-    track_type: XSTrackType = XSTrackType.Instrument
+    track_type: Literal[XSTrackType.Instrument] = XSTrackType.Instrument
     volume: float = dataclasses.field(
         default=0.3,
         metadata={
@@ -531,12 +487,13 @@ class XSInstrumentTrack(XSITrack):
 @dataclasses.dataclass
 class XSAppModel:
     """SingingTool.Model.AppModel"""
+
     project_file_path: str = dataclasses.field(
         default="",
         metadata={
             "alias": to_backing_field("ProjectFilePath"),
             "order": 0,
-        }
+        },
     )
     tempo_list: XSBufList = dataclasses.field(
         default_factory=XSBufList,
@@ -592,7 +549,7 @@ class XSAppModel:
         metadata={
             "alias": to_backing_field("ActualProjectFilePath"),
             "order": 8,
-        }
+        },
     )
 
 

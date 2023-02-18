@@ -1,6 +1,7 @@
 from typing import List
 
 from libresvip.model.base import SongTempo, TimeSignature
+from libresvip.utils import find_last_index
 
 
 def skip_tempo_list(tempo_list: List[SongTempo], skip_ticks: int) -> List[SongTempo]:
@@ -11,13 +12,7 @@ def skip_tempo_list(tempo_list: List[SongTempo], skip_ticks: int) -> List[SongTe
     ]
     if len(result) and result[0].position <= 0:
         return result
-    try:
-        i = (
-            next(i for i, tempo in enumerate(tempo_list) if tempo.position > skip_ticks)
-            - 1
-        )
-    except StopIteration:
-        i = -1
+    i = find_last_index(tempo_list, lambda tempo: tempo.position <= skip_ticks)
     result.insert(0, tempo_list[i].copy(update={"position": 0}))
     return result
 

@@ -13,6 +13,7 @@ from libresvip.core.config import settings
 def initialize(server: Server):
     state, ctrl = server.state, server.controller
     state.setdefault("lang", settings.language)
+    state.setdefault("dark_mode", settings.dark_mode)
     state.current_route = "Convert"
     state.menu_items = ["简体中文", "English"]
     state.trame__title = state.translations[state.lang]["LibreSVIP"]
@@ -29,6 +30,7 @@ def initialize(server: Server):
         client_triggers = trame.ClientTriggers(
             ref="reload_trigger",
             reload="window.location.reload()",
+            mounted="$vuetify.theme.dark = dark_mode",
         )
         ctrl.call = client_triggers.call
         layout.drawer._attr_names += [("mini_variant_sync", "v-bind:mini-variant.sync")]
@@ -63,7 +65,12 @@ def initialize(server: Server):
                     ):
                         with vuetify.VCard(classes="text-center"):
                             vuetify.VCardTitle(v_text="translations[lang]['LibreSVIP']")
-                            vuetify.VIcon("mdi-github", size="50", color="grey")
+                            with vuetify.VBtn(
+                                href="https://github.com/SoulMelody/LibreSVIP",
+                                target="_blank",
+                                icon=True,
+                            ):
+                                vuetify.VIcon("mdi-github", size="50", color="grey")
                             vuetify.VCardText(
                                 v_text="translations[lang]['About Text 1']"
                             )
@@ -73,6 +80,7 @@ def initialize(server: Server):
                             vuetify.VBtn(
                                 v_text="translations[lang]['OK']",
                                 click="show_about = false",
+                                color="primary",
                             )
                 html.Span(v_text="translations[lang]['About']")
             with vuetify.VMenu(offset_y=True, transition="scale-transition"):

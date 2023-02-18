@@ -15,8 +15,8 @@ LineBreak: '\r'? '\n';
 NNTimeSignature: numerator=INT ' ' denominator=INT;
 NNInfoLine: tempo=FLOAT ' ' time_signature=NNTimeSignature ' ' bar_count=INT ' ' version=INT ' ' unknown=INT ' 0 0 0 0';
 NNPoints: point_count=INT ',' points*=INT[','];
-Word: /([\u4e00-\u9fff]|\-|[a-z]+)/;
-Pinyin: /[a-z\-]+/;
+Word: /([\u4e00-\u9fff]|-|[a-z]+)/;
+Pinyin: /[a-z-]+/;
 NNNote: ' ' lyric=Word ' ' pronunciation=Pinyin ' ' start=INT ' ' duration=INT ' ' key=INT ' ' cle=INT ' ' vel=INT ' ' por=INT ' ' vibrato_length=INT ' ' vibrato_depth=INT ' ' vibrato_rate=INT ' ' dynamics=NNPoints ' ' pitch=NNPoints ' ' pitch_bend_sensitivity=INT;
 """
 
