@@ -17,14 +17,14 @@ class Y77Generator:
 
     def generate_project(self, project: Project) -> Y77Project:
         if self.options.track_index < 0:
-            try:
-                first_singing_track = next(
+            first_singing_track = next(
+                (
                     track
                     for track in project.track_list
                     if isinstance(track, SingingTrack)
-                )
-            except StopIteration:
-                first_singing_track = None
+                ),
+                None,
+            )
         else:
             first_singing_track = project.track_list[self.options.track_index]
         y77_project = Y77Project(

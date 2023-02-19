@@ -106,7 +106,7 @@ class TimeSynchronizer:
                 secs -= dur
             else:
                 ticks += (self.tempo_list[i + 1].position - ticks) * secs / dur
-                return dur
+                return ticks
         ticks += self.tempo_list[-1].bpm * secs * 8
         return ticks
 

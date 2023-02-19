@@ -18,14 +18,8 @@ def read_file(path: Union[str, pathlib.Path]) -> str:
 
 
 def find_index(tempo_list: List, pred: Callable) -> int:
-    try:
-        return next(locate(tempo_list, pred))
-    except StopIteration:
-        return -1
+    return next(locate(tempo_list, pred), -1)
 
 
 def find_last_index(tempo_list: List, pred: Callable) -> int:
-    try:
-        return next(rlocate(tempo_list, pred))
-    except StopIteration:
-        return -1
+    return next(rlocate(tempo_list, pred), -1)

@@ -36,13 +36,14 @@ def _importModule(plugin_module_name, candidate_filepath):
         plugin_dirname = candidate_filepath.parent.name
         plugin_package = f"{plugin_namespace}.{plugin_dirname}"
         package_path = candidate_filepath.parent / "__init__.py"
-        with open(package_path, "r") as package_file:
-            sys.modules[plugin_package] = imp.load_module(
-                plugin_package,
-                package_file,
-                str(package_path),
-                ("py", "r", imp.PY_SOURCE),
-            )
+        if plugin_package not in sys.modules:
+            with open(package_path, "r") as package_file:
+                sys.modules[plugin_package] = imp.load_module(
+                    plugin_package,
+                    package_file,
+                    str(package_path),
+                    ("py", "r", imp.PY_SOURCE),
+                )
         with open(candidate_filepath, "r") as plugin_file:
             candidate_module = imp.load_module(
                 plugin_module_name,

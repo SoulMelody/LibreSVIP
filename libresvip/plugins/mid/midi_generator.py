@@ -78,8 +78,8 @@ class MidiGenerator:
         mido_tracks = []
         for track in tracks:
             if isinstance(track, SingingTrack):
-                mido_track = self.encode_track(track)
-                mido_tracks.append(mido_track)
+                if (mido_track := self.encode_track(track)) is not None:
+                    mido_tracks.append(mido_track)
         return mido_tracks
 
     def encode_track(self, track: SingingTrack) -> mido.MidiTrack:
@@ -126,4 +126,5 @@ class MidiGenerator:
             )
         # TODO: Add support for pitch bend
         mido_track.sort(key=operator.attrgetter("time"))
-        return mido_track
+        if len(mido_track):
+            return mido_track

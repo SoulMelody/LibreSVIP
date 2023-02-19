@@ -22,22 +22,24 @@ class OpenSvipSingers:
 
     def __post_init__(self):
         plugin_path = pathlib.Path(__file__).parent
-        self.singers = json.loads((plugin_path / 'singers.json').read_text(encoding='utf-8'))
+        self.singers = json.loads(
+            (plugin_path / "singers.json").read_text(encoding="utf-8")
+        )
 
     def get_name(self, id_: str) -> str:
         if id_ in self.singers:
             return self.singers[id_]
-        if re.match(r'[FM]\d+', id_) is not None:
-            return f'$({id_})'
-        return ''
+        if re.match(r"[FM]\d+", id_) is not None:
+            return f"$({id_})"
+        return ""
 
     def get_id(self, name: str) -> str:
         for id_ in self.singers:
             if self.singers[id_] == name:
                 return id_
-        if re.match(r'\$\([FM]\d+\)', name) is not None:
+        if re.match(r"\$\([FM]\d+\)", name) is not None:
             return name[2:-1]
-        return ''
+        return ""
 
 
 opensvip_singers = OpenSvipSingers()
@@ -57,13 +59,10 @@ class OpenSvipReverbPresets(enum.Enum):
     def get_name(cls, index) -> str:
         if isinstance(index, XSReverbPreset):
             index = index.value
-        try:
-            return next(
-                name for name, member in cls.__members__.items()
-                if member.value == index
-            )
-        except StopIteration:
-            return None
+        return next(
+            (name for name, member in cls.__members__.items() if member.value == index),
+            None,
+        )
 
     @classmethod
     def get_index(cls, name) -> XSReverbPreset:
@@ -75,7 +74,7 @@ class OpenSvipReverbPresets(enum.Enum):
 
 
 class OpenSvipNoteHeadTags:
-    tags = [None, '0', 'V']
+    tags = [None, "0", "V"]
 
     @classmethod
     def get_name(cls, index) -> str:

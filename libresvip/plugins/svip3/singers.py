@@ -26,7 +26,7 @@ class XStudio3Singers:
         try:
             return next(uuid for uuid, singer in self.singers.items() if singer == name)
         except StopIteration:
-            return next(iter(self.singers.keys()))
+            return next(iter(self.singers.keys()), "")
 
 
 xstudio3_singers = XStudio3Singers()
