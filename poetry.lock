@@ -192,7 +192,7 @@ reference = "bfsu"
 name = "charset-normalizer"
 version = "3.0.1"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -2272,7 +2272,7 @@ reference = "bfsu"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.12"
-content-hash = "44f876fb9a8d519d369b8a7ccc2a3d124a086c396ebfb9d2ef4c32a0d5d6495d"
+content-hash = "2210a547620fd06b1b4df38d8cd1c36688854cbb7aed50b6ea30271d67e88125"
 
 [metadata.files]
 aiohttp = [

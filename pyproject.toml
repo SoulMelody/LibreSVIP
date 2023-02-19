@@ -6,6 +6,7 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
+charset-normalizer = "^3.0.1"
 confz = "^1.8.1"
 loguru = "^0.6.0"
 more-itertools = "^9.0.0"

@@ -11,4 +11,4 @@ RUN pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple/
     rm -rf /root/.cache/pypoetry
 
 EXPOSE 8080
-CMD ["/usr/bin/python", "-m", "libresvip.web", "--exec_mode=main", "--server", "--port=8080"]
+CMD ["python", "-m", "libresvip.web", "--exec_mode=main", "--server", "--port=8080", "--host=0.0.0.0"]
