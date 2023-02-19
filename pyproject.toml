@@ -22,9 +22,9 @@ yapsy = "^1.12.2"
 
 [tool.poetry.group.webui.dependencies]
 trame = "^2.3.2"
-pywebview = "^3.7.2"
 
-[tool.poetry.group.linux_desktop.dependencies]
+[tool.poetry.group.desktop.dependencies]
+pywebview = "^3.7.2"
 qtpy = { version = "^2.3.0", markers = "sys_platform == 'linux'" }
 PySide6 = { version = "^6.4.2", markers = "sys_platform == 'linux'" }
 

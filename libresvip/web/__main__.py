@@ -36,8 +36,9 @@ def main(**kwargs):
 
 if __name__ == "__main__":
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--port", type=int, default=8080)
     arg_parser.add_argument("--exec_mode", type=str, default="desktop")
 
-    args = arg_parser.parse_args()
+    args = arg_parser.parse_known_args()[0]
 
     main(exec_mode=args.exec_mode)

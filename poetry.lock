@@ -2272,7 +2272,7 @@ reference = "bfsu"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.12"
-content-hash = "0a893cb6e8a8ee2282ffbc84feb78830a8a1b60dae27936f86d5693120911ccf"
+content-hash = "44f876fb9a8d519d369b8a7ccc2a3d124a086c396ebfb9d2ef4c32a0d5d6495d"
 
 [metadata.files]
 aiohttp = [
