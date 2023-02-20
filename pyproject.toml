@@ -14,7 +14,7 @@ platformdirs = "^2.6.0"
 portion = "^2.3.1"
 pydantic = "^1.10.5"
 pydub = "^0.25.1"
-pypinyin = "^0.47.1"
+pypinyin = "^0.48.0"
 regex = "^2022.10.31"
 setuptools = "^67.3.2"
 typer = { extras = ["all"], version = "^0.7.0" }

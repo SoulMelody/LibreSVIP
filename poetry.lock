@@ -1228,7 +1228,7 @@ reference = "bfsu"
 
 [[package]]
 name = "pypinyin"
-version = "0.47.1"
+version = "0.48.0"
 description = "汉字拼音转换模块/工具."
 category = "main"
 optional = false
@@ -2001,7 +2001,7 @@ reference = "bfsu"
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.12.6"
+version = "6.0.12.7"
 description = "Typing stubs for PyYAML"
 category = "dev"
 optional = false
@@ -2272,7 +2272,7 @@ reference = "bfsu"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.12"
-content-hash = "2210a547620fd06b1b4df38d8cd1c36688854cbb7aed50b6ea30271d67e88125"
+content-hash = "b421ff2ad8c5a82f238f2e9fb0b5b56b0d59457f27b7a33dbaaaef17878a6f92"
 
 [metadata.files]
 aiohttp = [
@@ -3147,8 +3147,8 @@ pyobjc-framework-webkit = [
     {file = "pyobjc_framework_WebKit-9.0.1-cp36-abi3-macosx_11_0_universal2.whl", hash = "sha256:28a7859401b5af7c47e17612b4b3baca6669e76f974f6f6bfe5e93921a00adec"},
 ]
 pypinyin = [
-    {file = "pypinyin-0.47.1-py2.py3-none-any.whl", hash = "sha256:8b9a2de91958b61c649e823877de4005630cdca8f7b9537fe0d65740f42a07a5"},
-    {file = "pypinyin-0.47.1.tar.gz", hash = "sha256:4244eec898294fd099c02d59faf8e89106d83d74e1c04a7af59094664d89636b"},
+    {file = "pypinyin-0.48.0-py2.py3-none-any.whl", hash = "sha256:38b8a478b4af17c5b4211482ea35c68eb0ca3a81661e5fb2abe6f9cc66d1634b"},
+    {file = "pypinyin-0.48.0.tar.gz", hash = "sha256:63d18b8f10dd38a3e57f26b6833a983d9176f2e9c4a53157c23e1343d0b3dbf8"},
 ]
 pyrsistent = [
     {file = "pyrsistent-0.19.3-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:20460ac0ea439a3e79caa1dbd560344b64ed75e85d8703943e0b66c2a6150e4a"},
@@ -3567,8 +3567,8 @@ types-deprecated = [
     {file = "types_Deprecated-1.2.9-py3-none-any.whl", hash = "sha256:53d05621e1d75de537f5a57d93508c8df17e37c07ee60b9fb09d39e1b7586c1e"},
 ]
 types-pyyaml = [
-    {file = "types-PyYAML-6.0.12.6.tar.gz", hash = "sha256:24e76b938d58e68645271eeb149af6022d1da99788e481f959bd284b164f39a1"},
-    {file = "types_PyYAML-6.0.12.6-py3-none-any.whl", hash = "sha256:77b74d0874482f2b42dd566b7277b0a220068595e0fb42689d0c0560f3d1ae9e"},
+    {file = "types-PyYAML-6.0.12.7.tar.gz", hash = "sha256:ad40c99142b1812615bac08d5e240d35107a27ec285af501682c685957692f95"},
+    {file = "types_PyYAML-6.0.12.7-py3-none-any.whl", hash = "sha256:91c64379a9ae88471a473d1ce0abf6a09c285700a297621b2177163d506584b8"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.5.0-py3-none-any.whl", hash = "sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4"},

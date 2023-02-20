@@ -56,3 +56,12 @@ def note2midi(note, *, round_midi=True):
         note_value = int(round(note_value))
 
     return note_value
+
+
+def midi2note(midi, *, round_midi=True):
+    pitch_map = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    if round_midi:
+        midi = int(round(midi))
+    octave = (midi // 12) - 1
+    pitch = pitch_map[midi % 12]
+    return f"{pitch}{octave}"
