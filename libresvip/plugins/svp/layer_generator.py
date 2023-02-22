@@ -2,6 +2,8 @@ import dataclasses
 import math
 from typing import Callable, List, NamedTuple
 
+import more_itertools
+
 from libresvip.utils import find_index
 
 from .lambert_w import LambertW
@@ -117,7 +119,7 @@ class BaseLayerGenerator:
         if not _note_list:
             return
         self.note_list = _note_list
-        for current_note, next_note in zip(_note_list[:-1], _note_list[1:]):
+        for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
             if next_note.start - current_note.end <= MAX_BREAK:
@@ -322,7 +324,7 @@ class GaussianLayerGenerator:
                 _length_r=current_note.end - current_note.start,
             )
         )
-        for current_note, next_note in zip(_note_list[:-1], _note_list[1:]):
+        for current_note, next_note in more_itertools.pairwise(_note_list):
             if next_note.start - current_note.end >= MAX_BREAK:
                 self.gaussian_nodes.append(
                     GaussianNode(

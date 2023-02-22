@@ -18,7 +18,10 @@ UTAUProject:
     ('Tool1=' tool1=/.+/ LineBreak)?
     ('Tool2=' tool2=/.+/ LineBreak)?
     ('Mode2=' pitch_mode2=BOOL LineBreak)?
-    tracks*=UTAUTrack
+    ('Autoren=' autoren=BOOL LineBreak)?
+    ('MapFirst=' map_first=BOOL LineBreak)?
+    ('Flags=' flags=/.+/ LineBreak)?
+    (track=UTAUTrack)?
 ;
 LineBreak: '\r'? '\n';
 UTAUVersion:
@@ -35,7 +38,7 @@ UTAUEnvelope:
         (',%,' p4=INT (',' p5=INT (',' v5=INT)?)?)
     )?
 ;
-UTAUPBM: text=/[srj]?/ ',';
+UTAUPBM: text=/[srj]?/ ','?;
 UTAUPitchBendType: '5' | 'OldData';
 UTAUOptionalAttr:
     (key='PreUtterance' '=' pre_utterance=/.*/ LineBreak) |
@@ -56,7 +59,7 @@ UTAUOptionalAttr:
     (key='PBY' '=' pby*=FLOAT[','] ','? LineBreak) |
     (key='PBM' '=' pbm*=UTAUPBM LineBreak) |
     (key='VBR' '=' vbr*=FLOAT[','] ','? LineBreak) |
-    (key=/$[^=]+/ '=' value=/.+/ LineBreak)
+    (key=/\\$[^=]+/ '=' value=/.+/ LineBreak)
 ;
 UTAUTrack:
     notes+=UTAUNote
@@ -146,7 +149,10 @@ class UTAUProject(BaseModel):
     tool1: Optional[str]
     tool2: Optional[str]
     pitch_mode2: Optional[bool]
-    tracks: List[UTAUTrack] = Field(default_factory=list)
+    autoren: Optional[bool]
+    map_first: Optional[bool]
+    flags: Optional[str]
+    track: Optional[UTAUTrack]
 
 
 UstModel = metamodel_from_str(

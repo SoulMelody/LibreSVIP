@@ -16,7 +16,7 @@ pydantic = "^1.10.5"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
 regex = "^2022.10.31"
-setuptools = "^67.3.2"
+setuptools = "^67.4.0"
 typer = { extras = ["all"], version = "^0.7.0" }
 wanakana-python = "^1.2.2"
 yapsy = "^1.12.2"
