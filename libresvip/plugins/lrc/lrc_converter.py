@@ -10,7 +10,7 @@ from .options import OutputOptions
 from .template import render_lrc
 
 
-class LrcConverter(plugin_base.LyricConverterBase):
+class LrcConverter(plugin_base.WriteOnlyConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:

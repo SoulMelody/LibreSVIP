@@ -10,7 +10,7 @@ from yapsy.PluginInfo import PluginInfo
 from yapsy.PluginManager import PluginManager
 
 from ..core.constants import app_dir, pkg_dir
-from .base import LyricConverterBase, ParamConverterBase, SVSConverterBase
+from .base import ReadOnlyConverterBase, SVSConverterBase, WriteOnlyConverterBase
 
 plugin_namespace = "libresvip.plugins"
 
@@ -156,9 +156,9 @@ plugin_locator.setPluginPlaces(
 )
 _plugin_manager = PluginManager(
     categories_filter={
-        "lyric": LyricConverterBase,
+        "writeonly": WriteOnlyConverterBase,
         "svs": SVSConverterBase,
-        "param": ParamConverterBase,
+        "readonly": ReadOnlyConverterBase,
     },
     plugin_locator=plugin_locator,
 )

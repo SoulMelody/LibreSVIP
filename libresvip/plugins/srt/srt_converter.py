@@ -11,7 +11,7 @@ from .options import OutputOptions
 from .srt_generator import SrtGenerator
 
 
-class SrtConverter(plugin_base.LyricConverterBase):
+class SrtConverter(plugin_base.WriteOnlyConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
