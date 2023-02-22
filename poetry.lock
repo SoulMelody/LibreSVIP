@@ -73,6 +73,22 @@ url = "https://mirrors.bfsu.edu.cn/pypi/web/simple"
 reference = "bfsu"
 
 [[package]]
+name = "ass"
+version = "0.5.2"
+description = "A library for parsing and manipulating Advanced SubStation Alpha subtitle files."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+setuptools = "*"
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.bfsu.edu.cn/pypi/web/simple"
+reference = "bfsu"
+
+[[package]]
 name = "async-timeout"
 version = "4.0.2"
 description = "Timeout context manager for asyncio programs"
@@ -1654,6 +1670,19 @@ url = "https://mirrors.bfsu.edu.cn/pypi/web/simple"
 reference = "bfsu"
 
 [[package]]
+name = "svgwrite"
+version = "1.4.3"
+description = "A Python library to create SVG drawings."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.bfsu.edu.cn/pypi/web/simple"
+reference = "bfsu"
+
+[[package]]
 name = "textx"
 version = "3.1.1"
 description = "Meta-language for DSL implementation inspired by Xtext"
@@ -2272,7 +2301,7 @@ reference = "bfsu"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.12"
-content-hash = "8f9f79a64e0907bcf29c368002a3e7a866d833b384b7ed6549d9885b92df4b26"
+content-hash = "b0918e224130ade7379e7e16385da93f4986f2e8480071cdfc08a758c375a035"
 
 [metadata.files]
 aiohttp = [
@@ -2375,6 +2404,10 @@ argcomplete = [
 arpeggio = [
     {file = "Arpeggio-2.0.0-py2.py3-none-any.whl", hash = "sha256:448e332deb0e9ccd04046f1c6c14529d197f41bc2fdb3931e43fc209042fbdd3"},
     {file = "Arpeggio-2.0.0.tar.gz", hash = "sha256:d6b03839019bb8a68785f9292ee6a36b1954eb84b925b84a6b8a5e1e26d3ed3d"},
+]
+ass = [
+    {file = "ass-0.5.2-py3-none-any.whl", hash = "sha256:8af836a6c2bd34672651572ceeb3562dd53f7e746339453d909e5f9c0121c874"},
+    {file = "ass-0.5.2.tar.gz", hash = "sha256:ee631ede8870d8aea7d019977fd96ec934ce8bc779cc564efc1cbdd60e462b17"},
 ]
 async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
@@ -3459,6 +3492,10 @@ six = [
 sortedcontainers = [
     {file = "sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0"},
     {file = "sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"},
+]
+svgwrite = [
+    {file = "svgwrite-1.4.3-py3-none-any.whl", hash = "sha256:bb6b2b5450f1edbfa597d924f9ac2dd099e625562e492021d7dd614f65f8a22d"},
+    {file = "svgwrite-1.4.3.zip", hash = "sha256:a8fbdfd4443302a6619a7f76bc937fc683daf2628d9b737c891ec08b8ce524c3"},
 ]
 textx = [
     {file = "textX-3.1.1-py2.py3-none-any.whl", hash = "sha256:1f2bd936309f5f9092567e3f5a0c513d8292d5852c63a72096fe5a57018d0f50"},

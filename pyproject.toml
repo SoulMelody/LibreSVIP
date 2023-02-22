@@ -44,6 +44,7 @@ mido = "^1.2.10"
 
 [tool.poetry.group.subtitle.dependencies]
 pysrt = "^1.1.2"
+ass = "^0.5.2"
 
 [tool.poetry.group.binary.dependencies]
 construct-typing = "^0.5.5"
@@ -57,6 +58,9 @@ pydantic-yaml = { extras = ["pyyaml"], version = "^0.8.1" }
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
 jinja2 = "^3.1.2"
+
+[tool.poetry.group.svg.dependencies]
+svgwrite = "^1.4.3"
 
 [tool.poetry.group.ffmpeg.dependencies]
 imageio-ffmpeg = "^0.4.8"
