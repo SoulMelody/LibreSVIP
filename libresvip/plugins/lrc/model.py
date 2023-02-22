@@ -1,7 +1,6 @@
 from functools import partial
 from typing import List, Optional
 
-from pydantic import Field
 from textx import LanguageDesc, metamodel_from_str
 
 from libresvip.model.base import BaseModel
@@ -13,10 +12,9 @@ LyricFile:
 ;
 LineBreak: '\r'? '\n';
 Tag: /[a-zA-Z]+/;
-Word: /[^\n]*?/;
-Lyric: /.*?/;
+Word: /[^\r\n]*?/;
 TimeTag: '[' minute=INT ':' second=INT '.' percent_second=INT ']';
-LyricLine: time_tags+=TimeTag lyric?=Lyric LineBreak;
+LyricLine: time_tags+=TimeTag lyric?=Word LineBreak;
 InfoTag: '[' key=Tag ':' value=Word ']' LineBreak;
 """
 
@@ -29,7 +27,7 @@ class TimeTag(BaseModel):
 
 class LyricLine(BaseModel):
     time_tags: List[TimeTag]
-    lyric: Optional[str] = Field(regex=r"[^\n]*?\n")
+    lyric: Optional[str]
 
 
 class InfoTag(BaseModel):
