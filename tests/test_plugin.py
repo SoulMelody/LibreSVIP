@@ -1,4 +1,3 @@
-# import pathlib
 import pathlib
 import zipfile
 from dataclasses import asdict
@@ -10,16 +9,13 @@ from libresvip.extension.manager import plugin_registry
 from libresvip.model.base import Project
 
 
-def test_ust_read(shared_datadir):
+def test_ust_write(shared_datadir):
     from libresvip.plugins.ust.model import UstModel
+    from libresvip.plugins.ust.template import render_ust
 
     proj_path = shared_datadir / "test.ust"
     proj = UstModel.model_from_file(proj_path, encoding="gbk")
-    for track in proj.tracks:
-        for note in track.notes:
-            for attr in note.optional_attrs:
-                if attr.key == "Tempo":
-                    print(attr.tempo)
+    render_ust(proj, pathlib.Path("test.ust"), encoding="gbk")
 
 
 def test_nn_read(shared_datadir):
@@ -198,7 +194,6 @@ def test_svp_read(shared_datadir, capsys):
 
 
 def test_svp_write(shared_datadir, capsys):
-
     with capsys.disabled():
         svp_plugin = plugin_registry["svp"].plugin_object
         proj_path = "./test.json"

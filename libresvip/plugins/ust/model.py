@@ -11,23 +11,23 @@ UTAUProject:
     '[#SETTING]' LineBreak
     'Tempo=' tempo=FLOAT LineBreak
     ('Tracks=' track_count=INT LineBreak)?
-    ('Project' 'Name'? '=' project_name=/.+/ LineBreak)?
-    ('VoiceDir=' voice_dir=/.+/ LineBreak)?
-    ('OutFile=' out_file=/.+/ LineBreak)?
-    ('CacheDir=' cache_dir=/.+/ LineBreak)?
-    ('Tool1=' tool1=/.+/ LineBreak)?
-    ('Tool2=' tool2=/.+/ LineBreak)?
+    ('Project' 'Name'? '=' project_name=/[^\r\n]*/ LineBreak)?
+    ('VoiceDir=' voice_dir=/[^\r\n]*/ LineBreak)?
+    ('OutFile=' out_file=/[^\r\n]*/ LineBreak)?
+    ('CacheDir=' cache_dir=/[^\r\n]*/ LineBreak)?
+    ('Tool1=' tool1=/[^\r\n]*/ LineBreak)?
+    ('Tool2=' tool2=/[^\r\n]*/ LineBreak)?
     ('Mode2=' pitch_mode2=BOOL LineBreak)?
     ('Autoren=' autoren=BOOL LineBreak)?
     ('MapFirst=' map_first=BOOL LineBreak)?
-    ('Flags=' flags=/.+/ LineBreak)?
+    ('Flags=' flags=/[^\r\n]*/ LineBreak)?
     (track=UTAUTrack)?
 ;
 LineBreak: '\r'? '\n';
 UTAUVersion:
     '[#VERSION]' LineBreak
     'UST Version' ust_version=FLOAT LineBreak
-    ('Charset=' charset=/.+/ LineBreak)?
+    ('Charset=' charset=/[^\r\n]*/ LineBreak)?
 ;
 UTAUEnvelopeBase:
     p1=INT ',' p2=INT ',' p3=INT ',' v1=INT ',' v2=INT ',' v3=INT ',' v4=INT
@@ -41,7 +41,7 @@ UTAUEnvelope:
 UTAUPBM: text=/[srj]?/ ','?;
 UTAUPitchBendType: '5' | 'OldData';
 UTAUOptionalAttr:
-    (key='PreUtterance' '=' pre_utterance=/.*/ LineBreak) |
+    (key='PreUtterance' '=' pre_utterance=/[^\r\n]*/ LineBreak) |
     (key='VoiceOverlap' '=' voice_overlap=FLOAT LineBreak) |
     (key='Intensity' '=' intensity=FLOAT LineBreak) |
     (key=/(Modulation|Moduration)/ '=' modulation=FLOAT LineBreak) |
@@ -49,8 +49,8 @@ UTAUOptionalAttr:
     (key='Envelope' '=' envelope=UTAUEnvelope LineBreak) |
     (key='Tempo' '=' tempo=FLOAT LineBreak) |
     (key='Velocity' '=' velocity=FLOAT LineBreak) |
-    (key='Label' '=' label=/.+/ LineBreak) |
-    (key='Flags' '=' flags=/.+/ LineBreak) |
+    (key='Label' '=' label=/[^\r\n]*/ LineBreak) |
+    (key='Flags' '=' flags=/[^\r\n]*/ LineBreak) |
     (key='PBType' '=' pitchbend_type=UTAUPitchBendType LineBreak) |
     (key='PBStart' '=' pitchbend_start=FLOAT LineBreak) |
     (key=/(Piches|Pitches|PitchBend)/ '=' pitch_bend_points*=INT[','] LineBreak) |
@@ -59,7 +59,7 @@ UTAUOptionalAttr:
     (key='PBY' '=' pby*=FLOAT[','] ','? LineBreak) |
     (key='PBM' '=' pbm*=UTAUPBM LineBreak) |
     (key='VBR' '=' vbr*=FLOAT[','] ','? LineBreak) |
-    (key=/\\$[^=]+/ '=' value=/.+/ LineBreak)
+    (key=/\\$[^=]+/ '=' value=/[^\r\n]*/ LineBreak)
 ;
 UTAUTrack:
     notes+=UTAUNote
@@ -69,7 +69,7 @@ UTAUNoteType: /(\\d+|PREV|NEXT|INSERT|DELETE)/;
 UTAUNote:
     '[#' note_type=UTAUNoteType ']' LineBreak
     'Length=' length=INT LineBreak
-    'Lyric=' lyric=/.+/ LineBreak
+    'Lyric=' lyric=/[^\r\n]*/ LineBreak
     'NoteNum=' note_num=INT LineBreak
     optional_attrs*=UTAUOptionalAttr
 ;

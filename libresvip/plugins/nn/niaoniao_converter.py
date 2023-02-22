@@ -17,4 +17,4 @@ class NiaoNiaoConverter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
-        pass
+        raise NotImplementedError
