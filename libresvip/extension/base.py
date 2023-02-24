@@ -6,17 +6,21 @@ from yapsy.IPlugin import IPlugin
 from ..model.base import Project
 
 
-class WriteOnlyConverterBase(IPlugin, abc.ABC):
+class SVSConverterBase(IPlugin, abc.ABC):
+    @abc.abstractmethod
+    def load(self, path: str, options: BaseSettings) -> Project:
+        pass
+
     @abc.abstractmethod
     def dump(self, path: str, project: Project, options: BaseSettings):
         pass
 
 
-class ReadOnlyConverterBase(IPlugin, abc.ABC):
-    @abc.abstractmethod
+class WriteOnlyConverterBase(SVSConverterBase, abc.ABC):
     def load(self, path: str, options: BaseSettings) -> Project:
-        pass
+        raise NotImplementedError
 
 
-class SVSConverterBase(WriteOnlyConverterBase, ReadOnlyConverterBase, abc.ABC):
-    pass
+class ReadOnlyConverterBase(SVSConverterBase, abc.ABC):
+    def dump(self, path: str, project: Project, options: BaseSettings):
+        raise NotImplementedError

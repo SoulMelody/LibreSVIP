@@ -1,5 +1,6 @@
 import enum
 
+from pydantic.color import Color
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 
 from libresvip.model.base import BaseComplexModel, BaseModel
@@ -27,7 +28,7 @@ def prompt_fields(option_class: BaseModel) -> dict:
             option_kwargs[option.name] = FloatPrompt.ask(
                 f"{i + 1}. {option.field_info.title}", default=option.field_info.default
             )
-        elif issubclass(option.type_, str):
+        elif issubclass(option.type_, (str, Color)):
             option_kwargs[option.name] = Prompt.ask(
                 f"{i + 1}. {option.field_info.title}", default=option.field_info.default
             )

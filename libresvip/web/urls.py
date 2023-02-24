@@ -14,6 +14,11 @@ def initialize(server: Server):
             "icon": "mdi-sync",
             "route": "/",
         },
+        # {
+        #     "title": "Visualize",
+        #     "icon": "mdi-chart-timeline-variant",
+        #     "route": "/visualizer",
+        # },
         {
             "title": "Plugins",
             "icon": "mdi-puzzle-outline",
@@ -28,6 +33,10 @@ def initialize(server: Server):
 
     with RouterViewLayout(server, "/"):
         converter.initialize(server)
+
+    # with RouterViewLayout(server, "/visualizer"):
+    #     with vuetify.VCard():
+    #         vuetify.VCardTitle("This is visualizer")
 
     with RouterViewLayout(server, "/plugin"):
         plugins.initialize(server)

@@ -9,6 +9,7 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
+from pydantic.color import Color
 from trame.widgets import html, trame, vuetify
 from trame_server.core import Server
 
@@ -89,34 +90,40 @@ def get_option_widgets(prefix: str):
             value=("field.default", False),
             v_if="field.type === 'bool'",
         )
-        with vuetify.VTooltip(bottom=True):
-            with vuetify.Template(v_slot_activator="{ on, attrs }"):
-                vuetify.VIcon(
-                    "mdi-help-circle-outline",
-                    v_bind="attrs",
-                    v_on="on",
-                    slot="append",
-                    v_if="field.type === 'bool'",
-                    __properties=["slot"],
-                )
-            html.Span(
-                "{{ field.description }}",
-            )
         vuetify.VTextField(
             label=("field.title", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", ""),
             hint=("field.description", ""),
-            v_if="field.type === 'other'",
+            v_else_if="field.type === 'other'",
         )
+        with html.Div("{{ field.title }}", v_else_if="field.type === 'color'"):
+            vuetify.VColorPicker(
+                v_model=f"{prefix}[field.name]",
+                value=("field.default", ""),
+            )
         vuetify.VSelect(
             label=("field.title", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", ""),
             items=("field.choices", []),
             hint=("field.description", ""),
-            v_if="field.type === 'enum'",
+            v_else_if="field.type === 'enum'",
         )
+        with vuetify.VTooltip(
+            bottom=True, v_if="field.type === 'bool' || field.type === 'color'"
+        ):
+            with vuetify.Template(v_slot_activator="{ on, attrs }"):
+                vuetify.VIcon(
+                    "mdi-help-circle-outline",
+                    v_bind="attrs",
+                    v_on="on",
+                    slot="append",
+                    __properties=["slot"],
+                )
+            html.Span(
+                "{{ field.description }}",
+            )
 
 
 def initialize(server: Server):
@@ -183,14 +190,14 @@ def initialize(server: Server):
                     }
                 )
                 option_info[f"{prefix}_defaults"][option_key] = option.default
-            elif issubclass(option.type_, (str, int, float, BaseComplexModel)):
+            elif issubclass(option.type_, (str, int, float, Color, BaseComplexModel)):
                 if issubclass(option.type_, BaseComplexModel):
                     default_value = option.type_.default_repr()
                 else:
                     default_value = option.default
                 option_info[f"{prefix}_fields"].append(
                     {
-                        "type": "other",
+                        "type": "color" if issubclass(option.type_, Color) else "other",
                         "name": option_key,
                         "title": option.field_info.title,
                         "description": option.field_info.description,
@@ -510,7 +517,61 @@ def initialize(server: Server):
                                 with vuetify.VForm():
                                     get_option_widgets("output_options")
             with vuetify.VCard(dense=True, outlined=True):
-                vuetify.VCardTitle("{{ translations[lang]['File operations'] }}")
+                with vuetify.VCardTitle("{{ translations[lang]['File operations'] }}"):
+                    with vuetify.VCardActions():
+                        with vuetify.VSpeedDial(
+                            v_model=("fab", False),
+                            open_on_hover=True,
+                            direction="right",
+                        ):
+                            with vuetify.Template(v_slot_activator=True):
+                                with vuetify.VBtn(
+                                    fab=True,
+                                    icon=True,
+                                ):
+                                    vuetify.VIcon(
+                                        "mdi-hammer-wrench",
+                                        color="primary",
+                                        v_if="!fab",
+                                    )
+                                    vuetify.VIcon(
+                                        "mdi-hammer-wrench mdi-rotate-45",
+                                        color="primary",
+                                        v_else=True,
+                                    )
+                            with vuetify.VBtn(
+                                icon=True,
+                                color="primary",
+                                click="files_to_convert = []",
+                            ):
+                                vuetify.VIcon("mdi-refresh")
+                            with vuetify.VBtn(
+                                icon=True,
+                                color="primary",
+                                click="""
+                                for (let i = 0; i < files_to_convert.length; i++) {
+                                    const file = files_to_convert[i];
+                                    if (!file.name.toLowerCase().endsWith(input_format)) {
+                                        files_to_convert.splice(i, 1);
+                                        i--;
+                                    }
+                                }
+                                flushState('files_to_convert')
+                                """,
+                            ):
+                                vuetify.VIcon("mdi-filter-variant-remove")
+                    vuetify.VSpacer()
+                    with vuetify.VCardActions():
+                        with vuetify.VBtn(
+                            icon=True,
+                            click="getRef('file_uploader').click()",
+                        ):
+                            with vuetify.VBadge(
+                                content=("files_to_convert.length", ""),
+                                v_if="files_to_convert.length > 0",
+                            ):
+                                vuetify.VIcon("mdi-upload", color="primary")
+                            vuetify.VIcon("mdi-upload", color="primary", v_else=True)
                 with vuetify.VListItem(
                     v_for="(item, i) in files_to_convert",
                     key="i",
@@ -637,56 +698,6 @@ def initialize(server: Server):
                     "{{ translations[lang]['Close'] }}",
                     click="show_warning_index = null",
                 )
-    with vuetify.VSpeedDial(
-        v_model=("fab", False),
-        bottom=True,
-        left=True,
-        open_on_hover=True,
-        direction="right",
-        style="bottom: 0; position: absolute; margin-left: 16px; margin-bottom: 16px;",
-    ):
-        with vuetify.Template(v_slot_activator=True):
-            with vuetify.VBtn(
-                fab=True,
-                icon=True,
-            ):
-                vuetify.VIcon("mdi-hammer-wrench", color="primary", v_if="!fab")
-                vuetify.VIcon(
-                    "mdi-hammer-wrench mdi-rotate-45", color="primary", v_else=True
-                )
-        with vuetify.VBtn(
-            icon=True,
-            color="primary",
-            click="files_to_convert = []",
-        ):
-            vuetify.VIcon("mdi-refresh")
-        with vuetify.VBtn(
-            icon=True,
-            color="primary",
-            click="""
-            for (let i = 0; i < files_to_convert.length; i++) {
-                const file = files_to_convert[i];
-                if (!file.name.toLowerCase().endsWith(input_format)) {
-                    files_to_convert.splice(i, 1);
-                    i--;
-                }
-            }
-            flushState('files_to_convert')
-            """,
-        ):
-            vuetify.VIcon("mdi-filter-variant-remove")
-    with vuetify.VBtn(
-        icon=True,
-        large=True,
-        click="getRef('file_uploader').click()",
-        style="bottom: 0; right: 0; position: absolute; margin-right: 20px; margin-bottom: 20px;",
-    ):
-        with vuetify.VBadge(
-            content=("files_to_convert.length", ""),
-            v_if="files_to_convert.length > 0",
-        ):
-            vuetify.VIcon("mdi-upload", color="primary")
-        vuetify.VIcon("mdi-upload", color="primary", v_else=True)
     with vuetify.VSnackbar(
         v_model=("success_message", False),
         timeout=5000,

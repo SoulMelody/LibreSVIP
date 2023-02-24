@@ -1772,7 +1772,7 @@ reference = "bfsu"
 
 [[package]]
 name = "trame-client"
-version = "2.7.0"
+version = "2.7.1"
 description = "Internal client of trame"
 category = "dev"
 optional = false
@@ -1914,7 +1914,7 @@ reference = "bfsu"
 
 [[package]]
 name = "trame-simput"
-version = "2.2.5"
+version = "2.2.6"
 description = "Simput implementation for trame"
 category = "dev"
 optional = false
@@ -1947,7 +1947,7 @@ reference = "bfsu"
 
 [[package]]
 name = "trame-vtk"
-version = "2.0.17"
+version = "2.1.0"
 description = "VTK widgets for trame"
 category = "dev"
 optional = false
@@ -1963,7 +1963,7 @@ reference = "bfsu"
 
 [[package]]
 name = "trame-vuetify"
-version = "2.2.2"
+version = "2.2.3"
 description = "Vuetify widgets for trame"
 category = "dev"
 optional = false
@@ -3518,8 +3518,8 @@ trame = [
     {file = "trame-2.3.2.tar.gz", hash = "sha256:1be75e0a611093e6870444b0a500cfb9a4bbe69eb7eadd8d0da25dc22c10135e"},
 ]
 trame-client = [
-    {file = "trame-client-2.7.0.tar.gz", hash = "sha256:3efa3f19ab3d54b8176822376cfba77ecf59b9c5e61a1cc28ea10b1f4cc16f9e"},
-    {file = "trame_client-2.7.0-py3-none-any.whl", hash = "sha256:3026c60e2cdd41bd1efca3b4df954f7a6f71cd486c4a9323210653ed62ffc453"},
+    {file = "trame-client-2.7.1.tar.gz", hash = "sha256:b3b784779efa02f9a3789b78435c7cd157f63a7b291198fb78c8208ae40c10aa"},
+    {file = "trame_client-2.7.1-py3-none-any.whl", hash = "sha256:c193b0f233eb8191456d5159eb50be7274d32f696ae2e32405a662389bd18d01"},
 ]
 trame-components = [
     {file = "trame-components-2.1.0.tar.gz", hash = "sha256:b8d4ad2a8a60db00c713db3404fc45171646ef825cfe031e8d8336237ec724f5"},
@@ -3554,20 +3554,20 @@ trame-server = [
     {file = "trame_server-2.9.1-py3-none-any.whl", hash = "sha256:8f74cd2939b89b9989bc2ffbccf24b90ef0e16ddbb5ba37410f54b1cf497d804"},
 ]
 trame-simput = [
-    {file = "trame-simput-2.2.5.tar.gz", hash = "sha256:b344bf93c3c0eaf5378dea7210c26949c62dc0deddeaf53bd74f3486fa3ac01b"},
-    {file = "trame_simput-2.2.5-py3-none-any.whl", hash = "sha256:e5d7f8e6cad0c3f063ca6f65f4be4979fe05db07fe8e0106ea548eff67a116fd"},
+    {file = "trame-simput-2.2.6.tar.gz", hash = "sha256:a57aebe171175a15cbd95de8d94369cf2ec9ca29aa7d86cc4846fcf68a039916"},
+    {file = "trame_simput-2.2.6-py3-none-any.whl", hash = "sha256:8ea2bf78452e4a7f3462c10beb4fee1112caefdee7fbd0553182924aa7fcb657"},
 ]
 trame-vega = [
     {file = "trame-vega-2.0.2.tar.gz", hash = "sha256:734ac93b51950d49aa20cccf0b332232c74f14d26ef5f981dde56d41de1fa6b4"},
     {file = "trame_vega-2.0.2-py3-none-any.whl", hash = "sha256:142e9a0b03e0bd761f6a89999a876f4a088e1c2b3ddcfbf84f368b4edc24af11"},
 ]
 trame-vtk = [
-    {file = "trame-vtk-2.0.17.tar.gz", hash = "sha256:c0f2472060affcee0ca3afd197e92336e0a61e2d790ca2520a0e66ca02a6579a"},
-    {file = "trame_vtk-2.0.17-py3-none-any.whl", hash = "sha256:70307e4612ca21c9dba16d942174953067916f751f46e6533bc020042b568273"},
+    {file = "trame-vtk-2.1.0.tar.gz", hash = "sha256:100acb721a59aa7948c1815c6eaf1070a7470d566d9be194fa1df51bc9caf26a"},
+    {file = "trame_vtk-2.1.0-py3-none-any.whl", hash = "sha256:d97ca7624c594fc19c727fd45d9f23e023c67c4593d86c64cc9eb674732f5e65"},
 ]
 trame-vuetify = [
-    {file = "trame-vuetify-2.2.2.tar.gz", hash = "sha256:a7cd5452e3343ffa78fb47db7d5a0cff37912904022158558f278a9112fbe709"},
-    {file = "trame_vuetify-2.2.2-py3-none-any.whl", hash = "sha256:1bef4bf727b0036d7906a6b49fd3be2b63372a3e863b35a7d62c0ec11c441cfe"},
+    {file = "trame-vuetify-2.2.3.tar.gz", hash = "sha256:e93f73c96b9cff7c4472621f94ed3ce4a1f2eea5ee2b33c6ab5d545dc2ba9347"},
+    {file = "trame_vuetify-2.2.3-py3-none-any.whl", hash = "sha256:bce94b5b064462ce93d30144db3570d485b6671abf2aa4d9b1e5be9daf4ff6ce"},
 ]
 typed-ast = [
     {file = "typed_ast-1.5.4-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:669dd0c4167f6f2cd9f57041e03c3c2ebf9063d0757dc89f79ba1daa2bfca9d4"},
