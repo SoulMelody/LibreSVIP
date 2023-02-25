@@ -313,7 +313,7 @@ class SynthVParser:
                 _interpolation=self.parse_interpolation(self.instant_pitch.mode),
             )
         interval = RangeInterval(
-            sub_ranges=[
+            [
                 (
                     position_to_ticks(note.onset),
                     position_to_ticks(note.onset + note.duration),
@@ -340,7 +340,7 @@ class SynthVParser:
                     + pitch_interval
                 )
                 return current | RangeInterval(
-                    sub_ranges=[
+                    [
                         (
                             round(
                                 self.synchronizer.get_actual_ticks_from_secs(

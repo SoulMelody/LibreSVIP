@@ -1,3 +1,4 @@
+import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
 from typing import Iterable, List, Optional, Tuple
@@ -6,11 +7,15 @@ import portion
 from typing_extensions import Self
 
 
+@dataclasses.dataclass
 class RangeInterval:
-    def __init__(self, sub_ranges: Optional[List[Tuple[int, int]]] = None):
+    _sub_ranges: dataclasses.InitVar[Optional[List[Tuple[int, int]]]] = None
+    interval: portion.Interval = dataclasses.field(init=False)
+
+    def __post_init__(self, _sub_ranges: Optional[List[Tuple[int, int]]]):
         self.interval = reduce(
             operator.or_,
-            (portion.closedopen(*sub_range) for sub_range in (sub_ranges or [])),
+            (portion.closedopen(*sub_range) for sub_range in (_sub_ranges or [])),
             portion.empty(),
         )
 
@@ -61,7 +66,10 @@ class RangeInterval:
     @expand.register(tuple)
     def _(self, radius_tuple: Tuple[int, int]) -> Self:
         return RangeInterval(
-            [(sub_range[0] - radius_tuple[0], sub_range[1] + radius_tuple[1]) for sub_range in self.sub_ranges()]
+            [
+                (sub_range[0] - radius_tuple[0], sub_range[1] + radius_tuple[1])
+                for sub_range in self.sub_ranges()
+            ]
         )
 
     @expand.register(int)
@@ -82,7 +90,10 @@ class RangeInterval:
 
     def shift(self, offset: int) -> Self:
         return RangeInterval(
-            [(sub_range[0] + offset, sub_range[1] + offset) for sub_range in self.sub_ranges()]
+            [
+                (sub_range[0] + offset, sub_range[1] + offset)
+                for sub_range in self.sub_ranges()
+            ]
         )
 
     def __and__(self, other: Self) -> Self:
@@ -102,13 +113,3 @@ class RangeInterval:
 
     def __lshift__(self, other: int) -> Self:
         return self.shift(-other)
-
-
-class EmptyInterval(RangeInterval):
-    def __init__(self):
-        super().__init__([])
-
-
-class SingleInterval(RangeInterval):
-    def __init__(self, start: int, end: int):
-        super().__init__([(start, end)])
