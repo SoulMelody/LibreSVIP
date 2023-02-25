@@ -1,13 +1,23 @@
+import functools
 import pathlib
-from typing import Callable, List, Union
+from typing import Callable, List
 
 import charset_normalizer
 from more_itertools import locate, rlocate
 
 
-def read_file(path: Union[str, pathlib.Path]) -> str:
-    if not isinstance(path, pathlib.Path):
-        path = pathlib.Path(path)
+def ensure_path(func):
+    @functools.wraps(func)
+    def wrapper(self, path, *args, **kwargs):
+        if not isinstance(path, pathlib.Path):
+            path = pathlib.Path(path)
+        return func(self, path, *args, **kwargs)
+
+    return wrapper
+
+
+@ensure_path
+def read_file(path: pathlib.Path) -> str:
     content = path.read_bytes()
     guessed_charset = charset_normalizer.detect(content)
     if guessed_charset["encoding"] is None:

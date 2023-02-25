@@ -13,8 +13,6 @@ from .synthv_parser import SynthVParser
 
 class SynthVStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        if not isinstance(path, pathlib.Path):
-            path = pathlib.Path(path)
         if options is None:
             options = InputOptions()
         sv_content = path.read_text().strip("\x00")
@@ -25,8 +23,6 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
-        if not isinstance(path, pathlib.Path):
-            path = pathlib.Path(path)
         if options is None:
             options = OutputOptions()
         sv_project = SynthVGenerator(

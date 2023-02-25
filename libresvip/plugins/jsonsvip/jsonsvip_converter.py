@@ -10,14 +10,14 @@ from .options import InputOptions, OutputOptions
 
 
 class JsonSvipConverter(plugin_base.SVSConverterBase):
-    def load(self, path: str, options: InputOptions) -> Project:
+    def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         return OpenSvipProject.parse_file(path)
 
-    def dump(self, path: str, project: Project, options: OutputOptions) -> None:
+    def dump(
+        self, path: pathlib.Path, project: Project, options: OutputOptions
+    ) -> None:
         if options is None:
             options = OutputOptions()
-        if not isinstance(path, pathlib.Path):
-            path = pathlib.Path(path)
         if options.indented:
             dump_kwargs = {"indent": 2}
         else:

@@ -1,4 +1,5 @@
 __package__ = "libresvip.plugins.mid"
+import pathlib
 
 import mido
 
@@ -11,13 +12,15 @@ from .options import InputOptions, OutputOptions
 
 
 class MidiConverter(plugin_base.SVSConverterBase):
-    def load(self, path: str, options: InputOptions) -> Project:
+    def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         midi_file = mido.MidiFile(path)
         return MidiParser(
             options=options,
         ).decode_project(midi_file)
 
-    def dump(self, path: str, project: Project, options: OutputOptions) -> None:
+    def dump(
+        self, path: pathlib.Path, project: Project, options: OutputOptions
+    ) -> None:
         midi_file = MidiGenerator(
             options=options,
         ).encode_project(project)
