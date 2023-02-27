@@ -10,7 +10,7 @@ charset-normalizer = "^3.0.1"
 confz = "^1.8.1"
 loguru = "^0.6.0"
 more-itertools = "^9.0.0"
-platformdirs = "^2.6.0"
+platformdirs = "^3.0.0"
 portion = "^2.3.1"
 pydantic = "^1.10.5"
 pydub = "^0.25.1"
@@ -25,7 +25,7 @@ yapsy = "^1.12.2"
 trame = "^2.3.2"
 
 [tool.poetry.group.desktop.dependencies]
-pywebview = "^3.7.2"
+pywebview = "^4.0.2"
 qtpy = { version = "^2.3.0", markers = "sys_platform == 'linux'" }
 PySide6 = { version = "^6.4.2", markers = "sys_platform == 'linux'" }
 
@@ -34,7 +34,7 @@ ujson = "^5.7.0"
 
 [tool.poetry.group.bike.dependencies]
 pycryptodome = "^3.17"
-zstandard = "^0.19.0"
+zstandard = "^0.20.0"
 
 [tool.poetry.group.protobuf.dependencies]
 pure-protobuf = "^2.2.3"
@@ -53,7 +53,7 @@ construct-typing = "^0.5.5"
 xsdata-pydantic = "^22.10"
 
 [tool.poetry.group.yaml.dependencies]
-pydantic-yaml = { extras = ["pyyaml"], version = "^0.8.1" }
+pydantic-yaml = { extras = ["pyyaml"], version = "^0.10.0" }
 
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
@@ -69,11 +69,11 @@ imageio-ffmpeg = "^0.4.8"
 pytest = "^7.2.1"
 pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
-pre-commit = "^2.20.0"
-poethepoet = "^0.16.5"
-ruff = "^0.0.245"
+pre-commit = "^3.1.0"
+poethepoet = "^0.18.1"
+ruff = "^0.0.252"
 xsdata = { extras = ["cli"], version = "^22.12" }
-datamodel-code-generator = "^0.14.1"
+datamodel-code-generator = "^0.17.1"
 black = "^23.1.0"
 mypy = "^1.0.1"
 
