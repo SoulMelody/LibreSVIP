@@ -88,6 +88,7 @@ def get_option_widgets(prefix: str):
             label=("field.title", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", False),
+            change=f"flushState('{prefix}')",
             v_if="field.type === 'bool'",
         )
         vuetify.VTextField(
@@ -101,11 +102,13 @@ def get_option_widgets(prefix: str):
             vuetify.VColorPicker(
                 v_model=f"{prefix}[field.name]",
                 value=("field.default", ""),
+                change=f"flushState('{prefix}')",
             )
         vuetify.VSelect(
             label=("field.title", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", ""),
+            change=f"flushState('{prefix}')",
             items=("field.choices", []),
             hint=("field.description", ""),
             v_else_if="field.type === 'enum'",

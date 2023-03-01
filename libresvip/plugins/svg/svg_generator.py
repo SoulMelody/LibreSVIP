@@ -4,6 +4,7 @@ from typing import List
 from svgwrite import Drawing
 
 from libresvip.core.constants import TICKS_IN_BEAT
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, Project, SingingTrack
 
 from .coordinate_helper import CoordinateHelper
@@ -25,6 +26,7 @@ class SvgGenerator:
         )
         self.svg_factory = SvgFactory(
             coordinate_helper=self.coordinate_helper,
+            time_synchronizer=TimeSynchronizer(project.song_tempo_list),
             options=self.options,
         )
         if self.options.track_index < 0:
@@ -40,6 +42,8 @@ class SvgGenerator:
             first_singing_track = project.track_list[self.options.track_index]
         if first_singing_track is not None:
             self.coordinate_helper.calculate_range(first_singing_track)
+            if self.options.show_grid:
+                self.svg_factory.draw_grid(project.time_signature_list)
             self.generate_notes(first_singing_track.note_list)
             self.generate_pitch(first_singing_track.edited_params.pitch)
 
@@ -49,6 +53,8 @@ class SvgGenerator:
     def generate_svg(self) -> Drawing:
         drawing = Drawing(size=self.coordinate_helper.size)
         drawing.embed_stylesheet(self.svg_factory.style)
+        for line in self.svg_factory.line_elements:
+            drawing.add(line)
         for rect in self.svg_factory.rect_elements:
             drawing.add(rect)
         for polyline in self.svg_factory.polyline_elements:
