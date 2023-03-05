@@ -136,18 +136,19 @@ reference = "bfsu"
 
 [[package]]
 name = "argcomplete"
-version = "2.0.0"
+version = "2.0.5"
 description = "Bash tab completion for argparse"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "argcomplete-2.0.0-py2.py3-none-any.whl", hash = "sha256:cffa11ea77999bb0dd27bb25ff6dc142a6796142f68d45b1a26b11f58724561e"},
-    {file = "argcomplete-2.0.0.tar.gz", hash = "sha256:6372ad78c89d662035101418ae253668445b391755cfe94ea52f1b9d22425b20"},
+    {file = "argcomplete-2.0.5-py3-none-any.whl", hash = "sha256:e2a2cdb8ee9634ff2fa368ba6b996b46205341e0cf106be8075fd9bdbc5cf2e7"},
+    {file = "argcomplete-2.0.5.tar.gz", hash = "sha256:1cfd12928d62e41901783e4dc7d7ca03eccd589840face4c020693b13f754312"},
 ]
 
 [package.extras]
-test = ["coverage", "flake8", "pexpect", "wheel"]
+lint = ["flake8", "mypy"]
+test = ["coverage", "flake8", "mypy", "pexpect", "wheel"]
 
 [package.source]
 type = "legacy"
@@ -293,14 +294,14 @@ reference = "bfsu"
 
 [[package]]
 name = "bottle"
-version = "0.12.24"
+version = "0.12.25"
 description = "Fast and simple WSGI-framework for small web-applications."
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "bottle-0.12.24-py3-none-any.whl", hash = "sha256:fa88c66413ab07b5046545ac6e47a967d582143aef87f2c0fb0ef571d9977b5e"},
-    {file = "bottle-0.12.24.tar.gz", hash = "sha256:2480121a73e87380989b77e32bd2092d190e7ea7d71e6f1b8f7af7eab9d54ea3"},
+    {file = "bottle-0.12.25-py3-none-any.whl", hash = "sha256:d6f15f9d422670b7c073d63bd8d287b135388da187a0f3e3c19293626ce034ea"},
+    {file = "bottle-0.12.25.tar.gz", hash = "sha256:e1a9c94970ae6d710b3fb4526294dfeb86f2cb4a81eff3a4b98dc40fb0e5e021"},
 ]
 
 [package.source]
@@ -1378,14 +1379,14 @@ reference = "bfsu"
 
 [[package]]
 name = "more-itertools"
-version = "9.0.0"
+version = "9.1.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "more-itertools-9.0.0.tar.gz", hash = "sha256:5a6257e40878ef0520b1803990e3e22303a41b5714006c32a3fd8304b26ea1ab"},
-    {file = "more_itertools-9.0.0-py3-none-any.whl", hash = "sha256:250e83d7e81d0c87ca6bd942e6aeab8cc9daa6096d12c5308f3f92fa5e5c1f41"},
+    {file = "more-itertools-9.1.0.tar.gz", hash = "sha256:cabaa341ad0389ea83c17a94566a53ae4c9d07349861ecb14dc6d0345cf9ac5d"},
+    {file = "more_itertools-9.1.0-py3-none-any.whl", hash = "sha256:d2bc7f02446e86a68911e58ded76d6561eea00cddfb2a91e7019bbb586c799f3"},
 ]
 
 [package.source]
@@ -1695,14 +1696,14 @@ reference = "bfsu"
 
 [[package]]
 name = "platformdirs"
-version = "3.0.0"
+version = "3.1.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.0.0-py3-none-any.whl", hash = "sha256:b1d5eb14f221506f50d6604a561f4c5786d9e80355219694a1b244bcd96f4567"},
-    {file = "platformdirs-3.0.0.tar.gz", hash = "sha256:8a1228abb1ef82d788f74139988b137e78692984ec7b08eaa6c65f1723af28f9"},
+    {file = "platformdirs-3.1.0-py3-none-any.whl", hash = "sha256:13b08a53ed71021350c9e300d4ea8668438fb0046ab3937ac9a29913a1a1350a"},
+    {file = "platformdirs-3.1.0.tar.gz", hash = "sha256:accc3665857288317f32c7bebb5a8e482ba717b474f3fc1d18ca7f9214be0cef"},
 ]
 
 [package.extras]
@@ -1816,14 +1817,14 @@ reference = "bfsu"
 
 [[package]]
 name = "pre-commit"
-version = "3.1.0"
+version = "3.1.1"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pre_commit-3.1.0-py2.py3-none-any.whl", hash = "sha256:7001dfcd174540658822b1fd3630ceadf4f41375a5d1844b5c3b3830f227348c"},
-    {file = "pre_commit-3.1.0.tar.gz", hash = "sha256:61bd9f1b96d3d1e763f2a9a0f8522aed341646800642ff6803c73fac5781f5b7"},
+    {file = "pre_commit-3.1.1-py2.py3-none-any.whl", hash = "sha256:b80254e60668e1dd1f5c03a1c9e0413941d61f568a57d745add265945f65bfe8"},
+    {file = "pre_commit-3.1.1.tar.gz", hash = "sha256:d63e6537f9252d99f65755ae5b79c989b462d511ebbc481b561db6a297e1e865"},
 ]
 
 [package.dependencies]
@@ -2311,14 +2312,14 @@ reference = "bfsu"
 
 [[package]]
 name = "pytest"
-version = "7.2.1"
+version = "7.2.2"
 description = "pytest: simple powerful testing with Python"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pytest-7.2.1-py3-none-any.whl", hash = "sha256:c7c6ca206e93355074ae32f7403e8ea12163b1163c976fee7d4d84027c162be5"},
-    {file = "pytest-7.2.1.tar.gz", hash = "sha256:d45e0952f3727241918b8fd0f376f5ff6b301cc0777c6f9a556935c92d8a7d42"},
+    {file = "pytest-7.2.2-py3-none-any.whl", hash = "sha256:130328f552dcfac0b1cec75c12e3f005619dc5f874f0a06e8ff7263f0ee6225e"},
+    {file = "pytest-7.2.2.tar.gz", hash = "sha256:c99ab0c73aceb050f68929bc93af19ab6db0558791c6a0715723abe9d0ade9d4"},
 ]
 
 [package.dependencies]
@@ -3184,14 +3185,14 @@ reference = "bfsu"
 
 [[package]]
 name = "trame-simput"
-version = "2.2.6"
+version = "2.3.1"
 description = "Simput implementation for trame"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "trame-simput-2.2.6.tar.gz", hash = "sha256:a57aebe171175a15cbd95de8d94369cf2ec9ca29aa7d86cc4846fcf68a039916"},
-    {file = "trame_simput-2.2.6-py3-none-any.whl", hash = "sha256:8ea2bf78452e4a7f3462c10beb4fee1112caefdee7fbd0553182924aa7fcb657"},
+    {file = "trame-simput-2.3.1.tar.gz", hash = "sha256:14033c29540ba410052c5eaea14187dd4555cad99c69a3dec06ec1384393cbbf"},
+    {file = "trame_simput-2.3.1-py3-none-any.whl", hash = "sha256:844ef695bc5edeb4945614b7e3cd47f7e14801a7dd641ef3f67f59ddb66f5c25"},
 ]
 
 [package.dependencies]
@@ -3225,14 +3226,14 @@ reference = "bfsu"
 
 [[package]]
 name = "trame-vtk"
-version = "2.2.1"
+version = "2.2.3"
 description = "VTK widgets for trame"
 category = "dev"
 optional = false
 python-versions = "*"
 files = [
-    {file = "trame-vtk-2.2.1.tar.gz", hash = "sha256:44270c8f3c06b0813104b1c5a0918b15be706f645849ad12800dd7db48c3d8a6"},
-    {file = "trame_vtk-2.2.1-py3-none-any.whl", hash = "sha256:c20b1f82d4c1a0c2bb4f5336c216ee06ec3a10ab86c1a1b344f0b0d6b245a374"},
+    {file = "trame-vtk-2.2.3.tar.gz", hash = "sha256:676a9055bead0ab3fc630bb00e8e9e80a538cc0422c8cb9de7f7d256d13460ce"},
+    {file = "trame_vtk-2.2.3-py3-none-any.whl", hash = "sha256:24a7170b5ddfa3064a0ee356f815ed253c987441845c703e88ca805953175131"},
 ]
 
 [package.dependencies]
@@ -3502,14 +3503,14 @@ reference = "bfsu"
 
 [[package]]
 name = "virtualenv"
-version = "20.19.0"
+version = "20.20.0"
 description = "Virtual Python Environment builder"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "virtualenv-20.19.0-py3-none-any.whl", hash = "sha256:54eb59e7352b573aa04d53f80fc9736ed0ad5143af445a1e539aada6eb947dd1"},
-    {file = "virtualenv-20.19.0.tar.gz", hash = "sha256:37a640ba82ed40b226599c522d411e4be5edb339a0c0de030c0dc7b646d61590"},
+    {file = "virtualenv-20.20.0-py3-none-any.whl", hash = "sha256:3c22fa5a7c7aa106ced59934d2c20a2ecb7f49b4130b8bf444178a16b880fa45"},
+    {file = "virtualenv-20.20.0.tar.gz", hash = "sha256:a8a4b8ca1e28f864b7514a253f98c1d62b64e31e77325ba279248c65fb4fcef4"},
 ]
 
 [package.dependencies]
