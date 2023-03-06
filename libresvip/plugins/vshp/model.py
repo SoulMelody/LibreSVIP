@@ -12,12 +12,28 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
+from construct import Optional as CSOptional
 
 Int32ul = BytesInteger(4, swapped=True, signed=False)
 
+VocalShifterLabel = Struct(
+    "start_tick" / Int32ul,
+    "end_tick" / Int32ul,
+    "index" / Int32ul,
+    "padding" / Bytes(20),
+    "name" / PaddedString(64, "ascii"),
+)
+
+
+VocalShifterLabels = Struct(
+    "magic" / Const(b"Labl"),
+    "size" / Int32ul,
+    "labels" / VocalShifterLabel[this.size // VocalShifterLabel.sizeof()],
+)
+
 
 VocalShifterNote = Struct(
-    "start_time" / Int32ul,
+    "start_tick" / Int32ul,
     "length" / Int32ul,
     "pitch" / Int32ul,
     "padding" / Padding(20),
@@ -87,7 +103,7 @@ VocalShifterTemperament = CSEnum(
 VocalShifterPatternHeader = Struct(
     "magic" / Const(b"Itmp"),
     "size" / Int32ul,
-    "length" / Int32ul,
+    "sample_count" / Int32ul,
     "sample_rate" / Int32ul,
     "channels" / Int32ul,
     "pattern_type" / VocalShifterPatternType,
@@ -108,7 +124,8 @@ VocalShifterPatternData = Struct(
     "points" / VocalShifterControlPoint[this.header.points_count],
     "start_time" / VocalShifterTime,
     "end_time" / VocalShifterTime,
-    "note" / VocalShifterNotes,
+    "notes" / VocalShifterNotes,
+    "labels" / CSOptional(VocalShifterLabels),
 )
 
 VocalShifterPatternMetadata = Struct(
@@ -125,12 +142,25 @@ VocalShifterPatternMetadata = Struct(
     "padding2" / Bytes(16),
     "modified_base_freq" / Float64l,
     "is_sharp" / Int32ul,
-    "reserved" / Bytes(180),
+    "mrp_auto_set" / Int32ul,
+    "reserved" / Bytes(176),
 )
 
 VocalShifterPattern = Struct(
     "metadata" / VocalShifterPatternMetadata,
     "data" / VocalShifterPatternData,
+)
+
+VocalShifterTrackColor = CSEnum(
+    Int32ul,
+    Red=0,
+    Orange=1,
+    Yellow=2,
+    Green=3,
+    LightBlue=4,
+    Blue=5,
+    Purple=6,
+    Pink=7,
 )
 
 VocalShifterTrackMetadata = Struct(
@@ -142,7 +172,7 @@ VocalShifterTrackMetadata = Struct(
     "mute" / Int32ul,
     "solo" / Int32ul,
     "phase_pre" / Int32ul,
-    "color_index" / Int32ul,
+    "color" / VocalShifterTrackColor,
     "phase_next" / Int32ul,
     "morph_group" / Int32ul,
     "mute_flag" / Int32ul,
