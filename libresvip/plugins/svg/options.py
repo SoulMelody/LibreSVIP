@@ -62,3 +62,10 @@ class OutputOptions(BaseSettings):
         description="CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。",
     )
     track_index: int = Field(default=-1, title="演唱轨序号<", description="从0开始，-1表示自动选择")
+    show_grid: bool = Field(default=False, title="显示网格线")
+    grid_color: Color = Field(
+        "#CCCCCC",
+        title="网格线颜色",
+        description="CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。",
+    )
+    grid_stroke_width: int = Field(1, title="网格线宽度", description="单位：像素。")
