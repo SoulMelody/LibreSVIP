@@ -117,6 +117,14 @@ VocalShifterPatternHeader = Struct(
     "heq" / Int16sl[16],
 )
 
+
+VocalShifterSpectrumData = Struct(
+    "magic" / Const(b"Spct"),
+    "size" / Int32ul,
+    "data" / Bytes(this.size),
+)
+
+
 VocalShifterPatternData = Struct(
     "magic" / Const(b"ITMD"),
     "size" / Int32ul,
@@ -124,6 +132,7 @@ VocalShifterPatternData = Struct(
     "points" / VocalShifterControlPoint[this.header.points_count],
     "start_time" / VocalShifterTime,
     "end_time" / VocalShifterTime,
+    "spectrum" / CSOptional(VocalShifterSpectrumData),
     "notes" / VocalShifterNotes,
     "labels" / CSOptional(VocalShifterLabels),
 )
