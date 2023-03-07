@@ -140,8 +140,10 @@ VocalShifterPatternData = Struct(
 VocalShifterPatternMetadata = Struct(
     "magic" / Const(b"ITMP"),
     "size" / Int32ul,
-    "path" / Bytes(256),
-    "padding1" / Bytes(12),
+    "path_and_ext" / Bytes(256),
+    "padding1" / Bytes(4),
+    "track_index" / Int32ul,
+    "padding2" / Bytes(4),
     "offset_correction" / Int32ul,
     "offset_samples" / Float64l,
     "measure_offset" / Float64l,
@@ -153,11 +155,6 @@ VocalShifterPatternMetadata = Struct(
     "is_sharp" / Int32ul,
     "mrp_auto_set" / Int32ul,
     "reserved" / Bytes(176),
-)
-
-VocalShifterPattern = Struct(
-    "metadata" / VocalShifterPatternMetadata,
-    "data" / VocalShifterPatternData,
 )
 
 VocalShifterTrackColor = CSEnum(
@@ -189,12 +186,6 @@ VocalShifterTrackMetadata = Struct(
 )
 
 
-VocalShifterTrack = Struct(
-    "metadata" / VocalShifterTrackMetadata,
-    "patterns" / GreedyRange(VocalShifterPattern),
-)
-
-
 VocalShifterProjectMetadata = Struct(
     "magic" / Const(b"PRJP"),
     "size" / Int32ul,
@@ -219,5 +210,7 @@ VocalShifterProjectData = Struct(
     "version" / Bytes(8),
     "size" / Int32ul,
     "project_metadata" / VocalShifterProjectMetadata,
-    "tracks" / VocalShifterTrack[this.project_metadata.track_count],
+    "track_metadatas" / VocalShifterTrackMetadata[this.project_metadata.track_count],
+    "pattern_metadatas" / GreedyRange(VocalShifterPatternMetadata),
+    "pattern_datas" / VocalShifterPatternData[lambda this: len(this.pattern_metadatas)],
 )

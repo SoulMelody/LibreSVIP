@@ -6,7 +6,6 @@ from pprint import pprint
 from rich import print
 
 from libresvip.extension.manager import plugin_registry
-from libresvip.model.base import Project
 
 
 def test_ust_write(shared_datadir):
@@ -25,6 +24,18 @@ def test_nn_read(shared_datadir):
     proj = NNModel.model_from_file(proj_path, encoding="utf-8")
     for note in proj.notes:
         print(len(note.dynamics.points))
+
+
+def test_vshp_read(shared_datadir):
+    from libresvip.plugins.vshp.model import VocalShifterProjectData
+
+    proj_path = shared_datadir / "test.vshp"
+    vshp_data = VocalShifterProjectData.parse_file(proj_path)
+    path_content = (
+        vshp_data.pattern_metadatas[0].path_and_ext.split(b"\x00", 1)[0].decode("gbk")
+    )
+    normlized_path = pathlib.PureWindowsPath(path_content).as_posix()
+    print(normlized_path)
 
 
 def test_dv_read(shared_datadir):
@@ -196,8 +207,8 @@ def test_svp_read(shared_datadir, capsys):
 def test_svp_write(shared_datadir, capsys):
     with capsys.disabled():
         svp_plugin = plugin_registry["svp"].plugin_object
-        proj_path = "./test.json"
-        proj = Project.parse_file(proj_path)
+        proj_path = shared_datadir / "test.svp"
+        proj = svp_plugin.load(proj_path, None)
         svp_plugin.dump("./test.svp", proj, None)
 
 
