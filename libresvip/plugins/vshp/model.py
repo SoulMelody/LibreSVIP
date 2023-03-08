@@ -106,7 +106,7 @@ VocalShifterPatternHeader = Struct(
     "sample_rate" / Int32ul,
     "channels" / Int32ul,
     "pattern_type" / VocalShifterPatternType,
-    "hop_length" / Int32ul,
+    "frame_length" / Int32ul, # hop_length = sample_rate / frame_length
     "points_count" / Int32ul,
     "padding1" / Bytes(24),
     "analysis_method" / VocalShifterAnalysisMethod,
