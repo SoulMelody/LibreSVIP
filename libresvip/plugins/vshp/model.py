@@ -106,9 +106,12 @@ VocalShifterPatternHeader = Struct(
     "sample_rate" / Int32ul,
     "channels" / Int32ul,
     "pattern_type" / VocalShifterPatternType,
-    "frame_length" / Int32ul, # hop_length = sample_rate / frame_length
+    "frame_length" / Int32ul,  # hop_length = sample_rate / frame_length
     "points_count" / Int32ul,
-    "padding1" / Bytes(24),
+    "padding1" / Bytes(8),
+    "key_min" / Int16ul,
+    "key_scale" / Int16ul,  # key_max = key_min + key_scale - 1
+    "padding2" / Bytes(12),
     "analysis_method" / VocalShifterAnalysisMethod,
     "reserved" / Bytes(110),
     "eq1" / Int16sl[16],
@@ -210,6 +213,7 @@ VocalShifterProjectData = Struct(
     "size" / Int32ul,
     "project_metadata" / VocalShifterProjectMetadata,
     "track_metadatas" / VocalShifterTrackMetadata[this.project_metadata.track_count],
-    "pattern_metadatas" / VocalShifterPatternMetadata[this.project_metadata.pattern_count],
+    "pattern_metadatas"
+    / VocalShifterPatternMetadata[this.project_metadata.pattern_count],
     "pattern_datas" / VocalShifterPatternData[this.project_metadata.pattern_count],
 )
