@@ -3,16 +3,16 @@ from construct import (
     BytesInteger,
     Const,
     Float64l,
+    If,
     Int16sl,
     Int16ul,
     PaddedString,
-    Padding,
     Struct,
     this,
 )
 from construct import Enum as CSEnum
-from construct import Optional as CSOptional
 
+Int32sl = BytesInteger(4, swapped=True, signed=True)
 Int32ul = BytesInteger(4, swapped=True, signed=False)
 
 VocalShifterLabel = Struct(
@@ -27,7 +27,7 @@ VocalShifterLabel = Struct(
 VocalShifterLabels = Struct(
     "magic" / Const(b"Labl"),
     "size" / Int32ul,
-    "labels" / VocalShifterLabel[this.size // VocalShifterLabel.sizeof()],
+    "labels" / VocalShifterLabel[this._.header.label_count],
 )
 
 
@@ -35,14 +35,14 @@ VocalShifterNote = Struct(
     "start_tick" / Int32ul,
     "length" / Int32ul,
     "pitch" / Int32ul,
-    "padding" / Padding(20),
+    "padding" / Bytes(20),
 )
 
 
 VocalShifterNotes = Struct(
     "magic" / Const(b"Note"),
     "size" / Int32ul,
-    "notes" / VocalShifterNote[this.size // VocalShifterNote.sizeof()],
+    "notes" / VocalShifterNote[this._.header.notes_count],
 )
 
 
@@ -57,7 +57,7 @@ VocalShifterControlPoint = Struct(
     "magic" / Const(b"Ctrp"),
     "size" / Int32ul,
     "pit_array" / Int16ul[4],
-    "padding1" / Padding(12),
+    "padding1" / Bytes(12),
     "ori_pit" / Int16ul,
     "pit" / Int16ul,
     "frm" / Int16sl,
@@ -68,9 +68,9 @@ VocalShifterControlPoint = Struct(
     "dyn" / Float64l,
     "vol" / Float64l,
     "pan" / Float64l,
-    "padding2" / Padding(18),
+    "padding2" / Bytes(18),
     "heq" / Int16sl,
-    "padding3" / Padding(12),
+    "padding3" / Bytes(12),
 )
 
 VocalShifterPatternType = CSEnum(
@@ -106,14 +106,23 @@ VocalShifterPatternHeader = Struct(
     "sample_rate" / Int32ul,
     "channels" / Int32ul,
     "pattern_type" / VocalShifterPatternType,
-    "frame_length" / Int32ul,  # hop_length = sample_rate / frame_length
+    "frame_length" / Int32ul,
     "points_count" / Int32ul,
     "padding1" / Bytes(8),
     "key_min" / Int16ul,
-    "key_scale" / Int16ul,  # key_max = key_min + key_scale - 1
+    "key_scale" / Int16ul,  # key_max = key_min + key_scale
     "padding2" / Bytes(12),
     "analysis_method" / VocalShifterAnalysisMethod,
-    "reserved" / Bytes(110),
+    "padding3" / Bytes(78),
+    "spectrum_key_min" / Int16ul,
+    "spectrum_key_scale" / Int16ul,
+    "spectrum_points_density" / Int16ul,
+    "spectrum_unknown1" / Int16ul,
+    "spectrum_points_count" / Int32ul,
+    "spectrum_unknown2" / Int32ul,
+    "notes_count" / Int32ul,
+    "label_count" / Int32ul,
+    "padding4" / Bytes(8),
     "eq1" / Int16sl[16],
     "eq2" / Int16sl[16],
     "heq" / Int16sl[16],
@@ -123,7 +132,12 @@ VocalShifterPatternHeader = Struct(
 VocalShifterSpectrumData = Struct(
     "magic" / Const(b"Spct"),
     "size" / Int32ul,
-    "data" / Bytes(this.size),
+    "data"
+    / Int16ul[
+        this._.header.spectrum_points_count
+        * this._.header.spectrum_points_density
+        * this._.header.spectrum_key_scale
+    ],
 )
 
 
@@ -134,9 +148,13 @@ VocalShifterPatternData = Struct(
     "points" / VocalShifterControlPoint[this.header.points_count],
     "start_time" / VocalShifterTime,
     "end_time" / VocalShifterTime,
-    "spectrum" / CSOptional(VocalShifterSpectrumData),
+    "spectrum"
+    / If(
+        this.header.spectrum_points_count > 0,
+        VocalShifterSpectrumData,
+    ),
     "notes" / VocalShifterNotes,
-    "labels" / CSOptional(VocalShifterLabels),
+    "labels" / If(this.header.label_count > 0, VocalShifterLabels),
 )
 
 VocalShifterPatternMetadata = Struct(
@@ -146,7 +164,7 @@ VocalShifterPatternMetadata = Struct(
     "pattern_index" / Int32ul,
     "track_index" / Int32ul,
     "padding1" / Bytes(4),
-    "offset_correction" / Int32ul,
+    "offset_correction" / Int32sl,
     "offset_samples" / Float64l,
     "measure_offset" / Float64l,
     "base_freq" / Float64l,

@@ -26,6 +26,7 @@ def _reload():
 def main(**kwargs):
     # Get or create server
     server = get_server()
+    server.client_type = "vue2"
     server.controller.on_server_reload.add(_reload)
 
     init_server(server)

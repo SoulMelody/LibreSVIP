@@ -11,7 +11,7 @@ confz = "^1.8.1"
 loguru = "^0.6.0"
 more-itertools = "^9.1.0"
 platformdirs = "^3.1.0"
-portion = "^2.3.1"
+portion = "^2.4.0"
 pydantic = "^1.10.5"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
@@ -53,7 +53,7 @@ construct-typing = "^0.5.5"
 xsdata-pydantic = "^22.10"
 
 [tool.poetry.group.yaml.dependencies]
-pydantic-yaml = { extras = ["pyyaml"], version = "^0.10.0" }
+pydantic-yaml = { extras = ["pyyaml"], version = "^0.11.1" }
 
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
@@ -69,13 +69,13 @@ imageio-ffmpeg = "^0.4.8"
 pytest = "^7.2.2"
 pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
-pre-commit = "^3.1.1"
+pre-commit = "^3.2.0"
 poethepoet = "^0.18.1"
-ruff = "^0.0.252"
+ruff = "^0.0.257"
 xsdata = { extras = ["cli"], version = "^22.12" }
 datamodel-code-generator = "^0.17.1"
 black = "^23.1.0"
-mypy = "^1.0.1"
+mypy = "^1.1.1"
 
 [tool.poe.env]
 PYTHONUTF8 = "1"

@@ -85,7 +85,7 @@ def initialize(server: Server):
                 html.Span(v_text="translations[lang]['About']")
             with vuetify.VMenu(offset_y=True, transition="scale-transition"):
                 with vuetify.Template(v_slot_activator="{ on }"):
-                    with vuetify.VBtn(text=True, v_slot="activator", v_on="on"):
+                    with vuetify.VBtn(text=True, v_on="on"):
                         vuetify.VIcon("mdi-translate")
                         html.Span(v_text="lang")
                         vuetify.VIcon("mdi-menu-down", small=True)

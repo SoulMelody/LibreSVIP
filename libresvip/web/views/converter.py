@@ -295,7 +295,8 @@ def initialize(server: Server):
             future_to_path = {}
             for each in state.files_to_convert:
                 input_path = tmp_dir / each["name"]
-                input_path.write_bytes(each["content"])
+                input_content = b''.join(each["content"]) if isinstance(each["content"], list) else each["content"]
+                input_path.write_bytes(input_content)
                 input_path = str(input_path)
                 output_path = tempfile.mktemp(
                     suffix=f".{state.output_format}", dir=state.temp_dir
