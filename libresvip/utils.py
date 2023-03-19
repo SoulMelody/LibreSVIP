@@ -16,15 +16,19 @@ def ensure_path(func):
     return wrapper
 
 
-@ensure_path
-def read_file(path: pathlib.Path) -> str:
-    content = path.read_bytes()
+def to_unicode(content: bytes) -> str:
     guessed_charset = charset_normalizer.detect(content)
     if guessed_charset["encoding"] is None:
         encoding = "utf-8"
     else:
         encoding = guessed_charset["encoding"]
     return content.decode(encoding)
+
+
+@ensure_path
+def read_file(path: pathlib.Path) -> str:
+    content = path.read_bytes()
+    return to_unicode(content)
 
 
 def find_index(tempo_list: List, pred: Callable) -> int:
