@@ -10,13 +10,13 @@ charset-normalizer = "^3.1.0"
 confz = "^1.8.1"
 loguru = "^0.6.0"
 more-itertools = "^9.1.0"
-platformdirs = "^3.1.0"
+platformdirs = "^3.2.0"
 portion = "^2.4.0"
-pydantic = "^1.10.5"
+pydantic = "^1.10.7"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
-regex = "^2022.10.31"
-setuptools = "^67.5.1"
+regex = "^2023.3.23"
+setuptools = "^67.3.2"
 typer = { extras = ["all"], version = "^0.7.0" }
 wanakana-python = "^1.2.2"
 yapsy = "^1.12.2"
@@ -24,10 +24,10 @@ yapsy = "^1.12.2"
 [tool.poetry.group.webui.dependencies]
 trame = "^2.3.2"
 
-[tool.poetry.group.desktop.dependencies]
+[tool.poetry.group.linux_desktop.dependencies]
 pywebview = "^4.0.2"
-qtpy = { version = "^2.3.0", markers = "sys_platform == 'linux'" }
-PySide6 = { version = "^6.4.2", markers = "sys_platform == 'linux'" }
+qtpy = { version = "^2.3.1", markers = "sys_platform == 'linux'" }
+PySide6 = { version = "^6.4.3", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.group.ujson.dependencies]
 ujson = "^5.7.0"
@@ -44,7 +44,7 @@ mido = "^1.2.10"
 
 [tool.poetry.group.subtitle.dependencies]
 pysrt = "^1.1.2"
-ass = "^0.5.2"
+ass = "^0.5.3"
 
 [tool.poetry.group.binary.dependencies]
 construct-typing = "^0.5.5"
@@ -53,7 +53,7 @@ construct-typing = "^0.5.5"
 xsdata-pydantic = "^22.10"
 
 [tool.poetry.group.yaml.dependencies]
-pydantic-yaml = { extras = ["pyyaml"], version = "^0.11.1" }
+pydantic-yaml = { extras = ["pyyaml"], version = "^0.11.2" }
 
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
@@ -69,13 +69,14 @@ imageio-ffmpeg = "^0.4.8"
 pytest = "^7.2.2"
 pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
-pre-commit = "^3.2.0"
+pre-commit = "^3.2.1"
 poethepoet = "^0.18.1"
-ruff = "^0.0.257"
+ruff = "^0.0.259"
 xsdata = { extras = ["cli"], version = "^22.12" }
 datamodel-code-generator = "^0.17.1"
-black = "^23.1.0"
+black = "^23.3.0"
 mypy = "^1.1.1"
+sourcery = "^1.1.0"
 
 [tool.poe.env]
 PYTHONUTF8 = "1"
@@ -128,9 +129,9 @@ fix = true
 known-first-party = ['libresvip', 'tests']
 
 [[tool.poetry.source]]
-name = "bfsu"
+name = "aliyun"
 default = true
-url = "https://mirrors.bfsu.edu.cn/pypi/web/simple/"
+url = "https://mirrors.aliyun.com/pypi/simple/"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
