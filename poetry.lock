@@ -41,15 +41,14 @@ reference = "aliyun"
 
 [[package]]
 name = "argcomplete"
-version = "2.1.2"
+version = "3.0.5"
 description = "Bash tab completion for argparse"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-lint = ["flake8", "mypy"]
-test = ["coverage", "flake8", "mypy", "pexpect", "wheel"]
+test = ["coverage", "mypy", "pexpect", "ruff", "wheel"]
 
 [package.source]
 type = "legacy"
@@ -361,14 +360,14 @@ reference = "aliyun"
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.17.1"
+version = "0.17.2"
 description = "Datamodel Code Generator"
 category = "dev"
 optional = false
 python-versions = ">=3.7,<4.0"
 
 [package.dependencies]
-argcomplete = ">=1.10,<3.0"
+argcomplete = ">=1.10,<4.0"
 black = ">=19.10b0"
 genson = ">=1.2.1,<2.0"
 inflect = ">=4.1.0,<6.0"
@@ -1984,7 +1983,7 @@ reference = "aliyun"
 
 [[package]]
 name = "trame-vtk"
-version = "2.4.1"
+version = "2.4.2"
 description = "VTK widgets for trame"
 category = "dev"
 optional = false
@@ -2338,7 +2337,7 @@ reference = "aliyun"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9,<3.12"
-content-hash = "732a528a36b525b00b993e4e0bd59e4334d4157835537c9735c31d97818f50cc"
+content-hash = "f6a1f8c9e8171c871d8d810fba3ba31ee4af6f962ec5a5ed64d82b0ea36deea9"
 
 [metadata.files]
 aiohttp = [
@@ -2435,8 +2434,8 @@ aiosignal = [
     {file = "aiosignal-1.3.1.tar.gz", hash = "sha256:54cd96e15e1649b75d6c87526a6ff0b6c1b0dd3459f43d9ca11d48c339b68cfc"},
 ]
 argcomplete = [
-    {file = "argcomplete-2.1.2-py3-none-any.whl", hash = "sha256:4ba9cdaa28c361d251edce884cd50b4b1215d65cdc881bd204426cdde9f52731"},
-    {file = "argcomplete-2.1.2.tar.gz", hash = "sha256:fc82ef070c607b1559b5c720529d63b54d9dcf2dcfc2632b10e6372314a34457"},
+    {file = "argcomplete-3.0.5-py3-none-any.whl", hash = "sha256:e858595eee91732440e7291dbb49ae73d3fb9bfcc073429a16d54b7b374a7a3d"},
+    {file = "argcomplete-3.0.5.tar.gz", hash = "sha256:fe3ce77125f434a0dd1bffe5f4643e64126d5731ce8d173d36f62fa43d6eb6f7"},
 ]
 arpeggio = [
     {file = "Arpeggio-2.0.0-py2.py3-none-any.whl", hash = "sha256:448e332deb0e9ccd04046f1c6c14529d197f41bc2fdb3931e43fc209042fbdd3"},
@@ -2671,8 +2670,8 @@ construct-typing = [
     {file = "construct_typing-0.5.5-py3-none-any.whl", hash = "sha256:bfce2fa170373abe782c2ebaa7f52e14e8f7863a437b7ab63bf74287f922a655"},
 ]
 datamodel-code-generator = [
-    {file = "datamodel_code_generator-0.17.1-py3-none-any.whl", hash = "sha256:8e3bf374dff69ce65e07feed3322f5b83432cc7d3974169865ede69c4b98bf92"},
-    {file = "datamodel_code_generator-0.17.1.tar.gz", hash = "sha256:a22e1f71b76c149a0fbb8214f7b1e4926c01bf5bc94ce5264a932d65599fb4a9"},
+    {file = "datamodel_code_generator-0.17.2-py3-none-any.whl", hash = "sha256:b42b8b4da4055ea96ddf303efecfa37316bb025e88513fffc4dad960cb56b43c"},
+    {file = "datamodel_code_generator-0.17.2.tar.gz", hash = "sha256:e88e000b254b07937a45902e95c08c9edec21eee3492c3a3ad4b6a4115345924"},
 ]
 deprecated = [
     {file = "Deprecated-1.2.13-py2.py3-none-any.whl", hash = "sha256:64756e3e14c8c5eea9795d93c524551432a0be75629f8f29e67ab8caf076c76d"},
@@ -3570,8 +3569,8 @@ trame-vega = [
     {file = "trame_vega-2.0.2-py3-none-any.whl", hash = "sha256:142e9a0b03e0bd761f6a89999a876f4a088e1c2b3ddcfbf84f368b4edc24af11"},
 ]
 trame-vtk = [
-    {file = "trame-vtk-2.4.1.tar.gz", hash = "sha256:463205cce00e784b39a5a9283afe3528a5dedd1d7be36feda6a0a036bc629aa5"},
-    {file = "trame_vtk-2.4.1-py3-none-any.whl", hash = "sha256:a5923d5c939456e597245416fb2ab592a777784cd9a74b3e72e1fdc887d011d3"},
+    {file = "trame-vtk-2.4.2.tar.gz", hash = "sha256:f8567118157b6baad8445fe5f4ce07225bc4a3e0a87edd8f555320eeb0c87702"},
+    {file = "trame_vtk-2.4.2-py3-none-any.whl", hash = "sha256:9dd8d21d832f254c5e8f011e7b040e155720fa5384ae4adc1ec6c6bce9a3b938"},
 ]
 trame-vuetify = [
     {file = "trame-vuetify-2.2.4.tar.gz", hash = "sha256:41316c16cf6af2446e980a0bbc32a549209bb27cc5fd4d18b87945e607ccc69a"},

@@ -16,7 +16,7 @@ pydantic = "^1.10.7"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
 regex = "^2023.3.23"
-setuptools = "^67.3.2"
+setuptools = "^67.6.1"
 typer = { extras = ["all"], version = "^0.7.0" }
 wanakana-python = "^1.2.2"
 yapsy = "^1.12.2"
@@ -24,7 +24,7 @@ yapsy = "^1.12.2"
 [tool.poetry.group.webui.dependencies]
 trame = "^2.3.2"
 
-[tool.poetry.group.linux_desktop.dependencies]
+[tool.poetry.group.desktop.dependencies]
 pywebview = "^4.0.2"
 qtpy = { version = "^2.3.1", markers = "sys_platform == 'linux'" }
 PySide6 = { version = "^6.4.3", markers = "sys_platform == 'linux'" }
@@ -73,7 +73,7 @@ pre-commit = "^3.2.1"
 poethepoet = "^0.18.1"
 ruff = "^0.0.259"
 xsdata = { extras = ["cli"], version = "^22.12" }
-datamodel-code-generator = "^0.17.1"
+datamodel-code-generator = "^0.17.2"
 black = "^23.3.0"
 mypy = "^1.1.1"
 sourcery = "^1.1.0"
