@@ -58,13 +58,19 @@ def test_mtp_read(shared_datadir):
 
 
 def test_tssln_read(shared_datadir):
-    from popsicle import juce, juce_data_structures  # noqa: F401
-
-    input_stream = juce.FileInputStream(
-        juce.File(str((shared_datadir / "test.tssln").resolve()))
-    )
-    value_tree = juce.ValueTree.readFromStream(input_stream)
-    print(value_tree.toXmlString())
+    from libresvip.plugins.tssln.model import JUCENode, VoiSonaTrackTypes
+    
+    value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
+    for child in value_tree.children:
+        if child.name == "Tracks":
+            for track in child.children:
+                for attr in track.attrs:
+                    if attr.name == "Type":
+                        if attr.value != int(VoiSonaTrackTypes.SINGING):
+                            break
+                    elif attr.name == "PluginData":
+                        plugin_data = JUCENode.parse(attr.value[48:])
+                        print(plugin_data)
 
 
 def test_ustx_read(shared_datadir, capsys):
