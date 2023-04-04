@@ -1,7 +1,8 @@
 import base64
-import imp
+import importlib
 import pathlib
 import sys
+import types
 
 from pkg_resources.extern.packaging.version import Version
 from yapsy.AutoInstallPluginManager import AutoInstallPluginManager
@@ -15,7 +16,17 @@ from .base import ReadOnlyConverterBase, SVSConverterBase, WriteOnlyConverterBas
 plugin_namespace = "libresvip.plugins"
 
 
-def _importModule(plugin_module_name, candidate_filepath):
+def load_module(name: str, plugin_path: str) -> types.ModuleType:
+    spec = importlib.util.spec_from_file_location(name, plugin_path)
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)
+    except FileNotFoundError as e:
+        raise ImportError(f"{e.strerror}: {plugin_path}") from e
+    return module
+
+
+def _importModule(plugin_module_name: str, candidate_filepath: str) -> types.ModuleType:
     """
     Import a module, trying either to find it as a single file or as a directory.
 
@@ -25,32 +36,16 @@ def _importModule(plugin_module_name, candidate_filepath):
     candidate_filepath = pathlib.Path(candidate_filepath)
 
     if candidate_filepath.is_dir():
-        candidate_module = imp.load_module(
-            plugin_module_name,
-            None,
-            str(candidate_filepath),
-            ("py", "r", imp.PKG_DIRECTORY),
-        )
+        candidate_module = load_module(plugin_module_name, candidate_filepath)
     else:
         candidate_filepath = candidate_filepath.with_suffix(".py")
         plugin_dirname = candidate_filepath.parent.name
         plugin_package = f"{plugin_namespace}.{plugin_dirname}"
         package_path = candidate_filepath.parent / "__init__.py"
         if plugin_package not in sys.modules:
-            with open(package_path, "r") as package_file:
-                sys.modules[plugin_package] = imp.load_module(
-                    plugin_package,
-                    package_file,
-                    str(package_path),
-                    ("py", "r", imp.PY_SOURCE),
-                )
-        with open(candidate_filepath, "r") as plugin_file:
-            candidate_module = imp.load_module(
-                plugin_module_name,
-                plugin_file,
-                str(candidate_filepath),
-                ("py", "r", imp.PY_SOURCE),
-            )
+            sys.modules[plugin_package] = load_module(plugin_package, package_path)
+
+        candidate_module = load_module(plugin_module_name, candidate_filepath)
     return candidate_module
 
 

@@ -45,9 +45,7 @@ class DiffSingerParser:
         all_notes = []
         for ds_item in ds_items:
             notes = []
-            lyrics = [
-                word for word in ds_item.text.split(" ") if word not in ["SP", "AP"]
-            ]
+            lyrics = [word for word in ds_item.text if word not in ["SP", "AP"]]
             cur_time = self.synchronizer.get_actual_ticks_from_secs(ds_item.offset)
             prev_is_breath = False
             phone_complete = True
@@ -57,21 +55,19 @@ class DiffSingerParser:
                 note,
                 is_slur,
             ) in zip(
-                ds_item.ph_seq.split(" "),
-                ds_item.ph_dur.split(" "),
-                ds_item.note_seq.split(" "),
-                ds_item.is_slur_seq.split(" "),
+                ds_item.ph_seq,
+                ds_item.ph_dur,
+                ds_item.note_seq,
+                ds_item.is_slur_seq,
             ):
-                phone_dur = self.synchronizer.get_actual_ticks_from_secs(
-                    float(phone_dur)
-                )
+                phone_dur = self.synchronizer.get_actual_ticks_from_secs(phone_dur)
                 if phone == "SP":
                     pass
                 elif phone == "AP":
                     prev_is_breath = True
                 else:
                     midi_key = note2midi(note)
-                    if is_slur == "0":
+                    if not is_slur:
                         if not len(notes):
                             notes.append(
                                 Note(
@@ -111,7 +107,7 @@ class DiffSingerParser:
                             else:
                                 notes[-1].length += phone_dur
                                 notes[-1].pronunciation += " " + phone
-                    elif is_slur == "1":
+                    else:
                         phone_str = notes[-1].pronunciation
                         phone_complete = phone_str in opencpop_dict
                         if phone_complete:
@@ -149,7 +145,7 @@ class DiffSingerParser:
         points = Points(__root__=[])
         points.append(Point.start_point())
         for ds_item in ds_items:
-            f0_timestep = float(ds_item.f0_timestep)
+            f0_timestep = ds_item.f0_timestep
             points.append(
                 Point(
                     self.synchronizer.get_actual_ticks_from_secs(ds_item.offset) + 1920,
@@ -165,14 +161,13 @@ class DiffSingerParser:
                         + 1920,
                         round(hz2midi(float(f0)) * 100),
                     )
-                    for i, f0 in enumerate(ds_item.f0_seq.split(" "))
+                    for i, f0 in enumerate(ds_item.f0_seq)
                 ]
             )
             points.append(
                 Point(
                     self.synchronizer.get_actual_ticks_from_secs(
-                        ds_item.offset
-                        + f0_timestep * (len(ds_item.f0_seq.split(" ")) - 1)
+                        ds_item.offset + f0_timestep * (len(ds_item.f0_seq) - 1)
                     )
                     + 1920,
                     -100,
