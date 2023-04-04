@@ -53,6 +53,12 @@ class SpaceSeparatedFloat(SpaceSeparatedString):
     _item_type = float
 
 
+def space_separated_encoder(obj):
+    if isinstance(obj, list):
+        return " ".join(str(x) for x in obj)
+    return obj
+
+
 class DsItem(BaseModel):
     text: SpaceSeparatedString
     ph_seq: SpaceSeparatedString
@@ -72,3 +78,22 @@ class DsItem(BaseModel):
 
 class DsProject(BaseModel):
     __root__: List[DsItem]
+
+    def _iter(
+        self,
+        **kwargs,
+    ):
+        def _convert_value(key, value):
+            if isinstance(value, list):
+                return " ".join(str(x) for x in value)
+            elif isinstance(value, dict):
+                return {k: " ".join(str(x) for x in v) for k, v in value.items()}
+            elif key == "f0_timestep":
+                return str(value)
+            else:
+                return value
+
+        yield "__root__", [
+            {key: _convert_value(key, value) for key, value in item.items()}
+            for item in next(super()._iter(**kwargs))[1]
+        ]

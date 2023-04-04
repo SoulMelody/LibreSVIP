@@ -5,8 +5,8 @@ from construct import (
     Computed,
     CString,
     Float64l,
-    Int8ub,
-    Int64ub,
+    Int8ul,
+    Int64sl,
     LazyBound,
     Struct,
     Switch,
@@ -14,18 +14,18 @@ from construct import (
 )
 from construct import Enum as CSEnum
 
-Int32sb = BytesInteger(4, swapped=False, signed=True)
-Int32ub = BytesInteger(4, swapped=False)
+Int32sl = BytesInteger(4, swapped=True, signed=True)
+Int32ul = BytesInteger(4, swapped=True)
 
 
 VoiSonaTrackTypes = CSEnum(
-    Int32ub,
+    Int32ul,
     SINGING=0,
     INSTRUMENT=1,
 )
 
 VoiSonaTrackFlags = CSEnum(
-    Int32ub,
+    Int32ul,
     NONE=0,
     MUTE=1,
     SOLO=2,
@@ -46,7 +46,7 @@ JUCEVarTypes = CSEnum(
 
 
 JUCECompressedInt = Struct(
-    "size" / Int8ub,
+    "size" / Int8ul,
     "value" / BytesInteger(this.size, swapped=True),
 )
 
@@ -54,10 +54,11 @@ JUCEVariant = Struct(
     "name" / CString("utf-8"),
     "size" / JUCECompressedInt,
     "type" / JUCEVarTypes,
-    "value" / Switch(
+    "value"
+    / Switch(
         this.type,
         {
-            "INT": Int32sb,
+            "INT": Int32sl,
             "BOOL_TRUE": Struct(
                 "value" / Computed(lambda ctx: True),
             ),
@@ -66,7 +67,7 @@ JUCEVariant = Struct(
             ),
             "DOUBLE": Float64l,
             "STRING": CString("utf-8"),
-            "INT64": Int64ub,
+            "INT64": Int64sl,
             "ARRAY": Struct(
                 "size" / JUCECompressedInt,
                 "value" / LazyBound(lambda: JUCEVariant)[this.size.value],

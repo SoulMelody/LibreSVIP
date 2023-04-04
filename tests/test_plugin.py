@@ -59,7 +59,7 @@ def test_mtp_read(shared_datadir):
 
 def test_tssln_read(shared_datadir):
     from libresvip.plugins.tssln.model import JUCENode, VoiSonaTrackTypes
-    
+
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
     for child in value_tree.children:
         if child.name == "Tracks":
@@ -90,7 +90,7 @@ def test_ds_read(shared_datadir, capsys):
     with capsys.disabled():
         proj_path = shared_datadir / "test.ds"
         proj = DsProject.parse_file(proj_path)
-        print(proj)
+        print(proj.json(ensure_ascii=False, indent=2))
 
 
 def test_y77_read(shared_datadir, capsys):
