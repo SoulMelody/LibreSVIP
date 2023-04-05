@@ -25,7 +25,7 @@ def skip_beat_list(
         for beat in beat_list
         if beat.bar_index >= skip_bars
     ]
-    if len(result) == 0 or result[0].bar_index > 0:
+    if not result or result[0].bar_index > 0:
         result.insert(0, beat_list[0].copy(update={"bar_index": 0}))
     return result
 

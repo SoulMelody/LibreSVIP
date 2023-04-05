@@ -1,3 +1,4 @@
+import contextlib
 import dataclasses
 from typing import List, Tuple
 
@@ -112,7 +113,7 @@ class GjgjGenerator:
     def generate_singing_track(
         self, track: SingingTrack, track_index: int
     ) -> GjgjSingingTrack:
-        gjgj_track = GjgjSingingTrack(
+        return GjgjSingingTrack(
             ID=str(track_index),
             Name=singer2id[self.options.singer or track.ai_singer_name],
             MasterVolume=GjgjTrackVolume(Mute=track.mute),
@@ -120,18 +121,16 @@ class GjgjGenerator:
             Tone=self.generate_pitch(track.edited_params.pitch),
             VolumeMap=self.generate_volume(track.edited_params.volume),
         )
-        return gjgj_track
 
     def generate_instrumental_track(
         self, track: InstrumentalTrack, track_index: int
     ) -> GjgjInstrumentalTrack:
-        gjgj_track = GjgjInstrumentalTrack(
+        return GjgjInstrumentalTrack(
             ID=str(track_index),
             Path=track.audio_file_path,
             Offset=self.position_to_time(track.offset),
             MasterVolume=GjgjTrackVolume(Mute=track.mute),
         )
-        return gjgj_track
 
     def position_to_time(self, origin: int) -> int:
         position = origin + self.first_numerator * TICKS_IN_BEAT
@@ -146,21 +145,18 @@ class GjgjGenerator:
         notes = []
         pinyin_list = get_pinyin_series([note.lyric for note in note_list])
         for note, pinyin in zip(note_list, pinyin_list):
-            if note.pronunciation is None:
-                pronunciation = pinyin
-            else:
-                pronunciation = note.pronunciation
+            pronunciation = pinyin if note.pronunciation is None else note.pronunciation
             if pronunciation not in SUPPORTED_PINYIN:
                 pronunciation = ""
-            if note.head_tag == "V":
-                beat_style = GjgjBeatStyle.SP
-            elif note.head_tag == "0":
+            if note.head_tag == "0":
                 beat_style = GjgjBeatStyle.SIL
+            elif note.head_tag == "V":
+                beat_style = GjgjBeatStyle.SP
             else:
                 beat_style = GjgjBeatStyle.NONE
             pre_time, post_time = 0, 0
             if note.edited_phones is not None:
-                try:
+                with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:
                         note_start_pos_in_ticks = (
                             note.start_pos + self.first_numerator * TICKS_IN_BEAT
@@ -193,8 +189,6 @@ class GjgjGenerator:
                             * (2000 / 3)
                             / TICKS_IN_BEAT
                         )
-                except Exception:
-                    pass
             notes.append(
                 GjgjBeatItems(
                     ID=self.max_note_id,
@@ -224,13 +218,13 @@ class GjgjGenerator:
                     ticks_buffer.append(ori_ticks)
                     value_buffer.append(ori_value)
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
-                    for i in range(len(ticks_buffer)):
-                        pitch_points.append(
-                            GjgjPoint(
-                                X=ticks_buffer[i],
-                                Y=value_buffer[i],
-                            )
+                    pitch_points.extend(
+                        GjgjPoint(
+                            X=ticks_buffer[i],
+                            Y=value_buffer[i],
                         )
+                        for i in range(len(ticks_buffer))
+                    )
                     modify_ranges.append(
                         GjgjPoint(
                             X=ticks_buffer[0],
@@ -240,11 +234,10 @@ class GjgjGenerator:
                     ticks_buffer = []
                     value_buffer = []
             ori_prev_ticks = ori_ticks
-        gjgj_pitch = GjgjTone(
+        return GjgjTone(
             Modifys=pitch_points,
             ModifyRanges=modify_ranges,
         )
-        return gjgj_pitch
 
     def generate_volume(self, volume_curve: ParamCurve) -> List[GjgjVolumeMap]:
         volume_curve = volume_curve.reduce_sample_rate(self.options.down_sample)
@@ -254,9 +247,9 @@ class GjgjGenerator:
         prev_ticks = 0
         for volume in volume_curve.points[1:]:
             tick = volume.x
-            ori_value = volume.y
-            value = (ori_value + 1000) / 1000
             if prev_ticks != tick:
+                ori_value = volume.y
+                value = (ori_value + 1000) / 1000
                 if ori_value != 0:
                     ticks_buffer.append(tick)
                     value_buffer.append(value)
@@ -267,13 +260,13 @@ class GjgjGenerator:
                             Volume=1,
                         )
                     )
-                    for i in range(len(ticks_buffer)):
-                        volume_map.append(
-                            GjgjVolumeMap(
-                                Time=ticks_buffer[i],
-                                Volume=value_buffer[i],
-                            )
+                    volume_map.extend(
+                        GjgjVolumeMap(
+                            Time=ticks_buffer[i],
+                            Volume=value_buffer[i],
                         )
+                        for i in range(len(ticks_buffer))
+                    )
                     volume_map.append(
                         GjgjVolumeMap(
                             Time=ticks_buffer[-1] + 5,

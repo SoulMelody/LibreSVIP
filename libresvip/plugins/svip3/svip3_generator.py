@@ -1,3 +1,4 @@
+import contextlib
 import dataclasses
 from typing import List
 from urllib.parse import urljoin
@@ -115,9 +116,7 @@ class Svip3Generator:
 
     @staticmethod
     def to_decibel_volume(volume: float) -> float:
-        if volume > 0:
-            return max(ratio_to_db(volume if volume > 0.01 else 0.01), -70)
-        return -70
+        return max(ratio_to_db(max(volume, 0.01)), -70) if volume > 0 else -70
 
     @staticmethod
     def generate_pan(pan: float) -> float:
@@ -127,7 +126,7 @@ class Svip3Generator:
         self, track: InstrumentalTrack
     ) -> List[Svip3AudioPattern]:
         kwargs = {}
-        try:
+        with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
             audio_segment = AudioSegment.from_file(track.audio_file_path)
             audio_duration_in_secs = audio_segment.duration_seconds
             audio_duration_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
@@ -146,16 +145,12 @@ class Svip3Generator:
             pattern_end = kwargs["real_pos"] + kwargs["play_dur"]
             if pattern_end > self.song_duration:
                 self.song_duration = round(pattern_end + 1920)
-        except (CouldntDecodeError, FileNotFoundError):
-            pass
         patterns = []
         if kwargs:
-            kwargs.update(
-                {
-                    "audio_file_path": track.audio_file_path,
-                    "name": track.title,
-                }
-            )
+            kwargs |= {
+                "audio_file_path": track.audio_file_path,
+                "name": track.title,
+            }
             patterns.append(Svip3AudioPattern(**kwargs))
         return patterns
 

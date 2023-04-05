@@ -80,9 +80,10 @@ class SvipReader(NrbfIOBase):
             return obj.value
         elif "ObjectNullMultiple" in str(obj.record_type_enum):
             return [None] * obj.null_count
-        elif obj.record_type_enum == RecordTypeEnum.ObjectNull or obj.record_type_enum == RecordTypeEnum.MessageEnd:
-            pass
-        else:
+        elif obj.record_type_enum not in [
+            RecordTypeEnum.ObjectNull,
+            RecordTypeEnum.MessageEnd,
+        ]:
             print(obj.record_type_enum, obj.keys())
 
     def read_record(self, record):
@@ -100,18 +101,7 @@ class SvipReader(NrbfIOBase):
             ref["real_obj"] = self.ref_map[ref["id_ref"]]
 
     def read(self, path: pathlib.Path) -> Tuple[str, XSAppModel]:
-        # from pprint import pprint
-        # import json
-
-        # class SkipEncoder(json.JSONEncoder):
-        #     def default(self, o):
-        #         try:
-        #             return super().default(o)
-        #         except:
-        #             return None
-
         self.svip_file = SVIPFile.parse_file(path)
-        # pprint(json.loads(json.dumps(self.svip_file.record_stream, cls=SkipEncoder).replace('"_io": null,', '')))
         self.resolve_references()
 
         for record in self.svip_file.record_stream:

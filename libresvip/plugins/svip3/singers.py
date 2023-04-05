@@ -18,9 +18,7 @@ class XStudio3Singers:
         )
 
     def get_name(self, uuid: str) -> str:
-        if uuid in self.singers:
-            return self.singers[uuid]
-        return ""
+        return self.singers[uuid] if uuid in self.singers else ""
 
     def get_uuid(self, name: str) -> str:
         try:

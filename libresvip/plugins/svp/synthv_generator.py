@@ -1,3 +1,4 @@
+import contextlib
 import dataclasses
 import sys
 from typing import Callable, List, Optional, Set
@@ -83,12 +84,10 @@ class SynthVGenerator:
         else:
             for meter in new_meters:
                 sv_project.time_sig.meter.append(self.generate_meter(meter))
-        track_id = 0
-        for track in project.track_list:
+        for track_id, track in enumerate(project.track_list):
             sv_track = self.generate_track(track)
             sv_track.disp_order = track_id
             sv_project.tracks.append(sv_track)
-            track_id += 1
         return sv_project
 
     @staticmethod
@@ -102,7 +101,6 @@ class SynthVGenerator:
             numerator=signature.numerator,
             denominator=signature.denominator,
         )
-
     def generate_track(self, track: Track) -> Optional[SVTrack]:
         sv_track = SVTrack(
             name=track.title,
@@ -134,10 +132,7 @@ class SynthVGenerator:
                     DEFAULT_LYRIC,
                     note.lyric,
                 )
-                if len(valid_chars) > 0:
-                    return valid_chars[0]
-                else:
-                    return ""
+                return valid_chars[0] if len(valid_chars) > 0 else ""
 
             self.lyrics_pinyin = lyrics2pinyin(
                 [normalize_lyric(note) for note in track.note_list]
@@ -158,15 +153,12 @@ class SynthVGenerator:
                 filename=track.audio_file_path, duration=0
             )
             sv_track.main_ref.blick_offset = self.generate_audio_offset(track.offset)
-            try:
+            with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
                 audio_segment = AudioSegment.from_file(track.audio_file_path)
                 sv_track.main_ref.audio.duration = audio_segment.duration_seconds
-            except (CouldntDecodeError, FileNotFoundError):
-                pass
         else:
             return
         return sv_track
-
     def generate_audio_offset(self, offset: int) -> int:
         if offset >= 0:
             return ticks_to_position(offset)
@@ -175,15 +167,14 @@ class SynthVGenerator:
         res = 0.0
         i = len(self.first_bar_tempo) - 1
         for i in range(len(self.first_bar_tempo) - 1, -1, -1):
-            if actual_pos <= self.first_bar_tempo[i].position:
-                res -= (
-                    (current_pos - self.first_bar_tempo[i].position)
-                    * 120
-                    / self.first_bar_tempo[i].bpm
-                )
-                current_pos = self.first_bar_tempo[i].position
-            else:
+            if actual_pos > self.first_bar_tempo[i].position:
                 break
+            res -= (
+                (current_pos - self.first_bar_tempo[i].position)
+                * 120
+                / self.first_bar_tempo[i].bpm
+            )
+            current_pos = self.first_bar_tempo[i].position
         if i >= 0:
             res -= (current_pos - actual_pos) * 120 / self.first_bar_tempo[i].bpm
         else:
@@ -192,7 +183,7 @@ class SynthVGenerator:
 
     @staticmethod
     def generate_volume(volume):
-        return max(ratio_to_db(volume if volume > 0.06 else 0.06), -24.0)
+        return max(ratio_to_db(max(volume, 0.06)), -24.0)
 
     def generate_params(self, parameters: Params) -> SVParameters:
         return SVParameters(
@@ -282,17 +273,17 @@ class SynthVGenerator:
     @staticmethod
     def generate_note(note: Note) -> SVNote:
         onset = ticks_to_position(note.start_pos)
-        sv_note = SVNote(
+        return SVNote(
             onset=onset,
             pitch=note.key_number,
             lyrics=(
                 note.lyric
-                if note.pronunciation is None or not len(note.pronunciation.strip())
+                if note.pronunciation is None
+                or not len(note.pronunciation.strip())
                 else note.pronunciation
             ),
             duration=ticks_to_position(note.end_pos) - onset,
         )
-        return sv_note
 
     def generate_pitch_diff(self, pos: int, pitch: int) -> float:
         target_note_index = find_last_index(
@@ -329,8 +320,8 @@ class SynthVGenerator:
             return sv_curve
         if self.options.down_sample > 15:
             sv_curve.mode = "cubic"
-        point_list = sv_curve.points
         skipped = 0
+        point_list = sv_curve.points
         if curve.points[0].x == -192000:
             if len(curve.points) == 2 and curve.points[1].x == sys.maxsize // 2:
                 if curve.points[0].y != termination:
@@ -345,10 +336,10 @@ class SynthVGenerator:
             if (
                 valid_index != -1
                 and len(curve.points) > valid_index + 1
-                and not (
-                    curve.points[valid_index].y == termination
-                    and curve.points[valid_index + 1].y == termination
-                    and curve.points[valid_index + 1].x < sys.maxsize // 2
+                and (
+                    curve.points[valid_index].y != termination
+                    or curve.points[valid_index + 1].y != termination
+                    or curve.points[valid_index + 1].x >= sys.maxsize // 2
                 )
             ):
                 skipped = valid_index + 1

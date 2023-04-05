@@ -396,7 +396,7 @@ class SynthVParser:
     def parse_params(
         self, sv_params: SVParameters, master_params: Optional[SVParameters] = None
     ) -> Params:
-        params = Params(
+        return Params(
             Pitch=self.parse_pitch_curve(
                 sv_params.pitch_delta,
                 sv_params.vibrato_env,
@@ -431,7 +431,6 @@ class SynthVParser:
                 master_params.tension if master_params else None,
             ),
         )
-        return params
 
     @staticmethod
     def parse_note(sv_note: SVNote) -> Note:
@@ -440,7 +439,7 @@ class SynthVParser:
             position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         )
         if sv_note.phonemes:
-            note.lyric = DEFAULT_LYRIC
+            note.lyric = sv_note.lyrics
             note.pronunciation = xsampa2pinyin(sv_note.phonemes)
         elif re.match(r"[a-zA-Z]", sv_note.lyrics) is not None:
             note.lyric = DEFAULT_LYRIC
@@ -497,15 +496,14 @@ class SynthVParser:
             if note.pronunciation is not None:
                 lyrics.append(note.pronunciation)
                 continue
-            valid_chars = re.sub(
+            if valid_chars := re.sub(
                 r"[\s\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”0-9a-zA-Z]",
                 DEFAULT_PHONEME,
                 note.lyric,
-            )
-            if valid_chars == "":
-                lyrics.append(DEFAULT_PHONEME)
-            else:
+            ):
                 lyrics.append(valid_chars[0])
+            else:
+                lyrics.append(DEFAULT_PHONEME)
         lyrics_pinyin = lyrics2pinyin(lyrics)
         if not len(note_list):
             return note_list
@@ -522,7 +520,7 @@ class SynthVParser:
                 HeadLengthInSecs=min(1.8, current_duration[0] * current_phone_marks[0]),
             )
 
-        for i in range(0, len(sv_note_list) - 1):
+        for i in range(len(sv_note_list) - 1):
             next_sv_note = sv_note_list[i + 1]
             next_duration = next_sv_note.attributes.dur
             next_phone_marks = default_phone_marks(lyrics_pinyin[i + 1])

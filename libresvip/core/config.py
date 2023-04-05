@@ -25,6 +25,3 @@ if config_path.exists():
     settings = OmegaConf.merge(
         settings, OmegaConf.load(config_path)
     )
-# LibreSvipSettings(
-#     config_sources=ConfZFileSource(file=config_path, optional=True)
-# )

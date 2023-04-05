@@ -1,4 +1,5 @@
 import base64
+import contextlib
 import importlib
 import pathlib
 import sys
@@ -160,11 +161,8 @@ _plugin_manager = PluginManager(
 plugin_manager = AutoInstallPluginManager(decorated_manager=_plugin_manager)
 
 plugin_manager.setInstallDir(str(app_dir.user_config_path / "plugins"))
-try:
+with contextlib.suppress(ValueError):
     plugin_manager.collectPlugins()
-except ValueError:
-    pass
-
 plugin_registry = {
     plugin_info.suffix: plugin_info for plugin_info in plugin_manager.getAllPlugins()
 }
