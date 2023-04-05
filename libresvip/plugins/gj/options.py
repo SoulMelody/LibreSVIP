@@ -1,11 +1,11 @@
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 
 
-class InputOptions(BaseSettings):
+class InputOptions(BaseModel):
     pass
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     down_sample: int = Field(
         default=32,
         title="音量参数平均采样间隔",

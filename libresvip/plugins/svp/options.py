@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 
 
 class BreathOption(Enum):
@@ -43,7 +43,7 @@ class VibratoOption(Enum):
     ] = "hybrid"
 
 
-class InputOptions(BaseSettings):
+class InputOptions(BaseModel):
     instant: bool = Field(
         default=True,
         title="遵循即时音高模式设置",
@@ -65,7 +65,7 @@ class InputOptions(BaseSettings):
     )
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     vibrato: VibratoOption = Field(default=VibratoOption.NONE, title="自动颤音处理方式")
     down_sample: int = Field(
         default=40,

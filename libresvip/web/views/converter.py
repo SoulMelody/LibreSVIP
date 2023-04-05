@@ -341,9 +341,7 @@ def initialize(server: Server):
                 for src_name, tmp_path in state.convert_results.items():
                     src_path = pathlib.Path(src_name)
                     tmp_path = pathlib.Path(tmp_path)
-                    zf.writestr(
-                        src_path.stem + "." + state.output_format, tmp_path.read_bytes()
-                    )
+                    zf.writestr(f"{src_path.stem}.{state.output_format}", tmp_path.read_bytes())
         else:
             tmp_path = list(state.convert_results.values())[0]
             tmp_path = pathlib.Path(tmp_path)

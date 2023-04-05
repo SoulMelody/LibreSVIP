@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 from pydantic.color import Color
 
 
@@ -18,7 +18,7 @@ class TextPositionOption(Enum):
     NONE: Annotated[str, Field(title="不显示")] = "none"
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     pixel_per_beat: int = Field(48, title="每拍长度", description="单位：像素。")
     note_height: int = Field(24, title="音符高度", description="单位：像素。")
     note_round: int = Field(4, title="音符圆角", description="单位：像素。")

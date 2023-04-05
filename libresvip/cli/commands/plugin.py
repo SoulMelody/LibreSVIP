@@ -3,7 +3,11 @@ import pathlib
 from typing import get_args, get_type_hints
 
 import typer
-from pydantic.fields import ModelField
+
+try:
+    from pydantic.fields import ModelField
+except ImportError:
+    from pydantic.fields import Field as ModelField
 from rich.console import Console
 from rich.table import Table
 

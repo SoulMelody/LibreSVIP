@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 
 
 class SplitOption(Enum):
@@ -19,7 +19,7 @@ class SplitOption(Enum):
     ] = 'symbol'
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     offset: int = Field(0, title="偏移量", description="单位为毫秒，正值表示整体提前，负值相反。")
     split_by: SplitOption = Field(title="歌词换行方式", default=SplitOption.BOTH)
     encoding: str = Field(title="文本编码", default="utf-8")

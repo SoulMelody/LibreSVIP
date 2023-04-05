@@ -7,9 +7,9 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 charset-normalizer = "^3.1.0"
-confz = "^1.8.1"
 loguru = "^0.6.0"
 more-itertools = "^9.1.0"
+omegaconf = "^2.3.0"
 platformdirs = "^3.2.0"
 portion = "^2.4.0"
 pydantic = "^1.10.7"
@@ -27,7 +27,7 @@ trame = "^2.3.2"
 [tool.poetry.group.desktop.dependencies]
 pywebview = "^4.0.2"
 qtpy = { version = "^2.3.1", markers = "sys_platform == 'linux'" }
-PySide6 = { version = "^6.4.3", markers = "sys_platform == 'linux'" }
+PySide6 = { version = "^6.5.0", markers = "sys_platform == 'linux'" }
 
 [tool.poetry.group.ujson.dependencies]
 ujson = "^5.7.0"

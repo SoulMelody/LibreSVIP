@@ -1,7 +1,7 @@
 import abc
 import pathlib
 
-from pydantic import BaseSettings
+from pydantic import BaseModel
 from yapsy.IPlugin import IPlugin
 
 from ..model.base import Project
@@ -15,19 +15,19 @@ class SVSConverterBase(IPlugin, abc.ABC):
         super().__init_subclass__(**kwargs)
 
     @abc.abstractmethod
-    def load(self, path: pathlib.Path, options: BaseSettings) -> Project:
+    def load(self, path: pathlib.Path, options: BaseModel) -> Project:
         pass
 
     @abc.abstractmethod
-    def dump(self, path: pathlib.Path, project: Project, options: BaseSettings):
+    def dump(self, path: pathlib.Path, project: Project, options: BaseModel):
         pass
 
 
 class WriteOnlyConverterBase(SVSConverterBase, abc.ABC):
-    def load(self, path: pathlib.Path, options: BaseSettings) -> Project:
+    def load(self, path: pathlib.Path, options: BaseModel) -> Project:
         raise NotImplementedError
 
 
 class ReadOnlyConverterBase(SVSConverterBase, abc.ABC):
-    def dump(self, path: pathlib.Path, project: Project, options: BaseSettings):
+    def dump(self, path: pathlib.Path, project: Project, options: BaseModel):
         raise NotImplementedError

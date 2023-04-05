@@ -53,12 +53,6 @@ class SpaceSeparatedFloat(SpaceSeparatedString):
     _item_type = float
 
 
-def space_separated_encoder(obj):
-    if isinstance(obj, list):
-        return " ".join(str(x) for x in obj)
-    return obj
-
-
 class DsItem(BaseModel):
     text: SpaceSeparatedString
     ph_seq: SpaceSeparatedString
@@ -70,6 +64,7 @@ class DsItem(BaseModel):
     f0_seq: SpaceSeparatedFloat
     input_type: Literal["phoneme"]
     offset: float
+    seed: Optional[int]
     spk_mix: Optional[Dict[str, SpaceSeparatedFloat]]
     spk_mix_timestep: Optional[float]
     gender: Optional[Dict[str, SpaceSeparatedFloat]]

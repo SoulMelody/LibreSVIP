@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 
 
 class BinarySvipVersion(Enum):
@@ -37,11 +37,11 @@ class BinarySvipVersion(Enum):
     ] = '0.0.0'
 
 
-class InputOptions(BaseSettings):
+class InputOptions(BaseModel):
     pass
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     singer: str = Field(
         default='陈水若',
         title='无法匹配歌手时，使用此缺省歌手',

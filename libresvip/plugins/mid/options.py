@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 
 from libresvip.core.constants import DEFAULT_BPM
 
@@ -12,7 +12,7 @@ class MultiChannelOption(Enum):
     CUSTOM: Annotated[str, Field(title="自定义导入范围")] = "custom"
 
 
-class InputOptions(BaseSettings):
+class InputOptions(BaseModel):
     import_lyrics: bool = Field(default=True, title="导入歌词")
     lyric_encoding: str = Field(
         default="utf-8",
@@ -38,7 +38,7 @@ class InputOptions(BaseSettings):
     )
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     pre_shift: int = Field(
         default=0,
         title="拖拍前移补偿量",

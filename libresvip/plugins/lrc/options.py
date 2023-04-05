@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Annotated
 
-from pydantic import BaseSettings, Field
+from pydantic import BaseModel, Field
 
 
 class OffsetPolicyOption(Enum):
@@ -30,7 +30,7 @@ class SplitOption(Enum):
     ] = 'symbol'
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     artist: str = Field('', title="歌手名")
     title: str = Field('', title="歌曲名")
     album: str = Field('', title="专辑名")

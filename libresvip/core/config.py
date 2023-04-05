@@ -1,17 +1,30 @@
-from confz import ConfZ, ConfZFileSource
-from pydantic import Field
+import dataclasses
+import enum
+
+from omegaconf import OmegaConf
 
 from .constants import app_dir
 
 
-class LibreSvipSettings(ConfZ):
-    language: str = Field("简体中文", title="语言", regex="^(简体中文|English)$")
-    dark_mode: bool = Field(False, title="暗黑模式")
+class Language(enum.Enum):
+    CHINESE = "简体中文"
+    ENGLISH = "English"
+
+
+@dataclasses.dataclass
+class LibreSvipSettings:
+    language: Language = dataclasses.field(default=Language.CHINESE)
+    dark_mode: bool = dataclasses.field(default=False)
 
 
 config_path = app_dir.user_config_path / "settings.yml"
 
 
-settings = LibreSvipSettings(
-    config_sources=ConfZFileSource(file=config_path, optional=True)
-)
+settings = OmegaConf.structured(LibreSvipSettings)
+if config_path.exists():
+    settings = OmegaConf.merge(
+        settings, OmegaConf.load(config_path)
+    )
+# LibreSvipSettings(
+#     config_sources=ConfZFileSource(file=config_path, optional=True)
+# )

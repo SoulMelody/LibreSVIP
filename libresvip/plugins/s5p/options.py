@@ -1,9 +1,9 @@
-from pydantic import BaseSettings
+from pydantic import BaseModel
 
 
-class InputOptions(BaseSettings):
+class InputOptions(BaseModel):
     pass
 
 
-class OutputOptions(BaseSettings):
+class OutputOptions(BaseModel):
     pass

@@ -5,7 +5,7 @@ from types import SimpleNamespace
 from typing import Annotated, List, Literal, Optional, Union
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, validator
+from pydantic import Field, validator  # , root_validator, model_serializer
 from typing_extensions import Self
 
 from libresvip.model.point import Point, PointList
@@ -57,6 +57,22 @@ class BaseComplexModel(BaseModel, abc.ABC):
 class Points(PointList, BaseModel):
     __root__: List[Point] = Field(default_factory=list)
 
+    # First attempt for pydantic v2
+    """
+    @root_validator(pre=True)
+    @classmethod
+    def populate_root(cls, values):
+        return {'root': values}
+
+    @model_serializer(mode='wrap')
+    def _serialize(self, handler, info):
+        data = handler(self)
+        return data['root'] if info.mode == 'json' else data
+
+    @classmethod
+    def model_modify_json_schema(cls, json_schema):
+        return json_schema['properties']['root']
+    """
 
 class SongTempo(BaseModel):
     position: int = Field(default=0, alias="Position")
@@ -74,9 +90,11 @@ class ParamCurve(BaseModel):
 
     @validator("points", pre=True)
     def load_points(cls, points) -> Points:  # noqa: N805
-        if not isinstance(points, Points):
-            return Points(__root__=[Point(*each) for each in points])
-        return points
+        return (
+            points
+            if isinstance(points, Points)
+            else Points(__root__=[Point(*each) for each in points])
+        )
 
     def _iter(
         self,
@@ -108,8 +126,7 @@ class ParamCurve(BaseModel):
                 prev_point = current_point
                 continue
             elif prev_point[1] == interrupt_value:
-                result.append(prev_point)
-                result.append(current_point)
+                result.extend((prev_point, current_point))
                 i += 1
                 if i < len(points):
                     prev_point = points[i]
@@ -162,8 +179,6 @@ class ParamCurve(BaseModel):
                     elif len(buffer):
                         segments.append(buffer.copy())
                         buffer.clear()
-            if len(buffer):
-                segments.append(buffer.copy())
         else:
             current_point = self.points[0]
             i = 1
@@ -187,8 +202,8 @@ class ParamCurve(BaseModel):
                 or self.points[i - 2].y != interrupt_value
             ):
                 buffer.append(current_point)
-            if len(buffer):
-                segments.append(buffer.copy())
+        if len(buffer):
+            segments.append(buffer.copy())
         return segments
 
 
