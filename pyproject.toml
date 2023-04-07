@@ -75,7 +75,7 @@ ruff = "^0.0.259"
 xsdata = { extras = ["cli"], version = "^22.12" }
 datamodel-code-generator = "^0.17.2"
 black = "^23.3.0"
-mypy = "^1.1.1"
+mypy = "^1.2.0"
 sourcery = "^1.1.0"
 
 [tool.poe.env]

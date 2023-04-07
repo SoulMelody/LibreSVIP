@@ -2,7 +2,7 @@ import abc
 import inspect
 import sys
 from types import SimpleNamespace
-from typing import Annotated, List, Literal, Optional, Union
+from typing import Annotated, List, Literal, Optional, Protocol, Union, runtime_checkable
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
 from pydantic import Field, validator  # , root_validator, model_serializer
@@ -42,7 +42,8 @@ class BaseModel(PydanticBaseModel):
         # extra = Extra.forbid
 
 
-class BaseComplexModel(BaseModel, abc.ABC):
+@runtime_checkable
+class BaseComplexModel(Protocol):
     @classmethod
     @abc.abstractmethod
     def default_repr(cls) -> str:
