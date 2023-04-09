@@ -53,7 +53,7 @@ class SigmoidNode:
         a = 1 / (1 + math.exp(self.k))
         power = 0.75
         l = self.center - self.start
-        if l >= _radius:
+        if l >= _radius or l <= 0:
             k_l = self.k
             h_l = h
             d_l = 0.0
@@ -77,7 +77,7 @@ class SigmoidNode:
 
         self.d_sigmoid_l = d_sigmoid_l
         r = self.end - self.center
-        if r >= _radius:
+        if r >= _radius or r <= 0:
             k_r = self.k
             h_r = h
             d_r = 0.0

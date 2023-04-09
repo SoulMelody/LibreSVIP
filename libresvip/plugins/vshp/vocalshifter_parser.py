@@ -65,14 +65,13 @@ class VocalShifterParser:
     def parse_time_signature(
         self, vshp_metadata: VocalShifterProjectMetadata
     ) -> List[TimeSignature]:
-        time_signature_list = [
+        return [
             TimeSignature(
                 BarIndex=0,
                 Numerator=vshp_metadata.numerator,
                 Denominator=vshp_metadata.denominator,
             )
         ]
-        return time_signature_list
 
     def parse_track_list(self, vshp_proj: VocalShifterProjectData) -> List[Track]:
         track_list = []
@@ -105,15 +104,16 @@ class VocalShifterParser:
             offset_in_seconds
         ) - 1920
         track_metadata = self.track_index2metadata[pattern_metadata.track_index]
-        track = InstrumentalTrack(
-            AudioFilePath=ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]),
+        return InstrumentalTrack(
+            AudioFilePath=ansi2unicode(
+                pattern_metadata.path_and_ext.split(b"\x00")[0]
+            ),
             Offset=offset_in_ticks,
             Solo=track_metadata.solo,
             Mute=track_metadata.mute,
             Volume=track_metadata.volume,
             Pan=track_metadata.pan,
         )
-        return track
 
     def parse_singing_track(
         self,
@@ -171,15 +171,15 @@ class VocalShifterParser:
                         )
                     )
         else:
-            for note in notes:
-                note_list.append(
-                    Note(
-                        StartPos=offset + round(note.start_tick * self.tick_rate),
-                        Length=int(note.length * self.tick_rate),
-                        KeyNumber=note.pitch // 100,
-                        Lyric=DEFAULT_LYRIC,
-                    )
+            note_list.extend(
+                Note(
+                    StartPos=offset + round(note.start_tick * self.tick_rate),
+                    Length=int(note.length * self.tick_rate),
+                    KeyNumber=note.pitch // 100,
+                    Lyric=DEFAULT_LYRIC,
                 )
+                for note in notes
+            )
         return note_list
 
     @staticmethod
@@ -240,10 +240,9 @@ class VocalShifterParser:
                         value,
                     )
                 )
-            else:
-                if has_pitch:
-                    pitch_curve.points.append(Point(self.synchronizer.get_actual_ticks_from_secs(offset), -100))
-                    has_pitch = False
+            elif has_pitch:
+                pitch_curve.points.append(Point(self.synchronizer.get_actual_ticks_from_secs(offset), -100))
+                has_pitch = False
             offset += time_step
         pitch_curve.points.append(Point.end_point())
         return pitch_curve

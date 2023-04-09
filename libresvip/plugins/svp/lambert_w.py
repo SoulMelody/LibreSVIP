@@ -36,6 +36,7 @@ class LambertW:
     @classmethod
     def test_result(cls, x: float, y: float) -> bool:
         fx = x * math.exp(x)
-        delta = fx - y
+        if (delta := fx - y) == 0:
+            return False
         delta_bits = math.log(abs(y / delta), 2)
         return delta_bits < 42
