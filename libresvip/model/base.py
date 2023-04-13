@@ -55,8 +55,7 @@ class BaseComplexModel(Protocol):
         pass
 
 
-class Points(PointList, BaseModel):
-    __root__: List[Point] = Field(default_factory=list)
+class Points(PointList[Point]):
 
     # First attempt for pydantic v2
     """

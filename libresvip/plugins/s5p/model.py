@@ -14,8 +14,8 @@ class S5pPoint(NamedTuple):
     value: float
 
 
-class S5pPoints(PointList, BaseModel):
-    __root__: List[S5pPoint] = Field(default_factory=list)
+class S5pPoints(PointList[S5pPoint]):
+    pass
 
 
 def _points_encoder(obj: S5pPoints) -> List[float]:

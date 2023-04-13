@@ -21,8 +21,8 @@ class SVPoint(NamedTuple):
     value: float
 
 
-class SVPoints(PointList, BaseModel):
-    __root__: List[SVPoint] = Field(default_factory=list)
+class SVPoints(PointList[SVPoint]):
+    pass
 
 
 def _points_encoder(obj: SVPoints) -> List[float]:

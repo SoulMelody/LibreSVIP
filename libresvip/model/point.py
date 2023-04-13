@@ -1,6 +1,7 @@
-import abc
-from typing import List, NamedTuple, TypeVar
+from typing import Generic, List, NamedTuple, TypeVar
 
+from pydantic import Field
+from pydantic.generics import GenericModel
 from typing_extensions import Self
 
 PointType = TypeVar("PointType")
@@ -19,8 +20,8 @@ class Point(NamedTuple):
         return cls(1073741823, value)
 
 
-class PointList(abc.ABC):
-    __root__: List[PointType]
+class PointList(GenericModel, Generic[PointType]):
+    __root__: List[PointType] = Field(default_factory=list)
 
     def __iter__(self):
         return iter(self.__root__)
