@@ -42,12 +42,11 @@ class UstxParser:
         tracks.extend(
             self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts)
         )
-        project = Project(
+        return Project(
             SongTempoList=tempos,
             TimeSignatureList=time_signatures,
             TrackList=tracks,
         )
-        return project
 
     @staticmethod
     def parse_tempos(tempos: List[UTempo]) -> List[SongTempo]:
@@ -88,7 +87,7 @@ class UstxParser:
                 Volume=self.parse_volume(ustx_track.volume),
                 Solo=ustx_track.solo,
                 Mute=ustx_track.mute,
-                AISingerName=ustx_track.singer,
+                AISingerName=ustx_track.singer or "",
             )
             for ustx_track in tracks
         ]
@@ -115,7 +114,7 @@ class UstxParser:
         for ustx_note in notes:
             note = Note(
                 KeyNumber=ustx_note.tone,
-                Lyric=ustx_note.lyric if not ustx_note.lyric.startswith("+") else "-",
+                Lyric="-" if ustx_note.lyric.startswith("+") else ustx_note.lyric,
                 StartPos=ustx_note.position + tick_prefix,
                 Length=ustx_note.duration,
             )

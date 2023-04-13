@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import List, Optional
 
-from pydantic import Field, HttpUrl
+from pydantic import Field
 
 from libresvip.model.base import BaseModel
 
@@ -57,10 +57,10 @@ class GjgjSingerInfo(BaseModel):
     low_pitch: Optional[int] = Field(alias="LowPitch")
     recommend_up_pitch: Optional[int] = Field(alias="RecommandUpPitch")
     recommend_low_pitch: Optional[int] = Field(alias="RecommandLowPitch")
-    image: Optional[HttpUrl]
-    image_url: Optional[HttpUrl]
-    full_avatar: Optional[HttpUrl]
-    synthesize_file: Optional[HttpUrl] = Field(alias="synthetize_file")
+    image: Optional[str]
+    image_url: Optional[str]
+    full_avatar: Optional[str]
+    synthesize_file: Optional[str] = Field(alias="synthetize_file")
 
 
 class GjgjTempos(BaseModel):

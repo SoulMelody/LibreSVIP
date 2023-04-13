@@ -2,7 +2,8 @@ from types import SimpleNamespace
 from typing import Annotated, Dict, List, Literal, Optional, Union
 
 from pydantic import Field
-from pydantic_yaml import YamlModel
+
+from libresvip.model.base import BaseModel
 
 ParamType = SimpleNamespace(
     CURVE="Curve",
@@ -11,7 +12,7 @@ ParamType = SimpleNamespace(
 )
 
 
-class BaseExpression(YamlModel):
+class BaseExpression(BaseModel):
     name: str
     abbr: str
     min_: int = Field(alias="min")
@@ -41,36 +42,36 @@ UExpressionDescriptor = Annotated[
 ]
 
 
-class UCurve(YamlModel):
+class UCurve(BaseModel):
     xs: List[int] = Field(default_factory=list)
     ys: List[int] = Field(default_factory=list)
     abbr: Optional[str]
 
 
-class PitchData(YamlModel):
+class PitchData(BaseModel):
     x: Optional[int]
     y: Optional[int]
     shape: Optional[str]
 
 
-class UTempo(YamlModel):
+class UTempo(BaseModel):
     position: Optional[int]
     bpm: Optional[int]
 
 
-class UTimeSignature(YamlModel):
+class UTimeSignature(BaseModel):
     bar_position: Optional[int]
     beat_per_bar: Optional[int]
     beat_unit: Optional[int]
 
 
-class URendererSettings(YamlModel):
+class URendererSettings(BaseModel):
     renderer: Optional[str]
     resampler: Optional[str]
     wavtool: Optional[str]
 
 
-class UTrack(YamlModel):
+class UTrack(BaseModel):
     singer: Optional[str]
     phonemizer: Optional[str]
     renderer_settings: Optional[URendererSettings]
@@ -79,14 +80,14 @@ class UTrack(YamlModel):
     volume: Optional[int]
 
 
-class UPitch(YamlModel):
+class UPitch(BaseModel):
     data: List[PitchData] = Field(
         default_factory=list
     )
     snap_first: Optional[bool]
 
 
-class UVibrato(YamlModel):
+class UVibrato(BaseModel):
     length: Optional[int]
     period: Optional[int]
     depth: Optional[int]
@@ -98,21 +99,21 @@ class UVibrato(YamlModel):
     drift: Optional[int]
 
 
-class UExpression(YamlModel):
+class UExpression(BaseModel):
     index: Optional[int]
     abbr: str
     value: int
 
 
-class UPhonemeOverride(YamlModel):
+class UPhonemeOverride(BaseModel):
     index: int
-    phoneme: str
+    phoneme: Optional[str]
     offset: Optional[int]
     preutter_delta: Optional[float]
     overlap_delta: Optional[float]
 
 
-class UNote(YamlModel):
+class UNote(BaseModel):
     position: Optional[int]
     duration: Optional[int]
     tone: Optional[int]
@@ -124,7 +125,7 @@ class UNote(YamlModel):
     phoneme_overrides: Optional[List[UPhonemeOverride]]
 
 
-class UPart(YamlModel):
+class UPart(BaseModel):
     name: Optional[str]
     comment: Optional[str]
     track_no: Optional[int]
@@ -147,7 +148,7 @@ class UWavePart(UPart):
     trim_ms: float
 
 
-class USTXProject(YamlModel):
+class USTXProject(BaseModel):
     name: Optional[str]
     comment: Optional[str]
     output_dir: Optional[str]

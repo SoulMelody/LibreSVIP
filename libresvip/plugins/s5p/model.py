@@ -15,15 +15,15 @@ class S5pPoint(NamedTuple):
 
 
 class S5pPoints(PointList, BaseModel):
-    __root__: List[S5pPoint] = Field(default_factory=list)
+    root: List[S5pPoint] = Field(default_factory=list)
 
 
 def _points_encoder(obj: S5pPoints) -> List[float]:
-    return list(chain.from_iterable(obj.__root__))
+    return list(chain.from_iterable(obj.root))
 
 
 def _points_decoder(points: List[float]):
-    return S5pPoints(__root__=[S5pPoint(*each) for each in chunked(points, 2)])
+    return S5pPoints(root=[S5pPoint(*each) for each in chunked(points, 2)])
 
 
 class S5pMeterItem(BaseModel):

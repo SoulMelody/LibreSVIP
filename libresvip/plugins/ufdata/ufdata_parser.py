@@ -67,7 +67,7 @@ class UFDataParser:
     def parse_pitch(pitch: UFPitch) -> Params:
         pitch_curve = ParamCurve(
             PointList=Points(
-                __root__=[
+                root=[
                     Point(
                         x=tick,
                         y=round(value),

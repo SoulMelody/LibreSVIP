@@ -155,4 +155,4 @@ class SynthVEditorGenerator:
                 )
             )
             # TODO: calculate pitch delta
-        return S5pPoints(__root__=points)
+        return S5pPoints(root=points)

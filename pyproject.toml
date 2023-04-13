@@ -12,7 +12,7 @@ more-itertools = "^9.1.0"
 omegaconf = "^2.3.0"
 platformdirs = "^3.2.0"
 portion = "^2.4.0"
-pydantic = "^1.10.7"
+pydantic = "^2.0a2"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
 regex = "^2023.3.23"
@@ -50,10 +50,11 @@ ass = "^0.5.3"
 construct-typing = "^0.5.5"
 
 [tool.poetry.group.xml.dependencies]
-xsdata-pydantic = "^22.10"
+# xsdata-pydantic = "^22.10"
+xsdata = { version = "^22.12" }
 
-[tool.poetry.group.yaml.dependencies]
-pydantic-yaml = { extras = ["pyyaml"], version = "^0.11.2" }
+# [tool.poetry.group.yaml.dependencies]
+# pydantic-yaml = { extras = ["pyyaml"], version = "^0.11.2" }
 
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
@@ -73,7 +74,7 @@ pre-commit = "^3.2.1"
 poethepoet = "^0.18.1"
 ruff = "^0.0.259"
 xsdata = { extras = ["cli"], version = "^22.12" }
-datamodel-code-generator = "^0.17.2"
+# datamodel-code-generator = "^0.17.2"
 black = "^23.3.0"
 mypy = "^1.2.0"
 sourcery = "^1.1.0"
@@ -129,9 +130,9 @@ fix = true
 known-first-party = ['libresvip', 'tests']
 
 [[tool.poetry.source]]
-name = "aliyun"
+name = "bfsu"
 default = true
-url = "https://mirrors.aliyun.com/pypi/simple/"
+url = "https://mirrors.bfsu.edu.cn/pypi/web/simple/"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

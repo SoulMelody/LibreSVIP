@@ -1,6 +1,6 @@
 import sys
 from itertools import chain
-from typing import Dict, List, NamedTuple, Optional
+from typing import Dict, List, Literal, NamedTuple, Optional
 from uuid import uuid4
 
 from more_itertools import chunked
@@ -22,15 +22,15 @@ class SVPoint(NamedTuple):
 
 
 class SVPoints(PointList, BaseModel):
-    __root__: List[SVPoint] = Field(default_factory=list)
+    root: List[SVPoint] = Field(default_factory=list)
 
 
 def _points_encoder(obj: SVPoints) -> List[float]:
-    return list(chain.from_iterable(obj.__root__))
+    return list(chain.from_iterable(obj.root))
 
 
 def _points_decoder(points: List[float]):
-    return SVPoints(__root__=[SVPoint(*each) for each in chunked(points, 2)])
+    return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
 
 class SVMeter(BaseModel):
@@ -51,7 +51,7 @@ class SVTime(BaseModel):
 
 class SVParamCurve(BaseModel):
 
-    mode: str = Field("linear", regex="linear|cubic|cosine|sigmoid")
+    mode: Literal["linear", "cubic", "cosine", "sigmoid"] = Field("linear")
     points: SVPoints = Field(default_factory=SVPoints)
 
     @validator("points", pre=True)

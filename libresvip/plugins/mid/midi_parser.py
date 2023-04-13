@@ -229,7 +229,7 @@ class MidiParser:
                     volume_base = velocity_to_db_change(event.value)
                 else:
                     pass
-        pitch.points.__root__.sort(key=operator.attrgetter("x"))
+        pitch.points.root.sort(key=operator.attrgetter("x"))
         edited_params = Params(
             Pitch=pitch,
             Volume=expression,

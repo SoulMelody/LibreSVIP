@@ -331,7 +331,7 @@ class SynthVGenerator:
                 return sv_curve
             skipped = 1
             valid_index = find_index(
-                curve.points.__root__, lambda x: x.x >= self.first_bar_tick
+                curve.points.root, lambda x: x.x >= self.first_bar_tick
             )
             if (
                 valid_index != -1

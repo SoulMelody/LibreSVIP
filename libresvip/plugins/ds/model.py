@@ -1,5 +1,7 @@
 from typing import Any, Dict, List, Literal, Optional, Union
 
+from pydantic import field_serializer, field_validator, model_serializer, root_validator
+
 from libresvip.model.base import BaseModel
 
 
@@ -54,25 +56,57 @@ class SpaceSeparatedFloat(SpaceSeparatedString):
 
 
 class DsItem(BaseModel):
-    text: SpaceSeparatedString
-    ph_seq: SpaceSeparatedString
-    note_seq: SpaceSeparatedString
-    note_dur_seq: SpaceSeparatedFloat
-    is_slur_seq: SpaceSeparatedInt
-    ph_dur: SpaceSeparatedFloat
-    f0_timestep: FloatString
-    f0_seq: SpaceSeparatedFloat
+    text: List[str]
+    ph_seq: List[str]
+    note_seq: List[str]
+    note_dur_seq: List[float]
+    is_slur_seq: List[int]
+    ph_dur: List[float]
+    f0_timestep: float
+    f0_seq: List[float]
     input_type: Literal["phoneme"]
     offset: float
     seed: Optional[int]
-    spk_mix: Optional[Dict[str, SpaceSeparatedFloat]]
+    spk_mix: Optional[Dict[str, List[float]]]
     spk_mix_timestep: Optional[float]
-    gender: Optional[Dict[str, SpaceSeparatedFloat]]
+    gender: Optional[Dict[str, List[float]]]
     gender_timestep: Optional[float]
+
+    @field_validator("spk_mix", "gender", mode="before")
+    @classmethod
+    def _validate_nested_dict(cls, value, _info):
+        if value is None:
+            return None
+
+        for key in value:
+            value[key] = [float(x) for x in value[key]]
+        return value
+
+    @field_serializer("spk_mix", "gender")
+    @classmethod
+    def _serialize_nested_dict(cls, value, _info):
+        if value is None:
+            return None
+
+        return {key: " ".join(str(x) for x in value[key]) for key in value}
 
 
 class DsProject(BaseModel):
-    __root__: List[DsItem]
+    root: List[DsItem]
+
+    @root_validator(pre=True)
+    @classmethod
+    def populate_root(cls, values):
+        return {'root': values}
+
+    @model_serializer(mode='wrap')
+    def _serialize(self, handler, info):
+        data = handler(self)
+        return data['root'] if info.mode == 'json' else data
+
+    @classmethod
+    def model_modify_json_schema(cls, json_schema):
+        return json_schema['properties']['root']
 
     def _iter(
         self,
@@ -88,7 +122,7 @@ class DsProject(BaseModel):
             else:
                 return value
 
-        yield "__root__", [
+        yield "root", [
             {key: _convert_value(key, value) for key, value in item.items()}
             for item in next(super()._iter(**kwargs))[1]
         ]

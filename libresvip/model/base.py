@@ -5,7 +5,7 @@ from types import SimpleNamespace
 from typing import Annotated, List, Literal, Optional, Protocol, Union, runtime_checkable
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, validator  # , root_validator, model_serializer
+from pydantic import Field, model_serializer, root_validator, validator
 from typing_extensions import Self
 
 from libresvip.model.point import Point, PointList
@@ -14,6 +14,10 @@ try:
     import ujson as json
 except ImportError:
     import json
+
+
+json_loads = json.loads
+json_dumps = json.dumps
 
 
 class BaseModel(PydanticBaseModel):
@@ -35,11 +39,11 @@ class BaseModel(PydanticBaseModel):
             else:
                 raise e
 
-    class Config:
-        json_loads = json.loads
-        json_dumps = json.dumps
-        # Uncomment the following line to enable strict mode
-        # extra = Extra.forbid
+    # class Config:
+    #     json_loads = json.loads
+    #     json_dumps = json.dumps
+    #     # Uncomment the following line to enable strict mode
+    #     # extra = Extra.forbid
 
 
 @runtime_checkable
@@ -56,14 +60,12 @@ class BaseComplexModel(Protocol):
 
 
 class Points(PointList, BaseModel):
-    __root__: List[Point] = Field(default_factory=list)
+    root: List[Point] = Field(default_factory=list)
 
-    # First attempt for pydantic v2
-    """
     @root_validator(pre=True)
     @classmethod
     def populate_root(cls, values):
-        return {'root': values}
+        return {'root': values or []}
 
     @model_serializer(mode='wrap')
     def _serialize(self, handler, info):
@@ -73,7 +75,7 @@ class Points(PointList, BaseModel):
     @classmethod
     def model_modify_json_schema(cls, json_schema):
         return json_schema['properties']['root']
-    """
+
 
 class SongTempo(BaseModel):
     position: int = Field(default=0, alias="Position")
@@ -94,16 +96,15 @@ class ParamCurve(BaseModel):
         return (
             points
             if isinstance(points, Points)
-            else Points(__root__=[Point(*each) for each in points])
+            else Points(root=[Point(*each) for each in points])
         )
 
-    def _iter(
-        self,
-        *args,
-        **kwargs,
-    ):
-        yield "TotalPointsCount", len(self.points)
-        yield from super()._iter(*args, **kwargs)
+    @model_serializer(mode='wrap')
+    def _serialize(self, handler, info):
+        data = handler(self)
+        if info.mode == 'json':
+            data["TotalPointsCount"] = len(self.points)
+        return data
 
     def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> Self:
         if interval <= 0:
@@ -159,7 +160,7 @@ class ParamCurve(BaseModel):
             i -= 1
         if not prev_point_added:
             result.append(prev_point)
-        self.points = Points(__root__=result)
+        self.points = Points(root=result)
         return self
 
     def split_into_segments(self, interrupt_value: int = 0) -> List[List[Point]]:

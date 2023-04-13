@@ -5,7 +5,7 @@ from libresvip.model.base import ParamCurve, Point, Points
 
 def test_curve_split_01():
     points = Points(
-        __root__=[Point(1, 1), Point(2, 1), Point(3, 0), Point(4, 1), Point(5, 1)]
+        root=[Point(1, 1), Point(2, 1), Point(3, 0), Point(4, 1), Point(5, 1)]
     )
     curve = ParamCurve.construct(points=points)
     segments = curve.split_into_segments()
@@ -15,7 +15,7 @@ def test_curve_split_01():
 
 def test_curve_split_02():
     points = Points(
-        __root__=[
+        root=[
             Point(1, 0),
             Point(2, 0),
             Point(3, 1),
@@ -43,7 +43,7 @@ def test_curve_split_02():
 
 def test_curve_split_04():
     points = Points(
-        __root__=[
+        root=[
             Point(-192000, 0),
             Point(2, 1),
             Point(3, 1),
