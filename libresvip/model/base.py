@@ -5,7 +5,7 @@ from types import SimpleNamespace
 from typing import Annotated, List, Literal, Optional, Protocol, Union, runtime_checkable
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, validator  # , root_validator, model_serializer
+from pydantic import Field, validator
 from typing_extensions import Self
 
 from libresvip.model.point import Point, PointList
@@ -56,23 +56,7 @@ class BaseComplexModel(Protocol):
 
 
 class Points(PointList[Point]):
-
-    # First attempt for pydantic v2
-    """
-    @root_validator(pre=True)
-    @classmethod
-    def populate_root(cls, values):
-        return {'root': values}
-
-    @model_serializer(mode='wrap')
-    def _serialize(self, handler, info):
-        data = handler(self)
-        return data['root'] if info.mode == 'json' else data
-
-    @classmethod
-    def model_modify_json_schema(cls, json_schema):
-        return json_schema['properties']['root']
-    """
+    pass
 
 class SongTempo(BaseModel):
     position: int = Field(default=0, alias="Position")
