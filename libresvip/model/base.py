@@ -2,7 +2,18 @@ import abc
 import inspect
 import sys
 from types import SimpleNamespace
-from typing import Annotated, List, Literal, Optional, Protocol, Union, runtime_checkable
+from typing import (
+    Annotated,
+    Any,
+    Generator,
+    List,
+    Literal,
+    Optional,
+    Protocol,
+    Tuple,
+    Union,
+    runtime_checkable,
+)
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
 from pydantic import Field, validator
@@ -17,7 +28,7 @@ except ImportError:
 
 
 class BaseModel(PydanticBaseModel):
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         """
         To be able to use properties with setters
         """
@@ -84,7 +95,7 @@ class ParamCurve(BaseModel):
         self,
         *args,
         **kwargs,
-    ):
+    ) -> Generator[Tuple[str, Any], None, None]:
         yield "TotalPointsCount", len(self.points)
         yield from super()._iter(*args, **kwargs)
 

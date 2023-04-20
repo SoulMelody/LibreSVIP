@@ -84,7 +84,7 @@ class SVParamCurve(BaseModel):
             SVPoint(position_to_ticks(point.offset), point.value)
             for point in self.points
         ]
-        if len(points) == 0:
+        if not points:
             return interval
         elif len(points) == 1:
             return (
@@ -313,7 +313,6 @@ class SVNoteAttributes(SVBaseAttributes):
         regard_default_vibrato_as_unedited: bool = True,
         consider_instant_pitch_mode: bool = True,
     ) -> bool:
-        tolerance = 1e-6
         transition_edited = any(
             x is not None
             for x in [
@@ -325,6 +324,7 @@ class SVNoteAttributes(SVBaseAttributes):
             ]
         )
         if consider_instant_pitch_mode:
+            tolerance = 1e-6
             transition_edited &= any(
                 x >= tolerance
                 for x in (
@@ -391,14 +391,10 @@ class SVNote(BaseModel):
         )
 
     def __add__(self, blick_offset: int):
-        new_note = self.copy(deep=True)
-        new_note.onset += blick_offset
-        return new_note
+        return self.copy(deep=True, update={"onset": self.onset + blick_offset})
 
     def __xor__(self, pitch_offset: int):
-        new_note = self.copy(deep=True)
-        new_note.pitch += pitch_offset
-        return new_note
+        return self.copy(deep=True, update={"pitch": self.pitch + pitch_offset})
 
 
 class SVRenderConfig(BaseModel):
@@ -505,18 +501,16 @@ class SVGroup(BaseModel):
         return v
 
     def overlapped_with(self, other: "SVGroup") -> bool:
-        result = False
         for note in self.notes:
             for other_note in other.notes:
                 x = note.onset - (other_note.onset + other_note.duration)
                 y = (note.onset + note.duration) - other_note.onset
                 if x * y == 0:
                     continue
-                else:
-                    tmp = (x < 0) ^ (y > 0)
-                    if tmp:
-                        return True
-        return result
+                tmp = (x < 0) ^ (y > 0)
+                if tmp:
+                    return True
+        return False
 
     def __add__(self, blick_offset: int):
         new_group = self.copy(deep=True)

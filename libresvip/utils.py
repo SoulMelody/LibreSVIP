@@ -1,12 +1,14 @@
 import functools
 import pathlib
-from typing import Callable, List
+from types import FunctionType
+from typing import Callable, List, TypeVar
 
 import charset_normalizer
 from more_itertools import locate, rlocate
 
+T = TypeVar("T")
 
-def ensure_path(func):
+def ensure_path(func: FunctionType) -> FunctionType:
     @functools.wraps(func)
     def wrapper(self, path, *args, **kwargs):
         if not isinstance(path, pathlib.Path):
@@ -31,9 +33,9 @@ def read_file(path: pathlib.Path) -> str:
     return to_unicode(content)
 
 
-def find_index(tempo_list: List, pred: Callable) -> int:
+def find_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
     return next(locate(tempo_list, pred), -1)
 
 
-def find_last_index(tempo_list: List, pred: Callable) -> int:
+def find_last_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
     return next(rlocate(tempo_list, pred), -1)

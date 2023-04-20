@@ -27,4 +27,5 @@ class OutputOptions(InputOptions):
         default=2, title="JSON缩进空格数",
         description="为负时不进行格式化。"
     )
+    track_index: int = Field(default=-1, title="音轨序号", description="从0开始，-1表示自动选择")
 

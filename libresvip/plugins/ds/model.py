@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Literal, Optional, Union
 
-from libresvip.model.base import BaseModel
+from libresvip.model.base import BaseModel, Field
 
 
 class FloatString(str):
@@ -72,7 +72,7 @@ class DsItem(BaseModel):
 
 
 class DsProject(BaseModel):
-    __root__: List[DsItem]
+    __root__: List[DsItem] = Field(default_factory=list)
 
     def _iter(
         self,
