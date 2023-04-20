@@ -13,18 +13,6 @@ class PpsfConst(GenericModel, Generic[ConstValue]):
     use_sequence: bool
 
 
-class PpsfBaseSequence(BaseModel):
-    constant: int
-    name: str
-    sequence: List
-    use_sequence: bool
-
-
-class PpsfSeqParam(BaseModel):
-    base_sequence: PpsfBaseSequence = Field(alias="base-sequence")
-    layers: List
-
-
 class PpsfCurvePointSeq(BaseModel):
     border_type: Optional[int] = Field(alias="border-type")
     note_index: int = Field(alias="note-index")
@@ -88,6 +76,18 @@ class PpsfParamPoint(BaseModel):
     curve_type: int
     pos: int
     value: int
+
+
+class PpsfBaseSequence(BaseModel):
+    constant: int
+    name: str
+    sequence: List[PpsfParamPoint]
+    use_sequence: bool
+
+
+class PpsfSeqParam(BaseModel):
+    base_sequence: PpsfBaseSequence = Field(alias="base-sequence")
+    layers: List
 
 
 class PpsfParameter(BaseModel):
@@ -178,6 +178,7 @@ class PpsfAudioTrackEvent(BaseModel):
     playback_offset_sample: int
     tick_length: int
     tick_pos: int
+    enabled: Optional[bool]
 
 
 class PpsfMixer(BaseModel):
@@ -275,7 +276,7 @@ class PpsfSinger(BaseModel):
 class PpsfEnvelope(BaseModel):
     length: int
     offset: int
-    points: List
+    points: List[PpsfParamPoint]
     use_length: bool
 
 
@@ -291,6 +292,9 @@ class PpsfDvlTrackEvent(BaseModel):
     note_off_pit_envelope: PpsfEnvelope
     note_on_pit_envelope: PpsfEnvelope
     portamento_envelope: PpsfEnvelope
+    vib_depth: Optional[PpsfEnvelope]
+    vib_rate: Optional[PpsfEnvelope]
+    vib_setting_id: Optional[int]
     portamento_type: int
     pos: int
     protected: bool
