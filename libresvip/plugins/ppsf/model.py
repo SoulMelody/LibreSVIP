@@ -76,6 +76,7 @@ class PpsfParamPoint(BaseModel):
     curve_type: int
     pos: int
     value: int
+    region_index: Optional[int] = Field(alias="region-index")
 
 
 class PpsfBaseSequence(BaseModel):
