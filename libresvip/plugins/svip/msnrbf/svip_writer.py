@@ -5,7 +5,7 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Set, get_args
+from typing import Set, get_args, get_origin
 
 from .binary_models import (
     BinaryArrayTypeEnum,
@@ -276,7 +276,14 @@ class SvipWriter(NrbfIOBase):
             for field in fields:
                 if field.metadata.get("alias"):
                     field_args = get_args(field.type)
-                    if len(field_args) == 2 and issubclass(field_args[-1], type(None)):
+                    field_origin = get_origin(field.type)
+                    if field_origin is not None and field_origin.__name__.startswith("XSBuf"):
+                        field_type = field_origin
+                        if dataclasses.is_dataclass(field_args[0]):
+                            subcon_class_name = field_args[0].__doc__
+                    elif field_origin == list:
+                        field_type = list
+                    elif len(field_args) == 2 and issubclass(field_args[-1], type(None)):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
@@ -336,14 +343,6 @@ class SvipWriter(NrbfIOBase):
                         )
                     elif dataclasses.is_dataclass(field_type):
                         sub_class_name = field_type.__doc__
-                        if field.name == "tempo_list":
-                            subcon_class_name = XSSongTempo.__doc__
-                        elif field.name == "beat_list":
-                            subcon_class_name = XSSongBeat.__doc__
-                        elif field.name == "note_list":
-                            subcon_class_name = XSNote.__doc__
-                        elif field.name == "track_list":
-                            subcon_class_name = XSITrack.__doc__
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -416,14 +415,6 @@ class SvipWriter(NrbfIOBase):
                             )
                         elif dataclasses.is_dataclass(field_type):
                             sub_class_name = field_type.__doc__
-                            if field.name == "tempo_list":
-                                subcon_class_name = XSSongTempo.__doc__
-                            elif field.name == "beat_list":
-                                subcon_class_name = XSSongBeat.__doc__
-                            elif field.name == "note_list":
-                                subcon_class_name = XSNote.__doc__
-                            elif field.name == "track_list":
-                                subcon_class_name = XSITrack.__doc__
 
                             if sub_class_name.endswith("List"):
                                 sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -483,7 +474,14 @@ class SvipWriter(NrbfIOBase):
             for field in fields:
                 if field.metadata.get("alias"):
                     field_args = get_args(field.type)
-                    if len(field_args) == 2 and issubclass(field_args[-1], type(None)):
+                    field_origin = get_origin(field.type)
+                    if field_origin is not None and field_origin.__name__.startswith("XSBuf"):
+                        field_type = field_origin
+                        if dataclasses.is_dataclass(field_args[0]):
+                            subcon_class_name = field_args[0].__doc__
+                    elif field_origin == list:
+                        field_type = list
+                    elif len(field_args) == 2 and issubclass(field_args[-1], type(None)):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
@@ -530,14 +528,6 @@ class SvipWriter(NrbfIOBase):
                             )
                         elif dataclasses.is_dataclass(field_type):
                             sub_class_name = field_type.__doc__
-                            if field.name == "tempo_list":
-                                subcon_class_name = XSSongTempo.__doc__
-                            elif field.name == "beat_list":
-                                subcon_class_name = XSSongBeat.__doc__
-                            elif field.name == "note_list":
-                                subcon_class_name = XSNote.__doc__
-                            elif field.name == "track_list":
-                                subcon_class_name = XSITrack.__doc__
 
                             if sub_class_name.endswith("List"):
                                 sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
