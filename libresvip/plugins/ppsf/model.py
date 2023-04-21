@@ -1,7 +1,11 @@
 from typing import Generic, List, Optional, TypeVar
 
 from pydantic import Field
-from pydantic.generics import GenericModel
+
+try:
+    from pydantic.generics import GenericModel
+except ImportError:
+    from pydantic import BaseModel as GenericModel
 
 from libresvip.model.base import BaseModel
 

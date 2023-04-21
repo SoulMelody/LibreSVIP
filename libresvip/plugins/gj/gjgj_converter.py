@@ -2,7 +2,7 @@ __package__ = "libresvip.plugins.gj"
 import pathlib
 
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project
+from libresvip.model.base import Project, json_dumps
 
 from .gjgj_generator import GjgjGenerator
 from .gjgj_parser import GjgjParser
@@ -20,11 +20,13 @@ class GjgjConverter(plugin_base.SVSConverterBase):
     ) -> None:
         gjgj_project = GjgjGenerator(options).generate_project(project)
         path.write_text(
-            gjgj_project.json(
+            json_dumps(
+                gjgj_project.model_dump(
+                    exclude_none=True,
+                ),
                 by_alias=True,
                 ensure_ascii=False,
                 separators=(",", ":"),
-                exclude_none=True,
             ),
             encoding="utf-8-sig",
         )

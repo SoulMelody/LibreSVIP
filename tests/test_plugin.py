@@ -164,7 +164,7 @@ def test_vspx_read(shared_datadir):
 
 
 def test_vsqx_read(shared_datadir):
-    from xsdata_pydantic.bindings import XmlParser
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.vsqx.models import judge_vsqx_version
 
@@ -183,7 +183,7 @@ def test_vsqx_read(shared_datadir):
 
 
 def test_mxml_read(shared_datadir):
-    from xsdata_pydantic.bindings import XmlParser
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.mxml.models.mxml4 import ScorePartwise
 
@@ -194,7 +194,7 @@ def test_mxml_read(shared_datadir):
 
 
 def test_ccs_read(shared_datadir):
-    from xsdata_pydantic.bindings import XmlParser
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.ccs.model import CeVIOCreativeStudioProject
 

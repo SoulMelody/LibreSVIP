@@ -94,10 +94,10 @@ class ParamCurve(BaseModel):
             else Points(root=[Point(*each) for each in points])
         )
 
-    @model_serializer(mode='wrap')
+    @model_serializer(mode="wrap")
     def _serialize(self, handler, info):
         data = handler(self)
-        if info.mode == 'json':
+        if info.mode == "json":
             data["TotalPointsCount"] = len(self.points)
         return data
 

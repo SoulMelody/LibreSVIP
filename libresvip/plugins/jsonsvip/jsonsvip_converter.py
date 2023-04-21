@@ -19,6 +19,10 @@ class JsonSvipConverter(plugin_base.SVSConverterBase):
         if options is None:
             options = OutputOptions()
         dump_kwargs = {"indent": 2} if options.indented else {"separators": (",", ":")}
-        path.write_text(json_dumps(
-            project.model_dump(mode="json", by_alias=True), ensure_ascii=False, **dump_kwargs
-        ))
+        path.write_text(
+            json_dumps(
+                project.model_dump(mode="json", by_alias=True),
+                ensure_ascii=False,
+                **dump_kwargs
+            )
+        )

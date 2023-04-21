@@ -3,7 +3,7 @@ import pathlib
 import zipfile
 
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project
+from libresvip.model.base import Project, json_dumps
 
 from .model import VogenProject
 from .options import InputOptions, OutputOptions
@@ -22,6 +22,8 @@ class VogenConverter(plugin_base.SVSConverterBase):
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         vogen_project = VogenGenerator(options).generate_project(project)
-        proj_text = vogen_project.json(by_alias=True, separators=(",", ":"))
+        proj_text = json_dumps(
+            vogen_project.model_dump(by_alias=True), separators=(",", ":")
+        )
         with zipfile.ZipFile(path, "w") as zf:
             zf.writestr("chart.json", proj_text)

@@ -1,9 +1,7 @@
-from dataclasses import field
+from dataclasses import dataclass, field
 from decimal import Decimal
 from enum import Enum
 from typing import List, Optional, Union
-
-from pydantic.dataclasses import dataclass
 
 from .xlink import (
     ActuateValue,

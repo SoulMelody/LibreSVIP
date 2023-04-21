@@ -30,16 +30,16 @@ class PointList(GenericModel, Generic[PointType]):
     @root_validator(pre=True)
     @classmethod
     def populate_root(cls, values):
-        return {'root': values} if isinstance(values, list) else values
+        return {"root": values} if isinstance(values, list) else values
 
-    @model_serializer(mode='wrap')
+    @model_serializer(mode="wrap")
     def _serialize(self, handler, info):
         data = handler(self)
-        return data['root'] if info.mode == 'json' else data
+        return data["root"] if info.mode == "json" and isinstance(data, dict) else data
 
     @classmethod
     def model_modify_json_schema(cls, json_schema):
-        return json_schema['properties']['root']
+        return json_schema["properties"]["root"]
 
     def __iter__(self):
         return iter(self.root)

@@ -1,8 +1,6 @@
-from dataclasses import field
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
-
-from pydantic.dataclasses import dataclass
 
 VSQ3_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
