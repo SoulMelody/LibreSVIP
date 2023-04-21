@@ -7,16 +7,16 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 charset-normalizer = "^3.1.0"
-loguru = "^0.6.0"
+loguru = "^0.7.0"
 more-itertools = "^9.1.0"
 omegaconf = "^2.3.0"
 platformdirs = "^3.2.0"
 portion = "^2.4.0"
-pydantic = "^2.0a2"
+pydantic = "^2.0a3"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
 regex = "^2023.3.23"
-setuptools = "^67.6.1"
+setuptools = "^67.7.0"
 typer = { extras = ["all"], version = "^0.7.0" }
 wanakana-python = "^1.2.2"
 yapsy = "^1.12.2"
@@ -34,7 +34,7 @@ ujson = "^5.7.0"
 
 [tool.poetry.group.bike.dependencies]
 pycryptodome = "^3.17"
-zstandard = "^0.20.0"
+zstandard = "^0.21.0"
 
 [tool.poetry.group.protobuf.dependencies]
 pure-protobuf = "^2.2.3"
@@ -67,17 +67,17 @@ svgwrite = "^1.4.3"
 imageio-ffmpeg = "^0.4.8"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.2.2"
+pytest = "^7.3.1"
 pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
-pre-commit = "^3.2.1"
-poethepoet = "^0.18.1"
-ruff = "^0.0.259"
+pre-commit = "^3.2.2"
+poethepoet = "^0.19.0"
+ruff = "^0.0.261"
 xsdata = { extras = ["cli"], version = "^22.12" }
 # datamodel-code-generator = "^0.17.2"
 black = "^23.3.0"
 mypy = "^1.2.0"
-sourcery = "^1.1.0"
+sourcery = "^1.2.0"
 
 [tool.poe.env]
 PYTHONUTF8 = "1"

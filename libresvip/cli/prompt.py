@@ -1,6 +1,5 @@
 import enum
 
-from pydantic._internal._fields import collect_fields
 from pydantic.color import Color
 from pydantic.fields import Undefined
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
@@ -10,8 +9,7 @@ from libresvip.model.base import BaseComplexModel, BaseModel
 
 def prompt_fields(option_class: BaseModel) -> dict:
     option_kwargs = {}
-    fields = collect_fields(option_class, option_class.__bases__, None)
-    for i, (option_key, field_info) in enumerate(fields.items()):
+    for i, (option_key, field_info) in enumerate(option_class.model_fields.items()):
         default_value = None if field_info.default is Undefined else field_info.default
         if issubclass(field_info.annotation, enum.Enum):
             choice = Prompt.ask(

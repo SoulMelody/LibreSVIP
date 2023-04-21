@@ -9,7 +9,6 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
-from pydantic._internal._fields import collect_fields
 from pydantic.color import Color
 from pydantic.fields import Undefined
 from trame.widgets import html, trame, vuetify
@@ -182,8 +181,7 @@ def initialize(server: Server):
             f"{prefix}_fields": [],
             f"{prefix}_defaults": {},
         }
-        fields, _ = collect_fields(option_class, option_class.__bases__, None)
-        for option_key, field_info in fields.items():
+        for option_key, field_info in option_class.model_fields.items():
             default_value = None if field_info.default is Undefined else field_info.default
             if issubclass(field_info.annotation, bool):
                 option_info[f"{prefix}_fields"].append(
