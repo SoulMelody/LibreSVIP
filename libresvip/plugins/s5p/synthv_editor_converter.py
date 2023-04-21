@@ -2,7 +2,7 @@ __package__ = "libresvip.plugins.s5p"
 import pathlib
 
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project
+from libresvip.model.base import Project, json_dumps
 
 from .model import S5pProject
 from .options import InputOptions, OutputOptions
@@ -20,5 +20,8 @@ class SynthVEditorConverter(plugin_base.SVSConverterBase):
     ) -> None:
         s5p_project = SynthVEditorGenerator(options).generate_project(project)
         path.write_text(
-            s5p_project.json(by_alias=True, separators=(",", ":"), exclude_none=True)
+            json_dumps(
+                s5p_project.model_dump(by_alias=True, exclude_none=True),
+                separators=(",", ":"),
+            )
         )

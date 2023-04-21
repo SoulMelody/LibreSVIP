@@ -18,14 +18,6 @@ class S5pPoints(PointList[S5pPoint]):
     pass
 
 
-def _points_encoder(obj: S5pPoints) -> List[float]:
-    return list(chain.from_iterable(obj.root))
-
-
-def _points_decoder(points: List[float]):
-    return S5pPoints(root=[S5pPoint(*each) for each in chunked(points, 2)])
-
-
 class S5pMeterItem(BaseModel):
     measure: int = 0
     beat_per_measure: int = Field(4, alias="beatPerMeasure")
@@ -39,10 +31,10 @@ class S5pTempoItem(BaseModel):
 
 class S5pDbDefaults(BaseModel):
     lyric: Optional[str] = DEFAULT_PHONEME
-    breathiness: Optional[float]
-    d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
-    gender: Optional[float]
-    tension: Optional[float]
+    breathiness: Optional[float] = None
+    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
+    gender: Optional[float] = None
+    tension: Optional[float] = None
 
 
 class S5pNote(BaseModel):
@@ -51,18 +43,18 @@ class S5pNote(BaseModel):
     lyric: str
     comment: str = ""
     pitch: int
-    d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
-    d_f0_jitter: Optional[float] = Field(alias="dF0Jitter")
-    p_f0_vbr: Optional[float] = Field(alias="pF0Vbr")
-    t_f0_vbr_left: Optional[float] = Field(alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(alias="tF0VbrRight")
-    t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
-    f_f0_vbr: Optional[float] = Field(alias="fF0Vbr")
-    t_f0_offset: Optional[float] = Field(alias="tF0Offset")
-    t_note_offset: Optional[float] = Field(alias="tNoteOffset")
-    t_syl_onset: Optional[float] = Field(alias="tSylOnset")
-    t_syl_coda: Optional[float] = Field(alias="tSylCoda")
-    w_syl_nucleus: Optional[float] = Field(alias="wSylNucleus")
+    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
+    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
+    p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
+    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
+    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
+    f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
+    t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
+    t_note_offset: Optional[float] = Field(None, alias="tNoteOffset")
+    t_syl_onset: Optional[float] = Field(None, alias="tSylOnset")
+    t_syl_coda: Optional[float] = Field(None, alias="tSylCoda")
+    w_syl_nucleus: Optional[float] = Field(None, alias="wSylNucleus")
     sublib: Optional[str] = None
 
 
@@ -97,7 +89,7 @@ class S5pParameters(BaseModel):
     )
     def load_points(cls, points):
         if not isinstance(points, S5pPoints):
-            return _points_decoder(points)
+            return S5pPoints(root=[S5pPoint(*each) for each in chunked(points, 2)])
         return points
 
     def _iter(
@@ -120,7 +112,7 @@ class S5pParameters(BaseModel):
                     key = "pitch_delta"
                 elif key == "vibratoEnv":
                     key = "vibrato_env"
-                yield key, _points_encoder(getattr(self, key))
+                yield key, list(chain.from_iterable(getattr(self, key).root))
             else:
                 yield key, value
 

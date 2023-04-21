@@ -51,12 +51,11 @@ class SynthVEditorParser:
                     s5p_project.instrumental, s5p_project.mixer
                 )
             )
-        project = Project(
+        return Project(
             TimeSignatureList=self.parse_time_signatures(s5p_project.meter),
             SongTempoList=tempo_list,
             TrackList=track_list,
         )
-        return project
 
     @staticmethod
     def parse_time_signatures(meter: List[S5pMeterItem]) -> List[TimeSignature]:
@@ -93,21 +92,19 @@ class SynthVEditorParser:
         return tempos
 
     def parse_singing_tracks(self, tracks: List[S5pTrack]) -> List[Track]:
-        track_list = []
-        for i, track in enumerate(tracks):
-            track_list.append(
-                SingingTrack(
-                    Mute=track.mixer.muted,
-                    Solo=track.mixer.solo,
-                    Volume=self.parse_volume(track.mixer.gain_decibel),
-                    Pan=track.mixer.pan,
-                    AISingerName=track.db_name or "",
-                    Title=track.name or f"Track {i + 1}",
-                    NoteList=self.parse_notes(track.notes),
-                    EditedParams=self.parse_params(track.parameters),
-                )
+        return [
+            SingingTrack(
+                Mute=track.mixer.muted,
+                Solo=track.mixer.solo,
+                Volume=self.parse_volume(track.mixer.gain_decibel),
+                Pan=track.mixer.pan,
+                AISingerName=track.db_name or "",
+                Title=track.name or f"Track {i + 1}",
+                NoteList=self.parse_notes(track.notes),
+                EditedParams=self.parse_params(track.parameters),
             )
-        return track_list
+            for i, track in enumerate(tracks)
+        ]
 
     @staticmethod
     def parse_volume(gain: float) -> float:
