@@ -1,7 +1,11 @@
 from typing import Generic, List, NamedTuple, TypeVar
 
-from pydantic import Field  # , root_validator, model_serializer
-from pydantic.generics import GenericModel
+from pydantic import Field, model_serializer, root_validator
+
+try:
+    from pydantic.generics import GenericModel
+except ImportError:
+    from pydantic import BaseModel as GenericModel
 from typing_extensions import Self
 
 PointType = TypeVar("PointType")
@@ -21,9 +25,8 @@ class Point(NamedTuple):
 
 
 class PointList(GenericModel, Generic[PointType]):
-    __root__: List[PointType] = Field(default_factory=list)
-    # First attempt for pydantic v2
-    """
+    root: List[PointType] = Field(default_factory=list)
+
     @root_validator(pre=True)
     @classmethod
     def populate_root(cls, values):
@@ -37,7 +40,6 @@ class PointList(GenericModel, Generic[PointType]):
     @classmethod
     def model_modify_json_schema(cls, json_schema):
         return json_schema['properties']['root']
-    """
 
     def __iter__(self):
         return iter(self.root)
