@@ -14,7 +14,7 @@ from typing import (
 )
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, validator, model_serializer
+from pydantic import Field, model_serializer, validator
 from typing_extensions import Self
 
 from libresvip.model.point import Point, PointList

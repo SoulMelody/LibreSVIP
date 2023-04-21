@@ -30,7 +30,7 @@ class PointList(GenericModel, Generic[PointType]):
     @root_validator(pre=True)
     @classmethod
     def populate_root(cls, values):
-        return {'root': values}
+        return {'root': values} if isinstance(values, list) else values
 
     @model_serializer(mode='wrap')
     def _serialize(self, handler, info):

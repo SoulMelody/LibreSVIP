@@ -51,16 +51,16 @@ class GjgjSingerInfo(BaseModel):
     template_id: Optional[str] = Field("", alias="TemplateID")
     sex: Optional[str] = Field("", alias="Sex")
     age: Optional[int] = Field(100, alias="Age")
-    color: Optional[int] = Field(alias="Color")
-    user_id: Optional[str] = Field(alias="UserID")
-    up_pitch: Optional[int] = Field(alias="UpPitch")
-    low_pitch: Optional[int] = Field(alias="LowPitch")
-    recommend_up_pitch: Optional[int] = Field(alias="RecommandUpPitch")
-    recommend_low_pitch: Optional[int] = Field(alias="RecommandLowPitch")
-    image: Optional[str]
-    image_url: Optional[str]
-    full_avatar: Optional[str]
-    synthesize_file: Optional[str] = Field(alias="synthetize_file")
+    color: Optional[int] = Field(0, alias="Color")
+    user_id: Optional[str] = Field('', alias="UserID")
+    up_pitch: Optional[int] = Field(0, alias="UpPitch")
+    low_pitch: Optional[int] = Field(0, alias="LowPitch")
+    recommend_up_pitch: Optional[int] = Field(0, alias="RecommandUpPitch")
+    recommend_low_pitch: Optional[int] = Field(0, alias="RecommandLowPitch")
+    image: Optional[str] = ''
+    image_url: Optional[str] = ''
+    full_avatar: Optional[str] = ''
+    synthesize_file: Optional[str] = Field('', alias="synthetize_file")
 
 
 class GjgjTempos(BaseModel):
@@ -82,7 +82,7 @@ class GjgjPoint(BaseModel):
 
 
 class GjgjTone(BaseModel):
-    modifies: List[GjgjPoint] = Field(alias="Modifys")
+    modifies: List[GjgjPoint] = Field(default_factory=list, alias="Modifys")
     modify_ranges: List[GjgjPoint] = Field(default_factory=list, alias="ModifyRanges")
 
 
@@ -104,7 +104,7 @@ class GjgjSingingTrack(BaseModel):
     type_: Optional[int] = Field(0, alias="Type")
     name: Optional[str] = Field(alias="Name")
     beat_items: List[GjgjBeatItems] = Field(default_factory=list, alias="BeatItems")
-    tone: Optional[GjgjTone] = Field(alias="Tone")
+    tone: Optional[GjgjTone] = Field(default_factory=GjgjTone, alias="Tone")
     volume_map: List[GjgjVolumeMap] = Field(default_factory=list, alias="VolumeMap")
     singer_info: Optional[GjgjSingerInfo] = Field(
         default_factory=GjgjSingerInfo, alias="SingerInfo"
