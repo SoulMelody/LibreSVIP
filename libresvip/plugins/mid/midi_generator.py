@@ -88,7 +88,7 @@ class MidiGenerator:
             for note in track.note_list
         ]
         if self.options.remove_symbols:
-            lyrics = [re.sub(r"\p{punct}", "", lyric) for lyric in lyrics]
+            lyrics = [re.sub(r"(?!-)\p{punct}", "", lyric) for lyric in lyrics]
         pinyins = get_pinyin_series(lyrics)
         mido_track = mido.MidiTrack()
         mido_track.name = track.title.encode(self.options.lyric_encoding).decode(

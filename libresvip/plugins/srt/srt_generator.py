@@ -10,7 +10,7 @@ from libresvip.model.base import Note, Project, SingingTrack
 
 from .options import OutputOptions, SplitOption
 
-SYMBOL_PATTERN = re.compile(r"\p{punct}+")
+SYMBOL_PATTERN = re.compile(r"(?!-)\p{punct}+")
 
 
 @dataclasses.dataclass

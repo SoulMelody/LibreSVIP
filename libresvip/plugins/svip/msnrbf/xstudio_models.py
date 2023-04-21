@@ -5,9 +5,11 @@ import enum
 import math
 import struct
 from itertools import chain
-from typing import List, Literal, NamedTuple, Optional
+from typing import Generic, List, Literal, NamedTuple, Optional, TypeVar
 
 from more_itertools import chunked
+
+XSItem = TypeVar("XSItem")
 
 
 def to_backing_field(key: str) -> str:
@@ -272,10 +274,10 @@ class XSNote(XSIOverlappable):
 
 
 @dataclasses.dataclass
-class XSBuf:
+class XSBuf(Generic[XSItem]):
     """System.Collections.Generic.List"""
 
-    items: list = dataclasses.field(
+    items: List[XSItem] = dataclasses.field(
         default_factory=list,
         metadata={
             "alias": "_items",
@@ -299,18 +301,18 @@ class XSBuf:
 
 
 @dataclasses.dataclass
-class XSBufList:
+class XSBufList(Generic[XSItem]):
     """SingingTool.Library.SerialOverlapableItemList"""
 
-    buf: XSBuf = dataclasses.field(
-        default_factory=XSBuf,
+    buf: XSBuf[XSItem] = dataclasses.field(
+        default_factory=XSBuf[XSItem],
         metadata={
             "alias": "_buf",
             "order": 0,
         },
     )
-    buf_1: XSBuf = dataclasses.field(
-        default_factory=XSBuf,
+    buf_1: XSBuf[XSItem] = dataclasses.field(
+        default_factory=XSBuf[XSItem],
         metadata={
             "alias": "SerialItemList`1+_buf",
             "order": 1,
@@ -370,8 +372,8 @@ class XSSingingTrack(XSITrack):
             "order": 8,
         },
     )
-    note_list: XSBufList = dataclasses.field(
-        default_factory=XSBufList,
+    note_list: XSBufList[XSNote] = dataclasses.field(
+        default_factory=XSBufList[XSNote],
         metadata={
             "alias": "_noteList",
             "order": 0,
@@ -495,22 +497,22 @@ class XSAppModel:
             "order": 0,
         },
     )
-    tempo_list: XSBufList = dataclasses.field(
-        default_factory=XSBufList,
+    tempo_list: XSBufList[XSSongTempo] = dataclasses.field(
+        default_factory=XSBufList[XSSongTempo],
         metadata={
             "alias": "_tempoList",
             "order": 1,
         },
     )
-    beat_list: XSBufList = dataclasses.field(
-        default_factory=XSBufList,
+    beat_list: XSBufList[XSSongBeat] = dataclasses.field(
+        default_factory=XSBufList[XSSongBeat],
         metadata={
             "alias": "_beatList",
             "order": 2,
         },
     )
-    track_list: XSBuf = dataclasses.field(
-        default_factory=XSBuf,
+    track_list: XSBuf[XSITrack] = dataclasses.field(
+        default_factory=XSBuf[XSITrack],
         metadata={
             "alias": "_trackList",
             "order": 3,

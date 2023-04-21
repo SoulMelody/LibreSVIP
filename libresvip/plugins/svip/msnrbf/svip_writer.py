@@ -5,7 +5,7 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Set, get_args
+from typing import Set, Union, get_args, get_origin
 
 from .binary_models import (
     BinaryArrayTypeEnum,
@@ -24,10 +24,8 @@ from .constants import (
 from .nrbf_iobase import NrbfIOBase
 from .xstudio_models import (
     XSAppModel,
-    XSITrack,
-    XSNote,
-    XSSongBeat,
-    XSSongTempo,
+    XSBuf,
+    XSBufList,
 )
 
 
@@ -73,31 +71,12 @@ class SvipWriter(NrbfIOBase):
                 "obj": self.header,
             }
         )
-        self.id_max += 1
-        self.model_library_id = self.id_max
-        model_library = {
-            "library_id": self.model_library_id,
-            "library_name": LIBRARY_NAME_SINGING_TOOL_MODEL,
-        }
-        libraries_by_id[self.cur_thread_id][
-            model_library["library_id"]
-        ] = model_library["library_name"]
-        self.svip_file["record_stream"].append(
-            {"record_type_enum": RecordTypeEnum.BinaryLibrary, "obj": model_library}
+        self.model_library_id = self.write_library(
+            LIBRARY_NAME_SINGING_TOOL_MODEL
         )
-        self.id_max += 1
-        self.lib_library_id = self.id_max
-        lib_library = {
-            "library_id": self.lib_library_id,
-            "library_name": LIBRARY_NAME_SINGING_TOOL_LIBRARY,
-        }
-        libraries_by_id[self.cur_thread_id][lib_library["library_id"]] = lib_library[
-            "library_name"
-        ]
-        self.svip_file["record_stream"].append(
-            {"record_type_enum": RecordTypeEnum.BinaryLibrary, "obj": lib_library}
+        self.lib_library_id = self.write_library(
+            LIBRARY_NAME_SINGING_TOOL_LIBRARY
         )
-
         self.svip_file["record_stream"].append(
             self.write_dataclass(model, app_model_id)
         )
@@ -121,16 +100,27 @@ class SvipWriter(NrbfIOBase):
         )
         SVIPFile.build_file(self.svip_file, path)
 
+    def write_library(self, library_name):
+        self.id_max += 1
+        result = self.id_max
+        model_library = {"library_id": result, "library_name": library_name}
+        libraries_by_id[self.cur_thread_id][
+            model_library["library_id"]
+        ] = model_library["library_name"]
+        self.svip_file["record_stream"].append(
+            {"record_type_enum": RecordTypeEnum.BinaryLibrary, "obj": model_library}
+        )
+        return result
+
     def create_string(self, value: str):
         self.id_max += 1
-        result = {
+        return {
             "record_type_enum": RecordTypeEnum.BinaryObjectString,
             "obj": {
                 "object_id": self.id_max,
                 "value": value,
             },
         }
-        return result
 
     def create_reference(self, value, object_id: int, subcon_class_name: str):
         result = {
@@ -172,10 +162,7 @@ class SvipWriter(NrbfIOBase):
 
     def write_binary_array(self, values: list, type_name: str, library_id: int):
         object_id = self.enq()
-        padded_length = max(
-            4,
-            2 ** math.ceil(math.log2(len(values))) if len(values) > 0 else 0,
-        )
+        padded_length = max(4, 2 ** math.ceil(math.log2(len(values))) if values else 0)
         result = {
             "record_type_enum": RecordTypeEnum.BinaryArray,
             "obj": {
@@ -211,8 +198,7 @@ class SvipWriter(NrbfIOBase):
             "id_ref": object_id,
             "real_obj": result,
         }
-        ref = self.create_reference(result, object_id, None)
-        return ref
+        return self.create_reference(result, object_id, None)
 
     def create_primitive_array(self, values):
         object_id = self.enq()
@@ -231,8 +217,7 @@ class SvipWriter(NrbfIOBase):
             "id_ref": object_id,
             "real_obj": result,
         }
-        ref = self.create_reference(result, object_id, None)
-        return ref
+        return self.create_reference(result, object_id, None)
 
     def write_dataclass(self, obj, object_id, subcon_class_name=None):
         fields = sorted(
@@ -276,7 +261,12 @@ class SvipWriter(NrbfIOBase):
             for field in fields:
                 if field.metadata.get("alias"):
                     field_args = get_args(field.type)
-                    if len(field_args) == 2 and issubclass(field_args[-1], type(None)):
+                    field_origin = get_origin(field.type)
+                    if field_origin in (list, XSBuf, XSBufList):
+                        field_type = field_origin
+                        if dataclasses.is_dataclass(field_args[0]):
+                            subcon_class_name = field_args[0].__doc__
+                    elif field_origin == Union and len(field_args) == 2 and issubclass(field_args[-1], type(None)):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
@@ -309,9 +299,6 @@ class SvipWriter(NrbfIOBase):
                             {"info": primitive_type_enum}
                         )
                     elif issubclass(field_type, list):
-                        values = getattr(obj, field.name)
-                        if len(values) > 0:
-                            subcon_class_name = values[0].__class__.__doc__
 
                         result["obj"]["member_type_info"]["binary_type_enums"].append(
                             BinaryTypeEnum.Class
@@ -319,9 +306,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_type_info"]["additional_infos"].append(
                             {
                                 "info": {
-                                    "type_name": subcon_class_name.replace(
-                                        "InstrumentTrack", "ITrack"
-                                    ).replace("SingingTrack", "ITrack")
+                                    "type_name": subcon_class_name
                                     + "[]",
                                     "library_id": self.model_library_id,
                                 }
@@ -336,14 +321,6 @@ class SvipWriter(NrbfIOBase):
                         )
                     elif dataclasses.is_dataclass(field_type):
                         sub_class_name = field_type.__doc__
-                        if field.name == "tempo_list":
-                            subcon_class_name = XSSongTempo.__doc__
-                        elif field.name == "beat_list":
-                            subcon_class_name = XSSongBeat.__doc__
-                        elif field.name == "note_list":
-                            subcon_class_name = XSNote.__doc__
-                        elif field.name == "track_list":
-                            subcon_class_name = XSITrack.__doc__
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -389,80 +366,71 @@ class SvipWriter(NrbfIOBase):
                                 }
                             }
                         )
-                    else:
-                        if issubclass(field_type, str):
-                            result["obj"]["member_values"].append(
-                                {"value": self.create_string(value or "")}
-                            )
-                        elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
-                            result["obj"]["member_values"].append({"value": value})
-                        elif issubclass(field_type, list):
-                            if len(value) > 0:
-                                subcon_class_name = value[0].__class__.__doc__
-                            result["obj"]["member_values"].append(
-                                {
-                                    "value": self.write_binary_array(
-                                        value, subcon_class_name, self.model_library_id
-                                    )
-                                }
-                            )
-                        elif issubclass(field_type, bytes):
-                            result["obj"]["member_values"].append(
-                                {
-                                    "value": self.create_primitive_array(
-                                        getattr(obj, field.name)
-                                    )
-                                }
-                            )
-                        elif dataclasses.is_dataclass(field_type):
-                            sub_class_name = field_type.__doc__
-                            if field.name == "tempo_list":
-                                subcon_class_name = XSSongTempo.__doc__
-                            elif field.name == "beat_list":
-                                subcon_class_name = XSSongBeat.__doc__
-                            elif field.name == "note_list":
-                                subcon_class_name = XSNote.__doc__
-                            elif field.name == "track_list":
-                                subcon_class_name = XSITrack.__doc__
+                    elif issubclass(field_type, str):
+                        result["obj"]["member_values"].append(
+                            {"value": self.create_string(value or "")}
+                        )
+                    elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
+                        result["obj"]["member_values"].append({"value": value})
+                    elif issubclass(field_type, list):
+                        if len(value) > 0:
+                            subcon_class_name = value[0].__class__.__doc__
+                        result["obj"]["member_values"].append(
+                            {
+                                "value": self.write_binary_array(
+                                    value, subcon_class_name, self.model_library_id
+                                )
+                            }
+                        )
+                    elif issubclass(field_type, bytes):
+                        result["obj"]["member_values"].append(
+                            {
+                                "value": self.create_primitive_array(
+                                    getattr(obj, field.name)
+                                )
+                            }
+                        )
+                    elif dataclasses.is_dataclass(field_type):
+                        sub_class_name = field_type.__doc__
 
-                            if sub_class_name.endswith("List"):
-                                sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
-                            if field.name == "buf_1":
-                                obj_id = self.id_max
-                            elif hasattr(field_type, "value"):
-                                self.id_max += 1
-                                obj_id = self.id_max
-                            else:
-                                obj_id = self.enq()
-                            if hasattr(field_type, "value"):
-                                result["obj"]["member_values"].append(
-                                    {
-                                        "value": self.write_dataclass(
-                                            value, -obj_id, sub_class_name
-                                        )
-                                    }
-                                )
-                            elif field.name.endswith("_line") and not len(
-                                value.line_param
-                            ):
-                                result["obj"]["member_values"].append(
-                                    {
-                                        "value": {
-                                            "record_type_enum": RecordTypeEnum.ObjectNull,
-                                            "obj": {},
-                                        }
-                                    }
-                                )
-                            else:
-                                result["obj"]["member_values"].append(
-                                    {
-                                        "value": self.create_reference(
-                                            value, obj_id, sub_class_name
-                                        )
-                                    }
-                                )
+                        if sub_class_name.endswith("List"):
+                            sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
+                        if field.name == "buf_1":
+                            obj_id = self.id_max
+                        elif hasattr(field_type, "value"):
+                            self.id_max += 1
+                            obj_id = self.id_max
                         else:
-                            raise Exception(f"Unknown type {field_type}")
+                            obj_id = self.enq()
+                        if hasattr(field_type, "value"):
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.write_dataclass(
+                                        value, -obj_id, sub_class_name
+                                    )
+                                }
+                            )
+                        elif field.name.endswith("_line") and not len(
+                            value.line_param
+                        ):
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": {
+                                        "record_type_enum": RecordTypeEnum.ObjectNull,
+                                        "obj": {},
+                                    }
+                                }
+                            )
+                        else:
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.create_reference(
+                                        value, obj_id, sub_class_name
+                                    )
+                                }
+                            )
+                    else:
+                        raise Exception(f"Unknown type {field_type}")
                     result["obj"]["class_info"]["member_names"].append(
                         field.metadata["alias"]
                     )
@@ -483,7 +451,12 @@ class SvipWriter(NrbfIOBase):
             for field in fields:
                 if field.metadata.get("alias"):
                     field_args = get_args(field.type)
-                    if len(field_args) == 2 and issubclass(field_args[-1], type(None)):
+                    field_origin = get_origin(field.type)
+                    if field_origin in (list, XSBuf, XSBufList):
+                        field_type = field_origin
+                        if dataclasses.is_dataclass(field_args[0]):
+                            subcon_class_name = field_args[0].__doc__
+                    elif field_origin == Union and len(field_args) == 2 and issubclass(field_args[-1], type(None)):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
@@ -503,78 +476,69 @@ class SvipWriter(NrbfIOBase):
                                 }
                             }
                         )
-                    else:
-                        if issubclass(field_type, str):
-                            result["obj"]["member_values"].append(
-                                {"value": self.create_string(value or "")}
-                            )
-                        elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
-                            result["obj"]["member_values"].append({"value": value})
-                        elif issubclass(field_type, list):
-                            if len(value) > 0:
-                                subcon_class_name = value[0].__class__.__doc__
-                            result["obj"]["member_values"].append(
-                                {
-                                    "value": self.write_binary_array(
-                                        value, subcon_class_name, self.model_library_id
-                                    )
-                                }
-                            )
-                        elif issubclass(field_type, bytes):
-                            result["obj"]["member_values"].append(
-                                {
-                                    "value": self.create_primitive_array(
-                                        getattr(obj, field.name)
-                                    )
-                                }
-                            )
-                        elif dataclasses.is_dataclass(field_type):
-                            sub_class_name = field_type.__doc__
-                            if field.name == "tempo_list":
-                                subcon_class_name = XSSongTempo.__doc__
-                            elif field.name == "beat_list":
-                                subcon_class_name = XSSongBeat.__doc__
-                            elif field.name == "note_list":
-                                subcon_class_name = XSNote.__doc__
-                            elif field.name == "track_list":
-                                subcon_class_name = XSITrack.__doc__
+                    elif issubclass(field_type, str):
+                        result["obj"]["member_values"].append(
+                            {"value": self.create_string(value or "")}
+                        )
+                    elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
+                        result["obj"]["member_values"].append({"value": value})
+                    elif issubclass(field_type, list):
+                        if len(value) > 0:
+                            subcon_class_name = value[0].__class__.__doc__
+                        result["obj"]["member_values"].append(
+                            {
+                                "value": self.write_binary_array(
+                                    value, subcon_class_name, self.model_library_id
+                                )
+                            }
+                        )
+                    elif issubclass(field_type, bytes):
+                        result["obj"]["member_values"].append(
+                            {
+                                "value": self.create_primitive_array(
+                                    getattr(obj, field.name)
+                                )
+                            }
+                        )
+                    elif dataclasses.is_dataclass(field_type):
+                        sub_class_name = field_type.__doc__
 
-                            if sub_class_name.endswith("List"):
-                                sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
-                            if field.name == "buf_1":
-                                obj_id = self.id_max
-                            elif hasattr(field_type, "value"):
-                                self.id_max += 1
-                                obj_id = self.id_max
-                            else:
-                                obj_id = self.enq()
-                            if hasattr(field_type, "value"):
-                                result["obj"]["member_values"].append(
-                                    {
-                                        "value": self.write_dataclass(
-                                            value, -obj_id, sub_class_name
-                                        )
-                                    }
-                                )
-                            elif field.name.endswith("_line") and not len(
-                                value.line_param
-                            ):
-                                result["obj"]["member_values"].append(
-                                    {
-                                        "value": {
-                                            "record_type_enum": RecordTypeEnum.ObjectNull,
-                                            "obj": {},
-                                        }
-                                    }
-                                )
-                            else:
-                                result["obj"]["member_values"].append(
-                                    {
-                                        "value": self.create_reference(
-                                            value, obj_id, sub_class_name
-                                        )
-                                    }
-                                )
+                        if sub_class_name.endswith("List"):
+                            sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
+                        if field.name == "buf_1":
+                            obj_id = self.id_max
+                        elif hasattr(field_type, "value"):
+                            self.id_max += 1
+                            obj_id = self.id_max
                         else:
-                            raise Exception(f"Unknown type {field_type}")
+                            obj_id = self.enq()
+                        if hasattr(field_type, "value"):
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.write_dataclass(
+                                        value, -obj_id, sub_class_name
+                                    )
+                                }
+                            )
+                        elif field.name.endswith("_line") and not len(
+                            value.line_param
+                        ):
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": {
+                                        "record_type_enum": RecordTypeEnum.ObjectNull,
+                                        "obj": {},
+                                    }
+                                }
+                            )
+                        else:
+                            result["obj"]["member_values"].append(
+                                {
+                                    "value": self.create_reference(
+                                        value, obj_id, sub_class_name
+                                    )
+                                }
+                            )
+                    else:
+                        raise Exception(f"Unknown type {field_type}")
         return result

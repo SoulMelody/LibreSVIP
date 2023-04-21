@@ -2,10 +2,21 @@ import abc
 import inspect
 import sys
 from types import SimpleNamespace
-from typing import Annotated, List, Literal, Optional, Protocol, Union, runtime_checkable
+from typing import (
+    Annotated,
+    Any,
+    Generator,
+    List,
+    Literal,
+    Optional,
+    Protocol,
+    Tuple,
+    Union,
+    runtime_checkable,
+)
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, model_serializer, root_validator, validator
+from pydantic import Field, validator
 from typing_extensions import Self
 
 from libresvip.model.point import Point, PointList
@@ -21,7 +32,7 @@ json_dumps = json.dumps
 
 
 class BaseModel(PydanticBaseModel):
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         """
         To be able to use properties with setters
         """
@@ -59,6 +70,8 @@ class BaseComplexModel(Protocol):
         pass
 
 
+class Points(PointList[Point]):
+    pass
 class Points(PointList, BaseModel):
     root: List[Point] = Field(default_factory=list)
 

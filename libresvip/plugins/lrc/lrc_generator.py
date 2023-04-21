@@ -19,7 +19,7 @@ from .model import (
 )
 from .options import OffsetPolicyOption, OutputOptions, SplitOption
 
-SYMBOL_PATTERN = re.compile(r"\p{punct}+")
+SYMBOL_PATTERN = re.compile(r"(?!-)\p{punct}+")
 
 
 @dataclasses.dataclass

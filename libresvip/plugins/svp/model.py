@@ -21,16 +21,26 @@ class SVPoint(NamedTuple):
     value: float
 
 
-class SVPoints(PointList, BaseModel):
-    root: List[SVPoint] = Field(default_factory=list)
+class SVPoints(PointList[SVPoint]):
+    pass
 
 
-def _points_encoder(obj: SVPoints) -> List[float]:
-    return list(chain.from_iterable(obj.root))
-
-
-def _points_decoder(points: List[float]):
-    return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
+class SVBaseAttributes(BaseModel):
+    t_f0_left: Optional[float] = Field(alias="tF0Left")
+    t_f0_right: Optional[float] = Field(alias="tF0Right")
+    d_f0_left: Optional[float] = Field(alias="dF0Left")
+    d_f0_right: Optional[float] = Field(alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(alias="fF0Vbr")
+    param_loudness: Optional[float] = Field(alias="paramLoudness")
+    param_tension: Optional[float] = Field(alias="paramTension")
+    param_breathiness: Optional[float] = Field(alias="paramBreathiness")
+    param_gender: Optional[float] = Field(alias="paramGender")
+    param_tone_shift: Optional[float] = Field(alias="paramToneShift")
+    improvise_attack_release: Optional[bool] = Field(alias="improviseAttackRelease")
 
 
 class SVMeter(BaseModel):
@@ -55,8 +65,8 @@ class SVParamCurve(BaseModel):
     points: SVPoints = Field(default_factory=SVPoints)
 
     @validator("points", pre=True)
-    def load_points(cls, points):
-        return _points_decoder(points)
+    def load_points(cls, points: List[float]):
+        return SVPoints(__root__=[SVPoint(*each) for each in chunked(points, 2)])
 
     def _iter(
         self,
@@ -64,7 +74,7 @@ class SVParamCurve(BaseModel):
     ):
         for key, value in super()._iter(**kwargs):
             if key in {"points"}:
-                yield key, _points_encoder(self.points)
+                yield key, list(chain.from_iterable(self.points.__root__))
             else:
                 yield key, value
 
@@ -75,7 +85,7 @@ class SVParamCurve(BaseModel):
             SVPoint(position_to_ticks(point.offset), point.value)
             for point in self.points
         ]
-        if len(points) == 0:
+        if not points:
             return interval
         elif len(points) == 1:
             return (
@@ -136,17 +146,8 @@ class SVParamTakes(BaseModel):
     takes: List[SVParamTake] = Field(default_factory=list)
 
 
-class SVNoteAttributes(BaseModel):
+class SVNoteAttributes(SVBaseAttributes):
     t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
-    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
-    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
-    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
-    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
-    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
-    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
-    d_f0_vbr: float = Field(None, alias="dF0Vbr")
-    f_f0_vbr: float = Field(None, alias="fF0Vbr")
     p_f0_vbr: float = Field(None, alias="pF0Vbr")
     d_f0_jitter: float = Field(None, alias="dF0Jitter")
     t_note_offset: float = Field(None, alias="tNoteOffset")
@@ -154,11 +155,8 @@ class SVNoteAttributes(BaseModel):
     alt: Optional[List[float]]
     expr_group: Optional[str] = Field(None, alias="exprGroup")
     strength: Optional[List[float]]
-    param_loudness: Optional[float] = Field(alias="paramLoudness")
-    param_tension: Optional[float] = Field(alias="paramTension")
-    param_breathiness: Optional[float] = Field(alias="paramBreathiness")
-    param_gender: Optional[float] = Field(alias="paramGender")
-    param_tone_shift: Optional[float] = Field(alias="paramToneShift")
+    r_tone: Optional[float] = Field(alias="rTone")
+    r_intonation: Optional[float] = Field(alias="rIntonation")
 
     def _get_transition_offset(self) -> float:
         return (
@@ -316,7 +314,6 @@ class SVNoteAttributes(BaseModel):
         regard_default_vibrato_as_unedited: bool = True,
         consider_instant_pitch_mode: bool = True,
     ) -> bool:
-        tolerance = 1e-6
         transition_edited = any(
             x is not None
             for x in [
@@ -328,6 +325,7 @@ class SVNoteAttributes(BaseModel):
             ]
         )
         if consider_instant_pitch_mode:
+            tolerance = 1e-6
             transition_edited &= any(
                 x >= tolerance
                 for x in (
@@ -361,10 +359,15 @@ class SVNote(BaseModel):
     phonemes: str = ""
     pitch: int
     detune: Optional[int]
+    accent: Optional[str]
     attributes: SVNoteAttributes = Field(default_factory=SVNoteAttributes)
     system_attributes: Optional[SVNoteAttributes] = Field(alias="systemAttributes")
     pitch_takes: Optional[SVParamTakes] = Field(alias="pitchTakes")
     timbre_takes: Optional[SVParamTakes] = Field(alias="timbreTakes")
+    musical_type: Optional[Literal["singing", "rap"]] = Field(
+        "singing", alias="musicalType"
+    )
+    instant_mode: Optional[bool] = Field(alias="instantMode")
 
     def cover_range(self):
         return RangeInterval([(self.onset, self.onset + self.duration)])
@@ -389,24 +392,21 @@ class SVNote(BaseModel):
         )
 
     def __add__(self, blick_offset: int):
-        new_note = self.copy(deep=True)
-        new_note.onset += blick_offset
-        return new_note
+        return self.copy(deep=True, update={"onset": self.onset + blick_offset})
 
     def __xor__(self, pitch_offset: int):
-        new_note = self.copy(deep=True)
-        new_note.pitch += pitch_offset
-        return new_note
+        return self.copy(deep=True, update={"pitch": self.pitch + pitch_offset})
 
 
 class SVRenderConfig(BaseModel):
     aspiration_format: str = Field("noAspiration", alias="aspirationFormat")
     bit_depth: int = Field(16, alias="bitDepth")
     destination: str = "./"
-    export_mix_down: bool = Field(True, alias="exportMixDown")
     filename: str = "untitled"
     num_channels: int = Field(1, alias="numChannels")
     sample_rate: int = Field(44100, alias="sampleRate")
+    export_mix_down: bool = Field(True, alias="exportMixDown")
+    export_pitch: Optional[bool] = Field(False, alias="exportPitch")
 
 
 class SVParameters(BaseModel):
@@ -434,21 +434,7 @@ class SVParameters(BaseModel):
         return new_params
 
 
-class SVVoice(BaseModel):
-    t_f0_left: Optional[float] = Field(alias="tF0Left")
-    t_f0_right: Optional[float] = Field(alias="tF0Right")
-    d_f0_left: Optional[float] = Field(alias="dF0Left")
-    d_f0_right: Optional[float] = Field(alias="dF0Right")
-    t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
-    t_f0_vbr_left: Optional[float] = Field(alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(alias="tF0VbrRight")
-    d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
-    f_f0_vbr: Optional[float] = Field(alias="fF0Vbr")
-    param_loudness: Optional[float] = Field(alias="paramLoudness")
-    param_tension: Optional[float] = Field(alias="paramTension")
-    param_breathiness: Optional[float] = Field(alias="paramBreathiness")
-    param_gender: Optional[float] = Field(alias="paramGender")
-    param_tone_shift: Optional[float] = Field(alias="paramToneShift")
+class SVVoice(SVBaseAttributes):
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
     vocal_mode_params: Optional[dict] = Field(alias="vocalModeParams")
@@ -464,6 +450,7 @@ class SVVoice(BaseModel):
                 "vocal_mode_preset",
                 "vocal_mode_params",
                 "render_mode",
+                "improvise_attack_release",
             },
         )
         return SVNoteAttributes.parse_obj(voice_dict)
@@ -515,18 +502,16 @@ class SVGroup(BaseModel):
         return v
 
     def overlapped_with(self, other: "SVGroup") -> bool:
-        result = False
         for note in self.notes:
             for other_note in other.notes:
                 x = note.onset - (other_note.onset + other_note.duration)
                 y = (note.onset + note.duration) - other_note.onset
                 if x * y == 0:
                     continue
-                else:
-                    tmp = (x < 0) ^ (y > 0)
-                    if tmp:
-                        return True
-        return result
+                tmp = (x < 0) ^ (y > 0)
+                if tmp:
+                    return True
+        return False
 
     def __add__(self, blick_offset: int):
         new_group = self.copy(deep=True)
