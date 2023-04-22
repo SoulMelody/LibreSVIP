@@ -72,7 +72,7 @@ class DiffSingerParser:
                             notes.append(
                                 Note(
                                     StartPos=int(cur_time),
-                                    Length=round(phone_dur),
+                                    Length=int(phone_dur),
                                     KeyNumber=midi_key,
                                     Pronunciation=phone,
                                     HeadTag="V" if prev_is_breath else None,
@@ -96,7 +96,7 @@ class DiffSingerParser:
                                 notes.append(
                                     Note(
                                         StartPos=int(cur_time),
-                                        Length=round(phone_dur),
+                                        Length=int(phone_dur),
                                         KeyNumber=midi_key,
                                         Pronunciation=phone,
                                         HeadTag="V" if prev_is_breath else None,
@@ -105,7 +105,7 @@ class DiffSingerParser:
                                 prev_is_breath = False
                                 phone_complete = False
                             else:
-                                notes[-1].length += phone_dur
+                                notes[-1].length += int(phone_dur)
                                 notes[-1].pronunciation += " " + phone
                     else:
                         phone_str = notes[-1].pronunciation
@@ -122,7 +122,7 @@ class DiffSingerParser:
                             notes.append(
                                 Note(
                                     StartPos=int(cur_time),
-                                    Length=round(phone_dur),
+                                    Length=int(phone_dur),
                                     KeyNumber=midi_key,
                                     Lyric="-",
                                 )
@@ -148,15 +148,18 @@ class DiffSingerParser:
             f0_timestep = ds_item.f0_timestep
             points.append(
                 Point(
-                    self.synchronizer.get_actual_ticks_from_secs(ds_item.offset) + 1920,
+                    round(self.synchronizer.get_actual_ticks_from_secs(ds_item.offset))
+                    + 1920,
                     -100,
                 )
             )
             points.extend(
                 [
                     Point(
-                        self.synchronizer.get_actual_ticks_from_secs(
-                            ds_item.offset + f0_timestep * i
+                        round(
+                            self.synchronizer.get_actual_ticks_from_secs(
+                                ds_item.offset + f0_timestep * i
+                            )
                         )
                         + 1920,
                         round(hz2midi(float(f0)) * 100),
@@ -166,8 +169,10 @@ class DiffSingerParser:
             )
             points.append(
                 Point(
-                    self.synchronizer.get_actual_ticks_from_secs(
-                        ds_item.offset + f0_timestep * (len(ds_item.f0_seq) - 1)
+                    round(
+                        self.synchronizer.get_actual_ticks_from_secs(
+                            ds_item.offset + f0_timestep * (len(ds_item.f0_seq) - 1)
+                        )
                     )
                     + 1920,
                     -100,
