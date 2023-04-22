@@ -11,7 +11,7 @@ from .options import InputOptions, OutputOptions
 
 class JsonSvipConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        return OpenSvipProject.parse_file(path)
+        return OpenSvipProject.model_validate_json(path.read_text("utf-8"))
 
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions

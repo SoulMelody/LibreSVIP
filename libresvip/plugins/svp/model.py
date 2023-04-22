@@ -67,7 +67,7 @@ class SVParamCurve(BaseModel):
 
     @validator("points", pre=True)
     def load_points(cls, points: List[float]):
-        return SVPoints(__root__=[SVPoint(*each) for each in chunked(points, 2)])
+        return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
     def _iter(
         self,
@@ -75,7 +75,7 @@ class SVParamCurve(BaseModel):
     ):
         for key, value in super()._iter(**kwargs):
             if key in {"points"}:
-                yield key, list(chain.from_iterable(self.points.__root__))
+                yield key, list(chain.from_iterable(self.points.root))
             else:
                 yield key, value
 

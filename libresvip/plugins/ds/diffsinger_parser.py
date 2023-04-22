@@ -34,8 +34,8 @@ class DiffSingerParser:
             TimeSignatureList=[TimeSignature(BarIndex=0, Numerator=4, Denominator=4)],
             TrackList=[
                 SingingTrack(
-                    NoteList=self.parse_notes(ds_project.__root__),
-                    EditedParams=Params(Pitch=self.parse_pitch(ds_project.__root__)),
+                    NoteList=self.parse_notes(ds_project.root),
+                    EditedParams=Params(Pitch=self.parse_pitch(ds_project.root)),
                 )
             ],
         )
@@ -71,8 +71,8 @@ class DiffSingerParser:
                         if not len(notes):
                             notes.append(
                                 Note(
-                                    StartPos=cur_time,
-                                    Length=phone_dur,
+                                    StartPos=int(cur_time),
+                                    Length=round(phone_dur),
                                     KeyNumber=midi_key,
                                     Pronunciation=phone,
                                     HeadTag="V" if prev_is_breath else None,
@@ -95,8 +95,8 @@ class DiffSingerParser:
                             if phone_complete or phone_str is None:
                                 notes.append(
                                     Note(
-                                        StartPos=cur_time,
-                                        Length=phone_dur,
+                                        StartPos=int(cur_time),
+                                        Length=round(phone_dur),
                                         KeyNumber=midi_key,
                                         Pronunciation=phone,
                                         HeadTag="V" if prev_is_breath else None,
@@ -121,8 +121,8 @@ class DiffSingerParser:
                                 )
                             notes.append(
                                 Note(
-                                    StartPos=cur_time,
-                                    Length=phone_dur,
+                                    StartPos=int(cur_time),
+                                    Length=round(phone_dur),
                                     KeyNumber=midi_key,
                                     Lyric="-",
                                 )
@@ -142,7 +142,7 @@ class DiffSingerParser:
         return all_notes
 
     def parse_pitch(self, ds_items: List[DsItem]) -> ParamCurve:
-        points = Points(__root__=[])
+        points = Points(root=[])
         points.append(Point.start_point())
         for ds_item in ds_items:
             f0_timestep = ds_item.f0_timestep
