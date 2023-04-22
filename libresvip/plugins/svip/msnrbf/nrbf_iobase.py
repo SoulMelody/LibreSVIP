@@ -4,6 +4,8 @@ import threading
 from collections import ChainMap
 from functools import cached_property
 
+from typing_extensions import Self
+
 from .binary_models import (
     classes_by_id,
     libraries_by_id,
@@ -20,18 +22,17 @@ class NrbfIOBase:
         self.cur_thread_id = threading.get_ident()
 
     @cached_property
-    def ref_map(self):
+    def ref_map(self) -> ChainMap:
         return ChainMap(
             classes_by_id[self.cur_thread_id],
             objects_by_id[self.cur_thread_id],
         )
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
         classes_by_id.pop(self.cur_thread_id, None)
         objects_by_id.pop(self.cur_thread_id, None)
         libraries_by_id.pop(self.cur_thread_id, None)
         references_by_id.pop(self.cur_thread_id, None)
-
