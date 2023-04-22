@@ -1,7 +1,7 @@
 import dataclasses
 import math
 import pathlib
-from typing import Callable, Dict, List
+from typing import Callable
 
 from construct import Container
 from pydub.utils import db_to_float
@@ -37,9 +37,7 @@ class VocalShifterParser:
     options: InputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     tick_rate: float = dataclasses.field(init=False)
-    track_index2metadata: Dict[int, Container] = dataclasses.field(
-        default_factory=dict
-    )
+    track_index2metadata: dict[int, Container] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, vshp_proj: VocalShifterProjectData) -> Project:
         project = Project(
@@ -51,7 +49,7 @@ class VocalShifterParser:
 
     def parse_tempo(
         self, vshp_metadata: VocalShifterProjectMetadata
-    ) -> List[SongTempo]:
+    ) -> list[SongTempo]:
         tempo_list = [
             SongTempo(
                 Position=0,
@@ -64,7 +62,7 @@ class VocalShifterParser:
 
     def parse_time_signature(
         self, vshp_metadata: VocalShifterProjectMetadata
-    ) -> List[TimeSignature]:
+    ) -> list[TimeSignature]:
         return [
             TimeSignature(
                 BarIndex=0,
@@ -73,7 +71,7 @@ class VocalShifterParser:
             )
         ]
 
-    def parse_track_list(self, vshp_proj: VocalShifterProjectData) -> List[Track]:
+    def parse_track_list(self, vshp_proj: VocalShifterProjectData) -> list[Track]:
         track_list = []
         for i, track_metadata in enumerate(vshp_proj.track_metadatas):
             self.track_index2metadata[i + 1] = track_metadata
@@ -100,14 +98,12 @@ class VocalShifterParser:
             pattern_metadata.offset_samples + pattern_metadata.offset_correction
         )
         offset_in_seconds = sample_offset / sample_rate
-        offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
-            offset_in_seconds
-        ) - 1920
+        offset_in_ticks = (
+            self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds) - 1920
+        )
         track_metadata = self.track_index2metadata[pattern_metadata.track_index]
         return InstrumentalTrack(
-            AudioFilePath=ansi2unicode(
-                pattern_metadata.path_and_ext.split(b"\x00")[0]
-            ),
+            AudioFilePath=ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]),
             Offset=offset_in_ticks,
             Solo=track_metadata.solo,
             Mute=track_metadata.mute,
@@ -135,9 +131,9 @@ class VocalShifterParser:
             pattern_metadata.offset_samples + pattern_metadata.offset_correction
         )
         offset_in_seconds = sample_offset / pattern_data.header.sample_rate
-        offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
-            offset_in_seconds
-        ) - 1920
+        offset_in_ticks = (
+            self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds) - 1920
+        )
         track.note_list = self.parse_note_list(
             offset_in_ticks,
             pattern_data.notes.notes,
@@ -147,8 +143,8 @@ class VocalShifterParser:
         return track
 
     def parse_note_list(
-        self, offset: int, notes: List[Container], labels: List[Container]
-    ) -> List[Note]:
+        self, offset: int, notes: list[Container], labels: list[Container]
+    ) -> list[Note]:
         note_list = []
         if labels and len(labels.labels) == len(notes):
             for note, label in zip(notes, labels):
@@ -232,7 +228,11 @@ class VocalShifterParser:
             value = point.pit if self.options.use_edited_pitch else point.ori_pit
             if value != 0:
                 if not has_pitch:
-                    pitch_curve.points.append(Point(self.synchronizer.get_actual_ticks_from_secs(offset), -100))
+                    pitch_curve.points.append(
+                        Point(
+                            self.synchronizer.get_actual_ticks_from_secs(offset), -100
+                        )
+                    )
                     has_pitch = True
                 pitch_curve.points.append(
                     Point(
@@ -241,7 +241,9 @@ class VocalShifterParser:
                     )
                 )
             elif has_pitch:
-                pitch_curve.points.append(Point(self.synchronizer.get_actual_ticks_from_secs(offset), -100))
+                pitch_curve.points.append(
+                    Point(self.synchronizer.get_actual_ticks_from_secs(offset), -100)
+                )
                 has_pitch = False
             offset += time_step
         pitch_curve.points.append(Point.end_point())
@@ -259,7 +261,10 @@ class VocalShifterParser:
         for point in pattern_data.points:
             value = getattr(point, attr_name)
             param_curve.points.append(
-                Point(self.synchronizer.get_actual_ticks_from_secs(offset), mapping_func(value))
+                Point(
+                    self.synchronizer.get_actual_ticks_from_secs(offset),
+                    mapping_func(value),
+                )
             )
             offset += time_step
         return param_curve

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 
 VSQ3_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
@@ -17,14 +17,14 @@ class Aux:
             "name": "auxID",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     content: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -40,7 +40,7 @@ class Dyn:
             "name": "posSec",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     dyn_val: Optional[int] = field(
         default=None,
@@ -48,7 +48,7 @@ class Dyn:
             "name": "dynVal",
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -64,7 +64,7 @@ class Pch:
             "name": "posSec",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     pch_val: Optional[int] = field(
         default=None,
@@ -72,7 +72,7 @@ class Pch:
             "name": "pchVal",
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -88,7 +88,7 @@ class Phnm:
             "name": "posSec",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     dur_sec: Optional[int] = field(
         default=None,
@@ -96,7 +96,7 @@ class Phnm:
             "name": "durSec",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     phnm_str: Optional[str] = field(
         default=None,
@@ -104,7 +104,7 @@ class Phnm:
             "name": "phnmStr",
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -114,19 +114,19 @@ class SeqAttr:
         name = "seqAttr"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
-    elem: List["SeqAttr.Elem"] = field(
+    elem: list["SeqAttr.Elem"] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
     id: Optional[str] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
     @dataclass
@@ -137,14 +137,14 @@ class SeqAttr:
                 "name": "posNrm",
                 "type": "Element",
                 "required": True,
-            }
+            },
         )
         elv: Optional[int] = field(
             default=None,
             metadata={
                 "type": "Element",
                 "required": True,
-            }
+            },
         )
 
 
@@ -160,7 +160,7 @@ class Singer:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     v_bs: Optional[int] = field(
         default=None,
@@ -170,7 +170,7 @@ class Singer:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     v_pc: Optional[int] = field(
         default=None,
@@ -180,7 +180,7 @@ class Singer:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
 
 
@@ -197,7 +197,7 @@ class StylePlugin:
             "type": "Element",
             "required": True,
             "length": 36,
-        }
+        },
     )
     style_plugin_name: Optional[str] = field(
         default=None,
@@ -205,14 +205,14 @@ class StylePlugin:
             "name": "stylePluginName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     version: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -228,14 +228,14 @@ class Tempo:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     bpm: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -251,21 +251,21 @@ class TimeSig:
             "name": "posMes",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     nume: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     denomi: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -278,14 +278,14 @@ class TypeParamAttr:
         default=None,
         metadata={
             "required": True,
-        }
+        },
     )
     id: Optional[str] = field(
         default=None,
         metadata={
             "type": "Attribute",
             "required": True,
-        }
+        },
     )
 
 
@@ -298,7 +298,7 @@ class TypePhonemes:
         default="",
         metadata={
             "required": True,
-        }
+        },
     )
     lock: Optional[int] = field(
         default=None,
@@ -306,7 +306,7 @@ class TypePhonemes:
             "type": "Attribute",
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
 
 
@@ -341,7 +341,7 @@ class VVoiceParam:
             "required": True,
             "min_inclusive": -127,
             "max_inclusive": 127,
-        }
+        },
     )
     bri: Optional[int] = field(
         default=None,
@@ -350,7 +350,7 @@ class VVoiceParam:
             "required": True,
             "min_inclusive": -127,
             "max_inclusive": 127,
-        }
+        },
     )
     cle: Optional[int] = field(
         default=None,
@@ -359,7 +359,7 @@ class VVoiceParam:
             "required": True,
             "min_inclusive": -127,
             "max_inclusive": 127,
-        }
+        },
     )
     gen: Optional[int] = field(
         default=None,
@@ -368,7 +368,7 @@ class VVoiceParam:
             "required": True,
             "min_inclusive": -127,
             "max_inclusive": 127,
-        }
+        },
     )
     ope: Optional[int] = field(
         default=None,
@@ -377,7 +377,7 @@ class VVoiceParam:
             "required": True,
             "min_inclusive": -127,
             "max_inclusive": 127,
-        }
+        },
     )
 
 
@@ -393,7 +393,7 @@ class Voice:
             "name": "posSec",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     v_bs: Optional[int] = field(
         default=None,
@@ -403,7 +403,7 @@ class Voice:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     v_pc: Optional[int] = field(
         default=None,
@@ -413,7 +413,7 @@ class Voice:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
 
 
@@ -429,14 +429,14 @@ class MCtrl:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     attr: Optional[TypeParamAttr] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -452,21 +452,21 @@ class MasterTrack:
             "name": "seqName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     comment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     resolution: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     pre_measure: Optional[int] = field(
         default=None,
@@ -476,22 +476,22 @@ class MasterTrack:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
-    time_sig: List[TimeSig] = field(
+    time_sig: list[TimeSig] = field(
         default_factory=list,
         metadata={
             "name": "timeSig",
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
-    tempo: List[Tempo] = field(
+    tempo: list[Tempo] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -501,18 +501,18 @@ class NoteStyle:
         name = "noteStyle"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
-    attr: List[TypeParamAttr] = field(
+    attr: list[TypeParamAttr] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
-    seq_attr: List[SeqAttr] = field(
+    seq_attr: list[SeqAttr] = field(
         default_factory=list,
         metadata={
             "name": "seqAttr",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -528,14 +528,14 @@ class PCtrl:
             "name": "posSec",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     attr: Optional[TypeParamAttr] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -545,12 +545,12 @@ class PartStyle:
         name = "partStyle"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
-    attr: List[TypeParamAttr] = field(
+    attr: list[TypeParamAttr] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -566,14 +566,14 @@ class PhraseStyle:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    attr: List[TypeParamAttr] = field(
+    attr: list[TypeParamAttr] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -589,14 +589,14 @@ class SCtrl:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     attr: Optional[TypeParamAttr] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -614,7 +614,7 @@ class VVoice:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     v_pc: Optional[int] = field(
         default=None,
@@ -624,7 +624,7 @@ class VVoice:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     comp_id: Optional[str] = field(
         default=None,
@@ -633,7 +633,7 @@ class VVoice:
             "type": "Element",
             "required": True,
             "length": 16,
-        }
+        },
     )
     v_voice_name: Optional[str] = field(
         default=None,
@@ -641,7 +641,7 @@ class VVoice:
             "name": "vVoiceName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     v_voice_param: Optional[VVoiceParam] = field(
         default=None,
@@ -649,7 +649,7 @@ class VVoice:
             "name": "vVoiceParam",
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -665,7 +665,7 @@ class VstPlugin:
             "name": "vstPluginID",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_plugin_name: Optional[str] = field(
         default=None,
@@ -673,7 +673,7 @@ class VstPlugin:
             "name": "vstPluginName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_sdkversion: Optional[TypeVstSdkversion] = field(
         default=None,
@@ -681,7 +681,7 @@ class VstPlugin:
             "name": "vstSDKVersion",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_param_num: Optional[int] = field(
         default=None,
@@ -689,21 +689,21 @@ class VstPlugin:
             "name": "vstParamNum",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_param_val: Optional["VstPlugin.VstParamVal"] = field(
         default=None,
         metadata={
             "name": "vstParamVal",
             "type": "Element",
-        }
+        },
     )
     vst_preset_no: Optional[int] = field(
         default=None,
         metadata={
             "name": "vstPresetNo",
             "type": "Element",
-        }
+        },
     )
     enable: Optional[int] = field(
         default=None,
@@ -712,7 +712,7 @@ class VstPlugin:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     bypass: Optional[int] = field(
         default=None,
@@ -721,16 +721,16 @@ class VstPlugin:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
 
     @dataclass
     class VstParamVal:
-        val: List[int] = field(
+        val: list[int] = field(
             default_factory=list,
             metadata={
                 "type": "Element",
-            }
+            },
         )
 
 
@@ -746,7 +746,7 @@ class VstPluginSr:
             "name": "vstPluginID",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_plugin_name: Optional[str] = field(
         default=None,
@@ -754,7 +754,7 @@ class VstPluginSr:
             "name": "vstPluginName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_sdkversion: Optional[TypeVstSdkversion] = field(
         default=None,
@@ -762,7 +762,7 @@ class VstPluginSr:
             "name": "vstSDKVersion",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_param_num: Optional[int] = field(
         default=None,
@@ -770,21 +770,21 @@ class VstPluginSr:
             "name": "vstParamNum",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vst_param_val: Optional["VstPluginSr.VstParamVal"] = field(
         default=None,
         metadata={
             "name": "vstParamVal",
             "type": "Element",
-        }
+        },
     )
     vst_preset_no: Optional[int] = field(
         default=None,
         metadata={
             "name": "vstPresetNo",
             "type": "Element",
-        }
+        },
     )
     enable: Optional[int] = field(
         default=None,
@@ -793,7 +793,7 @@ class VstPluginSr:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     bypass: Optional[int] = field(
         default=None,
@@ -802,16 +802,16 @@ class VstPluginSr:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
 
     @dataclass
     class VstParamVal:
-        val: List[int] = field(
+        val: list[int] = field(
             default_factory=list,
             metadata={
                 "type": "Element",
-            }
+            },
         )
 
 
@@ -827,7 +827,7 @@ class WavPart:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     play_time: Optional[int] = field(
         default=None,
@@ -835,7 +835,7 @@ class WavPart:
             "name": "playTime",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     part_name: Optional[str] = field(
         default=None,
@@ -843,14 +843,14 @@ class WavPart:
             "name": "partName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     comment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     sample_rate: Optional[TypeSamplerate] = field(
         default=None,
@@ -858,7 +858,7 @@ class WavPart:
             "name": "sampleRate",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     sample_reso: Optional[TypeResolution] = field(
         default=None,
@@ -866,7 +866,7 @@ class WavPart:
             "name": "sampleReso",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     channels: Optional[int] = field(
         default=None,
@@ -875,7 +875,7 @@ class WavPart:
             "required": True,
             "min_inclusive": 1,
             "max_inclusive": 2,
-        }
+        },
     )
     file_path: Optional[str] = field(
         default=None,
@@ -883,7 +883,7 @@ class WavPart:
             "name": "filePath",
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -893,12 +893,12 @@ class KaraokeTrack:
         name = "karaokeTrack"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
-    wav_part: List[WavPart] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -914,15 +914,15 @@ class KaraokeUnit:
             "name": "inGain",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    vst_plugin: List[VstPlugin] = field(
+    vst_plugin: list[VstPlugin] = field(
         default_factory=list,
         metadata={
             "name": "vstPlugin",
             "type": "Element",
             "max_occurs": 2,
-        }
+        },
     )
     mute: Optional[int] = field(
         default=None,
@@ -931,7 +931,7 @@ class KaraokeUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     solo: Optional[int] = field(
         default=None,
@@ -940,14 +940,14 @@ class KaraokeUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     vol: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -963,22 +963,22 @@ class MasterUnit:
             "name": "outDev",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    vst_plugin: List[VstPlugin] = field(
+    vst_plugin: list[VstPlugin] = field(
         default_factory=list,
         metadata={
             "name": "vstPlugin",
             "type": "Element",
             "max_occurs": 2,
-        }
+        },
     )
     vst_plugin_sr: Optional[VstPluginSr] = field(
         default=None,
         metadata={
             "name": "vstPluginSR",
             "type": "Element",
-        }
+        },
     )
     ret_level: Optional[int] = field(
         default=None,
@@ -986,14 +986,14 @@ class MasterUnit:
             "name": "retLevel",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vol: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1009,7 +1009,7 @@ class Note:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     dur_tick: Optional[int] = field(
         default=None,
@@ -1017,7 +1017,7 @@ class Note:
             "name": "durTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     note_num: Optional[int] = field(
         default=None,
@@ -1027,7 +1027,7 @@ class Note:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     velocity: Optional[int] = field(
         default=None,
@@ -1036,28 +1036,28 @@ class Note:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     lyric: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     phnms: Optional[TypePhonemes] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     note_style: Optional[NoteStyle] = field(
         default=None,
         metadata={
             "name": "noteStyle",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -1073,7 +1073,7 @@ class ProsodyPart:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     play_time: Optional[int] = field(
         default=None,
@@ -1081,7 +1081,7 @@ class ProsodyPart:
             "name": "playTime",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     part_name: Optional[str] = field(
         default=None,
@@ -1089,48 +1089,48 @@ class ProsodyPart:
             "name": "partName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     comment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    voice: List[Voice] = field(
+    voice: list[Voice] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
-    p_ctrl: List[PCtrl] = field(
+    p_ctrl: list[PCtrl] = field(
         default_factory=list,
         metadata={
             "name": "pCtrl",
             "type": "Element",
-        }
+        },
     )
-    pch: List[Pch] = field(
+    pch: list[Pch] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
-    dyn: List[Dyn] = field(
+    dyn: list[Dyn] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
-    phnm: List[Phnm] = field(
+    phnm: list[Phnm] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
 
 
@@ -1140,12 +1140,12 @@ class SeTrack:
         name = "seTrack"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
-    wav_part: List[WavPart] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
             "type": "Element",
-        }
+        },
     )
 
 
@@ -1161,15 +1161,15 @@ class SeUnit:
             "name": "inGain",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    vst_plugin: List[VstPlugin] = field(
+    vst_plugin: list[VstPlugin] = field(
         default_factory=list,
         metadata={
             "name": "vstPlugin",
             "type": "Element",
             "max_occurs": 2,
-        }
+        },
     )
     send_level: Optional[int] = field(
         default=None,
@@ -1177,7 +1177,7 @@ class SeUnit:
             "name": "sendLevel",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     send_enable: Optional[int] = field(
         default=None,
@@ -1187,7 +1187,7 @@ class SeUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     mute: Optional[int] = field(
         default=None,
@@ -1196,7 +1196,7 @@ class SeUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     solo: Optional[int] = field(
         default=None,
@@ -1205,21 +1205,21 @@ class SeUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     pan: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vol: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1229,13 +1229,13 @@ class VVoiceTable:
         name = "vVoiceTable"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
-    v_voice: List[VVoice] = field(
+    v_voice: list[VVoice] = field(
         default_factory=list,
         metadata={
             "name": "vVoice",
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
 
 
@@ -1253,7 +1253,7 @@ class VsUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     in_gain: Optional[int] = field(
         default=None,
@@ -1261,15 +1261,15 @@ class VsUnit:
             "name": "inGain",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    vst_plugin: List[VstPlugin] = field(
+    vst_plugin: list[VstPlugin] = field(
         default_factory=list,
         metadata={
             "name": "vstPlugin",
             "type": "Element",
             "max_occurs": 2,
-        }
+        },
     )
     send_level: Optional[int] = field(
         default=None,
@@ -1277,7 +1277,7 @@ class VsUnit:
             "name": "sendLevel",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     send_enable: Optional[int] = field(
         default=None,
@@ -1287,7 +1287,7 @@ class VsUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     mute: Optional[int] = field(
         default=None,
@@ -1296,7 +1296,7 @@ class VsUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     solo: Optional[int] = field(
         default=None,
@@ -1305,21 +1305,21 @@ class VsUnit:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 1,
-        }
+        },
     )
     pan: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     vol: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1335,16 +1335,16 @@ class Mixer:
             "name": "masterUnit",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    vs_unit: List[VsUnit] = field(
+    vs_unit: list[VsUnit] = field(
         default_factory=list,
         metadata={
             "name": "vsUnit",
             "type": "Element",
             "min_occurs": 1,
             "max_occurs": 16,
-        }
+        },
     )
     se_unit: Optional[SeUnit] = field(
         default=None,
@@ -1352,7 +1352,7 @@ class Mixer:
             "name": "seUnit",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     karaoke_unit: Optional[KaraokeUnit] = field(
         default=None,
@@ -1360,7 +1360,7 @@ class Mixer:
             "name": "karaokeUnit",
             "type": "Element",
             "required": True,
-        }
+        },
     )
 
 
@@ -1376,7 +1376,7 @@ class MusicalPart:
             "name": "posTick",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     play_time: Optional[int] = field(
         default=None,
@@ -1384,7 +1384,7 @@ class MusicalPart:
             "name": "playTime",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     part_name: Optional[str] = field(
         default=None,
@@ -1392,14 +1392,14 @@ class MusicalPart:
             "name": "partName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     comment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     style_plugin: Optional[StylePlugin] = field(
         default=None,
@@ -1407,48 +1407,48 @@ class MusicalPart:
             "name": "stylePlugin",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     part_style: Optional[PartStyle] = field(
         default=None,
         metadata={
             "name": "partStyle",
             "type": "Element",
-        }
+        },
     )
-    phrase_style: List[PhraseStyle] = field(
+    phrase_style: list[PhraseStyle] = field(
         default_factory=list,
         metadata={
             "name": "phraseStyle",
             "type": "Element",
-        }
+        },
     )
-    singer: List[Singer] = field(
+    singer: list[Singer] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
-        }
+        },
     )
-    m_ctrl: List[MCtrl] = field(
+    m_ctrl: list[MCtrl] = field(
         default_factory=list,
         metadata={
             "name": "mCtrl",
             "type": "Element",
-        }
+        },
     )
-    s_ctrl: List[SCtrl] = field(
+    s_ctrl: list[SCtrl] = field(
         default_factory=list,
         metadata={
             "name": "sCtrl",
             "type": "Element",
-        }
+        },
     )
-    note: List[Note] = field(
+    note: list[Note] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )
 
 
@@ -1466,7 +1466,7 @@ class VsTrack:
             "required": True,
             "min_inclusive": 0,
             "max_inclusive": 127,
-        }
+        },
     )
     track_name: Optional[str] = field(
         default=None,
@@ -1474,30 +1474,30 @@ class VsTrack:
             "name": "trackName",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     comment: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    musical_part: List[MusicalPart] = field(
+    musical_part: list[MusicalPart] = field(
         default_factory=list,
         metadata={
             "name": "musicalPart",
             "type": "Element",
             "sequential": True,
-        }
+        },
     )
-    prosody_part: List[ProsodyPart] = field(
+    prosody_part: list[ProsodyPart] = field(
         default_factory=list,
         metadata={
             "name": "prosodyPart",
             "type": "Element",
             "sequential": True,
-        }
+        },
     )
 
 
@@ -1512,14 +1512,14 @@ class Vsq3:
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     version: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     v_voice_table: Optional[VVoiceTable] = field(
         default=None,
@@ -1527,14 +1527,14 @@ class Vsq3:
             "name": "vVoiceTable",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     mixer: Optional[Mixer] = field(
         default=None,
         metadata={
             "type": "Element",
             "required": True,
-        }
+        },
     )
     master_track: Optional[MasterTrack] = field(
         default=None,
@@ -1542,16 +1542,16 @@ class Vsq3:
             "name": "masterTrack",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    vs_track: List[VsTrack] = field(
+    vs_track: list[VsTrack] = field(
         default_factory=list,
         metadata={
             "name": "vsTrack",
             "type": "Element",
             "min_occurs": 1,
             "max_occurs": 16,
-        }
+        },
     )
     se_track: Optional[SeTrack] = field(
         default=None,
@@ -1559,7 +1559,7 @@ class Vsq3:
             "name": "seTrack",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     karaoke_track: Optional[KaraokeTrack] = field(
         default=None,
@@ -1567,11 +1567,11 @@ class Vsq3:
             "name": "karaokeTrack",
             "type": "Element",
             "required": True,
-        }
+        },
     )
-    aux: List[Aux] = field(
+    aux: list[Aux] = field(
         default_factory=list,
         metadata={
             "type": "Element",
-        }
+        },
     )

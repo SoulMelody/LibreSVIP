@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from svgwrite import Drawing
 
@@ -64,7 +63,7 @@ class SvgGenerator:
             drawing.add(text)
         return drawing
 
-    def generate_notes(self, note_list: List[Note]) -> None:
+    def generate_notes(self, note_list: list[Note]) -> None:
         for note in note_list:
             self.svg_factory.draw_note(note)
 

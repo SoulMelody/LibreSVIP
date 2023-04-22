@@ -1,11 +1,11 @@
-from typing import Iterable, List, Pattern
+from typing import Iterable
 
 import pypinyin
 import regex as re
 
-ENGLISH_CHARS: Pattern = re.compile(r"[a-zA-Z]+")
-CHINESE_RE: Pattern = re.compile(r"\p{Han}")
-WHITE_SPACE: Pattern = re.compile(r"[\s\n\r\t]+")
+ENGLISH_CHARS: re.Pattern = re.compile(r"[a-zA-Z]+")
+CHINESE_RE: re.Pattern = re.compile(r"\p{Han}")
+WHITE_SPACE: re.Pattern = re.compile(r"[\s\n\r\t]+")
 
 
 def get_pinyin_series(
@@ -13,7 +13,7 @@ def get_pinyin_series(
     ignore_hyphens: bool = True,
     reverse_letters: bool = True,
     filter_non_chinese: bool = True,
-) -> List[str]:
+) -> list[str]:
     chinese_list = list(chinese_series)
     pinyin_list = ["" for _ in range(len(chinese_list))]
     item_counts = [0 for _ in range(len(chinese_list))]

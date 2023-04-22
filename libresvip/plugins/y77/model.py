@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from pydantic import Field
 
@@ -12,12 +12,12 @@ class Y77Note(BaseModel):
     start: Optional[int]
     lyric: Optional[str]
     pitch: Optional[int]
-    pit: List[Union[int, float]] = Field(default_factory=list)
+    pit: list[Union[int, float]] = Field(default_factory=list)
 
 
 class Y77Project(BaseModel):
     bars: Optional[int]
-    notes: List[Y77Note] = Field(default_factory=list)
+    notes: list[Y77Note] = Field(default_factory=list)
     nnote: Optional[int] = None
     bpm: Optional[float] = 100.0
     bbar: Optional[int]

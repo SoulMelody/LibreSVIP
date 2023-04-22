@@ -1,5 +1,4 @@
 from dataclasses import InitVar, dataclass, field
-from typing import List
 
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.model.base import SongTempo
@@ -10,15 +9,15 @@ from libresvip.utils import find_last_index
 class TimeSynchronizer:
     is_absolute_time_code: bool = field(init=False)
     default_tempo: float = field(init=False)
-    tempo_list: List[SongTempo] = field(init=False)
-    ori_tempo_list: InitVar[List[SongTempo]]
+    tempo_list: list[SongTempo] = field(init=False)
+    ori_tempo_list: InitVar[list[SongTempo]]
     skip_ticks: InitVar[int] = 0
     _is_absolute_time_code: InitVar[bool] = False
     _default_tempo: InitVar[float] = 60
 
     def __post_init__(
         self,
-        ori_tempo_list: List[SongTempo],
+        ori_tempo_list: list[SongTempo],
         skip_ticks: int,
         _is_absolute_time_code: bool,
         _default_tempo: float,

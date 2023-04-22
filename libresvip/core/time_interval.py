@@ -1,7 +1,7 @@
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
-from typing import Iterable, List, Optional, Tuple
+from typing import Iterable, Optional
 
 import portion
 from typing_extensions import Self
@@ -9,10 +9,10 @@ from typing_extensions import Self
 
 @dataclasses.dataclass
 class RangeInterval:
-    _sub_ranges: dataclasses.InitVar[Optional[List[Tuple[int, int]]]] = None
+    _sub_ranges: dataclasses.InitVar[Optional[list[tuple[int, int]]]] = None
     interval: portion.Interval = dataclasses.field(init=False)
 
-    def __post_init__(self, _sub_ranges: Optional[List[Tuple[int, int]]]):
+    def __post_init__(self, _sub_ranges: Optional[list[tuple[int, int]]]):
         self.interval = reduce(
             operator.or_,
             (portion.closedopen(*sub_range) for sub_range in (_sub_ranges or [])),
@@ -22,11 +22,11 @@ class RangeInterval:
     def is_empty(self) -> bool:
         return self.interval.empty
 
-    def sub_ranges(self) -> Iterable[Tuple[int, int]]:
+    def sub_ranges(self) -> Iterable[tuple[int, int]]:
         for sub_range in portion.to_data(self.interval):
             yield sub_range[1], sub_range[2]
 
-    def sub_range_including(self, value: int) -> Optional[Tuple[int, int]]:
+    def sub_range_including(self, value: int) -> Optional[tuple[int, int]]:
         for sub_range in self.interval:
             if value in sub_range:
                 sub_range_data = portion.to_data(sub_range)
@@ -64,7 +64,7 @@ class RangeInterval:
         raise NotImplementedError
 
     @expand.register(tuple)
-    def _(self, radius_tuple: Tuple[int, int]) -> Self:
+    def _(self, radius_tuple: tuple[int, int]) -> Self:
         return RangeInterval(
             [
                 (sub_range[0] - radius_tuple[0], sub_range[1] + radius_tuple[1])
@@ -85,7 +85,7 @@ class RangeInterval:
         return self.expand((-radius, -radius))
 
     @shrink.register(tuple)
-    def _(self, radius_tuple: Tuple[int, int]) -> Self:
+    def _(self, radius_tuple: tuple[int, int]) -> Self:
         return self.expand((-radius_tuple[0], -radius_tuple[1]))
 
     def shift(self, offset: int) -> Self:

@@ -1,5 +1,5 @@
 from types import SimpleNamespace
-from typing import Annotated, Dict, List, Literal, Optional, Union
+from typing import Annotated, Literal, Optional, Union
 
 from pydantic import Field
 
@@ -33,18 +33,18 @@ class NumericalExpression(BaseExpression):
 
 class OptionsExpression(BaseExpression):
     type_: Literal["Options"] = Field(ParamType.OPTIONS, alias="type")
-    options: List[str] = Field(default_factory=list)
+    options: list[str] = Field(default_factory=list)
 
 
 UExpressionDescriptor = Annotated[
     Union[CurveExpression, NumericalExpression, OptionsExpression],
-    Field(discriminator='type_')
+    Field(discriminator="type_"),
 ]
 
 
 class UCurve(BaseModel):
-    xs: List[int] = Field(default_factory=list)
-    ys: List[int] = Field(default_factory=list)
+    xs: list[int] = Field(default_factory=list)
+    ys: list[int] = Field(default_factory=list)
     abbr: Optional[str]
 
 
@@ -81,9 +81,7 @@ class UTrack(BaseModel):
 
 
 class UPitch(BaseModel):
-    data: List[PitchData] = Field(
-        default_factory=list
-    )
+    data: list[PitchData] = Field(default_factory=list)
     snap_first: Optional[bool]
 
 
@@ -91,9 +89,7 @@ class UVibrato(BaseModel):
     length: Optional[int]
     period: Optional[int]
     depth: Optional[int]
-    in_value: Optional[int] = Field(
-        alias="in"
-    )
+    in_value: Optional[int] = Field(alias="in")
     out: Optional[int]
     shift: Optional[int]
     drift: Optional[int]
@@ -120,9 +116,9 @@ class UNote(BaseModel):
     lyric: Optional[str]
     pitch: Optional[UPitch]
     vibrato: Optional[UVibrato]
-    note_expressions: Optional[List[UExpression]]  # deprecated
-    phoneme_expressions: Optional[List[UExpression]]
-    phoneme_overrides: Optional[List[UPhonemeOverride]]
+    note_expressions: Optional[list[UExpression]]  # deprecated
+    phoneme_expressions: Optional[list[UExpression]]
+    phoneme_overrides: Optional[list[UPhonemeOverride]]
 
 
 class UPart(BaseModel):
@@ -133,12 +129,8 @@ class UPart(BaseModel):
 
 
 class UVoicePart(UPart):
-    notes: List[UNote] = Field(
-        default_factory=list
-    )
-    curves: List[UCurve] = Field(
-        default_factory=list
-    )
+    notes: list[UNote] = Field(default_factory=list)
+    curves: list[UCurve] = Field(default_factory=list)
 
 
 class UWavePart(UPart):
@@ -158,19 +150,9 @@ class USTXProject(BaseModel):
     beat_per_bar: Optional[int]
     beat_unit: Optional[int]
     resolution: Optional[int]
-    time_signatures: List[UTimeSignature] = Field(
-        default_factory=list
-    )
-    tempos: List[UTempo] = Field(
-        default_factory=list
-    )
-    expressions: Dict[str, UExpressionDescriptor]
-    tracks: List[UTrack] = Field(
-        default_factory=list
-    )
-    voice_parts: List[UVoicePart] = Field(
-        default_factory=list
-    )
-    wave_parts: List[UWavePart] = Field(
-        default_factory=list
-    )
+    time_signatures: list[UTimeSignature] = Field(default_factory=list)
+    tempos: list[UTempo] = Field(default_factory=list)
+    expressions: dict[str, UExpressionDescriptor]
+    tracks: list[UTrack] = Field(default_factory=list)
+    voice_parts: list[UVoicePart] = Field(default_factory=list)
+    wave_parts: list[UWavePart] = Field(default_factory=list)

@@ -1,6 +1,5 @@
 import dataclasses
 import operator
-from typing import List
 
 import mido
 import regex as re
@@ -74,7 +73,7 @@ class MidiGenerator:
                 * time_signature.numerator
             )
 
-    def encode_tracks(self, tracks: List[Track]) -> List[mido.MidiTrack]:
+    def encode_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
         mido_tracks = []
         for track in tracks:
             if isinstance(track, SingingTrack):

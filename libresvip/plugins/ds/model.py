@@ -1,4 +1,4 @@
-from typing import Dict, List, Literal, Optional, Union
+from typing import Literal, Optional, Union
 
 from pydantic import field_serializer, field_validator, model_serializer, root_validator
 
@@ -6,20 +6,20 @@ from libresvip.model.base import BaseModel, Field
 
 
 class DsItem(BaseModel):
-    text: Union[str, List[str]]
-    ph_seq: Union[str, List[str]]
-    note_seq: Union[str, List[str]]
-    note_dur_seq: Union[str, List[float]]
-    is_slur_seq: Union[str, List[int]]
-    ph_dur: Union[str, List[float]]
+    text: Union[str, list[str]]
+    ph_seq: Union[str, list[str]]
+    note_seq: Union[str, list[str]]
+    note_dur_seq: Union[str, list[float]]
+    is_slur_seq: Union[str, list[int]]
+    ph_dur: Union[str, list[float]]
     f0_timestep: float
-    f0_seq: Union[str, List[float]]
+    f0_seq: Union[str, list[float]]
     input_type: Literal["phoneme"]
     offset: Union[str, float]
     seed: Optional[int] = None
-    spk_mix: Optional[Dict[str, List[float]]] = None
+    spk_mix: Optional[dict[str, list[float]]] = None
     spk_mix_timestep: Optional[float] = None
-    gender: Optional[Dict[str, List[float]]] = None
+    gender: Optional[dict[str, list[float]]] = None
     gender_timestep: Optional[float] = None
 
     @field_validator("text", "note_seq", "ph_seq", mode="before")
@@ -68,7 +68,7 @@ class DsItem(BaseModel):
 
 
 class DsProject(BaseModel):
-    root: List[DsItem] = Field(default_factory=list)
+    root: list[DsItem] = Field(default_factory=list)
 
     @root_validator(pre=True)
     @classmethod

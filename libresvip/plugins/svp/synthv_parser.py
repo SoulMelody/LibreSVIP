@@ -1,6 +1,6 @@
 import dataclasses
 from functools import reduce
-from typing import Callable, Dict, List, Optional
+from typing import Callable, Optional
 
 import regex as re
 from pydub.utils import db_to_float, ratio_to_db
@@ -53,10 +53,10 @@ class SynthVParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     voice_settings: SVVoice = dataclasses.field(init=False)
     instant_pitch: SVParamCurve = dataclasses.field(init=False)
-    note_list: List[SVNote] = dataclasses.field(init=False)
-    group_library: Dict[str, SVGroup] = dataclasses.field(default_factory=dict)
-    group_split_counts: Dict[str, int] = dataclasses.field(default_factory=dict)
-    tracks_from_groups: List[Track] = dataclasses.field(default_factory=list)
+    note_list: list[SVNote] = dataclasses.field(init=False)
+    group_library: dict[str, SVGroup] = dataclasses.field(default_factory=dict)
+    group_split_counts: dict[str, int] = dataclasses.field(default_factory=dict)
+    tracks_from_groups: list[Track] = dataclasses.field(default_factory=list)
 
     @staticmethod
     def clip(val: int) -> int:
@@ -448,7 +448,7 @@ class SynthVParser:
             note.lyric = sv_note.lyrics
         return note
 
-    def parse_note_list(self, sv_note_list: List[SVNote]) -> List[Note]:
+    def parse_note_list(self, sv_note_list: list[SVNote]) -> list[Note]:
         note_list = []
         breath_pattern = re.compile(r"^\s*\.?\s*br(l?[1-9])?\s*$")
         if self.options.breath == BreathOption.CONVERT:

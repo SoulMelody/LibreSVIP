@@ -1,5 +1,3 @@
-from typing import List
-
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import Note, ParamCurve, Params, Point, SingingTrack
 from libresvip.utils import find_index, find_last_index
@@ -12,7 +10,7 @@ def param_curve_override_with(
     end: int,
     termination: int = 0,
 ) -> None:
-    inserted_points: List[Point] = []
+    inserted_points: list[Point] = []
     main_left_index = find_last_index(
         main_curve.points.root, lambda point: point.position <= start
     )
@@ -144,7 +142,7 @@ def params_override_with(
 
 
 def track_override_with(
-    track: SingingTrack, note_list: List[Note], params: Params, first_bar_tick: int
+    track: SingingTrack, note_list: list[Note], params: Params, first_bar_tick: int
 ) -> None:
     main_note_list = track.note_list
     interval = RangeInterval()

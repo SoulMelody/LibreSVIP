@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 import more_itertools
 from svgwrite.shapes import Line, Polyline, Rect
@@ -20,10 +19,10 @@ class SvgFactory:
     coordinate_helper: CoordinateHelper
     time_synchronizer: TimeSynchronizer
     options: OutputOptions
-    line_elements: List[Line] = dataclasses.field(default_factory=list)
-    polyline_elements: List[Polyline] = dataclasses.field(default_factory=list)
-    rect_elements: List[Rect] = dataclasses.field(default_factory=list)
-    text_elements: List[Text] = dataclasses.field(default_factory=list)
+    line_elements: list[Line] = dataclasses.field(default_factory=list)
+    polyline_elements: list[Polyline] = dataclasses.field(default_factory=list)
+    rect_elements: list[Rect] = dataclasses.field(default_factory=list)
+    text_elements: list[Text] = dataclasses.field(default_factory=list)
     style: str = dataclasses.field(init=False)
 
     def __post_init__(self):
@@ -55,7 +54,7 @@ text {{
     stroke-width: {self.options.grid_stroke_width}px;
 }}"""
 
-    def draw_grid(self, time_signature_list: List[TimeSignature]) -> None:
+    def draw_grid(self, time_signature_list: list[TimeSignature]) -> None:
         prev_pos = 0
         pos = 0
         beat_start = self.coordinate_helper.position_range_start

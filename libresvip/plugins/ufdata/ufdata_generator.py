@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.model.base import (
     Note,
@@ -40,7 +39,7 @@ class UFDataGenerator:
         )
 
     @staticmethod
-    def generate_tempos(song_tempo_list: List[SongTempo]) -> List[UFTempos]:
+    def generate_tempos(song_tempo_list: list[SongTempo]) -> list[UFTempos]:
         return [
             UFTempos(
                 tickPosition=tempo.position,
@@ -51,8 +50,8 @@ class UFDataGenerator:
 
     @staticmethod
     def generate_time_signatures(
-        time_signature_list: List[TimeSignature],
-    ) -> List[UFTimeSignatures]:
+        time_signature_list: list[TimeSignature],
+    ) -> list[UFTimeSignatures]:
         return [
             UFTimeSignatures(
                 measurePosition=time_signature.bar_index,
@@ -62,7 +61,7 @@ class UFDataGenerator:
             for time_signature in time_signature_list
         ]
 
-    def generate_tracks(self, track_list: List[Track]) -> List[UFTracks]:
+    def generate_tracks(self, track_list: list[Track]) -> list[UFTracks]:
         return [
             UFTracks(
                 name=track.title,
@@ -74,7 +73,7 @@ class UFDataGenerator:
         ]
 
     @staticmethod
-    def generate_notes(note_list: List[Note]) -> List[UFNotes]:
+    def generate_notes(note_list: list[Note]) -> list[UFNotes]:
         return [
             UFNotes(
                 tickOn=note.start_pos,

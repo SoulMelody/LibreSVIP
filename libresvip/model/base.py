@@ -5,7 +5,6 @@ from types import SimpleNamespace
 from typing import (
     Annotated,
     Any,
-    List,
     Literal,
     Optional,
     Protocol,
@@ -158,7 +157,7 @@ class ParamCurve(BaseModel):
         self.points = Points(root=result)
         return self
 
-    def split_into_segments(self, interrupt_value: int = 0) -> List[List[Point]]:
+    def split_into_segments(self, interrupt_value: int = 0) -> list[list[Point]]:
         segments = []
         if len(self.points) == 0:
             return segments
@@ -258,7 +257,7 @@ class SingingTrack(TrackMixin):
     type_: Literal["Singing"] = Field(default=TrackType.SINGING, alias="Type")
     ai_singer_name: str = Field(default="", alias="AISingerName")
     reverb_preset: str = Field(default="", alias="ReverbPreset")
-    note_list: List[Note] = Field(default_factory=list, alias="NoteList")
+    note_list: list[Note] = Field(default_factory=list, alias="NoteList")
     edited_params: Params = Field(default_factory=Params, alias="EditedParams")
 
 
@@ -273,10 +272,10 @@ Track = Annotated[Union[SingingTrack, InstrumentalTrack], Field(discriminator="t
 
 class Project(BaseModel):
     version: str = Field(default="", alias="Version")
-    song_tempo_list: List[SongTempo] = Field(
+    song_tempo_list: list[SongTempo] = Field(
         default_factory=list, alias="SongTempoList"
     )
-    time_signature_list: List[TimeSignature] = Field(
+    time_signature_list: list[TimeSignature] = Field(
         default_factory=list, alias="TimeSignatureList"
     )
-    track_list: List[Track] = Field(default_factory=list, alias="TrackList")
+    track_list: list[Track] = Field(default_factory=list, alias="TrackList")

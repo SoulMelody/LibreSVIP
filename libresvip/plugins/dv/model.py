@@ -1,5 +1,5 @@
 import dataclasses
-from typing import List, Union
+from typing import Union
 
 from construct import (
     Byte,
@@ -49,15 +49,15 @@ class DvTimeSignature(DataclassMixin):
 class DvNoteParameter(DataclassMixin):
     param_size: int = csfield(Int32ul)
     amplitude_size: int = csfield(Int32ul)
-    amplitude_points: List[DvPoint] = csfield(
+    amplitude_points: list[DvPoint] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvPoint))
     )
     frequency_size: int = csfield(Int32ul)
-    frequency_points: List[DvPoint] = csfield(
+    frequency_points: list[DvPoint] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvPoint))
     )
     vibrato_size: int = csfield(Int32ul)
-    vibrato_points: List[DvPoint] = csfield(
+    vibrato_points: list[DvPoint] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvPoint))
     )
 
@@ -94,20 +94,20 @@ class DvSegment(DataclassMixin):
     name: DvStr = csfield(DvStr)
     singer_name: DvStr = csfield(DvStr)
     padding_1: bytes = csfield(Padding(4))
-    notes: List[DvNote] = csfield(PrefixedArray(Int32ul, DataclassStruct(DvNote)))
+    notes: list[DvNote] = csfield(PrefixedArray(Int32ul, DataclassStruct(DvNote)))
     volume_length: int = csfield(Int32ul)
-    volume_data: List[DvPoint] = csfield(
+    volume_data: list[DvPoint] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvPoint))
     )
     pitch_length: int = csfield(Int32ul)
-    pitch_data: List[DvPoint] = csfield(
+    pitch_data: list[DvPoint] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvPoint))
     )
     unknown_1: bytes = csfield(DataclassStruct(DvBytes))
     breath_length: int = csfield(Int32ul)
-    breath_data: List[int] = csfield(Int32ul[this.breath_length // 4])
+    breath_data: list[int] = csfield(Int32ul[this.breath_length // 4])
     gender_length: int = csfield(Int32ul)
-    gender_data: List[int] = csfield(Int32ul[this.gender_length // 4])
+    gender_data: list[int] = csfield(Int32ul[this.gender_length // 4])
     unknown_2: bytes = csfield(DataclassStruct(DvBytes))
     unknown_3: bytes = csfield(DataclassStruct(DvBytes))
 
@@ -120,7 +120,7 @@ class DvSingingTrack(DataclassMixin):
     volume: int = csfield(Int32ul)
     balance: int = csfield(Int32ul)
     padding: bytes = csfield(Padding(4))
-    segments: List[DvSegment] = csfield(
+    segments: list[DvSegment] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvSegment))
     )
 
@@ -170,12 +170,12 @@ class DVProject(DataclassMixin):
     rest_length_in_hex: bytes = csfield(Bytes(4))
     ext_string: bytes = csfield(Const(b"ext1ext2ext3ext4ext5ext6ext7"))
     tempo_size: int = csfield(Const(12, Int32ul))
-    tempos: List[DvTempo] = csfield(PrefixedArray(Int32ul, DataclassStruct(DvTempo)))
+    tempos: list[DvTempo] = csfield(PrefixedArray(Int32ul, DataclassStruct(DvTempo)))
     time_signature_size: int = csfield(Const(16, Int32ul))
-    time_signatures: List[DvTimeSignature] = csfield(
+    time_signatures: list[DvTimeSignature] = csfield(
         PrefixedArray(Int32ul, DataclassStruct(DvTimeSignature))
     )
-    tracks: List[DvTrack] = csfield(PrefixedArray(Int32ul, DataclassStruct(DvTrack)))
+    tracks: list[DvTrack] = csfield(PrefixedArray(Int32ul, DataclassStruct(DvTrack)))
 
 
 dv_project = DataclassStruct(DVProject)

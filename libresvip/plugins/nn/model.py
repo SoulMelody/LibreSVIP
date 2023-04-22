@@ -1,5 +1,3 @@
-from typing import List
-
 from pydantic import Field
 from textx import metamodel_from_str
 
@@ -23,7 +21,7 @@ NNNote: ' ' lyric=Word ' ' pronunciation=Pinyin ' ' start=INT ' ' duration=INT '
 
 class NNPoints(BaseModel):
     point_count: int = 100
-    points: List[int] = Field(default_factory=list)
+    points: list[int] = Field(default_factory=list)
 
 
 class NNTimeSignature(BaseModel):
@@ -59,7 +57,7 @@ class NNNote(BaseModel):
 class NNProject(BaseModel):
     info_line: NNInfoLine
     note_count: int
-    notes: List[NNNote] = Field(default_factory=list)
+    notes: list[NNNote] = Field(default_factory=list)
 
 
 NNModel = metamodel_from_str(

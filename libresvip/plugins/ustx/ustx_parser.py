@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from pydub.utils import db_to_float
 
@@ -49,7 +48,7 @@ class UstxParser:
         )
 
     @staticmethod
-    def parse_tempos(tempos: List[UTempo]) -> List[SongTempo]:
+    def parse_tempos(tempos: list[UTempo]) -> list[SongTempo]:
         song_tempo_list = [
             SongTempo(
                 Position=tempo.position + 1920
@@ -65,8 +64,8 @@ class UstxParser:
 
     @staticmethod
     def parse_time_signatures(
-        time_signatures: List[UTimeSignature],
-    ) -> List[TimeSignature]:
+        time_signatures: list[UTimeSignature],
+    ) -> list[TimeSignature]:
         time_signature_list = [
             TimeSignature(
                 BarIndex=time_signature.bar_position,
@@ -80,8 +79,8 @@ class UstxParser:
         return time_signature_list
 
     def parse_tracks(
-        self, tracks: List[UTrack], voice_parts: List[UVoicePart]
-    ) -> List[Track]:
+        self, tracks: list[UTrack], voice_parts: list[UVoicePart]
+    ) -> list[Track]:
         track_list = [
             SingingTrack(
                 Volume=self.parse_volume(ustx_track.volume),
@@ -109,7 +108,7 @@ class UstxParser:
             )
         return [track for track in track_list if len(track.note_list)]
 
-    def parse_notes(self, notes: List[UNote], tick_prefix: int) -> List[Note]:
+    def parse_notes(self, notes: list[UNote], tick_prefix: int) -> list[Note]:
         note_list = []
         for ustx_note in notes:
             note = Note(
@@ -126,8 +125,8 @@ class UstxParser:
         return note_list
 
     def parse_wave_parts(
-        self, tracks: List[UTrack], wave_parts: List[UWavePart]
-    ) -> List[InstrumentalTrack]:
+        self, tracks: list[UTrack], wave_parts: list[UWavePart]
+    ) -> list[InstrumentalTrack]:
         track_list = []
         for wave_part in wave_parts:
             ustx_track = tracks[wave_part.track_no]

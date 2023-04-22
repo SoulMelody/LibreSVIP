@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
@@ -40,7 +39,7 @@ class DiffSingerParser:
             ],
         )
 
-    def parse_notes(self, ds_items: List[DsItem]) -> List[Note]:
+    def parse_notes(self, ds_items: list[DsItem]) -> list[Note]:
         opencpop_dict = get_opencpop_dict(self.options.dict_name)
         all_notes = []
         for ds_item in ds_items:
@@ -141,7 +140,7 @@ class DiffSingerParser:
             all_notes.extend(notes)
         return all_notes
 
-    def parse_pitch(self, ds_items: List[DsItem]) -> ParamCurve:
+    def parse_pitch(self, ds_items: list[DsItem]) -> ParamCurve:
         points = Points(root=[])
         points.append(Point.start_point())
         for ds_item in ds_items:

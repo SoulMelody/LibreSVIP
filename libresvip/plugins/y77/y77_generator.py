@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.model.base import (
     Note,
@@ -38,7 +37,7 @@ class Y77Generator:
             y77_project.nnote = len(y77_project.notes)
         return y77_project
 
-    def generate_notes(self, note_list: List[Note]) -> List[Y77Note]:
+    def generate_notes(self, note_list: list[Note]) -> list[Y77Note]:
         return [
             Y77Note(
                 lyric=note.lyric,

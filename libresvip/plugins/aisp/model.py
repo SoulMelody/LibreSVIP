@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import Field
 
@@ -20,7 +20,7 @@ class AISPattern(BaseModel):
     uid: Optional[int]
     start: Optional[int] = Field(alias="s")
     length: Optional[int] = Field(alias="l")
-    notes: List[AISNote] = Field(default_factory=list, alias="n")
+    notes: list[AISNote] = Field(default_factory=list, alias="n")
 
 
 class AISTrack(BaseModel):
@@ -30,14 +30,13 @@ class AISTrack(BaseModel):
     mute: Optional[bool] = Field(alias="m")
     volume: Optional[int] = Field(alias="v")
     name: Optional[str] = Field(alias="n")
-    im: List[AISPattern] = Field(default_factory=list)
+    im: list[AISPattern] = Field(default_factory=list)
     sn: Optional[str]
     se: Optional[str]
     sh: Optional[str]
 
 
 class AISTimeSignature(BaseModel):
-
     str_value: Optional[str] = Field(alias="str")
     beat_zi: Optional[int]
     beat_mu: Optional[int]
@@ -53,13 +52,12 @@ class AISTempo(BaseModel):
 
 class AISProjectBody(BaseModel):
     num_track: Optional[int]
-    tracks: List[AISTrack] = Field(default_factory=list)
+    tracks: list[AISTrack] = Field(default_factory=list)
 
 
 class AISProjectHead(BaseModel):
-
-    tempo: List[AISTempo] = Field(default_factory=list)
-    signature: List[AISTimeSignature] = Field(default_factory=list)
+    tempo: list[AISTempo] = Field(default_factory=list)
+    signature: list[AISTimeSignature] = Field(default_factory=list)
     time: Optional[int]
     flags: Optional[int]
     flage: Optional[int]

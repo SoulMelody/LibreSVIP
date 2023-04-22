@@ -1,4 +1,4 @@
-from typing import Generic, List, Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from pydantic import Field
 
@@ -25,7 +25,7 @@ class PpsfCurvePointSeq(BaseModel):
 
 class PpsfCurvePoint(BaseModel):
     plugin_descriptor: Optional[str] = Field(alias="plugin-descriptor")
-    sequence: List[PpsfCurvePointSeq]
+    sequence: list[PpsfCurvePointSeq]
     sub_track_category: int = Field(alias="sub-track-category")
     sub_track_id: int = Field(alias="sub-track-id")
 
@@ -44,7 +44,7 @@ class PpsfSyllable(BaseModel):
 class PpsfNote(BaseModel):
     language: int
     region_index: int = Field(alias="region-index")
-    syllables: List[PpsfSyllable]
+    syllables: list[PpsfSyllable]
     event_index: Optional[int]
     length: Optional[int]
     muted: Optional[bool]
@@ -86,7 +86,7 @@ class PpsfParamPoint(BaseModel):
 class PpsfBaseSequence(BaseModel):
     constant: int
     name: str
-    sequence: List[PpsfParamPoint]
+    sequence: list[PpsfParamPoint]
     use_sequence: bool
 
 
@@ -101,12 +101,12 @@ class PpsfParameter(BaseModel):
     max: Optional[int]
     min: Optional[int]
     name: str
-    sequence: List[PpsfParamPoint]
+    sequence: list[PpsfParamPoint]
     use_sequence: bool
 
 
 class PpsfFsmEffect(BaseModel):
-    parameters: List[PpsfParameter]
+    parameters: list[PpsfParameter]
     plugin_id: int = Field(alias="plugin-id")
     plugin_name: str = Field(alias="plugin-name")
     power_state: bool = Field(alias="power-state")
@@ -116,15 +116,15 @@ class PpsfFsmEffect(BaseModel):
 
 
 class PpsfEventTrack(BaseModel):
-    curve_points: List[PpsfCurvePoint] = Field(alias="curve-points")
-    fsm_effects: Optional[List[PpsfFsmEffect]] = Field(alias="fsm-effects")
+    curve_points: list[PpsfCurvePoint] = Field(alias="curve-points")
+    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(alias="fsm-effects")
     height: int
     index: int
     mute_solo: Optional[int] = Field(alias="mute-solo")
-    notes: Optional[List[PpsfNote]] = Field(default_factory=list)
+    notes: Optional[list[PpsfNote]] = Field(default_factory=list)
     nt_envelope_preset_id: Optional[int] = Field(alias="nt-envelope-preset-id")
-    regions: List[PpsfRegion]
-    sub_tracks: List[PpsfSubTrack] = Field(alias="sub-tracks")
+    regions: list[PpsfRegion]
+    sub_tracks: list[PpsfSubTrack] = Field(alias="sub-tracks")
     total_height: int = Field(alias="total-height")
     track_type: int = Field(alias="track-type")
     vertical_scale: int = Field(alias="vertical-scale")
@@ -138,7 +138,7 @@ class PpsfTempoTrack(BaseModel):
 
 
 class PpsfTrackEditor(BaseModel):
-    event_tracks: List[PpsfEventTrack] = Field(alias="event-tracks")
+    event_tracks: list[PpsfEventTrack] = Field(alias="event-tracks")
     header_width: int = Field(alias="header-width")
     height: int
     horizontal_scale: float = Field(alias="horizontal-scale")
@@ -195,7 +195,7 @@ class PpsfMixer(BaseModel):
 class PpsfAudioTrackItem(BaseModel):
     block_size: int
     enabled: bool
-    events: List[PpsfAudioTrackEvent]
+    events: list[PpsfAudioTrackEvent]
     input_channel: int
     mixer: PpsfMixer
     name: str
@@ -251,15 +251,15 @@ class PpsfVocaloidTrackEvent(BaseModel):
     velocity: int
     vib_category: int
     vib_offset: int
-    vib_depth: Optional[List[PpsfVibDepthItem]] = None
-    vib_rate: Optional[List[PpsfVibRateItem]] = None
+    vib_depth: Optional[list[PpsfVibDepthItem]] = None
+    vib_rate: Optional[list[PpsfVibRateItem]] = None
 
 
 class PpsfVocaloidTrackItem(BaseModel):
-    events: List[PpsfVocaloidTrackEvent]
+    events: list[PpsfVocaloidTrackEvent]
     mixer: PpsfMixer
     name: str
-    parameters: List[PpsfParameter]
+    parameters: list[PpsfParameter]
     singer: int
 
 
@@ -281,7 +281,7 @@ class PpsfSinger(BaseModel):
 class PpsfEnvelope(BaseModel):
     length: int
     offset: int
-    points: List[PpsfParamPoint]
+    points: list[PpsfParamPoint]
     use_length: bool
 
 
@@ -310,26 +310,26 @@ class PpsfDvlTrackEvent(BaseModel):
 
 class PpsfDvlTrackItem(BaseModel):
     enabled: bool
-    events: List[PpsfDvlTrackEvent]
+    events: list[PpsfDvlTrackEvent]
     mixer: PpsfMixer
     name: str
-    parameters: List[PpsfSeqParam]
+    parameters: list[PpsfSeqParam]
     plugin_output_bus_index: int
     singer: PpsfSinger
 
 
 class PpsfInnerProject(BaseModel):
-    audio_track: List[PpsfAudioTrackItem]
+    audio_track: list[PpsfAudioTrackItem]
     block_size: int
     loop_point: Optional[PpsfLoopPoint]
     meter: PpsfConst[PpsfMeter]
     metronome: Optional[PpsfMetronome]
     name: str
     sampling_rate: int
-    singer_table: List[PpsfSingerTableItem]
+    singer_table: list[PpsfSingerTableItem]
     tempo: PpsfConst[int]
-    vocaloid_track: List[PpsfVocaloidTrackItem]
-    dvl_track: Optional[List[PpsfDvlTrackItem]]
+    vocaloid_track: list[PpsfVocaloidTrackItem]
+    dvl_track: Optional[list[PpsfDvlTrackItem]]
 
 
 class PpsfRoot(BaseModel):

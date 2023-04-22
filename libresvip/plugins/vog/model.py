@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import Field
 
@@ -16,12 +16,12 @@ class VogenNote(BaseModel):
 class VogenTrack(BaseModel):
     name: Optional[str]
     singer_id: Optional[str] = Field(alias="singerId")
-    rom_scheme: Optional[str] = Field('', alias="romScheme")
-    notes: List[VogenNote] = Field(default_factory=list)
+    rom_scheme: Optional[str] = Field("", alias="romScheme")
+    notes: list[VogenNote] = Field(default_factory=list)
 
 
 class VogenProject(BaseModel):
     time_sig0: Optional[str] = Field(alias="timeSig0")
     bpm0: Optional[float]
     accom_offset: Optional[int] = Field(0, alias="accomOffset")
-    utts: List[VogenTrack] = Field(default_factory=list)
+    utts: list[VogenTrack] = Field(default_factory=list)

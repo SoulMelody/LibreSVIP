@@ -1,5 +1,5 @@
 from itertools import chain
-from typing import List, NamedTuple, Optional
+from typing import NamedTuple, Optional
 
 from more_itertools import chunked
 from pydantic import Field, validator
@@ -125,7 +125,7 @@ class S5pTrack(BaseModel):
     db_defaults: S5pDbDefaults = Field(
         default_factory=S5pDbDefaults, alias="dbDefaults"
     )
-    notes: List[S5pNote] = Field(default_factory=list)
+    notes: list[S5pNote] = Field(default_factory=list)
     gs_events: None = Field(None, alias="gsEvents")
     mixer: S5pTrackMixer = Field(default_factory=S5pTrackMixer)
     parameters: S5pParameters = Field(default_factory=S5pParameters)
@@ -145,8 +145,8 @@ class S5pMixer(BaseModel):
 
 class S5pProject(BaseModel):
     version: int = 7
-    meter: List[S5pMeterItem] = Field(default_factory=list)
-    tempo: List[S5pTempoItem] = Field(default_factory=list)
-    tracks: List[S5pTrack] = Field(default_factory=list)
+    meter: list[S5pMeterItem] = Field(default_factory=list)
+    tempo: list[S5pTempoItem] = Field(default_factory=list)
+    tracks: list[S5pTrack] = Field(default_factory=list)
     instrumental: S5pInstrumental = Field(default_factory=S5pInstrumental)
     mixer: S5pMixer = Field(default_factory=S5pMixer)

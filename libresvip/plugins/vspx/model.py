@@ -1,6 +1,6 @@
 import abc
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Optional
 
 
 @dataclass
@@ -240,7 +240,7 @@ class InstrumentalTrack:
             "type": "Element",
         },
     )
-    sequences: List[Sequence] = field(
+    sequences: list[Sequence] = field(
         default_factory=list,
         metadata={
             "name": "Sequence",
@@ -286,7 +286,7 @@ class Point:
 
 @dataclass
 class Parameter:
-    points: List[object] = field(
+    points: list[object] = field(
         default_factory=list,
         metadata=dict(
             type="Wildcard",
@@ -308,7 +308,7 @@ class Parameter:
 
 @dataclass
 class SyllablePartMixin(abc.ABC):
-    p: List[Point] = field(
+    p: list[Point] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -401,7 +401,7 @@ class Note:
             "type": "Element",
         },
     )
-    syllable: Optional[List[Syllable]] = field(
+    syllable: Optional[list[Syllable]] = field(
         default_factory=list,
         metadata={
             "name": "Syllable",
@@ -474,7 +474,7 @@ class NoteTrack:
             "type": "Element",
         },
     )
-    note: List[Note] = field(
+    note: list[Note] = field(
         default_factory=list,
         metadata={
             "name": "Note",
@@ -520,21 +520,21 @@ class Project:
             "type": "Element",
         },
     )
-    tempo: Optional[List[Tempo]] = field(
+    tempo: Optional[list[Tempo]] = field(
         default=None,
         metadata={
             "name": "Tempo",
             "type": "Element",
         },
     )
-    beat: Optional[List[Beat]] = field(
+    beat: Optional[list[Beat]] = field(
         default=None,
         metadata={
             "name": "Beat",
             "type": "Element",
         },
     )
-    tracks: Optional[List[object]] = field(
+    tracks: Optional[list[object]] = field(
         default_factory=list,
         metadata=dict(
             type="Wildcard",

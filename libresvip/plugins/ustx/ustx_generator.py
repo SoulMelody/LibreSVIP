@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.model.base import (

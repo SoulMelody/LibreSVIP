@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 
 VSQ4_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/"
 
@@ -63,7 +63,7 @@ class Seq:
         name = "seq"
         namespace = VSQ4_NS
 
-    cc: List["Seq.Cc"] = field(
+    cc: list["Seq.Cc"] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -414,7 +414,7 @@ class MasterTrack:
             "max_inclusive": 127,
         },
     )
-    time_sig: List[TimeSig] = field(
+    time_sig: list[TimeSig] = field(
         default_factory=list,
         metadata={
             "name": "timeSig",
@@ -422,7 +422,7 @@ class MasterTrack:
             "min_occurs": 1,
         },
     )
-    tempo: List[Tempo] = field(
+    tempo: list[Tempo] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -437,13 +437,13 @@ class NStyle:
         name = "nStyle"
         namespace = VSQ4_NS
 
-    v: List[TypeParamAttr] = field(
+    v: list[TypeParamAttr] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         },
     )
-    seq: List[Seq] = field(
+    seq: list[Seq] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -457,7 +457,7 @@ class PStyle:
         name = "pStyle"
         namespace = VSQ4_NS
 
-    v: List[TypeParamAttr] = field(
+    v: list[TypeParamAttr] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -537,7 +537,7 @@ class Plug:
 
     @dataclass
     class VPrm:
-        v: List[int] = field(
+        v: list[int] = field(
             default_factory=list,
             metadata={
                 "type": "Element",
@@ -616,7 +616,7 @@ class PlugSr:
 
     @dataclass
     class VPrm:
-        v: List[int] = field(
+        v: list[int] = field(
             default_factory=list,
             metadata={
                 "type": "Element",
@@ -770,7 +770,7 @@ class MasterUnit:
             "required": True,
         },
     )
-    plug: List[Plug] = field(
+    plug: list[Plug] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -807,7 +807,7 @@ class MonoTrack:
         name = "monoTrack"
         namespace = VSQ4_NS
 
-    wav_part: List[WavPart] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
@@ -830,7 +830,7 @@ class MonoUnit:
             "required": True,
         },
     )
-    plug: List[Plug] = field(
+    plug: list[Plug] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -956,7 +956,7 @@ class StTrack:
         name = "stTrack"
         namespace = VSQ4_NS
 
-    wav_part: List[WavPart] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
@@ -979,7 +979,7 @@ class StUnit:
             "required": True,
         },
     )
-    plug: List[Plug] = field(
+    plug: list[Plug] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -1019,7 +1019,7 @@ class VVoiceTable:
         name = "vVoiceTable"
         namespace = VSQ4_NS
 
-    v_voice: List[VVoice] = field(
+    v_voice: list[VVoice] = field(
         default_factory=list,
         metadata={
             "name": "vVoice",
@@ -1053,7 +1053,7 @@ class VsUnit:
             "required": True,
         },
     )
-    plug: List[Plug] = field(
+    plug: list[Plug] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -1126,7 +1126,7 @@ class Mixer:
             "required": True,
         },
     )
-    vs_unit: List[VsUnit] = field(
+    vs_unit: list[VsUnit] = field(
         default_factory=list,
         metadata={
             "name": "vsUnit",
@@ -1203,20 +1203,20 @@ class VsPart:
             "type": "Element",
         },
     )
-    singer: List[Singer] = field(
+    singer: list[Singer] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "min_occurs": 1,
         },
     )
-    cc: List[Cc] = field(
+    cc: list[Cc] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         },
     )
-    note: List[Note] = field(
+    note: list[Note] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -1262,7 +1262,7 @@ class VsTrack:
             "required": True,
         },
     )
-    vs_part: List[VsPart] = field(
+    vs_part: list[VsPart] = field(
         default_factory=list,
         metadata={
             "name": "vsPart",
@@ -1314,7 +1314,7 @@ class Vsq4:
             "required": True,
         },
     )
-    vs_track: List[VsTrack] = field(
+    vs_track: list[VsTrack] = field(
         default_factory=list,
         metadata={
             "name": "vsTrack",
@@ -1339,7 +1339,7 @@ class Vsq4:
             "required": True,
         },
     )
-    aux: List[Aux] = field(
+    aux: list[Aux] = field(
         default_factory=list,
         metadata={
             "type": "Element",

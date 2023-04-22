@@ -1,7 +1,6 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import pathlib
-from typing import Tuple
 
 from .binary_models import (
     PrimitiveTypeEnum,
@@ -22,10 +21,14 @@ class SvipReader(NrbfIOBase):
 
     def build_binary_array(self, obj):
         results = []
-        if 'Class' in str(obj.binary_type_enum):
+        if "Class" in str(obj.binary_type_enum):
             if obj.member_values is not None:
                 for member in obj.member_values:
-                    if member is None or member.real_obj is None or member.real_obj.obj is None:
+                    if (
+                        member is None
+                        or member.real_obj is None
+                        or member.real_obj.obj is None
+                    ):
                         results.append(None)
                     else:
                         obj = member.real_obj.obj
@@ -49,9 +52,7 @@ class SvipReader(NrbfIOBase):
             if "alias" in f.metadata
         }
         class_kwargs = {}
-        for name, value in zip(
-            obj.class_info.member_names, obj.member_values
-        ):
+        for name, value in zip(obj.class_info.member_names, obj.member_values):
             key = alias2key.get(name, name)
             if isinstance(value.value, dict):
                 if "real_obj" in value.value:
@@ -69,7 +70,7 @@ class SvipReader(NrbfIOBase):
             obj = obj.obj
         if "real_obj" in obj:
             return self.build_object(obj["real_obj"])
-        if 'Class' in str(obj.record_type_enum):
+        if "Class" in str(obj.record_type_enum):
             return self.build_class(obj)
         elif obj.record_type_enum == RecordTypeEnum.BinaryArray:
             return self.build_binary_array(obj)
@@ -89,7 +90,7 @@ class SvipReader(NrbfIOBase):
     def read_record(self, record):
         if record.record_type_enum == RecordTypeEnum.SerializedStreamHeader:
             self.header = record.obj
-        elif 'Class' in str(record.record_type_enum):
+        elif "Class" in str(record.record_type_enum):
             if record.obj.class_info.object_id == self.header.root_id:
                 self.xstudio_model = self.build_object(record.obj)
                 return True
@@ -100,7 +101,7 @@ class SvipReader(NrbfIOBase):
             ref = references_by_id[self.cur_thread_id][ref_id]
             ref["real_obj"] = self.ref_map[ref["id_ref"]]
 
-    def read(self, path: pathlib.Path) -> Tuple[str, XSAppModel]:
+    def read(self, path: pathlib.Path) -> tuple[str, XSAppModel]:
         self.svip_file = SVIPFile.parse_file(path)
         self.resolve_references()
 

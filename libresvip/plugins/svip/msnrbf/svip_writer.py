@@ -5,7 +5,7 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Set, Union, get_args, get_origin
+from typing import Union, get_args, get_origin
 
 from .binary_models import (
     BinaryArrayTypeEnum,
@@ -39,7 +39,7 @@ class SvipWriter(NrbfIOBase):
     id_max: int = dataclasses.field(default=0)
     model_library_id: int = dataclasses.field(default=0)
     lib_library_id: int = dataclasses.field(default=0)
-    written_ids: Set[int] = dataclasses.field(default_factory=set)
+    written_ids: set[int] = dataclasses.field(default_factory=set)
     class_defs: dict = dataclasses.field(default_factory=class_def_factory)
     svip_file: dict = dataclasses.field(init=False)
 
@@ -71,12 +71,8 @@ class SvipWriter(NrbfIOBase):
                 "obj": self.header,
             }
         )
-        self.model_library_id = self.write_library(
-            LIBRARY_NAME_SINGING_TOOL_MODEL
-        )
-        self.lib_library_id = self.write_library(
-            LIBRARY_NAME_SINGING_TOOL_LIBRARY
-        )
+        self.model_library_id = self.write_library(LIBRARY_NAME_SINGING_TOOL_MODEL)
+        self.lib_library_id = self.write_library(LIBRARY_NAME_SINGING_TOOL_LIBRARY)
         self.svip_file["record_stream"].append(
             self.write_dataclass(model, app_model_id)
         )
@@ -266,7 +262,11 @@ class SvipWriter(NrbfIOBase):
                         field_type = field_origin
                         if dataclasses.is_dataclass(field_args[0]):
                             subcon_class_name = field_args[0].__doc__
-                    elif field_origin == Union and len(field_args) == 2 and issubclass(field_args[-1], type(None)):
+                    elif (
+                        field_origin == Union
+                        and len(field_args) == 2
+                        and issubclass(field_args[-1], type(None))
+                    ):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
@@ -299,15 +299,13 @@ class SvipWriter(NrbfIOBase):
                             {"info": primitive_type_enum}
                         )
                     elif issubclass(field_type, list):
-
                         result["obj"]["member_type_info"]["binary_type_enums"].append(
                             BinaryTypeEnum.Class
                         )
                         result["obj"]["member_type_info"]["additional_infos"].append(
                             {
                                 "info": {
-                                    "type_name": subcon_class_name
-                                    + "[]",
+                                    "type_name": subcon_class_name + "[]",
                                     "library_id": self.model_library_id,
                                 }
                             }
@@ -410,9 +408,7 @@ class SvipWriter(NrbfIOBase):
                                     )
                                 }
                             )
-                        elif field.name.endswith("_line") and not len(
-                            value.line_param
-                        ):
+                        elif field.name.endswith("_line") and not len(value.line_param):
                             result["obj"]["member_values"].append(
                                 {
                                     "value": {
@@ -456,7 +452,11 @@ class SvipWriter(NrbfIOBase):
                         field_type = field_origin
                         if dataclasses.is_dataclass(field_args[0]):
                             subcon_class_name = field_args[0].__doc__
-                    elif field_origin == Union and len(field_args) == 2 and issubclass(field_args[-1], type(None)):
+                    elif (
+                        field_origin == Union
+                        and len(field_args) == 2
+                        and issubclass(field_args[-1], type(None))
+                    ):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
@@ -520,9 +520,7 @@ class SvipWriter(NrbfIOBase):
                                     )
                                 }
                             )
-                        elif field.name.endswith("_line") and not len(
-                            value.line_param
-                        ):
+                        elif field.name.endswith("_line") and not len(value.line_param):
                             result["obj"]["member_values"].append(
                                 {
                                     "value": {

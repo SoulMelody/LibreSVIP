@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import Field
 from textx import metamodel_from_str
@@ -112,13 +112,13 @@ class UTAUOptionalAttr(BaseModel):
     flags: Optional[str]
     pitchbend_type: Optional[str]
     pitchbend_start: Optional[float]
-    pitch_bend_points: Optional[List[int]]
+    pitch_bend_points: Optional[list[int]]
     pbs_1: Optional[float]
     pbs_2: Optional[float]
-    pbw: Optional[List[float]]
-    pby: Optional[List[float]]
-    pbm: Optional[List[UTAUPBM]]
-    vbr: Optional[List[float]]
+    pbw: Optional[list[float]]
+    pby: Optional[list[float]]
+    pbm: Optional[list[UTAUPBM]]
+    vbr: Optional[list[float]]
 
 
 class UTAUNote(BaseModel):
@@ -126,11 +126,11 @@ class UTAUNote(BaseModel):
     length: int
     lyric: str
     note_num: int
-    optional_attrs: List[UTAUOptionalAttr] = Field(default_factory=list)
+    optional_attrs: list[UTAUOptionalAttr] = Field(default_factory=list)
 
 
 class UTAUTrack(BaseModel):
-    notes: List[UTAUNote] = Field(default_factory=list)
+    notes: list[UTAUNote] = Field(default_factory=list)
 
 
 class UTAUVersion(BaseModel):

@@ -5,7 +5,7 @@ import enum
 import math
 import struct
 from itertools import chain
-from typing import Generic, List, Literal, NamedTuple, Optional, TypeVar
+from typing import Generic, Literal, NamedTuple, Optional, TypeVar
 
 from more_itertools import chunked
 
@@ -31,7 +31,7 @@ class XSLineParam:
             "alias": "LineParam",
         },
     )
-    nodes: List[XSLineParamNode] = dataclasses.field(init=False)
+    nodes: list[XSLineParamNode] = dataclasses.field(init=False)
 
     def __post_init__(self):
         self.nodes = []
@@ -277,7 +277,7 @@ class XSNote(XSIOverlappable):
 class XSBuf(Generic[XSItem]):
     """System.Collections.Generic.List"""
 
-    items: List[XSItem] = dataclasses.field(
+    items: list[XSItem] = dataclasses.field(
         default_factory=list,
         metadata={
             "alias": "_items",

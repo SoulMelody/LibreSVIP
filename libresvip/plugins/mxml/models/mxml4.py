@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
 from enum import Enum
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from .xlink import (
     ActuateValue,
@@ -3474,14 +3474,14 @@ class BeatRepeat:
             "type": "Element",
         }
     )
-    slash_dot: List[Empty] = field(
+    slash_dot: list[Empty] = field(
         default_factory=list,
         metadata={
             "name": "slash-dot",
             "type": "Element",
         }
     )
-    except_voice: List[str] = field(
+    except_voice: list[str] = field(
         default_factory=list,
         metadata={
             "name": "except-voice",
@@ -3535,7 +3535,7 @@ class BeatUnitTied:
             "required": True,
         }
     )
-    beat_unit_dot: List[Empty] = field(
+    beat_unit_dot: list[Empty] = field(
         default_factory=list,
         metadata={
             "name": "beat-unit-dot",
@@ -4561,163 +4561,163 @@ class Dynamics:
     class Meta:
         name = "dynamics"
 
-    p: List[Empty] = field(
+    p: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    pp: List[Empty] = field(
+    pp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    ppp: List[Empty] = field(
+    ppp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    pppp: List[Empty] = field(
+    pppp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    ppppp: List[Empty] = field(
+    ppppp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    pppppp: List[Empty] = field(
+    pppppp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    f: List[Empty] = field(
+    f: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    ff: List[Empty] = field(
+    ff: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    fff: List[Empty] = field(
+    fff: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    ffff: List[Empty] = field(
+    ffff: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    fffff: List[Empty] = field(
+    fffff: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    ffffff: List[Empty] = field(
+    ffffff: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    mp: List[Empty] = field(
+    mp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    mf: List[Empty] = field(
+    mf: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    sf: List[Empty] = field(
+    sf: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    sfp: List[Empty] = field(
+    sfp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    sfpp: List[Empty] = field(
+    sfpp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    fp: List[Empty] = field(
+    fp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    rf: List[Empty] = field(
+    rf: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    rfz: List[Empty] = field(
+    rfz: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    sfz: List[Empty] = field(
+    sfz: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    sffz: List[Empty] = field(
+    sffz: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    fz: List[Empty] = field(
+    fz: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    n: List[Empty] = field(
+    n: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    pf: List[Empty] = field(
+    pf: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    sfzp: List[Empty] = field(
+    sfzp: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    other_dynamics: List[OtherText] = field(
+    other_dynamics: list[OtherText] = field(
         default_factory=list,
         metadata={
             "name": "other-dynamics",
@@ -7285,7 +7285,7 @@ class Grouping:
     class Meta:
         name = "grouping"
 
-    feature: List[Feature] = field(
+    feature: list[Feature] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -8125,7 +8125,7 @@ class Interchangeable:
             "type": "Element",
         }
     )
-    beats: List[str] = field(
+    beats: list[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -8133,7 +8133,7 @@ class Interchangeable:
             "sequential": True,
         }
     )
-    beat_type: List[str] = field(
+    beat_type: list[str] = field(
         default_factory=list,
         metadata={
             "name": "beat-type",
@@ -9024,7 +9024,7 @@ class Miscellaneous:
     class Meta:
         name = "miscellaneous"
 
-    miscellaneous_field: List[MiscellaneousField] = field(
+    miscellaneous_field: list[MiscellaneousField] = field(
         default_factory=list,
         metadata={
             "name": "miscellaneous-field",
@@ -10079,14 +10079,14 @@ class PartLink:
     class Meta:
         name = "part-link"
 
-    instrument_link: List[InstrumentLink] = field(
+    instrument_link: list[InstrumentLink] = field(
         default_factory=list,
         metadata={
             "name": "instrument-link",
             "type": "Element",
         }
     )
-    group_link: List[str] = field(
+    group_link: list[str] = field(
         default_factory=list,
         metadata={
             "name": "group-link",
@@ -10686,21 +10686,21 @@ class Play:
     class Meta:
         name = "play"
 
-    ipa: List[str] = field(
+    ipa: list[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    mute: List[Mute] = field(
+    mute: list[Mute] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    semi_pitched: List[SemiPitched] = field(
+    semi_pitched: list[SemiPitched] = field(
         default_factory=list,
         metadata={
             "name": "semi-pitched",
@@ -10708,7 +10708,7 @@ class Play:
             "sequential": True,
         }
     )
-    other_play: List[OtherPlay] = field(
+    other_play: list[OtherPlay] = field(
         default_factory=list,
         metadata={
             "name": "other-play",
@@ -11256,14 +11256,14 @@ class Slash:
             "type": "Element",
         }
     )
-    slash_dot: List[Empty] = field(
+    slash_dot: list[Empty] = field(
         default_factory=list,
         metadata={
             "name": "slash-dot",
             "type": "Element",
         }
     )
-    except_voice: List[str] = field(
+    except_voice: list[str] = field(
         default_factory=list,
         metadata={
             "name": "except-voice",
@@ -12716,7 +12716,7 @@ class TimeModification:
             "type": "Element",
         }
     )
-    normal_dot: List[Empty] = field(
+    normal_dot: list[Empty] = field(
         default_factory=list,
         metadata={
             "name": "normal-dot",
@@ -13301,33 +13301,33 @@ class Appearance:
     class Meta:
         name = "appearance"
 
-    line_width: List[LineWidth] = field(
+    line_width: list[LineWidth] = field(
         default_factory=list,
         metadata={
             "name": "line-width",
             "type": "Element",
         }
     )
-    note_size: List[NoteSize] = field(
+    note_size: list[NoteSize] = field(
         default_factory=list,
         metadata={
             "name": "note-size",
             "type": "Element",
         }
     )
-    distance: List[Distance] = field(
+    distance: list[Distance] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    glyph: List[Glyph] = field(
+    glyph: list[Glyph] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    other_appearance: List[OtherAppearance] = field(
+    other_appearance: list[OtherAppearance] = field(
         default_factory=list,
         metadata={
             "name": "other-appearance",
@@ -13431,7 +13431,7 @@ class Barline:
             "type": "Element",
         }
     )
-    fermata: List[Fermata] = field(
+    fermata: list[Fermata] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -13747,21 +13747,21 @@ class Credit:
     class Meta:
         name = "credit"
 
-    credit_type: List[str] = field(
+    credit_type: list[str] = field(
         default_factory=list,
         metadata={
             "name": "credit-type",
             "type": "Element",
         }
     )
-    link: List[Link] = field(
+    link: list[Link] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    bookmark: List[Bookmark] = field(
+    bookmark: list[Bookmark] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -13775,7 +13775,7 @@ class Credit:
             "type": "Element",
         }
     )
-    credit_words: List[FormattedTextId] = field(
+    credit_words: list[FormattedTextId] = field(
         default_factory=list,
         metadata={
             "name": "credit-words",
@@ -13783,7 +13783,7 @@ class Credit:
             "sequential": True,
         }
     )
-    credit_symbol: List[FormattedSymbolId] = field(
+    credit_symbol: list[FormattedSymbolId] = field(
         default_factory=list,
         metadata={
             "name": "credit-symbol",
@@ -13865,7 +13865,7 @@ class Encoding:
     class Meta:
         name = "encoding"
 
-    encoding_date: List[str] = field(
+    encoding_date: list[str] = field(
         default_factory=list,
         metadata={
             "name": "encoding-date",
@@ -13873,26 +13873,26 @@ class Encoding:
             "pattern": r"[^:Z]*",
         }
     )
-    encoder: List[TypedText] = field(
+    encoder: list[TypedText] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    software: List[str] = field(
+    software: list[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    encoding_description: List[str] = field(
+    encoding_description: list[str] = field(
         default_factory=list,
         metadata={
             "name": "encoding-description",
             "type": "Element",
         }
     )
-    supports: List[Supports] = field(
+    supports: list[Supports] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -14166,7 +14166,7 @@ class HarpPedals:
     class Meta:
         name = "harp-pedals"
 
-    pedal_tuning: List[PedalTuning] = field(
+    pedal_tuning: list[PedalTuning] = field(
         default_factory=list,
         metadata={
             "name": "pedal-tuning",
@@ -14458,7 +14458,7 @@ class Key:
             "type": "Element",
         }
     )
-    key_step: List[Step] = field(
+    key_step: list[Step] = field(
         default_factory=list,
         metadata={
             "name": "key-step",
@@ -14466,7 +14466,7 @@ class Key:
             "sequential": True,
         }
     )
-    key_alter: List[Decimal] = field(
+    key_alter: list[Decimal] = field(
         default_factory=list,
         metadata={
             "name": "key-alter",
@@ -14474,7 +14474,7 @@ class Key:
             "sequential": True,
         }
     )
-    key_accidental: List[KeyAccidental] = field(
+    key_accidental: list[KeyAccidental] = field(
         default_factory=list,
         metadata={
             "name": "key-accidental",
@@ -14482,7 +14482,7 @@ class Key:
             "sequential": True,
         }
     )
-    key_octave: List[KeyOctave] = field(
+    key_octave: list[KeyOctave] = field(
         default_factory=list,
         metadata={
             "name": "key-octave",
@@ -14587,19 +14587,19 @@ class Listen:
     class Meta:
         name = "listen"
 
-    assess: List[Assess] = field(
+    assess: list[Assess] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    wait: List[Wait] = field(
+    wait: list[Wait] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    other_listen: List[OtherListening] = field(
+    other_listen: list[OtherListening] = field(
         default_factory=list,
         metadata={
             "name": "other-listen",
@@ -14629,14 +14629,14 @@ class Listening:
     class Meta:
         name = "listening"
 
-    sync: List[Sync] = field(
+    sync: list[Sync] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    other_listening: List[OtherListening] = field(
+    other_listening: list[OtherListening] = field(
         default_factory=list,
         metadata={
             "name": "other-listening",
@@ -14701,28 +14701,28 @@ class Lyric:
     class Meta:
         name = "lyric"
 
-    syllabic: List[Syllabic] = field(
+    syllabic: list[Syllabic] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    text: List[TextElementData] = field(
+    text: list[TextElementData] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    elision: List[Elision] = field(
+    elision: list[Elision] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    extend: List[Extend] = field(
+    extend: list[Extend] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -15021,7 +15021,7 @@ class NameDisplay:
     class Meta:
         name = "name-display"
 
-    display_text: List[FormattedText] = field(
+    display_text: list[FormattedText] = field(
         default_factory=list,
         metadata={
             "name": "display-text",
@@ -15029,7 +15029,7 @@ class NameDisplay:
             "sequential": True,
         }
     )
-    accidental_text: List[AccidentalText] = field(
+    accidental_text: list[AccidentalText] = field(
         default_factory=list,
         metadata={
             "name": "accidental-text",
@@ -15059,7 +15059,7 @@ class NoteheadText:
     class Meta:
         name = "notehead-text"
 
-    display_text: List[FormattedText] = field(
+    display_text: list[FormattedText] = field(
         default_factory=list,
         metadata={
             "name": "display-text",
@@ -15067,7 +15067,7 @@ class NoteheadText:
             "sequential": True,
         }
     )
-    accidental_text: List[AccidentalText] = field(
+    accidental_text: list[AccidentalText] = field(
         default_factory=list,
         metadata={
             "name": "accidental-text",
@@ -15157,7 +15157,7 @@ class PageLayout:
             "type": "Element",
         }
     )
-    page_margins: List[PageMargins] = field(
+    page_margins: list[PageMargins] = field(
         default_factory=list,
         metadata={
             "name": "page-margins",
@@ -15470,7 +15470,7 @@ class Scordatura:
     class Meta:
         name = "scordatura"
 
-    accord: List[Accord] = field(
+    accord: list[Accord] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -15547,7 +15547,7 @@ class Sound:
     class Meta:
         name = "sound"
 
-    instrument_change: List[InstrumentChange] = field(
+    instrument_change: list[InstrumentChange] = field(
         default_factory=list,
         metadata={
             "name": "instrument-change",
@@ -15555,7 +15555,7 @@ class Sound:
             "sequential": True,
         }
     )
-    midi_device: List[MidiDevice] = field(
+    midi_device: list[MidiDevice] = field(
         default_factory=list,
         metadata={
             "name": "midi-device",
@@ -15563,7 +15563,7 @@ class Sound:
             "sequential": True,
         }
     )
-    midi_instrument: List[MidiInstrument] = field(
+    midi_instrument: list[MidiInstrument] = field(
         default_factory=list,
         metadata={
             "name": "midi-instrument",
@@ -15571,7 +15571,7 @@ class Sound:
             "sequential": True,
         }
     )
-    play: List[Play] = field(
+    play: list[Play] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -15757,14 +15757,14 @@ class StaffDetails:
             "type": "Element",
         }
     )
-    line_detail: List[LineDetail] = field(
+    line_detail: list[LineDetail] = field(
         default_factory=list,
         metadata={
             "name": "line-detail",
             "type": "Element",
         }
     )
-    staff_tuning: List[StaffTuning] = field(
+    staff_tuning: list[StaffTuning] = field(
         default_factory=list,
         metadata={
             "name": "staff-tuning",
@@ -15913,14 +15913,14 @@ class Time:
     class Meta:
         name = "time"
 
-    beats: List[str] = field(
+    beats: list[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    beat_type: List[str] = field(
+    beat_type: list[str] = field(
         default_factory=list,
         metadata={
             "name": "beat-type",
@@ -16151,7 +16151,7 @@ class TupletPortion:
             "type": "Element",
         }
     )
-    tuplet_dot: List[TupletDot] = field(
+    tuplet_dot: list[TupletDot] = field(
         default_factory=list,
         metadata={
             "name": "tuplet-dot",
@@ -16251,107 +16251,107 @@ class Articulations:
     class Meta:
         name = "articulations"
 
-    accent: List[EmptyPlacement] = field(
+    accent: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    strong_accent: List[StrongAccent] = field(
+    strong_accent: list[StrongAccent] = field(
         default_factory=list,
         metadata={
             "name": "strong-accent",
             "type": "Element",
         }
     )
-    staccato: List[EmptyPlacement] = field(
+    staccato: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    tenuto: List[EmptyPlacement] = field(
+    tenuto: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    detached_legato: List[EmptyPlacement] = field(
+    detached_legato: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "detached-legato",
             "type": "Element",
         }
     )
-    staccatissimo: List[EmptyPlacement] = field(
+    staccatissimo: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    spiccato: List[EmptyPlacement] = field(
+    spiccato: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    scoop: List[EmptyLine] = field(
+    scoop: list[EmptyLine] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    plop: List[EmptyLine] = field(
+    plop: list[EmptyLine] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    doit: List[EmptyLine] = field(
+    doit: list[EmptyLine] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    falloff: List[EmptyLine] = field(
+    falloff: list[EmptyLine] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    breath_mark: List[BreathMark] = field(
+    breath_mark: list[BreathMark] = field(
         default_factory=list,
         metadata={
             "name": "breath-mark",
             "type": "Element",
         }
     )
-    caesura: List[Caesura] = field(
+    caesura: list[Caesura] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    stress: List[EmptyPlacement] = field(
+    stress: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    unstress: List[EmptyPlacement] = field(
+    unstress: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    soft_accent: List[EmptyPlacement] = field(
+    soft_accent: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "soft-accent",
             "type": "Element",
         }
     )
-    other_articulation: List[OtherPlacementText] = field(
+    other_articulation: list[OtherPlacementText] = field(
         default_factory=list,
         metadata={
             "name": "other-articulation",
@@ -16409,7 +16409,7 @@ class FiguredBass:
     class Meta:
         name = "figured-bass"
 
-    figure: List[Figure] = field(
+    figure: list[Figure] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -16668,7 +16668,7 @@ class Frame:
             "type": "Element",
         }
     )
-    frame_note: List[FrameNote] = field(
+    frame_note: list[FrameNote] = field(
         default_factory=list,
         metadata={
             "name": "frame-note",
@@ -16785,13 +16785,13 @@ class Identification:
     class Meta:
         name = "identification"
 
-    creator: List[TypedText] = field(
+    creator: list[TypedText] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    rights: List[TypedText] = field(
+    rights: list[TypedText] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -16809,7 +16809,7 @@ class Identification:
             "type": "Element",
         }
     )
-    relation: List[TypedText] = field(
+    relation: list[TypedText] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -16848,14 +16848,14 @@ class MetronomeNote:
             "required": True,
         }
     )
-    metronome_dot: List[Empty] = field(
+    metronome_dot: list[Empty] = field(
         default_factory=list,
         metadata={
             "name": "metronome-dot",
             "type": "Element",
         }
     )
-    metronome_beam: List[MetronomeBeam] = field(
+    metronome_beam: list[MetronomeBeam] = field(
         default_factory=list,
         metadata={
             "name": "metronome-beam",
@@ -16933,7 +16933,7 @@ class Ornaments:
     class Meta:
         name = "ornaments"
 
-    trill_mark: List[EmptyTrillSound] = field(
+    trill_mark: list[EmptyTrillSound] = field(
         default_factory=list,
         metadata={
             "name": "trill-mark",
@@ -16941,14 +16941,14 @@ class Ornaments:
             "sequential": True,
         }
     )
-    turn: List[HorizontalTurn] = field(
+    turn: list[HorizontalTurn] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    delayed_turn: List[HorizontalTurn] = field(
+    delayed_turn: list[HorizontalTurn] = field(
         default_factory=list,
         metadata={
             "name": "delayed-turn",
@@ -16956,7 +16956,7 @@ class Ornaments:
             "sequential": True,
         }
     )
-    inverted_turn: List[HorizontalTurn] = field(
+    inverted_turn: list[HorizontalTurn] = field(
         default_factory=list,
         metadata={
             "name": "inverted-turn",
@@ -16964,7 +16964,7 @@ class Ornaments:
             "sequential": True,
         }
     )
-    delayed_inverted_turn: List[HorizontalTurn] = field(
+    delayed_inverted_turn: list[HorizontalTurn] = field(
         default_factory=list,
         metadata={
             "name": "delayed-inverted-turn",
@@ -16972,7 +16972,7 @@ class Ornaments:
             "sequential": True,
         }
     )
-    vertical_turn: List[EmptyTrillSound] = field(
+    vertical_turn: list[EmptyTrillSound] = field(
         default_factory=list,
         metadata={
             "name": "vertical-turn",
@@ -16980,7 +16980,7 @@ class Ornaments:
             "sequential": True,
         }
     )
-    inverted_vertical_turn: List[EmptyTrillSound] = field(
+    inverted_vertical_turn: list[EmptyTrillSound] = field(
         default_factory=list,
         metadata={
             "name": "inverted-vertical-turn",
@@ -16988,14 +16988,14 @@ class Ornaments:
             "sequential": True,
         }
     )
-    shake: List[EmptyTrillSound] = field(
+    shake: list[EmptyTrillSound] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    wavy_line: List[WavyLine] = field(
+    wavy_line: list[WavyLine] = field(
         default_factory=list,
         metadata={
             "name": "wavy-line",
@@ -17003,14 +17003,14 @@ class Ornaments:
             "sequential": True,
         }
     )
-    mordent: List[Mordent] = field(
+    mordent: list[Mordent] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    inverted_mordent: List[Mordent] = field(
+    inverted_mordent: list[Mordent] = field(
         default_factory=list,
         metadata={
             "name": "inverted-mordent",
@@ -17018,28 +17018,28 @@ class Ornaments:
             "sequential": True,
         }
     )
-    schleifer: List[EmptyPlacement] = field(
+    schleifer: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    tremolo: List[Tremolo] = field(
+    tremolo: list[Tremolo] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    haydn: List[EmptyTrillSound] = field(
+    haydn: list[EmptyTrillSound] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    other_ornament: List[OtherPlacementText] = field(
+    other_ornament: list[OtherPlacementText] = field(
         default_factory=list,
         metadata={
             "name": "other-ornament",
@@ -17047,7 +17047,7 @@ class Ornaments:
             "sequential": True,
         }
     )
-    accidental_mark: List[AccidentalMark] = field(
+    accidental_mark: list[AccidentalMark] = field(
         default_factory=list,
         metadata={
             "name": "accidental-mark",
@@ -17324,199 +17324,199 @@ class Technical:
     class Meta:
         name = "technical"
 
-    up_bow: List[EmptyPlacement] = field(
+    up_bow: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "up-bow",
             "type": "Element",
         }
     )
-    down_bow: List[EmptyPlacement] = field(
+    down_bow: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "down-bow",
             "type": "Element",
         }
     )
-    harmonic: List[Harmonic] = field(
+    harmonic: list[Harmonic] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    open_string: List[EmptyPlacement] = field(
+    open_string: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "open-string",
             "type": "Element",
         }
     )
-    thumb_position: List[EmptyPlacement] = field(
+    thumb_position: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "thumb-position",
             "type": "Element",
         }
     )
-    fingering: List[Fingering] = field(
+    fingering: list[Fingering] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    pluck: List[PlacementText] = field(
+    pluck: list[PlacementText] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    double_tongue: List[EmptyPlacement] = field(
+    double_tongue: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "double-tongue",
             "type": "Element",
         }
     )
-    triple_tongue: List[EmptyPlacement] = field(
+    triple_tongue: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "triple-tongue",
             "type": "Element",
         }
     )
-    stopped: List[EmptyPlacementSmufl] = field(
+    stopped: list[EmptyPlacementSmufl] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    snap_pizzicato: List[EmptyPlacement] = field(
+    snap_pizzicato: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "snap-pizzicato",
             "type": "Element",
         }
     )
-    fret: List[Fret] = field(
+    fret: list[Fret] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    string: List[String] = field(
+    string: list[String] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    hammer_on: List[HammerOnPullOff] = field(
+    hammer_on: list[HammerOnPullOff] = field(
         default_factory=list,
         metadata={
             "name": "hammer-on",
             "type": "Element",
         }
     )
-    pull_off: List[HammerOnPullOff] = field(
+    pull_off: list[HammerOnPullOff] = field(
         default_factory=list,
         metadata={
             "name": "pull-off",
             "type": "Element",
         }
     )
-    bend: List[Bend] = field(
+    bend: list[Bend] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    tap: List[Tap] = field(
+    tap: list[Tap] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    heel: List[HeelToe] = field(
+    heel: list[HeelToe] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    toe: List[HeelToe] = field(
+    toe: list[HeelToe] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    fingernails: List[EmptyPlacement] = field(
+    fingernails: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    hole: List[Hole] = field(
+    hole: list[Hole] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    arrow: List[Arrow] = field(
+    arrow: list[Arrow] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    handbell: List[Handbell] = field(
+    handbell: list[Handbell] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    brass_bend: List[EmptyPlacement] = field(
+    brass_bend: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "name": "brass-bend",
             "type": "Element",
         }
     )
-    flip: List[EmptyPlacement] = field(
+    flip: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    smear: List[EmptyPlacement] = field(
+    smear: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    open: List[EmptyPlacementSmufl] = field(
+    open: list[EmptyPlacementSmufl] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    half_muted: List[EmptyPlacementSmufl] = field(
+    half_muted: list[EmptyPlacementSmufl] = field(
         default_factory=list,
         metadata={
             "name": "half-muted",
             "type": "Element",
         }
     )
-    harmon_mute: List[HarmonMute] = field(
+    harmon_mute: list[HarmonMute] = field(
         default_factory=list,
         metadata={
             "name": "harmon-mute",
             "type": "Element",
         }
     )
-    golpe: List[EmptyPlacement] = field(
+    golpe: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    other_technical: List[OtherPlacementText] = field(
+    other_technical: list[OtherPlacementText] = field(
         default_factory=list,
         metadata={
             "name": "other-technical",
@@ -17763,13 +17763,13 @@ class Attributes:
             "min_exclusive": Decimal("0"),
         }
     )
-    key: List[Key] = field(
+    key: list[Key] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    time: List[Time] = field(
+    time: list[Time] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -17794,39 +17794,39 @@ class Attributes:
             "type": "Element",
         }
     )
-    clef: List[Clef] = field(
+    clef: list[Clef] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    staff_details: List[StaffDetails] = field(
+    staff_details: list[StaffDetails] = field(
         default_factory=list,
         metadata={
             "name": "staff-details",
             "type": "Element",
         }
     )
-    transpose: List[Transpose] = field(
+    transpose: list[Transpose] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    for_part: List[ForPart] = field(
+    for_part: list[ForPart] = field(
         default_factory=list,
         metadata={
             "name": "for-part",
             "type": "Element",
         }
     )
-    directive: List["Attributes.Directive"] = field(
+    directive: list["Attributes.Directive"] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    measure_style: List[MeasureStyle] = field(
+    measure_style: list[MeasureStyle] = field(
         default_factory=list,
         metadata={
             "name": "measure-style",
@@ -17972,7 +17972,7 @@ class Defaults:
             "type": "Element",
         }
     )
-    staff_layout: List[StaffLayout] = field(
+    staff_layout: list[StaffLayout] = field(
         default_factory=list,
         metadata={
             "name": "staff-layout",
@@ -17999,14 +17999,14 @@ class Defaults:
             "type": "Element",
         }
     )
-    lyric_font: List[LyricFont] = field(
+    lyric_font: list[LyricFont] = field(
         default_factory=list,
         metadata={
             "name": "lyric-font",
             "type": "Element",
         }
     )
-    lyric_language: List[LyricLanguage] = field(
+    lyric_language: list[LyricLanguage] = field(
         default_factory=list,
         metadata={
             "name": "lyric-language",
@@ -18073,28 +18073,28 @@ class Harmony:
     class Meta:
         name = "harmony"
 
-    root: List[Root] = field(
+    root: list[Root] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    numeral: List[Numeral] = field(
+    numeral: list[Numeral] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    function: List[StyleText] = field(
+    function: list[StyleText] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    kind: List[Kind] = field(
+    kind: list[Kind] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -18102,21 +18102,21 @@ class Harmony:
             "sequential": True,
         }
     )
-    inversion: List[Inversion] = field(
+    inversion: list[Inversion] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    bass: List[Bass] = field(
+    bass: list[Bass] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    degree: List[Degree] = field(
+    degree: list[Degree] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -18313,7 +18313,7 @@ class Metronome:
     class Meta:
         name = "metronome"
 
-    beat_unit: List[NoteTypeValue] = field(
+    beat_unit: list[NoteTypeValue] = field(
         default_factory=list,
         metadata={
             "name": "beat-unit",
@@ -18321,14 +18321,14 @@ class Metronome:
             "max_occurs": 2,
         }
     )
-    beat_unit_dot: List[Empty] = field(
+    beat_unit_dot: list[Empty] = field(
         default_factory=list,
         metadata={
             "name": "beat-unit-dot",
             "type": "Element",
         }
     )
-    beat_unit_tied: List[BeatUnitTied] = field(
+    beat_unit_tied: list[BeatUnitTied] = field(
         default_factory=list,
         metadata={
             "name": "beat-unit-tied",
@@ -18349,7 +18349,7 @@ class Metronome:
             "type": "Element",
         }
     )
-    metronome_note: List[MetronomeNote] = field(
+    metronome_note: list[MetronomeNote] = field(
         default_factory=list,
         metadata={
             "name": "metronome-note",
@@ -18490,84 +18490,84 @@ class Notations:
             "type": "Element",
         }
     )
-    tied: List[Tied] = field(
+    tied: list[Tied] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    slur: List[Slur] = field(
+    slur: list[Slur] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    tuplet: List[Tuplet] = field(
+    tuplet: list[Tuplet] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    glissando: List[Glissando] = field(
+    glissando: list[Glissando] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    slide: List[Slide] = field(
+    slide: list[Slide] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    ornaments: List[Ornaments] = field(
+    ornaments: list[Ornaments] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    technical: List[Technical] = field(
+    technical: list[Technical] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    articulations: List[Articulations] = field(
+    articulations: list[Articulations] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    dynamics: List[Dynamics] = field(
+    dynamics: list[Dynamics] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    fermata: List[Fermata] = field(
+    fermata: list[Fermata] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    arpeggiate: List[Arpeggiate] = field(
+    arpeggiate: list[Arpeggiate] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "sequential": True,
         }
     )
-    non_arpeggiate: List[NonArpeggiate] = field(
+    non_arpeggiate: list[NonArpeggiate] = field(
         default_factory=list,
         metadata={
             "name": "non-arpeggiate",
@@ -18575,7 +18575,7 @@ class Notations:
             "sequential": True,
         }
     )
-    accidental_mark: List[AccidentalMark] = field(
+    accidental_mark: list[AccidentalMark] = field(
         default_factory=list,
         metadata={
             "name": "accidental-mark",
@@ -18583,7 +18583,7 @@ class Notations:
             "sequential": True,
         }
     )
-    other_notation: List[OtherNotation] = field(
+    other_notation: list[OtherNotation] = field(
         default_factory=list,
         metadata={
             "name": "other-notation",
@@ -18636,7 +18636,7 @@ class Print:
             "type": "Element",
         }
     )
-    staff_layout: List[StaffLayout] = field(
+    staff_layout: list[StaffLayout] = field(
         default_factory=list,
         metadata={
             "name": "staff-layout",
@@ -18751,7 +18751,7 @@ class ScorePart:
             "type": "Element",
         }
     )
-    part_link: List[PartLink] = field(
+    part_link: list[PartLink] = field(
         default_factory=list,
         metadata={
             "name": "part-link",
@@ -18787,26 +18787,26 @@ class ScorePart:
             "type": "Element",
         }
     )
-    group: List[str] = field(
+    group: list[str] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    score_instrument: List[ScoreInstrument] = field(
+    score_instrument: list[ScoreInstrument] = field(
         default_factory=list,
         metadata={
             "name": "score-instrument",
             "type": "Element",
         }
     )
-    player: List[Player] = field(
+    player: list[Player] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    midi_device: List[MidiDevice] = field(
+    midi_device: list[MidiDevice] = field(
         default_factory=list,
         metadata={
             "name": "midi-device",
@@ -18814,7 +18814,7 @@ class ScorePart:
             "sequential": True,
         }
     )
-    midi_instrument: List[MidiInstrument] = field(
+    midi_instrument: list[MidiInstrument] = field(
         default_factory=list,
         metadata={
             "name": "midi-instrument",
@@ -18883,31 +18883,31 @@ class DirectionType:
     class Meta:
         name = "direction-type"
 
-    rehearsal: List[FormattedTextId] = field(
+    rehearsal: list[FormattedTextId] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    segno: List[Segno] = field(
+    segno: list[Segno] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    coda: List[Coda] = field(
+    coda: list[Coda] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    words: List[FormattedTextId] = field(
+    words: list[FormattedTextId] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    symbol: List[FormattedSymbolId] = field(
+    symbol: list[FormattedSymbolId] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -18919,7 +18919,7 @@ class DirectionType:
             "type": "Element",
         }
     )
-    dynamics: List[Dynamics] = field(
+    dynamics: list[Dynamics] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19008,7 +19008,7 @@ class DirectionType:
             "type": "Element",
         }
     )
-    percussion: List[Percussion] = field(
+    percussion: list[Percussion] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19144,7 +19144,7 @@ class Note:
             "type": "Element",
         }
     )
-    chord: List[Empty] = field(
+    chord: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19152,7 +19152,7 @@ class Note:
             "sequential": True,
         }
     )
-    pitch: List[Pitch] = field(
+    pitch: list[Pitch] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19160,7 +19160,7 @@ class Note:
             "sequential": True,
         }
     )
-    unpitched: List[Unpitched] = field(
+    unpitched: list[Unpitched] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19168,7 +19168,7 @@ class Note:
             "sequential": True,
         }
     )
-    rest: List[Rest] = field(
+    rest: list[Rest] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19176,14 +19176,14 @@ class Note:
             "sequential": True,
         }
     )
-    tie: List[Tie] = field(
+    tie: list[Tie] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "max_occurs": 4,
         }
     )
-    cue: List[Empty] = field(
+    cue: list[Empty] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19191,7 +19191,7 @@ class Note:
             "sequential": True,
         }
     )
-    duration: List[Decimal] = field(
+    duration: list[Decimal] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19200,7 +19200,7 @@ class Note:
             "sequential": True,
         }
     )
-    instrument: List[Instrument] = field(
+    instrument: list[Instrument] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19230,7 +19230,7 @@ class Note:
             "type": "Element",
         }
     )
-    dot: List[EmptyPlacement] = field(
+    dot: list[EmptyPlacement] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19274,20 +19274,20 @@ class Note:
             "type": "Element",
         }
     )
-    beam: List[Beam] = field(
+    beam: list[Beam] = field(
         default_factory=list,
         metadata={
             "type": "Element",
             "max_occurs": 8,
         }
     )
-    notations: List[Notations] = field(
+    notations: list[Notations] = field(
         default_factory=list,
         metadata={
             "type": "Element",
         }
     )
-    lyric: List[Lyric] = field(
+    lyric: list[Lyric] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19476,7 +19476,7 @@ class PartList:
     class Meta:
         name = "part-list"
 
-    part_group: List[PartGroup] = field(
+    part_group: list[PartGroup] = field(
         default_factory=list,
         metadata={
             "name": "part-group",
@@ -19484,7 +19484,7 @@ class PartList:
             "sequential": True,
         }
     )
-    score_part: List[ScorePart] = field(
+    score_part: list[ScorePart] = field(
         default_factory=list,
         metadata={
             "name": "score-part",
@@ -19528,7 +19528,7 @@ class Direction:
     class Meta:
         name = "direction"
 
-    direction_type: List[DirectionType] = field(
+    direction_type: list[DirectionType] = field(
         default_factory=list,
         metadata={
             "name": "direction-type",
@@ -19660,7 +19660,7 @@ class ScorePartwise:
             "type": "Element",
         }
     )
-    credit: List[Credit] = field(
+    credit: list[Credit] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19674,7 +19674,7 @@ class ScorePartwise:
             "required": True,
         }
     )
-    part: List["ScorePartwise.Part"] = field(
+    part: list["ScorePartwise.Part"] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19690,7 +19690,7 @@ class ScorePartwise:
 
     @dataclass
     class Part:
-        measure: List["ScorePartwise.Part.Measure"] = field(
+        measure: list["ScorePartwise.Part.Measure"] = field(
             default_factory=list,
             metadata={
                 "type": "Element",
@@ -19707,49 +19707,49 @@ class ScorePartwise:
 
         @dataclass
         class Measure:
-            note: List[Note] = field(
+            note: list[Note] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            backup: List[Backup] = field(
+            backup: list[Backup] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            forward: List[Forward] = field(
+            forward: list[Forward] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            direction: List[Direction] = field(
+            direction: list[Direction] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            attributes: List[Attributes] = field(
+            attributes: list[Attributes] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            harmony: List[Harmony] = field(
+            harmony: list[Harmony] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            figured_bass: List[FiguredBass] = field(
+            figured_bass: list[FiguredBass] = field(
                 default_factory=list,
                 metadata={
                     "name": "figured-bass",
@@ -19757,49 +19757,49 @@ class ScorePartwise:
                     "sequential": True,
                 }
             )
-            print: List[Print] = field(
+            print: list[Print] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            sound: List[Sound] = field(
+            sound: list[Sound] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            listening: List[Listening] = field(
+            listening: list[Listening] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            barline: List[Barline] = field(
+            barline: list[Barline] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            grouping: List[Grouping] = field(
+            grouping: list[Grouping] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            link: List[Link] = field(
+            link: list[Link] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            bookmark: List[Bookmark] = field(
+            bookmark: list[Bookmark] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
@@ -19903,7 +19903,7 @@ class ScoreTimewise:
             "type": "Element",
         }
     )
-    credit: List[Credit] = field(
+    credit: list[Credit] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19917,7 +19917,7 @@ class ScoreTimewise:
             "required": True,
         }
     )
-    measure: List["ScoreTimewise.Measure"] = field(
+    measure: list["ScoreTimewise.Measure"] = field(
         default_factory=list,
         metadata={
             "type": "Element",
@@ -19933,7 +19933,7 @@ class ScoreTimewise:
 
     @dataclass
     class Measure:
-        part: List["ScoreTimewise.Measure.Part"] = field(
+        part: list["ScoreTimewise.Measure.Part"] = field(
             default_factory=list,
             metadata={
                 "type": "Element",
@@ -19982,49 +19982,49 @@ class ScoreTimewise:
 
         @dataclass
         class Part:
-            note: List[Note] = field(
+            note: list[Note] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            backup: List[Backup] = field(
+            backup: list[Backup] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            forward: List[Forward] = field(
+            forward: list[Forward] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            direction: List[Direction] = field(
+            direction: list[Direction] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            attributes: List[Attributes] = field(
+            attributes: list[Attributes] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            harmony: List[Harmony] = field(
+            harmony: list[Harmony] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            figured_bass: List[FiguredBass] = field(
+            figured_bass: list[FiguredBass] = field(
                 default_factory=list,
                 metadata={
                     "name": "figured-bass",
@@ -20032,49 +20032,49 @@ class ScoreTimewise:
                     "sequential": True,
                 }
             )
-            print: List[Print] = field(
+            print: list[Print] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            sound: List[Sound] = field(
+            sound: list[Sound] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            listening: List[Listening] = field(
+            listening: list[Listening] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            barline: List[Barline] = field(
+            barline: list[Barline] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            grouping: List[Grouping] = field(
+            grouping: list[Grouping] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            link: List[Link] = field(
+            link: list[Link] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",
                     "sequential": True,
                 }
             )
-            bookmark: List[Bookmark] = field(
+            bookmark: list[Bookmark] = field(
                 default_factory=list,
                 metadata={
                     "type": "Element",

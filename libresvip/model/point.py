@@ -1,4 +1,4 @@
-from typing import Generic, List, NamedTuple, TypeVar
+from typing import Generic, NamedTuple, TypeVar
 
 from pydantic import Field, model_serializer, root_validator
 
@@ -25,7 +25,7 @@ class Point(NamedTuple):
 
 
 class PointList(GenericModel, Generic[PointType]):
-    root: List[PointType] = Field(default_factory=list)
+    root: list[PointType] = Field(default_factory=list)
 
     @root_validator(pre=True)
     @classmethod

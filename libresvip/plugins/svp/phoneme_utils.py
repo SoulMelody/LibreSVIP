@@ -1,5 +1,4 @@
 import pathlib
-from typing import List
 
 import regex
 
@@ -29,7 +28,7 @@ phoneme_dictionary = json.loads((plugin_path / "phoneme_dictionary.json").read_t
 xsampa_dictionary = json.loads((plugin_path / "xsampa_dictionary.json").read_text())
 
 
-def lyrics2pinyin(lyrics: List[str]) -> List[str]:
+def lyrics2pinyin(lyrics: list[str]) -> list[str]:
     pinyin_list = []
     builder = ""
     for lyric in lyrics:
@@ -56,7 +55,7 @@ def number_of_phones(pinyin: str) -> int:
     return len(phoneme_dictionary[pinyin])
 
 
-def default_phone_marks(pinyin: str) -> List[float]:
+def default_phone_marks(pinyin: str) -> list[float]:
     res = [0.0, 0.0]
     if pinyin == "-":
         return res

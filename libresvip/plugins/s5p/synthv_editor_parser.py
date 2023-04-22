@@ -1,6 +1,5 @@
 import dataclasses
 import os
-from typing import List
 
 from pydub.utils import db_to_float, ratio_to_db
 
@@ -58,7 +57,7 @@ class SynthVEditorParser:
         )
 
     @staticmethod
-    def parse_time_signatures(meter: List[S5pMeterItem]) -> List[TimeSignature]:
+    def parse_time_signatures(meter: list[S5pMeterItem]) -> list[TimeSignature]:
         time_signatures = [
             TimeSignature(
                 BarIndex=item.measure,
@@ -74,7 +73,7 @@ class SynthVEditorParser:
         return time_signatures
 
     @staticmethod
-    def parse_tempos(tempo: List[S5pTempoItem]) -> List[SongTempo]:
+    def parse_tempos(tempo: list[S5pTempoItem]) -> list[SongTempo]:
         tempos = [
             SongTempo(
                 Position=item.position / TICK_RATE,
@@ -91,7 +90,7 @@ class SynthVEditorParser:
             )
         return tempos
 
-    def parse_singing_tracks(self, tracks: List[S5pTrack]) -> List[Track]:
+    def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[Track]:
         return [
             SingingTrack(
                 Mute=track.mixer.muted,
@@ -124,7 +123,7 @@ class SynthVEditorParser:
             Offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
         )
 
-    def parse_notes(self, notes: List[S5pNote]) -> List[Note]:
+    def parse_notes(self, notes: list[S5pNote]) -> list[Note]:
         note_list = []
         for s5p_note in notes:
             note = Note(

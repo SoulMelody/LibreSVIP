@@ -1,6 +1,6 @@
 import sys
 from itertools import chain
-from typing import Dict, List, Literal, NamedTuple, Optional
+from typing import Literal, NamedTuple, Optional
 from uuid import uuid4
 
 from more_itertools import chunked
@@ -57,8 +57,8 @@ class SVTempo(BaseModel):
 
 
 class SVTime(BaseModel):
-    meter: List[SVMeter] = Field(default_factory=list)
-    tempo: List[SVTempo] = Field(default_factory=list)
+    meter: list[SVMeter] = Field(default_factory=list)
+    tempo: list[SVTempo] = Field(default_factory=list)
 
 
 class SVParamCurve(BaseModel):
@@ -66,7 +66,7 @@ class SVParamCurve(BaseModel):
     points: SVPoints = Field(default_factory=SVPoints)
 
     @validator("points", pre=True)
-    def load_points(cls, points: List[float]):
+    def load_points(cls, points: list[float]):
         return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
     def _iter(
@@ -144,7 +144,7 @@ class SVParamTake(BaseModel):
 
 class SVParamTakes(BaseModel):
     active_take_id: int = Field(alias="activeTakeId")
-    takes: List[SVParamTake] = Field(default_factory=list)
+    takes: list[SVParamTake] = Field(default_factory=list)
 
 
 class SVNoteAttributes(SVBaseAttributes):
@@ -152,10 +152,10 @@ class SVNoteAttributes(SVBaseAttributes):
     p_f0_vbr: float = Field(None, alias="pF0Vbr")
     d_f0_jitter: float = Field(None, alias="dF0Jitter")
     t_note_offset: float = Field(None, alias="tNoteOffset")
-    dur: Optional[List[float]] = None
-    alt: Optional[List[float]] = None
+    dur: Optional[list[float]] = None
+    alt: Optional[list[float]] = None
     expr_group: Optional[str] = Field(None, alias="exprGroup")
-    strength: Optional[List[float]] = None
+    strength: Optional[list[float]] = None
     r_tone: Optional[float] = Field(None, alias="rTone")
     r_intonation: Optional[float] = Field(None, alias="rIntonation")
 
@@ -440,7 +440,7 @@ class SVParameters(BaseModel):
 class SVVoice(SVBaseAttributes):
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
-    vocal_mode_params: Optional[Dict[str, float]] = Field(None, alias="vocalModeParams")
+    vocal_mode_params: Optional[dict[str, float]] = Field(None, alias="vocalModeParams")
     render_mode: Optional[str] = Field(None, alias="renderMode")
 
     def to_attributes(self) -> SVNoteAttributes:
@@ -492,10 +492,10 @@ class SVRef(BaseModel):
 
 class SVGroup(BaseModel):
     name: str = "main"
-    notes: List[SVNote] = Field(default_factory=list)
+    notes: list[SVNote] = Field(default_factory=list)
     parameters: SVParameters = Field(default_factory=SVParameters)
     uuid: str = Field(default_factory=uuid_str)
-    vocal_modes: Dict[str, SVParamCurve] = Field(
+    vocal_modes: dict[str, SVParamCurve] = Field(
         default_factory=dict, alias="vocalModes"
     )
 
@@ -542,7 +542,7 @@ class SVMixer(BaseModel):
 class SVTrack(BaseModel):
     disp_color: str = Field(default="ff7db235", alias="dispColor")
     disp_order: int = Field(default=0, alias="dispOrder")
-    groups: List[SVRef] = Field(default_factory=list)
+    groups: list[SVRef] = Field(default_factory=list)
     main_group: SVGroup = Field(default_factory=SVGroup, alias="mainGroup")
     main_ref: SVRef = Field(default_factory=SVRef, alias="mainRef")
     mixer: SVMixer = Field(default_factory=SVMixer)
@@ -551,11 +551,11 @@ class SVTrack(BaseModel):
 
 
 class SVProject(BaseModel):
-    library: List[SVGroup] = Field(default_factory=list)
+    library: list[SVGroup] = Field(default_factory=list)
     render_config: SVRenderConfig = Field(
         default_factory=SVRenderConfig, alias="renderConfig"
     )
     instant_mode_enabled: Optional[bool] = Field(False, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
-    tracks: List[SVTrack] = Field(default_factory=list)
+    tracks: list[SVTrack] = Field(default_factory=list)
     version: int = 113

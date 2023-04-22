@@ -2,7 +2,6 @@ import collections
 import dataclasses
 import math
 import operator
-from typing import List
 
 import mido
 import regex as re
@@ -78,7 +77,7 @@ class MidiParser:
                 event.time += tick
                 tick = event.time
 
-    def decode_time_signatures(self, master_track) -> List[TimeSignature]:
+    def decode_time_signatures(self, master_track) -> list[TimeSignature]:
         # no default
         time_signature_changes = [TimeSignature(BarIndex=0, Numerator=4, Denominator=4)]
 
@@ -103,7 +102,7 @@ class MidiParser:
                     prev_ticks = tick
         return time_signature_changes
 
-    def decode_tempo(self, master_track) -> List[SongTempo]:
+    def decode_tempo(self, master_track) -> list[SongTempo]:
         # default bpm
         tempos = [SongTempo(Position=0, BPM=self.options.default_bpm)]
 
@@ -242,7 +241,7 @@ class MidiParser:
             EditedParams=edited_params,
         )
 
-    def decode_tracks(self, midi_tracks) -> List[Track]:
+    def decode_tracks(self, midi_tracks) -> list[Track]:
         tracks = []
         for track_idx, track in enumerate(midi_tracks):
             tracks.append(self.decode_track(track_idx, track))

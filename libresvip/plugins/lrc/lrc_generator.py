@@ -1,6 +1,5 @@
 import dataclasses
 import datetime
-from typing import List, Tuple
 
 import regex as re
 
@@ -87,7 +86,7 @@ class LrcGenerator:
         return lyric_file
 
     def commit_current_lyric_line(
-        self, lyric_lines: List[LyricLine], buffer: List[Tuple[int, str]]
+        self, lyric_lines: list[LyricLine], buffer: list[tuple[int, str]]
     ):
         start_time = self.get_time_from_ticks(buffer[0][0])
         lyrics = ""

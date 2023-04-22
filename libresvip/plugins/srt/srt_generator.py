@@ -1,6 +1,5 @@
 import dataclasses
 import datetime
-from typing import List
 
 import regex as re
 from pysrt import SubRipItem
@@ -18,7 +17,7 @@ class SrtGenerator:
     options: OutputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
-    def generate_project(self, project: Project) -> List[SubRipItem]:
+    def generate_project(self, project: Project) -> list[SubRipItem]:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         singing_track = next(
             track for track in project.track_list if isinstance(track, SingingTrack)
@@ -48,7 +47,7 @@ class SrtGenerator:
         return lyric_lines
 
     def commit_current_lyric_line(
-        self, lyric_lines: List[SubRipItem], buffer: List[Note]
+        self, lyric_lines: list[SubRipItem], buffer: list[Note]
     ):
         start_time = self.get_time_from_ticks(buffer[0].start_pos)
         end_time = self.get_time_from_ticks(buffer[-1].end_pos)

@@ -1,5 +1,5 @@
 from functools import partial
-from typing import List, Optional
+from typing import Optional
 
 from textx import LanguageDesc, metamodel_from_str
 
@@ -26,7 +26,7 @@ class TimeTag(BaseModel):
 
 
 class LyricLine(BaseModel):
-    time_tags: List[TimeTag]
+    time_tags: list[TimeTag]
     lyric: Optional[str]
 
 
@@ -36,8 +36,8 @@ class InfoTag(BaseModel):
 
 
 class LrcFile(BaseModel):
-    info_tags: List[InfoTag]
-    lyric_lines: List[LyricLine]
+    info_tags: list[InfoTag]
+    lyric_lines: list[LyricLine]
 
 
 TitleInfoTag = partial(InfoTag, key="ti")

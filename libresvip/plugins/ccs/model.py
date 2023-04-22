@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from xsdata.models.datatype import XmlTime
 
@@ -383,7 +383,7 @@ class C0:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, float, Decimal]] = field(
+    data: list[Union[Data, float, Decimal]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -401,7 +401,7 @@ class Groups:
             "type": "Attribute",
         },
     )
-    group: List[Group] = field(
+    group: list[Group] = field(
         default_factory=list,
         metadata={
             "name": "Group",
@@ -419,7 +419,7 @@ class LogF0:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, Decimal, float]] = field(
+    data: list[Union[Data, Decimal, float]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -458,7 +458,7 @@ class Score:
             "type": "Element",
         },
     )
-    dynamics: List[Dynamics] = field(
+    dynamics: list[Dynamics] = field(
         default_factory=list,
         metadata={
             "name": "Dynamics",
@@ -466,7 +466,7 @@ class Score:
             "sequential": True,
         },
     )
-    note: List[Note] = field(
+    note: list[Note] = field(
         default_factory=list,
         metadata={
             "name": "Note",
@@ -581,7 +581,7 @@ class TalkEditor:
 
 @dataclass
 class Tempo:
-    sound: List[Sound] = field(
+    sound: list[Sound] = field(
         default_factory=list,
         metadata={
             "name": "Sound",
@@ -624,7 +624,7 @@ class Timing:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, Decimal, float]] = field(
+    data: list[Union[Data, Decimal, float]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -642,7 +642,7 @@ class VibAmp:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, float, Decimal, int]] = field(
+    data: list[Union[Data, float, Decimal, int]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -660,7 +660,7 @@ class VibFrq:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, float, Decimal]] = field(
+    data: list[Union[Data, float, Decimal]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -876,7 +876,7 @@ class Unit:
 
 @dataclass
 class Units:
-    unit: List[Unit] = field(
+    unit: list[Unit] = field(
         default_factory=list,
         metadata={
             "name": "Unit",
