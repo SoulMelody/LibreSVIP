@@ -500,6 +500,12 @@ Page {
                     }
                     ColumnLayout {
                         id: inputContainer
+                        Behavior on visible {
+                            PropertyAnimation{
+                                duration: 200
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
                     }
                     ListView {
                         id: inputOptions
@@ -580,6 +586,12 @@ Page {
                     }
                     ColumnLayout {
                         id: outputContainer
+                        Behavior on visible {
+                            PropertyAnimation{
+                                duration: 200
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
                     }
                     ListView {
                         id: outputOptions
@@ -637,7 +649,7 @@ Page {
             }
         }
 
-        Control {
+        DropArea {
             id: taskListArea
             Layout.row: 4
             Layout.rowSpan: 6
@@ -645,9 +657,17 @@ Page {
             Layout.columnSpan: 5
             Layout.preferredWidth: parent.width * 0.5
             Layout.preferredHeight: parent.height * 0.6
-            Control {
+            onDropped: (event) => {
+                py.task_manager.add_task_paths(event.urls.map(dialogs.url2path))
+            }
+            MouseArea {
                 anchors.fill: parent
                 anchors.margins: 20
+                onClicked: {
+                    if (taskListView.count == 0) {
+                        actions.openFile.trigger()
+                    }
+                }
                 Label {
                     id: taskToolbarLabel
                     anchors.top: parent.top
@@ -664,20 +684,21 @@ Page {
                         model: py.task_manager.qget("tasks")
                         delegate: taskRow
                     }
-                    background: Column {
-                        anchors.centerIn: parent
-                        Label {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: py.qta.icon("mdi6.tray-arrow-up")
-                            font.family: materialFontLoader.name
-                            font.pixelSize: 100
-                        }
-                        Label {
-                            text: qsTr("Drag and drop files here")
-                            font.pixelSize: 30
-                        }
-                        visible: taskListView.count == 0
+                    visible: taskListView.count > 0 
+                }
+                Column {
+                    anchors.centerIn: parent
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: py.qta.icon("mdi6.tray-arrow-up")
+                        font.family: materialFontLoader.name
+                        font.pixelSize: 100
                     }
+                    Label {
+                        text: qsTr("Drag and drop files here")
+                        font.pixelSize: 30
+                    }
+                    visible: taskListView.count == 0
                 }
                 Rectangle {
                     anchors.bottom: parent.bottom
@@ -784,22 +805,15 @@ Page {
                         }
                     }
                 }
-
             }
-            background: DropArea {
+            Rectangle {
                 anchors.fill: parent
-                onDropped: (event) => {
-                    py.task_manager.add_task_paths(event.urls.map(dialogs.url2path))
-                }
-                Rectangle {
-                    anchors.fill: parent
-                    color: "transparent"
-                    border.width: 1
-                    border.color: Material.color(
-                        Material.Grey,
-                        Material.Shade300
-                    )
-                }
+                color: "transparent"
+                border.width: 1
+                border.color: Material.color(
+                    Material.Grey,
+                    Material.Shade300
+                )
             }
         }
 
