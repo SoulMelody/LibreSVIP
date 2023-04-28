@@ -14,8 +14,8 @@ from .model_proxy import ModelProxy
 
 
 class TaskManager(ConfigItems):
-    input_format_changed = Signal()
-    output_format_changed = Signal()
+    input_format_changed = Signal(str)
+    output_format_changed = Signal(str)
     input_fileds_changed = Signal()
     output_fileds_changed = Signal()
     tasks_size_changed = Signal()
@@ -248,22 +248,26 @@ class TaskManager(ConfigItems):
         for i, task in enumerate(self.tasks):
             self.tasks.update(i, {"stem": pathlib.Path(task["path"]).stem})
 
-    @slot(str, result=dict)
-    def fill_task(self, path: str) -> dict:
-        path_obj = pathlib.Path(path)
-        return {
-            "path": path,
-            "name": path_obj.name,
-            "stem": path_obj.stem,
-            "success": None,
-            "error": "",
-            "warning": "",
-        }
-
-    @slot(dict)
-    def add_task(self, task: dict) -> None:
-        self.tasks.append(task)
+    @slot(list)
+    def add_task_paths(self, paths: list[str]) -> None:
+        tasks = []
+        path_obj = None
+        for path in paths:
+            path_obj = pathlib.Path(path)
+            tasks.append(
+                {
+                    "path": path,
+                    "name": path_obj.name,
+                    "stem": path_obj.stem,
+                    "success": None,
+                    "error": "",
+                    "warning": "",
+                }
+            )
+        self.tasks.append_many(tasks)
         self.tasks_size_changed.emit()
+        if path_obj is not None and (suffix := path_obj.suffix[1:]) in plugin_registry:
+            self.set_str("input_format", suffix)
 
     @slot()
     def reset(self) -> None:
@@ -283,7 +287,7 @@ class TaskManager(ConfigItems):
         assert name in {"input_format", "output_format"}
         prefix = name.split("_")[0]
         setattr(self, name, value)
-        getattr(self, f"{name}_changed").emit()
+        getattr(self, f"{name}_changed").emit(value)
         getattr(self, f"set_{prefix}_fields")()
 
     @slot(str, result=bool)

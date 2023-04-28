@@ -20,8 +20,8 @@ Item {
         fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
-            py.task_manager.add_task(
-                py.task_manager.fill_task(url2path(selectedFiles[0]))
+            py.task_manager.add_task_paths(
+                [url2path(selectedFiles[0])]
             )
         }
     }

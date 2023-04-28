@@ -303,11 +303,17 @@ Page {
                         displayText: "Input Format: " + currentText
                         onActivated: {
                             py.task_manager.set_str("input_format", currentValue)
-                            dialogs.openDialog.nameFilters[0] = currentText
                         }
                         Component.onCompleted: {
                             dialogs.openDialog.nameFilters[0] = currentText
                             py.task_manager.set_input_fields()
+                            py.task_manager.input_format_changed.connect(function(input_format) {
+                                let new_index = indexOfValue(input_format)
+                                if (new_index != currentIndex) {
+                                    currentIndex = new_index
+                                    dialogs.openDialog.nameFilters[0] = currentText
+                                }
+                            })
                         }
                         width: parent.width
                         model: py.task_manager.qget("input_formats")
@@ -332,7 +338,7 @@ Page {
                         contentItem: PluginInfo {
                             info: py.task_manager.plugin_info("input_format")
                             Component.onCompleted: {
-                                py.task_manager.input_format_changed.connect(function() {
+                                py.task_manager.input_format_changed.connect(function(input_format) {
                                     info = py.task_manager.plugin_info("input_format")
                                 })
                             }
@@ -379,7 +385,6 @@ Page {
                             inputFormat.currentIndex
                         ]
                         py.task_manager.set_str("input_format", inputFormat.currentValue)
-                        dialogs.openDialog.nameFilters[0] = inputFormat.currentText
                         py.task_manager.set_str("output_format", outputFormat.currentValue)
                     }
                     Component.onCompleted: {
@@ -785,11 +790,7 @@ Page {
             background: DropArea {
                 anchors.fill: parent
                 onDropped: (event) => {
-                    for(var i = 0; i < event.urls.length; i++){
-                        py.task_manager.add_task(
-                            py.task_manager.fill_task(dialogs.url2path(event.urls[i]))
-                        )
-                    }
+                    py.task_manager.add_task_paths(event.urls.map(dialogs.url2path))
                 }
                 Rectangle {
                     anchors.fill: parent
