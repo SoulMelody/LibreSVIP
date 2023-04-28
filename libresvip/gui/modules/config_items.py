@@ -1,10 +1,9 @@
 import pathlib
 
-from omegaconf import OmegaConf
 from qmlease import slot
 from qtpy.QtCore import QObject
 
-from libresvip.core.config import config_path, settings
+from libresvip.core.config import save_settings, settings
 
 
 class ConfigItems(QObject):
@@ -20,6 +19,6 @@ class ConfigItems(QObject):
         path = pathlib.Path(value)
         if path.exists() and path.is_dir():
             settings.save_folder = path
-            OmegaConf.save(settings, config_path)
+            save_settings()
             return True
         return False

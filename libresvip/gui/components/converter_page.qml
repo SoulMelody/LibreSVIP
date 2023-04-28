@@ -46,7 +46,7 @@ Page {
                     }
                     Component.onCompleted: {
                         taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
-                            if (index == idx1.row) {
+                            if (taskRow.index == idx1.row) {
                                 this.text = taskList.model.get(index).stem
                             }
                         })

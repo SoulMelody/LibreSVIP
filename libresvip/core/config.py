@@ -12,6 +12,16 @@ class Language(enum.Enum):
     ENGLISH = "English"
     JAPANESE = "日本語"
 
+    @classmethod
+    def from_locale(cls, locale):
+        locale = locale.replace("-", "_").lower()
+        if locale == "zh_cn":
+            return cls.CHINESE
+        elif locale == "ja_jp":
+            return cls.JAPANESE
+        else:
+            return cls.ENGLISH
+
 
 class DarkMode(enum.Enum):
     LIGHT = "Light"
@@ -46,3 +56,7 @@ config_path = app_dir.user_config_path / "settings.yml"
 settings = OmegaConf.structured(LibreSvipSettings)
 if config_path.exists():
     settings = OmegaConf.merge(settings, OmegaConf.load(config_path))
+
+
+def save_settings():
+    OmegaConf.save(settings, config_path)

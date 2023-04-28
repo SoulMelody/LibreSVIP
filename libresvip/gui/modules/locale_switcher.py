@@ -1,6 +1,7 @@
 from qmlease import app, slot
 from qtpy.QtCore import QObject, QTranslator
 
+from libresvip.core.config import Language, save_settings, settings
 from libresvip.core.constants import pkg_dir
 
 
@@ -16,5 +17,7 @@ class LocaleSwitcher(QObject):
             self.translator.load(str(pkg_dir / "/gui/i18n/{lang}.qm"))
             app.installTranslator(self.translator)
             app.engine.retranslate()
+            settings.language = Language.from_locale(lang)
+            save_settings()
         else:
             app.removeTranslator(self.translator)
