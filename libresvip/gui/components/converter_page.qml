@@ -306,7 +306,7 @@ Page {
                         }
                         Component.onCompleted: {
                             dialogs.openDialog.nameFilters[0] = currentText
-                            py.task_manager.set_input_fields()
+                            py.task_manager.set_str("output_format", currentValue)
                             py.task_manager.input_format_changed.connect(function(input_format) {
                                 let new_index = indexOfValue(input_format)
                                 if (new_index != currentIndex) {
@@ -406,7 +406,7 @@ Page {
                             py.task_manager.set_str("output_format", currentValue)
                         }
                         Component.onCompleted: {
-                            py.task_manager.set_output_fields()
+                            py.task_manager.set_str("output_format", currentValue)
                         }
                         width: parent.width
                         model: py.task_manager.qget("output_formats")

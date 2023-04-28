@@ -66,9 +66,6 @@ class TaskManager(ConfigItems):
                 for plugin in plugin_registry.values()
             ],
         )
-        self.input_format = (
-            self.input_formats[0]["value"] if len(self.input_formats) else ""
-        )
         self.output_formats.insert_many(
             0,
             [
@@ -79,6 +76,11 @@ class TaskManager(ConfigItems):
                 for plugin in plugin_registry.values()
             ],
         )
+        self.input_format_changed.connect(self.set_input_fields)
+        self.output_format_changed.connect(self.set_output_fields)
+        self.input_format = (
+            self.input_formats[0]["value"] if len(self.input_formats) else ""
+        )
         self.output_format = (
             self.output_formats[0]["value"] if len(self.output_formats) else ""
         )
@@ -87,8 +89,11 @@ class TaskManager(ConfigItems):
     def output_ext(self) -> str:
         return f".{self.output_format}"
 
-    @slot()
-    def set_input_fields(self) -> None:
+    @slot(str)
+    def set_input_fields(self, input_format) -> None:
+        if input_format == self.input_format:
+            return
+        self.input_format = input_format
         self.input_fields.clear()
         plugin_input = plugin_registry[self.input_format]
         if hasattr(plugin_input.plugin_object, "load"):
@@ -158,8 +163,11 @@ class TaskManager(ConfigItems):
             self.input_fields.insert_many(0, input_fields)
             self.input_fileds_changed.emit()
 
-    @slot()
-    def set_output_fields(self) -> None:
+    @slot(str)
+    def set_output_fields(self, output_format) -> None:
+        if output_format == self.output_format:
+            return
+        self.output_format = output_format
         self.output_fields.clear()
         plugin_output = plugin_registry[self.output_format]
         if hasattr(plugin_output.plugin_object, "dump"):
@@ -285,10 +293,8 @@ class TaskManager(ConfigItems):
     @slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
-        prefix = name.split("_")[0]
         setattr(self, name, value)
         getattr(self, f"{name}_changed").emit(value)
-        getattr(self, f"set_{prefix}_fields")()
 
     @slot(str, result=bool)
     def install_plugin(self, path: str) -> bool:
