@@ -13,6 +13,7 @@ Drawer {
     signal autoSetOutputFileExtensionChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
     signal autoDetectInputFormatChanged(bool value)
+    signal conflictPolicyChanged(string value)
 
     Column {
         anchors.fill: parent
@@ -86,6 +87,7 @@ Drawer {
                 font.bold: true
             }
             RadioButton {
+                id: sameAsSourceRadio
                 text: qsTr("Same as Source")
                 onClicked: {
                     let path = "."
@@ -95,6 +97,7 @@ Drawer {
                 checked: py.config_items.get_save_folder() === "."
             }
             RadioButton {
+                id: desktopRadio
                 text: qsTr("Desktop")
                 onClicked: {
                     let path = dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0])
@@ -110,6 +113,7 @@ Drawer {
                 onClicked: {
                     actions.chooseSavePath.trigger()
                 }
+                checked: !(sameAsSourceRadio.checked && desktopRadio.checked)
             }
         }
         ColumnLayout {
@@ -120,17 +124,41 @@ Drawer {
             }
             RadioButton {
                 text: qsTr("Overwrite")
+                checked: py.config_items.get_conflict_policy() === "Overwrite"
                 onClicked: {
+                    py.config_items.set_conflict_policy("Overwrite")
+                    conflictPolicyChanged("Overwrite")
+                }
+                Component.onCompleted: {
+                    conflictPolicyChanged.connect( (value) => {
+                        checked = (value === "Overwrite")
+                    })
                 }
             }
             RadioButton {
                 text: qsTr("Skip")
+                checked: py.config_items.get_conflict_policy() === "Skip"
                 onClicked: {
+                    py.config_items.set_conflict_policy("Skip")
+                    conflictPolicyChanged("Skip")
+                }
+                Component.onCompleted: {
+                    conflictPolicyChanged.connect( (value) => {
+                        checked = (value === "Skip")
+                    })
                 }
             }
             RadioButton {
                 text: qsTr("Prompt")
+                checked: py.config_items.get_conflict_policy() === "Prompt"
                 onClicked: {
+                    py.config_items.set_conflict_policy("Prompt")
+                    conflictPolicyChanged("Prompt")
+                }
+                Component.onCompleted: {
+                    conflictPolicyChanged.connect( (value) => {
+                        checked = (value === "Prompt")
+                    })
                 }
             }
         }

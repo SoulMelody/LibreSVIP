@@ -951,6 +951,27 @@ Page {
                     Layout.column: 6
                     Layout.preferredWidth: parent.width * 0.2
                     model: ["Overwrite", "Skip", "Prompt"]
+                    onActivated: (index) => {
+                        currentIndex = index
+                        py.config_items.set_conflict_policy(currentValue)
+                        settingsDrawer.conflictPolicyChanged(currentValue)
+                    }
+                    Component.onCompleted: {
+                        currentIndex = indexOfValue(py.config_items.get_conflict_policy())
+                        settingsDrawer.conflictPolicyChanged.connect( (value) => {
+                            switch (value) {
+                                case "Overwrite":
+                                    currentIndex = 0
+                                    break
+                                case "Skip":
+                                    currentIndex = 1
+                                    break
+                                case "Prompt":
+                                    currentIndex = 2
+                                    break
+                            }
+                        })
+                    }
                 }
             }
         }
