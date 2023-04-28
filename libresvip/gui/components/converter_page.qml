@@ -83,8 +83,11 @@ Page {
             RowLayout {
                 Label {
                     text: field.title
-                    font.pixelSize: 15
                     Layout.alignment: Qt.AlignVCenter
+                    font.pixelSize: 12
+                    fontSizeMode: Text.Fit
+                    wrapMode: Text.Wrap
+                    Layout.preferredWidth: 150
                 }
                 TextField {
                     id: colorField
@@ -145,8 +148,15 @@ Page {
             property var field: {}
             height: 30
             RowLayout {
-                Switch {
+                Label {
                     text: field.title
+                    Layout.alignment: Qt.AlignVCenter
+                    font.pixelSize: 12
+                    fontSizeMode: Text.Fit
+                    wrapMode: Text.Wrap
+                    Layout.preferredWidth: 150
+                }
+                Switch {
                     onCheckedChanged: {
                         field.value = this.checked
                     }
@@ -180,8 +190,11 @@ Page {
             RowLayout {
                 Label {
                     text: field.title
-                    font.pixelSize: 15
                     Layout.alignment: Qt.AlignVCenter
+                    font.pixelSize: 12
+                    fontSizeMode: Text.Fit
+                    wrapMode: Text.Wrap
+                    Layout.preferredWidth: 150
                 }
                 ComboBox {
                     implicitWidth: 200
@@ -223,6 +236,9 @@ Page {
                     Layout.alignment: Qt.AlignVCenter
                     text: field.title
                     font.pixelSize: 12
+                    fontSizeMode: Text.Fit
+                    wrapMode: Text.Wrap
+                    Layout.preferredWidth: 150
                 }
                 TextField {
                     implicitWidth: 200
@@ -529,12 +545,17 @@ Page {
                             Layout.alignment: Qt.AlignVCenter
                         }
                     }
-                    ColumnLayout {
-                        id: inputContainer
-                        Behavior on visible {
-                            PropertyAnimation{
-                                duration: 200
-                                easing.type: Easing.InOutQuad
+                    RowLayout{
+                        Rectangle {
+                            width: inputCollapseIcon.width + 15
+                        }
+                        ColumnLayout {
+                            id: inputContainer
+                            Behavior on visible {
+                                PropertyAnimation{
+                                    duration: 200
+                                    easing.type: Easing.InOutQuad
+                                }
                             }
                         }
                     }
@@ -635,12 +656,17 @@ Page {
                             Layout.alignment: Qt.AlignVCenter
                         }
                     }
-                    ColumnLayout {
-                        id: outputContainer
-                        Behavior on visible {
-                            PropertyAnimation{
-                                duration: 200
-                                easing.type: Easing.InOutQuad
+                    RowLayout{
+                        Rectangle {
+                            width: outputCollapseIcon.width + 15
+                        }
+                        ColumnLayout {
+                            id: outputContainer
+                            Behavior on visible {
+                                PropertyAnimation{
+                                    duration: 200
+                                    easing.type: Easing.InOutQuad
+                                }
                             }
                         }
                     }
