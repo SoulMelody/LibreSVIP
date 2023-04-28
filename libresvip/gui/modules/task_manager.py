@@ -83,7 +83,9 @@ class TaskManager(QObject):
 
     @property
     def output_ext(self) -> str:
-        return f".{self.output_format}"
+        if settings.auto_set_output_extension:
+            return f".{self.output_format}"
+        return ""
 
     @slot(str)
     def set_input_fields(self, input_format) -> None:
