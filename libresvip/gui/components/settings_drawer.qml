@@ -10,21 +10,58 @@ Drawer {
     height: window.height
     signal openSettings()
     signal autoOpenSaveFolderChanged(bool value)
+    signal autoSetOutputFileExtensionChanged(bool value)
+    signal resetTasksOnInputChangeChanged(bool value)
+    signal autoDetectInputFormatChanged(bool value)
 
     Column {
         anchors.fill: parent
         anchors.margins: 10
         Switch {
             text: qsTr("Auto-Detect Input File Type")
+            checked: py.config_items.get_bool("auto_detect_input_format")
+            onClicked: {
+                py.config_items.set_bool("auto_detect_input_format", checked)
+                autoDetectInputFormatChanged(checked)
+            }
+            Component.onCompleted: {
+                autoDetectInputFormatChanged.connect( (value) => {
+                    value === checked ? null : checked = value
+                })
+            }
         }
         Switch {
             text: qsTr("Reset Task List When Changing Input File Type")
+            checked: py.config_items.get_bool("reset_tasks_on_input_change")
+            onClicked: {
+                py.config_items.set_bool("reset_tasks_on_input_change", checked)
+                resetTasksOnInputChangeChanged(checked)
+            }
+            Component.onCompleted: {
+                resetTasksOnInputChangeChanged.connect( (value) => {
+                    value === checked ? null : checked = value
+                })
+            }
         }
         Switch {
             text: qsTr("Set Output File Extension Automatically")
+            checked: py.config_items.get_bool("auto_set_output_extension")
+            onClicked: {
+                py.config_items.set_bool("auto_set_output_extension", checked)
+                autoSetOutputFileExtensionChanged(checked)
+            }
+            Component.onCompleted: {
+                autoSetOutputFileExtensionChanged.connect( (value) => {
+                    value === checked ? null : checked = value
+                })
+            }
         }
         Switch {
             text: qsTr("Multi-Threaded Conversion")
+            checked: py.config_items.get_bool("multi_threaded_conversion")
+            onClicked: {
+                py.config_items.set_bool("multi_threaded_conversion", checked)
+            }
         }
         Switch {
             text: qsTr("Open Output Folder When Done")

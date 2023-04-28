@@ -351,8 +351,15 @@ Page {
                     Layout.preferredWidth: parent.width * 0.4
                     height: 40
                     text: qsTr("Auto-Detect Input File Type")
-                    checked: true
+                    checked: py.config_items.get_bool("auto_detect_input_format")
                     onClicked: {
+                        py.config_items.set_bool("auto_detect_input_format", checked)
+                        autoDetectInputFormatChanged(checked)
+                    }
+                    Component.onCompleted: {
+                        settingsDrawer.autoDetectInputFormatChanged.connect( (value) => {
+                            value === checked ? null : checked = value
+                        })
                     }
                 }
                 Switch {
@@ -362,8 +369,15 @@ Page {
                     Layout.preferredWidth: parent.width * 0.4
                     height: 40
                     text: qsTr("Reset Tasks When Changing Input")
-                    checked: true
+                    checked: py.config_items.get_bool("reset_tasks_on_input_change")
                     onClicked: {
+                        py.config_items.set_bool("reset_tasks_on_input_change", checked)
+                        resetTasksOnInputChangeChanged(checked)
+                    }
+                    Component.onCompleted: {
+                        settingsDrawer.resetTasksOnInputChangeChanged.connect( (value) => {
+                            value === checked ? null : checked = value
+                        })
                     }
                 }
                 RoundButton {
@@ -443,8 +457,15 @@ Page {
                     Layout.column: 0
                     height: 40
                     text: qsTr("Set Output File Extension Automatically")
-                    checked: true
+                    checked: py.config_items.get_bool("auto_set_output_extension")
                     onClicked: {
+                        py.config_items.set_bool("auto_set_output_extension", checked)
+                        autoSetOutputFileExtensionChanged(checked)
+                    }
+                    Component.onCompleted: {
+                        settingsDrawer.autoSetOutputFileExtensionChanged.connect( (value) => {
+                            value === checked ? null : checked = value
+                        })
                     }
                 }
             }
