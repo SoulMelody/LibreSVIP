@@ -535,13 +535,23 @@ Page {
                             Component.onCompleted: {
                                 let separator_item = Qt.createQmlObject(
                                     `import QtQuick;
-                                    Rectangle {
-                                        color: Material.color(
-                                            Material.Grey,
-                                            Material.Shade300
-                                        );
-                                        height: 1;
-                                        width: advancedSettings.width - 50
+                                    import QtQuick.Controls;
+                                    import QtQuick.Layouts;
+                                    RowLayout {
+                                        Layout.fillWidth: true
+                                        Label {
+                                            text: py.qta.icon("mdi6.tune-variant")
+                                            font.family: materialFontLoader.name
+                                            font.pixelSize: 12
+                                        }
+                                        Rectangle {
+                                            color: Material.color(
+                                                Material.Grey,
+                                                Material.Shade300
+                                            );
+                                            height: 1;
+                                            width: advancedSettings.width - 50
+                                        }
                                     }`,
                                     inputContainer,
                                     "separator"
@@ -621,14 +631,25 @@ Page {
                             Component.onCompleted: {
                                 let separator_item = Qt.createQmlObject(
                                     `import QtQuick;
-                                    Rectangle {
-                                        color: Material.color(
-                                            Material.Grey,
-                                            Material.Shade300
-                                        );
-                                        height: 1;
-                                        width: advancedSettings.width - 50
-                                    }`,
+                                    import QtQuick.Controls;
+                                    import QtQuick.Layouts;
+                                    RowLayout {
+                                        Layout.fillWidth: true
+                                        Label {
+                                            text: py.qta.icon("mdi6.tune-variant")
+                                            font.family: materialFontLoader.name
+                                            font.pixelSize: 12
+                                        }
+                                        Rectangle {
+                                            color: Material.color(
+                                                Material.Grey,
+                                                Material.Shade300
+                                            );
+                                            height: 1;
+                                            width: advancedSettings.width - 50
+                                        }
+                                    }
+                                    `,
                                     outputContainer,
                                     "separator"
                                 )
