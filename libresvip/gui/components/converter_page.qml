@@ -853,12 +853,12 @@ Page {
                     Layout.preferredWidth: parent.width * 0.7
                     height: 50
                     placeholderText: qsTr("Output Folder")
-                    text: py.task_manager.get_save_folder()
+                    text: py.config_items.get_save_folder()
                     onEditingFinished: {
-                        if (py.task_manager.set_save_folder(text) === true) {
+                        if (py.config_items.set_save_folder(text) === true) {
                             saveFolderTextField.text = text
                         } else {
-                            saveFolderTextField.text = py.task_manager.get_save_folder()
+                            saveFolderTextField.text = py.config_items.get_save_folder()
                         }
                     }
                 }

@@ -40,7 +40,7 @@ Drawer {
                 onClicked: {
                     let path = "."
                     converterPage.saveFolder.text = path
-                    py.task_manager.set_save_folder(path)
+                    py.config_items.set_save_folder(path)
                 }
             }
             RadioButton {
@@ -48,7 +48,7 @@ Drawer {
                 onClicked: {
                     let path = dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0])
                     converterPage.saveFolder.text = path
-                    py.task_manager.set_save_folder(path)
+                    py.config_items.set_save_folder(path)
                 }
             }
             RadioButton {

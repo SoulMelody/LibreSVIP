@@ -4,16 +4,16 @@ from typing import Any, get_args, get_type_hints
 
 from pydantic.color import Color
 from qmlease import slot
-from qtpy.QtCore import Signal
+from qtpy.QtCore import QObject, Signal
 
 from libresvip.extension.manager import plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
 
-from .config_items import ConfigItems
+# from libresvip.core.config import settings
 from .model_proxy import ModelProxy
 
 
-class TaskManager(ConfigItems):
+class TaskManager(QObject):
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
     input_fileds_changed = Signal()
