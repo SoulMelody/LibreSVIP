@@ -69,6 +69,7 @@ Page {
                     radius: this.height / 2
                     onClicked: {
                         taskList.model.delete(index)
+                        py.task_manager.tasks_size_changed()
                     }
                 }
             }
