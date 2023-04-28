@@ -317,7 +317,13 @@ Page {
                         textRole: "text"
                         valueRole: "value"
                         displayText: "Input Format: " + currentText
-                        onActivated: {
+                        onActivated: (index) => {
+                            if (
+                                resetTasksOnInputChange.checked &&
+                                py.task_manager.get_str("input_format") != currentValue
+                            ) {
+                                actions.clearTasks.trigger()
+                            }
                             py.task_manager.set_str("input_format", currentValue)
                         }
                         Component.onCompleted: {
@@ -380,6 +386,7 @@ Page {
                     }
                 }
                 Switch {
+                    id: resetTasksOnInputChange
                     Layout.columnSpan: 4
                     Layout.row: 2
                     Layout.column: 4
@@ -432,7 +439,7 @@ Page {
                         textRole: "text"
                         valueRole: "value"
                         displayText: "Output Format: " + currentText
-                        onActivated: {
+                        onActivated: (index) => {
                             py.task_manager.set_str("output_format", currentValue)
                         }
                         Component.onCompleted: {
@@ -1020,7 +1027,6 @@ Page {
                     Layout.preferredWidth: parent.width * 0.2
                     model: ["Overwrite", "Skip", "Prompt"]
                     onActivated: (index) => {
-                        currentIndex = index
                         py.config_items.set_conflict_policy(currentValue)
                         settingsDrawer.conflictPolicyChanged(currentValue)
                     }

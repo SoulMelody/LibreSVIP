@@ -300,6 +300,11 @@ class TaskManager(QObject):
     def qset(self, name: str, value: Any) -> None:
         setattr(self, name, value)
 
+    @slot(str, result=str)
+    def get_str(self, name: str) -> str:
+        assert name in {"input_format", "output_format"}
+        return getattr(self, name)
+
     @slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
