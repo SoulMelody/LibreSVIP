@@ -32,8 +32,10 @@ Drawer {
             text: qsTr("Auto Check for Updates")
         }
         ColumnLayout {
+            anchors.margins: 20
             Label {
                 text: qsTr("Set Save Path")
+                font.bold: true
             }
             RadioButton {
                 text: qsTr("Same as Source")
@@ -59,8 +61,10 @@ Drawer {
             }
         }
         ColumnLayout {
+            anchors.margins: 20
             Label {
                 text: qsTr("Deal With Existing Files")
+                font.bold: true
             }
             RadioButton {
                 text: qsTr("Overwrite")

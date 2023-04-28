@@ -32,12 +32,11 @@ Page {
                         text: path.length > 30 ? path.substring(0, 30) + "..." : path
                     }
                 }
-                RoundButton {
+
+                Label {
                     text: py.qta.icon("mdi6.transfer-right")
                     font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
-                    enabled: false
+                    font.pixelSize: Qt.application.font.pixelSize * 1.5
                 }
 
                 TextField {
@@ -306,7 +305,7 @@ Page {
                         }
                         Component.onCompleted: {
                             dialogs.openDialog.nameFilters[0] = currentText
-                            py.task_manager.set_str("output_format", currentValue)
+                            py.task_manager.set_str("input_format", currentValue)
                             py.task_manager.input_format_changed.connect(function(input_format) {
                                 let new_index = indexOfValue(input_format)
                                 if (new_index != currentIndex) {

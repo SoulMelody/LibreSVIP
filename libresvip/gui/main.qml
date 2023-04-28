@@ -9,8 +9,10 @@ ApplicationWindow {
     id: window
     title: qsTr("LibreSVIP")
     visible: true
-    minimumWidth: 1200
-    minimumHeight: 800
+    minimumWidth: 800
+    minimumHeight: 720
+    width: 1200
+    height: 800
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
 

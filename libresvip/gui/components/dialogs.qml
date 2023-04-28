@@ -49,7 +49,7 @@ Item {
         y: window.height / 2 - height / 2
         RowLayout {
             QQC2.Label {
-                text: py.qta.icon("mdi6.alert-circle")
+                text: py.qta.icon("mdi6.tooltip-remove-outline")
                 font.family: materialFontLoader.name
                 font.pixelSize: 24
             }
@@ -75,5 +75,64 @@ Item {
         x: window.width / 2 - width / 2
         y: window.height / 2 - height / 2
         standardButtons: QQC2.Dialog.Ok
+
+        ColumnLayout {
+            width: 400
+            QQC2.Label {
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr("LibreSVIP")
+                font.pixelSize: 48
+                font.bold: true
+            }
+            QQC2.Label {
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr("Version: 0.1.0")
+            }
+            QQC2.Label {
+                Layout.alignment: Qt.AlignHCenter
+                text: qsTr("Author: SoulMelody")
+            }
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                QQC2.Button {
+                    contentItem: RowLayout {
+                        QQC2.Label {
+                            text: py.qta.icon("mdi6.account-circle")
+                            font.family: materialFontLoader.name
+                        }
+                        QQC2.Label {
+                            text: qsTr("Author's Profile")
+                        }
+                    }
+                    onClicked: {
+                        Qt.openUrlExternally("https://space.bilibili.com/175862486")
+                    }
+                }
+                QQC2.Button {
+                    contentItem: RowLayout {
+                        QQC2.Label {
+                            text: py.qta.icon("mdi6.github")
+                            font.family: materialFontLoader.name
+                        }
+                        QQC2.Label {
+                            text: qsTr("Repo URL")
+                        }
+                    }
+                    onClicked: {
+                        Qt.openUrlExternally("https://github.com/SoulMelody/LibreSVIP")
+                    }
+                }
+            }
+            QQC2.Label {
+                Layout.preferredWidth: parent.width
+                text: qsTr("LibreSVIP 是一个开源、开放、插件化的歌声合成工程文件中介与转换平台。")
+                wrapMode: Text.WordWrap
+            }
+            QQC2.Label {
+                Layout.preferredWidth: parent.width
+                text: qsTr("所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。")
+                wrapMode: Text.WordWrap
+            }
+        }
     }
 }

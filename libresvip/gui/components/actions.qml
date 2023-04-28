@@ -36,10 +36,6 @@ Item {
         shortcut: "Alt+I"
         onTriggered: dialogs.aboutDialog.open()
     }
-    property QtObject openGithub: Action {
-        text: qsTr("&Github")
-        onTriggered: Qt.openUrlExternally("https://github.com/SoulMelody/LibreSVIP")
-    }
     property QtObject openSettings: Action {
         text: qsTr("&Options")
         shortcut: "Alt+O"

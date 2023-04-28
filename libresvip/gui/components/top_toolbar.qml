@@ -147,7 +147,7 @@ ToolBar {
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: languageMenu.open()
-        anchors.right: exitButton.left
+        anchors.right: helpButton.left
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Language (&L)")
         Menu {
@@ -171,17 +171,17 @@ ToolBar {
         }
     }
 
-    ToolButton {
-        id: exitButton
-        text: py.qta.icon("mdi6.exit-to-app")
-        width: 40
-        font.family: materialFontLoader.name
-        font.pixelSize: Qt.application.font.pixelSize * 1.5
-        anchors.right: helpButton.left
-        onClicked: actions.quit.trigger();
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Exit (Ctrl+Q)")
-    }
+    // ToolButton {
+    //     id: exitButton
+    //     text: py.qta.icon("mdi6.exit-to-app")
+    //     width: 40
+    //     font.family: materialFontLoader.name
+    //     font.pixelSize: Qt.application.font.pixelSize * 1.5
+    //     anchors.right: helpButton.left
+    //     onClicked: actions.quit.trigger();
+    //     ToolTip.visible: hovered
+    //     ToolTip.text: qsTr("Exit (Ctrl+Q)")
+    // }
 
     ToolButton {
         id: helpButton
@@ -211,11 +211,6 @@ ToolBar {
             IconMenuItem {
                 icon_name: "mdi6.text-box-search-outline"
                 label: "Documentation (F1)";
-            }
-            IconMenuItem {
-                action: actions.openGithub;
-                icon_name: "mdi6.web"
-                label: "Website";
             }
         }
         Component.onCompleted: {
