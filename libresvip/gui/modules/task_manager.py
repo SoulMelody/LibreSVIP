@@ -76,14 +76,10 @@ class TaskManager(ConfigItems):
                 for plugin in plugin_registry.values()
             ],
         )
+        self.input_format = ""
+        self.output_format = ""
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
-        self.input_format = (
-            self.input_formats[0]["value"] if len(self.input_formats) else ""
-        )
-        self.output_format = (
-            self.output_formats[0]["value"] if len(self.output_formats) else ""
-        )
 
     @property
     def output_ext(self) -> str:
@@ -240,15 +236,25 @@ class TaskManager(ConfigItems):
     @slot(str, result=dict)
     def plugin_info(self, name: str) -> dict:
         assert name in {"input_format", "output_format"}
-        plugin = plugin_registry[getattr(self, name)]
+        if (suffix := getattr(self, name)) in plugin_registry:
+            plugin = plugin_registry[suffix]
+            return {
+                "name": plugin.name,
+                "author": plugin.author,
+                "website": plugin.website,
+                "description": plugin.description,
+                "version": plugin.version_string,
+                "format_desc": f"{plugin.file_format} (*.{plugin.suffix})",
+                "icon_base64": f"data:image/png;base64,{plugin.icon_base64}",
+            }
         return {
-            "name": plugin.name,
-            "author": plugin.author,
-            "website": plugin.website,
-            "description": plugin.description,
-            "version": plugin.version_string,
-            "format_desc": f"{plugin.file_format} (*.{plugin.suffix})",
-            "icon_base64": f"data:image/png;base64,{plugin.icon_base64}",
+            "name": "",
+            "author": "",
+            "website": "",
+            "description": "",
+            "version": "",
+            "format_desc": "",
+            "icon_base64": "",
         }
 
     @slot()
@@ -293,7 +299,6 @@ class TaskManager(ConfigItems):
     @slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
-        setattr(self, name, value)
         getattr(self, f"{name}_changed").emit(value)
 
     @slot(str, result=bool)
