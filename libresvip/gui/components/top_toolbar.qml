@@ -124,15 +124,24 @@ ToolBar {
             y: parent.height
             MenuItem{
                 text: qsTr("Light");
-                onTriggered: window.Material.theme = Material.Light;
+                onTriggered: {
+                    window.Material.theme = Material.Light
+                    py.config_items.set_theme("Light")
+                }
             }
             MenuItem{
                 text: qsTr("Dark");
-                onTriggered: window.Material.theme = Material.Dark;
+                onTriggered: {
+                    window.Material.theme = Material.Dark
+                    py.config_items.set_theme("Dark")
+                }
             }
             MenuItem{
                 text: qsTr("System");
-                onTriggered: window.Material.theme = Material.System;
+                onTriggered: {
+                    window.Material.theme = Material.System
+                    py.config_items.set_theme("System")
+                }
             }
         }
         Component.onCompleted: {

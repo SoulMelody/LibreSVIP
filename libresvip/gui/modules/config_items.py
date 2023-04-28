@@ -3,12 +3,26 @@ import pathlib
 from qmlease import slot
 from qtpy.QtCore import QObject
 
-from libresvip.core.config import save_settings, settings
+from libresvip.core.config import DarkMode, save_settings, settings
 
 
 class ConfigItems(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent=parent)
+
+    @slot(result=str)
+    def get_theme(self) -> str:
+        return settings.dark_mode.value
+
+    @slot(str, result=bool)
+    def set_theme(self, theme: str) -> bool:
+        try:
+            dark_mode = DarkMode(theme)
+            settings.dark_mode = dark_mode
+            save_settings()
+            return True
+        except ValueError:
+            return False
 
     @slot(str, result=bool)
     def get_bool(self, key) -> bool:

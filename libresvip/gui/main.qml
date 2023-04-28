@@ -15,6 +15,16 @@ ApplicationWindow {
     height: 800
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
+    Material.theme: {
+        switch (py.config_items.get_theme()) {
+            case "Dark":
+                return Material.Dark
+            case "Light":
+                return Material.Light
+            default:
+                return Material.System
+        }
+    }
 
     FontLoader {
         id: materialFontLoader
