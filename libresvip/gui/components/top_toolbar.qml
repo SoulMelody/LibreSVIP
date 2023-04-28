@@ -206,6 +206,7 @@ ToolBar {
             IconMenuItem {
                 icon_name: "mdi6.progress-upload"
                 label: "Check for Updates";
+                onTriggered: dialogs.errorDialog.show_error("Not implemented yet.")
             }
             IconMenuItem {
                 icon_name: "mdi6.text-box-search-outline"
