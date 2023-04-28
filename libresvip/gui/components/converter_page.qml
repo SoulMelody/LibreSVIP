@@ -371,7 +371,7 @@ Page {
                     checked: py.config_items.get_bool("auto_detect_input_format")
                     onClicked: {
                         py.config_items.set_bool("auto_detect_input_format", checked)
-                        autoDetectInputFormatChanged(checked)
+                        settingsDrawer.autoDetectInputFormatChanged(checked)
                     }
                     Component.onCompleted: {
                         settingsDrawer.autoDetectInputFormatChanged.connect( (value) => {
@@ -389,7 +389,7 @@ Page {
                     checked: py.config_items.get_bool("reset_tasks_on_input_change")
                     onClicked: {
                         py.config_items.set_bool("reset_tasks_on_input_change", checked)
-                        resetTasksOnInputChangeChanged(checked)
+                        settingsDrawer.resetTasksOnInputChangeChanged(checked)
                     }
                     Component.onCompleted: {
                         settingsDrawer.resetTasksOnInputChangeChanged.connect( (value) => {
@@ -477,7 +477,7 @@ Page {
                     checked: py.config_items.get_bool("auto_set_output_extension")
                     onClicked: {
                         py.config_items.set_bool("auto_set_output_extension", checked)
-                        autoSetOutputFileExtensionChanged(checked)
+                        settingsDrawer.autoSetOutputFileExtensionChanged(checked)
                     }
                     Component.onCompleted: {
                         settingsDrawer.autoSetOutputFileExtensionChanged.connect( (value) => {
@@ -997,7 +997,7 @@ Page {
                     checked: py.config_items.get_bool("open_save_folder_on_completion")
                     onClicked: {
                         py.config_items.set_bool("open_save_folder_on_completion", checked)
-                        autoOpenSaveFolderChanged(checked)
+                        settingsDrawer.autoOpenSaveFolderChanged(checked)
                     }
                     Component.onCompleted: {
                         settingsDrawer.autoOpenSaveFolderChanged.connect( (value) => {

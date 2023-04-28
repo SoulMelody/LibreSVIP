@@ -6,10 +6,10 @@ from pydantic.color import Color
 from qmlease import slot
 from qtpy.QtCore import QObject, Signal
 
+from libresvip.core.config import settings
 from libresvip.extension.manager import plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
 
-# from libresvip.core.config import settings
 from .model_proxy import ModelProxy
 
 
@@ -280,7 +280,11 @@ class TaskManager(QObject):
             )
         self.tasks.append_many(tasks)
         self.tasks_size_changed.emit()
-        if path_obj is not None and (suffix := path_obj.suffix[1:]) in plugin_registry:
+        if (
+            settings.auto_detect_input_format
+            and path_obj is not None
+            and (suffix := path_obj.suffix[1:]) in plugin_registry
+        ):
             self.set_str("input_format", suffix)
 
     @slot()
