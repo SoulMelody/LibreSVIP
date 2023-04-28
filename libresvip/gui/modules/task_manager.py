@@ -18,7 +18,7 @@ class TaskManager(ConfigItems):
     output_format_changed = Signal()
     input_fileds_changed = Signal()
     output_fileds_changed = Signal()
-    tasks_changed = Signal()
+    tasks_size_changed = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -243,6 +243,11 @@ class TaskManager(ConfigItems):
             "icon_base64": f"data:image/png;base64,{plugin.icon_base64}",
         }
 
+    @slot()
+    def reset_stems(self) -> None:
+        for i, task in enumerate(self.tasks):
+            self.tasks.update(i, {"stem": pathlib.Path(task["path"]).stem})
+
     @slot(str, result=dict)
     def fill_task(self, path: str) -> dict:
         path_obj = pathlib.Path(path)
@@ -258,12 +263,12 @@ class TaskManager(ConfigItems):
     @slot(dict)
     def add_task(self, task: dict) -> None:
         self.tasks.append(task)
-        self.tasks_changed.emit()
+        self.tasks_size_changed.emit()
 
     @slot()
     def reset(self) -> None:
         self.tasks.clear()
-        self.tasks_changed.emit()
+        self.tasks_size_changed.emit()
 
     @slot(str, result=object)
     def qget(self, name: str) -> Any:

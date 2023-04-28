@@ -35,7 +35,7 @@ ToolBar {
                 label: "Perform All Tasks (Ctrl+Enter)";
                 enabled: converterPage.taskList.count > 0
                 Component.onCompleted: {
-                    py.task_manager.tasks_changed.connect(function() {
+                    py.task_manager.tasks_size_changed.connect(function() {
                         enabled = converterPage.taskList.count > 0
                     })
                 }
@@ -46,7 +46,7 @@ ToolBar {
                 label: "Clear Tasks (Ctrl+R)";
                 enabled: converterPage.taskList.count > 0
                 Component.onCompleted: {
-                    py.task_manager.tasks_changed.connect(function() {
+                    py.task_manager.tasks_size_changed.connect(function() {
                         enabled = converterPage.taskList.count > 0
                     })
                 }

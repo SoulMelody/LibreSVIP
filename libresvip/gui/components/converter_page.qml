@@ -42,6 +42,16 @@ Page {
 
                 TextField {
                     text: stem
+                    onEditingFinished: {
+                        taskList.model.update(index, {stem: this.text})
+                    }
+                    Component.onCompleted: {
+                        taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
+                            if (index == idx1.row) {
+                                this.text = taskList.model.get(index).stem
+                            }
+                        })
+                    }
                 }
 
                 Label {
@@ -744,6 +754,7 @@ Page {
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
                                 onClicked: {
+                                    py.task_manager.reset_stems()
                                 }
                             }
                         }
@@ -861,7 +872,7 @@ Page {
                     text: qsTr("Start Conversion")
                     enabled: taskListView.count > 0
                     Component.onCompleted: {
-                        py.task_manager.tasks_changed.connect(function() {
+                        py.task_manager.tasks_size_changed.connect(function() {
                             enabled = taskListView.count > 0
                         })
                     }
