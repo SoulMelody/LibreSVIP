@@ -1,5 +1,9 @@
 import enum
 import pathlib
+
+# import atexit
+# import tempfile
+# from concurrent.futures import ThreadPoolExecutor
 from typing import Any, get_args, get_type_hints
 
 from pydantic.color import Color
@@ -27,6 +31,7 @@ class TaskManager(QObject):
                 "path": "",
                 "name": "",
                 "stem": "",
+                "tmp_path": "",
                 "success": False,
                 "error": "",
                 "warning": "",
@@ -275,6 +280,7 @@ class TaskManager(QObject):
                     "path": path,
                     "name": path_obj.name,
                     "stem": path_obj.stem,
+                    "tmp_path": "",
                     "success": None,
                     "error": "",
                     "warning": "",
