@@ -1,7 +1,7 @@
 import shutil
 
 from qmlease import slot
-from qtpy import QObject
+from qtpy.QtCore import QObject
 
 
 class FileOperations(QObject):

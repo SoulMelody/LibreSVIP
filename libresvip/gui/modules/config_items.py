@@ -1,3 +1,4 @@
+import atexit
 import pathlib
 
 from qmlease import slot
@@ -9,6 +10,7 @@ from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, setti
 class ConfigItems(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent=parent)
+        atexit.register(save_settings)
 
     @slot(result=str)
     def get_conflict_policy(self) -> str:
@@ -19,7 +21,6 @@ class ConfigItems(QObject):
         try:
             conflict_policy = ConflictPolicy(policy)
             settings.conflict_policy = conflict_policy
-            save_settings()
             return True
         except ValueError:
             return False
@@ -33,7 +34,6 @@ class ConfigItems(QObject):
         try:
             dark_mode = DarkMode(theme)
             settings.dark_mode = dark_mode
-            save_settings()
             return True
         except ValueError:
             return False
@@ -46,7 +46,6 @@ class ConfigItems(QObject):
     def set_bool(self, key, value) -> bool:
         if hasattr(settings, key):
             setattr(settings, key, value)
-            save_settings()
             return True
         return False
 
@@ -59,6 +58,5 @@ class ConfigItems(QObject):
         path = pathlib.Path(value)
         if path.exists() and path.is_dir():
             settings.save_folder = path
-            save_settings()
             return True
         return False
