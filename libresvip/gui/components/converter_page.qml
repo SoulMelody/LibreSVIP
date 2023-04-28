@@ -499,18 +499,28 @@ Page {
                     width: parent.width
                     Row {
                         RoundButton {
-                            text: py.qta.icon("mdi6.collapse-all-outline")
                             width: 40
                             height: 40
                             radius: this.height / 2
-                            font.family: materialFontLoader.name
+                            contentItem: Label {
+                                id: inputCollapseIcon
+                                text: py.qta.icon("mdi6.chevron-right")
+                                font.family: materialFontLoader.name
+                                font.pixelSize: 20
+                                rotation: 45
+                                Behavior on rotation {
+                                    PropertyAnimation{
+                                        duration: 200
+                                        easing.type: Easing.InOutQuad
+                                    }
+                                }
+                            }
+                            background: Rectangle {
+                                color: "transparent"
+                            }
                             onClicked: {
                                 inputContainer.visible = !inputContainer.visible
-                                this.text = py.qta.icon(
-                                    inputContainer.visible ?
-                                    "mdi6.collapse-all-outline" :
-                                    "mdi6.expand-all-outline"
-                                )
+                                inputCollapseIcon.rotation = inputContainer.visible ? 0 : 45
                             }
                         }
                         Label {
@@ -595,18 +605,28 @@ Page {
                     width: parent.width
                     Row {
                         RoundButton {
-                            text: py.qta.icon("mdi6.collapse-all-outline")
                             width: 40
                             height: 40
                             radius: this.height / 2
-                            font.family: materialFontLoader.name
+                            contentItem: Label {
+                                id: outputCollapseIcon
+                                text: py.qta.icon("mdi6.chevron-right")
+                                font.family: materialFontLoader.name
+                                font.pixelSize: 20
+                                rotation: 45
+                                Behavior on rotation {
+                                    PropertyAnimation{
+                                        duration: 200
+                                        easing.type: Easing.InOutQuad
+                                    }
+                                }
+                            }
+                            background: Rectangle {
+                                color: "transparent"
+                            }
                             onClicked: {
                                 outputContainer.visible = !outputContainer.visible
-                                this.text = py.qta.icon(
-                                    outputContainer.visible ?
-                                    "mdi6.collapse-all-outline" :
-                                    "mdi6.expand-all-outline"
-                                )
+                                outputCollapseIcon.rotation = outputContainer.visible ? 0 : 45
                             }
                         }
                         Label {
