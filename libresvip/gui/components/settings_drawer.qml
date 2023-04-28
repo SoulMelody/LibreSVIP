@@ -9,6 +9,7 @@ Drawer {
     width: window.width * 0.3
     height: window.height
     signal openSettings()
+    signal autoOpenSaveFolderChanged(bool value)
 
     Column {
         anchors.fill: parent
@@ -26,7 +27,17 @@ Drawer {
             text: qsTr("Multi-Threaded Conversion")
         }
         Switch {
-            text: qsTr("Open Save Path When Finished")
+            text: qsTr("Open Output Folder When Done")
+            checked: py.config_items.get_bool("open_save_folder_on_completion")
+            onClicked: {
+                py.config_items.set_bool("open_save_folder_on_completion", checked)
+                autoOpenSaveFolderChanged(checked)
+            }
+            Component.onCompleted: {
+                autoOpenSaveFolderChanged.connect( (value) => {
+                    value === checked ? null : checked = value
+                })
+            }
         }
         Switch {
             text: qsTr("Auto Check for Updates")
@@ -44,6 +55,7 @@ Drawer {
                     converterPage.saveFolder.text = path
                     py.config_items.set_save_folder(path)
                 }
+                checked: py.config_items.get_save_folder() === "."
             }
             RadioButton {
                 text: qsTr("Desktop")
@@ -52,6 +64,9 @@ Drawer {
                     converterPage.saveFolder.text = path
                     py.config_items.set_save_folder(path)
                 }
+                checked: py.config_items.get_save_folder() === dialogs.url2path(
+                    StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
+                )
             }
             RadioButton {
                 text: qsTr("Custom (Browse ...)")

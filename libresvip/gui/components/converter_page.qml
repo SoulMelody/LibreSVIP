@@ -900,8 +900,15 @@ Page {
                     Layout.column: 0
                     Layout.preferredWidth: parent.width * 0.3
                     text: qsTr("Open Output Folder When Done")
-                    checked: true
+                    checked: py.config_items.get_bool("open_save_folder_on_completion")
                     onClicked: {
+                        py.config_items.set_bool("open_save_folder_on_completion", checked)
+                        autoOpenSaveFolderChanged(checked)
+                    }
+                    Component.onCompleted: {
+                        settingsDrawer.autoOpenSaveFolderChanged.connect( (value) => {
+                            value === checked ? null : checked = value
+                        })
                     }
                 }
                 Label {
