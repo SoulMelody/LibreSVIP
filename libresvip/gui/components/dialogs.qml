@@ -5,6 +5,8 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 
 Item {
+    signal save_folder_changed(string folder)
+
     function url2path(url) {
         let url_string = url.toString();
         switch (Qt.platform.os) {
@@ -38,7 +40,9 @@ Item {
     property QtObject saveDialog: FolderDialog {
         currentFolder: ""
         onAccepted: {
-            converterPage.saveFolder.text = url2path(selectedFolder)
+            let path = url2path(selectedFolder)
+            py.config_items.set_save_folder(path)
+            save_folder_changed(path)
         }
     }
 

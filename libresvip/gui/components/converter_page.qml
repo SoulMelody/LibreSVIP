@@ -895,6 +895,11 @@ Page {
                             saveFolderTextField.text = py.config_items.get_save_folder()
                         }
                     }
+                    Component.onCompleted: {
+                        dialogs.save_folder_changed.connect( (value) => {
+                            saveFolderTextField.text = value
+                        })
+                    }
                 }
                 RoundButton {
                     Layout.rowSpan: 2
