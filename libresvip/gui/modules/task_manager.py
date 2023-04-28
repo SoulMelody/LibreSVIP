@@ -83,9 +83,7 @@ class TaskManager(QObject):
 
     @property
     def output_ext(self) -> str:
-        if settings.auto_set_output_extension:
-            return f".{self.output_format}"
-        return ""
+        return f".{self.output_format}" if settings.auto_set_output_extension else ""
 
     @slot(str)
     def set_input_fields(self, input_format) -> None:
@@ -97,7 +95,7 @@ class TaskManager(QObject):
         if hasattr(plugin_input.plugin_object, "load"):
             option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
             input_fields = []
-            for i, option in enumerate(option_class.__fields__.values()):
+            for option in option_class.__fields__.values():
                 option_key = option.name
                 if issubclass(option.type_, bool):
                     input_fields.append(
@@ -113,10 +111,11 @@ class TaskManager(QObject):
                 elif issubclass(
                     option.type_, (str, int, float, Color, BaseComplexModel)
                 ):
-                    if issubclass(option.type_, BaseComplexModel):
-                        default_value = option.type_.default_repr()
-                    else:
-                        default_value = option.default
+                    default_value = (
+                        option.type_.default_repr()
+                        if issubclass(option.type_, BaseComplexModel)
+                        else option.default
+                    )
                     input_fields.append(
                         {
                             "type": "color"
@@ -171,7 +170,7 @@ class TaskManager(QObject):
         if hasattr(plugin_output.plugin_object, "dump"):
             option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
             output_fields = []
-            for i, option in enumerate(option_class.__fields__.values()):
+            for option in option_class.__fields__.values():
                 option_key = option.name
                 if issubclass(option.type_, bool):
                     output_fields.append(
@@ -187,10 +186,11 @@ class TaskManager(QObject):
                 elif issubclass(
                     option.type_, (str, int, float, Color, BaseComplexModel)
                 ):
-                    if issubclass(option.type_, BaseComplexModel):
-                        default_value = option.type_.default_repr()
-                    else:
-                        default_value = option.default
+                    default_value = (
+                        option.type_.default_repr()
+                        if issubclass(option.type_, BaseComplexModel)
+                        else option.default
+                    )
                     output_fields.append(
                         {
                             "type": "color"

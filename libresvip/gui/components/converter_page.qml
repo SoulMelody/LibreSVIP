@@ -59,6 +59,9 @@ Page {
                         py.task_manager.output_format_changed.connect( (ext) => {
                             this.text = py.task_manager.qget("output_ext")
                         })
+                        settingsDrawer.autoSetOutputFileExtensionChanged.connect( (autoSet) => {
+                            this.text = py.task_manager.qget("output_ext")
+                        })
                     }
                 }
 
