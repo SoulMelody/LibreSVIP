@@ -69,7 +69,7 @@ Page {
                     visible: false
                     text: py.qta.icon("mdi6.check")
                     background: Rectangle {
-                        color: "green"
+                        color: Material.color(Material.Green, Material.Shade300)
                         radius: parent.height / 2
                     }
                     font.family: materialFontLoader.name
@@ -84,6 +84,33 @@ Page {
                     ToolTip {
                         id: successToolTip
                         contentItem: ColumnLayout {
+                            Label {
+                                text: qsTr("File successfully converted")
+                            }
+                            Button {
+                                Layout.alignment: Qt.AlignHCenter
+                                background: Rectangle {
+                                    color: Material.color(Material.Indigo, Material.Shade500)
+                                }
+                                contentItem: Label {
+                                    text: qsTr("Open")
+                                }
+                                onClicked: {
+                                    py.task_manager.open_output_path(index)
+                                }
+                            }
+                            Button {
+                                Layout.alignment: Qt.AlignHCenter
+                                background: Rectangle {
+                                    color: Material.color(Material.Indigo, Material.Shade500)
+                                }
+                                contentItem: Label {
+                                    text: qsTr("Open folder")
+                                }
+                                onClicked: {
+                                    py.task_manager.open_output_dir(index)
+                                }
+                            }
                         }
                     }
                     onClicked: {
@@ -94,15 +121,18 @@ Page {
                             let success = taskList.model.get(index).success
                             if (success) {
                                 let conflict = py.task_manager.output_path_exists(index)
-                                if (!conflict) {
+                                let conflict_policy = py.config_items.get_conflict_policy()
+                                if (!conflict || conflict_policy == "Overwrite") {
                                     let move_result = py.task_manager.move_to_output(index)
                                     if (move_result) {
                                         visible = true
                                     } else {
                                         taskList.model.update(index, {success: false, error: "Failed to move file"})
                                     }
+                                } else if (conflict_policy == "Skip") {
+                                    skipButton.visible = true
                                 } else {
-                                    // TODO: show error
+                                    // TODO: show prompt
                                 }
                             } else if (visible) {
                                 visible = false
@@ -112,12 +142,117 @@ Page {
                 }
 
                 RoundButton {
+                    id: skipButton
+                    visible: false
+                    background: Rectangle {
+                        color: Material.color(Material.Blue, Material.Shade300)
+                        radius: parent.height / 2
+                    }
+                    text: py.qta.icon("mdi6.minus-thick")
+                    font.family: materialFontLoader.name
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    radius: this.height / 2
+                    Behavior on visible {
+                        PropertyAnimation {
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                    ToolTip {
+                        id: skipToolTip
+                        contentItem: ColumnLayout {
+                            Label {
+                                text: qsTr("File skipped due to conflict")
+                            }
+                            Button {
+                                Layout.alignment: Qt.AlignHCenter
+                                background: Rectangle {
+                                    color: Material.color(Material.Indigo, Material.Shade500)
+                                }
+                                contentItem: Label {
+                                    text: qsTr("Open folder")
+                                }
+                                onClicked: {
+                                    py.task_manager.open_output_dir(index)
+                                }
+                            }
+                        }
+                    }
+                    onClicked: {
+                        skipToolTip.visible = !skipToolTip.visible
+                    }
+                }
+
+                RoundButton {
                     id: errorButton
                     visible: false
+                    background: Rectangle {
+                        color: Material.color(Material.Red, Material.Shade300)
+                        radius: parent.height / 2
+                    }
                     text: py.qta.icon("mdi6.alert-circle")
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     radius: this.height / 2
+                    Behavior on visible {
+                        PropertyAnimation {
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                    ToolTip {
+                        id: errorToolTip
+                        contentItem: ColumnLayout {
+                            Label {
+                                Layout.alignment: Qt.AlignHCenter
+                                text: qsTr("File failed to convert, below is the error message:")
+                            }
+                            Label {
+                                id: errorLabel
+                                text: ""
+                            }
+                            Button {
+                                Layout.alignment: Qt.AlignHCenter
+                                background: Rectangle {
+                                    color: Material.color(Material.Indigo, Material.Shade500)
+                                }
+                                text: qsTr("Copy error message")
+                                onClicked: {
+                                    let copy_result = py.clipboard.set_clipboard(errorLabel.text)
+                                    if (copy_result) {
+                                        text = qsTr("Copied")
+                                        let timer = Qt.createQmlObject(`
+                                            import QtQuick;
+                                            Timer {
+                                                interval: 1000;
+                                                repeat: false;
+                                                triggeredOnStart: false;
+                                            }`, errorToolTip
+                                        )
+                                        timer.triggered.connect( () => {
+                                            text = qsTr("Copy error message")
+                                        })
+                                        timer.start()
+                                        this.Component.onDestruction.connect(timer.destroy)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    onClicked: {
+                        errorToolTip.visible = !errorToolTip.visible
+                    }
+                    Component.onCompleted: {
+                        py.task_manager.all_tasks_finished.connect( () => {
+                            let error = taskList.model.get(index).error
+                            if (error) {
+                                errorLabel.text = error
+                                visible = true
+                            } else if (visible) {
+                                visible = false
+                            }
+                        })
+                    }
                 }
 
                 RoundButton {
@@ -832,6 +967,17 @@ Page {
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: 20
+                hoverEnabled: true
+                onEntered: {
+                    if (taskListView.count == 0) {
+                        taskListArea.opacity = 0.5
+                    }
+                }
+                onExited: {
+                    if (taskListView.count == 0) {
+                        taskListArea.opacity = 1
+                    }
+                }
                 onClicked: {
                     if (taskListView.count == 0) {
                         actions.openFile.trigger()
@@ -888,17 +1034,29 @@ Page {
                     }
                     RoundButton {
                         id: toggleTaskToolbarButton
+                        background: Rectangle {
+                            radius: this.height / 2
+                            color: Material.color(
+                                Material.Indigo,
+                                Material.Shade300
+                            );
+                        }
                         text: py.qta.icon("mdi6.hammer-wrench")
-                        y: parent.height - this.height
+                        y: parent.height - this.height / 2 - 10
                         font.family: materialFontLoader.name
                         font.pixelSize: Qt.application.font.pixelSize * 1.5
                         radius: this.height / 2
+                        Behavior on rotation {
+                            NumberAnimation {
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
                         MouseArea {
                             id: toggleTaskToolbarTestArea
-                            anchors.fill: toggleTaskToolbarButton
+                            anchors.fill: parent
                             hoverEnabled: true
                             onEntered: {
-                                toggleTaskToolbarButton.rotation = 45
+                                parent.rotation = 45
                                 taskToolbar.shown = true
                             }
                             onExited: {
@@ -912,7 +1070,7 @@ Page {
                         id: taskToolbar
                         property bool shown: false
                         x: toggleTaskToolbarButton.width
-                        y: parent.height - toggleTaskToolbarButton.height * 1.25
+                        y: toggleTaskToolbarButton.y - 12
                         width: shown ? implicitWidth : 0
                         background: Rectangle {
                             color: "transparent"
@@ -926,6 +1084,13 @@ Page {
                         Row {
                             RoundButton {
                                 text: py.qta.icon("mdi6.plus")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    );
+                                }
                                 font.family: materialFontLoader.name
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
@@ -935,6 +1100,13 @@ Page {
                             }
                             RoundButton {
                                 text: py.qta.icon("mdi6.refresh")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    );
+                                }
                                 font.family: materialFontLoader.name
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
@@ -944,6 +1116,13 @@ Page {
                             }
                             RoundButton {
                                 text: py.qta.icon("mdi6.form-textbox")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    );
+                                }
                                 font.family: materialFontLoader.name
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2

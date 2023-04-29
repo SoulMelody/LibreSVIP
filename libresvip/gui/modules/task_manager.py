@@ -20,6 +20,11 @@ from libresvip.model.base import BaseComplexModel
 from .model_proxy import ModelProxy
 
 
+def open_path(path: pathlib.Path):
+    output_url = QUrl.fromLocalFile(path)
+    QDesktopServices.openUrl(output_url)
+
+
 class ConversionWorkerSignals(QObject):
     result = Signal(int, dict)
 
@@ -184,17 +189,32 @@ class TaskManager(QObject):
 
     @staticmethod
     def output_dir(task: dict) -> pathlib.Path:
-        if settings.save_folder.is_absolute():
-            output_dir = settings.save_folder
-        else:
-            output_dir = pathlib.Path(task["path"]).parent / str(settings.save_folder)
-        return output_dir
+        return (
+            settings.save_folder
+            if settings.save_folder.is_absolute()
+            else pathlib.Path(task["path"]).parent / str(settings.save_folder)
+        )
+
+    def output_path(self, task: dict) -> pathlib.Path:
+        output_dir = self.output_dir(task)
+        return output_dir / f"{task['stem']}{self.output_ext}"
+
+    @slot(int, result=bool)
+    def open_output_dir(self, index: int) -> bool:
+        task = self.tasks[index]
+        open_path(self.output_dir(task))
+        return True
+
+    @slot(int, result=bool)
+    def open_output_path(self, index: int) -> bool:
+        task = self.tasks[index]
+        open_path(self.output_path(task))
+        return True
 
     @slot(int, result=bool)
     def output_path_exists(self, index: int) -> str:
         task = self.tasks[index]
-        output_dir = self.output_dir(task)
-        return (output_dir / f"{task['stem']}{self.output_ext}").exists()
+        return self.output_path(task).exists()
 
     @slot(int, result=bool)
     def move_to_output(self, index: int) -> bool:
@@ -400,6 +420,7 @@ class TaskManager(QObject):
                     "path": path,
                     "name": path_obj.name,
                     "stem": path_obj.stem,
+                    "ext": self.output_ext,
                     "tmp_path": "",
                     "success": None,
                     "error": "",
@@ -465,8 +486,7 @@ class TaskManager(QObject):
                     )
                     if success_task is not None:
                         output_dir = self.output_dir(success_task)
-                        output_url = QUrl.fromLocalFile(output_dir)
-                        QDesktopServices.openUrl(output_url)
+                        open_path(output_dir)
                 self.all_tasks_finished.emit()
 
     def set_busy(self, busy: bool) -> None:
