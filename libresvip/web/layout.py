@@ -13,7 +13,7 @@ from libresvip.core.config import settings
 def initialize(server: Server):
     state, ctrl = server.state, server.controller
     state.setdefault("lang", settings.language.value)
-    state.setdefault("dark_mode", settings.dark_mode)
+    state.setdefault("dark_mode", settings.dark_mode == "Dark")
     state.current_route = "Convert"
     state.menu_items = ["简体中文", "English"]
     state.trame__title = state.translations[state.lang]["LibreSVIP"]

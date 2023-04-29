@@ -1,0 +1,1 @@
+lupdate -I libresvip/gui/components/*.qml -ts libresvip/gui/i18n/libresvip.ts
