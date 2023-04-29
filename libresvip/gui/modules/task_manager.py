@@ -5,12 +5,11 @@ import shutil
 import tempfile
 import traceback
 import warnings
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Any, Optional, get_args, get_type_hints
+from typing import Any, get_args, get_type_hints
 
 from pydantic.color import Color
 from qmlease import slot
-from qtpy.QtCore import QObject, QUrl, Signal
+from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
 from qtpy.QtGui import QDesktopServices
 
 from libresvip.core.config import settings
@@ -21,6 +20,67 @@ from libresvip.model.base import BaseComplexModel
 from .model_proxy import ModelProxy
 
 
+class ConversionWorker(QRunnable):
+    result = Signal(tuple[str, str])
+
+    def __init__(
+        self,
+        model: ModelProxy,
+        index: int,
+        output_path: str,
+        input_format: str,
+        output_format: str,
+        input_options: dict[str, Any],
+        output_options: dict[str, Any],
+        parent=None,
+    ):
+        super().__init__(parent=parent)
+        self.model = model
+        self.index = index
+        self.output_path = output_path
+        self.input_format = input_format
+        self.output_format = output_format
+        self.input_options = input_options
+        self.output_options = output_options
+
+    @slot()
+    def run(self):
+        try:
+            task = self.model[self.index]
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always", BaseWarning)
+                input_plugin = plugin_registry[self.input_format]
+                output_plugin = plugin_registry[self.output_format]
+                input_option = get_type_hints(input_plugin.plugin_object.load).get(
+                    "options"
+                )
+                output_option = get_type_hints(output_plugin.plugin_object.dump).get(
+                    "options"
+                )
+                project = input_plugin.plugin_object.load(
+                    pathlib.Path(task["path"]),
+                    input_option(**self.input_options),
+                )
+                output_plugin.plugin_object.dump(
+                    pathlib.Path(self.output_path),
+                    project,
+                    output_option(**self.output_options),
+                )
+                warning_str = "\n".join(str(each) for each in w)
+                self.model.update(
+                    self.index,
+                    {
+                        "success": True,
+                        "tmp_path": self.output_path,
+                        "warning": warning_str,
+                    },
+                )
+        except Exception:
+            self.model.update(
+                self.index, {"success": False, "error": traceback.format_exc()}
+            )
+
+
 class TaskManager(QObject):
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
@@ -28,7 +88,7 @@ class TaskManager(QObject):
     input_fileds_changed = Signal()
     output_fileds_changed = Signal()
     tasks_size_changed = Signal()
-    task_finished = Signal(str)
+    start_conversion = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -87,15 +147,27 @@ class TaskManager(QObject):
         )
         self.input_format = ""
         self.output_format = ""
-        self.input_format_changed.connect(self.set_input_fields)
-        self.output_format_changed.connect(self.set_output_fields)
-        self.busy = False
+        self.thread_pool = QThreadPool.globalInstance()
         self.temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="libresvip"))
         self.temp_dir.mkdir(exist_ok=True)
         atexit.register(self.clean_temp_dir)
+        self.input_format_changed.connect(self.set_input_fields)
+        self.output_format_changed.connect(self.set_output_fields)
+        self.start_conversion.connect(self.start)
+        self.timer = QTimer()
+        self.timer.setInterval(100)
+        self.timer.timeout.connect(self.check_busy)
 
     def clean_temp_dir(self):
         shutil.rmtree(self.temp_dir, ignore_errors=True)
+
+    @slot(str, list, result=bool)
+    def trigger_event(self, event: str, args: list) -> bool:
+        if hasattr(self, event):
+            sig = getattr(self, event)
+            sig.emit(*args)
+            return True
+        return False
 
     @property
     def output_ext(self) -> str:
@@ -362,33 +434,27 @@ class TaskManager(QObject):
 
     @slot(result=bool)
     def is_busy(self) -> bool:
-        return self.busy
+        return self.thread_pool.activeThreadCount() > 0
+
+    @slot()
+    def check_busy(self) -> None:
+        if self.is_busy():
+            self.set_busy(True)
+        else:
+            self.set_busy(False)
+            if self.timer.isActive():
+                self.timer.stop()
+                if settings.open_save_folder_on_completion:
+                    success_task = next(
+                        (task for task in self.tasks if task["success"]), None
+                    )
+                    if success_task is not None:
+                        output_dir = self.output_dir(success_task)
+                        output_url = QUrl.fromLocalFile(output_dir)
+                        QDesktopServices.openUrl(output_url)
 
     def set_busy(self, busy: bool) -> None:
-        self.busy = busy
         self.busy_changed.emit(busy)
-
-    def convert_one(
-        self, input_path, output_path, input_options, output_options
-    ) -> tuple[Optional[str], str]:
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always", BaseWarning)
-            input_plugin = plugin_registry[self.input_format]
-            output_plugin = plugin_registry[self.output_format]
-            input_option = get_type_hints(input_plugin.plugin_object.load).get(
-                "options"
-            )
-            output_option = get_type_hints(output_plugin.plugin_object.dump).get(
-                "options"
-            )
-            project = input_plugin.plugin_object.load(
-                pathlib.Path(input_path),
-                input_option(**input_options),
-            )
-            output_plugin.plugin_object.dump(
-                pathlib.Path(output_path), project, output_option(**output_options)
-            )
-            return output_path, "\n".join(str(each) for each in w)
 
     @slot()
     def start(self):
@@ -397,40 +463,19 @@ class TaskManager(QObject):
         output_options = {field["name"]: field["value"] for field in self.output_fields}
         for i in range(len(self.tasks)):
             self.tasks.update(i, {"success": False, "error": "", "warning": ""})
-        with ThreadPoolExecutor(
-            max_workers=max(len(self.tasks), 4)
-            if settings.multi_threaded_conversion
-            else 1
-        ) as executor:
-            future_to_index = {}
-            for i, each in enumerate(self.tasks):
-                input_path = each["path"]
-                output_path = tempfile.mktemp(suffix=self.output_ext, dir=self.temp_dir)
-                future_to_index[
-                    executor.submit(
-                        self.convert_one,
-                        input_path,
-                        output_path,
-                        input_options,
-                        output_options,
-                    )
-                ] = i
-            for future in as_completed(future_to_index):
-                task_index = future_to_index[future]
-                try:
-                    tmp_path, warnings = future.result()
-                    self.tasks.update(
-                        task_index,
-                        {"success": True, "tmp_path": tmp_path, "warning": warnings},
-                    )
-                except Exception:
-                    self.tasks.update(
-                        task_index, {"success": False, "error": traceback.format_exc()}
-                    )
-        self.set_busy(False)
-        if settings.open_save_folder_on_completion:
-            success_task = next((task for task in self.tasks if task["success"]), None)
-            if success_task is not None:
-                output_dir = self.output_dir(success_task)
-                output_url = QUrl.fromLocalFile(output_dir)
-                QDesktopServices.openUrl(output_url)
+        self.thread_pool.setMaxThreadCount(
+            max(len(self.tasks), 4) if settings.multi_threaded_conversion else 1
+        )
+        for i in range(len(self.tasks)):
+            output_path = tempfile.mktemp(suffix=self.output_ext, dir=self.temp_dir)
+            worker = ConversionWorker(
+                self.tasks,
+                i,
+                output_path,
+                self.input_format,
+                self.output_format,
+                input_options,
+                output_options,
+            )
+            self.thread_pool.start(worker)
+        self.timer.start()

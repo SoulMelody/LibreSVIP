@@ -69,7 +69,9 @@ Item {
     property QtObject startConversion: Action {
         text: qsTr("&Start Conversion")
         shortcut: "Ctrl+Enter"
-        onTriggered: py.task_manager.start()
+        onTriggered: {
+            py.task_manager.trigger_event("start_conversion", [])
+        }
     }
     property QtObject quit: Action {
         text: qsTr("&Quit")

@@ -129,7 +129,7 @@ Page {
                     radius: this.height / 2
                     onClicked: {
                         taskList.model.delete(index)
-                        py.task_manager.tasks_size_changed()
+                        py.task_manager.trigger_event("tasks_size_changed", [])
                     }
                 }
             }
@@ -1036,26 +1036,45 @@ Page {
                         })
                     }
                 }
-                RoundButton {
+                Container {
+                    id: startConversionContainer
                     Layout.rowSpan: 2
                     Layout.row: 1
                     Layout.columnSpan: 2
                     Layout.column: 8
                     Layout.preferredHeight: parent.height * 0.6
                     Layout.preferredWidth: parent.width * 0.2
-                    radius: 10
-                    text: qsTr("Start Conversion")
-                    enabled: taskListView.count > 0 && !py.task_manager.is_busy()
-                    Component.onCompleted: {
-                        py.task_manager.tasks_size_changed.connect(function() {
-                            enabled = taskListView.count > 0 && !py.task_manager.is_busy()
-                        })
-                        py.task_manager.busy_changed.connect(function(busy) {
-                            enabled = taskListView.count > 0 && !busy
-                        })
-                    }
-                    onClicked: {
-                        actions.startConversion.trigger()
+                    contentItem: Item {
+                        RoundButton {
+                            anchors.fill: parent
+                            radius: 10
+                            text: py.task_manager.is_busy() ? "" : qsTr("Start Conversion")
+                            visible: !py.task_manager.is_busy()
+                            enabled: taskListView.count > 0
+                            Component.onCompleted: {
+                                py.task_manager.tasks_size_changed.connect(function() {
+                                    visible = !py.task_manager.is_busy()
+                                    enabled = taskListView.count > 0
+                                })
+                                py.task_manager.busy_changed.connect(function(busy) {
+                                    visible = !busy
+                                    enabled = taskListView.count > 0
+                                })
+                            }
+                            onClicked: {
+                                actions.startConversion.trigger()
+                            }
+                        }
+                        BusyIndicator {
+                            anchors.centerIn: parent
+                            running: py.task_manager.is_busy()
+                            visible: running
+                            Component.onCompleted: {
+                                py.task_manager.busy_changed.connect(function(busy) {
+                                    running = visible = busy
+                                })
+                            }
+                        }
                     }
                 }
                 Switch {
