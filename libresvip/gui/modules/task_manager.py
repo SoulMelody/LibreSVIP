@@ -176,7 +176,8 @@ class TaskManager(QObject):
     def output_ext(self) -> str:
         return f".{self.output_format}" if settings.auto_set_output_extension else ""
 
-    def output_dir(self, task: dict) -> pathlib.Path:
+    @staticmethod
+    def output_dir(task: dict) -> pathlib.Path:
         if settings.save_folder.is_absolute():
             output_dir = settings.save_folder
         else:
@@ -449,7 +450,12 @@ class TaskManager(QObject):
                 self.timer.stop()
                 if settings.open_save_folder_on_completion:
                     success_task = next(
-                        (task for task in self.tasks if task["success"]), None
+                        (
+                            task
+                            for i, task in enumerate(self.tasks)
+                            if task["success"] and not self.output_path_exists(i)
+                        ),
+                        None,
                     )
                     if success_task is not None:
                         output_dir = self.output_dir(success_task)

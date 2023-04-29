@@ -195,6 +195,10 @@ Page {
                         visible: false
                         text: field.description
                     }
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse
+                        cursorShape: Qt.WhatsThisCursor
+                    }
                 }
 
             }
@@ -235,6 +239,10 @@ Page {
                         y: parent.y - parent.height
                         visible: false
                         text: field.description
+                    }
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse
+                        cursorShape: Qt.WhatsThisCursor
                     }
                 }
             }
@@ -280,6 +288,10 @@ Page {
                         visible: false
                         text: field.description
                     }
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse
+                        cursorShape: Qt.WhatsThisCursor
+                    }
                 }
             }
         }
@@ -321,6 +333,10 @@ Page {
                         y: parent.y - parent.height
                         visible: false
                         text: field.description
+                    }
+                    HoverHandler {
+                        acceptedDevices: PointerDevice.Mouse
+                        cursorShape: Qt.WhatsThisCursor
                     }
                 }
             }
@@ -1046,17 +1062,38 @@ Page {
                         RoundButton {
                             anchors.fill: parent
                             radius: 10
-                            text: py.task_manager.is_busy() ? "" : qsTr("Start Conversion")
-                            visible: !py.task_manager.is_busy()
                             enabled: taskListView.count > 0
+                            opacity: (py.task_manager.is_busy() || !enabled) ? 0.5 : 1
+                            background: Rectangle {
+                                color: Material.color(
+                                    Material.Indigo,
+                                    Material.Shade500
+                                )
+                                radius: 10
+                            }
+                            contentItem: Label {
+                                text: qsTr("Start Conversion")
+                                wrapMode: Text.WordWrap
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                color: "white"
+                                Component.onCompleted: {
+                                    py.task_manager.tasks_size_changed.connect(function() {
+                                        text = py.task_manager.is_busy() ? qsTr("Converting") : qsTr("Start Conversion")
+                                    })
+                                    py.task_manager.busy_changed.connect(function(busy) {
+                                        text = busy ? qsTr("Converting") : qsTr("Start Conversion")
+                                    })
+                                }
+                            }
                             Component.onCompleted: {
                                 py.task_manager.tasks_size_changed.connect(function() {
-                                    visible = !py.task_manager.is_busy()
                                     enabled = taskListView.count > 0
+                                    opacity = (py.task_manager.is_busy() || !enabled) ? 0.5 : 1
                                 })
                                 py.task_manager.busy_changed.connect(function(busy) {
-                                    visible = !busy
                                     enabled = taskListView.count > 0
+                                    opacity = (busy || !enabled) ? 0.5 : 1
                                 })
                             }
                             onClicked: {
