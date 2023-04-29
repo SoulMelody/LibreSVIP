@@ -10,7 +10,6 @@ Drawer {
     height: window.height
     signal openSettings()
     signal autoOpenSaveFolderChanged(bool value)
-    signal autoSetOutputFileExtensionChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
     signal autoDetectInputFormatChanged(bool value)
     signal conflictPolicyChanged(string value)
@@ -62,10 +61,9 @@ Drawer {
             checked: py.config_items.get_bool("auto_set_output_extension")
             onClicked: {
                 py.config_items.set_bool("auto_set_output_extension", checked)
-                autoSetOutputFileExtensionChanged(checked)
             }
             Component.onCompleted: {
-                autoSetOutputFileExtensionChanged.connect( (value) => {
+                py.config_items.auto_set_output_extension_changed.connect( (value) => {
                     value === checked ? null : checked = value
                 })
             }

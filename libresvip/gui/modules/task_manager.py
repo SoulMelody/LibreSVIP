@@ -100,6 +100,7 @@ class TaskManager(QObject):
                 "path": "",
                 "name": "",
                 "stem": "",
+                "ext": "",
                 "tmp_path": "",
                 "success": False,
                 "error": "",
@@ -156,6 +157,7 @@ class TaskManager(QObject):
         atexit.register(self.clean_temp_dir)
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
+        self.output_format_changed.connect(self.reset_output_ext)
         self.start_conversion.connect(self.start)
         self.timer = QTimer()
         self.timer.setInterval(100)
@@ -175,6 +177,10 @@ class TaskManager(QObject):
     @property
     def output_ext(self) -> str:
         return f".{self.output_format}" if settings.auto_set_output_extension else ""
+
+    @slot(bool)
+    def reset_output_ext(self, value: bool):
+        self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
     @staticmethod
     def output_dir(task: dict) -> pathlib.Path:

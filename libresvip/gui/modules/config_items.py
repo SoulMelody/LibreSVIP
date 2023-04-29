@@ -2,13 +2,15 @@ import atexit
 import pathlib
 
 from qmlease import slot
-from qtpy.QtCore import QObject
+from qtpy.QtCore import QObject, Signal
 
 import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings
 
 
 class ConfigItems(QObject):
+    auto_set_output_extension_changed = Signal(bool)
+
     def __init__(self, parent=None):
         QObject.__init__(self, parent=parent)
         atexit.register(save_settings)
@@ -45,7 +47,10 @@ class ConfigItems(QObject):
 
     @slot(str, result=bool)
     def get_bool(self, key) -> bool:
-        return getattr(settings, key)
+        value = getattr(settings, key)
+        if key == "auto_set_output_extension":
+            self.auto_set_output_extension_changed.emit(value)
+        return value
 
     @slot(str, bool, result=bool)
     def set_bool(self, key, value) -> bool:

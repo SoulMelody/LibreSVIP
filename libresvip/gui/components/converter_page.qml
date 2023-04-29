@@ -17,6 +17,7 @@ Page {
             required property string name
             required property string path
             required property string stem
+            required property string ext
             required property string index
             width: taskList.width
             RowLayout {
@@ -54,13 +55,12 @@ Page {
                 }
 
                 Label {
-                    text: py.task_manager.qget("output_ext")
+                    text: ext
                     Component.onCompleted: {
-                        py.task_manager.output_format_changed.connect( (ext) => {
-                            this.text = py.task_manager.qget("output_ext")
-                        })
-                        settingsDrawer.autoSetOutputFileExtensionChanged.connect( (autoSet) => {
-                            this.text = py.task_manager.qget("output_ext")
+                        taskList.model.dataChanged.connect( (idx1, idx2, ext) => {
+                            if (index == idx1.row) {
+                                this.text = taskList.model.get(index).ext
+                            }
                         })
                     }
                 }
@@ -558,10 +558,9 @@ Page {
                     checked: py.config_items.get_bool("auto_set_output_extension")
                     onClicked: {
                         py.config_items.set_bool("auto_set_output_extension", checked)
-                        settingsDrawer.autoSetOutputFileExtensionChanged(checked)
                     }
                     Component.onCompleted: {
-                        settingsDrawer.autoSetOutputFileExtensionChanged.connect( (value) => {
+                        py.config_items.auto_set_output_extension_changed.connect( (value) => {
                             value === checked ? null : checked = value
                         })
                     }
