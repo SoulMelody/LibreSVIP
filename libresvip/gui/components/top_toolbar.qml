@@ -27,12 +27,12 @@ ToolBar {
             IconMenuItem {
                 action: actions.openFile;
                 icon_name: "mdi6.file-import-outline"
-                label: "Import Projects (Ctrl+O)";
+                label: qsTr("Import Projects (Ctrl+O)");
             }
             IconMenuItem {
                 action: actions.startConversion;
                 icon_name: "mdi6.share-all-outline"
-                label: "Perform All Tasks (Ctrl+Enter)";
+                label: qsTr("Perform All Tasks (Ctrl+Enter)");
                 enabled: converterPage.taskList.count > 0
                 Component.onCompleted: {
                     py.task_manager.tasks_size_changed.connect(function() {
@@ -43,7 +43,7 @@ ToolBar {
             IconMenuItem {
                 action: actions.clearTasks;
                 icon_name: "mdi6.refresh"
-                label: "Clear Tasks (Ctrl+R)";
+                label: qsTr("Clear Tasks (Ctrl+R)");
                 enabled: converterPage.taskList.count > 0
                 Component.onCompleted: {
                     py.task_manager.tasks_size_changed.connect(function() {
@@ -55,7 +55,7 @@ ToolBar {
             IconMenuItem {
                 action: actions.swapInputOutput;
                 icon_name: "mdi6.swap-vertical"
-                label: "Swap Input and Output (Ctrl+Tab)";
+                label: qsTr("Swap Input and Output (Ctrl+Tab)");
             }
         }
         Component.onCompleted: {
@@ -79,16 +79,16 @@ ToolBar {
             IconMenuItem {
                 action: actions.installPlugin;
                 icon_name: "mdi6.puzzle-plus-outline"
-                label: "Install a Plugin (Ctrl+I)"
+                label: qsTr("Install a Plugin (Ctrl+I)")
             }
             IconMenuItem {
                 icon_name: "mdi6.puzzle-edit-outline"
-                label: "Manage Plugins"
+                label: qsTr("Manage Plugins")
                 enabled: false
             }
             IconMenuItem {
                 icon_name: "mdi6.store-search"
-                label: "Open Plugin Store"
+                label: qsTr("Open Plugin Store")
                 enabled: false
             }
         }
@@ -210,16 +210,17 @@ ToolBar {
             IconMenuItem {
                 action: actions.openAbout;
                 icon_name: "mdi6.information-outline"
-                label: "About (Alt+I)";
+                label: qsTr("About (Alt+I)");
             }
             IconMenuItem {
                 icon_name: "mdi6.progress-upload"
-                label: "Check for Updates";
-                onTriggered: dialogs.errorDialog.show_error("Not implemented yet.")
+                label: qsTr("Check for Updates");
+                enabled: false
             }
             IconMenuItem {
                 icon_name: "mdi6.text-box-search-outline"
-                label: "Documentation (F1)";
+                label: qsTr("Documentation (F1)");
+                enabled: false
             }
         }
         Component.onCompleted: {
