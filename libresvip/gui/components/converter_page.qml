@@ -66,6 +66,17 @@ Page {
                 }
 
                 RoundButton {
+                    text: py.qta.icon("mdi6.trash-can-outline")
+                    font.family: materialFontLoader.name
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    radius: this.height / 2
+                    onClicked: {
+                        taskList.model.delete(index)
+                        py.task_manager.trigger_event("tasks_size_changed", [])
+                    }
+                }
+
+                RoundButton {
                     visible: false
                     text: py.qta.icon("mdi6.check")
                     background: Rectangle {
@@ -256,13 +267,45 @@ Page {
                 }
 
                 RoundButton {
-                    text: py.qta.icon("mdi6.trash-can-outline")
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
-                    onClicked: {
-                        taskList.model.delete(index)
-                        py.task_manager.trigger_event("tasks_size_changed", [])
+                    radius: this.width / 2
+                    visible: false
+                    enabled: false
+                    Behavior on visible {
+                        PropertyAnimation {
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                    contentItem: Label {
+                        property bool running: false
+                        text: py.qta.icon("mdi6.autorenew")
+                        font.family: materialFontLoader.name
+                        font.pixelSize: Qt.application.font.pixelSize * 1.2
+                        NumberAnimation on rotation {
+                            running: running;
+                            from: 0;
+                            to: 360;
+                            loops: Animation.Infinite;
+                            duration: 1200
+                        }
+                        Component.onCompleted: {
+                            py.task_manager.busy_changed.connect(function(busy) {
+                                if (busy) {
+                                    running = true
+                                } else {
+                                    running = false
+                                }
+                            })
+                        }
+                    }
+                    Component.onCompleted: {
+                        py.task_manager.busy_changed.connect(function(busy) {
+                            if (busy) {
+                                visible = true
+                            } else {
+                                visible = false
+                            }
+                        })
                     }
                 }
             }
