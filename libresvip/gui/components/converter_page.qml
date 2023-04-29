@@ -46,7 +46,7 @@ Page {
                     }
                     Component.onCompleted: {
                         taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
-                            if (taskRow.index == idx1.row) {
+                            if (index == idx1.row) {
                                 this.text = taskList.model.get(index).stem
                             }
                         })
@@ -63,6 +63,63 @@ Page {
                             this.text = py.task_manager.qget("output_ext")
                         })
                     }
+                }
+
+                RoundButton {
+                    visible: false
+                    text: py.qta.icon("mdi6.check")
+                    background: Rectangle {
+                        color: "green"
+                        radius: parent.height / 2
+                    }
+                    font.family: materialFontLoader.name
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    radius: this.height / 2
+                    Behavior on visible {
+                        PropertyAnimation {
+                            duration: 300
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                    ToolTip {
+                        id: successToolTip
+                        contentItem: ColumnLayout {
+                        }
+                    }
+                    onClicked: {
+                        successToolTip.visible = !successToolTip.visible
+                    }
+                    Component.onCompleted: {
+                        taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
+                            if (index == idx1.row) {
+                                let success = taskList.model.get(index).success
+                                if (success) {
+                                    let conflict = py.task_manager.output_path_exists(index)
+                                    if (!conflict) {
+                                        let move_result = py.task_manager.move_to_output(index)
+                                        if (move_result) {
+                                            visible = true
+                                        } else {
+                                            taskList.model.update(index, {success: false, error: "Failed to move file"})
+                                        }
+                                    } else {
+                                        // TODO: show error
+                                    }
+                                } else if (visible) {
+                                    visible = false
+                                }
+                            }
+                        })
+                    }
+                }
+
+                RoundButton {
+                    id: errorButton
+                    visible: false
+                    text: py.qta.icon("mdi6.alert-circle")
+                    font.family: materialFontLoader.name
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    radius: this.height / 2
                 }
 
                 RoundButton {

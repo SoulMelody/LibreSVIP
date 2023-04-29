@@ -7,7 +7,6 @@ from qtpy.QtQuickControls2 import QQuickStyle
 from .modules import (
     Clipboard,
     ConfigItems,
-    FileOperations,
     FontLoader,
     LocaleSwitcher,
     TaskManager,
@@ -16,9 +15,9 @@ from .modules import (
 os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
 QQuickStyle.setStyle("Material")
 app.set_app_name("LibreSVIP")
+# app.set_app_icon
 app.register(Clipboard(), name="clipboard")
 app.register(ConfigItems(), name="config_items")
-app.register(FileOperations(), name="file_operations")
 app.register(FontLoader(), name="qta")
 app.register(LocaleSwitcher(), name="locale")
 app.register(TaskManager(), name="task_manager")
