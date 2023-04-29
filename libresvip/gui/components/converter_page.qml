@@ -585,7 +585,7 @@ Page {
                         id: inputFormat
                         textRole: "text"
                         valueRole: "value"
-                        displayText: "Input Format: " + currentText
+                        displayText: qsTr("Input Format: ") + currentText
                         onActivated: (index) => {
                             if (
                                 resetTasksOnInputChange.checked &&
@@ -682,6 +682,8 @@ Page {
                     radius: this.height / 2
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.5
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
                         [
                             inputFormat.currentIndex,
@@ -707,7 +709,7 @@ Page {
                         id: outputFormat
                         textRole: "text"
                         valueRole: "value"
-                        displayText: "Output Format: " + currentText
+                        displayText: qsTr("Output Format: ") + currentText
                         onActivated: (index) => {
                             py.task_manager.set_str("output_format", currentValue)
                         }
@@ -1084,7 +1086,13 @@ Page {
                         repeat: true;
                         triggeredOnStart: false;
                         onTriggered: {
-                            if (taskToolbarTestArea.containsMouse || toggleTaskToolbarTestArea.containsMouse) {
+                            if (
+                                toggleTaskToolbarTestArea.containsMouse ||
+                                addTaskButton.hovered ||
+                                clearTaskButton.hovered ||
+                                resetExtensionButton.hovered ||
+                                removeOtherExtensionButton.hovered
+                            ) {
                                 return
                             }
                             taskToolbar.shown = false
@@ -1143,6 +1151,7 @@ Page {
                         clip: true
                         Row {
                             RoundButton {
+                                id: addTaskButton
                                 text: py.qta.icon("mdi6.plus")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -1154,11 +1163,19 @@ Page {
                                 font.family: materialFontLoader.name
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Continue Adding files")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
                                 onClicked: {
                                     actions.openFile.trigger()
                                 }
                             }
                             RoundButton {
+                                id: clearTaskButton
                                 text: py.qta.icon("mdi6.refresh")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -1170,11 +1187,19 @@ Page {
                                 font.family: materialFontLoader.name
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Clear Task List")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
                                 onClicked: {
                                     actions.clearTasks.trigger()
                                 }
                             }
                             RoundButton {
+                                id: resetExtensionButton
                                 text: py.qta.icon("mdi6.form-textbox")
                                 background: Rectangle {
                                     radius: this.height / 2
@@ -1186,29 +1211,48 @@ Page {
                                 font.family: materialFontLoader.name
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Reset Default Extension")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
                                 onClicked: {
                                     py.task_manager.reset_stems()
                                 }
                             }
-                        }
-                    }
-                    MouseArea {
-                        id: taskToolbarTestArea
-                        anchors.fill: taskToolbar
-                        hoverEnabled: true
-                        propagateComposedEvents: true
-                        onClicked: (mouse) => {
-                            mouse.accepted = false
-                        }
-                        onPressed: (mouse) => {
-                            mouse.accepted = false
-                        }
-                        onReleased: (mouse) => {
-                            mouse.accepted = false
-                        }
-                        onExited: {
-                            if (!hideTaskToolbarTimer.running) {
-                                hideTaskToolbarTimer.start()
+                            RoundButton {
+                                id: removeOtherExtensionButton
+                                text: py.qta.icon("mdi6.filter-minus-outline")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    );
+                                }
+                                font.family: materialFontLoader.name
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                radius: this.height / 2
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Remove Tasks With Other Extensions")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    for (var i = 0; i < taskListView.count; i++) {
+                                        var task = taskListView.model.get(i)
+                                        let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
+                                        if (extension != inputFormat.currentValue) {
+                                            taskListView.model.delete(i)
+                                            py.task_manager.trigger_event("tasks_size_changed", [])
+                                            i--
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -1262,6 +1306,8 @@ Page {
                     radius: this.height / 2
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.5
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Choose Output Folder")
                     onClicked: {
                         actions.chooseSavePath.trigger()
                     }
@@ -1351,10 +1397,10 @@ Page {
                     }
                 }
                 Switch {
-                    Layout.columnSpan: 3
+                    Layout.columnSpan: 4
                     Layout.row: 2
                     Layout.column: 0
-                    Layout.preferredWidth: parent.width * 0.3
+                    Layout.preferredWidth: parent.width * 0.4
                     text: qsTr("Open Output Folder When Done")
                     checked: py.config_items.get_bool("open_save_folder_on_completion")
                     onClicked: {
@@ -1368,11 +1414,11 @@ Page {
                     }
                 }
                 Label {
-                    Layout.columnSpan: 3
+                    Layout.columnSpan: 2
                     Layout.row: 2
-                    Layout.column: 3
-                    Layout.preferredWidth: parent.width * 0.3
-                    text: qsTr("Deal with Same Name Files:")
+                    Layout.column: 4
+                    Layout.preferredWidth: parent.width * 0.2
+                    text: qsTr("Deal with Conflicts:")
                     Layout.alignment: Qt.AlignVCenter
                 }
                 ComboBox {
@@ -1380,7 +1426,13 @@ Page {
                     Layout.row: 2
                     Layout.column: 6
                     Layout.preferredWidth: parent.width * 0.2
-                    model: ["Overwrite", "Skip", "Prompt"]
+                    textRole: "text"
+                    valueRole: "value"
+                    model: [
+                        {value: "Overwrite", text: qsTr("Overwrite")},
+                        {value: "Skip", text: qsTr("Skip")},
+                        {value: "Prompt", text: qsTr("Prompt")}
+                    ]
                     onActivated: (index) => {
                         py.config_items.set_conflict_policy(currentValue)
                         settingsDrawer.conflictPolicyChanged(currentValue)

@@ -18,7 +18,7 @@ Item {
     }
 
     property QtObject openDialog: FileDialog {
-        nameFilters: ["*.*", qsTr("所有文件 (*.*)")]
+        nameFilters: ["*.*", qsTr("All Files (*.*)")]
         fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
@@ -43,34 +43,6 @@ Item {
             let path = url2path(selectedFolder)
             py.config_items.set_save_folder(path)
             save_folder_changed(path)
-        }
-    }
-
-    property QtObject errorDialog: QQC2.Dialog {
-        title: qsTr("Error")
-        standardButtons: QQC2.Dialog.Ok
-        x: window.width / 2 - width / 2
-        y: window.height / 2 - height / 2
-        RowLayout {
-            QQC2.Label {
-                text: py.qta.icon("mdi6.tooltip-remove-outline")
-                font.family: materialFontLoader.name
-                font.pixelSize: 24
-            }
-            QQC2.Label {
-                id: errorText
-                text: ""
-            }
-            QQC2.RoundButton {
-                text: py.qta.icon("mdi6.content-copy")
-                font.family: materialFontLoader.name
-                radius: height / 2
-                onClicked: py.clipboard.set_clipboard(errorText.text)
-            }
-        }
-        function show_error(text) {
-            errorText.text = text
-            open()
         }
     }
 
@@ -129,12 +101,12 @@ Item {
             }
             QQC2.Label {
                 Layout.preferredWidth: parent.width
-                text: qsTr("LibreSVIP 是一个开源、开放、插件化的歌声合成工程文件中介与转换平台。")
+                text: qsTr("LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.")
                 wrapMode: Text.WordWrap
             }
             QQC2.Label {
                 Layout.preferredWidth: parent.width
-                text: qsTr("所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。")
+                text: qsTr("All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.")
                 wrapMode: Text.WordWrap
             }
         }

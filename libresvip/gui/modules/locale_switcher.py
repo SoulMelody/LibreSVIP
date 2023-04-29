@@ -9,12 +9,14 @@ class LocaleSwitcher(QObject):
     def __init__(self):
         QObject.__init__(self)
         self.translator = QTranslator(app)
-        app.engine.retranslate()
+        self.switch_language(settings.language.to_locale())
 
     @slot(str)
     def switch_language(self, lang):
         if lang:
-            self.translator.load(str(pkg_dir / "/gui/i18n/{lang}.qm"))
+            translation_dir = str(pkg_dir / "gui/i18n")
+            locale_filename = f"libresvip_{lang}.qm"
+            self.translator.load(locale_filename, translation_dir)
             app.installTranslator(self.translator)
             app.engine.retranslate()
             settings.language = Language.from_locale(lang)
