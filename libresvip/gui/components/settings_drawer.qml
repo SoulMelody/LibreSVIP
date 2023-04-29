@@ -15,6 +15,19 @@ Drawer {
     signal autoDetectInputFormatChanged(bool value)
     signal conflictPolicyChanged(string value)
 
+    function save_folder_type() {
+        let save_folder = py.config_items.get_save_folder()
+        switch (save_folder) {
+            case ".":
+            case "./":
+                return 1
+            case dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]):
+                return 2
+            default:
+                return 3
+        }
+    }
+
     Column {
         anchors.fill: parent
         anchors.margins: 10
@@ -95,7 +108,7 @@ Drawer {
                     converterPage.saveFolder.text = path
                     py.config_items.set_save_folder(path)
                 }
-                checked: py.config_items.get_save_folder() === "."
+                checked: save_folder_type() === 1
             }
             RadioButton {
                 id: desktopRadio
@@ -105,16 +118,14 @@ Drawer {
                     converterPage.saveFolder.text = path
                     py.config_items.set_save_folder(path)
                 }
-                checked: py.config_items.get_save_folder() === dialogs.url2path(
-                    StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]
-                )
+                checked: save_folder_type === 2
             }
             RadioButton {
                 text: qsTr("Custom (Browse ...)")
                 onClicked: {
                     actions.chooseSavePath.trigger()
                 }
-                checked: !(sameAsSourceRadio.checked && desktopRadio.checked)
+                checked: save_folder_type() === 3
             }
         }
         ColumnLayout {

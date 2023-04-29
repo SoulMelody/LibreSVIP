@@ -34,7 +34,7 @@ GridLayout {
         Layout.column: 3
         Layout.columnSpan: 3
         Label {
-            text: py.qta.icon("mdi.tag")
+            text: py.qta.icon("mdi6.tag")
             font.family: materialFontLoader.name
         }
         Label {
@@ -51,7 +51,7 @@ GridLayout {
         }
         contentItem: RowLayout {
             Label {
-                text: py.qta.icon("mdi.account")
+                text: py.qta.icon("mdi6.account")
                 font.family: materialFontLoader.name
             }
 
@@ -61,7 +61,7 @@ GridLayout {
             }
             
             Label {
-                text: py.qta.icon("mdi.open-in-new")
+                text: py.qta.icon("mdi6.open-in-new")
                 font.family: materialFontLoader.name
             }
 
@@ -74,7 +74,7 @@ GridLayout {
         Layout.column: 3
         Layout.columnSpan: 7
         Label {
-            text: py.qta.icon("mdi.file-outline")
+            text: py.qta.icon("mdi6.file-outline")
             font.family: materialFontLoader.name
         }
         Label {

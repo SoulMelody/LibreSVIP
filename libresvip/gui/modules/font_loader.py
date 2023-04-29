@@ -4,7 +4,7 @@ import pathlib
 
 import qtawesome
 from qmlease import slot
-from qtpy.QtCore import QObject
+from qtpy.QtCore import QObject, QUrl
 
 
 class FontLoader(QObject):
@@ -25,14 +25,16 @@ class FontLoader(QObject):
 
     @slot(str, result=str)
     def font_dir(self, font_family: str) -> str:
-        return next(
-            (
-                f"file:///{str(self.font_base_dir / fargs[1])}"
-                for fargs in qtawesome._BUNDLED_FONTS
-                if fargs[0] == font_family
-            ),
-            "",
-        )
+        return QUrl.fromLocalFile(
+            next(
+                (
+                    self.font_base_dir / fargs[1]
+                    for fargs in qtawesome._BUNDLED_FONTS
+                    if fargs[0] == font_family
+                ),
+                "",
+            )
+        ).toString()
 
     @slot(str, result=str)
     def icon(self, icon_name: str) -> str:

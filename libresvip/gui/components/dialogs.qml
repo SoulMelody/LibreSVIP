@@ -90,7 +90,7 @@ Item {
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Version: 0.1.0")
+                text: qsTr("Version: " + py.config_items.get_version())
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter

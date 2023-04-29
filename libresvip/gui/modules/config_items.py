@@ -4,6 +4,7 @@ import pathlib
 from qmlease import slot
 from qtpy.QtCore import QObject
 
+import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings
 
 
@@ -11,6 +12,10 @@ class ConfigItems(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent=parent)
         atexit.register(save_settings)
+
+    @slot(result=str)
+    def get_version(self) -> str:
+        return libresvip.__version__
 
     @slot(result=str)
     def get_conflict_policy(self) -> str:

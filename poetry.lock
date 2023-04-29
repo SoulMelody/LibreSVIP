@@ -1305,13 +1305,13 @@ reference = "bfsu"
 
 [[package]]
 name = "lk-logger"
-version = "5.4.8"
+version = "5.4.9"
 description = "Python advanced print with varnames."
 category = "dev"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "lk_logger-5.4.8-py3-none-any.whl", hash = "sha256:3c40330145fc97d05654e91f339c46fe25ae78e1a102fb2f8b256f5aacdd2dc0"},
+    {file = "lk_logger-5.4.9-py3-none-any.whl", hash = "sha256:f9b86f7d940a63476df8bc5b613c4d495b6e681275df7fcb9ce95d8475496937"},
 ]
 
 [package.dependencies]
