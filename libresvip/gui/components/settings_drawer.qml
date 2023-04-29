@@ -79,6 +79,7 @@ Drawer {
         }
         Switch {
             text: qsTr("Auto Check for Updates")
+            enabled: false
         }
         ColumnLayout {
             anchors.margins: 20

@@ -101,8 +101,8 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: py.qta.icon("mdi6.account-circle")
-                            font.family: materialFontLoader.name
+                            text: py.qta.icon("ri.bilibili-line")
+                            font.family: remixFontLoader.name
                         }
                         QQC2.Label {
                             text: qsTr("Author's Profile")

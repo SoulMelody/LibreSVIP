@@ -31,6 +31,11 @@ ApplicationWindow {
         source: py.qta.font_dir("mdi6")
     }
 
+    FontLoader {
+        id: remixFontLoader
+        source: py.qta.font_dir("ri")
+    }
+
     Components.Dialogs {
         id: dialogs
     }
