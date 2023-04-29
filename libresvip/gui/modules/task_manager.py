@@ -20,13 +20,15 @@ from libresvip.model.base import BaseComplexModel
 from .model_proxy import ModelProxy
 
 
-class ConversionWorker(QRunnable):
-    result = Signal(tuple[str, str])
+class ConversionWorkerSignals(QObject):
+    result = Signal(int, dict)
 
+
+class ConversionWorker(QRunnable):
     def __init__(
         self,
-        model: ModelProxy,
         index: int,
+        input_path: str,
         output_path: str,
         input_format: str,
         output_format: str,
@@ -35,18 +37,18 @@ class ConversionWorker(QRunnable):
         parent=None,
     ):
         super().__init__(parent=parent)
-        self.model = model
         self.index = index
+        self.input_path = input_path
         self.output_path = output_path
         self.input_format = input_format
         self.output_format = output_format
         self.input_options = input_options
         self.output_options = output_options
+        self.signals = ConversionWorkerSignals()
 
     @slot()
     def run(self):
         try:
-            task = self.model[self.index]
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
                 input_plugin = plugin_registry[self.input_format]
@@ -58,7 +60,7 @@ class ConversionWorker(QRunnable):
                     "options"
                 )
                 project = input_plugin.plugin_object.load(
-                    pathlib.Path(task["path"]),
+                    pathlib.Path(self.input_path),
                     input_option(**self.input_options),
                 )
                 output_plugin.plugin_object.dump(
@@ -67,7 +69,7 @@ class ConversionWorker(QRunnable):
                     output_option(**self.output_options),
                 )
                 warning_str = "\n".join(str(each) for each in w)
-                self.model.update(
+                self.signals.result.emit(
                     self.index,
                     {
                         "success": True,
@@ -76,7 +78,7 @@ class ConversionWorker(QRunnable):
                     },
                 )
         except Exception:
-            self.model.update(
+            self.signals.result.emit(
                 self.index, {"success": False, "error": traceback.format_exc()}
             )
 
@@ -89,6 +91,7 @@ class TaskManager(QObject):
     output_fileds_changed = Signal()
     tasks_size_changed = Signal()
     start_conversion = Signal()
+    all_tasks_finished = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -177,7 +180,7 @@ class TaskManager(QObject):
         if settings.save_folder.is_absolute():
             output_dir = settings.save_folder
         else:
-            output_dir = pathlib.Path(task["path"]) / str(settings.save_folder)
+            output_dir = pathlib.Path(task["path"]).parent / str(settings.save_folder)
         return output_dir
 
     @slot(int, result=bool)
@@ -452,6 +455,7 @@ class TaskManager(QObject):
                         output_dir = self.output_dir(success_task)
                         output_url = QUrl.fromLocalFile(output_dir)
                         QDesktopServices.openUrl(output_url)
+                self.all_tasks_finished.emit()
 
     def set_busy(self, busy: bool) -> None:
         self.busy_changed.emit(busy)
@@ -467,15 +471,17 @@ class TaskManager(QObject):
             max(len(self.tasks), 4) if settings.multi_threaded_conversion else 1
         )
         for i in range(len(self.tasks)):
+            input_path = self.tasks[i]["path"]
             output_path = tempfile.mktemp(suffix=self.output_ext, dir=self.temp_dir)
             worker = ConversionWorker(
-                self.tasks,
                 i,
+                input_path,
                 output_path,
                 self.input_format,
                 self.output_format,
                 input_options,
                 output_options,
             )
+            worker.signals.result.connect(self.tasks.update)
             self.thread_pool.start(worker)
         self.timer.start()
