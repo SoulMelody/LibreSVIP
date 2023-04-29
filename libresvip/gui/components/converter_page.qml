@@ -149,6 +149,11 @@ Page {
                                 visible = false
                             }
                         })
+                        py.task_manager.busy_changed.connect( (busy) => {
+                            if (busy) {
+                                visible = false
+                            }
+                        })
                     }
                 }
 
@@ -191,6 +196,13 @@ Page {
                     }
                     onClicked: {
                         skipToolTip.visible = !skipToolTip.visible
+                    }
+                    Component.onCompleted: {
+                        py.task_manager.busy_changed.connect( (busy) => {
+                            if (busy) {
+                                visible = false
+                            }
+                        })
                     }
                 }
 
@@ -260,6 +272,11 @@ Page {
                                 errorLabel.text = error
                                 visible = true
                             } else if (visible) {
+                                visible = false
+                            }
+                        })
+                        py.task_manager.busy_changed.connect( (busy) => {
+                            if (busy) {
                                 visible = false
                             }
                         })
