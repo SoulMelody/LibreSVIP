@@ -988,10 +988,13 @@ Page {
                     Layout.preferredWidth: parent.width * 0.2
                     radius: 10
                     text: qsTr("Start Conversion")
-                    enabled: taskListView.count > 0
+                    enabled: taskListView.count > 0 && !py.task_manager.is_busy()
                     Component.onCompleted: {
                         py.task_manager.tasks_size_changed.connect(function() {
-                            enabled = taskListView.count > 0
+                            enabled = taskListView.count > 0 && !py.task_manager.is_busy()
+                        })
+                        py.task_manager.busy_changed.connect(function(busy) {
+                            enabled = taskListView.count > 0 && !busy
                         })
                     }
                     onClicked: {

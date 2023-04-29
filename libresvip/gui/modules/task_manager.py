@@ -8,7 +8,7 @@ from typing import Any, get_args, get_type_hints
 
 from pydantic.color import Color
 from qmlease import slot
-from qtpy.QtCore import QObject, Signal
+from qtpy.QtCore import QObject, QTimer, Signal
 
 from libresvip.core.config import settings
 from libresvip.extension.manager import plugin_manager, plugin_registry
@@ -20,6 +20,7 @@ from .model_proxy import ModelProxy
 class TaskManager(QObject):
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
+    busy_changed = Signal(bool)
     input_fileds_changed = Signal()
     output_fileds_changed = Signal()
     tasks_size_changed = Signal()
@@ -85,6 +86,7 @@ class TaskManager(QObject):
         self.output_format = ""
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
+        self.busy = False
 
     @property
     def output_ext(self) -> str:
@@ -322,8 +324,17 @@ class TaskManager(QObject):
     def install_plugin(self, path: str) -> bool:
         return plugin_manager.installFromZIP(path)
 
+    @slot(result=bool)
+    def is_busy(self) -> bool:
+        return self.busy
+
+    def set_busy(self, busy: bool) -> None:
+        self.busy = busy
+        self.busy_changed.emit(busy)
+
     @slot()
     def start(self):
+        self.set_busy(True)
         print(
             self.input_format,
         )
@@ -332,3 +343,5 @@ class TaskManager(QObject):
         )
         input_kwargs = {field["name"]: field["value"] for field in self.input_fields}
         output_kwargs = {field["name"]: field["value"] for field in self.output_fields}
+
+        QTimer.singleShot(5000, lambda: self.set_busy(False))
