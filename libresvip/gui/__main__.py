@@ -1,10 +1,10 @@
 import os
 
-from lk_utils import relpath
 from qmlease import app
 from qtpy.QtQuickControls2 import QQuickStyle
 
-from .modules import (
+from libresvip.core.constants import pkg_dir
+from libresvip.gui.modules import (
     Clipboard,
     ConfigItems,
     FontLoader,
@@ -24,5 +24,10 @@ app.register(config_items, name="config_items")
 app.register(FontLoader(), name="qta")
 app.register(LocaleSwitcher(), name="locale")
 app.register(task_manager, name="task_manager")
-app.register_qmldir(relpath("components"))
-app.run(relpath("main.qml"), debug=True)
+app.register_qmldir(
+    pkg_dir / "gui" / "components",
+)
+app.run(
+    pkg_dir / "gui" / "main.qml",
+    # debug=True
+)
