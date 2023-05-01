@@ -75,10 +75,15 @@ build_exe_options = {
     ],
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
-    "packages": ["qmlease", "libresvip", "PySide6.QtQuick"],
+    "packages": ["qmlease", "libresvip", "PySide6.QtQuick", "xsdata_pydantic"],
 }
 
 executables = [
+    Executable(
+        "../../libresvip/cli/__main__.py",
+        base=None,
+        target_name="libresvip",
+    ),
     Executable(
         "../../libresvip/gui/__main__.py",
         base=base,
