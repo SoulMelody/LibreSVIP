@@ -1,13 +1,14 @@
 from __future__ import annotations
 
-import sys
+import pathlib
 
 from cx_Freeze import Executable, setup
 
-include_files = []
+from libresvip.core.constants import pkg_dir
 
-# base="Win32GUI" should be used only for Windows GUI app
-base = "Win32GUI" if sys.platform == "win32" else None
+include_files = [
+    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
+]
 
 build_exe_options = {
     "bin_excludes": [],
@@ -20,19 +21,19 @@ build_exe_options = {
         "black",
         "jedi",
         "numpy",
-        "ipython",
-        "cython",
+        "IPython",
+        "Cython",
         "sqlite3",
         "test",
-        "pillow",
-        "pyside6",
+        "PIL",
+        "PySide6",
     ],
     "include_files": include_files,
 }
 
 executables = [
     Executable(
-        "../../libresvip/cli/__main__.py", base=None, target_name="libresvip.cli"
+        "../../libresvip/cli/__main__.py", base=None, target_name="libresvip"
     ),
 ]
 

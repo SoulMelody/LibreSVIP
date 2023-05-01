@@ -7,6 +7,8 @@ import PySide6
 from cx_Freeze import Executable, setup
 from cx_Freeze.hooks import _qthooks
 
+from libresvip.core.constants import pkg_dir
+
 try:
     from cx_Freeze.hooks import get_qt_plugins_paths
 except ImportError:
@@ -19,8 +21,16 @@ for func in dir(_qthooks):
 
 pyside6_dir = pathlib.Path(PySide6.__file__).parent
 include_files = [
-    (pyside6_dir / "qml", pathlib.Path("./lib/PySide6/qml")),
+    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
 ]
+if (pyside6_dir / "qml").exists():
+    include_files.append(
+        (pyside6_dir / "qml", pathlib.Path("./lib/PySide6/qml"))
+    )
+elif (pyside6_dir / "Qt/qml").exists():
+    include_files.append(
+        (pyside6_dir / "Qt/qml", pathlib.Path("./lib/PySide6/Qt/qml"))
+    )
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
     # cx_Freeze imports automatically the following plugins depending of the
@@ -32,8 +42,8 @@ if get_qt_plugins_paths:
         # "accessible",
         # "iconengines",
         # "platforminputcontexts",
-        # "xcbglintegrations",
-        # "egldeviceintegrations",
+        "xcbglintegrations",
+        "egldeviceintegrations",
         "wayland-decoration-client",
         "wayland-graphics-integration-client",
         # "wayland-graphics-integration-server",
@@ -75,7 +85,7 @@ build_exe_options = {
 
 executables = [
     Executable(
-        "../../libresvip/gui/__main__.py", base=base, target_name="libresvip.gui"
+        "../../libresvip/gui/__main__.py", base=base, target_name="libresvip-gui"
     ),
 ]
 

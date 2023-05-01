@@ -67,4 +67,5 @@ if config_path.exists():
 
 
 def save_settings():
+    app_dir.user_config_path.mkdir(parents=True, exist_ok=True)
     OmegaConf.save(settings, config_path)

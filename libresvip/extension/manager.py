@@ -17,7 +17,7 @@ from .base import ReadOnlyConverterBase, SVSConverterBase, WriteOnlyConverterBas
 plugin_namespace = "libresvip.plugins"
 
 
-def load_module(name: str, plugin_path: str) -> types.ModuleType:
+def load_module(name: str, plugin_path: pathlib.Path) -> types.ModuleType:
     spec = importlib.util.spec_from_file_location(name, plugin_path)
     module = importlib.util.module_from_spec(spec)
     try:
