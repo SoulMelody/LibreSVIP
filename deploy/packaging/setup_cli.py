@@ -6,9 +6,7 @@ from cx_Freeze import Executable, setup
 
 from libresvip.core.constants import pkg_dir
 
-include_files = [
-    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
-]
+include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 
 build_exe_options = {
     "bin_excludes": [],
@@ -18,6 +16,7 @@ build_exe_options = {
         "unittest",
         "pydoc",
         "pydoc_data",
+        "pep517",
         "black",
         "jedi",
         "numpy",
@@ -32,9 +31,7 @@ build_exe_options = {
 }
 
 executables = [
-    Executable(
-        "../../libresvip/cli/__main__.py", base=None, target_name="libresvip"
-    ),
+    Executable("../../libresvip/cli/__main__.py", base=None, target_name="libresvip"),
 ]
 
 setup(

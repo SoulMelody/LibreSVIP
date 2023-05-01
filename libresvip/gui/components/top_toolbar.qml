@@ -173,6 +173,7 @@ ToolBar {
             MenuItem{
                 text: "日本語";
                 onTriggered: py.locale.switch_language("ja-JP")
+                enabled: false
             }
         }
         Component.onCompleted: {

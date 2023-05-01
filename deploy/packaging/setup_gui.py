@@ -20,17 +20,11 @@ for func in dir(_qthooks):
         setattr(_qthooks, func, lambda _, __: None)
 
 pyside6_dir = pathlib.Path(PySide6.__file__).parent
-include_files = [
-    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
-]
+include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 if (pyside6_dir / "qml").exists():
-    include_files.append(
-        (pyside6_dir / "qml", pathlib.Path("./lib/PySide6/qml"))
-    )
+    include_files.append((pyside6_dir / "qml", pathlib.Path("./lib/PySide6/qml")))
 elif (pyside6_dir / "Qt/qml").exists():
-    include_files.append(
-        (pyside6_dir / "Qt/qml", pathlib.Path("./lib/PySide6/Qt/qml"))
-    )
+    include_files.append((pyside6_dir / "Qt/qml", pathlib.Path("./lib/PySide6/Qt/qml")))
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
     # cx_Freeze imports automatically the following plugins depending of the
@@ -55,13 +49,19 @@ if get_qt_plugins_paths:
 base = "Win32GUI" if sys.platform == "win32" else None
 
 build_exe_options = {
-    "bin_excludes": [],
+    "bin_excludes": [
+        "QtWebEngineCore",
+        "Qt6WebEngineCore.dll",
+        "libQt6WebEngineCore.so",
+        "Python.Runtime.dll",
+    ],
     # exclude packages that are not really needed
     "excludes": [
         "tkinter",
         "unittest",
         "pydoc",
         "pydoc_data",
+        "pep517",
         "black",
         "jedi",
         "numpy",
@@ -77,6 +77,7 @@ build_exe_options = {
         "wslink",
         "webview",
         "aiohttp",
+        "pythonnet",
     ],
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
