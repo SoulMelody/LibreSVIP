@@ -1,4 +1,5 @@
 import atexit
+import base64
 import os
 import shutil
 import tempfile
@@ -8,6 +9,7 @@ from trame.widgets import html, router, trame, vuetify
 from trame_server.core import Server
 
 from libresvip.core.config import settings
+from libresvip.core.constants import pkg_dir
 
 
 def initialize(server: Server):
@@ -19,7 +21,10 @@ def initialize(server: Server):
     state.trame__title = state.translations[state.lang]["LibreSVIP"]
     state.temp_dir = tempfile.mkdtemp(prefix="libresvip")
     os.makedirs(state.temp_dir, exist_ok=True)
-    # state.trame__favicon
+    state.trame__favicon = (
+        "data:image/x-icon;base64,"
+        + base64.b64encode((pkg_dir / "libresvip.ico").read_bytes()).decode()
+    )
 
     def clean_temp_dir():
         shutil.rmtree(state.temp_dir, ignore_errors=True)

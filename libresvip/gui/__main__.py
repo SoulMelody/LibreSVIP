@@ -15,7 +15,7 @@ from libresvip.gui.modules import (
 os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
 QQuickStyle.setStyle("Material")
 app.set_app_name("LibreSVIP")
-# app.set_app_icon
+app.set_app_icon(str((pkg_dir / "libresvip.ico").resolve()))
 config_items = ConfigItems()
 task_manager = TaskManager()
 config_items.auto_set_output_extension_changed.connect(task_manager.reset_output_ext)

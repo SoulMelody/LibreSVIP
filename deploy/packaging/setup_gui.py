@@ -82,6 +82,7 @@ executables = [
     Executable(
         "../../libresvip/gui/__main__.py",
         base=base,
+        icon="../../libresvip/libresvip.ico",
         target_name="libresvip-gui",
     ),
 ]
