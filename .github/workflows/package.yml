@@ -3,7 +3,7 @@ on:
     branches:
       - "main"
     tags:
-      - "*"
+      - "v*"
 
 jobs:
   release:
@@ -38,5 +38,5 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: libresvip
+        name: libresvip-${{ matrix.os.arch }}
         path: ./build*
