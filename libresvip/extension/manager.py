@@ -1,6 +1,8 @@
 import base64
+import configparser
 import contextlib
 import importlib
+import io
 import pathlib
 import sys
 import types
@@ -15,6 +17,30 @@ from ..core.constants import app_dir, pkg_dir
 from .base import ReadOnlyConverterBase, SVSConverterBase, WriteOnlyConverterBase
 
 plugin_namespace = "libresvip.plugins"
+
+
+def read_file(self: configparser.ConfigParser, f: io.TextIOWrapper, source=None):
+    """Like read() but the argument must be a file-like object.
+
+    The `f' argument must be iterable, returning one line at a time.
+    Optional second argument is the `source' specifying the name of the
+    file being read. If not given, it is taken from f.name. If `f' has no
+    `name' attribute, `<???>' is used.
+    """
+    if source is None:
+        try:
+            source = f.name
+        except AttributeError:
+            source = "<???>"
+    if not isinstance(f, io.StringIO):
+        content = f.buffer.read()
+        string = content.decode("utf-8")
+        self.read_string(string)
+    else:
+        self._read(f, source)
+
+
+configparser.ConfigParser.read_file = read_file
 
 
 def load_module(name: str, plugin_path: pathlib.Path) -> types.ModuleType:

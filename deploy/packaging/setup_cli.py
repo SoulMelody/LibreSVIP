@@ -31,7 +31,11 @@ build_exe_options = {
 }
 
 executables = [
-    Executable("../../libresvip/cli/__main__.py", base=None, target_name="libresvip"),
+    Executable(
+        "../../libresvip/cli/__main__.py",
+        base=None,
+        target_name="libresvip",
+    ),
 ]
 
 setup(

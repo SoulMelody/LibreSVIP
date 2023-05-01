@@ -5,7 +5,6 @@ import sys
 
 import PySide6
 from cx_Freeze import Executable, setup
-from cx_Freeze.hooks import _qthooks
 
 from libresvip.core.constants import pkg_dir
 
@@ -13,11 +12,6 @@ try:
     from cx_Freeze.hooks import get_qt_plugins_paths
 except ImportError:
     get_qt_plugins_paths = None
-
-
-for func in dir(_qthooks):
-    if func.startswith("load_qt_qtweb"):
-        setattr(_qthooks, func, lambda _, __: None)
 
 pyside6_dir = pathlib.Path(PySide6.__file__).parent
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
@@ -86,7 +80,9 @@ build_exe_options = {
 
 executables = [
     Executable(
-        "../../libresvip/gui/__main__.py", base=base, target_name="libresvip-gui"
+        "../../libresvip/gui/__main__.py",
+        base=base,
+        target_name="libresvip-gui",
     ),
 ]
 
