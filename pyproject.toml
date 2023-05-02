@@ -17,7 +17,7 @@ pydub = "^0.25.1"
 pypinyin = "^0.48.0"
 regex = "^2023.3.23"
 setuptools = "^67.7.2"
-typer = { extras = ["all"], version = "^0.7.0" }
+typer = { extras = ["all"], version = "^0.9.0" }
 wanakana-python = "^1.2.2"
 yapsy = "^1.12.2"
 
@@ -38,7 +38,7 @@ pycryptodome = "^3.17"
 zstandard = "^0.21.0"
 
 [tool.poetry.group.protobuf.dependencies]
-pure-protobuf = "^2.2.3"
+pure-protobuf = "^2.3.0"
 
 [tool.poetry.group.midi.dependencies]
 mido = "^1.2.10"
@@ -70,7 +70,7 @@ imageio-ffmpeg = "^0.4.8"
 pytest = "^7.3.1"
 pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
-pre-commit = "^3.2.2"
+pre-commit = "^3.3.0"
 poethepoet = "^0.19.0"
 ruff = "^0.0.263"
 xsdata = { extras = ["cli"], version = "^22.12" }
