@@ -4,9 +4,18 @@ on:
       - "v*"
 
 jobs:
+  make-outputs:
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
+    steps:
+    - name: Get version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
   release:
     runs-on: ${{ matrix.os.runs-on }}
-
+    needs: [make-outputs]
     strategy:
       matrix:
         os: 
@@ -32,16 +41,16 @@ jobs:
         poetry run python setup.py build_exe
         cd ../..
     - name: Compress build artifact
-      run: python -c "import shutil; shutil.make_archive('./libresvip-${{ github.ref }}-${{ matrix.os.arch }}', 'xztar', './deploy/packaging/build')"
+      run: python -c "import shutil; shutil.make_archive('./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}', 'xztar', './deploy/packaging/build')"
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
         name: libresvip-${{ matrix.os.arch }}
-        path: ./libresvip-${{ github.ref }}-${{ matrix.os.arch }}.tar.xz
+        path: ./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
     - name: Create Release and Upload Artifact
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        tag_name: ${{ github.ref }}
+        tag_name: ${{ needs.make-outputs.outputs.VERSION }}
         files: |
-          libresvip-${{ github.ref }}-${{ matrix.os.arch }}.tar.xz
+          libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
