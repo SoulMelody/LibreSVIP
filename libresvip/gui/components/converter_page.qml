@@ -602,6 +602,8 @@ Page {
                                 let new_index = indexOfValue(input_format)
                                 if (new_index != currentIndex) {
                                     currentIndex = new_index
+                                }
+                                if (currentText != dialogs.openDialog.nameFilters[0]) {
                                     dialogs.openDialog.nameFilters[0] = currentText
                                 }
                             })

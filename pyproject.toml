@@ -15,7 +15,7 @@ portion = "^2.4.0"
 pydantic = "^1.10.7"
 pydub = "^0.25.1"
 pypinyin = "^0.48.0"
-regex = "^2023.3.23"
+regex = "^2023.5.5"
 setuptools = "^67.7.2"
 typer = { extras = ["all"], version = "^0.9.0" }
 wanakana-python = "^1.2.2"
@@ -23,7 +23,7 @@ yapsy = "^1.12.2"
 
 [tool.poetry.group.webui.dependencies]
 trame = "^2.4.0"
-pywebview = "^4.0.2"
+pywebview = "^4.1"
 
 [tool.poetry.group.desktop.dependencies]
 pyside6 = "<6.5.0"
@@ -70,7 +70,7 @@ imageio-ffmpeg = "^0.4.8"
 pytest = "^7.3.1"
 pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
-pre-commit = "^3.3.0"
+pre-commit = "^3.3.1"
 poethepoet = "^0.19.0"
 ruff = "^0.0.263"
 xsdata = { extras = ["cli"], version = "^22.12" }
