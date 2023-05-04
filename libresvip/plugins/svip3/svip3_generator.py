@@ -2,7 +2,6 @@ import contextlib
 import dataclasses
 from urllib.parse import urljoin
 
-from pure_protobuf.types.google import Any_
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
 from pydub.utils import ratio_to_db
@@ -22,6 +21,7 @@ from libresvip.model.base import (
 from .color_pool import random_color
 from .constants import TYPE_URL_BASE, TrackType
 from .model import (
+    Svip3AnyTrack,
     Svip3AudioPattern,
     Svip3AudioTrack,
     Svip3BeatSize,
@@ -81,7 +81,7 @@ class Svip3Generator:
             for song_tempo in song_tempo_list
         ]
 
-    def generate_tracks(self, track_list: list[Track]) -> list[Any_]:
+    def generate_tracks(self, track_list: list[Track]) -> list[Svip3AnyTrack]:
         svip3_track_list = []
         for track in track_list:
             color = random_color()
@@ -93,7 +93,7 @@ class Svip3Generator:
                 type_url = urljoin(TYPE_URL_BASE, TrackType.AUDIO_TRACK)
             else:
                 continue
-            svip3_track_container = Any_(
+            svip3_track_container = Svip3AnyTrack(
                 type_url=type_url,
                 value=svip3_track.dumps(),
             )

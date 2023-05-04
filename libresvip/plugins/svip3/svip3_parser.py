@@ -4,7 +4,6 @@ from typing import Optional
 from urllib.parse import urljoin
 
 import regex as re
-from pure_protobuf.types.google import Any_
 from pydub.utils import db_to_float, ratio_to_db
 
 from libresvip.core.constants import DEFAULT_LYRIC, TICKS_IN_BEAT
@@ -24,6 +23,7 @@ from libresvip.model.base import (
 
 from .constants import TYPE_URL_BASE, TrackType
 from .model import (
+    Svip3AnyTrack,
     Svip3AudioTrack,
     Svip3Note,
     Svip3Project,
@@ -79,7 +79,7 @@ class Svip3Parser:
             )
         return song_tempo_list
 
-    def parse_tracks(self, track_list: list[Any_]) -> list[Track]:
+    def parse_tracks(self, track_list: list[Svip3AnyTrack]) -> list[Track]:
         tracks = []
         for track in track_list:
             if track.type_url == urljoin(TYPE_URL_BASE, TrackType.SINGING_TRACK):
