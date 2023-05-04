@@ -115,6 +115,7 @@ class SVParamCurve(BaseModel):
 
     def __add__(self, offset: int):
         new_curve = self.copy(deep=True)
+        new_curve.points = new_curve.load_points(new_curve.points)
         for i in range(len(new_curve.points)):
             new_curve.points[i] = SVPoint(
                 new_curve.points[i].offset + offset, new_curve.points[i].value

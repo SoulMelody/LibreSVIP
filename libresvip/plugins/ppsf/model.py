@@ -19,7 +19,7 @@ class PpsfConst(GenericModel, Generic[ConstValue]):
 
 class PpsfCurvePointSeq(BaseModel):
     border_type: Optional[int] = Field(alias="border-type")
-    note_index: int = Field(alias="note-index")
+    note_index: Optional[int] = Field(alias="note-index")
     region_index: int = Field(alias="region-index")
 
 
@@ -91,8 +91,8 @@ class PpsfBaseSequence(BaseModel):
 
 
 class PpsfSeqParam(BaseModel):
-    base_sequence: PpsfBaseSequence = Field(alias="base-sequence")
-    layers: List
+    base_sequence: Optional[PpsfBaseSequence] = Field(alias="base-sequence")
+    layers: Optional[List]
 
 
 class PpsfParameter(BaseModel):
