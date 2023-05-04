@@ -187,8 +187,13 @@ _plugin_manager = PluginManager(
 plugin_manager = AutoInstallPluginManager(decorated_manager=_plugin_manager)
 
 plugin_manager.setInstallDir(str(app_dir.user_config_path / "plugins"))
-with contextlib.suppress(ValueError):
-    plugin_manager.collectPlugins()
-plugin_registry = {
-    plugin_info.suffix: plugin_info for plugin_info in plugin_manager.getAllPlugins()
-}
+plugin_registry = {}
+
+def load_plugins():
+    with contextlib.suppress(ValueError):
+        plugin_manager.collectPlugins()
+    plugin_registry.update({
+        plugin_info.suffix: plugin_info for plugin_info in plugin_manager.getAllPlugins()
+    })
+
+load_plugins()

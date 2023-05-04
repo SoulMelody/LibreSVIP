@@ -15,7 +15,7 @@ from qtpy.QtGui import QDesktopServices
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager, plugin_registry
+from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
 
 from .model_proxy import ModelProxy
@@ -488,6 +488,7 @@ class TaskManager(QObject):
                 success_count += 1
             except Exception as e:
                 print(e)
+        load_plugins()
         return success_count
 
     @slot(list, result=list)
