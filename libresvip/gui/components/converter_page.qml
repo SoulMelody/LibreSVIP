@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Dialogs
 import QtQuick.Layouts
 
 Page {
@@ -10,6 +11,29 @@ Page {
     property alias taskList: taskListView;
     property alias saveFolder: saveFolderTextField;
     signal swapInputOutput();
+
+    Component {
+        id: messageBox
+        MessageDialog {
+            property var message: "";
+            property var onOk: () => {};
+            property var onCancel: () => {};
+            text: message
+            buttons: MessageDialog.Ok | MessageDialog.Cancel
+            onButtonClicked: (button, role) => {
+                switch (button) {
+                    case MessageDialog.Ok:
+                        onOk()
+                        break;
+                    case MessageDialog.Cancel: {
+                        onCancel()
+                        break;
+                    }
+                }
+                destroy()
+            }
+        }
+    }
 
     Component {
         id: taskRow
@@ -138,15 +162,32 @@ Page {
                                     if (move_result) {
                                         visible = true
                                     } else {
-                                        taskList.model.update(index, {success: false, error: "Failed to move file"})
+                                        taskList.model.update(index, {success: false, error: qsTr("Failed to move file")})
                                     }
                                 } else if (conflict_policy == "Skip") {
                                     skipButton.visible = true
                                 } else {
-                                    // TODO: show prompt
+                                    let message_box = messageBox.createObject(
+                                        taskList,
+                                        {
+                                            message: qsTr("File already exists. Overwrite?"),
+                                            onOk: () => {
+                                                let move_result = py.task_manager.move_to_output(index)
+                                                if (move_result) {
+                                                    successToolTip.visible = true
+                                                } else {
+                                                    taskList.model.update(index, {success: false, error: qsTr("Failed to move file")})
+                                                }
+                                            },
+                                            onCancel: () => {
+                                                taskList.model.update(index, {success: false, error: qsTr("File already exists")})
+                                            }
+                                        }
+                                    )
+                                    message_box.open()
                                 }
-                            } else if (visible) {
-                                visible = false
+                            } else if (successToolTip.visible) {
+                                successToolTip.visible = false
                             }
                         })
                         py.task_manager.busy_changed.connect( (busy) => {
@@ -266,7 +307,10 @@ Page {
                         errorToolTip.visible = !errorToolTip.visible
                     }
                     Component.onCompleted: {
-                        py.task_manager.all_tasks_finished.connect( () => {
+                        taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
+                            if (idx1.row != index) {
+                                return
+                            }
                             let error = taskList.model.get(index).error
                             if (error) {
                                 errorLabel.text = error
