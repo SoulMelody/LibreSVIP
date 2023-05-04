@@ -47,11 +47,13 @@ Item {
     }
 
     property QtObject colorDialog: ColorDialog {
+        property var accept_callback: (value) => {}
+        onAccepted: {
+            accept_callback(selectedColor)
+        }
         function bind_color(color_value, callback) {
             selectedColor = color_value
-            onAccepted = () => {
-                callback(selectedColor)
-            }
+            accept_callback = callback
             open()
         }
     }
