@@ -18,7 +18,8 @@ Page {
             property var message: "";
             property var onOk: () => {};
             property var onCancel: () => {};
-            text: message
+            text: qsTr("<b>Do you want to overwrite the file?</b>")
+            informativeText: message
             buttons: MessageDialog.Ok | MessageDialog.Cancel
             onButtonClicked: (button, role) => {
                 switch (button) {
@@ -31,344 +32,6 @@ Page {
                     }
                 }
                 destroy()
-            }
-        }
-    }
-
-    Component {
-        id: taskRow
-        Column {
-            required property string name
-            required property string path
-            required property string stem
-            required property string ext
-            required property string index
-            width: taskList.width
-            RowLayout {
-                Column {
-                    Label {
-                        Layout.fillWidth: true
-                        text: name.length > 25 ? name.substring(0, 25) + "..." : name
-                        font.bold: true
-                        font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    }
-                    Label {
-                        Layout.fillWidth: true
-                        text: path.length > 30 ? path.substring(0, 30) + "..." : path
-                    }
-                }
-
-                Label {
-                    text: py.qta.icon("mdi6.transfer-right")
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                }
-
-                TextField {
-                    text: stem
-                    onEditingFinished: {
-                        taskList.model.update(index, {stem: this.text})
-                    }
-                    Component.onCompleted: {
-                        taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
-                            if (index == idx1.row) {
-                                this.text = taskList.model.get(index).stem
-                            }
-                        })
-                    }
-                }
-
-                Label {
-                    text: ext
-                    Component.onCompleted: {
-                        taskList.model.dataChanged.connect( (idx1, idx2, ext) => {
-                            if (index == idx1.row) {
-                                this.text = taskList.model.get(index).ext
-                            }
-                        })
-                    }
-                }
-
-                RoundButton {
-                    text: py.qta.icon("mdi6.trash-can-outline")
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
-                    onClicked: {
-                        taskList.model.delete(index)
-                        py.task_manager.trigger_event("tasks_size_changed", [])
-                    }
-                }
-
-                RoundButton {
-                    visible: false
-                    text: py.qta.icon("mdi6.check")
-                    background: Rectangle {
-                        color: Material.color(Material.Green, Material.Shade300)
-                        radius: parent.height / 2
-                    }
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
-                    Behavior on visible {
-                        PropertyAnimation {
-                            duration: 300
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                    ToolTip {
-                        id: successToolTip
-                        contentItem: ColumnLayout {
-                            Label {
-                                text: qsTr("File successfully converted")
-                            }
-                            Button {
-                                Layout.alignment: Qt.AlignHCenter
-                                background: Rectangle {
-                                    color: Material.color(Material.Indigo, Material.Shade500)
-                                }
-                                contentItem: Label {
-                                    text: qsTr("Open")
-                                }
-                                onClicked: {
-                                    py.task_manager.open_output_path(index)
-                                }
-                            }
-                            Button {
-                                Layout.alignment: Qt.AlignHCenter
-                                background: Rectangle {
-                                    color: Material.color(Material.Indigo, Material.Shade500)
-                                }
-                                contentItem: Label {
-                                    text: qsTr("Open folder")
-                                }
-                                onClicked: {
-                                    py.task_manager.open_output_dir(index)
-                                }
-                            }
-                        }
-                    }
-                    onClicked: {
-                        successToolTip.visible = !successToolTip.visible
-                    }
-                    Component.onCompleted: {
-                        py.task_manager.all_tasks_finished.connect( () => {
-                            let success = taskList.model.get(index).success
-                            if (success) {
-                                let conflict = py.task_manager.output_path_exists(index)
-                                let conflict_policy = py.config_items.get_conflict_policy()
-                                if (!conflict || conflict_policy == "Overwrite") {
-                                    let move_result = py.task_manager.move_to_output(index)
-                                    if (move_result) {
-                                        visible = true
-                                    } else {
-                                        taskList.model.update(index, {success: false, error: qsTr("Failed to move file")})
-                                    }
-                                } else if (conflict_policy == "Skip") {
-                                    skipButton.visible = true
-                                } else {
-                                    let message_box = messageBox.createObject(
-                                        taskList,
-                                        {
-                                            message: qsTr("File already exists. Overwrite?"),
-                                            onOk: () => {
-                                                let move_result = py.task_manager.move_to_output(index)
-                                                if (move_result) {
-                                                    successToolTip.visible = true
-                                                } else {
-                                                    taskList.model.update(index, {success: false, error: qsTr("Failed to move file")})
-                                                }
-                                            },
-                                            onCancel: () => {
-                                                taskList.model.update(index, {success: false, error: qsTr("File already exists")})
-                                            }
-                                        }
-                                    )
-                                    message_box.open()
-                                }
-                            } else if (successToolTip.visible) {
-                                successToolTip.visible = false
-                            }
-                        })
-                        py.task_manager.busy_changed.connect( (busy) => {
-                            if (busy) {
-                                visible = false
-                            }
-                        })
-                    }
-                }
-
-                RoundButton {
-                    id: skipButton
-                    visible: false
-                    background: Rectangle {
-                        color: Material.color(Material.Blue, Material.Shade300)
-                        radius: parent.height / 2
-                    }
-                    text: py.qta.icon("mdi6.minus-thick")
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
-                    Behavior on visible {
-                        PropertyAnimation {
-                            duration: 300
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                    ToolTip {
-                        id: skipToolTip
-                        contentItem: ColumnLayout {
-                            Label {
-                                text: qsTr("File skipped due to conflict")
-                            }
-                            Button {
-                                Layout.alignment: Qt.AlignHCenter
-                                background: Rectangle {
-                                    color: Material.color(Material.Indigo, Material.Shade500)
-                                }
-                                contentItem: Label {
-                                    text: qsTr("Open folder")
-                                }
-                                onClicked: {
-                                    py.task_manager.open_output_dir(index)
-                                }
-                            }
-                        }
-                    }
-                    onClicked: {
-                        skipToolTip.visible = !skipToolTip.visible
-                    }
-                    Component.onCompleted: {
-                        py.task_manager.busy_changed.connect( (busy) => {
-                            if (busy) {
-                                visible = false
-                            }
-                        })
-                    }
-                }
-
-                RoundButton {
-                    id: errorButton
-                    visible: false
-                    background: Rectangle {
-                        color: Material.color(Material.Red, Material.Shade300)
-                        radius: parent.height / 2
-                    }
-                    text: py.qta.icon("mdi6.alert-circle")
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
-                    Behavior on visible {
-                        PropertyAnimation {
-                            duration: 300
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                    ToolTip {
-                        id: errorToolTip
-                        contentItem: ColumnLayout {
-                            Label {
-                                Layout.alignment: Qt.AlignHCenter
-                                text: qsTr("File failed to convert, below is the error message:")
-                            }
-                            Label {
-                                id: errorLabel
-                                text: ""
-                            }
-                            Button {
-                                Layout.alignment: Qt.AlignHCenter
-                                background: Rectangle {
-                                    color: Material.color(Material.Indigo, Material.Shade500)
-                                }
-                                text: qsTr("Copy error message")
-                                onClicked: {
-                                    let copy_result = py.clipboard.set_clipboard(errorLabel.text)
-                                    if (copy_result) {
-                                        text = qsTr("Copied")
-                                        let timer = Qt.createQmlObject(`
-                                            import QtQuick;
-                                            Timer {
-                                                interval: 1000;
-                                                repeat: false;
-                                                triggeredOnStart: false;
-                                            }`, errorToolTip
-                                        )
-                                        timer.triggered.connect( () => {
-                                            text = qsTr("Copy error message")
-                                        })
-                                        timer.start()
-                                        this.Component.onDestruction.connect(timer.destroy)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    onClicked: {
-                        errorToolTip.visible = !errorToolTip.visible
-                    }
-                    Component.onCompleted: {
-                        taskList.model.dataChanged.connect( (idx1, idx2, stem) => {
-                            if (idx1.row != index) {
-                                return
-                            }
-                            let error = taskList.model.get(index).error
-                            if (error) {
-                                errorLabel.text = error
-                                visible = true
-                            } else if (visible) {
-                                visible = false
-                            }
-                        })
-                        py.task_manager.busy_changed.connect( (busy) => {
-                            if (busy) {
-                                visible = false
-                            }
-                        })
-                    }
-                }
-
-                RoundButton {
-                    radius: this.width / 2
-                    visible: false
-                    enabled: false
-                    Behavior on visible {
-                        PropertyAnimation {
-                            duration: 300
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                    contentItem: Label {
-                        property bool running: false
-                        text: py.qta.icon("mdi6.autorenew")
-                        font.family: materialFontLoader.name
-                        font.pixelSize: Qt.application.font.pixelSize * 1.2
-                        NumberAnimation on rotation {
-                            running: running;
-                            from: 0;
-                            to: 360;
-                            loops: Animation.Infinite;
-                            duration: 1200
-                        }
-                        Component.onCompleted: {
-                            py.task_manager.busy_changed.connect(function(busy) {
-                                if (busy) {
-                                    running = true
-                                } else {
-                                    running = false
-                                }
-                            })
-                        }
-                    }
-                    Component.onCompleted: {
-                        py.task_manager.busy_changed.connect(function(busy) {
-                            if (busy) {
-                                visible = true
-                            } else {
-                                visible = false
-                            }
-                        })
-                    }
-                }
             }
         }
     }
@@ -402,20 +65,13 @@ Page {
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.5
                     onClicked: {
-                        var colorDialog = Qt.createQmlObject(
-                            `import QtQuick.Dialogs;
-                            ColorDialog {
-                                selectedColor: colorField.text
-                                onAccepted: {
-                                    colorField.text = selectedColor
-                                    field.value = selectedColor
-                                }
+                        dialogs.colorDialog.bind_color(
+                            colorField.text,
+                            (color) => {
+                                colorField.text = color
+                                field.value = color
                             }
-                            `,
-                            colorPickerItem, 'colorDialog'
                         )
-                        this.Component.onDestruction.connect(colorDialog.destroy)
-                        colorDialog.open()
                     }
                 }
                 RoundButton {
@@ -1101,13 +757,15 @@ Page {
                     anchors.top: taskToolbarLabel.bottom
                     anchors.topMargin: 20
                     height: 250
-                    width: taskListArea.width - 40
                     ListView {
                         id: taskListView
                         model: py.task_manager.qget("tasks")
-                        delegate: taskRow
+                        delegate: Qt.createComponent(
+                            "task_row.qml"
+                        )
                     }
-                    visible: taskListView.count > 0 
+                    width: taskListArea.width - 40
+                    visible: taskListView.count > 0
                 }
                 Column {
                     anchors.centerIn: parent

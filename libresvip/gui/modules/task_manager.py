@@ -199,6 +199,11 @@ class TaskManager(QObject):
         output_dir = self.output_dir(task)
         return output_dir / f"{task['stem']}{self.output_ext}"
 
+    @slot(int, result=str)
+    def get_output_path(self, index: int) -> str:
+        task = self.tasks[index]
+        return str(self.output_path(task))
+
     @slot(int, result=bool)
     def open_output_dir(self, index: int) -> bool:
         task = self.tasks[index]

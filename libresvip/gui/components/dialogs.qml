@@ -46,6 +46,16 @@ Item {
         }
     }
 
+    property QtObject colorDialog: ColorDialog {
+        function bind_color(color_value, callback) {
+            selectedColor = color_value
+            onAccepted = () => {
+                callback(selectedColor)
+            }
+            open()
+        }
+    }
+
     property QtObject aboutDialog: QQC2.Dialog {
         title: qsTr("About")
         x: window.width / 2 - width / 2
