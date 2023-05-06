@@ -23,17 +23,51 @@ Item {
         currentFolder: ""
         onAccepted: {
             py.task_manager.add_task_paths(
-                [url2path(selectedFiles[0])]
+                selectedFiles.map(url2path)
             )
+        }
+    }
+
+    property QtObject confirmInstallDialog: QQC2.Dialog {
+        title: qsTr("Install New Plugins")
+        x: window.width / 2 - width / 2
+        y: window.height / 2 - height / 2
+        property var plugin_infos: []
+        standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
+
+        ColumnLayout {
+            width: 400
+            QQC2.Label {
+                text: qsTr("Are you sure to install following plugins?")
+            }
+            Repeater {
+                model: confirmInstallDialog.plugin_infos
+                QQC2.Label {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: qsTr("Developed by ") + modelData.author + qsTr(", which supports ") + modelData.format_desc
+                }
+            }
+        }
+        onAccepted: {
+            py.task_manager.install_plugins(plugin_infos)
+        }
+        function show_dialog(plugin_infos) {
+            this.plugin_infos = plugin_infos
+            open()
         }
     }
 
     property QtObject installPluginDialog: FileDialog {
         nameFilters: [qsTr("Compressed Plugin Package (*.zip)")]
-        fileMode: FileDialog.OpenFile
+        fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
-            py.task_manager.install_plugin(url2path(selectedFile))
+            let plugin_infos = py.task_manager.extract_plugin_infos(selectedFiles.map(
+                url2path
+            ))
+            if (plugin_infos.length > 0) {
+                confirmInstallDialog.show_dialog(plugin_infos)
+            }            
         }
     }
 
@@ -43,6 +77,18 @@ Item {
             let path = url2path(selectedFolder)
             py.config_items.set_save_folder(path)
             save_folder_changed(path)
+        }
+    }
+
+    property QtObject colorDialog: ColorDialog {
+        property var accept_callback: (value) => {}
+        onAccepted: {
+            accept_callback(selectedColor)
+        }
+        function bind_color(color_value, callback) {
+            selectedColor = color_value
+            accept_callback = callback
+            open()
         }
     }
 

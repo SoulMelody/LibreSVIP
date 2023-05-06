@@ -5,6 +5,7 @@ import shutil
 import tempfile
 import traceback
 import warnings
+import zipfile
 from typing import Any, get_args, get_type_hints
 
 from pydantic.color import Color
@@ -15,7 +16,7 @@ from qtpy.QtGui import QDesktopServices
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager, plugin_registry
+from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel, BaseModel
 
 from .model_proxy import ModelProxy
@@ -199,6 +200,11 @@ class TaskManager(QObject):
     def output_path(self, task: dict) -> pathlib.Path:
         output_dir = self.output_dir(task)
         return output_dir / f"{task['stem']}{self.output_ext}"
+
+    @slot(int, result=str)
+    def get_output_path(self, index: int) -> str:
+        task = self.tasks[index]
+        return str(self.output_path(task))
 
     @slot(int, result=bool)
     def open_output_dir(self, index: int) -> bool:
@@ -400,9 +406,56 @@ class TaskManager(QObject):
         assert name in {"input_format", "output_format"}
         getattr(self, f"{name}_changed").emit(value)
 
-    @slot(str, result=bool)
-    def install_plugin(self, path: str) -> bool:
-        return plugin_manager.installFromZIP(path)
+    def plugin_info_file(self, temp_plugin_dir: pathlib.Path) -> str:
+        plugin_info_filename = None
+        for analyzer in plugin_manager.getPluginLocator()._analyzers:
+            if analyzer.name == "info_ext":
+                for plugin_file in temp_plugin_dir.glob("*.*"):
+                    if analyzer.isValidPlugin(str(plugin_file)):
+                        plugin_info_filename = plugin_file.name
+                        break
+                break
+        return plugin_info_filename
+
+    @slot(list, result=int)
+    def install_plugins(self, infos: list[dict]) -> int:
+        success_count = 0
+        install_dir = pathlib.Path(plugin_manager.getInstallDir())
+        for info in infos:
+            try:
+                plugin_info, _ = plugin_manager._gatherCorePluginInfo(info["directory"], info["info_filename"])
+                if plugin_info is not None:
+                    shutil.copytree(info["directory"], install_dir / plugin_info.suffix)
+                success_count += 1
+            except Exception as e:
+                print(e)
+        load_plugins()
+        return success_count
+
+    @slot(list, result=list)
+    def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
+        infos = []
+        for path in paths:
+            temp_plugin_dir = pathlib.Path(
+                tempfile.mkdtemp(prefix="plugin", dir=self.temp_dir)
+            )
+            with zipfile.ZipFile(path) as zip_file:
+                zip_file.extractall(path=temp_plugin_dir)
+            if (plugin_info_filename := self.plugin_info_file(temp_plugin_dir)) is not None:
+                plugin_info, _ = plugin_manager._gatherCorePluginInfo(temp_plugin_dir, plugin_info_filename)
+                if plugin_info is not None:
+                    infos.append({
+                        "name": plugin_info.name,
+                        "author": plugin_info.author,
+                        "version": plugin_info.version,
+                        "format_desc": f"{plugin_info.file_format} (*.{plugin_info.suffix})",
+                        "directory": str(temp_plugin_dir.resolve().as_posix()),
+                        "info_filename": plugin_info_filename,
+                    })
+                    print(
+                        infos
+                    )
+        return infos
 
     @slot(result=bool)
     def is_busy(self) -> bool:

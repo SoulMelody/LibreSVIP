@@ -3461,4 +3461,4 @@ reference = "bfsu"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "5072c13cd12c976192006f705ec2ee448961f2ea1975b84da52709649672c7d2"
+content-hash = "c7aea796ac89c3819b7f63e81e88c3208561c901ae69356d18fb22e65e581205"

@@ -23,7 +23,7 @@ yapsy = "^1.12.2"
 
 [tool.poetry.group.webui.dependencies]
 trame = "^2.4.0"
-pywebview = "^4.0.2"
+pywebview = "^4.1"
 
 [tool.poetry.group.desktop.dependencies]
 pyside6 = "<6.5.0"
