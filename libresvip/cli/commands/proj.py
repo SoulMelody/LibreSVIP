@@ -45,7 +45,7 @@ def convert(
         "导出选项：": output_option,
     }.items():
         option_kwargs = {}
-        if len(option_class.__fields__):
+        if len(option_class.model_fields):
             typer.echo(option_type)
             option_kwargs = prompt_fields(option_class)
         options.append(option_class(**option_kwargs))
@@ -67,7 +67,7 @@ def add_accompaniment(
     input_option = get_type_hints(input_plugin.plugin_object.load).get("options")
     option_type, option_class = "导入选项：", input_option
     option_kwargs = {}
-    if len(option_class.__fields__):
+    if len(option_class.model_fields):
         typer.echo(option_type)
         option_kwargs = prompt_fields(option_class)
     project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
@@ -85,7 +85,7 @@ def add_accompaniment(
     output_option = get_type_hints(input_plugin.plugin_object.dump).get("options")
     option_type, option_class = "导出选项：", output_option
     option_kwargs = {}
-    if len(option_class.__fields__):
+    if len(option_class.model_fields):
         typer.echo(option_type)
         option_kwargs = prompt_fields(option_class)
     input_plugin.plugin_object.dump(in_path, project, option_class(**option_kwargs))

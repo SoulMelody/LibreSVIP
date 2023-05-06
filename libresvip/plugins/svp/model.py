@@ -114,7 +114,7 @@ class SVParamCurve(BaseModel):
         return interval
 
     def __add__(self, offset: int):
-        new_curve = self.copy(deep=True)
+        new_curve = self.model_copy(deep=True)
         new_curve.points = new_curve.load_points(new_curve.points)
         for i in range(len(new_curve.points)):
             new_curve.points[i] = SVPoint(
@@ -396,10 +396,10 @@ class SVNote(BaseModel):
         )
 
     def __add__(self, blick_offset: int):
-        return self.copy(deep=True, update={"onset": self.onset + blick_offset})
+        return self.model_copy(deep=True, update={"onset": self.onset + blick_offset})
 
     def __xor__(self, pitch_offset: int):
-        return self.copy(deep=True, update={"pitch": self.pitch + pitch_offset})
+        return self.model_copy(deep=True, update={"pitch": self.pitch + pitch_offset})
 
 
 class SVRenderConfig(BaseModel):
@@ -430,8 +430,8 @@ class SVParameters(BaseModel):
     )
 
     def __add__(self, offset: int):
-        new_params = self.copy(deep=True)
-        for key in new_params.__fields__:
+        new_params = self.model_copy(deep=True)
+        for key in new_params.model_fields:
             val = getattr(new_params, key, None)
             if val is not None:
                 setattr(new_params, key, val + offset)
@@ -518,7 +518,7 @@ class SVGroup(BaseModel):
         return False
 
     def __add__(self, blick_offset: int):
-        new_group = self.copy(deep=True)
+        new_group = self.model_copy(deep=True)
         new_group.notes = [
             note + blick_offset for note in self.notes if note.onset + blick_offset >= 0
         ]
@@ -526,7 +526,7 @@ class SVGroup(BaseModel):
         return new_group
 
     def __xor__(self, pitch_offset):
-        new_group = self.copy(deep=True)
+        new_group = self.model_copy(deep=True)
         for note in new_group.notes:
             note ^= pitch_offset
         return new_group

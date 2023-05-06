@@ -80,18 +80,18 @@ def print_plugin_details(plugin):
         if options_arr[i] is None:
             continue
         typer.echo(f"\n本插件可指定以下{op_arr[i]}转换选项：")
-        option: ModelField
-        for option in options_arr[i].__fields__.values():
-            if issubclass(option.type_, (bool, int, float, str, enum.Enum)):
+        field_info: ModelField
+        for field_info in options_arr[i].model_fields.values():
+            if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(
-                    f"\n  {option.name} = {option.type_.__name__}    {option.field_info.description}"
+                    f"\n  {field_info.title} = {field_info.annotation.__name__}    {field_info.description}"
                 )
-                if option.default is not None:
-                    typer.echo(f"\t默认值：{option.default}")
-                if issubclass(option.type_, enum.Enum):
+                if field_info.default is not None:
+                    typer.echo(f"\t默认值：{field_info.default}")
+                if issubclass(field_info.annotation, enum.Enum):
                     typer.echo("  可用值如下：")
-                    annotations = get_type_hints(option.type_, include_extras=True)
-                    for enum_item in option.type_:
+                    annotations = get_type_hints(field_info.annotation, include_extras=True)
+                    for enum_item in field_info.annotation:
                         if enum_item.name in annotations:
                             annotated_args = get_args(annotations[enum_item.name])
                             if len(annotated_args) == 2:
@@ -99,15 +99,15 @@ def print_plugin_details(plugin):
                                 typer.echo(
                                     f"    {enum_item.value}\t=>\t{enum_field.title}"
                                 )
-            elif issubclass(option.type_, BaseComplexModel):
+            elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(
-                    f"\n  {option.name} = {option.type_.__name__}    {option.field_info.description}"
+                    f"\n  {field_info.title} = {field_info.annotation.__name__}    {field_info.description}"
                 )
                 typer.echo("  可用值如下：")
-                for field in option.type_.__fields__.values():
-                    if hasattr(field.type_, "__name__"):
-                        typer.echo(f"    {field.name} = {field.type_.__name__}")
+                for field in field_info.annotation.model_fields.values():
+                    if hasattr(field.annotation, "__name__"):
+                        typer.echo(f"    {field.title} = {field.annotation.__name__}")
                     else:
-                        typer.echo(f"    {field.name} = {get_args(field.type_)}")
-                typer.echo(f"\t默认值：{option.type_.default_repr()}")
+                        typer.echo(f"    {field.title} = {get_args(field.annotation)}")
+                typer.echo(f"\t默认值：{field_info.annotation.default_repr()}")
     typer.echo("\n--------------------------------------------------\n")
