@@ -48,7 +48,7 @@ class SynthVEditorGenerator:
         instrumental_track = self.generate_instrumental_track(project.track_list)
         if instrumental_track is not None:
             s5p_project.instrumental = instrumental_track
-            s5p_project.mixer = (self.generate_mixer(project.track_list),)
+            s5p_project.mixer = self.generate_mixer(project.track_list)
         return s5p_project
 
     def generate_tempos(self, song_tempo_list: List[SongTempo]) -> List[S5pTempoItem]:

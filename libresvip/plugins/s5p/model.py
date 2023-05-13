@@ -15,15 +15,15 @@ class S5pPoint(NamedTuple):
 
 
 class S5pPoints(PointList[S5pPoint]):
-    pass
-
-
-def _points_encoder(obj: S5pPoints) -> List[float]:
-    return list(chain.from_iterable(obj.__root__))
-
-
-def _points_decoder(points: List[float]):
-    return S5pPoints(__root__=[S5pPoint(*each) for each in chunked(points, 2)])
+    def _iter(
+        self,
+        **kwargs,
+    ):
+        for key, value in super()._iter(**kwargs):
+            if key == "__root__" and kwargs.get("to_dict", False):
+                yield key, list(chain.from_iterable(getattr(self, key)))
+            else:
+                yield key, value
 
 
 class S5pMeterItem(BaseModel):
@@ -41,6 +41,8 @@ class S5pDbDefaults(BaseModel):
     lyric: Optional[str] = DEFAULT_PHONEME
     breathiness: Optional[float]
     d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
+    d_f0_jitter: Optional[float] = Field(alias="dF0Jitter")
+    t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
     gender: Optional[float]
     tension: Optional[float]
 
@@ -97,32 +99,8 @@ class S5pParameters(BaseModel):
     )
     def load_points(cls, points):
         if not isinstance(points, S5pPoints):
-            return _points_decoder(points)
+            return S5pPoints(__root__=[S5pPoint(*each) for each in chunked(points, 2)])
         return points
-
-    def _iter(
-        self,
-        **kwargs,
-    ):
-        for key, value in super()._iter(**kwargs):
-            if key in {
-                "pitch_delta",
-                "pitchDelta",
-                "vibrato_env",
-                "vibratoEnv",
-                "loudness",
-                "tension",
-                "breathiness",
-                "voicing",
-                "gender",
-            }:
-                if key == "pitchDelta":
-                    key = "pitch_delta"
-                elif key == "vibratoEnv":
-                    key = "vibrato_env"
-                yield key, _points_encoder(getattr(self, key))
-            else:
-                yield key, value
 
 
 class S5pTrack(BaseModel):
