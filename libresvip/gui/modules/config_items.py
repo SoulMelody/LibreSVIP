@@ -48,14 +48,14 @@ class ConfigItems(QObject):
     @slot(str, result=bool)
     def get_bool(self, key) -> bool:
         value = getattr(settings, key)
-        if key == "auto_set_output_extension":
-            self.auto_set_output_extension_changed.emit(value)
         return value
 
     @slot(str, bool, result=bool)
     def set_bool(self, key, value) -> bool:
         if hasattr(settings, key):
             setattr(settings, key, value)
+            if key == "auto_set_output_extension":
+                self.auto_set_output_extension_changed.emit(value)
             return True
         return False
 
