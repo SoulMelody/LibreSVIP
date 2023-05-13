@@ -156,6 +156,15 @@ def test_gj_read(shared_datadir, capsys):
         print(proj)
 
 
+def test_dspx_read(shared_datadir, capsys):
+    from libresvip.plugins.dspx.model import DspxModel
+
+    with capsys.disabled():
+        proj_path = shared_datadir / "test.dspx"
+        proj = DspxModel.parse_file(proj_path)
+        print(proj)
+
+
 def test_vspx_read(shared_datadir):
     vspx_plugin = plugin_registry["vspx"].plugin_object
     proj_path = shared_datadir / "test.vspx"

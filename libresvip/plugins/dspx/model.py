@@ -7,9 +7,9 @@ from libresvip.model.base import BaseModel
 
 
 class DsMetadata(BaseModel):
-    version: str = Field(alias="Version")
-    name: str = Field(alias="Name")
-    author: str = Field(alias="Author")
+    version: str
+    name: str
+    author: str
 
 
 class DsControl(BaseModel):
@@ -62,19 +62,19 @@ class DsTime(BaseModel):
 class DsParamNode(BaseModel):
     x: int = 0
     y: int = 0
-    interp: Literal["linear", "hermite"] = "linear"
+    interp: Literal["linear", "hermite", "none"] = "linear"
 
 
 class DsParamFree(BaseModel):
     type_: Literal["free"] = Field("free", alias="type")
     start: int = 0
     step: int = 0
-    values: List[int] = Field(default_factory=list)
+    values: list[int] = Field(default_factory=list)
 
 
 class DsParamAnchor(BaseModel):
     type_: Literal["anchor"] = Field("anchor", alias="type")
-    nodes: List[DsParamNode] = Field(default_factory=list)
+    nodes: list[DsParamNode] = Field(default_factory=list)
 
 
 DsParamCurve = Annotated[
@@ -83,9 +83,9 @@ DsParamCurve = Annotated[
 
 
 class DsParam(BaseModel):
-    original: DsParamCurve = Field(default_factory=DsParamFree)
-    edited: DsParamCurve = Field(default_factory=DsParamFree)
-    envelope: DsParamCurve = Field(default_factory=DsParamFree)
+    original: list[DsParamCurve] = Field(default_factory=list)
+    edited: list[DsParamCurve] = Field(default_factory=list)
+    envelope: list[DsParamCurve] = Field(default_factory=list)
 
 
 class DsParams(BaseModel):
@@ -132,7 +132,7 @@ class DsNote(BaseModel):
     workspace: dict = Field(default_factory=dict)
 
 
-class DsClipMixin(abc.ABC):
+class DsClipMixin(abc.ABC, BaseModel):
     time: DsTime = Field(default_factory=DsTime)
     name: str = ""
     control: DsControl = Field(default_factory=DsControl)
@@ -149,6 +149,7 @@ class DsSingingClip(DsClipMixin, BaseModel):
     type_: Literal["singing"] = Field("singing", alias="type")
     sources: dict = Field(default_factory=dict)
     notes: List[DsNote] = Field(default_factory=list)
+    params: DsParams = Field(default_factory=DsParams)
 
 
 DsClip = Annotated[Union[DsAudioClip, DsSingingClip], Field(discriminator="type_")]
