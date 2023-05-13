@@ -245,6 +245,7 @@ Column {
                         text: ""
                     }
                     Button {
+                        id: copyErrorButton
                         Layout.alignment: Qt.AlignHCenter
                         background: Rectangle {
                             color: Material.color(Material.Indigo, Material.Shade500)
@@ -254,20 +255,17 @@ Column {
                             let copy_result = py.clipboard.set_clipboard(errorLabel.text)
                             if (copy_result) {
                                 text = qsTr("Copied")
-                                let timer = Qt.createQmlObject(`
-                                    import QtQuick;
-                                    Timer {
-                                        interval: 1000;
-                                        repeat: false;
-                                        triggeredOnStart: false;
-                                    }`, errorToolTip
-                                )
-                                timer.triggered.connect( () => {
-                                    text = qsTr("Copy error message")
-                                })
-                                timer.start()
-                                this.Component.onDestruction.connect(timer.destroy)
+                                resetCopyErrorButtonTimer.start()
                             }
+                        }
+                    }
+                    Timer {
+                        id: resetCopyErrorButtonTimer
+                        interval: 1000
+                        repeat: false
+                        triggeredOnStart: false
+                        onTriggered: {
+                            copyErrorButton.text = qsTr("Copy error message")
                         }
                     }
                 }

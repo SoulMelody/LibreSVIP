@@ -805,13 +805,15 @@ Page {
                             }
                         }
                         RowLayout{
+                            width: advancedSettings.width - 40
                             Rectangle {
                                 width: 40
                             }
                             ColumnLayout {
                                 id: inputContainer
-                                Behavior on visible {
-                                    PropertyAnimation{
+                                height: visible ? 0 : implicitHeight
+                                Behavior on height {
+                                    NumberAnimation {
                                         duration: 200
                                         easing.type: Easing.InOutQuad
                                     }
@@ -891,13 +893,15 @@ Page {
                             }
                         }
                         RowLayout{
+                            width: advancedSettings.width - 40
                             Rectangle {
                                 width: 40
                             }
                             ColumnLayout {
                                 id: outputContainer
-                                Behavior on visible {
-                                    PropertyAnimation{
+                                height: visible ? 0 : implicitHeight
+                                Behavior on height {
+                                    NumberAnimation {
                                         duration: 200
                                         easing.type: Easing.InOutQuad
                                     }
