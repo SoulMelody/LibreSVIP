@@ -560,7 +560,7 @@ Page {
                             triggeredOnStart: false;
                             onTriggered: {
                                 if (
-                                    toggleTaskToolbarTestArea.containsMouse ||
+                                    toggleTaskToolbarButton.hovered ||
                                     addTaskButton.hovered ||
                                     clearTaskButton.hovered ||
                                     resetExtensionButton.hovered ||
@@ -568,13 +568,37 @@ Page {
                                 ) {
                                     return
                                 }
-                                taskToolbar.shown = false
-                                toggleTaskToolbarButton.rotation = 0
+                                toggleTaskToolbarButton.state = "collapsed"
                                 this.stop()
                             }
                         }
                         RoundButton {
                             id: toggleTaskToolbarButton
+                            states: [
+                                State {
+                                    name: "expanded"
+                                    PropertyChanges {
+                                        target: toggleTaskToolbarButton
+                                        rotation: 45
+                                    }
+                                    PropertyChanges {
+                                        target: taskToolbar
+                                        shown: true
+                                    }
+                                },
+                                State {
+                                    name: "collapsed"
+                                    PropertyChanges {
+                                        target: toggleTaskToolbarButton
+                                        rotation: 0
+                                    }
+                                    PropertyChanges {
+                                        target: taskToolbar
+                                        shown: false
+                                    }
+                                }
+                            ]
+                            state: "collapsed"
                             background: Rectangle {
                                 radius: this.height / 2
                                 color: Material.color(
@@ -592,18 +616,13 @@ Page {
                                     easing.type: Easing.InOutQuad
                                 }
                             }
-                            MouseArea {
-                                id: toggleTaskToolbarTestArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onEntered: {
-                                    parent.rotation = 45
-                                    taskToolbar.shown = true
+                            onHoveredChanged: {
+                                if (hovered) {
+                                    hideTaskToolbarTimer.stop()
+                                    state = "expanded"
                                 }
-                                onExited: {
-                                    if (!hideTaskToolbarTimer.running) {
-                                        hideTaskToolbarTimer.start()
-                                    }
+                                else if (!hideTaskToolbarTimer.running) {
+                                    hideTaskToolbarTimer.start()
                                 }
                             }
                         }
