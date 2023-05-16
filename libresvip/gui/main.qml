@@ -8,6 +8,7 @@ import "./components/" as Components
 ApplicationWindow {
     id: window
     title: qsTr("LibreSVIP")
+    flags: Qt.FramelessWindowHint | Qt.Window
     visible: true
     minimumWidth: 800
     minimumHeight: 720

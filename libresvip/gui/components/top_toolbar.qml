@@ -10,14 +10,35 @@ ToolBar {
     signal openLanguageMenu()
     signal openHelpMenu()
 
+    function toggleMaximized() {
+        // from https://github.com/yjg30737/qml-rounded-shadow-framelesswindow
+        if (window.visibility === Window.Maximized) {
+            window.showNormal();
+        } else {
+            window.showMaximized();
+        }
+    }
+
+    Item {
+        anchors.fill: parent
+        TapHandler {
+            onTapped: if (tapCount === 2) toggleMaximized()
+            gesturePolicy: TapHandler.DragThreshold
+        }
+        DragHandler {
+            grabPermissions: TapHandler.CanTakeOverFromAnything
+            onActiveChanged: if (active) { window.startSystemMove(); }
+        }
+    }
+
     ToolButton {
         id: convertButton
+        anchors.left: parent.left
         text: py.qta.icon("mdi6.cached")
         width: 40
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: convertMenu.open()
-        anchors.left: parent.left
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Convert (&C)")
         Menu {
@@ -65,12 +86,12 @@ ToolBar {
 
     ToolButton {
         id: pluginsButton
+        anchors.left: convertButton.right
         text: py.qta.icon("mdi6.puzzle-outline")
         width: 40
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: pluginsMenu.open()
-        anchors.left: convertButton.right
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Plugins (&P)")
         Menu {
@@ -99,24 +120,24 @@ ToolBar {
 
     ToolButton {
         id: settingsButton
+        anchors.left: pluginsButton.right
         text: py.qta.icon("mdi6.cog-outline")
         width: 40
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: actions.openSettings.trigger()
-        anchors.left: pluginsButton.right
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Settings (&O)")
     }
 
     ToolButton {
         id : themesButton
+        anchors.left: settingsButton.right
         text: py.qta.icon("mdi6.invert-colors")
         width: 40
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: themesMenu.open()
-        anchors.right: languageButton.left
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Themes (&T)")
         Menu {
@@ -151,12 +172,12 @@ ToolBar {
 
     ToolButton {
         id: languageButton
+        anchors.left: themesButton.right
         text: py.qta.icon("mdi6.translate")
         width: 40
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: languageMenu.open()
-        anchors.right: helpButton.left
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Language (&L)")
         Menu {
@@ -181,26 +202,14 @@ ToolBar {
         }
     }
 
-    // ToolButton {
-    //     id: exitButton
-    //     text: py.qta.icon("mdi6.exit-to-app")
-    //     width: 40
-    //     font.family: materialFontLoader.name
-    //     font.pixelSize: Qt.application.font.pixelSize * 1.5
-    //     anchors.right: helpButton.left
-    //     onClicked: actions.quit.trigger();
-    //     ToolTip.visible: hovered
-    //     ToolTip.text: qsTr("Exit (Ctrl+Q)")
-    // }
-
     ToolButton {
         id: helpButton
+        anchors.left: languageButton.right
         text: py.qta.icon("mdi6.help-circle-outline")
         width: 40
         font.family: materialFontLoader.name
         font.pixelSize: Qt.application.font.pixelSize * 1.5
         onClicked: helpMenu.open()
-        anchors.right: parent.right
         ToolTip.visible: hovered
         ToolTip.text: qsTr("Help (&H)")
         Menu {
@@ -227,5 +236,35 @@ ToolBar {
         Component.onCompleted: {
             openHelpMenu.connect(helpMenu.open)
         }
+    }
+
+    ToolButton {
+        id: minimizeButton
+        anchors.right: maximizeButton.left
+        text: py.qta.icon("mdi6.window-minimize")
+        width: 40
+        font.family: materialFontLoader.name
+        font.pixelSize: Qt.application.font.pixelSize * 1.5
+        onClicked: window.showMinimized();
+    }
+
+    ToolButton {
+        id: maximizeButton
+        anchors.right: exitButton.left
+        text: py.qta.icon("mdi6.window-maximize")
+        width: 40
+        font.family: materialFontLoader.name
+        font.pixelSize: Qt.application.font.pixelSize * 1.5
+        onClicked: toggleMaximized()
+    }
+
+    ToolButton {
+        id: exitButton
+        anchors.right: parent.right
+        text: py.qta.icon("mdi6.close")
+        width: 40
+        font.family: materialFontLoader.name
+        font.pixelSize: Qt.application.font.pixelSize * 1.5
+        onClicked: actions.quit.trigger();
     }
 }
