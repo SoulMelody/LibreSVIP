@@ -34,6 +34,7 @@ ToolBar {
 
     RowLayout{
         anchors.left: parent.left
+        spacing: 0
         ToolButton {
             id: convertButton
             text: py.qta.icon("mdi6.cached")
@@ -87,6 +88,152 @@ ToolBar {
         }
 
         ToolButton {
+            id: inputFormatButton
+            text: py.qta.icon("mdi6.import")
+            width: 40
+            font.family: materialFontLoader.name
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
+            onClicked: importFormatMenu.open()
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Input Format (&F)")
+            ButtonGroup {
+                id: inputFormatButtonGroup
+            }
+            Menu {
+                id: importFormatMenu
+                y: parent.height
+                width: 300
+                contentItem: ListView {
+                    id: importMenuList
+                    model: py.task_manager.qget("input_formats")
+                    delegate: MenuItem {
+                        checkable: true
+                        checked: ListView.isCurrentItem
+                        ButtonGroup.group: inputFormatButtonGroup
+                        onTriggered: {
+                            py.task_manager.set_str("input_format", model.value)
+                        }
+                        text: index + " " + model.text
+                    }
+                    Component.onCompleted: {
+                        py.task_manager.input_format_changed.connect((input_format) => {
+                            let new_index = converterPage.inputFormatComboBox.indexOfValue(input_format)
+                            if (new_index != currentIndex) {
+                                currentIndex = new_index
+                            }
+                        })
+                    }
+                    focus: true
+                    Keys.onDigit0Pressed: (event) => {
+                        itemAtIndex(0).triggered()
+                    }
+                    Keys.onDigit1Pressed: (event) => {
+                        itemAtIndex(1).triggered()
+                    }
+                    Keys.onDigit2Pressed: (event) => {
+                        itemAtIndex(2).triggered()
+                    }
+                    Keys.onDigit3Pressed: (event) => {
+                        itemAtIndex(3).triggered()
+                    }
+                    Keys.onDigit4Pressed: (event) => {
+                        itemAtIndex(4).triggered()
+                    }
+                    Keys.onDigit5Pressed: (event) => {
+                        itemAtIndex(5).triggered()
+                    }
+                    Keys.onDigit6Pressed: (event) => {
+                        itemAtIndex(6).triggered()
+                    }
+                    Keys.onDigit7Pressed: (event) => {
+                        itemAtIndex(7).triggered()
+                    }
+                    Keys.onDigit8Pressed: (event) => {
+                        itemAtIndex(8).triggered()
+                    }
+                    Keys.onDigit9Pressed: (event) => {
+                        itemAtIndex(9).triggered()
+                    }
+                }
+                implicitHeight: importMenuList.contentHeight
+            }
+        }
+
+        ToolButton {
+            id: outputFormatButton
+            text: py.qta.icon("mdi6.export")
+            width: 40
+            font.family: materialFontLoader.name
+            font.pixelSize: Qt.application.font.pixelSize * 1.5
+            onClicked: exportFormatMenu.open()
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Output Format (&T)")
+            ButtonGroup {
+                id: exportFormatButtonGroup
+            }
+            Menu {
+                id: exportFormatMenu
+                y: parent.height
+                width: 300
+                contentItem: ListView {
+                    id: exportMenuList
+                    model: py.task_manager.qget("output_formats")
+                    delegate: MenuItem {
+                        checkable: true
+                        checked: ListView.isCurrentItem
+                        ButtonGroup.group: exportFormatButtonGroup
+                        onTriggered: {
+                            py.task_manager.set_str("output_format", model.value)
+                        }
+                        text: index + " " + model.text
+                    }
+                    Component.onCompleted: {
+                        py.task_manager.output_format_changed.connect((output_format) => {
+                            let new_index = converterPage.outputFormatComboBox.indexOfValue(output_format)
+                            if (new_index != currentIndex) {
+                                currentIndex = new_index
+                            }
+                        })
+                    }
+                    focus: true
+                    Keys.onDigit0Pressed: (event) => {
+                        itemAtIndex(0).triggered()
+                    }
+                    Keys.onDigit1Pressed: (event) => {
+                        itemAtIndex(1).triggered()
+                    }
+                    Keys.onDigit2Pressed: (event) => {
+                        itemAtIndex(2).triggered()
+                    }
+                    Keys.onDigit3Pressed: (event) => {
+                        itemAtIndex(3).triggered()
+                    }
+                    Keys.onDigit4Pressed: (event) => {
+                        itemAtIndex(4).triggered()
+                    }
+                    Keys.onDigit5Pressed: (event) => {
+                        itemAtIndex(5).triggered()
+                    }
+                    Keys.onDigit6Pressed: (event) => {
+                        itemAtIndex(6).triggered()
+                    }
+                    Keys.onDigit7Pressed: (event) => {
+                        itemAtIndex(7).triggered()
+                    }
+                    Keys.onDigit8Pressed: (event) => {
+                        itemAtIndex(8).triggered()
+                    }
+                    Keys.onDigit9Pressed: (event) => {
+                        itemAtIndex(9).triggered()
+                    }
+                }
+                implicitHeight: exportMenuList.contentHeight
+            }
+        }
+
+        ToolSeparator {}
+
+        ToolButton {
             id: pluginsButton
             text: py.qta.icon("mdi6.puzzle-outline")
             width: 40
@@ -118,8 +265,6 @@ ToolBar {
                 openPluginsMenu.connect(pluginsMenu.open)
             }
         }
-
-        ToolSeparator {}
 
         ToolButton {
             id: settingsButton

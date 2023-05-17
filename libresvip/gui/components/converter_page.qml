@@ -10,6 +10,8 @@ Page {
 
     property alias taskList: taskListView;
     property alias saveFolder: saveFolderTextField;
+    property alias inputFormatComboBox: inputFormat;
+    property alias outputFormatComboBox: outputFormat;
     signal swapInputOutput();
 
     Component {
@@ -319,8 +321,7 @@ Page {
                             }
                             Component.onCompleted: {
                                 dialogs.openDialog.nameFilters[0] = currentText
-                                py.task_manager.set_str("input_format", currentValue)
-                                py.task_manager.input_format_changed.connect(function(input_format) {
+                                py.task_manager.input_format_changed.connect((input_format) => {
                                     let new_index = indexOfValue(input_format)
                                     if (new_index != currentIndex) {
                                         currentIndex = new_index
@@ -329,6 +330,7 @@ Page {
                                         dialogs.openDialog.nameFilters[0] = currentText
                                     }
                                 })
+                                py.task_manager.set_str("input_format", currentValue)
                             }
                             width: parent.width
                             model: py.task_manager.qget("input_formats")
@@ -353,7 +355,7 @@ Page {
                             contentItem: PluginInfo {
                                 info: py.task_manager.plugin_info("input_format")
                                 Component.onCompleted: {
-                                    py.task_manager.input_format_changed.connect(function(input_format) {
+                                    py.task_manager.input_format_changed.connect( (input_format) => {
                                         info = py.task_manager.plugin_info("input_format")
                                     })
                                 }
@@ -438,8 +440,16 @@ Page {
                                 py.task_manager.set_str("output_format", currentValue)
                             }
                             Component.onCompleted: {
+                                py.task_manager.output_format_changed.connect((output_format) => {
+                                    let new_index = indexOfValue(output_format)
+                                    if (new_index != currentIndex) {
+                                        currentIndex = new_index
+                                    }
+                                })
                                 py.task_manager.set_str("output_format", currentValue)
                             }
+
+
                             width: parent.width
                             model: py.task_manager.qget("output_formats")
                         }
@@ -463,7 +473,7 @@ Page {
                             contentItem: PluginInfo {
                                 info: py.task_manager.plugin_info("output_format")
                                 Component.onCompleted: {
-                                    py.task_manager.output_format_changed.connect(function() {
+                                    py.task_manager.output_format_changed.connect( (output_format) => {
                                         info = py.task_manager.plugin_info("output_format")
                                     })
                                 }
@@ -802,7 +812,7 @@ Page {
                                     text: py.qta.icon("mdi6.chevron-right")
                                     font.family: materialFontLoader.name
                                     font.pixelSize: 20
-                                    rotation: inputContainer.visible ? 0 : 45
+                                    rotation: inputContainer.visible ? 45 : 0
                                     Behavior on rotation {
                                         PropertyAnimation{
                                             duration: 200
@@ -890,7 +900,7 @@ Page {
                                     text: py.qta.icon("mdi6.chevron-right")
                                     font.family: materialFontLoader.name
                                     font.pixelSize: 20
-                                    rotation: outputContainer.visible ? 0 : 45
+                                    rotation: outputContainer.visible ? 45 : 0
                                     Behavior on rotation {
                                         PropertyAnimation{
                                             duration: 200
