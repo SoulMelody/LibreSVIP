@@ -6,6 +6,8 @@ import QtQuick.Layouts
 
 ToolBar {
     signal openConvertMenu()
+    signal openImportFormatMenu()
+    signal openExportFormatMenu()
     signal openPluginsMenu()
     signal openThemesMenu()
     signal openLanguageMenu()
@@ -157,6 +159,9 @@ ToolBar {
                 }
                 implicitHeight: importMenuList.contentHeight
             }
+            Component.onCompleted: {
+                openImportFormatMenu.connect(importFormatMenu.open)
+            }
         }
 
         ToolButton {
@@ -167,7 +172,7 @@ ToolBar {
             font.pixelSize: Qt.application.font.pixelSize * 1.5
             onClicked: exportFormatMenu.open()
             ToolTip.visible: hovered
-            ToolTip.text: qsTr("Output Format (&T)")
+            ToolTip.text: qsTr("Output Format (&E)")
             ButtonGroup {
                 id: exportFormatButtonGroup
             }
@@ -228,6 +233,9 @@ ToolBar {
                     }
                 }
                 implicitHeight: exportMenuList.contentHeight
+            }
+            Component.onCompleted: {
+                openExportFormatMenu.connect(exportFormatMenu.open)
             }
         }
 

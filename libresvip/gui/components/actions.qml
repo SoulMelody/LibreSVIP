@@ -46,6 +46,16 @@ Item {
         shortcut: "Alt+C"
         onTriggered: toolbar.openConvertMenu()
     }
+    property QtObject openImportFormatMenu: Action {
+        text: qsTr("Import &From")
+        shortcut: "Alt+F"
+        onTriggered: toolbar.openImportFormatMenu()
+    }
+    property QtObject openExportFormatMenu: Action {
+        text: qsTr("&Export To")
+        shortcut: "Alt+E"
+        onTriggered: toolbar.openExportFormatMenu()
+    }
     property QtObject openHelpMenu: Action {
         text: qsTr("&Help")
         shortcut: "Alt+H"
