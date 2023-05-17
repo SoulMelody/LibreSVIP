@@ -119,6 +119,8 @@ ToolBar {
             }
         }
 
+        ToolSeparator {}
+
         ToolButton {
             id: settingsButton
             text: py.qta.icon("mdi6.cog-outline")
@@ -200,6 +202,8 @@ ToolBar {
             }
         }
 
+        ToolSeparator {}
+
         ToolButton {
             id: helpButton
             text: py.qta.icon("mdi6.help-circle-outline")
@@ -234,6 +238,12 @@ ToolBar {
                 openHelpMenu.connect(helpMenu.open)
             }
         }
+    }
+
+    Label {
+        text: window.title + " - " + qsTr("SVS Projects Converter")
+        anchors.centerIn: parent
+        font.pixelSize: Qt.application.font.pixelSize * 1.2
     }
 
     RowLayout {
