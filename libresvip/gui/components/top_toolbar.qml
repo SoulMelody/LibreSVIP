@@ -34,7 +34,7 @@ ToolBar {
         }
     }
 
-    RowLayout{
+    RowLayout {
         anchors.left: parent.left
         spacing: 0
         ToolButton {
@@ -277,21 +277,21 @@ ToolBar {
             Menu {
                 id: themesMenu
                 y: parent.height
-                MenuItem{
+                MenuItem {
                     text: qsTr("Light");
                     onTriggered: {
                         window.Material.theme = Material.Light
                         py.config_items.set_theme("Light")
                     }
                 }
-                MenuItem{
+                MenuItem {
                     text: qsTr("Dark");
                     onTriggered: {
                         window.Material.theme = Material.Dark
                         py.config_items.set_theme("Dark")
                     }
                 }
-                MenuItem{
+                MenuItem {
                     text: qsTr("System");
                     onTriggered: {
                         window.Material.theme = Material.System
@@ -316,15 +316,15 @@ ToolBar {
             Menu {
                 id: languageMenu
                 y: parent.height
-                MenuItem{
+                MenuItem {
                     text: "简体中文";
                     onTriggered: py.locale.switch_language("zh-CN")
                 }
-                MenuItem{
+                MenuItem {
                     text: "English";
                     onTriggered: py.locale.switch_language("en-US")
                 }
-                MenuItem{
+                MenuItem {
                     text: "日本語";
                     onTriggered: py.locale.switch_language("ja-JP")
                     enabled: false

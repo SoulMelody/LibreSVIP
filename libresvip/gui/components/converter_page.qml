@@ -40,107 +40,104 @@ Page {
 
     Component {
         id: colorPickerItem
-        Column {
+        RowLayout {
             property var field: {}
             height: 30
-            RowLayout {
-                Label {
-                    text: field.title
-                    Layout.alignment: Qt.AlignVCenter
-                    font.pixelSize: 12
-                    fontSizeMode: Text.Fit
-                    wrapMode: Text.Wrap
-                    Layout.preferredWidth: 150
+            Layout.fillWidth: true
+            Label {
+                text: field.title
+                Layout.alignment: Qt.AlignVCenter
+                font.pixelSize: 12
+                fontSizeMode: Text.Fit
+                wrapMode: Text.Wrap
+                Layout.preferredWidth: 150
+            }
+            TextField {
+                id: colorField
+                Layout.fillWidth: true
+                text: field.value
+                onEditingFinished: {
+                    field.value = this.text
                 }
-                TextField {
-                    id: colorField
-                    implicitWidth: 100
-                    text: field.value
-                    onEditingFinished: {
-                        field.value = this.text
-                    }
+            }
+            RoundButton {
+                text: py.qta.icon("mdi6.eyedropper-variant")
+                width: 30
+                radius: this.height / 2
+                font.family: materialFontLoader.name
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                onClicked: {
+                    dialogs.colorDialog.bind_color(
+                        colorField.text,
+                        (color) => {
+                            colorField.text = color
+                            field.value = color
+                        }
+                    )
                 }
-                RoundButton {
-                    text: py.qta.icon("mdi6.eyedropper-variant")
-                    width: 30
-                    radius: this.height / 2
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    onClicked: {
-                        dialogs.colorDialog.bind_color(
-                            colorField.text,
-                            (color) => {
-                                colorField.text = color
-                                field.value = color
-                            }
-                        )
-                    }
+            }
+            RoundButton {
+                text: py.qta.icon("mdi6.help-circle-outline")
+                width: 30
+                radius: this.height / 2
+                font.family: materialFontLoader.name
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                visible: field.description != ""
+                onClicked: {
+                    info.visible = !info.visible
                 }
-                RoundButton {
-                    text: py.qta.icon("mdi6.help-circle-outline")
-                    width: 30
-                    radius: this.height / 2
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    visible: field.description != ""
-                    onClicked: {
-                        info.visible = !info.visible
-                    }
-                    ToolTip {
-                        id: info
-                        y: parent.y - parent.height
-                        visible: false
-                        text: field.description
-                    }
-                    HoverHandler {
-                        acceptedDevices: PointerDevice.Mouse
-                        cursorShape: Qt.WhatsThisCursor
-                    }
+                ToolTip {
+                    id: info
+                    y: parent.y - parent.height
+                    visible: false
+                    text: field.description
                 }
-
+                HoverHandler {
+                    acceptedDevices: PointerDevice.Mouse
+                    cursorShape: Qt.WhatsThisCursor
+                }
             }
         }
     }
 
     Component {
         id: switchItem
-        Column {
+        RowLayout {
             property var field: {}
             height: 30
-            RowLayout {
-                Label {
-                    text: field.title
-                    Layout.alignment: Qt.AlignVCenter
-                    font.pixelSize: 12
-                    fontSizeMode: Text.Fit
-                    wrapMode: Text.Wrap
-                    Layout.preferredWidth: 150
+            Layout.fillWidth: true
+            Label {
+                text: field.title
+                Layout.alignment: Qt.AlignVCenter
+                font.pixelSize: 12
+                fontSizeMode: Text.Fit
+                wrapMode: Text.Wrap
+                Layout.preferredWidth: 150
+            }
+            Switch {
+                onCheckedChanged: {
+                    field.value = this.checked
                 }
-                Switch {
-                    onCheckedChanged: {
-                        field.value = this.checked
-                    }
+            }
+            RoundButton {
+                text: py.qta.icon("mdi6.help-circle-outline")
+                width: 30
+                radius: this.height / 2
+                font.family: materialFontLoader.name
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                visible: field.description != ""
+                onClicked: {
+                    info.visible = !info.visible
                 }
-                RoundButton {
-                    text: py.qta.icon("mdi6.help-circle-outline")
-                    width: 30
-                    radius: this.height / 2
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    visible: field.description != ""
-                    onClicked: {
-                        info.visible = !info.visible
-                    }
-                    ToolTip {
-                        id: info
-                        y: parent.y - parent.height
-                        visible: false
-                        text: field.description
-                    }
-                    HoverHandler {
-                        acceptedDevices: PointerDevice.Mouse
-                        cursorShape: Qt.WhatsThisCursor
-                    }
+                ToolTip {
+                    id: info
+                    y: parent.y - parent.height
+                    visible: false
+                    text: field.description
+                }
+                HoverHandler {
+                    acceptedDevices: PointerDevice.Mouse
+                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -148,47 +145,46 @@ Page {
 
     Component {
         id: comboBoxItem
-        Column {
+        RowLayout {
             property var field: {}
             height: 30
-            RowLayout {
-                Label {
-                    text: field.title
-                    Layout.alignment: Qt.AlignVCenter
-                    font.pixelSize: 12
-                    fontSizeMode: Text.Fit
-                    wrapMode: Text.Wrap
-                    Layout.preferredWidth: 150
+            Layout.fillWidth: true
+            Label {
+                text: field.title
+                Layout.alignment: Qt.AlignVCenter
+                font.pixelSize: 12
+                fontSizeMode: Text.Fit
+                wrapMode: Text.Wrap
+                Layout.preferredWidth: 150
+            }
+            ComboBox {
+                Layout.fillWidth: true
+                textRole: "text"
+                valueRole: "value"
+                onActivated: {
+                    field.value = this.currentValue
                 }
-                ComboBox {
-                    implicitWidth: 200
-                    textRole: "text"
-                    valueRole: "value"
-                    onActivated: {
-                        field.value = this.currentValue
-                    }
-                    model: field.choices
+                model: field.choices
+            }
+            RoundButton {
+                text: py.qta.icon("mdi6.help-circle-outline")
+                width: 30
+                radius: this.height / 2
+                font.family: materialFontLoader.name
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                visible: field.description != ""
+                onClicked: {
+                    info.visible = !info.visible
                 }
-                RoundButton {
-                    text: py.qta.icon("mdi6.help-circle-outline")
-                    width: 30
-                    radius: this.height / 2
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    visible: field.description != ""
-                    onClicked: {
-                        info.visible = !info.visible
-                    }
-                    ToolTip {
-                        id: info
-                        y: parent.y - parent.height
-                        visible: false
-                        text: field.description
-                    }
-                    HoverHandler {
-                        acceptedDevices: PointerDevice.Mouse
-                        cursorShape: Qt.WhatsThisCursor
-                    }
+                ToolTip {
+                    id: info
+                    y: parent.y - parent.height
+                    visible: false
+                    text: field.description
+                }
+                HoverHandler {
+                    acceptedDevices: PointerDevice.Mouse
+                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -196,45 +192,44 @@ Page {
 
     Component {
         id: textFieldItem
-        Column {
+        RowLayout {
             property var field: {}
             height: 30
-            RowLayout {
-                Label {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: field.title
-                    font.pixelSize: 12
-                    fontSizeMode: Text.Fit
-                    wrapMode: Text.Wrap
-                    Layout.preferredWidth: 150
+            Layout.fillWidth: true
+            Label {
+                Layout.alignment: Qt.AlignVCenter
+                text: field.title
+                font.pixelSize: 12
+                fontSizeMode: Text.Fit
+                wrapMode: Text.Wrap
+                Layout.preferredWidth: 150
+            }
+            TextField {
+                Layout.fillWidth: true
+                text: field.value
+                onEditingFinished: {
+                    field.value = this.text
                 }
-                TextField {
-                    implicitWidth: 200
-                    text: field.value
-                    onEditingFinished: {
-                        field.value = this.text
-                    }
+            }
+            RoundButton {
+                text: py.qta.icon("mdi6.help-circle-outline")
+                width: 30
+                radius: this.height / 2
+                font.family: materialFontLoader.name
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                visible: field.description != ""
+                onClicked: {
+                    info.visible = !info.visible
                 }
-                RoundButton {
-                    text: py.qta.icon("mdi6.help-circle-outline")
-                    width: 30
-                    radius: this.height / 2
-                    font.family: materialFontLoader.name
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    visible: field.description != ""
-                    onClicked: {
-                        info.visible = !info.visible
-                    }
-                    ToolTip {
-                        id: info
-                        y: parent.y - parent.height
-                        visible: false
-                        text: field.description
-                    }
-                    HoverHandler {
-                        acceptedDevices: PointerDevice.Mouse
-                        cursorShape: Qt.WhatsThisCursor
-                    }
+                ToolTip {
+                    id: info
+                    y: parent.y - parent.height
+                    visible: false
+                    text: field.description
+                }
+                HoverHandler {
+                    acceptedDevices: PointerDevice.Mouse
+                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -801,7 +796,7 @@ Page {
                         Layout.alignment: Qt.AlignVCenter
                     }
                     ColumnLayout {
-                        width: parent.width
+                        Layout.fillWidth: true
                         Row {
                             height: 30
                             RoundButton {
@@ -840,8 +835,7 @@ Page {
                             ColumnLayout {
                                 id: inputContainer
                                 property bool expanded: true
-                                width: parent.width - 40
-
+                                Layout.fillWidth: true
                                 states: [
                                     State {
                                         name: "expanded"
@@ -869,7 +863,6 @@ Page {
                                     Transition {
                                         from: "expanded"
                                         to: "collapsed"
-
                                         PropertyAnimation {
                                             target: inputContainer
                                             properties: "y,opacity,Layout.maximumHeight"
@@ -930,9 +923,6 @@ Page {
                                 }
                             }
                         }
-                    }
-                    ColumnLayout {
-                        width: parent.width
                         Row {
                             height: 30
                             RoundButton {
@@ -963,7 +953,7 @@ Page {
                                 Layout.alignment: Qt.AlignVCenter
                             }
                         }
-                        RowLayout{
+                        RowLayout {
                             width: advancedSettings.width - 40
                             Rectangle {
                                 width: 40
@@ -971,7 +961,7 @@ Page {
                             ColumnLayout {
                                 id: outputContainer
                                 property bool expanded: true
-
+                                Layout.fillWidth: true
                                 states: [
                                     State {
                                         name: "expanded"
@@ -1059,6 +1049,11 @@ Page {
                                 }
                             }
                         }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 10
+                        color: "transparent"
                     }
                 }
             }
