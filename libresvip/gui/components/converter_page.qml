@@ -241,7 +241,7 @@ Page {
     }
 
     Component {
-        id: seperatorItem
+        id: separatorItem
         RowLayout {
             Layout.fillWidth: true
             Label {
@@ -832,7 +832,7 @@ Page {
                                 Layout.alignment: Qt.AlignVCenter
                             }
                         }
-                        RowLayout{
+                        RowLayout {
                             width: advancedSettings.width - 40
                             Rectangle {
                                 width: 40
@@ -840,12 +840,16 @@ Page {
                             ColumnLayout {
                                 id: inputContainer
                                 property bool expanded: true
+                                width: parent.width - 40
+
                                 states: [
                                     State {
                                         name: "expanded"
                                         PropertyChanges {
                                             target: inputContainer
                                             Layout.maximumHeight: inputContainer.implicitHeight
+                                            opacity: 1
+                                            y: 0
                                             visible: true
                                         }
                                     },
@@ -854,7 +858,8 @@ Page {
                                         PropertyChanges {
                                             target: inputContainer
                                             Layout.maximumHeight: 0
-                                            visible: false
+                                            opacity: 0
+                                            y: -inputContainer.implicitHeight
                                         }
                                     }
                                 ]
@@ -865,36 +870,22 @@ Page {
                                         from: "expanded"
                                         to: "collapsed"
 
-                                        SequentialAnimation{
-                                            NumberAnimation {
-                                                target: inputContainer
-                                                property: "Layout.maximumHeight"
-                                                duration: 500
-                                                easing.type: Easing.InOutQuad
-                                            }
-                                            NumberAnimation {
-                                                target: inputContainer
-                                                property: "visible"
-                                                duration: 0
-                                            }
+                                        PropertyAnimation {
+                                            target: inputContainer
+                                            properties: "y,opacity,Layout.maximumHeight"
+                                            duration: 500
+                                            easing.type: Easing.InOutQuad
                                         }
                                     },
 
                                     Transition {
                                         from: "collapsed"
                                         to: "expanded"
-                                        SequentialAnimation{
-                                            NumberAnimation {
-                                                target: inputContainer
-                                                property: "visible"
-                                                duration: 0
-                                            }
-                                            NumberAnimation {
-                                                target: inputContainer
-                                                property: "Layout.maximumHeight"
-                                                duration: 500
-                                                easing.type: Easing.InOutQuad
-                                            }
+                                        PropertyAnimation {
+                                            target: inputContainer
+                                            properties: "y,opacity,Layout.maximumHeight"
+                                            duration: 500
+                                            easing.type: Easing.InOutQuad
                                         }
                                     }
                                 ]
@@ -904,7 +895,7 @@ Page {
                             model: py.task_manager.qget("input_fields")
                             delegate: Column {
                                 Component.onCompleted: {
-                                    let separator_item = seperatorItem.createObject(inputContainer)
+                                    let separator_item = separatorItem.createObject(inputContainer)
                                     this.Component.onDestruction.connect(separator_item.destroy)
                                     let item = null;
                                     switch (model.type) {
@@ -980,12 +971,15 @@ Page {
                             ColumnLayout {
                                 id: outputContainer
                                 property bool expanded: true
+
                                 states: [
                                     State {
                                         name: "expanded"
                                         PropertyChanges {
                                             target: outputContainer
                                             Layout.maximumHeight: outputContainer.implicitHeight
+                                            opacity: 1
+                                            y: 0
                                             visible: true
                                         }
                                     },
@@ -994,7 +988,8 @@ Page {
                                         PropertyChanges {
                                             target: outputContainer
                                             Layout.maximumHeight: 0
-                                            visible: false
+                                            opacity: 0
+                                            y: -outputContainer.implicitHeight
                                         }
                                     }
                                 ]
@@ -1004,37 +999,22 @@ Page {
                                     Transition {
                                         from: "expanded"
                                         to: "collapsed"
-
-                                        SequentialAnimation{
-                                            NumberAnimation {
-                                                target: outputContainer
-                                                property: "Layout.maximumHeight"
-                                                duration: 500
-                                                easing.type: Easing.InOutQuad
-                                            }
-                                            NumberAnimation {
-                                                target: outputContainer
-                                                property: "visible"
-                                                duration: 0
-                                            }
+                                        PropertyAnimation {
+                                            target: outputContainer
+                                            properties: "y,opacity,Layout.maximumHeight"
+                                            duration: 500
+                                            easing.type: Easing.InOutQuad
                                         }
                                     },
 
                                     Transition {
                                         from: "collapsed"
                                         to: "expanded"
-                                        SequentialAnimation{
-                                            NumberAnimation {
-                                                target: outputContainer
-                                                property: "visible"
-                                                duration: 0
-                                            }
-                                            NumberAnimation {
-                                                target: outputContainer
-                                                property: "Layout.maximumHeight"
-                                                duration: 500
-                                                easing.type: Easing.InOutQuad
-                                            }
+                                        PropertyAnimation {
+                                            target: outputContainer
+                                            properties: "y,opacity,Layout.maximumHeight"
+                                            duration: 500
+                                            easing.type: Easing.InOutQuad
                                         }
                                     }
                                 ]
@@ -1044,7 +1024,7 @@ Page {
                             model: py.task_manager.qget("output_fields")
                             delegate: Column {
                                 Component.onCompleted: {
-                                    let separator_item = seperatorItem.createObject(outputContainer)
+                                    let separator_item = separatorItem.createObject(outputContainer)
                                     this.Component.onDestruction.connect(separator_item.destroy)
                                     let item = null;
                                     switch (model.type) {
