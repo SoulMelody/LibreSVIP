@@ -148,6 +148,11 @@ ToolBar {
                     Keys.onDigit9Pressed: (event) => navigate(event, 9)
                 }
                 implicitHeight: importMenuList.contentHeight
+                onClosed: {
+                    if (importMenuList.currentIndex != converterPage.inputFormatComboBox.currentIndex) {
+                        importMenuList.currentIndex = converterPage.inputFormatComboBox.currentIndex
+                    }
+                }
             }
             Component.onCompleted: {
                 openImportFormatMenu.connect(importFormatMenu.open)
@@ -213,6 +218,11 @@ ToolBar {
                     Keys.onDigit9Pressed: (event) => navigate(event, 9)
                 }
                 implicitHeight: exportMenuList.contentHeight
+                onClosed: {
+                    if (exportMenuList.currentIndex != converterPage.outputFormatComboBox.currentIndex) {
+                        exportMenuList.currentIndex = converterPage.outputFormatComboBox.currentIndex
+                    }
+                }
             }
             Component.onCompleted: {
                 openExportFormatMenu.connect(exportFormatMenu.open)
