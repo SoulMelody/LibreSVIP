@@ -12,7 +12,7 @@ Page {
     property alias saveFolder: saveFolderTextField;
     property alias inputFormatComboBox: inputFormat;
     property alias outputFormatComboBox: outputFormat;
-    signal swapInputOutput();
+    property alias swapInputOutputButton: swapInputOutput;
 
     Component {
         id: messageBox
@@ -400,6 +400,7 @@ Page {
                         }
                     }
                     RoundButton {
+                        id: swapInputOutput
                         Layout.columnSpan: 2
                         Layout.row: 2
                         Layout.column: 8
@@ -420,9 +421,6 @@ Page {
                             ]
                             py.task_manager.set_str("input_format", inputFormat.currentValue)
                             py.task_manager.set_str("output_format", outputFormat.currentValue)
-                        }
-                        Component.onCompleted: {
-                            swapInputOutput.connect(onClicked)
                         }
                     }
                     Grid {
@@ -517,7 +515,7 @@ Page {
                         }
                     }
                     onExited: {
-                        if (taskListView.count == 0) {
+                        if (taskListArea.opacity < 1) {
                             taskListArea.opacity = 1
                         }
                     }
@@ -622,7 +620,8 @@ Page {
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
                             radius: this.height / 2
                             Behavior on rotation {
-                                NumberAnimation {
+                                RotationAnimation {
+                                    duration: 200
                                     easing.type: Easing.InOutQuad
                                 }
                             }
@@ -812,9 +811,9 @@ Page {
                                     text: py.qta.icon("mdi6.chevron-right")
                                     font.family: materialFontLoader.name
                                     font.pixelSize: 20
-                                    rotation: inputContainer.visible ? 45 : 0
+                                    rotation: inputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
-                                        PropertyAnimation{
+                                        RotationAnimation {
                                             duration: 200
                                             easing.type: Easing.InOutQuad
                                         }
@@ -824,7 +823,7 @@ Page {
                                     color: "transparent"
                                 }
                                 onClicked: {
-                                    inputContainer.visible = !inputContainer.visible
+                                    inputContainer.expanded = !inputContainer.expanded
                                 }
                             }
                             Label {
@@ -840,13 +839,65 @@ Page {
                             }
                             ColumnLayout {
                                 id: inputContainer
-                                height: visible ? 0 : implicitHeight
-                                Behavior on height {
-                                    NumberAnimation {
-                                        duration: 200
-                                        easing.type: Easing.InOutQuad
+                                property bool expanded: true
+                                states: [
+                                    State {
+                                        name: "expanded"
+                                        PropertyChanges {
+                                            target: inputContainer
+                                            Layout.maximumHeight: inputContainer.implicitHeight
+                                            visible: true
+                                        }
+                                    },
+                                    State {
+                                        name: "collapsed"
+                                        PropertyChanges {
+                                            target: inputContainer
+                                            Layout.maximumHeight: 0
+                                            visible: false
+                                        }
                                     }
-                                }
+                                ]
+                                state: expanded ? "expanded" : "collapsed"
+
+                                transitions: [
+                                    Transition {
+                                        from: "expanded"
+                                        to: "collapsed"
+
+                                        SequentialAnimation{
+                                            NumberAnimation {
+                                                target: inputContainer
+                                                property: "Layout.maximumHeight"
+                                                duration: 500
+                                                easing.type: Easing.InOutQuad
+                                            }
+                                            NumberAnimation {
+                                                target: inputContainer
+                                                property: "visible"
+                                                duration: 0
+                                            }
+                                        }
+                                    },
+
+                                    Transition {
+                                        from: "collapsed"
+                                        to: "expanded"
+                                        SequentialAnimation{
+                                            NumberAnimation {
+                                                target: inputContainer
+                                                property: "visible"
+                                                duration: 0
+                                            }
+                                            NumberAnimation {
+                                                target: inputContainer
+                                                property: "Layout.maximumHeight"
+                                                duration: 500
+                                                easing.type: Easing.InOutQuad
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         }
                         ListView {
@@ -870,7 +921,7 @@ Page {
                                             break
                                         }
                                         case "color" : {
-                                            item = colorPickerItem.createObject(outputContainer, {
+                                            item = colorPickerItem.createObject(inputContainer, {
                                                 "field": model
                                             })
                                             break
@@ -900,9 +951,9 @@ Page {
                                     text: py.qta.icon("mdi6.chevron-right")
                                     font.family: materialFontLoader.name
                                     font.pixelSize: 20
-                                    rotation: outputContainer.visible ? 45 : 0
+                                    rotation: outputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
-                                        PropertyAnimation{
+                                        RotationAnimation {
                                             duration: 200
                                             easing.type: Easing.InOutQuad
                                         }
@@ -912,7 +963,7 @@ Page {
                                     color: "transparent"
                                 }
                                 onClicked: {
-                                    outputContainer.visible = !outputContainer.visible
+                                    outputContainer.expanded = !outputContainer.expanded
                                 }
                             }
                             Label {
@@ -928,13 +979,65 @@ Page {
                             }
                             ColumnLayout {
                                 id: outputContainer
-                                height: visible ? 0 : implicitHeight
-                                Behavior on height {
-                                    NumberAnimation {
-                                        duration: 200
-                                        easing.type: Easing.InOutQuad
+                                property bool expanded: true
+                                states: [
+                                    State {
+                                        name: "expanded"
+                                        PropertyChanges {
+                                            target: outputContainer
+                                            Layout.maximumHeight: outputContainer.implicitHeight
+                                            visible: true
+                                        }
+                                    },
+                                    State {
+                                        name: "collapsed"
+                                        PropertyChanges {
+                                            target: outputContainer
+                                            Layout.maximumHeight: 0
+                                            visible: false
+                                        }
                                     }
-                                }
+                                ]
+                                state: expanded ? "expanded" : "collapsed"
+
+                                transitions: [
+                                    Transition {
+                                        from: "expanded"
+                                        to: "collapsed"
+
+                                        SequentialAnimation{
+                                            NumberAnimation {
+                                                target: outputContainer
+                                                property: "Layout.maximumHeight"
+                                                duration: 500
+                                                easing.type: Easing.InOutQuad
+                                            }
+                                            NumberAnimation {
+                                                target: outputContainer
+                                                property: "visible"
+                                                duration: 0
+                                            }
+                                        }
+                                    },
+
+                                    Transition {
+                                        from: "collapsed"
+                                        to: "expanded"
+                                        SequentialAnimation{
+                                            NumberAnimation {
+                                                target: outputContainer
+                                                property: "visible"
+                                                duration: 0
+                                            }
+                                            NumberAnimation {
+                                                target: outputContainer
+                                                property: "Layout.maximumHeight"
+                                                duration: 500
+                                                easing.type: Easing.InOutQuad
+                                            }
+                                        }
+                                    }
+                                ]
                             }
                         }
                         ListView {
@@ -1150,13 +1253,9 @@ Page {
                             settingsDrawer.conflictPolicyChanged.connect( (value) => {
                                 switch (value) {
                                     case "Overwrite":
-                                        currentIndex = 0
-                                        break
                                     case "Skip":
-                                        currentIndex = 1
-                                        break
                                     case "Prompt":
-                                        currentIndex = 2
+                                        currentIndex = indexOfValue(value)
                                         break
                                 }
                             })

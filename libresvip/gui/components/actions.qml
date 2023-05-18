@@ -23,7 +23,7 @@ Item {
         text: qsTr("&Swap Input/Output")
         shortcut: "Ctrl+Tab"
         onTriggered: {
-            converterPage.swapInputOutput()
+            converterPage.swapInputOutputButton.clicked()
         }
     }
     property QtObject clearTasks: Action {
@@ -39,7 +39,7 @@ Item {
     property QtObject openSettings: Action {
         text: qsTr("&Options")
         shortcut: "Alt+O"
-        onTriggered: settingsDrawer.openSettings()
+        onTriggered: settingsDrawer.open()
     }
     property QtObject openConvertMenu: Action {
         text: qsTr("&Convert")

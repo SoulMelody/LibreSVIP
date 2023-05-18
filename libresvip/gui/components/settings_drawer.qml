@@ -8,7 +8,6 @@ import QtQuick.Layouts
 Drawer {
     width: window.width * 0.3
     height: window.height
-    signal openSettings()
     signal autoOpenSaveFolderChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
     signal autoDetectInputFormatChanged(bool value)
@@ -210,8 +209,5 @@ Drawer {
                 enabled: false
             }
         }
-    }
-    Component.onCompleted: {
-        openSettings.connect(this.open)
     }
 }
