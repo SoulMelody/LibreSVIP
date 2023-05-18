@@ -115,7 +115,7 @@ ToolBar {
                         onTriggered: {
                             py.task_manager.set_str("input_format", model.value)
                         }
-                        text: index + " " + model.text
+                        text: String(index % 10) + " " + model.text
                     }
                     Component.onCompleted: {
                         py.task_manager.input_format_changed.connect((input_format) => {
@@ -180,7 +180,7 @@ ToolBar {
                         onTriggered: {
                             py.task_manager.set_str("output_format", model.value)
                         }
-                        text: index + " " + model.text
+                        text: String(index % 10) + " " + model.text
                     }
                     Component.onCompleted: {
                         py.task_manager.output_format_changed.connect((output_format) => {
