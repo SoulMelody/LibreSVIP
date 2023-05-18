@@ -126,36 +126,26 @@ ToolBar {
                         })
                     }
                     focus: true
-                    Keys.onDigit0Pressed: (event) => {
-                        itemAtIndex(0).triggered()
+                    function navigate(event, key) {
+                        if (count >= 10 + key) {
+                            let next_focus = 10 * (Math.floor(currentIndex / 10) + 1)
+                            next_focus = next_focus + key >= count ? key : next_focus + key
+                            itemAtIndex(next_focus).ListView.focus = true
+                            currentIndex = next_focus
+                        } else {
+                            itemAtIndex(key).triggered()
+                        }
                     }
-                    Keys.onDigit1Pressed: (event) => {
-                        itemAtIndex(1).triggered()
-                    }
-                    Keys.onDigit2Pressed: (event) => {
-                        itemAtIndex(2).triggered()
-                    }
-                    Keys.onDigit3Pressed: (event) => {
-                        itemAtIndex(3).triggered()
-                    }
-                    Keys.onDigit4Pressed: (event) => {
-                        itemAtIndex(4).triggered()
-                    }
-                    Keys.onDigit5Pressed: (event) => {
-                        itemAtIndex(5).triggered()
-                    }
-                    Keys.onDigit6Pressed: (event) => {
-                        itemAtIndex(6).triggered()
-                    }
-                    Keys.onDigit7Pressed: (event) => {
-                        itemAtIndex(7).triggered()
-                    }
-                    Keys.onDigit8Pressed: (event) => {
-                        itemAtIndex(8).triggered()
-                    }
-                    Keys.onDigit9Pressed: (event) => {
-                        itemAtIndex(9).triggered()
-                    }
+                    Keys.onDigit0Pressed: (event) => navigate(event, 0)
+                    Keys.onDigit1Pressed: (event) => navigate(event, 1)
+                    Keys.onDigit2Pressed: (event) => navigate(event, 2)
+                    Keys.onDigit3Pressed: (event) => navigate(event, 3)
+                    Keys.onDigit4Pressed: (event) => navigate(event, 4)
+                    Keys.onDigit5Pressed: (event) => navigate(event, 5)
+                    Keys.onDigit6Pressed: (event) => navigate(event, 6)
+                    Keys.onDigit7Pressed: (event) => navigate(event, 7)
+                    Keys.onDigit8Pressed: (event) => navigate(event, 8)
+                    Keys.onDigit9Pressed: (event) => navigate(event, 9)
                 }
                 implicitHeight: importMenuList.contentHeight
             }
@@ -201,36 +191,26 @@ ToolBar {
                         })
                     }
                     focus: true
-                    Keys.onDigit0Pressed: (event) => {
-                        itemAtIndex(0).triggered()
+                    function navigate(event, key) {
+                        if (count >= 10 + key) {
+                            let next_focus = 10 * (Math.floor(currentIndex / 10) + 1)
+                            next_focus = next_focus + key >= count ? key : next_focus + key
+                            itemAtIndex(next_focus).ListView.focus = true
+                            currentIndex = next_focus
+                        } else {
+                            itemAtIndex(key).triggered()
+                        }
                     }
-                    Keys.onDigit1Pressed: (event) => {
-                        itemAtIndex(1).triggered()
-                    }
-                    Keys.onDigit2Pressed: (event) => {
-                        itemAtIndex(2).triggered()
-                    }
-                    Keys.onDigit3Pressed: (event) => {
-                        itemAtIndex(3).triggered()
-                    }
-                    Keys.onDigit4Pressed: (event) => {
-                        itemAtIndex(4).triggered()
-                    }
-                    Keys.onDigit5Pressed: (event) => {
-                        itemAtIndex(5).triggered()
-                    }
-                    Keys.onDigit6Pressed: (event) => {
-                        itemAtIndex(6).triggered()
-                    }
-                    Keys.onDigit7Pressed: (event) => {
-                        itemAtIndex(7).triggered()
-                    }
-                    Keys.onDigit8Pressed: (event) => {
-                        itemAtIndex(8).triggered()
-                    }
-                    Keys.onDigit9Pressed: (event) => {
-                        itemAtIndex(9).triggered()
-                    }
+                    Keys.onDigit0Pressed: (event) => navigate(event, 0)
+                    Keys.onDigit1Pressed: (event) => navigate(event, 1)
+                    Keys.onDigit2Pressed: (event) => navigate(event, 2)
+                    Keys.onDigit3Pressed: (event) => navigate(event, 3)
+                    Keys.onDigit4Pressed: (event) => navigate(event, 4)
+                    Keys.onDigit5Pressed: (event) => navigate(event, 5)
+                    Keys.onDigit6Pressed: (event) => navigate(event, 6)
+                    Keys.onDigit7Pressed: (event) => navigate(event, 7)
+                    Keys.onDigit8Pressed: (event) => navigate(event, 8)
+                    Keys.onDigit9Pressed: (event) => navigate(event, 9)
                 }
                 implicitHeight: exportMenuList.contentHeight
             }
