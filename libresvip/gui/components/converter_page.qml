@@ -799,9 +799,11 @@ Page {
                         Layout.fillWidth: true
                         Row {
                             height: 30
+                            visible: inputFields.count > 0
                             RoundButton {
                                 Layout.fillHeight: true
                                 radius: this.height / 2
+                                anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
                                     text: py.qta.icon("mdi6.chevron-right")
                                     font.family: materialFontLoader.name
@@ -809,7 +811,7 @@ Page {
                                     rotation: inputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
                                         RotationAnimation {
-                                            duration: 200
+                                            duration: 500
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -823,8 +825,26 @@ Page {
                             }
                             Label {
                                 text: qsTr("Input Options")
-                                font.pixelSize: 28
-                                Layout.alignment: Qt.AlignVCenter
+                                font.pixelSize: 22
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Rectangle {
+                                width: 20
+                                height: 1
+                            }
+                            Label {
+                                text: ""
+                                color: Material.color(
+                                    Material.Grey
+                                )
+                                font.pixelSize: 20
+                                anchors.verticalCenter: parent.verticalCenter
+                                Component.onCompleted: {
+                                    py.task_manager.input_format_changed.connect((input_format) => {
+                                        let plugin_info = py.task_manager.plugin_info("input_format")
+                                        text = qsTr("[Import as ") + plugin_info.name + qsTr(" Format]")
+                                    })
+                                }
                             }
                         }
                         RowLayout {
@@ -854,6 +874,7 @@ Page {
                                             Layout.maximumHeight: 0
                                             opacity: 0
                                             y: -inputContainer.implicitHeight
+                                            visible: false
                                         }
                                     }
                                 ]
@@ -865,7 +886,7 @@ Page {
                                         to: "collapsed"
                                         PropertyAnimation {
                                             target: inputContainer
-                                            properties: "y,opacity,Layout.maximumHeight"
+                                            properties: "y,opacity,Layout.maximumHeight,visible"
                                             duration: 500
                                             easing.type: Easing.InOutQuad
                                         }
@@ -876,7 +897,7 @@ Page {
                                         to: "expanded"
                                         PropertyAnimation {
                                             target: inputContainer
-                                            properties: "y,opacity,Layout.maximumHeight"
+                                            properties: "y,opacity,Layout.maximumHeight,visible"
                                             duration: 500
                                             easing.type: Easing.InOutQuad
                                         }
@@ -885,6 +906,7 @@ Page {
                             }
                         }
                         ListView {
+                            id: inputFields
                             model: py.task_manager.qget("input_fields")
                             delegate: Column {
                                 Component.onCompleted: {
@@ -925,9 +947,11 @@ Page {
                         }
                         Row {
                             height: 30
+                            visible: outputFields.count > 0
                             RoundButton {
                                 Layout.fillHeight: true
                                 radius: this.height / 2
+                                anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
                                     text: py.qta.icon("mdi6.chevron-right")
                                     font.family: materialFontLoader.name
@@ -935,7 +959,7 @@ Page {
                                     rotation: outputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
                                         RotationAnimation {
-                                            duration: 200
+                                            duration: 500
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -949,8 +973,26 @@ Page {
                             }
                             Label {
                                 text: qsTr("Output Options")
-                                font.pixelSize: 28
-                                Layout.alignment: Qt.AlignVCenter
+                                font.pixelSize: 22
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Rectangle {
+                                width: 20
+                                height: 1
+                            }
+                            Label {
+                                text: ""
+                                font.pixelSize: 20
+                                color: Material.color(
+                                    Material.Grey
+                                )
+                                anchors.verticalCenter: parent.verticalCenter
+                                Component.onCompleted: {
+                                    py.task_manager.output_format_changed.connect((output_format) => {
+                                        let plugin_info = py.task_manager.plugin_info("output_format")
+                                        text = qsTr("[Export to ") + plugin_info.name + qsTr(" Format]")
+                                    })
+                                }
                             }
                         }
                         RowLayout {
@@ -980,6 +1022,7 @@ Page {
                                             Layout.maximumHeight: 0
                                             opacity: 0
                                             y: -outputContainer.implicitHeight
+                                            visible: false
                                         }
                                     }
                                 ]
@@ -991,7 +1034,7 @@ Page {
                                         to: "collapsed"
                                         PropertyAnimation {
                                             target: outputContainer
-                                            properties: "y,opacity,Layout.maximumHeight"
+                                            properties: "y,opacity,Layout.maximumHeight,visible"
                                             duration: 500
                                             easing.type: Easing.InOutQuad
                                         }
@@ -1002,7 +1045,7 @@ Page {
                                         to: "expanded"
                                         PropertyAnimation {
                                             target: outputContainer
-                                            properties: "y,opacity,Layout.maximumHeight"
+                                            properties: "y,opacity,Layout.maximumHeight,visible"
                                             duration: 500
                                             easing.type: Easing.InOutQuad
                                         }
@@ -1011,6 +1054,7 @@ Page {
                             }
                         }
                         ListView {
+                            id: outputFields
                             model: py.task_manager.qget("output_fields")
                             delegate: Column {
                                 Component.onCompleted: {
