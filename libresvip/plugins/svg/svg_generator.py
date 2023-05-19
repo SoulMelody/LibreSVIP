@@ -1,6 +1,6 @@
 import dataclasses
 
-from svgwrite import Drawing
+from drawsvg import Drawing
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -50,17 +50,12 @@ class SvgGenerator:
         return drawing
 
     def generate_svg(self) -> Drawing:
-        drawing = Drawing(size=self.coordinate_helper.size)
-        drawing.embed_stylesheet(self.svg_factory.style)
-        for line in self.svg_factory.line_elements:
-            drawing.add(line)
-        for rect in self.svg_factory.rect_elements:
-            drawing.add(rect)
-        for polyline in self.svg_factory.polyline_elements:
-            if len(polyline.points):
-                drawing.add(polyline)
-        for text in self.svg_factory.text_elements:
-            drawing.add(text)
+        drawing = Drawing(*self.coordinate_helper.size)
+        drawing.append_css(self.svg_factory.style)
+        drawing.extend(self.svg_factory.line_elements)
+        drawing.extend(self.svg_factory.rect_elements)
+        drawing.extend(self.svg_factory.polyline_elements)
+        drawing.extend(self.svg_factory.text_elements)
         return drawing
 
     def generate_notes(self, note_list: list[Note]) -> None:

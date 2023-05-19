@@ -234,14 +234,17 @@ class TaskManager(QObject):
                 output_dir / f"{task['stem']}{self.output_ext}"
             )
             return True
-        except (FileExistsError, FileNotFoundError):
+        except (FileExistsError, FileNotFoundError, OSError) as e:
+            self.tasks.update(index, {"error": str(e)})
             return False
 
     @staticmethod
     def inspect_fields(option_class: BaseModel) -> list[dict]:
         fields = []
         for option_key, field_info in option_class.model_fields.items():
-            default_value = None if field_info.default is Undefined else field_info.default
+            default_value = (
+                None if field_info.default is Undefined else field_info.default
+            )
             if issubclass(field_info.annotation, bool):
                 fields.append(
                     {
@@ -423,7 +426,9 @@ class TaskManager(QObject):
         install_dir = pathlib.Path(plugin_manager.getInstallDir())
         for info in infos:
             try:
-                plugin_info, _ = plugin_manager._gatherCorePluginInfo(info["directory"], info["info_filename"])
+                plugin_info, _ = plugin_manager._gatherCorePluginInfo(
+                    info["directory"], info["info_filename"]
+                )
                 if plugin_info is not None:
                     shutil.copytree(info["directory"], install_dir / plugin_info.suffix)
                 success_count += 1
@@ -441,20 +446,24 @@ class TaskManager(QObject):
             )
             with zipfile.ZipFile(path) as zip_file:
                 zip_file.extractall(path=temp_plugin_dir)
-            if (plugin_info_filename := self.plugin_info_file(temp_plugin_dir)) is not None:
-                plugin_info, _ = plugin_manager._gatherCorePluginInfo(temp_plugin_dir, plugin_info_filename)
+            if (
+                plugin_info_filename := self.plugin_info_file(temp_plugin_dir)
+            ) is not None:
+                plugin_info, _ = plugin_manager._gatherCorePluginInfo(
+                    temp_plugin_dir, plugin_info_filename
+                )
                 if plugin_info is not None:
-                    infos.append({
-                        "name": plugin_info.name,
-                        "author": plugin_info.author,
-                        "version": plugin_info.version,
-                        "format_desc": f"{plugin_info.file_format} (*.{plugin_info.suffix})",
-                        "directory": str(temp_plugin_dir.resolve().as_posix()),
-                        "info_filename": plugin_info_filename,
-                    })
-                    print(
-                        infos
+                    infos.append(
+                        {
+                            "name": plugin_info.name,
+                            "author": plugin_info.author,
+                            "version": plugin_info.version,
+                            "format_desc": f"{plugin_info.file_format} (*.{plugin_info.suffix})",
+                            "directory": str(temp_plugin_dir.resolve().as_posix()),
+                            "info_filename": plugin_info_filename,
+                        }
                     )
+                    print(infos)
         return infos
 
     @slot(result=bool)
