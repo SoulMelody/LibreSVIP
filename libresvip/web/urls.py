@@ -1,6 +1,6 @@
-from trame.widgets import vuetify
 from trame_router.ui.router import RouterViewLayout
 from trame_server.core import Server
+from trame_vuetify.widgets import vuetify
 
 from libresvip.web.views import converter, plugins
 
@@ -14,11 +14,6 @@ def initialize(server: Server):
             "icon": "mdi-sync",
             "route": "/",
         },
-        # {
-        #     "title": "Visualize",
-        #     "icon": "mdi-chart-timeline-variant",
-        #     "route": "/visualizer",
-        # },
         {
             "title": "Plugins",
             "icon": "mdi-puzzle-outline",
@@ -33,10 +28,6 @@ def initialize(server: Server):
 
     with RouterViewLayout(server, "/"):
         converter.initialize(server)
-
-    # with RouterViewLayout(server, "/visualizer"):
-    #     with vuetify.VCard():
-    #         vuetify.VCardTitle("This is visualizer")
 
     with RouterViewLayout(server, "/plugin"):
         plugins.initialize(server)

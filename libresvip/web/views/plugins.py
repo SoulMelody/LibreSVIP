@@ -1,8 +1,9 @@
 import io
 
 from more_itertools import chunked
-from trame.widgets import html, vuetify
+from trame_client.widgets import html
 from trame_server.core import Server
+from trame_vuetify.widgets import vuetify
 
 from libresvip.extension.manager import plugin_manager
 

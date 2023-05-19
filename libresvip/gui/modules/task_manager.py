@@ -233,7 +233,9 @@ class TaskManager(QObject):
                 output_dir / f"{task['stem']}{self.output_ext}"
             )
             return True
-        except (FileExistsError, FileNotFoundError):
+        except (FileExistsError, FileNotFoundError, OSError) as e:
+            self.tasks.update(index, {"error": str(e)})
+            self.all_tasks_finished.emit()
             return False
 
     @slot(str)

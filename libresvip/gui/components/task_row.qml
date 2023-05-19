@@ -128,8 +128,6 @@ Column {
                             let move_result = py.task_manager.move_to_output(index)
                             if (move_result) {
                                 visible = true
-                            } else {
-                                converterPage.taskList.model.update(index, {success: false, error: qsTr("Failed to move file")})
                             }
                         } else if (conflict_policy == "Skip") {
                             skipButton.visible = true

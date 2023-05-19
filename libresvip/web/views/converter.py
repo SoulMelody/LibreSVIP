@@ -10,8 +10,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
 from pydantic.color import Color
-from trame.widgets import html, trame, vuetify
+from trame.widgets import trame
+from trame_client.widgets import html
 from trame_server.core import Server
+from trame_vuetify.widgets import vuetify
 
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_registry
@@ -295,7 +297,11 @@ def initialize(server: Server):
             future_to_path = {}
             for each in state.files_to_convert:
                 input_path = tmp_dir / each["name"]
-                input_content = b''.join(each["content"]) if isinstance(each["content"], list) else each["content"]
+                input_content = (
+                    b"".join(each["content"])
+                    if isinstance(each["content"], list)
+                    else each["content"]
+                )
                 input_path.write_bytes(input_content)
                 input_path = str(input_path)
                 output_path = tempfile.mktemp(
@@ -341,7 +347,9 @@ def initialize(server: Server):
                 for src_name, tmp_path in state.convert_results.items():
                     src_path = pathlib.Path(src_name)
                     tmp_path = pathlib.Path(tmp_path)
-                    zf.writestr(f"{src_path.stem}.{state.output_format}", tmp_path.read_bytes())
+                    zf.writestr(
+                        f"{src_path.stem}.{state.output_format}", tmp_path.read_bytes()
+                    )
         else:
             tmp_path = list(state.convert_results.values())[0]
             tmp_path = pathlib.Path(tmp_path)

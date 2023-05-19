@@ -4,9 +4,11 @@ import os
 import shutil
 import tempfile
 
-from trame.ui.vuetify import SinglePageWithDrawerLayout
-from trame.widgets import html, router, trame, vuetify
+from trame.widgets import router, trame
+from trame_client.widgets import html
 from trame_server.core import Server
+from trame_vuetify.ui.vuetify import SinglePageWithDrawerLayout
+from trame_vuetify.widgets import vuetify
 
 from libresvip.core.config import settings
 from libresvip.core.constants import pkg_dir
