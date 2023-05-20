@@ -14,4 +14,6 @@ TopToolbar 1.0 top_toolbar.qml
 
 PluginInfo 1.0 plugin_info.qml
 
+DashedRectangle 1.0 dashed_rectangle.qml
+
 ConverterPage 1.0 converter_page.qml

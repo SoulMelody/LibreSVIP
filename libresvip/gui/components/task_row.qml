@@ -6,6 +6,7 @@ import QtQuick.Layouts
 
 
 Column {
+    id: taskRow
     required property string name
     required property string path
     required property string stem
@@ -13,7 +14,7 @@ Column {
     required property string index
     signal py_busy_changed(bool busy)
     signal py_all_tasks_finished()
-    signal py_tasks_data_changed()
+    signal py_tasks_data_changed(int idx)
     RowLayout {
         Layout.alignment: Qt.AlignVCenter
         Column {
@@ -36,24 +37,16 @@ Column {
         }
 
         TextField {
+            id: stemField
             text: stem
             onEditingFinished: {
                 converterPage.taskList.model.update(index, {stem: this.text})
             }
-            Component.onCompleted: {
-                py_tasks_data_changed.connect( () => {
-                    this.text = converterPage.taskList.model.get(index).stem
-                })
-            }
         }
 
         Label {
+            id: extLabel
             text: ext
-            Component.onCompleted: {
-                py_tasks_data_changed.connect( (idx1, idx2, ext) => {
-                    this.text = converterPage.taskList.model.get(index).ext
-                })
-            }
         }
 
         IconButton {
@@ -127,6 +120,8 @@ Column {
                             let move_result = py.task_manager.move_to_output(index)
                             if (move_result) {
                                 visible = true
+                            } else {
+                                errorButton.visible = true
                             }
                         } else if (conflict_policy == "Skip") {
                             skipButton.visible = true
@@ -154,11 +149,6 @@ Column {
                         }
                     } else if (successToolTip.visible) {
                         successToolTip.visible = false
-                    }
-                })
-                py_busy_changed.connect( (busy) => {
-                    if (busy) {
-                        successButton.visible = false
                     }
                 })
             }
@@ -203,13 +193,6 @@ Column {
             }
             onClicked: {
                 skipToolTip.visible = !skipToolTip.visible
-            }
-            Component.onCompleted: {
-                py_busy_changed.connect( (busy) => {
-                    if (busy) {
-                        skipButton.visible = false
-                    }
-                })
             }
         }
 
@@ -270,22 +253,6 @@ Column {
             onClicked: {
                 errorToolTip.visible = !errorToolTip.visible
             }
-            Component.onCompleted: {
-                py_tasks_data_changed.connect( () => {
-                    let error = converterPage.taskList.model.get(index).error
-                    if (error) {
-                        errorLabel.text = error
-                        visible = true
-                    } else if (visible) {
-                        visible = false
-                    }
-                })
-                py_busy_changed.connect( (busy) => {
-                    if (busy) {
-                        errorButton.visible = false
-                    }
-                })
-            }
         }
 
         RoundButton {
@@ -321,26 +288,42 @@ Column {
                     })
                 }
             }
-            Component.onCompleted: {
-                py_busy_changed.connect(function(busy) {
-                    if (busy) {
-                        runningButton.visible = true
-                    } else {
-                        runningButton.visible = false
-                    }
-                })
-            }
         }
         Component.onCompleted: {
             py.task_manager.busy_changed.connect(py_busy_changed)
             py.task_manager.all_tasks_finished.connect(py_all_tasks_finished)
-            converterPage.taskList.model.dataChanged.connect(
-                (idx1, idx2, value) => {
-                    if (index !== undefined && index == idx1.row){
-                        py_tasks_data_changed()
-                    }
-                }
-            )
+        }
+    }
+    Connections {
+        target: converterPage.taskList.model
+        function onDataChanged(idx1, idx2, value) {
+            if (index !== undefined && index == index){
+                py_tasks_data_changed(index)
+            }
+        }
+    }
+    onPy_busy_changed: (busy) => {
+        if (busy) {
+            runningButton.visible = true
+            successButton.visible = false
+            errorButton.visible = false
+            skipButton.visible = false
+        } else {
+            runningButton.visible = false
+        }
+    }
+    onPy_tasks_data_changed: (idx) => {
+        if (index == idx) {
+            let taskModel = converterPage.taskList.model.get(index)
+            stemField.text = taskModel.stem
+            extLabel.text = taskModel.ext
+            let error = taskModel.error
+            if (error) {
+                errorLabel.text = error
+                errorButton.visible = true
+            } else if (errorButton.visible) {
+                errorButton.visible = false
+            }
         }
     }
 }

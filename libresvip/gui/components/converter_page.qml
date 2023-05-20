@@ -281,7 +281,7 @@ Page {
                         Layout.columnSpan: 8
                         Layout.row: 1
                         Layout.column: 0
-                        Layout.preferredWidth: parent.width * 0.8
+                        Layout.fillWidth: true
                         height: 50
                         ComboBox {
                             id: inputFormat
@@ -401,7 +401,7 @@ Page {
                         Layout.columnSpan: 8
                         Layout.row: 3
                         Layout.column: 0
-                        Layout.preferredWidth: parent.width * 0.8
+                        Layout.fillWidth: true
                         height: 50
                         ComboBox {
                             id: outputFormat
@@ -420,8 +420,6 @@ Page {
                                 })
                                 py.task_manager.set_str("output_format", currentValue)
                             }
-
-
                             width: parent.width
                             model: py.task_manager.qget("output_formats")
                         }
@@ -477,35 +475,58 @@ Page {
                 onDropped: (event) => {
                     py.task_manager.add_task_paths(event.urls.map(dialogs.url2path))
                 }
-                MouseArea {
+                DashedRectangle {
+                    anchors.fill: parent
+                    anchors.margins: 12
+                    radius: 8
+                    visible: taskListView.count == 0
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: {
+                            if (taskListView.count == 0) {
+                                parent.opacity = 0.5
+                            }
+                        }
+                        onExited: {
+                            if (parent.opacity < 1) {
+                                parent.opacity = 1
+                            }
+                        }
+                        onClicked: {
+                            if (taskListView.count == 0) {
+                                actions.openFile.trigger()
+                            }
+                        }
+                        Column {
+                            anchors.centerIn: parent
+                            Label {
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: py.qta.icon("mdi6.tray-arrow-up")
+                                font.family: materialFontLoader.name
+                                font.pixelSize: 100
+                            }
+                            Label {
+                                text: qsTr("Drag and drop files here")
+                                font.pixelSize: 30
+                            }
+                        }
+                    }
+                }
+                ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 20
-                    hoverEnabled: true
-                    onEntered: {
-                        if (taskListView.count == 0) {
-                            taskListArea.opacity = 0.5
-                        }
-                    }
-                    onExited: {
-                        if (taskListArea.opacity < 1) {
-                            taskListArea.opacity = 1
-                        }
-                    }
-                    onClicked: {
-                        if (taskListView.count == 0) {
-                            actions.openFile.trigger()
-                        }
-                    }
+                    visible: taskListView.count > 0
                     Label {
-                        id: taskToolbarLabel
-                        anchors.top: parent.top
+                        Layout.alignment: Qt.AlignTop
                         text: qsTr("Task List")
                         font.pixelSize: 20
+                        height: 30
                     }
                     ScrollView {
-                        anchors.top: taskToolbarLabel.bottom
-                        anchors.topMargin: 20
-                        height: 250
+                        Layout.alignment: Qt.AlignTop
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         ListView {
                             id: taskListView
                             model: py.task_manager.qget("tasks")
@@ -513,25 +534,9 @@ Page {
                                 "task_row.qml"
                             )
                         }
-                        width: taskListArea.width - 40
-                        visible: taskListView.count > 0
-                    }
-                    Column {
-                        anchors.centerIn: parent
-                        Label {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: py.qta.icon("mdi6.tray-arrow-up")
-                            font.family: materialFontLoader.name
-                            font.pixelSize: 100
-                        }
-                        Label {
-                            text: qsTr("Drag and drop files here")
-                            font.pixelSize: 30
-                        }
-                        visible: taskListView.count == 0
                     }
                     Rectangle {
-                        anchors.bottom: parent.bottom
+                        Layout.alignment: Qt.AlignBottom
                         color: "transparent"
                         Timer {
                             id: hideTaskToolbarTimer;
@@ -767,7 +772,9 @@ Page {
                 }
                 ColumnLayout {
                     anchors.fill: parent
-                    anchors.margins: 10
+                    anchors.topMargin: 20
+                    anchors.leftMargin: 20
+                    anchors.rightMargin: 10
                     Layout.fillWidth: true
                     Label {
                         text: qsTr("Advanced Settings")
@@ -1256,16 +1263,6 @@ Page {
                                 actions.startConversion.trigger()
                             }
                         }
-                        // BusyIndicator {
-                        //     anchors.centerIn: parent
-                        //     running: py.task_manager.is_busy()
-                        //     visible: running
-                        //     Component.onCompleted: {
-                        //         py.task_manager.busy_changed.connect(function(busy) {
-                        //             running = visible = busy
-                        //         })
-                        //     }
-                        // }
                     }
                     Switch {
                         Layout.columnSpan: 4

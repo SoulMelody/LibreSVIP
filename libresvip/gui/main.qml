@@ -30,6 +30,7 @@ ApplicationWindow {
 
     // Left bottom edge
     MouseArea {
+        // from https://github.com/cutefishos/fishui/blob/main/src/controls/Window.qml
         height: edgeSize * 2
         width: height
         anchors.bottom: parent.bottom
