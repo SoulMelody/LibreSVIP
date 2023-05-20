@@ -755,6 +755,7 @@ Page {
                 SplitView.preferredHeight: parent.height * 0.7
                 SplitView.minimumHeight: parent.height * 0.5
                 SplitView.maximumHeight: parent.height - 200
+                contentWidth: availableWidth
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
@@ -765,7 +766,8 @@ Page {
                 }
                 ColumnLayout {
                     anchors.fill: parent
-                    anchors.margins: 20
+                    anchors.margins: 10
+                    Layout.fillWidth: true
                     Label {
                         text: qsTr("Advanced Settings")
                         font.pixelSize: 20
@@ -776,6 +778,7 @@ Page {
                         Row {
                             height: 30
                             visible: inputFields.count > 0
+                            Layout.fillWidth: true
                             RoundButton {
                                 Layout.fillHeight: true
                                 radius: this.height / 2
@@ -825,7 +828,7 @@ Page {
                             }
                         }
                         RowLayout {
-                            width: advancedSettings.width - 40
+                            Layout.fillWidth: true
                             Rectangle {
                                 width: 40
                             }
@@ -925,6 +928,7 @@ Page {
                         Row {
                             height: 30
                             visible: outputFields.count > 0
+                            Layout.fillWidth: true
                             RoundButton {
                                 Layout.fillHeight: true
                                 radius: this.height / 2
@@ -974,7 +978,7 @@ Page {
                             }
                         }
                         RowLayout {
-                            width: advancedSettings.width - 40
+                            Layout.fillWidth: true
                             Rectangle {
                                 width: 40
                             }

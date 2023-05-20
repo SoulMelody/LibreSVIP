@@ -38,7 +38,7 @@ ApplicationWindow {
         propagateComposedEvents: true
         preventStealing: false
         z: 999
-        visible: window.visibility != Window.Maximized
+        visible: window.visibility !== Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -47,9 +47,7 @@ ApplicationWindow {
         DragHandler {
             grabPermissions: TapHandler.TakeOverForbidden
             target: null
-            onActiveChanged: if (active) {
-                                 window.startSystemResize(Qt.LeftEdge | Qt.BottomEdge)
-                             }
+            onActiveChanged: if (active) { window.startSystemResize(Qt.LeftEdge | Qt.BottomEdge) }
         }
     }
 
@@ -63,7 +61,7 @@ ApplicationWindow {
         propagateComposedEvents: true
         preventStealing: false
         z: 999
-        visible: window.visibility != Window.Maximized
+        visible: window.visibility !== Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -86,7 +84,7 @@ ApplicationWindow {
         anchors.rightMargin: edgeSize * 2
         cursorShape: Qt.SizeVerCursor
         z: 999
-        visible: window.visibility != Window.Maximized
+        visible: window.visibility !== Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -109,7 +107,7 @@ ApplicationWindow {
         anchors.rightMargin: edgeSize * 2
         cursorShape: Qt.SizeVerCursor
         z: 999
-        visible: window.visibility != Window.Maximized
+        visible: window.visibility !== Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -132,7 +130,7 @@ ApplicationWindow {
         anchors.bottomMargin: edgeSize * 2
         cursorShape: Qt.SizeHorCursor
         z: 999
-        visible: window.visibility != Window.Maximized
+        visible: window.visibility !== Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -155,7 +153,7 @@ ApplicationWindow {
         anchors.bottomMargin: edgeSize * 2
         cursorShape: Qt.SizeHorCursor
         z: 999
-        visible: window.visibility != Window.Maximized
+        visible: window.visibility !== Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -164,9 +162,7 @@ ApplicationWindow {
         DragHandler {
             grabPermissions: TapHandler.TakeOverForbidden
             target: null
-            onActiveChanged: if (active) {
-                window.startSystemResize(Qt.RightEdge)
-            }
+            onActiveChanged: if (active) { window.startSystemResize(Qt.RightEdge) }
         }
     }
 

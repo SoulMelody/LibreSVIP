@@ -6,7 +6,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 Drawer {
-    width: window.width * 0.3
+    width: 400
     height: window.height
     signal autoOpenSaveFolderChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
