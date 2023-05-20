@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Dialogs
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 Page {
     title: qsTr("Converter")
@@ -245,7 +246,7 @@ Page {
         SplitView {
             SplitView.fillHeight: true
             SplitView.preferredWidth: parent.width / 2
-            SplitView.minimumWidth: parent.width * 0.4
+            SplitView.minimumWidth: parent.width * 0.45
             orientation: Qt.Vertical
 
             Control {
@@ -746,7 +747,7 @@ Page {
             anchors.right: parent.right
             SplitView.fillHeight: true
             SplitView.preferredWidth: parent.width / 2
-            SplitView.minimumWidth: parent.width * 0.4
+            SplitView.minimumWidth: parent.width * 0.45
             orientation: Qt.Vertical
 
             ScrollView {
@@ -1144,7 +1145,7 @@ Page {
                             })
                         }
                     }
-                    Container {
+                    Item {
                         id: startConversionContainer
                         Layout.rowSpan: 2
                         Layout.row: 1
@@ -1152,59 +1153,119 @@ Page {
                         Layout.column: 8
                         Layout.preferredHeight: parent.height * 0.6
                         Layout.preferredWidth: parent.width * 0.2
-                        contentItem: Item {
-                            RoundButton {
-                                anchors.fill: parent
+                        RoundButton {
+                            id: startConversionBtn
+                            property color base_color: Material.color(
+                                Material.Indigo
+                            )
+                            property int anim_index: 10
+                            property bool anim_running: false
+                            anchors.fill: parent
+                            radius: 10
+                            enabled: taskListView.count > 0
+                            opacity: enabled ? 1 : 0.7
+                            background: Rectangle {
+                                color: startConversionBtn.base_color
                                 radius: 10
-                                enabled: taskListView.count > 0
-                                opacity: (py.task_manager.is_busy() || !enabled) ? 0.5 : 1
-                                background: Rectangle {
-                                    color: Material.color(
-                                        Material.Indigo,
-                                        Material.Shade500
-                                    )
-                                    radius: 10
-                                }
-                                contentItem: Label {
-                                    text: qsTr("Start Conversion")
-                                    wrapMode: Text.WordWrap
-                                    verticalAlignment: Text.AlignVCenter
-                                    horizontalAlignment: Text.AlignHCenter
-                                    color: "white"
-                                    Component.onCompleted: {
-                                        py.task_manager.tasks_size_changed.connect(function() {
-                                            text = py.task_manager.is_busy() ? qsTr("Converting") : qsTr("Start Conversion")
-                                        })
-                                        py.task_manager.busy_changed.connect(function(busy) {
-                                            text = busy ? qsTr("Converting") : qsTr("Start Conversion")
-                                        })
+                                gradient: LinearGradient {
+                                    orientation: Gradient.Horizontal
+                                    GradientStop {
+                                        position: 0
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, (startConversionBtn.anim_index % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.1
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 1) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.2
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 2) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.3
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 3) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.4
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 4) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.5
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 5) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.6
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 6) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.7
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 7) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.8
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 8) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 0.9
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 9) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                    }
+                                    GradientStop {
+                                        position: 1
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, (startConversionBtn.anim_index % 10) / 100 + 0.9) : startConversionBtn.base_color
                                     }
                                 }
+                                SequentialAnimation {
+                                    running: startConversionBtn.anim_running
+                                    loops: Animation.Infinite
+                                    NumberAnimation {
+                                        target: startConversionBtn
+                                        property: "anim_index"
+                                        from: 10
+                                        to: 0
+                                        duration: 1000
+                                    }
+                                }
+                            }
+                            contentItem: Label {
+                                text: qsTr("Start Conversion")
+                                wrapMode: Text.WordWrap
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                                color: "white"
                                 Component.onCompleted: {
                                     py.task_manager.tasks_size_changed.connect(function() {
-                                        enabled = taskListView.count > 0
-                                        opacity = (py.task_manager.is_busy() || !enabled) ? 0.5 : 1
+                                        text = py.task_manager.is_busy() ? qsTr("Converting") : qsTr("Start Conversion")
                                     })
                                     py.task_manager.busy_changed.connect(function(busy) {
-                                        enabled = taskListView.count > 0
-                                        opacity = (busy || !enabled) ? 0.5 : 1
+                                        text = busy ? qsTr("Converting") : qsTr("Start Conversion")
                                     })
-                                }
-                                onClicked: {
-                                    actions.startConversion.trigger()
                                 }
                             }
-                            BusyIndicator {
-                                anchors.centerIn: parent
-                                running: py.task_manager.is_busy()
-                                visible: running
-                                Component.onCompleted: {
-                                    py.task_manager.busy_changed.connect(function(busy) {
-                                        running = visible = busy
-                                    })
-                                }
+                            Component.onCompleted: {
+                                py.task_manager.tasks_size_changed.connect(function() {
+                                    enabled = taskListView.count > 0
+                                    opacity = (py.task_manager.is_busy() || !enabled) ? 0.5 : 1
+                                })
+                                py.task_manager.busy_changed.connect(function(busy) {
+                                    enabled = taskListView.count > 0
+                                    opacity = (busy || !enabled) ? 0.5 : 1
+                                    anim_running = busy
+                                })
+                            }
+                            onClicked: {
+                                actions.startConversion.trigger()
                             }
                         }
+                        // BusyIndicator {
+                        //     anchors.centerIn: parent
+                        //     running: py.task_manager.is_busy()
+                        //     visible: running
+                        //     Component.onCompleted: {
+                        //         py.task_manager.busy_changed.connect(function(busy) {
+                        //             running = visible = busy
+                        //         })
+                        //     }
+                        // }
                     }
                     Switch {
                         Layout.columnSpan: 4

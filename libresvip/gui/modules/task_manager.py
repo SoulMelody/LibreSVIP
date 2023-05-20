@@ -13,7 +13,7 @@ from qmlease import slot
 from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
 from qtpy.QtGui import QDesktopServices
 
-from libresvip.core.config import settings
+from libresvip.core.config import ConflictPolicy, settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
@@ -229,13 +229,13 @@ class TaskManager(QObject):
             return False
         output_dir = self.output_dir(task)
         try:
-            pathlib.Path(task["tmp_path"]).rename(
-                output_dir / f"{task['stem']}{self.output_ext}"
-            )
+            target_path = output_dir / f"{task['stem']}{self.output_ext}"
+            if target_path.exists() and settings.conflict_policy != ConflictPolicy.SKIP:
+                target_path.unlink()
+            pathlib.Path(task["tmp_path"]).rename(target_path)
             return True
         except (FileExistsError, FileNotFoundError, OSError) as e:
             self.tasks.update(index, {"error": str(e)})
-            self.all_tasks_finished.emit()
             return False
 
     @slot(str)

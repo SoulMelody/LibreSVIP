@@ -11,7 +11,7 @@ ApplicationWindow {
     flags: Qt.FramelessWindowHint | Qt.Window
     visible: true
     minimumWidth: 800
-    minimumHeight: 720
+    minimumHeight: 600
     width: 1200
     height: 800
     property int edgeSize: 8
