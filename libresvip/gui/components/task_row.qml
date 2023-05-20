@@ -15,6 +15,7 @@ Column {
     signal py_all_tasks_finished()
     signal py_tasks_data_changed()
     RowLayout {
+        Layout.alignment: Qt.AlignVCenter
         Column {
             Label {
                 Layout.fillWidth: true

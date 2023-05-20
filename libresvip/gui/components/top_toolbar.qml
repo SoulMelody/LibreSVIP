@@ -35,6 +35,7 @@ ToolBar {
     }
 
     RowLayout {
+        id: menus
         anchors.left: parent.left
         spacing: 0
         ToolButton {
@@ -383,14 +384,15 @@ ToolBar {
         }
     }
 
-    Label {
-        text: window.title + " - " + qsTr("SVS Projects Converter")
-        anchors.centerIn: parent
-        font.pixelSize: Qt.application.font.pixelSize * 1.2
-    }
-
     RowLayout {
+        anchors.left: menus.right
         anchors.right: parent.right
+        Label {
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+            text: window.title + " - " + qsTr("SVS Projects Converter")
+            font.pixelSize: Qt.application.font.pixelSize * 1.2
+        }
         ToolButton {
             id: minimizeButton
             text: py.qta.icon("mdi6.window-minimize")

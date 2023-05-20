@@ -240,7 +240,6 @@ Page {
 
     SplitView {
         anchors.fill: parent
-        anchors.margins: 10
         orientation: Qt.Horizontal
 
         SplitView {
