@@ -60,12 +60,10 @@ Page {
                     field.value = this.text
                 }
             }
-            RoundButton {
-                text: py.qta.icon("mdi6.eyedropper-variant")
-                width: 30
-                radius: this.height / 2
-                font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
+            IconButton {
+                icon_name: "mdi6.eyedropper-variant"
+                diameter: 30
+                icon_size_multiplier: 1.5
                 onClicked: {
                     dialogs.colorDialog.bind_color(
                         colorField.text,
@@ -76,12 +74,11 @@ Page {
                     )
                 }
             }
-            RoundButton {
-                text: py.qta.icon("mdi6.help-circle-outline")
-                width: 30
-                radius: this.height / 2
-                font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
+            IconButton {
+                icon_name: "mdi6.help-circle-outline"
+                diameter: 30
+                icon_size_multiplier: 1.5
+                cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
                     info.visible = !info.visible
@@ -91,10 +88,6 @@ Page {
                     y: parent.y - parent.height
                     visible: false
                     text: field.description
-                }
-                HoverHandler {
-                    acceptedDevices: PointerDevice.Mouse
-                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -119,12 +112,16 @@ Page {
                     field.value = this.checked
                 }
             }
-            RoundButton {
-                text: py.qta.icon("mdi6.help-circle-outline")
-                width: 30
-                radius: this.height / 2
-                font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: "transparent"
+            }
+            IconButton {
+                icon_name: "mdi6.help-circle-outline"
+                diameter: 30
+                icon_size_multiplier: 1.5
+                cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
                     info.visible = !info.visible
@@ -134,10 +131,6 @@ Page {
                     y: parent.y - parent.height
                     visible: false
                     text: field.description
-                }
-                HoverHandler {
-                    acceptedDevices: PointerDevice.Mouse
-                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -166,12 +159,11 @@ Page {
                 }
                 model: field.choices
             }
-            RoundButton {
-                text: py.qta.icon("mdi6.help-circle-outline")
-                width: 30
-                radius: this.height / 2
-                font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
+            IconButton {
+                icon_name: "mdi6.help-circle-outline"
+                diameter: 30
+                icon_size_multiplier: 1.5
+                cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
                     info.visible = !info.visible
@@ -181,10 +173,6 @@ Page {
                     y: parent.y - parent.height
                     visible: false
                     text: field.description
-                }
-                HoverHandler {
-                    acceptedDevices: PointerDevice.Mouse
-                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -211,12 +199,11 @@ Page {
                     field.value = this.text
                 }
             }
-            RoundButton {
-                text: py.qta.icon("mdi6.help-circle-outline")
-                width: 30
-                radius: this.height / 2
-                font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
+            IconButton {
+                icon_name: "mdi6.help-circle-outline"
+                diameter: 30
+                icon_size_multiplier: 1.5
+                cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
                     info.visible = !info.visible
@@ -226,10 +213,6 @@ Page {
                     y: parent.y - parent.height
                     visible: false
                     text: field.description
-                }
-                HoverHandler {
-                    acceptedDevices: PointerDevice.Mouse
-                    cursorShape: Qt.WhatsThisCursor
                 }
             }
         }
@@ -331,15 +314,13 @@ Page {
                             model: py.task_manager.qget("input_formats")
                         }
                     }
-                    RoundButton {
+                    IconButton {
                         Layout.columnSpan: 2
                         Layout.row: 1
                         Layout.column: 8
-                        text: py.qta.icon("mdi6.information-outline")
-                        width: 40
-                        radius: this.height / 2
-                        font.family: materialFontLoader.name
-                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        icon_name: "mdi6.information-outline"
+                        diameter: 36
+                        icon_size_multiplier: 1.5
                         onClicked: {
                             inputFormatInfo.visible = !inputFormatInfo.visible
                         }
@@ -394,16 +375,14 @@ Page {
                             })
                         }
                     }
-                    RoundButton {
+                    IconButton {
                         id: swapInputOutput
                         Layout.columnSpan: 2
                         Layout.row: 2
                         Layout.column: 8
-                        text: py.qta.icon("mdi6.swap-vertical")
-                        width: 40
-                        radius: this.height / 2
-                        font.family: materialFontLoader.name
-                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        icon_name: "mdi6.swap-vertical"
+                        diameter: 36
+                        icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Swap Input and Output")
                         onClicked: {
@@ -447,15 +426,13 @@ Page {
                             model: py.task_manager.qget("output_formats")
                         }
                     }
-                    RoundButton {
+                    IconButton {
                         Layout.columnSpan: 2
                         Layout.row: 3
                         Layout.column: 8
-                        text: py.qta.icon("mdi6.information-outline")
-                        width: 40
-                        radius: this.height / 2
-                        font.family: materialFontLoader.name
-                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        icon_name: "mdi6.information-outline"
+                        diameter: 36
+                        icon_size_multiplier: 1.5
                         onClicked: {
                             outputFormatInfo.visible = !outputFormatInfo.visible
                         }
@@ -831,6 +808,7 @@ Page {
                             Rectangle {
                                 width: 20
                                 height: 1
+                                color: "transparent"
                             }
                             Label {
                                 text: ""
@@ -979,6 +957,7 @@ Page {
                             Rectangle {
                                 width: 20
                                 height: 1
+                                color: "transparent"
                             }
                             Label {
                                 text: ""
@@ -1128,14 +1107,12 @@ Page {
                         font.pixelSize: 20
                         Layout.alignment: Qt.AlignVCenter
                     }
-                    RoundButton {
+                    IconButton {
                         Layout.columnSpan: 1
                         Layout.row: 1
                         Layout.column: 0
-                        text: py.qta.icon("mdi6.folder")
-                        radius: this.height / 2
-                        font.family: materialFontLoader.name
-                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        icon_name: "mdi6.folder"
+                        icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Choose Output Folder")
                         onClicked: {

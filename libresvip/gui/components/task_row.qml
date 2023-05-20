@@ -55,11 +55,9 @@ Column {
             }
         }
 
-        RoundButton {
-            text: py.qta.icon("mdi6.trash-can-outline")
-            font.family: materialFontLoader.name
-            font.pixelSize: Qt.application.font.pixelSize * 1.2
-            radius: this.height / 2
+        IconButton {
+            icon_name: "mdi6.trash-can-outline"
+            icon_size_multiplier: 1.2
             onClicked: {
                 converterPage.taskList.model.delete(index)
                 py.task_manager.trigger_event("tasks_size_changed", [])

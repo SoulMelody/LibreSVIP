@@ -6,6 +6,8 @@ Actions 1.0 actions.qml
 
 SettingsDrawer 1.0 settings_drawer.qml
 
+IconButton 1.0 icon_button.qml
+
 IconMenuItem 1.0 icon_menu_item.qml
 
 TopToolbar 1.0 top_toolbar.qml
