@@ -38,6 +38,7 @@ ApplicationWindow {
         propagateComposedEvents: true
         preventStealing: false
         z: 999
+        visible: window.visibility != Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -62,6 +63,7 @@ ApplicationWindow {
         propagateComposedEvents: true
         preventStealing: false
         z: 999
+        visible: window.visibility != Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -84,6 +86,7 @@ ApplicationWindow {
         anchors.rightMargin: edgeSize * 2
         cursorShape: Qt.SizeVerCursor
         z: 999
+        visible: window.visibility != Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -106,6 +109,7 @@ ApplicationWindow {
         anchors.rightMargin: edgeSize * 2
         cursorShape: Qt.SizeVerCursor
         z: 999
+        visible: window.visibility != Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -128,6 +132,7 @@ ApplicationWindow {
         anchors.bottomMargin: edgeSize * 2
         cursorShape: Qt.SizeHorCursor
         z: 999
+        visible: window.visibility != Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
@@ -150,6 +155,7 @@ ApplicationWindow {
         anchors.bottomMargin: edgeSize * 2
         cursorShape: Qt.SizeHorCursor
         z: 999
+        visible: window.visibility != Window.Maximized
 
         onPressed: (mouse) => {
             mouse.accepted = false
