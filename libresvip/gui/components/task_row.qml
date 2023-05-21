@@ -263,7 +263,7 @@ ColumnLayout {
                         font.family: materialFontLoader.name
                         font.pixelSize: Qt.application.font.pixelSize * 1.2
                         NumberAnimation on rotation {
-                            running: parent.visible;
+                            running: runningButton.visible;
                             from: 0;
                             to: 360;
                             loops: Animation.Infinite;

@@ -1288,8 +1288,9 @@ Page {
                         Layout.row: 2
                         Layout.column: 4
                         Layout.preferredWidth: parent.width * 0.2
-                        text: qsTr("Deal with Conflicts:")
                         Layout.alignment: Qt.AlignVCenter
+                        text: qsTr("Deal with Conflicts:")
+                        elide: Text.ElideRight
                     }
                     ComboBox {
                         Layout.columnSpan: 2
