@@ -29,17 +29,24 @@ GridLayout {
         font.bold: true
     }
 
-    RowLayout {
+    Button {
         Layout.row: 1
         Layout.column: 3
         Layout.columnSpan: 3
-        Label {
-            text: py.qta.icon("mdi6.tag")
-            font.family: materialFontLoader.name
+        background: Rectangle {
+            color: "transparent"
         }
-        Label {
-            text: info.version
+        contentItem: RowLayout {
+            Label {
+                text: py.qta.icon("mdi6.tag")
+                font.family: materialFontLoader.name
+            }
+            Label {
+                text: info.version
+            }
         }
+        ToolTip.visible: hovered
+        ToolTip.text: qsTr("Version")
     }
 
     Button {
@@ -64,8 +71,9 @@ GridLayout {
                 text: py.qta.icon("mdi6.open-in-new")
                 font.family: materialFontLoader.name
             }
-
         }
+        ToolTip.visible: hovered
+        ToolTip.text: info.website
         onClicked: Qt.openUrlExternally(info.website)
     }
 

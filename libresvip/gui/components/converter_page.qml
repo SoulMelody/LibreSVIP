@@ -322,13 +322,13 @@ Page {
                         diameter: 36
                         icon_size_multiplier: 1.5
                         onClicked: {
-                            inputFormatInfo.visible = !inputFormatInfo.visible
+                            inputFormatInfo.opened ? inputFormatInfo.close() : inputFormatInfo.open()
                         }
-                        ToolTip {
+                        Popup {
                             id: inputFormatInfo
                             y: parent.y + parent.height * 0.5
-                            visible: false
-                            contentItem: PluginInfo {
+                            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                            PluginInfo {
                                 info: py.task_manager.plugin_info("input_format")
                                 Component.onCompleted: {
                                     py.task_manager.input_format_changed.connect( (input_format) => {
@@ -432,13 +432,13 @@ Page {
                         diameter: 36
                         icon_size_multiplier: 1.5
                         onClicked: {
-                            outputFormatInfo.visible = !outputFormatInfo.visible
+                            outputFormatInfo.opened ? outputFormatInfo.close() : outputFormatInfo.open()
                         }
-                        ToolTip {
+                        Popup {
                             id: outputFormatInfo
-                            y: parent.y - parent.height * 2
-                            visible: false
-                            contentItem: PluginInfo {
+                            y: parent.y - parent.height * 1.8
+                            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+                            PluginInfo {
                                 info: py.task_manager.plugin_info("output_format")
                                 Component.onCompleted: {
                                     py.task_manager.output_format_changed.connect( (output_format) => {
