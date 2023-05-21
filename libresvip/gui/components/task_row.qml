@@ -20,16 +20,18 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         Column {
-            width: 200
+            width: parent.width - 280
             Label {
-                Layout.fillWidth: true
-                text: name.length > 25 ? name.substring(0, 25) + "..." : name
+                width: parent.width 
+                text: name
+                elide: Text.ElideRight
                 font.bold: true
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
             }
             Label {
-                Layout.fillWidth: true
-                text: path.length > 30 ? path.substring(0, 30) + "..." : path
+                width: parent.width
+                text: path
+                elide: Text.ElideRight
             }
         }
         RowLayout {
