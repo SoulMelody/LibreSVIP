@@ -525,10 +525,12 @@ Page {
                     }
                     ScrollView {
                         Layout.alignment: Qt.AlignTop
-                        Layout.fillWidth: true
                         Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        contentWidth: availableWidth
                         ListView {
                             id: taskListView
+                            Layout.fillWidth: true
                             model: py.task_manager.qget("tasks")
                             delegate: Qt.createComponent(
                                 "task_row.qml"
