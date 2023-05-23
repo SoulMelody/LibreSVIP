@@ -60,26 +60,18 @@ ToolBar {
                         label: qsTr("Import Projects (Ctrl+O)");
                     }
                     IconMenuItem {
+                        id: startConversionMenuItem
                         action: actions.startConversion;
                         icon_name: "mdi6.share-all-outline"
                         label: qsTr("Perform All Tasks (Ctrl+Enter)");
-                        enabled: converterPage.taskList.count > 0
-                        Component.onCompleted: {
-                            py.task_manager.tasks_size_changed.connect(function() {
-                                enabled = converterPage.taskList.count > 0
-                            })
-                        }
+                        enabled: converterPage.startConversionButton.enabled
                     }
                     IconMenuItem {
+                        id: clearTasksMenuItem
                         action: actions.clearTasks;
                         icon_name: "mdi6.refresh"
                         label: qsTr("Clear Tasks (Ctrl+R)");
                         enabled: converterPage.taskList.count > 0
-                        Component.onCompleted: {
-                            py.task_manager.tasks_size_changed.connect(function() {
-                                enabled = converterPage.taskList.count > 0
-                            })
-                        }
                     }
                     MenuSeparator {}
                     IconMenuItem {

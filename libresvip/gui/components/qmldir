@@ -2,6 +2,8 @@ module LibreSVIP
 
 Dialogs 1.0 dialogs.qml
 
+MessageBox 1.0 message_box.qml
+
 Actions 1.0 actions.qml
 
 SettingsDrawer 1.0 settings_drawer.qml

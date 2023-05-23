@@ -203,4 +203,10 @@ ApplicationWindow {
     Components.ConverterPage {
         id: converterPage
     }
+
+    Component {
+        id: messageBox
+        Components.MessageBox {
+        }
+    }
 }

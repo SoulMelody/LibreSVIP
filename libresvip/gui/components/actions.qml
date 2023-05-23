@@ -29,7 +29,21 @@ Item {
     property QtObject clearTasks: Action {
         text: qsTr("&Restore Task List")
         shortcut: "Ctrl+R"
-        onTriggered: py.task_manager.reset()
+        onTriggered: {
+            if (!py.task_manager.is_busy()) {
+                converterPage.taskList.model.clear()
+            } else {
+                let message_box = messageBox.createObject(
+                    window,
+                    {
+                        body: qsTr("Alert"),
+                        message: qsTr("Cannot restore task list while conversion is in progress."),
+                        onOk: () => {}
+                    }
+                )
+                message_box.open()
+            }
+        }
     }
     property QtObject openAbout: Action {
         text: qsTr("&Info")
@@ -80,7 +94,7 @@ Item {
         text: qsTr("&Start Conversion")
         shortcut: "Ctrl+Enter"
         onTriggered: {
-            py.task_manager.trigger_event("start_conversion", [])
+            py.task_manager.start_conversion()
         }
     }
     property QtObject quit: Action {

@@ -13,6 +13,7 @@ ColumnLayout {
     required property string index
     width: converterPage.taskList.width
     height: 45
+
     Item {
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -60,7 +61,6 @@ ColumnLayout {
                 icon_size_multiplier: 1.2
                 onClicked: {
                     converterPage.taskList.model.delete(index)
-                    py.task_manager.trigger_event("tasks_size_changed", [])
                 }
             }
             Rectangle {
@@ -254,6 +254,7 @@ ColumnLayout {
                     let message_box = messageBox.createObject(
                         taskList,
                         {
+                            body: qsTr("<b>Do you want to overwrite the file?</b>"),
                             message: qsTr("File %1 already exists. Overwrite?").arg(
                                 py.task_manager.get_output_path(index)
                             ),

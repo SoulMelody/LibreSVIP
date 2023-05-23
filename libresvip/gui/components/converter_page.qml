@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Shapes
 
@@ -10,34 +9,11 @@ Page {
     title: qsTr("Converter")
 
     property alias taskList: taskListView;
+    property alias startConversionButton: startConversionBtn;
     property alias saveFolder: saveFolderTextField;
     property alias inputFormatComboBox: inputFormat;
     property alias outputFormatComboBox: outputFormat;
     property alias swapInputOutputButton: swapInputOutput;
-
-    Component {
-        id: messageBox
-        MessageDialog {
-            property var message: "";
-            property var onOk: () => {};
-            property var onCancel: () => {};
-            text: qsTr("<b>Do you want to overwrite the file?</b>")
-            informativeText: message
-            buttons: MessageDialog.Ok | MessageDialog.Cancel
-            onButtonClicked: (button, role) => {
-                switch (button) {
-                    case MessageDialog.Ok:
-                        onOk()
-                        break;
-                    case MessageDialog.Cancel: {
-                        onCancel()
-                        break;
-                    }
-                }
-                destroy()
-            }
-        }
-    }
 
     Component {
         id: colorPickerItem
@@ -667,6 +643,7 @@ Page {
                                     font.family: materialFontLoader.name
                                     font.pixelSize: Qt.application.font.pixelSize * 1.5
                                     radius: this.height / 2
+                                    enabled: taskListView.count > 0
                                     ToolTip.visible: hovered
                                     ToolTip.text: qsTr("Clear Task List")
                                     onHoveredChanged: {
@@ -728,7 +705,6 @@ Page {
                                             let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
                                             if (extension != inputFormat.currentValue) {
                                                 taskListView.model.delete(i)
-                                                py.task_manager.trigger_event("tasks_size_changed", [])
                                                 i--
                                             }
                                         }
@@ -1155,7 +1131,6 @@ Page {
                         }
                     }
                     Item {
-                        id: startConversionContainer
                         Layout.rowSpan: 2
                         Layout.row: 1
                         Layout.columnSpan: 2
@@ -1241,28 +1216,26 @@ Page {
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignHCenter
                                 color: "white"
-                                Component.onCompleted: {
-                                    py.task_manager.tasks_size_changed.connect(function() {
-                                        text = py.task_manager.is_busy() ? qsTr("Converting") : qsTr("Start Conversion")
-                                    })
-                                    py.task_manager.busy_changed.connect(function(busy) {
-                                        text = busy ? qsTr("Converting") : qsTr("Start Conversion")
-                                    })
-                                }
-                            }
-                            Component.onCompleted: {
-                                py.task_manager.tasks_size_changed.connect(function() {
-                                    enabled = taskListView.count > 0
-                                    opacity = (py.task_manager.is_busy() || !enabled) ? 0.5 : 1
-                                })
-                                py.task_manager.busy_changed.connect(function(busy) {
-                                    enabled = taskListView.count > 0
-                                    opacity = (busy || !enabled) ? 0.5 : 1
-                                    anim_running = busy
-                                })
                             }
                             onClicked: {
                                 actions.startConversion.trigger()
+                            }
+                            Connections {
+                                target: taskListView.model
+                                function onRowsInserted(idx, first, last) {
+                                    startConversionBtn.enabled = true
+                                }
+                                function onRowsRemoved(idx, first, last) {
+                                    startConversionBtn.enabled = !(first == 0 && last == taskListView.count - 1)
+                                }
+                            }
+                            Connections {
+                                target: py.task_manager
+                                function onBusy_changed(busy) {
+                                    startConversionBtn.contentItem.text = busy ? qsTr("Converting") : qsTr("Start Conversion")
+                                    startConversionBtn.enabled = taskListView.count > 0 && !busy
+                                    startConversionBtn.anim_running = busy
+                                }
                             }
                         }
                     }
