@@ -736,9 +736,9 @@ Page {
             ScrollView {
                 id: advancedSettings
                 SplitView.fillWidth: true
-                SplitView.preferredHeight: parent.height * 0.7
-                SplitView.minimumHeight: parent.height * 0.5
-                SplitView.maximumHeight: parent.height - 200
+                SplitView.preferredHeight: parent.height - 200
+                SplitView.minimumHeight: parent.height - 250
+                SplitView.maximumHeight: parent.height - 150
                 contentWidth: availableWidth
                 background: Rectangle {
                     color: "transparent"
@@ -1072,7 +1072,7 @@ Page {
 
             Control {
                 SplitView.fillWidth: true
-                SplitView.minimumHeight: 200
+                SplitView.minimumHeight: 150
                 anchors.bottom: parent.bottom
                 background: Rectangle {
                     color: "transparent"
@@ -1155,47 +1155,27 @@ Page {
                                     orientation: Gradient.Horizontal
                                     GradientStop {
                                         position: 0
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, (startConversionBtn.anim_index % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                        color: startConversionBtn.anim_index < 0 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
-                                        position: 0.1
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 1) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                        position: startConversionBtn.anim_index / 10 - 0.01
+                                        color: startConversionBtn.anim_index < 0 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
-                                        position: 0.2
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 2) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                        position: startConversionBtn.anim_index / 10
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
-                                        position: 0.3
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 3) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                        position: (startConversionBtn.anim_index + 2) / 10
+                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
-                                        position: 0.4
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 4) % 10) / 100 + 0.9) : startConversionBtn.base_color
-                                    }
-                                    GradientStop {
-                                        position: 0.5
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 5) % 10) / 100 + 0.9) : startConversionBtn.base_color
-                                    }
-                                    GradientStop {
-                                        position: 0.6
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 6) % 10) / 100 + 0.9) : startConversionBtn.base_color
-                                    }
-                                    GradientStop {
-                                        position: 0.7
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 7) % 10) / 100 + 0.9) : startConversionBtn.base_color
-                                    }
-                                    GradientStop {
-                                        position: 0.8
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 8) % 10) / 100 + 0.9) : startConversionBtn.base_color
-                                    }
-                                    GradientStop {
-                                        position: 0.9
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, ((startConversionBtn.anim_index + 9) % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                        position: (startConversionBtn.anim_index + 2) / 10 + 0.01
+                                        color: startConversionBtn.anim_index > 8 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
                                         position: 1
-                                        color: startConversionBtn.anim_running ? Qt.lighter(startConversionBtn.base_color, (startConversionBtn.anim_index % 10) / 100 + 0.9) : startConversionBtn.base_color
+                                        color: startConversionBtn.anim_index > 8 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                 }
                                 SequentialAnimation {
@@ -1204,9 +1184,9 @@ Page {
                                     NumberAnimation {
                                         target: startConversionBtn
                                         property: "anim_index"
-                                        from: 10
-                                        to: 0
-                                        duration: 1000
+                                        from: -2
+                                        to: 10
+                                        duration: 2000
                                     }
                                 }
                             }
