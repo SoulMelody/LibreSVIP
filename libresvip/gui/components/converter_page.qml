@@ -22,7 +22,7 @@ Page {
             height: 30
             Layout.fillWidth: true
             Label {
-                text: field.title
+                text: field.title + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -77,7 +77,7 @@ Page {
             height: 30
             Layout.fillWidth: true
             Label {
-                text: field.title
+                text: field.title + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -120,7 +120,7 @@ Page {
             height: 30
             Layout.fillWidth: true
             Label {
-                text: field.title
+                text: field.title + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -163,7 +163,7 @@ Page {
             Layout.fillWidth: true
             Label {
                 Layout.alignment: Qt.AlignVCenter
-                text: field.title
+                text: field.title + "："
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
                 wrapMode: Text.Wrap
@@ -1155,11 +1155,11 @@ Page {
                                     orientation: Gradient.Horizontal
                                     GradientStop {
                                         position: 0
-                                        color: startConversionBtn.anim_index < 0 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
+                                        color: startConversionBtn.anim_running && startConversionBtn.anim_index < 0 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
                                         position: startConversionBtn.anim_index / 10 - 0.01
-                                        color: startConversionBtn.anim_index < 0 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
+                                        color: startConversionBtn.anim_running && startConversionBtn.anim_index < 0 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
                                         position: startConversionBtn.anim_index / 10
@@ -1171,11 +1171,11 @@ Page {
                                     }
                                     GradientStop {
                                         position: (startConversionBtn.anim_index + 2) / 10 + 0.01
-                                        color: startConversionBtn.anim_index > 8 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
+                                        color: startConversionBtn.anim_running && startConversionBtn.anim_index > 8 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                     GradientStop {
                                         position: 1
-                                        color: startConversionBtn.anim_index > 8 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
+                                        color: startConversionBtn.anim_running && startConversionBtn.anim_index > 8 ? Qt.lighter(startConversionBtn.base_color, 1.25) : startConversionBtn.base_color
                                     }
                                 }
                                 SequentialAnimation {

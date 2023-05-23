@@ -15,6 +15,8 @@ ApplicationWindow {
     width: 1200
     height: 800
     property int edgeSize: 8
+    property bool yesToAll: false
+    property bool noToAll: false
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
     Material.theme: {

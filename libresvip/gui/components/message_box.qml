@@ -3,22 +3,19 @@ import QtQuick.Window
 import QtQuick.Dialogs
 
 MessageDialog {
-    property var body: "";
-    property var message: "";
-    property var onOk: null;
-    property var onCancel: null;
+    property var body: ""
+    property var message: ""
+    property var onOk: null
+    property var onCancel: null
     text: body
     informativeText: message
     buttons: {
         let buttons = MessageDialog.NoButton
         if (onOk) {
-            buttons = MessageDialog.Ok
+            buttons = MessageDialog.Ok | MessageDialog.YesToAll
             if (onCancel) {
-                buttons |= MessageDialog.Cancel
+                buttons |= MessageDialog.Cancel | MessageDialog.NoToAll
             }
-        }
-        else if (onCancel) {
-            buttons = MessageDialog.Cancel
         }
         return buttons
     }
@@ -29,6 +26,16 @@ MessageDialog {
                 break;
             case MessageDialog.Cancel: {
                 onCancel()
+                break;
+            }
+            case MessageDialog.YesToAll: {
+                onOk()
+                window.yesToAll = true
+                break;
+            }
+            case MessageDialog.NoToAll: {
+                onCancel()
+                window.noToAll = true
                 break;
             }
         }

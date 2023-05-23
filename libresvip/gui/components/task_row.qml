@@ -241,14 +241,16 @@ ColumnLayout {
             if (success) {
                 let conflict = py.task_manager.output_path_exists(index)
                 let conflict_policy = py.config_items.get_conflict_policy()
-                if (!conflict || conflict_policy == "Overwrite") {
+                if (!conflict || conflict_policy == "Overwrite" || (
+                    conflict_policy == "Prompt" && window.yesToAll
+                )) {
                     let move_result = py.task_manager.move_to_output(index)
                     if (move_result) {
                         successButton.visible = true
                     } else {
                         errorButton.visible = true
                     }
-                } else if (conflict_policy == "Skip") {
+                } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
                     skipButton.visible = true
                 } else {
                     let message_box = messageBox.createObject(
