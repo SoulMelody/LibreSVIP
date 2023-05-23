@@ -67,7 +67,7 @@ Item {
             ))
             if (plugin_infos.length > 0) {
                 confirmInstallDialog.show_dialog(plugin_infos)
-            }            
+            }
         }
     }
 

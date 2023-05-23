@@ -9,6 +9,7 @@ from libresvip.gui.modules import (
     ConfigItems,
     FontLoader,
     LocaleSwitcher,
+    Notifier,
     TaskManager,
 )
 
@@ -23,6 +24,7 @@ app.register(Clipboard(), name="clipboard")
 app.register(config_items, name="config_items")
 app.register(FontLoader(), name="qta")
 app.register(LocaleSwitcher(), name="locale")
+app.register(Notifier(), name="notifier")
 app.register(task_manager, name="task_manager")
 app.register_qmldir(
     pkg_dir / "gui" / "components",
