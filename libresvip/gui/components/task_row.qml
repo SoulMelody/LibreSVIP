@@ -265,11 +265,11 @@ ColumnLayout {
                                 if (move_result) {
                                     successButton.visible = true
                                 } else {
-                                    converterPage.taskList.model.update(index, {success: false, error: qsTr("Failed to move file")})
+                                    errorButton.visible = true
                                 }
                             },
                             onCancel: () => {
-                                converterPage.taskList.model.update(index, {success: false, error: qsTr("File already exists")})
+                                skipButton.visible = true
                             }
                         }
                     )
@@ -291,8 +291,8 @@ ColumnLayout {
     Connections {
         target: converterPage.taskList.model
         function onDataChanged(idx1, idx2, value) {
-            if (index !== undefined && index == idx1) {
-                let taskModel = converterPage.taskList.model.get(index)
+            if (idx1.row <= taskRow.index && taskRow.index <= idx2.row) {
+                let taskModel = converterPage.taskList.model.get(taskRow.index)
                 stemField.text = taskModel.stem
                 extLabel.text = taskModel.ext
                 let error = taskModel.error

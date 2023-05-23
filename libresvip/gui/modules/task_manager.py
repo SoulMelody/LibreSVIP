@@ -226,7 +226,7 @@ class TaskManager(QObject):
         output_dir = self.output_dir(task)
         try:
             target_path = output_dir / f"{task['stem']}{self.output_ext}"
-            if target_path.exists() and settings.conflict_policy != ConflictPolicy.SKIP:
+            if target_path.exists():
                 target_path.unlink()
             pathlib.Path(task["tmp_path"]).rename(target_path)
             return True
