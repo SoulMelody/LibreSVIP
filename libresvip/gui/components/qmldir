@@ -14,6 +14,8 @@ IconMenuItem 1.0 icon_menu_item.qml
 
 TopToolbar 1.0 top_toolbar.qml
 
+LabeledComboBox 1.0 labeled_combo_box.qml
+
 PluginInfo 1.0 plugin_info.qml
 
 DashedRectangle 1.0 dashed_rectangle.qml

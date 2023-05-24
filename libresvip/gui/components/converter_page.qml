@@ -259,11 +259,9 @@ Page {
                         Layout.column: 0
                         Layout.fillWidth: true
                         height: 50
-                        ComboBox {
+                        LabeledComboBox {
                             id: inputFormat
-                            textRole: "text"
-                            valueRole: "value"
-                            displayText: qsTr("Input Format: ") + currentText
+                            hint: qsTr("Input Format: ")
                             onActivated: (index) => {
                                 if (
                                     resetTasksOnInputChange.checked &&
@@ -287,7 +285,7 @@ Page {
                                 py.task_manager.set_str("input_format", currentValue)
                             }
                             width: parent.width
-                            model: py.task_manager.qget("input_formats")
+                            choices: py.task_manager.qget("input_formats")
                         }
                     }
                     IconButton {
@@ -379,11 +377,9 @@ Page {
                         Layout.column: 0
                         Layout.fillWidth: true
                         height: 50
-                        ComboBox {
+                        LabeledComboBox {
                             id: outputFormat
-                            textRole: "text"
-                            valueRole: "value"
-                            displayText: qsTr("Output Format: ") + currentText
+                            hint: qsTr("Output Format: ")
                             onActivated: (index) => {
                                 py.task_manager.set_str("output_format", currentValue)
                             }
