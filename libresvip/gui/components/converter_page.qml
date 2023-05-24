@@ -300,7 +300,8 @@ Page {
                         }
                         Popup {
                             id: inputFormatInfo
-                            y: parent.y + parent.height * 0.5
+                            y: 45
+                            x: - width * 0.5
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                             PluginInfo {
                                 info: py.task_manager.plugin_info("input_format")
@@ -408,7 +409,8 @@ Page {
                         }
                         Popup {
                             id: outputFormatInfo
-                            y: parent.y - parent.height * 1.8
+                            y: 45
+                            x: - width * 0.5
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                             PluginInfo {
                                 info: py.task_manager.plugin_info("output_format")
@@ -795,7 +797,8 @@ Page {
                                 color: "transparent"
                             }
                             Label {
-                                text: ""
+                                property string input_format_name: ""
+                                text: qsTr("[Import as ") + input_format_name + qsTr(" Format]")
                                 color: Material.color(
                                     Material.Grey
                                 )
@@ -804,7 +807,7 @@ Page {
                                 Component.onCompleted: {
                                     py.task_manager.input_format_changed.connect((input_format) => {
                                         let plugin_info = py.task_manager.plugin_info("input_format")
-                                        text = qsTr("[Import as ") + plugin_info.name + qsTr(" Format]")
+                                        input_format_name = plugin_info.name
                                     })
                                 }
                             }
@@ -945,7 +948,8 @@ Page {
                                 color: "transparent"
                             }
                             Label {
-                                text: ""
+                                property string output_format_name: ""
+                                text: qsTr("[Export to ") + output_format_name + qsTr(" Format]")
                                 font.pixelSize: 20
                                 color: Material.color(
                                     Material.Grey
@@ -954,7 +958,7 @@ Page {
                                 Component.onCompleted: {
                                     py.task_manager.output_format_changed.connect((output_format) => {
                                         let plugin_info = py.task_manager.plugin_info("output_format")
-                                        text = qsTr("[Export to ") + plugin_info.name + qsTr(" Format]")
+                                        output_format_name = plugin_info.name
                                     })
                                 }
                             }
