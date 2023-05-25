@@ -1,53 +1,46 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 13:11+0800\n"
-"PO-Revision-Date: 2023-05-25 17:24+0800\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2023-05-25 19:10+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
 
 #: converter_page%231
 msgid "Converter"
 msgstr "转换器"
 
-#: converter_page%232
-msgctxt "converter_page#2"
+#: converter_page%232 task_row%231
 msgid "File successfully converted"
 msgstr "此文件已成功转换"
 
-#: converter_page%233
-msgctxt "converter_page#3"
+#: converter_page%233 task_row%232
 msgid "Open"
 msgstr "打开文件"
 
-#: converter_page%234
-msgctxt "converter_page#4"
+#: converter_page%234 task_row%233
 msgid "Open folder"
 msgstr "打开目录"
 
-#: converter_page%235
-msgctxt "converter_page#5"
+#: converter_page%235 task_row%238
 msgid "File skipped due to conflict"
 msgstr "已跳过"
 
-#: converter_page%236
-msgctxt "converter_page#6"
+#: converter_page%236 task_row%239
 msgid "File failed to convert, below is the error message:"
-msgstr "文件转换失败，以下是错误信息："
+msgstr "此文件转换失败，错误信息如下："
 
-#: converter_page%237
-msgctxt "converter_page#7"
+#: converter_page%237 task_row%2310
 msgid "Copy error message"
 msgstr "复制错误信息"
 
-#: converter_page%238
-msgctxt "converter_page#8"
+#: converter_page%238 task_row%2311
 msgid "Copied"
 msgstr "已复制"
 
@@ -59,8 +52,7 @@ msgstr "格式选择"
 msgid "Input Format: "
 msgstr "导入工程格式： "
 
-#: converter_page%2311
-msgctxt "converter_page#11"
+#: converter_page%2311 settings_drawer%231
 msgid "Auto-Detect Input File Type"
 msgstr "自动检测导入格式"
 
@@ -76,8 +68,7 @@ msgstr "上下交换"
 msgid "Output Format: "
 msgstr "导出工程格式： "
 
-#: converter_page%2315
-msgctxt "converter_page#15"
+#: converter_page%2315 settings_drawer%233
 msgid "Set Output File Extension Automatically"
 msgstr "自动设置后缀名"
 
@@ -97,10 +88,10 @@ msgstr "输出选项"
 msgid "Task List"
 msgstr "任务列表"
 
-#: converter_page%2320
-msgctxt "converter_page#20"
+#: converter_page%2320 task_row%234
+#, fuzzy
 msgid "<b>Do you want to overwrite the file?</b>"
-msgstr "\"<b>是否覆盖文件？</b>"
+msgstr "<b>是否覆盖文件？</b>"
 
 #: converter_page%2321
 msgid "Drag and drop files here"
@@ -154,8 +145,7 @@ msgstr "开始转换"
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2334
-msgctxt "converter_page#34"
+#: converter_page%2334 settings_drawer%235
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
@@ -163,18 +153,15 @@ msgstr "完成后打开输出路径"
 msgid "Deal with Conflicts:"
 msgstr "遇到同名文件时："
 
-#: converter_page%2336
-msgctxt "converter_page#36"
+#: converter_page%2336 settings_drawer%2313
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2337
-msgctxt "converter_page#37"
+#: converter_page%2337 settings_drawer%2314
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2338
-msgctxt "converter_page#38"
+#: converter_page%2338 settings_drawer%2315
 msgid "Prompt"
 msgstr "询问"
 
@@ -192,11 +179,11 @@ msgstr "确定安装新的插件吗？"
 
 #: dialogs%234
 msgid "Developed by "
-msgstr "开发者是 "
+msgstr "开发者是"
 
 #: dialogs%235
 msgid ", which supports "
-msgstr "，适用于 "
+msgstr "，适用于"
 
 #: dialogs%236
 msgid "Compressed Plugin Package (*.zip)"
@@ -239,8 +226,7 @@ msgid ""
 "constraints of platforms and coterie."
 msgstr ""
 "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
-"\"\n"
-"\"作免受平台的制约与圈子的束缚。"
+"作免受平台的制约与圈子的束缚。"
 
 #: plugin_info%231
 msgid "Version"
@@ -250,28 +236,13 @@ msgstr "版本"
 msgid "Introduction"
 msgstr "简介"
 
-#: settings_drawer%231
-msgctxt "settings_drawer#1"
-msgid "Auto-Detect Input File Type"
-msgstr "自动检测导入格式"
-
 #: settings_drawer%232
 msgid "Reset Task List When Changing Input File Type"
 msgstr "切换格式时重置列表"
 
-#: settings_drawer%233
-msgctxt "settings_drawer#3"
-msgid "Set Output File Extension Automatically"
-msgstr "自动设置后缀名"
-
 #: settings_drawer%234
 msgid "Multi-Threaded Conversion"
 msgstr "启用多线程转换"
-
-#: settings_drawer%235
-msgctxt "settings_drawer#5"
-msgid "Open Output Folder When Done"
-msgstr "完成后打开输出路径"
 
 #: settings_drawer%236
 msgid "Auto Check for Updates"
@@ -301,41 +272,6 @@ msgstr "自定义 (浏览选择)"
 msgid "Deal With Existing Files"
 msgstr "遇到同名文件时"
 
-#: settings_drawer%2313
-msgctxt "settings_drawer#13"
-msgid "Overwrite"
-msgstr "覆盖"
-
-#: settings_drawer%2314
-msgctxt "settings_drawer#14"
-msgid "Skip"
-msgstr "跳过"
-
-#: settings_drawer%2315
-msgctxt "settings_drawer#15"
-msgid "Prompt"
-msgstr "询问"
-
-#: task_row%231
-msgctxt "task_row#1"
-msgid "File successfully converted"
-msgstr "此文件已成功转换"
-
-#: task_row%232
-msgctxt "task_row#2"
-msgid "Open"
-msgstr "打开文件"
-
-#: task_row%233
-msgctxt "task_row#3"
-msgid "Open folder"
-msgstr "打开目录"
-
-#: task_row%234
-msgctxt "task_row#4"
-msgid "<b>Do you want to overwrite the file?</b>"
-msgstr "<b>是否覆盖文件？</b>"
-
 #: task_row%235
 msgid "File %1 already exists. Overwrite?"
 msgstr "文件 %1 已存在，是否覆盖？"
@@ -347,26 +283,6 @@ msgstr "移动文件失败"
 #: task_row%237
 msgid "File already exists"
 msgstr "文件已存在"
-
-#: task_row%238
-msgctxt "task_row#8"
-msgid "File skipped due to conflict"
-msgstr "已跳过"
-
-#: task_row%239
-msgctxt "task_row#9"
-msgid "File failed to convert, below is the error message:"
-msgstr "此文件转换失败，错误信息如下："
-
-#: task_row%2310
-msgctxt "task_row#10"
-msgid "Copy error message"
-msgstr "复制错误信息"
-
-#: task_row%2311
-msgctxt "task_row#11"
-msgid "Copied"
-msgstr "已复制"
 
 #: top_toolbar%231
 msgid "Convert (&C)"

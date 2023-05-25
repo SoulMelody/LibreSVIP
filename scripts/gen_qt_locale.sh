@@ -4,4 +4,4 @@ export PYTHONIOENCODING=utf-8
 lupdate -I ../libresvip/gui/components/*.qml -ts ../libresvip/res/i18n/libresvip_gui-zh_CN.ts
 # linguist ../libresvip/res/i18n/libresvip-zh_CN.ts
 # lrelease -verbose ../libresvip/res/i18n/libresvip-zh_CN.ts -qm ../libresvip/res/i18n/libresvip-zh_CN.qm
-ts2po ../libresvip/res/i18n/libresvip_gui-zh_CN.ts > ../libresvip/res/i18n/libresvip_gui-zh_CN.po
+ts2po --duplicates=merge ../libresvip/res/i18n/libresvip_gui-zh_CN.ts > ../libresvip/res/i18n/libresvip_gui-zh_CN.po
