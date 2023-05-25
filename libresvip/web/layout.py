@@ -11,7 +11,7 @@ from trame_vuetify.ui.vuetify import SinglePageWithDrawerLayout
 from trame_vuetify.widgets import vuetify
 
 from libresvip.core.config import settings
-from libresvip.core.constants import pkg_dir
+from libresvip.core.constants import res_dir
 
 
 def initialize(server: Server):
@@ -25,7 +25,7 @@ def initialize(server: Server):
     os.makedirs(state.temp_dir, exist_ok=True)
     state.trame__favicon = (
         "data:image/x-icon;base64,"
-        + base64.b64encode((pkg_dir / "libresvip.ico").read_bytes()).decode()
+        + base64.b64encode((res_dir / "libresvip.ico").read_bytes()).decode()
     )
 
     def clean_temp_dir():

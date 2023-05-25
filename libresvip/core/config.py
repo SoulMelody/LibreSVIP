@@ -24,11 +24,11 @@ class Language(enum.Enum):
 
     def to_locale(self):
         if self == self.CHINESE:
-            return "zh-CN"
+            return "zh_CN"
         elif self == self.JAPANESE:
-            return "ja-JP"
+            return "ja_JP"
         else:
-            return "en-US"
+            return "en_US"
 
 
 class DarkMode(enum.Enum):

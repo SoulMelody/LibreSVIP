@@ -1,4 +1,5 @@
 import enum
+import gettext
 import pathlib
 from typing import get_args, get_type_hints
 
@@ -38,7 +39,7 @@ def detail(plugin_name: str):
 def print_plugin_summary(plugins):
     console = Console(color_system="256")
     if not plugins:
-        console.print("当前未安装任何插件。\n")
+        console.print(gettext.gettext("No plugins are currently installed.\n"))
     margin = " " * 2
     table = Table(show_header=True, header_style="bold magenta")
     table.add_column("序号", justify="left", style="cyan")

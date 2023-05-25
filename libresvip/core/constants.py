@@ -14,3 +14,4 @@ app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 
 module = __import__(PACKAGE_NAME)
 pkg_dir = pathlib.Path(module.__file__).parent
+res_dir = pkg_dir / "res"

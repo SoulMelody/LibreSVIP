@@ -328,15 +328,15 @@ ToolBar {
                     y: parent.height
                     MenuItem {
                         text: "简体中文";
-                        onTriggered: py.locale.switch_language("zh-CN")
+                        onTriggered: py.locale.switch_language("zh_CN")
                     }
                     MenuItem {
                         text: "English";
-                        onTriggered: py.locale.switch_language("en-US")
+                        onTriggered: py.locale.switch_language("en_US")
                     }
                     MenuItem {
                         text: "日本語";
-                        onTriggered: py.locale.switch_language("ja-JP")
+                        onTriggered: py.locale.switch_language("ja_JP")
                         enabled: false
                     }
                 }

@@ -1,0 +1,179 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-25 12:07+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .Svg.file_format
+msgid "Scalable Vector Graphics"
+msgstr ""
+
+#: .Svg.description
+msgid ""
+"Generate graphics containing notes and pitch curve in SVG format. Only the "
+"first or specified singing track will be imported."
+msgstr ""
+
+#: .MIDI.file_format
+msgid "Standard MIDI file (SMF)"
+msgstr ""
+
+#: .MIDI.description
+msgid "Conversion plugin for midi file"
+msgstr ""
+
+#: .LRC.file_format
+msgid "LRC lyric file"
+msgstr ""
+
+#: .LRC.description
+msgid "Generator plugin for LRC lyric file"
+msgstr ""
+
+#: .SynthV+Editor.file_format
+msgid "Synthesizer V Editor project file"
+msgstr ""
+
+#: .SynthV+Editor.description
+msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr ""
+
+#: .gjgj.file_format
+msgid "Gejigeji project file"
+msgstr ""
+
+#: .gjgj.description
+msgid ""
+"Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr ""
+
+#: .VocalSharp.file_format
+msgid "VocalSharp project file"
+msgstr ""
+
+#: .VocalSharp.description
+msgid "Conversion plugin for VocalSharp project file"
+msgstr ""
+
+#: .Vogen.file_format
+msgid "Vogen project file"
+msgstr ""
+
+#: .Vogen.description
+msgid "Conversion plugin for Vogen project file"
+msgstr ""
+
+#: .UFData.file_format
+msgid "UtaFormatix3 data format"
+msgstr ""
+
+#: .UFData.description
+msgid "Convertion plugin UFData format"
+msgstr ""
+
+#: .SynthV+Studio.file_format
+msgid "Synthesizer V Studio project file"
+msgstr ""
+
+#: .SynthV+Studio.description
+msgid ""
+"Conversion plugin for Synthesizer V Studio project file, it supports reading "
+"and writing of all parameters including notes, lyrics, parameter curve, note "
+"attributes, note group, and instant pitch mode.\n"
+"Notes：Importing a project file with overlapping notes is undefined behavior "
+"that can lead to unforeseen exceptions."
+msgstr ""
+
+#: .Ustx.file_format
+msgid "OpenUtau project file"
+msgstr ""
+
+#: .Ustx.description
+msgid "Conversion plugin for Ustx file format"
+msgstr ""
+
+#: .Svip3.file_format
+msgid "X Studio 3 project file"
+msgstr ""
+
+#: .Svip3.description
+msgid "Conversion plugin for X Studio 3 project file"
+msgstr ""
+
+#: .BinSvip.file_format
+msgid "X Studio project file"
+msgstr ""
+
+#: .BinSvip.description
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+#: .SRT.file_format
+msgid "SRT subtitle file"
+msgstr ""
+
+#: .SRT.description
+msgid "Generator plugin for SRT subtitle file"
+msgstr ""
+
+#: .DeepVocal.file_format
+msgid "DeepVocal project file"
+msgstr ""
+
+#: .DeepVocal.description
+msgid "Conversion plugin for dv file"
+msgstr ""
+
+#: .JsonSvip.file_format
+msgid "OpenSVIP file"
+msgstr ""
+
+#: .JsonSvip.description
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr ""
+
+#: .NiaoNiao.file_format
+msgid "Niaoniao Virtual Singer project file"
+msgstr ""
+
+#: .NiaoNiao.description
+msgid "Conversion plugin for Niaoniao project file"
+msgstr ""
+
+#: .Y77.file_format
+msgid "Yuan77 project file"
+msgstr ""
+
+#: .Y77.description
+msgid "Conversion plugin for Yuan77 project file"
+msgstr ""
+
+#: .Muta.file_format
+msgid "Muta project file"
+msgstr ""
+
+#: .Muta.description
+msgid "Conversion plugin for mtp file"
+msgstr ""
+
+#: .VocalShifter.file_format
+msgid "VocalShifter project file"
+msgstr ""
+
+#: .DiffSinger.file_format
+msgid "DiffSinger parameters file"
+msgstr ""
+
+#: .DiffSinger.description
+msgid "DiffSinger plugin. Currently, only loading is supported"
+msgstr ""
