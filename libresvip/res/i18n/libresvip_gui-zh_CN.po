@@ -1,16 +1,16 @@
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-25 13:11+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2023-05-25 17:24+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Poedit 3.3.1\n"
 
 #: converter_page%231
 msgid "Converter"
@@ -39,7 +39,7 @@ msgstr "已跳过"
 #: converter_page%236
 msgctxt "converter_page#6"
 msgid "File failed to convert, below is the error message:"
-msgstr "此文件转换失败，错误信息如下："
+msgstr "文件转换失败，以下是错误信息："
 
 #: converter_page%237
 msgctxt "converter_page#7"
@@ -100,7 +100,7 @@ msgstr "任务列表"
 #: converter_page%2320
 msgctxt "converter_page#20"
 msgid "<b>Do you want to overwrite the file?</b>"
-msgstr "<b>是否覆盖文件？</b>"
+msgstr "\"<b>是否覆盖文件？</b>"
 
 #: converter_page%2321
 msgid "Drag and drop files here"
@@ -192,11 +192,11 @@ msgstr "确定安装新的插件吗？"
 
 #: dialogs%234
 msgid "Developed by "
-msgstr "开发者是"
+msgstr "开发者是 "
 
 #: dialogs%235
 msgid ", which supports "
-msgstr "，适用于"
+msgstr "，适用于 "
 
 #: dialogs%236
 msgid "Compressed Plugin Package (*.zip)"
@@ -237,8 +237,10 @@ msgid ""
 "All people should have the right and freedom to choose. That's why we're "
 "committed to giving you a second chance to keep your creations free from the "
 "constraints of platforms and coterie."
-msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
-"作免受平台的制约与圈子的束缚。"
+msgstr ""
+"所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
+"\"\n"
+"\"作免受平台的制约与圈子的束缚。"
 
 #: plugin_info%231
 msgid "Version"
@@ -330,7 +332,6 @@ msgid "Open folder"
 msgstr "打开目录"
 
 #: task_row%234
-#, fuzzy
 msgctxt "task_row#4"
 msgid "<b>Do you want to overwrite the file?</b>"
 msgstr "<b>是否覆盖文件？</b>"

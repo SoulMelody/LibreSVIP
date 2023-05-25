@@ -13,6 +13,7 @@ ComboBox {
     textRole: "text"
     valueRole: "value"
     hoverEnabled: true
+    displayText: qsTr(currentText)
 
     Label {
         id: hintLabel
@@ -20,6 +21,19 @@ ComboBox {
         y: 0
         x: 15
         font.pixelSize: 10
+    }
+
+    delegate: ItemDelegate {
+        width: combo.width
+        contentItem: Label {
+            text: combo.textRole
+                ? qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])
+                : qsTr(modelData)
+            font: combo.font
+            elide: Text.ElideRight
+            verticalAlignment: Text.AlignVCenter
+        }
+        highlighted: combo.highlightedIndex === index
     }
 
     background: Canvas {

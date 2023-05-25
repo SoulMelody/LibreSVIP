@@ -9,7 +9,9 @@ if __name__ == "__main__":
     plugin_metadatas = {}
 
     for plugin_info in plugin_registry.values():
-        plugin_metadata = {"file_format": plugin_info.file_format}
+        plugin_metadata = {
+            "format_desc": f"{plugin_info.file_format} (*.{plugin_info.suffix})"
+        }
         if plugin_info.description:
             plugin_metadata["description"] = plugin_info.description
         plugin_metadatas[plugin_info.name] = plugin_metadata

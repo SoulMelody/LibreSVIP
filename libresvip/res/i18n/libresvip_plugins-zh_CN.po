@@ -1,89 +1,99 @@
-#. extracted from 
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-25 12:07+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2023-05-25 18:38+0800\n"
+"PO-Revision-Date: 2023-05-25 18:48+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Poedit 3.3.1\n"
 
-#: .Svg.file_format
-msgid "Scalable Vector Graphics"
-msgstr ""
+#: .DiffSinger.format_desc
+msgid "DiffSinger parameters file (*.ds)"
+msgstr "DiffSinger参数文件（*.ds）"
+
+#: .DiffSinger.description
+msgid "DiffSinger plugin. Currently, only loading is supported"
+msgstr "DiffSinger 参数格式转换插件。目前仅支持导入 DiffSinger 合成参数。"
+
+#: .Svg.format_desc
+msgid "Scalable Vector Graphics (*.svg)"
+msgstr "可缩放矢量图形 (*.svg)"
 
 #: .Svg.description
 msgid ""
 "Generate graphics containing notes and pitch curve in SVG format. Only the "
 "first or specified singing track will be imported."
 msgstr ""
+"生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
 
-#: .MIDI.file_format
-msgid "Standard MIDI file (SMF)"
-msgstr ""
+#: .MIDI.format_desc
+msgid "Standard MIDI file (SMF) (*.mid)"
+msgstr "标准MIDI文件 (*.mid)"
 
 #: .MIDI.description
 msgid "Conversion plugin for midi file"
-msgstr ""
+msgstr "MIDI 格式转换插件。"
 
-#: .LRC.file_format
-msgid "LRC lyric file"
-msgstr ""
+#: .LRC.format_desc
+msgid "LRC lyric file (*.lrc)"
+msgstr "LRC 歌词文件 (*.lrc)"
 
 #: .LRC.description
 msgid "Generator plugin for LRC lyric file"
-msgstr ""
+msgstr "适用于 LibreSVIP 的 LRC 歌词格式转换插件。"
 
-#: .SynthV+Editor.file_format
-msgid "Synthesizer V Editor project file"
-msgstr ""
+#: .SynthV+Editor.format_desc
+msgid "Synthesizer V Editor project file (*.s5p)"
+msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
 
 #: .SynthV+Editor.description
 msgid "Conversion plugin for Synthesizer V Editor project file"
-msgstr ""
+msgstr "Synthesizer V Editor 工程格式转换插件。"
 
-#: .gjgj.file_format
-msgid "Gejigeji project file"
-msgstr ""
+#: .gjgj.format_desc
+msgid "Gejigeji project file (*.gj)"
+msgstr "歌叽歌叽工程文件 (*.gj)"
 
 #: .gjgj.description
 msgid ""
 "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
 msgstr ""
+"歌叽歌叽工程格式转换插件。\n"
+"仅支持歌叽歌叽2.0版本。"
 
-#: .VocalSharp.file_format
-msgid "VocalSharp project file"
-msgstr ""
+#: .Ustx.format_desc
+msgid "OpenUtau project file (*.ustx)"
+msgstr "OpenUtau 工程文件 (*.ustx)"
+
+#: .Ustx.description
+msgid "Conversion plugin for Ustx file format"
+msgstr "Ustx格式转换插件"
+
+#: .VocalSharp.format_desc
+msgid "VocalSharp project file (*.vspx)"
+msgstr "VocalSharp 工程格式 (*.vspx)"
 
 #: .VocalSharp.description
 msgid "Conversion plugin for VocalSharp project file"
-msgstr ""
+msgstr "VocalSharp格式转换插件"
 
-#: .Vogen.file_format
-msgid "Vogen project file"
-msgstr ""
-
-#: .Vogen.description
-msgid "Conversion plugin for Vogen project file"
-msgstr ""
-
-#: .UFData.file_format
-msgid "UtaFormatix3 data format"
-msgstr ""
+#: .UFData.format_desc
+msgid "UtaFormatix3 data format (*.ufdata)"
+msgstr "UtaFormatix3 数据格式 (*.ufdata)"
 
 #: .UFData.description
 msgid "Convertion plugin UFData format"
-msgstr ""
+msgstr "UFData格式转换插件"
 
-#: .SynthV+Studio.file_format
-msgid "Synthesizer V Studio project file"
-msgstr ""
+#: .SynthV+Studio.format_desc
+msgid "Synthesizer V Studio project file (*.svp)"
+msgstr "Synthesizer V Studio 工程文件 (*.svp)"
 
 #: .SynthV+Studio.description
 msgid ""
@@ -93,87 +103,82 @@ msgid ""
 "Notes：Importing a project file with overlapping notes is undefined behavior "
 "that can lead to unforeseen exceptions."
 msgstr ""
+"Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属"
+"性、音符组、即时音高模式在内所有数据的读取与写入。\n"
+"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
-#: .Ustx.file_format
-msgid "OpenUtau project file"
-msgstr ""
+#: .Vogen.format_desc
+msgid "Vogen project file (*.vog)"
+msgstr "Vogen 工程文件 (*.vog)"
 
-#: .Ustx.description
-msgid "Conversion plugin for Ustx file format"
-msgstr ""
+#: .Vogen.description
+msgid "Conversion plugin for Vogen project file"
+msgstr "Vogen 工程格式转换插件"
 
-#: .Svip3.file_format
-msgid "X Studio 3 project file"
-msgstr ""
+#: .Svip3.format_desc
+msgid "X Studio 3 project file (*.svip3)"
+msgstr "X Studio 3 工程文件 (*.svip3)"
 
 #: .Svip3.description
 msgid "Conversion plugin for X Studio 3 project file"
-msgstr ""
+msgstr "X Studio 3 工程转换插件"
 
-#: .BinSvip.file_format
-msgid "X Studio project file"
-msgstr ""
+#: .BinSvip.format_desc
+msgid "X Studio project file (*.svip)"
+msgstr "X Studio 工程文件 (*.svip)"
 
 #: .BinSvip.description
 msgid "Conversion plugin for the original .svip binary file format"
-msgstr ""
+msgstr "原始二进制 .svip 文件转换插件"
 
-#: .SRT.file_format
-msgid "SRT subtitle file"
-msgstr ""
+#: .SRT.format_desc
+msgid "SRT subtitle file (*.srt)"
+msgstr "SRT 字幕文件 (*.srt)"
 
 #: .SRT.description
 msgid "Generator plugin for SRT subtitle file"
-msgstr ""
+msgstr "适用于 LibreSVIP 的 SRT 字幕格式转换插件。"
 
-#: .DeepVocal.file_format
-msgid "DeepVocal project file"
-msgstr ""
+#: .DeepVocal.format_desc
+msgid "DeepVocal project file (*.dv)"
+msgstr "DeepVocal工程文件 (*.dv)"
 
 #: .DeepVocal.description
 msgid "Conversion plugin for dv file"
-msgstr ""
+msgstr "dv 格式转换插件。"
 
-#: .JsonSvip.file_format
-msgid "OpenSVIP file"
-msgstr ""
+#: .JsonSvip.format_desc
+msgid "OpenSVIP file (*.json)"
+msgstr "OpenSVIP 文件 (*.json)"
 
 #: .JsonSvip.description
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
-msgstr ""
+msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
 
-#: .NiaoNiao.file_format
-msgid "Niaoniao Virtual Singer project file"
-msgstr ""
+#: .NiaoNiao.format_desc
+msgid "Niaoniao Virtual Singer project file (*.nn)"
+msgstr "袅袅虚拟歌手工程文件 (*.nn)"
 
 #: .NiaoNiao.description
 msgid "Conversion plugin for Niaoniao project file"
-msgstr ""
+msgstr "袅袅工程格式转换插件"
 
-#: .Y77.file_format
-msgid "Yuan77 project file"
-msgstr ""
-
-#: .Y77.description
-msgid "Conversion plugin for Yuan77 project file"
-msgstr ""
-
-#: .Muta.file_format
-msgid "Muta project file"
-msgstr ""
+#: .Muta.format_desc
+msgid "Muta project file (*.mtp)"
+msgstr "Muta工程文件 (*.mtp)"
 
 #: .Muta.description
 msgid "Conversion plugin for mtp file"
-msgstr ""
+msgstr "mtp 格式转换插件"
 
-#: .VocalShifter.file_format
-msgid "VocalShifter project file"
-msgstr ""
+#: .Y77.format_desc
+msgid "Yuan77 project file (*.y77)"
+msgstr "元七七工程文件 (*.y77)"
 
-#: .DiffSinger.file_format
-msgid "DiffSinger parameters file"
-msgstr ""
+#: .Y77.description
+msgid "Conversion plugin for Yuan77 project file"
+msgstr "元七七工程格式转换插件"
 
-#: .DiffSinger.description
-msgid "DiffSinger plugin. Currently, only loading is supported"
-msgstr ""
+#: .VocalShifter.format_desc
+msgid "VocalShifter project file (*.vshp)"
+msgstr "VocalShifter 工程文件 (*.vshp)"

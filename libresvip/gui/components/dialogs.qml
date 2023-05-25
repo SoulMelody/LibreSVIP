@@ -44,7 +44,7 @@ Item {
                 model: confirmInstallDialog.plugin_infos
                 QQC2.Label {
                     Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Developed by ") + modelData.author + qsTr(", which supports ") + modelData.format_desc
+                    text: qsTr("Developed by ") + modelData.author + qsTr(", which supports ") + qsTr(modelData.format_desc)
                 }
             }
         }
