@@ -114,7 +114,9 @@ GridLayout {
             font.bold: true
         }
         Label {
+            Layout.maximumWidth: 500
             text: qsTr(info.description)
+            wrapMode: Text.Wrap
         }
     }
 }
