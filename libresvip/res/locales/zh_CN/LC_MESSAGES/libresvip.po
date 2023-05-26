@@ -89,7 +89,6 @@ msgid "Task List"
 msgstr "任务列表"
 
 #: converter_page%2320 task_row%234
-#, fuzzy
 msgid "<b>Do you want to overwrite the file?</b>"
 msgstr "<b>是否覆盖文件？</b>"
 
@@ -378,81 +377,102 @@ msgstr "歌声合成工程文件转换器"
 
 #: ../libresvip/cli/commands/plugin.py:36
 msgid "Cannot find plugin "
-msgstr ""
+msgstr "未找到插件 "
 
 #: ../libresvip/cli/commands/plugin.py:42
 msgid "No plugins are currently installed."
-msgstr ""
+msgstr "目前尚未安装任何插件。"
 
 #: ../libresvip/cli/commands/plugin.py:45
-msgid "Index"
-msgstr ""
+msgid "No."
+msgstr "序号"
 
 #: ../libresvip/cli/commands/plugin.py:46
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: ../libresvip/cli/commands/plugin.py:48
 msgid "Author"
-msgstr ""
+msgstr "作者"
 
 #: ../libresvip/cli/commands/plugin.py:49
 msgid "Identifier"
-msgstr ""
+msgstr "标识符"
 
 #: ../libresvip/cli/commands/plugin.py:50
 msgid "Applicable file format"
-msgstr ""
+msgstr "适用格式"
+
+#: ../libresvip/cli/commands/plugin.py:68
+msgid "Plugin: "
+msgstr "插件： "
+
+#: ../libresvip/cli/commands/plugin.py:69
+msgid "Version: "
+msgstr "版本： "
 
 #: ../libresvip/cli/commands/plugin.py:70
-msgid "Website: "
-msgstr ""
+msgid "Author: "
+msgstr "作者： "
 
 #: ../libresvip/cli/commands/plugin.py:74
-msgid "This plugin is applicable to"
-msgstr ""
+msgid "Website: "
+msgstr "主页： "
 
 #: ../libresvip/cli/commands/plugin.py:78
+msgid "This plugin is applicable to"
+msgstr "此插件适用于"
+
+#: ../libresvip/cli/commands/plugin.py:83
 msgid ""
 "If you want to use this plugin, please specify '-i {}' (input) or '-o "
 "{}' (output) when converting."
-msgstr ""
+msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:84
-msgid "Input"
-msgstr ""
+#: ../libresvip/cli/commands/plugin.py:88
+msgid "Description: "
+msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:84
-msgid "Output"
-msgstr ""
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "input"
+msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:93
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "output"
+msgstr "输出"
+
+#: ../libresvip/cli/commands/plugin.py:98
 msgid "This plugin supports the following {} conversion options:"
-msgstr ""
+msgstr "本插件可指定以下{}转换选项："
 
-#: ../libresvip/cli/commands/plugin.py:109
-msgid "  Available values:"
-msgstr ""
+#: ../libresvip/cli/commands/plugin.py:112
+#: ../libresvip/cli/commands/plugin.py:141
+msgid "Default: "
+msgstr "默认值："
 
-#: ../libresvip/cli/commands/plugin.py:130
+#: ../libresvip/cli/commands/plugin.py:114
+msgid "Available values:"
+msgstr "可用值如下："
+
+#: ../libresvip/cli/commands/plugin.py:135
 msgid "Available fields:"
-msgstr ""
-
-#: ../libresvip/cli/commands/plugin.py:136
-msgid "Default: {}"
-msgstr ""
+msgstr "可用值如下："
 
 #: ../libresvip/cli/commands/proj.py:45 ../libresvip/cli/commands/proj.py:69
 msgid "Input Options: "
-msgstr ""
+msgstr "导入选项： "
+
+#: ../libresvip/cli/commands/proj.py:46 ../libresvip/cli/commands/proj.py:87
+msgid "Output Options: "
+msgstr "导出选项： "
 
 #: ../libresvip/cli/commands/proj.py:63
 msgid "Offset in milliseconds"
-msgstr ""
+msgstr "偏移量，单位为毫秒"
 
 #: ../libresvip/cli/commands/proj.py:64
 msgid "Mute other tracks"
-msgstr ""
+msgstr "使其它音轨静音"
 
 #: .ds.format_desc
 msgid "DiffSinger parameters file (*.ds)"

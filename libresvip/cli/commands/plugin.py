@@ -33,7 +33,7 @@ def detail(plugin_name: str):
     if plugin_name in plugin_registry:
         print_plugin_details(plugin_registry[plugin_name])
     else:
-        typer.echo(_("Cannot find plugin ") + {plugin_name} + "!")
+        typer.echo(_("Cannot find plugin ") + f"{plugin_name}!")
 
 
 def print_plugin_summary(plugins):
@@ -42,7 +42,7 @@ def print_plugin_summary(plugins):
         console.print(_("No plugins are currently installed."))
     margin = " " * 2
     table = Table(show_header=True, header_style="bold magenta")
-    table.add_column(_("Index"), justify="left", style="cyan")
+    table.add_column(_("No."), justify="left", style="cyan")
     table.add_column(_("Name"), justify="left", style="cyan")
     table.add_column(_("Version"), justify="left", style="cyan")
     table.add_column(_("Author"), justify="left", style="cyan")
@@ -64,24 +64,29 @@ def print_plugin_details(plugin):
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{_('Plugin')}：{plugin.name}\t{_('Version')}：{plugin.version_string}\t{_('Author')}：{plugin.author}"
+        f"{{}}{plugin.name}\t{{}}{plugin.version_string}\t{{}}{plugin.author}".format(
+            _("Plugin: "),
+            _("Version: "),
+            _("Author: "),
+        )
     )
     if plugin.website:
         typer.echo("\n" + _("Website: ") + plugin.website)
     typer.echo(
         "\n"
-        + f"{{}} {plugin.file_format} (*.{plugin.suffix}).".format(
-            _("This plugin is applicable to")
+        + "{} {}.".format(
+            _("This plugin is applicable to"),
+            _(f"{plugin.file_format} (*.{plugin.suffix})"),
         )
     )
     typer.echo(
         _(
             "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
-        ).format(plugin.file_format, plugin.file_format)
+        ).format(plugin.suffix.lower(), plugin.suffix.lower())
     )
     if plugin.description:
-        typer.echo(f"\n{_('Description')}：\n{plugin.description}")
-    op_arr = [_("Input"), _("Output")]
+        typer.echo("\n{}\n{}".format(_("Description: "), _(plugin.description)))
+    op_arr = [_("input"), _("output")]
     options_arr = [
         get_type_hints(plugin.plugin_object.load).get("options", None),
         get_type_hints(plugin.plugin_object.dump).get("options", None),
@@ -104,15 +109,15 @@ def print_plugin_details(plugin):
                     )
                 )
                 if option.default is not None:
-                    typer.echo(f"\t{_('Default')}：{option.default}")
+                    typer.echo(f"\t{{}}{option.default}".format(_("Default: ")))
                 if issubclass(option.type_, enum.Enum):
-                    typer.echo(_("  Available values:"))
+                    typer.echo("  " + _("Available values:"))
                     annotations = get_type_hints(option.type_, include_extras=True)
                     for enum_item in option.type_:
                         if enum_item.name in annotations:
                             annotated_args = get_args(annotations[enum_item.name])
                             if len(annotated_args) == 2:
-                                _, enum_field = annotated_args
+                                enum_type, enum_field = annotated_args
                                 typer.echo(
                                     "\t{}\t=>\t{}".format(
                                         enum_item.value, _(enum_field.title)
@@ -133,5 +138,5 @@ def print_plugin_details(plugin):
                         typer.echo(f"    {field.name} = {field.type_.__name__}")
                     else:
                         typer.echo(f"    {field.name} = {get_args(field.type_)}")
-                typer.echo("\t" + _("Default: {}").format(option.type_.default_repr()))
+                typer.echo("\t" + _("Default: ") + option.type_.default_repr())
     typer.echo("\n--------------------------------------------------\n")

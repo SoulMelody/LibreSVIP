@@ -99,7 +99,6 @@ msgstr "任务列表"
 
 #: converter_page%2320
 #: task_row%234
-#, fuzzy
 msgid "<b>Do you want to overwrite the file?</b>"
 msgstr "<b>是否覆盖文件？</b>"
 

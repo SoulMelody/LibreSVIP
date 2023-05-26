@@ -43,7 +43,7 @@ def convert(
     options = []
     for option_type, option_class in {
         _("Input Options: "): input_option,
-        _("Output Options"): output_option,
+        _("Output Options: "): output_option,
     }.items():
         option_kwargs = {}
         if len(option_class.__fields__):
@@ -84,7 +84,7 @@ def add_accompaniment(
     )
 
     output_option = get_type_hints(input_plugin.plugin_object.dump).get("options")
-    option_type, option_class = _("Output Options"), output_option
+    option_type, option_class = _("Output Options："), output_option
     option_kwargs = {}
     if len(option_class.__fields__):
         typer.echo(option_type)
