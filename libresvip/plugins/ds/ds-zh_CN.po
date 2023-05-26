@@ -1,0 +1,85 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-26 10:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .ds.format_desc
+msgid "DiffSinger parameters file (*.ds)"
+msgstr ""
+
+#: .ds.description
+msgid "DiffSinger plugin. Currently, only loading is supported"
+msgstr ""
+
+#: .ds.load[0].title
+#: .ds.dump[0].title
+msgid "Dictionary Name"
+msgstr ""
+
+#: .ds.dump[1].title
+msgid "Split threshold (in seconds)"
+msgstr ""
+
+#: .ds.dump[1].description
+msgid ""
+"This option controls the segmentation strategy during conversion. When the "
+"value of this option is negative, no segmentation is performed; when the "
+"value of this option is 0, segmentation is performed at the threshold where "
+"the interval between all notes reaches the threshold; when the value of this "
+"option is positive, the minimum length of each segment can be controlled on "
+"the basis of segmentation. Setting a reasonable segmentation strategy can "
+"reduce the memory usage during synthesis while maximizing the utilization of "
+"performance and improving the synthesis effect."
+msgstr ""
+
+#: .ds.dump[2].title
+msgid "Minimum interval (in milliseconds)"
+msgstr ""
+
+#: .ds.dump[2].description
+msgid ""
+"This option controls the minimum interval between notes. It is recommended "
+"to set it to a value greater than 300 milliseconds."
+msgstr ""
+
+#: .ds.dump[3].title
+msgid "Seed"
+msgstr ""
+
+#: .ds.dump[3].description
+msgid ""
+"A fixed random seed can get a stable and reproducible synthesis effect. This "
+"option takes effect when the non-negative value is set."
+msgstr ""
+
+#: .ds.dump[4].title
+msgid "Export gender parameter"
+msgstr ""
+
+#: .ds.dump[5].title
+msgid "Indentation"
+msgstr ""
+
+#: .ds.dump[5].description
+msgid ""
+"The number of spaces used for indentation. When the value is negative, no "
+"formatting is performed."
+msgstr ""
+
+#: .ds.dump[6].title
+msgid "Track index"
+msgstr ""
+
+#: .ds.dump[6].description
+msgid "Start from 0, -1 means automatic selection"
+msgstr ""

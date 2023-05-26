@@ -1,0 +1,129 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-26 10:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .svp.format_desc
+msgid "Synthesizer V Studio project file (*.svp)"
+msgstr ""
+
+#: .svp.description
+msgid ""
+"Conversion plugin for Synthesizer V Studio project file, it supports reading "
+"and writing of all parameters including notes, lyrics, parameter curve, note "
+"attributes, note group, and instant pitch mode.\n"
+"Notes：Importing a project file with overlapping notes is undefined behavior "
+"that can lead to unforeseen exceptions."
+msgstr ""
+
+#: .svp.load[0].title
+msgid "Always follow instant pitch mode"
+msgstr ""
+
+#: .svp.load[0].description
+msgid ""
+"When this option is turned off, the default pitch curve will always be "
+"imported regardless of the project setting. If you have tuned the pitch "
+"curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr ""
+
+#: .svp.load[1].title
+msgid "Pitch input mode"
+msgstr ""
+
+#: .svp.load[1].choices[0].text
+msgid "Full pitch curve"
+msgstr ""
+
+#: .svp.load[1].choices[1].text
+msgid "Edited part only (vibrato mode)"
+msgstr ""
+
+#: .svp.load[1].choices[2].text
+msgid "Edited part only (plain mode)"
+msgstr ""
+
+#: .svp.load[1].description
+msgid ""
+"This option controls the range of pitch curve to be imported and the "
+"judgment condition. The definition of “edited part” is: the pitch deviation "
+"in the parameter panel, the pitch transition in the vibrato envelope and the "
+"pitch transition in the note properties have been edited."
+msgstr ""
+
+#: .svp.load[2].title
+msgid "The way to handle breath notes"
+msgstr ""
+
+#: .svp.load[2].choices[0].text
+msgid "Ignore all breath notes"
+msgstr ""
+
+#: .svp.load[2].choices[1].text
+msgid "Keep as normal notes"
+msgstr ""
+
+#: .svp.load[2].choices[2].text
+msgid "Convert to breath mark"
+msgstr ""
+
+#: .svp.load[3].title
+msgid "The way to handle note groups"
+msgstr ""
+
+#: .svp.load[3].choices[0].text
+msgid "Split all to tracks"
+msgstr ""
+
+#: .svp.load[3].choices[1].text
+msgid "Keep original position"
+msgstr ""
+
+#: .svp.load[3].description
+msgid ""
+"Notice: If there are too many note groups, please choose “Keep original "
+"position” to avoid excessive track count. But if there are notes that are "
+"adjacent (but not overlapped) between note groups or between note groups and "
+"main group, it is recommended to choose “Split to tracks” to ensure the "
+"paragraph division is not broken."
+msgstr ""
+
+#: .svp.dump[0].title
+msgid "The way to handle vibrato notes"
+msgstr ""
+
+#: .svp.dump[0].choices[0].text
+msgid "All removed"
+msgstr ""
+
+#: .svp.dump[0].choices[1].text
+msgid "All kept"
+msgstr ""
+
+#: .svp.dump[0].choices[2].text
+msgid "Hybrid moed"
+msgstr ""
+
+#: .svp.dump[1].title
+msgid ""
+"Set the average sampling interval of parameter points to improve performance "
+"(0 means no limit)"
+msgstr ""
+
+#: .svp.dump[1].description
+msgid ""
+"Reduce the sampling interval to improve the accuracy of parameter curves, "
+"but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). "
+"Please set this value according to your hardware configuration and actual "
+"experience."
+msgstr ""

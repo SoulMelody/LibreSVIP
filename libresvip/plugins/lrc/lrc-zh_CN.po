@@ -1,0 +1,86 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-26 10:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .lrc.format_desc
+msgid "LRC lyric file (*.lrc)"
+msgstr ""
+
+#: .lrc.description
+msgid "Generator plugin for LRC lyric file"
+msgstr ""
+
+#: .lrc.dump[0].title
+msgid "Singer name"
+msgstr ""
+
+#: .lrc.dump[1].title
+msgid "Song title"
+msgstr ""
+
+#: .lrc.dump[2].title
+msgid "Album name"
+msgstr ""
+
+#: .lrc.dump[3].title
+msgid "Lyric editor"
+msgstr ""
+
+#: .lrc.dump[4].title
+msgid "Offset"
+msgstr ""
+
+#: .lrc.dump[4].description
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr ""
+
+#: .lrc.dump[5].title
+msgid "Offset policy"
+msgstr ""
+
+#: .lrc.dump[5].choices[0].text
+msgid "Act on timeline"
+msgstr ""
+
+#: .lrc.dump[5].choices[1].text
+msgid "Act on metadata"
+msgstr ""
+
+#: .lrc.dump[6].title
+msgid "New line by"
+msgstr ""
+
+#: .lrc.dump[6].choices[0].text
+msgid "Both notes gap and punctuation"
+msgstr ""
+
+#: .lrc.dump[6].choices[1].text
+msgid "Notes gap only"
+msgstr ""
+
+#: .lrc.dump[6].choices[2].text
+msgid "Punctuation only"
+msgstr ""
+
+#: .lrc.dump[7].title
+msgid "Write timeline"
+msgstr ""
+
+#: .lrc.dump[7].description
+msgid "If you need lyrics without timeline, turn off this option."
+msgstr ""
+
+#: .lrc.dump[8].title
+msgid "Text encoding"
+msgstr ""

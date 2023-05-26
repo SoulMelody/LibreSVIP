@@ -1,0 +1,78 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-26 10:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .svip.format_desc
+msgid "X Studio project file (*.svip)"
+msgstr ""
+
+#: .svip.description
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+#: .svip.dump[0].title
+msgid "Default singer"
+msgstr ""
+
+#: .svip.dump[0].description
+msgid ""
+"Please enter the singer's name in Chinese. If the specified singer does not "
+"exist, the default singer set in X Studio will be used. If you want to "
+"specify the conversion relationship between singer ID and name, or add a "
+"singer that has an ID but has not been publicly released, please modify "
+"singers.json in the plugin directory."
+msgstr ""
+
+#: .svip.dump[1].title
+msgid "Default tempo"
+msgstr ""
+
+#: .svip.dump[1].description
+msgid ""
+"The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out of "
+"range, the absolute timeline will be used to ensure the alignment of notes. "
+"Please set this value to an integer multiple or integer fraction of the "
+"tempo in the source project file as much as possible; as long as it is "
+"within a reasonable range, the value of this option will not affect the "
+"alignment effect."
+msgstr ""
+
+#: .svip.dump[2].title
+msgid "Specify the version of the generated .svip file"
+msgstr ""
+
+#: .svip.dump[2].choices[0].text
+msgid "Auto detect"
+msgstr ""
+
+#: .svip.dump[2].choices[1].text
+msgid "SVIP 7.0.0"
+msgstr ""
+
+#: .svip.dump[2].choices[2].text
+msgid "SVIP 6.0.0"
+msgstr ""
+
+#: .svip.dump[2].choices[3].text
+msgid "Max compatibility (read only)"
+msgstr ""
+
+#: .svip.dump[2].description
+msgid ""
+"This option only controls the header version information of the output "
+"project file.\n"
+"Choosing an older project file version will not affect the integrity of the "
+"data, but using a lower version of X Studio to open, edit and save a higher "
+"version project file may cause data loss."
+msgstr ""

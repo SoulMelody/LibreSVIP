@@ -1,0 +1,38 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-26 10:12+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .gj.format_desc
+msgid "Gejigeji project file (*.gj)"
+msgstr ""
+
+#: .gj.description
+msgid ""
+"Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr ""
+
+#: .gj.dump[0].title
+msgid "Average sampling interval for the volume parameter"
+msgstr ""
+
+#: .gj.dump[0].description
+msgid ""
+"The unit is Tick. The larger the value, the smoother the editor; the smaller "
+"the value, the more accurate the volume parameter."
+msgstr ""
+
+#: .gj.dump[1].title
+msgid "Default singer"
+msgstr ""
