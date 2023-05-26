@@ -35,7 +35,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade poetry
-          poetry install --without webui,code_gen,dev,test
+          poetry install --without webui,code_gen,dev,test --with desktop,ffmpeg,ujson,packaging
       - name: Build with cx_freeze
         run: |
           cd deploy/packaging

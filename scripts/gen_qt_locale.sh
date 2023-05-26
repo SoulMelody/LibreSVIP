@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PATH="$PATH:$(python -c 'import PySide6;print(PySide6.__path__[0])')"
 export PYTHONIOENCODING=utf-8
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export PYTHONIOENCODING=utf-8
 pybabel extract ../libresvip -o ../libresvip/res/i18n/libresvip_python.pot
 if [ ! -f ../libresvip/res/i18n/libresvip_python-zh_CN.po ]; then
