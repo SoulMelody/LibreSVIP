@@ -19,7 +19,7 @@ Page {
         id: colorPickerItem
         RowLayout {
             property var field: {}
-            height: 30
+            height: 40
             Layout.fillWidth: true
             Label {
                 text: qsTr(field.title) + "："
@@ -74,7 +74,7 @@ Page {
         id: switchItem
         RowLayout {
             property var field: {}
-            height: 30
+            height: 40
             Layout.fillWidth: true
             Label {
                 text: qsTr(field.title) + "："
@@ -85,6 +85,9 @@ Page {
                 Layout.preferredWidth: 150
             }
             Switch {
+                Component.onCompleted: {
+                    this.checked = field.value
+                }
                 onCheckedChanged: {
                     field.value = this.checked
                 }
@@ -117,7 +120,7 @@ Page {
         id: comboBoxItem
         RowLayout {
             property var field: {}
-            height: 30
+            height: 40
             Layout.fillWidth: true
             Label {
                 text: qsTr(field.title) + "："
@@ -160,6 +163,10 @@ Page {
                         ScrollIndicator.vertical: ScrollIndicator { }
                     }
                 }
+
+                Component.onCompleted: {
+                    this.currentIndex = indexOfValue(field.value)
+                }
                 onActivated: {
                     field.value = this.currentValue
                 }
@@ -188,7 +195,7 @@ Page {
         id: textFieldItem
         RowLayout {
             property var field: {}
-            height: 30
+            height: 40
             Layout.fillWidth: true
             Label {
                 Layout.alignment: Qt.AlignVCenter
@@ -904,37 +911,42 @@ Page {
                             model: py.task_manager.qget("input_fields")
                             delegate: Column {
                                 Component.onCompleted: {
-                                    let separator_item = separatorItem.createObject(inputContainer)
-                                    this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null;
-                                    switch (model.type) {
-                                        case "bool": {
-                                            item = switchItem.createObject(inputContainer, {
-                                                "field": model
-                                            })
-                                            break
+                                    if (index == 0) {
+                                        for (var i = 0; i < inputFields.count; i++) {
+                                            let model = inputFields.model.get(i)
+                                            let separator_item = separatorItem.createObject(inputContainer)
+                                            this.Component.onDestruction.connect(separator_item.destroy)
+                                            let item = null;
+                                            switch (model.type) {
+                                                case "bool": {
+                                                    item = switchItem.createObject(inputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                                case "enum": {
+                                                    item = comboBoxItem.createObject(inputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                                case "color" : {
+                                                    item = colorPickerItem.createObject(inputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                                case "other": {
+                                                    item = textFieldItem.createObject(inputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                            }
+                                            if (item) {
+                                                this.Component.onDestruction.connect(item.destroy)
+                                            }
                                         }
-                                        case "enum": {
-                                            item = comboBoxItem.createObject(inputContainer, {
-                                                "field": model
-                                            })
-                                            break
-                                        }
-                                        case "color" : {
-                                            item = colorPickerItem.createObject(inputContainer, {
-                                                "field": model
-                                            })
-                                            break
-                                        }
-                                        case "other": {
-                                            item = textFieldItem.createObject(inputContainer, {
-                                                "field": model
-                                            })
-                                            break
-                                        }
-                                    }
-                                    if (item) {
-                                        this.Component.onDestruction.connect(item.destroy)
                                     }
                                 }
                             }
@@ -1055,37 +1067,42 @@ Page {
                             model: py.task_manager.qget("output_fields")
                             delegate: Column {
                                 Component.onCompleted: {
-                                    let separator_item = separatorItem.createObject(outputContainer)
-                                    this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null;
-                                    switch (model.type) {
-                                        case "bool": {
-                                            item = switchItem.createObject(outputContainer, {
-                                                "field": model
-                                            })
-                                            break
+                                    if (index == 0) {
+                                        for (var i = 0; i < outputFields.count; i++) {
+                                            let model = outputFields.model.get(i)
+                                            let separator_item = separatorItem.createObject(outputContainer)
+                                            this.Component.onDestruction.connect(separator_item.destroy)
+                                            let item = null;
+                                            switch (model.type) {
+                                                case "bool": {
+                                                    item = switchItem.createObject(outputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                                case "enum": {
+                                                    item = comboBoxItem.createObject(outputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                                case "color" : {
+                                                    item = colorPickerItem.createObject(outputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                                case "other": {
+                                                    item = textFieldItem.createObject(outputContainer, {
+                                                        "field": model
+                                                    })
+                                                    break
+                                                }
+                                            }
+                                            if (item) {
+                                                this.Component.onDestruction.connect(item.destroy)
+                                            }
                                         }
-                                        case "enum": {
-                                            item = comboBoxItem.createObject(outputContainer, {
-                                                "field": model
-                                            })
-                                            break
-                                        }
-                                        case "color" : {
-                                            item = colorPickerItem.createObject(outputContainer, {
-                                                "field": model
-                                            })
-                                            break
-                                        }
-                                        case "other": {
-                                            item = textFieldItem.createObject(outputContainer, {
-                                                "field": model
-                                            })
-                                            break
-                                        }
-                                    }
-                                    if (item) {
-                                        this.Component.onDestruction.connect(item.destroy)
                                     }
                                 }
                             }

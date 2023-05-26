@@ -594,7 +594,7 @@ msgstr "DiffSinger参数文件（*.ds）"
 msgid "DiffSinger plugin. Currently, only loading is supported"
 msgstr "DiffSinger 参数格式转换插件。目前仅支持导入 DiffSinger 合成参数"
 
-#: .ds.load[0].title .ds.dump[0].title
+#: .ds.load[0].title .ds.dump[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -796,11 +796,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -940,8 +940,8 @@ msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程格式转换插件。"
 
 #: .srt.format_desc
-msgid "SRT subtitle file (*.srt)"
-msgstr "SRT 字幕文件 (*.srt)"
+msgid "SubRip subtitle file (*.srt)"
+msgstr "SubRip 字幕文件 (*.srt)"
 
 #: .srt.description
 msgid "Generator plugin for SRT subtitle file"
@@ -970,9 +970,8 @@ msgstr ""
 msgid "Pixels per beat"
 msgstr "每拍像素数"
 
-#: .svg.dump[0].description .svg.dump[1].description
-#: .svg.dump[2].description .svg.dump[5].description
-#: .svg.dump[7].description .svg.dump[16].description
+#: .svg.dump[0].description .svg.dump[1].description .svg.dump[2].description
+#: .svg.dump[5].description .svg.dump[7].description .svg.dump[16].description
 msgid "Unit: pixel."
 msgstr "单位：像素。"
 
@@ -988,9 +987,9 @@ msgstr "音符圆角"
 msgid "Note fill color"
 msgstr "音符填充颜色"
 
-#: .svg.dump[3].description .svg.dump[4].description
-#: .svg.dump[6].description .svg.dump[11].description
-#: .svg.dump[12].description .svg.dump[15].description
+#: .svg.dump[3].description .svg.dump[4].description .svg.dump[6].description
+#: .svg.dump[11].description .svg.dump[12].description
+#: .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
@@ -1014,19 +1013,19 @@ msgstr "音高曲线描边宽度"
 msgid "Lyric position"
 msgstr "歌词显示于"
 
-#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
+#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
 msgid "Above the note"
 msgstr "音符上方"
 
-#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
+#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
 msgid "Inside the note"
 msgstr "音符内部"
 
-#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
+#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
 msgid "Below the note"
 msgstr "音符下方"
 
-#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
+#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
 msgid "Don't show"
 msgstr "不显示"
 

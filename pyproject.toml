@@ -67,7 +67,7 @@ pywebview = "^4.1"
 [tool.poetry.group.desktop]
 optional = true
 [tool.poetry.group.desktop.dependencies]
-pyside6 = "<6.5.0"
+pyside6 = "!=6.5.0"
 qmlease = "^3.0.3"
 qtawesome = "^1.2.3"
 desktop-notifier = "^3.5.3"

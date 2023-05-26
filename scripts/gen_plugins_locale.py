@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
             tmp_po.seek(0)
 
-            i18n_file = info_path.with_suffix("-zh_CN.po")
+            i18n_file = info_path.parent / (info_path.stem + "-zh_CN.po")
             if i18n_file.exists():
                 ori_content = i18n_file.read_bytes()
                 if ori_content:

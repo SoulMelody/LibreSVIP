@@ -129,7 +129,7 @@ Drawer {
                             converterPage.saveFolder.text = path
                             py.config_items.set_save_folder(path)
                         }
-                        checked: save_folder_type === 2
+                        checked: save_folder_type() === 2
                     }
                     RadioButton {
                         text: qsTr("Custom (Browse ...)")
