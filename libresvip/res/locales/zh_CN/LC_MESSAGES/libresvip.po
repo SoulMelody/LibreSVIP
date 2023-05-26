@@ -476,19 +476,19 @@ msgstr "使其它音轨静音"
 
 #: .ds.format_desc
 msgid "DiffSinger parameters file (*.ds)"
-msgstr ""
+msgstr "DiffSinger参数文件（*.ds）"
 
 #: .ds.description
 msgid "DiffSinger plugin. Currently, only loading is supported"
-msgstr ""
+msgstr "DiffSinger 参数格式转换插件。目前仅支持导入 DiffSinger 合成参数"
 
 #: .ds.load[0].title .ds.dump[0].title
 msgid "Dictionary Name"
-msgstr ""
+msgstr "词典名称"
 
 #: .ds.dump[1].title
 msgid "Split threshold (in seconds)"
-msgstr ""
+msgstr "分段长度（秒）"
 
 #: .ds.dump[1].description
 msgid ""
@@ -501,218 +501,224 @@ msgid ""
 "reduce the memory usage during synthesis while maximizing the utilization of "
 "performance and improving the synthesis effect."
 msgstr ""
+"此选项控制转换时的分段策略。当此选项值为负时，不进行分段；此选项值为 0 时，在"
+"所有音符间隔达到阈值处分段；此选项值为正时，可在分段的基础上控制每个分段的最"
+"小长度。设置合理的分段策略能够在合成时减少显存占用的同时最大化利用性能，并提"
+"升合成效果。"
 
 #: .ds.dump[2].title
 msgid "Minimum interval (in milliseconds)"
-msgstr ""
+msgstr "分段音符间隔（毫秒）"
 
 #: .ds.dump[2].description
 msgid ""
 "This option controls the minimum interval between notes. It is recommended "
 "to set it to a value greater than 300 milliseconds."
-msgstr ""
+msgstr "此选项控制分段时的音符间隔阈值。建议不小于 300 毫秒。"
 
 #: .ds.dump[3].title
 msgid "Seed"
-msgstr ""
+msgstr "随机种子"
 
 #: .ds.dump[3].description
 msgid ""
 "A fixed random seed can get a stable and reproducible synthesis effect. This "
 "option takes effect when the non-negative value is set."
-msgstr ""
+msgstr "固定随机种子可以得到稳定可复现的合成效果。此选项设置非负值时生效。"
 
 #: .ds.dump[4].title
 msgid "Export gender parameter"
-msgstr ""
+msgstr "导出性别参数"
 
 #: .ds.dump[5].title
 msgid "Indentation"
-msgstr ""
+msgstr "JSON缩进空格数"
 
 #: .ds.dump[5].description
 msgid ""
 "The number of spaces used for indentation. When the value is negative, no "
 "formatting is performed."
-msgstr ""
+msgstr "为负时不进行格式化。"
 
 #: .ds.dump[6].title
 msgid "Track index"
-msgstr ""
+msgstr "音轨序号"
 
 #: .ds.dump[6].description
 msgid "Start from 0, -1 means automatic selection"
-msgstr ""
+msgstr "从0开始，-1表示自动选择"
 
 #: .dv.format_desc
 msgid "DeepVocal project file (*.dv)"
-msgstr ""
+msgstr "DeepVocal工程文件 (*.dv)"
 
 #: .dv.description
 msgid "Conversion plugin for dv file"
-msgstr ""
+msgstr "dv 格式转换插件。"
 
 #: .gj.format_desc
 msgid "Gejigeji project file (*.gj)"
-msgstr ""
+msgstr "歌叽歌叽工程文件 (*.gj)"
 
 #: .gj.description
 msgid ""
 "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
 msgstr ""
+"歌叽歌叽工程格式转换插件。\n"
+"仅支持歌叽歌叽2.0版本。"
 
 #: .gj.dump[0].title
 msgid "Average sampling interval for the volume parameter"
-msgstr ""
+msgstr "音量参数平均采样间隔"
 
 #: .gj.dump[0].description
 msgid ""
 "The unit is Tick. The larger the value, the smoother the editor; the smaller "
 "the value, the more accurate the volume parameter."
-msgstr ""
+msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
 
 #: .gj.dump[1].title
 msgid "Default singer"
-msgstr ""
+msgstr "默认歌手"
 
 #: .json.format_desc
 msgid "OpenSVIP file (*.json)"
-msgstr ""
+msgstr "OpenSVIP 文件 (*.json)"
 
 #: .json.description
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
-msgstr ""
+msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
 
 #: .json.dump[0].title
 msgid "Generate JSON file with indentation"
-msgstr ""
+msgstr "生成带缩进格式的 JSON 文件"
 
 #: .json.dump[0].description
 msgid ""
 "The indented format is easier to read and modify, but it will take up a "
 "larger file size."
-msgstr ""
+msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"
 
 #: .lrc.format_desc
 msgid "LRC lyric file (*.lrc)"
-msgstr ""
+msgstr "LRC 歌词文件 (*.lrc)"
 
 #: .lrc.description
 msgid "Generator plugin for LRC lyric file"
-msgstr ""
+msgstr "LRC 歌词格式转换插件"
 
 #: .lrc.dump[0].title
 msgid "Singer name"
-msgstr ""
+msgstr "歌手名"
 
 #: .lrc.dump[1].title
 msgid "Song title"
-msgstr ""
+msgstr "歌曲名"
 
 #: .lrc.dump[2].title
 msgid "Album name"
-msgstr ""
+msgstr "专辑名"
 
 #: .lrc.dump[3].title
 msgid "Lyric editor"
-msgstr ""
+msgstr "歌词编辑"
 
 #: .lrc.dump[4].title
 msgid "Offset"
-msgstr ""
+msgstr "偏移量"
 
 #: .lrc.dump[4].description
 msgid "In milliseconds, positive means ahead, negative means opposite."
-msgstr ""
+msgstr "单位为毫秒，正值表示整体提前，负值相反。"
 
 #: .lrc.dump[5].title
 msgid "Offset policy"
-msgstr ""
+msgstr "偏移处理方式"
 
 #: .lrc.dump[5].choices[0].text
 msgid "Act on timeline"
-msgstr ""
+msgstr "作用于时间轴"
 
 #: .lrc.dump[5].choices[1].text
 msgid "Act on metadata"
-msgstr ""
+msgstr "作用于元数据"
 
 #: .lrc.dump[6].title
 msgid "New line by"
-msgstr ""
+msgstr "歌词换行方式"
 
 #: .lrc.dump[6].choices[0].text
 msgid "Both notes gap and punctuation"
-msgstr ""
+msgstr "音符间隙和标点符号"
 
 #: .lrc.dump[6].choices[1].text
 msgid "Notes gap only"
-msgstr ""
+msgstr "仅音符间隙"
 
 #: .lrc.dump[6].choices[2].text
 msgid "Punctuation only"
-msgstr ""
+msgstr "仅标点符号"
 
 #: .lrc.dump[7].title
 msgid "Write timeline"
-msgstr ""
+msgstr "写入时间轴"
 
 #: .lrc.dump[7].description
 msgid "If you need lyrics without timeline, turn off this option."
-msgstr ""
+msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
 
 #: .lrc.dump[8].title
 msgid "Text encoding"
-msgstr ""
+msgstr "歌词文本编码"
 
 #: .mid.format_desc
 msgid "Standard MIDI file (SMF) (*.mid)"
-msgstr ""
+msgstr "标准MIDI文件 (*.mid)"
 
 #: .mid.description
 msgid "Conversion plugin for midi file"
-msgstr ""
+msgstr "MIDI文件转换插件"
 
 #: .mid.load[0].title
 msgid "Import lyrics"
-msgstr ""
+msgstr "导入歌词"
 
 #: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
-msgstr ""
+msgstr "歌词编码"
 
 #: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
-msgstr ""
+msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
 #: .mid.load[2].title
 msgid "Import time signatures"
-msgstr ""
+msgstr "导入拍号"
 
 #: .mid.load[2].description
 msgid "If this option is unset, the time signature is set to 4/4."
-msgstr ""
+msgstr "关闭此选项，拍号设置为4/4。"
 
 #: .mid.load[3].title
 msgid "Multi-channel processing method"
-msgstr ""
+msgstr "通道处理方式"
 
 #: .mid.load[3].choices[0].text
 msgid "Import first channel only"
-msgstr ""
+msgstr "仅导入首条通道"
 
 #: .mid.load[3].choices[1].text
 msgid "Split into tracks"
-msgstr ""
+msgstr "全部拆分为轨道"
 
 #: .mid.load[3].choices[2].text
 msgid "Custom import range"
-msgstr ""
+msgstr "自定义导入范围"
 
 #: .mid.load[4].title
 msgid "Channels to import"
-msgstr ""
+msgstr "通道"
 
 #: .mid.load[4].description
 msgid ""
@@ -721,18 +727,21 @@ msgid ""
 "when the option “Custom import range” is selected in “Multi-channel "
 "processing method”."
 msgstr ""
+"指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围（用英文逗号分隔），"
+"例如1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时"
+"有效。"
 
 #: .mid.load[5].title
 msgid "Default BPM"
-msgstr ""
+msgstr "默认BPM"
 
 #: .mid.load[5].description
 msgid "Used when no BPM information is found in the MIDI file."
-msgstr ""
+msgstr "当MIDI文件中不存在BPM信息时，使用此值。"
 
 #: .mid.dump[0].title
 msgid "Pre-shift compensation"
-msgstr ""
+msgstr "拖拍前移补偿量"
 
 #: .mid.dump[0].description
 msgid ""
@@ -741,24 +750,28 @@ msgid ""
 "problem of delayed semivowels or vowels in some vocal synthesizers. "
 "Recommended value: 30~60."
 msgstr ""
+"非负整数，单位为ticks。输入负数视为零。将发音为 y-、w-、a-、o- 和 e- 的音符提"
+"前，以缓解某些歌声合成软件半元音或元音音符出现迟滞的问题。推荐值：30~60。"
 
 #: .mid.dump[1].title
 msgid "Export lyrics"
-msgstr ""
+msgstr "导出歌词"
 
 #: .mid.dump[2].title
 msgid "Remove symbols from lyrics"
-msgstr ""
+msgstr "移除歌词中的常见标点符号"
 
 #: .mid.dump[2].description
 msgid ""
 "Remove commas, periods, question marks and exclamation marks in Chinese and "
 "English to prevent lyric import failure in some vocal synthesizers."
 msgstr ""
+"移除中英文的逗号、句号、问号和感叹号，防止不支持含标点符号歌词的歌声合成软件"
+"无法正常合成。"
 
 #: .mid.dump[3].title
 msgid "Lyric compatibility mode"
-msgstr ""
+msgstr "歌词兼容性模式"
 
 #: .mid.dump[3].description
 msgid ""
@@ -766,14 +779,16 @@ msgid ""
 "files with Chinese lyrics from being imported by vocal synthesizers that do "
 "not support Chinese lyrics."
 msgstr ""
+"将所有中文歌词转换为拼音，防止不支持导入带有中文歌词 MIDI 文件的歌声合成软件"
+"出现乱码。"
 
 #: .mid.dump[5].title
 msgid "Transpose"
-msgstr ""
+msgstr "移调"
 
 #: .mid.dump[6].title
 msgid "Ticks per beat"
-msgstr ""
+msgstr "每拍ticks数"
 
 #: .mid.dump[6].description
 msgid ""
@@ -781,171 +796,174 @@ msgid ""
 "pulses per quarter note. This setting should not be changed unless you know "
 "what it is."
 msgstr ""
+"即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你"
+"知道这是什么，否则不应更改此设置。"
 
 #: .mtp.format_desc
 msgid "Muta project file (*.mtp)"
-msgstr ""
+msgstr "Muta工程文件 (*.mtp)"
 
 #: .mtp.description
 msgid "Conversion plugin for mtp file"
-msgstr ""
+msgstr "mtp 格式转换插件"
 
 #: .nn.format_desc
 msgid "Niaoniao Virtual Singer project file (*.nn)"
-msgstr ""
+msgstr "袅袅虚拟歌手工程文件 (*.nn)"
 
 #: .nn.description
 msgid "Conversion plugin for Niaoniao project file"
-msgstr ""
+msgstr "袅袅工程格式转换插件"
 
 #: .nn.dump[0].description
 msgid "Start from 0, -1 means auto select"
-msgstr ""
+msgstr "从0开始，-1表示自动选择"
 
 #: .s5p.format_desc
 msgid "Synthesizer V Editor project file (*.s5p)"
-msgstr ""
+msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
 
 #: .s5p.description
 msgid "Conversion plugin for Synthesizer V Editor project file"
-msgstr ""
+msgstr "Synthesizer V Editor 工程格式转换插件。"
 
 #: .srt.format_desc
 msgid "SRT subtitle file (*.srt)"
-msgstr ""
+msgstr "SRT 字幕文件 (*.srt)"
 
 #: .srt.description
 msgid "Generator plugin for SRT subtitle file"
-msgstr ""
+msgstr "SRT 字幕格式转换插件"
 
 #: .srt.dump[1].choices[0].text
 msgid "Both note gap and punctuation"
-msgstr ""
+msgstr "音符间隙和标点符号"
 
 #: .srt.dump[1].choices[1].text
 msgid "Note gap only"
-msgstr ""
+msgstr "仅音符间隙"
 
 #: .svg.format_desc
 msgid "Scalable Vector Graphics (*.svg)"
-msgstr ""
+msgstr "可缩放矢量图形 (*.svg)"
 
 #: .svg.description
 msgid ""
 "Generate graphics containing notes and pitch curve in SVG format. Only the "
 "first or specified singing track will be imported."
 msgstr ""
+"生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
 
 #: .svg.dump[0].title
 msgid "Pixels per beat"
-msgstr ""
+msgstr "每拍像素数"
 
 #: .svg.dump[0].description .svg.dump[1].description .svg.dump[2].description
 #: .svg.dump[5].description .svg.dump[7].description .svg.dump[16].description
 msgid "Unit: pixel."
-msgstr ""
+msgstr "单位：像素。"
 
 #: .svg.dump[1].title
 msgid "Note height"
-msgstr ""
+msgstr "音符高度"
 
 #: .svg.dump[2].title
 msgid "Note radius"
-msgstr ""
+msgstr "音符圆角"
 
 #: .svg.dump[3].title
 msgid "Note fill color"
-msgstr ""
+msgstr "音符填充颜色"
 
 #: .svg.dump[3].description .svg.dump[4].description .svg.dump[6].description
 #: .svg.dump[11].description .svg.dump[12].description
 #: .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
-msgstr ""
+msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
 #: .svg.dump[4].title
 msgid "Note stroke color"
-msgstr ""
+msgstr "音符描边颜色"
 
 #: .svg.dump[5].title
 msgid "Note stroke width"
-msgstr ""
+msgstr "音符描边宽度"
 
 #: .svg.dump[6].title
 msgid "Pitch stroke color"
-msgstr ""
+msgstr "音高曲线描边颜色"
 
 #: .svg.dump[7].title
 msgid "Pitch stroke width"
-msgstr ""
+msgstr "音高曲线描边宽度"
 
 #: .svg.dump[8].title
 msgid "Lyric position"
-msgstr ""
+msgstr "歌词显示于"
 
 #: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
 msgid "Above the note"
-msgstr ""
+msgstr "音符上方"
 
 #: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
 msgid "Inside the note"
-msgstr ""
+msgstr "音符内部"
 
 #: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
 msgid "Below the note"
-msgstr ""
+msgstr "音符下方"
 
 #: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
 msgid "Don't show"
-msgstr ""
+msgstr "不显示"
 
 #: .svg.dump[9].title
 msgid "Pronounciation position"
-msgstr ""
+msgstr "发音显示于"
 
 #: .svg.dump[10].title
 msgid "Text align"
-msgstr ""
+msgstr "文字对齐"
 
 #: .svg.dump[10].choices[0].text
 msgid "Align to left"
-msgstr ""
+msgstr "左对齐"
 
 #: .svg.dump[10].choices[1].text
 msgid "Align to middle"
-msgstr ""
+msgstr "居中对齐"
 
 #: .svg.dump[10].choices[2].text
 msgid "Align to right"
-msgstr ""
+msgstr "右对齐"
 
 #: .svg.dump[11].title
 msgid "Inner text color"
-msgstr ""
+msgstr "音符内部文本颜色"
 
 #: .svg.dump[12].title
 msgid "The color of the text on the top and bottom of the note"
-msgstr ""
+msgstr "音符上下方文本颜色"
 
 #: .svg.dump[14].title
 msgid "Show grid lines"
-msgstr ""
+msgstr "显示网格线"
 
 #: .svg.dump[15].title
 msgid "Grid line color"
-msgstr ""
+msgstr "网格线颜色"
 
 #: .svg.dump[16].title
 msgid "Grid line width"
-msgstr ""
+msgstr "网格线宽度"
 
 #: .svip.format_desc
 msgid "X Studio project file (*.svip)"
-msgstr ""
+msgstr "X Studio 工程文件 (*.svip)"
 
 #: .svip.description
 msgid "Conversion plugin for the original .svip binary file format"
-msgstr ""
+msgstr "原始二进制 .svip 文件转换插件"
 
 #: .svip.dump[0].description
 msgid ""
@@ -955,10 +973,13 @@ msgid ""
 "singer that has an ID but has not been publicly released, please modify "
 "singers.json in the plugin directory."
 msgstr ""
+"请输入完整无误的歌手名字。若此选项指定的歌手不存在，将使用 X Studio 中设置的"
+"默认歌手。如果要指定歌手编号与名称的转换关系，或添加已拥有编号但未公开发行的"
+"歌手，请修改插件目录下的 singers.json。"
 
 #: .svip.dump[1].title
 msgid "Default tempo"
-msgstr ""
+msgstr "曲速过低或过高时，使用此曲速进行对齐"
 
 #: .svip.dump[1].description
 msgid ""
@@ -969,14 +990,17 @@ msgid ""
 "within a reasonable range, the value of this option will not affect the "
 "alignment effect."
 msgstr ""
+"X Studio 支持的曲速范围为 20 ~ 300。曲速超出范围时，将会启用绝对时间轴以确保"
+"音符对齐。请尽量将此值设置为源工程文件中曲速的整数倍或整数分之一；只要在合理"
+"数值范围内，此选项的值不会影响对齐效果。"
 
 #: .svip.dump[2].title
 msgid "Specify the version of the generated .svip file"
-msgstr ""
+msgstr "指定生成的 .svip 文件版本"
 
 #: .svip.dump[2].choices[0].text
 msgid "Auto detect"
-msgstr ""
+msgstr "自动选择"
 
 #: .svip.dump[2].choices[1].text
 msgid "SVIP 7.0.0"
@@ -988,7 +1012,7 @@ msgstr ""
 
 #: .svip.dump[2].choices[3].text
 msgid "Max compatibility (read only)"
-msgstr ""
+msgstr "最大只读兼容"
 
 #: .svip.dump[2].description
 msgid ""
@@ -998,18 +1022,21 @@ msgid ""
 "data, but using a lower version of X Studio to open, edit and save a higher "
 "version project file may cause data loss."
 msgstr ""
+"此选项仅控制输出工程文件的头部版本信息。\n"
+"选择较旧的工程文件版本不会影响数据的完整性，但使用低版本的 X Studio 打开编辑"
+"并保存高版本工程文件时可能造成数据丢失。"
 
 #: .svip3.format_desc
 msgid "X Studio 3 project file (*.svip3)"
-msgstr ""
+msgstr "X Studio 3 工程文件 (*.svip3)"
 
 #: .svip3.description
 msgid "Conversion plugin for X Studio 3 project file"
-msgstr ""
+msgstr "X Studio 3 工程转换插件"
 
 #: .svp.format_desc
 msgid "Synthesizer V Studio project file (*.svp)"
-msgstr ""
+msgstr "Synthesizer V Studio 工程文件 (*.svp)"
 
 #: .svp.description
 msgid ""
@@ -1019,10 +1046,13 @@ msgid ""
 "Notes：Importing a project file with overlapping notes is undefined behavior "
 "that can lead to unforeseen exceptions."
 msgstr ""
+"Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属"
+"性、音符组、即时音高模式在内所有数据的读取与写入。\n"
+"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
 #: .svp.load[0].title
 msgid "Always follow instant pitch mode"
-msgstr ""
+msgstr "遵循即时音高模式设置"
 
 #: .svp.load[0].description
 msgid ""
@@ -1030,22 +1060,24 @@ msgid ""
 "imported regardless of the project setting. If you have tuned the pitch "
 "curve based on instant pitch mode, it is recommended to turn on this option."
 msgstr ""
+"关闭此选项时，无论工程文件是否开启了即时音高模式，都只会考虑原始的默认音高。"
+"若您基于即时音高模式进行了调校，建议打开此选项。"
 
 #: .svp.load[1].title
 msgid "Pitch input mode"
-msgstr ""
+msgstr "音高信息输入模式"
 
 #: .svp.load[1].choices[0].text
 msgid "Full pitch curve"
-msgstr ""
+msgstr "输入完整音高曲线"
 
 #: .svp.load[1].choices[1].text
 msgid "Edited part only (vibrato mode)"
-msgstr ""
+msgstr "仅输入已编辑部分（颤音模式）"
 
 #: .svp.load[1].choices[2].text
 msgid "Edited part only (plain mode)"
-msgstr ""
+msgstr "仅输入已编辑部分（平整模式）"
 
 #: .svp.load[1].description
 msgid ""
@@ -1054,34 +1086,36 @@ msgid ""
 "in the parameter panel, the pitch transition in the vibrato envelope and the "
 "pitch transition in the note properties have been edited."
 msgstr ""
+"本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中"
+"的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
 
 #: .svp.load[2].title
 msgid "The way to handle breath notes"
-msgstr ""
+msgstr "换气音符处理方式"
 
 #: .svp.load[2].choices[0].text
 msgid "Ignore all breath notes"
-msgstr ""
+msgstr "忽略所有换气音符"
 
 #: .svp.load[2].choices[1].text
 msgid "Keep as normal notes"
-msgstr ""
+msgstr "保留为普通音符"
 
 #: .svp.load[2].choices[2].text
 msgid "Convert to breath mark"
-msgstr ""
+msgstr "转换为换气标记"
 
 #: .svp.load[3].title
 msgid "The way to handle note groups"
-msgstr ""
+msgstr "音符组导入方式"
 
 #: .svp.load[3].choices[0].text
 msgid "Split all to tracks"
-msgstr ""
+msgstr "全部拆分为轨道"
 
 #: .svp.load[3].choices[1].text
 msgid "Keep original position"
-msgstr ""
+msgstr "保留原始位置"
 
 #: .svp.load[3].description
 msgid ""
@@ -1091,28 +1125,31 @@ msgid ""
 "main group, it is recommended to choose “Split to tracks” to ensure the "
 "paragraph division is not broken."
 msgstr ""
+"注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之"
+"间、音符组与主组之间存在时间轴上紧挨（但不重叠）的音符，则建议选择“拆分为轨"
+"道”以确保段落划分不被破坏。"
 
 #: .svp.dump[0].title
 msgid "The way to handle vibrato notes"
-msgstr ""
+msgstr "自动颤音处理方式"
 
 #: .svp.dump[0].choices[0].text
 msgid "All removed"
-msgstr ""
+msgstr "全部抹平"
 
 #: .svp.dump[0].choices[1].text
 msgid "All kept"
-msgstr ""
+msgstr "全部保留"
 
 #: .svp.dump[0].choices[2].text
-msgid "Hybrid moed"
-msgstr ""
+msgid "Hybrid mode"
+msgstr "混合保留"
 
 #: .svp.dump[1].title
 msgid ""
 "Set the average sampling interval of parameter points to improve performance "
 "(0 means no limit)"
-msgstr ""
+msgstr "设置参数点的平均采样间隔以改善性能（0 为无限制）"
 
 #: .svp.dump[1].description
 msgid ""
@@ -1121,75 +1158,77 @@ msgid ""
 "Please set this value according to your hardware configuration and actual "
 "experience."
 msgstr ""
+"减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
+"Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
 
 #: .ufdata.format_desc
 msgid "UtaFormatix3 data format (*.ufdata)"
-msgstr ""
+msgstr "UtaFormatix3 数据格式 (*.ufdata)"
 
 #: .ufdata.description
 msgid "Convertion plugin UFData format"
-msgstr ""
+msgstr "UFData格式转换插件"
 
 #: .ustx.format_desc
 msgid "OpenUtau project file (*.ustx)"
-msgstr ""
+msgstr "OpenUtau 工程文件 (*.ustx)"
 
 #: .ustx.description
 msgid "Conversion plugin for Ustx file format"
-msgstr ""
+msgstr "Ustx格式转换插件"
 
 #: .vog.format_desc
 msgid "Vogen project file (*.vog)"
-msgstr ""
+msgstr "Vogen 工程文件 (*.vog)"
 
 #: .vog.description
 msgid "Conversion plugin for Vogen project file"
-msgstr ""
+msgstr "Vogen 工程格式转换插件"
 
 #: .vog.dump[0].description
 msgid "Please enter the singer's English name."
-msgstr ""
+msgstr "请输入完整无误的歌手英文名字。"
 
 #: .vshp.format_desc
 msgid "VocalShifter project file (*.vshp)"
-msgstr ""
+msgstr "VocalShifter 工程文件 (*.vshp)"
 
 #: .vshp.load[0].title
 msgid "Convert wave pattern to singing pattern"
-msgstr ""
+msgstr "将音频片段导入为演唱轨"
 
 #: .vshp.load[1].title
 msgid "Use edited pitch curve"
-msgstr ""
+msgstr "使用已编辑的音高曲线"
 
 #: .vshp.load[2].title
 msgid "Use edited dynamics curve"
-msgstr ""
+msgstr "使用已编辑的动态曲线"
 
 #: .vshp.load[3].title
 msgid "Import dynamics curve"
-msgstr ""
+msgstr "导入动态曲线"
 
 #: .vshp.load[4].title
 msgid "Import formant curve"
-msgstr ""
+msgstr "导入共振峰曲线"
 
 #: .vshp.load[5].title
 msgid "Import breath curve"
-msgstr ""
+msgstr "导入呼吸曲线"
 
 #: .vspx.format_desc
 msgid "VocalSharp project file (*.vspx)"
-msgstr ""
+msgstr "VocalSharp 工程格式 (*.vspx)"
 
 #: .vspx.description
 msgid "Conversion plugin for VocalSharp project file"
-msgstr ""
+msgstr "VocalSharp格式转换插件"
 
 #: .y77.format_desc
 msgid "Yuan77 project file (*.y77)"
-msgstr ""
+msgstr "元七七工程文件 (*.y77)"
 
 #: .y77.description
 msgid "Conversion plugin for Yuan77 project file"
-msgstr ""
+msgstr "元七七工程格式转换插件"

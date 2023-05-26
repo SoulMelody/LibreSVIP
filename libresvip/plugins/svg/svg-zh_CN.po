@@ -1,31 +1,32 @@
 #. extracted from 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-26 10:12+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: svg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #: .svg.format_desc
 msgid "Scalable Vector Graphics (*.svg)"
-msgstr ""
+msgstr "可缩放矢量图形 (*.svg)"
 
 #: .svg.description
 msgid ""
 "Generate graphics containing notes and pitch curve in SVG format. Only the "
 "first or specified singing track will be imported."
-msgstr ""
+msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
 
 #: .svg.dump[0].title
 msgid "Pixels per beat"
-msgstr ""
+msgstr "每拍像素数"
 
 #: .svg.dump[0].description
 #: .svg.dump[1].description
@@ -34,19 +35,19 @@ msgstr ""
 #: .svg.dump[7].description
 #: .svg.dump[16].description
 msgid "Unit: pixel."
-msgstr ""
+msgstr "单位：像素。"
 
 #: .svg.dump[1].title
 msgid "Note height"
-msgstr ""
+msgstr "音符高度"
 
 #: .svg.dump[2].title
 msgid "Note radius"
-msgstr ""
+msgstr "音符圆角"
 
 #: .svg.dump[3].title
 msgid "Note fill color"
-msgstr ""
+msgstr "音符填充颜色"
 
 #: .svg.dump[3].description
 #: .svg.dump[4].description
@@ -55,92 +56,92 @@ msgstr ""
 #: .svg.dump[12].description
 #: .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
-msgstr ""
+msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
 #: .svg.dump[4].title
 msgid "Note stroke color"
-msgstr ""
+msgstr "音符描边颜色"
 
 #: .svg.dump[5].title
 msgid "Note stroke width"
-msgstr ""
+msgstr "音符描边宽度"
 
 #: .svg.dump[6].title
 msgid "Pitch stroke color"
-msgstr ""
+msgstr "音高曲线描边颜色"
 
 #: .svg.dump[7].title
 msgid "Pitch stroke width"
-msgstr ""
+msgstr "音高曲线描边宽度"
 
 #: .svg.dump[8].title
 msgid "Lyric position"
-msgstr ""
+msgstr "歌词显示于"
 
 #: .svg.dump[8].choices[0].text
 #: .svg.dump[9].choices[0].text
 msgid "Above the note"
-msgstr ""
+msgstr "音符上方"
 
 #: .svg.dump[8].choices[1].text
 #: .svg.dump[9].choices[1].text
 msgid "Inside the note"
-msgstr ""
+msgstr "音符内部"
 
 #: .svg.dump[8].choices[2].text
 #: .svg.dump[9].choices[2].text
 msgid "Below the note"
-msgstr ""
+msgstr "音符下方"
 
 #: .svg.dump[8].choices[3].text
 #: .svg.dump[9].choices[3].text
 msgid "Don't show"
-msgstr ""
+msgstr "不显示"
 
 #: .svg.dump[9].title
 msgid "Pronounciation position"
-msgstr ""
+msgstr "发音显示于"
 
 #: .svg.dump[10].title
 msgid "Text align"
-msgstr ""
+msgstr "文字对齐"
 
 #: .svg.dump[10].choices[0].text
 msgid "Align to left"
-msgstr ""
+msgstr "左对齐"
 
 #: .svg.dump[10].choices[1].text
 msgid "Align to middle"
-msgstr ""
+msgstr "居中对齐"
 
 #: .svg.dump[10].choices[2].text
 msgid "Align to right"
-msgstr ""
+msgstr "右对齐"
 
 #: .svg.dump[11].title
 msgid "Inner text color"
-msgstr ""
+msgstr "音符内部文本颜色"
 
 #: .svg.dump[12].title
 msgid "The color of the text on the top and bottom of the note"
-msgstr ""
+msgstr "音符上下方文本颜色"
 
 #: .svg.dump[13].title
 msgid "Track index"
-msgstr ""
+msgstr "演唱轨序号"
 
 #: .svg.dump[13].description
 msgid "Start from 0, -1 means auto select"
-msgstr ""
+msgstr "从0开始，-1表示自动选择"
 
 #: .svg.dump[14].title
 msgid "Show grid lines"
-msgstr ""
+msgstr "显示网格线"
 
 #: .svg.dump[15].title
 msgid "Grid line color"
-msgstr ""
+msgstr "网格线颜色"
 
 #: .svg.dump[16].title
 msgid "Grid line width"
-msgstr ""
+msgstr "网格线宽度"

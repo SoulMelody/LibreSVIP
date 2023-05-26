@@ -1,32 +1,33 @@
 #. extracted from 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-26 10:12+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: jsonsvip\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #: .json.format_desc
 msgid "OpenSVIP file (*.json)"
-msgstr ""
+msgstr "OpenSVIP 文件 (*.json)"
 
 #: .json.description
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
-msgstr ""
+msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
 
 #: .json.dump[0].title
 msgid "Generate JSON file with indentation"
-msgstr ""
+msgstr "生成带缩进格式的 JSON 文件"
 
 #: .json.dump[0].description
 msgid ""
 "The indented format is easier to read and modify, but it will take up a "
 "larger file size."
-msgstr ""
+msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"

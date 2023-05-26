@@ -1,42 +1,43 @@
 #. extracted from 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-26 10:12+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: vshp\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #: .vshp.format_desc
 msgid "VocalShifter project file (*.vshp)"
-msgstr ""
+msgstr "VocalShifter 工程文件 (*.vshp)"
 
 #: .vshp.load[0].title
 msgid "Convert wave pattern to singing pattern"
-msgstr ""
+msgstr "将音频片段导入为演唱轨"
 
 #: .vshp.load[1].title
 msgid "Use edited pitch curve"
-msgstr ""
+msgstr "使用已编辑的音高曲线"
 
 #: .vshp.load[2].title
 msgid "Use edited dynamics curve"
-msgstr ""
+msgstr "使用已编辑的动态曲线"
 
 #: .vshp.load[3].title
 msgid "Import dynamics curve"
-msgstr ""
+msgstr "导入动态曲线"
 
 #: .vshp.load[4].title
 msgid "Import formant curve"
-msgstr ""
+msgstr "导入共振峰曲线"
 
 #: .vshp.load[5].title
 msgid "Import breath curve"
-msgstr ""
+msgstr "导入呼吸曲线"

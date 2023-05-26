@@ -32,8 +32,8 @@ ComboBox {
             font: combo.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
+            color: index == combo.highlightedIndex ? Material.accentColor : window.Material.foreground
         }
-        highlighted: combo.highlightedIndex === index
     }
 
     background: Canvas {

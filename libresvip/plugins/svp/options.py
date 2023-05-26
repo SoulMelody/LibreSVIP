@@ -69,7 +69,7 @@ class VibratoOption(Enum):
     HYBRID: Annotated[
         str,
         Field(
-            title="Hybrid moed",
+            title="Hybrid mode",
             description="Remove vibrato in edited part, keep default vibrato in other parts",
         ),
     ] = "hybrid"

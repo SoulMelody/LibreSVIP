@@ -55,7 +55,7 @@ def print_plugin_summary(plugins):
             plugin.version_string + margin,
             plugin.author + margin,
             plugin.suffix + margin,
-            f"{plugin.file_format} (*.{plugin.suffix}){margin}",
+            _(f"{plugin.file_format} (*.{plugin.suffix})") + margin,
         )
     console.print(table)
 

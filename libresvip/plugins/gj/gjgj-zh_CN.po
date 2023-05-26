@@ -1,38 +1,41 @@
 #. extracted from 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-05-26 10:12+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: gjgj\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
 
 #: .gj.format_desc
 msgid "Gejigeji project file (*.gj)"
-msgstr ""
+msgstr "歌叽歌叽工程文件 (*.gj)"
 
 #: .gj.description
 msgid ""
 "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
 msgstr ""
+"歌叽歌叽工程格式转换插件。\n"
+"仅支持歌叽歌叽2.0版本。"
 
 #: .gj.dump[0].title
 msgid "Average sampling interval for the volume parameter"
-msgstr ""
+msgstr "音量参数平均采样间隔"
 
 #: .gj.dump[0].description
 msgid ""
 "The unit is Tick. The larger the value, the smoother the editor; the smaller "
 "the value, the more accurate the volume parameter."
-msgstr ""
+msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
 
 #: .gj.dump[1].title
 msgid "Default singer"
-msgstr ""
+msgstr "默认歌手"
