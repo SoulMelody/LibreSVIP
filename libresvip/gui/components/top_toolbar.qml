@@ -112,7 +112,7 @@ ToolBar {
                             onTriggered: {
                                 py.task_manager.set_str("input_format", model.value)
                             }
-                            text: String(index % 10) + " " + model.text
+                            text: String(index % 10) + " " + qsTr(model.text)
                         }
                         Component.onCompleted: {
                             py.task_manager.input_format_changed.connect((input_format) => {
@@ -182,7 +182,7 @@ ToolBar {
                             onTriggered: {
                                 py.task_manager.set_str("output_format", model.value)
                             }
-                            text: String(index % 10) + " " + model.text
+                            text: String(index % 10) + " " + qsTr(model.text)
                         }
                         Component.onCompleted: {
                             py.task_manager.output_format_changed.connect((output_format) => {
@@ -328,15 +328,15 @@ ToolBar {
                     y: parent.height
                     MenuItem {
                         text: "简体中文";
-                        onTriggered: py.locale.switch_language("zh-CN")
+                        onTriggered: py.locale.switch_language("zh_CN")
                     }
                     MenuItem {
                         text: "English";
-                        onTriggered: py.locale.switch_language("en-US")
+                        onTriggered: py.locale.switch_language("en_US")
                     }
                     MenuItem {
                         text: "日本語";
-                        onTriggered: py.locale.switch_language("ja-JP")
+                        onTriggered: py.locale.switch_language("ja_JP")
                         enabled: false
                     }
                 }

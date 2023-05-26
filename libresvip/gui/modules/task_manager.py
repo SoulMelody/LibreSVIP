@@ -13,7 +13,7 @@ from qmlease import slot
 from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
 from qtpy.QtGui import QDesktopServices
 
-from libresvip.core.config import ConflictPolicy, settings
+from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel

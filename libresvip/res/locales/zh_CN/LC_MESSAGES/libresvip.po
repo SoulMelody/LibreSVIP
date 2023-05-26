@@ -1,0 +1,1347 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-25 19:10+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: converter_page%231
+msgid "Converter"
+msgstr "转换器"
+
+#: converter_page%232 task_row%231
+msgid "File successfully converted"
+msgstr "此文件已成功转换"
+
+#: converter_page%233 task_row%232
+msgid "Open"
+msgstr "打开文件"
+
+#: converter_page%234 task_row%233
+msgid "Open folder"
+msgstr "打开目录"
+
+#: converter_page%235 task_row%238
+msgid "File skipped due to conflict"
+msgstr "已跳过"
+
+#: converter_page%236 task_row%239
+msgid "File failed to convert, below is the error message:"
+msgstr "此文件转换失败，错误信息如下："
+
+#: converter_page%237 task_row%2310
+msgid "Copy error message"
+msgstr "复制错误信息"
+
+#: converter_page%238 task_row%2311
+msgid "Copied"
+msgstr "已复制"
+
+#: converter_page%239
+msgid "Select File Formats"
+msgstr "格式选择"
+
+#: converter_page%2310
+msgid "Input Format: "
+msgstr "导入工程格式： "
+
+#: converter_page%2311 settings_drawer%231
+msgid "Auto-Detect Input File Type"
+msgstr "自动检测导入格式"
+
+#: converter_page%2312
+msgid "Reset Tasks When Changing Input"
+msgstr "切换格式时重置列表"
+
+#: converter_page%2313
+msgid "Swap Input and Output"
+msgstr "上下交换"
+
+#: converter_page%2314
+msgid "Output Format: "
+msgstr "导出工程格式： "
+
+#: converter_page%2315 settings_drawer%233
+msgid "Set Output File Extension Automatically"
+msgstr "自动设置后缀名"
+
+#: converter_page%2316
+msgid "Advanced Settings"
+msgstr "高级选项"
+
+#: converter_page%2317
+msgid "Input Options"
+msgstr "输入选项"
+
+#: converter_page%2318
+msgid "Output Options"
+msgstr "输出选项"
+
+#: converter_page%2319
+msgid "Task List"
+msgstr "任务列表"
+
+#: converter_page%2320 task_row%234
+msgid "<b>Do you want to overwrite the file?</b>"
+msgstr "<b>是否覆盖文件？</b>"
+
+#: converter_page%2321
+msgid "Drag and drop files here"
+msgstr "拖拽或单击导入文件"
+
+#: converter_page%2322
+msgid "Continue Adding files"
+msgstr "继续添加文件"
+
+#: converter_page%2323
+msgid "Clear Task List"
+msgstr "清空所有导入"
+
+#: converter_page%2324
+msgid "Reset Default Extension"
+msgstr "恢复默认命名"
+
+#: converter_page%2325
+msgid "Remove Tasks With Other Extensions"
+msgstr "过滤多余项目"
+
+#: converter_page%2326
+msgid "[Import as "
+msgstr "[ 导入自 "
+
+#: converter_page%2327
+msgid " Format]"
+msgstr " 工程文件 ]"
+
+#: converter_page%2328
+msgid "[Export to "
+msgstr "[ 导出为 "
+
+#: converter_page%2329
+msgid "Output Settings"
+msgstr "输出设置"
+
+#: converter_page%2330
+msgid "Choose Output Folder"
+msgstr "选择输出文件夹"
+
+#: converter_page%2331
+msgid "Output Folder"
+msgstr "输出文件夹"
+
+#: converter_page%2332
+msgid "Start Conversion"
+msgstr "开始转换"
+
+#: converter_page%2333
+msgid "Converting"
+msgstr "转换中"
+
+#: converter_page%2334 settings_drawer%235
+msgid "Open Output Folder When Done"
+msgstr "完成后打开输出路径"
+
+#: converter_page%2335
+msgid "Deal with Conflicts:"
+msgstr "遇到同名文件时："
+
+#: converter_page%2336 settings_drawer%2313
+msgid "Overwrite"
+msgstr "覆盖"
+
+#: converter_page%2337 settings_drawer%2314
+msgid "Skip"
+msgstr "跳过"
+
+#: converter_page%2338 settings_drawer%2315
+msgid "Prompt"
+msgstr "询问"
+
+#: dialogs%231
+msgid "All Files (*.*)"
+msgstr "所有文件 (*.*)"
+
+#: dialogs%232
+msgid "Install New Plugins"
+msgstr "安装插件"
+
+#: dialogs%233
+msgid "Are you sure to install following plugins?"
+msgstr "确定安装新的插件吗？"
+
+#: dialogs%234
+msgid "Developed by "
+msgstr "开发者是"
+
+#: dialogs%235
+msgid ", which supports "
+msgstr "，适用于"
+
+#: dialogs%236
+msgid "Compressed Plugin Package (*.zip)"
+msgstr "插件压缩包 (*.zip)"
+
+#: dialogs%237
+msgid "Error"
+msgstr "错误"
+
+#: dialogs%238
+msgid "About"
+msgstr "关于"
+
+#: dialogs%239
+msgid "LibreSVIP"
+msgstr "LibreSVIP"
+
+#: dialogs%2310
+msgid "Author: SoulMelody"
+msgstr "作者：岁月静好_初心不忘"
+
+#: dialogs%2311
+msgid "Author's Profile"
+msgstr "作者主页"
+
+#: dialogs%2312
+msgid "Repo URL"
+msgstr "仓库地址"
+
+#: dialogs%2313
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that can "
+"convert your singing synthesis projects between different file formats."
+msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
+
+#: dialogs%2314
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from the "
+"constraints of platforms and coterie."
+msgstr ""
+"所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
+"作免受平台的制约与圈子的束缚。"
+
+#: plugin_info%231
+msgid "Version"
+msgstr "版本"
+
+#: plugin_info%232
+msgid "Introduction"
+msgstr "简介"
+
+#: settings_drawer%232
+msgid "Reset Task List When Changing Input File Type"
+msgstr "切换格式时重置列表"
+
+#: settings_drawer%234
+msgid "Multi-Threaded Conversion"
+msgstr "启用多线程转换"
+
+#: settings_drawer%236
+msgid "Auto Check for Updates"
+msgstr "自动检查更新"
+
+#: settings_drawer%237
+msgid "Set Save Path"
+msgstr "设置保存路径"
+
+#: settings_drawer%238
+msgid "Conversion Settings"
+msgstr "转换设置"
+
+#: settings_drawer%239
+msgid "Same as Source"
+msgstr "源路径"
+
+#: settings_drawer%2310
+msgid "Desktop"
+msgstr "桌面"
+
+#: settings_drawer%2311
+msgid "Custom (Browse ...)"
+msgstr "自定义 (浏览选择)"
+
+#: settings_drawer%2312
+msgid "Deal With Existing Files"
+msgstr "遇到同名文件时"
+
+#: task_row%235
+msgid "File %1 already exists. Overwrite?"
+msgstr "文件 %1 已存在，是否覆盖？"
+
+#: task_row%236
+msgid "Failed to move file"
+msgstr "移动文件失败"
+
+#: task_row%237
+msgid "File already exists"
+msgstr "文件已存在"
+
+#: top_toolbar%231
+msgid "Convert (&C)"
+msgstr "转换 (&C)"
+
+#: top_toolbar%232
+msgid "Import Projects (Ctrl+O)"
+msgstr "导入文件 (Ctrl+O)"
+
+#: top_toolbar%233
+msgid "Perform All Tasks (Ctrl+Enter)"
+msgstr "开始转换 (Ctrl+Enter)"
+
+#: top_toolbar%234
+msgid "Clear Tasks (Ctrl+R)"
+msgstr "清空所有导入 (Ctrl+R)"
+
+#: top_toolbar%235
+msgid "Swap Input and Output (Ctrl+Tab)"
+msgstr "上下交换 (Ctrl+Tab)"
+
+#: top_toolbar%236
+msgid "Input Format (&F)"
+msgstr "导入格式 (&F)"
+
+#: top_toolbar%237
+msgid "Output Format (&E)"
+msgstr "导出格式 (&E)"
+
+#: top_toolbar%238
+msgid "Plugins (&P)"
+msgstr "插件 (&P)"
+
+#: top_toolbar%239
+msgid "Install a Plugin (Ctrl+I)"
+msgstr "安装插件 (Ctrl+I)"
+
+#: top_toolbar%2310
+msgid "Manage Plugins"
+msgstr "管理插件"
+
+#: top_toolbar%2311
+msgid "Open Plugin Store"
+msgstr "插件市场"
+
+#: top_toolbar%2312
+msgid "Settings (&O)"
+msgstr "设置 (&O)"
+
+#: top_toolbar%2313
+msgid "Themes (&T)"
+msgstr "主题 (&T)"
+
+#: top_toolbar%2314
+msgid "Light"
+msgstr "浅色"
+
+#: top_toolbar%2315
+msgid "Dark"
+msgstr "深色"
+
+#: top_toolbar%2316
+msgid "System"
+msgstr "跟随系统"
+
+#: top_toolbar%2317
+msgid "Language (&L)"
+msgstr "语言 (&L)"
+
+#: top_toolbar%2318
+msgid "Help (&H)"
+msgstr "帮助 (&H)"
+
+#: top_toolbar%2319
+msgid "Help"
+msgstr "帮助"
+
+#: top_toolbar%2320
+msgid "About (Alt+I)"
+msgstr "关于 (Alt+I)"
+
+#: top_toolbar%2321
+msgid "Check for Updates"
+msgstr "检查更新"
+
+#: top_toolbar%2322
+msgid "Documentation (F1)"
+msgstr "在线文档 (F1)"
+
+#: top_toolbar%2323
+msgid "SVS Projects Converter"
+msgstr "歌声合成工程文件转换器"
+
+#: ../libresvip/cli/commands/plugin.py:36
+msgid "Cannot find plugin "
+msgstr "未找到插件 "
+
+#: ../libresvip/cli/commands/plugin.py:42
+msgid "No plugins are currently installed."
+msgstr "目前尚未安装任何插件。"
+
+#: ../libresvip/cli/commands/plugin.py:45
+msgid "No."
+msgstr "序号"
+
+#: ../libresvip/cli/commands/plugin.py:46
+msgid "Name"
+msgstr "名称"
+
+#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:20
+msgid "Author"
+msgstr "作者"
+
+#: ../libresvip/cli/commands/plugin.py:49
+msgid "Identifier"
+msgstr "标识符"
+
+#: ../libresvip/cli/commands/plugin.py:50
+msgid "Applicable file format"
+msgstr "适用格式"
+
+#: ../libresvip/cli/commands/plugin.py:68
+msgid "Plugin: "
+msgstr "插件： "
+
+#: ../libresvip/cli/commands/plugin.py:69
+msgid "Version: "
+msgstr "版本： "
+
+#: ../libresvip/cli/commands/plugin.py:70
+msgid "Author: "
+msgstr "作者： "
+
+#: ../libresvip/cli/commands/plugin.py:74
+msgid "Website: "
+msgstr "主页： "
+
+#: ../libresvip/cli/commands/plugin.py:78
+msgid "This plugin is applicable to"
+msgstr "此插件适用于"
+
+#: ../libresvip/cli/commands/plugin.py:83
+msgid ""
+"If you want to use this plugin, please specify '-i {}' (input) or '-o "
+"{}' (output) when converting."
+msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
+
+#: ../libresvip/cli/commands/plugin.py:88
+msgid "Description: "
+msgstr "描述： "
+
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "input"
+msgstr "输入"
+
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "output"
+msgstr "输出"
+
+#: ../libresvip/cli/commands/plugin.py:98
+msgid "This plugin supports the following {} conversion options:"
+msgstr "本插件可指定以下{}转换选项："
+
+#: ../libresvip/cli/commands/plugin.py:112
+#: ../libresvip/cli/commands/plugin.py:141
+msgid "Default: "
+msgstr "默认值："
+
+#: ../libresvip/cli/commands/plugin.py:114
+msgid "Available values:"
+msgstr "可用值如下："
+
+#: ../libresvip/cli/commands/plugin.py:135
+msgid "Available fields:"
+msgstr "可用值如下："
+
+#: ../libresvip/cli/commands/proj.py:45 ../libresvip/cli/commands/proj.py:69
+msgid "Input Options: "
+msgstr "导入选项： "
+
+#: ../libresvip/cli/commands/proj.py:46
+msgid "Output Options: "
+msgstr "导出选项： "
+
+#: ../libresvip/cli/commands/proj.py:63
+msgid "Offset in milliseconds"
+msgstr "偏移量，单位为毫秒"
+
+#: ../libresvip/cli/commands/proj.py:64
+msgid "Mute other tracks"
+msgstr "使其它音轨静音"
+
+#: ../libresvip/cli/commands/proj.py:87
+msgid "Output Options："
+msgstr "导出选项："
+
+#: ../libresvip/web/i18n.py:10
+msgid "Convert"
+msgstr "转换"
+
+#: ../libresvip/web/i18n.py:11
+msgid "Plugins"
+msgstr "插件"
+
+#: ../libresvip/web/i18n.py:12
+msgid "Settings"
+msgstr "设置"
+
+#: ../libresvip/web/i18n.py:15
+msgid "Export"
+msgstr "导出"
+
+#: ../libresvip/web/i18n.py:16
+msgid "Switch Theme"
+msgstr "切换主题"
+
+#: ../libresvip/web/i18n.py:17
+msgid "Switch Language"
+msgstr "切换语言"
+
+#: ../libresvip/web/i18n.py:18
+msgid "OK"
+msgstr "确定"
+
+#: ../libresvip/web/i18n.py:19
+msgid "Close"
+msgstr "关闭"
+
+#: ../libresvip/web/i18n.py:23
+msgid "Auto detect import format"
+msgstr "自动检测导入格式"
+
+#: ../libresvip/web/i18n.py:24
+msgid "Reset list when import format changed"
+msgstr "切换格式时重置列表"
+
+#: ../libresvip/web/i18n.py:25
+msgid "Import from"
+msgstr "导入自"
+
+#: ../libresvip/web/i18n.py:26
+msgid "Import format"
+msgstr "导入工程格式"
+
+#: ../libresvip/web/i18n.py:27
+msgid "Export to"
+msgstr "导出至"
+
+#: ../libresvip/web/i18n.py:28
+msgid "Export format"
+msgstr "导出工程格式"
+
+#: ../libresvip/web/i18n.py:29
+msgid "Choose file format"
+msgstr "选择格式"
+
+#: ../libresvip/web/i18n.py:30
+msgid "Next"
+msgstr "继续"
+
+#: ../libresvip/web/i18n.py:31
+msgid "Back"
+msgstr "返回"
+
+#: ../libresvip/web/i18n.py:32
+msgid "File operations"
+msgstr "文件操作"
+
+#: ../libresvip/web/i18n.py:33
+msgid "Import project"
+msgstr "导入工程"
+
+#: ../libresvip/web/i18n.py:34
+msgid "Import Options"
+msgstr "导入选项"
+
+#: ../libresvip/web/i18n.py:35
+msgid "Export Options"
+msgstr "导出选项"
+
+#: ../libresvip/web/i18n.py:36
+msgid "Advanced Options"
+msgstr "高级选项"
+
+#: ../libresvip/web/i18n.py:37
+msgid "Conversion Successful"
+msgstr "转换成功"
+
+#: ../libresvip/web/i18n.py:38
+msgid "Conversion Failed"
+msgstr "转换失败"
+
+#: ../libresvip/web/i18n.py:39
+msgid "Drag and drop files here or click to upload"
+msgstr "拖放文件或点击导入"
+
+#: ../libresvip/web/i18n.py:46
+msgid "Plugin List"
+msgstr "插件列表"
+
+#: ../libresvip/web/i18n.py:47
+msgid "Install a Plugin"
+msgstr "安装插件"
+
+#: .ds.format_desc
+msgid "DiffSinger parameters file (*.ds)"
+msgstr "DiffSinger参数文件（*.ds）"
+
+#: .ds.description
+msgid "DiffSinger plugin. Currently, only loading is supported"
+msgstr "DiffSinger 参数格式转换插件。目前仅支持导入 DiffSinger 合成参数"
+
+#: .ds.load[0].title .ds.dump[0].title
+msgid "Dictionary Name"
+msgstr "词典名称"
+
+#: .ds.dump[1].title
+msgid "Split threshold (in seconds)"
+msgstr "分段长度（秒）"
+
+#: .ds.dump[1].description
+msgid ""
+"This option controls the segmentation strategy during conversion. When the "
+"value of this option is negative, no segmentation is performed; when the "
+"value of this option is 0, segmentation is performed at the threshold where "
+"the interval between all notes reaches the threshold; when the value of this "
+"option is positive, the minimum length of each segment can be controlled on "
+"the basis of segmentation. Setting a reasonable segmentation strategy can "
+"reduce the memory usage during synthesis while maximizing the utilization of "
+"performance and improving the synthesis effect."
+msgstr ""
+"此选项控制转换时的分段策略。当此选项值为负时，不进行分段；此选项值为 0 时，在"
+"所有音符间隔达到阈值处分段；此选项值为正时，可在分段的基础上控制每个分段的最"
+"小长度。设置合理的分段策略能够在合成时减少显存占用的同时最大化利用性能，并提"
+"升合成效果。"
+
+#: .ds.dump[2].title
+msgid "Minimum interval (in milliseconds)"
+msgstr "分段音符间隔（毫秒）"
+
+#: .ds.dump[2].description
+msgid ""
+"This option controls the minimum interval between notes. It is recommended "
+"to set it to a value greater than 300 milliseconds."
+msgstr "此选项控制分段时的音符间隔阈值。建议不小于 300 毫秒。"
+
+#: .ds.dump[3].title
+msgid "Seed"
+msgstr "随机种子"
+
+#: .ds.dump[3].description
+msgid ""
+"A fixed random seed can get a stable and reproducible synthesis effect. This "
+"option takes effect when the non-negative value is set."
+msgstr "固定随机种子可以得到稳定可复现的合成效果。此选项设置非负值时生效。"
+
+#: .ds.dump[4].title
+msgid "Export gender parameter"
+msgstr "导出性别参数"
+
+#: .ds.dump[5].title
+msgid "Indentation"
+msgstr "JSON缩进空格数"
+
+#: .ds.dump[5].description
+msgid ""
+"The number of spaces used for indentation. When the value is negative, no "
+"formatting is performed."
+msgstr "为负时不进行格式化。"
+
+#: .ds.dump[6].title
+msgid "Track index"
+msgstr "音轨序号"
+
+#: .ds.dump[6].description
+msgid "Start from 0, -1 means automatic selection"
+msgstr "从0开始，-1表示自动选择"
+
+#: .dv.format_desc
+msgid "DeepVocal project file (*.dv)"
+msgstr "DeepVocal工程文件 (*.dv)"
+
+#: .dv.description
+msgid "Conversion plugin for dv file"
+msgstr "dv 格式转换插件。"
+
+#: .gj.format_desc
+msgid "Gejigeji project file (*.gj)"
+msgstr "歌叽歌叽工程文件 (*.gj)"
+
+#: .gj.description
+msgid ""
+"Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr ""
+"歌叽歌叽工程格式转换插件。\n"
+"仅支持歌叽歌叽2.0版本。"
+
+#: .gj.dump[0].title
+msgid "Average sampling interval for the volume parameter"
+msgstr "音量参数平均采样间隔"
+
+#: .gj.dump[0].description
+msgid ""
+"The unit is Tick. The larger the value, the smoother the editor; the smaller "
+"the value, the more accurate the volume parameter."
+msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
+
+#: .gj.dump[1].title
+msgid "Default singer"
+msgstr "默认歌手"
+
+#: .json.format_desc
+msgid "OpenSVIP file (*.json)"
+msgstr "OpenSVIP 文件 (*.json)"
+
+#: .json.description
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
+
+#: .json.dump[0].title
+msgid "Generate JSON file with indentation"
+msgstr "生成带缩进格式的 JSON 文件"
+
+#: .json.dump[0].description
+msgid ""
+"The indented format is easier to read and modify, but it will take up a "
+"larger file size."
+msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"
+
+#: .lrc.format_desc
+msgid "LRC lyric file (*.lrc)"
+msgstr "LRC 歌词文件 (*.lrc)"
+
+#: .lrc.description
+msgid "Generator plugin for LRC lyric file"
+msgstr "LRC 歌词格式转换插件"
+
+#: .lrc.dump[0].title
+msgid "Singer name"
+msgstr "歌手名"
+
+#: .lrc.dump[1].title
+msgid "Song title"
+msgstr "歌曲名"
+
+#: .lrc.dump[2].title
+msgid "Album name"
+msgstr "专辑名"
+
+#: .lrc.dump[3].title
+msgid "Lyric editor"
+msgstr "歌词编辑"
+
+#: .lrc.dump[4].title
+msgid "Offset"
+msgstr "偏移量"
+
+#: .lrc.dump[4].description
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr "单位为毫秒，正值表示整体提前，负值相反。"
+
+#: .lrc.dump[5].title
+msgid "Offset policy"
+msgstr "偏移处理方式"
+
+#: .lrc.dump[5].choices[0].text
+msgid "Act on timeline"
+msgstr "作用于时间轴"
+
+#: .lrc.dump[5].choices[1].text
+msgid "Act on metadata"
+msgstr "作用于元数据"
+
+#: .lrc.dump[6].title
+msgid "New line by"
+msgstr "歌词换行方式"
+
+#: .lrc.dump[6].choices[0].text
+msgid "Both notes gap and punctuation"
+msgstr "音符间隙和标点符号"
+
+#: .lrc.dump[6].choices[1].text
+msgid "Notes gap only"
+msgstr "仅音符间隙"
+
+#: .lrc.dump[6].choices[2].text
+msgid "Punctuation only"
+msgstr "仅标点符号"
+
+#: .lrc.dump[7].title
+msgid "Write timeline"
+msgstr "写入时间轴"
+
+#: .lrc.dump[7].description
+msgid "If you need lyrics without timeline, turn off this option."
+msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
+
+#: .lrc.dump[8].title
+msgid "Text encoding"
+msgstr "歌词文本编码"
+
+#: .mid.format_desc
+msgid "Standard MIDI file (SMF) (*.mid)"
+msgstr "标准MIDI文件 (*.mid)"
+
+#: .mid.description
+msgid "Conversion plugin for midi file"
+msgstr "MIDI文件转换插件"
+
+#: .mid.load[0].title
+msgid "Import lyrics"
+msgstr "导入歌词"
+
+#: .mid.load[1].title .mid.dump[4].title
+msgid "Lyric text encoding"
+msgstr "歌词编码"
+
+#: .mid.load[1].description .mid.dump[4].description
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr "除非歌词出现乱码，否则不应更改此设置。"
+
+#: .mid.load[2].title
+msgid "Import time signatures"
+msgstr "导入拍号"
+
+#: .mid.load[2].description
+msgid "If this option is unset, the time signature is set to 4/4."
+msgstr "关闭此选项，拍号设置为4/4。"
+
+#: .mid.load[3].title
+msgid "Multi-channel processing method"
+msgstr "通道处理方式"
+
+#: .mid.load[3].choices[0].text
+msgid "Import first channel only"
+msgstr "仅导入首条通道"
+
+#: .mid.load[3].choices[1].text
+msgid "Split into tracks"
+msgstr "全部拆分为轨道"
+
+#: .mid.load[3].choices[2].text
+msgid "Custom import range"
+msgstr "自定义导入范围"
+
+#: .mid.load[4].title
+msgid "Channels to import"
+msgstr "通道"
+
+#: .mid.load[4].description
+msgid ""
+"Specify which channels to import notes from. Enter channel numbers and/or "
+"channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid "
+"when the option “Custom import range” is selected in “Multi-channel "
+"processing method”."
+msgstr ""
+"指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围（用英文逗号分隔），"
+"例如1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时"
+"有效。"
+
+#: .mid.load[5].title
+msgid "Default BPM"
+msgstr "默认BPM"
+
+#: .mid.load[5].description
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr "当MIDI文件中不存在BPM信息时，使用此值。"
+
+#: .mid.dump[0].title
+msgid "Pre-shift compensation"
+msgstr "拖拍前移补偿量"
+
+#: .mid.dump[0].description
+msgid ""
+"Non-negative integer, unit is ticks. Negative values are treated as zero. "
+"Shifts notes that are pronounced as y-, w-, a-, o- and e- to alleviate the "
+"problem of delayed semivowels or vowels in some vocal synthesizers. "
+"Recommended value: 30~60."
+msgstr ""
+"非负整数，单位为ticks。输入负数视为零。将发音为 y-、w-、a-、o- 和 e- 的音符提"
+"前，以缓解某些歌声合成软件半元音或元音音符出现迟滞的问题。推荐值：30~60。"
+
+#: .mid.dump[1].title
+msgid "Export lyrics"
+msgstr "导出歌词"
+
+#: .mid.dump[2].title
+msgid "Remove symbols from lyrics"
+msgstr "移除歌词中的常见标点符号"
+
+#: .mid.dump[2].description
+msgid ""
+"Remove commas, periods, question marks and exclamation marks in Chinese and "
+"English to prevent lyric import failure in some vocal synthesizers."
+msgstr ""
+"移除中英文的逗号、句号、问号和感叹号，防止不支持含标点符号歌词的歌声合成软件"
+"无法正常合成。"
+
+#: .mid.dump[3].title
+msgid "Lyric compatibility mode"
+msgstr "歌词兼容性模式"
+
+#: .mid.dump[3].description
+msgid ""
+"Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI "
+"files with Chinese lyrics from being imported by vocal synthesizers that do "
+"not support Chinese lyrics."
+msgstr ""
+"将所有中文歌词转换为拼音，防止不支持导入带有中文歌词 MIDI 文件的歌声合成软件"
+"出现乱码。"
+
+#: .mid.dump[5].title
+msgid "Transpose"
+msgstr "移调"
+
+#: .mid.dump[6].title
+msgid "Ticks per beat"
+msgstr "每拍ticks数"
+
+#: .mid.dump[6].description
+msgid ""
+"Also known as parts per quarter, ticks per quarter note, the number of "
+"pulses per quarter note. This setting should not be changed unless you know "
+"what it is."
+msgstr ""
+"即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你"
+"知道这是什么，否则不应更改此设置。"
+
+#: .mtp.format_desc
+msgid "Muta project file (*.mtp)"
+msgstr "Muta工程文件 (*.mtp)"
+
+#: .mtp.description
+msgid "Conversion plugin for mtp file"
+msgstr "mtp 格式转换插件"
+
+#: .nn.format_desc
+msgid "Niaoniao Virtual Singer project file (*.nn)"
+msgstr "袅袅虚拟歌手工程文件 (*.nn)"
+
+#: .nn.description
+msgid "Conversion plugin for Niaoniao project file"
+msgstr "袅袅工程格式转换插件"
+
+#: .nn.dump[0].description
+msgid "Start from 0, -1 means auto select"
+msgstr "从0开始，-1表示自动选择"
+
+#: .s5p.format_desc
+msgid "Synthesizer V Editor project file (*.s5p)"
+msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
+
+#: .s5p.description
+msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr "Synthesizer V Editor 工程格式转换插件。"
+
+#: .srt.format_desc
+msgid "SRT subtitle file (*.srt)"
+msgstr "SRT 字幕文件 (*.srt)"
+
+#: .srt.description
+msgid "Generator plugin for SRT subtitle file"
+msgstr "SRT 字幕格式转换插件"
+
+#: .srt.dump[1].choices[0].text
+msgid "Both note gap and punctuation"
+msgstr "音符间隙和标点符号"
+
+#: .srt.dump[1].choices[1].text
+msgid "Note gap only"
+msgstr "仅音符间隙"
+
+#: .svg.format_desc
+msgid "Scalable Vector Graphics (*.svg)"
+msgstr "可缩放矢量图形 (*.svg)"
+
+#: .svg.description
+msgid ""
+"Generate graphics containing notes and pitch curve in SVG format. Only the "
+"first or specified singing track will be imported."
+msgstr ""
+"生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
+
+#: .svg.dump[0].title
+msgid "Pixels per beat"
+msgstr "每拍像素数"
+
+#: .svg.dump[0].description .svg.dump[1].description
+#: .svg.dump[2].description .svg.dump[5].description
+#: .svg.dump[7].description .svg.dump[16].description
+msgid "Unit: pixel."
+msgstr "单位：像素。"
+
+#: .svg.dump[1].title
+msgid "Note height"
+msgstr "音符高度"
+
+#: .svg.dump[2].title
+msgid "Note radius"
+msgstr "音符圆角"
+
+#: .svg.dump[3].title
+msgid "Note fill color"
+msgstr "音符填充颜色"
+
+#: .svg.dump[3].description .svg.dump[4].description
+#: .svg.dump[6].description .svg.dump[11].description
+#: .svg.dump[12].description .svg.dump[15].description
+msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
+
+#: .svg.dump[4].title
+msgid "Note stroke color"
+msgstr "音符描边颜色"
+
+#: .svg.dump[5].title
+msgid "Note stroke width"
+msgstr "音符描边宽度"
+
+#: .svg.dump[6].title
+msgid "Pitch stroke color"
+msgstr "音高曲线描边颜色"
+
+#: .svg.dump[7].title
+msgid "Pitch stroke width"
+msgstr "音高曲线描边宽度"
+
+#: .svg.dump[8].title
+msgid "Lyric position"
+msgstr "歌词显示于"
+
+#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
+msgid "Above the note"
+msgstr "音符上方"
+
+#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
+msgid "Inside the note"
+msgstr "音符内部"
+
+#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
+msgid "Below the note"
+msgstr "音符下方"
+
+#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
+msgid "Don't show"
+msgstr "不显示"
+
+#: .svg.dump[9].title
+msgid "Pronounciation position"
+msgstr "发音显示于"
+
+#: .svg.dump[10].title
+msgid "Text align"
+msgstr "文字对齐"
+
+#: .svg.dump[10].choices[0].text
+msgid "Align to left"
+msgstr "左对齐"
+
+#: .svg.dump[10].choices[1].text
+msgid "Align to middle"
+msgstr "居中对齐"
+
+#: .svg.dump[10].choices[2].text
+msgid "Align to right"
+msgstr "右对齐"
+
+#: .svg.dump[11].title
+msgid "Inner text color"
+msgstr "音符内部文本颜色"
+
+#: .svg.dump[12].title
+msgid "The color of the text on the top and bottom of the note"
+msgstr "音符上下方文本颜色"
+
+#: .svg.dump[14].title
+msgid "Show grid lines"
+msgstr "显示网格线"
+
+#: .svg.dump[15].title
+msgid "Grid line color"
+msgstr "网格线颜色"
+
+#: .svg.dump[16].title
+msgid "Grid line width"
+msgstr "网格线宽度"
+
+#: .svip.format_desc
+msgid "X Studio project file (*.svip)"
+msgstr "X Studio 工程文件 (*.svip)"
+
+#: .svip.description
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr "原始二进制 .svip 文件转换插件"
+
+#: .svip.dump[0].description
+msgid ""
+"Please enter the singer's name in Chinese. If the specified singer does not "
+"exist, the default singer set in X Studio will be used. If you want to "
+"specify the conversion relationship between singer ID and name, or add a "
+"singer that has an ID but has not been publicly released, please modify "
+"singers.json in the plugin directory."
+msgstr ""
+"请输入完整无误的歌手名字。若此选项指定的歌手不存在，将使用 X Studio 中设置的"
+"默认歌手。如果要指定歌手编号与名称的转换关系，或添加已拥有编号但未公开发行的"
+"歌手，请修改插件目录下的 singers.json。"
+
+#: .svip.dump[1].title
+msgid "Default tempo"
+msgstr "曲速过低或过高时，使用此曲速进行对齐"
+
+#: .svip.dump[1].description
+msgid ""
+"The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out of "
+"range, the absolute timeline will be used to ensure the alignment of notes. "
+"Please set this value to an integer multiple or integer fraction of the "
+"tempo in the source project file as much as possible; as long as it is "
+"within a reasonable range, the value of this option will not affect the "
+"alignment effect."
+msgstr ""
+"X Studio 支持的曲速范围为 20 ~ 300。曲速超出范围时，将会启用绝对时间轴以确保"
+"音符对齐。请尽量将此值设置为源工程文件中曲速的整数倍或整数分之一；只要在合理"
+"数值范围内，此选项的值不会影响对齐效果。"
+
+#: .svip.dump[2].title
+msgid "Specify the version of the generated .svip file"
+msgstr "指定生成的 .svip 文件版本"
+
+#: .svip.dump[2].choices[0].text
+msgid "Auto detect"
+msgstr "自动选择"
+
+#: .svip.dump[2].choices[1].text
+msgid "SVIP 7.0.0"
+msgstr ""
+
+#: .svip.dump[2].choices[2].text
+msgid "SVIP 6.0.0"
+msgstr ""
+
+#: .svip.dump[2].choices[3].text
+msgid "Max compatibility (read only)"
+msgstr "最大只读兼容"
+
+#: .svip.dump[2].description
+msgid ""
+"This option only controls the header version information of the output "
+"project file.\n"
+"Choosing an older project file version will not affect the integrity of the "
+"data, but using a lower version of X Studio to open, edit and save a higher "
+"version project file may cause data loss."
+msgstr ""
+"此选项仅控制输出工程文件的头部版本信息。\n"
+"选择较旧的工程文件版本不会影响数据的完整性，但使用低版本的 X Studio 打开编辑"
+"并保存高版本工程文件时可能造成数据丢失。"
+
+#: .svip3.format_desc
+msgid "X Studio 3 project file (*.svip3)"
+msgstr "X Studio 3 工程文件 (*.svip3)"
+
+#: .svip3.description
+msgid "Conversion plugin for X Studio 3 project file"
+msgstr "X Studio 3 工程转换插件"
+
+#: .svp.format_desc
+msgid "Synthesizer V Studio project file (*.svp)"
+msgstr "Synthesizer V Studio 工程文件 (*.svp)"
+
+#: .svp.description
+msgid ""
+"Conversion plugin for Synthesizer V Studio project file, it supports reading "
+"and writing of all parameters including notes, lyrics, parameter curve, note "
+"attributes, note group, and instant pitch mode.\n"
+"Notes：Importing a project file with overlapping notes is undefined behavior "
+"that can lead to unforeseen exceptions."
+msgstr ""
+"Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属"
+"性、音符组、即时音高模式在内所有数据的读取与写入。\n"
+"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
+
+#: .svp.load[0].title
+msgid "Always follow instant pitch mode"
+msgstr "遵循即时音高模式设置"
+
+#: .svp.load[0].description
+msgid ""
+"When this option is turned off, the default pitch curve will always be "
+"imported regardless of the project setting. If you have tuned the pitch "
+"curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr ""
+"关闭此选项时，无论工程文件是否开启了即时音高模式，都只会考虑原始的默认音高。"
+"若您基于即时音高模式进行了调校，建议打开此选项。"
+
+#: .svp.load[1].title
+msgid "Pitch input mode"
+msgstr "音高信息输入模式"
+
+#: .svp.load[1].choices[0].text
+msgid "Full pitch curve"
+msgstr "输入完整音高曲线"
+
+#: .svp.load[1].choices[1].text
+msgid "Edited part only (vibrato mode)"
+msgstr "仅输入已编辑部分（颤音模式）"
+
+#: .svp.load[1].choices[2].text
+msgid "Edited part only (plain mode)"
+msgstr "仅输入已编辑部分（平整模式）"
+
+#: .svp.load[1].description
+msgid ""
+"This option controls the range of pitch curve to be imported and the "
+"judgment condition. The definition of “edited part” is: the pitch deviation "
+"in the parameter panel, the pitch transition in the vibrato envelope and the "
+"pitch transition in the note properties have been edited."
+msgstr ""
+"本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中"
+"的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
+
+#: .svp.load[2].title
+msgid "The way to handle breath notes"
+msgstr "换气音符处理方式"
+
+#: .svp.load[2].choices[0].text
+msgid "Ignore all breath notes"
+msgstr "忽略所有换气音符"
+
+#: .svp.load[2].choices[1].text
+msgid "Keep as normal notes"
+msgstr "保留为普通音符"
+
+#: .svp.load[2].choices[2].text
+msgid "Convert to breath mark"
+msgstr "转换为换气标记"
+
+#: .svp.load[3].title
+msgid "The way to handle note groups"
+msgstr "音符组导入方式"
+
+#: .svp.load[3].choices[0].text
+msgid "Split all to tracks"
+msgstr "全部拆分为轨道"
+
+#: .svp.load[3].choices[1].text
+msgid "Keep original position"
+msgstr "保留原始位置"
+
+#: .svp.load[3].description
+msgid ""
+"Notice: If there are too many note groups, please choose “Keep original "
+"position” to avoid excessive track count. But if there are notes that are "
+"adjacent (but not overlapped) between note groups or between note groups and "
+"main group, it is recommended to choose “Split to tracks” to ensure the "
+"paragraph division is not broken."
+msgstr ""
+"注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之"
+"间、音符组与主组之间存在时间轴上紧挨（但不重叠）的音符，则建议选择“拆分为轨"
+"道”以确保段落划分不被破坏。"
+
+#: .svp.dump[0].title
+msgid "The way to handle vibrato notes"
+msgstr "自动颤音处理方式"
+
+#: .svp.dump[0].choices[0].text
+msgid "All removed"
+msgstr "全部抹平"
+
+#: .svp.dump[0].choices[1].text
+msgid "All kept"
+msgstr "全部保留"
+
+#: .svp.dump[0].choices[2].text
+msgid "Hybrid mode"
+msgstr "混合保留"
+
+#: .svp.dump[1].title
+msgid ""
+"Set the average sampling interval of parameter points to improve performance "
+"(0 means no limit)"
+msgstr "设置参数点的平均采样间隔以改善性能（0 为无限制）"
+
+#: .svp.dump[1].description
+msgid ""
+"Reduce the sampling interval to improve the accuracy of parameter curves, "
+"but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). "
+"Please set this value according to your hardware configuration and actual "
+"experience."
+msgstr ""
+"减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
+"Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
+
+#: .ufdata.format_desc
+msgid "UtaFormatix3 data format (*.ufdata)"
+msgstr "UtaFormatix3 数据格式 (*.ufdata)"
+
+#: .ufdata.description
+msgid "Convertion plugin UFData format"
+msgstr "UFData格式转换插件"
+
+#: .ustx.format_desc
+msgid "OpenUtau project file (*.ustx)"
+msgstr "OpenUtau 工程文件 (*.ustx)"
+
+#: .ustx.description
+msgid "Conversion plugin for Ustx file format"
+msgstr "Ustx格式转换插件"
+
+#: .vog.format_desc
+msgid "Vogen project file (*.vog)"
+msgstr "Vogen 工程文件 (*.vog)"
+
+#: .vog.description
+msgid "Conversion plugin for Vogen project file"
+msgstr "Vogen 工程格式转换插件"
+
+#: .vog.dump[0].description
+msgid "Please enter the singer's English name."
+msgstr "请输入完整无误的歌手英文名字。"
+
+#: .vshp.format_desc
+msgid "VocalShifter project file (*.vshp)"
+msgstr "VocalShifter 工程文件 (*.vshp)"
+
+#: .vshp.load[0].title
+msgid "Convert wave pattern to singing pattern"
+msgstr "将音频片段导入为演唱轨"
+
+#: .vshp.load[1].title
+msgid "Use edited pitch curve"
+msgstr "使用已编辑的音高曲线"
+
+#: .vshp.load[2].title
+msgid "Use edited dynamics curve"
+msgstr "使用已编辑的动态曲线"
+
+#: .vshp.load[3].title
+msgid "Import dynamics curve"
+msgstr "导入动态曲线"
+
+#: .vshp.load[4].title
+msgid "Import formant curve"
+msgstr "导入共振峰曲线"
+
+#: .vshp.load[5].title
+msgid "Import breath curve"
+msgstr "导入呼吸曲线"
+
+#: .vspx.format_desc
+msgid "VocalSharp project file (*.vspx)"
+msgstr "VocalSharp 工程格式 (*.vspx)"
+
+#: .vspx.description
+msgid "Conversion plugin for VocalSharp project file"
+msgstr "VocalSharp格式转换插件"
+
+#: .y77.format_desc
+msgid "Yuan77 project file (*.y77)"
+msgstr "元七七工程文件 (*.y77)"
+
+#: .y77.description
+msgid "Conversion plugin for Yuan77 project file"
+msgstr "元七七工程格式转换插件"

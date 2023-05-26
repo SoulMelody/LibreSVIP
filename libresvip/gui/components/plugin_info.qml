@@ -66,7 +66,7 @@ GridLayout {
                 text: info.author
                 font.underline: true
             }
-            
+
             Label {
                 text: py.qta.icon("mdi6.open-in-new")
                 font.family: materialFontLoader.name
@@ -86,7 +86,7 @@ GridLayout {
             font.family: materialFontLoader.name
         }
         Label {
-            text: info.format_desc
+            text: qsTr(info.format_desc)
         }
     }
 
@@ -114,7 +114,9 @@ GridLayout {
             font.bold: true
         }
         Label {
-            text: info.description
+            Layout.maximumWidth: 500
+            text: qsTr(info.description)
+            wrapMode: Text.Wrap
         }
     }
 }

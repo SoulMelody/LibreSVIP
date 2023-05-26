@@ -3,29 +3,38 @@ from pydantic import BaseModel, Field
 
 class InputOptions(BaseModel):
     dict_name: str = Field(
-        default="opencpop-extension", title="词典名称"
+        default="opencpop-extension",
+        title="Dictionary Name",
     )
 
 
 class OutputOptions(InputOptions):
     split_threshold: float = Field(
-        default=0, title="分段长度（秒）",
-        description="此选项控制转换时的分段策略。当此选项值为负时，不进行分段；此选项值为 0 时，在所有音符间隔达到阈值处分段；此选项值为正时，可在分段的基础上控制每个分段的最小长度。设置合理的分段策略能够在合成时减少显存占用的同时最大化利用性能，并提升合成效果。"
+        default=0,
+        title="Split threshold (in seconds)",
+        description="This option controls the segmentation strategy during conversion. When the value of this option is negative, no segmentation is performed; when the value of this option is 0, segmentation is performed at the threshold where the interval between all notes reaches the threshold; when the value of this option is positive, the minimum length of each segment can be controlled on the basis of segmentation. Setting a reasonable segmentation strategy can reduce the memory usage during synthesis while maximizing the utilization of performance and improving the synthesis effect.",
     )
     min_interval: int = Field(
-        default=400, title="分段音符间隔（毫秒）",
-        description="此选项控制分段时的音符间隔阈值。建议不小于 300 毫秒。"
+        default=400,
+        title="Minimum interval (in milliseconds)",
+        description="This option controls the minimum interval between notes. It is recommended to set it to a value greater than 300 milliseconds.",
     )
     seed: int = Field(
-        default=-1, title="随机种子",
-        description="固定随机种子可以得到稳定可复现的合成效果。此选项设置非负值时生效。"
+        default=-1,
+        title="Seed",
+        description="A fixed random seed can get a stable and reproducible synthesis effect. This option takes effect when the non-negative value is set.",
     )
     export_gender: bool = Field(
-        default=False, title="导出性别参数",
+        default=False,
+        title="Export gender parameter",
     )
     indent: int = Field(
-        default=2, title="JSON缩进空格数",
-        description="为负时不进行格式化。"
+        default=2,
+        title="Indentation",
+        description="The number of spaces used for indentation. When the value is negative, no formatting is performed.",
     )
-    track_index: int = Field(default=-1, title="音轨序号", description="从0开始，-1表示自动选择")
-
+    track_index: int = Field(
+        default=-1,
+        title="Track index",
+        description="Start from 0, -1 means automatic selection",
+    )

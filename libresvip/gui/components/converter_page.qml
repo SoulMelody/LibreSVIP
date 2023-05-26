@@ -22,7 +22,7 @@ Page {
             height: 30
             Layout.fillWidth: true
             Label {
-                text: field.title + "："
+                text: qsTr(field.title) + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -64,7 +64,7 @@ Page {
                     id: info
                     y: parent.y - parent.height
                     visible: false
-                    text: field.description
+                    text: qsTr(field.description)
                 }
             }
         }
@@ -77,7 +77,7 @@ Page {
             height: 30
             Layout.fillWidth: true
             Label {
-                text: field.title + "："
+                text: qsTr(field.title) + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -107,7 +107,7 @@ Page {
                     id: info
                     y: parent.y - parent.height
                     visible: false
-                    text: field.description
+                    text: qsTr(field.description)
                 }
             }
         }
@@ -120,7 +120,7 @@ Page {
             height: 30
             Layout.fillWidth: true
             Label {
-                text: field.title + "："
+                text: qsTr(field.title) + "："
                 Layout.alignment: Qt.AlignVCenter
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
@@ -128,9 +128,38 @@ Page {
                 Layout.preferredWidth: 150
             }
             ComboBox {
+                id: comboBox
                 Layout.fillWidth: true
                 textRole: "text"
                 valueRole: "value"
+                displayText: qsTr(currentText)
+                delegate: ItemDelegate {
+                    width: comboBox.width
+                    contentItem: Label {
+                        text: comboBox.textRole
+                            ? qsTr(Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole])
+                            : qsTr(modelData)
+                        font: comboBox.font
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                        color: index == comboBox.highlightedIndex ? Material.accentColor : window.Material.foreground
+                    }
+                }
+
+                popup: Popup {
+                    y: comboBox.height - 1
+                    width: comboBox.width
+                    padding: 1
+
+                    contentItem: ListView {
+                        clip: true
+                        implicitHeight: contentHeight
+                        model: comboBox.popup.visible ? comboBox.delegateModel : null
+                        currentIndex: comboBox.highlightedIndex
+
+                        ScrollIndicator.vertical: ScrollIndicator { }
+                    }
+                }
                 onActivated: {
                     field.value = this.currentValue
                 }
@@ -149,7 +178,7 @@ Page {
                     id: info
                     y: parent.y - parent.height
                     visible: false
-                    text: field.description
+                    text: qsTr(field.description)
                 }
             }
         }
@@ -163,7 +192,7 @@ Page {
             Layout.fillWidth: true
             Label {
                 Layout.alignment: Qt.AlignVCenter
-                text: field.title + "："
+                text: qsTr(field.title) + "："
                 font.pixelSize: 12
                 fontSizeMode: Text.Fit
                 wrapMode: Text.Wrap
@@ -189,7 +218,7 @@ Page {
                     id: info
                     y: parent.y - parent.height
                     visible: false
-                    text: field.description
+                    text: qsTr(field.description)
                 }
             }
         }

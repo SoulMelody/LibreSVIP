@@ -1,5 +1,6 @@
 import enum
 import pathlib
+from gettext import gettext as _
 from typing import get_args, get_type_hints
 
 import typer
@@ -32,21 +33,21 @@ def detail(plugin_name: str):
     if plugin_name in plugin_registry:
         print_plugin_details(plugin_registry[plugin_name])
     else:
-        typer.echo(f"未找到插件 {plugin_name}。")
+        typer.echo(_("Cannot find plugin ") + f"{plugin_name}!")
 
 
 def print_plugin_summary(plugins):
     console = Console(color_system="256")
     if not plugins:
-        console.print("当前未安装任何插件。\n")
+        console.print(_("No plugins are currently installed."))
     margin = " " * 2
     table = Table(show_header=True, header_style="bold magenta")
-    table.add_column("序号", justify="left", style="cyan")
-    table.add_column("名称", justify="left", style="cyan")
-    table.add_column("版本", justify="left", style="cyan")
-    table.add_column("作者", justify="left", style="cyan")
-    table.add_column("标识符", justify="left", style="cyan")
-    table.add_column("适用格式", justify="left", style="cyan")
+    table.add_column(_("No."), justify="left", style="cyan")
+    table.add_column(_("Name"), justify="left", style="cyan")
+    table.add_column(_("Version"), justify="left", style="cyan")
+    table.add_column(_("Author"), justify="left", style="cyan")
+    table.add_column(_("Identifier"), justify="left", style="cyan")
+    table.add_column(_("Applicable file format"), justify="left", style="cyan")
     for num, plugin in enumerate(plugins):
         table.add_row(
             f"[{num + 1}] ",
@@ -54,7 +55,7 @@ def print_plugin_summary(plugins):
             plugin.version_string + margin,
             plugin.author + margin,
             plugin.suffix + margin,
-            f"{plugin.file_format} (*.{plugin.suffix}){margin}",
+            _(f"{plugin.file_format} (*.{plugin.suffix})") + margin,
         )
     console.print(table)
 
@@ -62,52 +63,80 @@ def print_plugin_summary(plugins):
 def print_plugin_details(plugin):
     typer.echo()
     typer.echo("--------------------------------------------------\n")
-    typer.echo(f"插件：{plugin.name}\t版本：{plugin.version_string}\t作者：{plugin.author}")
-    if plugin.website:
-        typer.echo(f"\n主页：{plugin.website}")
-    typer.echo(f"\n此插件适用于 {plugin.file_format} (*.{plugin.suffix})。")
     typer.echo(
-        f'若要使用此插件，请在转换时指定 "-i {plugin.file_format}"（输入）或 "-o {plugin.file_format}"（输出）。'
+        f"{{}}{plugin.name}\t{{}}{plugin.version_string}\t{{}}{plugin.author}".format(
+            _("Plugin: "),
+            _("Version: "),
+            _("Author: "),
+        )
+    )
+    if plugin.website:
+        typer.echo("\n" + _("Website: ") + plugin.website)
+    typer.echo(
+        "\n"
+        + "{} {}.".format(
+            _("This plugin is applicable to"),
+            _(f"{plugin.file_format} (*.{plugin.suffix})"),
+        )
+    )
+    typer.echo(
+        _(
+            "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
+        ).format(plugin.suffix.lower(), plugin.suffix.lower())
     )
     if plugin.description:
-        typer.echo(f"\n描述：\n{plugin.description}")
-    op_arr = ["输入", "输出"]
+        typer.echo("\n{}\n{}".format(_("Description: "), _(plugin.description)))
+    op_arr = [_("input"), _("output")]
     options_arr = [
         get_type_hints(plugin.plugin_object.load).get("options", None),
         get_type_hints(plugin.plugin_object.dump).get("options", None),
     ]
-    for i in range(2):
-        if options_arr[i] is None:
+    for op, options in zip(op_arr, options_arr):
+        if options is None:
             continue
-        typer.echo(f"\n本插件可指定以下{op_arr[i]}转换选项：")
+        typer.echo(
+            _("This plugin supports the following {} conversion options:").format(op)
+        )
         option: ModelField
-        for option in options_arr[i].__fields__.values():
+        for option in options.__fields__.values():
             if issubclass(option.type_, (bool, int, float, str, enum.Enum)):
                 typer.echo(
-                    f"\n  {option.name} = {option.type_.__name__}    {option.field_info.description}"
+                    "\n  "
+                    + "{} = {}    {}".format(
+                        _(option.name),
+                        option.type_.__name__,
+                        _(option.field_info.description),
+                    )
                 )
                 if option.default is not None:
-                    typer.echo(f"\t默认值：{option.default}")
+                    typer.echo(f"\t{{}}{option.default}".format(_("Default: ")))
                 if issubclass(option.type_, enum.Enum):
-                    typer.echo("  可用值如下：")
+                    typer.echo("  " + _("Available values:"))
                     annotations = get_type_hints(option.type_, include_extras=True)
                     for enum_item in option.type_:
                         if enum_item.name in annotations:
                             annotated_args = get_args(annotations[enum_item.name])
                             if len(annotated_args) == 2:
-                                _, enum_field = annotated_args
+                                enum_type, enum_field = annotated_args
                                 typer.echo(
-                                    f"    {enum_item.value}\t=>\t{enum_field.title}"
+                                    "\t{}\t=>\t{}".format(
+                                        enum_item.value, _(enum_field.title)
+                                    )
                                 )
             elif issubclass(option.type_, BaseComplexModel):
                 typer.echo(
-                    f"\n  {option.name} = {option.type_.__name__}    {option.field_info.description}"
+                    "\n  "
+                    + "{} = {}    {}".format(
+                        _(option.name),
+                        option.type_.__name__,
+                        _(option.field_info.description),
+                    )
                 )
-                typer.echo("  可用值如下：")
+                typer.echo("  " + _("Available fields:"))
                 for field in option.type_.__fields__.values():
                     if hasattr(field.type_, "__name__"):
                         typer.echo(f"    {field.name} = {field.type_.__name__}")
                     else:
                         typer.echo(f"    {field.name} = {get_args(field.type_)}")
-                typer.echo(f"\t默认值：{option.type_.default_repr()}")
+                typer.echo("\t" + _("Default: ") + option.type_.default_repr())
     typer.echo("\n--------------------------------------------------\n")

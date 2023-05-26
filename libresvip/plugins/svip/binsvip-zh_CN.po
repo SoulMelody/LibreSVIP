@@ -1,0 +1,88 @@
+#. extracted from 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-26 10:12+0800\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: binsvip\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.17\n"
+
+#: .svip.format_desc
+msgid "X Studio project file (*.svip)"
+msgstr "X Studio 工程文件 (*.svip)"
+
+#: .svip.description
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr "原始二进制 .svip 文件转换插件"
+
+#: .svip.dump[0].title
+msgid "Default singer"
+msgstr "无法匹配歌手时，使用此缺省歌手"
+
+#: .svip.dump[0].description
+msgid ""
+"Please enter the singer's name in Chinese. If the specified singer does not "
+"exist, the default singer set in X Studio will be used. If you want to "
+"specify the conversion relationship between singer ID and name, or add a "
+"singer that has an ID but has not been publicly released, please modify "
+"singers.json in the plugin directory."
+msgstr ""
+"请输入完整无误的歌手名字。若此选项指定的歌手不存在，将使用 X Studio 中设置的"
+"默认歌手。如果要指定歌手编号与名称的转换关系，或添加已拥有编号但未公开发行的"
+"歌手，请修改插件目录下的 singers.json。"
+
+#: .svip.dump[1].title
+msgid "Default tempo"
+msgstr "曲速过低或过高时，使用此曲速进行对齐"
+
+#: .svip.dump[1].description
+msgid ""
+"The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out of "
+"range, the absolute timeline will be used to ensure the alignment of notes. "
+"Please set this value to an integer multiple or integer fraction of the "
+"tempo in the source project file as much as possible; as long as it is "
+"within a reasonable range, the value of this option will not affect the "
+"alignment effect."
+msgstr ""
+"X Studio 支持的曲速范围为 20 ~ 300。曲速超出范围时，将会启用绝对时间轴以确保"
+"音符对齐。请尽量将此值设置为源工程文件中曲速的整数倍或整数分之一；只要在合理"
+"数值范围内，此选项的值不会影响对齐效果。"
+
+#: .svip.dump[2].title
+msgid "Specify the version of the generated .svip file"
+msgstr "指定生成的 .svip 文件版本"
+
+#: .svip.dump[2].choices[0].text
+msgid "Auto detect"
+msgstr "自动选择"
+
+#: .svip.dump[2].choices[1].text
+msgid "SVIP 7.0.0"
+msgstr ""
+
+#: .svip.dump[2].choices[2].text
+msgid "SVIP 6.0.0"
+msgstr ""
+
+#: .svip.dump[2].choices[3].text
+msgid "Max compatibility (read only)"
+msgstr "最大只读兼容"
+
+#: .svip.dump[2].description
+msgid ""
+"This option only controls the header version information of the output "
+"project file.\n"
+"Choosing an older project file version will not affect the integrity of the "
+"data, but using a lower version of X Studio to open, edit and save a higher "
+"version project file may cause data loss."
+msgstr ""
+"此选项仅控制输出工程文件的头部版本信息。\n"
+"选择较旧的工程文件版本不会影响数据的完整性，但使用低版本的 X Studio "
+"打开编辑并保存高版本工程文件时可能造成数据丢失。"
