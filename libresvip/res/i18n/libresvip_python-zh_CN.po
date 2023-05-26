@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-26 15:22+0800\n"
+"POT-Creation-Date: 2023-05-26 19:37+0800\n"
 "PO-Revision-Date: 2023-05-26 06:50+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
-"libresvip/ui/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"libresvip/ui/zh_Hans/>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.17\n"
 "Generated-By: Babel 2.12.1\n"
@@ -35,11 +35,11 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:47
+#: ../libresvip/cli/commands/plugin.py:47 ../libresvip/web/i18n.py:23
 msgid "Version"
 msgstr "版本"
 
-#: ../libresvip/cli/commands/plugin.py:48
+#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:22
 msgid "Author"
 msgstr "作者"
 
@@ -110,7 +110,7 @@ msgstr "可用值如下："
 msgid "Input Options: "
 msgstr "导入选项： "
 
-#: ../libresvip/cli/commands/proj.py:46 ../libresvip/cli/commands/proj.py:87
+#: ../libresvip/cli/commands/proj.py:46
 msgid "Output Options: "
 msgstr "导出选项： "
 
@@ -122,3 +122,157 @@ msgstr "偏移量，单位为毫秒"
 msgid "Mute other tracks"
 msgstr "使其它音轨静音"
 
+#: ../libresvip/cli/commands/proj.py:87
+#, fuzzy
+msgid "Output Options："
+msgstr "导出选项： "
+
+#: ../libresvip/web/i18n.py:9
+msgid "SVS Projects Converter"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:10
+msgid "Convert"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:11
+msgid "Visualize"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:12
+#, fuzzy
+msgid "Plugins"
+msgstr "插件： "
+
+#: ../libresvip/web/i18n.py:13
+msgid "Settings"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:14
+msgid "About"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:15
+msgid "Help"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:16
+msgid "Links"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:17
+msgid "Export"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:18
+msgid "Switch Theme"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:19
+msgid "Switch Language"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:20
+msgid "OK"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:21
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:24
+msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:25
+msgid "Auto detect import format"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:26
+msgid "Reset list when import format changed"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:27
+msgid "Import from"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:28
+msgid "Import format"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:29
+msgid "Export to"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:30
+msgid "Export format"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:31
+#, fuzzy
+msgid "Choose file format"
+msgstr "适用格式"
+
+#: ../libresvip/web/i18n.py:32
+msgid "Next"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:33
+msgid "Back"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:34
+msgid "File operations"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:35
+msgid "Import project"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:36
+#, fuzzy
+msgid "Import Options"
+msgstr "导入选项： "
+
+#: ../libresvip/web/i18n.py:37
+#, fuzzy
+msgid "Export Options"
+msgstr "导入选项： "
+
+#: ../libresvip/web/i18n.py:38
+msgid "Advanced Options"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:39
+msgid "Conversion Successful"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:40
+msgid "Conversion Failed"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:41
+msgid "Drag and drop files here or click to upload"
+msgstr ""
+
+#: ../libresvip/web/i18n.py:42
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that can "
+"convert your singing synthesis projects between different file formats."
+msgstr ""
+
+#: ../libresvip/web/i18n.py:45
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from the "
+"constraints of platforms and coterie."
+msgstr ""
+
+#: ../libresvip/web/i18n.py:48
+#, fuzzy
+msgid "Plugin List"
+msgstr "插件： "
+
+#: ../libresvip/web/i18n.py:49
+msgid "Install a Plugin"
+msgstr ""

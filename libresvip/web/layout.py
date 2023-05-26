@@ -20,7 +20,9 @@ def initialize(server: Server):
     state.setdefault("dark_mode", settings.dark_mode == "Dark")
     state.current_route = "Convert"
     state.menu_items = ["简体中文", "English"]
-    state.trame__title = state.translations[state.lang]["LibreSVIP"]
+    state.trame__title = (
+        "LibreSVIP - " + state.translations[state.lang]["SVS Projects Converter"]
+    )
     state.temp_dir = tempfile.mkdtemp(prefix="libresvip")
     os.makedirs(state.temp_dir, exist_ok=True)
     state.trame__favicon = (
@@ -104,7 +106,7 @@ def initialize(server: Server):
                         click="lang = item",
                     ):
                         vuetify.VListItemTitle(
-                            "{{ translations[lang][item] }}",
+                            "{{ item }}",
                         )
 
         with layout.content:

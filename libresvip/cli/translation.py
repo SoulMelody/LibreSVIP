@@ -7,6 +7,6 @@ from libresvip.core.constants import PACKAGE_NAME, res_dir
 def init_i18n():
     locale_name = settings.language.to_locale()
     if (res_dir / "locales" / locale_name).exists():
-        gettext.install(PACKAGE_NAME, res_dir / "locales", names=[])
+        gettext.install(PACKAGE_NAME, res_dir / "locales", names=[locale_name])
         gettext.textdomain(PACKAGE_NAME)
         gettext.bindtextdomain(PACKAGE_NAME, res_dir / "locales")
