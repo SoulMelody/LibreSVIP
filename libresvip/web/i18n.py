@@ -4,16 +4,15 @@ from gettext import translation
 from trame_server.core import Server
 
 from libresvip.core.constants import res_dir
+from libresvip.extension.messages import messages_iterator
 
 messages = [
     _("SVS Projects Converter"),
     _("Convert"),
-    _("Visualize"),
     _("Plugins"),
     _("Settings"),
     _("About"),
     _("Help"),
-    _("Links"),
     _("Export"),
     _("Switch Theme"),
     _("Switch Language"),
@@ -50,12 +49,40 @@ messages = [
 ]
 
 
+def flattern_messages(msg_dict: dict):
+    msgs = []
+    for msg in msg_dict.values():
+        if isinstance(msg, dict):
+            msgs.extend(flattern_messages(msg))
+        elif isinstance(msg, list):
+            msgs.extend(
+                sum(
+                    (flattern_messages(elem) for elem in msg if isinstance(elem, dict)),
+                    [],
+                )
+            )
+        else:
+            msgs.append(msg)
+    return msgs
+
+
+plugin_msgs = []
+
+for plugin_suffix, plugin_metadata, info_path in messages_iterator():
+    plugin_msgs.extend(flattern_messages(plugin_metadata))
+
+messages.extend(set(plugin_msgs))
+
+
 def initialize(server: Server):
     state = server.state
     chinese_translation = translation(
         "libresvip", localedir=res_dir / "locales", languages=["zh_CN"]
     )
     state.translations = {
-        "简体中文": {msg: chinese_translation.gettext(msg) for msg in messages},
-        "English": {msg: msg for msg in messages},
+        "简体中文": {
+            msg: chinese_translation.gettext(msg).replace("\n", "<br>")
+            for msg in messages
+        },
+        "English": {msg: msg.replace("\n", "<br>") for msg in messages},
     }

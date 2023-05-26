@@ -81,10 +81,10 @@ def initialize(server: Server):
                             ):
                                 vuetify.VIcon("mdi-github", size="50", color="grey")
                             vuetify.VCardText(
-                                v_text="translations[lang]['About Text 1']"
+                                v_text="translations[lang]['LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.']"
                             )
                             vuetify.VCardText(
-                                v_text="translations[lang]['About Text 2']"
+                                v_text=r"translations[lang]['All people should have the right and freedom to choose. That\'s why we\'re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.']"
                             )
                             vuetify.VBtn(
                                 v_text="translations[lang]['OK']",

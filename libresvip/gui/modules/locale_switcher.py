@@ -27,7 +27,7 @@ class GettextTranslator(QTranslator):
         disambiguation: bytes | None = ...,
         n: int = ...,
     ) -> str:
-        if self.translation:
+        if self.translation and sourceText.strip():
             return self.translation.gettext(sourceText)
         return sourceText
 

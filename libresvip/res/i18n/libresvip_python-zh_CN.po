@@ -7,14 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-26 19:37+0800\n"
-"PO-Revision-Date: 2023-05-26 06:50+0000\n"
-"Last-Translator: admin <admin@example.com>\n"
+"POT-Creation-Date: 2023-05-26 20:56+0800\n"
+"PO-Revision-Date: 2023-05-26 12:55+0000\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"libresvip/ui/zh_Hans/>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.17\n"
 "Generated-By: Babel 2.12.1\n"
@@ -35,11 +33,11 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:47 ../libresvip/web/i18n.py:23
+#: ../libresvip/cli/commands/plugin.py:47 ../libresvip/web/i18n.py:21
 msgid "Version"
 msgstr "版本"
 
-#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:22
+#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:20
 msgid "Author"
 msgstr "作者"
 
@@ -123,156 +121,144 @@ msgid "Mute other tracks"
 msgstr "使其它音轨静音"
 
 #: ../libresvip/cli/commands/proj.py:87
-#, fuzzy
 msgid "Output Options："
-msgstr "导出选项： "
+msgstr "导出选项："
 
 #: ../libresvip/web/i18n.py:9
 msgid "SVS Projects Converter"
-msgstr ""
+msgstr "歌声合成工程文件转换器"
 
 #: ../libresvip/web/i18n.py:10
 msgid "Convert"
-msgstr ""
+msgstr "转换"
 
 #: ../libresvip/web/i18n.py:11
-msgid "Visualize"
-msgstr ""
+msgid "Plugins"
+msgstr "插件"
 
 #: ../libresvip/web/i18n.py:12
-#, fuzzy
-msgid "Plugins"
-msgstr "插件： "
+msgid "Settings"
+msgstr "设置"
 
 #: ../libresvip/web/i18n.py:13
-msgid "Settings"
-msgstr ""
+msgid "About"
+msgstr "关于"
 
 #: ../libresvip/web/i18n.py:14
-msgid "About"
-msgstr ""
+msgid "Help"
+msgstr "帮助"
 
 #: ../libresvip/web/i18n.py:15
-msgid "Help"
-msgstr ""
+msgid "Export"
+msgstr "导出"
 
 #: ../libresvip/web/i18n.py:16
-msgid "Links"
-msgstr ""
+msgid "Switch Theme"
+msgstr "切换主题"
 
 #: ../libresvip/web/i18n.py:17
-msgid "Export"
-msgstr ""
+msgid "Switch Language"
+msgstr "切换语言"
 
 #: ../libresvip/web/i18n.py:18
-msgid "Switch Theme"
-msgstr ""
+msgid "OK"
+msgstr "确定"
 
 #: ../libresvip/web/i18n.py:19
-msgid "Switch Language"
-msgstr ""
-
-#: ../libresvip/web/i18n.py:20
-msgid "OK"
-msgstr ""
-
-#: ../libresvip/web/i18n.py:21
 msgid "Close"
-msgstr ""
+msgstr "关闭"
+
+#: ../libresvip/web/i18n.py:22
+msgid "Introduction"
+msgstr "简介"
+
+#: ../libresvip/web/i18n.py:23
+msgid "Auto detect import format"
+msgstr "自动检测导入格式"
 
 #: ../libresvip/web/i18n.py:24
-msgid "Introduction"
-msgstr ""
+msgid "Reset list when import format changed"
+msgstr "切换格式时重置列表"
 
 #: ../libresvip/web/i18n.py:25
-msgid "Auto detect import format"
-msgstr ""
+msgid "Import from"
+msgstr "导入自"
 
 #: ../libresvip/web/i18n.py:26
-msgid "Reset list when import format changed"
-msgstr ""
+msgid "Import format"
+msgstr "导入工程格式"
 
 #: ../libresvip/web/i18n.py:27
-msgid "Import from"
-msgstr ""
+msgid "Export to"
+msgstr "导出至"
 
 #: ../libresvip/web/i18n.py:28
-msgid "Import format"
-msgstr ""
+msgid "Export format"
+msgstr "导出工程格式"
 
 #: ../libresvip/web/i18n.py:29
-msgid "Export to"
-msgstr ""
+msgid "Choose file format"
+msgstr "选择格式"
 
 #: ../libresvip/web/i18n.py:30
-msgid "Export format"
-msgstr ""
+msgid "Next"
+msgstr "继续"
 
 #: ../libresvip/web/i18n.py:31
-#, fuzzy
-msgid "Choose file format"
-msgstr "适用格式"
+msgid "Back"
+msgstr "返回"
 
 #: ../libresvip/web/i18n.py:32
-msgid "Next"
-msgstr ""
+msgid "File operations"
+msgstr "文件操作"
 
 #: ../libresvip/web/i18n.py:33
-msgid "Back"
-msgstr ""
+msgid "Import project"
+msgstr "导入工程"
 
 #: ../libresvip/web/i18n.py:34
-msgid "File operations"
-msgstr ""
+msgid "Import Options"
+msgstr "导入选项"
 
 #: ../libresvip/web/i18n.py:35
-msgid "Import project"
-msgstr ""
+msgid "Export Options"
+msgstr "导出选项"
 
 #: ../libresvip/web/i18n.py:36
-#, fuzzy
-msgid "Import Options"
-msgstr "导入选项： "
+msgid "Advanced Options"
+msgstr "高级选项"
 
 #: ../libresvip/web/i18n.py:37
-#, fuzzy
-msgid "Export Options"
-msgstr "导入选项： "
+msgid "Conversion Successful"
+msgstr "转换成功"
 
 #: ../libresvip/web/i18n.py:38
-msgid "Advanced Options"
-msgstr ""
+msgid "Conversion Failed"
+msgstr "转换失败"
 
 #: ../libresvip/web/i18n.py:39
-msgid "Conversion Successful"
-msgstr ""
+msgid "Drag and drop files here or click to upload"
+msgstr "拖放文件或点击导入"
 
 #: ../libresvip/web/i18n.py:40
-msgid "Conversion Failed"
-msgstr ""
-
-#: ../libresvip/web/i18n.py:41
-msgid "Drag and drop files here or click to upload"
-msgstr ""
-
-#: ../libresvip/web/i18n.py:42
 msgid ""
 "LibreSVIP is an open-sourced, liberal and extensionable framework that can "
 "convert your singing synthesis projects between different file formats."
-msgstr ""
+msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: ../libresvip/web/i18n.py:45
+#: ../libresvip/web/i18n.py:43
 msgid ""
 "All people should have the right and freedom to choose. That's why we're "
 "committed to giving you a second chance to keep your creations free from the "
 "constraints of platforms and coterie."
 msgstr ""
+"所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
+"作免受平台的制约与圈子的束缚。"
 
-#: ../libresvip/web/i18n.py:48
-#, fuzzy
+#: ../libresvip/web/i18n.py:46
 msgid "Plugin List"
-msgstr "插件： "
+msgstr "插件列表"
 
-#: ../libresvip/web/i18n.py:49
+#: ../libresvip/web/i18n.py:47
 msgid "Install a Plugin"
-msgstr ""
+msgstr "安装插件"

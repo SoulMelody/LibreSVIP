@@ -77,7 +77,7 @@ def initialize(server: Server):
                     html.Span("{{translations[lang]['Version']}}： ")
                     vuetify.VChip(v_text="item.version", small=True)
                 vuetify.VListItemSubtitle(
-                    v_html="item.description",
+                    v_html="translations[lang][item.description]",
                 )
             with vuetify.VListItemAction():
                 with vuetify.VBtn(
