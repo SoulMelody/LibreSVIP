@@ -6,4 +6,8 @@ class InputOptions(BaseModel):
 
 
 class OutputOptions(BaseModel):
-    track_index: int = Field(default=-1, title="音轨序号", description="从0开始，-1表示自动选择")
+    track_index: int = Field(
+        default=-1,
+        title="Track index",
+        description="Start from 0, -1 means auto select",
+    )

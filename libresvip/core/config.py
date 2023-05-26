@@ -45,7 +45,7 @@ class ConflictPolicy(enum.Enum):
 
 @dataclasses.dataclass
 class LibreSvipSettings:
-    # Both Web and GUI
+    # Common
     language: Language = dataclasses.field(default=Language.CHINESE)
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
     # GUI Only

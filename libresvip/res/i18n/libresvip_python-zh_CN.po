@@ -5,19 +5,100 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-25 13:38+0800\n"
-"PO-Revision-Date: 2023-05-25 18:25+0800\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2023-05-26 08:24+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
 "Generated-By: Babel 2.12.1\n"
 
+#: ../libresvip/cli/commands/plugin.py:36
+msgid "Cannot find plugin "
+msgstr ""
+
 #: ../libresvip/cli/commands/plugin.py:42
-msgid "No plugins are currently installed.\n"
-msgstr "目前尚未安装任何插件。\n"
+msgid "No plugins are currently installed."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:45
+msgid "Index"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:46
+msgid "Name"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:47
+msgid "Version"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:48
+msgid "Author"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:49
+msgid "Identifier"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:50
+msgid "Applicable file format"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:70
+msgid "Website: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:74
+msgid "This plugin is applicable to"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:78
+msgid ""
+"If you want to use this plugin, please specify '-i {}' (input) or '-o {}'"
+" (output) when converting."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:84
+msgid "Input"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:84
+msgid "Output"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:93
+msgid "This plugin supports the following {} conversion options:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:109
+msgid "  Available values:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:130
+msgid "Available fields:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:136
+msgid "Default: {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:45 ../libresvip/cli/commands/proj.py:69
+msgid "Input Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:46 ../libresvip/cli/commands/proj.py:87
+msgid "Output Options"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:63
+msgid "Offset in milliseconds"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:64
+msgid "Mute other tracks"
+msgstr ""
