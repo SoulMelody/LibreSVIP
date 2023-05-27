@@ -1,6 +1,5 @@
 from trame_router.ui.router import RouterViewLayout
 from trame_server.core import Server
-from trame_vuetify.widgets import vuetify
 
 from libresvip.web.views import converter, plugins
 
@@ -19,11 +18,11 @@ def initialize(server: Server):
             "icon": "mdi-puzzle-outline",
             "route": "/plugin",
         },
-        {
-            "title": "Settings",
-            "icon": "mdi-cog-outline",
-            "route": "/settings",
-        },
+        # {
+        #     "title": "Settings",
+        #     "icon": "mdi-cog-outline",
+        #     "route": "/settings",
+        # },
     ]
 
     with RouterViewLayout(server, "/"):
@@ -32,6 +31,6 @@ def initialize(server: Server):
     with RouterViewLayout(server, "/plugin"):
         plugins.initialize(server)
 
-    with RouterViewLayout(server, "/settings"):
-        with vuetify.VCard():
-            vuetify.VCardTitle("This is settings")
+    # with RouterViewLayout(server, "/settings"):
+    #     with vuetify.VCard():
+    #         vuetify.VCardTitle("This is settings")

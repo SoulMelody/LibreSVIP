@@ -17,6 +17,7 @@ from libresvip.gui.modules import (
 def run():
     os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
     QQuickStyle.setStyle("Material")
+    app._register_backend = lambda: None
     app.set_app_name("LibreSVIP")
     app.set_app_icon(str((res_dir / "libresvip.ico").resolve()))
     config_items = ConfigItems()

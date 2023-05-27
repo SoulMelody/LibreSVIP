@@ -11,7 +11,7 @@ from pkg_resources.extern.packaging.version import Version
 from yapsy.AutoInstallPluginManager import AutoInstallPluginManager
 from yapsy.PluginFileLocator import PluginFileLocator
 from yapsy.PluginInfo import PluginInfo
-from yapsy.PluginManager import PluginManager
+from yapsy.PluginManager import PluginManager, PluginManagerSingleton
 
 from ..core.constants import app_dir, pkg_dir
 from .base import ReadOnlyConverterBase, SVSConverterBase, WriteOnlyConverterBase
@@ -176,24 +176,33 @@ plugin_locator = PluginFileLocator(plugin_info_cls=LibreSvipPluginInfo)
 plugin_locator.setPluginPlaces(
     [str(pkg_dir / "plugins"), str(app_dir.user_config_path / "plugins")]
 )
-_plugin_manager = PluginManager(
+PluginManagerSingleton.setBehaviour(
+    [
+        AutoInstallPluginManager,
+    ]
+)
+plugin_manager: PluginManager = PluginManagerSingleton.get()
+plugin_manager.setPluginLocator(plugin_locator)
+plugin_manager.setCategoriesFilter(
     categories_filter={
         "writeonly": WriteOnlyConverterBase,
         "svs": SVSConverterBase,
         "readonly": ReadOnlyConverterBase,
-    },
-    plugin_locator=plugin_locator,
+    }
 )
-plugin_manager = AutoInstallPluginManager(decorated_manager=_plugin_manager)
-
 plugin_manager.setInstallDir(str(app_dir.user_config_path / "plugins"))
 plugin_registry = {}
+
 
 def load_plugins():
     with contextlib.suppress(ValueError):
         plugin_manager.collectPlugins()
-    plugin_registry.update({
-        plugin_info.suffix: plugin_info for plugin_info in plugin_manager.getAllPlugins()
-    })
+    plugin_registry.update(
+        {
+            plugin_info.suffix: plugin_info
+            for plugin_info in plugin_manager.getAllPlugins()
+        }
+    )
+
 
 load_plugins()

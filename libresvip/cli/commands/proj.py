@@ -17,7 +17,9 @@ def option_callback(ctx: typer.Context, value: pathlib.Path):
     ext = value.suffix.lstrip(".").lower()
     if ext not in plugin_registry:
         raise typer.BadParameter(
-            f"Extension {ext} is not supported. Supported extensions are: {list(plugin_registry.keys())}"
+            _("Extension {} is not supported. Supported extensions are: {}").format(
+                ext, list(plugin_registry.keys())
+            )
         )
     return value
 

@@ -813,7 +813,7 @@ Page {
                                     rotation: inputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
                                         RotationAnimation {
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -891,7 +891,7 @@ Page {
                                         PropertyAnimation {
                                             target: inputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     },
@@ -902,7 +902,7 @@ Page {
                                         PropertyAnimation {
                                             target: inputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -969,7 +969,7 @@ Page {
                                     rotation: outputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
                                         RotationAnimation {
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -1047,7 +1047,7 @@ Page {
                                         PropertyAnimation {
                                             target: outputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     },
@@ -1058,7 +1058,7 @@ Page {
                                         PropertyAnimation {
                                             target: outputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
