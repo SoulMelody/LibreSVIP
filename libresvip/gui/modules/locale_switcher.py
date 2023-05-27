@@ -1,4 +1,5 @@
 import gettext
+from typing import Optional
 
 from loguru import logger
 from qmlease import app, slot
@@ -24,7 +25,7 @@ class GettextTranslator(QTranslator):
         self,
         context: str,
         sourceText: str,
-        disambiguation: bytes | None = ...,
+        disambiguation: Optional[bytes] = ...,
         n: int = ...,
     ) -> str:
         if self.translation and sourceText.strip():
