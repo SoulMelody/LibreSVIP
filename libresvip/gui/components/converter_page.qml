@@ -339,9 +339,8 @@ Page {
                             id: inputFormatInfo
                             y: 45
                             x: - width * 0.5
-                            z: -1
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-                            PluginInfo {
+                            contentItem: PluginInfo {
                                 info: py.task_manager.plugin_info("input_format")
                                 Component.onCompleted: {
                                     py.task_manager.input_format_changed.connect( (input_format) => {
@@ -451,9 +450,8 @@ Page {
                             id: outputFormatInfo
                             y: 45
                             x: - width * 0.5
-                            z: -1
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-                            PluginInfo {
+                            contentItem: PluginInfo {
                                 info: py.task_manager.plugin_info("output_format")
                                 Component.onCompleted: {
                                     py.task_manager.output_format_changed.connect( (output_format) => {

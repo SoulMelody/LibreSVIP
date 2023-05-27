@@ -45,8 +45,11 @@ GridLayout {
                 text: info.version
             }
         }
-        ToolTip.visible: hovered
-        ToolTip.text: qsTr("Version")
+        ToolTip {
+            z: 1
+            visible: parent.hovered
+            text: qsTr("Version")
+        }
     }
 
     Button {
@@ -76,8 +79,11 @@ GridLayout {
                 font.family: materialFontLoader.name
             }
         }
-        ToolTip.visible: hovered
-        ToolTip.text: info.website
+        ToolTip {
+            z: 1
+            visible: parent.hovered
+            text: info.website
+        }
         onClicked: Qt.openUrlExternally(info.website)
     }
 
