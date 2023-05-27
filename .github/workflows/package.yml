@@ -36,7 +36,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade poetry wheel
           poetry export -f requirements.txt --output requirements.txt --without webui,code_gen,dev,test --with desktop,ffmpeg,ujson,packaging
-          pip install -r requirements.txt -i https://pypi.org/simple
+          pip install -r requirements.txt --no-index --find-links https://pypi.org/simple
       - name: Build with cx_freeze
         run: |
           cd deploy/packaging
