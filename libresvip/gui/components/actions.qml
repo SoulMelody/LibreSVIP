@@ -23,13 +23,27 @@ Item {
         text: qsTr("&Swap Input/Output")
         shortcut: "Ctrl+Tab"
         onTriggered: {
-            converterPage.swapInputOutput()
+            converterPage.swapInputOutputButton.clicked()
         }
     }
     property QtObject clearTasks: Action {
         text: qsTr("&Restore Task List")
         shortcut: "Ctrl+R"
-        onTriggered: py.task_manager.reset()
+        onTriggered: {
+            if (!py.task_manager.is_busy()) {
+                converterPage.taskList.model.clear()
+            } else {
+                let message_box = messageBox.createObject(
+                    window,
+                    {
+                        body: qsTr("Alert"),
+                        message: qsTr("Cannot restore task list while conversion is in progress."),
+                        onOk: () => {}
+                    }
+                )
+                message_box.open()
+            }
+        }
     }
     property QtObject openAbout: Action {
         text: qsTr("&Info")
@@ -39,12 +53,22 @@ Item {
     property QtObject openSettings: Action {
         text: qsTr("&Options")
         shortcut: "Alt+O"
-        onTriggered: settingsDrawer.openSettings()
+        onTriggered: settingsDrawer.open()
     }
     property QtObject openConvertMenu: Action {
         text: qsTr("&Convert")
         shortcut: "Alt+C"
         onTriggered: toolbar.openConvertMenu()
+    }
+    property QtObject openImportFormatMenu: Action {
+        text: qsTr("Import &From")
+        shortcut: "Alt+F"
+        onTriggered: toolbar.openImportFormatMenu()
+    }
+    property QtObject openExportFormatMenu: Action {
+        text: qsTr("&Export To")
+        shortcut: "Alt+E"
+        onTriggered: toolbar.openExportFormatMenu()
     }
     property QtObject openHelpMenu: Action {
         text: qsTr("&Help")
@@ -70,7 +94,7 @@ Item {
         text: qsTr("&Start Conversion")
         shortcut: "Ctrl+Enter"
         onTriggered: {
-            py.task_manager.trigger_event("start_conversion", [])
+            py.task_manager.start_conversion()
         }
     }
     property QtObject quit: Action {

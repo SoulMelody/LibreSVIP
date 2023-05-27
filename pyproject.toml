@@ -8,33 +8,26 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 python = ">=3.9,<3.12"
 charset-normalizer = "^3.1.0"
 loguru = "^0.7.0"
-more-itertools = "^9.1.0"
 omegaconf = "^2.3.0"
-platformdirs = "^3.5.1"
 portion = "^2.4.0"
 pydantic = "^2.0a4"
 pydub = "^0.25.1"
-pypinyin = "^0.48.0"
+pypinyin = "^0.49.0"
 regex = "^2023.5.5"
-setuptools = "^67.7.2"
+setuptools = "^67.8.0"
 typer = { extras = ["all"], version = "^0.9.0" }
 wanakana-python = "^1.2.2"
 yapsy = "^1.12.2"
 
-[tool.poetry.group.webui.dependencies]
-trame = "^2.4.2"
-pywebview = "^4.1"
-
-[tool.poetry.group.desktop.dependencies]
-pyside6 = "<6.5.0"
-qmlease = "^3.0.3"
-qtawesome = "^1.2.3"
-
+[tool.poetry.group.ujson]
+optional = true
 [tool.poetry.group.ujson.dependencies]
 ujson = "^5.7.0"
 
+[tool.poetry.group.bike]
+optional = true
 [tool.poetry.group.bike.dependencies]
-pycryptodome = "^3.17"
+pycryptodome = "^3.18.0"
 zstandard = "^0.21.0"
 
 [tool.poetry.group.protobuf.dependencies]
@@ -44,14 +37,14 @@ pure-protobuf = "^3.0a5"
 mido = "^1.2.10"
 
 [tool.poetry.group.subtitle.dependencies]
-pysrt = "^1.1.2"
+srt = "^3.5.3"
 ass = "^0.5.3"
 
 [tool.poetry.group.binary.dependencies]
 construct-typing = "^0.5.6"
 
 [tool.poetry.group.xml.dependencies]
-xsdata = { version = "^22.12" }
+xsdata = { version = "^23.5" }
 
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
@@ -60,27 +53,63 @@ jinja2 = "^3.1.2"
 [tool.poetry.group.svg.dependencies]
 drawsvg = "^2.1.1"
 
+[tool.poetry.group.webui]
+optional = true
+[tool.poetry.group.webui.dependencies]
+trame = "^2.5.0"
+pywebview = "^4.1"
+
+[tool.poetry.group.desktop]
+optional = true
+[tool.poetry.group.desktop.dependencies]
+pyside6 = "!=6.5.0"
+qmlease = "^3.0.3"
+qtawesome = "^1.2.3"
+desktop-notifier = "^3.5.3"
+
+[tool.poetry.group.ffmpeg]
+optional = true
 [tool.poetry.group.ffmpeg.dependencies]
 imageio-ffmpeg = "^0.4.8"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.group.code_gen]
+optional = true
+
+[tool.poetry.group.code_gen.dependencies]
+xsdata = { extras = ["cli"], version = "^23.5" }
+# datamodel-code-generator = "^0.19.0"
+translate-toolkit = "^3.9.0"
+babel = "^2.12.1"
+
+
+[tool.poetry.group.packaging]
+optional = true
+
+[tool.poetry.group.packaging.dependencies]
+cx-freeze = "^6.15.0"
+
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
 pytest = "^7.3.1"
 pytest-datadir = "^1.4.1"
+
+
+[tool.poetry.group.dev.dependencies]
 isort = "^5.12.0"
-pre-commit = "^3.3.1"
+pre-commit = "^3.3.2"
 poethepoet = "^0.20.0"
-ruff = "^0.0.265"
-xsdata = { extras = ["cli"], version = "^22.12" }
-# datamodel-code-generator = "^0.17.2"
+ruff = "^0.0.270"
 black = "^23.3.0"
 mypy = "^1.3.0"
-sourcery = "^1.2.0"
-cx-freeze = "^6.14.9"
+sourcery = "^1.3.0"
 
 [tool.poe.tasks]
-cli = "python -m libresvip.cli"
-gui = "python -m libresvip.gui"
-web = "python -m libresvip.web"
+cli.script = "libresvip.cli.__main__:app"
+gui.script = "libresvip.gui.__main__:run"
+web.script = "libresvip.web.__main__:main"
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
@@ -125,9 +154,9 @@ fix = true
 known-first-party = ['libresvip', 'tests']
 
 [[tool.poetry.source]]
-name = "bfsu"
-default = true
-url = "https://mirrors.bfsu.edu.cn/pypi/web/simple/"
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/web/simple/"
+priority = "default"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

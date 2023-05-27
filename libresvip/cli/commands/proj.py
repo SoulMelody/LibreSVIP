@@ -1,4 +1,5 @@
 import pathlib
+from gettext import gettext as _
 from typing import get_type_hints
 
 import typer
@@ -41,8 +42,8 @@ def convert(
     output_option = get_type_hints(output_plugin.plugin_object.dump).get("options")
     options = []
     for option_type, option_class in {
-        "导入选项：": input_option,
-        "导出选项：": output_option,
+        _("Input Options: "): input_option,
+        _("Output Options: "): output_option,
     }.items():
         option_kwargs = {}
         if len(option_class.model_fields):
@@ -59,13 +60,13 @@ def add_accompaniment(
         "", exists=True, dir_okay=False, callback=option_callback
     ),
     audio_path: pathlib.Path = typer.Argument("", exists=True, dir_okay=False),
-    offset: int = typer.Option(0, help="Offset in milliseconds"),
-    mute: bool = typer.Option(False, help="Mute other tracks"),
+    offset: int = typer.Option(0, help=_("Offset in milliseconds")),
+    mute: bool = typer.Option(False, help=_("Mute other tracks")),
 ):
     input_ext = in_path.suffix.lstrip(".").lower()
     input_plugin = plugin_registry[input_ext]
     input_option = get_type_hints(input_plugin.plugin_object.load).get("options")
-    option_type, option_class = "导入选项：", input_option
+    option_type, option_class = _("Input Options: "), input_option
     option_kwargs = {}
     if len(option_class.model_fields):
         typer.echo(option_type)
@@ -83,7 +84,7 @@ def add_accompaniment(
     )
 
     output_option = get_type_hints(input_plugin.plugin_object.dump).get("options")
-    option_type, option_class = "导出选项：", output_option
+    option_type, option_class = _("Output Options："), output_option
     option_kwargs = {}
     if len(option_class.model_fields):
         typer.echo(option_type)

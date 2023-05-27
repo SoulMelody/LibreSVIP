@@ -11,8 +11,10 @@ from typing import get_args, get_type_hints
 
 from pydantic.color import Color
 from pydantic.fields import Undefined
-from trame.widgets import html, trame, vuetify
+from trame.widgets import trame
+from trame_client.widgets import html
 from trame_server.core import Server
+from trame_vuetify.widgets import vuetify
 
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_registry
@@ -62,12 +64,12 @@ def get_dialog_widget(prefix: str):
                             vuetify.VIcon("mdi-file-outline", left=True)
                             html.Span(
                                 color="primary",
-                                v_text=f"plugin_details[{prefix}_format].format_desc",
+                                v_text=f"translations[lang][plugin_details[{prefix}_format].format_desc]",
                             )
                 vuetify.VDivider()
                 with vuetify.VCardSubtitle("{{ translations[lang]['Introduction'] }}"):
                     vuetify.VCardText(
-                        v_html=f"plugin_details[{prefix}_format].description",
+                        v_html=f"translations[lang][plugin_details[{prefix}_format].description]",
                     )
                 with vuetify.VCardActions():
                     vuetify.VSpacer()
@@ -86,32 +88,35 @@ def get_option_widgets(prefix: str):
         value="field",
     ):
         vuetify.VCheckbox(
-            label=("field.title", ""),
+            label=("translations[lang][field.title]", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", False),
             change=f"flushState('{prefix}')",
             v_if="field.type === 'bool'",
         )
         vuetify.VTextField(
-            label=("field.title", ""),
+            label=("translations[lang][field.title]", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", ""),
-            hint=("field.description", ""),
+            hint=("translations[lang][field.description]", ""),
             v_else_if="field.type === 'other'",
         )
-        with html.Div("{{ field.title }}", v_else_if="field.type === 'color'"):
+        with html.Div(
+            "{{ translations[lang][field.title] }}", v_else_if="field.type === 'color'"
+        ):
             vuetify.VColorPicker(
                 v_model=f"{prefix}[field.name]",
                 value=("field.default", ""),
                 change=f"flushState('{prefix}')",
             )
         vuetify.VSelect(
-            label=("field.title", ""),
+            label=("translations[lang][field.title]", ""),
             v_model=f"{prefix}[field.name]",
             value=("field.default", ""),
             change=f"flushState('{prefix}')",
             items=("field.choices", []),
-            hint=("field.description", ""),
+            # unable to translate item values now
+            hint=("translations[lang][field.description]", ""),
             v_else_if="field.type === 'enum'",
         )
         with vuetify.VTooltip(
@@ -126,7 +131,7 @@ def get_option_widgets(prefix: str):
                     __properties=["slot"],
                 )
             html.Span(
-                "{{ field.description }}",
+                "{{ translations[lang][field.description] }}",
             )
 
 
@@ -162,7 +167,7 @@ def initialize(server: Server):
                 "name": plugin.name,
                 "author": plugin.author,
                 "website": plugin.website,
-                "description": plugin.description.replace("\n", "<br>"),
+                "description": plugin.description,
                 "version": plugin.version_string,
                 "format_desc": f"{plugin.file_format} (*.{plugin.suffix})",
                 "icon_base64": plugin.icon_base64,
@@ -296,7 +301,11 @@ def initialize(server: Server):
             future_to_path = {}
             for each in state.files_to_convert:
                 input_path = tmp_dir / each["name"]
-                input_content = b''.join(each["content"]) if isinstance(each["content"], list) else each["content"]
+                input_content = (
+                    b"".join(each["content"])
+                    if isinstance(each["content"], list)
+                    else each["content"]
+                )
                 input_path.write_bytes(input_content)
                 input_path = str(input_path)
                 output_path = tempfile.mktemp(
@@ -342,7 +351,9 @@ def initialize(server: Server):
                 for src_name, tmp_path in state.convert_results.items():
                     src_path = pathlib.Path(src_name)
                     tmp_path = pathlib.Path(tmp_path)
-                    zf.writestr(f"{src_path.stem}.{state.output_format}", tmp_path.read_bytes())
+                    zf.writestr(
+                        f"{src_path.stem}.{state.output_format}", tmp_path.read_bytes()
+                    )
         else:
             tmp_path = list(state.convert_results.values())[0]
             tmp_path = pathlib.Path(tmp_path)

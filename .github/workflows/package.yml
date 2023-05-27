@@ -1,3 +1,4 @@
+name: Packaging
 on:
   push:
     tags:
@@ -9,48 +10,48 @@ jobs:
     outputs:
       VERSION: ${{ steps.get_version.outputs.VERSION }}
     steps:
-    - name: Get version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Get version
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
 
   release:
     runs-on: ${{ matrix.os.runs-on }}
     needs: [make-outputs]
     strategy:
       matrix:
-        os: 
+        os:
           - runs-on: windows-latest
             arch: win-x64
           - runs-on: ubuntu-latest
             arch: linux-x64
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install --upgrade poetry
-        poetry install --without webui
-    - name: Build with cx_freeze
-      run: |
-        cd deploy/packaging
-        poetry run python setup.py build_exe
-        cd ../..
-    - name: Compress build artifact
-      run: python -c "import shutil; shutil.make_archive('./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}', 'xztar', './deploy/packaging/build')"
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: libresvip-${{ matrix.os.arch }}
-        path: ./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
-    - name: Create Release and Upload Artifact
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-        tag_name: ${{ needs.make-outputs.outputs.VERSION }}
-        files: |
-          libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel setuptools
+          pip install --upgrade poetry
+          poetry install --without webui,code_gen,dev,test --with desktop,ffmpeg,ujson,packaging
+      - name: Build with cx_freeze
+        run: |
+          cd deploy/packaging
+          poetry run python setup.py build_exe
+          cd ../..
+      - name: Compress build artifact
+        run: python -c "import shutil; shutil.make_archive('./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}', 'xztar', './deploy/packaging/build')"
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: libresvip-${{ matrix.os.arch }}
+          path: ./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
+      - name: Create Release and Upload Artifact
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: ${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz

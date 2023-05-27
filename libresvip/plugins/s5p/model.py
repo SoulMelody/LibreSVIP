@@ -1,7 +1,7 @@
 from itertools import chain
 from typing import NamedTuple, Optional
 
-from more_itertools import chunked
+from pkg_resources.extern.more_itertools import chunked
 from pydantic import Field, validator
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
@@ -31,10 +31,12 @@ class S5pTempoItem(BaseModel):
 
 class S5pDbDefaults(BaseModel):
     lyric: Optional[str] = DEFAULT_PHONEME
-    breathiness: Optional[float] = None
-    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
-    gender: Optional[float] = None
-    tension: Optional[float] = None
+    breathiness: Optional[float]
+    d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
+    d_f0_jitter: Optional[float] = Field(alias="dF0Jitter")
+    t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
+    gender: Optional[float]
+    tension: Optional[float]
 
 
 class S5pNote(BaseModel):

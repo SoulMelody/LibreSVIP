@@ -24,11 +24,11 @@ class Language(enum.Enum):
 
     def to_locale(self):
         if self == self.CHINESE:
-            return "zh-CN"
+            return "zh_CN"
         elif self == self.JAPANESE:
-            return "ja-JP"
+            return "ja_JP"
         else:
-            return "en-US"
+            return "en_US"
 
 
 class DarkMode(enum.Enum):
@@ -45,7 +45,7 @@ class ConflictPolicy(enum.Enum):
 
 @dataclasses.dataclass
 class LibreSvipSettings:
-    # Both Web and GUI
+    # Common
     language: Language = dataclasses.field(default=Language.CHINESE)
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
     # GUI Only

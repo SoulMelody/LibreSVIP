@@ -1,8 +1,9 @@
 import io
 
-from more_itertools import chunked
-from trame.widgets import html, vuetify
+from pkg_resources.extern.more_itertools import chunked
+from trame_client.widgets import html
 from trame_server.core import Server
+from trame_vuetify.widgets import vuetify
 
 from libresvip.extension.manager import plugin_manager
 
@@ -76,7 +77,7 @@ def initialize(server: Server):
                     html.Span("{{translations[lang]['Version']}}： ")
                     vuetify.VChip(v_text="item.version", small=True)
                 vuetify.VListItemSubtitle(
-                    v_html="item.description",
+                    v_html="translations[lang][item.description]",
                 )
             with vuetify.VListItemAction():
                 with vuetify.VBtn(

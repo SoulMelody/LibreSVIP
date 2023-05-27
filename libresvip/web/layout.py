@@ -4,12 +4,14 @@ import os
 import shutil
 import tempfile
 
-from trame.ui.vuetify import SinglePageWithDrawerLayout
-from trame.widgets import html, router, trame, vuetify
+from trame.widgets import router, trame
+from trame_client.widgets import html
 from trame_server.core import Server
+from trame_vuetify.ui.vuetify import SinglePageWithDrawerLayout
+from trame_vuetify.widgets import vuetify
 
 from libresvip.core.config import settings
-from libresvip.core.constants import pkg_dir
+from libresvip.core.constants import res_dir
 
 
 def initialize(server: Server):
@@ -18,12 +20,14 @@ def initialize(server: Server):
     state.setdefault("dark_mode", settings.dark_mode == "Dark")
     state.current_route = "Convert"
     state.menu_items = ["简体中文", "English"]
-    state.trame__title = state.translations[state.lang]["LibreSVIP"]
+    state.trame__title = (
+        "LibreSVIP - " + state.translations[state.lang]["SVS Projects Converter"]
+    )
     state.temp_dir = tempfile.mkdtemp(prefix="libresvip")
     os.makedirs(state.temp_dir, exist_ok=True)
     state.trame__favicon = (
         "data:image/x-icon;base64,"
-        + base64.b64encode((pkg_dir / "libresvip.ico").read_bytes()).decode()
+        + base64.b64encode((res_dir / "libresvip.ico").read_bytes()).decode()
     )
 
     def clean_temp_dir():
@@ -77,10 +81,10 @@ def initialize(server: Server):
                             ):
                                 vuetify.VIcon("mdi-github", size="50", color="grey")
                             vuetify.VCardText(
-                                v_text="translations[lang]['About Text 1']"
+                                v_text="translations[lang]['LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.']"
                             )
                             vuetify.VCardText(
-                                v_text="translations[lang]['About Text 2']"
+                                v_text=r"translations[lang]['All people should have the right and freedom to choose. That\'s why we\'re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.']"
                             )
                             vuetify.VBtn(
                                 v_text="translations[lang]['OK']",
@@ -102,7 +106,7 @@ def initialize(server: Server):
                         click="lang = item",
                     ):
                         vuetify.VListItemTitle(
-                            "{{ translations[lang][item] }}",
+                            "{{ item }}",
                         )
 
         with layout.content:

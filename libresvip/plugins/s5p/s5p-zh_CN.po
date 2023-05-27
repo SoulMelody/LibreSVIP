@@ -1,0 +1,21 @@
+#. extracted from 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-27 07:26+0800\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .s5p.format_desc
+msgid "Synthesizer V Editor project file (*.s5p)"
+msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
+
+#: .s5p.description
+msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr "Synthesizer V Editor 工程格式转换插件。"

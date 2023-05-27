@@ -8,10 +8,10 @@ class InputOptions(BaseModel):
 class OutputOptions(BaseModel):
     down_sample: int = Field(
         default=32,
-        title="音量参数平均采样间隔",
-        description="单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
+        title="Average sampling interval for the volume parameter",
+        description="The unit is Tick. The larger the value, the smoother the editor; the smaller the value, the more accurate the volume parameter.",
     )
     singer: str = Field(
         default="扇宝",
-        title="默认歌手",
+        title="Default singer",
     )

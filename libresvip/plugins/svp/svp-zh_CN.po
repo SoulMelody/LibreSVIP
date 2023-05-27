@@ -1,0 +1,139 @@
+#. extracted from 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-27 07:26+0800\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .svp.format_desc
+msgid "Synthesizer V Studio project file (*.svp)"
+msgstr "Synthesizer V Studio 工程文件 (*.svp)"
+
+#: .svp.description
+msgid ""
+"Conversion plugin for Synthesizer V Studio project file, it supports reading "
+"and writing of all parameters including notes, lyrics, parameter curve, note "
+"attributes, note group, and instant pitch mode.\n"
+"Notes：Importing a project file with overlapping notes is undefined behavior "
+"that can lead to unforeseen exceptions."
+msgstr ""
+"Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性"
+"、音符组、即时音高模式在内所有数据的读取与写入。\n"
+"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
+
+#: .svp.load[0].title
+msgid "Always follow instant pitch mode"
+msgstr "遵循即时音高模式设置"
+
+#: .svp.load[0].description
+msgid ""
+"When this option is turned off, the default pitch curve will always be "
+"imported regardless of the project setting. If you have tuned the pitch "
+"curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr "关闭此选项时，无论工程文件是否开启了即时音高模式，都只会考虑原始的默认音高。"
+"若您基于即时音高模式进行了调校，建议打开此选项。"
+
+#: .svp.load[1].title
+msgid "Pitch input mode"
+msgstr "音高信息输入模式"
+
+#: .svp.load[1].choices[0].text
+msgid "Full pitch curve"
+msgstr "输入完整音高曲线"
+
+#: .svp.load[1].choices[1].text
+msgid "Edited part only (vibrato mode)"
+msgstr "仅输入已编辑部分（颤音模式）"
+
+#: .svp.load[1].choices[2].text
+msgid "Edited part only (plain mode)"
+msgstr "仅输入已编辑部分（平整模式）"
+
+#: .svp.load[1].description
+msgid ""
+"This option controls the range of pitch curve to be imported and the "
+"judgment condition. The definition of “edited part” is: the pitch deviation "
+"in the parameter panel, the pitch transition in the vibrato envelope and the "
+"pitch transition in the note properties have been edited."
+msgstr ""
+"本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中"
+"的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
+
+#: .svp.load[2].title
+msgid "The way to handle breath notes"
+msgstr "换气音符处理方式"
+
+#: .svp.load[2].choices[0].text
+msgid "Ignore all breath notes"
+msgstr "忽略所有换气音符"
+
+#: .svp.load[2].choices[1].text
+msgid "Keep as normal notes"
+msgstr "保留为普通音符"
+
+#: .svp.load[2].choices[2].text
+msgid "Convert to breath mark"
+msgstr "转换为换气标记"
+
+#: .svp.load[3].title
+msgid "The way to handle note groups"
+msgstr "音符组导入方式"
+
+#: .svp.load[3].choices[0].text
+msgid "Split all to tracks"
+msgstr "全部拆分为轨道"
+
+#: .svp.load[3].choices[1].text
+msgid "Keep original position"
+msgstr "保留原始位置"
+
+#: .svp.load[3].description
+msgid ""
+"Notice: If there are too many note groups, please choose “Keep original "
+"position” to avoid excessive track count. But if there are notes that are "
+"adjacent (but not overlapped) between note groups or between note groups and "
+"main group, it is recommended to choose “Split to tracks” to ensure the "
+"paragraph division is not broken."
+msgstr ""
+"注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之"
+"间、音符组与主组之间存在时间轴上紧挨（但不重叠）的音符，则建议选择“拆分为轨道"
+"”以确保段落划分不被破坏。"
+
+#: .svp.dump[0].title
+msgid "The way to handle vibrato notes"
+msgstr "自动颤音处理方式"
+
+#: .svp.dump[0].choices[0].text
+msgid "All removed"
+msgstr "全部抹平"
+
+#: .svp.dump[0].choices[1].text
+msgid "All kept"
+msgstr "全部保留"
+
+#: .svp.dump[0].choices[2].text
+msgid "Hybrid mode"
+msgstr "混合保留"
+
+#: .svp.dump[1].title
+msgid ""
+"Set the average sampling interval of parameter points to improve performance "
+"(0 means no limit)"
+msgstr "设置参数点的平均采样间隔以改善性能（0 为无限制）"
+
+#: .svp.dump[1].description
+msgid ""
+"Reduce the sampling interval to improve the accuracy of parameter curves, "
+"but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). "
+"Please set this value according to your hardware configuration and actual "
+"experience."
+msgstr ""
+"减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
+"Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"

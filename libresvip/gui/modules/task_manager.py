@@ -94,11 +94,8 @@ class TaskManager(QObject):
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
     busy_changed = Signal(bool)
-    input_fileds_changed = Signal()
-    output_fileds_changed = Signal()
-    tasks_size_changed = Signal()
-    start_conversion = Signal()
     all_tasks_finished = Signal()
+    _start_conversion = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -165,7 +162,7 @@ class TaskManager(QObject):
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
         self.output_format_changed.connect(self.reset_output_ext)
-        self.start_conversion.connect(self.start)
+        self._start_conversion.connect(self.start)
         self.timer = QTimer()
         self.timer.setInterval(100)
         self.timer.timeout.connect(self.check_busy)
@@ -173,13 +170,12 @@ class TaskManager(QObject):
     def clean_temp_dir(self):
         shutil.rmtree(self.temp_dir, ignore_errors=True)
 
-    @slot(str, list, result=bool)
-    def trigger_event(self, event: str, args: list) -> bool:
-        if hasattr(self, event):
-            sig = getattr(self, event)
-            sig.emit(*args)
-            return True
-        return False
+    @slot(result=bool)
+    def start_conversion(self) -> bool:
+        if self.is_busy():
+            return False
+        self._start_conversion.emit()
+        return True
 
     @property
     def output_ext(self) -> str:
@@ -230,9 +226,10 @@ class TaskManager(QObject):
             return False
         output_dir = self.output_dir(task)
         try:
-            pathlib.Path(task["tmp_path"]).rename(
-                output_dir / f"{task['stem']}{self.output_ext}"
-            )
+            target_path = output_dir / f"{task['stem']}{self.output_ext}"
+            if target_path.exists():
+                target_path.unlink()
+            pathlib.Path(task["tmp_path"]).rename(target_path)
             return True
         except (FileExistsError, FileNotFoundError, OSError) as e:
             self.tasks.update(index, {"error": str(e)})
@@ -315,7 +312,6 @@ class TaskManager(QObject):
             option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
             input_fields = self.inspect_fields(option_class)
             self.input_fields.append_many(input_fields)
-            self.input_fileds_changed.emit()
 
     @slot(str)
     def set_output_fields(self, output_format: str) -> None:
@@ -328,7 +324,6 @@ class TaskManager(QObject):
             option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
             output_fields = self.inspect_fields(option_class)
             self.output_fields.append_many(output_fields)
-            self.output_fileds_changed.emit()
 
     @slot(str, result=dict)
     def plugin_info(self, name: str) -> dict:
@@ -378,18 +373,12 @@ class TaskManager(QObject):
                 }
             )
         self.tasks.append_many(tasks)
-        self.tasks_size_changed.emit()
         if (
             settings.auto_detect_input_format
             and path_obj is not None
             and (suffix := path_obj.suffix[1:]) in plugin_registry
         ):
             self.set_str("input_format", suffix)
-
-    @slot()
-    def reset(self) -> None:
-        self.tasks.clear()
-        self.tasks_size_changed.emit()
 
     @slot(str, result=object)
     def qget(self, name: str) -> Any:

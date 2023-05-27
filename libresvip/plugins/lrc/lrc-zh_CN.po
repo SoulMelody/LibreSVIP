@@ -1,0 +1,85 @@
+#. extracted from 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-27 07:26+0800\n"
+"PO-Revision-Date: 2023-05-26 09:07+0000\n"
+"Last-Translator: admin <admin@example.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
+
+#: .lrc.format_desc
+msgid "LRC lyric file (*.lrc)"
+msgstr "LRC 歌词文件 (*.lrc)"
+
+#: .lrc.description
+msgid "Generator plugin for LRC lyric file"
+msgstr "LRC 歌词格式转换插件"
+
+#: .lrc.dump[0].title
+msgid "Singer name"
+msgstr "歌手名"
+
+#: .lrc.dump[1].title
+msgid "Song title"
+msgstr "歌曲名"
+
+#: .lrc.dump[2].title
+msgid "Album name"
+msgstr "专辑名"
+
+#: .lrc.dump[3].title
+msgid "Lyric editor"
+msgstr "歌词编辑"
+
+#: .lrc.dump[4].title
+msgid "Offset"
+msgstr "偏移量"
+
+#: .lrc.dump[4].description
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr "单位为毫秒，正值表示整体提前，负值相反。"
+
+#: .lrc.dump[5].title
+msgid "Offset policy"
+msgstr "偏移处理方式"
+
+#: .lrc.dump[5].choices[0].text
+msgid "Act on timeline"
+msgstr "作用于时间轴"
+
+#: .lrc.dump[5].choices[1].text
+msgid "Act on metadata"
+msgstr "作用于元数据"
+
+#: .lrc.dump[6].title
+msgid "New line by"
+msgstr "歌词换行方式"
+
+#: .lrc.dump[6].choices[0].text
+msgid "Both notes gap and punctuation"
+msgstr "音符间隙和标点符号"
+
+#: .lrc.dump[6].choices[1].text
+msgid "Notes gap only"
+msgstr "仅音符间隙"
+
+#: .lrc.dump[6].choices[2].text
+msgid "Punctuation only"
+msgstr "仅标点符号"
+
+#: .lrc.dump[7].title
+msgid "Write timeline"
+msgstr "写入时间轴"
+
+#: .lrc.dump[7].description
+msgid "If you need lyrics without timeline, turn off this option."
+msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
+
+#: .lrc.dump[8].title
+msgid "Text encoding"
+msgstr "歌词文本编码"

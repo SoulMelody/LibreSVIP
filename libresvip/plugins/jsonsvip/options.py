@@ -7,5 +7,7 @@ class InputOptions(BaseModel):
 
 class OutputOptions(BaseModel):
     indented: bool = Field(
-        default=False, title="生成带缩进格式的 JSON 文件", description="缩进格式便于阅读与修改，但会占据较大的文件体积。"
+        default=False,
+        title="Generate JSON file with indentation",
+        description="The indented format is easier to read and modify, but it will take up a larger file size.",
     )

@@ -2,7 +2,7 @@ import dataclasses
 import math
 from typing import Callable, NamedTuple
 
-import more_itertools
+from pkg_resources.extern import more_itertools
 
 from libresvip.utils import find_index
 
