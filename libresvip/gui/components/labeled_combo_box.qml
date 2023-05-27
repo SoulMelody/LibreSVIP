@@ -15,17 +15,16 @@ ComboBox {
     hoverEnabled: true
     displayText: qsTr(currentText)
 
-    delegate: ItemDelegate {
-        width: combo.width
+    delegate: MenuItem {
+        width: ListView.view.width
         contentItem: Label {
             text: combo.textRole
                 ? qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])
                 : qsTr(modelData)
-            font: combo.font
-            elide: Text.ElideRight
-            verticalAlignment: Text.AlignVCenter
-            color: index == combo.highlightedIndex ? Material.accentColor : window.Material.foreground
+            color: combo.highlightedIndex === index ? Material.accentColor : window.Material.foreground
         }
+        highlighted: combo.highlightedIndex === index
+        hoverEnabled: combo.hoverEnabled
     }
 
     background: Rectangle {
@@ -80,7 +79,7 @@ ComboBox {
     }
 
     popup: Popup {
-        y: combo.height - 1
+        y: combo.height
         width: combo.contentItem.width
         implicitHeight: 400
         padding: 1
