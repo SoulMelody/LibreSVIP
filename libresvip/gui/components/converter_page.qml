@@ -136,21 +136,20 @@ Page {
                 textRole: "text"
                 valueRole: "value"
                 displayText: qsTr(currentText)
-                delegate: ItemDelegate {
-                    width: comboBox.width
+                delegate: MenuItem {
+                    width: ListView.view.width
                     contentItem: Label {
                         text: comboBox.textRole
                             ? qsTr(Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole])
                             : qsTr(modelData)
-                        font: comboBox.font
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        color: index == comboBox.highlightedIndex ? Material.accentColor : window.Material.foreground
+                        color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
                     }
+                    highlighted: comboBox.highlightedIndex === index
+                    hoverEnabled: comboBox.hoverEnabled
                 }
 
                 popup: Popup {
-                    y: comboBox.height - 1
+                    y: comboBox.height
                     width: comboBox.width
                     padding: 1
 
@@ -331,6 +330,8 @@ Page {
                         icon_name: "mdi6.information-outline"
                         diameter: 36
                         icon_size_multiplier: 1.5
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("View Detail Information")
                         onClicked: {
                             inputFormatInfo.opened ? inputFormatInfo.close() : inputFormatInfo.open()
                         }
@@ -338,6 +339,7 @@ Page {
                             id: inputFormatInfo
                             y: 45
                             x: - width * 0.5
+                            z: -1
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                             PluginInfo {
                                 info: py.task_manager.plugin_info("input_format")
@@ -440,6 +442,8 @@ Page {
                         icon_name: "mdi6.information-outline"
                         diameter: 36
                         icon_size_multiplier: 1.5
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("View Detail Information")
                         onClicked: {
                             outputFormatInfo.opened ? outputFormatInfo.close() : outputFormatInfo.open()
                         }
@@ -447,6 +451,7 @@ Page {
                             id: outputFormatInfo
                             y: 45
                             x: - width * 0.5
+                            z: -1
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                             PluginInfo {
                                 info: py.task_manager.plugin_info("output_format")

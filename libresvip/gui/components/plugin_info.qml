@@ -65,6 +65,10 @@ GridLayout {
             Label {
                 text: info.author
                 font.underline: true
+                HoverHandler {
+                    acceptedDevices: PointerDevice.AllPointerTypes
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
 
             Label {

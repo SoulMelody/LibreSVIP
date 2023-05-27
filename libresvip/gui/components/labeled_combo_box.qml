@@ -12,7 +12,6 @@ ComboBox {
     model: choices
     textRole: "text"
     valueRole: "value"
-    hoverEnabled: true
     displayText: qsTr(currentText)
 
     delegate: MenuItem {
@@ -32,7 +31,6 @@ ComboBox {
     }
 
     contentItem: TextField {
-        z: 1
         padding: 6
         leftPadding: combo.mirrored ? 0 : 12
         rightPadding: combo.mirrored ? 12 : 0
@@ -45,7 +43,6 @@ ComboBox {
         inputMethodHints: Qt.ImhNone
         validator: combo.validator
         selectByMouse: false
-        focus: combo.popup.opened
 
         color: combo.enabled ? combo.Material.foreground : combo.Material.hintTextColor
         selectionColor: combo.Material.accentColor
