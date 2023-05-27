@@ -12,7 +12,6 @@ ToolBar {
     signal openThemesMenu()
     signal openLanguageMenu()
     signal openHelpMenu()
-    signal themeChanged()
 
     function toggleMaximized() {
         // from https://github.com/yjg30737/qml-rounded-shadow-framelesswindow
@@ -289,7 +288,6 @@ ToolBar {
                         onTriggered: {
                             window.Material.theme = Material.Light
                             py.config_items.set_theme("Light")
-                            themeChanged()
                         }
                     }
                     MenuItem {
@@ -297,7 +295,6 @@ ToolBar {
                         onTriggered: {
                             window.Material.theme = Material.Dark
                             py.config_items.set_theme("Dark")
-                            themeChanged()
                         }
                     }
                     MenuItem {
@@ -305,7 +302,6 @@ ToolBar {
                         onTriggered: {
                             window.Material.theme = Material.System
                             py.config_items.set_theme("System")
-                            themeChanged()
                         }
                     }
                 }
