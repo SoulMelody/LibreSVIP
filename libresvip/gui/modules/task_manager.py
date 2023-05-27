@@ -271,6 +271,8 @@ class TaskManager(QObject):
                     }
                 )
             elif issubclass(field_info.annotation, enum.Enum):
+                if default_value is not None:
+                    default_value = default_value.value
                 annotations = get_type_hints(field_info.annotation, include_extras=True)
                 choices = []
                 for enum_item in field_info.annotation:
