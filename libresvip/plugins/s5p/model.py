@@ -1,7 +1,7 @@
 from itertools import chain
 from typing import List, NamedTuple, Optional
 
-from more_itertools import chunked
+from pkg_resources.extern.more_itertools import chunked
 from pydantic import Field, validator
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME

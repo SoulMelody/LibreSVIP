@@ -4,9 +4,10 @@ from types import FunctionType
 from typing import Callable, List, TypeVar
 
 import charset_normalizer
-from more_itertools import locate, rlocate
+from pkg_resources.extern.more_itertools import locate, rlocate
 
 T = TypeVar("T")
+
 
 def ensure_path(func: FunctionType) -> FunctionType:
     @functools.wraps(func)
