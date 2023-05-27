@@ -114,8 +114,7 @@ urllib3 = "<2.0"
 [[tool.poetry.source]]
 name = "aliyun"
 url = "https://mirrors.aliyun.com/pypi/web/simple/"
-default = true
-secondary = false
+priority = "default"
 
 [tool.poe.tasks]
 cli.script = "libresvip.cli.__main__:app"
