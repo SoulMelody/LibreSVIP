@@ -797,7 +797,7 @@ Page {
                         Layout.fillWidth: true
                         Row {
                             height: 30
-                            visible: inputFields.count > 0
+                            visible: inputContainer.children.length > 0
                             Layout.fillWidth: true
                             RoundButton {
                                 Layout.fillHeight: true
@@ -953,7 +953,7 @@ Page {
                         }
                         Row {
                             height: 30
-                            visible: outputFields.count > 0
+                            visible: outputContainer.children.length > 0
                             Layout.fillWidth: true
                             RoundButton {
                                 Layout.fillHeight: true
