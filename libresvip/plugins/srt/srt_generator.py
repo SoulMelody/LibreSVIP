@@ -2,7 +2,7 @@ import dataclasses
 import datetime
 
 import regex as re
-from pysrt import SubRipItem
+from srt import Subtitle
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Project, SingingTrack
@@ -17,7 +17,7 @@ class SrtGenerator:
     options: OutputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
-    def generate_project(self, project: Project) -> list[SubRipItem]:
+    def generate_project(self, project: Project) -> list[Subtitle]:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         singing_track = next(
             track for track in project.track_list if isinstance(track, SingingTrack)
@@ -47,7 +47,7 @@ class SrtGenerator:
         return lyric_lines
 
     def commit_current_lyric_line(
-        self, lyric_lines: list[SubRipItem], buffer: list[Note]
+        self, lyric_lines: list[Subtitle], buffer: list[Note]
     ):
         start_time = self.get_time_from_ticks(buffer[0].start_pos)
         end_time = self.get_time_from_ticks(buffer[-1].end_pos)
@@ -55,21 +55,16 @@ class SrtGenerator:
         for note in buffer:
             lyrics += SYMBOL_PATTERN.sub("", note.lyric)
         lyric_lines.append(
-            SubRipItem(
+            Subtitle(
                 index=len(lyric_lines) + 1,
                 start=start_time,
                 end=end_time,
-                text=lyrics,
+                content=lyrics,
             )
         )
 
-    def get_time_from_ticks(self, ticks: int) -> datetime.time:
-        date_time = datetime.datetime.fromtimestamp(
-            self.synchronizer.get_actual_secs_from_ticks(ticks)
-        )
-        return datetime.time(
-            hour=date_time.hour,
-            minute=date_time.minute,
-            second=date_time.second,
-            microsecond=date_time.microsecond,
-        )
+    def get_time_from_ticks(self, ticks: int) -> datetime.timedelta:
+        seconds = self.synchronizer.get_actual_secs_from_ticks(ticks)
+        seconds_int = int(seconds)
+        milliseconds = (seconds % 1) * 1000
+        return datetime.timedelta(seconds=seconds_int, milliseconds=milliseconds)

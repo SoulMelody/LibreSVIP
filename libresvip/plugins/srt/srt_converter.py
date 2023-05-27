@@ -2,7 +2,7 @@ __package__ = "libresvip.plugins.srt"
 
 import pathlib
 
-from pysrt import SubRipFile
+from srt import compose
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
@@ -16,4 +16,4 @@ class SrtConverter(plugin_base.WriteOnlyConverterBase):
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         items = SrtGenerator(options).generate_project(project)
-        SubRipFile(items).save(path, encoding=options.encoding)
+        path.write_text(compose(items), encoding=options.encoding)
