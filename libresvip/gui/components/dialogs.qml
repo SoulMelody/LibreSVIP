@@ -253,10 +253,12 @@ Item {
                         delegate: folderPresetDelegate
                         Component.onCompleted: {
                             let save_folder = py.config_items.get_save_folder()
-                            for (let i = 0; i < count; i++) {
-                                if (model.get(i).path == save_folder) {
-                                    currentIndex = i
-                                    break
+                            if (count > 0) {
+                                for (let i = 0; i < count; i++) {
+                                    if (model.get(i).path == save_folder) {
+                                        currentIndex = i
+                                        break
+                                    }
                                 }
                             }
                             save_folder_changed(save_folder)

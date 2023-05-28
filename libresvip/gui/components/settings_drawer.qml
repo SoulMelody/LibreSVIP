@@ -14,13 +14,17 @@ Drawer {
     signal conflictPolicyChanged(string value)
 
     function save_folder_type(save_folder) {
+        let preset_folder = null
+        if (dialogs.folderPresetsList.count > 0) {
+            preset_folder = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+        }
         switch (save_folder) {
             case ".":
             case "./":
                 return 1
             case dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]):
                 return 2
-            case dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path:
+            case preset_folder:
                 return 3
             default:
                 return 4
@@ -160,7 +164,11 @@ Drawer {
                         ToolTip {
                             id: presetRadioToolTip
                             visible: presetRadio.hovered
-                            text: dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                            Component.onCompleted: {
+                                if (dialogs.folderPresetsList.count > 0) {
+                                    text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                }
+                            }
                             Connections {
                                 target: dialogs.folderPresetBtnGroup
                                 function onClicked() {
@@ -177,13 +185,21 @@ Drawer {
                             Connections {
                                 target: dialogs.folderPresetsList.model
                                 function onDataChanged(idx1, idx2, value) {
-                                    presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                    if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                        let save_folder = py.config_items.get_save_folder()
-                                        if (save_folder !== presetRadioToolTip.text) {
-                                            py.config_items.set_save_folder(presetRadioToolTip.text)
-                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                                    if (dialogs.folderPresetsList.count > 0) {
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
+                                            let save_folder = py.config_items.get_save_folder()
+                                            if (save_folder !== presetRadioToolTip.text) {
+                                                py.config_items.set_save_folder(presetRadioToolTip.text)
+                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                            }
                                         }
+                                    }
+                                }
+                                function onRowsRemoved(idx, first, last) {
+                                    if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
+                                        presetRadioToolTip.text = ""
+                                        dialogs.save_folder_changed(py.config_items.get_save_folder())
                                     }
                                 }
                             }
