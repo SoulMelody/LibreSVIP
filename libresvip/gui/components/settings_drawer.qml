@@ -15,7 +15,7 @@ Drawer {
 
     function save_folder_type(save_folder) {
         let preset_folder = null
-        if (dialogs.folderPresetsList.count > 0) {
+        if (dialogs.folderPresetsList.model.rowCount() > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
             preset_folder = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
         }
         switch (save_folder) {
@@ -165,19 +165,21 @@ Drawer {
                             id: presetRadioToolTip
                             visible: presetRadio.hovered
                             Component.onCompleted: {
-                                if (dialogs.folderPresetsList.count > 0) {
+                                if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                     text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                 }
                             }
                             Connections {
                                 target: dialogs.folderPresetBtnGroup
                                 function onClicked() {
-                                    presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                    if (presetRadio.checked) {
-                                        let save_folder = py.config_items.get_save_folder()
-                                        if (save_folder !== presetRadioToolTip.text) {
-                                            py.config_items.set_save_folder(presetRadioToolTip.text)
-                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                                    if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        if (presetRadio.checked) {
+                                            let save_folder = py.config_items.get_save_folder()
+                                            if (save_folder !== presetRadioToolTip.text) {
+                                                py.config_items.set_save_folder(presetRadioToolTip.text)
+                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                            }
                                         }
                                     }
                                 }
@@ -185,7 +187,7 @@ Drawer {
                             Connections {
                                 target: dialogs.folderPresetsList.model
                                 function onDataChanged(idx1, idx2, value) {
-                                    if (dialogs.folderPresetsList.count > 0) {
+                                    if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
                                             let save_folder = py.config_items.get_save_folder()
@@ -199,7 +201,9 @@ Drawer {
                                 function onRowsRemoved(idx, first, last) {
                                     if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
                                         presetRadioToolTip.text = ""
-                                        dialogs.save_folder_changed(py.config_items.get_save_folder())
+                                        if (presetRadio.checked) {
+                                            dialogs.save_folder_changed(py.config_items.get_save_folder())
+                                        }
                                     }
                                 }
                             }
