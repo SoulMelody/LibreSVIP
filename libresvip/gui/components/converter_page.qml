@@ -431,10 +431,11 @@ Page {
                             py.config_items.set_bool("reset_tasks_on_input_change", checked)
                             settingsDrawer.resetTasksOnInputChangeChanged(checked)
                         }
-                        Component.onCompleted: {
-                            settingsDrawer.resetTasksOnInputChangeChanged.connect( (value) => {
+                        Connections {
+                            target: settingsDrawer
+                            function onResetTasksOnInputChangeChanged(value) {
                                 value === checked ? null : checked = value
-                            })
+                            }
                         }
                     }
                     IconButton {
@@ -1273,10 +1274,11 @@ Page {
                                 saveFolderTextField.text = py.config_items.get_save_folder()
                             }
                         }
-                        Component.onCompleted: {
-                            dialogs.save_folder_changed.connect( (value) => {
+                        Connections {
+                            target: dialogs
+                            function onSave_folder_changed(value) {
                                 saveFolderTextField.text = value
-                            })
+                            }
                         }
                     }
                     Item {

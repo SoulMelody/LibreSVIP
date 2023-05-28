@@ -221,10 +221,6 @@ Drawer {
                         }
                     }
                 }
-                Component.onCompleted: {
-                    let save_folder = py.config_items.get_save_folder()
-                    dialogs.save_folder_changed(save_folder)
-                }
             }
             ButtonGroup {
                 id: conflictPolicyGroup
@@ -260,33 +256,37 @@ Drawer {
                 ColumnLayout {
                     spacing: 0
                     RadioButton {
+                        id: overwriteRadio
                         text: qsTr("Overwrite")
                         checked: py.config_items.get_conflict_policy() === "Overwrite"
                         ButtonGroup.group: conflictPolicyGroup
-                        Component.onCompleted: {
-                            conflictPolicyChanged.connect( (value) => {
-                                checked = (value === "Overwrite")
-                            })
-                        }
                     }
                     RadioButton {
+                        id: skipRadio
                         text: qsTr("Skip")
                         checked: py.config_items.get_conflict_policy() === "Skip"
                         ButtonGroup.group: conflictPolicyGroup
-                        Component.onCompleted: {
-                            conflictPolicyChanged.connect( (value) => {
-                                checked = (value === "Skip")
-                            })
-                        }
                     }
                     RadioButton {
+                        id: promptRadio
                         text: qsTr("Prompt")
                         checked: py.config_items.get_conflict_policy() === "Prompt"
                         ButtonGroup.group: conflictPolicyGroup
-                        Component.onCompleted: {
-                            conflictPolicyChanged.connect( (value) => {
-                                checked = (value === "Prompt")
-                            })
+                    }
+                }
+                Connections {
+                    target: drawer
+                    function onConflictPolicyChanged(value) {
+                        switch (value) {
+                            case "Overwrite":
+                                overwriteRadio.checked = true
+                                break
+                            case "Skip":
+                                skipRadio.checked = true
+                                break
+                            case "Prompt":
+                                promptRadio.checked = true
+                                break
                         }
                     }
                 }

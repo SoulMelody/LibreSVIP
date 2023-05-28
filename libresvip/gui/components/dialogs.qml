@@ -251,6 +251,16 @@ Item {
                         id: folderPresetsListView
                         model: py.config_items.qget("folder_presets")
                         delegate: folderPresetDelegate
+                        Component.onCompleted: {
+                            let save_folder = py.config_items.get_save_folder()
+                            for (let i = 0; i < count; i++) {
+                                if (model.get(i).path == save_folder) {
+                                    currentIndex = i
+                                    break
+                                }
+                            }
+                            save_folder_changed(save_folder)
+                        }
                     }
                 }
                 RowLayout {

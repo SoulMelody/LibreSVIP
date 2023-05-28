@@ -5,6 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 ToolBar {
+    id: toolBar
     signal openConvertMenu()
     signal openImportFormatMenu()
     signal openExportFormatMenu()
@@ -80,9 +81,6 @@ ToolBar {
                         label: qsTr("Swap Input and Output (Ctrl+Tab)");
                     }
                 }
-                Component.onCompleted: {
-                    openConvertMenu.connect(convertMenu.open)
-                }
             }
 
             ToolButton {
@@ -113,13 +111,14 @@ ToolBar {
                             }
                             text: String(index % 10) + " " + qsTr(model.text)
                         }
-                        Component.onCompleted: {
-                            py.task_manager.input_format_changed.connect((input_format) => {
+                        Connections {
+                            target: py.task_manager
+                            function onInput_format_changed(input_format) {
                                 let new_index = converterPage.inputFormatComboBox.indexOfValue(input_format)
-                                if (new_index != currentIndex) {
-                                    currentIndex = new_index
+                                if (new_index != importMenuList.currentIndex) {
+                                    importMenuList.currentIndex = new_index
                                 }
-                            })
+                            }
                         }
                         focus: true
                         function navigate(event, key) {
@@ -149,9 +148,6 @@ ToolBar {
                             importMenuList.currentIndex = converterPage.inputFormatComboBox.currentIndex
                         }
                     }
-                }
-                Component.onCompleted: {
-                    openImportFormatMenu.connect(importFormatMenu.open)
                 }
             }
 
@@ -183,13 +179,14 @@ ToolBar {
                             }
                             text: String(index % 10) + " " + qsTr(model.text)
                         }
-                        Component.onCompleted: {
-                            py.task_manager.output_format_changed.connect((output_format) => {
+                        Connections {
+                            target: py.task_manager
+                            function onOutput_format_changed(output_format) {
                                 let new_index = converterPage.outputFormatComboBox.indexOfValue(output_format)
-                                if (new_index != currentIndex) {
-                                    currentIndex = new_index
+                                if (new_index != exportMenuList.currentIndex) {
+                                    exportMenuList.currentIndex = new_index
                                 }
-                            })
+                            }
                         }
                         focus: true
                         function navigate(event, key) {
@@ -219,9 +216,6 @@ ToolBar {
                             exportMenuList.currentIndex = converterPage.outputFormatComboBox.currentIndex
                         }
                     }
-                }
-                Component.onCompleted: {
-                    openExportFormatMenu.connect(exportFormatMenu.open)
                 }
             }
 
@@ -254,9 +248,6 @@ ToolBar {
                         label: qsTr("Open Plugin Store")
                         enabled: false
                     }
-                }
-                Component.onCompleted: {
-                    openPluginsMenu.connect(pluginsMenu.open)
                 }
             }
 
@@ -305,9 +296,6 @@ ToolBar {
                         }
                     }
                 }
-                Component.onCompleted: {
-                    openThemesMenu.connect(themesMenu.open)
-                }
             }
 
             ToolButton {
@@ -335,9 +323,6 @@ ToolBar {
                         onTriggered: py.locale.switch_language("ja_JP")
                         enabled: false
                     }
-                }
-                Component.onCompleted: {
-                    openLanguageMenu.connect(languageMenu.open)
                 }
             }
 
@@ -417,6 +402,30 @@ ToolBar {
                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                 onClicked: actions.quit.trigger();
             }
+        }
+    }
+    Connections {
+        target: toolBar
+        function onOpenConvertMenu() {
+            convertMenu.open()
+        }
+        function onOpenImportFormatMenu() {
+            importFormatMenu.open()
+        }
+        function onOpenExportFormatMenu() {
+            exportFormatMenu.open()
+        }
+        function onOpenPluginsMenu() {
+            pluginsMenu.open()
+        }
+        function onOpenThemesMenu() {
+            themesMenu.open()
+        }
+        function onOpenLanguageMenu() {
+            languageMenu.open()
+        }
+        function onOpenHelpMenu() {
+            helpMenu.open()
         }
     }
 }
