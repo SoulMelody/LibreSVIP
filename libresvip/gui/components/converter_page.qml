@@ -365,7 +365,7 @@ Page {
                                     property: "width"
                                     from: 0
                                     to: 100
-                                    duration: 500
+                                    duration: 250
                                     easing.type: Easing.InQuad
                                 }
                                 NumberAnimation {
@@ -373,7 +373,7 @@ Page {
                                     property: "opacity"
                                     from: 1
                                     to: 0
-                                    duration: 100
+                                    duration: 50
                                     easing.type: Easing.OutQuad
                                 }
                                 PropertyAnimation {
@@ -489,7 +489,7 @@ Page {
                         Layout.row: 3
                         Layout.column: 8
                         icon_name: "mdi6.information-outline"
-                        diameter: 36
+                        diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("View Detail Information")
@@ -526,7 +526,7 @@ Page {
                                     property: "width"
                                     from: 0
                                     to: 100
-                                    duration: 500
+                                    duration: 250
                                     easing.type: Easing.InQuad
                                 }
                                 NumberAnimation {
@@ -534,7 +534,7 @@ Page {
                                     property: "opacity"
                                     from: 1
                                     to: 0
-                                    duration: 100
+                                    duration: 50
                                     easing.type: Easing.OutQuad
                                 }
                                 PropertyAnimation {

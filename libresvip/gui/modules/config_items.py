@@ -1,5 +1,6 @@
 import atexit
 import pathlib
+from typing import Any
 
 from qmlease import slot
 from qtpy.QtCore import QObject, Signal
@@ -7,13 +8,29 @@ from qtpy.QtCore import QObject, Signal
 import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings
 
+from .model_proxy import ModelProxy
+
 
 class ConfigItems(QObject):
     auto_set_output_extension_changed = Signal(bool)
 
     def __init__(self, parent=None):
         QObject.__init__(self, parent=parent)
-        atexit.register(save_settings)
+        self.folder_presets = ModelProxy({"path": ""})
+        self.folder_presets.append_many(
+            [{"path": self.posix_path(path)} for path in settings.folder_presets]
+        )
+        atexit.register(self.save_settings)
+
+    def save_settings(self):
+        settings.folder_presets = [
+            pathlib.Path(item["path"]) for item in self.folder_presets.items
+        ]
+        save_settings()
+
+    @slot(str, result=object)
+    def qget(self, name: str) -> Any:
+        return getattr(self, name)
 
     @slot(result=str)
     def get_version(self) -> str:
@@ -59,9 +76,13 @@ class ConfigItems(QObject):
             return True
         return False
 
+    @staticmethod
+    def posix_path(path: pathlib.Path) -> str:
+        return str(path.as_posix())
+
     @slot(result=str)
     def get_save_folder(self):
-        return str(settings.save_folder.as_posix())
+        return self.posix_path(settings.save_folder)
 
     @slot(str, result=bool)
     def set_save_folder(self, value) -> bool:

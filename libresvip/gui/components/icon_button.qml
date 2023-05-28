@@ -16,9 +16,10 @@ RoundButton {
 
     contentItem: Label {
         anchors.centerIn: parent
+        anchors.margins: 0
         text: py.qta.icon(icon_name)
         font.family: materialFontLoader.name
-        font.pixelSize: Qt.application.font.pixelSize * icon_size_multiplier
+        font.pixelSize: diameter * 0.6
     }
 
     background: Rectangle {

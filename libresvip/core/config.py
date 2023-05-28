@@ -55,7 +55,7 @@ class LibreSvipSettings:
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)
     # GUI Only
     save_folder: pathlib.Path = dataclasses.field(default=pathlib.Path("./"))
-    # folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
+    folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
     conflict_policy: ConflictPolicy = dataclasses.field(default=ConflictPolicy.PROMPT)
     multi_threaded_conversion: bool = dataclasses.field(default=True)
     open_save_folder_on_completion: bool = dataclasses.field(default=True)

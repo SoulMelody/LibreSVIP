@@ -51,3 +51,4 @@ class LocaleSwitcher(QObject):
             settings.language = Language.from_locale(lang)
         else:
             app.removeTranslator(self.translator)
+            settings.language = Language.ENGLISH
