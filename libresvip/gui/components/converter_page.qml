@@ -328,12 +328,62 @@ Page {
                         Layout.row: 1
                         Layout.column: 8
                         icon_name: "mdi6.information-outline"
-                        diameter: 36
+                        diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("View Detail Information")
                         onClicked: {
+                            inputInfoPowerAnimation.running = true
                             inputFormatInfo.opened ? inputFormatInfo.close() : inputFormatInfo.open()
+                        }
+                        Rectangle {
+                            id: inputInfoPower
+                            height: width
+                            radius: width / 2
+                            anchors.centerIn: parent
+                            color: Material.color(Material.Grey, Material.Shade400)
+                            SequentialAnimation {
+                                id: inputInfoPowerAnimation
+                                running: false
+                                loops: 1
+                                PropertyAnimation {
+                                    target: inputInfoPower
+                                    property: "visible"
+                                    from: false
+                                    to: true
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: inputInfoPower
+                                    property: "opacity"
+                                    from: 0
+                                    to: 1
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: inputInfoPower
+                                    property: "width"
+                                    from: 0
+                                    to: 100
+                                    duration: 500
+                                    easing.type: Easing.InQuad
+                                }
+                                NumberAnimation {
+                                    target: inputInfoPower
+                                    property: "opacity"
+                                    from: 1
+                                    to: 0
+                                    duration: 100
+                                    easing.type: Easing.OutQuad
+                                }
+                                PropertyAnimation {
+                                    target: inputInfoPower
+                                    property: "visible"
+                                    from: true
+                                    to: false
+                                    duration: 0
+                                }
+                            }
                         }
                         Popup {
                             id: inputFormatInfo
@@ -393,7 +443,7 @@ Page {
                         Layout.row: 2
                         Layout.column: 8
                         icon_name: "mdi6.swap-vertical"
-                        diameter: 36
+                        diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Swap Input and Output")
@@ -444,7 +494,57 @@ Page {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("View Detail Information")
                         onClicked: {
+                            outputInfoPowerAnimation.running = true
                             outputFormatInfo.opened ? outputFormatInfo.close() : outputFormatInfo.open()
+                        }
+                        Rectangle {
+                            id: outputInfoPower
+                            height: width
+                            radius: width / 2
+                            anchors.centerIn: parent
+                            color: Material.color(Material.Grey, Material.Shade400)
+                            SequentialAnimation {
+                                id: outputInfoPowerAnimation
+                                running: false
+                                loops: 1
+                                PropertyAnimation {
+                                    target: outputInfoPower
+                                    property: "visible"
+                                    from: false
+                                    to: true
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: outputInfoPower
+                                    property: "opacity"
+                                    from: 0
+                                    to: 1
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: outputInfoPower
+                                    property: "width"
+                                    from: 0
+                                    to: 100
+                                    duration: 500
+                                    easing.type: Easing.InQuad
+                                }
+                                NumberAnimation {
+                                    target: outputInfoPower
+                                    property: "opacity"
+                                    from: 1
+                                    to: 0
+                                    duration: 100
+                                    easing.type: Easing.OutQuad
+                                }
+                                PropertyAnimation {
+                                    target: outputInfoPower
+                                    property: "visible"
+                                    from: true
+                                    to: false
+                                    duration: 0
+                                }
+                            }
                         }
                         Popup {
                             id: outputFormatInfo
