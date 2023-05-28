@@ -13,7 +13,7 @@ Item {
         id: folderPresetDelegate
         Rectangle {
             Layout.fillWidth: true
-            width: 500
+            width: 600
             height: 45
             color: folderPresetsListView.currentIndex === index ? QQC2.Material.listHighlightColor : "transparent"
             RowLayout {
@@ -38,7 +38,7 @@ Item {
                 }
                 QQC2.TextField {
                     id: pathTextField
-                    Layout.preferredWidth: 300
+                    Layout.preferredWidth: 400
                     text: model.path
                     Rectangle {
                         anchors.left: parent.left
@@ -245,7 +245,7 @@ Item {
                     id: folderPresetsScrollView
                     Layout.minimumHeight: 300
                     Layout.maximumHeight: 300
-                    width: 500
+                    width: 600
                     contentWidth: availableWidth
                     ListView {
                         id: folderPresetsListView

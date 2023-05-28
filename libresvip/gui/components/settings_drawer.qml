@@ -13,8 +13,7 @@ Drawer {
     signal autoDetectInputFormatChanged(bool value)
     signal conflictPolicyChanged(string value)
 
-    function save_folder_type() {
-        let save_folder = py.config_items.get_save_folder()
+    function save_folder_type(save_folder) {
         switch (save_folder) {
             case ".":
             case "./":
@@ -147,20 +146,17 @@ Drawer {
                         ButtonGroup.group: saveFolderGroup
                         id: sameAsSourceRadio
                         text: qsTr("Same as Source")
-                        checked: save_folder_type() === 1
                     }
                     RadioButton {
                         ButtonGroup.group: saveFolderGroup
                         id: desktopRadio
                         text: qsTr("Desktop")
-                        checked: save_folder_type() === 2
                     }
                     RadioButton {
                         ButtonGroup.group: saveFolderGroup
                         id: presetRadio
                         enabled: dialogs.folderPresetsList.count > 0
                         text: qsTr("Preset Folder")
-                        checked: save_folder_type() === 3
                         ToolTip {
                             id: presetRadioToolTip
                             visible: presetRadio.hovered
@@ -169,13 +165,20 @@ Drawer {
                                 target: dialogs.folderPresetBtnGroup
                                 function onClicked() {
                                     presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                    if (presetRadio.checked) {
+                                        let save_folder = py.config_items.get_save_folder()
+                                        if (save_folder !== presetRadioToolTip.text) {
+                                            py.config_items.set_save_folder(presetRadioToolTip.text)
+                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                                        }
+                                    }
                                 }
                             }
                             Connections {
                                 target: dialogs.folderPresetsList.model
                                 function onDataChanged(idx1, idx2, value) {
                                     presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                    if (presetRadio.checked) {
+                                    if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
                                         let save_folder = py.config_items.get_save_folder()
                                         if (save_folder !== presetRadioToolTip.text) {
                                             py.config_items.set_save_folder(presetRadioToolTip.text)
@@ -190,7 +193,6 @@ Drawer {
                         ButtonGroup.group: saveFolderGroup
                         id: customRadio
                         text: qsTr("Custom (Browse ...)")
-                        checked: save_folder_type() === 4
                     }
                     Rectangle {
                         width: drawer.width - 30
@@ -207,7 +209,7 @@ Drawer {
                 Connections {
                     target: dialogs
                     function onSave_folder_changed(value) {
-                        let selected_index = save_folder_type()
+                        let selected_index = save_folder_type(value)
                         if (selected_index === 1) {
                             sameAsSourceRadio.checked = true
                         } else if (selected_index === 2) {
@@ -218,6 +220,10 @@ Drawer {
                             customRadio.checked = true
                         }
                     }
+                }
+                Component.onCompleted: {
+                    let save_folder = py.config_items.get_save_folder()
+                    dialogs.save_folder_changed(save_folder)
                 }
             }
             ButtonGroup {
