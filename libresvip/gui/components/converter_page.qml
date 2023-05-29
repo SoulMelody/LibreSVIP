@@ -434,7 +434,7 @@ Page {
                         Connections {
                             target: settingsDrawer
                             function onResetTasksOnInputChangeChanged(value) {
-                                value === checked ? null : checked = value
+                                value === resetTasksOnInputChange.checked ? null : resetTasksOnInputChange.checked = value
                             }
                         }
                     }
