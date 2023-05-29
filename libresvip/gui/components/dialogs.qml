@@ -42,14 +42,14 @@ Item {
                     text: model.path
                     Rectangle {
                         anchors.left: parent.left
-                        anchors.leftMargin: 50
+                        anchors.leftMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
                         visible: pathTextField.length == 0
-                        width: 18
-                        height: 18
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         color: "transparent"
                         QQC2.Label {
-                            anchors.centerIn: parent
+                            anchors.verticalCenter: parent.verticalCenter
                             text: qsTr("Custom folder")
                             color: QQC2.Material.color(QQC2.Material.Grey, QQC2.Material.Shade500)
                         }
