@@ -87,6 +87,7 @@ optional = true
 
 [tool.poetry.group.packaging.dependencies]
 cx-freeze = "^6.15.0"
+setuptools = { version = "^67.8.0", extras = ["testing-integration"] }
 
 
 [tool.poetry.group.test]

@@ -10,14 +10,14 @@ from trame_server.core import Server
 from trame_vuetify.ui.vuetify import SinglePageWithDrawerLayout
 from trame_vuetify.widgets import vuetify
 
-from libresvip.core.config import settings
+from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.core.constants import res_dir
 
 
 def initialize(server: Server):
     state, ctrl = server.state, server.controller
     state.setdefault("lang", settings.language.value)
-    state.setdefault("dark_mode", settings.dark_mode == "Dark")
+    state.setdefault("dark_mode", settings.dark_mode.value)
     state.current_route = "Convert"
     state.menu_items = ["简体中文", "English"]
     state.trame__title = (
@@ -35,11 +35,20 @@ def initialize(server: Server):
 
     atexit.register(clean_temp_dir)
 
+    def save_settings_to_disk():
+        settings.language = Language(state.lang)
+        settings.dark_mode = DarkMode(state.dark_mode)
+        settings.auto_detect_input_format = state.auto_detect
+        settings.reset_tasks_on_input_change = state.auto_reset
+        save_settings()
+
+    atexit.register(save_settings_to_disk)
+
     with SinglePageWithDrawerLayout(server) as layout:
         client_triggers = trame.ClientTriggers(
             ref="reload_trigger",
             reload="window.location.reload()",
-            mounted="$vuetify.theme.dark = dark_mode",
+            mounted="$vuetify.theme.dark = dark_mode === 'Dark'",
         )
         ctrl.call = client_triggers.call
         layout.drawer._attr_names += [("mini_variant_sync", "v-bind:mini-variant.sync")]
@@ -59,7 +68,7 @@ def initialize(server: Server):
                         icon=True,
                         v_bind="attrs",
                         v_on="on",
-                        click="$vuetify.theme.dark = !$vuetify.theme.dark",
+                        click="$vuetify.theme.dark = !$vuetify.theme.dark; dark_mode = $vuetify.theme.dark? 'Dark' : 'Light'",
                     ):
                         vuetify.VIcon("mdi-invert-colors")
                 html.Span(v_text="translations[lang]['Switch Theme']")

@@ -136,21 +136,20 @@ Page {
                 textRole: "text"
                 valueRole: "value"
                 displayText: qsTr(currentText)
-                delegate: ItemDelegate {
-                    width: comboBox.width
+                delegate: MenuItem {
+                    width: ListView.view.width
                     contentItem: Label {
                         text: comboBox.textRole
                             ? qsTr(Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole])
                             : qsTr(modelData)
-                        font: comboBox.font
-                        elide: Text.ElideRight
-                        verticalAlignment: Text.AlignVCenter
-                        color: index == comboBox.highlightedIndex ? Material.accentColor : window.Material.foreground
+                        color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
                     }
+                    highlighted: comboBox.highlightedIndex === index
+                    hoverEnabled: comboBox.hoverEnabled
                 }
 
                 popup: Popup {
-                    y: comboBox.height - 1
+                    y: comboBox.height
                     width: comboBox.width
                     padding: 1
 
@@ -329,17 +328,69 @@ Page {
                         Layout.row: 1
                         Layout.column: 8
                         icon_name: "mdi6.information-outline"
-                        diameter: 36
+                        diameter: 38
                         icon_size_multiplier: 1.5
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("View Detail Information")
                         onClicked: {
+                            inputInfoPowerAnimation.running = true
                             inputFormatInfo.opened ? inputFormatInfo.close() : inputFormatInfo.open()
+                        }
+                        Rectangle {
+                            id: inputInfoPower
+                            height: width
+                            radius: width / 2
+                            anchors.centerIn: parent
+                            color: Material.color(Material.Grey, Material.Shade400)
+                            SequentialAnimation {
+                                id: inputInfoPowerAnimation
+                                running: false
+                                loops: 1
+                                PropertyAnimation {
+                                    target: inputInfoPower
+                                    property: "visible"
+                                    from: false
+                                    to: true
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: inputInfoPower
+                                    property: "opacity"
+                                    from: 0
+                                    to: 1
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: inputInfoPower
+                                    property: "width"
+                                    from: 0
+                                    to: 100
+                                    duration: 250
+                                    easing.type: Easing.InQuad
+                                }
+                                NumberAnimation {
+                                    target: inputInfoPower
+                                    property: "opacity"
+                                    from: 1
+                                    to: 0
+                                    duration: 50
+                                    easing.type: Easing.OutQuad
+                                }
+                                PropertyAnimation {
+                                    target: inputInfoPower
+                                    property: "visible"
+                                    from: true
+                                    to: false
+                                    duration: 0
+                                }
+                            }
                         }
                         Popup {
                             id: inputFormatInfo
                             y: 45
                             x: - width * 0.5
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-                            PluginInfo {
+                            contentItem: PluginInfo {
                                 info: py.task_manager.plugin_info("input_format")
                                 Component.onCompleted: {
                                     py.task_manager.input_format_changed.connect( (input_format) => {
@@ -380,10 +431,11 @@ Page {
                             py.config_items.set_bool("reset_tasks_on_input_change", checked)
                             settingsDrawer.resetTasksOnInputChangeChanged(checked)
                         }
-                        Component.onCompleted: {
-                            settingsDrawer.resetTasksOnInputChangeChanged.connect( (value) => {
+                        Connections {
+                            target: settingsDrawer
+                            function onResetTasksOnInputChangeChanged(value) {
                                 value === checked ? null : checked = value
-                            })
+                            }
                         }
                     }
                     IconButton {
@@ -392,7 +444,7 @@ Page {
                         Layout.row: 2
                         Layout.column: 8
                         icon_name: "mdi6.swap-vertical"
-                        diameter: 36
+                        diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Swap Input and Output")
@@ -438,17 +490,69 @@ Page {
                         Layout.row: 3
                         Layout.column: 8
                         icon_name: "mdi6.information-outline"
-                        diameter: 36
+                        diameter: 38
                         icon_size_multiplier: 1.5
+                        ToolTip.visible: hovered
+                        ToolTip.text: qsTr("View Detail Information")
                         onClicked: {
+                            outputInfoPowerAnimation.running = true
                             outputFormatInfo.opened ? outputFormatInfo.close() : outputFormatInfo.open()
+                        }
+                        Rectangle {
+                            id: outputInfoPower
+                            height: width
+                            radius: width / 2
+                            anchors.centerIn: parent
+                            color: Material.color(Material.Grey, Material.Shade400)
+                            SequentialAnimation {
+                                id: outputInfoPowerAnimation
+                                running: false
+                                loops: 1
+                                PropertyAnimation {
+                                    target: outputInfoPower
+                                    property: "visible"
+                                    from: false
+                                    to: true
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: outputInfoPower
+                                    property: "opacity"
+                                    from: 0
+                                    to: 1
+                                    duration: 0
+                                }
+                                NumberAnimation {
+                                    target: outputInfoPower
+                                    property: "width"
+                                    from: 0
+                                    to: 100
+                                    duration: 250
+                                    easing.type: Easing.InQuad
+                                }
+                                NumberAnimation {
+                                    target: outputInfoPower
+                                    property: "opacity"
+                                    from: 1
+                                    to: 0
+                                    duration: 50
+                                    easing.type: Easing.OutQuad
+                                }
+                                PropertyAnimation {
+                                    target: outputInfoPower
+                                    property: "visible"
+                                    from: true
+                                    to: false
+                                    duration: 0
+                                }
+                            }
                         }
                         Popup {
                             id: outputFormatInfo
                             y: 45
                             x: - width * 0.5
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-                            PluginInfo {
+                            contentItem: PluginInfo {
                                 info: py.task_manager.plugin_info("output_format")
                                 Component.onCompleted: {
                                     py.task_manager.output_format_changed.connect( (output_format) => {
@@ -797,7 +901,7 @@ Page {
                         Layout.fillWidth: true
                         Row {
                             height: 30
-                            visible: inputFields.count > 0
+                            visible: inputContainer.children.length > 0
                             Layout.fillWidth: true
                             RoundButton {
                                 Layout.fillHeight: true
@@ -810,7 +914,7 @@ Page {
                                     rotation: inputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
                                         RotationAnimation {
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -888,7 +992,7 @@ Page {
                                         PropertyAnimation {
                                             target: inputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     },
@@ -899,7 +1003,7 @@ Page {
                                         PropertyAnimation {
                                             target: inputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -953,7 +1057,7 @@ Page {
                         }
                         Row {
                             height: 30
-                            visible: outputFields.count > 0
+                            visible: outputContainer.children.length > 0
                             Layout.fillWidth: true
                             RoundButton {
                                 Layout.fillHeight: true
@@ -966,7 +1070,7 @@ Page {
                                     rotation: outputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
                                         RotationAnimation {
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -1044,7 +1148,7 @@ Page {
                                         PropertyAnimation {
                                             target: outputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     },
@@ -1055,7 +1159,7 @@ Page {
                                         PropertyAnimation {
                                             target: outputContainer
                                             properties: "y,opacity,Layout.maximumHeight,visible"
-                                            duration: 500
+                                            duration: 300
                                             easing.type: Easing.InOutQuad
                                         }
                                     }
@@ -1170,10 +1274,11 @@ Page {
                                 saveFolderTextField.text = py.config_items.get_save_folder()
                             }
                         }
-                        Component.onCompleted: {
-                            dialogs.save_folder_changed.connect( (value) => {
+                        Connections {
+                            target: dialogs
+                            function onSave_folder_changed(value) {
                                 saveFolderTextField.text = value
-                            })
+                            }
                         }
                     }
                     Item {

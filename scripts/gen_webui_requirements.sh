@@ -1,2 +1,2 @@
 #!/bin/bash
-poetry export -f requirements.txt --output ../deploy/setup/requirements.txt --without=desktop,dev,tests,code_gen,ffmpeg,packaging --with=webui,ujson
+poetry export -f requirements.txt --output ../deploy/setup/requirements.txt --without=desktop,dev,test,code_gen,ffmpeg,packaging --with=webui,ujson,midi,subtitle,protobuf,text,svg,xml,binary

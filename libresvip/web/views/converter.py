@@ -16,6 +16,7 @@ from trame_client.widgets import html
 from trame_server.core import Server
 from trame_vuetify.widgets import vuetify
 
+from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_registry
 from libresvip.model.base import BaseComplexModel
@@ -407,7 +408,10 @@ def initialize(server: Server):
                                         "translations[lang]['Auto detect import format']",
                                         "Auto detect import format",
                                     ),
-                                    v_model=("auto_detect", True),
+                                    v_model=(
+                                        "auto_detect",
+                                        settings.auto_detect_input_format,
+                                    ),
                                 )
                             with vuetify.VCol(cols=5):
                                 vuetify.VSwitch(
@@ -416,7 +420,10 @@ def initialize(server: Server):
                                         "translations[lang]['Reset list when import format changed']",
                                         "Reset list when import format changed",
                                     ),
-                                    v_model=("auto_reset", True),
+                                    v_model=(
+                                        "auto_reset",
+                                        settings.reset_tasks_on_input_change,
+                                    ),
                                 )
                             with vuetify.VCol(cols=1):
                                 with vuetify.VBtn(

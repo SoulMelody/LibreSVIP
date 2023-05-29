@@ -1,62 +1,74 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
 
 ComboBox {
     property string hint
     property var choices
     id: combo
 
-    clip: true
     height: 40
     model: choices
     textRole: "text"
     valueRole: "value"
-    hoverEnabled: true
     displayText: qsTr(currentText)
 
-    Label {
-        id: hintLabel
-        text: hint
-        y: 0
-        x: 15
-        font.pixelSize: 10
-    }
-
-    delegate: ItemDelegate {
-        width: combo.width
+    delegate: MenuItem {
+        width: ListView.view.width
         contentItem: Label {
             text: combo.textRole
                 ? qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])
                 : qsTr(modelData)
-            font: combo.font
-            elide: Text.ElideRight
-            verticalAlignment: Text.AlignVCenter
-            color: index == combo.highlightedIndex ? Material.accentColor : window.Material.foreground
+            color: combo.highlightedIndex === index ? Material.accentColor : window.Material.foreground
         }
+        highlighted: combo.highlightedIndex === index
+        hoverEnabled: combo.hoverEnabled
     }
 
-    background: Canvas {
-        anchors.fill: parent
-        onPaint: {
-            var context = getContext("2d");
-            context.clearRect(0, 0, parent.width, parent.height);
-            context.beginPath();
-            context.moveTo(15, 10);
-            context.lineTo(2, 10);
-            context.lineTo(2, parent.height - 2);
-            context.lineTo(parent.width - 2, parent.height - 2);
-            context.lineTo(parent.width - 2, 10);
-            context.lineTo(15 + hintLabel.width - 2, 10);
-            context.strokeStyle = hintLabel.color;
-            context.lineWidth = combo.hovered ? 2 : 1;
-            context.stroke();
+    background: Rectangle {
+        color: "transparent"
+    }
+
+    contentItem: TextField {
+        padding: 6
+        leftPadding: combo.mirrored ? 0 : 12
+        rightPadding: combo.mirrored ? 12 : 0
+
+        text: combo.displayText
+
+        enabled: true
+        autoScroll: combo.editable
+        readOnly: true
+        inputMethodHints: Qt.ImhNone
+        validator: combo.validator
+        selectByMouse: false
+
+        color: combo.enabled ? combo.Material.foreground : combo.Material.hintTextColor
+        selectionColor: combo.Material.accentColor
+        selectedTextColor: combo.Material.primaryHighlightedTextColor
+        verticalAlignment: Text.AlignVCenter
+        placeholderText: hint
+
+        cursorDelegate: CursorDelegate { }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: (mouse) => {
+                if (combo.popup.opened){
+                    combo.popup.close()
+                } else {
+                    parent.forceActiveFocus()
+                    combo.popup.open()
+                }
+                mouse.accepted = false
+            }
         }
     }
 
     indicator: Label {
         anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors.rightMargin: 20
         y: parent.height / 2 - 5
         text: py.qta.icon("mdi6.menu-down")
         font.family: materialFontLoader.name
@@ -64,8 +76,8 @@ ComboBox {
     }
 
     popup: Popup {
-        y: combo.height - 1
-        width: combo.width
+        y: combo.height
+        width: combo.contentItem.width
         implicitHeight: 400
         padding: 1
 
@@ -80,33 +92,10 @@ ComboBox {
 
         onAboutToShow: {
             combo.indicator.text = py.qta.icon("mdi6.menu-up")
-            hintLabel.color = Material.accentColor
-            combo.background.requestPaint()
         }
 
         onAboutToHide: {
             combo.indicator.text = py.qta.icon("mdi6.menu-down")
-            hintLabel.color = window.Material.foreground
-            combo.background.requestPaint()
-        }
-    }
-
-    onHoveredChanged: {
-        if (!popup.opened) {
-            hintLabel.color = window.Material.foreground
-        }
-        background.requestPaint()
-    }
-
-    Connections {
-        target: toolbar
-        function onThemeChanged() {
-            if (popup.opened) {
-                hintLabel.color = Material.accentColor
-            } else {
-                hintLabel.color = window.Material.foreground
-            }
-            background.requestPaint()
         }
     }
 }

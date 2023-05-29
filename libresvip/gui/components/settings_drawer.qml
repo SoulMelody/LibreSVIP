@@ -6,29 +6,34 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 Drawer {
-    width: 400
+    id: drawer
     height: window.height
     signal autoOpenSaveFolderChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
     signal autoDetectInputFormatChanged(bool value)
     signal conflictPolicyChanged(string value)
 
-    function save_folder_type() {
-        let save_folder = py.config_items.get_save_folder()
+    function save_folder_type(save_folder) {
+        let preset_folder = null
+        if (dialogs.folderPresetsList.model.rowCount() > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+            preset_folder = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+        }
         switch (save_folder) {
             case ".":
             case "./":
                 return 1
             case dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]):
                 return 2
-            default:
+            case preset_folder:
                 return 3
+            default:
+                return 4
         }
     }
 
     ScrollView {
         anchors.fill: parent
-        Column {
+        ColumnLayout {
             anchors.fill: parent
             anchors.margins: 10
             GroupBox {
@@ -101,6 +106,35 @@ Drawer {
                     }
                 }
             }
+            ButtonGroup {
+                id: saveFolderGroup
+                onClicked: (button) => {
+                    let cur_value = null
+                    switch (button.text) {
+                        case qsTr("Same as Source"): {
+                            cur_value = "."
+                            break
+                        }
+                        case qsTr("Desktop"): {
+                            cur_value = dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0])
+                            break
+                        }
+                        case qsTr("Preset Folder"): {
+                            cur_value = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                            break
+                        }
+                        case qsTr("Custom (Browse ...)"): {
+                            actions.chooseSavePath.trigger()
+                            return
+                        }
+                        default:
+                            cur_value = py.config_items.get_save_folder()
+                            break
+                    }
+                    py.config_items.set_save_folder(cur_value)
+                    dialogs.save_folder_changed(cur_value)
+                }
+            }
             GroupBox {
                 anchors.margins: 15
                 label: Label {
@@ -111,32 +145,100 @@ Drawer {
                     color: "transparent"
                 }
                 ColumnLayout {
+                    spacing: 0
                     RadioButton {
+                        ButtonGroup.group: saveFolderGroup
                         id: sameAsSourceRadio
                         text: qsTr("Same as Source")
-                        onClicked: {
-                            let path = "."
-                            converterPage.saveFolder.text = path
-                            py.config_items.set_save_folder(path)
-                        }
-                        checked: save_folder_type() === 1
                     }
                     RadioButton {
+                        ButtonGroup.group: saveFolderGroup
                         id: desktopRadio
                         text: qsTr("Desktop")
-                        onClicked: {
-                            let path = dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0])
-                            converterPage.saveFolder.text = path
-                            py.config_items.set_save_folder(path)
-                        }
-                        checked: save_folder_type() === 2
                     }
                     RadioButton {
-                        text: qsTr("Custom (Browse ...)")
-                        onClicked: {
-                            actions.chooseSavePath.trigger()
+                        ButtonGroup.group: saveFolderGroup
+                        id: presetRadio
+                        enabled: dialogs.folderPresetsList.count > 0
+                        text: qsTr("Preset Folder")
+                        ToolTip {
+                            id: presetRadioToolTip
+                            visible: presetRadio.hovered
+                            Component.onCompleted: {
+                                if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                    text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                }
+                            }
+                            Connections {
+                                target: dialogs.folderPresetBtnGroup
+                                function onClicked() {
+                                    if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        if (presetRadio.checked) {
+                                            let save_folder = py.config_items.get_save_folder()
+                                            if (save_folder !== presetRadioToolTip.text) {
+                                                py.config_items.set_save_folder(presetRadioToolTip.text)
+                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            Connections {
+                                target: dialogs.folderPresetsList.model
+                                function onDataChanged(idx1, idx2, value) {
+                                    if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
+                                            let save_folder = py.config_items.get_save_folder()
+                                            if (save_folder !== presetRadioToolTip.text) {
+                                                py.config_items.set_save_folder(presetRadioToolTip.text)
+                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                            }
+                                        }
+                                    }
+                                }
+                                function onRowsRemoved(idx, first, last) {
+                                    if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
+                                        presetRadioToolTip.text = ""
+                                        if (presetRadio.checked) {
+                                            dialogs.save_folder_changed(py.config_items.get_save_folder())
+                                        }
+                                    }
+                                }
+                            }
                         }
-                        checked: save_folder_type() === 3
+                    }
+                    RadioButton {
+                        ButtonGroup.group: saveFolderGroup
+                        id: customRadio
+                        text: qsTr("Custom (Browse ...)")
+                    }
+                    Rectangle {
+                        width: drawer.width - 30
+                        border.color: "lightgrey"
+                        height: 1
+                    }
+                    Button {
+                        text: qsTr("Manage Folders Presets")
+                        onClicked: {
+                            dialogs.folderPresetsDialog.open()
+                        }
+                    }
+                }
+                Connections {
+                    target: dialogs
+                    function onSave_folder_changed(value) {
+                        let selected_index = save_folder_type(value)
+                        if (selected_index === 1) {
+                            sameAsSourceRadio.checked = true
+                        } else if (selected_index === 2) {
+                            desktopRadio.checked = true
+                        } else if (selected_index === 3) {
+                            presetRadio.checked = true                        
+                        } else {
+                            customRadio.checked = true
+                        }
                     }
                 }
             }
@@ -172,34 +274,39 @@ Drawer {
                     color: "transparent"
                 }
                 ColumnLayout {
+                    spacing: 0
                     RadioButton {
+                        id: overwriteRadio
                         text: qsTr("Overwrite")
                         checked: py.config_items.get_conflict_policy() === "Overwrite"
                         ButtonGroup.group: conflictPolicyGroup
-                        Component.onCompleted: {
-                            conflictPolicyChanged.connect( (value) => {
-                                checked = (value === "Overwrite")
-                            })
-                        }
                     }
                     RadioButton {
+                        id: skipRadio
                         text: qsTr("Skip")
                         checked: py.config_items.get_conflict_policy() === "Skip"
                         ButtonGroup.group: conflictPolicyGroup
-                        Component.onCompleted: {
-                            conflictPolicyChanged.connect( (value) => {
-                                checked = (value === "Skip")
-                            })
-                        }
                     }
                     RadioButton {
+                        id: promptRadio
                         text: qsTr("Prompt")
                         checked: py.config_items.get_conflict_policy() === "Prompt"
                         ButtonGroup.group: conflictPolicyGroup
-                        Component.onCompleted: {
-                            conflictPolicyChanged.connect( (value) => {
-                                checked = (value === "Prompt")
-                            })
+                    }
+                }
+                Connections {
+                    target: drawer
+                    function onConflictPolicyChanged(value) {
+                        switch (value) {
+                            case "Overwrite":
+                                overwriteRadio.checked = true
+                                break
+                            case "Skip":
+                                skipRadio.checked = true
+                                break
+                            case "Prompt":
+                                promptRadio.checked = true
+                                break
                         }
                     }
                 }
