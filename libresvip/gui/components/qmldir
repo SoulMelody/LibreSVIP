@@ -6,7 +6,7 @@ MessageBox 1.0 message_box.qml
 
 Actions 1.0 actions.qml
 
-SettingsDrawer 1.0 settings_drawer.qml
+SettingsDialog 1.0 settings_dialog.qml
 
 IconButton 1.0 icon_button.qml
 

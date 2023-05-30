@@ -53,7 +53,7 @@ Item {
     property QtObject openSettings: Action {
         text: qsTr("&Options")
         shortcut: "Alt+O"
-        onTriggered: settingsDrawer.open()
+        onTriggered: dialogs.settingsDialog.open()
     }
     property QtObject openConvertMenu: Action {
         text: qsTr("&Convert")

@@ -410,10 +410,10 @@ Page {
                         checked: py.config_items.get_bool("auto_detect_input_format")
                         onClicked: {
                             py.config_items.set_bool("auto_detect_input_format", checked)
-                            settingsDrawer.autoDetectInputFormatChanged(checked)
+                            dialogs.settingsDialog.autoDetectInputFormatChanged(checked)
                         }
                         Component.onCompleted: {
-                            settingsDrawer.autoDetectInputFormatChanged.connect( (value) => {
+                            dialogs.settingsDialog.autoDetectInputFormatChanged.connect( (value) => {
                                 value === checked ? null : checked = value
                             })
                         }
@@ -429,10 +429,10 @@ Page {
                         checked: py.config_items.get_bool("reset_tasks_on_input_change")
                         onClicked: {
                             py.config_items.set_bool("reset_tasks_on_input_change", checked)
-                            settingsDrawer.resetTasksOnInputChangeChanged(checked)
+                            dialogs.settingsDialog.resetTasksOnInputChangeChanged(checked)
                         }
                         Connections {
-                            target: settingsDrawer
+                            target: dialogs.settingsDialog
                             function onResetTasksOnInputChangeChanged(value) {
                                 value === resetTasksOnInputChange.checked ? null : resetTasksOnInputChange.checked = value
                             }
@@ -1268,10 +1268,11 @@ Page {
                         placeholderText: qsTr("Output Folder")
                         text: py.config_items.get_save_folder()
                         onEditingFinished: {
-                            if (py.config_items.set_save_folder(text) === true) {
+                            if (py.config_items.dir_valid(text) === true) {
+                                py.config_items.set_save_folder(text)
                                 saveFolderTextField.text = text
                             } else {
-                                saveFolderTextField.text = py.config_items.get_save_folder()
+                                undo()
                             }
                         }
                         Connections {
@@ -1379,10 +1380,10 @@ Page {
                         checked: py.config_items.get_bool("open_save_folder_on_completion")
                         onClicked: {
                             py.config_items.set_bool("open_save_folder_on_completion", checked)
-                            settingsDrawer.autoOpenSaveFolderChanged(checked)
+                            dialogs.settingsDialog.autoOpenSaveFolderChanged(checked)
                         }
                         Component.onCompleted: {
-                            settingsDrawer.autoOpenSaveFolderChanged.connect( (value) => {
+                            dialogs.settingsDialog.autoOpenSaveFolderChanged.connect( (value) => {
                                 value === checked ? null : checked = value
                             })
                         }
@@ -1410,11 +1411,11 @@ Page {
                         ]
                         onActivated: (index) => {
                             py.config_items.set_conflict_policy(currentValue)
-                            settingsDrawer.conflictPolicyChanged(currentValue)
+                            dialogs.settingsDialog.conflictPolicyChanged(currentValue)
                         }
                         Component.onCompleted: {
                             currentIndex = indexOfValue(py.config_items.get_conflict_policy())
-                            settingsDrawer.conflictPolicyChanged.connect( (value) => {
+                            dialogs.settingsDialog.conflictPolicyChanged.connect( (value) => {
                                 switch (value) {
                                     case "Overwrite":
                                     case "Skip":

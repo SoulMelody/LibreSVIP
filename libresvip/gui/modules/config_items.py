@@ -85,9 +85,10 @@ class ConfigItems(QObject):
         return self.posix_path(settings.save_folder)
 
     @slot(str, result=bool)
-    def set_save_folder(self, value) -> bool:
+    def dir_valid(self, value) -> bool:
         path = pathlib.Path(value)
-        if path.exists() and path.is_dir():
-            settings.save_folder = path
-            return True
-        return False
+        return (not path.is_absolute() or path.exists()) and path.is_dir()
+
+    @slot(str)
+    def set_save_folder(self, value):
+        settings.save_folder = pathlib.Path(value)

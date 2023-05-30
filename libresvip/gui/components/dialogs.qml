@@ -38,8 +38,16 @@ Item {
                 }
                 QQC2.TextField {
                     id: pathTextField
+                    property string previousText: ""
                     Layout.preferredWidth: 400
                     text: model.path
+                    onEditingFinished: {
+                        if (py.config_items.dir_valid(text) === false) {
+                            undo()
+                        } else {
+                            folderPresetsListView.model.update(index, {path: text})
+                        }
+                    }
                     Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 10
@@ -202,9 +210,15 @@ Item {
             Layout.fillWidth: true
             RowLayout {
                 Layout.fillWidth: true
+                Rectangle {
+                    Layout.fillHeight: true
+                    width: 15
+                    color: "transparent"
+                }
                 QQC2.Label {
                     text: qsTr("Folder Presets")
                     font.bold: true
+                    font.pixelSize: 20
                     Layout.fillWidth: true
                 }
                 IconButton {
@@ -406,5 +420,8 @@ Item {
                 wrapMode: Text.WordWrap
             }
         }
+    }
+
+    property QtObject settingsDialog: SettingsDialog {
     }
 }
