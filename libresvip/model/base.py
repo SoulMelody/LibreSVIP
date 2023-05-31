@@ -69,6 +69,7 @@ class BaseComplexModel(Protocol):
 class Points(PointList[Point]):
     pass
 
+
 class SongTempo(BaseModel):
     position: int = Field(default=0, alias="Position")
     bpm: float = Field(default=120.0, alias="BPM")
