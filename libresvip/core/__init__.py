@@ -1,7 +1,8 @@
 import contextlib
+import shutil
 
 with contextlib.suppress(ImportError, RuntimeError):
-    from imageio_ffmpeg import get_ffmpeg_exe
-    from pydub import AudioSegment
+    if shutil.which("ffmpeg") is None:
+        from libresvip.utils import download_and_setup_ffmpeg
 
-    AudioSegment.converter = get_ffmpeg_exe()
+        download_and_setup_ffmpeg()

@@ -73,7 +73,7 @@ desktop-notifier = "^3.5.3"
 [tool.poetry.group.ffmpeg]
 optional = true
 [tool.poetry.group.ffmpeg.dependencies]
-imageio-ffmpeg = "^0.4.8"
+static-ffmpeg = "^2.5"
 
 [tool.poetry.group.code_gen]
 optional = true

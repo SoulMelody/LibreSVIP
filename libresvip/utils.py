@@ -40,3 +40,15 @@ def find_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
 
 def find_last_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
     return next(rlocate(tempo_list, pred), -1)
+
+
+def download_and_setup_ffmpeg():
+    import static_ffmpeg
+    import static_ffmpeg.run
+
+    # static_ffmpeg.run.PLATFORM_ZIP_FILES = {
+    #     platform: "https://ghproxy.com/" + url
+    #     for platform, url in static_ffmpeg.run.PLATFORM_ZIP_FILES.items()
+    # }
+
+    static_ffmpeg.add_paths()

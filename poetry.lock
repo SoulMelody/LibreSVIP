@@ -1207,26 +1207,6 @@ url = "https://mirrors.aliyun.com/pypi/web/simple"
 reference = "aliyun"
 
 [[package]]
-name = "imageio-ffmpeg"
-version = "0.4.8"
-description = "FFMPEG wrapper for Python"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "imageio-ffmpeg-0.4.8.tar.gz", hash = "sha256:fdaa05ad10fe070b7fa8e5f615cb0d28f3b9b791d00af6d2a11e694158d10aa9"},
-    {file = "imageio_ffmpeg-0.4.8-py3-none-macosx_10_9_intel.macosx_10_9_x86_64.macosx_10_10_intel.macosx_10_10_x86_64.whl", hash = "sha256:dba439a303d65061aef17d2ee9324ecfa9c6b4752bd0953b309fdbb79b38451e"},
-    {file = "imageio_ffmpeg-0.4.8-py3-none-manylinux2010_x86_64.whl", hash = "sha256:7caa9ce9fc0d7e2f3160ce8cb70a115e5211e0f048e5c1509163d8f89d1080df"},
-    {file = "imageio_ffmpeg-0.4.8-py3-none-manylinux2014_aarch64.whl", hash = "sha256:dd3ef9835df91570a1cbd9e36dfbc7d228fca42dbb11636e20df75d719de2949"},
-    {file = "imageio_ffmpeg-0.4.8-py3-none-win32.whl", hash = "sha256:0e2688120b3bdb367897450d07c1b1300e96a0bace03ba7de2eb8d738237ea9a"},
-    {file = "imageio_ffmpeg-0.4.8-py3-none-win_amd64.whl", hash = "sha256:120d70e6448617cad6213e47dee3a3310117c230f532dd614ed3059a78acf13a"},
-]
-
-[package.source]
-type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
-
-[[package]]
 name = "importlib-metadata"
 version = "6.6.0"
 description = "Read metadata from Python packages"
@@ -6692,13 +6672,13 @@ reference = "aliyun"
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.17.29"
+version = "0.17.30"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 optional = false
 python-versions = ">=3"
 files = [
-    {file = "ruamel.yaml-0.17.29-py3-none-any.whl", hash = "sha256:33bd515e01f0b0ed3dd511a42195140d1c8ca95249188272bb880adb15b2e2ee"},
-    {file = "ruamel.yaml-0.17.29.tar.gz", hash = "sha256:695fc25595b0e03128e73093837aaed7e4cae4488ecd3173f8f6993da30d89d5"},
+    {file = "ruamel.yaml-0.17.30-py3-none-any.whl", hash = "sha256:b73821c1e0a9daa459e215db7c4d6d23d7159fb61c4c536653a2b4fb5b8d08a7"},
+    {file = "ruamel.yaml-0.17.30.tar.gz", hash = "sha256:7e47a3d9ccfa2e41d353e6615661308bcbbc2ebad393bdc13b725bac15baf8a9"},
 ]
 
 [package.dependencies]
@@ -6926,6 +6906,29 @@ files = [
     {file = "sourcery-1.3.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:30579a51e1930afa0c4e9e7da1296c4dcad9ebc791d5aa11492a03591b954e1d"},
     {file = "sourcery-1.3.0-py2.py3-none-win_amd64.whl", hash = "sha256:df73aebe61a8eb4a15bc15104d4555cfc08dfcd35610a50b1b57bba3b9897f1c"},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.aliyun.com/pypi/web/simple"
+reference = "aliyun"
+
+[[package]]
+name = "static-ffmpeg"
+version = "2.5"
+description = "Cross platform ffmpeg to work on various systems."
+optional = false
+python-versions = ">=3.6.0"
+files = [
+    {file = "static_ffmpeg-2.5-py2.py3-none-any.whl", hash = "sha256:046623c105731390746c6f24931d22e1789f7267a0dea4e42206d02f8bf42565"},
+    {file = "static_ffmpeg-2.5.tar.gz", hash = "sha256:77101e2b7afea6930177987d80e84144779ef326e77e7d3e0e89cf4b7e94a91b"},
+]
+
+[package.dependencies]
+filelock = "*"
+requests = "*"
+
+[package.extras]
+test = ["pytest"]
 
 [package.source]
 type = "legacy"
@@ -8023,4 +8026,4 @@ reference = "aliyun"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "2e40adf67bfc7709aca485815ca2743bf72428047f15bfdcff3e2c53809aa81b"
+content-hash = "1bde479e806ca7ae75c099640d6d62eb159a4832fb07bd80ca502d63cbdc8fce"
