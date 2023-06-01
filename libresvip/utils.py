@@ -1,3 +1,4 @@
+import contextlib
 import functools
 import pathlib
 from types import FunctionType
@@ -43,12 +44,13 @@ def find_last_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
 
 
 def download_and_setup_ffmpeg():
-    import static_ffmpeg
-    import static_ffmpeg.run
+    with contextlib.suppress(ImportError):
+        import static_ffmpeg
+        import static_ffmpeg.run
 
-    # static_ffmpeg.run.PLATFORM_ZIP_FILES = {
-    #     platform: "https://ghproxy.com/" + url
-    #     for platform, url in static_ffmpeg.run.PLATFORM_ZIP_FILES.items()
-    # }
+        # static_ffmpeg.run.PLATFORM_ZIP_FILES = {
+        #     platform: "https://ghproxy.com/" + url
+        #     for platform, url in static_ffmpeg.run.PLATFORM_ZIP_FILES.items()
+        # }
 
-    static_ffmpeg.add_paths()
+        static_ffmpeg.add_paths()
