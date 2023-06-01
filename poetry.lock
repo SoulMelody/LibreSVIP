@@ -110,8 +110,8 @@ speedups = ["Brotli", "aiodns", "cchardet"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "aiosignal"
@@ -129,8 +129,8 @@ frozenlist = ">=1.1.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "annotated-types"
@@ -145,8 +145,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "antlr4-python3-runtime"
@@ -160,8 +160,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "argsense"
@@ -178,8 +178,8 @@ rich = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "arpeggio"
@@ -198,8 +198,8 @@ test = ["coverage", "coveralls", "flake8", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "ass"
@@ -217,8 +217,8 @@ setuptools = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "async-timeout"
@@ -233,8 +233,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "attrs"
@@ -256,8 +256,8 @@ tests-no-zope = ["cloudpickle", "hypothesis", "mypy (>=1.1.1)", "pympler", "pyte
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "babel"
@@ -272,8 +272,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "black"
@@ -326,8 +326,8 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "bottle"
@@ -342,8 +342,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "build"
@@ -371,8 +371,8 @@ virtualenv = ["virtualenv (>=20.0.35)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "cachetools"
@@ -387,8 +387,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "certifi"
@@ -403,8 +403,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "cffi"
@@ -484,8 +484,8 @@ pycparser = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "cfgv"
@@ -500,8 +500,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "chardet"
@@ -516,8 +516,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "charset-normalizer"
@@ -605,8 +605,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "click"
@@ -624,8 +624,8 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "click-default-group"
@@ -642,8 +642,8 @@ click = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "clr-loader"
@@ -661,8 +661,8 @@ cffi = ">=1.13"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "colorama"
@@ -677,8 +677,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "construct"
@@ -695,8 +695,8 @@ extras = ["arrow", "cloudpickle", "enum34", "lz4", "numpy", "ruamel.yaml"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "construct-typing"
@@ -714,8 +714,8 @@ construct = "2.10.68"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "cx-freeze"
@@ -784,8 +784,8 @@ test = ["nose (==1.3.7)", "pygments (==2.15.1)", "pytest (==7.3.1)", "pytest-cov
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "cx-logging"
@@ -819,8 +819,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "dbus-next"
@@ -835,8 +835,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "desktop-notifier"
@@ -861,8 +861,8 @@ docs = ["sphinx", "sphinx-autoapi", "sphinx-mdinclude", "sphinx-rtd-theme"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "distlib"
@@ -877,8 +877,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "docformatter"
@@ -900,8 +900,8 @@ tomli = ["tomli (>=2.0.0,<3.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "drawsvg"
@@ -920,8 +920,8 @@ raster = ["cairoSVG (>=2.3,<3.0)", "imageio (>=2.5,<3.0)", "imageio-ffmpeg (>=0.
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "exceptiongroup"
@@ -939,8 +939,8 @@ test = ["pytest (>=6)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "execnet"
@@ -958,8 +958,8 @@ testing = ["pre-commit"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "filelock"
@@ -978,8 +978,8 @@ testing = ["covdefaults (>=2.3)", "coverage (>=7.2.3)", "diff-cover (>=7.5)", "p
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "frozenlist"
@@ -1066,8 +1066,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "get-annotations"
@@ -1082,8 +1082,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "identify"
@@ -1101,8 +1101,8 @@ license = ["ukkonen"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "idna"
@@ -1117,8 +1117,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "iniconfig"
@@ -1133,8 +1133,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "isort"
@@ -1155,8 +1155,8 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "jaraco-context"
@@ -1175,8 +1175,8 @@ testing = ["flake8 (<5)", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-chec
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "jaraco-envs"
@@ -1200,8 +1200,8 @@ testing = ["pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)",
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "jaraco-functools"
@@ -1223,8 +1223,8 @@ testing = ["jaraco.classes", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-c
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "jaraco-path"
@@ -1246,8 +1246,8 @@ testing = ["flake8 (<5)", "jaraco.windows", "pytest (>=6)", "pytest-black (>=0.3
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "jinja2"
@@ -1268,8 +1268,8 @@ i18n = ["Babel (>=2.7)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "lambda-ex"
@@ -1284,8 +1284,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "lief"
@@ -1321,8 +1321,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "lk-logger"
@@ -1339,8 +1339,8 @@ rich = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "lk-utils"
@@ -1359,8 +1359,8 @@ pyyaml = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "loguru"
@@ -1382,8 +1382,8 @@ dev = ["Sphinx (==5.3.0)", "colorama (==0.4.5)", "colorama (==0.4.6)", "freezegu
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "lxml"
@@ -1479,8 +1479,8 @@ source = ["Cython (>=0.29.7)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "markdown-it-py"
@@ -1508,8 +1508,8 @@ testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "markupsafe"
@@ -1572,8 +1572,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "mdurl"
@@ -1588,8 +1588,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "mido"
@@ -1608,8 +1608,8 @@ ports = ["python-rtmidi (>=1.1.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "more-itertools"
@@ -1624,8 +1624,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "multidict"
@@ -1712,8 +1712,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "mypy"
@@ -1763,8 +1763,8 @@ reports = ["lxml"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "mypy-extensions"
@@ -1779,8 +1779,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "nodeenv"
@@ -1798,8 +1798,8 @@ setuptools = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "omegaconf"
@@ -1818,8 +1818,8 @@ PyYAML = ">=5.1.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "packaging"
@@ -1834,8 +1834,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pastel"
@@ -1850,8 +1850,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "patchelf"
@@ -1874,8 +1874,8 @@ test = ["importlib-metadata", "pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "path"
@@ -1894,8 +1894,8 @@ testing = ["appdirs", "flake8 (<5)", "packaging", "pygments", "pytest (>=6)", "p
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pathspec"
@@ -1910,8 +1910,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "platformdirs"
@@ -1930,8 +1930,8 @@ test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pluggy"
@@ -1950,8 +1950,8 @@ testing = ["pytest", "pytest-benchmark"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "poethepoet"
@@ -1973,8 +1973,8 @@ poetry-plugin = ["poetry (>=1.0,<2.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "portion"
@@ -1995,8 +1995,8 @@ test = ["black (>=21.8b)", "coverage (>=6.0,<7.0)", "pytest (>=7.0,<8.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pre-commit"
@@ -2018,8 +2018,8 @@ virtualenv = ">=20.10.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "proxy-tools"
@@ -2033,8 +2033,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pure-protobuf"
@@ -2053,8 +2053,8 @@ typing-extensions = ">=4.4.0,<5.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pycparser"
@@ -2069,8 +2069,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pycryptodome"
@@ -2115,121 +2115,121 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pydantic"
-version = "2.0a4"
+version = "2.0b1"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pydantic-2.0a4-py3-none-any.whl", hash = "sha256:7a99e0616ca53fa53079f28d941370e491ee84e7657f2681b50ca0a41390a266"},
-    {file = "pydantic-2.0a4.tar.gz", hash = "sha256:720884809bae5cb5358914e45da63dd61369917749d55ab80a7427aa4ca5dcf7"},
+    {file = "pydantic-2.0b1-py3-none-any.whl", hash = "sha256:669f0d5e777462bd000682dd3ad4cee249e3c14bab9d0648aa179a766ac0ccd4"},
+    {file = "pydantic-2.0b1.tar.gz", hash = "sha256:cba25f8a6090f8bdbc7bea424ad95a53687e10be2f23883c3460a32afd7223d6"},
 ]
 
 [package.dependencies]
 annotated-types = ">=0.4.0"
-pydantic-core = "0.30.0"
-typing-extensions = ">=4.5.0"
+pydantic-core = "0.38.0"
+typing-extensions = ">=4.6.1"
 
 [package.extras]
 email = ["email-validator (>=2.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pydantic-core"
-version = "0.30.0"
+version = "0.38.0"
 description = ""
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pydantic_core-0.30.0-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:8a71465d22a8d06b2ddb91f40680e27a85c08b37f87f1a8b51da9fa84e30f8c8"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:1128eca605524b5c9b7dda7f40671a902c20ffff9226ffeebc5eb7c937ae01dd"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:91bc9de6a0527dc8e5834371a60aabfa13e1b7a06006848f90aa710ec84d1c78"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e2856f7039a6f7815013768d82de119c2da4b8b6502ef1d94fcc664d329c928e"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-manylinux_2_24_armv7l.whl", hash = "sha256:8f1ddd33f835de28ec550606e4f1682f37c8a896e52c6c52a53fdd192c9db9ec"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-manylinux_2_24_ppc64le.whl", hash = "sha256:de67ac6952a73a9474a7c0fcc03be221958c45de638b990d02ea9b68e9829492"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-manylinux_2_24_s390x.whl", hash = "sha256:c608c02bae0e108ae1f0c52520b77ed2d1f8ea7c0927620ca5527982413d292e"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:9a7a42a48281fdc0ac073d80319597dd097d096b8490fac084085c8aa349fc98"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:bb6c7542ef8668a5ec4d25fdf9b028acedae6aaabb89afbc2664751922c714d6"},
-    {file = "pydantic_core-0.30.0-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:de69fb25f6718a8fb3648899981c48fbda7d9317a9f367e2bd19fa78482df8c0"},
-    {file = "pydantic_core-0.30.0-cp310-none-win32.whl", hash = "sha256:5b9a004732d7a153f7cfc30ea30d2bbd653f42be1ce5995b848d02fcbed9add2"},
-    {file = "pydantic_core-0.30.0-cp310-none-win_amd64.whl", hash = "sha256:834de30faba6b5384b9206cfea008bf0e02910749cbbd9bfae3aed3ebdc94603"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-macosx_10_7_x86_64.whl", hash = "sha256:f98cdd14b6c0bd24e555188b00399b2c6eebbfa97a1744ad83afbeb0559302a5"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:9d47a099b0db8001991010a482911e86448b877406eb8834492282b300ea034d"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:b5027e588663b7baab6be5b4c41e6303a0844167ed619da488cdf248f8316b74"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b9bcf7d37d55904df6cabd96ac63c1daf383211d20d1325bab50d53554c83184"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-manylinux_2_24_armv7l.whl", hash = "sha256:eb449596ff89245df4ac6e993690a57290afcdb6be3f545cd31cd1e5be33306a"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-manylinux_2_24_ppc64le.whl", hash = "sha256:a1f4bdf92326e0ac1150783401660ffd0bf522503eefbdf9ac95555aac41f0a2"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-manylinux_2_24_s390x.whl", hash = "sha256:aa7718c9d78a8d6ffcadb247bbcac7d397576786823371a0473fdf6feb94d0a7"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:cce350b72222b8624b5bc822f7d20901942122fdf8ea727967a14afb1fba6e55"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:d05ee5a2ce0aef536471f470194136b211b0027024bd18a6ac58cd23aa2806a5"},
-    {file = "pydantic_core-0.30.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:b7d1ad4d57d76d0a48d708e51160306056ecf8312cdab4727bae19e99a98e103"},
-    {file = "pydantic_core-0.30.0-cp311-none-win32.whl", hash = "sha256:89913535b1854b354d703516ac09a82da16a1c06074b9302c1f371e8ed89c837"},
-    {file = "pydantic_core-0.30.0-cp311-none-win_amd64.whl", hash = "sha256:0391275cd3217852a5b3737719e9115cc34587917bce7bb238ec7a0189b82d60"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:ab726880e9e3ddfb6ae2b7dbef551f39716d50728f4a0c89ff9d84d0cee18388"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-macosx_11_0_arm64.whl", hash = "sha256:01b79683e39b4051bd8c252803f6f02748f781224eabcc2532e266be213f9b8b"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4e39f4c7550c8aa698963a3840f6f26c55b2596be0f539694d1cb31baf89169d"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5d349c8dbdf7f6f41540f3443df37e6b9fff474f6c056ff9f1a3dc9796ddb6e4"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-manylinux_2_24_armv7l.whl", hash = "sha256:0de7b6f03b28deb52ac50bda0f9e716ea8cb99f4181d8ee1cf967c0bcae593da"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-manylinux_2_24_ppc64le.whl", hash = "sha256:9f9b078bbd1b018e9e358efdd452bdfdb9a419474fbe5d069fabe677d2993b41"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-manylinux_2_24_s390x.whl", hash = "sha256:bda084bc748b3b0778cff7600dbb82daf6c45f1d29cab18e0ac6be19f300cfd0"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:ccf97d97659181352dc96dc3b145a390bd63f3641baab493cbb9281312715d37"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:17f94d72dcb235e75fdabb5e8d5e447e8f206ab5fe46ae1aacb82c6584bbd5a9"},
-    {file = "pydantic_core-0.30.0-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:fe037bd9acc5a52843ee95d6a9a69f92d51fdc09c882e54f052223fa52e4b5b7"},
-    {file = "pydantic_core-0.30.0-cp37-none-win32.whl", hash = "sha256:e6b852f20dfd9c5a64a871e012fc0a6532580a606214e1354dec59ec79a4ec9e"},
-    {file = "pydantic_core-0.30.0-cp37-none-win_amd64.whl", hash = "sha256:60403f87cf1ad7cc2b3231b15160c3fb751240ebf8df67299ab80569a15da040"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:ecd4aa9f2c4e6eddfdc4392d7021428e436ffcbbde054e08d3d6b92e48235eaa"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:75d00e82d4917417104d88c275dbde0291bea753e763642c8a6301303e8a8491"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8095585d673d40100046730253ac8de5a48b06754fccb3b8ec00a0e2b1b8a813"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1f3749a40d4417ab1a012219ebc88fd1c9644c8aa24a70b453bc20e46e18d7af"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-manylinux_2_24_armv7l.whl", hash = "sha256:f4e04f6c53fc5cb635358bad318d021fcfe07bc92b2f30ddf6b16c5ccecc761d"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-manylinux_2_24_ppc64le.whl", hash = "sha256:8e81efb5ee607460db350212039d709833e8e39d04a75f2b141c305531aa60b9"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-manylinux_2_24_s390x.whl", hash = "sha256:3fd5e452dedef2ede82aa8bcdf0bce0467d6f3de092077b335ba8d724d94450f"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:f093fa3630212744810b32895720af899209820cb76be4146fb099c20c9cf624"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:5a69abfb4a3488ffbb49a4f65ffa3230aa9b0e2664daf2814faa144cd531c681"},
-    {file = "pydantic_core-0.30.0-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:42a5f5f4fc2e08284a90aced31384ffddfbda25370bd5cda876ffe3aa2ce67e2"},
-    {file = "pydantic_core-0.30.0-cp38-none-win32.whl", hash = "sha256:88383d06a5d8edd2bfefca2576a7a84da1553e305b16d5778bedc5bdf8235759"},
-    {file = "pydantic_core-0.30.0-cp38-none-win_amd64.whl", hash = "sha256:2f3d03af970c5e66a1eb6e3edffb893978f65316a7d7a195abae5b843ff21c41"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:ac9a2e4a208a84467e311a1f86ac6dcfe8ff1215099f5886ce07134e32844a11"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:149715aae43717365dcbb3e5ee7c946cc325128e83e440a8f9fb9a0e4d6e0c8a"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:785100c6c5a87b57c247b17f2fb1130022c423079a9d666fee44fc25d43fd9bf"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:969cd903837a6fbc107585fb5b099cb6dc22b3e75ffd8a9f00bd2e1e0454832b"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-manylinux_2_24_armv7l.whl", hash = "sha256:53648ff27598402eb966771bf0c1b50738f26b7678d6aae45107ccf30644b0cd"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-manylinux_2_24_ppc64le.whl", hash = "sha256:3015f3127ae65e7951ff93864a2edadd53e3971813418f4f81e066e1ad608527"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-manylinux_2_24_s390x.whl", hash = "sha256:ae2b6d20110d5fcc9439e2e6da5da3306a8a5789ea90921406ae3fea7e6d555e"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:12dbbd61aa6f1bae703dc01f6135a1c5a9449ced8b44f7a9329e0ec9c07dfa20"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:e805567a747807cdf160d4a1adedc102374424ed18f0cf7d2c33a6bae4e655ca"},
-    {file = "pydantic_core-0.30.0-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:0bd9fcfc946cef379b3f19658b92fadf9b0ee2e889f4bf81248b946849f4561e"},
-    {file = "pydantic_core-0.30.0-cp39-none-win32.whl", hash = "sha256:4f08b4a27b2e3f03e10f88fe304c8882f87f841190bde20f1b7ae6bdc1b1606d"},
-    {file = "pydantic_core-0.30.0-cp39-none-win_amd64.whl", hash = "sha256:7d1025eb05dea39fc28f1df69669122900e226d60b1d50cd6a34293a1e769a19"},
-    {file = "pydantic_core-0.30.0-pp37-pypy37_pp73-macosx_10_7_x86_64.whl", hash = "sha256:db2478efd4fe2445cc545080e07c5a169c3ca8455db42695ce8b3dff3d571e83"},
-    {file = "pydantic_core-0.30.0-pp37-pypy37_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a7f35ff6cc7d9cbc33cb6e7784f958998782fe41aff6f75761c44756ff3ef072"},
-    {file = "pydantic_core-0.30.0-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6c569ebc7ec97c3c0e2fedcf4b921710a2c7772b66a3ba3edb1e999ddb54d5ee"},
-    {file = "pydantic_core-0.30.0-pp37-pypy37_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:563604dc3b91ee14ecdce9efdd07024b0f3452d629a9f4cbb063863dacbc1915"},
-    {file = "pydantic_core-0.30.0-pp37-pypy37_pp73-musllinux_1_1_aarch64.whl", hash = "sha256:40a59efdaa88679239dfb7e199540967352e1122c15ef34c791984fd732f8128"},
-    {file = "pydantic_core-0.30.0-pp37-pypy37_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:983c1d49d0ef1c91e0ade07db210986334aaba5a1ce9373dfcb0d6077f7b1a26"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-macosx_10_7_x86_64.whl", hash = "sha256:1e0c605c2f38983c82cb7a4ae80cb392335f5e32b9f9e7a42d41fd1ec8790201"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:dd2e61db3d0c7e172a6f0ab010740f8ace86aa695f5b80a7d185cf84c501d5d8"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:705d8439bf845e11f477462eb092b1e0dcd9219fa3a07d03893745a6e8f894a2"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:3e28cf11395c5b9ad3baef8f5fb8a5f4bdc6367366167cc41b944347d7b484af"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-musllinux_1_1_aarch64.whl", hash = "sha256:642ff3f767766e14bd8273814351291967c3ce084abf50ece0d69d5dbb53ddab"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:52a67a02f65c1e90379481f0b4e68dea3736becb9ede94f25e9023258211e21c"},
-    {file = "pydantic_core-0.30.0-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:e45e7347ab2e7752c716d43df5459569385d96fcec00e4d21159041e8150dec3"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-macosx_10_7_x86_64.whl", hash = "sha256:cc6d5c107467408e1600a6482ec22d922aad30826f5789e188bda8957c4d4922"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1dce7cfe4abf11b348d82d72a2020860055340cd35462b8019792f09cbde020b"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bc9f09c8e6ed23453d7a5adde29fea83d4464182e98bd83b11747f1796e9e0d4"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:e5f3ad194c53bc2a38c92bb25844dc3dd0a3e45147796f3397bd4416370266cf"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-musllinux_1_1_aarch64.whl", hash = "sha256:0deed36ad1ffbe8437b110f2183266ca5eb49c4928e3659320aa67963e6b791c"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:6079970c2f260ba4040bee9664665aca5d3f2927ac416342b77bb19bebce1ef8"},
-    {file = "pydantic_core-0.30.0-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:36cc68b42f1f0bf4e95f5de03af028afb03c2c110513a9551d1b1ea0f018e574"},
-    {file = "pydantic_core-0.30.0.tar.gz", hash = "sha256:039bd499abf1096c9610cca40d30db0a8609105897a694766685ecb464018d8b"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:accb236fa98c1a66e5270f2a4e60aee6911e977f016ef40a0cc32115047075ac"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:064010574757a7fea60dc2be63c047ace8a653f3d5c601b33603099d811a53b0"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e60dba35a3b7e295d239887497ee44e086ddcd1e3b5a5aac94940172dd9a9c62"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f7e91caff0aadc8682e58c0f4d78c78cade1ab4da0ffbc83d8d609c3ddc35124"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-manylinux_2_24_armv7l.whl", hash = "sha256:2e1cd60a1310b0abc8a3ac2871536734e4c7692df85dc5b4b91fb2976005d5dc"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-manylinux_2_24_ppc64le.whl", hash = "sha256:46e6a14096525eff39e453daa0a636cdb9d8cc1e16b7585dd8bc424bf7f87cba"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-manylinux_2_24_s390x.whl", hash = "sha256:ea751034409470b3bfeef9a154bc3653ecbe4e6bc539ad4fa7789344a9ff4e2d"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:552d4613436d3a485f579137a9a64069be1695922f704dbe9908f195e49b58cb"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-musllinux_1_1_aarch64.whl", hash = "sha256:db673aab3e55f21bdcc4d8d420080593437c795bd4d8fcc4718ba664bead3e7d"},
+    {file = "pydantic_core-0.38.0-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:03b05b91ed73699cde6749c74c59dae16d076b5fff008e9388859b44bf573918"},
+    {file = "pydantic_core-0.38.0-cp310-none-win32.whl", hash = "sha256:1e4475d319feadcc05ff0b8a8b3509dfdcac21b852667323bb7862ec8ec061c0"},
+    {file = "pydantic_core-0.38.0-cp310-none-win_amd64.whl", hash = "sha256:bcb79118d68063b6ce54fb0aa3ce350027588cbad7ef6880317158a0e005b747"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-macosx_10_7_x86_64.whl", hash = "sha256:bda2b18ba047e8b16fc022ce9c36825c7a6175b821b6b718ff4520c27f8b04e6"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:9c2c5afc146acd7f98252a02812563a8eacb5e07e5d5d890899c519fb5c890fb"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:752a6f0bd20dca278f1e28a0b94e9654a7c2151e1a8d3fff8d5f247555a4c213"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:936e127cca7e108db179cccb7e0918408d125d9e1b62aaa74cd2fe1730626e4d"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-manylinux_2_24_armv7l.whl", hash = "sha256:c8083e1c82f0d816ddfb07698c4c1ea126624114ddbe2d78659a54f3cc2749f7"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-manylinux_2_24_ppc64le.whl", hash = "sha256:2e773acaefe9b0f9d87544725e6e59a9d10dfe035729cf1ea154c85390f4a8f1"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-manylinux_2_24_s390x.whl", hash = "sha256:9a00c1de2f3ead6becf379a61bebc444561a8542eeb140b126482113d4a6a146"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:8cfac969e1614217629183e8b37f2ce21f366341f6923cccf1d522914a5d1ae6"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:17596cded1e8f635b797e5bb0139543fb7fabbcfc920b5d243365f490978a989"},
+    {file = "pydantic_core-0.38.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:c458635159543b85d6f40cf492d9462e92ba2a347d5458daaeccf6dea335275c"},
+    {file = "pydantic_core-0.38.0-cp311-none-win32.whl", hash = "sha256:8c8ac6d074cd4308afc4bc002171e8f6f1d684a518baa5f339b838a8b5d3173b"},
+    {file = "pydantic_core-0.38.0-cp311-none-win_amd64.whl", hash = "sha256:766916b2456ea7101919ac6bbd3f5f2d48041a3bee994916cff476aaafd3b3f5"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-macosx_10_7_x86_64.whl", hash = "sha256:c6857e05c3437943e2b1abf6dc99b61fd059b60fcb0bb1487f687c5a86b10ec6"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-macosx_11_0_arm64.whl", hash = "sha256:f4f862c699c6184e0926173cf845a9a6e0937d346cee2f29aa21fffff616e3e1"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e1b5fb341fb0fc065d1d13d669f11ed03c1c39901debcd637b36a0380fa42a6b"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1e616c427665c7ef7e747d2824d481c96d283df72bfbf97f1f1925917af2fe3b"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-manylinux_2_24_armv7l.whl", hash = "sha256:deefd57033824e41cfbe984e71f4cc2be8be2b3a9d44890ce29b0db774c20790"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-manylinux_2_24_ppc64le.whl", hash = "sha256:a84c9d20bc8f3473ef5e4d5177a91438b87650615da05ba5045e8378594673be"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-manylinux_2_24_s390x.whl", hash = "sha256:d3ae5a8cc8d0f95bf2ac9469822c5deadd78fcbe3bcee7d0522c77e84ec03243"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:fdd0c847ddc51c6419d2f22934c089fcdd63e3e7f7c1d6bde3490eebe37eeab2"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-musllinux_1_1_aarch64.whl", hash = "sha256:af9e40fc42b5e9ba2d1aebbcd28376f3dc1fea779804b53cba5116f2412b54aa"},
+    {file = "pydantic_core-0.38.0-cp37-cp37m-musllinux_1_1_x86_64.whl", hash = "sha256:0fab1ef6d7c241e06fdd2fce41826f961ea415b044869381909e463eca1d5461"},
+    {file = "pydantic_core-0.38.0-cp37-none-win32.whl", hash = "sha256:aa02be03ccbb60ed85b1be36d68e1354194f78da74311d6e1d4187045a596edd"},
+    {file = "pydantic_core-0.38.0-cp37-none-win_amd64.whl", hash = "sha256:f93ae751fe034a890d59c37a95eaf4ce5dfcbe7e3bedd49a32a45367671cdb80"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-macosx_10_7_x86_64.whl", hash = "sha256:3397fc9fdcce07c7018a5f627da1b42150896f4face9860d89a46c8b9fa3c96f"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-macosx_11_0_arm64.whl", hash = "sha256:24475cf8055ab19f91f5a874f5e5434a64f8086a76e2bfd39a820bde80a077de"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:16aa493f005447bf6528734432ecf571c7c4dcf54712154a6e3fe70d0576b9d0"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ed1f15613f0a067edc373a31c45f80c55454389806894b101a12620b6f0e68d7"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-manylinux_2_24_armv7l.whl", hash = "sha256:bb862c3ddccbd86470557ce2b780a750ed29d8e6636c3be2399e02bf76b5b4d7"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-manylinux_2_24_ppc64le.whl", hash = "sha256:0ea7cca3ec85e1926a2b9d0511c3b3565515af350704e285c8e2d915f75b2aaf"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-manylinux_2_24_s390x.whl", hash = "sha256:8eccf9a9a7b861214a2cb16939b8d54e8b00c4e4a94c1c57dec9e253c46b77fa"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:f9fbaf14d32c3afa6159ca87f2d7fcf07b36a7579b78bdf80b14ada0068c164e"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-musllinux_1_1_aarch64.whl", hash = "sha256:2bf57bf395b9f9435ee0a3c7017592d64eb4e702da2c6dbc1da0d9369b733ce9"},
+    {file = "pydantic_core-0.38.0-cp38-cp38-musllinux_1_1_x86_64.whl", hash = "sha256:60bd9f221b434619d50d78793a376efc6e515233f5cb694f9688f4f458c3d99f"},
+    {file = "pydantic_core-0.38.0-cp38-none-win32.whl", hash = "sha256:bcb73e4b971de5c7d6b6af4f0878bae99a72be5bd1fbb0333c3d2741b1f9c04c"},
+    {file = "pydantic_core-0.38.0-cp38-none-win_amd64.whl", hash = "sha256:4affbf8e1722d33c6611870e93142eceda5cdbcbbc9712dae98c6cef3916d7c8"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-macosx_10_7_x86_64.whl", hash = "sha256:c8adb85fca667013e373e6df23743fce72e6730dde9ffbcd1451669b037d29a3"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:0410d2aba8d7f82e00691b6a4d3b12b52e0dbb0006278b414db48d0ee5524baa"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9de9165653127f2d06ab3b375b0f330ea8bbc6f935b9a61f32e08b6011569076"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f5e744f72b33abf292c0526188f9d0b8614e072dbf3712ed32b2a6f1f769869e"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-manylinux_2_24_armv7l.whl", hash = "sha256:559ab8165b6b3c48c75d0b4941ded8d35800192eabfea15388591a69ddecec5c"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-manylinux_2_24_ppc64le.whl", hash = "sha256:56929a9ed009c799c6a25af5a45a70ee929cc87cf8d6dfb48c7e7b80c5749eef"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-manylinux_2_24_s390x.whl", hash = "sha256:e3d97b9858ea4d8b1ede28eb07d5ffd39b104e0491f125b12010be183390e3ed"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:d9991c294b73b39f88fab055bdc03f3f890d1d7e3abb8c6f2d8bb4fd4185e407"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:4a7297db3a7249253602f121fd1186b32c850dbe4cee7e2f4ed411d7447e1469"},
+    {file = "pydantic_core-0.38.0-cp39-cp39-musllinux_1_1_x86_64.whl", hash = "sha256:0ba5ea4ddee0b721fd0e1f25caefd5bea4ab43d99bbf20b4b0b5b4c98af97a86"},
+    {file = "pydantic_core-0.38.0-cp39-none-win32.whl", hash = "sha256:d9b6070774035969b0b48d8b8d15274965dc3155b88eb08e27ba193f73dc979c"},
+    {file = "pydantic_core-0.38.0-cp39-none-win_amd64.whl", hash = "sha256:33bfe0ffa5584d3521a68674f3bfb034a1f6aa27dbba43f28731614f23df595d"},
+    {file = "pydantic_core-0.38.0-pp37-pypy37_pp73-macosx_10_7_x86_64.whl", hash = "sha256:8616a7a6fe69b9751b53ba45821138bda0bd815d55616172e7ab6fb1b891ecd9"},
+    {file = "pydantic_core-0.38.0-pp37-pypy37_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:09a65a3375ef6da47266106f10894452ccacf3c12c5645f813bf511abfff5020"},
+    {file = "pydantic_core-0.38.0-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c6a1ddda8eb7f774516701ecefe02d8d2c9ee0d6a924ed5abe46cbade0c294d9"},
+    {file = "pydantic_core-0.38.0-pp37-pypy37_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:488de557c2544f084bd72cd96fd7adcc88b0d31d5f27b2d658f13107fee75642"},
+    {file = "pydantic_core-0.38.0-pp37-pypy37_pp73-musllinux_1_1_aarch64.whl", hash = "sha256:1a442e40dc11bbc6f9ab1a740d20c5ab3997214f97b7dd465c11c9055032d90e"},
+    {file = "pydantic_core-0.38.0-pp37-pypy37_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:3e11dba101c6ad15def6de7d651a97d2bf4f9cebcbb35b73af759a24c22a6409"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-macosx_10_7_x86_64.whl", hash = "sha256:778d84e366d67ad6afc0e0201040968e27d9c16c3749025348cdd777eda7b66b"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:3dda6549462b9fdbf07ca8531c07450fd99def8be5676ade3a6809effb567922"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b59cf0d1a362a1e451398b61f0f03fb63acf138c73c03195a2d439ebb5e75b17"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:59ea7fb6470d6c8c106b22649470ec322f5289d721dc3ce26c7bd9e1beee0110"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-musllinux_1_1_aarch64.whl", hash = "sha256:35f737da50781be050aa675fd371c67561bba9119aec552dbbc85b7abb60390c"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:ca37ae371e5a66325509926b3e86ff59486da1046696000f4f3e7c7183054abc"},
+    {file = "pydantic_core-0.38.0-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:a30e3aeb02d5326084e8917420f74f56797f1ebce08685fc1ee8b69e86a34917"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-macosx_10_7_x86_64.whl", hash = "sha256:07987d16882bbb70880223dce838cf6ded0a962dae1ee045c2ba91e2368062ca"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4bc7add8c0ca9385dedec86671899ff47d08b1054e1719f335470e2d8460f09a"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1d4affc151ec02510dd6973582a21193880ffb3960c5032368643fc86e26e495"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:ef093c90c95f4747f5eca63f5bc7f345e05996137a86a4131587a3a90a6dd208"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-musllinux_1_1_aarch64.whl", hash = "sha256:ee661c6d648ad35c790b14a6444e399e508e779e18130b2e603c8f8fd30e584f"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-musllinux_1_1_x86_64.whl", hash = "sha256:eccb197288f28fd773562df33742b5347658211d2679e7e2639dcdbf6ba32389"},
+    {file = "pydantic_core-0.38.0-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:05daac88565ab9fe343c8469d6606a122288c2ade74a073d0e0df52a0f701dbe"},
+    {file = "pydantic_core-0.38.0.tar.gz", hash = "sha256:b94a00b52ccc368720d4fe6929a818e368901091b36bca049f89b600923d6c45"},
 ]
 
 [package.dependencies]
@@ -2237,8 +2237,8 @@ typing_extensions = {version = "*", markers = "python_version < \"3.11.0\""}
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pydub"
@@ -2253,8 +2253,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pygments"
@@ -2272,8 +2272,8 @@ plugins = ["importlib-metadata"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc"
@@ -2444,8 +2444,8 @@ allbindings = ["pyobjc-core (==9.1.1)", "pyobjc-framework-AVFoundation (==9.1.1)
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-core"
@@ -2465,8 +2465,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-accessibility"
@@ -2488,8 +2488,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-accounts"
@@ -2508,8 +2508,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-addressbook"
@@ -2530,8 +2530,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-adservices"
@@ -2550,8 +2550,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-adsupport"
@@ -2570,8 +2570,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-applescriptkit"
@@ -2590,8 +2590,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-applescriptobjc"
@@ -2610,8 +2610,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-applicationservices"
@@ -2636,8 +2636,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-apptrackingtransparency"
@@ -2656,8 +2656,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-audiovideobridging"
@@ -2676,8 +2676,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-authenticationservices"
@@ -2698,8 +2698,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-automaticassessmentconfiguration"
@@ -2720,8 +2720,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-automator"
@@ -2740,8 +2740,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-avfoundation"
@@ -2765,8 +2765,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-avkit"
@@ -2788,8 +2788,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-avrouting"
@@ -2810,8 +2810,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-backgroundassets"
@@ -2832,8 +2832,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-businesschat"
@@ -2852,8 +2852,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-calendarstore"
@@ -2872,8 +2872,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-callkit"
@@ -2892,8 +2892,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-cfnetwork"
@@ -2914,8 +2914,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-classkit"
@@ -2936,8 +2936,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-cloudkit"
@@ -2959,8 +2959,8 @@ pyobjc-framework-CoreLocation = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-cocoa"
@@ -2983,8 +2983,8 @@ pyobjc-core = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-collaboration"
@@ -3003,8 +3003,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-colorsync"
@@ -3023,8 +3023,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-contacts"
@@ -3045,8 +3045,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-contactsui"
@@ -3068,8 +3068,8 @@ pyobjc-framework-Contacts = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coreaudio"
@@ -3093,8 +3093,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coreaudiokit"
@@ -3116,8 +3116,8 @@ pyobjc-framework-CoreAudio = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-corebluetooth"
@@ -3138,8 +3138,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coredata"
@@ -3160,8 +3160,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-corehaptics"
@@ -3180,8 +3180,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-corelocation"
@@ -3202,8 +3202,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coremedia"
@@ -3227,8 +3227,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coremediaio"
@@ -3249,8 +3249,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coremidi"
@@ -3271,8 +3271,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coreml"
@@ -3293,8 +3293,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coremotion"
@@ -3318,8 +3318,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coreservices"
@@ -3340,8 +3340,8 @@ pyobjc-framework-FSEvents = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-corespotlight"
@@ -3362,8 +3362,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-coretext"
@@ -3388,8 +3388,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-corewlan"
@@ -3410,8 +3410,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-cryptotokenkit"
@@ -3432,8 +3432,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-datadetection"
@@ -3452,8 +3452,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-devicecheck"
@@ -3472,8 +3472,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-dictionaryservices"
@@ -3492,8 +3492,8 @@ pyobjc-framework-CoreServices = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-discrecording"
@@ -3514,8 +3514,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-discrecordingui"
@@ -3535,8 +3535,8 @@ pyobjc-framework-DiscRecording = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-diskarbitration"
@@ -3555,8 +3555,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-dvdplayback"
@@ -3575,8 +3575,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-eventkit"
@@ -3595,8 +3595,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-exceptionhandling"
@@ -3615,8 +3615,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-executionpolicy"
@@ -3635,8 +3635,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-extensionkit"
@@ -3657,8 +3657,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-externalaccessory"
@@ -3679,8 +3679,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-fileprovider"
@@ -3704,8 +3704,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-fileproviderui"
@@ -3724,8 +3724,8 @@ pyobjc-framework-FileProvider = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-findersync"
@@ -3744,8 +3744,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-fsevents"
@@ -3766,8 +3766,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-gamecenter"
@@ -3788,8 +3788,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-gamecontroller"
@@ -3810,8 +3810,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-gamekit"
@@ -3833,8 +3833,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-gameplaykit"
@@ -3856,8 +3856,8 @@ pyobjc-framework-SpriteKit = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-healthkit"
@@ -3878,8 +3878,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-imagecapturecore"
@@ -3900,8 +3900,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-imserviceplugin"
@@ -3922,8 +3922,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-inputmethodkit"
@@ -3944,8 +3944,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-installerplugins"
@@ -3964,8 +3964,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-instantmessage"
@@ -3985,8 +3985,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-intents"
@@ -4007,8 +4007,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-intentsui"
@@ -4032,8 +4032,8 @@ pyobjc-framework-Intents = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-iobluetooth"
@@ -4054,8 +4054,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-iobluetoothui"
@@ -4074,8 +4074,8 @@ pyobjc-framework-IOBluetooth = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-iosurface"
@@ -4094,8 +4094,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-ituneslibrary"
@@ -4114,8 +4114,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-kernelmanagement"
@@ -4134,8 +4134,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-latentsemanticmapping"
@@ -4154,8 +4154,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-launchservices"
@@ -4174,8 +4174,8 @@ pyobjc-framework-CoreServices = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-libdispatch"
@@ -4198,8 +4198,8 @@ pyobjc-core = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-libxpc"
@@ -4222,8 +4222,8 @@ pyobjc-core = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-linkpresentation"
@@ -4243,8 +4243,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-localauthentication"
@@ -4264,8 +4264,8 @@ pyobjc-framework-Security = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-localauthenticationembeddedui"
@@ -4285,8 +4285,8 @@ pyobjc-framework-LocalAuthentication = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-mailkit"
@@ -4305,8 +4305,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-mapkit"
@@ -4329,8 +4329,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-mediaaccessibility"
@@ -4349,8 +4349,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-medialibrary"
@@ -4370,8 +4370,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-mediaplayer"
@@ -4390,8 +4390,8 @@ pyobjc-framework-AVFoundation = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-mediatoolbox"
@@ -4412,8 +4412,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-metal"
@@ -4434,8 +4434,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-metalfx"
@@ -4456,8 +4456,8 @@ pyobjc-framework-Metal = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-metalkit"
@@ -4479,8 +4479,8 @@ pyobjc-framework-Metal = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-metalperformanceshaders"
@@ -4501,8 +4501,8 @@ pyobjc-framework-Metal = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-metalperformanceshadersgraph"
@@ -4521,8 +4521,8 @@ pyobjc-framework-MetalPerformanceShaders = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-metrickit"
@@ -4546,8 +4546,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-mlcompute"
@@ -4566,8 +4566,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-modelio"
@@ -4589,8 +4589,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-multipeerconnectivity"
@@ -4611,8 +4611,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-naturallanguage"
@@ -4631,8 +4631,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-netfs"
@@ -4651,8 +4651,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-network"
@@ -4673,8 +4673,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-networkextension"
@@ -4695,8 +4695,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-notificationcenter"
@@ -4717,8 +4717,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-opendirectory"
@@ -4737,8 +4737,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-osakit"
@@ -4757,8 +4757,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-oslog"
@@ -4781,8 +4781,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-passkit"
@@ -4803,8 +4803,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-pencilkit"
@@ -4823,8 +4823,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-phase"
@@ -4843,8 +4843,8 @@ pyobjc-framework-AVFoundation = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-photos"
@@ -4865,8 +4865,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-photosui"
@@ -4887,8 +4887,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-preferencepanes"
@@ -4907,8 +4907,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-pubsub"
@@ -4927,8 +4927,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-pushkit"
@@ -4949,8 +4949,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-quartz"
@@ -4974,8 +4974,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-quicklookthumbnailing"
@@ -4995,8 +4995,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-replaykit"
@@ -5017,8 +5017,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-safariservices"
@@ -5039,8 +5039,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-safetykit"
@@ -5062,8 +5062,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-scenekit"
@@ -5085,8 +5085,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-screencapturekit"
@@ -5110,8 +5110,8 @@ pyobjc-framework-CoreMedia = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-screensaver"
@@ -5132,8 +5132,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-screentime"
@@ -5152,8 +5152,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-scriptingbridge"
@@ -5174,8 +5174,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-searchkit"
@@ -5194,8 +5194,8 @@ pyobjc-framework-CoreServices = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-security"
@@ -5219,8 +5219,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-securityfoundation"
@@ -5240,8 +5240,8 @@ pyobjc-framework-Security = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-securityinterface"
@@ -5263,8 +5263,8 @@ pyobjc-framework-Security = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-servicemanagement"
@@ -5283,8 +5283,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-sharedwithyou"
@@ -5305,8 +5305,8 @@ pyobjc-framework-SharedWithYouCore = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-sharedwithyoucore"
@@ -5327,8 +5327,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-shazamkit"
@@ -5352,8 +5352,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-social"
@@ -5372,8 +5372,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-soundanalysis"
@@ -5392,8 +5392,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-speech"
@@ -5414,8 +5414,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-spritekit"
@@ -5440,8 +5440,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-storekit"
@@ -5462,8 +5462,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-syncservices"
@@ -5485,8 +5485,8 @@ pyobjc-framework-CoreData = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-systemconfiguration"
@@ -5507,8 +5507,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-systemextensions"
@@ -5529,8 +5529,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-threadnetwork"
@@ -5549,8 +5549,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-uniformtypeidentifiers"
@@ -5569,8 +5569,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-usernotifications"
@@ -5591,8 +5591,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-usernotificationsui"
@@ -5612,8 +5612,8 @@ pyobjc-framework-UserNotifications = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-videosubscriberaccount"
@@ -5632,8 +5632,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-videotoolbox"
@@ -5656,8 +5656,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-virtualization"
@@ -5678,8 +5678,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-vision"
@@ -5702,8 +5702,8 @@ pyobjc-framework-Quartz = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyobjc-framework-webkit"
@@ -5724,8 +5724,8 @@ pyobjc-framework-Cocoa = ">=9.1.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pypinyin"
@@ -5740,8 +5740,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyproject-api"
@@ -5764,8 +5764,8 @@ testing = ["covdefaults (>=2.2.2)", "importlib-metadata (>=6)", "pytest (>=7.2.1
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyproject-hooks"
@@ -5783,8 +5783,8 @@ tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyside6"
@@ -5808,8 +5808,8 @@ shiboken6 = "6.5.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyside6-addons"
@@ -5832,8 +5832,8 @@ shiboken6 = "6.5.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyside6-essentials"
@@ -5855,8 +5855,8 @@ shiboken6 = "6.5.1"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pytest"
@@ -5882,8 +5882,8 @@ testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "no
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pytest-datadir"
@@ -5901,8 +5901,8 @@ pytest = ">=5.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pytest-enabler"
@@ -5926,8 +5926,8 @@ testing = ["pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)",
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pytest-xdist"
@@ -5951,8 +5951,8 @@ testing = ["filelock"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pythonnet"
@@ -5970,8 +5970,8 @@ clr-loader = ">=0.2.2,<0.3.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pywebview"
@@ -6002,8 +6002,8 @@ qt = ["PyQt5", "QtPy", "pyqtwebengine"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "pyyaml"
@@ -6056,8 +6056,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "qmlease"
@@ -6083,8 +6083,8 @@ qt6 = ["pyside6"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "qtawesome"
@@ -6102,8 +6102,8 @@ qtpy = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "qtpy"
@@ -6124,8 +6124,8 @@ test = ["pytest (>=6,!=7.0.0,!=7.0.1)", "pytest-cov (>=3.0.0)", "pytest-qt"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "regex"
@@ -6226,8 +6226,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "requests"
@@ -6252,8 +6252,8 @@ use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "rich"
@@ -6275,8 +6275,8 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "rubicon-objc"
@@ -6295,8 +6295,8 @@ docs = ["furo (==2023.3.27)", "pyenchant (==3.2.2)", "sphinx (==6.1.3)", "sphinx
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "ruff"
@@ -6326,8 +6326,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "setuptools"
@@ -6359,8 +6359,8 @@ testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "shellingham"
@@ -6375,8 +6375,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "shiboken6"
@@ -6395,8 +6395,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "sortedcontainers"
@@ -6411,8 +6411,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "sourcery"
@@ -6428,8 +6428,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "srt"
@@ -6443,8 +6443,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "static-ffmpeg"
@@ -6466,8 +6466,8 @@ test = ["pytest"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "textx"
@@ -6490,8 +6490,8 @@ test = ["click (>=7.0,<8.0)", "coverage", "coveralls", "flake8", "html5lib", "ji
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "toml"
@@ -6506,8 +6506,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "tomli"
@@ -6522,8 +6522,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "toposort"
@@ -6538,8 +6538,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "tox"
@@ -6570,8 +6570,8 @@ testing = ["build[virtualenv] (>=0.10)", "covdefaults (>=2.3)", "devpi-process (
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame"
@@ -6601,8 +6601,8 @@ trame-vuetify = "<3.0.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-client"
@@ -6617,8 +6617,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-components"
@@ -6636,8 +6636,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-deckgl"
@@ -6655,8 +6655,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-markdown"
@@ -6674,8 +6674,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-matplotlib"
@@ -6693,8 +6693,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-plotly"
@@ -6712,8 +6712,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-rca"
@@ -6732,8 +6732,8 @@ wslink = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-router"
@@ -6751,8 +6751,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-server"
@@ -6770,8 +6770,8 @@ wslink = ">=1.9.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-simput"
@@ -6790,8 +6790,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-vega"
@@ -6809,8 +6809,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-vtk"
@@ -6828,8 +6828,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "trame-vuetify"
@@ -6847,8 +6847,8 @@ trame-client = "*"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "translate-toolkit"
@@ -6882,8 +6882,8 @@ yaml = ["ruamel.yaml (==0.17.26)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "typer"
@@ -6911,8 +6911,8 @@ test = ["black (>=22.3.0,<23.0.0)", "coverage (>=6.2,<7.0)", "isort (>=5.0.6,<6.
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "typing-extensions"
@@ -6927,8 +6927,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "ujson"
@@ -7006,8 +7006,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "untokenize"
@@ -7021,8 +7021,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "urllib3"
@@ -7043,8 +7043,8 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "virtualenv"
@@ -7068,8 +7068,8 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.3)", "coverage-enable-subprocess
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "wanakana-python"
@@ -7083,8 +7083,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "wheel"
@@ -7102,8 +7102,8 @@ test = ["pytest (>=6.0.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "win32-setctime"
@@ -7121,8 +7121,8 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "winsdk"
@@ -7149,8 +7149,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "wslink"
@@ -7171,8 +7171,8 @@ ssl = ["cryptography"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "xsdata"
@@ -7201,8 +7201,8 @@ test = ["pre-commit", "pytest", "pytest-benchmark", "pytest-cov", "tox"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "yapsy"
@@ -7216,8 +7216,8 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "yarl"
@@ -7308,8 +7308,8 @@ multidict = ">=4.0"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [[package]]
 name = "zstandard"
@@ -7371,10 +7371,10 @@ cffi = ["cffi (>=1.11)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.aliyun.com/pypi/web/simple"
-reference = "aliyun"
+url = "https://mirrors.cloud.tencent.com/pypi/simple"
+reference = "tencent"
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "4822574f9248d3db8f1b1a80433226f8c734dbc7401a909dbf93bcd562b7443b"
+content-hash = "1941205523e347c98f98ede1c719a08cac2556dff203729a6ce82c3e1c8ed18c"

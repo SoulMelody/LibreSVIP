@@ -9,7 +9,7 @@ import zipfile
 from typing import Any, get_args, get_type_hints
 
 from pydantic.color import Color
-from pydantic.fields import Undefined
+from pydantic.fields import _Undefined
 from qmlease import slot
 from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
 from qtpy.QtGui import QDesktopServices
@@ -240,7 +240,7 @@ class TaskManager(QObject):
         fields = []
         for option_key, field_info in option_class.model_fields.items():
             default_value = (
-                None if field_info.default is Undefined else field_info.default
+                None if field_info.default is _Undefined else field_info.default
             )
             if issubclass(field_info.annotation, bool):
                 fields.append(

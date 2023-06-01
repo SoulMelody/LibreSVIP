@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
 from pydantic.color import Color
-from pydantic.fields import Undefined
+from pydantic.fields import _Undefined
 from trame.widgets import trame
 from trame_client.widgets import html
 from trame_server.core import Server
@@ -189,7 +189,9 @@ def initialize(server: Server):
         }
         if hasattr(option_class, "model_fields"):
             for option_key, field_info in option_class.model_fields.items():
-                default_value = None if field_info.default is Undefined else field_info.default
+                default_value = (
+                    None if field_info.default is _Undefined else field_info.default
+                )
                 if issubclass(field_info.annotation, bool):
                     option_info[f"{prefix}_fields"].append(
                         {
@@ -201,12 +203,16 @@ def initialize(server: Server):
                         }
                     )
                     option_info[f"{prefix}_defaults"][option_key] = default_value
-                elif issubclass(field_info.annotation, (str, int, float, Color, BaseComplexModel)):
+                elif issubclass(
+                    field_info.annotation, (str, int, float, Color, BaseComplexModel)
+                ):
                     if issubclass(field_info.annotation, BaseComplexModel):
                         default_value = field_info.annotation.default_repr()
                     option_info[f"{prefix}_fields"].append(
                         {
-                            "type": "color" if issubclass(field_info.annotation, Color) else "other",
+                            "type": "color"
+                            if issubclass(field_info.annotation, Color)
+                            else "other",
                             "name": option_key,
                             "title": field_info.title,
                             "description": field_info.description,
@@ -216,7 +222,9 @@ def initialize(server: Server):
                     option_info[f"{prefix}_defaults"][option_key] = default_value
                 elif issubclass(field_info.annotation, enum.Enum):
                     default_value = default_value.value if default_value else None
-                    annotations = get_type_hints(field_info.annotation, include_extras=True)
+                    annotations = get_type_hints(
+                        field_info.annotation, include_extras=True
+                    )
                     choices = []
                     for enum_item in field_info.annotation:
                         if enum_item.name in annotations:
