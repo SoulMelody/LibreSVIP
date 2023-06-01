@@ -19,6 +19,8 @@ Page {
         id: colorPickerItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -34,7 +36,7 @@ Page {
                 Layout.fillWidth: true
                 text: field.value
                 onEditingFinished: {
-                    field.value = this.text
+                    list_view.model.update(index, {value: text})
                 }
             }
             IconButton {
@@ -46,7 +48,7 @@ Page {
                         colorField.text,
                         (color) => {
                             colorField.text = color
-                            field.value = color
+                            list_view.model.update(index, {value: colorField.text})
                         }
                     )
                 }
@@ -74,6 +76,8 @@ Page {
         id: switchItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -89,7 +93,7 @@ Page {
                     this.checked = field.value
                 }
                 onCheckedChanged: {
-                    field.value = this.checked
+                    list_view.model.update(index, {value: this.checked})
                 }
             }
             Rectangle {
@@ -120,6 +124,8 @@ Page {
         id: comboBoxItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -167,7 +173,7 @@ Page {
                     this.currentIndex = indexOfValue(field.value)
                 }
                 onActivated: {
-                    field.value = this.currentValue
+                    list_view.model.update(index, {value: this.currentValue})
                 }
                 model: field.choices
             }
@@ -194,6 +200,8 @@ Page {
         id: textFieldItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -208,7 +216,7 @@ Page {
                 Layout.fillWidth: true
                 text: field.value
                 onEditingFinished: {
-                    field.value = this.text
+                    list_view.model.update(index, {value: text})
                 }
             }
             IconButton {
@@ -1024,25 +1032,33 @@ Page {
                                             switch (model.type) {
                                                 case "bool": {
                                                     item = switchItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
                                                 case "enum": {
                                                     item = comboBoxItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
                                                 case "color" : {
                                                     item = colorPickerItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
                                                 case "other": {
                                                     item = textFieldItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
@@ -1180,25 +1196,33 @@ Page {
                                             switch (model.type) {
                                                 case "bool": {
                                                     item = switchItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
                                                 case "enum": {
                                                     item = comboBoxItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
                                                 case "color" : {
                                                     item = colorPickerItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
                                                 case "other": {
                                                     item = textFieldItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }

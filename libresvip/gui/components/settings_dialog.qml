@@ -382,14 +382,19 @@ Dialog {
                         width: parent.width
                         text: qsTr(label)
                         onClicked: {
-                            if (value === "conversion") {
-                                settingsStack.push(convertSettingsPage)
-                            } else if (value === "save_path") {
-                                settingsStack.push(savePathSettingsPage)
-                            } else if (value === "file_conflict_policy") {
-                                settingsStack.push(conflictPolicySettingsPage)
-                            } else if (value === "updates") {
-                                settingsStack.push(updatesSettingsPage)
+                            switch (value) {
+                                case "conversion":
+                                    settingsStack.currentIndex = 0
+                                    break
+                                case "save_path":
+                                    settingsStack.currentIndex = 1
+                                    break
+                                case "file_conflict_policy":
+                                    settingsStack.currentIndex = 2
+                                    break
+                                case "updates":
+                                    settingsStack.currentIndex = 3
+                                    break
                             }
                         }
                     }
@@ -404,42 +409,16 @@ Dialog {
         ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            StackView {
+            StackLayout {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 id: settingsStack
-                initialItem: convertSettingsPage
-                pushEnter: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 0
-                        to:1
-                        duration: 200
-                    }
-                }
-                pushExit: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 1
-                        to:0
-                        duration: 200
-                    }
-                }
-                popEnter: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 0
-                        to:1
-                        duration: 200
-                    }
-                }
-                popExit: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 1
-                        to:0
-                        duration: 200
-                    }
+                currentIndex: 0
+                Component.onCompleted: {
+                    convertSettingsPage.createObject(settingsStack)
+                    savePathSettingsPage.createObject(settingsStack)
+                    conflictPolicySettingsPage.createObject(settingsStack)
+                    updatesSettingsPage.createObject(settingsStack)
                 }
             }
         }
