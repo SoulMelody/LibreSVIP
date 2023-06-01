@@ -19,6 +19,8 @@ Page {
         id: colorPickerItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -34,7 +36,7 @@ Page {
                 Layout.fillWidth: true
                 text: field.value
                 onEditingFinished: {
-                    field.value = this.text
+                    list_view.model.update(index, {value: text})
                 }
             }
             IconButton {
@@ -46,7 +48,7 @@ Page {
                         colorField.text,
                         (color) => {
                             colorField.text = color
-                            field.value = color
+                            list_view.model.update(index, {value: colorField.text})
                         }
                     )
                 }
@@ -74,6 +76,8 @@ Page {
         id: switchItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -89,7 +93,7 @@ Page {
                     this.checked = field.value
                 }
                 onCheckedChanged: {
-                    field.value = this.checked
+                    list_view.model.update(index, {value: this.checked})
                 }
             }
             Rectangle {
@@ -120,6 +124,8 @@ Page {
         id: comboBoxItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -167,7 +173,7 @@ Page {
                     this.currentIndex = indexOfValue(field.value)
                 }
                 onActivated: {
-                    field.value = this.currentValue
+                    list_view.model.update(index, {value: this.currentValue})
                 }
                 model: field.choices
             }
@@ -194,6 +200,8 @@ Page {
         id: textFieldItem
         RowLayout {
             property var field: {}
+            property int index
+            property QtObject list_view
             height: 40
             Layout.fillWidth: true
             Label {
@@ -208,7 +216,7 @@ Page {
                 Layout.fillWidth: true
                 text: field.value
                 onEditingFinished: {
-                    field.value = this.text
+                    list_view.model.update(index, {value: text})
                 }
             }
             IconButton {
@@ -410,10 +418,10 @@ Page {
                         checked: py.config_items.get_bool("auto_detect_input_format")
                         onClicked: {
                             py.config_items.set_bool("auto_detect_input_format", checked)
-                            settingsDrawer.autoDetectInputFormatChanged(checked)
+                            dialogs.settingsDialog.autoDetectInputFormatChanged(checked)
                         }
                         Component.onCompleted: {
-                            settingsDrawer.autoDetectInputFormatChanged.connect( (value) => {
+                            dialogs.settingsDialog.autoDetectInputFormatChanged.connect( (value) => {
                                 value === checked ? null : checked = value
                             })
                         }
@@ -429,10 +437,10 @@ Page {
                         checked: py.config_items.get_bool("reset_tasks_on_input_change")
                         onClicked: {
                             py.config_items.set_bool("reset_tasks_on_input_change", checked)
-                            settingsDrawer.resetTasksOnInputChangeChanged(checked)
+                            dialogs.settingsDialog.resetTasksOnInputChangeChanged(checked)
                         }
                         Connections {
-                            target: settingsDrawer
+                            target: dialogs.settingsDialog
                             function onResetTasksOnInputChangeChanged(value) {
                                 value === resetTasksOnInputChange.checked ? null : resetTasksOnInputChange.checked = value
                             }
@@ -1024,25 +1032,33 @@ Page {
                                             switch (model.type) {
                                                 case "bool": {
                                                     item = switchItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
                                                 case "enum": {
                                                     item = comboBoxItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
                                                 case "color" : {
                                                     item = colorPickerItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
                                                 case "other": {
                                                     item = textFieldItem.createObject(inputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": inputFields
                                                     })
                                                     break
                                                 }
@@ -1180,25 +1196,33 @@ Page {
                                             switch (model.type) {
                                                 case "bool": {
                                                     item = switchItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
                                                 case "enum": {
                                                     item = comboBoxItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
                                                 case "color" : {
                                                     item = colorPickerItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
                                                 case "other": {
                                                     item = textFieldItem.createObject(outputContainer, {
-                                                        "field": model
+                                                        "field": model,
+                                                        "index": i,
+                                                        "list_view": outputFields
                                                     })
                                                     break
                                                 }
@@ -1268,10 +1292,11 @@ Page {
                         placeholderText: qsTr("Output Folder")
                         text: py.config_items.get_save_folder()
                         onEditingFinished: {
-                            if (py.config_items.set_save_folder(text) === true) {
+                            if (py.config_items.dir_valid(text) === true) {
+                                py.config_items.set_save_folder(text)
                                 saveFolderTextField.text = text
                             } else {
-                                saveFolderTextField.text = py.config_items.get_save_folder()
+                                undo()
                             }
                         }
                         Connections {
@@ -1379,10 +1404,10 @@ Page {
                         checked: py.config_items.get_bool("open_save_folder_on_completion")
                         onClicked: {
                             py.config_items.set_bool("open_save_folder_on_completion", checked)
-                            settingsDrawer.autoOpenSaveFolderChanged(checked)
+                            dialogs.settingsDialog.autoOpenSaveFolderChanged(checked)
                         }
                         Component.onCompleted: {
-                            settingsDrawer.autoOpenSaveFolderChanged.connect( (value) => {
+                            dialogs.settingsDialog.autoOpenSaveFolderChanged.connect( (value) => {
                                 value === checked ? null : checked = value
                             })
                         }
@@ -1410,11 +1435,11 @@ Page {
                         ]
                         onActivated: (index) => {
                             py.config_items.set_conflict_policy(currentValue)
-                            settingsDrawer.conflictPolicyChanged(currentValue)
+                            dialogs.settingsDialog.conflictPolicyChanged(currentValue)
                         }
                         Component.onCompleted: {
                             currentIndex = indexOfValue(py.config_items.get_conflict_policy())
-                            settingsDrawer.conflictPolicyChanged.connect( (value) => {
+                            dialogs.settingsDialog.conflictPolicyChanged.connect( (value) => {
                                 switch (value) {
                                     case "Overwrite":
                                     case "Skip":

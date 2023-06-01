@@ -40,6 +40,7 @@ jobs:
       - name: Build with cx_freeze
         run: |
           cd deploy/packaging
+          poetry run python -c "from libresvip.utils import download_and_setup_ffmpeg; download_and_setup_ffmpeg()"
           poetry run python setup.py build_exe
           cd ../..
       - name: Compress build artifact

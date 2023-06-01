@@ -15,10 +15,22 @@ except ImportError:
 
 pyside6_dir = pathlib.Path(PySide6.__file__).parent
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
+qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
+qml_base_dir = None
 if (pyside6_dir / "qml").exists():
-    include_files.append((pyside6_dir / "qml", pathlib.Path("./lib/PySide6/qml")))
+    qml_base_dir = "qml"
 elif (pyside6_dir / "Qt/qml").exists():
-    include_files.append((pyside6_dir / "Qt/qml", pathlib.Path("./lib/PySide6/Qt/qml")))
+    qml_base_dir = "Qt/qml"
+
+if qml_base_dir:
+    for qml_dir in qml_dirs:
+        include_files.append(
+            (
+                pyside6_dir / qml_base_dir / qml_dir,
+                pathlib.Path(f"./lib/PySide6/{qml_base_dir}/{qml_dir}"),
+            )
+        )
+
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
     # cx_Freeze imports automatically the following plugins depending of the
@@ -27,14 +39,10 @@ if get_qt_plugins_paths:
     # mediaservice - QtMultimedia
     # printsupport - QtPrintSupport
     for plugin_name in (
-        # "accessible",
-        # "iconengines",
-        # "platforminputcontexts",
         "xcbglintegrations",
         "egldeviceintegrations",
         "wayland-decoration-client",
         "wayland-graphics-integration-client",
-        # "wayland-graphics-integration-server",
         "wayland-shell-integration",
     ):
         include_files += get_qt_plugins_paths("PySide6", plugin_name)
@@ -42,13 +50,67 @@ if get_qt_plugins_paths:
 # base="Win32GUI" should be used only for Windows GUI app
 base = "Win32GUI" if sys.platform == "win32" else None
 
+
+def platform_libs_for_qtmodule(module: str) -> list[str]:
+    return [
+        f"libQt6{module}.so",  # Linux
+        f"Qt{module}",  # MacOS
+        f"Qt6{module}.dll",  # Windows
+    ]
+
+
 build_exe_options = {
-    "bin_excludes": [
-        "QtWebEngineCore",
-        "Qt6WebEngineCore.dll",
-        "libQt6WebEngineCore.so",
-        "Python.Runtime.dll",
-    ],
+    "bin_excludes": sum(
+        (
+            platform_libs_for_qtmodule(module)
+            for module in (
+                "Charts",
+                "ChartsQml",
+                "Concurrent",
+                "DataVisualization",
+                "DataVisualizationQml",
+                "Location",
+                "Multimedia",
+                "MultimediaQuick",
+                "Pdf",
+                "Positioning",
+                "PositioningQuick",
+                "Quick3D",
+                "RemoteObjects",
+                "RemoteObjectsQml",
+                "Scxml",
+                "ScxmlQml",
+                "Sensors",
+                "SensorsQuick",
+                "ShaderTools",
+                "Sql",
+                "StateMachine",
+                "StateMachineQml",
+                "Svg",
+                "Test",
+                "TextToSpeech",
+                "VirtualKeyboard",
+                "WebChannel",
+                "WebEngineCore",
+                "WebEngineQuick",
+                "WebEngineQuickDelegatesQml",
+                "WebSockets",
+                "3DAnimation",
+                "3DCore",
+                "3DExtras",
+                "3DInput",
+                "3DLogic",
+                "3DQuick",
+                "3DQuickAnimation",
+                "3DQuickExtras",
+                "3DQuickInput",
+                "3DQuickRender",
+                "3DQuickScene2D",
+                "3DRender",
+            )
+        ),
+        [],
+    ),
     # exclude packages that are not really needed
     "excludes": [
         "tkinter",

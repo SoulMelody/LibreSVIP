@@ -375,24 +375,6 @@ class Beat:
 
 
 @dataclass
-class C0:
-    length: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "Length",
-            "type": "Attribute",
-        },
-    )
-    data: list[Union[Data, float, Decimal]] = field(
-        default_factory=list,
-        metadata={
-            "name": "Data",
-            "type": "Element",
-        },
-    )
-
-
-@dataclass
 class Groups:
     active_group: Optional[str] = field(
         default=None,
@@ -405,24 +387,6 @@ class Groups:
         default_factory=list,
         metadata={
             "name": "Group",
-            "type": "Element",
-        },
-    )
-
-
-@dataclass
-class LogF0:
-    length: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "Length",
-            "type": "Attribute",
-        },
-    )
-    data: list[Union[Data, Decimal, float]] = field(
-        default_factory=list,
-        metadata={
-            "name": "Data",
             "type": "Element",
         },
     )
@@ -616,93 +580,64 @@ class Timeline:
 
 
 @dataclass
-class Timing:
-    length: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "Length",
-            "type": "Attribute",
-        },
-    )
-    data: list[Union[Data, Decimal, float]] = field(
-        default_factory=list,
-        metadata={
-            "name": "Data",
-            "type": "Element",
-        },
-    )
-
-
-@dataclass
-class VibAmp:
-    length: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "Length",
-            "type": "Attribute",
-        },
-    )
-    data: list[Union[Data, float, Decimal, int]] = field(
-        default_factory=list,
-        metadata={
-            "name": "Data",
-            "type": "Element",
-        },
-    )
-
-
-@dataclass
-class VibFrq:
-    length: Optional[int] = field(
-        default=None,
-        metadata={
-            "name": "Length",
-            "type": "Attribute",
-        },
-    )
-    data: list[Union[Data, float, Decimal]] = field(
-        default_factory=list,
-        metadata={
-            "name": "Data",
-            "type": "Element",
-        },
-    )
-
-
-@dataclass
 class Parameter:
-    timing: Optional[Timing] = field(
+    length: Optional[int] = field(
+        default=None,
+        metadata={
+            "name": "Length",
+            "type": "Attribute",
+        },
+    )
+    data: List[Union[Data, float, Decimal, int]] = field(
+        default_factory=list,
+        metadata={
+            "name": "Data",
+            "type": "Element",
+        },
+    )
+
+
+@dataclass
+class Parameters:
+    timing: Optional[Parameter] = field(
         default=None,
         metadata={
             "name": "Timing",
             "type": "Element",
         },
     )
-    log_f0: Optional[LogF0] = field(
+    log_f0: Optional[Parameter] = field(
         default=None,
         metadata={
             "name": "LogF0",
             "type": "Element",
         },
     )
-    c0: Optional[C0] = field(
+    c0: Optional[Parameter] = field(
         default=None,
         metadata={
             "name": "C0",
             "type": "Element",
         },
     )
-    vib_amp: Optional[VibAmp] = field(
+    vib_amp: Optional[Parameter] = field(
         default=None,
         metadata={
             "name": "VibAmp",
             "type": "Element",
         },
     )
-    vib_frq: Optional[VibFrq] = field(
+    vib_frq: Optional[Parameter] = field(
         default=None,
         metadata={
             "name": "VibFrq",
+            "type": "Element",
+        },
+    )
+    alpha: Optional[Parameter] = field(
+        default=None,
+        metadata={
+            "name": "Alpha",
             "type": "Element",
         },
     )
@@ -791,7 +726,7 @@ class Song:
             "type": "Element",
         },
     )
-    parameter: Optional[Parameter] = field(
+    parameter: Optional[Parameters] = field(
         default=None,
         metadata={
             "name": "Parameter",

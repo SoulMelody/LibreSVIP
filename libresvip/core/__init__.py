@@ -1,9 +1,8 @@
 import contextlib
+import shutil
 
 with contextlib.suppress(ImportError, RuntimeError):
-    import os
-    import sys
+    if shutil.which("ffmpeg") is None:
+        from libresvip.utils import download_and_setup_ffmpeg
 
-    from imageio_ffmpeg import get_ffmpeg_exe
-
-    sys.path.append(os.path.dirname(get_ffmpeg_exe()))
+        download_and_setup_ffmpeg()

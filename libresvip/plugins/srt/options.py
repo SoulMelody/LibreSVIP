@@ -28,3 +28,8 @@ class OutputOptions(BaseModel):
     )
     split_by: SplitOption = Field(title="New line by", default=SplitOption.BOTH)
     encoding: str = Field(title="Text encoding", default="utf-8")
+    track_index: int = Field(
+        default=-1,
+        title="Track index",
+        description="Start from 0, -1 means automatic selection",
+    )

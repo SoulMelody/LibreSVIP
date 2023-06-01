@@ -19,9 +19,12 @@ class SrtGenerator:
 
     def generate_project(self, project: Project) -> list[Subtitle]:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
-        singing_track = next(
-            track for track in project.track_list if isinstance(track, SingingTrack)
-        )
+        if self.options.track_index == -1:
+            singing_track = next(
+                track for track in project.track_list if isinstance(track, SingingTrack)
+            )
+        else:
+            singing_track = project.track_list[self.options.track_index]
         note_list = singing_track.note_list
         buffer = []
         lyric_lines = []

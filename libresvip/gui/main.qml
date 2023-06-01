@@ -191,19 +191,10 @@ ApplicationWindow {
         id: toolbar
     }
 
-    Components.SettingsDrawer {
-        id: settingsDrawer
-    }
-
-    StackView {
-        id: stackView
-        anchors.fill: parent
-        anchors.margins: edgeSize
-        initialItem: converterPage
-    }
-
     Components.ConverterPage {
         id: converterPage
+        anchors.fill: parent
+        anchors.margins: edgeSize
     }
 
     Component {
