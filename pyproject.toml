@@ -7,7 +7,7 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 charset-normalizer = "^3.1.0"
-loguru = "^0.7.0"
+loguru = "^0.6.0"
 omegaconf = "^2.3.0"
 portion = "^2.4.0"
 pydantic = "^1.10.8"
@@ -68,7 +68,8 @@ optional = true
 pyside6 = "!=6.5.0"
 qmlease = "^3.0.3"
 qtawesome = "^1.2.3"
-desktop-notifier = "^3.5.3"
+desktop-notifier = { version = "^3.5.3", markers = "platform_python_implementation == 'CPython'" }
+notify-py = { version = "^0.3.42", markers = "platform_python_implementation == 'PyPy'" }
 
 [tool.poetry.group.ffmpeg]
 optional = true
