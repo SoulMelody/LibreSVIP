@@ -115,9 +115,14 @@ def get_option_widgets(prefix: str):
             value=("field.default", ""),
             change=f"flushState('{prefix}')",
             items=("field.choices", []),
-            # unable to translate item values now
             hint=("translations[lang][field.description]", ""),
             v_else_if="field.type === 'enum'",
+            each_item_text="""(item) => {
+                if (item.text in translations[lang])
+                    return translations[lang][item.text]
+                return item.text
+            }""",
+            __properties=[("each_item_text", ":item-text")],
         )
         with vuetify.VTooltip(
             bottom=True, v_if="field.type === 'bool' || field.type === 'color'"
@@ -396,6 +401,8 @@ def initialize(server: Server):
                                     ),
                                     v_model="input_format",
                                     items=("input_formats", id2file_format),
+                                    each_item_text="(item) => translations[lang][item.text]",
+                                    __properties=[("each_item_text", ":item-text")],
                                 )
                             with vuetify.VCol(cols=1):
                                 get_dialog_widget("input")
@@ -447,6 +454,8 @@ def initialize(server: Server):
                                     ),
                                     v_model="output_format",
                                     items=("output_formats", id2file_format),
+                                    each_item_text="(item) => translations[lang][item.text]",
+                                    __properties=[("each_item_text", ":item-text")],
                                 )
                             with vuetify.VCol(cols=1):
                                 get_dialog_widget("output")
