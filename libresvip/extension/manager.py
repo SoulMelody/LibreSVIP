@@ -62,18 +62,15 @@ def _importModule(plugin_module_name: str, candidate_filepath: str) -> types.Mod
     # use imp to correctly load the plugin as a module
     candidate_filepath = pathlib.Path(candidate_filepath)
 
-    if candidate_filepath.is_dir():
-        candidate_module = load_module(plugin_module_name, candidate_filepath)
-    else:
+    if not candidate_filepath.is_dir():
         candidate_filepath = candidate_filepath.with_suffix(".py")
         plugin_dirname = candidate_filepath.parent.name
         plugin_package = f"{plugin_namespace}.{plugin_dirname}"
-        package_path = candidate_filepath.parent / "__init__.py"
         if plugin_package not in sys.modules:
+            package_path = candidate_filepath.parent / "__init__.py"
             sys.modules[plugin_package] = load_module(plugin_package, package_path)
 
-        candidate_module = load_module(plugin_module_name, candidate_filepath)
-    return candidate_module
+    return load_module(plugin_module_name, candidate_filepath)
 
 
 PluginManager._importModule = _importModule

@@ -64,8 +64,7 @@ class ConfigItems(QObject):
 
     @slot(str, result=bool)
     def get_bool(self, key) -> bool:
-        value = getattr(settings, key)
-        return value
+        return getattr(settings, key)
 
     @slot(str, bool, result=bool)
     def set_bool(self, key, value) -> bool:
