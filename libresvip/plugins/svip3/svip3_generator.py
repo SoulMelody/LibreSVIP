@@ -181,7 +181,7 @@ class Svip3Generator:
                 real_dur=last_note.end_pos + 1920,
                 play_dur=last_note.end_pos + 1920,
                 is_mute=track.mute,
-                note_List=self.generate_notes(track.note_list),
+                note_list=self.generate_notes(track.note_list),
                 edited_pitch_line=self.generate_pitch_param(track.edited_params.pitch),
             )
         ]

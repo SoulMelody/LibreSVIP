@@ -141,7 +141,7 @@ class Svip3Parser:
             right = left + pattern.play_dur
             visible_notes = [
                 note
-                for note in pattern.note_List
+                for note in pattern.note_list
                 if left <= note.start_pos + offset <= right - note.width_pos
             ]
             for note in visible_notes:

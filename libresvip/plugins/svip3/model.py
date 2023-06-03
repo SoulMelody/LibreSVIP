@@ -57,6 +57,7 @@ class Svip3Note(BaseMessage):
     sil_len: Annotated[int, Field(10)] = 0
     length_validate_tag: Annotated[int, Field(11)] = 0
     vibrato: Annotated[Svip3Vibrato, Field(12)] = field(default_factory=Svip3Vibrato)
+    user_sp_len: Annotated[int, Field(13)] = 0
 
 
 @dataclass
@@ -68,7 +69,7 @@ class Svip3SingingPattern(BaseMessage):
     play_pos: Annotated[int, Field(5)] = 0
     play_dur: Annotated[int, Field(6)] = 0
     is_mute: Annotated[bool, Field(7)] = False
-    note_List: Annotated[list[Svip3Note], Field(8)] = field(default_factory=list)
+    note_list: Annotated[list[Svip3Note], Field(8)] = field(default_factory=list)
     edited_pitch_line: Annotated[list[Svip3LineParamNode], Field(9)] = field(
         default_factory=list
     )
@@ -82,6 +83,18 @@ class Svip3SingingPattern(BaseMessage):
         default_factory=list
     )
     merge_power_line: Annotated[list[Svip3LineParamNode], Field(13)] = field(
+        default_factory=list
+    )
+    edited_spec_trans_coef_line: Annotated[list[Svip3LineParamNode], Field(14)] = field(
+        default_factory=list
+    )
+    edited_ap_coef_line: Annotated[list[Svip3LineParamNode], Field(15)] = field(
+        default_factory=list
+    )
+    edited_energy_value_line: Annotated[list[Svip3LineParamNode], Field(16)] = field(
+        default_factory=list
+    )
+    merge_energy_value_line: Annotated[list[Svip3LineParamNode], Field(17)] = field(
         default_factory=list
     )
 
@@ -182,3 +195,6 @@ class Svip3Project(BaseMessage):
     is_open_adsorb: Annotated[bool, Field(12)] = True
     params_version: Annotated[int, Field(13)] = 0
     tone_list: Annotated[list[Svip3SongTone], Field(14)] = field(default_factory=list)
+    is_triplets: Annotated[bool, Field(15)] = False
+    is_loop: Annotated[bool, Field(16)] = False
+    is_last_play: Annotated[bool, Field(17)] = False
