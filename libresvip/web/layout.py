@@ -48,7 +48,19 @@ def initialize(server: Server):
         client_triggers = trame.ClientTriggers(
             ref="reload_trigger",
             reload="window.location.reload()",
-            mounted="$vuetify.theme.dark = dark_mode === 'Dark'",
+            mounted="""
+            switch (dark_mode) {
+                case 'Light':
+                    $vuetify.theme.dark = false
+                    break
+                case 'Dark':
+                    $vuetify.theme.dark = true
+                    break
+                case 'System':
+                    $vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+                    break
+            }
+            """,
         )
         ctrl.call = client_triggers.call
         layout.drawer._attr_names += [("mini_variant_sync", "v-bind:mini-variant.sync")]
@@ -62,16 +74,44 @@ def initialize(server: Server):
 
         with layout.toolbar:
             vuetify.VSpacer()
-            with vuetify.VTooltip(bottom=True):
-                with vuetify.Template(v_slot_activator="{ on, attrs }"):
-                    with vuetify.VBtn(
-                        icon=True,
-                        v_bind="attrs",
-                        v_on="on",
-                        click="$vuetify.theme.dark = !$vuetify.theme.dark; dark_mode = $vuetify.theme.dark? 'Dark' : 'Light'",
-                    ):
+            with vuetify.VMenu(offset_y=True, transition="scale-transition"):
+                with vuetify.Template(v_slot_activator="{ on }"):
+                    with vuetify.VBtn(text=True, v_on="on"):
                         vuetify.VIcon("mdi-invert-colors")
-                html.Span(v_text="translations[lang]['Switch Theme']")
+                        html.Span(v_text="translations[lang]['Switch Theme']")
+                        vuetify.VIcon("mdi-menu-down", small=True)
+                with vuetify.VList():
+                    with vuetify.VListItem(
+                        v_for="(item, i) in ['Light', 'Dark']",
+                        key="i",
+                        value=["item"],
+                        click="$vuetify.theme.dark = item === 'Dark'; dark_mode = item",
+                    ):
+                        vuetify.VListItemTitle(
+                            "{{ translations[lang][item] }}",
+                        )
+                    with vuetify.VListItem(
+                        click="$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches; dark_mode = 'System'",
+                    ):
+                        vuetify.VListItemTitle(
+                            '{{ translations[lang]["System"] }}',
+                        )
+            with vuetify.VMenu(offset_y=True, transition="scale-transition"):
+                with vuetify.Template(v_slot_activator="{ on }"):
+                    with vuetify.VBtn(text=True, v_on="on"):
+                        vuetify.VIcon("mdi-translate")
+                        html.Span(v_text="lang")
+                        vuetify.VIcon("mdi-menu-down", small=True)
+                with vuetify.VList():
+                    with vuetify.VListItem(
+                        v_for="(item, i) in menu_items",
+                        key="i",
+                        value=["item"],
+                        click="lang = item",
+                    ):
+                        vuetify.VListItemTitle(
+                            "{{ item }}",
+                        )
             with vuetify.VTooltip(bottom=True):
                 with vuetify.Template(v_slot_activator="{ on, attrs }"):
                     with vuetify.VBtn(
@@ -101,22 +141,6 @@ def initialize(server: Server):
                                 color="primary",
                             )
                 html.Span(v_text="translations[lang]['About']")
-            with vuetify.VMenu(offset_y=True, transition="scale-transition"):
-                with vuetify.Template(v_slot_activator="{ on }"):
-                    with vuetify.VBtn(text=True, v_on="on"):
-                        vuetify.VIcon("mdi-translate")
-                        html.Span(v_text="lang")
-                        vuetify.VIcon("mdi-menu-down", small=True)
-                with vuetify.VList():
-                    with vuetify.VListItem(
-                        v_for="(item, i) in menu_items",
-                        key="i",
-                        value=["item"],
-                        click="lang = item",
-                    ):
-                        vuetify.VListItemTitle(
-                            "{{ item }}",
-                        )
 
         with layout.content:
             with vuetify.VContainer(fluid=True):
