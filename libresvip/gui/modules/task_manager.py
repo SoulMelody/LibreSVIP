@@ -269,7 +269,7 @@ class TaskManager(QObject):
                         {
                             "type": "color"
                             if issubclass(option.type_, Color)
-                            else "other",
+                            else option.type_.__name__,
                             "name": option_key,
                             "title": option.field_info.title,
                             "description": option.field_info.description or "",
@@ -343,7 +343,7 @@ class TaskManager(QObject):
                         {
                             "type": "color"
                             if issubclass(option.type_, Color)
-                            else "other",
+                            else option.type_.__name__,
                             "name": option_key,
                             "title": option.field_info.title,
                             "description": option.field_info.description or "",

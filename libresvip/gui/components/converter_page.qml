@@ -215,6 +215,18 @@ Page {
             TextField {
                 Layout.fillWidth: true
                 text: field.value
+                Component.onCompleted: {
+                    switch (field.type) {
+                        case "int":
+                            validator = Qt.createQmlObject('import QtQuick; IntValidator {}', this)
+                            break
+                        case "float":
+                            validator = Qt.createQmlObject('import QtQuick; DoubleValidator {}', this)
+                            break
+                        default:
+                            break
+                    }
+                }
                 onEditingFinished: {
                     list_view.model.update(index, {value: text})
                 }
@@ -1054,11 +1066,11 @@ Page {
                                                     })
                                                     break
                                                 }
-                                                case "other": {
+                                                default: {
                                                     item = textFieldItem.createObject(inputContainer, {
                                                         "field": model,
                                                         "index": i,
-                                                        "list_view": inputFields
+                                                        "list_view": inputFields,
                                                     })
                                                     break
                                                 }
@@ -1218,7 +1230,7 @@ Page {
                                                     })
                                                     break
                                                 }
-                                                case "other": {
+                                                default: {
                                                     item = textFieldItem.createObject(outputContainer, {
                                                         "field": model,
                                                         "index": i,
