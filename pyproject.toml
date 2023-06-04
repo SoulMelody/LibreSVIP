@@ -91,7 +91,6 @@ optional = true
 
 [tool.poetry.group.packaging.dependencies]
 cx-freeze = "^6.15.0"
-setuptools = { version = "^67.8.0", extras = ["testing-integration"] }
 
 
 [tool.poetry.group.test]
@@ -166,5 +165,5 @@ fix = true
 known-first-party = ['libresvip', 'tests']
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
 build-backend = "poetry.core.masonry.api"

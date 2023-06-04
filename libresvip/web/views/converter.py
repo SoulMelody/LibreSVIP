@@ -94,13 +94,6 @@ def get_option_widgets(prefix: str):
             change=f"flushState('{prefix}')",
             v_if="field.type === 'bool'",
         )
-        vuetify.VTextField(
-            label=("translations[lang][field.title]", ""),
-            v_model=f"{prefix}[field.name]",
-            value=("field.default", ""),
-            hint=("translations[lang][field.description]", ""),
-            v_else_if="field.type === 'other'",
-        )
         with html.Div(
             "{{ translations[lang][field.title] }}", v_else_if="field.type === 'color'"
         ):
@@ -123,6 +116,29 @@ def get_option_widgets(prefix: str):
                 return item.text
             }""",
             __properties=[("each_item_text", ":item-text")],
+        )
+        vuetify.VTextField(
+            label=("translations[lang][field.title]", ""),
+            v_model=f"{prefix}[field.name]",
+            value=("field.default", ""),
+            hint=("translations[lang][field.description]", ""),
+            v_else=True,
+            validate_rules=r"""[
+                (v) => {
+                    switch (field.type) {
+                        case 'int':
+                            if (!/^(\\-|\\+)?[0-9]+$/.test(v))
+                                return false
+                            break
+                        case 'float':
+                            if (!/^(\\-|\\+)?[0-9]+(\\.[0-9]+)?$/.test(v))
+                                return false
+                            break
+                    }
+                    return true
+                }
+            ]""",
+            __properties=[("validate_rules", ":rules")],
         )
         with vuetify.VTooltip(
             bottom=True, v_if="field.type === 'bool' || field.type === 'color'"
@@ -211,7 +227,9 @@ def initialize(server: Server):
                     default_value = option.default
                 option_info[f"{prefix}_fields"].append(
                     {
-                        "type": "color" if issubclass(option.type_, Color) else "other",
+                        "type": "color"
+                        if issubclass(option.type_, Color)
+                        else option.type_.__name__,
                         "name": option_key,
                         "title": option.field_info.title,
                         "description": option.field_info.description,
