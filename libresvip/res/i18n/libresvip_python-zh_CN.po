@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-05-28 22:41+0800\n"
+"POT-Creation-Date: 2023-06-06 15:49+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -43,11 +43,11 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:47 ../libresvip/web/i18n.py:22
+#: ../libresvip/cli/commands/plugin.py:47 ../libresvip/web/i18n.py:25
 msgid "Version"
 msgstr "版本"
 
-#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:21
+#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:24
 msgid "Author"
 msgstr "作者"
 
@@ -171,96 +171,108 @@ msgid "Switch Theme"
 msgstr "切换主题"
 
 #: ../libresvip/web/i18n.py:18
+msgid "Light"
+msgstr "浅色"
+
+#: ../libresvip/web/i18n.py:19
+msgid "Dark"
+msgstr "深色"
+
+#: ../libresvip/web/i18n.py:20
+msgid "System"
+msgstr "跟随系统"
+
+#: ../libresvip/web/i18n.py:21
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/i18n.py:19
+#: ../libresvip/web/i18n.py:22
 msgid "OK"
 msgstr "确定"
 
-#: ../libresvip/web/i18n.py:20
+#: ../libresvip/web/i18n.py:23
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/i18n.py:23
+#: ../libresvip/web/i18n.py:26
 msgid "Introduction"
 msgstr "简介"
 
-#: ../libresvip/web/i18n.py:24
+#: ../libresvip/web/i18n.py:27
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/i18n.py:25
+#: ../libresvip/web/i18n.py:28
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/i18n.py:26
+#: ../libresvip/web/i18n.py:29
 msgid "Import from"
 msgstr "导入自"
 
-#: ../libresvip/web/i18n.py:27
+#: ../libresvip/web/i18n.py:30
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/i18n.py:28
+#: ../libresvip/web/i18n.py:31
 msgid "Export to"
 msgstr "导出至"
 
-#: ../libresvip/web/i18n.py:29
+#: ../libresvip/web/i18n.py:32
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/i18n.py:30
+#: ../libresvip/web/i18n.py:33
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/i18n.py:31
+#: ../libresvip/web/i18n.py:34
 msgid "Next"
 msgstr "继续"
 
-#: ../libresvip/web/i18n.py:32
+#: ../libresvip/web/i18n.py:35
 msgid "Back"
 msgstr "返回"
 
-#: ../libresvip/web/i18n.py:33
+#: ../libresvip/web/i18n.py:36
 msgid "File operations"
 msgstr "文件操作"
 
-#: ../libresvip/web/i18n.py:34
+#: ../libresvip/web/i18n.py:37
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/i18n.py:35
+#: ../libresvip/web/i18n.py:38
 msgid "Import Options"
 msgstr "导入选项"
 
-#: ../libresvip/web/i18n.py:36
+#: ../libresvip/web/i18n.py:39
 msgid "Export Options"
 msgstr "导出选项"
 
-#: ../libresvip/web/i18n.py:37
+#: ../libresvip/web/i18n.py:40
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/web/i18n.py:38
+#: ../libresvip/web/i18n.py:41
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/i18n.py:39
+#: ../libresvip/web/i18n.py:42
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/i18n.py:40
+#: ../libresvip/web/i18n.py:43
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/i18n.py:41
+#: ../libresvip/web/i18n.py:44
 msgid ""
 "LibreSVIP is an open-sourced, liberal and extensionable framework that can "
 "convert your singing synthesis projects between different file formats."
 msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: ../libresvip/web/i18n.py:44
+#: ../libresvip/web/i18n.py:47
 msgid ""
 "All people should have the right and freedom to choose. That's why we're "
 "committed to giving you a second chance to keep your creations free from the "
@@ -269,10 +281,10 @@ msgstr ""
 "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
 "作免受平台的制约与圈子的束缚。"
 
-#: ../libresvip/web/i18n.py:47
+#: ../libresvip/web/i18n.py:50
 msgid "Plugin List"
 msgstr "插件列表"
 
-#: ../libresvip/web/i18n.py:48
+#: ../libresvip/web/i18n.py:51
 msgid "Install a Plugin"
 msgstr "安装插件"
