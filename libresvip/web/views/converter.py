@@ -232,10 +232,8 @@ def initialize(server: Server):
                     option_info[f"{prefix}_fields"].append(
                         {
                             "type": "color"
-
-                        if issubclass(field_info.annotation, Color)
-
-                        else option.type_.__name__,
+                            if issubclass(field_info.annotation, Color)
+                            else field_info.annotatio.__name__,
                             "name": option_key,
                             "title": field_info.title,
                             "description": field_info.description,
