@@ -10,7 +10,7 @@ class InputOptions(BaseModel):
 
 class OutputOptions(InputOptions):
     split_threshold: float = Field(
-        default=0,
+        default=5,
         title="Split threshold (in seconds)",
         description="This option controls the segmentation strategy during conversion. When the value of this option is negative, no segmentation is performed; when the value of this option is 0, segmentation is performed at the threshold where the interval between all notes reaches the threshold; when the value of this option is positive, the minimum length of each segment can be controlled on the basis of segmentation. Setting a reasonable segmentation strategy can reduce the memory usage during synthesis while maximizing the utilization of performance and improving the synthesis effect.",
     )

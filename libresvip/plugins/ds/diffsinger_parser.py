@@ -18,7 +18,7 @@ from libresvip.model.base import (
 from .model import DsItem, DsProject
 from .options import InputOptions
 from .phoneme_dict import get_opencpop_dict
-from .utils import hz2midi, note2midi
+from .utils.tone_utils import hz2midi, note2midi
 
 
 @dataclasses.dataclass

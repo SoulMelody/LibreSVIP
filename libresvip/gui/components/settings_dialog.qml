@@ -419,6 +419,7 @@ Dialog {
                     savePathSettingsPage.createObject(settingsStack)
                     conflictPolicySettingsPage.createObject(settingsStack)
                     updatesSettingsPage.createObject(settingsStack)
+                    dialogs.save_folder_changed(py.config_items.get_save_folder())
                 }
             }
         }

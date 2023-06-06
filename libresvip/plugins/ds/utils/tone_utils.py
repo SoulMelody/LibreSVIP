@@ -11,7 +11,7 @@ def hz2midi(hz: float, a4_midi=69, base_freq=440.0) -> float:
     return a4_midi + 12 * math.log2(hz / base_freq)
 
 
-def note2midi(note, *, round_midi=True):
+def note2midi(note: str, *, round_midi=True) -> float:
     pitch_map = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
     acc_map = {
         "#": 1,
@@ -58,7 +58,7 @@ def note2midi(note, *, round_midi=True):
     return note_value
 
 
-def midi2note(midi, *, round_midi=True):
+def midi2note(midi: float, *, round_midi=True) -> str:
     pitch_map = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     if round_midi:
         midi = int(round(midi))
