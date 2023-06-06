@@ -262,7 +262,7 @@ class TaskManager(QObject):
                     {
                         "type": "color"
                         if issubclass(field_info.annotation, Color)
-                        else "other",
+                        else option.type_.__name__,
                         "name": option_key,
                         "title": field_info.title,
                         "description": field_info.description or "",

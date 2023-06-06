@@ -155,10 +155,10 @@ fix = true
 known-first-party = ['libresvip', 'tests']
 
 [[tool.poetry.source]]
-name = "tencent"
-url = "https://mirrors.cloud.tencent.com/pypi/simple/"
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
 priority = "default"
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools"]
+requires = ["poetry-core>=1.0.0", "setuptools", "wheel", "setuptools"]
 build-backend = "poetry.core.masonry.api"

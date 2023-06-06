@@ -156,7 +156,7 @@ class Svip3AudioPattern(BaseMessage):
     play_dur: Annotated[int, Field(6)] = 0
     is_mute: Annotated[bool, Field(7)] = False
     audio_file_path: Annotated[str, Field(8)] = ""
-    rising_falling_tone_: Annotated[float, Field(9)] = 0.0
+    rising_falling_tone: Annotated[float, Field(9)] = 0.0
 
 
 @dataclass

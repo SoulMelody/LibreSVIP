@@ -256,7 +256,7 @@ ColumnLayout {
                     let message_box = messageBox.createObject(
                         taskList,
                         {
-                            body: qsTr("<b>Do you want to overwrite the file?</b>"),
+                            body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
                             message: qsTr("File %1 already exists. Overwrite?").arg(
                                 py.task_manager.get_output_path(index)
                             ),

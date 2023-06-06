@@ -1,46 +1,46 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-28 22:41+0800\n"
-"PO-Revision-Date: 2023-05-28 22:46+0800\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: zh_CN\n"
+"POT-Creation-Date: 2023-06-06 15:44+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.3.1\n"
+"X-Generator: Translate Toolkit 3.9.0\n"
 
 #: converter_page%231
 msgid "Converter"
 msgstr "转换器"
 
-#: converter_page%232 task_row%231
+#: converter_page%232 task_row%231
 msgid "File successfully converted"
 msgstr "此文件已成功转换"
 
-#: converter_page%233 task_row%232
+#: converter_page%233 task_row%232
 msgid "Open"
 msgstr "打开文件"
 
-#: converter_page%234 task_row%233
+#: converter_page%234 task_row%233
 msgid "Open folder"
 msgstr "打开目录"
 
-#: converter_page%235 task_row%238
+#: converter_page%235 task_row%238
 msgid "File skipped due to conflict"
 msgstr "已跳过"
 
-#: converter_page%236 task_row%239
+#: converter_page%236 task_row%239
 msgid "File failed to convert, below is the error message:"
 msgstr "此文件转换失败，错误信息如下："
 
-#: converter_page%237 task_row%2310
+#: converter_page%237 task_row%2310
 msgid "Copy error message"
 msgstr "复制错误信息"
 
-#: converter_page%238 task_row%2311
+#: converter_page%238 task_row%2311
 msgid "Copied"
 msgstr "已复制"
 
@@ -56,7 +56,7 @@ msgstr "导入工程格式： "
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: converter_page%2312 settings_drawer%231
+#: converter_page%2312 settings_dialog%232 settings_drawer%231
 msgid "Auto-Detect Input File Type"
 msgstr "自动检测导入格式"
 
@@ -72,7 +72,7 @@ msgstr "上下交换"
 msgid "Output Format: "
 msgstr "导出工程格式： "
 
-#: converter_page%2316 settings_drawer%233
+#: converter_page%2316 settings_dialog%234 settings_drawer%233
 msgid "Set Output File Extension Automatically"
 msgstr "自动设置后缀名"
 
@@ -91,10 +91,6 @@ msgstr "输出选项"
 #: converter_page%2320
 msgid "Task List"
 msgstr "任务列表"
-
-#: converter_page%2321 task_row%234
-msgid "<b>Do you want to overwrite the file?</b>"
-msgstr "<b>是否覆盖文件？</b>"
 
 #: converter_page%2322
 msgid "Drag and drop files here"
@@ -148,7 +144,7 @@ msgstr "开始转换"
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2335 settings_drawer%235
+#: converter_page%2335 settings_dialog%236 settings_drawer%235
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
@@ -156,15 +152,15 @@ msgstr "完成后打开输出路径"
 msgid "Deal with Conflicts:"
 msgstr "遇到同名文件时："
 
-#: converter_page%2337 settings_drawer%2315
+#: converter_page%2337 settings_dialog%2312 settings_drawer%2313
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2338 settings_drawer%2316
+#: converter_page%2338 settings_dialog%2313 settings_drawer%2314
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2339 settings_drawer%2317
+#: converter_page%2339 settings_dialog%2314 settings_drawer%2315
 msgid "Prompt"
 msgstr "询问"
 
@@ -202,17 +198,17 @@ msgstr "自定义路径"
 
 #: dialogs%239
 msgid "Folder Presets"
-msgstr "预设路径"
+msgstr "文件夹预设"
 
 #: dialogs%2310
 msgid ""
 "You can insert \".\" at the beginning to represent the source path, for "
 "example \"./subfolder\""
-msgstr "你可以在开头插入\".\"来代表源路径，例如\"./subfolder\""
+msgstr "你可以在开头插入 \".\" 来代表源路径，例如 \"./subfolder\""
 
 #: dialogs%2311
 msgid "Click to add a folder preset"
-msgstr "单击添加预设路径"
+msgstr "点击添加文件夹预设"
 
 #: dialogs%2312
 msgid "About"
@@ -257,47 +253,63 @@ msgstr "版本"
 msgid "Introduction"
 msgstr "简介"
 
-#: settings_drawer%232
+#: settings_dialog%231
+msgid "Settings"
+msgstr "设置"
+
+#: settings_dialog%233 settings_drawer%232
 msgid "Reset Task List When Changing Input File Type"
 msgstr "切换格式时重置列表"
 
-#: settings_drawer%234
+#: settings_dialog%235 settings_drawer%234
 msgid "Multi-Threaded Conversion"
 msgstr "启用多线程转换"
 
-#: settings_drawer%236
-msgid "Preset Folder"
-msgstr "预设路径"
-
-#: settings_drawer%237
-msgid "Manage Folders Presets"
-msgstr "管理预设路径"
-
-#: settings_drawer%238
-msgid "Auto Check for Updates"
-msgstr "自动检查更新"
-
-#: settings_drawer%239
-msgid "Set Save Path"
-msgstr "设置保存路径"
-
-#: settings_drawer%2310
-msgid "Conversion Settings"
-msgstr "转换设置"
-
-#: settings_drawer%2311
+#: settings_dialog%237 settings_drawer%239
 msgid "Same as Source"
 msgstr "源路径"
 
-#: settings_drawer%2312
+#: settings_dialog%238 settings_drawer%2310
 msgid "Desktop"
 msgstr "桌面"
 
-#: settings_drawer%2313
+#: settings_dialog%239
+msgid "Preset Folder"
+msgstr "文件夹预设"
+
+#: settings_dialog%2310 settings_drawer%2311
 msgid "Custom (Browse ...)"
 msgstr "自定义 (浏览选择)"
 
-#: settings_drawer%2314
+#: settings_dialog%2311
+msgid "Manage Folders Presets"
+msgstr "管理文件夹预设"
+
+#: settings_dialog%2315 settings_drawer%236
+msgid "Auto Check for Updates"
+msgstr "自动检查更新"
+
+#: settings_dialog%2316 settings_drawer%238
+msgid "Conversion Settings"
+msgstr "转换设置"
+
+#: settings_dialog%2317
+msgid "Save Path Settings"
+msgstr "导出路径设置"
+
+#: settings_dialog%2318
+msgid "Conflict Policy Settings"
+msgstr "冲突解决策略设置"
+
+#: settings_dialog%2319
+msgid "Updates Settings"
+msgstr "更新设置"
+
+#: settings_drawer%237
+msgid "Set Save Path"
+msgstr "设置保存路径"
+
+#: settings_drawer%2312
 msgid "Deal With Existing Files"
 msgstr "遇到同名文件时"
 
@@ -312,6 +324,10 @@ msgstr "移动文件失败"
 #: task_row%237
 msgid "File already exists"
 msgstr "文件已存在"
+
+#: task_row%2312
+msgid "Do you want to overwrite the file?"
+msgstr "是否覆盖文件？"
 
 #: top_toolbar%231
 msgid "Convert (&C)"
@@ -429,7 +445,7 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:21
+#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:24
 msgid "Author"
 msgstr "作者"
 
@@ -528,10 +544,6 @@ msgstr "转换"
 msgid "Plugins"
 msgstr "插件"
 
-#: ../libresvip/web/i18n.py:13
-msgid "Settings"
-msgstr "设置"
-
 #: ../libresvip/web/i18n.py:16
 msgid "Export"
 msgstr "导出"
@@ -540,91 +552,91 @@ msgstr "导出"
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/i18n.py:18
+#: ../libresvip/web/i18n.py:21
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/i18n.py:19
+#: ../libresvip/web/i18n.py:22
 msgid "OK"
 msgstr "确定"
 
-#: ../libresvip/web/i18n.py:20
+#: ../libresvip/web/i18n.py:23
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/i18n.py:24
+#: ../libresvip/web/i18n.py:27
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/i18n.py:25
+#: ../libresvip/web/i18n.py:28
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/i18n.py:26
+#: ../libresvip/web/i18n.py:29
 msgid "Import from"
 msgstr "导入自"
 
-#: ../libresvip/web/i18n.py:27
+#: ../libresvip/web/i18n.py:30
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/i18n.py:28
+#: ../libresvip/web/i18n.py:31
 msgid "Export to"
 msgstr "导出至"
 
-#: ../libresvip/web/i18n.py:29
+#: ../libresvip/web/i18n.py:32
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/i18n.py:30
+#: ../libresvip/web/i18n.py:33
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/i18n.py:31
+#: ../libresvip/web/i18n.py:34
 msgid "Next"
 msgstr "继续"
 
-#: ../libresvip/web/i18n.py:32
+#: ../libresvip/web/i18n.py:35
 msgid "Back"
 msgstr "返回"
 
-#: ../libresvip/web/i18n.py:33
+#: ../libresvip/web/i18n.py:36
 msgid "File operations"
 msgstr "文件操作"
 
-#: ../libresvip/web/i18n.py:34
+#: ../libresvip/web/i18n.py:37
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/i18n.py:35
+#: ../libresvip/web/i18n.py:38
 msgid "Import Options"
 msgstr "导入选项"
 
-#: ../libresvip/web/i18n.py:36
+#: ../libresvip/web/i18n.py:39
 msgid "Export Options"
 msgstr "导出选项"
 
-#: ../libresvip/web/i18n.py:37
+#: ../libresvip/web/i18n.py:40
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/web/i18n.py:38
+#: ../libresvip/web/i18n.py:41
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/i18n.py:39
+#: ../libresvip/web/i18n.py:42
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/i18n.py:40
+#: ../libresvip/web/i18n.py:43
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/i18n.py:47
+#: ../libresvip/web/i18n.py:50
 msgid "Plugin List"
 msgstr "插件列表"
 
-#: ../libresvip/web/i18n.py:48
+#: ../libresvip/web/i18n.py:51
 msgid "Install a Plugin"
 msgstr "安装插件"
 
@@ -636,7 +648,7 @@ msgstr "DiffSinger参数文件（*.ds）"
 msgid "DiffSinger plugin. Currently, only loading is supported"
 msgstr "DiffSinger 参数格式转换插件。目前仅支持导入 DiffSinger 合成参数"
 
-#: .ds.load[0].title .ds.dump[0].title
+#: .ds.load[0].title .ds.dump[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -838,11 +850,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1012,8 +1024,9 @@ msgstr ""
 msgid "Pixels per beat"
 msgstr "每拍像素数"
 
-#: .svg.dump[0].description .svg.dump[1].description .svg.dump[2].description
-#: .svg.dump[5].description .svg.dump[7].description .svg.dump[16].description
+#: .svg.dump[0].description .svg.dump[1].description
+#: .svg.dump[2].description .svg.dump[5].description
+#: .svg.dump[7].description .svg.dump[16].description
 msgid "Unit: pixel."
 msgstr "单位：像素。"
 
@@ -1029,9 +1042,9 @@ msgstr "音符圆角"
 msgid "Note fill color"
 msgstr "音符填充颜色"
 
-#: .svg.dump[3].description .svg.dump[4].description .svg.dump[6].description
-#: .svg.dump[11].description .svg.dump[12].description
-#: .svg.dump[15].description
+#: .svg.dump[3].description .svg.dump[4].description
+#: .svg.dump[6].description .svg.dump[11].description
+#: .svg.dump[12].description .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
@@ -1055,19 +1068,19 @@ msgstr "音高曲线描边宽度"
 msgid "Lyric position"
 msgstr "歌词显示于"
 
-#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
+#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
 msgid "Above the note"
 msgstr "音符上方"
 
-#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
+#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
 msgid "Inside the note"
 msgstr "音符内部"
 
-#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
+#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
 msgid "Below the note"
 msgstr "音符下方"
 
-#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
+#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
 msgid "Don't show"
 msgstr "不显示"
 

@@ -91,7 +91,7 @@ class Group:
             "type": "Attribute",
         },
     )
-    category: Optional[str] = field(
+    category: str = field(
         default=None,
         metadata={
             "name": "Category",
@@ -736,7 +736,7 @@ class Song:
 
 
 @dataclass
-class Unit:
+class BaseUnit:
     version: Optional[float] = field(
         default=None,
         metadata={
@@ -748,13 +748,6 @@ class Unit:
         default=None,
         metadata={
             "name": "Id",
-            "type": "Attribute",
-        },
-    )
-    category: Optional[str] = field(
-        default=None,
-        metadata={
-            "name": "Category",
             "type": "Attribute",
         },
     )
@@ -779,6 +772,24 @@ class Unit:
             "type": "Attribute",
         },
     )
+    category: str = field(
+        default=None,
+        metadata={
+            "name": "Category",
+            "type": "Attribute",
+        },
+    )
+
+
+@dataclass
+class SongUnit(BaseUnit):
+    song: Optional[Song] = field(
+        default=None,
+        metadata={
+            "name": "Song",
+            "type": "Element",
+        },
+    )
     cast_id: Optional[str] = field(
         default=None,
         metadata={
@@ -793,13 +804,133 @@ class Unit:
             "type": "Attribute",
         },
     )
-    song: Optional[Song] = field(
+
+
+@dataclass
+class Component:
+    name: Optional[str] = field(
         default=None,
         metadata={
-            "name": "Song",
+            "name": "Name",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    value: Optional[Decimal] = field(
+        default=None,
+        metadata={
+            "name": "Value",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+
+
+@dataclass
+class Phoneme:
+    data: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "Data",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+
+
+@dataclass
+class Direction:
+    volume: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "Volume",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    speed: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "Speed",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    tone: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "Tone",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    alpha: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "Alpha",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    log_f0_scale: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "LogF0Scale",
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    component: List[Component] = field(
+        default_factory=list,
+        metadata={
+            "name": "Component",
+            "type": "Element",
+            "min_occurs": 1,
+        },
+    )
+
+
+@dataclass
+class Phonemes:
+    phoneme: List[Phoneme] = field(
+        default_factory=list,
+        metadata={
+            "name": "Phoneme",
+            "type": "Element",
+            "min_occurs": 1,
+        },
+    )
+
+
+@dataclass
+class TalkUnit(BaseUnit):
+    metadata: Optional[str] = field(
+        default="",
+        metadata={
+            "name": "Metadata",
             "type": "Element",
         },
     )
+    direction: Optional[Direction] = field(
+        default=None,
+        metadata={
+            "name": "Direction",
+            "type": "Element",
+            "required": True,
+        },
+    )
+    phonemes: Optional[Phonemes] = field(
+        default=None,
+        metadata={
+            "name": "Phonemes",
+            "type": "Element",
+            "required": True,
+        },
+    )
+
+
+@dataclass
+class AudioUnit:
     file_path: Optional[str] = field(
         default=None,
         metadata={
@@ -807,6 +938,11 @@ class Unit:
             "type": "Attribute",
         },
     )
+
+
+@dataclass
+class Unit(SongUnit, TalkUnit, AudioUnit):
+    pass
 
 
 @dataclass

@@ -66,7 +66,7 @@ Item {
                         anchors.right: parent.right
                         anchors.rightMargin: 10
                         anchors.verticalCenter: parent.verticalCenter
-                        visible: pathTextField.length > 0
+                        visible: pathTextField.length > 0 && (pathTextField.activeFocus || pathTextField.hovered)
                         width: 18
                         height: 18
                         radius: width / 2

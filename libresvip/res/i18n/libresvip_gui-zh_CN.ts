@@ -37,63 +37,63 @@
         <translation type="vanished">已复制</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="287"/>
+        <location filename="../../gui/components/converter_page.qml" line="307"/>
         <source>Select File Formats</source>
         <translation>格式选择</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="299"/>
+        <location filename="../../gui/components/converter_page.qml" line="319"/>
         <source>Input Format: </source>
         <translation>导入工程格式： </translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="334"/>
-        <location filename="../../gui/components/converter_page.qml" line="496"/>
+        <location filename="../../gui/components/converter_page.qml" line="354"/>
+        <location filename="../../gui/components/converter_page.qml" line="516"/>
         <source>View Detail Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="409"/>
+        <location filename="../../gui/components/converter_page.qml" line="429"/>
         <source>Auto-Detect Input File Type</source>
         <translation>自动检测导入格式</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="428"/>
+        <location filename="../../gui/components/converter_page.qml" line="448"/>
         <source>Reset Tasks When Changing Input</source>
         <translation>切换格式时重置列表</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="450"/>
+        <location filename="../../gui/components/converter_page.qml" line="470"/>
         <source>Swap Input and Output</source>
         <translation>上下交换</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="471"/>
+        <location filename="../../gui/components/converter_page.qml" line="491"/>
         <source>Output Format: </source>
         <translation>导出工程格式： </translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="570"/>
+        <location filename="../../gui/components/converter_page.qml" line="590"/>
         <source>Set Output File Extension Automatically</source>
         <translation>自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="896"/>
+        <location filename="../../gui/components/converter_page.qml" line="916"/>
         <source>Advanced Settings</source>
         <translation>高级选项</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="930"/>
+        <location filename="../../gui/components/converter_page.qml" line="950"/>
         <source>Input Options</source>
         <translation>输入选项</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1086"/>
+        <location filename="../../gui/components/converter_page.qml" line="1114"/>
         <source>Output Options</source>
         <translation>输出选项</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="636"/>
+        <location filename="../../gui/components/converter_page.qml" line="656"/>
         <source>Task List</source>
         <translation>任务列表</translation>
     </message>
@@ -102,94 +102,94 @@
         <translation type="vanished">&lt;b&gt;是否覆盖文件？&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="624"/>
+        <location filename="../../gui/components/converter_page.qml" line="644"/>
         <source>Drag and drop files here</source>
         <translation>拖拽或单击导入文件</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="761"/>
+        <location filename="../../gui/components/converter_page.qml" line="781"/>
         <source>Continue Adding files</source>
         <translation>继续添加文件</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="786"/>
+        <location filename="../../gui/components/converter_page.qml" line="806"/>
         <source>Clear Task List</source>
         <translation>清空所有导入</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="810"/>
+        <location filename="../../gui/components/converter_page.qml" line="830"/>
         <source>Reset Default Extension</source>
         <translation>恢复默认命名</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="834"/>
+        <location filename="../../gui/components/converter_page.qml" line="854"/>
         <source>Remove Tasks With Other Extensions</source>
         <translation>过滤多余项目</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="941"/>
+        <location filename="../../gui/components/converter_page.qml" line="961"/>
         <source>[Import as </source>
         <translation>[ 导入自 </translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="941"/>
-        <location filename="../../gui/components/converter_page.qml" line="1097"/>
+        <location filename="../../gui/components/converter_page.qml" line="961"/>
+        <location filename="../../gui/components/converter_page.qml" line="1125"/>
         <source> Format]</source>
         <translation> 工程文件 ]</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1097"/>
+        <location filename="../../gui/components/converter_page.qml" line="1125"/>
         <source>[Export to </source>
         <translation>[ 导出为 </translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1245"/>
+        <location filename="../../gui/components/converter_page.qml" line="1281"/>
         <source>Output Settings</source>
         <translation>输出设置</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1256"/>
+        <location filename="../../gui/components/converter_page.qml" line="1292"/>
         <source>Choose Output Folder</source>
         <translation>选择输出文件夹</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1268"/>
+        <location filename="../../gui/components/converter_page.qml" line="1304"/>
         <source>Output Folder</source>
         <translation>输出文件夹</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1345"/>
-        <location filename="../../gui/components/converter_page.qml" line="1366"/>
+        <location filename="../../gui/components/converter_page.qml" line="1382"/>
+        <location filename="../../gui/components/converter_page.qml" line="1403"/>
         <source>Start Conversion</source>
         <translation>开始转换</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1366"/>
+        <location filename="../../gui/components/converter_page.qml" line="1403"/>
         <source>Converting</source>
         <translation>转换中</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1378"/>
+        <location filename="../../gui/components/converter_page.qml" line="1415"/>
         <source>Open Output Folder When Done</source>
         <translation>完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1396"/>
+        <location filename="../../gui/components/converter_page.qml" line="1433"/>
         <source>Deal with Conflicts:</source>
         <translation>遇到同名文件时：</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1407"/>
+        <location filename="../../gui/components/converter_page.qml" line="1444"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1408"/>
+        <location filename="../../gui/components/converter_page.qml" line="1445"/>
         <source>Skip</source>
         <translation>跳过</translation>
     </message>
     <message>
-        <location filename="../../gui/components/converter_page.qml" line="1409"/>
+        <location filename="../../gui/components/converter_page.qml" line="1446"/>
         <source>Prompt</source>
         <translation>询问</translation>
     </message>
@@ -197,32 +197,32 @@
 <context>
     <name>dialogs</name>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="118"/>
+        <location filename="../../gui/components/dialogs.qml" line="126"/>
         <source>All Files (*.*)</source>
         <translation>所有文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="129"/>
+        <location filename="../../gui/components/dialogs.qml" line="137"/>
         <source>Install New Plugins</source>
         <translation>安装插件</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="138"/>
+        <location filename="../../gui/components/dialogs.qml" line="146"/>
         <source>Are you sure to install following plugins?</source>
         <translation>确定安装新的插件吗？</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="144"/>
+        <location filename="../../gui/components/dialogs.qml" line="152"/>
         <source>Developed by </source>
         <translation>开发者是</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="144"/>
+        <location filename="../../gui/components/dialogs.qml" line="152"/>
         <source>, which supports </source>
         <translation>，适用于</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="158"/>
+        <location filename="../../gui/components/dialogs.qml" line="166"/>
         <source>Compressed Plugin Package (*.zip)</source>
         <translation>插件压缩包 (*.zip)</translation>
     </message>
@@ -231,57 +231,57 @@
         <translation type="vanished">错误</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="53"/>
+        <location filename="../../gui/components/dialogs.qml" line="61"/>
         <source>Custom folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="206"/>
+        <location filename="../../gui/components/dialogs.qml" line="219"/>
         <source>Folder Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="234"/>
+        <location filename="../../gui/components/dialogs.qml" line="248"/>
         <source>You can insert &quot;.&quot; at the beginning to represent the source path, for example &quot;./subfolder&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="325"/>
+        <location filename="../../gui/components/dialogs.qml" line="339"/>
         <source>Click to add a folder preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="347"/>
+        <location filename="../../gui/components/dialogs.qml" line="361"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="355"/>
+        <location filename="../../gui/components/dialogs.qml" line="369"/>
         <source>LibreSVIP</source>
         <translation>LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="365"/>
+        <location filename="../../gui/components/dialogs.qml" line="379"/>
         <source>Author: SoulMelody</source>
         <translation>作者：岁月静好_初心不忘</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="376"/>
+        <location filename="../../gui/components/dialogs.qml" line="390"/>
         <source>Author&apos;s Profile</source>
         <translation>作者主页</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="390"/>
+        <location filename="../../gui/components/dialogs.qml" line="404"/>
         <source>Repo URL</source>
         <translation>仓库地址</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="400"/>
+        <location filename="../../gui/components/dialogs.qml" line="414"/>
         <source>LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.</source>
         <translation>LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。</translation>
     </message>
     <message>
-        <location filename="../../gui/components/dialogs.qml" line="405"/>
+        <location filename="../../gui/components/dialogs.qml" line="419"/>
         <source>All people should have the right and freedom to choose. That&apos;s why we&apos;re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.</source>
         <translation>所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。</translation>
     </message>
@@ -300,98 +300,171 @@
     </message>
 </context>
 <context>
-    <name>settings_drawer</name>
+    <name>settings_dialog</name>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="50"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="46"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="75"/>
         <source>Auto-Detect Input File Type</source>
-        <translation>自动检测导入格式</translation>
+        <translation type="unfinished">自动检测导入格式</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="63"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="88"/>
         <source>Reset Task List When Changing Input File Type</source>
-        <translation>切换格式时重置列表</translation>
+        <translation type="unfinished">切换格式时重置列表</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="76"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="101"/>
         <source>Set Output File Extension Automatically</source>
-        <translation>自动设置后缀名</translation>
+        <translation type="unfinished">自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="88"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="113"/>
         <source>Multi-Threaded Conversion</source>
-        <translation>启用多线程转换</translation>
+        <translation type="unfinished">启用多线程转换</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="95"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="120"/>
         <source>Open Output Folder When Done</source>
-        <translation>完成后打开输出路径</translation>
+        <translation type="unfinished">完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="122"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="163"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="147"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="174"/>
+        <source>Same as Source</source>
+        <translation type="unfinished">源路径</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="151"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="179"/>
+        <source>Desktop</source>
+        <translation type="unfinished">桌面</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="155"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="185"/>
         <source>Preset Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="223"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="159"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="237"/>
+        <source>Custom (Browse ...)</source>
+        <translation type="unfinished">自定义 (浏览选择)</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="245"/>
         <source>Manage Folders Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="315"/>
-        <source>Auto Check for Updates</source>
-        <translation>自动检查更新</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="141"/>
-        <source>Set Save Path</source>
-        <translation>设置保存路径</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="42"/>
-        <source>Conversion Settings</source>
-        <translation>转换设置</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="114"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="152"/>
-        <source>Same as Source</source>
-        <translation>源路径</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="118"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="157"/>
-        <source>Desktop</source>
-        <translation>桌面</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="126"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="215"/>
-        <source>Custom (Browse ...)</source>
-        <translation>自定义 (浏览选择)</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="270"/>
-        <source>Deal With Existing Files</source>
-        <translation>遇到同名文件时</translation>
-    </message>
-    <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="250"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="280"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="280"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="301"/>
         <source>Overwrite</source>
-        <translation>覆盖</translation>
+        <translation type="unfinished">覆盖</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="253"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="286"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="283"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="307"/>
         <source>Skip</source>
-        <translation>跳过</translation>
+        <translation type="unfinished">跳过</translation>
     </message>
     <message>
-        <location filename="../../gui/components/settings_drawer.qml" line="256"/>
-        <location filename="../../gui/components/settings_drawer.qml" line="292"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="286"/>
+        <location filename="../../gui/components/settings_dialog.qml" line="313"/>
         <source>Prompt</source>
-        <translation>询问</translation>
+        <translation type="unfinished">询问</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="344"/>
+        <source>Auto Check for Updates</source>
+        <translation type="unfinished">自动检查更新</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="360"/>
+        <source>Conversion Settings</source>
+        <translation type="unfinished">转换设置</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="364"/>
+        <source>Save Path Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="368"/>
+        <source>Conflict Policy Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/settings_dialog.qml" line="372"/>
+        <source>Updates Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>settings_drawer</name>
+    <message>
+        <source>Auto-Detect Input File Type</source>
+        <translation type="vanished">自动检测导入格式</translation>
+    </message>
+    <message>
+        <source>Reset Task List When Changing Input File Type</source>
+        <translation type="vanished">切换格式时重置列表</translation>
+    </message>
+    <message>
+        <source>Set Output File Extension Automatically</source>
+        <translation type="vanished">自动设置后缀名</translation>
+    </message>
+    <message>
+        <source>Multi-Threaded Conversion</source>
+        <translation type="vanished">启用多线程转换</translation>
+    </message>
+    <message>
+        <source>Open Output Folder When Done</source>
+        <translation type="vanished">完成后打开输出路径</translation>
+    </message>
+    <message>
+        <source>Auto Check for Updates</source>
+        <translation type="vanished">自动检查更新</translation>
+    </message>
+    <message>
+        <source>Set Save Path</source>
+        <translation type="vanished">设置保存路径</translation>
+    </message>
+    <message>
+        <source>Conversion Settings</source>
+        <translation type="vanished">转换设置</translation>
+    </message>
+    <message>
+        <source>Same as Source</source>
+        <translation type="vanished">源路径</translation>
+    </message>
+    <message>
+        <source>Desktop</source>
+        <translation type="vanished">桌面</translation>
+    </message>
+    <message>
+        <source>Custom (Browse ...)</source>
+        <translation type="vanished">自定义 (浏览选择)</translation>
+    </message>
+    <message>
+        <source>Deal With Existing Files</source>
+        <translation type="vanished">遇到同名文件时</translation>
+    </message>
+    <message>
+        <source>Overwrite</source>
+        <translation type="vanished">覆盖</translation>
+    </message>
+    <message>
+        <source>Skip</source>
+        <translation type="vanished">跳过</translation>
+    </message>
+    <message>
+        <source>Prompt</source>
+        <translation type="vanished">询问</translation>
     </message>
 </context>
 <context>
@@ -413,9 +486,8 @@
         <translation>打开目录</translation>
     </message>
     <message>
-        <location filename="../../gui/components/task_row.qml" line="259"/>
         <source>&lt;b&gt;Do you want to overwrite the file?&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;是否覆盖文件？&lt;/b&gt;</translation>
+        <translation type="obsolete">&lt;b&gt;是否覆盖文件？&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../../gui/components/task_row.qml" line="260"/>
@@ -450,6 +522,11 @@
         <location filename="../../gui/components/task_row.qml" line="190"/>
         <source>Copied</source>
         <translation>已复制</translation>
+    </message>
+    <message>
+        <location filename="../../gui/components/task_row.qml" line="259"/>
+        <source>Do you want to overwrite the file?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
