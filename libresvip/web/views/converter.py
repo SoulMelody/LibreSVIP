@@ -233,7 +233,7 @@ def initialize(server: Server):
                         {
                             "type": "color"
                             if issubclass(field_info.annotation, Color)
-                            else field_info.annotatio.__name__,
+                            else field_info.annotation.__name__,
                             "name": option_key,
                             "title": field_info.title,
                             "description": field_info.description,

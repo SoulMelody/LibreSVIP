@@ -588,7 +588,7 @@ class Parameter:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, float, Decimal, int]] = field(
+    data: list[Union[Data, float, Decimal, int]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -880,7 +880,7 @@ class Direction:
             "required": True,
         },
     )
-    component: List[Component] = field(
+    component: list[Component] = field(
         default_factory=list,
         metadata={
             "name": "Component",
@@ -892,7 +892,7 @@ class Direction:
 
 @dataclass
 class Phonemes:
-    phoneme: List[Phoneme] = field(
+    phoneme: list[Phoneme] = field(
         default_factory=list,
         metadata={
             "name": "Phoneme",

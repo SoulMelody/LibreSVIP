@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 import pypinyin
 
@@ -36,12 +35,12 @@ class NiaoNiaoParser:
         )
         return project
 
-    def parse_tempos(self, info_line: NNInfoLine) -> List[SongTempo]:
+    def parse_tempos(self, info_line: NNInfoLine) -> list[SongTempo]:
         return [SongTempo(BPM=info_line.tempo, Position=0)]
 
     def parse_time_signatures(
         self, time_signature: NNTimeSignature
-    ) -> List[TimeSignature]:
+    ) -> list[TimeSignature]:
         return [
             TimeSignature(
                 Numerator=time_signature.numerator,
@@ -49,7 +48,7 @@ class NiaoNiaoParser:
             )
         ]
 
-    def parse_tracks(self, notes: List[NNNote]) -> List[SingingTrack]:
+    def parse_tracks(self, notes: list[NNNote]) -> list[SingingTrack]:
         return [
             SingingTrack(
                 NoteList=self.parse_notes(notes),
@@ -57,7 +56,7 @@ class NiaoNiaoParser:
             )
         ]
 
-    def parse_notes(self, notes: List[NNNote]) -> List[Note]:
+    def parse_notes(self, notes: list[NNNote]) -> list[Note]:
         note_list = []
         for nn_note in notes:
             note = Note(
@@ -74,7 +73,7 @@ class NiaoNiaoParser:
             note_list.append(note)
         return note_list
 
-    def parse_params(self, notes: List[NNNote]) -> Params:
+    def parse_params(self, notes: list[NNNote]) -> Params:
         params = Params()
         for nn_note in notes:
             if nn_note.pitch.point_count > 0 and any(
