@@ -130,32 +130,16 @@ class MusicMath:
         return y0 + (y1 - y0) * (1 - math.cos((x - x0) / (x1 - x0) * math.pi)) / 2
 
     @staticmethod
-    def sin_easing_in_out_x(x0: float, x1: float, y0: float, y1: float, y: float) -> float:
-        return math.acos(1 - (y - y0) * 2 / (y1 - y0)) / math.pi * (x1 - x0) + x0
-
-    @staticmethod
     def sin_easing_in(x0: float, x1: float, y0: float, y1: float, x: float) -> float:
         return y0 + (y1 - y0) * (1 - math.cos((x - x0) / (x1 - x0) * math.pi / 2))
-
-    @staticmethod
-    def sin_easing_in_x(x0: float, x1: float, y0: float, y1: float, y: float) -> float:
-        return math.acos(1 - (y - y0) / (y1 - y0)) / math.pi * 2 * (x1 - x0) + x0
 
     @staticmethod
     def sin_easing_out(x0: float, x1: float, y0: float, y1: float, x: float) -> float:
         return y0 + (y1 - y0) * math.sin((x - x0) / (x1 - x0) * math.pi / 2)
 
     @staticmethod
-    def sin_easing_out_x(x0: float, x1: float, y0: float, y1: float, y: float) -> float:
-        return math.asin((y - y0) / (y1 - y0)) / math.pi * 2 * (x1 - x0) + x0
-
-    @staticmethod
     def linear(x0: float, x1: float, y0: float, y1: float, x: float) -> float:
         return y0 + (y1 - y0) * (x - x0) / (x1 - x0)
-
-    @staticmethod
-    def linear_x(x0: float, x1: float, y0: float, y1: float, y: float) -> float:
-        return (y - y0) / (y1 - y0) * (x1 - x0) + x0
 
     @classmethod
     def interpolate_shape(cls, x0: float, x1: float, y0: float, y1: float, x: float, shape: str) -> float:
@@ -167,17 +151,6 @@ class MusicMath:
             return cls.sin_easing_out(x0, x1, y0, y1, x)
         else:
             return cls.linear(x0, x1, y0, y1, x)
-
-    @classmethod
-    def interpolate_shape_x(cls, x0: float, x1: float, y0: float, y1: float, y: float, shape: str) -> float:
-        if shape == "io":
-            return cls.sin_easing_in_out_x(x0, x1, y0, y1, y)
-        elif shape == "i":
-            return cls.sin_easing_in_x(x0, x1, y0, y1, y)
-        elif shape == "o":
-            return cls.sin_easing_out_x(x0, x1, y0, y1, y)
-        else:
-            return cls.linear_x(x0, x1, y0, y1, y)
 
     @staticmethod
     def decibel_to_linear(db: float) -> float:

@@ -42,12 +42,11 @@ class UstxParser:
         tracks.extend(
             self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts)
         )
-        project = Project(
+        return Project(
             SongTempoList=tempos,
             TimeSignatureList=time_signatures,
             TrackList=tracks,
         )
-        return project
 
     @staticmethod
     def parse_tempos(tempos: List[UTempo]) -> List[SongTempo]:
@@ -91,6 +90,7 @@ class UstxParser:
                 AISingerName=ustx_track.singer,
             )
             for ustx_track in tracks
+            if ustx_track.singer
         ]
         for track in track_list:
             track.edited_params.pitch.points.append(Point.start_point())

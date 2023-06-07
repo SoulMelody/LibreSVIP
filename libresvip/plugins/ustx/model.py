@@ -8,6 +8,8 @@ from pydantic_yaml import YamlModel
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Point
 
+from .utils.music_math import MusicMath
+
 ParamType = SimpleNamespace(
     CURVE="Curve",
     NUMERICAL="Numerical",
@@ -49,6 +51,21 @@ class UCurve(YamlModel):
     xs: list[int] = Field(default_factory=list)
     ys: list[int] = Field(default_factory=list)
     abbr: Optional[str]
+
+    @property
+    def is_empty(self):
+        return len(self.xs) == 0 or all(y == 0 for y in self.ys)
+
+    def sample(self, x):
+        if x in self.xs:
+            idx = self.xs.index(x)
+            return self.ys[idx]
+        else:
+            idx = -1
+        idx = ~idx
+        if 0 < idx < len(self.xs):
+            return round(MusicMath.linear(self.xs[idx - 1], self.xs[idx], self.ys[idx - 1], self.ys[idx], x))
+        return 0
 
 
 class PitchPoint(YamlModel):

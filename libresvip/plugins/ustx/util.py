@@ -43,7 +43,7 @@ class BasePitchGenerator:
         for note in u_notes:
             pitch_points = note.pitch.data
             pitch_points = [PitchPoint(
-                x=time_axis.tick_pos_to_ms_pos(part.position + note.position),
+                x=time_axis.ms_pos_to_tick_pos(time_axis.tick_pos_to_ms_pos(part.position + note.position) + point.x) - part.position,
                 y=point.y * 10 + note.tone * 100,
                 shape=point.shape
             ) for point in pitch_points]
