@@ -896,7 +896,7 @@ Page {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: parent.height - 200
                 SplitView.minimumHeight: parent.height - 250
-                SplitView.maximumHeight: parent.height - 150
+                SplitView.maximumHeight: parent.height - 200
                 contentWidth: availableWidth
                 background: Rectangle {
                     color: "transparent"
@@ -1028,6 +1028,9 @@ Page {
                                         }
                                     }
                                 ]
+                            }
+                            Rectangle {
+                                width: 20
                             }
                         }
                         ListView {
@@ -1193,6 +1196,9 @@ Page {
                                     }
                                 ]
                             }
+                            Rectangle {
+                                width: 20
+                            }
                         }
                         ListView {
                             id: outputFields
@@ -1258,7 +1264,7 @@ Page {
 
             Control {
                 SplitView.fillWidth: true
-                SplitView.minimumHeight: 150
+                SplitView.minimumHeight: 200
                 anchors.bottom: parent.bottom
                 background: Rectangle {
                     color: "transparent"

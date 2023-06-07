@@ -1,6 +1,7 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import pathlib
+from gettext import gettext as _
 from typing import Tuple
 
 from .binary_models import (
@@ -109,6 +110,6 @@ class SvipReader(NrbfIOBase):
             if root_found:
                 break
         else:
-            raise Exception("Root not found")
+            raise Exception(_("Root not found"))
 
         return f"{self.svip_file.magic}{self.svip_file.version}", self.xstudio_model
