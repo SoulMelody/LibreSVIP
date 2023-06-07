@@ -143,9 +143,9 @@ class UNote(YamlModel):
     lyric: Optional[str]
     pitch: Optional[UPitch]
     vibrato: Optional[UVibrato]
-    note_expressions: Optional[list[UExpression]]  # deprecated
-    phoneme_expressions: Optional[list[UExpression]]
-    phoneme_overrides: Optional[list[UPhonemeOverride]]
+    note_expressions: Optional[list[UExpression]] = Field(default_factory=list)  # deprecated
+    phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
+    phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
 
     @property
     def end(self) -> int:
