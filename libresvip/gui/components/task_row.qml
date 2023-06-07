@@ -3,6 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 ColumnLayout {
     id: taskRow
@@ -65,7 +66,7 @@ ColumnLayout {
             }
             Rectangle {
                 id: statusIndicator
-                height: 35
+                height: 44
                 width: height
                 color: "transparent"
                 RoundButton {
@@ -76,10 +77,16 @@ ColumnLayout {
                     background: Rectangle {
                         color: Material.color(Material.Green, Material.Shade300)
                         radius: parent.height / 2
+                        HoverHandler {
+                            acceptedDevices: PointerDevice.AllPointerTypes
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
+                    height: parent.height
+                    width: height
+                    radius: height / 2
                     ToolTip {
                         id: successToolTip
                         contentItem: ColumnLayout {
@@ -124,11 +131,17 @@ ColumnLayout {
                     background: Rectangle {
                         color: Material.color(Material.Blue, Material.Shade300)
                         radius: parent.height / 2
+                        HoverHandler {
+                            acceptedDevices: PointerDevice.AllPointerTypes
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                     text: py.qta.icon("mdi6.minus-thick")
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
+                    height: parent.height
+                    width: height
+                    radius: height / 2
                     ToolTip {
                         id: skipToolTip
                         contentItem: ColumnLayout {
@@ -161,11 +174,17 @@ ColumnLayout {
                     background: Rectangle {
                         color: Material.color(Material.Red, Material.Shade300)
                         radius: parent.height / 2
+                        HoverHandler {
+                            acceptedDevices: PointerDevice.AllPointerTypes
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                     text: py.qta.icon("mdi6.alert-circle")
                     font.family: materialFontLoader.name
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
-                    radius: this.height / 2
+                    height: parent.height
+                    width: height
+                    radius: height / 2
                     ToolTip {
                         id: errorToolTip
                         contentItem: ColumnLayout {
@@ -207,24 +226,13 @@ ColumnLayout {
                         errorToolTip.visible = !errorToolTip.visible
                     }
                 }
-
-                RoundButton {
-                    id: runningButton
+                RunningIndicator {
+                    id: runningIndicator
                     anchors.centerIn: parent
+                    width: 44
+                    height: width
                     visible: false
                     enabled: false
-                    contentItem: Label {
-                        text: py.qta.icon("mdi6.autorenew")
-                        font.family: materialFontLoader.name
-                        font.pixelSize: Qt.application.font.pixelSize * 1.2
-                        NumberAnimation on rotation {
-                            running: runningButton.visible;
-                            from: 0;
-                            to: 360;
-                            loops: Animation.Infinite;
-                            duration: 1200
-                        }
-                    }
                 }
             }
         }
@@ -282,9 +290,9 @@ ColumnLayout {
         function onBusy_changed(busy) {
             if (busy) {
                 successButton.visible = errorButton.visible = skipButton.visible = false
-                runningButton.visible = true
+                runningIndicator.visible = true
             } else {
-                runningButton.visible = false
+                runningIndicator.visible = false
             }
         }
     }
