@@ -123,6 +123,7 @@ Page {
     Component {
         id: comboBoxItem
         RowLayout {
+            id: comboBoxRow
             property var field: {}
             property int index
             property QtObject list_view
@@ -172,8 +173,8 @@ Page {
                 Component.onCompleted: {
                     this.currentIndex = indexOfValue(field.value)
                 }
-                onActivated: {
-                    list_view.model.update(index, {value: this.currentValue})
+                onActivated: (index) => {
+                    list_view.model.update(comboBoxRow.index, {value: this.currentValue})
                 }
                 model: field.choices
             }
