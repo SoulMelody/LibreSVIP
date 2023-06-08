@@ -33,7 +33,7 @@ def note2midi(note: str, *, round_midi=True) -> float:
         note,
     )
     if not match:
-        raise ValueError("Improper note format: {:s}".format(note))
+        return None
 
     pitch = match.group("note").upper()
     offset = sum(acc_map[o] for o in match.group("accidental"))
