@@ -1,6 +1,5 @@
-from gettext import gettext as _
-
 from libresvip.model.base import ParamCurve, Point, Points
+from libresvip.utils import gettext_lazy as _
 
 from ..models.ds_param_curve import DsParamCurve, DsParamNode
 from .tone_utils import midi2hz

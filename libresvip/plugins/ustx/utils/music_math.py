@@ -1,9 +1,10 @@
 import enum
 import math
-from gettext import gettext as _
 
 import regex as re
 from pydub.utils import db_to_float, ratio_to_db
+
+from libresvip.utils import gettext_lazy as _
 
 
 class KeyColor(enum.IntEnum):

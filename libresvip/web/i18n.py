@@ -1,9 +1,10 @@
+import gettext
 from gettext import gettext as _
-from gettext import translation
 
 from trame_server.core import Server
 
-from libresvip.core.constants import res_dir
+from libresvip.core.config import Language
+from libresvip.core.constants import PACKAGE_NAME, res_dir
 from libresvip.extension.messages import messages_iterator
 
 messages = [
@@ -79,7 +80,21 @@ messages.extend(set(plugin_msgs))
 
 def initialize(server: Server):
     state = server.state
-    chinese_translation = translation(
+
+    @state.change("lang")
+    def change_lang(lang, **kwargs):
+        try:
+            translation = gettext.translation(PACKAGE_NAME, res_dir / "locales", [Language(lang).to_locale()], fallback=True)
+            gettext.textdomain(PACKAGE_NAME)
+        except OSError:
+            translation = gettext.NullTranslations()
+            gettext.textdomain("messages")
+        translation.install(
+            names=["gettext", "ngettext"]
+        )
+
+    gettext.bindtextdomain(PACKAGE_NAME, res_dir / "locales")
+    chinese_translation = gettext.translation(
         "libresvip", localedir=res_dir / "locales", languages=["zh_CN"]
     )
     state.translations = {

@@ -40,6 +40,8 @@ def initialize(server: Server):
         settings.dark_mode = DarkMode(state.dark_mode)
         settings.auto_detect_input_format = state.auto_detect
         settings.reset_tasks_on_input_change = state.auto_reset
+        settings.last_input_format = state.input_format
+        settings.last_output_format = state.output_format
         save_settings()
 
     atexit.register(save_settings_to_disk)

@@ -1,7 +1,6 @@
-from gettext import gettext as _
-
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
+from libresvip.utils import gettext_lazy as _
 
 from ..models.ds_note import (
     AspirationDsNote,

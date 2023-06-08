@@ -1,8 +1,9 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import pathlib
-from gettext import gettext as _
 from typing import Tuple
+
+from libresvip.utils import gettext_lazy as _
 
 from .binary_models import (
     PrimitiveTypeEnum,

@@ -41,7 +41,7 @@ class DiffSingerParser:
         )
 
     def parse_notes(self, ds_items: List[DsItem]) -> List[Note]:
-        opencpop_dict = get_opencpop_dict(self.options.dict_name)
+        opencpop_dict = get_opencpop_dict(self.options.dict_name, g2p=False)
         all_notes = []
         for ds_item in ds_items:
             notes = []
