@@ -3,10 +3,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-06 15:44+0800\n"
+"POT-Creation-Date: 2023-06-08 09:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,19 +29,19 @@ msgstr "打开文件"
 msgid "Open folder"
 msgstr "打开目录"
 
-#: converter_page%235 task_row%238
+#: converter_page%235 task_row%237
 msgid "File skipped due to conflict"
 msgstr "已跳过"
 
-#: converter_page%236 task_row%239
+#: converter_page%236 task_row%238
 msgid "File failed to convert, below is the error message:"
 msgstr "此文件转换失败，错误信息如下："
 
-#: converter_page%237 task_row%2310
+#: converter_page%237 task_row%239
 msgid "Copy error message"
 msgstr "复制错误信息"
 
-#: converter_page%238 task_row%2311
+#: converter_page%238 task_row%2310
 msgid "Copied"
 msgstr "已复制"
 
@@ -92,75 +93,75 @@ msgstr "输出选项"
 msgid "Task List"
 msgstr "任务列表"
 
-#: converter_page%2322
+#: converter_page%2321
 msgid "Drag and drop files here"
 msgstr "拖拽或单击导入文件"
 
-#: converter_page%2323
+#: converter_page%2322
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: converter_page%2324
+#: converter_page%2323
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: converter_page%2325
+#: converter_page%2324
 msgid "Reset Default Extension"
 msgstr "恢复默认命名"
 
-#: converter_page%2326
+#: converter_page%2325
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: converter_page%2327
+#: converter_page%2326
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: converter_page%2328
+#: converter_page%2327
 msgid " Format]"
 msgstr " 工程文件 ]"
 
-#: converter_page%2329
+#: converter_page%2328
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: converter_page%2330
+#: converter_page%2329
 msgid "Output Settings"
 msgstr "输出设置"
 
-#: converter_page%2331
+#: converter_page%2330
 msgid "Choose Output Folder"
 msgstr "选择输出文件夹"
 
-#: converter_page%2332
+#: converter_page%2331
 msgid "Output Folder"
 msgstr "输出文件夹"
 
-#: converter_page%2333
+#: converter_page%2332
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: converter_page%2334
+#: converter_page%2333
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2335 settings_dialog%236 settings_drawer%235
+#: converter_page%2334 settings_dialog%236 settings_drawer%235
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
-#: converter_page%2336
+#: converter_page%2335
 msgid "Deal with Conflicts:"
 msgstr "遇到同名文件时："
 
-#: converter_page%2337 settings_dialog%2312 settings_drawer%2313
+#: converter_page%2336 settings_dialog%2312 settings_drawer%2313
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2338 settings_dialog%2313 settings_drawer%2314
+#: converter_page%2337 settings_dialog%2313 settings_drawer%2314
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2339 settings_dialog%2314 settings_drawer%2315
+#: converter_page%2338 settings_dialog%2314 settings_drawer%2315
 msgid "Prompt"
 msgstr "询问"
 
@@ -313,19 +314,19 @@ msgstr "设置保存路径"
 msgid "Deal With Existing Files"
 msgstr "遇到同名文件时"
 
-#: task_row%235
+#: task_row%234
 msgid "File %1 already exists. Overwrite?"
 msgstr "文件 %1 已存在，是否覆盖？"
 
-#: task_row%236
+#: task_row%235
 msgid "Failed to move file"
 msgstr "移动文件失败"
 
-#: task_row%237
+#: task_row%236
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: task_row%2312
+#: task_row%2311
 msgid "Do you want to overwrite the file?"
 msgstr "是否覆盖文件？"
 
@@ -535,6 +536,28 @@ msgstr "使其它音轨静音"
 #: ../libresvip/cli/commands/proj.py:89
 msgid "Output Options："
 msgstr "导出选项："
+
+#: ../libresvip/plugins/ds/utils/note_list_util.py:43
+msgid "The source file lacks phoneme parameters."
+msgstr "源文件缺少音素参数"
+
+#: ../libresvip/plugins/ds/utils/pinyin_util.py:17
+msgid ""
+"The selected dictionary does not contain the pronunciation “{}”. Please "
+"check the pronunciation or try another dictionary."
+msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
+
+#: ../libresvip/plugins/ds/utils/pitch_param_utils.py:23
+msgid "The source file lacks pitch parameters."
+msgstr "源文件缺少音高参数"
+
+#: ../libresvip/plugins/svip/msnrbf/svip_reader.py:113
+msgid "Root not found"
+msgstr "未找到根对象"
+
+#: ../libresvip/plugins/ustx/utils/music_math.py:111
+msgid "Invalid beat unit."
+msgstr "无效的节拍单位"
 
 #: ../libresvip/web/i18n.py:11
 msgid "Convert"

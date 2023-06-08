@@ -2,12 +2,12 @@
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-06 15:49+0800\n"
+"POT-Creation-Date: 2023-06-08 09:18+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -137,6 +137,28 @@ msgstr "使其它音轨静音"
 #: ../libresvip/cli/commands/proj.py:89
 msgid "Output Options："
 msgstr "导出选项："
+
+#: ../libresvip/plugins/ds/utils/note_list_util.py:43
+msgid "The source file lacks phoneme parameters."
+msgstr "源文件缺少音素参数"
+
+#: ../libresvip/plugins/ds/utils/pinyin_util.py:17
+msgid ""
+"The selected dictionary does not contain the pronunciation “{}”. Please "
+"check the pronunciation or try another dictionary."
+msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
+
+#: ../libresvip/plugins/ds/utils/pitch_param_utils.py:23
+msgid "The source file lacks pitch parameters."
+msgstr "源文件缺少音高参数"
+
+#: ../libresvip/plugins/svip/msnrbf/svip_reader.py:113
+msgid "Root not found"
+msgstr "未找到根对象"
+
+#: ../libresvip/plugins/ustx/utils/music_math.py:111
+msgid "Invalid beat unit."
+msgstr "无效的节拍单位"
 
 #: ../libresvip/web/i18n.py:10
 msgid "SVS Projects Converter"
