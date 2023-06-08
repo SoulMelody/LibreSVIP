@@ -20,5 +20,6 @@ class SynthVEditorConverter(plugin_base.SVSConverterBase):
     ) -> None:
         s5p_project = SynthVEditorGenerator(options).generate_project(project)
         path.write_text(
-            s5p_project.json(by_alias=True, separators=(",", ":"), exclude_none=True)
+            s5p_project.json(by_alias=True, separators=(",", ":"), exclude_none=True),
+            encoding="utf-8",
         )

@@ -39,7 +39,7 @@ class XSLineParam:
             (node_count,) = struct.unpack("<i", bytearray(self.line_param[:4]))
             self.nodes.extend(
                 XSLineParamNode(value=value, pos=pos)
-                for value, pos in chunked(
+                for pos, value in chunked(
                     struct.unpack(
                         f"<{node_count * 2}i",
                         bytearray(self.line_param[4 : 4 + node_count * 8]),

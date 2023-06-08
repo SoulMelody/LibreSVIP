@@ -25,7 +25,7 @@ class DsProjectModel:
             consonant = ds_phoneme.consonant
             vowel = ds_phoneme.vowel
             input_text += cur_note.lyric.replace("-", "")
-            if consonant.phoneme != "":
+            if consonant.phoneme:
                 phoneme_seq += f"{consonant.phoneme} "
                 phoneme_dur_seq += f"{consonant.duration} "
                 is_slur_seq += "0 "
@@ -48,12 +48,12 @@ class DsProjectModel:
         pitch_points = self.pitch_param_curve.point_list
         f0_sequence = None
         if pitch_points and len(pitch_points) > 0:
-            f0_sequence = " ".join(f"{p:.1f}" for p in pitch_points)
+            f0_sequence = " ".join(f"{p.value:.1f}" for p in pitch_points)
 
         gender_points = self.gender_param_curve.point_list
         gender_sequence = None
         if gender_points and len(gender_points) > 0:
-            gender_sequence = " ".join(f"{p:.1f}" for p in gender_points)
+            gender_sequence = " ".join(f"{p.value:.1f}" for p in gender_points)
 
         return DsItem(
             text=input_text,

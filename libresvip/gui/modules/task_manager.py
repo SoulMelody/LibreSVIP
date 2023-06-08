@@ -254,7 +254,7 @@ class TaskManager(QObject):
 
     @slot(str)
     def set_input_fields(self, input_format: str) -> None:
-        if input_format == self.input_format:
+        if input_format == self.input_format and self.input_fields:
             return
         self.input_format = input_format
         self.input_fields.clear()
@@ -328,7 +328,7 @@ class TaskManager(QObject):
 
     @slot(str)
     def set_output_fields(self, output_format: str) -> None:
-        if output_format == self.output_format:
+        if output_format == self.output_format and self.output_fields:
             return
         self.output_format = output_format
         self.output_fields.clear()

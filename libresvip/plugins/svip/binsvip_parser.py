@@ -93,8 +93,7 @@ class BinarySvipParser:
             kwargs["Gender"] = self.parse_param_curve(gender_line)
         if (power_line := track.edited_power_line) is not None:
             kwargs["Power"] = self.parse_param_curve(power_line)
-        params = Params(**kwargs)
-        return params
+        return Params(**kwargs)
 
     def parse_note(self, note: XSNote) -> Note:
         result_note = Note(
@@ -104,13 +103,11 @@ class BinarySvipParser:
             HeadTag=OpenSvipNoteHeadTags.get_name(note.head_tag.value),
             Lyric=note.lyric,
         )
-        if (pronunciation := note.pronouncing) != "":
+        if pronunciation := note.pronouncing:
             result_note.pronunciation = pronunciation
-        phone = note.note_phone_info
-        if phone is not None:
+        if (phone := note.note_phone_info) is not None:
             result_note.edited_phones = self.parse_phones(phone)
-        vibrato = note.vibrato
-        if vibrato is not None:
+        if note.vibrato is not None:
             result_note.vibrato = self.parse_vibrato(note)
         return result_note
 
@@ -124,13 +121,12 @@ class BinarySvipParser:
             kwargs["StartPercent"] = 1.0 - note.vibrato_percent / 100.0
             kwargs["EndPercent"] = 1.0
         vibrato = note.vibrato
-        result_vibrato = VibratoParam(
+        return VibratoParam(
             IsAntiPhase=vibrato.is_anti_phase,
             Amplitude=self.parse_param_curve(vibrato.amp_line),
             Frequency=self.parse_param_curve(vibrato.freq_line),
             **kwargs,
         )
-        return result_vibrato
 
     @staticmethod
     def parse_phones(phone: XSNotePhoneInfo) -> Phones:
