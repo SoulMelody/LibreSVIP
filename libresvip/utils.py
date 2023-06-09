@@ -54,3 +54,10 @@ def download_and_setup_ffmpeg():
         # }
 
         static_ffmpeg.add_paths()
+
+
+def gettext_lazy(message: str) -> str:
+    try:
+        return gettext(message)
+    except NameError:
+        return message

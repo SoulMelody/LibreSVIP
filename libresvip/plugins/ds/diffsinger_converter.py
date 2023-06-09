@@ -50,5 +50,6 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
             ds_project.json(
                 ensure_ascii=False,
                 indent=options.indent
-            )
+            ),
+            encoding="utf-8"
         )

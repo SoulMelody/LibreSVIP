@@ -328,6 +328,10 @@ Page {
                                 py.task_manager.set_str("input_format", currentValue)
                             }
                             Component.onCompleted: {
+                                let last_input_format = py.task_manager.get_str("input_format")
+                                if (last_input_format != null) {
+                                    this.currentIndex = indexOfValue(last_input_format)
+                                }
                                 dialogs.openDialog.nameFilters[0] = currentText
                                 py.task_manager.input_format_changed.connect((input_format) => {
                                     let new_index = indexOfValue(input_format)
@@ -494,6 +498,10 @@ Page {
                                 py.task_manager.set_str("output_format", currentValue)
                             }
                             Component.onCompleted: {
+                                let last_output_format = py.task_manager.get_str("output_format")
+                                if (last_output_format != null) {
+                                    this.currentIndex = indexOfValue(last_output_format)
+                                }
                                 py.task_manager.output_format_changed.connect((output_format) => {
                                     let new_index = indexOfValue(output_format)
                                     if (new_index != currentIndex) {

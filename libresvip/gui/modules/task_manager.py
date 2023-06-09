@@ -152,8 +152,10 @@ class TaskManager(QObject):
                 for plugin in plugin_registry.values()
             ],
         )
-        self.input_format = ""
-        self.output_format = ""
+        if not settings.last_input_format and self.input_formats:
+            settings.last_input_format = self.input_formats[0]["value"]
+        if not settings.last_output_format and self.output_formats:
+            settings.last_output_format = self.output_formats[0]["value"]
         self.thread_pool = QThreadPool.globalInstance()
         self.temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="libresvip"))
         self.temp_dir.mkdir(exist_ok=True)
@@ -165,6 +167,22 @@ class TaskManager(QObject):
         self.timer = QTimer()
         self.timer.setInterval(100)
         self.timer.timeout.connect(self.check_busy)
+
+    @property
+    def input_format(self) -> str:
+        return settings.last_input_format
+
+    @input_format.setter
+    def input_format(self, value: str):
+        settings.last_input_format = value
+
+    @property
+    def output_format(self) -> str:
+        return settings.last_output_format
+
+    @output_format.setter
+    def output_format(self, value: str):
+        settings.last_output_format = value
 
     def clean_temp_dir(self):
         shutil.rmtree(self.temp_dir, ignore_errors=True)
@@ -236,7 +254,7 @@ class TaskManager(QObject):
 
     @slot(str)
     def set_input_fields(self, input_format: str) -> None:
-        if input_format == self.input_format:
+        if input_format == self.input_format and self.input_fields:
             return
         self.input_format = input_format
         self.input_fields.clear()
@@ -310,7 +328,7 @@ class TaskManager(QObject):
 
     @slot(str)
     def set_output_fields(self, output_format: str) -> None:
-        if output_format == self.output_format:
+        if output_format == self.output_format and self.output_fields:
             return
         self.output_format = output_format
         self.output_fields.clear()

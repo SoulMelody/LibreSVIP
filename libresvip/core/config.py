@@ -2,6 +2,7 @@ import contextlib
 import dataclasses
 import enum
 import pathlib
+from typing import Optional
 
 from omegaconf import OmegaConf
 from omegaconf.errors import OmegaConfBaseException
@@ -50,6 +51,8 @@ class LibreSvipSettings:
     # Common
     language: Language = dataclasses.field(default=Language.CHINESE)
     # both web and GUI
+    last_input_format: Optional[str] = dataclasses.field(default=None)
+    last_output_format: Optional[str] = dataclasses.field(default=None)
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = dataclasses.field(default=True)
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)

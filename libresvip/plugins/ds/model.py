@@ -62,13 +62,13 @@ class DsItem(BaseModel):
     ph_dur: SpaceSeparatedFloat
     f0_timestep: FloatString
     f0_seq: SpaceSeparatedFloat
-    input_type: Literal["phoneme"]
-    offset: float
     seed: Optional[int]
     spk_mix: Optional[Dict[str, SpaceSeparatedFloat]]
     spk_mix_timestep: Optional[float]
     gender: Optional[Dict[str, SpaceSeparatedFloat]]
     gender_timestep: Optional[float]
+    input_type: Literal["phoneme"] = "phoneme"
+    offset: float = 0.0
 
 
 class DsProject(BaseModel):
