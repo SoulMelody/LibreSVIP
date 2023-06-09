@@ -85,7 +85,7 @@ class ConversionWorker(QRunnable):
                 )
         except Exception:
             self.signals.result.emit(
-                self.index, {"success": False, "error": traceback.format_exc()}
+                self.index, {"success": False, "error": traceback.format_exc(limit=3)}
             )
 
 
@@ -228,7 +228,7 @@ class TaskManager(QObject):
             target_path = output_dir / f"{task['stem']}{self.output_ext}"
             if target_path.exists():
                 target_path.unlink()
-            pathlib.Path(task["tmp_path"]).rename(target_path)
+            shutil.move(task["tmp_path"], target_path)
             return True
         except (FileExistsError, FileNotFoundError, OSError) as e:
             self.tasks.update(index, {"error": str(e)})

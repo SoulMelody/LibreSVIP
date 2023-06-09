@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.model.base import (
     Note,
@@ -31,7 +30,7 @@ class UFDataParser:
         return project
 
     @staticmethod
-    def parse_tempos(tempos: List[UFTempos]) -> List[SongTempo]:
+    def parse_tempos(tempos: list[UFTempos]) -> list[SongTempo]:
         return [
             SongTempo(
                 Position=tempo.tick_position,
@@ -42,8 +41,8 @@ class UFDataParser:
 
     @staticmethod
     def parse_time_signatures(
-        time_signatures: List[UFTimeSignatures],
-    ) -> List[TimeSignature]:
+        time_signatures: list[UFTimeSignatures],
+    ) -> list[TimeSignature]:
         return [
             TimeSignature(
                 BarIndex=time_signature.measure_position,
@@ -53,7 +52,7 @@ class UFDataParser:
             for time_signature in time_signatures
         ]
 
-    def parse_tracks(self, tracks: List[UFTracks]) -> List[SingingTrack]:
+    def parse_tracks(self, tracks: list[UFTracks]) -> list[SingingTrack]:
         return [
             SingingTrack(
                 Title=track.name,
@@ -81,7 +80,7 @@ class UFDataParser:
         )
 
     @staticmethod
-    def parse_notes(notes: List[UFNotes]) -> List[Note]:
+    def parse_notes(notes: list[UFNotes]) -> list[Note]:
         return [
             Note(
                 StartPos=note.tick_on,

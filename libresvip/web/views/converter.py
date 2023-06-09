@@ -354,7 +354,7 @@ def initialize(server: Server):
                         convert_warnings[basename] = warning_msgs
                         state.warning_files = state.warning_files + [basename]
                 except Exception:
-                    convert_errors[basename] = traceback.format_exc()
+                    convert_errors[basename] = traceback.format_exc(limit=3)
                     state.error_files = state.error_files + [basename]
         state.convert_errors = convert_errors
         state.convert_results = convert_results

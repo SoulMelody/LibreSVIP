@@ -6,15 +6,16 @@ from pprint import pprint
 from rich import print
 
 from libresvip.extension.manager import plugin_registry
+from libresvip.utils import to_unicode
 
 
 def test_ust_write(shared_datadir):
-    from libresvip.plugins.ust.model import UstModel
+    from libresvip.plugins.ust.model import USTModel
     from libresvip.plugins.ust.template import render_ust
 
     proj_path = shared_datadir / "test.ust"
-    proj = UstModel.model_from_file(proj_path, encoding="gbk")
-    render_ust(proj, pathlib.Path("test.ust"), encoding="gbk")
+    proj = USTModel.model_from_str(to_unicode(proj_path.read_bytes()))
+    render_ust(proj, pathlib.Path("test.ust"), encoding="utf-8")
 
 
 def test_nn_read(shared_datadir):
