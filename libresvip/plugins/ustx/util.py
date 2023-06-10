@@ -11,7 +11,7 @@ class BasePitchGenerator:
     pitch_interval: int = 5
 
     @classmethod
-    def base_pitch(cls, part: UVoicePart, project: USTXProject):
+    def base_pitch(cls, part: UVoicePart, project: USTXProject) -> list[float]:
         time_axis = TimeAxis()
         time_axis.build_segments(project)
         u_notes = part.notes

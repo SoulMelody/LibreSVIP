@@ -1,5 +1,6 @@
 import dataclasses
-from typing import List
+
+import pypinyin
 
 from libresvip.model.base import (
     Note,
@@ -29,14 +30,14 @@ class VogenGenerator:
             utts=self.generate_tracks(project.track_list),
         )
 
-    def generate_tempos(self, song_tempo_list: List[SongTempo]) -> float:
+    def generate_tempos(self, song_tempo_list: list[SongTempo]) -> float:
         return song_tempo_list[0].bpm
 
-    def generate_time_signatures(self, time_signature_list: List[TimeSignature]) -> str:
+    def generate_time_signatures(self, time_signature_list: list[TimeSignature]) -> str:
         time_signature = time_signature_list[0]
         return f"{time_signature.numerator}/{time_signature.denominator}"
 
-    def generate_tracks(self, track_list: List[Track]) -> List[VogenTrack]:
+    def generate_tracks(self, track_list: list[Track]) -> list[VogenTrack]:
         tracks = []
         for i, track in enumerate(track_list):
             if isinstance(track, SingingTrack):
@@ -49,13 +50,15 @@ class VogenGenerator:
                 )
         return tracks
 
-    def generate_notes(self, note_list: List[Note]) -> List[VogenNote]:
+    def generate_notes(self, note_list: list[Note]) -> list[VogenNote]:
         return [
             VogenNote(
                 on=note.start_pos,
                 dur=note.length,
                 lyric=note.lyric,
-                rom=note.pronunciation,
+                rom=note.pronunciation or " ".join(
+                    pypinyin.lazy_pinyin(note.lyric)
+                ),
                 pitch=note.key_number,
             )
             for note in note_list

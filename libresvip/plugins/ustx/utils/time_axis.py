@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 from typing_extensions import Self
 
-from ..model import USTXProject, UTimeSignature
+from ..model import USTXProject
 
 
 @dataclass
@@ -100,10 +100,6 @@ class TimeAxis:
                 self.tempo_segments[i].ms_pos = self.tempo_segments[i - 1].ms_pos + self.tempo_segments[i - 1].ticks * self.tempo_segments[i - 1].ms_per_tick
                 self.tempo_segments[i - 1].ms_end = self.tempo_segments[i].ms_pos
 
-    def get_bpm_at_tick(self, tick: int) -> float:
-        segment = next((seg for seg in self.tempo_segments if seg.tick_pos == tick or seg.tick_end > tick), None)
-        return segment.bpm if segment else 0
-
     def tick_pos_to_ms_pos(self, tick: float) -> float:
         segment = next((seg for seg in self.tempo_segments if seg.tick_pos == tick or seg.tick_end > tick), None)
         return segment.ms_pos + segment.ms_per_tick * (tick - segment.tick_pos) if segment else 0
@@ -113,48 +109,8 @@ class TimeAxis:
         tick_pos = segment.tick_pos + (ms - segment.ms_pos) * segment.ticks_per_ms if segment else 0
         return round(tick_pos)
 
-    def ticks_between_ms_pos(self, ms_pos: float, ms_end: float) -> int:
-        return self.ms_pos_to_tick_pos(ms_end) - self.ms_pos_to_tick_pos(ms_pos)
-
     def ms_between_tick_pos(self, tick_pos: float, tick_end: float) -> float:
         return self.tick_pos_to_ms_pos(tick_end) - self.tick_pos_to_ms_pos(tick_pos)
-
-    def tick_pos_to_bar_beat(self, tick: int) -> tuple[int, int, int]:
-        segment = next((seg for seg in self.time_sig_segments if seg.tick_pos == tick or seg.tick_end > tick), None)
-        bar = segment.bar_pos + (tick - segment.tick_pos) // segment.ticks_per_bar if segment else 0
-        tick_in_bar = tick - segment.tick_pos - segment.ticks_per_bar * (bar - segment.bar_pos) if segment else 0
-        beat = tick_in_bar // segment.ticks_per_beat if segment else 0
-        remaining_ticks = tick_in_bar - beat * segment.ticks_per_beat if segment else 0
-        return bar, beat, remaining_ticks
-
-    def bar_beat_to_tick_pos(self, bar: int, beat: int) -> int:
-        segment = next((seg for seg in self.time_sig_segments if seg.bar_pos == bar or seg.bar_end > bar), None)
-        return segment.tick_pos + segment.ticks_per_bar * (bar - segment.bar_pos) + segment.ticks_per_beat * beat if segment else 0
-
-    def next_bar_beat(self, bar: int, beat: int) -> tuple[int, int]:
-        next_bar = bar
-        next_beat = beat + 1
-        segment = next((seg for seg in self.time_sig_segments if seg.bar_pos == bar or seg.bar_end > bar), None)
-        if segment and next_beat >= segment.beat_per_bar:
-            next_bar += 1
-            next_beat = 0
-        return next_bar, next_beat
-
-    def time_signature_at_tick(self, tick: int) -> UTimeSignature:
-        segment = next((seg for seg in self.time_sig_segments if seg.tick_pos == tick or seg.tick_end > tick), None)
-        return UTimeSignature(
-            bar_position=segment.bar_pos,
-            beat_per_bar=segment.beat_per_bar,
-            beat_unit=segment.beat_unit,
-        ) if segment else None
-
-    def time_signature_at_bar(self, bar: int) -> UTimeSignature:
-        segment = next((seg for seg in self.time_sig_segments if seg.bar_pos == bar or seg.bar_end > bar), None)
-        return UTimeSignature(
-            bar_position=segment.bar_pos,
-            beat_per_bar=segment.beat_per_bar,
-            beat_unit=segment.beat_unit,
-        ) if segment else None
 
     def clone(self) -> Self:
         return TimeAxis(

@@ -185,7 +185,7 @@ class SynthVParser:
             j += 1
             prev_point_is_base = prev_point.y == 0
         curve.points.append(
-            Point(-192000, self.actual_value_at(compound_expr, mapping_func, 0))
+            Point.start_point(self.actual_value_at(compound_expr, mapping_func, 0))
         )
         curve.points.append(
             Point(
@@ -238,8 +238,7 @@ class SynthVParser:
             )
         )
         curve.points.append(
-            Point(
-                1073741823,
+            Point.end_point(
                 self.actual_value_at(compound_expr, mapping_func, prev_point.x),
             )
         )
@@ -255,8 +254,8 @@ class SynthVParser:
     ) -> ParamCurve:
         curve = ParamCurve()
         if not len(self.note_list):
-            curve.points.append(Point(-192000, -100))
-            curve.points.append(Point(1073741823, -100))
+            curve.points.append(Point.start_point())
+            curve.points.append(Point.end_point())
             return curve
         pitch_diff_expr = CurveGenerator(
             _point_list=[
@@ -379,7 +378,7 @@ class SynthVParser:
             _pitch_diff=pitch_diff_expr,
             _vibrato_env=vibrato_env_expr,
         )
-        curve.points.append(Point(-192000, -100))
+        curve.points.append(Point.start_point())
         for start, end in interval.shift(self.first_bar_tick).sub_ranges():
             curve.points.append(Point(start, -100))
             for i in range(start, end, step):
@@ -390,7 +389,7 @@ class SynthVParser:
                 Point(end, generator.value_at_ticks(end - self.first_bar_tick))
             )
             curve.points.append(Point(end, -100))
-        curve.points.append(Point(1073741823, -100))
+        curve.points.append(Point.end_point())
         return curve
 
     def parse_params(

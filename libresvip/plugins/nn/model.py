@@ -34,9 +34,9 @@ class NNTimeSignature(BaseModel):
 class NNInfoLine(BaseModel):
     tempo: float
     time_signature: NNTimeSignature
-    bar_count: int
-    version: int
-    unknown: int
+    bar_count: int = 0
+    version: int = 19
+    unknown: int = 0
 
 
 class NNNote(BaseModel):
@@ -51,9 +51,9 @@ class NNNote(BaseModel):
     vibrato_length: int
     vibrato_depth: int
     vibrato_rate: int
-    dynamics: NNPoints
-    pitch: NNPoints
-    pitch_bend_sensitivity: int
+    dynamics: NNPoints = Field(default_factory=NNPoints)
+    pitch: NNPoints = Field(default_factory=NNPoints)
+    pitch_bend_sensitivity: int = 0
 
 
 class NNProject(BaseModel):
