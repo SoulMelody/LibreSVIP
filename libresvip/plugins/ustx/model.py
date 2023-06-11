@@ -147,7 +147,7 @@ class UExpression(YamlModel):
 
 class UPhonemeOverride(YamlModel):
     index: int
-    phoneme: str
+    phoneme: Optional[str]
     offset: Optional[int]
     preutter_delta: Optional[float]
     overlap_delta: Optional[float]

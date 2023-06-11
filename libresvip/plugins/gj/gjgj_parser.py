@@ -39,7 +39,7 @@ from .singers import id2singer
 class GjgjParser:
     options: InputOptions
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
-    first_numerator: int = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
     ticks_in_beat: int = dataclasses.field(init=False)
 
     def parse_project(self, gjgj_project: GjgjProject) -> Project:
@@ -82,7 +82,7 @@ class GjgjParser:
                 Denominator=time_signatures[0].denominator,
             )
         ]
-        self.first_numerator = time_signatures[0].numerator
+        self.first_bar_length = (self.ticks_in_beat * 4) * time_signatures[0].numerator / time_signatures[0].denominator
 
         prev_ticks = 0
         measure = 0
@@ -123,7 +123,7 @@ class GjgjParser:
                     self.time_synchronizer.get_actual_ticks_from_secs(
                         accompaniment.offset / 10000000
                     )
-                    - self.ticks_in_beat * self.first_numerator
+                    - self.first_bar_length
                 ),
             )
             for accompaniment in accompaniments
@@ -132,7 +132,7 @@ class GjgjParser:
     def parse_notes(self, beat_items: List[GjgjBeatItems]) -> List[Note]:
         note_list = []
         for beat_item in beat_items:
-            start_pos = beat_item.start_tick - self.ticks_in_beat * self.first_numerator
+            start_pos = beat_item.start_tick - self.first_bar_length
             note = Note(
                 StartPos=start_pos,
                 Length=beat_item.duration,

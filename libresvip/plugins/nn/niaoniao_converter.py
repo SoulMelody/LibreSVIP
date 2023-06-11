@@ -5,8 +5,10 @@ from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 
 from .model import NNModel
+from .niaoniao_generator import NiaoniaoGenerator
 from .niaoniao_parser import NiaoNiaoParser
 from .options import InputOptions, OutputOptions
+from .template import render_nn
 
 
 class NiaoNiaoConverter(plugin_base.SVSConverterBase):
@@ -17,4 +19,5 @@ class NiaoNiaoConverter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
-        raise NotImplementedError
+        nn_project = NiaoniaoGenerator(options).generate_project(project)
+        render_nn(nn_project, path)

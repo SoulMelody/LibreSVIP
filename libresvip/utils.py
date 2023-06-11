@@ -61,3 +61,10 @@ def gettext_lazy(message: str) -> str:
         return gettext(message)
     except NameError:
         return message
+
+
+def shorten_error_message(message: str) -> str:
+    error_lines = message.splitlines()
+    if len(error_lines) > 30:
+        message = "\n".join(error_lines[:15] + ["..."] + error_lines[-15:])
+    return message

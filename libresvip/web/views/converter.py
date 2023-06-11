@@ -19,6 +19,7 @@ from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_registry
 from libresvip.model.base import BaseComplexModel
+from libresvip.utils import shorten_error_message
 
 
 def get_dialog_widget(prefix: str):
@@ -358,7 +359,7 @@ def initialize(server: Server):
                         convert_warnings[basename] = warning_msgs
                         state.warning_files = state.warning_files + [basename]
                 except Exception:
-                    convert_errors[basename] = traceback.format_exc(limit=3)
+                    convert_errors[basename] = shorten_error_message(traceback.format_exc())
                     state.error_files = state.error_files + [basename]
         state.convert_errors = convert_errors
         state.convert_results = convert_results

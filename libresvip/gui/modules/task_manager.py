@@ -17,6 +17,7 @@ from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
+from libresvip.utils import shorten_error_message
 
 from .model_proxy import ModelProxy
 
@@ -85,7 +86,7 @@ class ConversionWorker(QRunnable):
                 )
         except Exception:
             self.signals.result.emit(
-                self.index, {"success": False, "error": traceback.format_exc(limit=3)}
+                self.index, {"success": False, "error": shorten_error_message(traceback.format_exc())}
             )
 
 

@@ -3,7 +3,6 @@ from typing import List
 
 from svgwrite import Drawing
 
-from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, Project, SingingTrack
 
@@ -21,8 +20,7 @@ class SvgGenerator:
     def generate_project(self, project: Project) -> Drawing:
         self.coordinate_helper = CoordinateHelper(
             options=self.options,
-            pitch_position_offset=project.time_signature_list[0].numerator
-            * TICKS_IN_BEAT,
+            pitch_position_offset=project.time_signature_list[0].bar_length,
         )
         self.svg_factory = SvgFactory(
             coordinate_helper=self.coordinate_helper,

@@ -19,6 +19,7 @@ from pydantic import BaseModel as PydanticBaseModel  # , Extra
 from pydantic import Field, validator
 from typing_extensions import Self
 
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.point import Point, PointList
 
 try:
@@ -79,6 +80,10 @@ class TimeSignature(BaseModel):
     bar_index: int = Field(default=0, alias="BarIndex")
     numerator: int = Field(default=4, alias="Numerator")
     denominator: int = Field(default=4, alias="Denominator")
+
+    @property
+    def bar_length(self) -> float:
+        return (TICKS_IN_BEAT * 4) * self.numerator // self.denominator
 
 
 class ParamCurve(BaseModel):
