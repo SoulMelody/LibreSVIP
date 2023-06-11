@@ -41,11 +41,11 @@ Label={{ note.label }}{% endif %}{% if note.flags|length > 1 %}
 Flags={{ note.flags }}{% endif %}{% if note.pitchbend_type|length > 1 %}
 PBType={{ note.pitchbend_type }}{% endif %}{% if note.pitchbend_start|length > 1 %}
 PBStart={{ note.pitchbend_start }}{% endif %}{% if note.pitch_bend_points|length > 1 %}
-PitchBend={{ note.pitch_bend_points|join(',') }}{% endif %}{% if note.pbs_1|length > 1 %}
-PBS={{ note.pbs_1 }}{%if note.pbs_2 %};{{ note.pbs_2 }}{% endif %}{% endif %}{% if note.pbw|length > 1 %}
+PitchBend={{ note.pitch_bend_points|join(',') }}{% endif %}{% if note.pbs|length > 1 %}
+PBS={{ note.pbs | join(';') }}{% endif %}{% if note.pbw|length > 1 %}
 PBW={{ note.pbw | join(',') }}{% endif %}{% if note.pby|length > 1 %}
-PBY={{ note.pby | join(',') }}{% endif %}{% if note.pbw|length > 1 %}
-PBM={% for pbm in note.pbm %}{{ pbm.text }}{% if not loop.last %},{% endif %}{% endfor %}{% endif %}{% if note.vbr|length > 1 %}
+PBY={{ note.pby | join(',') }}{% endif %}{% if note.pbm|length > 1 %}
+PBM={{ note.pbm | join(',') }}{% endif %}{% if note.vbr|length > 1 %}
 VBR={{ note.vbr | join(',') }}{% endif %}{% endfor %}
 [#TRACKEND]{% endif %}
 """

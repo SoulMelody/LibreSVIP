@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, NamedTuple, Optional, Union
 
 from pydantic import Field
 from textx import metamodel_from_str
@@ -35,7 +35,8 @@ UTAUEnvelope:
         (',%,' p4=FLOAT (',' p5=FLOAT (',' v5=FLOAT)?)?)
     )?
 ;
-UTAUPBM: text=/[srj]?/ ','?;
+UTAUPBM: /[srj]/ | '';
+UTAUOptionalFloat: FLOAT | '';
 UTAUPitchBendType: '5' | 'OldData';
 UTAUTrack:
     notes+=UTAUNote
@@ -63,19 +64,30 @@ UTAUNote:
         ('PBType' '=' pitchbend_type=UTAUPitchBendType LineBreak) |
         ('PBStart' '=' pitchbend_start=FLOAT LineBreak) |
         (/(Piches|Pitches|PitchBend)/ '=' pitch_bend_points*=INT[','] LineBreak) |
-        ('PBS' '=' pbs_1=FLOAT (';' pbs_2=FLOAT)? LineBreak) |
-        ('PBW' '=' ','* pbw*=FLOAT[/,+/] ','* LineBreak) |
-        ('PBY' '=' ','* pby*=FLOAT[/,+/] ','* LineBreak) |
-        ('PBM' '=' pbm*=UTAUPBM LineBreak) |
-        ('VBR' '=' ','* vbr*=FLOAT[/,+/] ','* LineBreak) |
+        ('PBS' '=' pbs+=FLOAT[';'] LineBreak) |
+        ('PBW' '=' pbw*=UTAUOptionalFloat[','] LineBreak) |
+        ('PBY' '=' pby*=UTAUOptionalFloat[','] LineBreak) |
+        ('VBR' '=' vbr*=UTAUOptionalFloat[','] LineBreak) |
+        ('PBM' '=' pbm*=UTAUPBM[','] LineBreak) |
         (key=/\$[^=]+/ '=' value=/[^\r\n]*/ LineBreak)
     )*
 ;
 """
 
+UTAUPBM = Literal["s", "r", "j", ""]
 
-class UTAUPBM(BaseModel):
-    text: str
+UTAUOptionalFloat = Union[float, Literal[""]]
+
+
+class UTAUVibrato(NamedTuple):
+    length: float
+    period: float
+    depth: Optional[float]
+    fade_in: Optional[float]
+    fade_out: Optional[float]
+    phase_shift: Optional[float]
+    shift: Optional[float]
+
 
 class UTAUEnvelope(BaseModel):
     p1: int
@@ -111,12 +123,11 @@ class UTAUNote(BaseModel):
     pitchbend_type: Optional[list[str]]
     pitchbend_start: Optional[list[float]]
     pitch_bend_points: Optional[list[int]]
-    pbs_1: Optional[list[float]]
-    pbs_2: Optional[list[float]]
-    pbw: Optional[list[float]]
-    pby: Optional[list[float]]
+    pbs: Optional[list[float]]
+    pbw: Optional[list[UTAUOptionalFloat]]
+    pby: Optional[list[UTAUOptionalFloat]]
+    vbr: Optional[list[UTAUOptionalFloat]]
     pbm: Optional[list[UTAUPBM]]
-    vbr: Optional[list[float]]
 
 
 class UTAUTrack(BaseModel):
@@ -154,6 +165,5 @@ USTModel = metamodel_from_str(
         UTAUTrack,
         UTAUNote,
         UTAUEnvelope,
-        UTAUPBM,
     ],
 )
