@@ -25,12 +25,13 @@ def get_dialog_widget(prefix: str):
     with vuetify3.VBtn(
         icon=True,
         click=f"{prefix}_format_info = true",
+        size="small",
     ):
         vuetify3.VIcon(
             "mdi-information-outline",
         )
     with vuetify3.VDialog(
-        v_model=(f"{prefix}_format_info", False), width="600"
+        v_model=(f"{prefix}_format_info", False), width="auto"
     ):
         with vuetify3.VCard():
             with vuetify3.VList(lines="three"):
@@ -428,88 +429,135 @@ def initialize(server: Server):
             )
         with vuetify3.VWindow(v_model="convert_step"):
             with vuetify3.VWindowItem(value=1):
-                with vuetify3.VCard(outlined=True):
-                    with vuetify3.VCol():
-                        with vuetify3.VRow(dense=True):
-                            with vuetify3.VCol(cols=11):
-                                vuetify3.VSelect(
-                                    dense=True,
-                                    label=(
-                                        "translations[lang]['Import format']",
-                                        "Import format",
-                                    ),
-                                    v_model="input_format",
-                                    items=("input_formats", id2file_format),
-                                    each_item_text="(item) => translations[lang][item.text]",
-                                    __properties=[("each_item_text", ":item-title")],
-                                )
-                            with vuetify3.VCol(cols=1):
-                                get_dialog_widget("input")
-                        with vuetify3.VRow(dense=True):
-                            with vuetify3.VCol(cols=6):
-                                vuetify3.VSwitch(
-                                    dense=True,
-                                    label=(
-                                        "translations[lang]['Auto detect import format']",
-                                        "Auto detect import format",
-                                    ),
-                                    v_model=(
-                                        "auto_detect",
-                                        settings.auto_detect_input_format,
-                                    ),
-                                    color="primary",
-                                )
-                            with vuetify3.VCol(cols=5):
-                                vuetify3.VSwitch(
-                                    dense=True,
-                                    label=(
-                                        "translations[lang]['Reset list when import format changed']",
-                                        "Reset list when import format changed",
-                                    ),
-                                    v_model=(
-                                        "auto_reset",
-                                        settings.reset_tasks_on_input_change,
-                                    ),
-                                    color="primary",
-                                )
-                            with vuetify3.VCol(cols=1):
-                                with vuetify3.VBtn(
-                                    icon=True,
-                                    disabled=("input_format === output_format", True),
-                                    color="primary",
-                                    click="""
-                                        [input_format, output_format] = [output_format, input_format];
-                                        if (auto_reset) {
-                                            files_to_convert = [];
+                with vuetify3.VRow(dense=True):
+                    with vuetify3.VCard(
+                        outlined=True,
+                        width="50%",
+                    ):
+                        with vuetify3.VCol():
+                            with vuetify3.VRow(dense=True):
+                                with vuetify3.VCol(cols=11):
+                                    vuetify3.VSelect(
+                                        dense=True,
+                                        label=(
+                                            "translations[lang]['Import format']",
+                                            "Import format",
+                                        ),
+                                        v_model="input_format",
+                                        items=("input_formats", id2file_format),
+                                        each_item_text="(item) => translations[lang][item.text]",
+                                        __properties=[("each_item_text", ":item-title")],
+                                        density="comfortable",
+                                    )
+                                with vuetify3.VCol(cols=1):
+                                    get_dialog_widget("input")
+                            with vuetify3.VRow(dense=True):
+                                with vuetify3.VCol(cols=6):
+                                    vuetify3.VSwitch(
+                                        dense=True,
+                                        label=(
+                                            "translations[lang]['Auto detect import format']",
+                                            "Auto detect import format",
+                                        ),
+                                        v_model=(
+                                            "auto_detect",
+                                            settings.auto_detect_input_format,
+                                        ),
+                                        color="primary",
+                                    )
+                                with vuetify3.VCol(cols=5):
+                                    vuetify3.VSwitch(
+                                        dense=True,
+                                        label=(
+                                            "translations[lang]['Reset list when import format changed']",
+                                            "Reset list when import format changed",
+                                        ),
+                                        v_model=(
+                                            "auto_reset",
+                                            settings.reset_tasks_on_input_change,
+                                        ),
+                                        color="primary",
+                                    )
+                                with vuetify3.VCol(cols=1):
+                                    with vuetify3.VBtn(
+                                        icon=True,
+                                        disabled=("input_format === output_format", True),
+                                        color="primary",
+                                        click="""
+                                            [input_format, output_format] = [output_format, input_format];
+                                            if (auto_reset) {
+                                                files_to_convert = [];
+                                            }
+                                        """,
+                                        size="small",
+                                    ):
+                                        vuetify3.VIcon("mdi-swap-vertical-circle-outline")
+                            with vuetify3.VRow(dense=True):
+                                with vuetify3.VCol(cols=11):
+                                    vuetify3.VSelect(
+                                        dense=True,
+                                        label=(
+                                            "translations[lang]['Export format']",
+                                            "Export format",
+                                        ),
+                                        v_model="output_format",
+                                        items=("output_formats", id2file_format),
+                                        each_item_text="(item) => translations[lang][item.text]",
+                                        __properties=[("each_item_text", ":item-title")],
+                                        density="comfortable",
+                                    )
+                                with vuetify3.VCol(cols=1):
+                                    get_dialog_widget("output")
+                    with vuetify3.VCard(
+                        outlined=True,
+                        width="50%",
+                        drop="""
+                            event.preventDefault();
+                            this.hover_count = 0;
+                            files_to_convert = [];
+                            if (event.dataTransfer.files) {
+                                for (i = 0; i < event.dataTransfer.files.length; i++) {
+                                    file = event.dataTransfer.files.item(i);
+                                    if (auto_detect) {
+                                        _input_format = file.name.split('.').pop().toLowerCase();
+                                        if (i === 0 && plugin_details[_input_format]) {
+                                            input_format = _input_format;
+                                            if (auto_reset) {
+                                                files_to_convert = [];
+                                            }
                                         }
-                                    """,
-                                ):
-                                    vuetify3.VIcon("mdi-swap-vertical-circle-outline")
-                        with vuetify3.VRow(dense=True):
-                            with vuetify3.VCol(cols=11):
-                                vuetify3.VSelect(
-                                    dense=True,
-                                    label=(
-                                        "translations[lang]['Export format']",
-                                        "Export format",
-                                    ),
-                                    v_model="output_format",
-                                    items=("output_formats", id2file_format),
-                                    each_item_text="(item) => translations[lang][item.text]",
-                                    __properties=[("each_item_text", ":item-title")],
-                                )
-                            with vuetify3.VCol(cols=1):
-                                get_dialog_widget("output")
-                with vuetify3.VCard(
-                    outlined=True,
-                    height="150",
-                    drop="""
-                        event.preventDefault();
-                        this.hover_count = 0;
-                        files_to_convert = [];
-                        if (event.dataTransfer.files) {
-                            for (i = 0; i < event.dataTransfer.files.length; i++) {
-                                file = event.dataTransfer.files.item(i);
+                                    }
+                                    if (file.name.toLowerCase().endsWith(input_format)) {
+                                        files_to_convert.push(file);
+                                    }
+                                };
+                            };
+                        """,
+                        click="trame.refs['file_uploader'].click()",
+                        dragover="""event.preventDefault()""",
+                        dragenter="""this.hover_count++""",
+                        dragleave="""this.hover_count--""",
+                        __events=["drop", "dragover", "dragenter", "dragleave", "click"],
+                    ):
+                        vuetify3.VCardTitle("{{ translations[lang]['Import project'] }}")
+                        vuetify3.VDivider()
+                        vuetify3.VCardItem(
+                            prepend_icon="mdi-file-upload-outline",
+                            classes="text-center",
+                            justify="center",
+                            style="display: flex; flex-direction: column; height: 50%;",
+                            item_title="translations[lang]['Drag and drop files here or click to upload']",
+                            __properties=[("item_title", ":title")],
+                        )
+                        html.Input(
+                            v_show="false",
+                            ref="file_uploader",
+                            type="file",
+                            accept=("'.' + input_format", "*.*"),
+                            multiple=True,
+                            change="""
+                            for (i = 0; i < $event.target.files.length; i++) {
+                                file = $event.target.files.item(i);
                                 if (auto_detect) {
                                     _input_format = file.name.split('.').pop().toLowerCase();
                                     if (i === 0 && plugin_details[_input_format]) {
@@ -523,46 +571,9 @@ def initialize(server: Server):
                                     files_to_convert.push(file);
                                 }
                             };
-                        };
-                    """,
-                    click="trame.refs['file_uploader'].click()",
-                    dragover="""event.preventDefault()""",
-                    dragenter="""this.hover_count++""",
-                    dragleave="""this.hover_count--""",
-                    __events=["drop", "dragover", "dragenter", "dragleave", "click"],
-                ):
-                    vuetify3.VCardTitle("{{ translations[lang]['Import project'] }}")
-                    vuetify3.VDivider()
-                    with vuetify3.VCardText(classes="text-center"):
-                        vuetify3.VIcon("mdi-file-upload-outline")
-                        html.Span(
-                            "{{ translations[lang]['Drag and drop files here or click to upload'] }}"
+                            flushState('files_to_convert');""",
+                            __events=["change"],
                         )
-                    html.Input(
-                        v_show="false",
-                        ref="file_uploader",
-                        type="file",
-                        accept=("'.' + input_format", "*.*"),
-                        multiple=True,
-                        change="""
-                        for (i = 0; i < $event.target.files.length; i++) {
-                            file = $event.target.files.item(i);
-                            if (auto_detect) {
-                                _input_format = file.name.split('.').pop().toLowerCase();
-                                if (i === 0 && plugin_details[_input_format]) {
-                                    input_format = _input_format;
-                                    if (auto_reset) {
-                                        files_to_convert = [];
-                                    }
-                                }
-                            }
-                            if (file.name.toLowerCase().endsWith(input_format)) {
-                                files_to_convert.push(file);
-                            }
-                        };
-                        flushState('files_to_convert');""",
-                        __events=["change"],
-                    )
             with vuetify3.VWindowItem(value=2):
                 with vuetify3.VCard(outlined=True, dense=True):
                     with vuetify3.VExpansionPanels(hover=True, popout=True):
@@ -584,8 +595,12 @@ def initialize(server: Server):
                             with vuetify3.VExpansionPanelText():
                                 with vuetify3.VForm():
                                     get_option_widgets("output_options")
-            with vuetify3.VCard(dense=True, outlined=True):
-                with vuetify3.VCardTitle("{{ translations[lang]['File operations'] }}"):
+            with vuetify3.VCard(
+                dense=True, outlined=True,
+                card_title="translations[lang]['File operations']",
+                __properties=[("card_title", ":title")],
+            ):
+                with vuetify3.VCardSubtitle():
                     with vuetify3.VCardActions():
                         with vuetify3.VMenu(
                             v_model=("fab", False),
@@ -640,54 +655,74 @@ def initialize(server: Server):
                             ):
                                 vuetify3.VIcon("mdi-upload", color="primary")
                             vuetify3.VIcon("mdi-upload", color="primary", v_else=True)
-                with vuetify3.VList():
-                    with vuetify3.VListItem(
-                        v_for="(item, i) in files_to_convert",
-                        key="i",
-                        value=["item"],
-                        dense=True,
-                        lines="one"
-                    ):
-                        vuetify3.VListItemTitle("{{ item.name }}")
-                        with vuetify3.VBtn(
-                            icon=True,
-                            v_show="warning_files.includes(item.name)",
+                with vuetify3.VTable(
+                    v_show="files_to_convert.length > 0",
+                    density="comfortable",
+                    dense=True, height="300px", fixed_header=True
+                ):
+                    with html.Thead():
+                        with html.Tr():
+                            with html.Th():
+                                html.B("{{ translations[lang]['File name'] }}")
+                            with html.Th():
+                                html.B("{{ translations[lang]['Status'] }}")
+                            with html.Th():
+                                html.B("{{ translations[lang]['Actions'] }}")
+                    with html.Tbody():
+                        with html.Tr(
+                            v_for="(item, i) in files_to_convert",
+                            key="i",
+                            value=["item"],
+                            lines="one"
                         ):
-                            vuetify3.VIcon("mdi-exclamation", color="warning")
-                            with vuetify3.VOverlay(activator="parent", location="center"):
-                                with vuetify3.VCard(dense=True, outlined=True, classes="text-center"):
-                                    vuetify3.VAlert(
-                                        v_for="(item, i) in convert_warnings[files_to_convert[i].name]",
-                                        key="i",
-                                        v_text="item",
-                                        type="warning",
-                                    )
-                        with vuetify3.VBtn(
-                            icon=True,
-                            v_show="error_files.includes(item.name)",
-                        ):
-                            vuetify3.VIcon("mdi-alert-circle-outline", color="error")
-                            with vuetify3.VOverlay(activator="parent", location="center", absolute=True):
-                                with vuetify3.VCard(dense=True, outlined=True, classes="text-center"):
-                                    vuetify3.VAlert(
-                                        "{{ convert_errors[files_to_convert[i].name] }}",
-                                        type="error",
-                                    )
-                        vuetify3.VIcon(
-                            "mdi-check-circle-outline",
-                            color="success",
-                            v_show="success_files.includes(item.name)",
-                        )
-                        with vuetify3.VBtn(
-                            icon=True,
-                            click="files_to_convert.splice(i, 1);flushState('files_to_convert')",
-                        ):
-                            vuetify3.VIcon("mdi-trash-can-outline")
+                            with html.Td():
+                                vuetify3.VLabel("{{ item.name }}")
+                            with html.Td():
+                                with vuetify3.VBtn(
+                                    icon=True,
+                                    v_show="warning_files.includes(item.name)",
+                                    size="small",
+                                ):
+                                    vuetify3.VIcon("mdi-exclamation", color="warning")
+                                    with vuetify3.VOverlay(activator="parent", location="center"):
+                                        with vuetify3.VCard(dense=True, outlined=True, classes="text-center"):
+                                            vuetify3.VAlert(
+                                                v_for="(item, i) in convert_warnings[files_to_convert[i].name]",
+                                                key="i",
+                                                v_text="item",
+                                                type="warning",
+                                            )
+                                with vuetify3.VBtn(
+                                    icon=True,
+                                    v_show="error_files.includes(item.name)",
+                                    size="small",
+                                ):
+                                    vuetify3.VIcon("mdi-alert-circle-outline", color="error")
+                                    with vuetify3.VOverlay(activator="parent", location="center", absolute=True):
+                                        with vuetify3.VCard(dense=True, outlined=True, classes="text-center"):
+                                            vuetify3.VAlert(
+                                                "{{ convert_errors[files_to_convert[i].name] }}",
+                                                type="error",
+                                            )
+                                vuetify3.VIcon(
+                                    "mdi-check-circle-outline",
+                                    color="success",
+                                    v_show="success_files.includes(item.name)",
+                                    size="small",
+                                )
+                            with html.Td():
+                                with vuetify3.VBtn(
+                                    icon=True,
+                                    click="files_to_convert.splice(i, 1);flushState('files_to_convert')",
+                                    size="small",
+                                ):
+                                    vuetify3.VIcon("mdi-trash-can-outline")
                 with vuetify3.VCardActions():
                     with vuetify3.VBtn(
                         "{{ translations[lang]['Back'] }}",
                         click="convert_step = '1'",
                         v_if="convert_step == 2",
+                        variant="tonal",
                     ):
                         vuetify3.VIcon("mdi-restart")
                     vuetify3.VSpacer()
@@ -697,6 +732,7 @@ def initialize(server: Server):
                         click="convert_step = '2'",
                         v_if="convert_step == 1",
                         disabled=("files_to_convert.length == 0", True),
+                        variant="elevated",
                     ):
                         vuetify3.VIcon("mdi-arrow-right")
 
@@ -710,6 +746,7 @@ def initialize(server: Server):
                         click="converting = true;trigger('batch_convert')",
                         reset="converting = false",
                         __events=["reset"],
+                        variant="elevated",
                     ):
                         vuetify3.VIcon("mdi-arrow-right-drop-circle-outline")
                     with vuetify3.VBtn(
@@ -734,6 +771,7 @@ def initialize(server: Server):
                                 )
                             }
                         """,
+                        variant="elevated",
                     ):
                         vuetify3.VIcon("mdi-folder-download-outline")
     with vuetify3.VSnackbar(

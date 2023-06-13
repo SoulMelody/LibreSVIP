@@ -116,11 +116,12 @@ def initialize(server: Server):
                         v_model=("show_about", False), width="auto"
                     ):
                         with vuetify3.VCard(classes="text-center"):
-                            vuetify3.VCardTitle(v_text="translations[lang]['LibreSVIP']")
+                            vuetify3.VCardTitle(v_text="translations[lang]['About']", classes="text-left")
                             with vuetify3.VBtn(
                                 href="https://github.com/SoulMelody/LibreSVIP",
                                 target="_blank",
                                 icon=True,
+                                location="center",
                             ):
                                 vuetify3.VIcon("mdi-github", size="50", color="grey")
                             vuetify3.VCardText(
