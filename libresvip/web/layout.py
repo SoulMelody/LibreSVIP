@@ -18,13 +18,11 @@ from libresvip.web.views import converter
 
 def initialize(server: Server):
     state, ctrl = server.state, server.controller
+
     state.setdefault("lang", settings.language.value)
     state.setdefault("dark_mode", settings.dark_mode.value)
     state.current_route = "Convert"
     state.menu_items = ["简体中文", "English"]
-    state.trame__title = (
-        "LibreSVIP - " + state.translations[state.lang]["SVS Projects Converter"]
-    )
     state.temp_dir = tempfile.mkdtemp(prefix="libresvip")
     os.makedirs(state.temp_dir, exist_ok=True)
     state.trame__favicon = (
@@ -84,19 +82,13 @@ def initialize(server: Server):
                         vuetify3.VIcon("mdi-menu-down", small=True)
                 with vuetify3.VList():
                     with vuetify3.VListItem(
-                        v_for="(item, i) in ['Light', 'Dark']",
+                        v_for="(item, i) in ['Light', 'Dark', 'System']",
                         key="i",
                         value=["item"],
                         click="dark_mode = item",
                     ):
                         vuetify3.VListItemTitle(
                             "{{ translations[lang][item] }}",
-                        )
-                    with vuetify3.VListItem(
-                        click="dark_mode = 'System'",
-                    ):
-                        vuetify3.VListItemTitle(
-                            '{{ translations[lang]["System"] }}',
                         )
             with vuetify3.VMenu(offset_y=True, transition="scale-transition"):
                 with vuetify3.Template(v_slot_activator="{ props }"):
@@ -114,16 +106,16 @@ def initialize(server: Server):
                         vuetify3.VListItemTitle(
                             "{{ item }}",
                         )
-            with vuetify3.VTooltip(bottom=True):
-                with vuetify3.Template(v_slot_activator="{ on }"):
+            with vuetify3.VTooltip(location="bottom"):
+                with vuetify3.Template(v_slot_activator="{ props }"):
                     with vuetify3.VBtn(
-                        icon=True, v_on="on", click="show_about = true"
+                        icon=True, v_bind="props", click="show_about = true"
                     ):
                         vuetify3.VIcon("mdi-information-outline")
                     with vuetify3.VDialog(
                         v_model=("show_about", False), max_width="600px"
                     ):
-                        with vuetify3.VCard(classes="text-center"):
+                        with vuetify3.VCard(classes="text-center"s):
                             vuetify3.VCardTitle(v_text="translations[lang]['LibreSVIP']")
                             with vuetify3.VBtn(
                                 href="https://github.com/SoulMelody/LibreSVIP",
@@ -154,7 +146,7 @@ def initialize(server: Server):
                 x_small=True,
                 icon=True,
                 click=ctrl.on_server_reload,
-                classes="mx-2",
+                size="x-small"
             ):
-                vuetify3.VIcon("mdi-autorenew", x_small=True)
+                vuetify3.VIcon("mdi-autorenew", size="x-small")
 

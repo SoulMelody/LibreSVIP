@@ -29,11 +29,11 @@ def initialize(server: Server):
     with vuetify3.VToolbar(dense=True):
         vuetify3.VToolbarTitle("{{ translations[lang]['Plugins List'] }}")
         vuetify3.VSpacer()
-        with vuetify3.VTooltip(bottom=True):
-            with vuetify3.Template(v_slot_activator="{ on }"):
+        with vuetify3.VTooltip(location="bottom"):
+            with vuetify3.Template(v_slot_activator="{ props }"):
                 with vuetify3.VBtn(
                     icon=True,
-                    v_on="on",
+                    v_bind="props",
                     click="trame.refs['plugin_file_input'].click()",
                 ):
                     vuetify3.VIcon("mdi-puzzle-plus-outline")
@@ -55,7 +55,7 @@ def initialize(server: Server):
             v_for="(item, i) in plugin_cur_page",
             key="i",
             value=["item"],
-            three_line=True,
+            lines="three",
         ):
             with vuetify3.VListItem():
                 with vuetify3.VListItemTitle():
