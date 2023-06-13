@@ -97,10 +97,10 @@ def initialize(server: Server):
     chinese_translation = gettext.translation(
         "libresvip", localedir=res_dir / "locales", languages=["zh_CN"]
     )
-    state.translations = {
+    state.setdefault("translations", {
         "简体中文": {
             msg: chinese_translation.gettext(msg).replace("\n", "<br>")
             for msg in messages
         },
         "English": {msg: msg.replace("\n", "<br>") for msg in messages},
-    }
+    })
