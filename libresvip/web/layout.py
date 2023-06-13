@@ -113,9 +113,9 @@ def initialize(server: Server):
                     ):
                         vuetify3.VIcon("mdi-information-outline")
                     with vuetify3.VDialog(
-                        v_model=("show_about", False), max_width="600px"
+                        v_model=("show_about", False), width="auto"
                     ):
-                        with vuetify3.VCard(classes="text-center"s):
+                        with vuetify3.VCard(classes="text-center"):
                             vuetify3.VCardTitle(v_text="translations[lang]['LibreSVIP']")
                             with vuetify3.VBtn(
                                 href="https://github.com/SoulMelody/LibreSVIP",

@@ -91,15 +91,8 @@ def get_option_widgets(prefix: str):
             value=("field.default", False),
             update_modelValue=f"flushState('{prefix}')",
             v_if="field.type === 'bool'",
+            color="primary",
         )
-        with html.Div(
-            "{{ translations[lang][field.title] }}", v_else_if="field.type === 'color'"
-        ):
-            vuetify3.VColorPicker(
-                v_model=f"{prefix}[field.name]",
-                value=("field.default", ""),
-                update_modelValue=f"flushState('{prefix}')",
-            )
         vuetify3.VSelect(
             label=("translations[lang][field.title]", ""),
             v_model=f"{prefix}[field.name]",
@@ -139,8 +132,34 @@ def get_option_widgets(prefix: str):
             ]""",
             __properties=[("validate_rules", ":rules")],
         )
+        with vuetify3.VDialog(
+            v_model=(f"{prefix}_color_dialogs[i]", False),
+            v_if="field.type === 'color'",
+            width="auto",
+        ):
+            with vuetify3.Template(v_slot_activator="{ props }"):
+                with vuetify3.VBtn(
+                    icon=True, size="small", v_bind="props",
+                    click=f"{prefix}_color_dialogs[i] = true; flushState('{prefix}_color_dialogs')",
+                ):
+                    vuetify3.VIcon(
+                        "mdi-eyedropper-variant",
+                    )
+            with vuetify3.VCard():
+                vuetify3.VColorPicker(
+                    v_model=f"{prefix}[field.name]",
+                    value=("field.default", ""),
+                    update_modelValue=f"flushState('{prefix}')",
+                )
+                with vuetify3.VCardActions():
+                    vuetify3.VSpacer()
+                    vuetify3.VBtn(
+                        "{{ translations[lang]['Close'] }}",
+                        color="grey",
+                        click=f"{prefix}_color_dialogs[i] = false; flushState('{prefix}_color_dialogs')",
+                    )
         with vuetify3.VTooltip(
-            location="bottom", v_if="field.type === 'bool' || field.type === 'color'"
+            location="right", v_if="field.type === 'bool'"
         ):
             with vuetify3.Template(v_slot_activator="{ props }"):
                 vuetify3.VIcon(
@@ -162,8 +181,6 @@ def initialize(server: Server):
     ]
     plugin_identifiers = list(plugin_registry.keys())
 
-    state.setdefault("show_warning_index", None)
-    state.setdefault("show_error_index", None)
     state.setdefault("files_to_convert", [])
     state.setdefault("error_files", [])
     state.setdefault("success_files", [])
@@ -173,6 +190,8 @@ def initialize(server: Server):
     state.setdefault("convert_warnings", {})
     state.setdefault("input_options_fields", [])
     state.setdefault("output_options_fields", [])
+    state.setdefault("input_options_color_dialogs", {})
+    state.setdefault("output_options_color_dialogs", {})
     state.setdefault("input_options", {})
     state.setdefault("output_options", {})
     state.setdefault("converting", False)
@@ -438,6 +457,7 @@ def initialize(server: Server):
                                         "auto_detect",
                                         settings.auto_detect_input_format,
                                     ),
+                                    color="primary",
                                 )
                             with vuetify3.VCol(cols=5):
                                 vuetify3.VSwitch(
@@ -450,6 +470,7 @@ def initialize(server: Server):
                                         "auto_reset",
                                         settings.reset_tasks_on_input_change,
                                     ),
+                                    color="primary",
                                 )
                             with vuetify3.VCol(cols=1):
                                 with vuetify3.VBtn(
@@ -504,7 +525,6 @@ def initialize(server: Server):
                             };
                         };
                     """,
-                    classes="text-center",
                     click="trame.refs['file_uploader'].click()",
                     dragover="""event.preventDefault()""",
                     dragenter="""this.hover_count++""",
@@ -513,7 +533,7 @@ def initialize(server: Server):
                 ):
                     vuetify3.VCardTitle("{{ translations[lang]['Import project'] }}")
                     vuetify3.VDivider()
-                    with vuetify3.VCardText():
+                    with vuetify3.VCardText(classes="text-center"):
                         vuetify3.VIcon("mdi-file-upload-outline")
                         html.Span(
                             "{{ translations[lang]['Drag and drop files here or click to upload'] }}"
@@ -587,7 +607,7 @@ def initialize(server: Server):
                                         color="primary",
                                         v_else=True,
                                     )
-                            with vuetify3.VContainer(rotate=90, width="15", height="15"):
+                            with vuetify3.VContainer(rotate=90, style="margin-top: -15px;"):
                                 with vuetify3.VBtn(
                                     icon=True,
                                     color="primary",
