@@ -11,6 +11,7 @@ from trame_server.core import Server
 from trame_vuetify.ui.vuetify3 import SinglePageLayout
 from trame_vuetify.widgets import vuetify3
 
+import libresvip
 from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.core.constants import res_dir
 from libresvip.web.views import converter
@@ -117,13 +118,37 @@ def initialize(server: Server):
                     ):
                         with vuetify3.VCard(classes="text-center"):
                             vuetify3.VCardTitle(v_text="translations[lang]['About']", classes="text-left")
-                            with vuetify3.VBtn(
-                                href="https://github.com/SoulMelody/LibreSVIP",
-                                target="_blank",
-                                icon=True,
-                                location="center",
-                            ):
-                                vuetify3.VIcon("mdi-github", size="50", color="grey")
+                            vuetify3.VCardTitle(
+                                "LibreSVIP",
+                                classes="text-center text-h4",
+                            )
+                            with vuetify3.VCardText(location="center"):
+                                vuetify3.VLabel(
+                                    f"{{{{ translations[lang]['Version'] + ': {libresvip.__version__}' }}}}"
+                                )
+                            with vuetify3.VCardText(location="center"):
+                                vuetify3.VLabel(
+                                    "{{ translations[lang]['Author: SoulMelody'] }}"
+                                )
+                            with vuetify3.VCardText(location="center"):
+                                with vuetify3.VBtn(
+                                    href="https://space.bilibili.com/175862486",
+                                    target="_blank",
+                                    prepend_icon="mdi-television-classic",
+                                    rounded="xl",
+                                    variant="tonal",
+                                    __properties=["target"]
+                                ):
+                                    vuetify3.VLabel("{{ translations[lang]['Author\\'s Profile'] }}")
+                                with vuetify3.VBtn(
+                                    href="https://github.com/SoulMelody/LibreSVIP",
+                                    target="_blank",
+                                    prepend_icon="mdi-github",
+                                    rounded="xl",
+                                    variant="tonal",
+                                    __properties=["target"]
+                                ):
+                                    vuetify3.VLabel("{{ translations[lang]['Repo URL'] }}")
                             vuetify3.VCardText(
                                 v_text="translations[lang]['LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.']"
                             )

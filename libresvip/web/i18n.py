@@ -55,6 +55,10 @@ messages = [
     _("Install a Plugin"),
     _("Invalid integer"),
     _("Invalid float"),
+    _("Copy to clipboard"),
+    _("Repo URL"),
+    _("Author's Profile"),
+    _("Author: SoulMelody"),
 ]
 
 
