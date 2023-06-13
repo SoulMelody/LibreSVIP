@@ -95,15 +95,32 @@ def get_option_widgets(prefix: str):
         key="i",
         value="field",
     ):
-        vuetify3.VSwitch(
-            label=("translations[lang][field.title]", ""),
+        with vuetify3.VSwitch(
             v_model=f"{prefix}[field.name]",
             value=("field.default", False),
             update_modelValue=f"flushState('{prefix}')",
             v_if="field.type === 'bool'",
             color="primary",
             density="comfortable",
-        )
+            inset=True
+        ):
+            with vuetify3.Template(v_slot_label=True):
+                vuetify3.VLabel(
+                    "{{ translations[lang][field.title] }}"
+                )
+                with vuetify3.VTooltip(
+                    location="right"
+                ):
+                    with vuetify3.Template(v_slot_activator="{ props }"):
+                        vuetify3.VIcon(
+                            "mdi-help-circle-outline",
+                            v_bind="props",
+                            slot="append",
+                            __properties=["slot"],
+                        )
+                    html.Span(
+                        "{{ translations[lang][field.description] }}",
+                    )
         vuetify3.VSelect(
             label=("translations[lang][field.title]", ""),
             v_model=f"{prefix}[field.name]",
@@ -173,19 +190,6 @@ def get_option_widgets(prefix: str):
                         color="grey",
                         click=f"{prefix}_color_dialogs[i] = false; flushState('{prefix}_color_dialogs')",
                     )
-        with vuetify3.VTooltip(
-            location="right", v_if="field.type === 'bool'"
-        ):
-            with vuetify3.Template(v_slot_activator="{ props }"):
-                vuetify3.VIcon(
-                    "mdi-help-circle-outline",
-                    v_bind="props",
-                    slot="append",
-                    __properties=["slot"],
-                )
-            html.Span(
-                "{{ translations[lang][field.description] }}",
-            )
 
 
 def initialize(server: Server):
