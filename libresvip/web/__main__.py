@@ -14,8 +14,8 @@ def _reload():
     server = get_server()
     dev.clear_change_listeners(server)
     dev.reload(i18n)
-    dev.reload(layout)
     dev.reload(views.converter)
+    dev.reload(layout)
     init_server(server)
     server.controller.call("reload")
 

@@ -42,6 +42,8 @@ def initialize(server: Server):
             settings.dark_mode = DarkMode(state.dark_mode)
             settings.auto_detect_input_format = state.auto_detect
             settings.reset_tasks_on_input_change = state.auto_reset
+            settings.last_input_format = state.input_format
+            settings.last_output_format = state.output_format
             save_settings()
 
     atexit.register(save_settings_to_disk)
@@ -104,6 +106,7 @@ def initialize(server: Server):
                 copy.style.height = rect.height + 'px'
 
                 const targetEl = window.document.querySelector('.mdi-invert-colors')
+                if (!targetEl) return
                 const targetRect = targetEl.getBoundingClientRect()
                 window.console.log(targetRect)
                 const left = targetRect.left + targetRect.width / 2 + window.scrollX
@@ -209,23 +212,33 @@ def initialize(server: Server):
                     ):
                         vuetify3.VIcon("mdi-information-outline")
                     with vuetify3.VDialog(
-                        v_model=("show_about", False), width="auto"
+                        v_model=("show_about", False), width="auto",
                     ):
-                        with vuetify3.VCard(classes="text-center"):
-                            vuetify3.VCardTitle(v_text="translations[lang]['About']", classes="text-left")
+                        with vuetify3.VCard(
+                            append_icon="$close",
+                            card_title="translations[lang]['About']",
+                            __properties=[("card_title", ":title")]
+                        ):
+                            with vuetify3.Template(v_slot_append=""):
+                                vuetify3.VBtn(
+                                    icon="$close",
+                                    click="show_about = false",
+                                    variant="text",
+                                )
+                            vuetify3.VDivider()
                             vuetify3.VCardTitle(
                                 "LibreSVIP",
                                 classes="text-center text-h4",
                             )
-                            with vuetify3.VCardText(location="center"):
+                            with vuetify3.VCardText(classes="text-center"):
                                 vuetify3.VLabel(
                                     f"{{{{ translations[lang]['Version'] + ': {libresvip.__version__}' }}}}"
                                 )
-                            with vuetify3.VCardText(location="center"):
+                            with vuetify3.VCardText(classes="text-center"):
                                 vuetify3.VLabel(
                                     "{{ translations[lang]['Author: SoulMelody'] }}"
                                 )
-                            with vuetify3.VCardText(location="center"):
+                            with vuetify3.VCardText(classes="text-center"):
                                 with vuetify3.VBtn(
                                     href="https://space.bilibili.com/175862486",
                                     target="_blank",
@@ -245,16 +258,22 @@ def initialize(server: Server):
                                 ):
                                     vuetify3.VLabel("{{ translations[lang]['Repo URL'] }}")
                             vuetify3.VCardText(
-                                v_text="translations[lang]['LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.']"
+                                v_text="translations[lang]['LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.']",
+                                classes="text-center",
                             )
                             vuetify3.VCardText(
-                                v_text=r"translations[lang]['All people should have the right and freedom to choose. That\'s why we\'re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.']"
+                                v_text=r"translations[lang]['All people should have the right and freedom to choose. That\'s why we\'re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.']",
+                                classes="text-center",
                             )
-                            vuetify3.VBtn(
-                                v_text="translations[lang]['OK']",
-                                click="show_about = false",
-                                color="primary",
-                            )
+                            with vuetify3.VCardActions():
+                                vuetify3.VSpacer()
+                                vuetify3.VBtn(
+                                    v_text="translations[lang]['OK']",
+                                    click="show_about = false",
+                                    color="primary",
+                                    variant="elevated"
+                                )
+                                vuetify3.VSpacer()
                 html.Span(v_text="translations[lang]['About']")
 
         with layout.content:

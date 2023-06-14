@@ -59,6 +59,10 @@ messages = [
     _("Repo URL"),
     _("Author's Profile"),
     _("Author: SoulMelody"),
+    _("Upload files"),
+    _("Clear Task List"),
+    _("Remove Tasks With Other Extensions"),
+    _("Choose a color"),
 ]
 
 
