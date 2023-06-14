@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 07:26+0800\n"
+"POT-Creation-Date: 2023-06-15 01:09+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,3 +47,11 @@ msgstr "仅标点符号"
 #: .srt.dump[2].title
 msgid "Text encoding"
 msgstr "文本编码"
+
+#: .srt.dump[3].title
+msgid "Track index"
+msgstr "音轨序号"
+
+#: .srt.dump[3].description
+msgid "Start from 0, -1 means automatic selection"
+msgstr "从0开始，-1表示自动选择"

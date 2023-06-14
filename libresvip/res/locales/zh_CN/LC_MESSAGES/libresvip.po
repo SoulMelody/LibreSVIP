@@ -446,7 +446,7 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:24
+#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:25
 msgid "Author"
 msgstr "作者"
 
@@ -537,141 +537,173 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
-#: ../libresvip/plugins/ds/utils/note_list_util.py:43
+#: ../libresvip/plugins/ds/utils/note_list_util.py:42
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: ../libresvip/plugins/ds/utils/pinyin_util.py:17
+#: ../libresvip/plugins/ds/utils/pinyin_util.py:16
 msgid ""
 "The selected dictionary does not contain the pronunciation “{}”. Please "
 "check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
-#: ../libresvip/plugins/ds/utils/pitch_param_utils.py:23
+#: ../libresvip/plugins/ds/utils/pitch_param_utils.py:31
 msgid "The source file lacks pitch parameters."
 msgstr "源文件缺少音高参数"
 
-#: ../libresvip/plugins/svip/msnrbf/svip_reader.py:113
+#: ../libresvip/plugins/svip/msnrbf/svip_reader.py:114
 msgid "Root not found"
 msgstr "未找到根对象"
 
-#: ../libresvip/plugins/ustx/utils/music_math.py:111
-msgid "Invalid beat unit."
-msgstr "无效的节拍单位"
-
-#: ../libresvip/web/i18n.py:11
+#: ../libresvip/web/i18n.py:12
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/i18n.py:12
+#: ../libresvip/web/i18n.py:13
 msgid "Plugins"
 msgstr "插件"
 
-#: ../libresvip/web/i18n.py:16
+#: ../libresvip/web/i18n.py:17
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/i18n.py:17
+#: ../libresvip/web/i18n.py:18
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/i18n.py:21
+#: ../libresvip/web/i18n.py:22
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/i18n.py:22
+#: ../libresvip/web/i18n.py:23
 msgid "OK"
 msgstr "确定"
 
-#: ../libresvip/web/i18n.py:23
+#: ../libresvip/web/i18n.py:24
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/i18n.py:27
+#: ../libresvip/web/i18n.py:28
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/i18n.py:28
+#: ../libresvip/web/i18n.py:29
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/i18n.py:29
+#: ../libresvip/web/i18n.py:30
 msgid "Import from"
 msgstr "导入自"
 
-#: ../libresvip/web/i18n.py:30
+#: ../libresvip/web/i18n.py:31
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/i18n.py:31
+#: ../libresvip/web/i18n.py:32
 msgid "Export to"
 msgstr "导出至"
 
-#: ../libresvip/web/i18n.py:32
+#: ../libresvip/web/i18n.py:33
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/i18n.py:33
+#: ../libresvip/web/i18n.py:34
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/i18n.py:34
+#: ../libresvip/web/i18n.py:35
 msgid "Next"
 msgstr "继续"
 
-#: ../libresvip/web/i18n.py:35
+#: ../libresvip/web/i18n.py:36
 msgid "Back"
 msgstr "返回"
 
-#: ../libresvip/web/i18n.py:36
+#: ../libresvip/web/i18n.py:37
+msgid "File name"
+msgstr "文件名称"
+
+#: ../libresvip/web/i18n.py:38
 msgid "File operations"
 msgstr "文件操作"
 
-#: ../libresvip/web/i18n.py:37
-msgid "Import project"
-msgstr "导入工程"
-
-#: ../libresvip/web/i18n.py:38
-msgid "Import Options"
-msgstr "导入选项"
-
 #: ../libresvip/web/i18n.py:39
-msgid "Export Options"
-msgstr "导出选项"
+msgid "Status"
+msgstr "状态"
 
 #: ../libresvip/web/i18n.py:40
-msgid "Advanced Options"
+#, fuzzy
+msgid "Actions"
 msgstr "高级选项"
 
 #: ../libresvip/web/i18n.py:41
+msgid "Import project"
+msgstr "导入工程"
+
+#: ../libresvip/web/i18n.py:42
+msgid "Import Options"
+msgstr "导入选项"
+
+#: ../libresvip/web/i18n.py:43
+msgid "Export Options"
+msgstr "导出选项"
+
+#: ../libresvip/web/i18n.py:44
+msgid "Advanced Options"
+msgstr "高级选项"
+
+#: ../libresvip/web/i18n.py:45
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/i18n.py:42
+#: ../libresvip/web/i18n.py:46
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/i18n.py:43
+#: ../libresvip/web/i18n.py:47
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/i18n.py:50
+#: ../libresvip/web/i18n.py:54
 msgid "Plugin List"
 msgstr "插件列表"
 
-#: ../libresvip/web/i18n.py:51
+#: ../libresvip/web/i18n.py:55
 msgid "Install a Plugin"
 msgstr "安装插件"
+
+#: ../libresvip/web/i18n.py:56
+#, fuzzy
+msgid "Invalid integer"
+msgstr "无效的节拍单位"
+
+#: ../libresvip/web/i18n.py:57
+#, fuzzy
+msgid "Invalid float"
+msgstr "无效的节拍单位"
+
+#: ../libresvip/web/i18n.py:58
+msgid "Copy to clipboard"
+msgstr "复制到剪贴板"
+
+#: ../libresvip/web/i18n.py:62
+msgid "Upload files"
+msgstr "上传文件"
+
+#: ../libresvip/web/i18n.py:65
+#, fuzzy
+msgid "Choose a color"
+msgstr "选择格式"
 
 #: .ds.format_desc
 msgid "DiffSinger parameters file (*.ds)"
 msgstr "DiffSinger参数文件（*.ds）"
 
 #: .ds.description
-msgid "DiffSinger plugin. Currently, only loading is supported"
-msgstr "DiffSinger 参数格式转换插件。目前仅支持导入 DiffSinger 合成参数"
+msgid "DiffSinger plugin."
+msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.load[0].title .ds.dump[0].title
+#: .ds.load[0].title .ds.dump[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -873,11 +905,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1008,6 +1040,10 @@ msgstr "袅袅工程格式转换插件"
 msgid "Start from 0, -1 means auto select"
 msgstr "从0开始，-1表示自动选择"
 
+#: .nn.dump[1].description
+msgid "Version of Niaoniao project file"
+msgstr "袅袅工程版本"
+
 #: .s5p.format_desc
 msgid "Synthesizer V Editor project file (*.s5p)"
 msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
@@ -1047,9 +1083,8 @@ msgstr ""
 msgid "Pixels per beat"
 msgstr "每拍像素数"
 
-#: .svg.dump[0].description .svg.dump[1].description
-#: .svg.dump[2].description .svg.dump[5].description
-#: .svg.dump[7].description .svg.dump[16].description
+#: .svg.dump[0].description .svg.dump[1].description .svg.dump[2].description
+#: .svg.dump[5].description .svg.dump[7].description .svg.dump[16].description
 msgid "Unit: pixel."
 msgstr "单位：像素。"
 
@@ -1065,9 +1100,9 @@ msgstr "音符圆角"
 msgid "Note fill color"
 msgstr "音符填充颜色"
 
-#: .svg.dump[3].description .svg.dump[4].description
-#: .svg.dump[6].description .svg.dump[11].description
-#: .svg.dump[12].description .svg.dump[15].description
+#: .svg.dump[3].description .svg.dump[4].description .svg.dump[6].description
+#: .svg.dump[11].description .svg.dump[12].description
+#: .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
@@ -1091,19 +1126,19 @@ msgstr "音高曲线描边宽度"
 msgid "Lyric position"
 msgstr "歌词显示于"
 
-#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
+#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
 msgid "Above the note"
 msgstr "音符上方"
 
-#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
+#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
 msgid "Inside the note"
 msgstr "音符内部"
 
-#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
+#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
 msgid "Below the note"
 msgstr "音符下方"
 
-#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
+#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
 msgid "Don't show"
 msgstr "不显示"
 
@@ -1194,11 +1229,11 @@ msgstr "自动选择"
 
 #: .svip.dump[2].choices[1].text
 msgid "SVIP 7.0.0"
-msgstr ""
+msgstr "SVIP 7.0.0 版本"
 
 #: .svip.dump[2].choices[2].text
 msgid "SVIP 6.0.0"
-msgstr ""
+msgstr "SVIP 6.0.0 版本"
 
 #: .svip.dump[2].choices[3].text
 msgid "Max compatibility (read only)"
