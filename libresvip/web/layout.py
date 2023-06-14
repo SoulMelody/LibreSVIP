@@ -52,6 +52,101 @@ def initialize(server: Server):
             exec="window.location.reload()",
         )
         ctrl.call = reload_trigger.exec
+
+        trame.Style(
+            """
+            .app-copy {
+                position: fixed !important;
+                z-index: -1 !important;
+                pointer-events: none !important;
+                contain: size style !important;
+                overflow: clip !important;
+            }
+
+            .app-transition {
+                --clip-size: 0;
+                --clip-pos: 0 0;
+                clip-path: circle(var(--clip-size) at var(--clip-pos));
+                transition: clip-path .35s ease-out;
+            }
+            """
+        )
+        change_theme_trigger = trame.JSEval(
+            exec="""
+            (() => {
+                // Adapted from https://github.com/vuetifyjs/vuetify/blob/master/packages/docs/src/App.vue
+                function hasScrollbar (el) {
+                    if (!el || el.nodeType !== window.Node.ELEMENT_NODE) return false
+
+                    const style = window.getComputedStyle(el)
+                    return style.overflowY === 'scroll' || (style.overflowY === 'auto' && el.scrollHeight > el.clientHeight)
+                }
+                const x = window.performance.now()
+                for (let i = 0; i++ < 1e7; i << 9 & 9 % 9 * 9 + 9);
+                if (window.performance.now() - x > 10) return
+
+                const el = window.document.querySelector('[data-v-app]')
+                if (!el) return
+
+                el.querySelectorAll('*').forEach(el => {
+                    if (hasScrollbar(el)) {
+                        el.dataset.scrollX = String(el.scrollLeft)
+                        el.dataset.scrollY = String(el.scrollTop)
+                    }
+                })
+
+                const copy = el.cloneNode(true)
+                copy.classList.add('app-copy')
+                const rect = el.getBoundingClientRect()
+                copy.style.top = rect.top + 'px'
+                copy.style.left = rect.left + 'px'
+                copy.style.width = rect.width + 'px'
+                copy.style.height = rect.height + 'px'
+
+                const targetEl = window.document.querySelector('.mdi-invert-colors')
+                const targetRect = targetEl.getBoundingClientRect()
+                window.console.log(targetRect)
+                const left = targetRect.left + targetRect.width / 2 + window.scrollX
+                const top = targetRect.top + targetRect.height / 2 + window.scrollY
+                el.style.setProperty('--clip-pos', `${left}px ${top}px`)
+                el.style.removeProperty('--clip-size')
+
+                window.Vue.nextTick(() => {
+                    el.classList.add('app-transition')
+                    window.requestAnimationFrame(() => {
+                        window.requestAnimationFrame(() => {
+                            el.style.setProperty('--clip-size', Math.hypot(window.innerWidth, window.innerHeight) + 'px')
+                        })
+                    })
+                })
+
+                window.document.body.append(copy)
+
+                copy.querySelectorAll('[data-scroll-x], [data-scroll-y]').forEach(el => {
+                    if (el.dataset.scrollX) el.scrollLeft = +el.dataset.scrollX
+                    if (el.dataset.scrollY) el.scrollTop = +el.dataset.scrollY
+                })
+
+                function onTransitionend (e) {
+                    if (e.target === e.currentTarget) {
+                    copy.remove()
+                    el.removeEventListener('transitionend', onTransitionend)
+                    el.removeEventListener('transitioncancel', onTransitionend)
+                    el.classList.remove('app-transition')
+                    el.style.removeProperty('--clip-size')
+                    el.style.removeProperty('--clip-pos')
+                    }
+                }
+                el.addEventListener('transitionend', onTransitionend)
+                el.addEventListener('transitioncancel', onTransitionend)
+            })()
+            """,
+        )
+
+        @state.change("dark_mode")
+        def change_theme(dark_mode: str, *args, **kwargs):
+            change_theme_trigger.exec()
+
         layout.icon.v_show = False
         layout.footer.clear()
         layout.title._attr_names += ["v_text"]
