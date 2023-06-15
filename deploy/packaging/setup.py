@@ -35,6 +35,8 @@ if qml_base_dir:
                 pathlib.Path(f"./lib/PySide6/{qml_base_dir}/{qml_dir}"),
             )
         )
+    qml_lib = next(pyside6_dir.glob("*pyside6qml*"))
+    include_files.append((qml_lib, pathlib.Path(f"./lib/PySide6/{qml_lib.name}")))
 
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
