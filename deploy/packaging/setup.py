@@ -18,7 +18,7 @@ try:
 except ImportError:
     get_qt_plugins_paths = None
 
-pyside6_dir = pathlib.Path(PySide6.__file__).parent
+pyside6_dir = pathlib.Path(PySide6.__path__[0])
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
@@ -26,6 +26,14 @@ if (pyside6_dir / "qml").exists():
     qml_base_dir = "qml"
 elif (pyside6_dir / "Qt/qml").exists():
     qml_base_dir = "Qt/qml"
+    xcb_soname = "Qt/lib/libQt6XcbQpa.so.6"
+    if (pyside6_dir / xcb_soname).exists():
+        include_files.append(
+            (
+                pyside6_dir / xcb_soname,
+                pathlib.Path(f"./lib/PySide6/{xcb_soname}"),
+            )
+        )
 
 if qml_base_dir:
     for qml_dir in qml_dirs:
