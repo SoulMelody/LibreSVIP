@@ -53,7 +53,7 @@ base = "Win32GUI" if sys.platform == "win32" else None
 
 def platform_libs_for_qtmodule(module: str) -> list[str]:
     return [
-        f"libQt6{module}.so",  # Linux
+        f"libQt6{module}.so.6",  # Linux
         f"Qt{module}",  # MacOS
         f"Qt6{module}.dll",  # Windows
     ]
@@ -137,7 +137,7 @@ build_exe_options = {
     ],
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
-    "packages": ["qmlease", "libresvip", "PySide6.QtQuick", "xsdata_pydantic"],
+    "packages": ["qmlease", "libresvip", "PySide6.QtQuick", "PySide6.QtOpenGLWidgets", "xsdata_pydantic"],
 }
 
 executables = [
