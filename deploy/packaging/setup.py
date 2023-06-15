@@ -6,7 +6,12 @@ import sys
 import PySide6
 from cx_Freeze import Executable, setup
 
+sys.path.append(str(pathlib.Path("../../").absolute().resolve()))
+
 from libresvip.core.constants import pkg_dir
+from libresvip.utils import download_and_setup_ffmpeg
+
+download_and_setup_ffmpeg()
 
 try:
     from cx_Freeze.hooks import get_qt_plugins_paths
