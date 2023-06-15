@@ -45,7 +45,7 @@ jobs:
           cd ../..
       - name: Compress build artifact
         run: |
-          python -c "import glob; import shutil; for f in glob.glob('./deploy/packaging/build/exe.*'): shutil.move(f, 'dist')"
+          python -c "import glob; import shutil; [shutil.move(f, 'dist') for f in glob.glob('./deploy/packaging/build/exe.*')]"
           python -c "import shutil; shutil.make_archive('libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}', 'xztar', 'dist')"
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
