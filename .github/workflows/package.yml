@@ -31,6 +31,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
+      - name: Install OS dependencies
+        if: matrix.os.runs-on == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libegl1
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
