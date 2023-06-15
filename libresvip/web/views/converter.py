@@ -44,39 +44,47 @@ def get_dialog_widget(prefix: str):
                             ),
                         )
                 with vuetify3.VCol(tag="span", cols="auto"):
-                    with vuetify3.VList(lines="three"):
+                    with vuetify3.VRow(tag="span", no_gutters=True):
                         vuetify3.VListItemTitle(
                             v_text=f"plugin_details[{prefix}_format].name",
-                            classes="text-center"
+                            classes="text-center",
                         )
-                        with vuetify3.VListItem(lines="one"):
-                            with vuetify3.VRow():
-                                with vuetify3.VCol(tag="span"):
-                                    vuetify3.VIcon(
-                                        "mdi-tag", left=True
-                                    )
-                                    vuetify3.VLabel(
-                                        v_text=f"plugin_details[{prefix}_format].version",
-                                    )
-                                with vuetify3.VCol(tag="span"):
-                                    vuetify3.VIcon(
-                                        "mdi-account-circle", left=True
-                                    )
-                                    html.A(
-                                        v_text=f"plugin_details[{prefix}_format].author",
-                                        href=(f"plugin_details[{prefix}_format].website", "#"),
-                                        target="_blank",
-                                    )
-                                    vuetify3.VIcon(
-                                        "mdi-open-in-new"
-                                    )
-                        with vuetify3.VListItem(lines="one"):
-                            with vuetify3.VListItemSubtitle():
-                                vuetify3.VIcon("mdi-file-outline", left=True)
-                                html.Span(
-                                    color="primary",
-                                    v_text=f"translations[lang][plugin_details[{prefix}_format].format_desc]",
-                                )
+                    with vuetify3.VRow(tag="span", no_gutters=True):
+                        with vuetify3.VCol(tag="span", cols=5):
+                            vuetify3.VIcon(
+                                "mdi-tag",
+                                slot="prepend",
+                                __properties=["slot"],
+                            )
+                            vuetify3.VLabel(
+                                v_text=f"plugin_details[{prefix}_format].version",
+                            )
+                        with vuetify3.VCol(tag="span", cols="auto"):
+                            vuetify3.VIcon(
+                                "mdi-account-circle",
+                                slot="prepend",
+                                __properties=["slot"],
+                            )
+                            html.A(
+                                v_text=f"plugin_details[{prefix}_format].author",
+                                href=(f"plugin_details[{prefix}_format].website", "#"),
+                                target="_blank",
+                            )
+                            vuetify3.VIcon(
+                                "mdi-open-in-new",
+                                slot="append",
+                                __properties=["slot"],
+                            )
+                    with vuetify3.VRow(tag="span", no_gutters=True):
+                        with vuetify3.VCol(tag="span", cols="auto"):
+                            vuetify3.VIcon(
+                                "mdi-file-outline",
+                                slot="prepend",
+                                __properties=["slot"],
+                            )
+                            html.Span(
+                                v_text=f"translations[lang][plugin_details[{prefix}_format].format_desc]",
+                            )
             vuetify3.VDivider()
             with vuetify3.VListSubheader("{{ translations[lang]['Introduction'] }}"):
                 vuetify3.VCardText(
@@ -613,19 +621,25 @@ def initialize(server: Server):
                     with vuetify3.VExpansionPanels(hover=True, popout=True):
                         with vuetify3.VExpansionPanel():
                             with vuetify3.VExpansionPanelTitle():
-                                html.B("{{ translations[lang]['Import Options'] }} ")
-                                html.Span(
-                                    "[ {{ translations[lang]['Import from'] }} {{ translations[lang][plugin_details[input_format].format_desc] }} ]"
-                                )
+                                with vuetify3.VRow(no_gutters=True):
+                                    with vuetify3.VCol(cols=3):
+                                        html.B("{{ translations[lang]['Import Options'] }} ")
+                                    with vuetify3.VCol(cols="auto", classes="text--secondary"):
+                                        html.Span(
+                                            "[ {{ translations[lang]['Import from'] }} {{ translations[lang][plugin_details[input_format].format_desc] }} ]"
+                                        )
                             with vuetify3.VExpansionPanelText():
                                 with vuetify3.VForm():
                                     get_option_widgets("input_options")
                         with vuetify3.VExpansionPanel():
                             with vuetify3.VExpansionPanelTitle():
-                                html.B("{{ translations[lang]['Export Options'] }} ")
-                                html.Span(
-                                    "[ {{ translations[lang]['Export to'] }} {{ translations[lang][plugin_details[output_format].format_desc] }} ]"
-                                )
+                                with vuetify3.VRow(no_gutters=True):
+                                    with vuetify3.VCol(cols=3):
+                                        html.B("{{ translations[lang]['Export Options'] }} ")
+                                    with vuetify3.VCol(cols="auto", classes="text--secondary"):
+                                        html.Span(
+                                            "[ {{ translations[lang]['Export to'] }} {{ translations[lang][plugin_details[output_format].format_desc] }} ]"
+                                        )
                             with vuetify3.VExpansionPanelText():
                                 with vuetify3.VForm():
                                     get_option_widgets("output_options")

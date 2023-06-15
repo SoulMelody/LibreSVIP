@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-15 01:10+0800\n"
+"POT-Creation-Date: 2023-06-15 17:46+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -265,9 +265,8 @@ msgid "Status"
 msgstr "状态"
 
 #: ../libresvip/web/i18n.py:40
-#, fuzzy
 msgid "Actions"
-msgstr "高级选项"
+msgstr "操作"
 
 #: ../libresvip/web/i18n.py:41
 msgid "Import project"
@@ -321,14 +320,12 @@ msgid "Install a Plugin"
 msgstr "安装插件"
 
 #: ../libresvip/web/i18n.py:56
-#, fuzzy
 msgid "Invalid integer"
-msgstr "无效的节拍单位"
+msgstr "无效的整数"
 
 #: ../libresvip/web/i18n.py:57
-#, fuzzy
 msgid "Invalid float"
-msgstr "无效的节拍单位"
+msgstr "无效的浮点数"
 
 #: ../libresvip/web/i18n.py:58
 msgid "Copy to clipboard"
@@ -343,7 +340,6 @@ msgid "Author's Profile"
 msgstr "作者主页"
 
 #: ../libresvip/web/i18n.py:61
-#, fuzzy
 msgid "Author: SoulMelody"
 msgstr "作者： "
 
@@ -360,6 +356,5 @@ msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
 #: ../libresvip/web/i18n.py:65
-#, fuzzy
 msgid "Choose a color"
 msgstr "选择格式"
