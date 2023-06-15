@@ -1,6 +1,7 @@
 import os
 
 from qmlease import app
+from qtpy.QtOpenGLWidgets import QOpenGLWidget  # noqa: F401
 from qtpy.QtQuickControls2 import QQuickStyle
 
 from libresvip.core.constants import pkg_dir, res_dir
