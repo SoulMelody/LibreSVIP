@@ -47,34 +47,33 @@ def get_dialog_widget(prefix: str):
                     with vuetify3.VRow(tag="span", no_gutters=True):
                         vuetify3.VListItemTitle(
                             v_text=f"plugin_details[{prefix}_format].name",
-                            classes="text-center",
+                            classes="text-h5",
                         )
                     with vuetify3.VRow(tag="span", no_gutters=True):
-                        with vuetify3.VCol(tag="span", cols=5):
-                            vuetify3.VIcon(
-                                "mdi-tag",
-                                slot="prepend",
-                                __properties=["slot"],
-                            )
-                            vuetify3.VLabel(
-                                v_text=f"plugin_details[{prefix}_format].version",
-                            )
-                        with vuetify3.VCol(tag="span", cols="auto"):
-                            vuetify3.VIcon(
-                                "mdi-account-circle",
-                                slot="prepend",
-                                __properties=["slot"],
-                            )
-                            html.A(
-                                v_text=f"plugin_details[{prefix}_format].author",
-                                href=(f"plugin_details[{prefix}_format].website", "#"),
-                                target="_blank",
-                            )
-                            vuetify3.VIcon(
-                                "mdi-open-in-new",
-                                slot="append",
-                                __properties=["slot"],
-                            )
+                        vuetify3.VIcon(
+                            "mdi-tag",
+                            slot="prepend",
+                            __properties=["slot"],
+                        )
+                        vuetify3.VLabel(
+                            v_text=f"plugin_details[{prefix}_format].version",
+                        )
+                        vuetify3.VSpacer(classes="mx-4")
+                        vuetify3.VIcon(
+                            "mdi-account-circle",
+                            slot="prepend",
+                            __properties=["slot"],
+                        )
+                        html.A(
+                            v_text=f"plugin_details[{prefix}_format].author",
+                            href=(f"plugin_details[{prefix}_format].website", "#"),
+                            target="_blank",
+                        )
+                        vuetify3.VIcon(
+                            "mdi-open-in-new",
+                            slot="append",
+                            __properties=["slot"],
+                        )
                     with vuetify3.VRow(tag="span", no_gutters=True):
                         with vuetify3.VCol(tag="span", cols="auto"):
                             vuetify3.VIcon(
@@ -87,10 +86,10 @@ def get_dialog_widget(prefix: str):
                             )
             vuetify3.VDivider()
             with vuetify3.VListSubheader("{{ translations[lang]['Introduction'] }}"):
-                vuetify3.VCardText(
-                    style="word-wrap: break-word; word-break: normal;",
-                    v_html=f"translations[lang][plugin_details[{prefix}_format].description]",
-                )
+                    vuetify3.VCardText(
+                        style="word-wrap: break-word; word-break: normal;",
+                        v_html=f"translations[lang][plugin_details[{prefix}_format].description]",
+                    )
             with vuetify3.VCardActions():
                 vuetify3.VSpacer()
                 vuetify3.VBtn(
@@ -416,11 +415,11 @@ def initialize(server: Server):
         state.convert_results = convert_results
         state.convert_warnings = convert_warnings
         if len(state.error_files) > 0:
-            ctrl.call_js(1)
+            ctrl.reset_messages(1)
         elif len(state.success_files) > 0:
-            ctrl.call_js(0)
+            ctrl.reset_messages(0)
         else:
-            ctrl.call_js(2)
+            ctrl.reset_messages(2)
 
     def read_result(src_name: str) -> bytes:
         tmp_path = state.convert_results[src_name]
@@ -457,7 +456,7 @@ def initialize(server: Server):
             }
         """,
     )
-    ctrl.call_js = reset_trigger.exec
+    ctrl.reset_messages = reset_trigger.exec
     with vuetify3.VCard(density="comfortable"):
         with vuetify3.VTabs(v_model=("convert_step", 1)):
             vuetify3.VTab(
@@ -679,7 +678,7 @@ def initialize(server: Server):
                                             icon=True,
                                             v_bind="props",
                                             color="primary",
-                                            click="files_to_convert = []",
+                                            click="files_to_convert = []; convert_step = '1';",
                                             variant="tonal",
                                         ):
                                             vuetify3.VIcon("mdi-refresh")
@@ -695,18 +694,17 @@ def initialize(server: Server):
                                             v_bind="props",
                                             color="primary",
                                             click="""
-                                            for (let i = 0; i < files_to_convert.length; i++) {
-                                                const file = files_to_convert[i];
-                                                if (!file.name.toLowerCase().endsWith(input_format)) {
-                                                    files_to_convert.splice(i, 1);
-                                                    i--;
+                                                for (let i = 0; i < files_to_convert.length; i++) {
+                                                    const file = files_to_convert[i];
+                                                    if (!file.name.toLowerCase().endsWith(input_format)) {
+                                                        files_to_convert.splice(i, 1);
+                                                        i--;
+                                                    }
                                                 }
-                                            }
-                                            flushState('files_to_convert')
-                                            if (files_to_convert.length === 0) {
-                                                convert_step = 0;
-                                                flushState('convert_step');
-                                            }
+                                                flushState('files_to_convert')
+                                                if (files_to_convert.length === 0) {
+                                                    convert_step = '1';
+                                                }
                                             """,
                                             variant="tonal",
                                         ):
@@ -832,7 +830,13 @@ def initialize(server: Server):
                                     vuetify3.VIcon("mdi-download-outline")
                                 with vuetify3.VBtn(
                                     icon=True,
-                                    click="files_to_convert.splice(i, 1);flushState('files_to_convert')",
+                                    click="""
+                                        files_to_convert.splice(i, 1);
+                                        flushState('files_to_convert');
+                                        if (files_to_convert.length == 0) {
+                                            convert_step = '1';
+                                        }
+                                    """,
                                     size="small",
                                 ):
                                     vuetify3.VIcon("mdi-trash-can-outline")
