@@ -118,7 +118,7 @@ def get_option_widgets(prefix: str):
         ):
             with vuetify3.Template(v_slot_label=True):
                 vuetify3.VLabel(
-                    "{{ translations[lang][field.title] }}"
+                    "{{ translations[lang][field.title] }}",
                 )
                 with vuetify3.VTooltip(
                     location="right",
@@ -144,12 +144,11 @@ def get_option_widgets(prefix: str):
             v_else_if="field.type === 'enum'",
             color="primary",
             density="comfortable",
-            each_item_text="""(item) => {
+            item_title=("""(item) => {
                 if (item.text in translations[lang])
                     return translations[lang][item.text]
                 return item.text
-            }""",
-            __properties=[("each_item_text", ":item-title")],
+            }""", ""),
         )
         vuetify3.VTextField(
             label=("translations[lang][field.title]", ""),
@@ -160,7 +159,7 @@ def get_option_widgets(prefix: str):
             v_else=True,
             color="primary",
             density="comfortable",
-            validate_rules=r"""[
+            rules=(r"""[
                 (v) => {
                     switch (field.type) {
                         case 'int':
@@ -174,8 +173,7 @@ def get_option_widgets(prefix: str):
                     }
                     return true
                 }
-            ]""",
-            __properties=[("validate_rules", ":rules")],
+            ]""", ""),
         )
         with vuetify3.VDialog(
             v_model=(f"{prefix}_color_dialogs[i]", False),
@@ -192,8 +190,7 @@ def get_option_widgets(prefix: str):
                     )
             with vuetify3.VCard(
                 append_icon="$close",
-                card_title="translations[lang]['Choose a color']",
-                __properties=[("card_title", ":title")]
+                title=("translations[lang]['Choose a color']", ""),
             ):
                 with vuetify3.Template(v_slot_append=""):
                     vuetify3.VIcon(
@@ -487,8 +484,7 @@ def initialize(server: Server):
                                         color="primary",
                                         v_model="input_format",
                                         items=("input_formats", id2file_format),
-                                        each_item_text="(item) => translations[lang][item.text]",
-                                        __properties=[("each_item_text", ":item-title")],
+                                        item_title=("(item) => translations[lang][item.text]", ""),
                                         density="comfortable",
                                     )
                                 with vuetify3.VCol(cols=1):
@@ -544,8 +540,7 @@ def initialize(server: Server):
                                         color="primary",
                                         v_model="output_format",
                                         items=("output_formats", id2file_format),
-                                        each_item_text="(item) => translations[lang][item.text]",
-                                        __properties=[("each_item_text", ":item-title")],
+                                        item_title=("(item) => translations[lang][item.text]", ""),
                                         density="comfortable",
                                     )
                                 with vuetify3.VCol(cols=1):
@@ -587,8 +582,7 @@ def initialize(server: Server):
                             prepend_icon="mdi-file-upload-outline",
                             classes="text-center",
                             style="display: flex; flex-direction: column; height: 50%;",
-                            item_title="translations[lang]['Drag and drop files here or click to upload']",
-                            __properties=[("item_title", ":title")],
+                            title=("translations[lang]['Drag and drop files here or click to upload']", ""),
                         )
                         html.Input(
                             v_show="false",
@@ -644,8 +638,7 @@ def initialize(server: Server):
                                     get_option_widgets("output_options")
             with vuetify3.VCard(
                 density="comfortable", border=True,
-                card_title="translations[lang]['File operations']",
-                __properties=[("card_title", ":title")],
+                title=("translations[lang]['File operations']", ""),
             ):
                 with vuetify3.VCardSubtitle():
                     with vuetify3.VCardActions():

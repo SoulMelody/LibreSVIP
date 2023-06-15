@@ -14,5 +14,5 @@ class OutputOptions(BaseModel):
     version: int = Field(
         default=19,
         title="Version",
-        description="Version of Niaoniao project file",
+        description="Version of NIAONiao project file",
     )

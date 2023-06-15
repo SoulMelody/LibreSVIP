@@ -13,11 +13,11 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .nn.format_desc
-msgid "Niaoniao Virtual Singer project file (*.nn)"
+msgid "NIAONiao Virtual Singer project file (*.nn)"
 msgstr "袅袅虚拟歌手工程文件 (*.nn)"
 
 #: .nn.description
-msgid "Conversion plugin for Niaoniao project file"
+msgid "Conversion plugin for NIAONiao project file"
 msgstr "袅袅工程格式转换插件"
 
 #: .nn.dump[0].title
@@ -33,5 +33,5 @@ msgid "Version"
 msgstr "版本"
 
 #: .nn.dump[1].description
-msgid "Version of Niaoniao project file"
+msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"

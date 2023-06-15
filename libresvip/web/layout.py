@@ -216,8 +216,7 @@ def initialize(server: Server):
                     ):
                         with vuetify3.VCard(
                             append_icon="$close",
-                            card_title="translations[lang]['About']",
-                            __properties=[("card_title", ":title")]
+                            title=("translations[lang]['About']", ""),
                         ):
                             with vuetify3.Template(v_slot_append=""):
                                 vuetify3.VBtn(
