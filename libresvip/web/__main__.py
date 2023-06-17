@@ -1,11 +1,12 @@
 import argparse
 
 from trame.app import dev, get_server
+from trame_server.core import Server
 
 from . import i18n, layout, views
 
 
-def init_server(server):
+def init_server(server: Server):
     i18n.initialize(server)
     layout.initialize(server)
 

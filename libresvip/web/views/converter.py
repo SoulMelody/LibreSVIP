@@ -86,10 +86,10 @@ def get_dialog_widget(prefix: str):
                             )
             vuetify3.VDivider()
             with vuetify3.VListSubheader("{{ translations[lang]['Introduction'] }}"):
-                    vuetify3.VCardText(
-                        style="word-wrap: break-word; word-break: normal;",
-                        v_html=f"translations[lang][plugin_details[{prefix}_format].description]",
-                    )
+                vuetify3.VCardText(
+                    style="word-wrap: break-word; word-break: normal;",
+                    v_html=f"translations[lang][plugin_details[{prefix}_format].description]",
+                )
             with vuetify3.VCardActions():
                 vuetify3.VSpacer()
                 vuetify3.VBtn(
@@ -576,12 +576,13 @@ def initialize(server: Server):
                         dragleave="""this.hover_count--""",
                         __events=["drop", "dragover", "dragenter", "dragleave", "click"],
                     ):
-                        vuetify3.VCardTitle("{{ translations[lang]['Import project'] }}")
+                        vuetify3.VCardTitle(
+                            "{{ translations[lang]['Import project'] }}",
+                        )
                         vuetify3.VDivider()
                         vuetify3.VCardItem(
                             prepend_icon="mdi-file-upload-outline",
-                            classes="text-center",
-                            style="display: flex; flex-direction: column; height: 50%;",
+                            style="height: 20dvh; display: flex; flex-direction: column; justify-content: center; align-items: center;",
                             title=("translations[lang]['Drag and drop files here or click to upload']", ""),
                         )
                         html.Input(
