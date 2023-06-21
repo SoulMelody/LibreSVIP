@@ -1,5 +1,7 @@
 module LibreSVIP
 
+RunningIndicator 1.0 running_indicator.qml
+
 Dialogs 1.0 dialogs.qml
 
 MessageBox 1.0 message_box.qml

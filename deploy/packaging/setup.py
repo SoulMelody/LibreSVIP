@@ -6,14 +6,19 @@ import sys
 import PySide6
 from cx_Freeze import Executable, setup
 
+sys.path.append(str(pathlib.Path("../../").absolute().resolve()))
+
 from libresvip.core.constants import pkg_dir
+from libresvip.utils import download_and_setup_ffmpeg
+
+download_and_setup_ffmpeg()
 
 try:
     from cx_Freeze.hooks import get_qt_plugins_paths
 except ImportError:
     get_qt_plugins_paths = None
 
-pyside6_dir = pathlib.Path(PySide6.__file__).parent
+pyside6_dir = pathlib.Path(PySide6.__path__[0])
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
@@ -21,6 +26,14 @@ if (pyside6_dir / "qml").exists():
     qml_base_dir = "qml"
 elif (pyside6_dir / "Qt/qml").exists():
     qml_base_dir = "Qt/qml"
+    xcb_soname = "Qt/lib/libQt6XcbQpa.so.6"
+    if (pyside6_dir / xcb_soname).exists():
+        include_files.append(
+            (
+                pyside6_dir / xcb_soname,
+                pathlib.Path(f"./lib/PySide6/{xcb_soname}"),
+            )
+        )
 
 if qml_base_dir:
     for qml_dir in qml_dirs:
@@ -30,6 +43,8 @@ if qml_base_dir:
                 pathlib.Path(f"./lib/PySide6/{qml_base_dir}/{qml_dir}"),
             )
         )
+    qml_lib = next(pyside6_dir.glob("*pyside6qml*"))
+    include_files.append((qml_lib, pathlib.Path(f"./lib/PySide6/{qml_lib.name}")))
 
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
@@ -53,7 +68,7 @@ base = "Win32GUI" if sys.platform == "win32" else None
 
 def platform_libs_for_qtmodule(module: str) -> list[str]:
     return [
-        f"libQt6{module}.so",  # Linux
+        f"libQt6{module}.so.6",  # Linux
         f"Qt{module}",  # MacOS
         f"Qt6{module}.dll",  # Windows
     ]
@@ -73,9 +88,11 @@ build_exe_options = {
                 "Multimedia",
                 "MultimediaQuick",
                 "Pdf",
+                "PdfQuick",
                 "Positioning",
                 "PositioningQuick",
                 "Quick3D",
+                "Quick3DUtils",
                 "RemoteObjects",
                 "RemoteObjectsQml",
                 "Scxml",

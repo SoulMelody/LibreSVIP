@@ -40,7 +40,7 @@ from .singers import singer2id
 class GjgjGenerator:
     options: OutputOptions
     max_note_id: int = dataclasses.field(init=False)
-    first_numerator: int = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
     first_bar_bpm: float = dataclasses.field(init=False)
     param_sample_interval: int = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
@@ -76,7 +76,7 @@ class GjgjGenerator:
     def generate_time_signatures(
         self, time_signature_list: list[TimeSignature]
     ) -> list[GjgjTimeSignature]:
-        self.first_numerator = time_signature_list[0].numerator
+        self.first_bar_length = time_signature_list[0].bar_length
         gjgj_time_signatures = []
         prev_ticks = 0
         for time_signature in time_signature_list:
@@ -132,7 +132,7 @@ class GjgjGenerator:
         )
 
     def position_to_time(self, origin: int) -> int:
-        position = origin + self.first_numerator * TICKS_IN_BEAT
+        position = origin + self.first_bar_length
         if position > 0:
             return round(
                 self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000
@@ -158,7 +158,7 @@ class GjgjGenerator:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:
                         note_start_pos_in_ticks = (
-                            note.start_pos + self.first_numerator * TICKS_IN_BEAT
+                            note.start_pos + self.first_bar_length
                         )
                         note_start_pos_in_secs = (
                             self.time_synchronizer.get_actual_secs_from_ticks(
@@ -193,7 +193,7 @@ class GjgjGenerator:
                     ID=self.max_note_id,
                     Lyric=note.lyric,
                     Pinyin=pronunciation,
-                    StartTick=note.start_pos + self.first_numerator * TICKS_IN_BEAT,
+                    StartTick=note.start_pos + self.first_bar_length,
                     Duration=note.length,
                     Track=note.key_number,
                     Style=beat_style,

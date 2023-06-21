@@ -17,7 +17,7 @@ from libresvip.model.base import (
 from .model import DsItem, DsProject
 from .options import InputOptions
 from .phoneme_dict import get_opencpop_dict
-from .utils import hz2midi, note2midi
+from .utils.tone_utils import hz2midi, note2midi
 
 
 @dataclasses.dataclass
@@ -40,7 +40,7 @@ class DiffSingerParser:
         )
 
     def parse_notes(self, ds_items: list[DsItem]) -> list[Note]:
-        opencpop_dict = get_opencpop_dict(self.options.dict_name)
+        opencpop_dict = get_opencpop_dict(self.options.dict_name, g2p=False)
         all_notes = []
         for ds_item in ds_items:
             notes = []

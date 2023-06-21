@@ -19,4 +19,4 @@ class UFDataConverter(plugin_base.SVSConverterBase):
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         ufdata_project = UFDataGenerator(options).generate_project(project)
-        path.write_text(ufdata_project.json(by_alias=True))
+        path.write_text(ufdata_project.json(by_alias=True), encoding="utf-8")

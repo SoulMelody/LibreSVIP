@@ -3,7 +3,6 @@ import pathlib
 from pkg_resources.extern import platformdirs
 
 PACKAGE_NAME = "libresvip"
-FRAMEWORK_VERSION = "0.1.0"
 
 TICKS_IN_BEAT = 480
 DEFAULT_BPM = 120.0

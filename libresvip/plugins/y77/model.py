@@ -6,12 +6,12 @@ from libresvip.model.base import BaseModel
 
 
 class Y77Note(BaseModel):
-    pbs: Optional[int] = 0
     py: Optional[str]
     len: Optional[int]
     start: Optional[int]
     lyric: Optional[str]
     pitch: Optional[int]
+    pbs: Optional[int] = 0
     pit: list[Union[int, float]] = Field(default_factory=list)
 
 

@@ -1,13 +1,13 @@
 import argparse
 
 from trame.app import dev, get_server
+from trame_server.core import Server
 
-from . import i18n, layout, urls, views
+from . import i18n, layout, views
 
 
-def init_server(server):
+def init_server(server: Server):
     i18n.initialize(server)
-    urls.initialize(server)
     layout.initialize(server)
 
 
@@ -15,10 +15,8 @@ def _reload():
     server = get_server()
     dev.clear_change_listeners(server)
     dev.reload(i18n)
-    dev.reload(layout)
-    dev.reload(urls)
     dev.reload(views.converter)
-    dev.reload(views.plugins)
+    dev.reload(layout)
     init_server(server)
     server.controller.call("reload")
 
@@ -26,7 +24,7 @@ def _reload():
 def main(**kwargs):
     # Get or create server
     server = get_server()
-    server.client_type = "vue2"
+    server.client_type = "vue3"
     server.controller.on_server_reload.add(_reload)
 
     init_server(server)

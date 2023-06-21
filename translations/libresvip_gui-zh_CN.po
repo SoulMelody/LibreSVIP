@@ -3,10 +3,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-06 15:44+0800\n"
+"POT-Creation-Date: 2023-06-08 09:15+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,38 +17,31 @@ msgstr ""
 msgid "Converter"
 msgstr "转换器"
 
-#: converter_page%232
-#: task_row%231
+#: converter_page%232 task_row%231
 msgid "File successfully converted"
 msgstr "此文件已成功转换"
 
-#: converter_page%233
-#: task_row%232
+#: converter_page%233 task_row%232
 msgid "Open"
 msgstr "打开文件"
 
-#: converter_page%234
-#: task_row%233
+#: converter_page%234 task_row%233
 msgid "Open folder"
 msgstr "打开目录"
 
-#: converter_page%235
-#: task_row%238
+#: converter_page%235 task_row%237
 msgid "File skipped due to conflict"
 msgstr "已跳过"
 
-#: converter_page%236
-#: task_row%239
+#: converter_page%236 task_row%238
 msgid "File failed to convert, below is the error message:"
 msgstr "此文件转换失败，错误信息如下："
 
-#: converter_page%237
-#: task_row%2310
+#: converter_page%237 task_row%239
 msgid "Copy error message"
 msgstr "复制错误信息"
 
-#: converter_page%238
-#: task_row%2311
+#: converter_page%238 task_row%2310
 msgid "Copied"
 msgstr "已复制"
 
@@ -63,9 +57,7 @@ msgstr "导入工程格式： "
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: converter_page%2312
-#: settings_dialog%232
-#: settings_drawer%231
+#: converter_page%2312 settings_dialog%232 settings_drawer%231
 msgid "Auto-Detect Input File Type"
 msgstr "自动检测导入格式"
 
@@ -81,9 +73,7 @@ msgstr "上下交换"
 msgid "Output Format: "
 msgstr "导出工程格式： "
 
-#: converter_page%2316
-#: settings_dialog%234
-#: settings_drawer%233
+#: converter_page%2316 settings_dialog%234 settings_drawer%233
 msgid "Set Output File Extension Automatically"
 msgstr "自动设置后缀名"
 
@@ -103,83 +93,75 @@ msgstr "输出选项"
 msgid "Task List"
 msgstr "任务列表"
 
-#: converter_page%2322
+#: converter_page%2321
 msgid "Drag and drop files here"
 msgstr "拖拽或单击导入文件"
 
-#: converter_page%2323
+#: converter_page%2322
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: converter_page%2324
+#: converter_page%2323
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: converter_page%2325
+#: converter_page%2324
 msgid "Reset Default Extension"
 msgstr "恢复默认命名"
 
-#: converter_page%2326
+#: converter_page%2325
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: converter_page%2327
+#: converter_page%2326
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: converter_page%2328
+#: converter_page%2327
 msgid " Format]"
 msgstr " 工程文件 ]"
 
-#: converter_page%2329
+#: converter_page%2328
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: converter_page%2330
+#: converter_page%2329
 msgid "Output Settings"
 msgstr "输出设置"
 
-#: converter_page%2331
+#: converter_page%2330
 msgid "Choose Output Folder"
 msgstr "选择输出文件夹"
 
-#: converter_page%2332
+#: converter_page%2331
 msgid "Output Folder"
 msgstr "输出文件夹"
 
-#: converter_page%2333
+#: converter_page%2332
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: converter_page%2334
+#: converter_page%2333
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2335
-#: settings_dialog%236
-#: settings_drawer%235
+#: converter_page%2334 settings_dialog%236 settings_drawer%235
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
-#: converter_page%2336
+#: converter_page%2335
 msgid "Deal with Conflicts:"
 msgstr "遇到同名文件时："
 
-#: converter_page%2337
-#: settings_dialog%2312
-#: settings_drawer%2313
+#: converter_page%2336 settings_dialog%2312 settings_drawer%2313
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2338
-#: settings_dialog%2313
-#: settings_drawer%2314
+#: converter_page%2337 settings_dialog%2313 settings_drawer%2314
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2339
-#: settings_dialog%2314
-#: settings_drawer%2315
+#: converter_page%2338 settings_dialog%2314 settings_drawer%2315
 msgid "Prompt"
 msgstr "询问"
 
@@ -260,7 +242,8 @@ msgid ""
 "All people should have the right and freedom to choose. That's why we're "
 "committed to giving you a second chance to keep your creations free from the "
 "constraints of platforms and coterie."
-msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
+msgstr ""
+"所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创"
 "作免受平台的制约与圈子的束缚。"
 
 #: plugin_info%231
@@ -275,23 +258,19 @@ msgstr "简介"
 msgid "Settings"
 msgstr "设置"
 
-#: settings_dialog%233
-#: settings_drawer%232
+#: settings_dialog%233 settings_drawer%232
 msgid "Reset Task List When Changing Input File Type"
 msgstr "切换格式时重置列表"
 
-#: settings_dialog%235
-#: settings_drawer%234
+#: settings_dialog%235 settings_drawer%234
 msgid "Multi-Threaded Conversion"
 msgstr "启用多线程转换"
 
-#: settings_dialog%237
-#: settings_drawer%239
+#: settings_dialog%237 settings_drawer%239
 msgid "Same as Source"
 msgstr "源路径"
 
-#: settings_dialog%238
-#: settings_drawer%2310
+#: settings_dialog%238 settings_drawer%2310
 msgid "Desktop"
 msgstr "桌面"
 
@@ -299,8 +278,7 @@ msgstr "桌面"
 msgid "Preset Folder"
 msgstr "文件夹预设"
 
-#: settings_dialog%2310
-#: settings_drawer%2311
+#: settings_dialog%2310 settings_drawer%2311
 msgid "Custom (Browse ...)"
 msgstr "自定义 (浏览选择)"
 
@@ -308,13 +286,11 @@ msgstr "自定义 (浏览选择)"
 msgid "Manage Folders Presets"
 msgstr "管理文件夹预设"
 
-#: settings_dialog%2315
-#: settings_drawer%236
+#: settings_dialog%2315 settings_drawer%236
 msgid "Auto Check for Updates"
 msgstr "自动检查更新"
 
-#: settings_dialog%2316
-#: settings_drawer%238
+#: settings_dialog%2316 settings_drawer%238
 msgid "Conversion Settings"
 msgstr "转换设置"
 
@@ -338,19 +314,19 @@ msgstr "设置保存路径"
 msgid "Deal With Existing Files"
 msgstr "遇到同名文件时"
 
-#: task_row%235
+#: task_row%234
 msgid "File %1 already exists. Overwrite?"
 msgstr "文件 %1 已存在，是否覆盖？"
 
-#: task_row%236
+#: task_row%235
 msgid "Failed to move file"
 msgstr "移动文件失败"
 
-#: task_row%237
+#: task_row%236
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: task_row%2312
+#: task_row%2311
 msgid "Do you want to overwrite the file?"
 msgstr "是否覆盖文件？"
 

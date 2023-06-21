@@ -11,3 +11,8 @@ class OutputOptions(BaseModel):
         title="Track index",
         description="Start from 0, -1 means auto select",
     )
+    version: int = Field(
+        default=19,
+        title="Version",
+        description="Version of NIAONiao project file",
+    )

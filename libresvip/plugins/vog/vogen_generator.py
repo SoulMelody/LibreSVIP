@@ -1,5 +1,7 @@
 import dataclasses
 
+import pypinyin
+
 from libresvip.model.base import (
     Note,
     Project,
@@ -54,7 +56,9 @@ class VogenGenerator:
                 on=note.start_pos,
                 dur=note.length,
                 lyric=note.lyric,
-                rom=note.pronunciation,
+                rom=note.pronunciation or " ".join(
+                    pypinyin.lazy_pinyin(note.lyric)
+                ),
                 pitch=note.key_number,
             )
             for note in note_list

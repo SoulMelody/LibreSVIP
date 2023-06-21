@@ -23,5 +23,6 @@ class SynthVEditorConverter(plugin_base.SVSConverterBase):
             json_dumps(
                 s5p_project.model_dump(by_alias=True, exclude_none=True),
                 separators=(",", ":"),
-            )
+            ),
+            encoding="utf-8",
         )

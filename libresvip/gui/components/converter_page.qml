@@ -123,6 +123,7 @@ Page {
     Component {
         id: comboBoxItem
         RowLayout {
+            id: comboBoxRow
             property var field: {}
             property int index
             property QtObject list_view
@@ -172,8 +173,8 @@ Page {
                 Component.onCompleted: {
                     this.currentIndex = indexOfValue(field.value)
                 }
-                onActivated: {
-                    list_view.model.update(index, {value: this.currentValue})
+                onActivated: (index) => {
+                    list_view.model.update(comboBoxRow.index, {value: this.currentValue})
                 }
                 model: field.choices
             }
@@ -327,6 +328,10 @@ Page {
                                 py.task_manager.set_str("input_format", currentValue)
                             }
                             Component.onCompleted: {
+                                let last_input_format = py.task_manager.get_str("input_format")
+                                if (last_input_format != null) {
+                                    this.currentIndex = indexOfValue(last_input_format)
+                                }
                                 dialogs.openDialog.nameFilters[0] = currentText
                                 py.task_manager.input_format_changed.connect((input_format) => {
                                     let new_index = indexOfValue(input_format)
@@ -493,6 +498,10 @@ Page {
                                 py.task_manager.set_str("output_format", currentValue)
                             }
                             Component.onCompleted: {
+                                let last_output_format = py.task_manager.get_str("output_format")
+                                if (last_output_format != null) {
+                                    this.currentIndex = indexOfValue(last_output_format)
+                                }
                                 py.task_manager.output_format_changed.connect((output_format) => {
                                     let new_index = indexOfValue(output_format)
                                     if (new_index != currentIndex) {
@@ -896,7 +905,7 @@ Page {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: parent.height - 200
                 SplitView.minimumHeight: parent.height - 250
-                SplitView.maximumHeight: parent.height - 150
+                SplitView.maximumHeight: parent.height - 200
                 contentWidth: availableWidth
                 background: Rectangle {
                     color: "transparent"
@@ -1028,6 +1037,9 @@ Page {
                                         }
                                     }
                                 ]
+                            }
+                            Rectangle {
+                                width: 20
                             }
                         }
                         ListView {
@@ -1193,6 +1205,9 @@ Page {
                                     }
                                 ]
                             }
+                            Rectangle {
+                                width: 20
+                            }
                         }
                         ListView {
                             id: outputFields
@@ -1258,7 +1273,7 @@ Page {
 
             Control {
                 SplitView.fillWidth: true
-                SplitView.minimumHeight: 150
+                SplitView.minimumHeight: 200
                 anchors.bottom: parent.bottom
                 background: Rectangle {
                     color: "transparent"

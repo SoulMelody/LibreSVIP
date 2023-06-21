@@ -24,30 +24,29 @@ Flags={{ ust_project.flags }}{% endif %}{% if ust_project.track %}{% for note in
 [#{{ note.note_type }}]
 Length={{ note.length }}
 Lyric={{ note.lyric }}
-NoteNum={{ note.note_num }}{% if note.optional_attrs|length > 1 %}{% for attr in note.optional_attrs %}{% if attr.key == 'PreUtterance' %}
-PreUtterance={{ attr.pre_utterance }}{% elif attr.key == 'VoiceOverlap' %}
-VoiceOverlap={{ attr.voice_overlap }}{% elif attr.key == 'Intensity' %}
-Intensity={{ attr.intensity }}{% elif attr.key in ['Modulation', 'Moduration'] %}
-Modulation={{ attr.modulation }}{% elif attr.key == 'StartPoint' %}
-StartPoint={{ attr.start_point }}{% elif attr.key == 'Envelope' %}
-Envelope={{ attr.envelope.base.p1 }},{{ attr.envelope.base.p2 }},{{ attr.envelope.base.p3 }},{{ attr.envelope.base.v1 }},{{ attr.envelope.base.v2 }},{{ attr.envelope.base.v3 }},{{ attr.envelope.base.v4 }}\
-{% if attr.envelope.v5 %}\
-,%,{{ attr.envelope.p4 }},{{ attr.envelope.p5 }},{{ attr.envelope.v5 }}{% elif attr.envelope.p5 %}\
-,%,{{ attr.envelope.p4 }},{{ attr.envelope.p5 }}{% elif attr.envelope.p4 %}\
-,,{{ attr.envelope.p4 }}{% endif %}{% elif attr.key == 'Tempo' %}
-Tempo={{ attr.tempo }}{% elif attr.key == 'Velocity' %}
-Velocity={{ attr.velocity }}{% elif attr.key == 'Label' %}
-Label={{ attr.label }}{% elif attr.key == 'Flags' %}
-Flags={{ attr.flags }}{% elif attr.key == 'PBType' %}
-PBType={{ attr.pitchbend_type }}{% elif attr.key == 'PBStart' %}
-PBStart={{ attr.pitchbend_start }}{% elif attr.key in ['Piches', 'Pitches', 'PitchBend'] %}
-PitchBend={{ attr.pitch_bend_points|join(',') }}{% elif attr.key == 'PBS' %}
-PBS={{ attr.pbs_1 }}{%if attr.pbs_2 %};{{ attr.pbs_2 }}{% endif %}{% elif attr.key == 'PBW' %}
-PBW={{ attr.pbw | join(',') }}{% elif attr.key == 'PBY' %}
-PBY={{ attr.pby | join(',') }}{% elif attr.key == 'PBM' %}
-PBM={% for pbm in attr.pbm %}{{ pbm.text }}{% if not loop.last %},{% endif %}{% endfor %}{% elif attr.key == 'VBR' %}
-VBR={{ attr.vbr | join(',') }}{% elif attr.key.startswith('$') %}
-{{ attr.key }}={{ attr.value }}{% endif %}{% endfor %}{% endif %}{% endfor %}
+NoteNum={{ note.note_num }}{% if note.pre_utterance|length > 1 %}
+PreUtterance={{ note.pre_utterance }}{% endif %}{% if note.voice_overlap|length > 1 %}
+VoiceOverlap={{ note.voice_overlap }}{% endif %}{% if note.intensity|length > 1 %}
+Intensity={{ note.intensity }}{% endif %}{% if note.modulation|length > 1 %}
+Modulation={{ note.modulation }}{% endif %}{% if note.start_point|length > 1 %}
+StartPoint={{ note.start_point }}{% endif %}{% if note.envelope|length > 1 %}
+Envelope={{ note.envelope.p1 }},{{ note.envelope.p2 }},{{ note.envelope.p3 }},{{ note.envelope.v1 }},{{ note.envelope.v2 }},{{ note.envelope.v3 }},{{ note.envelope.v4 }}\
+{% if note.envelope.v5 %}\
+,%,{{ note.envelope.p4 }},{{ note.envelope.p5 }},{{ note.envelope.v5 }}{% elif note.envelope.p5 %}\
+,%,{{ note.envelope.p4 }},{{ note.envelope.p5 }}{% elif note.envelope.p4 %}\
+,,{{ note.envelope.p4 }}{% endif %}{% endif %}{% if note.tempo|length > 1 %}
+Tempo={{ note.tempo }}{% endif %}{% if note.velocity|length > 1 %}
+Velocity={{ note.velocity }}{% endif %}{% if note.label|length > 1 %}
+Label={{ note.label }}{% endif %}{% if note.flags|length > 1 %}
+Flags={{ note.flags }}{% endif %}{% if note.pitchbend_type|length > 1 %}
+PBType={{ note.pitchbend_type }}{% endif %}{% if note.pitchbend_start|length > 1 %}
+PBStart={{ note.pitchbend_start }}{% endif %}{% if note.pitch_bend_points|length > 1 %}
+PitchBend={{ note.pitch_bend_points|join(',') }}{% endif %}{% if note.pbs|length > 1 %}
+PBS={{ note.pbs | join(';') }}{% endif %}{% if note.pbw|length > 1 %}
+PBW={{ note.pbw | join(',') }}{% endif %}{% if note.pby|length > 1 %}
+PBY={{ note.pby | join(',') }}{% endif %}{% if note.pbm|length > 1 %}
+PBM={{ note.pbm | join(',') }}{% endif %}{% if note.vbr|length > 1 %}
+VBR={{ note.vbr | join(',') }}{% endif %}{% endfor %}
 [#TRACKEND]{% endif %}
 """
 )

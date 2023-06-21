@@ -1,12 +1,11 @@
 import gettext
 from typing import Optional
 
-from loguru import logger
 from qmlease import app, slot
 from qtpy.QtCore import QObject, QTranslator
 
 from libresvip.core.config import Language, settings
-from libresvip.core.constants import res_dir
+from libresvip.core.constants import PACKAGE_NAME, res_dir
 
 
 class GettextTranslator(QTranslator):
@@ -16,21 +15,24 @@ class GettextTranslator(QTranslator):
 
     def load_translation(self, lang, translation_dir):
         try:
-            self.translation = gettext.translation("libresvip", translation_dir, [lang])
-        except FileNotFoundError:
-            logger.warning(f"Translation file for {lang} not found.")
-            self.translation = None
+            self.translation = gettext.translation(PACKAGE_NAME, translation_dir, [lang])
+            gettext.textdomain(PACKAGE_NAME)
+            gettext.bindtextdomain(PACKAGE_NAME, translation_dir)
+        except OSError:
+            self.translation = gettext.NullTranslations()
+            gettext.textdomain("messages")
+        self.translation.install(names=["gettext", "ngettext"])
 
     def translate(
         self,
         context: str,
-        sourceText: str,
+        source_text: str,
         disambiguation: Optional[bytes] = ...,
         n: int = ...,
     ) -> str:
-        if self.translation and sourceText.strip():
-            return self.translation.gettext(sourceText)
-        return sourceText
+        if self.translation and source_text.strip():
+            return self.translation.gettext(source_text)
+        return source_text
 
 
 class LocaleSwitcher(QObject):

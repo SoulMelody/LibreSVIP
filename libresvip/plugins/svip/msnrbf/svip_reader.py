@@ -2,6 +2,8 @@
 import dataclasses
 import pathlib
 
+from libresvip.utils import gettext_lazy as _
+
 from .binary_models import (
     PrimitiveTypeEnum,
     RecordTypeEnum,
@@ -110,6 +112,6 @@ class SvipReader(NrbfIOBase):
             if root_found:
                 break
         else:
-            raise Exception("Root not found")
+            raise Exception(_("Root not found"))
 
         return f"{self.svip_file.magic}{self.svip_file.version}", self.xstudio_model

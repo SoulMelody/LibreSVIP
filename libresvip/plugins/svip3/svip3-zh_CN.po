@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-27 07:26+0800\n"
+"POT-Creation-Date: 2023-06-15 01:09+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13,9 +13,9 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .svip3.format_desc
-msgid "X Studio 3 project file (*.svip3)"
-msgstr "X Studio 3 工程文件 (*.svip3)"
+msgid "Netease Cloud Music XStudio project file (*.svip3)"
+msgstr "网易云音乐·X Studio 工程文件 (*.svip3)"
 
 #: .svip3.description
-msgid "Conversion plugin for X Studio 3 project file"
-msgstr "X Studio 3 工程转换插件"
+msgid "Conversion plugin for Netease Cloud Music XStudio project file"
+msgstr "网易云音乐·X Studio 工程转换插件"

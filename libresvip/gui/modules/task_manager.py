@@ -18,6 +18,7 @@ from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel, BaseModel
+from libresvip.utils import shorten_error_message
 
 from .model_proxy import ModelProxy
 
@@ -86,7 +87,7 @@ class ConversionWorker(QRunnable):
                 )
         except Exception:
             self.signals.result.emit(
-                self.index, {"success": False, "error": traceback.format_exc()}
+                self.index, {"success": False, "error": shorten_error_message(traceback.format_exc())}
             )
 
 
@@ -153,8 +154,10 @@ class TaskManager(QObject):
                 for plugin in plugin_registry.values()
             ],
         )
-        self.input_format = ""
-        self.output_format = ""
+        if not settings.last_input_format and self.input_formats:
+            settings.last_input_format = self.input_formats[0]["value"]
+        if not settings.last_output_format and self.output_formats:
+            settings.last_output_format = self.output_formats[0]["value"]
         self.thread_pool = QThreadPool.globalInstance()
         self.temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="libresvip"))
         self.temp_dir.mkdir(exist_ok=True)
@@ -166,6 +169,22 @@ class TaskManager(QObject):
         self.timer = QTimer()
         self.timer.setInterval(100)
         self.timer.timeout.connect(self.check_busy)
+
+    @property
+    def input_format(self) -> str:
+        return settings.last_input_format
+
+    @input_format.setter
+    def input_format(self, value: str):
+        settings.last_input_format = value
+
+    @property
+    def output_format(self) -> str:
+        return settings.last_output_format
+
+    @output_format.setter
+    def output_format(self, value: str):
+        settings.last_output_format = value
 
     def clean_temp_dir(self):
         shutil.rmtree(self.temp_dir, ignore_errors=True)
@@ -229,7 +248,7 @@ class TaskManager(QObject):
             target_path = output_dir / f"{task['stem']}{self.output_ext}"
             if target_path.exists():
                 target_path.unlink()
-            pathlib.Path(task["tmp_path"]).rename(target_path)
+            shutil.move(task["tmp_path"], target_path)
             return True
         except (FileExistsError, FileNotFoundError, OSError) as e:
             self.tasks.update(index, {"error": str(e)})
@@ -317,7 +336,7 @@ class TaskManager(QObject):
 
     @slot(str)
     def set_output_fields(self, output_format: str) -> None:
-        if output_format == self.output_format:
+        if output_format == self.output_format and self.output_fields:
             return
         self.output_format = output_format
         self.output_fields.clear()

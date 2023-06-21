@@ -1,9 +1,10 @@
+import gettext
 from gettext import gettext as _
-from gettext import translation
 
 from trame_server.core import Server
 
-from libresvip.core.constants import res_dir
+from libresvip.core.config import Language
+from libresvip.core.constants import PACKAGE_NAME, res_dir
 from libresvip.extension.messages import messages_iterator
 
 messages = [
@@ -33,7 +34,10 @@ messages = [
     _("Choose file format"),
     _("Next"),
     _("Back"),
+    _("File name"),
     _("File operations"),
+    _("Status"),
+    _("Actions"),
     _("Import project"),
     _("Import Options"),
     _("Export Options"),
@@ -49,6 +53,16 @@ messages = [
     ),
     _("Plugin List"),
     _("Install a Plugin"),
+    _("Invalid integer"),
+    _("Invalid float"),
+    _("Copy to clipboard"),
+    _("Repo URL"),
+    _("Author's Profile"),
+    _("Author: SoulMelody"),
+    _("Upload files"),
+    _("Clear Task List"),
+    _("Remove Tasks With Other Extensions"),
+    _("Choose a color"),
 ]
 
 
@@ -79,13 +93,31 @@ messages.extend(set(plugin_msgs))
 
 def initialize(server: Server):
     state = server.state
-    chinese_translation = translation(
+
+    @state.change("lang")
+    def change_lang(lang, **kwargs):
+        state.trame__title = (
+            "LibreSVIP - " + state.translations[state.lang]["SVS Projects Converter"]
+        )
+        try:
+            translation = gettext.translation(PACKAGE_NAME, res_dir / "locales", [Language(lang).to_locale()], fallback=True)
+            gettext.textdomain(PACKAGE_NAME)
+        except OSError:
+            translation = gettext.NullTranslations()
+            gettext.textdomain("messages")
+        translation.install(
+            names=["gettext", "ngettext"]
+        )
+
+    gettext.bindtextdomain(PACKAGE_NAME, res_dir / "locales")
+    chinese_translation = gettext.translation(
         "libresvip", localedir=res_dir / "locales", languages=["zh_CN"]
     )
-    state.translations = {
+    all_messages = {
         "简体中文": {
             msg: chinese_translation.gettext(msg).replace("\n", "<br>")
             for msg in messages
         },
         "English": {msg: msg.replace("\n", "<br>") for msg in messages},
     }
+    state.setdefault("translations", all_messages)

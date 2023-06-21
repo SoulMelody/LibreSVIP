@@ -21,7 +21,7 @@ NNNote: ' ' lyric=Word ' ' pronunciation=Pinyin ' ' start=INT ' ' duration=INT '
 
 class NNPoints(BaseModel):
     point_count: int = 100
-    points: list[int] = Field(default_factory=list)
+    points: list[int] = Field(default_factory=lambda: [50] * 100)
 
 
 class NNTimeSignature(BaseModel):
@@ -32,9 +32,9 @@ class NNTimeSignature(BaseModel):
 class NNInfoLine(BaseModel):
     tempo: float
     time_signature: NNTimeSignature
-    bar_count: int
-    version: int
-    unknown: int
+    bar_count: int = 0
+    version: int = 19
+    unknown: int = 0
 
 
 class NNNote(BaseModel):
@@ -43,20 +43,20 @@ class NNNote(BaseModel):
     start: int
     duration: int
     key: int
-    cle: int
-    vel: int
-    por: int
-    vibrato_length: int
-    vibrato_depth: int
-    vibrato_rate: int
-    dynamics: NNPoints
-    pitch: NNPoints
-    pitch_bend_sensitivity: int
+    cle: int = 0
+    vel: int = 50
+    por: int = 20
+    vibrato_length: int = 0
+    vibrato_depth: int = 0
+    vibrato_rate: int = 0
+    dynamics: NNPoints = Field(default_factory=NNPoints)
+    pitch: NNPoints = Field(default_factory=NNPoints)
+    pitch_bend_sensitivity: int = 12
 
 
 class NNProject(BaseModel):
     info_line: NNInfoLine
-    note_count: int
+    note_count: int = 0
     notes: list[NNNote] = Field(default_factory=list)
 
 
