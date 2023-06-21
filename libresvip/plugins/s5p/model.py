@@ -31,12 +31,12 @@ class S5pTempoItem(BaseModel):
 
 class S5pDbDefaults(BaseModel):
     lyric: Optional[str] = DEFAULT_PHONEME
-    breathiness: Optional[float]
+    breathiness: Optional[float] = None
     d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
     d_f0_jitter: Optional[float] = Field(alias="dF0Jitter")
     t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
-    gender: Optional[float]
-    tension: Optional[float]
+    gender: Optional[float] = None
+    tension: Optional[float] = None
 
 
 class S5pNote(BaseModel):

@@ -51,7 +51,7 @@ UExpressionDescriptor = Annotated[
 class UCurve(BaseModel):
     xs: list[int] = Field(default_factory=list)
     ys: list[int] = Field(default_factory=list)
-    abbr: Optional[str]
+    abbr: Optional[str] = None
 
     @property
     def is_empty(self):
@@ -70,50 +70,50 @@ class UCurve(BaseModel):
 
 
 class PitchPoint(BaseModel):
-    x: Optional[int]
-    y: Optional[int]
+    x: Optional[int] = None
+    y: Optional[int] = None
     shape: Optional[Literal["io", "l", "i", "o"]] = "io"
 
 
 class UTempo(BaseModel):
-    position: Optional[int]
-    bpm: Optional[int]
+    position: Optional[int] = None
+    bpm: Optional[int] = None
 
 
 class UTimeSignature(BaseModel):
-    bar_position: Optional[int]
-    beat_per_bar: Optional[int]
-    beat_unit: Optional[int]
+    bar_position: Optional[int] = None
+    beat_per_bar: Optional[int] = None
+    beat_unit: Optional[int] = None
 
 
 class URendererSettings(BaseModel):
-    renderer: Optional[str]
-    resampler: Optional[str]
-    wavtool: Optional[str]
+    renderer: Optional[str] = None
+    resampler: Optional[str] = None
+    wavtool: Optional[str] = None
 
 
 class UTrack(BaseModel):
-    singer: Optional[str]
-    phonemizer: Optional[str]
-    renderer_settings: Optional[URendererSettings]
-    mute: Optional[bool]
-    solo: Optional[bool]
-    volume: Optional[int]
+    singer: Optional[str] = None
+    phonemizer: Optional[str] = None
+    renderer_settings: Optional[URendererSettings] = None
+    mute: Optional[bool] = None
+    solo: Optional[bool] = None
+    volume: Optional[int] = None
 
 
 class UPitch(BaseModel):
-    data: list[PitchData] = Field(default_factory=list)
-    snap_first: Optional[bool]
+    data: list[PitchPoint] = Field(default_factory=list)
+    snap_first: Optional[bool] = None
 
 
 class UVibrato(BaseModel):
-    length: Optional[int]
-    period: Optional[int]
-    depth: Optional[int]
+    length: Optional[int] = None
+    period: Optional[int] = None
+    depth: Optional[int] = None
     in_value: Optional[int] = Field(alias="in")
-    out: Optional[int]
-    shift: Optional[int]
-    drift: Optional[int]
+    out: Optional[int] = None
+    shift: Optional[int] = None
+    drift: Optional[int] = None
 
     @property
     def normalized_start(self):
@@ -137,26 +137,26 @@ class UVibrato(BaseModel):
 
 
 class UExpression(BaseModel):
-    index: Optional[int]
+    index: Optional[int] = None
     abbr: str
     value: int
 
 
 class UPhonemeOverride(BaseModel):
     index: int
-    phoneme: Optional[str]
-    offset: Optional[int]
-    preutter_delta: Optional[float]
-    overlap_delta: Optional[float]
+    phoneme: Optional[str] = None
+    offset: Optional[int] = None
+    preutter_delta: Optional[float] = None
+    overlap_delta: Optional[float] = None
 
 
 class UNote(BaseModel):
-    position: Optional[int]
-    duration: Optional[int]
-    tone: Optional[int]
-    lyric: Optional[str]
-    pitch: Optional[UPitch]
-    vibrato: Optional[UVibrato]
+    position: Optional[int] = None
+    duration: Optional[int] = None
+    tone: Optional[int] = None
+    lyric: Optional[str] = None
+    pitch: Optional[UPitch] = None
+    vibrato: Optional[UVibrato] = None
     note_expressions: Optional[list[UExpression]] = Field(default_factory=list)  # deprecated
     phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
     phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
@@ -167,10 +167,10 @@ class UNote(BaseModel):
 
 
 class UPart(BaseModel):
-    name: Optional[str]
-    comment: Optional[str]
-    track_no: Optional[int]
-    position: Optional[int]
+    name: Optional[str] = None
+    comment: Optional[str] = None
+    track_no: Optional[int] = None
+    position: Optional[int] = None
 
 
 class UVoicePart(UPart):
@@ -190,14 +190,14 @@ class UWavePart(UPart):
 
 
 class USTXProject(BaseModel):
-    name: Optional[str]
-    comment: Optional[str]
-    output_dir: Optional[str]
-    cache_dir: Optional[str]
-    ustx_version: Optional[float]
-    bpm: Optional[int]
-    beat_per_bar: Optional[int]
-    beat_unit: Optional[int]
+    name: Optional[str] = None
+    comment: Optional[str] = None
+    output_dir: Optional[str] = None
+    cache_dir: Optional[str] = None
+    ustx_version: Optional[float] = None
+    bpm: Optional[int] = None
+    beat_per_bar: Optional[int] = None
+    beat_unit: Optional[int] = None
     resolution: Optional[int] = TICKS_IN_BEAT
     time_signatures: list[UTimeSignature] = Field(
         default_factory=list

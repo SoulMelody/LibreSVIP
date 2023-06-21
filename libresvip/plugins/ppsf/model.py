@@ -45,17 +45,17 @@ class PpsfNote(BaseModel):
     language: int
     region_index: int = Field(alias="region-index")
     syllables: list[PpsfSyllable]
-    event_index: Optional[int]
-    length: Optional[int]
-    muted: Optional[bool]
-    vibrato_preset_id: Optional[int]
-    voice_color_id: Optional[int]
-    voice_release_id: Optional[int]
-    note_env_preset_id: Optional[int]
-    note_gain_value: Optional[int]
-    note_param_edited_stats: Optional[int]
-    portamento_length: Optional[int]
-    portamento_offset: Optional[int]
+    event_index: Optional[int] = None
+    length: Optional[int] = None
+    muted: Optional[bool] = None
+    vibrato_preset_id: Optional[int] = None
+    voice_color_id: Optional[int] = None
+    voice_release_id: Optional[int] = None
+    note_env_preset_id: Optional[int] = None
+    note_gain_value: Optional[int] = None
+    note_param_edited_stats: Optional[int] = None
+    portamento_length: Optional[int] = None
+    portamento_offset: Optional[int] = None
 
 
 class PpsfRegion(BaseModel):
@@ -92,14 +92,14 @@ class PpsfBaseSequence(BaseModel):
 
 class PpsfSeqParam(BaseModel):
     base_sequence: Optional[PpsfBaseSequence] = Field(alias="base-sequence")
-    layers: Optional[List]
+    layers: Optional[list] = None
 
 
 class PpsfParameter(BaseModel):
     constant: int
-    default: Optional[int]
-    max: Optional[int]
-    min: Optional[int]
+    default: Optional[int] = None
+    max: Optional[int] = None
+    min: Optional[int] = None
     name: str
     sequence: list[PpsfParamPoint]
     use_sequence: bool
@@ -144,7 +144,7 @@ class PpsfTrackEditor(BaseModel):
     horizontal_scale: float = Field(alias="horizontal-scale")
     horizontal_scroll: int = Field(alias="horizontal-scroll")
     tempo_track: PpsfTempoTrack = Field(alias="tempo-track")
-    user_markers: Optional[List] = Field(alias="user-markers", default_factory=list)
+    user_markers: Optional[list] = Field(alias="user-markers", default_factory=list)
     width: int
     x: int
     y: int
@@ -152,20 +152,20 @@ class PpsfTrackEditor(BaseModel):
 
 class PpsfLoopPoint(BaseModel):
     begin: int
-    enable: Optional[bool]
-    enabled: Optional[bool]
+    enable: Optional[bool] = None
+    enabled: Optional[bool] = None
     end: int
 
 
 class PpsfMetronome(BaseModel):
-    enable: Optional[bool]
-    enabled: Optional[bool]
+    enable: Optional[bool] = None
+    enabled: Optional[bool] = None
     wav: str
 
 
 class PpsfGuiSettings(BaseModel):
-    loop_point: Optional[PpsfLoopPoint]
-    metronome: Optional[PpsfMetronome]
+    loop_point: Optional[PpsfLoopPoint] = None
+    metronome: Optional[PpsfMetronome] = None
     ambient_enabled: Optional[bool] = Field(alias="ambient-enabled")
     file_fullpath: str = Field(alias="file-fullpath")
     playback_position: int = Field(alias="playback-position")
@@ -183,7 +183,7 @@ class PpsfAudioTrackEvent(BaseModel):
     playback_offset_sample: int
     tick_length: int
     tick_pos: int
-    enabled: Optional[bool]
+    enabled: Optional[bool] = None
 
 
 class PpsfMixer(BaseModel):
@@ -297,9 +297,9 @@ class PpsfDvlTrackEvent(BaseModel):
     note_off_pit_envelope: PpsfEnvelope
     note_on_pit_envelope: PpsfEnvelope
     portamento_envelope: PpsfEnvelope
-    vib_depth: Optional[PpsfEnvelope]
-    vib_rate: Optional[PpsfEnvelope]
-    vib_setting_id: Optional[int]
+    vib_depth: Optional[PpsfEnvelope] = None
+    vib_rate: Optional[PpsfEnvelope] = None
+    vib_setting_id: Optional[int] = None
     portamento_type: int
     pos: int
     protected: bool
@@ -321,15 +321,15 @@ class PpsfDvlTrackItem(BaseModel):
 class PpsfInnerProject(BaseModel):
     audio_track: list[PpsfAudioTrackItem]
     block_size: int
-    loop_point: Optional[PpsfLoopPoint]
+    loop_point: Optional[PpsfLoopPoint] = None
     meter: PpsfConst[PpsfMeter]
-    metronome: Optional[PpsfMetronome]
+    metronome: Optional[PpsfMetronome] = None
     name: str
     sampling_rate: int
     singer_table: list[PpsfSingerTableItem]
     tempo: PpsfConst[int]
     vocaloid_track: list[PpsfVocaloidTrackItem]
-    dvl_track: Optional[list[PpsfDvlTrackItem]]
+    dvl_track: Optional[list[PpsfDvlTrackItem]] = None
 
 
 class PpsfRoot(BaseModel):

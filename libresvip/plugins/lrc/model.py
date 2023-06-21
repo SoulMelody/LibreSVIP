@@ -27,7 +27,7 @@ class TimeTag(BaseModel):
 
 class LyricLine(BaseModel):
     time_tags: list[TimeTag]
-    lyric: Optional[str]
+    lyric: Optional[str] = None
 
 
 class InfoTag(BaseModel):

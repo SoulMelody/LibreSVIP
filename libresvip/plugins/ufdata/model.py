@@ -32,7 +32,7 @@ class UFTimeSignatures(BaseModel):
 class UFTracks(BaseModel):
     name: str
     notes: list[UFNotes] = Field(default_factory=list)
-    pitch: Optional[UFPitch]
+    pitch: Optional[UFPitch] = None
 
 
 class UFProject(BaseModel):
