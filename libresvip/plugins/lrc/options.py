@@ -53,4 +53,4 @@ class OutputOptions(BaseModel):
         description="If you need lyrics without timeline, turn off this option.",
         default=True,
     )
-    encoding: str = Field(title="Text encoding", default="utf-8")
+    encoding: str = Field(title="Lyric Text encoding", default="utf-8")

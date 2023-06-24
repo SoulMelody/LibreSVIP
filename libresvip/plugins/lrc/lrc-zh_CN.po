@@ -81,5 +81,5 @@ msgid "If you need lyrics without timeline, turn off this option."
 msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
 
 #: .lrc.dump[8].title
-msgid "Text encoding"
+msgid "Lyric Text encoding"
 msgstr "歌词文本编码"
