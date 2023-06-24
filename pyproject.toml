@@ -10,7 +10,7 @@ charset-normalizer = "^3.1.0"
 loguru = "^0.6.0"
 omegaconf = "^2.3.0"
 portion = "^2.4.0"
-pydantic = "^2.0b2"
+pydantic = "^2.0b3"
 pydub = "^0.25.1"
 pypinyin = "^0.49.0"
 regex = "^2023.6.3"
@@ -57,7 +57,7 @@ drawsvg = "^2.1.1"
 optional = true
 [tool.poetry.group.webui.dependencies]
 trame = "^2.5.0"
-pywebview = "^4.1"
+pywebview = "^4.2.1"
 
 [tool.poetry.group.desktop]
 optional = true
@@ -94,7 +94,7 @@ cx-freeze = "^6.15.1"
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.3.2"
+pytest = "^7.4.0"
 pytest-datadir = "^1.4.1"
 
 
@@ -102,10 +102,10 @@ pytest-datadir = "^1.4.1"
 isort = "^5.12.0"
 pre-commit = "^3.3.3"
 poethepoet = "^0.20.0"
-ruff = "^0.0.273"
+ruff = "^0.0.275"
 black = "^23.3.0"
-mypy = "^1.3.0"
-sourcery = "^1.3.0"
+mypy = "^1.4.0"
+sourcery = "^1.4.0"
 urllib3 = "<2.0"
 
 

@@ -5,7 +5,9 @@ import json
 import shutil
 import tempfile
 
+from babel.messages.frontend import extract_messages
 from translate.convert.json2po import convertjson
+from translate.storage import factory
 from translate.tools.pomerge import mergestore
 
 from libresvip.extension.messages import messages_iterator
@@ -13,6 +15,16 @@ from libresvip.extension.messages import messages_iterator
 if __name__ == "__main__":
     for plugin_suffix, plugin_metadata, info_path in messages_iterator():
         with tempfile.NamedTemporaryFile(suffix=".po") as tmp_po:
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                tmp_pot_name = tempfile.mktemp(suffix=".pot", dir=tmp_dir)
+                cmdinst = extract_messages()
+                cmdinst.initialize_options()
+                cmdinst.input_paths = [str(info_path.parent)]
+                cmdinst.output_file = tmp_pot_name
+                cmdinst.finalize_options()
+                cmdinst.run()
+                python_store = factory.getobject(tmp_pot_name)
+                plugin_metadata["messages"] = list(python_store.getids())
             convertjson(
                 json.dumps(
                     {plugin_suffix: plugin_metadata},

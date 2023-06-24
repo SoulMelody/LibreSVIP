@@ -1,4 +1,5 @@
 import enum
+from gettext import gettext as _
 
 from pydantic.color import Color
 from pydantic.fields import _Undefined
