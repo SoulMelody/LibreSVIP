@@ -549,29 +549,35 @@ def initialize(server: Server):
                         border=True,
                         width="50%",
                         drop="""
-                            event.preventDefault();
-                            this.hover_count = 0;
-                            files_to_convert = [];
-                            if (event.dataTransfer.files) {
-                                for (i = 0; i < event.dataTransfer.files.length; i++) {
-                                    file = event.dataTransfer.files.item(i);
-                                    if (auto_detect) {
-                                        _input_format = file.name.split('.').pop().toLowerCase();
-                                        if (i === 0 && plugin_details[_input_format]) {
-                                            input_format = _input_format;
-                                            if (auto_reset) {
-                                                files_to_convert = [];
+                            (event) => {
+                                event.preventDefault();
+                                this.hover_count = 0;
+                                files_to_convert = [];
+                                if (event.dataTransfer.files) {
+                                    for (i = 0; i < event.dataTransfer.files.length; i++) {
+                                        file = event.dataTransfer.files.item(i);
+                                        if (auto_detect) {
+                                            _input_format = file.name.split('.').pop().toLowerCase();
+                                            if (i === 0 && plugin_details[_input_format]) {
+                                                input_format = _input_format;
+                                                if (auto_reset) {
+                                                    files_to_convert = [];
+                                                }
                                             }
                                         }
-                                    }
-                                    if (file.name.toLowerCase().endsWith(input_format)) {
-                                        files_to_convert.push(file);
-                                    }
+                                        if (file.name.toLowerCase().endsWith(input_format)) {
+                                            files_to_convert.push(file);
+                                        }
+                                    };
                                 };
-                            };
+                            }
                         """,
                         click="trame.refs['file_uploader'].click()",
-                        dragover="""event.preventDefault()""",
+                        dragover="""
+                            (event) => {
+                                event.preventDefault()
+                            }
+                        """,
                         dragenter="""this.hover_count++""",
                         dragleave="""this.hover_count--""",
                         __events=["drop", "dragover", "dragenter", "dragleave", "click"],
@@ -607,6 +613,7 @@ def initialize(server: Server):
                                     files_to_convert.push(file);
                                 }
                             };
+                            trame.refs['file_uploader'].value = '';
                             flushState('files_to_convert');""",
                             __events=["change"],
                         )

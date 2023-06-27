@@ -60,7 +60,7 @@ svgwrite = "^1.4.3"
 optional = true
 [tool.poetry.group.webui.dependencies]
 trame = "^2.5.0"
-pywebview = "^4.2.1"
+pywebview = "^4.2.2"
 
 [tool.poetry.group.desktop]
 optional = true
@@ -80,7 +80,7 @@ static-ffmpeg = "^2.5"
 optional = true
 
 [tool.poetry.group.code_gen.dependencies]
-xsdata = { extras = ["cli"], version = "^23.5" }
+xsdata = { extras = ["cli"], version = "^23.6" }
 datamodel-code-generator = "^0.20.0"
 translate-toolkit = "^3.9.1"
 babel = "^2.12.1"
@@ -107,7 +107,7 @@ pre-commit = "^3.3.3"
 poethepoet = "^0.20.0"
 ruff = "^0.0.275"
 black = "^23.3.0"
-mypy = "^1.4.0"
+mypy = "^1.4.1"
 sourcery = "^1.4.0"
 urllib3 = "<2.0"
 
