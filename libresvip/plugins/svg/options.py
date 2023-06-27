@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Annotated
 
 from pydantic import BaseModel, Field
-from pydantic.color import Color
+from pydantic_extra_types.color import Color
 
 
 class TextAlignOption(Enum):

@@ -8,8 +8,8 @@ import warnings
 import zipfile
 from typing import Any, get_args, get_type_hints
 
-from pydantic.color import Color
 from pydantic.fields import _Undefined
+from pydantic_extra_types.color import Color
 from qmlease import slot
 from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
 from qtpy.QtGui import QDesktopServices

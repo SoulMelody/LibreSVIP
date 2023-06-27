@@ -9,8 +9,8 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
-from pydantic.color import Color
 from pydantic.fields import _Undefined
+from pydantic_extra_types.color import Color
 from trame_client.widgets import html, trame
 from trame_server.core import Server
 from trame_vuetify.widgets import vuetify3

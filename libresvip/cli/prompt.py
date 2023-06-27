@@ -1,8 +1,8 @@
 import enum
 from gettext import gettext as _
 
-from pydantic.color import Color
 from pydantic.fields import _Undefined
+from pydantic_extra_types.color import Color
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 
 from libresvip.model.base import BaseComplexModel, BaseModel

@@ -3,7 +3,7 @@ import pathlib
 import traceback
 from typing import get_args, get_type_hints
 
-from pydantic.color import Color
+from pydantic_extra_types.color import Color
 
 from libresvip.extension.manager import plugin_locator, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
