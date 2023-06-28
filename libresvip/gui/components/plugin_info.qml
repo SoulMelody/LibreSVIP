@@ -3,6 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 GridLayout {
     property var info
@@ -18,8 +19,51 @@ GridLayout {
         sourceSize.height: 100
         source: info.icon_base64
         fillMode: Image.PreserveAspectFit
-        BorderImage {
-            source: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAACYElEQVR4nO2dW3KDMBAEJd//zspHCspgAXqstAN0H8COujPYuCpOTCml8ABijPEJZ7nFIWKM0eqx1M8rF8RSfilKDiSCeEQ4wtuHaxClEHu8vLgEUQ6xZ7afqUHuFGLPLE9Tgtw5xJ7RvoYGeVKIPaO8fUY8aAjPjhHCuPOZL+TpIXJYOjRdyBtjhGB7brMgb42xYHV+kyBvj7Fg4aE7CDG29ProCkKMPD1emoMQ45xWP01BiFFGi6fqIMSoo9ZXVRBitFHjrTgIMfoo9TfssyxooygI67ChxONlEGLYcuWTS5YYp0FYxxjOvLIQMQ6DsI6xHPllIWJkg7COOeQ8sxAxfoKwjrnsfbMQMTZBWIcP395ZiBgEEWMNwuXKl8U/CxGDIGIQRAyCqOH9V6ewhYWIQRAxCCIGQcQgiBgEEYMgYhAE4BTu1LXgkiUGQcQgiBgEEYMgYhBEDIKIQRAxPiFwc6hCSimxEDEIIgZBxCCIGGsQXth9WfyzEDEIIsYmCJctH769sxAxfoKwkrnsfbMQMbJBWMkccp5ZiBiHQVjJWI78shAxToOwkjGceWUhYlwGYSW2XPksWghRbCjxyCVLjOIgrKSPUn9VCyFKGzXeqi9ZRKmj1lfTawhRymjx1PyiTpRzWv10vcsiSp4eL91ve4mypdeHyX0IUf6x8GB2Y/j2KFbnN71Tf2sUy3Ob/4P79YFf8LWzI9wN+yzr6WsZ9os8Q9yT1jLa15Qg65PdOMwsT1ODrE96ozCz/bgEWZ9cOIyXF9cg6w8hFMbbh0SQbzziKDmQC5LDMpL6ef8AbMk4aED3PSgAAAAASUVORK5CYII="
+        Shape {
+            layer.enabled: true
+            layer.samples: 4
+            layer.smooth: true
+            anchors.fill: parent
+
+            ShapePath {
+                startX: 0
+                startY: 0
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 0 }
+                PathArc {x: 0; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Counterclockwise }
+                PathLine { x: 0; y: 0 }
+            }
+
+            ShapePath {
+                startX: 0
+                startY: 100
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 100 }
+                PathArc {x: 0; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Clockwise }
+                PathLine { x: 0; y: 100 }
+            }
+
+            ShapePath {
+                startX: 100
+                startY: 0
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 0 }
+                PathArc {x: 100; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Clockwise }
+                PathLine { x: 100; y: 0 }
+            }
+
+            ShapePath {
+                startX: 100
+                startY: 100
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 100 }
+                PathArc {x: 100; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Counterclockwise }
+                PathLine { x: 100; y: 100 }
+            }
         }
     }
 
