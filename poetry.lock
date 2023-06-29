@@ -3279,14 +3279,14 @@ reference = "tencent"
 
 [[package]]
 name = "sourcery"
-version = "1.4.0"
+version = "1.5.0"
 description = "Magically refactor Python"
 optional = false
 python-versions = "*"
 files = [
-    {file = "sourcery-1.4.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:260f78f2ef8c9e6b78fe0458ef5b9f3cbaac1ec20c3e290e6004a15bb793f3a2"},
-    {file = "sourcery-1.4.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:ff5b7d74f5126a888c0d61534dc8b7002814fef0299f655853fe855f09025af8"},
-    {file = "sourcery-1.4.0-py2.py3-none-win_amd64.whl", hash = "sha256:aa85abf57682d5eb71337af23b39e0fb99efe025b28637507f36719a1f4dec24"},
+    {file = "sourcery-1.5.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:7e30ad51560fa0a89895097f4f7eb8e82aa2a58443fbbc7f3de6a2718403e8d0"},
+    {file = "sourcery-1.5.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:928b637694475e0a144bf568179f178639f8596bfa627921512f9150ac819063"},
+    {file = "sourcery-1.5.0-py2.py3-none-win_amd64.whl", hash = "sha256:a28ef9f00922b11993e730718cdd60f8cecc45762d0e80b7d9a94f27c46dbc3b"},
 ]
 
 [package.source]
@@ -3649,13 +3649,13 @@ reference = "tencent"
 
 [[package]]
 name = "trame-vtk"
-version = "2.5.2"
+version = "2.5.3"
 description = "VTK widgets for trame"
 optional = false
 python-versions = "*"
 files = [
-    {file = "trame-vtk-2.5.2.tar.gz", hash = "sha256:5bbb503ce7f1bef6cea6acaa6efb13ba42d78766383c673a33d31daaaffff9d8"},
-    {file = "trame_vtk-2.5.2-py3-none-any.whl", hash = "sha256:aded32b05ed2f528df9247ad2757a224aba64736cb9c7eca700f06a1c102ddb4"},
+    {file = "trame-vtk-2.5.3.tar.gz", hash = "sha256:f4fd4cf7cd527b0f77f3c58b941e0efefa79ed0d1c4b203b24a22276c0f3094b"},
+    {file = "trame_vtk-2.5.3-py3-none-any.whl", hash = "sha256:da7c5f034e8f6b6c058735c0708e1c1516ad9c87b382bbbbd86e119281c4d94f"},
 ]
 
 [package.dependencies]
@@ -3783,13 +3783,13 @@ reference = "tencent"
 
 [[package]]
 name = "typing-extensions"
-version = "4.6.3"
+version = "4.7.0"
 description = "Backported and Experimental Type Hints for Python 3.7+"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "typing_extensions-4.6.3-py3-none-any.whl", hash = "sha256:88a4153d8505aabbb4e13aacb7c486c2b4a33ca3b3f807914a9b4c844c471c26"},
-    {file = "typing_extensions-4.6.3.tar.gz", hash = "sha256:d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5"},
+    {file = "typing_extensions-4.7.0-py3-none-any.whl", hash = "sha256:5d8c9dac95c27d20df12fb1d97b9793ab8b2af8a3a525e68c80e21060c161771"},
+    {file = "typing_extensions-4.7.0.tar.gz", hash = "sha256:935ccf31549830cda708b42289d44b6f74084d616a00be651601a4f968e77c82"},
 ]
 
 [package.source]
@@ -4357,4 +4357,4 @@ reference = "tencent"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "7c329d253d6bab1bf875a1b06a89cd89d8c4bdc1018ec710eff7c312c1c0bdf5"
+content-hash = "2bc98dfa9ee65e928336239b71b5537042ed7ea43e84a973a78c4238f067f1ea"

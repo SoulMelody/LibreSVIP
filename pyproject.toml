@@ -108,7 +108,7 @@ poethepoet = "^0.20.0"
 ruff = "^0.0.275"
 black = "^23.3.0"
 mypy = "^1.4.1"
-sourcery = "^1.4.0"
+sourcery = "^1.5.0"
 urllib3 = "<2.0"
 
 
