@@ -454,6 +454,51 @@ def initialize(server: Server):
         """,
     )
     ctrl.reset_messages = reset_trigger.exec
+
+    file_chooser_trigger = trame.JSEval(
+        events=("file_chooser", 1),
+        exec="""
+        if (window.showOpenFilePicker) {
+            window.showOpenFilePicker(
+                {
+                    types: [
+                        {
+                            description: translations[lang][plugin_details[input_format].description],
+                            accept: {
+                                '*/*': ['.' + input_format],
+                            }
+                        }
+                    ],
+                    multiple: true
+                }
+            ).then(async function (fileHandles) {
+                for (const fileHandle of fileHandles) {
+                    const file = await fileHandle.getFile();
+                    if (auto_detect) {
+                        _input_format = file.name.split('.').pop().toLowerCase();
+                        if (i === 0 && plugin_details[_input_format]) {
+                            input_format = _input_format;
+                            if (auto_reset) {
+                                files_to_convert = [];
+                            }
+                        }
+                    }
+                    if (file.name.toLowerCase().endsWith(input_format)) {
+                        files_to_convert.push(file);
+                    }
+                }
+                flushState('files_to_convert');
+            });
+        } else {
+            trame.refs['file_uploader'].click();
+        }
+        """
+    )
+
+    @ctrl.trigger("choose_file")
+    def choose_file():
+        file_chooser_trigger.exec()
+
     with vuetify3.VCard(density="comfortable"):
         with vuetify3.VTabs(v_model=("convert_step", 1)):
             vuetify3.VTab(
@@ -572,7 +617,7 @@ def initialize(server: Server):
                                 };
                             }
                         """,
-                        click="trame.refs['file_uploader'].click()",
+                        click="trigger('choose_file')",
                         dragover="""
                             (event) => {
                                 event.preventDefault()
@@ -721,7 +766,7 @@ def initialize(server: Server):
                                 with vuetify3.VBtn(
                                     icon=True,
                                     v_bind="props",
-                                    click="trame.refs['file_uploader'].click()",
+                                    click="trigger('choose_file')",
                                 ):
                                     with vuetify3.VBadge(
                                         content=("files_to_convert.length", ""),

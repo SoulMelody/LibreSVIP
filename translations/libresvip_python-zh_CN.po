@@ -339,4 +339,4 @@ msgstr "过滤多余项目"
 
 #: ../libresvip/web/i18n.py:65
 msgid "Choose a color"
-msgstr "选择格式"
+msgstr "选择颜色"
