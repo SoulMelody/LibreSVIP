@@ -5,7 +5,7 @@ from types import FunctionType
 from typing import Callable, List, TypeVar
 
 import charset_normalizer
-from pkg_resources.extern.more_itertools import locate, rlocate
+from setuptools.extern.more_itertools import locate, rlocate
 
 T = TypeVar("T")
 

@@ -1,7 +1,7 @@
 import dataclasses
 from typing import List
 
-from pkg_resources.extern import more_itertools
+from setuptools.extern import more_itertools
 from svgwrite.shapes import Line, Polyline, Rect
 from svgwrite.text import Text
 

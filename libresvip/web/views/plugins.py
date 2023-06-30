@@ -1,6 +1,6 @@
 import io
 
-from pkg_resources.extern.more_itertools import chunked
+from setuptools.extern.more_itertools import chunked
 from trame_client.widgets import html
 from trame_server.core import Server
 from trame_vuetify.widgets import vuetify3

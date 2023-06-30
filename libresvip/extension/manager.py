@@ -7,7 +7,7 @@ import pathlib
 import sys
 import types
 
-from pkg_resources.extern.packaging.version import Version
+from setuptools.extern.packaging.version import Version
 from yapsy.AutoInstallPluginManager import AutoInstallPluginManager
 from yapsy.PluginFileLocator import PluginFileLocator
 from yapsy.PluginInfo import PluginInfo

@@ -3649,13 +3649,13 @@ reference = "tencent"
 
 [[package]]
 name = "trame-vtk"
-version = "2.5.3"
+version = "2.5.4"
 description = "VTK widgets for trame"
 optional = false
 python-versions = "*"
 files = [
-    {file = "trame-vtk-2.5.3.tar.gz", hash = "sha256:f4fd4cf7cd527b0f77f3c58b941e0efefa79ed0d1c4b203b24a22276c0f3094b"},
-    {file = "trame_vtk-2.5.3-py3-none-any.whl", hash = "sha256:da7c5f034e8f6b6c058735c0708e1c1516ad9c87b382bbbbd86e119281c4d94f"},
+    {file = "trame-vtk-2.5.4.tar.gz", hash = "sha256:71eb9c28982b3bd3dc735ef5daabf1e8a1f2b83c6f64d9632abdba0115dd1fff"},
+    {file = "trame_vtk-2.5.4-py3-none-any.whl", hash = "sha256:fdb8dd82530a02a6f69be8da98d4a922da7d98d813533a818f0e0bf374b2a50a"},
 ]
 
 [package.dependencies]
@@ -4086,13 +4086,13 @@ reference = "tencent"
 
 [[package]]
 name = "wslink"
-version = "1.11.0"
+version = "1.11.1"
 description = "Python/JavaScript library for communicating over WebSocket"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wslink-1.11.0-py3-none-any.whl", hash = "sha256:d980218b577367fb1ad6b80bfd2cc7cd726f2c29f6eab098b200beb1262b2548"},
-    {file = "wslink-1.11.0.tar.gz", hash = "sha256:a05ab62aa592bcf63053b0164004e5f91e10ab01acf231b22a6a424162a7be19"},
+    {file = "wslink-1.11.1-py3-none-any.whl", hash = "sha256:76c7e094030c265e3ffde05a4f2340bfd8b0ca3cfdb4d6afae1ce324c8ed313e"},
+    {file = "wslink-1.11.1.tar.gz", hash = "sha256:094cb04c767c0dce478730f59f4f21d0221c2f18f2886d8e104e17577d2d6a2d"},
 ]
 
 [package.dependencies]
@@ -4357,4 +4357,4 @@ reference = "tencent"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "2bc98dfa9ee65e928336239b71b5537042ed7ea43e84a973a78c4238f067f1ea"
+content-hash = "7c8e73a71e1b467692620506698d2f0eb2c023fad9bab82e0db5f0f7f8e4f6c3"

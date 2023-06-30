@@ -7,7 +7,7 @@ import struct
 from itertools import chain
 from typing import Generic, List, Literal, NamedTuple, Optional, TypeVar
 
-from pkg_resources.extern.more_itertools import chunked
+from setuptools.extern.more_itertools import chunked
 
 XSItem = TypeVar("XSItem")
 
