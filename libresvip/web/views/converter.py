@@ -25,7 +25,7 @@ def get_dialog_widget(prefix: str):
     with vuetify3.VBtn(
         icon=True,
         click=f"{prefix}_format_info = true",
-        size="small",
+        size="small", max_width="40px", min_width="40px", max_height="40px", min_height="40px",
     ):
         vuetify3.VIcon(
             "mdi-information-outline",
@@ -572,7 +572,7 @@ def initialize(server: Server):
                                                 files_to_convert = [];
                                             }
                                         """,
-                                        size="small",
+                                        size="small", max_width="40px", min_width="40px", max_height="40px", min_height="40px",
                                     ):
                                         vuetify3.VIcon("mdi-swap-vertical-circle-outline")
                             with vuetify3.VRow(dense=True):
