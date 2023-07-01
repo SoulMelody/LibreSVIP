@@ -1,7 +1,7 @@
 import enum
 from gettext import gettext as _
 
-from pydantic.fields import _Undefined
+from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 
@@ -13,7 +13,7 @@ def prompt_fields(option_class: BaseModel) -> dict:
     if hasattr(option_class, "model_fields"):
         for i, (option_key, field_info) in enumerate(option_class.model_fields.items()):
             default_value = (
-                None if field_info.default is _Undefined else field_info.default
+                None if field_info.default is PydanticUndefined else field_info.default
             )
             translated_title = f"{i + 1}. {{}}".format(_(field_info.title))
             if issubclass(field_info.annotation, enum.Enum):

@@ -9,7 +9,7 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
-from pydantic.fields import _Undefined
+from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from trame_client.widgets import html, trame
 from trame_server.core import Server
@@ -263,7 +263,7 @@ def initialize(server: Server):
         if hasattr(option_class, "model_fields"):
             for option_key, field_info in option_class.model_fields.items():
                 default_value = (
-                    None if field_info.default is _Undefined else field_info.default
+                    None if field_info.default is PydanticUndefined else field_info.default
                 )
                 if issubclass(field_info.annotation, bool):
                     option_info[f"{prefix}_fields"].append(
