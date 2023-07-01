@@ -1,5 +1,5 @@
 import abc
-from typing import Annotated, List, Literal, Union
+from typing import Annotated, Literal, Union
 
 from pydantic import Field
 
@@ -45,11 +45,11 @@ class DsTimeSignature(BaseModel):
 
 
 class DsTimeline(BaseModel):
-    time_signatures: List[DsTimeSignature] = Field(
+    time_signatures: list[DsTimeSignature] = Field(
         default_factory=list, alias="timeSignatures"
     )
-    tempos: List[DsTempo] = Field(default_factory=list)
-    labels: List[DsLabel] = Field(default_factory=list)
+    tempos: list[DsTempo] = Field(default_factory=list)
+    labels: list[DsLabel] = Field(default_factory=list)
 
 
 class DsTime(BaseModel):
@@ -105,7 +105,7 @@ class DsVibrato(BaseModel):
     phase: float = 0.0
     amp: float = 0.0
     offset: float = 0.0
-    points: List[DsVibratoPoint] = Field(default_factory=list)
+    points: list[DsVibratoPoint] = Field(default_factory=list)
 
 
 class DsPhoneme(BaseModel):
@@ -117,8 +117,8 @@ class DsPhoneme(BaseModel):
 
 
 class DsPhonemes(BaseModel):
-    original: List[DsPhoneme] = Field(default_factory=list)
-    edited: List[DsPhoneme] = Field(default_factory=list)
+    original: list[DsPhoneme] = Field(default_factory=list)
+    edited: list[DsPhoneme] = Field(default_factory=list)
 
 
 class DsNote(BaseModel):
@@ -148,7 +148,7 @@ class DsAudioClip(DsClipMixin, BaseModel):
 class DsSingingClip(DsClipMixin, BaseModel):
     type_: Literal["singing"] = Field("singing", alias="type")
     sources: dict = Field(default_factory=dict)
-    notes: List[DsNote] = Field(default_factory=list)
+    notes: list[DsNote] = Field(default_factory=list)
     params: DsParams = Field(default_factory=DsParams)
 
 
@@ -165,7 +165,7 @@ class DsTrackControl(BaseModel):
 class DsTrack(BaseModel):
     name: str = ""
     control: DsTrackControl = Field(default_factory=DsTrackControl)
-    clips: List[DsClip] = Field(default_factory=list)
+    clips: list[DsClip] = Field(default_factory=list)
     extra: dict = Field(default_factory=dict)
     workspace: dict = Field(default_factory=dict)
 
@@ -176,7 +176,7 @@ class DsContent(BaseModel):
     extra: dict = Field(default_factory=dict)
     workspace: dict = Field(default_factory=dict)
     params: DsParams = Field(default_factory=DsParams)
-    tracks: List[DsTrack] = Field(default_factory=list)
+    tracks: list[DsTrack] = Field(default_factory=list)
 
 
 class DspxModel(BaseModel):

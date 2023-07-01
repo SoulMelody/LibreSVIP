@@ -1,7 +1,7 @@
 import contextlib
 import dataclasses
 import sys
-from typing import Callable, List, Optional, Set
+from typing import Callable, Optional
 
 import regex as re
 from pydub import AudioSegment
@@ -47,12 +47,12 @@ from .pitch_slide import PitchSlide
 class SynthVGenerator:
     options: OutputOptions
     first_bar_tick: int = dataclasses.field(init=False)
-    first_bar_tempo: List[SongTempo] = dataclasses.field(init=False)
-    note_buffer: List[Note] = dataclasses.field(init=False)
+    first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
+    note_buffer: list[Note] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pitch_simulator: PitchSimulator = dataclasses.field(init=False)
-    no_vibrato_indexes: Set[int] = dataclasses.field(init=False)
-    lyrics_pinyin: List[str] = dataclasses.field(init=False)
+    no_vibrato_indexes: set[int] = dataclasses.field(init=False)
+    lyrics_pinyin: list[str] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> SVProject:
         sv_project = SVProject()
@@ -101,6 +101,7 @@ class SynthVGenerator:
             numerator=signature.numerator,
             denominator=signature.denominator,
         )
+
     def generate_track(self, track: Track) -> Optional[SVTrack]:
         sv_track = SVTrack(
             name=track.title,
@@ -159,6 +160,7 @@ class SynthVGenerator:
         else:
             return
         return sv_track
+
     def generate_audio_offset(self, offset: int) -> int:
         if offset >= 0:
             return ticks_to_position(offset)
@@ -278,8 +280,7 @@ class SynthVGenerator:
             pitch=note.key_number,
             lyrics=(
                 note.lyric
-                if note.pronunciation is None
-                or not len(note.pronunciation.strip())
+                if note.pronunciation is None or not len(note.pronunciation.strip())
                 else note.pronunciation
             ),
             duration=ticks_to_position(note.end_pos) - onset,
@@ -331,7 +332,7 @@ class SynthVGenerator:
                 return sv_curve
             skipped = 1
             valid_index = find_index(
-                curve.points.__root__, lambda x: x.x >= self.first_bar_tick
+                curve.points.root, lambda x: x.x >= self.first_bar_tick
             )
             if (
                 valid_index != -1
@@ -432,7 +433,7 @@ class SynthVGenerator:
             )
         return sv_curve
 
-    def generate_notes_with_phones(self, notes: List[Note]) -> List[SVNote]:
+    def generate_notes_with_phones(self, notes: list[Note]) -> list[SVNote]:
         sv_note_list = []
         if not len(notes):
             return sv_note_list

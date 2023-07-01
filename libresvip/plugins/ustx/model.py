@@ -3,10 +3,9 @@ from types import SimpleNamespace
 from typing import Annotated, Literal, Optional, Union
 
 from pydantic import Field
-from pydantic_yaml import YamlModel
 
-from libresvip.core.constants import TICKS_IN_BEAT
-from libresvip.model.base import Point
+from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
+from libresvip.model.base import BaseModel, Point
 
 from .utils.music_math import MusicMath
 
@@ -17,12 +16,12 @@ ParamType = SimpleNamespace(
 )
 
 
-class BaseExpression(YamlModel):
+class BaseExpression(BaseModel):
     name: str
     abbr: str
-    min_: int = Field(alias="min")
-    max_: int = Field(alias="max")
-    default_value: int
+    min_: float = Field(alias="min")
+    max_: float = Field(alias="max")
+    default_value: float
     is_flag: bool
 
 
@@ -43,14 +42,14 @@ class OptionsExpression(BaseExpression):
 
 UExpressionDescriptor = Annotated[
     Union[CurveExpression, NumericalExpression, OptionsExpression],
-    Field(discriminator='type_')
+    Field(discriminator="type_"),
 ]
 
 
-class UCurve(YamlModel):
+class UCurve(BaseModel):
     xs: list[int] = Field(default_factory=list)
     ys: list[int] = Field(default_factory=list)
-    abbr: Optional[str]
+    abbr: Optional[str] = None
 
     @property
     def is_empty(self):
@@ -68,55 +67,52 @@ class UCurve(YamlModel):
         return 0
 
 
-class PitchPoint(YamlModel):
-    x: Optional[int]
-    y: Optional[int]
+class PitchPoint(BaseModel):
+    x: Optional[float] = None
+    y: Optional[float] = None
     shape: Optional[Literal["io", "l", "i", "o"]] = "io"
 
 
-class UTempo(YamlModel):
-    position: Optional[int]
-    bpm: Optional[int]
+class UTempo(BaseModel):
+    position: int = 0
+    bpm: float = DEFAULT_BPM
 
 
-class UTimeSignature(YamlModel):
-    bar_position: Optional[int]
-    beat_per_bar: Optional[int]
-    beat_unit: Optional[int]
+class UTimeSignature(BaseModel):
+    bar_position: Optional[int] = None
+    beat_per_bar: Optional[int] = None
+    beat_unit: Optional[int] = None
 
 
-class URendererSettings(YamlModel):
-    renderer: Optional[str]
-    resampler: Optional[str]
-    wavtool: Optional[str]
+class URendererSettings(BaseModel):
+    renderer: Optional[str] = None
+    resampler: Optional[str] = None
+    wavtool: Optional[str] = None
 
 
-class UTrack(YamlModel):
-    singer: Optional[str]
-    phonemizer: Optional[str]
-    renderer_settings: Optional[URendererSettings]
-    mute: Optional[bool]
-    solo: Optional[bool]
-    volume: Optional[int]
+class UTrack(BaseModel):
+    singer: Optional[str] = None
+    phonemizer: Optional[str] = None
+    renderer_settings: Optional[URendererSettings] = None
+    mute: Optional[bool] = None
+    solo: Optional[bool] = None
+    volume: Optional[float] = None
+    pan: Optional[float] = None
 
 
-class UPitch(YamlModel):
-    data: list[PitchPoint] = Field(
-        default_factory=list
-    )
-    snap_first: Optional[bool]
+class UPitch(BaseModel):
+    data: list[PitchPoint] = Field(default_factory=list)
+    snap_first: Optional[bool] = None
 
 
-class UVibrato(YamlModel):
-    length: Optional[int]
-    period: Optional[int]
-    depth: Optional[int]
-    in_value: Optional[int] = Field(
-        alias="in"
-    )
-    out: Optional[int]
-    shift: Optional[int]
-    drift: Optional[int]
+class UVibrato(BaseModel):
+    length: Optional[float] = None
+    period: Optional[float] = None
+    depth: Optional[float] = None
+    in_value: Optional[float] = Field(alias="in")
+    out: Optional[float] = None
+    shift: Optional[float] = None
+    drift: Optional[float] = None
 
     @property
     def normalized_start(self):
@@ -139,27 +135,27 @@ class UVibrato(YamlModel):
         return Point(note.position + note.duration * n_pos, note.tone + y / 100.0)
 
 
-class UExpression(YamlModel):
-    index: Optional[int]
+class UExpression(BaseModel):
+    index: Optional[int] = None
     abbr: str
-    value: int
+    value: float
 
 
-class UPhonemeOverride(YamlModel):
+class UPhonemeOverride(BaseModel):
     index: int
-    phoneme: Optional[str]
-    offset: Optional[int]
-    preutter_delta: Optional[float]
-    overlap_delta: Optional[float]
+    phoneme: Optional[str] = None
+    offset: Optional[int] = None
+    preutter_delta: Optional[float] = None
+    overlap_delta: Optional[float] = None
 
 
-class UNote(YamlModel):
-    position: Optional[int]
-    duration: Optional[int]
-    tone: Optional[int]
-    lyric: Optional[str]
-    pitch: Optional[UPitch]
-    vibrato: Optional[UVibrato]
+class UNote(BaseModel):
+    position: Optional[int] = None
+    duration: Optional[int] = None
+    tone: Optional[int] = None
+    lyric: Optional[str] = None
+    pitch: Optional[UPitch] = None
+    vibrato: Optional[UVibrato] = None
     note_expressions: Optional[list[UExpression]] = Field(default_factory=list)  # deprecated
     phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
     phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
@@ -169,11 +165,11 @@ class UNote(YamlModel):
         return self.position + self.duration
 
 
-class UPart(YamlModel):
-    name: Optional[str]
-    comment: Optional[str]
-    track_no: Optional[int]
-    position: Optional[int]
+class UPart(BaseModel):
+    name: Optional[str] = None
+    comment: Optional[str] = None
+    track_no: Optional[int] = None
+    position: Optional[int] = None
 
 
 class UVoicePart(UPart):
@@ -192,25 +188,23 @@ class UWavePart(UPart):
     trim_ms: float = 0
 
 
-class USTXProject(YamlModel):
-    name: Optional[str]
-    comment: Optional[str]
-    output_dir: Optional[str]
-    cache_dir: Optional[str]
-    ustx_version: Optional[float]
-    bpm: Optional[int]
-    beat_per_bar: Optional[int]
-    beat_unit: Optional[int]
-    resolution: Optional[int] = TICKS_IN_BEAT
+class USTXProject(BaseModel):
+    name: str = "New Project"
+    comment: str = ""
+    output_dir: str = "Vocal"
+    cache_dir: str = "UCache"
+    ustx_version: str = "0.6"
+    bpm: float = DEFAULT_BPM
+    beat_per_bar: int = 4
+    beat_unit: int = 4
+    resolution: int = TICKS_IN_BEAT
     time_signatures: list[UTimeSignature] = Field(
         default_factory=list
     )
     tempos: list[UTempo] = Field(
         default_factory=list
     )
-    expressions: dict[str, UExpressionDescriptor] = Field(
-        default_factory=dict
-    )
+    expressions: Optional[dict[str, UExpressionDescriptor]] = None
     tracks: list[UTrack] = Field(
         default_factory=list
     )

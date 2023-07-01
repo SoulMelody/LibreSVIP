@@ -1,6 +1,6 @@
 import dataclasses
 import math
-from typing import Callable, List, NamedTuple
+from typing import Callable, NamedTuple
 
 from setuptools.extern import more_itertools
 
@@ -111,11 +111,11 @@ class SigmoidNode:
 @dataclasses.dataclass
 class BaseLayerGenerator:
     default_radius = 0.07
-    _note_list: dataclasses.InitVar[List[NoteStruct]]
-    note_list: List[NoteStruct] = dataclasses.field(init=False)
-    sigmoid_nodes: List[SigmoidNode] = dataclasses.field(default_factory=list)
+    _note_list: dataclasses.InitVar[list[NoteStruct]]
+    note_list: list[NoteStruct] = dataclasses.field(init=False)
+    sigmoid_nodes: list[SigmoidNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: List[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]):
         if not _note_list:
             return
         self.note_list = _note_list
@@ -307,10 +307,10 @@ class GaussianNode:
 
 @dataclasses.dataclass
 class GaussianLayerGenerator:
-    _note_list: dataclasses.InitVar[List[NoteStruct]]
-    gaussian_nodes: List[GaussianNode] = dataclasses.field(default_factory=list)
+    _note_list: dataclasses.InitVar[list[NoteStruct]]
+    gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: List[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]):
         if len(_note_list) == 0:
             return
         current_note = _note_list[0]
@@ -439,10 +439,10 @@ class VibratoNode:
 
 @dataclasses.dataclass
 class VibratoLayerGenerator:
-    _note_list: dataclasses.InitVar[List[NoteStruct]]
-    vibrato_nodes: List[VibratoNode] = dataclasses.field(default_factory=list)
+    _note_list: dataclasses.InitVar[list[NoteStruct]]
+    vibrato_nodes: list[VibratoNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: List[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]):
         for i in range(len(_note_list)):
             start, end = _note_list[i].start, _note_list[i].end
             if end - start <= _note_list[i].vibrato_start:

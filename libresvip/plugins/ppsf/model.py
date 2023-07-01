@@ -1,14 +1,13 @@
-from typing import Generic, List, Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
 from pydantic import Field
-from pydantic.generics import GenericModel
 
 from libresvip.model.base import BaseModel
 
 ConstValue = TypeVar("ConstValue")
 
 
-class PpsfConst(GenericModel, Generic[ConstValue]):
+class PpsfConst(BaseModel, Generic[ConstValue]):
     const: ConstValue
     use_sequence: bool
 
@@ -21,7 +20,7 @@ class PpsfCurvePointSeq(BaseModel):
 
 class PpsfCurvePoint(BaseModel):
     plugin_descriptor: Optional[str] = Field(alias="plugin-descriptor")
-    sequence: List[PpsfCurvePointSeq]
+    sequence: list[PpsfCurvePointSeq]
     sub_track_category: int = Field(alias="sub-track-category")
     sub_track_id: int = Field(alias="sub-track-id")
 
@@ -40,18 +39,18 @@ class PpsfSyllable(BaseModel):
 class PpsfNote(BaseModel):
     language: int
     region_index: int = Field(alias="region-index")
-    syllables: List[PpsfSyllable]
-    event_index: Optional[int]
-    length: Optional[int]
-    muted: Optional[bool]
-    vibrato_preset_id: Optional[int]
-    voice_color_id: Optional[int]
-    voice_release_id: Optional[int]
-    note_env_preset_id: Optional[int]
-    note_gain_value: Optional[int]
-    note_param_edited_stats: Optional[int]
-    portamento_length: Optional[int]
-    portamento_offset: Optional[int]
+    syllables: list[PpsfSyllable]
+    event_index: Optional[int] = None
+    length: Optional[int] = None
+    muted: Optional[bool] = None
+    vibrato_preset_id: Optional[int] = None
+    voice_color_id: Optional[int] = None
+    voice_release_id: Optional[int] = None
+    note_env_preset_id: Optional[int] = None
+    note_gain_value: Optional[int] = None
+    note_param_edited_stats: Optional[int] = None
+    portamento_length: Optional[int] = None
+    portamento_offset: Optional[int] = None
 
 
 class PpsfRegion(BaseModel):
@@ -82,27 +81,27 @@ class PpsfParamPoint(BaseModel):
 class PpsfBaseSequence(BaseModel):
     constant: int
     name: str
-    sequence: List[PpsfParamPoint]
+    sequence: list[PpsfParamPoint]
     use_sequence: bool
 
 
 class PpsfSeqParam(BaseModel):
     base_sequence: Optional[PpsfBaseSequence] = Field(alias="base-sequence")
-    layers: Optional[List]
+    layers: Optional[list] = None
 
 
 class PpsfParameter(BaseModel):
     constant: int
-    default: Optional[int]
-    max: Optional[int]
-    min: Optional[int]
+    default: Optional[int] = None
+    max: Optional[int] = None
+    min: Optional[int] = None
     name: str
-    sequence: List[PpsfParamPoint]
+    sequence: list[PpsfParamPoint]
     use_sequence: bool
 
 
 class PpsfFsmEffect(BaseModel):
-    parameters: List[PpsfParameter]
+    parameters: list[PpsfParameter]
     plugin_id: int = Field(alias="plugin-id")
     plugin_name: str = Field(alias="plugin-name")
     power_state: bool = Field(alias="power-state")
@@ -112,15 +111,15 @@ class PpsfFsmEffect(BaseModel):
 
 
 class PpsfEventTrack(BaseModel):
-    curve_points: List[PpsfCurvePoint] = Field(alias="curve-points")
-    fsm_effects: Optional[List[PpsfFsmEffect]] = Field(alias="fsm-effects")
+    curve_points: list[PpsfCurvePoint] = Field(alias="curve-points")
+    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(alias="fsm-effects")
     height: int
     index: int
     mute_solo: Optional[int] = Field(alias="mute-solo")
-    notes: Optional[List[PpsfNote]] = Field(default_factory=list)
+    notes: Optional[list[PpsfNote]] = Field(default_factory=list)
     nt_envelope_preset_id: Optional[int] = Field(alias="nt-envelope-preset-id")
-    regions: List[PpsfRegion]
-    sub_tracks: List[PpsfSubTrack] = Field(alias="sub-tracks")
+    regions: list[PpsfRegion]
+    sub_tracks: list[PpsfSubTrack] = Field(alias="sub-tracks")
     total_height: int = Field(alias="total-height")
     track_type: int = Field(alias="track-type")
     vertical_scale: int = Field(alias="vertical-scale")
@@ -134,13 +133,13 @@ class PpsfTempoTrack(BaseModel):
 
 
 class PpsfTrackEditor(BaseModel):
-    event_tracks: List[PpsfEventTrack] = Field(alias="event-tracks")
+    event_tracks: list[PpsfEventTrack] = Field(alias="event-tracks")
     header_width: int = Field(alias="header-width")
     height: int
     horizontal_scale: float = Field(alias="horizontal-scale")
     horizontal_scroll: int = Field(alias="horizontal-scroll")
     tempo_track: PpsfTempoTrack = Field(alias="tempo-track")
-    user_markers: Optional[List] = Field(alias="user-markers", default_factory=list)
+    user_markers: Optional[list] = Field(alias="user-markers", default_factory=list)
     width: int
     x: int
     y: int
@@ -148,20 +147,20 @@ class PpsfTrackEditor(BaseModel):
 
 class PpsfLoopPoint(BaseModel):
     begin: int
-    enable: Optional[bool]
-    enabled: Optional[bool]
+    enable: Optional[bool] = None
+    enabled: Optional[bool] = None
     end: int
 
 
 class PpsfMetronome(BaseModel):
-    enable: Optional[bool]
-    enabled: Optional[bool]
+    enable: Optional[bool] = None
+    enabled: Optional[bool] = None
     wav: str
 
 
 class PpsfGuiSettings(BaseModel):
-    loop_point: Optional[PpsfLoopPoint]
-    metronome: Optional[PpsfMetronome]
+    loop_point: Optional[PpsfLoopPoint] = None
+    metronome: Optional[PpsfMetronome] = None
     ambient_enabled: Optional[bool] = Field(alias="ambient-enabled")
     file_fullpath: str = Field(alias="file-fullpath")
     playback_position: int = Field(alias="playback-position")
@@ -179,7 +178,7 @@ class PpsfAudioTrackEvent(BaseModel):
     playback_offset_sample: int
     tick_length: int
     tick_pos: int
-    enabled: Optional[bool]
+    enabled: Optional[bool] = None
 
 
 class PpsfMixer(BaseModel):
@@ -191,7 +190,7 @@ class PpsfMixer(BaseModel):
 class PpsfAudioTrackItem(BaseModel):
     block_size: int
     enabled: bool
-    events: List[PpsfAudioTrackEvent]
+    events: list[PpsfAudioTrackEvent]
     input_channel: int
     mixer: PpsfMixer
     name: str
@@ -247,15 +246,15 @@ class PpsfVocaloidTrackEvent(BaseModel):
     velocity: int
     vib_category: int
     vib_offset: int
-    vib_depth: Optional[List[PpsfVibDepthItem]] = None
-    vib_rate: Optional[List[PpsfVibRateItem]] = None
+    vib_depth: Optional[list[PpsfVibDepthItem]] = None
+    vib_rate: Optional[list[PpsfVibRateItem]] = None
 
 
 class PpsfVocaloidTrackItem(BaseModel):
-    events: List[PpsfVocaloidTrackEvent]
+    events: list[PpsfVocaloidTrackEvent]
     mixer: PpsfMixer
     name: str
-    parameters: List[PpsfParameter]
+    parameters: list[PpsfParameter]
     singer: int
 
 
@@ -277,7 +276,7 @@ class PpsfSinger(BaseModel):
 class PpsfEnvelope(BaseModel):
     length: int
     offset: int
-    points: List[PpsfParamPoint]
+    points: list[PpsfParamPoint]
     use_length: bool
 
 
@@ -293,9 +292,9 @@ class PpsfDvlTrackEvent(BaseModel):
     note_off_pit_envelope: PpsfEnvelope
     note_on_pit_envelope: PpsfEnvelope
     portamento_envelope: PpsfEnvelope
-    vib_depth: Optional[PpsfEnvelope]
-    vib_rate: Optional[PpsfEnvelope]
-    vib_setting_id: Optional[int]
+    vib_depth: Optional[PpsfEnvelope] = None
+    vib_rate: Optional[PpsfEnvelope] = None
+    vib_setting_id: Optional[int] = None
     portamento_type: int
     pos: int
     protected: bool
@@ -306,26 +305,26 @@ class PpsfDvlTrackEvent(BaseModel):
 
 class PpsfDvlTrackItem(BaseModel):
     enabled: bool
-    events: List[PpsfDvlTrackEvent]
+    events: list[PpsfDvlTrackEvent]
     mixer: PpsfMixer
     name: str
-    parameters: List[PpsfSeqParam]
+    parameters: list[PpsfSeqParam]
     plugin_output_bus_index: int
     singer: PpsfSinger
 
 
 class PpsfInnerProject(BaseModel):
-    audio_track: List[PpsfAudioTrackItem]
+    audio_track: list[PpsfAudioTrackItem]
     block_size: int
-    loop_point: Optional[PpsfLoopPoint]
+    loop_point: Optional[PpsfLoopPoint] = None
     meter: PpsfConst[PpsfMeter]
-    metronome: Optional[PpsfMetronome]
+    metronome: Optional[PpsfMetronome] = None
     name: str
     sampling_rate: int
-    singer_table: List[PpsfSingerTableItem]
+    singer_table: list[PpsfSingerTableItem]
     tempo: PpsfConst[int]
-    vocaloid_track: List[PpsfVocaloidTrackItem]
-    dvl_track: Optional[List[PpsfDvlTrackItem]]
+    vocaloid_track: list[PpsfVocaloidTrackItem]
+    dvl_track: Optional[list[PpsfDvlTrackItem]] = None
 
 
 class PpsfRoot(BaseModel):

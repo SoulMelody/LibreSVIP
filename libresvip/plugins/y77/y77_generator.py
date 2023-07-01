@@ -2,8 +2,6 @@ import dataclasses
 
 import pypinyin
 
-import pypinyin
-
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import (
     Note,

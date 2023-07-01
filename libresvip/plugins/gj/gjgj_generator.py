@@ -1,6 +1,5 @@
 import contextlib
 import dataclasses
-from typing import List, Tuple
 
 import mido
 
@@ -64,7 +63,7 @@ class GjgjGenerator:
         )
         return gjgj_project
 
-    def generate_tempos(self, song_tempo_list: List[SongTempo]) -> List[GjgjTempos]:
+    def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[GjgjTempos]:
         self.first_bar_bpm = song_tempo_list[0].bpm
         return [
             GjgjTempos(
@@ -75,8 +74,8 @@ class GjgjGenerator:
         ]
 
     def generate_time_signatures(
-        self, time_signature_list: List[TimeSignature]
-    ) -> List[GjgjTimeSignature]:
+        self, time_signature_list: list[TimeSignature]
+    ) -> list[GjgjTimeSignature]:
         self.first_bar_length = time_signature_list[0].bar_length
         gjgj_time_signatures = []
         prev_ticks = 0
@@ -94,8 +93,8 @@ class GjgjGenerator:
         return gjgj_time_signatures
 
     def generate_tracks(
-        self, track_list: List[Track]
-    ) -> Tuple[List[GjgjSingingTrack], List[GjgjInstrumentalTrack]]:
+        self, track_list: list[Track]
+    ) -> tuple[list[GjgjSingingTrack], list[GjgjInstrumentalTrack]]:
         singing_tracks = []
         instrumental_tracks = []
         track_index = 1
@@ -141,7 +140,7 @@ class GjgjGenerator:
         else:
             return round(position / TICKS_IN_BEAT * 60 / self.first_bar_bpm * 10000000)
 
-    def generate_notes(self, note_list: List[Note]) -> List[GjgjBeatItems]:
+    def generate_notes(self, note_list: list[Note]) -> list[GjgjBeatItems]:
         notes = []
         pinyin_list = get_pinyin_series([note.lyric for note in note_list])
         for note, pinyin in zip(note_list, pinyin_list):
@@ -239,7 +238,7 @@ class GjgjGenerator:
             ModifyRanges=modify_ranges,
         )
 
-    def generate_volume(self, volume_curve: ParamCurve) -> List[GjgjVolumeMap]:
+    def generate_volume(self, volume_curve: ParamCurve) -> list[GjgjVolumeMap]:
         volume_curve = volume_curve.reduce_sample_rate(self.options.down_sample)
         volume_map = []
         ticks_buffer = []

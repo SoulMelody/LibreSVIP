@@ -1,5 +1,3 @@
-from typing import List
-
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import Note, ParamCurve, Params, Point, SingingTrack
 from libresvip.utils import find_index, find_last_index
@@ -12,18 +10,18 @@ def param_curve_override_with(
     end: int,
     termination: int = 0,
 ) -> None:
-    inserted_points: List[Point] = []
+    inserted_points: list[Point] = []
     main_left_index = find_last_index(
-        main_curve.points.__root__, lambda point: point.position <= start
+        main_curve.points.root, lambda point: point.position <= start
     )
     main_right_index = find_index(
-        main_curve.points.__root__, lambda point: point.position > end
+        main_curve.points.root, lambda point: point.position > end
     )
     override_left_index = find_last_index(
-        override_curve.points.__root__, lambda point: point.position <= start
+        override_curve.points.root, lambda point: point.position <= start
     )
     override_right_index = find_index(
-        override_curve.points.__root__, lambda point: point.position > end
+        override_curve.points.root, lambda point: point.position > end
     )
     main_left_defined = (
         main_curve.points[main_left_index].position != termination
@@ -119,15 +117,15 @@ def param_curve_override_with(
                 ),
             )
         )
-    main_curve.points.__root__ = [
+    main_curve.points.root = [
         point
-        for i, point in enumerate(main_curve.points.__root__)
+        for i, point in enumerate(main_curve.points.root)
         if main_left_index < i < main_right_index
     ]
-    main_curve.points.__root__ = (
-        main_curve.points.__root__[:main_left_index]
+    main_curve.points.root = (
+        main_curve.points.root[:main_left_index]
         + inserted_points
-        + main_curve.points.__root__[main_left_index:]
+        + main_curve.points.root[main_left_index:]
     )
 
 
@@ -144,7 +142,7 @@ def params_override_with(
 
 
 def track_override_with(
-    track: SingingTrack, note_list: List[Note], params: Params, first_bar_tick: int
+    track: SingingTrack, note_list: list[Note], params: Params, first_bar_tick: int
 ) -> None:
     main_note_list = track.note_list
     interval = RangeInterval()

@@ -2,7 +2,7 @@ __package__ = "libresvip.plugins.mxml"
 
 import pathlib
 
-from xsdata_pydantic.bindings import XmlParser
+from xsdata.formats.dataclass.parsers.xml import XmlParser
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project

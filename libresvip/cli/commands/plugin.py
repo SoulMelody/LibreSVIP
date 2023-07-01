@@ -97,23 +97,25 @@ def print_plugin_details(plugin):
         typer.echo(
             _("This plugin supports the following {} conversion options:").format(op)
         )
-        option: ModelField
-        for option in options.__fields__.values():
-            if issubclass(option.type_, (bool, int, float, str, enum.Enum)):
+        field_info: ModelField
+        for field_info in options.model_fields.values():
+            if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(
                     "\n  "
                     + "{} = {}    {}".format(
-                        _(option.name),
-                        option.type_.__name__,
-                        _(option.field_info.description),
+                        _(field_info.title),
+                        field_info.annotation.__name__,
+                        _(field_info.description),
                     )
                 )
-                if option.default is not None:
-                    typer.echo(f"\t{{}}{option.default}".format(_("Default: ")))
-                if issubclass(option.type_, enum.Enum):
+                if field_info.default is not None:
+                    typer.echo(f"\t{{}}{field_info.default}".format(_("Default: ")))
+                if issubclass(field_info.annotation, enum.Enum):
                     typer.echo("  " + _("Available values:"))
-                    annotations = get_type_hints(option.type_, include_extras=True)
-                    for enum_item in option.type_:
+                    annotations = get_type_hints(
+                        field_info.annotation, include_extras=True
+                    )
+                    for enum_item in field_info.annotation:
                         if enum_item.name in annotations:
                             annotated_args = get_args(annotations[enum_item.name])
                             if len(annotated_args) == 2:
@@ -123,20 +125,20 @@ def print_plugin_details(plugin):
                                         enum_item.value, _(enum_field.title)
                                     )
                                 )
-            elif issubclass(option.type_, BaseComplexModel):
+            elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(
                     "\n  "
                     + "{} = {}    {}".format(
-                        _(option.name),
-                        option.type_.__name__,
-                        _(option.field_info.description),
+                        _(field_info.title),
+                        field_info.annotation.__name__,
+                        _(field_info.description),
                     )
                 )
                 typer.echo("  " + _("Available fields:"))
-                for field in option.type_.__fields__.values():
-                    if hasattr(field.type_, "__name__"):
-                        typer.echo(f"    {field.name} = {field.type_.__name__}")
+                for field in field_info.annotation.model_fields.values():
+                    if hasattr(field.annotation, "__name__"):
+                        typer.echo(f"    {field.title} = {field.annotation.__name__}")
                     else:
-                        typer.echo(f"    {field.name} = {get_args(field.type_)}")
-                typer.echo("\t" + _("Default: ") + option.type_.default_repr())
+                        typer.echo(f"    {field.title} = {get_args(field.annotation)}")
+                typer.echo("\t" + _("Default: ") + field_info.annotation.default_repr())
     typer.echo("\n--------------------------------------------------\n")

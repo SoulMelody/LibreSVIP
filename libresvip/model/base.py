@@ -5,18 +5,15 @@ from types import SimpleNamespace
 from typing import (
     Annotated,
     Any,
-    Generator,
-    List,
     Literal,
     Optional,
     Protocol,
-    Tuple,
     Union,
     runtime_checkable,
 )
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, validator
+from pydantic import Field, FieldValidationInfo, SerializationInfo, model_serializer, field_validator
 from typing_extensions import Self
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -26,6 +23,10 @@ try:
     import ujson as json
 except ImportError:
     import json
+
+
+json_loads = json.loads
+json_dumps = json.dumps
 
 
 class BaseModel(PydanticBaseModel):
@@ -47,11 +48,11 @@ class BaseModel(PydanticBaseModel):
             else:
                 raise e
 
-    class Config:
-        json_loads = json.loads
-        json_dumps = json.dumps
-        # Uncomment the following line to enable strict mode
-        # extra = Extra.forbid
+    # class Config:
+    #     json_loads = json.loads
+    #     json_dumps = json.dumps
+    #     # Uncomment the following line to enable strict mode
+    #     # extra = Extra.forbid
 
 
 @runtime_checkable
@@ -89,21 +90,20 @@ class TimeSignature(BaseModel):
 class ParamCurve(BaseModel):
     points: Points = Field(default_factory=Points, alias="PointList")
 
-    @validator("points", pre=True)
-    def load_points(cls, points) -> Points:  # noqa: N805
+    @field_validator("points", mode="before")
+    def load_points(cls, points, _info: FieldValidationInfo) -> Points:  # noqa: N805
         return (
             points
             if isinstance(points, Points)
-            else Points(__root__=[Point(*each) for each in points])
+            else Points(root=[Point(*each) for each in points])
         )
 
-    def _iter(
-        self,
-        *args,
-        **kwargs,
-    ) -> Generator[Tuple[str, Any], None, None]:
-        yield "TotalPointsCount", len(self.points)
-        yield from super()._iter(*args, **kwargs)
+    @model_serializer(mode="wrap")
+    def _serialize(self, handler, info: SerializationInfo):
+        data = handler(self)
+        if info.mode == "json":
+            data["TotalPointsCount"] = len(self.points)
+        return data
 
     def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> Self:
         if interval <= 0:
@@ -159,10 +159,10 @@ class ParamCurve(BaseModel):
             i -= 1
         if not prev_point_added:
             result.append(prev_point)
-        self.points = Points(__root__=result)
+        self.points = Points(root=result)
         return self
 
-    def split_into_segments(self, interrupt_value: int = 0) -> List[List[Point]]:
+    def split_into_segments(self, interrupt_value: int = 0) -> list[list[Point]]:
         segments = []
         if len(self.points) == 0:
             return segments
@@ -262,7 +262,7 @@ class SingingTrack(TrackMixin):
     type_: Literal["Singing"] = Field(default=TrackType.SINGING, alias="Type")
     ai_singer_name: str = Field(default="", alias="AISingerName")
     reverb_preset: str = Field(default="", alias="ReverbPreset")
-    note_list: List[Note] = Field(default_factory=list, alias="NoteList")
+    note_list: list[Note] = Field(default_factory=list, alias="NoteList")
     edited_params: Params = Field(default_factory=Params, alias="EditedParams")
 
 
@@ -277,10 +277,10 @@ Track = Annotated[Union[SingingTrack, InstrumentalTrack], Field(discriminator="t
 
 class Project(BaseModel):
     version: str = Field(default="", alias="Version")
-    song_tempo_list: List[SongTempo] = Field(
+    song_tempo_list: list[SongTempo] = Field(
         default_factory=list, alias="SongTempoList"
     )
-    time_signature_list: List[TimeSignature] = Field(
+    time_signature_list: list[TimeSignature] = Field(
         default_factory=list, alias="TimeSignatureList"
     )
-    track_list: List[Track] = Field(default_factory=list, alias="TrackList")
+    track_list: list[Track] = Field(default_factory=list, alias="TrackList")

@@ -1,6 +1,5 @@
 import dataclasses
 import os
-from typing import List
 
 from pydub.utils import db_to_float, ratio_to_db
 
@@ -51,15 +50,14 @@ class SynthVEditorParser:
                     s5p_project.instrumental, s5p_project.mixer
                 )
             )
-        project = Project(
+        return Project(
             TimeSignatureList=self.parse_time_signatures(s5p_project.meter),
             SongTempoList=tempo_list,
             TrackList=track_list,
         )
-        return project
 
     @staticmethod
-    def parse_time_signatures(meter: List[S5pMeterItem]) -> List[TimeSignature]:
+    def parse_time_signatures(meter: list[S5pMeterItem]) -> list[TimeSignature]:
         time_signatures = [
             TimeSignature(
                 BarIndex=item.measure,
@@ -75,7 +73,7 @@ class SynthVEditorParser:
         return time_signatures
 
     @staticmethod
-    def parse_tempos(tempo: List[S5pTempoItem]) -> List[SongTempo]:
+    def parse_tempos(tempo: list[S5pTempoItem]) -> list[SongTempo]:
         tempos = [
             SongTempo(
                 Position=item.position / TICK_RATE,
@@ -92,22 +90,20 @@ class SynthVEditorParser:
             )
         return tempos
 
-    def parse_singing_tracks(self, tracks: List[S5pTrack]) -> List[Track]:
-        track_list = []
-        for i, track in enumerate(tracks):
-            track_list.append(
-                SingingTrack(
-                    Mute=track.mixer.muted,
-                    Solo=track.mixer.solo,
-                    Volume=self.parse_volume(track.mixer.gain_decibel),
-                    Pan=track.mixer.pan,
-                    AISingerName=track.db_name or "",
-                    Title=track.name or f"Track {i + 1}",
-                    NoteList=self.parse_notes(track.notes),
-                    EditedParams=self.parse_params(track.parameters),
-                )
+    def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[Track]:
+        return [
+            SingingTrack(
+                Mute=track.mixer.muted,
+                Solo=track.mixer.solo,
+                Volume=self.parse_volume(track.mixer.gain_decibel),
+                Pan=track.mixer.pan,
+                AISingerName=track.db_name or "",
+                Title=track.name or f"Track {i + 1}",
+                NoteList=self.parse_notes(track.notes),
+                EditedParams=self.parse_params(track.parameters),
             )
-        return track_list
+            for i, track in enumerate(tracks)
+        ]
 
     @staticmethod
     def parse_volume(gain: float) -> float:
@@ -127,7 +123,7 @@ class SynthVEditorParser:
             Offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
         )
 
-    def parse_notes(self, notes: List[S5pNote]) -> List[Note]:
+    def parse_notes(self, notes: list[S5pNote]) -> list[Note]:
         note_list = []
         for s5p_note in notes:
             note = Note(
@@ -148,7 +144,7 @@ class SynthVEditorParser:
     def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> ParamCurve:
         return ParamCurve(
             PointList=Points(
-                __root__=[
+                root=[
                     Point(
                         x=round(point.offset * (interval / TICK_RATE)),
                         y=round(point.value / 100),

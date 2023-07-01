@@ -1,10 +1,9 @@
 import enum
 import pathlib
-import sys
 import traceback
 from typing import get_args, get_type_hints
 
-from pydantic.color import Color
+from pydantic_extra_types.color import Color
 
 from libresvip.extension.manager import plugin_locator, plugin_manager, plugin_registry
 from libresvip.model.base import BaseComplexModel
@@ -34,31 +33,30 @@ def messages_iterator():
                     getattr(plugin_info.plugin_object, method)
                 )["options"]
                 conv_fields = []
-                for option in option_class.__fields__.values():
-                    if issubclass(option.type_, bool):
+                for option_key, field_info in option_class.model_fields.items():
+                    if issubclass(field_info.annotation, bool):
                         field_metadata = {
-                            "title": option.field_info.title,
+                            "title": field_info.title,
                         }
-                        if option.field_info.description:
-                            field_metadata[
-                                "description"
-                            ] = option.field_info.description
+                        if field_info.description:
+                            field_metadata["description"] = field_info.description
                         conv_fields.append(field_metadata)
                     elif issubclass(
-                        option.type_, (str, int, float, Color, BaseComplexModel)
+                        field_info.annotation,
+                        (str, int, float, Color, BaseComplexModel),
                     ):
                         field_metadata = {
-                            "title": option.field_info.title,
+                            "title": field_info.title,
                         }
-                        if option.field_info.description:
-                            field_metadata[
-                                "description"
-                            ] = option.field_info.description
+                        if field_info.description:
+                            field_metadata["description"] = field_info.description
                         conv_fields.append(field_metadata)
-                    elif issubclass(option.type_, enum.Enum):
-                        annotations = get_type_hints(option.type_, include_extras=True)
+                    elif issubclass(field_info.annotation, enum.Enum):
+                        annotations = get_type_hints(
+                            field_info.annotation, include_extras=True
+                        )
                         choices = []
-                        for enum_item in option.type_:
+                        for enum_item in field_info.annotation:
                             if enum_item.name in annotations:
                                 annotated_args = list(
                                     get_args(annotations[enum_item.name])
@@ -75,13 +73,11 @@ def messages_iterator():
                             else:
                                 print(enum_item.name)
                         field_metadata = {
-                            "title": option.field_info.title,
+                            "title": field_info.title,
                             "choices": choices,
                         }
-                        if option.field_info.description:
-                            field_metadata[
-                                "description"
-                            ] = option.field_info.description
+                        if field_info.description:
+                            field_metadata["description"] = field_info.description
                         conv_fields.append(field_metadata)
                 plugin_metadata[method] = conv_fields
             yield plugin_suffix, plugin_metadata, info_path

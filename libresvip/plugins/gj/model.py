@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 
-from pydantic import Field, HttpUrl
+from pydantic import Field
 
 from libresvip.model.base import BaseModel
 
@@ -51,16 +51,16 @@ class GjgjSingerInfo(BaseModel):
     template_id: Optional[str] = Field("", alias="TemplateID")
     sex: Optional[str] = Field("", alias="Sex")
     age: Optional[int] = Field(100, alias="Age")
-    color: Optional[int] = Field(alias="Color")
-    user_id: Optional[str] = Field(alias="UserID")
-    up_pitch: Optional[int] = Field(alias="UpPitch")
-    low_pitch: Optional[int] = Field(alias="LowPitch")
-    recommend_up_pitch: Optional[int] = Field(alias="RecommandUpPitch")
-    recommend_low_pitch: Optional[int] = Field(alias="RecommandLowPitch")
-    image: Optional[HttpUrl]
-    image_url: Optional[HttpUrl]
-    full_avatar: Optional[HttpUrl]
-    synthesize_file: Optional[HttpUrl] = Field(alias="synthetize_file")
+    color: Optional[int] = Field(0, alias="Color")
+    user_id: Optional[str] = Field("", alias="UserID")
+    up_pitch: Optional[int] = Field(0, alias="UpPitch")
+    low_pitch: Optional[int] = Field(0, alias="LowPitch")
+    recommend_up_pitch: Optional[int] = Field(0, alias="RecommandUpPitch")
+    recommend_low_pitch: Optional[int] = Field(0, alias="RecommandLowPitch")
+    image: Optional[str] = ""
+    image_url: Optional[str] = ""
+    full_avatar: Optional[str] = ""
+    synthesize_file: Optional[str] = Field("", alias="synthetize_file")
 
 
 class GjgjTempos(BaseModel):
@@ -82,14 +82,14 @@ class GjgjPoint(BaseModel):
 
 
 class GjgjTone(BaseModel):
-    modifies: List[GjgjPoint] = Field(alias="Modifys")
-    modify_ranges: List[GjgjPoint] = Field(default_factory=list, alias="ModifyRanges")
+    modifies: list[GjgjPoint] = Field(default_factory=list, alias="Modifys")
+    modify_ranges: list[GjgjPoint] = Field(default_factory=list, alias="ModifyRanges")
 
 
 class GjgjTempoMap(BaseModel):
     ticks_per_quarter_note: Optional[int] = Field(alias="TicksPerQuarterNote")
-    tempos: List[GjgjTempos] = Field(default_factory=list, alias="Tempos")
-    time_signature: List[GjgjTimeSignature] = Field(
+    tempos: list[GjgjTempos] = Field(default_factory=list, alias="Tempos")
+    time_signature: list[GjgjTimeSignature] = Field(
         default_factory=list, alias="TimeSignature"
     )
 
@@ -103,9 +103,9 @@ class GjgjSingingTrack(BaseModel):
     id: Optional[str] = Field(alias="ID")
     type_: Optional[int] = Field(0, alias="Type")
     name: Optional[str] = Field(alias="Name")
-    beat_items: List[GjgjBeatItems] = Field(default_factory=list, alias="BeatItems")
-    tone: Optional[GjgjTone] = Field(alias="Tone")
-    volume_map: List[GjgjVolumeMap] = Field(default_factory=list, alias="VolumeMap")
+    beat_items: list[GjgjBeatItems] = Field(default_factory=list, alias="BeatItems")
+    tone: Optional[GjgjTone] = Field(default_factory=GjgjTone, alias="Tone")
+    volume_map: list[GjgjVolumeMap] = Field(default_factory=list, alias="VolumeMap")
     singer_info: Optional[GjgjSingerInfo] = Field(
         default_factory=GjgjSingerInfo, alias="SingerInfo"
     )
@@ -129,7 +129,7 @@ class GjgjInstrumentalTrack(BaseModel):
 
 class GjgjMidiControl(BaseModel):
     control_num: Optional[int] = Field(alias="ControlNum")
-    volume_map: List[GjgjVolumeMap] = Field(default_factory=list, alias="VolumeMap")
+    volume_map: list[GjgjVolumeMap] = Field(default_factory=list, alias="VolumeMap")
 
 
 class GjgjMidiTrack(BaseModel):
@@ -139,19 +139,18 @@ class GjgjMidiTrack(BaseModel):
     bank: Optional[int] = Field(alias="Bank")
     program: Optional[int] = Field(alias="Program")
     channel: Optional[int] = Field(alias="Channel")
-    beat_items: List[GjgjBeatItems] = Field(default_factory=list, alias="BeatItems")
-    control_map: List[GjgjMidiControl] = Field(default_factory=list, alias="ControlMap")
+    beat_items: list[GjgjBeatItems] = Field(default_factory=list, alias="BeatItems")
+    control_map: list[GjgjMidiControl] = Field(default_factory=list, alias="ControlMap")
 
 
 class GjgjProject(BaseModel):
-
     gjgj_version: Optional[int] = Field(alias="gjgjVersion")
     project_setting: Optional[GjgjProjectSetting] = Field(
         default_factory=GjgjProjectSetting, alias="ProjectSetting"
     )
-    accompaniments: List[GjgjInstrumentalTrack] = Field(
+    accompaniments: list[GjgjInstrumentalTrack] = Field(
         default_factory=list, alias="Accompaniments"
     )
-    tracks: List[GjgjSingingTrack] = Field(default_factory=list, alias="Tracks")
-    midi_tracks: List[GjgjMidiTrack] = Field(default_factory=list, alias="MIDITracks")
+    tracks: list[GjgjSingingTrack] = Field(default_factory=list, alias="Tracks")
+    midi_tracks: list[GjgjMidiTrack] = Field(default_factory=list, alias="MIDITracks")
     tempo_map: Optional[GjgjTempoMap] = Field(alias="TempoMap")

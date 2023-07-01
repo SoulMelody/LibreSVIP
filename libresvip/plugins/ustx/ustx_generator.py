@@ -1,6 +1,5 @@
 import dataclasses
 import math
-from typing import List
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -51,12 +50,12 @@ class UstxGenerator:
             ))
 
         ustx_project = USTXProject(
+            ustx_version="0.6",
             tempos=tempos,
             bpm=tempos[0].bpm,
             time_signatures=ustx_time_signatures,
             voice_parts=[],
             wave_parts=[],
-            ustx_version="0.6"
         )
 
         track_no = 0
@@ -153,12 +152,12 @@ class UstxGenerator:
                     PitchPoint(x=0, y=0, shape="io")
                 ]
             ),
-            vibrato=UVibrato(
+            vibrato=UVibrato.construct(
                 length=0,
                 period=175,
                 depth=25,
-                _in=10,
-                _out=10,
+                in_value=10,
+                out=10,
                 shift=0,
                 drift=0
             )

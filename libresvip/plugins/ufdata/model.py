@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import Field
 
@@ -13,8 +13,8 @@ class UFNotes(BaseModel):
 
 
 class UFPitch(BaseModel):
-    ticks: List[int] = Field(default_factory=list)
-    values: List[float] = Field(default_factory=list)
+    ticks: list[int] = Field(default_factory=list)
+    values: list[float] = Field(default_factory=list)
     is_absolute: bool = Field(alias="isAbsolute")
 
 
@@ -31,17 +31,17 @@ class UFTimeSignatures(BaseModel):
 
 class UFTracks(BaseModel):
     name: str
-    notes: List[UFNotes] = Field(default_factory=list)
-    pitch: Optional[UFPitch]
+    notes: list[UFNotes] = Field(default_factory=list)
+    pitch: Optional[UFPitch] = None
 
 
 class UFProject(BaseModel):
     name: str = ""
-    tracks: List[UFTracks] = Field(default_factory=list)
-    time_signatures: List[UFTimeSignatures] = Field(
+    tracks: list[UFTracks] = Field(default_factory=list)
+    time_signatures: list[UFTimeSignatures] = Field(
         default_factory=list, alias="timeSignatures"
     )
-    tempos: List[UFTempos] = Field(default_factory=list)
+    tempos: list[UFTempos] = Field(default_factory=list)
     measure_prefix: int = Field(alias="measurePrefix")
 
 

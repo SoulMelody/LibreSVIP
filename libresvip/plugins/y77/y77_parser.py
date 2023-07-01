@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 import pypinyin
 
@@ -29,10 +28,10 @@ class Y77Parser:
         )
         return project
 
-    def parse_tempos(self, bpm: float) -> List[SongTempo]:
+    def parse_tempos(self, bpm: float) -> list[SongTempo]:
         return [SongTempo(BPM=bpm, Position=0)]
 
-    def parse_time_signatures(self, y77_project: Y77Project) -> List[TimeSignature]:
+    def parse_time_signatures(self, y77_project: Y77Project) -> list[TimeSignature]:
         return [
             TimeSignature(
                 Numerator=y77_project.bbar,
@@ -40,7 +39,7 @@ class Y77Parser:
             )
         ]
 
-    def parse_tracks(self, notes: List[Y77Note]) -> List[SingingTrack]:
+    def parse_tracks(self, notes: list[Y77Note]) -> list[SingingTrack]:
         return [
             SingingTrack(
                 AISingerName="元七七",
@@ -49,7 +48,7 @@ class Y77Parser:
             )
         ]
 
-    def parse_notes(self, notes: List[Y77Note]) -> List[Note]:
+    def parse_notes(self, notes: list[Y77Note]) -> list[Note]:
         note_list = []
         for y77_note in notes:
             note = Note(
@@ -66,7 +65,7 @@ class Y77Parser:
             note_list.append(note)
         return note_list
 
-    def parse_params(self, notes: List[Y77Note]) -> Params:
+    def parse_params(self, notes: list[Y77Note]) -> Params:
         params = Params()
         for y77_note in notes:
             if len(y77_note.pit):

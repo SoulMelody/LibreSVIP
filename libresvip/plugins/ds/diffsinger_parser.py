@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
@@ -34,13 +33,13 @@ class DiffSingerParser:
             TimeSignatureList=[TimeSignature(BarIndex=0, Numerator=4, Denominator=4)],
             TrackList=[
                 SingingTrack(
-                    NoteList=self.parse_notes(ds_project.__root__),
-                    EditedParams=Params(Pitch=self.parse_pitch(ds_project.__root__)),
+                    NoteList=self.parse_notes(ds_project.root),
+                    EditedParams=Params(Pitch=self.parse_pitch(ds_project.root)),
                 )
             ],
         )
 
-    def parse_notes(self, ds_items: List[DsItem]) -> List[Note]:
+    def parse_notes(self, ds_items: list[DsItem]) -> list[Note]:
         opencpop_dict = get_opencpop_dict(self.options.dict_name, g2p=False)
         all_notes = []
         for ds_item in ds_items:
@@ -71,8 +70,8 @@ class DiffSingerParser:
                         if not len(notes):
                             notes.append(
                                 Note(
-                                    StartPos=cur_time,
-                                    Length=phone_dur,
+                                    StartPos=int(cur_time),
+                                    Length=int(phone_dur),
                                     KeyNumber=midi_key,
                                     Pronunciation=phone,
                                     HeadTag="V" if prev_is_breath else None,
@@ -95,8 +94,8 @@ class DiffSingerParser:
                             if phone_complete or phone_str is None:
                                 notes.append(
                                     Note(
-                                        StartPos=cur_time,
-                                        Length=phone_dur,
+                                        StartPos=int(cur_time),
+                                        Length=int(phone_dur),
                                         KeyNumber=midi_key,
                                         Pronunciation=phone,
                                         HeadTag="V" if prev_is_breath else None,
@@ -105,7 +104,7 @@ class DiffSingerParser:
                                 prev_is_breath = False
                                 phone_complete = False
                             else:
-                                notes[-1].length += phone_dur
+                                notes[-1].length += int(phone_dur)
                                 notes[-1].pronunciation += " " + phone
                     else:
                         phone_str = notes[-1].pronunciation
@@ -121,8 +120,8 @@ class DiffSingerParser:
                                 )
                             notes.append(
                                 Note(
-                                    StartPos=cur_time,
-                                    Length=phone_dur,
+                                    StartPos=int(cur_time),
+                                    Length=int(phone_dur),
                                     KeyNumber=midi_key,
                                     Lyric="-",
                                 )
@@ -141,22 +140,25 @@ class DiffSingerParser:
             all_notes.extend(notes)
         return all_notes
 
-    def parse_pitch(self, ds_items: List[DsItem]) -> ParamCurve:
-        points = Points(__root__=[])
+    def parse_pitch(self, ds_items: list[DsItem]) -> ParamCurve:
+        points = Points(root=[])
         points.append(Point.start_point())
         for ds_item in ds_items:
             f0_timestep = ds_item.f0_timestep
             points.append(
                 Point(
-                    self.synchronizer.get_actual_ticks_from_secs(ds_item.offset) + 1920,
+                    round(self.synchronizer.get_actual_ticks_from_secs(ds_item.offset))
+                    + 1920,
                     -100,
                 )
             )
             points.extend(
                 [
                     Point(
-                        self.synchronizer.get_actual_ticks_from_secs(
-                            ds_item.offset + f0_timestep * i
+                        round(
+                            self.synchronizer.get_actual_ticks_from_secs(
+                                ds_item.offset + f0_timestep * i
+                            )
                         )
                         + 1920,
                         round(hz2midi(float(f0)) * 100),
@@ -166,8 +168,10 @@ class DiffSingerParser:
             )
             points.append(
                 Point(
-                    self.synchronizer.get_actual_ticks_from_secs(
-                        ds_item.offset + f0_timestep * (len(ds_item.f0_seq) - 1)
+                    round(
+                        self.synchronizer.get_actual_ticks_from_secs(
+                            ds_item.offset + f0_timestep * (len(ds_item.f0_seq) - 1)
+                        )
                     )
                     + 1920,
                     -100,

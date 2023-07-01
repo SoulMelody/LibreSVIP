@@ -1,11 +1,10 @@
 from operator import attrgetter
-from typing import List
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import Note
 
 
-def has_overlap(notes: List[Note]) -> bool:
+def has_overlap(notes: list[Note]) -> bool:
     if len(notes) < 2:
         return False
     notes.sort(key=attrgetter("start_pos"))

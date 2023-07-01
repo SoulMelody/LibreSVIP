@@ -1,8 +1,7 @@
-from dataclasses import field
+from dataclasses import dataclass, field
 from decimal import Decimal
-from typing import List, Optional, Union
+from typing import Optional, Union
 
-from pydantic.dataclasses import dataclass
 from xsdata.models.datatype import XmlTime
 
 
@@ -384,7 +383,7 @@ class Groups:
             "type": "Attribute",
         },
     )
-    group: List[Group] = field(
+    group: list[Group] = field(
         default_factory=list,
         metadata={
             "name": "Group",
@@ -423,7 +422,7 @@ class Score:
             "type": "Element",
         },
     )
-    dynamics: List[Dynamics] = field(
+    dynamics: list[Dynamics] = field(
         default_factory=list,
         metadata={
             "name": "Dynamics",
@@ -431,7 +430,7 @@ class Score:
             "sequential": True,
         },
     )
-    note: List[Note] = field(
+    note: list[Note] = field(
         default_factory=list,
         metadata={
             "name": "Note",
@@ -546,7 +545,7 @@ class TalkEditor:
 
 @dataclass
 class Tempo:
-    sound: List[Sound] = field(
+    sound: list[Sound] = field(
         default_factory=list,
         metadata={
             "name": "Sound",
@@ -589,7 +588,7 @@ class Parameter:
             "type": "Attribute",
         },
     )
-    data: List[Union[Data, float, Decimal, int]] = field(
+    data: list[Union[Data, float, Decimal, int]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -881,7 +880,7 @@ class Direction:
             "required": True,
         },
     )
-    component: List[Component] = field(
+    component: list[Component] = field(
         default_factory=list,
         metadata={
             "name": "Component",
@@ -893,7 +892,7 @@ class Direction:
 
 @dataclass
 class Phonemes:
-    phoneme: List[Phoneme] = field(
+    phoneme: list[Phoneme] = field(
         default_factory=list,
         metadata={
             "name": "Phoneme",
@@ -948,7 +947,7 @@ class Unit(SongUnit, TalkUnit, AudioUnit):
 
 @dataclass
 class Units:
-    unit: List[Unit] = field(
+    unit: list[Unit] = field(
         default_factory=list,
         metadata={
             "name": "Unit",

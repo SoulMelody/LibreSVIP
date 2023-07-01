@@ -1,7 +1,6 @@
-from typing import Generic, List, NamedTuple, TypeVar
+from typing import Generic, NamedTuple, TypeVar
 
-from pydantic import Field  # , root_validator, model_serializer
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, Field, model_serializer, root_validator
 from typing_extensions import Self
 
 PointType = TypeVar("PointType")
@@ -20,72 +19,70 @@ class Point(NamedTuple):
         return cls(1073741823, value)
 
 
-class PointList(GenericModel, Generic[PointType]):
-    __root__: List[PointType] = Field(default_factory=list)
-    # First attempt for pydantic v2
-    """
+class PointList(BaseModel, Generic[PointType]):
+    root: list[PointType] = Field(default_factory=list)
+
     @root_validator(pre=True)
     @classmethod
     def populate_root(cls, values):
-        return {'root': values}
+        return {"root": values} if isinstance(values, list) else values
 
-    @model_serializer(mode='wrap')
+    @model_serializer(mode="wrap")
     def _serialize(self, handler, info):
         data = handler(self)
-        return data['root'] if info.mode == 'json' else data
+        return data["root"] if info.mode == "json" and isinstance(data, dict) else data
 
     @classmethod
     def model_modify_json_schema(cls, json_schema):
-        return json_schema['properties']['root']
-    """
+        return json_schema["properties"]["root"]
 
     def __iter__(self):
-        return iter(self.__root__)
+        return iter(self.root)
 
     def __len__(self):
-        return len(self.__root__)
+        return len(self.root)
 
     def __getitem__(self, index):
-        return self.__root__[index]
+        return self.root[index]
 
     def __setitem__(self, index, value):
-        self.__root__[index] = value
+        self.root[index] = value
 
     def __delitem__(self, index):
-        del self.__root__[index]
+        del self.root[index]
 
     def __contains__(self, item):
-        return item in self.__root__
+        return item in self.root
 
     def append(self, item):
-        self.__root__.append(item)
+        self.root.append(item)
 
     def insert(self, i, item):
-        self.__root__.insert(i, item)
+        self.root.insert(i, item)
 
     def pop(self, i=-1):
-        return self.__root__.pop(i)
+        return self.root.pop(i)
 
     def remove(self, item):
-        self.__root__.remove(item)
+        self.root.remove(item)
 
     def clear(self):
-        self.__root__.clear()
+        self.root.clear()
 
     def count(self, item):
-        return self.__root__.count(item)
+        return self.root.count(item)
 
     def index(self, item, *args):
-        return self.__root__.index(item, *args)
+        return self.root.index(item, *args)
 
     def reverse(self):
-        self.__root__.reverse()
+        self.root.reverse()
 
     def sort(self, /, *args, **kwds):
-        self.__root__.sort(*args, **kwds)
+        self.root.sort(*args, **kwds)
 
     def extend(self, other):
         if isinstance(other, PointList):
-            self.__root__.extend(other.__root__)
+            self.root.extend(other.root)
         else:
-            self.__root__.extend(other)
+            self.root.extend(other)

@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List, Tuple
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
@@ -11,9 +10,9 @@ from .pitch_slide import PitchSlide
 @dataclasses.dataclass
 class PitchSimulator:
     synchronizer: TimeSynchronizer
-    note_list: List[Note]
+    note_list: list[Note]
     slide: PitchSlide
-    pitch_tags: List[Tuple[float, int]] = dataclasses.field(default_factory=list)
+    pitch_tags: list[tuple[float, int]] = dataclasses.field(default_factory=list)
 
     def __post_init__(self):
         if len(self.note_list) == 0:

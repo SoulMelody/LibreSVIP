@@ -2,7 +2,7 @@ import contextlib
 import functools
 import pathlib
 from types import FunctionType
-from typing import Callable, List, TypeVar
+from typing import Callable, TypeVar
 
 import charset_normalizer
 from setuptools.extern.more_itertools import locate, rlocate
@@ -35,11 +35,11 @@ def read_file(path: pathlib.Path) -> str:
     return to_unicode(content)
 
 
-def find_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
+def find_index(tempo_list: list[T], pred: Callable[[T], bool]) -> int:
     return next(locate(tempo_list, pred), -1)
 
 
-def find_last_index(tempo_list: List[T], pred: Callable[[T], bool]) -> int:
+def find_last_index(tempo_list: list[T], pred: Callable[[T], bool]) -> int:
     return next(rlocate(tempo_list, pred), -1)
 
 

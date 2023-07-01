@@ -2,9 +2,10 @@ __package__ = "libresvip.plugins.vspx"
 import pathlib
 
 import regex as re
-from xsdata.formats.dataclass.serializers.xml import SerializerConfig, default_writer
-from xsdata_pydantic.bindings import XmlParser, XmlSerializer
+from xsdata.formats.dataclass.parsers.xml import XmlParser
+from xsdata.formats.dataclass.serializers.xml import SerializerConfig, XmlSerializer, default_writer
 
+# from xsdata_pydantic.bindings import XmlParser, XmlSerializer
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 

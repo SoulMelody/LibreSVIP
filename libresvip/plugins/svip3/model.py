@@ -1,10 +1,9 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import List, Optional
+from typing import Annotated
 
-from pure_protobuf.dataclasses_ import field, message, optional_field
-from pure_protobuf.types import int32, sint32
-from pure_protobuf.types.google import Any_
+from pure_protobuf.annotations import Field
+from pure_protobuf.message import BaseMessage
 
 
 class Svip3TrackType(IntEnum):
@@ -25,166 +24,177 @@ class Svip3NoteLengthValidateTag(IntEnum):
     TOO_SHORT = 2
 
 
-@message
 @dataclass
-class Svip3LineParamNode:
-    pos: Optional[sint32] = field(1)
-    value: Optional[float] = field(2)
+class Svip3LineParamNode(BaseMessage):
+    pos: Annotated[int, Field(1)] = 0
+    value: Annotated[float, Field(2)] = 0.0
 
 
-@message
 @dataclass
-class Svip3Vibrato:
-    frequency: Optional[float] = field(1)
-    amplitude: Optional[float] = field(2)
-    phase: Optional[float] = field(3)
-    start: Optional[float] = field(4)
-    end: Optional[float] = field(5)
-    attack_x: Optional[float] = field(6)
-    attack_y: Optional[float] = field(7)
-    release_x: Optional[float] = field(8)
-    release_y: Optional[float] = field(9)
+class Svip3Vibrato(BaseMessage):
+    frequency: Annotated[float, Field(1)] = 0.0
+    amplitude: Annotated[float, Field(2)] = 0.0
+    phase: Annotated[float, Field(3)] = 0.0
+    start: Annotated[float, Field(4)] = 0.0
+    end: Annotated[float, Field(5)] = 0.0
+    attack_x: Annotated[float, Field(6)] = 0.0
+    attack_y: Annotated[float, Field(7)] = 0.0
+    release_x: Annotated[float, Field(8)] = 0.0
+    release_y: Annotated[float, Field(9)] = 0.0
 
 
-@message
 @dataclass
-class Svip3Note:
-    start_pos: Optional[int32] = field(1)
-    width_pos: Optional[int32] = field(2)
-    key_index: Optional[int32] = field(3)
-    lyric: Optional[str] = field(4)
-    pronouncing: Optional[str] = field(5)
-    vibrato: Optional[Svip3Vibrato] = optional_field(12)
-    consonant_len: Optional[int32] = field(6, default=0)
-    has_consonant: Optional[bool] = field(7, default=False)
-    user_consonant_len: Optional[int32] = field(8, default=0)
-    sp_len: Optional[int32] = field(9, default=0)
-    sil_len: Optional[int32] = field(10, default=0)
-    length_validate_tag: Optional[int32] = field(11, default=0)
+class Svip3Note(BaseMessage):
+    start_pos: Annotated[int, Field(1)] = 0
+    width_pos: Annotated[int, Field(2)] = 0
+    key_index: Annotated[int, Field(3)] = 0
+    lyric: Annotated[str, Field(4)] = ""
+    pronouncing: Annotated[str, Field(5)] = ""
+    consonant_len: Annotated[int, Field(6)] = 0
+    has_consonant: Annotated[bool, Field(7)] = False
+    user_consonant_len: Annotated[int, Field(8)] = 0
+    sp_len: Annotated[int, Field(9)] = 0
+    sil_len: Annotated[int, Field(10)] = 0
+    length_validate_tag: Annotated[int, Field(11)] = 0
+    vibrato: Annotated[Svip3Vibrato, Field(12)] = field(default_factory=Svip3Vibrato)
+    user_sp_len: Annotated[int, Field(13)] = 0
 
 
-@message
 @dataclass
-class Svip3SingingPattern:
-    name: Optional[str] = field(1)
-    real_dur: Optional[int32] = field(4)
-    play_dur: Optional[int32] = field(6)
-    note_List: Optional[List[Svip3Note]] = field(8)
-    type: Optional[Svip3PatternType] = field(
-        2, default=Svip3PatternType.Singing_Pattern
+class Svip3SingingPattern(BaseMessage):
+    name: Annotated[str, Field(1)] = ""
+    type: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Singing_Pattern
+    real_pos: Annotated[int, Field(3)] = 0
+    real_dur: Annotated[int, Field(4)] = 0
+    play_pos: Annotated[int, Field(5)] = 0
+    play_dur: Annotated[int, Field(6)] = 0
+    is_mute: Annotated[bool, Field(7)] = False
+    note_list: Annotated[list[Svip3Note], Field(8)] = field(default_factory=list)
+    edited_pitch_line: Annotated[list[Svip3LineParamNode], Field(9)] = field(
+        default_factory=list
     )
-    real_pos: Optional[int32] = field(3, default=0)
-    play_pos: Optional[int32] = field(5, default=0)
-    is_mute: Optional[bool] = field(7, default=False)
-    edited_pitch_line: Optional[List[Svip3LineParamNode]] = field(
-        9, default_factory=list
+    edited_volume_line: Annotated[list[Svip3LineParamNode], Field(10)] = field(
+        default_factory=list
     )
-    edited_volume_line: Optional[List[Svip3LineParamNode]] = field(
-        10, default_factory=list
+    edited_power_line: Annotated[list[Svip3LineParamNode], Field(11)] = field(
+        default_factory=list
     )
-    edited_power_line: Optional[List[Svip3LineParamNode]] = field(
-        11, default_factory=list
+    merge_pitch_line: Annotated[list[Svip3LineParamNode], Field(12)] = field(
+        default_factory=list
     )
-    merge_pitch_line: Optional[List[Svip3LineParamNode]] = field(
-        12, default_factory=list
+    merge_power_line: Annotated[list[Svip3LineParamNode], Field(13)] = field(
+        default_factory=list
     )
-    merge_power_line: Optional[List[Svip3LineParamNode]] = field(
-        13, default_factory=list
+    edited_spec_trans_coef_line: Annotated[list[Svip3LineParamNode], Field(14)] = field(
+        default_factory=list
+    )
+    edited_ap_coef_line: Annotated[list[Svip3LineParamNode], Field(15)] = field(
+        default_factory=list
+    )
+    edited_energy_value_line: Annotated[list[Svip3LineParamNode], Field(16)] = field(
+        default_factory=list
+    )
+    merge_energy_value_line: Annotated[list[Svip3LineParamNode], Field(17)] = field(
+        default_factory=list
     )
 
 
-@message
 @dataclass
-class Svip3SingingTrack:
-    volume: Optional[float] = field(1)
-    name: Optional[str] = field(4)
-    color: Optional[str] = field(6)
-    pattern_list: Optional[List[Svip3SingingPattern]] = field(8)
-    ai_singer_id: Optional[str] = field(9)
-    pan: Optional[float] = field(2, default=0.0)
-    mute: Optional[bool] = field(3, default=False)
-    solo: Optional[bool] = field(5, default=False)
-    type: Optional[Svip3TrackType] = field(7, default=Svip3TrackType.Singing_Track)
-    is_reverb_open: Optional[bool] = field(10, default=False)
-    reverb_type: Optional[int32] = field(11, default=0)
-    reverb_db: Optional[float] = field(12, default=0.0)
+class Svip3SingingTrack(BaseMessage):
+    volume: Annotated[float, Field(1)] = 1.0
+    pan: Annotated[float, Field(2)] = 0.0
+    mute: Annotated[bool, Field(3)] = False
+    name: Annotated[str, Field(4)] = ""
+    solo: Annotated[bool, Field(5)] = False
+    color: Annotated[str, Field(6)] = ""
+    type: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Singing_Track
+    pattern_list: Annotated[list[Svip3SingingPattern], Field(8)] = field(
+        default_factory=list
+    )
+    ai_singer_id: Annotated[str, Field(9)] = ""
+    is_reverb_open: Annotated[bool, Field(10)] = False
+    reverb_type: Annotated[int, Field(11)] = 0
+    reverb_db: Annotated[float, Field(12)] = 0.0
 
 
-@message
 @dataclass
-class Svip3BeatSize:
-    numerator: Optional[int32] = field(1)
-    denominator: Optional[int32] = field(2)
+class Svip3BeatSize(BaseMessage):
+    numerator: Annotated[int, Field(1)] = 4
+    denominator: Annotated[int, Field(2)] = 4
 
 
-@message
 @dataclass
-class Svip3Master:
-    volume: Optional[float] = field(1, default=1.0)
+class Svip3Master(BaseMessage):
+    volume: Annotated[float, Field(1)] = 1.0
 
 
-@message
 @dataclass
-class Svip3SongBeat:
-    beat_size: Optional[Svip3BeatSize] = field(2)
-    pos: Optional[int32] = field(1, default=0)
+class Svip3SongBeat(BaseMessage):
+    pos: Annotated[int, Field(1)] = 0
+    beat_size: Annotated[Svip3BeatSize, Field(2)] = field(default_factory=Svip3BeatSize)
 
 
-@message
 @dataclass
-class Svip3SongTempo:
-    tempo: Optional[int32] = field(2)
-    pos: Optional[int32] = field(1, default=0)
+class Svip3SongTempo(BaseMessage):
+    pos: Annotated[int, Field(1)] = 0
+    tempo: Annotated[int, Field(2)] = 0
 
 
-@message
 @dataclass
-class Svip3SongTone:
-    tone: Optional[str] = field(2)
-    pos: Optional[int32] = field(1, default=0)
+class Svip3SongTone(BaseMessage):
+    pos: Annotated[int, Field(1)] = 0
+    tone: Annotated[str, Field(2)] = ""
 
 
-@message
 @dataclass
-class Svip3AudioPattern:
-    name: Optional[str] = field(1)
-    real_pos: Optional[int32] = field(3)
-    real_dur: Optional[int32] = field(4)
-    play_dur: Optional[int32] = field(6)
-    audio_file_path: Optional[str] = field(8)
-    type: Optional[Svip3PatternType] = field(2, default=Svip3PatternType.Audio_Pattern)
-    play_pos: Optional[int32] = optional_field(5)
-    is_mute: Optional[bool] = optional_field(7)
-    rising_falling_tone_: Optional[float] = optional_field(9)
+class Svip3AudioPattern(BaseMessage):
+    name: Annotated[str, Field(1)] = ""
+    type: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Audio_Pattern
+    real_pos: Annotated[int, Field(3)] = 0
+    real_dur: Annotated[int, Field(4)] = 0
+    play_pos: Annotated[int, Field(5)] = 0
+    play_dur: Annotated[int, Field(6)] = 0
+    is_mute: Annotated[bool, Field(7)] = False
+    audio_file_path: Annotated[str, Field(8)] = ""
+    rising_falling_tone: Annotated[float, Field(9)] = 0.0
 
 
-@message
 @dataclass
-class Svip3AudioTrack:
-    volume: Optional[float] = field(1)
-    name: Optional[str] = field(4)
-    color: Optional[str] = field(6)
-    pattern_list: Optional[List[Svip3AudioPattern]] = field(8)
-    pan: Optional[float] = optional_field(2)
-    mute: Optional[bool] = optional_field(3)
-    solo: Optional[bool] = optional_field(5)
-    type: Optional[Svip3TrackType] = field(7, default=Svip3TrackType.Audio_Track)
+class Svip3AudioTrack(BaseMessage):
+    volume: Annotated[float, Field(1)] = 1.0
+    pan: Annotated[float, Field(2)] = 0.0
+    mute: Annotated[bool, Field(3)] = False
+    name: Annotated[str, Field(4)] = ""
+    solo: Annotated[bool, Field(5)] = False
+    color: Annotated[str, Field(6)] = ""
+    type: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Audio_Track
+    pattern_list: Annotated[list[Svip3AudioPattern], Field(8)] = field(
+        default_factory=list
+    )
 
 
-@message
 @dataclass
-class Svip3Project:
-    duration: Optional[int32] = field(3)
-    tempo_list: Optional[List[Svip3SongTempo]] = field(4)
-    beat_list: Optional[List[Svip3SongBeat]] = field(5)
-    track_list: Optional[List[Any_]] = field(6)
-    project_file_path: Optional[str] = field(1, default="")
-    version: Optional[str] = field(2, default="3.0.0")
-    master: Optional[Svip3Master] = field(7, default_factory=Svip3Master)
-    current_tone: Optional[str] = field(8, default="")
-    piano_cells: Optional[int32] = optional_field(9)
-    loop_start: Optional[int32] = optional_field(10)
-    loop_end: Optional[int32] = optional_field(11)
-    is_open_adsorb: Optional[bool] = optional_field(12)
-    params_version: Optional[int32] = optional_field(13)
-    tone_list: Optional[List[Svip3SongTone]] = field(14, default_factory=list)
+class Svip3AnyTrack(BaseMessage):
+    type_url: Annotated[str, Field(1)] = ""
+    value: Annotated[bytes, Field(2)] = b""
+
+
+@dataclass
+class Svip3Project(BaseMessage):
+    project_file_path: Annotated[str, Field(1)] = ""
+    version: Annotated[str, Field(2)] = "3.0.0"
+    duration: Annotated[int, Field(3)] = 0
+    tempo_list: Annotated[list[Svip3SongTempo], Field(4)] = field(default_factory=list)
+    beat_list: Annotated[list[Svip3SongBeat], Field(5)] = field(default_factory=list)
+    track_list: Annotated[list[Svip3AnyTrack], Field(6)] = field(default_factory=list)
+    master: Annotated[Svip3Master, Field(7)] = field(default_factory=Svip3Master)
+    current_tone: Annotated[str, Field(8)] = ""
+    piano_cells: Annotated[int, Field(9)] = 0
+    loop_start: Annotated[int, Field(10)] = 0
+    loop_end: Annotated[int, Field(11)] = 0
+    is_open_adsorb: Annotated[bool, Field(12)] = True
+    params_version: Annotated[int, Field(13)] = 0
+    tone_list: Annotated[list[Svip3SongTone], Field(14)] = field(default_factory=list)
+    is_triplets: Annotated[bool, Field(15)] = False
+    is_loop: Annotated[bool, Field(16)] = False
+    is_last_play: Annotated[bool, Field(17)] = False

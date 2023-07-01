@@ -8,7 +8,8 @@ import warnings
 import zipfile
 from typing import Any, get_args, get_type_hints
 
-from pydantic.color import Color
+from pydantic_core import PydanticUndefined
+from pydantic_extra_types.color import Color
 from qmlease import slot
 from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
 from qtpy.QtGui import QDesktopServices
@@ -16,7 +17,7 @@ from qtpy.QtGui import QDesktopServices
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
-from libresvip.model.base import BaseComplexModel
+from libresvip.model.base import BaseComplexModel, BaseModel
 from libresvip.utils import shorten_error_message
 
 from .model_proxy import ModelProxy
@@ -253,78 +254,84 @@ class TaskManager(QObject):
             self.tasks.update(index, {"error": str(e)})
             return False
 
+    @staticmethod
+    def inspect_fields(option_class: BaseModel) -> list[dict]:
+        fields = []
+        for option_key, field_info in option_class.model_fields.items():
+            default_value = (
+                None if field_info.default is PydanticUndefined else field_info.default
+            )
+            if issubclass(field_info.annotation, bool):
+                fields.append(
+                    {
+                        "type": "bool",
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
+                    }
+                )
+            elif issubclass(
+                field_info.annotation, (str, int, float, Color, BaseComplexModel)
+            ):
+                if issubclass(field_info.annotation, BaseComplexModel):
+                    default_value = field_info.annotation.default_repr()
+                fields.append(
+                    {
+                        "type": "color"
+                        if issubclass(field_info.annotation, Color)
+                        else field_info.annotation.__name__,
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
+                    }
+                )
+            elif issubclass(field_info.annotation, enum.Enum):
+                if default_value is not None:
+                    default_value = default_value.value
+                annotations = get_type_hints(field_info.annotation, include_extras=True)
+                choices = []
+                for enum_item in field_info.annotation:
+                    if enum_item.name in annotations:
+                        annotated_args = list(get_args(annotations[enum_item.name]))
+                        if len(annotated_args) >= 2:
+                            _, enum_field = annotated_args[:2]
+                        else:
+                            continue
+                        choices.append(
+                            {
+                                "value": enum_item.value,
+                                "text": enum_field.title,
+                            }
+                        )
+                    else:
+                        print(enum_item.name)
+                fields.append(
+                    {
+                        "type": "enum",
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
+                        "choices": choices,
+                    }
+                )
+        return fields
+
     @slot(str)
     def set_input_fields(self, input_format: str) -> None:
-        if input_format == self.input_format and self.input_fields:
+        if input_format == self.input_format:
             return
         self.input_format = input_format
         self.input_fields.clear()
         plugin_input = plugin_registry[self.input_format]
         if hasattr(plugin_input.plugin_object, "load"):
             option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
-            input_fields = []
-            for option in option_class.__fields__.values():
-                option_key = option.name
-                if issubclass(option.type_, bool):
-                    input_fields.append(
-                        {
-                            "type": "bool",
-                            "name": option_key,
-                            "title": option.field_info.title,
-                            "description": option.field_info.description or "",
-                            "default": option.default,
-                            "value": option.default,
-                        }
-                    )
-                elif issubclass(
-                    option.type_, (str, int, float, Color, BaseComplexModel)
-                ):
-                    default_value = (
-                        option.type_.default_repr()
-                        if issubclass(option.type_, BaseComplexModel)
-                        else option.default
-                    )
-                    input_fields.append(
-                        {
-                            "type": "color"
-                            if issubclass(option.type_, Color)
-                            else option.type_.__name__,
-                            "name": option_key,
-                            "title": option.field_info.title,
-                            "description": option.field_info.description or "",
-                            "default": default_value,
-                            "value": default_value,
-                        }
-                    )
-                elif issubclass(option.type_, enum.Enum):
-                    annotations = get_type_hints(option.type_, include_extras=True)
-                    choices = []
-                    for enum_item in option.type_:
-                        if enum_item.name in annotations:
-                            annotated_args = list(get_args(annotations[enum_item.name]))
-                            if len(annotated_args) >= 2:
-                                _, enum_field = annotated_args[:2]
-                            else:
-                                continue
-                            choices.append(
-                                {
-                                    "value": enum_item.value,
-                                    "text": enum_field.title,
-                                }
-                            )
-                        else:
-                            print(enum_item.name)
-                    input_fields.append(
-                        {
-                            "type": "enum",
-                            "name": option_key,
-                            "title": option.field_info.title,
-                            "description": option.field_info.description or "",
-                            "default": option.default.value,
-                            "value": option.default.value,
-                            "choices": choices,
-                        }
-                    )
+            input_fields = self.inspect_fields(option_class)
             self.input_fields.append_many(input_fields)
 
     @slot(str)
@@ -336,69 +343,7 @@ class TaskManager(QObject):
         plugin_output = plugin_registry[self.output_format]
         if hasattr(plugin_output.plugin_object, "dump"):
             option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
-            output_fields = []
-            for option in option_class.__fields__.values():
-                option_key = option.name
-                if issubclass(option.type_, bool):
-                    output_fields.append(
-                        {
-                            "type": "bool",
-                            "name": option_key,
-                            "title": option.field_info.title,
-                            "description": option.field_info.description or "",
-                            "default": option.default,
-                            "value": option.default,
-                        }
-                    )
-                elif issubclass(
-                    option.type_, (str, int, float, Color, BaseComplexModel)
-                ):
-                    default_value = (
-                        option.type_.default_repr()
-                        if issubclass(option.type_, BaseComplexModel)
-                        else option.default
-                    )
-                    output_fields.append(
-                        {
-                            "type": "color"
-                            if issubclass(option.type_, Color)
-                            else option.type_.__name__,
-                            "name": option_key,
-                            "title": option.field_info.title,
-                            "description": option.field_info.description or "",
-                            "default": default_value,
-                            "value": default_value,
-                        }
-                    )
-                elif issubclass(option.type_, enum.Enum):
-                    annotations = get_type_hints(option.type_, include_extras=True)
-                    choices = []
-                    for enum_item in option.type_:
-                        if enum_item.name in annotations:
-                            annotated_args = list(get_args(annotations[enum_item.name]))
-                            if len(annotated_args) >= 2:
-                                _, enum_field = annotated_args[:2]
-                            else:
-                                continue
-                            choices.append(
-                                {
-                                    "value": enum_item.value,
-                                    "text": enum_field.title,
-                                }
-                            )
-                        else:
-                            print(enum_item.name)
-                    output_fields.append(
-                        {
-                            "type": "enum",
-                            "name": option_key,
-                            "title": option.field_info.title,
-                            "description": option.field_info.description or "",
-                            "default": option.default.value,
-                            "value": option.default.value,
-                            "choices": choices,
-                        }
-                    )
+            output_fields = self.inspect_fields(option_class)
             self.output_fields.append_many(output_fields)
 
     @slot(str, result=dict)

@@ -1,10 +1,9 @@
 import dataclasses
 import sys
-from typing import List, Optional, Tuple
+from typing import Optional
 from urllib.parse import urljoin
 
 import regex as re
-from pure_protobuf.types.google import Any_
 from pydub.utils import db_to_float, ratio_to_db
 
 from libresvip.core.constants import DEFAULT_LYRIC, TICKS_IN_BEAT
@@ -24,6 +23,7 @@ from libresvip.model.base import (
 
 from .constants import TYPE_URL_BASE, TrackType
 from .model import (
+    Svip3AnyTrack,
     Svip3AudioTrack,
     Svip3Note,
     Svip3Project,
@@ -38,7 +38,7 @@ from .singers import xstudio3_singers
 @dataclasses.dataclass
 class Svip3Parser:
     first_bar_length: int = dataclasses.field(init=False)
-    song_tempo_list: List[SongTempo] = dataclasses.field(init=False)
+    song_tempo_list: list[SongTempo] = dataclasses.field(init=False)
 
     def parse_project(self, svip3_project: Svip3Project) -> Project:
         time_signature_list = self.parse_time_signatures(svip3_project.beat_list)
@@ -51,8 +51,8 @@ class Svip3Parser:
         )
 
     def parse_time_signatures(
-        self, beat_list: List[Svip3SongBeat]
-    ) -> List[TimeSignature]:
+        self, beat_list: list[Svip3SongBeat]
+    ) -> list[TimeSignature]:
         time_signature_list = []
         for beat in beat_list:
             time_signature_list.append(
@@ -68,7 +68,7 @@ class Svip3Parser:
         return time_signature_list
 
     @staticmethod
-    def parse_song_tempos(tempo_list: List[Svip3SongTempo]) -> List[SongTempo]:
+    def parse_song_tempos(tempo_list: list[Svip3SongTempo]) -> list[SongTempo]:
         song_tempo_list = []
         for tempo in tempo_list:
             song_tempo_list.append(
@@ -79,7 +79,7 @@ class Svip3Parser:
             )
         return song_tempo_list
 
-    def parse_tracks(self, track_list: List[Any_]) -> List[Track]:
+    def parse_tracks(self, track_list: list[Svip3AnyTrack]) -> list[Track]:
         tracks = []
         for track in track_list:
             if track.type_url == urljoin(TYPE_URL_BASE, TrackType.SINGING_TRACK):
@@ -133,7 +133,7 @@ class Svip3Parser:
             EditedParams=self.parse_edited_params(singing_track.pattern_list),
         )
 
-    def parse_notes(self, pattern_list: List[Svip3SingingPattern]) -> List[Note]:
+    def parse_notes(self, pattern_list: list[Svip3SingingPattern]) -> list[Note]:
         note_list = []
         for pattern in pattern_list:
             offset = pattern.real_pos
@@ -141,14 +141,14 @@ class Svip3Parser:
             right = left + pattern.play_dur
             visible_notes = [
                 note
-                for note in pattern.note_List
+                for note in pattern.note_list
                 if left <= note.start_pos + offset <= right - note.width_pos
             ]
             for note in visible_notes:
                 note_list.append(self.parse_note(note, offset))
         return note_list
 
-    def parse_edited_params(self, pattern_list: List[Svip3SingingPattern]) -> Params:
+    def parse_edited_params(self, pattern_list: list[Svip3SingingPattern]) -> Params:
         return Params(
             Pitch=self.parse_pitch_curve(pattern_list),
         )
@@ -196,25 +196,25 @@ class Svip3Parser:
             )
         return None
 
-    def parse_pitch_curve(self, pattern_list: List[Svip3SingingPattern]) -> ParamCurve:
+    def parse_pitch_curve(self, pattern_list: list[Svip3SingingPattern]) -> ParamCurve:
         curves = []
         for pattern in pattern_list:
             curves.append(self.parse_pattern_curve(pattern))
         curve = ParamCurve()
         curve.points.append(Point(-192000, -100))
-        curve.points.__root__.extend(self.merge_param_curves(curves))
+        curve.points.root.extend(self.merge_param_curves(curves))
         curve.points.append(Point(sys.maxsize // 2, -100))
         return curve
 
     @staticmethod
-    def merge_param_curves(curves: List[ParamCurve]) -> List[Point]:
+    def merge_param_curves(curves: list[ParamCurve]) -> list[Point]:
         merged_curve = ParamCurve()
         for curve in curves:
-            merged_curve.points.__root__.extend(curve.points.__root__)
-        return merged_curve.points.__root__
+            merged_curve.points.root.extend(curve.points.root)
+        return merged_curve.points.root
 
     @staticmethod
-    def get_visible_range(pattern: Svip3SingingPattern) -> Tuple[int, int]:
+    def get_visible_range(pattern: Svip3SingingPattern) -> tuple[int, int]:
         offset = pattern.real_pos
         left = pattern.play_pos + offset
         right = left + pattern.play_dur

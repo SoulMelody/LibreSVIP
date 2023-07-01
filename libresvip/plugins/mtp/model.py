@@ -1,5 +1,5 @@
 import dataclasses
-from typing import List, Optional
+from typing import Optional
 
 from construct import (
     Bytes,
@@ -68,7 +68,7 @@ class MutaPoint(DataclassMixin):
 class MutaPoints(DataclassMixin):
     count: int = csfield(Int32ul)
     line_break: bytes = csfield(LineBreak)
-    points: List[MutaPoint] = csfield(DataclassStruct(MutaPoint)[this.count])
+    points: list[MutaPoint] = csfield(DataclassStruct(MutaPoint)[this.count])
 
 
 @dataclasses.dataclass
@@ -92,8 +92,8 @@ class MutaSongTrackData(DataclassMixin):
     line_break1: bytes = csfield(LineBreak)
     note_count: int = csfield(Int32ul)
     line_break2: bytes = csfield(LineBreak)
-    notes: List[MutaNote] = csfield(DataclassStruct(MutaNote)[this.note_count])
-    params: List[MutaParams] = csfield(DataclassStruct(MutaParams))
+    notes: list[MutaNote] = csfield(DataclassStruct(MutaNote)[this.note_count])
+    params: list[MutaParams] = csfield(DataclassStruct(MutaParams))
 
 
 @dataclasses.dataclass
@@ -124,17 +124,17 @@ class MutaProject(DataclassMixin):
     line_break1: bytes = csfield(LineBreak)
     tempo_count: int = csfield(Int32ul)
     line_break2: bytes = csfield(LineBreak)
-    tempos: List[MutaTempo] = csfield(DataclassStruct(MutaTempo)[this.tempo_count])
+    tempos: list[MutaTempo] = csfield(DataclassStruct(MutaTempo)[this.tempo_count])
     line_break3: bytes = csfield(LineBreak)
     time_signature_count: int = csfield(Int32ul)
     line_break4: bytes = csfield(LineBreak)
-    time_signatures: List[MutaTimeSignature] = csfield(
+    time_signatures: list[MutaTimeSignature] = csfield(
         DataclassStruct(MutaTimeSignature)[this.time_signature_count]
     )
     line_break5: bytes = csfield(LineBreak)
     track_count: int = csfield(Int32ul)
     line_break6: bytes = csfield(LineBreak)
-    tracks: List[MutaTrack] = csfield(DataclassStruct(MutaTrack)[this.track_count])
+    tracks: list[MutaTrack] = csfield(DataclassStruct(MutaTrack)[this.track_count])
 
 
 muta_project = DataclassStruct(MutaProject)

@@ -2,7 +2,7 @@ import abc
 import dataclasses
 import enum
 import operator
-from typing import Callable, Iterable, List
+from typing import Callable, Iterable
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.point import Point
@@ -99,7 +99,7 @@ class TranslationalParam(ParamExpression):
 class CurveGenerator(ParamExpression):
     base_value: int = dataclasses.field(init=False)
     interpolation: Callable[[float], float] = dataclasses.field(init=False)
-    point_list: List[Point] = dataclasses.field(init=False)
+    point_list: list[Point] = dataclasses.field(init=False)
     _point_list: dataclasses.InitVar[Iterable[Point]]
     _interpolation: dataclasses.InitVar[Callable[[float], float]]
     _base_value: dataclasses.InitVar[int] = 0
@@ -143,7 +143,7 @@ class CurveGenerator(ParamExpression):
             (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
         )
 
-    def get_converted_curve(self, step: int) -> List[Point]:
+    def get_converted_curve(self, step: int) -> list[Point]:
         result = []
         if len(self.point_list) == 0:
             result.append(Point(-192000, self.base_value))
@@ -200,14 +200,14 @@ class PitchGenerator(ParamExpression):
     _synchronizer: dataclasses.InitVar[TimeSynchronizer]
     _pitch_diff: dataclasses.InitVar[ParamExpression]
     _vibrato_env: dataclasses.InitVar[ParamExpression]
-    _note_list: dataclasses.InitVar[List[SVNote]]
+    _note_list: dataclasses.InitVar[list[SVNote]]
 
     def __post_init__(
         self,
         _synchronizer: TimeSynchronizer,
         _pitch_diff: ParamExpression,
         _vibrato_env: ParamExpression,
-        _note_list: List[SVNote],
+        _note_list: list[SVNote],
     ):
         self.synchronizer = _synchronizer
         self.pitch_diff = _pitch_diff

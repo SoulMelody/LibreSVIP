@@ -75,12 +75,14 @@ def test_tssln_read(shared_datadir):
 
 
 def test_ustx_read(shared_datadir, capsys):
+    import yaml
+
     from libresvip.plugins.ustx.model import USTXProject
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ustx"
-        proj = USTXProject.parse_file(
-            proj_path, content_type="application/yaml", encoding="utf-8-sig"
+        proj = USTXProject.model_validate(
+            yaml.safe_load(to_unicode(proj_path.read_bytes()))
         )
         print(proj)
 
@@ -90,8 +92,8 @@ def test_ds_read(shared_datadir, capsys):
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ds"
-        proj = DsProject.parse_file(proj_path)
-        print(proj.json(ensure_ascii=False, indent=2))
+        proj_text = proj_path.read_text(encoding="utf-8")
+        print(DsProject.model_validate_json(proj_text))
 
 
 def test_y77_read(shared_datadir, capsys):
@@ -99,7 +101,7 @@ def test_y77_read(shared_datadir, capsys):
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.y77"
-        proj = Y77Project.parse_file(proj_path)
+        proj = Y77Project.model_validate_json(proj_path.read_text(encoding="utf-8"))
         print(proj)
 
 
@@ -109,7 +111,7 @@ def test_ppsf_read(shared_datadir, capsys):
     with capsys.disabled():
         proj_path = shared_datadir / "test.ppsf"
         proj_text = zipfile.ZipFile(proj_path, "r").read("ppsf.json")
-        proj = PpsfProject.parse_raw(proj_text)
+        proj = PpsfProject.model_validate_json(proj_text)
         print(proj)
 
 
@@ -119,7 +121,7 @@ def test_vog_read(shared_datadir, capsys):
     with capsys.disabled():
         proj_path = shared_datadir / "test.vog"
         proj_text = zipfile.ZipFile(proj_path, "r").read("chart.json")
-        proj = VogenProject.parse_raw(proj_text)
+        proj = VogenProject.model_validate_json(proj_text)
         print(proj)
 
 
@@ -131,7 +133,7 @@ def test_vpr_read(shared_datadir, capsys):
     with capsys.disabled():
         proj_path = shared_datadir / "test.vpr"
         proj_text = zipfile.ZipFile(proj_path, "r").read("Project/sequence.json")
-        proj = VocaloidProject.parse_raw(proj_text)
+        proj = VocaloidProject.model_validate_json(proj_text)
         print(proj)
 
 
@@ -142,8 +144,8 @@ def test_aisp_read(shared_datadir, capsys):
         proj_path = shared_datadir / "test.aisp"
         proj_text = proj_path.read_text()
         first_two_lines = proj_text.splitlines()[:2]
-        head = AISProjectHead.parse_raw(first_two_lines[0])
-        body = AISProjectBody.parse_raw(first_two_lines[1])
+        head = AISProjectHead.model_validate_json(first_two_lines[0])
+        body = AISProjectBody.model_validate_json(first_two_lines[1])
         print(head)
         print(body)
 
@@ -153,7 +155,9 @@ def test_gj_read(shared_datadir, capsys):
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.gj"
-        proj = GjgjProject.parse_file(proj_path, encoding="utf-8-sig")
+        proj = GjgjProject.model_validate_json(
+            proj_path.read_text(encoding="utf-8-sig")
+        )
         print(proj)
 
 
@@ -174,7 +178,7 @@ def test_vspx_read(shared_datadir):
 
 
 def test_vsqx_read(shared_datadir):
-    from xsdata_pydantic.bindings import XmlParser
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.vsqx.models import judge_vsqx_version
 
@@ -193,7 +197,7 @@ def test_vsqx_read(shared_datadir):
 
 
 def test_mxml_read(shared_datadir):
-    from xsdata_pydantic.bindings import XmlParser
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.mxml.models.mxml4 import ScorePartwise
 
@@ -204,7 +208,7 @@ def test_mxml_read(shared_datadir):
 
 
 def test_ccs_read(shared_datadir):
-    from xsdata_pydantic.bindings import XmlParser
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.ccs.model import CeVIOCreativeStudioProject
 

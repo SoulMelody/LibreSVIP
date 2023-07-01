@@ -1,9 +1,7 @@
 import contextlib
 import dataclasses
-from typing import List
 from urllib.parse import urljoin
 
-from pure_protobuf.types.google import Any_
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
 from pydub.utils import ratio_to_db
@@ -23,6 +21,7 @@ from libresvip.model.base import (
 from .color_pool import random_color
 from .constants import TYPE_URL_BASE, TrackType
 from .model import (
+    Svip3AnyTrack,
     Svip3AudioPattern,
     Svip3AudioTrack,
     Svip3BeatSize,
@@ -40,7 +39,7 @@ from .singers import xstudio3_singers
 @dataclasses.dataclass
 class Svip3Generator:
     first_bar_length: int = dataclasses.field(init=False)
-    song_tempo_list: List[SongTempo] = dataclasses.field(init=False)
+    song_tempo_list: list[SongTempo] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     song_duration: int = dataclasses.field(default=0)
 
@@ -53,8 +52,8 @@ class Svip3Generator:
         )
 
     def generate_time_signatures(
-        self, time_signature_list: List[TimeSignature]
-    ) -> List[Svip3SongBeat]:
+        self, time_signature_list: list[TimeSignature]
+    ) -> list[Svip3SongBeat]:
         first_signature = time_signature_list[0]
         song_beat_list = [
             Svip3SongBeat(
@@ -71,8 +70,8 @@ class Svip3Generator:
         return song_beat_list
 
     def generate_song_tempos(
-        self, song_tempo_list: List[SongTempo]
-    ) -> List[Svip3SongTempo]:
+        self, song_tempo_list: list[SongTempo]
+    ) -> list[Svip3SongTempo]:
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return [
             Svip3SongTempo(
@@ -82,7 +81,7 @@ class Svip3Generator:
             for song_tempo in song_tempo_list
         ]
 
-    def generate_tracks(self, track_list: List[Track]) -> List[Any_]:
+    def generate_tracks(self, track_list: list[Track]) -> list[Svip3AnyTrack]:
         svip3_track_list = []
         for track in track_list:
             color = random_color()
@@ -94,7 +93,7 @@ class Svip3Generator:
                 type_url = urljoin(TYPE_URL_BASE, TrackType.AUDIO_TRACK)
             else:
                 continue
-            svip3_track_container = Any_(
+            svip3_track_container = Svip3AnyTrack(
                 type_url=type_url,
                 value=svip3_track.dumps(),
             )
@@ -124,7 +123,7 @@ class Svip3Generator:
 
     def generate_audio_patterns(
         self, track: InstrumentalTrack
-    ) -> List[Svip3AudioPattern]:
+    ) -> list[Svip3AudioPattern]:
         kwargs = {}
         with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
             audio_segment = AudioSegment.from_file(track.audio_file_path)
@@ -170,7 +169,7 @@ class Svip3Generator:
 
     def generate_singing_patterns(
         self, track: SingingTrack
-    ) -> List[Svip3SingingPattern]:
+    ) -> list[Svip3SingingPattern]:
         last_note = track.note_list[-1]
         if last_note.end_pos > self.song_duration:
             self.song_duration = last_note.end_pos + 1920
@@ -182,12 +181,12 @@ class Svip3Generator:
                 real_dur=last_note.end_pos + 1920,
                 play_dur=last_note.end_pos + 1920,
                 is_mute=track.mute,
-                note_List=self.generate_notes(track.note_list),
+                note_list=self.generate_notes(track.note_list),
                 edited_pitch_line=self.generate_pitch_param(track.edited_params.pitch),
             )
         ]
 
-    def generate_notes(self, note_list: List[Note]) -> List[Svip3Note]:
+    def generate_notes(self, note_list: list[Note]) -> list[Svip3Note]:
         svip3_note_list = []
         for note in note_list:
             consonant_length = 0
@@ -222,7 +221,7 @@ class Svip3Generator:
             svip3_note_list.append(svip3_note)
         return svip3_note_list
 
-    def generate_pitch_param(self, curve: ParamCurve) -> List[Svip3LineParamNode]:
+    def generate_pitch_param(self, curve: ParamCurve) -> list[Svip3LineParamNode]:
         point_list = []
         splited_curves = curve.split_into_segments(-100)
         for segment in splited_curves:

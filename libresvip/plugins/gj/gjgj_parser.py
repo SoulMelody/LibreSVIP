@@ -1,6 +1,5 @@
 import dataclasses
 import math
-from typing import List
 
 import mido
 
@@ -56,7 +55,7 @@ class GjgjParser:
         )
         return project
 
-    def parse_tempos(self, tempo_map: GjgjTempoMap) -> List[SongTempo]:
+    def parse_tempos(self, tempo_map: GjgjTempoMap) -> list[SongTempo]:
         tempos = []
         for tempo in tempo_map.tempos:
             tempos.append(
@@ -69,8 +68,8 @@ class GjgjParser:
         return tempos
 
     def parse_time_signatures(
-        self, time_signatures: List[GjgjTimeSignature]
-    ) -> List[TimeSignature]:
+        self, time_signatures: list[GjgjTimeSignature]
+    ) -> list[TimeSignature]:
         if not len(time_signatures) or time_signatures[0].time != 0:
             time_signatures.insert(
                 0, GjgjTimeSignature(Time=0, Numerator=4, Denominator=4)
@@ -101,7 +100,7 @@ class GjgjParser:
             prev_ticks = tick
         return time_signature_changes
 
-    def parse_singing_tracks(self, tracks: List[GjgjSingingTrack]) -> List[Track]:
+    def parse_singing_tracks(self, tracks: list[GjgjSingingTrack]) -> list[Track]:
         return [
             SingingTrack(
                 AISingerName=id2singer[track.singer_info.display_name],
@@ -113,8 +112,8 @@ class GjgjParser:
         ]
 
     def parse_instrumental_tracks(
-        self, accompaniments: List[GjgjInstrumentalTrack]
-    ) -> List[Track]:
+        self, accompaniments: list[GjgjInstrumentalTrack]
+    ) -> list[Track]:
         return [
             InstrumentalTrack(
                 Mute=accompaniment.master_volume.mute,
@@ -129,7 +128,7 @@ class GjgjParser:
             for accompaniment in accompaniments
         ]
 
-    def parse_notes(self, beat_items: List[GjgjBeatItems]) -> List[Note]:
+    def parse_notes(self, beat_items: list[GjgjBeatItems]) -> list[Note]:
         note_list = []
         for beat_item in beat_items:
             start_pos = beat_item.start_tick - self.first_bar_length
@@ -212,7 +211,7 @@ class GjgjParser:
         pitch_curve.points.append(Point.end_point())
         return pitch_curve
 
-    def parse_volume_curve(self, volume_map: List[GjgjVolumeMap]) -> ParamCurve:
+    def parse_volume_curve(self, volume_map: list[GjgjVolumeMap]) -> ParamCurve:
         volume_curve = ParamCurve()
         volume_curve.points = [
             Point(round(volume_item.time), round(volume_item.volume))

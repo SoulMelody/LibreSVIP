@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from pydub.utils import ratio_to_db
 
@@ -51,40 +50,34 @@ class SynthVEditorGenerator:
             s5p_project.mixer = self.generate_mixer(project.track_list)
         return s5p_project
 
-    def generate_tempos(self, song_tempo_list: List[SongTempo]) -> List[S5pTempoItem]:
+    def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[S5pTempoItem]:
         self.synchronizer = TimeSynchronizer(song_tempo_list)
-        tempos = []
-        for song_tempo in song_tempo_list:
-            tempos.append(
-                S5pTempoItem(
-                    position=song_tempo.position * TICK_RATE,
-                    beatPerMinute=song_tempo.bpm,
-                )
+        return [
+            S5pTempoItem(
+                position=song_tempo.position * TICK_RATE,
+                beatPerMinute=song_tempo.bpm,
             )
-        return tempos
+            for song_tempo in song_tempo_list
+        ]
 
     @staticmethod
     def generate_time_signatures(
-        time_signature_list: List[TimeSignature],
-    ) -> List[S5pMeterItem]:
-        time_signatures = []
-        for time_signature in time_signature_list:
-            time_signatures.append(
-                S5pMeterItem(
-                    measure=time_signature.bar_index,
-                    beatPerMeasure=time_signature.numerator,
-                    beatGranularity=time_signature.denominator,
-                )
+        time_signature_list: list[TimeSignature],
+    ) -> list[S5pMeterItem]:
+        return [
+            S5pMeterItem(
+                measure=time_signature.bar_index,
+                beatPerMeasure=time_signature.numerator,
+                beatGranularity=time_signature.denominator,
             )
-        return time_signatures
+            for time_signature in time_signature_list
+        ]
 
     @staticmethod
     def generate_volume(volume: float) -> float:
-        if volume > 0:
-            return max(ratio_to_db(volume if volume > 0.01 else 0.01), -70)
-        return -70
+        return max(ratio_to_db(max(volume, 0.01)), -70) if volume > 0 else -70
 
-    def generate_singing_tracks(self, track_list: List[Track]) -> List[S5pTrack]:
+    def generate_singing_tracks(self, track_list: list[Track]) -> list[S5pTrack]:
         tracks = []
         for i, track in enumerate(track_list):
             if isinstance(track, SingingTrack):
@@ -107,36 +100,42 @@ class SynthVEditorGenerator:
                 tracks.append(s5p_track)
         return tracks
 
-    def generate_notes(self, note_list: List[Note]) -> List[S5pNote]:
-        notes = []
-        for note in note_list:
-            notes.append(
-                S5pNote(
-                    lyric=note.pronunciation or note.lyric,
-                    onset=note.start_pos * TICK_RATE,
-                    duration=note.length * TICK_RATE,
-                    pitch=note.key_number,
-                )
+    def generate_notes(self, note_list: list[Note]) -> list[S5pNote]:
+        return [
+            S5pNote(
+                lyric=note.pronunciation or note.lyric,
+                onset=note.start_pos * TICK_RATE,
+                duration=note.length * TICK_RATE,
+                pitch=note.key_number,
             )
-        return notes
+            for note in note_list
+        ]
 
-    def generate_instrumental_track(self, track_list: List[Track]) -> S5pInstrumental:
-        for track in track_list:
-            if isinstance(track, InstrumentalTrack):
-                return S5pInstrumental(
+    def generate_instrumental_track(self, track_list: list[Track]) -> S5pInstrumental:
+        return next(
+            (
+                S5pInstrumental(
                     filename=track.audio_file_path,
                     offset=track.offset,
                 )
-        return None
+                for track in track_list
+                if isinstance(track, InstrumentalTrack)
+            ),
+            None,
+        )
 
-    def generate_mixer(self, track_list: List[Track]) -> S5pMixer:
-        for track in track_list:
-            if isinstance(track, InstrumentalTrack):
-                return S5pMixer(
+    def generate_mixer(self, track_list: list[Track]) -> S5pMixer:
+        return next(
+            (
+                S5pMixer(
                     gainInstrumentalDecibel=self.generate_volume(track.volume),
                     instrumentalMuted=track.mute,
                 )
-        return None
+                for track in track_list
+                if isinstance(track, InstrumentalTrack)
+            ),
+            None,
+        )
 
     def generate_parameters(self, edited_params: Params) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
@@ -146,13 +145,11 @@ class SynthVEditorGenerator:
         )
 
     def generate_pitch_delta(self, pitch: ParamCurve, interval: int) -> S5pPoints:
-        points = []
-        for point in pitch.points:
-            points.append(
-                S5pPoint(
-                    offset=round(point.x / (interval / TICK_RATE)),
-                    value=point.y * 100,
-                )
+        points = [
+            S5pPoint(
+                offset=round(point.x / (interval / TICK_RATE)),
+                value=point.y * 100,
             )
-            # TODO: calculate pitch delta
-        return S5pPoints(__root__=points)
+            for point in pitch.points
+        ]
+        return S5pPoints(root=points)

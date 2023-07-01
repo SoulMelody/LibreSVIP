@@ -14,7 +14,7 @@ from .utils.project_util import reset_time_axis, split_into_segments
 
 class DiffSingerConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ds_project = DsProject.parse_file(path)
+        ds_project = DsProject.model_validate_json(path.read_text("utf-8"))
         return DiffSingerParser(options).parse_project(ds_project)
 
     def dump(

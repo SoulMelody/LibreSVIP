@@ -1,5 +1,4 @@
 import dataclasses
-from typing import List
 
 from libresvip.model.base import (
     Note,
@@ -28,14 +27,14 @@ class VogenParser:
             TrackList=self.parse_tracks(vogen_project.utts),
         )
 
-    def parse_tempos(self, bpm0: float) -> List[SongTempo]:
+    def parse_tempos(self, bpm0: float) -> list[SongTempo]:
         return [SongTempo(Position=0, BPM=bpm0)]
 
-    def parse_time_signatures(self, time_sig0: str) -> List[TimeSignature]:
+    def parse_time_signatures(self, time_sig0: str) -> list[TimeSignature]:
         numerator, denominator = time_sig0.split("/")
         return [TimeSignature(Numerator=int(numerator), Denominator=int(denominator))]
 
-    def parse_tracks(self, utts: List[VogenTrack]) -> List[SingingTrack]:
+    def parse_tracks(self, utts: list[VogenTrack]) -> list[SingingTrack]:
         return [
             SingingTrack(
                 Title=utt.name,
@@ -45,7 +44,7 @@ class VogenParser:
             for utt in utts
         ]
 
-    def parse_notes(self, notes: List[VogenNote]) -> List[Note]:
+    def parse_notes(self, notes: list[VogenNote]) -> list[Note]:
         return [
             Note(
                 StartPos=note.on,

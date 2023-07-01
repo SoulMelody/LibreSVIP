@@ -9,7 +9,8 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
-from pydantic.color import Color
+from pydantic_core import PydanticUndefined
+from pydantic_extra_types.color import Color
 from trame_client.widgets import html, trame
 from trame_server.core import Server
 from trame_vuetify.widgets import vuetify3
@@ -259,67 +260,73 @@ def initialize(server: Server):
             f"{prefix}_fields": [],
             f"{prefix}_defaults": {},
         }
-        for i, option in enumerate(option_class.__fields__.values()):
-            option_key = option.name
-            if issubclass(option.type_, bool):
-                option_info[f"{prefix}_fields"].append(
-                    {
-                        "type": "bool",
-                        "name": option_key,
-                        "title": option.field_info.title,
-                        "description": option.field_info.description,
-                        "default": option.default,
-                    }
+        if hasattr(option_class, "model_fields"):
+            for option_key, field_info in option_class.model_fields.items():
+                default_value = (
+                    None if field_info.default is PydanticUndefined else field_info.default
                 )
-                option_info[f"{prefix}_defaults"][option_key] = option.default
-            elif issubclass(option.type_, (str, int, float, Color, BaseComplexModel)):
-                if issubclass(option.type_, BaseComplexModel):
-                    default_value = option.type_.default_repr()
-                else:
-                    default_value = option.default
-                option_info[f"{prefix}_fields"].append(
-                    {
-                        "type": "color"
-                        if issubclass(option.type_, Color)
-                        else option.type_.__name__,
-                        "name": option_key,
-                        "title": option.field_info.title,
-                        "description": option.field_info.description,
-                        "default": default_value,
-                    }
-                )
-                option_info[f"{prefix}_defaults"][option_key] = default_value
-            elif issubclass(option.type_, enum.Enum):
-                annotations = get_type_hints(option.type_, include_extras=True)
-                choices = []
-                for enum_item in option.type_:
-                    if enum_item.name in annotations:
-                        annotated_args = list(get_args(annotations[enum_item.name]))
-                        if len(annotated_args) >= 2:
-                            enum_type, enum_field = annotated_args[:2]
+                if issubclass(field_info.annotation, bool):
+                    option_info[f"{prefix}_fields"].append(
+                        {
+                            "type": "bool",
+                            "name": option_key,
+                            "title": field_info.title,
+                            "description": field_info.description,
+                            "default": default_value,
+                        }
+                    )
+                    option_info[f"{prefix}_defaults"][option_key] = default_value
+                elif issubclass(
+                    field_info.annotation, (str, int, float, Color, BaseComplexModel)
+                ):
+                    if issubclass(field_info.annotation, BaseComplexModel):
+                        default_value = field_info.annotation.default_repr()
+                    option_info[f"{prefix}_fields"].append(
+                        {
+                            "type": "color"
+                            if issubclass(field_info.annotation, Color)
+                            else field_info.annotation.__name__,
+                            "name": option_key,
+                            "title": field_info.title,
+                            "description": field_info.description,
+                            "default": default_value,
+                        }
+                    )
+                    option_info[f"{prefix}_defaults"][option_key] = default_value
+                elif issubclass(field_info.annotation, enum.Enum):
+                    default_value = default_value.value if default_value else None
+                    annotations = get_type_hints(
+                        field_info.annotation, include_extras=True
+                    )
+                    choices = []
+                    for enum_item in field_info.annotation:
+                        if enum_item.name in annotations:
+                            annotated_args = list(get_args(annotations[enum_item.name]))
+                            if len(annotated_args) >= 2:
+                                _, enum_field = annotated_args[:2]
+                            else:
+                                continue
+                            choices.append(
+                                {
+                                    "value": enum_item.value,
+                                    "text": enum_field.title,
+                                }
+                            )
                         else:
-                            continue
-                        choices.append(
-                            {
-                                "value": enum_item.value,
-                                "text": enum_field.title,
-                            }
-                        )
-                    else:
-                        print(enum_item.name)
-                option_info[f"{prefix}_fields"].append(
-                    {
-                        "type": "enum",
-                        "name": option_key,
-                        "title": option.field_info.title,
-                        "description": option.field_info.description,
-                        "default": option.default.value,
-                        "choices": choices,
-                    }
-                )
-                option_info[f"{prefix}_defaults"][option_key] = option.default.value
-            else:
-                print(option.type_)
+                            print(enum_item.name)
+                    option_info[f"{prefix}_fields"].append(
+                        {
+                            "type": "enum",
+                            "name": option_key,
+                            "title": field_info.title,
+                            "description": field_info.description,
+                            "default": default_value,
+                            "choices": choices,
+                        }
+                    )
+                    option_info[f"{prefix}_defaults"][option_key] = default_value
+                else:
+                    print(field_info)
         setattr(state, f"{prefix}_fields", option_info[f"{prefix}_fields"])
         setattr(state, prefix, option_info[f"{prefix}_defaults"])
 

@@ -1,6 +1,5 @@
 import dataclasses
-# import operator
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
 
 import regex as re
 
@@ -51,9 +50,9 @@ class BinarySvipGenerator:
     is_absolute_time_mode: bool = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_tick: int = dataclasses.field(init=False)
-    first_bar_tempo: List[SongTempo] = dataclasses.field(init=False)
+    first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
 
-    def generate_project(self, project: Project) -> Tuple[str, XSAppModel]:
+    def generate_project(self, project: Project) -> tuple[str, XSAppModel]:
         version = (
             project.version
             if re.match(r"^SVIP\d\.\d\.\d$", project.version) is not None
@@ -120,15 +119,14 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_song_tempo(tempo: SongTempo) -> XSSongTempo:
-        xs_tempo = XSSongTempo(
-            pos=tempo.position, tempo=round(tempo.bpm * 100)
-        )
+        xs_tempo = XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
         return xs_tempo
 
     @staticmethod
     def generate_time_signature(signature: TimeSignature) -> XSSongBeat:
         beat = XSSongBeat(
-            bar_index=signature.bar_index, beat_size=XSBeatSize(x=signature.numerator, y=signature.denominator)
+            bar_index=signature.bar_index,
+            beat_size=XSBeatSize(x=signature.numerator, y=signature.denominator),
         )
         return beat
 
@@ -175,12 +173,17 @@ class BinarySvipGenerator:
     def generate_note(self, note: Note) -> XSNote:
         if note.lyric or note.pronunciation:
             xs_note = XSNote(
-                start_pos=round(self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)),
+                start_pos=round(
+                    self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
+                ),
                 key_index=note.key_number + 12,
                 head_tag=OpenSvipNoteHeadTags.get_index(note.head_tag),
                 lyric=note.lyric or DEFAULT_LYRIC,
             )
-            xs_note.width_pos = round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos)) - xs_note.start_pos
+            xs_note.width_pos = (
+                round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos))
+                - xs_note.start_pos
+            )
             if note.pronunciation:
                 xs_note.pronouncing = note.pronunciation
             if note.edited_phones is not None:
@@ -201,10 +204,9 @@ class BinarySvipGenerator:
 
     def generate_vibrato(
         self, vibrato: VibratoParam
-    ) -> Tuple[XSVibratoPercentInfo, XSVibratoStyle]:
+    ) -> tuple[XSVibratoPercentInfo, XSVibratoStyle]:
         percent = XSVibratoPercentInfo(
-            start_percent=vibrato.start_percent,
-            end_percent=vibrato.end_percent
+            start_percent=vibrato.start_percent, end_percent=vibrato.end_percent
         )
         vibrato_style = XSVibratoStyle(
             is_anti_phase=vibrato.is_anti_phase,
@@ -213,11 +215,11 @@ class BinarySvipGenerator:
             ),
             freq_line=self.generate_param_curve(
                 vibrato.frequency, left=-1, right=100001, is_ticks=False
-            )
+            ),
         )
         return percent, vibrato_style
 
-    def generate_params(self, edited_params: Params) -> Dict[str, XSLineParam]:
+    def generate_params(self, edited_params: Params) -> dict[str, XSLineParam]:
         return {
             "Pitch": self.generate_param_curve(
                 edited_params.pitch, op=lambda x: x + 1150 if x > -100 else -100
@@ -243,10 +245,20 @@ class BinarySvipGenerator:
         # param_curve.points = sorted(param_curve.points, key=operator.attrgetter("x"))
         for p in param_curve.points:
             if left <= p.x <= right:
-                if self.is_absolute_time_mode and is_ticks and p.x != left and p.x != right:
-                    pos = round(self.synchronizer.get_actual_ticks_from_ticks(
-                        p.x - self.first_bar_tick
-                    )) + 1920
+                if (
+                    self.is_absolute_time_mode
+                    and is_ticks
+                    and p.x != left
+                    and p.x != right
+                ):
+                    pos = (
+                        round(
+                            self.synchronizer.get_actual_ticks_from_ticks(
+                                p.x - self.first_bar_tick
+                            )
+                        )
+                        + 1920
+                    )
                 else:
                     pos = p.x
                 node = XSLineParamNode(pos=pos, value=op(p.y))

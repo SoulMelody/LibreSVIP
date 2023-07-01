@@ -1,6 +1,5 @@
 import dataclasses
 import math
-from typing import Tuple
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Note, SingingTrack
@@ -103,7 +102,7 @@ class CoordinateHelper:
             ),
         )
 
-    def get_pitch_point(self, param_point: Point) -> Tuple[float, float]:
+    def get_pitch_point(self, param_point: Point) -> tuple[float, float]:
         return (
             (param_point.x - self.position_range_start - self.pitch_position_offset)
             * self.options.pixel_per_beat
@@ -112,7 +111,7 @@ class CoordinateHelper:
         )
 
     @property
-    def size(self) -> Tuple[float, float]:
+    def size(self) -> tuple[float, float]:
         return (
             (self.position_range_end - self.position_range_start)
             * self.options.pixel_per_beat
