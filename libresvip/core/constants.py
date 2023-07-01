@@ -1,6 +1,6 @@
 import pathlib
 
-from pkg_resources.extern import platformdirs
+import platformdirs
 
 PACKAGE_NAME = "libresvip"
 

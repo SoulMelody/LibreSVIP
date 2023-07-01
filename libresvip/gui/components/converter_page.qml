@@ -332,14 +332,15 @@ Page {
                                 if (last_input_format != null) {
                                     this.currentIndex = indexOfValue(last_input_format)
                                 }
-                                dialogs.openDialog.nameFilters[0] = currentText
+                                dialogs.openDialog.nameFilters[0] = qsTr(currentText)
                                 py.task_manager.input_format_changed.connect((input_format) => {
                                     let new_index = indexOfValue(input_format)
                                     if (new_index != currentIndex) {
                                         currentIndex = new_index
                                     }
-                                    if (currentText != dialogs.openDialog.nameFilters[0]) {
-                                        dialogs.openDialog.nameFilters[0] = currentText
+                                    let name_filter = qsTr(currentText)
+                                    if (name_filter != dialogs.openDialog.nameFilters[0]) {
+                                        dialogs.openDialog.nameFilters[0] = name_filter
                                     }
                                 })
                                 py.task_manager.set_str("input_format", currentValue)

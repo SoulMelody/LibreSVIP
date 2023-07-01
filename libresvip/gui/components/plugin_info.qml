@@ -3,6 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Shapes
 
 GridLayout {
     property var info
@@ -18,6 +19,52 @@ GridLayout {
         sourceSize.height: 100
         source: info.icon_base64
         fillMode: Image.PreserveAspectFit
+        Shape {
+            layer.enabled: true
+            layer.samples: 4
+            layer.smooth: true
+            anchors.fill: parent
+
+            ShapePath {
+                startX: 0
+                startY: 0
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 0 }
+                PathArc {x: 0; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Counterclockwise }
+                PathLine { x: 0; y: 0 }
+            }
+
+            ShapePath {
+                startX: 0
+                startY: 100
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 100 }
+                PathArc {x: 0; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Clockwise }
+                PathLine { x: 0; y: 100 }
+            }
+
+            ShapePath {
+                startX: 100
+                startY: 0
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 0 }
+                PathArc {x: 100; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Clockwise }
+                PathLine { x: 100; y: 0 }
+            }
+
+            ShapePath {
+                startX: 100
+                startY: 100
+                fillColor: window.Material.dialogColor
+                strokeColor: "transparent"
+                PathLine { x: 50; y: 100 }
+                PathArc {x: 100; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Counterclockwise }
+                PathLine { x: 100; y: 100 }
+            }
+        }
     }
 
     Label {

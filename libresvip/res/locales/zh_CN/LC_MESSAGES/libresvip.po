@@ -671,7 +671,7 @@ msgstr "上传文件"
 
 #: ../libresvip/web/i18n.py:65
 msgid "Choose a color"
-msgstr "选择格式"
+msgstr "选择颜色"
 
 #: .ds.format_desc
 msgid "DiffSinger parameters file (*.ds)"
@@ -681,7 +681,7 @@ msgstr "DiffSinger参数文件（*.ds）"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.load[0].title .ds.dump[0].title
+#: .ds.load[0].title .ds.dump[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -882,7 +882,7 @@ msgid "If you need lyrics without timeline, turn off this option."
 msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
 
 #: .lrc.dump[8].title
-msgid "Text encoding"
+msgid "Lyric Text encoding"
 msgstr "歌词文本编码"
 
 #: .mid.format_desc
@@ -1059,6 +1059,10 @@ msgstr "音符间隙和标点符号"
 #: .srt.dump[1].choices[1].text
 msgid "Note gap only"
 msgstr "仅音符间隙"
+
+#: .srt.dump[2].title
+msgid "Text encoding"
+msgstr "文本编码"
 
 #: .svg.format_desc
 msgid "Scalable Vector Graphics (*.svg)"

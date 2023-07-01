@@ -1,7 +1,7 @@
 import dataclasses
 
 from drawsvg import Line, Lines, Rectangle, Text
-from pkg_resources.extern import more_itertools
+from setuptools.extern import more_itertools
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer

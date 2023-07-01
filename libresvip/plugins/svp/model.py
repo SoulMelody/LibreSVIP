@@ -3,7 +3,7 @@ from itertools import chain
 from typing import Literal, NamedTuple, Optional
 from uuid import uuid4
 
-from pkg_resources.extern.more_itertools import chunked
+from setuptools.extern.more_itertools import chunked
 from pydantic import Field, validator
 
 from libresvip.core.time_interval import RangeInterval

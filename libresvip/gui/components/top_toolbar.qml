@@ -291,8 +291,6 @@ ToolBar {
                         text: qsTr("System");
                         onTriggered: {
                             handleThemeChange("System")
-                            // window.Material.theme = Material.System
-                            // py.config_items.set_theme("System")
                         }
                     }
                 }
