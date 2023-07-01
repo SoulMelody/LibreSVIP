@@ -154,7 +154,7 @@ build_exe_options = {
     ],
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
-    "packages": ["qmlease", "libresvip", "PySide6.QtQuick", "xsdata_pydantic"],
+    "packages": ["qmlease", "libresvip", "PySide6.QtQuick"],
 }
 
 executables = [
