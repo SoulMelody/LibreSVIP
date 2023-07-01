@@ -4,11 +4,7 @@ from gettext import gettext as _
 from typing import get_args, get_type_hints
 
 import typer
-
-try:
-    from pydantic.fields import ModelField
-except ImportError:
-    from pydantic.fields import Field as ModelField
+from pydantic.fields import Field
 from rich.console import Console
 from rich.table import Table
 
@@ -97,7 +93,7 @@ def print_plugin_details(plugin):
         typer.echo(
             _("This plugin supports the following {} conversion options:").format(op)
         )
-        field_info: ModelField
+        field_info: Field
         for field_info in options.model_fields.values():
             if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(

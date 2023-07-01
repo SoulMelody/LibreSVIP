@@ -1,6 +1,13 @@
 from typing import Literal, Optional, Union
 
-from pydantic import field_serializer, field_validator, model_serializer, root_validator
+from pydantic import (
+    SerializationInfo,
+    ValidationInfo,
+    field_serializer,
+    field_validator,
+    model_serializer,
+    model_validator,
+)
 
 from libresvip.model.base import BaseModel, Field
 
@@ -70,15 +77,13 @@ class DsItem(BaseModel):
 class DsProject(BaseModel):
     root: list[DsItem] = Field(default_factory=list)
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
-    def populate_root(cls, values):
-        if isinstance(values, list):
-            return {"root": values}
-        return values
+    def populate_root(cls, values, _info: ValidationInfo):
+        return {"root": values} if isinstance(values, list) else values
 
     @model_serializer(mode="wrap")
-    def _serialize(self, handler, info):
+    def _serialize(self, handler, info: SerializationInfo):
         data = handler(self)
         return data["root"] if info.mode == "json" and isinstance(data, dict) else data
 

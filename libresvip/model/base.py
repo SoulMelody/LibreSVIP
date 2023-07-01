@@ -12,8 +12,14 @@ from typing import (
     runtime_checkable,
 )
 
-from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, FieldValidationInfo, SerializationInfo, model_serializer, field_validator
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import (
+    Field,
+    FieldValidationInfo,
+    SerializationInfo,
+    field_validator,
+    model_serializer,
+)
 from typing_extensions import Self
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -48,11 +54,9 @@ class BaseModel(PydanticBaseModel):
             else:
                 raise e
 
+    # # Uncomment the following part to enable strict mode
     # class Config:
-    #     json_loads = json.loads
-    #     json_dumps = json.dumps
-    #     # Uncomment the following line to enable strict mode
-    #     # extra = Extra.forbid
+    #     extra = "forbid"
 
 
 @runtime_checkable

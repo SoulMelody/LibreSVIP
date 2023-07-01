@@ -1,6 +1,13 @@
 from typing import Generic, NamedTuple, TypeVar
 
-from pydantic import BaseModel, Field, model_serializer, root_validator
+from pydantic import (
+    BaseModel,
+    Field,
+    SerializationInfo,
+    ValidationInfo,
+    model_serializer,
+    model_validator,
+)
 from typing_extensions import Self
 
 PointType = TypeVar("PointType")
@@ -22,13 +29,13 @@ class Point(NamedTuple):
 class PointList(BaseModel, Generic[PointType]):
     root: list[PointType] = Field(default_factory=list)
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
-    def populate_root(cls, values):
+    def populate_root(cls, values, _info: ValidationInfo):
         return {"root": values} if isinstance(values, list) else values
 
     @model_serializer(mode="wrap")
-    def _serialize(self, handler, info):
+    def _serialize(self, handler, info: SerializationInfo):
         data = handler(self)
         return data["root"] if info.mode == "json" and isinstance(data, dict) else data
 
