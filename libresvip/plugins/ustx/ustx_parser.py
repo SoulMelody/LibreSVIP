@@ -79,7 +79,7 @@ class UstxParser:
         return time_signature_list
 
     def parse_tracks(
-        self, tracks: list[UTrack], voice_parts: list[UVoicePart]
+        self, tracks: list[UTrack], project: USTXProject
     ) -> list[Track]:
         track_list = [
             SingingTrack(

@@ -1,8 +1,14 @@
 from itertools import chain
 from typing import NamedTuple, Optional
 
+from pydantic import (
+    Field,
+    FieldSerializationInfo,
+    FieldValidationInfo,
+    field_serializer,
+    field_validator,
+)
 from setuptools.extern.more_itertools import chunked
-from pydantic import Field, validator
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
 from libresvip.model.base import BaseModel
@@ -32,9 +38,9 @@ class S5pTempoItem(BaseModel):
 class S5pDbDefaults(BaseModel):
     lyric: Optional[str] = DEFAULT_PHONEME
     breathiness: Optional[float] = None
-    d_f0_vbr: Optional[float] = Field(alias="dF0Vbr")
-    d_f0_jitter: Optional[float] = Field(alias="dF0Jitter")
-    t_f0_vbr_start: Optional[float] = Field(alias="tF0VbrStart")
+    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
+    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
+    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
     gender: Optional[float] = None
     tension: Optional[float] = None
 
@@ -79,7 +85,7 @@ class S5pParameters(BaseModel):
     voicing: S5pPoints = Field(default_factory=S5pPoints)
     gender: S5pPoints = Field(default_factory=S5pPoints)
 
-    @validator(
+    @field_validator(
         "pitch_delta",
         "vibrato_env",
         "loudness",
@@ -87,36 +93,25 @@ class S5pParameters(BaseModel):
         "breathiness",
         "voicing",
         "gender",
-        pre=True,
+        mode="before"
     )
-    def load_points(cls, points):
+    def validate_points(cls, points: list[float], _info: FieldValidationInfo):
         if not isinstance(points, S5pPoints):
             return S5pPoints(root=[S5pPoint(*each) for each in chunked(points, 2)])
         return points
 
-    def _iter(
-        self,
-        **kwargs,
-    ):
-        for key, value in super()._iter(**kwargs):
-            if key in {
-                "pitch_delta",
-                "pitchDelta",
-                "vibrato_env",
-                "vibratoEnv",
-                "loudness",
-                "tension",
-                "breathiness",
-                "voicing",
-                "gender",
-            }:
-                if key == "pitchDelta":
-                    key = "pitch_delta"
-                elif key == "vibratoEnv":
-                    key = "vibrato_env"
-                yield key, list(chain.from_iterable(getattr(self, key).root))
-            else:
-                yield key, value
+    @field_serializer(
+        "pitch_delta",
+        "vibrato_env",
+        "loudness",
+        "tension",
+        "breathiness",
+        "voicing",
+        "gender",
+        when_used="json"
+    )
+    def serialize_points(self, points: S5pPoints, _info: FieldSerializationInfo):
+        return list(chain.from_iterable(points.root))
 
 
 class S5pTrack(BaseModel):

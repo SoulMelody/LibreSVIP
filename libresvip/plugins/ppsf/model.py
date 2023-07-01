@@ -2,17 +2,12 @@ from typing import Generic, Optional, TypeVar
 
 from pydantic import Field
 
-try:
-    from pydantic.generics import GenericModel
-except ImportError:
-    from pydantic import BaseModel as GenericModel
-
 from libresvip.model.base import BaseModel
 
 ConstValue = TypeVar("ConstValue")
 
 
-class PpsfConst(GenericModel, Generic[ConstValue]):
+class PpsfConst(BaseModel, Generic[ConstValue]):
     const: ConstValue
     use_sequence: bool
 

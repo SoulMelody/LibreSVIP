@@ -23,6 +23,6 @@ class OpenUtauConverter(plugin_base.SVSConverterBase):
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         ustx_project = UstxGenerator(options).generate_project(project)
-        proj_dict = ustx_project.model_dump(by_alias=True)
-        proj_text = yaml.safe_dump(proj_dict, allow_unicode=True)
-        path.write_text(proj_text)
+        proj_dict = ustx_project.model_dump(by_alias=True, exclude_none=True)
+        proj_text = yaml.safe_dump(proj_dict, allow_unicode=True, sort_keys=False)
+        path.write_text(proj_text, encoding="utf-8")

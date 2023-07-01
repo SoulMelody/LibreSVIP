@@ -13,7 +13,7 @@ from typing import (
 )
 
 from pydantic import BaseModel as PydanticBaseModel  # , Extra
-from pydantic import Field, model_serializer, validator
+from pydantic import Field, FieldValidationInfo, SerializationInfo, model_serializer, field_validator
 from typing_extensions import Self
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -90,8 +90,8 @@ class TimeSignature(BaseModel):
 class ParamCurve(BaseModel):
     points: Points = Field(default_factory=Points, alias="PointList")
 
-    @validator("points", pre=True)
-    def load_points(cls, points) -> Points:  # noqa: N805
+    @field_validator("points", mode="before")
+    def load_points(cls, points, _info: FieldValidationInfo) -> Points:  # noqa: N805
         return (
             points
             if isinstance(points, Points)
@@ -99,7 +99,7 @@ class ParamCurve(BaseModel):
         )
 
     @model_serializer(mode="wrap")
-    def _serialize(self, handler, info):
+    def _serialize(self, handler, info: SerializationInfo):
         data = handler(self)
         if info.mode == "json":
             data["TotalPointsCount"] = len(self.points)

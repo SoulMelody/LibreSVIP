@@ -1,11 +1,6 @@
 from typing import Generic, NamedTuple, TypeVar
 
-from pydantic import Field, model_serializer, root_validator
-
-try:
-    from pydantic.generics import GenericModel
-except ImportError:
-    from pydantic import BaseModel as GenericModel
+from pydantic import BaseModel, Field, model_serializer, root_validator
 from typing_extensions import Self
 
 PointType = TypeVar("PointType")
@@ -24,7 +19,7 @@ class Point(NamedTuple):
         return cls(1073741823, value)
 
 
-class PointList(GenericModel, Generic[PointType]):
+class PointList(BaseModel, Generic[PointType]):
     root: list[PointType] = Field(default_factory=list)
 
     @root_validator(pre=True)

@@ -85,22 +85,3 @@ class DsProject(BaseModel):
     @classmethod
     def model_modify_json_schema(cls, json_schema):
         return json_schema["properties"]["root"]
-
-    def _iter(
-        self,
-        **kwargs,
-    ):
-        def _convert_value(key, value):
-            if isinstance(value, list):
-                return " ".join(str(x) for x in value)
-            elif isinstance(value, dict):
-                return {k: " ".join(str(x) for x in v) for k, v in value.items()}
-            elif key == "f0_timestep":
-                return str(value)
-            else:
-                return value
-
-        yield "root", [
-            {key: _convert_value(key, value) for key, value in item.items()}
-            for item in next(super()._iter(**kwargs))[1]
-        ]

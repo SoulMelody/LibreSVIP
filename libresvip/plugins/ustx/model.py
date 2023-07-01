@@ -4,10 +4,8 @@ from typing import Annotated, Literal, Optional, Union
 
 from pydantic import Field
 
-from libresvip.model.base import BaseModel
-
-from libresvip.core.constants import TICKS_IN_BEAT
-from libresvip.model.base import Point
+from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
+from libresvip.model.base import BaseModel, Point
 
 from .utils.music_math import MusicMath
 
@@ -21,9 +19,9 @@ ParamType = SimpleNamespace(
 class BaseExpression(BaseModel):
     name: str
     abbr: str
-    min_: int = Field(alias="min")
-    max_: int = Field(alias="max")
-    default_value: int
+    min_: float = Field(alias="min")
+    max_: float = Field(alias="max")
+    default_value: float
     is_flag: bool
 
 
@@ -70,14 +68,14 @@ class UCurve(BaseModel):
 
 
 class PitchPoint(BaseModel):
-    x: Optional[int] = None
-    y: Optional[int] = None
+    x: Optional[float] = None
+    y: Optional[float] = None
     shape: Optional[Literal["io", "l", "i", "o"]] = "io"
 
 
 class UTempo(BaseModel):
-    position: Optional[int] = None
-    bpm: Optional[int] = None
+    position: int = 0
+    bpm: float = DEFAULT_BPM
 
 
 class UTimeSignature(BaseModel):
@@ -98,7 +96,8 @@ class UTrack(BaseModel):
     renderer_settings: Optional[URendererSettings] = None
     mute: Optional[bool] = None
     solo: Optional[bool] = None
-    volume: Optional[int] = None
+    volume: Optional[float] = None
+    pan: Optional[float] = None
 
 
 class UPitch(BaseModel):
@@ -107,13 +106,13 @@ class UPitch(BaseModel):
 
 
 class UVibrato(BaseModel):
-    length: Optional[int] = None
-    period: Optional[int] = None
-    depth: Optional[int] = None
-    in_value: Optional[int] = Field(alias="in")
-    out: Optional[int] = None
-    shift: Optional[int] = None
-    drift: Optional[int] = None
+    length: Optional[float] = None
+    period: Optional[float] = None
+    depth: Optional[float] = None
+    in_value: Optional[float] = Field(alias="in")
+    out: Optional[float] = None
+    shift: Optional[float] = None
+    drift: Optional[float] = None
 
     @property
     def normalized_start(self):
@@ -139,7 +138,7 @@ class UVibrato(BaseModel):
 class UExpression(BaseModel):
     index: Optional[int] = None
     abbr: str
-    value: int
+    value: float
 
 
 class UPhonemeOverride(BaseModel):
@@ -190,24 +189,22 @@ class UWavePart(UPart):
 
 
 class USTXProject(BaseModel):
-    name: Optional[str] = None
-    comment: Optional[str] = None
-    output_dir: Optional[str] = None
-    cache_dir: Optional[str] = None
-    ustx_version: Optional[float] = None
-    bpm: Optional[int] = None
-    beat_per_bar: Optional[int] = None
-    beat_unit: Optional[int] = None
-    resolution: Optional[int] = TICKS_IN_BEAT
+    name: str = "New Project"
+    comment: str = ""
+    output_dir: str = "Vocal"
+    cache_dir: str = "UCache"
+    ustx_version: str = "0.6"
+    bpm: float = DEFAULT_BPM
+    beat_per_bar: int = 4
+    beat_unit: int = 4
+    resolution: int = TICKS_IN_BEAT
     time_signatures: list[UTimeSignature] = Field(
         default_factory=list
     )
     tempos: list[UTempo] = Field(
         default_factory=list
     )
-    expressions: dict[str, UExpressionDescriptor] = Field(
-        default_factory=dict
-    )
+    expressions: Optional[dict[str, UExpressionDescriptor]] = None
     tracks: list[UTrack] = Field(
         default_factory=list
     )

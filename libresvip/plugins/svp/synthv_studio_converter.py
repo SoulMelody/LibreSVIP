@@ -30,7 +30,7 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
         ).generate_project(project)
         path.write_bytes(
             json_dumps(
-                sv_project.model_dump(by_alias=True, exclude_none=True),
+                sv_project.model_dump(mode="json", by_alias=True, exclude_none=True),
                 separators=(",", ":"),
             ).encode()
             + b"\x00"

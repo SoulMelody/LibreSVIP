@@ -24,9 +24,10 @@ class GjgjConverter(plugin_base.SVSConverterBase):
         path.write_text(
             json_dumps(
                 gjgj_project.model_dump(
+                    mode="json",
                     exclude_none=True,
+                    by_alias=True,
                 ),
-                by_alias=True,
                 ensure_ascii=False,
                 separators=(",", ":"),
             ),

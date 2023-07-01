@@ -3,8 +3,14 @@ from itertools import chain
 from typing import Literal, NamedTuple, Optional
 from uuid import uuid4
 
+from pydantic import (
+    Field,
+    FieldSerializationInfo,
+    FieldValidationInfo,
+    field_serializer,
+    field_validator,
+)
 from setuptools.extern.more_itertools import chunked
-from pydantic import Field, validator
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, PointList
@@ -65,19 +71,13 @@ class SVParamCurve(BaseModel):
     mode: Literal["linear", "cubic", "cosine", "sigmoid"] = Field("linear")
     points: SVPoints = Field(default_factory=SVPoints)
 
-    @validator("points", pre=True)
-    def load_points(cls, points: list[float]):
+    @field_validator("points", mode="before")
+    def validate_points(cls, points: list[float], _info: FieldValidationInfo):
         return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
-    def _iter(
-        self,
-        **kwargs,
-    ):
-        for key, value in super()._iter(**kwargs):
-            if key in {"points"}:
-                yield key, list(chain.from_iterable(self.points.root))
-            else:
-                yield key, value
+    @field_serializer("points", when_used="json")
+    def serialize_points(self, points: SVPoints, _info: FieldSerializationInfo):
+        return list(chain.from_iterable(points.root))
 
     def edited_range(self, default_value: float = 0.0) -> RangeInterval:
         tolerance = 1e-6
@@ -500,10 +500,9 @@ class SVGroup(BaseModel):
         default_factory=dict, alias="vocalModes"
     )
 
-    @validator("notes", pre=True)
-    def validate_notes(cls, v):
-        v = [note for note in v if note["onset"] >= 0]
-        return v
+    @field_validator("notes", mode="before")
+    def validate_notes(cls, v, _info: FieldValidationInfo):
+        return [note for note in v if note["onset"] >= 0]
 
     def overlapped_with(self, other: "SVGroup") -> bool:
         for note in self.notes:
