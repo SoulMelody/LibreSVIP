@@ -37,13 +37,14 @@ def get_dialog_widget(prefix: str):
         with vuetify3.VCard():
             with vuetify3.VRow(tag="span"):
                 with vuetify3.VCol(tag="span", cols=3):
-                    with vuetify3.VAvatar(size="100px"):
-                        vuetify3.VImg(
-                            src=(
-                                f"'data:image/png;base64,' + plugin_details[{prefix}_format].icon_base64",
-                                "",
-                            ),
-                        )
+                    html.Div(
+                        style=(
+                            rf"""
+                                'background: url(\'data:image/png;base64,' + plugin_details[{prefix}_format].icon_base64 + '\'); background-size: contain; border-radius: 50%; width: 100px; height: 100px;'
+                            """,
+                            "",
+                        ),
+                    )
                 with vuetify3.VCol(tag="span", cols="auto"):
                     with vuetify3.VRow(tag="span", no_gutters=True):
                         vuetify3.VListItemTitle(
