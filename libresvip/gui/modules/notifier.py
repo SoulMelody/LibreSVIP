@@ -1,5 +1,9 @@
+from gettext import gettext as _
+from typing import Optional
+
 import httpx
 import qtinter
+from desktop_notifier import DesktopNotifier, Notification
 from loguru import logger
 from qmlease import slot
 from qtpy.QtCore import QObject
@@ -14,19 +18,10 @@ class Notifier(QObject):
     def __init__(self):
         super().__init__()
         try:
-            from desktop_notifier import DesktopNotifier
-
             self.notifier = DesktopNotifier(
                 app_name=PACKAGE_NAME, app_icon=res_dir / "libresvip.ico"
             )
-            self.notification = None
         except Exception:
-            from notifypy import Notify
-
-            self.notification = Notify(
-                default_notification_application_name=PACKAGE_NAME,
-                default_notification_icon=res_dir / "libresvip.ico",
-            )
             self.notifier = None
         if settings.auto_check_for_updates:
             self.check_for_updates()
@@ -34,53 +29,49 @@ class Notifier(QObject):
     @slot()
     @qtinter.asyncslot
     async def check_for_updates(self):
-        await self.notify_async(title="Checking for Updates", message="Please wait...")
         client = httpx.AsyncClient(follow_redirects=True, timeout=30)
         try:
+            await self.clear_all_messages_async()
+            waiting_notification = await self.notify_async(title=_("Checking for Updates"), message=_("Please wait..."))
             resp = await client.get(
                 "https://api.github.com/repos/SoulMelody/LibreSVIP/releases/latest"
             )
+            if waiting_notification:
+                await self.clear_message_async(waiting_notification)
             if resp.status_code == 200:
                 data = resp.json()
                 local_version = Version(libresvip.__version__)
                 remote_version = Version(data["tag_name"].removeprefix("v"))
                 if remote_version > local_version:
                     await self.notify_async(
-                        title="Update Available",
-                        message=f"New version {remote_version} is available.",
+                        title=_("Update Available"),
+                        message=_("New version {} is available.").format(remote_version),
                     )
                 else:
                     await self.notify_async(
-                        title="No Updates",
-                        message=f"You are using the latest version {local_version}.",
+                        title=_("No Updates"),
+                        message=_("You are using the latest version {}.").format(local_version),
                     )
         except httpx.HTTPError:
             await self.notify_async(
-                title="Error",
-                message="Failed to check for updates. Please try again later.",
+                title=_("Error occurred while Checking for Updates"),
+                message=_("Failed to check for updates. Please try again later."),
             )
 
-    async def notify_async(self, title, message):
+    async def notify_async(self, title, message) -> Optional[Notification]:
         try:
-            if self.notifier:
-                await self.notifier.send(title=title, message=message)
-            elif self.notification:
-                self.notification.title = title
-                self.notification.message = message
-
-                self.notification.send()
+            return await self.notifier.send(title=title, message=message)
         except Exception as e:
             logger.error(e)
 
-    @slot(str, str)
-    def notify(self, title, message):
+    async def clear_message_async(self, notification: Notification):
         try:
-            if self.notifier:
-                self.notifier.send_sync(title=title, message=message)
-            elif self.notification:
-                self.notification.title = title
-                self.notification.message = message
+            await self.notifier.clear(notification)
+        except Exception as e:
+            logger.error(e)
 
-                self.notification.send()
+    async def clear_all_messages_async(self):
+        try:
+            await self.notifier.clear_all()
         except Exception as e:
             logger.error(e)

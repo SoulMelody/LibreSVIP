@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "libresvip"
-version = "0.0.1"
+version = "0.0.0"
 description = "Universal Converter for Singing Voice Projects"
 authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
 charset-normalizer = "^3.1.0"
-loguru = "^0.6.0"
+loguru = "^0.7.0"
 omegaconf = "^2.3.0"
 platformdirs = "^3.8.0"
 portion = "^2.4.0"
@@ -68,7 +68,6 @@ pyside6 = "!=6.5.0"
 qmlease = "^3.0.3"
 qtawesome = "^1.2.3"
 desktop-notifier = { version = "^3.5.3", markers = "platform_python_implementation == 'CPython'" }
-notify-py = { version = "^0.3.42", markers = "platform_python_implementation == 'PyPy'" }
 qtinter = "^0.11.0"
 httpx = "^0.24.1"
 
@@ -82,7 +81,7 @@ optional = true
 
 [tool.poetry.group.code_gen.dependencies]
 xsdata = { extras = ["cli"], version = "^23.6" }
-# datamodel-code-generator = "^0.20.0"
+datamodel-code-generator = "^0.21.0"
 translate-toolkit = "^3.9.2"
 babel = "^2.12.1"
 
@@ -105,23 +104,26 @@ pytest-datadir = "^1.4.1"
 [tool.poetry.group.dev.dependencies]
 isort = "^5.12.0"
 pre-commit = "^3.3.3"
-poethepoet = "^0.20.0"
 ruff = "^0.0.275"
 black = "^23.3.0"
 mypy = "^1.4.1"
 sourcery = "^1.5.0"
+poetry-dynamic-versioning = "^0.24.0"
 urllib3 = "<2.0"
-
 
 [[tool.poetry.source]]
 name = "tencent"
 url = "https://mirrors.cloud.tencent.com/pypi/simple/"
 priority = "default"
 
-[tool.poe.tasks]
-cli.script = "libresvip.cli.__main__:app"
-gui.script = "libresvip.gui.__main__:run"
-web.script = "libresvip.web.__main__:main"
+[tool.poetry.scripts]
+cli = "libresvip.cli.__main__:app"
+gui = "libresvip.gui.__main__:run"
+web = "libresvip.web.__main__:main"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+format = "{base}"
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
@@ -166,5 +168,5 @@ fix = true
 known-first-party = ['libresvip', 'tests']
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools", "wheel", "setuptools"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning", "setuptools", "wheel"]
+build-backend = "poetry_dynamic_versioning.backend"
