@@ -4,7 +4,7 @@ from qtpy.QtCore import QObject
 
 class Clipboard(QObject):
     def __init__(self, parent=None):
-        QObject.__init__(self, parent=parent)
+        super().__init__(parent=parent)
         self.clipboard = app.clipboard()
 
     @slot(str, result=bool)

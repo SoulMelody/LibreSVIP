@@ -42,6 +42,7 @@ class Notifier(QObject):
                 await self.notify_async(title=_("Downloading"), message=_("Please wait..."))
                 with open(app_dir.user_downloads_path / filename, "wb") as f:
                     async with client.stream('GET', url) as response:
+                        response.raise_for_status()
                         async for chunk in response.aiter_bytes():
                             f.write(chunk)
                             f.flush()
