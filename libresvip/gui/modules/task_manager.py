@@ -11,8 +11,7 @@ from typing import Any, get_args, get_type_hints
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from qmlease import slot
-from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, QUrl, Signal
-from qtpy.QtGui import QDesktopServices
+from qtpy.QtCore import QObject, QRunnable, QThreadPool, QTimer, Signal
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
@@ -21,11 +20,7 @@ from libresvip.model.base import BaseComplexModel, BaseModel
 from libresvip.utils import shorten_error_message
 
 from .model_proxy import ModelProxy
-
-
-def open_path(path: pathlib.Path):
-    output_url = QUrl.fromLocalFile(path)
-    QDesktopServices.openUrl(output_url)
+from .url_opener import open_path
 
 
 class ConversionWorkerSignals(QObject):
