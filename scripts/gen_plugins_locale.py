@@ -19,7 +19,7 @@ if __name__ == "__main__":
                 tmp_pot_name = tempfile.mktemp(suffix=".pot", dir=tmp_dir)
                 cmdinst = extract_messages()
                 cmdinst.initialize_options()
-                cmdinst.input_paths = [str(info_path.parent)]
+                cmdinst.input_paths = [str(info_path)]
                 cmdinst.output_file = tmp_pot_name
                 cmdinst.finalize_options()
                 cmdinst.run()
@@ -36,7 +36,8 @@ if __name__ == "__main__":
 
             tmp_po.seek(0)
 
-            i18n_file = info_path.parent / (info_path.stem + "-zh_CN.po")
+            plugin_info_path = next(info_path.glob("*.yapsy-plugin"))
+            i18n_file = info_path / (plugin_info_path.stem + "-zh_CN.po")
             if i18n_file.exists():
                 ori_content = i18n_file.read_bytes()
                 if ori_content:

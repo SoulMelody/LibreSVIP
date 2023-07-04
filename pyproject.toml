@@ -40,7 +40,7 @@ mido = "^1.2.10"
 
 [tool.poetry.group.subtitle.dependencies]
 srt = "^3.5.3"
-ass = "^0.5.3"
+ass = "^0.5.4"
 
 [tool.poetry.group.binary.dependencies]
 construct-typing = "^0.5.6"

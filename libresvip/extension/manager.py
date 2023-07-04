@@ -64,11 +64,9 @@ def _importModule(plugin_module_name: str, candidate_filepath: str) -> types.Mod
 
     if not candidate_filepath.is_dir():
         candidate_filepath = candidate_filepath.with_suffix(".py")
-        plugin_dirname = candidate_filepath.parent.name
-        plugin_package = f"{plugin_namespace}.{plugin_dirname}"
-        if plugin_package not in sys.modules:
+        if plugin_module_name not in sys.modules:
             package_path = candidate_filepath.parent / "__init__.py"
-            sys.modules[plugin_package] = load_module(plugin_package, package_path)
+            sys.modules[plugin_module_name] = load_module(plugin_module_name, package_path)
 
     return load_module(plugin_module_name, candidate_filepath)
 

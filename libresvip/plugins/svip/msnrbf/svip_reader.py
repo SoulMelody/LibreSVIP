@@ -2,6 +2,8 @@
 import dataclasses
 import pathlib
 
+from loguru import logger
+
 from libresvip.utils import gettext_lazy as _
 
 from .binary_models import (
@@ -41,7 +43,7 @@ class SvipReader(NrbfIOBase):
             else:
                 results = [None] * obj.lengths[0]
         else:
-            print(obj.binary_type_enum)
+            logger.warning(obj.binary_type_enum)
         return results
 
     def build_class(self, obj):
@@ -87,7 +89,7 @@ class SvipReader(NrbfIOBase):
             RecordTypeEnum.ObjectNull,
             RecordTypeEnum.MessageEnd,
         ]:
-            print(obj.record_type_enum, obj.keys())
+            logger.warning(obj.record_type_enum)
 
     def read_record(self, record):
         if record.record_type_enum == RecordTypeEnum.SerializedStreamHeader:

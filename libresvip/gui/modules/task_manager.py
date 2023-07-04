@@ -8,6 +8,7 @@ import warnings
 import zipfile
 from typing import Any, get_args, get_type_hints
 
+from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from qmlease import slot
@@ -303,7 +304,7 @@ class TaskManager(QObject):
                             }
                         )
                     else:
-                        print(enum_item.name)
+                        logger.warning(enum_item.name)
                 fields.append(
                     {
                         "type": "enum",
@@ -438,7 +439,7 @@ class TaskManager(QObject):
                     shutil.copytree(info["directory"], install_dir / plugin_info.suffix)
                 success_count += 1
             except Exception as e:
-                print(e)
+                logger.exception(e)
         load_plugins()
         return success_count
 
@@ -468,7 +469,7 @@ class TaskManager(QObject):
                             "info_filename": plugin_info_filename,
                         }
                     )
-                    print(infos)
+                    logger.debug(infos)
         return infos
 
     @slot(result=bool)
