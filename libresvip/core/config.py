@@ -63,6 +63,7 @@ class LibreSvipSettings:
     multi_threaded_conversion: bool = dataclasses.field(default=True)
     open_save_folder_on_completion: bool = dataclasses.field(default=True)
     auto_set_output_extension: bool = dataclasses.field(default=True)
+    auto_check_for_updates: bool = dataclasses.field(default=True)
 
 
 config_path = app_dir.user_config_path / "settings.yml"

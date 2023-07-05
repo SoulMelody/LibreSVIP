@@ -19,7 +19,9 @@ except ImportError:
     get_qt_plugins_paths = None
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
-include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
+include_files = [
+    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
+]
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
@@ -36,13 +38,13 @@ elif (pyside6_dir / "Qt/qml").exists():
         )
 
 if qml_base_dir:
-    for qml_dir in qml_dirs:
-        include_files.append(
-            (
-                pyside6_dir / qml_base_dir / qml_dir,
-                pathlib.Path(f"./lib/PySide6/{qml_base_dir}/{qml_dir}"),
-            )
+    include_files.extend(
+        (
+            pyside6_dir / qml_base_dir / qml_dir,
+            pathlib.Path(f"./lib/PySide6/{qml_base_dir}/{qml_dir}"),
         )
+        for qml_dir in qml_dirs
+    )
     qml_lib = next(pyside6_dir.glob("*pyside6qml*"))
     include_files.append((qml_lib, pathlib.Path(f"./lib/PySide6/{qml_lib.name}")))
 
@@ -131,7 +133,6 @@ build_exe_options = {
     # exclude packages that are not really needed
     "excludes": [
         "tkinter",
-        "unittest",
         "pydoc",
         "pydoc_data",
         "pep517",
@@ -149,12 +150,25 @@ build_exe_options = {
         "trame_server",
         "wslink",
         "webview",
+        "wx",
         "aiohttp",
         "pythonnet",
     ],
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
-    "packages": ["qmlease", "libresvip", "PySide6.QtQuick"],
+    "packages": [
+        "ass",
+        "construct_typed",
+        "drawsvg",
+        "jinja2",
+        "libresvip",
+        "mido",
+        "PySide6.QtQuick",
+        "qmlease",
+        "srt",
+        "textx",
+        "xsdata",
+    ],
 }
 
 executables = [

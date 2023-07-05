@@ -342,7 +342,10 @@ Dialog {
             Column {
                 Switch {
                     text: qsTr("Auto Check for Updates")
-                    enabled: false
+                    checked: py.config_items.get_bool("auto_check_for_updates")
+                    onClicked: {
+                        py.config_items.set_bool("auto_check_for_updates", checked)
+                    }
                 }
             }
         }

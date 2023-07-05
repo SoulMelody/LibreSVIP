@@ -1,5 +1,6 @@
 import os
 
+import qtinter
 from qmlease import app
 from qtpy.QtQuickControls2 import QQuickStyle
 
@@ -29,15 +30,16 @@ def run():
     app.register(config_items, name="config_items")
     app.register(FontLoader(), name="qta")
     app.register(LocaleSwitcher(), name="locale")
-    app.register(Notifier(), name="notifier")
     app.register(task_manager, name="task_manager")
     app.register_qmldir(
         pkg_dir / "gui" / "components",
     )
-    app.run(
-        pkg_dir / "gui" / "main.qml",
-        # debug=True
-    )
+    with qtinter.using_asyncio_from_qt():
+        app.register(Notifier(), name="notifier")
+        app.run(
+            pkg_dir / "gui" / "main.qml",
+            # debug=True
+        )
 
 
 if __name__ == "__main__":

@@ -348,8 +348,8 @@ ToolBar {
                     IconMenuItem {
                         icon_name: "mdi6.progress-upload"
                         label: qsTr("Check for Updates");
-                        enabled: false
-                        // onTriggered: py.notifier.notify("info", qsTr("Checking for updates..."))
+                        enabled: true
+                        onTriggered: py.notifier.check_for_updates()
                     }
                     IconMenuItem {
                         icon_name: "mdi6.text-box-search-outline"

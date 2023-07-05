@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-06-23 10:26+0800\n"
+"POT-Creation-Date: 2023-07-05 09:56+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -27,90 +27,90 @@ msgstr "在命令行模式中不支持设置 {} 选项"
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
-#: ../libresvip/cli/commands/plugin.py:36
+#: ../libresvip/cli/commands/plugin.py:32
 msgid "Cannot find plugin "
 msgstr "未找到插件 "
 
-#: ../libresvip/cli/commands/plugin.py:42
+#: ../libresvip/cli/commands/plugin.py:38
 msgid "No plugins are currently installed."
 msgstr "目前尚未安装任何插件。"
 
-#: ../libresvip/cli/commands/plugin.py:45
+#: ../libresvip/cli/commands/plugin.py:41
 msgid "No."
 msgstr "序号"
 
-#: ../libresvip/cli/commands/plugin.py:46
+#: ../libresvip/cli/commands/plugin.py:42
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:47 ../libresvip/web/i18n.py:26
+#: ../libresvip/cli/commands/plugin.py:43 ../libresvip/web/i18n.py:26
 msgid "Version"
 msgstr "版本"
 
-#: ../libresvip/cli/commands/plugin.py:48 ../libresvip/web/i18n.py:25
+#: ../libresvip/cli/commands/plugin.py:44 ../libresvip/web/i18n.py:25
 msgid "Author"
 msgstr "作者"
 
-#: ../libresvip/cli/commands/plugin.py:49
+#: ../libresvip/cli/commands/plugin.py:45
 msgid "Identifier"
 msgstr "标识符"
 
-#: ../libresvip/cli/commands/plugin.py:50
+#: ../libresvip/cli/commands/plugin.py:46
 msgid "Applicable file format"
 msgstr "适用格式"
 
-#: ../libresvip/cli/commands/plugin.py:68
+#: ../libresvip/cli/commands/plugin.py:64
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:69
+#: ../libresvip/cli/commands/plugin.py:65
 msgid "Version: "
 msgstr "版本： "
 
-#: ../libresvip/cli/commands/plugin.py:70
+#: ../libresvip/cli/commands/plugin.py:66
 msgid "Author: "
 msgstr "作者： "
 
-#: ../libresvip/cli/commands/plugin.py:74
+#: ../libresvip/cli/commands/plugin.py:70
 msgid "Website: "
 msgstr "主页： "
 
-#: ../libresvip/cli/commands/plugin.py:78
+#: ../libresvip/cli/commands/plugin.py:74
 msgid "This plugin is applicable to"
 msgstr "此插件适用于"
 
-#: ../libresvip/cli/commands/plugin.py:83
+#: ../libresvip/cli/commands/plugin.py:79
 msgid ""
 "If you want to use this plugin, please specify '-i {}' (input) or '-o "
 "{}' (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:88
+#: ../libresvip/cli/commands/plugin.py:84
 msgid "Description: "
 msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:89
+#: ../libresvip/cli/commands/plugin.py:85
 msgid "input"
 msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:89
+#: ../libresvip/cli/commands/plugin.py:85
 msgid "output"
 msgstr "输出"
 
-#: ../libresvip/cli/commands/plugin.py:98
+#: ../libresvip/cli/commands/plugin.py:94
 msgid "This plugin supports the following {} conversion options:"
 msgstr "本插件可指定以下{}转换选项："
 
-#: ../libresvip/cli/commands/plugin.py:112
-#: ../libresvip/cli/commands/plugin.py:141
+#: ../libresvip/cli/commands/plugin.py:108
+#: ../libresvip/cli/commands/plugin.py:139
 msgid "Default: "
 msgstr "默认值："
 
-#: ../libresvip/cli/commands/plugin.py:114
+#: ../libresvip/cli/commands/plugin.py:110
 msgid "Available values:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/plugin.py:135
+#: ../libresvip/cli/commands/plugin.py:133
 msgid "Available fields:"
 msgstr "可用值如下："
 

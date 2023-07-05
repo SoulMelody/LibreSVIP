@@ -15,7 +15,7 @@ class ConfigItems(QObject):
     auto_set_output_extension_changed = Signal(bool)
 
     def __init__(self, parent=None):
-        QObject.__init__(self, parent=parent)
+        super().__init__(parent=parent)
         self.folder_presets = ModelProxy({"path": ""})
         self.folder_presets.append_many(
             [{"path": self.posix_path(path)} for path in settings.folder_presets]

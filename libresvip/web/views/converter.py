@@ -9,6 +9,7 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import get_args, get_type_hints
 
+from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from trame_client.widgets import html, trame
@@ -314,7 +315,7 @@ def initialize(server: Server):
                                 }
                             )
                         else:
-                            print(enum_item.name)
+                            logger.warning(enum_item.name)
                     option_info[f"{prefix}_fields"].append(
                         {
                             "type": "enum",
@@ -327,7 +328,7 @@ def initialize(server: Server):
                     )
                     option_info[f"{prefix}_defaults"][option_key] = default_value
                 else:
-                    print(field_info)
+                    logger.warning(field_info)
         setattr(state, f"{prefix}_fields", option_info[f"{prefix}_fields"])
         setattr(state, prefix, option_info[f"{prefix}_defaults"])
 
