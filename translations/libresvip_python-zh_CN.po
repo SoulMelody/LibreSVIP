@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-07-04 06:51+0800\n"
+"POT-Creation-Date: 2023-07-05 09:56+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -137,61 +137,6 @@ msgstr "使其它音轨静音"
 #: ../libresvip/cli/commands/proj.py:89
 msgid "Output Options："
 msgstr "导出选项："
-
-#: ../libresvip/gui/modules/notifier.py:42
-msgid "Downloading"
-msgstr "下载中"
-
-#: ../libresvip/gui/modules/notifier.py:42
-#: ../libresvip/gui/modules/notifier.py:62
-msgid "Please wait..."
-msgstr "请稍候……"
-
-#: ../libresvip/gui/modules/notifier.py:52
-msgid "Error occurred while Downloading"
-msgstr "下载过程中出现错误"
-
-#: ../libresvip/gui/modules/notifier.py:53
-msgid "Failed to download file {}. Please try again later."
-msgstr "{} 文件下载失败，请稍后再试。"
-
-#: ../libresvip/gui/modules/notifier.py:62
-msgid "Checking for Updates"
-msgstr "检查更新中"
-
-#: ../libresvip/gui/modules/notifier.py:74
-msgid "Open in Browser"
-msgstr "在浏览器中打开"
-
-#: ../libresvip/gui/modules/notifier.py:105
-msgid "Download"
-msgstr "下载"
-
-#: ../libresvip/gui/modules/notifier.py:115
-msgid "Update Available"
-msgstr "更新可用"
-
-#: ../libresvip/gui/modules/notifier.py:116
-msgid "New version {} is available."
-msgstr "新版本{}已经可用。"
-
-#: ../libresvip/gui/modules/notifier.py:121
-msgid "No Updates"
-msgstr "未找到更新"
-
-#: ../libresvip/gui/modules/notifier.py:122
-msgid "You are using the latest version {}."
-msgstr "你正在使用最新版本 {}。"
-
-#: ../libresvip/gui/modules/notifier.py:126
-#: ../libresvip/gui/modules/notifier.py:131
-msgid "Error occurred while Checking for Updates"
-msgstr "检查更新时出现错误！"
-
-#: ../libresvip/gui/modules/notifier.py:127
-#: ../libresvip/gui/modules/notifier.py:132
-msgid "Failed to check for updates. Please try again later."
-msgstr "检查更新失败，请稍后再试。"
 
 #: ../libresvip/web/i18n.py:11
 msgid "SVS Projects Converter"

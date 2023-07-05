@@ -2,7 +2,6 @@ import asyncio
 import fnmatch
 import platform
 from functools import partial
-from gettext import gettext as _
 from typing import Optional, Sequence
 
 import httpx
@@ -39,7 +38,7 @@ class Notifier(QObject):
         async with httpx.AsyncClient(follow_redirects=True, verify=False) as client:
             try:
                 await self.clear_all_messages_async()
-                await self.notify_async(title=_("Downloading"), message=_("Please wait..."))
+                await self.notify_async(title=self.tr("Downloading"), message=self.tr("Please wait..."))
                 with open(app_dir.user_downloads_path / filename, "wb") as f:
                     async with client.stream('GET', url) as response:
                         response.raise_for_status()
@@ -49,17 +48,18 @@ class Notifier(QObject):
                 open_path(app_dir.user_downloads_path)
             except httpx.HTTPError:
                 await self.notify_async(
-                    title=_("Error occurred while Downloading"),
-                    message=_("Failed to download file {}. Please try again later.").format(filename),
+                    title=self.tr("Error occurred while Downloading"),
+                    message=self.tr("Failed to download file {}. Please try again later.").format(filename),
                 )
 
     @slot()
     @qtinter.asyncslot
     async def check_for_updates(self):
+        failed = False
         async with httpx.AsyncClient(follow_redirects=True, timeout=self.request_timeout) as client:
             try:
                 await self.clear_all_messages_async()
-                await self.notify_async(title=_("Checking for Updates"), message=_("Please wait..."), timeout=self.request_timeout)
+                await self.notify_async(title=self.tr("Checking for Updates"), message=self.tr("Please wait..."), timeout=self.request_timeout)
                 resp = await client.get(
                     "https://api.github.com/repos/SoulMelody/LibreSVIP/releases/latest"
                 )
@@ -71,7 +71,7 @@ class Notifier(QObject):
                         uname = platform.uname()
                         buttons = [
                             Button(
-                                _("Open in Browser"),
+                                self.tr("Open in Browser"),
                                 partial(
                                     open_url,
                                     data["html_url"],
@@ -102,7 +102,7 @@ class Notifier(QObject):
                             if asset:
                                 buttons.append(
                                     Button(
-                                        _("Download"),
+                                        self.tr("Download"),
                                         lambda : self.notifier._loop.create_task(
                                             self.download_release(
                                                 asset["browser_download_url"],
@@ -112,24 +112,23 @@ class Notifier(QObject):
                                     ),
                                 )
                         await self.notify_async(
-                            title=_("Update Available"),
-                            message=_("New version {} is available.").format(remote_version),
+                            title=self.tr("Update Available"),
+                            message=self.tr("New version {} is available.").format(remote_version),
                             buttons=buttons,
                         )
                     else:
                         await self.notify_async(
-                            title=_("No Updates"),
-                            message=_("You are using the latest version {}.").format(local_version),
+                            title=self.tr("No Updates"),
+                            message=self.tr("You are using the latest version {}.").format(local_version),
                         )
                 else:
-                    await self.notify_async(
-                        title=_("Error occurred while Checking for Updates"),
-                        message=_("Failed to check for updates. Please try again later."),
-                    )
+                    failed = True
             except httpx.HTTPError:
+                failed = True
+            if failed:
                 await self.notify_async(
-                    title=_("Error occurred while Checking for Updates"),
-                    message=_("Failed to check for updates. Please try again later."),
+                    title=self.tr("Error occurred while Checking for Updates"),
+                    message=self.tr("Failed to check for updates. Please try again later."),
                 )
 
     async def notify_async(

@@ -150,12 +150,25 @@ build_exe_options = {
         "trame_server",
         "wslink",
         "webview",
+        "wx",
         "aiohttp",
         "pythonnet",
     ],
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
-    "packages": ["qmlease", "libresvip", "PySide6.QtQuick"],
+    "packages": [
+        "ass",
+        "construct_typed",
+        "drawsvg",
+        "jinja2",
+        "libresvip",
+        "mido",
+        "PySide6.QtQuick",
+        "qmlease",
+        "srt",
+        "textx",
+        "xsdata",
+    ],
 }
 
 executables = [
