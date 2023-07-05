@@ -243,8 +243,15 @@ class LibreSvipPluginFileLocator(PluginFileLocator):
                         for _file in plugin_info_path.glob("*.py"):
                             self._discovered_plugins[str(_file)] = candidate_filepath
                             _discovered[str(_file)] = candidate_filepath
-                    elif (plugin_info_path.suffix in lib_suffixes and plugin_info_path.is_file()) or (
-                        plugin_info_path.with_suffix(".py").is_file()
+                    elif ((entry_suffix := plugin_info_path.suffix) in lib_suffixes and plugin_info_path.is_file()) or (
+                        entry_suffix := next(
+                            (
+                                suffix
+                                for suffix in lib_suffixes
+                                if (plugin_info_path.with_suffix(suffix).is_file())
+                            ),
+                            None,
+                        )
                     ):
                         candidate_filepath = plugin_info_path
                         if candidate_filepath.suffix in lib_suffixes:
@@ -252,10 +259,10 @@ class LibreSvipPluginFileLocator(PluginFileLocator):
                         candidate_filepath = str(candidate_filepath)
                         # it is a file, adds it
                         self._discovered_plugins[str(
-                            plugin_info_path.with_suffix(".py")
+                            plugin_info_path.with_suffix(entry_suffix)
                         )] = candidate_filepath
                         _discovered[str(
-                            plugin_info_path.with_suffix(".py")
+                            plugin_info_path.with_suffix(entry_suffix)
                         )] = candidate_filepath
                     else:
                         logger.error(

@@ -163,6 +163,8 @@ build_exe_options = {
         "jinja2",
         "libresvip",
         "mido",
+        "pure_protobuf",
+        "pydub",
         "PySide6.QtQuick",
         "qmlease",
         "srt",
