@@ -44,8 +44,8 @@ class GjgjParser:
     def parse_project(self, gjgj_project: GjgjProject) -> Project:
         self.ticks_in_beat = gjgj_project.tempo_map.ticks_per_quarter_note
         project = Project(
-            SongTempoList=self.parse_tempos(gjgj_project.tempo_map),
-            TimeSignatureList=self.parse_time_signatures(
+            song_tempo_list=self.parse_tempos(gjgj_project.tempo_map),
+            time_signature_list=self.parse_time_signatures(
                 gjgj_project.tempo_map.time_signature
             ),
         )
@@ -60,8 +60,8 @@ class GjgjParser:
         for tempo in tempo_map.tempos:
             tempos.append(
                 SongTempo(
-                    Position=tempo.time,
-                    BPM=mido.tempo2bpm(tempo.microseconds_per_quarter_note),
+                    position=tempo.time,
+                    bpm=mido.tempo2bpm(tempo.microseconds_per_quarter_note),
                 )
             )
         self.time_synchronizer = TimeSynchronizer(tempos)
@@ -72,13 +72,13 @@ class GjgjParser:
     ) -> list[TimeSignature]:
         if not len(time_signatures) or time_signatures[0].time != 0:
             time_signatures.insert(
-                0, GjgjTimeSignature(Time=0, Numerator=4, Denominator=4)
+                0, GjgjTimeSignature(time=0, numerator=4, denominator=4)
             )
         time_signature_changes = [
             TimeSignature(
-                BarIndex=0,
-                Numerator=time_signatures[0].numerator,
-                Denominator=time_signatures[0].denominator,
+                bar_index=0,
+                numerator=time_signatures[0].numerator,
+                denominator=time_signatures[0].denominator,
             )
         ]
         self.first_bar_length = (self.ticks_in_beat * 4) * time_signatures[0].numerator / time_signatures[0].denominator
@@ -92,9 +92,9 @@ class GjgjParser:
             tick = time_signature.time
             measure += (tick - prev_ticks) / tick_in_full_note
             ts_obj = TimeSignature(
-                BarIndex=math.floor(measure),
-                Numerator=time_signature.numerator,
-                Denominator=time_signature.denominator,
+                bar_index=math.floor(measure),
+                numerator=time_signature.numerator,
+                denominator=time_signature.denominator,
             )
             time_signature_changes.append(ts_obj)
             prev_ticks = tick
@@ -103,10 +103,10 @@ class GjgjParser:
     def parse_singing_tracks(self, tracks: list[GjgjSingingTrack]) -> list[Track]:
         return [
             SingingTrack(
-                AISingerName=id2singer[track.singer_info.display_name],
-                Mute=track.master_volume.mute,
-                NoteList=self.parse_notes(track.beat_items),
-                EditedParams=self.parse_params(track),
+                ai_singer_name=id2singer[track.singer_info.display_name],
+                mute=track.master_volume.mute,
+                note_list=self.parse_notes(track.beat_items),
+                edited_params=self.parse_params(track),
             )
             for track in tracks
         ]
@@ -116,9 +116,9 @@ class GjgjParser:
     ) -> list[Track]:
         return [
             InstrumentalTrack(
-                Mute=accompaniment.master_volume.mute,
-                AudioFilePath=accompaniment.path,
-                Offset=round(
+                mute=accompaniment.master_volume.mute,
+                audio_file_path=accompaniment.path,
+                offset=round(
                     self.time_synchronizer.get_actual_ticks_from_secs(
                         accompaniment.offset / 10000000
                     )
@@ -133,12 +133,12 @@ class GjgjParser:
         for beat_item in beat_items:
             start_pos = beat_item.start_tick - self.first_bar_length
             note = Note(
-                StartPos=start_pos,
-                Length=beat_item.duration,
-                Lyric=beat_item.lyric.strip(),
-                KeyNumber=beat_item.track,
-                Pronunciation=beat_item.pinyin,
-                EditedPhones=self.parse_phones(beat_item, start_pos),
+                start_pos=start_pos,
+                length=beat_item.duration,
+                lyric=beat_item.lyric.strip(),
+                key_number=beat_item.track,
+                pronunciation=beat_item.pinyin,
+                edited_phones=self.parse_phones(beat_item, start_pos),
             )
             if beat_item.style == GjgjBeatStyle.SP:
                 note.head_tag = "V"
@@ -173,8 +173,8 @@ class GjgjParser:
 
     def parse_params(self, track: GjgjSingingTrack) -> Params:
         params = Params(
-            Pitch=self.parse_pitch_curve(track.tone),
-            Volume=self.parse_volume_curve(track.volume_map),
+            pitch=self.parse_pitch_curve(track.tone),
+            volume=self.parse_volume_curve(track.volume_map),
         )
         return params
 

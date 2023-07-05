@@ -26,15 +26,15 @@ class DiffSingerParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def parse_project(self, ds_project: DsProject) -> Project:
-        sont_tempo_list = [SongTempo(Position=0, BPM=DEFAULT_BPM)]
+        sont_tempo_list = [SongTempo(position=0, bpm=DEFAULT_BPM)]
         self.synchronizer = TimeSynchronizer(sont_tempo_list)
         return Project(
-            SongTempoList=sont_tempo_list,
-            TimeSignatureList=[TimeSignature(BarIndex=0, Numerator=4, Denominator=4)],
-            TrackList=[
+            song_tempo_list=sont_tempo_list,
+            time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
+            track_list=[
                 SingingTrack(
-                    NoteList=self.parse_notes(ds_project.root),
-                    EditedParams=Params(Pitch=self.parse_pitch(ds_project.root)),
+                    note_list=self.parse_notes(ds_project.root),
+                    edited_params=Params(pitch=self.parse_pitch(ds_project.root)),
                 )
             ],
         )
@@ -70,11 +70,11 @@ class DiffSingerParser:
                         if not len(notes):
                             notes.append(
                                 Note(
-                                    StartPos=int(cur_time),
-                                    Length=int(phone_dur),
-                                    KeyNumber=midi_key,
-                                    Pronunciation=phone,
-                                    HeadTag="V" if prev_is_breath else None,
+                                    start_pos=int(cur_time),
+                                    length=int(phone_dur),
+                                    key_number=midi_key,
+                                    pronunciation=phone,
+                                    head_tag="V" if prev_is_breath else None,
                                 )
                             )
                             prev_is_breath = False
@@ -94,11 +94,11 @@ class DiffSingerParser:
                             if phone_complete or phone_str is None:
                                 notes.append(
                                     Note(
-                                        StartPos=int(cur_time),
-                                        Length=int(phone_dur),
-                                        KeyNumber=midi_key,
-                                        Pronunciation=phone,
-                                        HeadTag="V" if prev_is_breath else None,
+                                        start_pos=int(cur_time),
+                                        length=int(phone_dur),
+                                        key_number=midi_key,
+                                        pronunciation=phone,
+                                        head_tag="V" if prev_is_breath else None,
                                     )
                                 )
                                 prev_is_breath = False
@@ -120,10 +120,10 @@ class DiffSingerParser:
                                 )
                             notes.append(
                                 Note(
-                                    StartPos=int(cur_time),
-                                    Length=int(phone_dur),
-                                    KeyNumber=midi_key,
-                                    Lyric="-",
+                                    start_pos=int(cur_time),
+                                    length=int(phone_dur),
+                                    key_number=midi_key,
+                                    lyric="-",
                                 )
                             )
                 cur_time += phone_dur
@@ -178,4 +178,4 @@ class DiffSingerParser:
                 )
             )
         points.append(Point.end_point())
-        return ParamCurve(PointList=points)
+        return ParamCurve(point_list=points)

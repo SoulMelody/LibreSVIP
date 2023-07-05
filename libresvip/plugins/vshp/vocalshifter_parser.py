@@ -41,8 +41,8 @@ class VocalShifterParser:
 
     def parse_project(self, vshp_proj: VocalShifterProjectData) -> Project:
         project = Project(
-            SongTempoList=self.parse_tempo(vshp_proj.project_metadata),
-            TimeSignatureList=self.parse_time_signature(vshp_proj.project_metadata),
+            song_tempo_list=self.parse_tempo(vshp_proj.project_metadata),
+            time_signature_list=self.parse_time_signature(vshp_proj.project_metadata),
         )
         project.track_list = self.parse_track_list(vshp_proj)
         return project
@@ -52,8 +52,8 @@ class VocalShifterParser:
     ) -> list[SongTempo]:
         tempo_list = [
             SongTempo(
-                Position=0,
-                BPM=vshp_metadata.tempo,
+                position=0,
+                bpm=vshp_metadata.tempo,
             )
         ]
         self.synchronizer = TimeSynchronizer(tempo_list)
@@ -65,9 +65,9 @@ class VocalShifterParser:
     ) -> list[TimeSignature]:
         return [
             TimeSignature(
-                BarIndex=0,
-                Numerator=vshp_metadata.numerator,
-                Denominator=vshp_metadata.denominator,
+                bar_index=0,
+                numerator=vshp_metadata.numerator,
+                denominator=vshp_metadata.denominator,
             )
         ]
 
@@ -103,12 +103,12 @@ class VocalShifterParser:
         )
         track_metadata = self.track_index2metadata[pattern_metadata.track_index]
         return InstrumentalTrack(
-            AudioFilePath=ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]),
-            Offset=offset_in_ticks,
-            Solo=track_metadata.solo,
-            Mute=track_metadata.mute,
-            Volume=track_metadata.volume,
-            Pan=track_metadata.pan,
+            audio_file_path=ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]),
+            offset=offset_in_ticks,
+            solo=track_metadata.solo,
+            mute=track_metadata.mute,
+            volume=track_metadata.volume,
+            pan=track_metadata.pan,
         )
 
     def parse_singing_track(
@@ -121,11 +121,11 @@ class VocalShifterParser:
             ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0])
         )
         track = SingingTrack(
-            Title=file_path.stem,
-            Solo=track_metadata.solo,
-            Mute=track_metadata.mute,
-            Volume=track_metadata.volume,
-            Pan=track_metadata.pan,
+            title=file_path.stem,
+            solo=track_metadata.solo,
+            mute=track_metadata.mute,
+            volume=track_metadata.volume,
+            pan=track_metadata.pan,
         )
         sample_offset = (
             pattern_metadata.offset_samples + pattern_metadata.offset_correction
@@ -151,28 +151,28 @@ class VocalShifterParser:
                 if label.start_tick != note.start_tick:
                     note_list.append(
                         Note(
-                            StartPos=offset + round(note.start_tick * self.tick_rate),
-                            Length=int(note.length * self.tick_rate),
-                            KeyNumber=note.pitch // 100,
-                            Lyric=DEFAULT_LYRIC,
+                            start_pos=offset + round(note.start_tick * self.tick_rate),
+                            length=int(note.length * self.tick_rate),
+                            key_number=note.pitch // 100,
+                            lyric=DEFAULT_LYRIC,
                         )
                     )
                 else:
                     note_list.append(
                         Note(
-                            StartPos=offset + round(note.start_tick * self.tick_rate),
-                            Length=int(note.length * self.tick_rate),
-                            KeyNumber=note.pitch // 100,
-                            Lyric=ansi2unicode(label.name.split(b"\x00")[0]),
+                            start_pos=offset + round(note.start_tick * self.tick_rate),
+                            length=int(note.length * self.tick_rate),
+                            key_number=note.pitch // 100,
+                            lyric=ansi2unicode(label.name.split(b"\x00")[0]),
                         )
                     )
         else:
             note_list.extend(
                 Note(
-                    StartPos=offset + round(note.start_tick * self.tick_rate),
-                    Length=int(note.length * self.tick_rate),
-                    KeyNumber=note.pitch // 100,
-                    Lyric=DEFAULT_LYRIC,
+                    start_pos=offset + round(note.start_tick * self.tick_rate),
+                    length=int(note.length * self.tick_rate),
+                    key_number=note.pitch // 100,
+                    lyric=DEFAULT_LYRIC,
                 )
                 for note in notes
             )
@@ -190,7 +190,7 @@ class VocalShifterParser:
         pattern_data: VocalShifterPatternData,
     ) -> Params:
         params = Params(
-            Pitch=self.parse_pitch_curve(offset, pattern_data),
+            pitch=self.parse_pitch_curve(offset, pattern_data),
         )
         if self.options.import_dynamics:
             params.volume = self.parse_param_curve(

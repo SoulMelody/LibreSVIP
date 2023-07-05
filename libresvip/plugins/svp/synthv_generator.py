@@ -106,7 +106,7 @@ class SynthVGenerator:
         sv_track = SVTrack(
             name=track.title,
             mixer=SVMixer(
-                gainDecibel=self.generate_volume(track.volume),
+                gain_decibel=self.generate_volume(track.volume),
                 pan=track.pan,
                 mute=track.mute,
                 solo=track.solo,
@@ -189,7 +189,7 @@ class SynthVGenerator:
 
     def generate_params(self, parameters: Params) -> SVParameters:
         return SVParameters(
-            pitchDelta=self.generate_pitch_curve(
+            pitch_delta=self.generate_pitch_curve(
                 parameters.pitch.reduce_sample_rate(self.options.down_sample, -100)
             ),
             loudness=self.generate_param_curve(

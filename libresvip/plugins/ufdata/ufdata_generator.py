@@ -30,11 +30,11 @@ class UFDataGenerator:
         return UFData(
             project=UFProject(
                 tempos=self.generate_tempos(project.song_tempo_list),
-                timeSignatures=self.generate_time_signatures(
+                time_signatures=self.generate_time_signatures(
                     project.time_signature_list
                 ),
                 tracks=self.generate_tracks(project.track_list),
-                measurePrefix=0,
+                measure_prefix=0,
             )
         )
 
@@ -42,7 +42,7 @@ class UFDataGenerator:
     def generate_tempos(song_tempo_list: list[SongTempo]) -> list[UFTempos]:
         return [
             UFTempos(
-                tickPosition=tempo.position,
+                tick_position=tempo.position,
                 bpm=tempo.bpm,
             )
             for tempo in song_tempo_list
@@ -54,7 +54,7 @@ class UFDataGenerator:
     ) -> list[UFTimeSignatures]:
         return [
             UFTimeSignatures(
-                measurePosition=time_signature.bar_index,
+                measure_position=time_signature.bar_index,
                 numerator=time_signature.numerator,
                 denominator=time_signature.denominator,
             )
@@ -76,8 +76,8 @@ class UFDataGenerator:
     def generate_notes(note_list: list[Note]) -> list[UFNotes]:
         return [
             UFNotes(
-                tickOn=note.start_pos,
-                tickOff=note.end_pos,
+                tick_on=note.start_pos,
+                tick_off=note.end_pos,
                 lyric=note.lyric,
                 key=note.key_number,
             )
@@ -87,7 +87,7 @@ class UFDataGenerator:
     @staticmethod
     def generate_pitch(pitch: ParamCurve) -> UFPitch:
         return UFPitch(
-            isAbsolute=True,
+            is_absolute=True,
             ticks=[point.x for point in pitch.points],
             values=[point.y for point in pitch.points],
         )

@@ -152,7 +152,7 @@ class UstxGenerator:
                     PitchPoint(x=0, y=0, shape="io")
                 ]
             ),
-            vibrato=UVibrato.construct(
+            vibrato=UVibrato(
                 length=0,
                 period=175,
                 depth=25,

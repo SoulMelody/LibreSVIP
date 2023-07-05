@@ -55,7 +55,7 @@ class SynthVEditorGenerator:
         return [
             S5pTempoItem(
                 position=song_tempo.position * TICK_RATE,
-                beatPerMinute=song_tempo.bpm,
+                beat_per_minute=song_tempo.bpm,
             )
             for song_tempo in song_tempo_list
         ]
@@ -67,8 +67,8 @@ class SynthVEditorGenerator:
         return [
             S5pMeterItem(
                 measure=time_signature.bar_index,
-                beatPerMeasure=time_signature.numerator,
-                beatGranularity=time_signature.denominator,
+                beat_per_measure=time_signature.numerator,
+                beat_granularity=time_signature.denominator,
             )
             for time_signature in time_signature_list
         ]
@@ -85,13 +85,13 @@ class SynthVEditorGenerator:
                     solo=track.solo,
                     muted=track.mute,
                     pan=track.pan,
-                    gainDecibel=self.generate_volume(track.volume),
+                    gain_decibel=self.generate_volume(track.volume),
                 )
 
                 s5p_track = S5pTrack(
-                    displayOrder=i,
+                    display_order=i,
                     name=track.title,
-                    dbName=track.ai_singer_name,
+                    db_name=track.ai_singer_name,
                     notes=self.generate_notes(track.note_list),
                     mixer=track_mixer,
                 )
@@ -128,8 +128,8 @@ class SynthVEditorGenerator:
         return next(
             (
                 S5pMixer(
-                    gainInstrumentalDecibel=self.generate_volume(track.volume),
-                    instrumentalMuted=track.mute,
+                    gain_instrumental_decibel=self.generate_volume(track.volume),
+                    instrumental_muted=track.mute,
                 )
                 for track in track_list
                 if isinstance(track, InstrumentalTrack)
@@ -140,7 +140,7 @@ class SynthVEditorGenerator:
     def generate_parameters(self, edited_params: Params) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
         return S5pParameters(
-            pitchDelta=self.generate_pitch_delta(edited_params.pitch, interval),
+            pitch_delta=self.generate_pitch_delta(edited_params.pitch, interval),
             interval=interval,
         )
 

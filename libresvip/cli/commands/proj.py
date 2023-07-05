@@ -80,8 +80,8 @@ def add_accompaniment(
             track.mute = True
     project.track_list.append(
         InstrumentalTrack(
-            AudioFilePath=str(audio_path),
-            Offset=offset,
+            audio_file_path=str(audio_path),
+            offset=offset,
         )
     )
 

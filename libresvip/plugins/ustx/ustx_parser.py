@@ -42,24 +42,24 @@ class UstxParser:
             self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts)
         )
         return Project(
-            SongTempoList=tempos,
-            TimeSignatureList=time_signatures,
-            TrackList=tracks,
+            song_tempo_list=tempos,
+            time_signature_list=time_signatures,
+            track_list=tracks,
         )
 
     @staticmethod
     def parse_tempos(tempos: list[UTempo]) -> list[SongTempo]:
         song_tempo_list = [
             SongTempo(
-                Position=tempo.position + 1920
+                position=tempo.position + 1920
                 if tempo.position > 0
                 else tempo.position,
-                BPM=tempo.bpm,
+                bpm=tempo.bpm,
             )
             for tempo in tempos
         ]
         if not len(song_tempo_list):
-            song_tempo_list.append(SongTempo(Position=0, BPM=DEFAULT_BPM))
+            song_tempo_list.append(SongTempo(position=0, bpm=DEFAULT_BPM))
         return song_tempo_list
 
     @staticmethod
@@ -68,9 +68,9 @@ class UstxParser:
     ) -> list[TimeSignature]:
         time_signature_list = [
             TimeSignature(
-                BarIndex=time_signature.bar_position,
-                Numerator=time_signature.beat_per_bar,
-                Denominator=time_signature.beat_unit,
+                bar_index=time_signature.bar_position,
+                numerator=time_signature.beat_per_bar,
+                denominator=time_signature.beat_unit,
             )
             for time_signature in time_signatures
         ]
@@ -83,10 +83,10 @@ class UstxParser:
     ) -> list[Track]:
         track_list = [
             SingingTrack(
-                Volume=self.parse_volume(ustx_track.volume),
-                Solo=ustx_track.solo,
-                Mute=ustx_track.mute,
-                AISingerName=ustx_track.singer or "",
+                volume=self.parse_volume(ustx_track.volume),
+                solo=ustx_track.solo,
+                mute=ustx_track.mute,
+                ai_singer_name=ustx_track.singer or "",
             )
             for ustx_track in tracks
             if ustx_track.singer
@@ -131,10 +131,10 @@ class UstxParser:
         note_list = []
         for ustx_note in notes:
             note = Note(
-                KeyNumber=ustx_note.tone,
-                Lyric="-" if ustx_note.lyric.startswith("+") else ustx_note.lyric,
-                StartPos=ustx_note.position + tick_prefix,
-                Length=ustx_note.duration,
+                key_number=ustx_note.tone,
+                lyric="-" if ustx_note.lyric.startswith("+") else ustx_note.lyric,
+                start_pos=ustx_note.position + tick_prefix,
+                length=ustx_note.duration,
             )
             if (CHINESE_RE.search(ustx_note.lyric) is None) and len(
                 ustx_note.lyric
@@ -153,12 +153,12 @@ class UstxParser:
             # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
             track_list.append(
                 InstrumentalTrack(
-                    AudioFilePath=rel_path,
-                    Offset=wave_part.position,
-                    Title=wave_part.name,
-                    Mute=ustx_track.mute,
-                    Solo=ustx_track.solo,
-                    Volume=self.parse_volume(ustx_track.volume),
+                    audio_file_path=rel_path,
+                    offset=wave_part.position,
+                    title=wave_part.name,
+                    mute=ustx_track.mute,
+                    solo=ustx_track.solo,
+                    volume=self.parse_volume(ustx_track.volume),
                 )
             )
         return track_list

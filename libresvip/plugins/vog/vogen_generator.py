@@ -44,7 +44,7 @@ class VogenGenerator:
                 tracks.append(
                     VogenTrack(
                         name=track.title,
-                        singerId=track.ai_singer_name,
+                        singer_id=track.ai_singer_name,
                         notes=self.generate_notes(track.note_list),
                     )
                 )

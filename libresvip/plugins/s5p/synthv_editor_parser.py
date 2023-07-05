@@ -51,24 +51,24 @@ class SynthVEditorParser:
                 )
             )
         return Project(
-            TimeSignatureList=self.parse_time_signatures(s5p_project.meter),
-            SongTempoList=tempo_list,
-            TrackList=track_list,
+            time_signature_list=self.parse_time_signatures(s5p_project.meter),
+            song_tempo_list=tempo_list,
+            track_list=track_list,
         )
 
     @staticmethod
     def parse_time_signatures(meter: list[S5pMeterItem]) -> list[TimeSignature]:
         time_signatures = [
             TimeSignature(
-                BarIndex=item.measure,
-                Numerator=item.beat_per_measure,
-                Denominator=item.beat_granularity,
+                bar_index=item.measure,
+                numerator=item.beat_per_measure,
+                denominator=item.beat_granularity,
             )
             for item in meter
         ]
         if not len(time_signatures):
             time_signatures.append(
-                TimeSignature(BarIndex=0, Numerator=4, Denominator=4)
+                TimeSignature(bar_index=0, numerator=4, denominator=4)
             )
         return time_signatures
 
@@ -76,16 +76,16 @@ class SynthVEditorParser:
     def parse_tempos(tempo: list[S5pTempoItem]) -> list[SongTempo]:
         tempos = [
             SongTempo(
-                Position=item.position / TICK_RATE,
-                BPM=item.beat_per_minute,
+                position=item.position / TICK_RATE,
+                bpm=item.beat_per_minute,
             )
             for item in tempo
         ]
         if not len(tempos):
             tempos.append(
                 SongTempo(
-                    Position=0,
-                    BPM=DEFAULT_BPM,
+                    position=0,
+                    bpm=DEFAULT_BPM,
                 )
             )
         return tempos
@@ -93,14 +93,14 @@ class SynthVEditorParser:
     def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[Track]:
         return [
             SingingTrack(
-                Mute=track.mixer.muted,
-                Solo=track.mixer.solo,
-                Volume=self.parse_volume(track.mixer.gain_decibel),
-                Pan=track.mixer.pan,
-                AISingerName=track.db_name or "",
-                Title=track.name or f"Track {i + 1}",
-                NoteList=self.parse_notes(track.notes),
-                EditedParams=self.parse_params(track.parameters),
+                mute=track.mixer.muted,
+                solo=track.mixer.solo,
+                volume=self.parse_volume(track.mixer.gain_decibel),
+                pan=track.mixer.pan,
+                ai_singer_name=track.db_name or "",
+                title=track.name or f"Track {i + 1}",
+                note_list=self.parse_notes(track.notes),
+                edited_params=self.parse_params(track.parameters),
             )
             for i, track in enumerate(tracks)
         ]
@@ -116,34 +116,34 @@ class SynthVEditorParser:
         self, track: S5pInstrumental, mixer: S5pMixer
     ) -> InstrumentalTrack:
         return InstrumentalTrack(
-            Mute=mixer.instrumental_muted,
-            Volume=self.parse_volume(mixer.gain_instrumental_decibel),
-            Title=os.path.basename(track.filename),
-            AudioFilePath=track.filename,
-            Offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
+            mute=mixer.instrumental_muted,
+            volume=self.parse_volume(mixer.gain_instrumental_decibel),
+            title=os.path.basename(track.filename),
+            audio_file_path=track.filename,
+            offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
         )
 
     def parse_notes(self, notes: list[S5pNote]) -> list[Note]:
         note_list = []
         for s5p_note in notes:
             note = Note(
-                KeyNumber=s5p_note.pitch,
-                StartPos=round(s5p_note.onset / TICK_RATE),
-                Length=round(s5p_note.duration / TICK_RATE),
-                Lyric=s5p_note.lyric.replace(" ", "") or DEFAULT_LYRIC,
+                key_number=s5p_note.pitch,
+                start_pos=round(s5p_note.onset / TICK_RATE),
+                length=round(s5p_note.duration / TICK_RATE),
+                lyric=s5p_note.lyric.replace(" ", "") or DEFAULT_LYRIC,
             )
             note_list.append(note)
         return note_list
 
     def parse_params(self, parameters: S5pParameters) -> Params:
         return Params(
-            Pitch=self.parse_pitch_curve(parameters.pitch_delta, parameters.interval),
+            pitch=self.parse_pitch_curve(parameters.pitch_delta, parameters.interval),
         )
 
     @staticmethod
     def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> ParamCurve:
         return ParamCurve(
-            PointList=Points(
+            point_list=Points(
                 root=[
                     Point(
                         x=round(point.offset * (interval / TICK_RATE)),

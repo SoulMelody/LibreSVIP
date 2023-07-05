@@ -49,11 +49,11 @@ class GjgjGenerator:
         self.max_note_id = 1
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
         gjgj_project = GjgjProject(
-            gjgjVersion=2,
-            TempoMap=GjgjTempoMap(
-                TicksPerQuarterNote=TICKS_IN_BEAT,
-                Tempos=self.generate_tempos(project.song_tempo_list),
-                TimeSignature=self.generate_time_signatures(
+            gjgj_version=2,
+            tempo_map=GjgjTempoMap(
+                ticks_per_quarter_note=TICKS_IN_BEAT,
+                tempos=self.generate_tempos(project.song_tempo_list),
+                time_signature=self.generate_time_signatures(
                     project.time_signature_list
                 ),
             ),
@@ -67,8 +67,8 @@ class GjgjGenerator:
         self.first_bar_bpm = song_tempo_list[0].bpm
         return [
             GjgjTempos(
-                MicrosecondsPerQuarterNote=mido.bpm2tempo(tempo.bpm),
-                Time=tempo.position,
+                microseconds_per_quarter_note=mido.bpm2tempo(tempo.bpm),
+                time=tempo.position,
             )
             for tempo in song_tempo_list
         ]
@@ -82,9 +82,9 @@ class GjgjGenerator:
         for time_signature in time_signature_list:
             gjgj_time_signatures.append(
                 GjgjTimeSignature(
-                    Numerator=time_signature.numerator,
-                    Denominator=time_signature.denominator,
-                    Time=prev_ticks,
+                    numerator=time_signature.numerator,
+                    denominator=time_signature.denominator,
+                    time=prev_ticks,
                 )
             )
             prev_ticks += round(
@@ -113,22 +113,22 @@ class GjgjGenerator:
         self, track: SingingTrack, track_index: int
     ) -> GjgjSingingTrack:
         return GjgjSingingTrack(
-            ID=str(track_index),
-            Name=singer2id[self.options.singer or track.ai_singer_name],
-            MasterVolume=GjgjTrackVolume(Mute=track.mute),
-            BeatItems=self.generate_notes(track.note_list),
-            Tone=self.generate_pitch(track.edited_params.pitch),
-            VolumeMap=self.generate_volume(track.edited_params.volume),
+            id=str(track_index),
+            name=singer2id[self.options.singer or track.ai_singer_name],
+            master_volume=GjgjTrackVolume(mute=track.mute),
+            beat_items=self.generate_notes(track.note_list),
+            tone=self.generate_pitch(track.edited_params.pitch),
+            volume_map=self.generate_volume(track.edited_params.volume),
         )
 
     def generate_instrumental_track(
         self, track: InstrumentalTrack, track_index: int
     ) -> GjgjInstrumentalTrack:
         return GjgjInstrumentalTrack(
-            ID=str(track_index),
-            Path=track.audio_file_path,
-            Offset=self.position_to_time(track.offset),
-            MasterVolume=GjgjTrackVolume(Mute=track.mute),
+            id=str(track_index),
+            path=track.audio_file_path,
+            offset=self.position_to_time(track.offset),
+            master_volume=GjgjTrackVolume(mute=track.mute),
         )
 
     def position_to_time(self, origin: int) -> int:
@@ -190,15 +190,15 @@ class GjgjGenerator:
                         )
             notes.append(
                 GjgjBeatItems(
-                    ID=self.max_note_id,
-                    Lyric=note.lyric,
-                    Pinyin=pronunciation,
-                    StartTick=note.start_pos + self.first_bar_length,
-                    Duration=note.length,
-                    Track=note.key_number,
-                    Style=beat_style,
-                    PreTime=pre_time,
-                    PostTime=post_time,
+                    id=self.max_note_id,
+                    lyric=note.lyric,
+                    pinyin=pronunciation,
+                    start_tick=note.start_pos + self.first_bar_length,
+                    duration=note.length,
+                    track=note.key_number,
+                    style=beat_style,
+                    pre_time=pre_time,
+                    post_time=post_time,
                 )
             )
             self.max_note_id += 1
@@ -219,23 +219,23 @@ class GjgjGenerator:
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
                     pitch_points.extend(
                         GjgjPoint(
-                            X=ticks_buffer[i],
-                            Y=value_buffer[i],
+                            x=ticks_buffer[i],
+                            y=value_buffer[i],
                         )
                         for i in range(len(ticks_buffer))
                     )
                     modify_ranges.append(
                         GjgjPoint(
-                            X=ticks_buffer[0],
-                            Y=ticks_buffer[-1],
+                            x=ticks_buffer[0],
+                            y=ticks_buffer[-1],
                         )
                     )
                     ticks_buffer = []
                     value_buffer = []
             ori_prev_ticks = ori_ticks
         return GjgjTone(
-            Modifys=pitch_points,
-            ModifyRanges=modify_ranges,
+            modifys=pitch_points,
+            modify_ranges=modify_ranges,
         )
 
     def generate_volume(self, volume_curve: ParamCurve) -> list[GjgjVolumeMap]:
@@ -255,21 +255,21 @@ class GjgjGenerator:
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
                     volume_map.append(
                         GjgjVolumeMap(
-                            Time=ticks_buffer[0] - 5,
-                            Volume=1,
+                            time=ticks_buffer[0] - 5,
+                            volume=1,
                         )
                     )
                     volume_map.extend(
                         GjgjVolumeMap(
-                            Time=ticks_buffer[i],
-                            Volume=value_buffer[i],
+                            time=ticks_buffer[i],
+                            volume=value_buffer[i],
                         )
                         for i in range(len(ticks_buffer))
                     )
                     volume_map.append(
                         GjgjVolumeMap(
-                            Time=ticks_buffer[-1] + 5,
-                            Volume=1,
+                            time=ticks_buffer[-1] + 5,
+                            volume=1,
                         )
                     )
                     ticks_buffer = []

@@ -54,8 +54,9 @@ class BaseModel(PydanticBaseModel):
             else:
                 raise e
 
-    # # Uncomment the following part to enable strict mode
-    # class Config:
+    class Config:
+        populate_by_name = True
+    # # Uncomment the following line to enable strict mode
     #     extra = "forbid"
 
 

@@ -79,7 +79,7 @@ class MidiParser:
 
     def decode_time_signatures(self, master_track) -> list[TimeSignature]:
         # no default
-        time_signature_changes = [TimeSignature(BarIndex=0, Numerator=4, Denominator=4)]
+        time_signature_changes = [TimeSignature(bar_index=0, numerator=4, denominator=4)]
 
         # traversing
         if self.options.import_time_signatures:
@@ -94,9 +94,9 @@ class MidiParser:
                     tick = event.time
                     measure += (tick - prev_ticks) / tick_in_full_note
                     ts_obj = TimeSignature(
-                        BarIndex=math.floor(measure),
-                        Numerator=event.numerator,
-                        Denominator=event.denominator,
+                        bar_index=math.floor(measure),
+                        numerator=event.numerator,
+                        denominator=event.denominator,
                     )
                     time_signature_changes.append(ts_obj)
                     prev_ticks = tick
@@ -104,7 +104,7 @@ class MidiParser:
 
     def decode_tempo(self, master_track) -> list[SongTempo]:
         # default bpm
-        tempos = [SongTempo(Position=0, BPM=self.options.default_bpm)]
+        tempos = [SongTempo(position=0, bpm=self.options.default_bpm)]
 
         # traversing
         for event in master_track:
@@ -113,11 +113,11 @@ class MidiParser:
                 tempo = round(mido.tempo2bpm(event.tempo), 3)
                 tick = round(event.time * self.tick_rate)
                 if tick == 0:
-                    tempos = [SongTempo(Position=0, BPM=tempo)]
+                    tempos = [SongTempo(position=0, bpm=tempo)]
                 else:
                     last_tempo = tempos[-1].bpm
                     if tempo != last_tempo:
-                        tempos.append(SongTempo(Position=tick, BPM=tempo))
+                        tempos.append(SongTempo(position=tick, bpm=tempo))
         return tempos
 
     def decode_track(self, track_idx, track) -> SingingTrack:
@@ -173,9 +173,9 @@ class MidiParser:
                     for start_tick in notes_to_close:
                         # Create the note event
                         note = Note(
-                            KeyNumber=event.note,
-                            StartPos=round(start_tick * self.tick_rate),
-                            Length=round((end_tick - start_tick) * self.tick_rate),
+                            key_number=event.note,
+                            start_pos=round(start_tick * self.tick_rate),
+                            length=round((end_tick - start_tick) * self.tick_rate),
                         )
                         lyric = lyrics[start_tick]
                         if re.search("[a-zA-Z]", lyric) is not None:
@@ -230,15 +230,15 @@ class MidiParser:
                     pass
         pitch.points.root.sort(key=operator.attrgetter("x"))
         edited_params = Params(
-            Pitch=pitch,
-            Volume=expression,
+            pitch=pitch,
+            volume=expression,
         )
         if has_overlap(notes):
             raise ValueError(f"Notes overlap in track {track_idx}")
         return SingingTrack(
-            Title=track_name or f"Track {track_idx + 1}",
-            NoteList=notes,
-            EditedParams=edited_params,
+            title=track_name or f"Track {track_idx + 1}",
+            note_list=notes,
+            edited_params=edited_params,
         )
 
     def decode_tracks(self, midi_tracks) -> list[Track]:

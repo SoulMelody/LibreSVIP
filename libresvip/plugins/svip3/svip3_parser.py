@@ -45,9 +45,9 @@ class Svip3Parser:
         self.song_tempo_list = self.parse_song_tempos(svip3_project.tempo_list)
         tracks = self.parse_tracks(svip3_project.track_list)
         return Project(
-            TimeSignatureList=time_signature_list,
-            SongTempoList=self.song_tempo_list,
-            TrackList=tracks,
+            time_signature_list=time_signature_list,
+            song_tempo_list=self.song_tempo_list,
+            track_list=tracks,
         )
 
     def parse_time_signatures(
@@ -57,9 +57,9 @@ class Svip3Parser:
         for beat in beat_list:
             time_signature_list.append(
                 TimeSignature(
-                    BarIndex=beat.pos,
-                    Numerator=beat.beat_size.numerator,
-                    Denominator=beat.beat_size.denominator,
+                    bar_index=beat.pos,
+                    numerator=beat.beat_size.numerator,
+                    denominator=beat.beat_size.denominator,
                 )
             )
         self.first_bar_length = round(
@@ -73,8 +73,8 @@ class Svip3Parser:
         for tempo in tempo_list:
             song_tempo_list.append(
                 SongTempo(
-                    Position=tempo.pos,
-                    BPM=tempo.tempo / 100.0,
+                    position=tempo.pos,
+                    bpm=tempo.tempo / 100.0,
                 )
             )
         return song_tempo_list
@@ -98,13 +98,13 @@ class Svip3Parser:
             audio_file_path = first_pattern.audio_file_path
             offset = first_pattern.real_pos
         return InstrumentalTrack(
-            AudioFilePath=audio_file_path,
-            Offset=offset,
-            Pan=self.parse_pan(audio_track.pan),
-            Title=audio_track.name,
-            Mute=audio_track.mute or False,
-            Solo=audio_track.solo or False,
-            Volume=self.to_linear_volume(audio_track.volume),
+            audio_file_path=audio_file_path,
+            offset=offset,
+            pan=self.parse_pan(audio_track.pan),
+            title=audio_track.name,
+            mute=audio_track.mute or False,
+            solo=audio_track.solo or False,
+            volume=self.to_linear_volume(audio_track.volume),
         )
 
     @staticmethod
@@ -123,14 +123,14 @@ class Svip3Parser:
 
     def parse_singing_track(self, singing_track: Svip3SingingTrack) -> SingingTrack:
         return SingingTrack(
-            Title=singing_track.name,
-            Mute=singing_track.mute,
-            Solo=singing_track.solo,
-            Volume=self.to_linear_volume(singing_track.volume),
-            Pan=self.parse_pan(singing_track.pan),
-            AISingerName=xstudio3_singers.get_name(singing_track.ai_singer_id),
-            NoteList=self.parse_notes(singing_track.pattern_list),
-            EditedParams=self.parse_edited_params(singing_track.pattern_list),
+            title=singing_track.name,
+            mute=singing_track.mute,
+            solo=singing_track.solo,
+            volume=self.to_linear_volume(singing_track.volume),
+            pan=self.parse_pan(singing_track.pan),
+            ai_singer_name=xstudio3_singers.get_name(singing_track.ai_singer_id),
+            note_list=self.parse_notes(singing_track.pattern_list),
+            edited_params=self.parse_edited_params(singing_track.pattern_list),
         )
 
     def parse_notes(self, pattern_list: list[Svip3SingingPattern]) -> list[Note]:
@@ -150,18 +150,18 @@ class Svip3Parser:
 
     def parse_edited_params(self, pattern_list: list[Svip3SingingPattern]) -> Params:
         return Params(
-            Pitch=self.parse_pitch_curve(pattern_list),
+            pitch=self.parse_pitch_curve(pattern_list),
         )
 
     def parse_note(self, svip3_note: Svip3Note, offset: int) -> Note:
         return Note(
-            StartPos=svip3_note.start_pos + offset,
-            Length=svip3_note.width_pos,
-            KeyNumber=svip3_note.key_index,
-            Lyric=self.parse_lyric(svip3_note),
-            Pronunciation=self.parse_pronunciation(svip3_note),
-            HeadTag=self.parse_head_tag(svip3_note),
-            EditedPhones=self.parse_edited_phones(svip3_note),
+            start_pos=svip3_note.start_pos + offset,
+            length=svip3_note.width_pos,
+            key_number=svip3_note.key_index,
+            lyric=self.parse_lyric(svip3_note),
+            pronunciation=self.parse_pronunciation(svip3_note),
+            head_tag=self.parse_head_tag(svip3_note),
+            edited_phones=self.parse_edited_phones(svip3_note),
         )
 
     @staticmethod
@@ -187,7 +187,7 @@ class Svip3Parser:
     def parse_edited_phones(self, svip3_note: Svip3Note) -> Optional[Phones]:
         if svip3_note.consonant_len > 0:
             return Phones(
-                HeadLengthInSecs=(
+                head_length_in_secs=(
                     svip3_note.consonant_len
                     / TICKS_IN_BEAT
                     * 60.0

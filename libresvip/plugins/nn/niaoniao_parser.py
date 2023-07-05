@@ -27,32 +27,32 @@ class NiaoNiaoParser:
         else:
             self.length_multiplier = 30
         project = Project(
-            SongTempoList=self.parse_tempos(nn_project.info_line),
-            TimeSignatureList=self.parse_time_signatures(
+            song_tempo_list=self.parse_tempos(nn_project.info_line),
+            time_signature_list=self.parse_time_signatures(
                 nn_project.info_line.time_signature
             ),
-            TrackList=self.parse_tracks(nn_project.notes),
+            track_list=self.parse_tracks(nn_project.notes),
         )
         return project
 
     def parse_tempos(self, info_line: NNInfoLine) -> list[SongTempo]:
-        return [SongTempo(BPM=info_line.tempo, Position=0)]
+        return [SongTempo(bpm=info_line.tempo, position=0)]
 
     def parse_time_signatures(
         self, time_signature: NNTimeSignature
     ) -> list[TimeSignature]:
         return [
             TimeSignature(
-                Numerator=time_signature.numerator,
-                Denominator=time_signature.denominator,
+                numerator=time_signature.numerator,
+                denominator=time_signature.denominator,
             )
         ]
 
     def parse_tracks(self, notes: list[NNNote]) -> list[SingingTrack]:
         return [
             SingingTrack(
-                NoteList=self.parse_notes(notes),
-                EditedParams=self.parse_params(notes),
+                note_list=self.parse_notes(notes),
+                edited_params=self.parse_params(notes),
             )
         ]
 
@@ -60,10 +60,10 @@ class NiaoNiaoParser:
         note_list = []
         for nn_note in notes:
             note = Note(
-                Lyric=nn_note.lyric,
-                StartPos=nn_note.start * self.length_multiplier,
-                Length=nn_note.duration * self.length_multiplier,
-                KeyNumber=88 - nn_note.key,
+                lyric=nn_note.lyric,
+                start_pos=nn_note.start * self.length_multiplier,
+                length=nn_note.duration * self.length_multiplier,
+                key_number=88 - nn_note.key,
             )
             phonemes = pypinyin.pinyin(
                 nn_note.lyric, heteronym=True, style=pypinyin.STYLE_NORMAL

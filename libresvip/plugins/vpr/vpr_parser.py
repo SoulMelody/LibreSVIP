@@ -31,10 +31,10 @@ class VocaloidParser:
     def parse_project(self, vpr_project: VocaloidProject) -> Project:
         self.comp_id2name = {voice.comp_id: voice.name for voice in vpr_project.voices}
         project = Project(
-            TimeSignatureList=self.parse_time_signatures(
+            time_signature_list=self.parse_time_signatures(
                 vpr_project.master_track.time_sig.events
             ),
-            SongTempoList=self.parse_tempos(vpr_project.master_track.tempo.events),
+            song_tempo_list=self.parse_tempos(vpr_project.master_track.tempo.events),
         )
         project.track_list = self.parse_tracks(vpr_project.tracks)
         return project
@@ -44,9 +44,9 @@ class VocaloidParser:
     ) -> list[TimeSignature]:
         return [
             TimeSignature(
-                BarIndex=time_signature.bar,
-                Numerator=time_signature.numer,
-                Denominator=time_signature.denom,
+                bar_index=time_signature.bar,
+                numerator=time_signature.numer,
+                denominator=time_signature.denom,
             )
             for time_signature in time_signatures
         ]
@@ -54,8 +54,8 @@ class VocaloidParser:
     def parse_tempos(self, tempos: list[VocaloidPoint]) -> list[SongTempo]:
         return [
             SongTempo(
-                Position=tempo.pos,
-                BPM=tempo.value / 100,
+                position=tempo.pos,
+                bpm=tempo.value / 100,
             )
             for tempo in tempos
         ]
@@ -66,9 +66,9 @@ class VocaloidParser:
             if isinstance(part, VocaloidWavPart):
                 # wav_path = f"Project/Audio/{part.name}"
                 instrumental_track = InstrumentalTrack(
-                    Title=part.name,
-                    Offset=part.pos,
-                    AudioFilePath=part.wav.original_name,
+                    title=part.name,
+                    offset=part.pos,
+                    audio_file_path=part.wav.original_name,
                 )
                 track_list.append(instrumental_track)
             elif isinstance(part, VocaloidVoicePart):
@@ -78,9 +78,9 @@ class VocaloidParser:
                 elif part.ai_voice is not None:
                     comp_id = part.ai_voice.comp_id
                 singing_track = SingingTrack(
-                    Offset=part.pos,
-                    NoteList=self.parse_notes(part.notes, part.pos),
-                    AISingerName=self.comp_id2name.get(comp_id, ""),
+                    offset=part.pos,
+                    note_list=self.parse_notes(part.notes, part.pos),
+                    ai_singer_name=self.comp_id2name.get(comp_id, ""),
                     # TODO: Add support for params
                 )
                 track_list.append(singing_track)
@@ -94,11 +94,11 @@ class VocaloidParser:
         for note in notes:
             note_list.append(
                 Note(
-                    StartPos=note.pos + pos,
-                    Length=note.duration,
-                    KeyNumber=note.number,
-                    Lyric=note.lyric or note.phoneme,
-                    # Pronunciation=note.phoneme,
+                    start_pos=note.pos + pos,
+                    length=note.duration,
+                    key_number=note.number,
+                    lyric=note.lyric or note.phoneme,
+                    # pronunciation=note.phoneme,
                 )
             )
         return note_list

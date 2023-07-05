@@ -23,9 +23,9 @@ class UFDataParser:
     def parse_project(self, ufdata_project: UFData) -> Project:
         uf_project = ufdata_project.project
         project = Project(
-            SongTempoList=self.parse_tempos(uf_project.tempos),
-            TimeSignatureList=self.parse_time_signatures(uf_project.time_signatures),
-            TrackList=self.parse_tracks(uf_project.tracks),
+            song_tempo_list=self.parse_tempos(uf_project.tempos),
+            time_signature_list=self.parse_time_signatures(uf_project.time_signatures),
+            track_list=self.parse_tracks(uf_project.tracks),
         )
         return project
 
@@ -33,8 +33,8 @@ class UFDataParser:
     def parse_tempos(tempos: list[UFTempos]) -> list[SongTempo]:
         return [
             SongTempo(
-                Position=tempo.tick_position,
-                BPM=tempo.bpm,
+                position=tempo.tick_position,
+                bpm=tempo.bpm,
             )
             for tempo in tempos
         ]
@@ -45,9 +45,9 @@ class UFDataParser:
     ) -> list[TimeSignature]:
         return [
             TimeSignature(
-                BarIndex=time_signature.measure_position,
-                Numerator=time_signature.numerator,
-                Denominator=time_signature.denominator,
+                bar_index=time_signature.measure_position,
+                numerator=time_signature.numerator,
+                denominator=time_signature.denominator,
             )
             for time_signature in time_signatures
         ]
@@ -55,9 +55,9 @@ class UFDataParser:
     def parse_tracks(self, tracks: list[UFTracks]) -> list[SingingTrack]:
         return [
             SingingTrack(
-                Title=track.name,
-                NoteList=self.parse_notes(track.notes),
-                EditedParams=self.parse_pitch(track.pitch),
+                title=track.name,
+                note_list=self.parse_notes(track.notes),
+                edited_params=self.parse_pitch(track.pitch),
             )
             for track in tracks
         ]
@@ -65,7 +65,7 @@ class UFDataParser:
     @staticmethod
     def parse_pitch(pitch: UFPitch) -> Params:
         pitch_curve = ParamCurve(
-            PointList=Points(
+            point_list=Points(
                 root=[
                     Point(
                         x=tick,
@@ -76,17 +76,17 @@ class UFDataParser:
             )
         )
         return Params(
-            Pitch=pitch_curve,
+            pitch=pitch_curve,
         )
 
     @staticmethod
     def parse_notes(notes: list[UFNotes]) -> list[Note]:
         return [
             Note(
-                StartPos=note.tick_on,
-                Length=note.tick_off - note.tick_on,
-                KeyNumber=note.key,
-                Lyric=note.lyric,
+                start_pos=note.tick_on,
+                length=note.tick_off - note.tick_on,
+                key_number=note.key,
+                lyric=note.lyric,
             )
             for note in notes
         ]

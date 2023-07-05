@@ -33,7 +33,7 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
                     ds_params.seed = options.seed
                 series.append(ds_params)
             ds_project = DsProject(
-                __root__=series
+                root=series
             )
         else:
             reset_time_axis(project)
@@ -44,7 +44,7 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
             if options.seed >= 0:
                 diff_singer_params.seed = options.seed
             ds_project = DsProject(
-                __root__=[diff_singer_params]
+                root=[diff_singer_params]
             )
         path.write_text(
             ds_project.json(

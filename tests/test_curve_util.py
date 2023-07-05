@@ -7,7 +7,7 @@ def test_curve_split_01():
     points = Points(
         root=[Point(1, 1), Point(2, 1), Point(3, 0), Point(4, 1), Point(5, 1)]
     )
-    curve = ParamCurve.construct(points=points)
+    curve = ParamCurve(points=points)
     segments = curve.split_into_segments()
     assert len(segments) == 1
     assert segments[0] == [(1, 1), (2, 1), (3, 0), (4, 1), (5, 1)]
@@ -28,7 +28,7 @@ def test_curve_split_02():
             Point(10, 0),
         ]
     )
-    curve = ParamCurve.construct(points=points)
+    curve = ParamCurve(points=points)
     segments = curve.split_into_segments()
     assert len(segments) == 2
     assert segments[0] == [
@@ -50,7 +50,7 @@ def test_curve_split_04():
             Point(sys.maxsize // 2, 0),
         ]
     )
-    curve = ParamCurve.construct(points=points)
+    curve = ParamCurve(points=points)
     segments = curve.split_into_segments()
     assert len(segments) == 1
     assert segments[0] == [

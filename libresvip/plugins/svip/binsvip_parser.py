@@ -42,15 +42,15 @@ class BinarySvipParser:
 
     @staticmethod
     def parse_song_tempo(tempo: XSSongTempo) -> SongTempo:
-        return SongTempo(Position=tempo.pos, BPM=tempo.tempo / 100.0)
+        return SongTempo(position=tempo.pos, bpm=tempo.tempo / 100.0)
 
     @staticmethod
     def parse_time_signature(beat: XSSongBeat) -> TimeSignature:
         frac = beat.beat_size
         return TimeSignature(
-            BarIndex=beat.bar_index,
-            Numerator=frac.x,
-            Denominator=frac.y,
+            bar_index=beat.bar_index,
+            numerator=frac.x,
+            denominator=frac.y,
         )
 
     def parse_track(self, track: XSITrack) -> Track:
@@ -97,11 +97,11 @@ class BinarySvipParser:
 
     def parse_note(self, note: XSNote) -> Note:
         result_note = Note(
-            StartPos=note.start_pos,
-            Length=note.width_pos,
-            KeyNumber=note.key_index - 12,
-            HeadTag=OpenSvipNoteHeadTags.get_name(note.head_tag.value),
-            Lyric=note.lyric,
+            start_pos=note.start_pos,
+            length=note.width_pos,
+            key_number=note.key_index - 12,
+            head_tag=OpenSvipNoteHeadTags.get_name(note.head_tag.value),
+            lyric=note.lyric,
         )
         if pronunciation := note.pronouncing:
             result_note.pronunciation = pronunciation
@@ -122,17 +122,17 @@ class BinarySvipParser:
             kwargs["EndPercent"] = 1.0
         vibrato = note.vibrato
         return VibratoParam(
-            IsAntiPhase=vibrato.is_anti_phase,
-            Amplitude=self.parse_param_curve(vibrato.amp_line),
-            Frequency=self.parse_param_curve(vibrato.freq_line),
+            is_anti_phase=vibrato.is_anti_phase,
+            amplitude=self.parse_param_curve(vibrato.amp_line),
+            frequency=self.parse_param_curve(vibrato.freq_line),
             **kwargs,
         )
 
     @staticmethod
     def parse_phones(phone: XSNotePhoneInfo) -> Phones:
         return Phones(
-            HeadLengthInSecs=phone.head_phone_time_in_sec,
-            MidRatioOverTail=phone.mid_part_over_tail_part_ratio,
+            head_length_in_secs=phone.head_phone_time_in_sec,
+            mid_ratio_over_tail=phone.mid_part_over_tail_part_ratio,
         )
 
     @staticmethod

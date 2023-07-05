@@ -32,8 +32,8 @@ def reset_time_axis(project: Project, tempo: int = 125) -> None:
                 pos = round(synchronizer.get_actual_ticks_from_ticks(pos - first_bar_ticks)) + 1920
                 track.edited_params.gender.points[i] = Point(pos, val)
 
-    project.song_tempo_list = [SongTempo(BPM=tempo, Position=0)]
-    project.time_signature_list = [TimeSignature(BarIndex=0, Numerator=4, Denominator=4)]
+    project.song_tempo_list = [SongTempo(bpm=tempo, position=0)]
+    project.time_signature_list = [TimeSignature(bar_index=0, numerator=4, denominator=4)]
 
 
 def split_into_segments(project: Project, min_interval: int = 400, min_length: int = 5000) -> Iterable[tuple[float, Project, float]]:
@@ -62,13 +62,13 @@ def split_into_segments(project: Project, min_interval: int = 400, min_length: i
             cur_seg_start = cur.start_pos - min(600, int(interval * 0.8))
             cur_seg_interval = interval
             segment = Project(
-                SongTempoList=project.song_tempo_list,
-                TimeSignatureList=[TimeSignature(BarIndex=0, Numerator=4, Denominator=4)],
-                TrackList=[SingingTrack(
-                    NoteList=buffer,
-                    EditedParams=Params(
-                        Pitch=ParamCurve(PointList=Points(__root__=pitch_points)),
-                        Gender=ParamCurve(PointList=Points(__root__=gender_points))
+                song_tempo_list=project.song_tempo_list,
+                time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
+                track_list=[SingingTrack(
+                    note_list=buffer,
+                    edited_params=Params(
+                        pitch=ParamCurve(point_list=Points(root=pitch_points)),
+                        gender=ParamCurve(point_list=Points(root=gender_points))
                     )
                 )]
             )
@@ -86,13 +86,13 @@ def split_into_segments(project: Project, min_interval: int = 400, min_length: i
         note.start_pos = note.start_pos - seg_note_start_pos + prepare_space
 
     segment = Project(
-        SongTempoList=project.song_tempo_list,
-        TimeSignatureList=[TimeSignature(BarIndex=0, Numerator=4, Denominator=4)],
-        TrackList=[SingingTrack(
-            NoteList=buffer,
-            EditedParams=Params(
-                Pitch=ParamCurve(PointList=Points(__root__=pitch_points)),
-                Gender=ParamCurve(PointList=Points(__root__=gender_points))
+        song_tempo_list=project.song_tempo_list,
+        time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
+        track_list=[SingingTrack(
+            note_list=buffer,
+            edited_params=Params(
+                pitch=ParamCurve(point_list=Points(root=pitch_points)),
+                gender=ParamCurve(point_list=Points(root=gender_points))
             )
         )]
     )

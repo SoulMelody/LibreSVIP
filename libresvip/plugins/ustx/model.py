@@ -193,7 +193,7 @@ class USTXProject(BaseModel):
     comment: str = ""
     output_dir: str = "Vocal"
     cache_dir: str = "UCache"
-    ustx_version: str = "0.6"
+    ustx_version: Union[str, float] = "0.6"
     bpm: float = DEFAULT_BPM
     beat_per_bar: int = 4
     beat_unit: int = 4

@@ -87,14 +87,14 @@ class SynthVParser:
     @staticmethod
     def parse_meter(meter: SVMeter) -> TimeSignature:
         return TimeSignature(
-            BarIndex=meter.index,
-            Numerator=meter.numerator,
-            Denominator=meter.denominator,
+            bar_index=meter.index,
+            numerator=meter.numerator,
+            denominator=meter.denominator,
         )
 
     @staticmethod
     def parse_tempo(tempo: SVTempo) -> SongTempo:
-        return SongTempo(Position=position_to_ticks(tempo.position), BPM=tempo.bpm)
+        return SongTempo(position=position_to_ticks(tempo.position), bpm=tempo.bpm)
 
     @staticmethod
     def parse_volume(gain: float) -> float:
@@ -396,14 +396,14 @@ class SynthVParser:
         self, sv_params: SVParameters, master_params: Optional[SVParameters] = None
     ) -> Params:
         return Params(
-            Pitch=self.parse_pitch_curve(
+            pitch=self.parse_pitch_curve(
                 sv_params.pitch_delta,
                 sv_params.vibrato_env,
                 5,
                 master_params.pitch_delta if master_params else None,
                 master_params.vibrato_env if master_params else None,
             ),
-            Volume=self.parse_param_curve(
+            volume=self.parse_param_curve(
                 sv_params.loudness,
                 lambda val: round(val / 12.0 * 1000.0)
                 if val >= 0.0
@@ -411,19 +411,19 @@ class SynthVParser:
                 self.voice_settings.param_loudness,
                 master_params.loudness if master_params else None,
             ),
-            Breath=self.parse_param_curve(
+            breath=self.parse_param_curve(
                 sv_params.breathiness,
                 lambda val: round(val * 1000),
                 self.voice_settings.param_breathiness,
                 master_params.breathiness if master_params else None,
             ),
-            Gender=self.parse_param_curve(
+            gender=self.parse_param_curve(
                 sv_params.gender,
                 lambda val: round(val * -1000),
                 self.voice_settings.param_gender,
                 master_params.gender if master_params else None,
             ),
-            Strength=self.parse_param_curve(
+            strength=self.parse_param_curve(
                 sv_params.tension,
                 lambda val: round(val * 1000),
                 self.voice_settings.param_tension,
@@ -433,7 +433,7 @@ class SynthVParser:
 
     @staticmethod
     def parse_note(sv_note: SVNote) -> Note:
-        note = Note(StartPos=position_to_ticks(sv_note.onset), KeyNumber=sv_note.pitch)
+        note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
         note.length = (
             position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         )
@@ -516,7 +516,7 @@ class SynthVParser:
             and current_duration[0] != 1.0
         ):
             note_list[0].edited_phones = Phones(
-                HeadLengthInSecs=min(1.8, current_duration[0] * current_phone_marks[0]),
+                head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
             )
 
         for i in range(len(sv_note_list) - 1):
@@ -587,7 +587,7 @@ class SynthVParser:
 
     def parse_track(self, sv_track: SVTrack) -> Track:
         if sv_track.main_ref.is_instrumental:
-            svip_track = InstrumentalTrack.construct(
+            svip_track = InstrumentalTrack(
                 audio_file_path=sv_track.main_ref.audio.filename,
                 offset=self.parse_audio_offset(sv_track.main_ref.blick_offset),
             )
@@ -599,7 +599,7 @@ class SynthVParser:
             self.note_list = sv_track.main_group.notes
             for note in sv_track.main_group.notes:
                 note.merge_attributes(master_note_attributes)
-            singing_track = SingingTrack.construct(
+            singing_track = SingingTrack(
                 ai_singer_name=sv_track.main_ref.database.name,
                 note_list=self.parse_note_list(sv_track.main_group.notes),
                 edited_params=self.parse_params(sv_track.main_group.parameters),
@@ -618,7 +618,7 @@ class SynthVParser:
                         note.merge_attributes(master_note_attributes)
                     self.group_split_counts[sv_ref.group_id] += 1
                     self.tracks_from_groups.append(
-                        SingingTrack.construct(
+                        SingingTrack(
                             ai_singer_name=sv_ref.database.name,
                             title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                             note_list=self.parse_note_list(group.notes),
@@ -643,7 +643,7 @@ class SynthVParser:
                     if merged_group.overlapped_with(group):
                         self.group_split_counts[sv_ref.group_id] += 1
                         self.tracks_from_groups.append(
-                            SingingTrack.construct(
+                            SingingTrack(
                                 ai_singer_name=sv_ref.database.name,
                                 title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                                 note_list=self.parse_note_list(group.notes),
