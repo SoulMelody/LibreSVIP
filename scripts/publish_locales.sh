@@ -1,4 +1,4 @@
 #!/bin/bash
-mkdir -p ../libresvip/res/locales/zh_CN/LC_MESSAGES
-msgcat --use-first -o ../libresvip/res/locales/zh_CN/LC_MESSAGES/libresvip.po ../translations/*-zh_CN.po ../libresvip/plugins/*/*-zh_CN.po
-msgfmt -c -v -o ../libresvip/res/locales/zh_CN/LC_MESSAGES/libresvip.mo ../libresvip/res/locales/zh_CN/LC_MESSAGES/libresvip.po
+mkdir -p ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES
+msgcat --use-first -o ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.po ../translations/*-"$LIBRESVIP_LOCALE".po ../libresvip/plugins/*/*-"$LIBRESVIP_LOCALE".po
+msgfmt -c -v -o ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.mo ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.po

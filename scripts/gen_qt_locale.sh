@@ -2,13 +2,13 @@
 
 export PYTHONIOENCODING=utf-8
 
-pyside6-lupdate -I ../libresvip/gui/components/*.qml ../libresvip/gui/modules/*.py -no-obsolete -ts ../translations/libresvip_gui-zh_CN.ts
-# pyside6-linguist ../translations/libresvip_gui-zh_CN.ts
-# pyside6-lrelease -verbose ../translations/libresvip-zh_CN.ts -qm ../translations/libresvip-zh_CN.qm
-ts2po --duplicates=merge -P ../translations/libresvip_gui-zh_CN.ts > ../translations/libresvip_gui.pot
-if [ ! -f ../translations/libresvip_gui-zh_CN.po ]; then
-    # msgconv -i ../translations/libresvip_gui.pot -o ../translations/libresvip_gui-zh_CN.po -t utf-8
-    pot2po -i ../translations/libresvip_gui.pot -o ../translations/libresvip_gui-zh_CN.po
+pyside6-lupdate -I ../libresvip/gui/components/*.qml ../libresvip/gui/modules/*.py -no-obsolete -ts ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".ts
+# pyside6-linguist ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".ts
+# pyside6-lrelease -verbose ../translations/libresvip-"$LIBRESVIP_LOCALE".ts -qm ../translations/libresvip-"$LIBRESVIP_LOCALE".qm
+ts2po --duplicates=merge -P ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".ts > ../translations/libresvip_gui.pot
+if [ ! -f ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".po ]; then
+    # msgconv -i ../translations/libresvip_gui.pot -o ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".po -t utf-8
+    pot2po -i ../translations/libresvip_gui.pot -o ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".po
 else
-    msgmerge -U -N --no-location ../translations/libresvip_gui-zh_CN.po ../translations/libresvip_gui.pot
+    msgmerge -U -N --no-location ../translations/libresvip_gui-"$LIBRESVIP_LOCALE".po ../translations/libresvip_gui.pot
 fi

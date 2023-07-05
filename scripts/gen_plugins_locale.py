@@ -2,6 +2,7 @@
 
 import io
 import json
+import os
 import shutil
 import tempfile
 
@@ -13,6 +14,8 @@ from translate.tools.pomerge import mergestore
 from libresvip.extension.messages import messages_iterator
 
 if __name__ == "__main__":
+    locale_name = os.environ.get("LIBRESVIP_LOCALE", "zh_CN")
+
     for plugin_suffix, plugin_metadata, info_path in messages_iterator():
         with tempfile.NamedTemporaryFile(suffix=".po") as tmp_po:
             with tempfile.TemporaryDirectory() as tmp_dir:
@@ -37,10 +40,9 @@ if __name__ == "__main__":
             tmp_po.seek(0)
 
             plugin_info_path = next(info_path.glob("*.yapsy-plugin"))
-            i18n_file = info_path / (plugin_info_path.stem + "-zh_CN.po")
+            i18n_file = info_path / f"{plugin_info_path.stem}-{locale_name}.po"
             if i18n_file.exists():
-                ori_content = i18n_file.read_bytes()
-                if ori_content:
+                if ori_content := i18n_file.read_bytes():
                     orig_po = io.BytesIO(ori_content)
                     mergestore(
                         orig_po,
