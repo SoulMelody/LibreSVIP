@@ -12,6 +12,7 @@ from typing import (
 
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import (
+    ConfigDict,
     Field,
     FieldValidationInfo,
     computed_field,
@@ -33,12 +34,12 @@ json_dumps = json.dumps
 
 
 class BaseModel(PydanticBaseModel):
-
-    class Config:
-        populate_by_name = True
-    # # Uncomment the following lines to enable strict mode
-    #     extra = "forbid"
-    #     strict = True
+    model_config = ConfigDict(
+        populate_by_name=True
+        # # Uncomment the following lines to enable strict mode
+        # extra="forbid",
+        # strict=True,
+    )
 
 
 @runtime_checkable

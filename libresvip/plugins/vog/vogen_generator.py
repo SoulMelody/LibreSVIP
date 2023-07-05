@@ -26,7 +26,7 @@ class VogenGenerator:
     def generate_project(self, project: Project) -> VogenProject:
         return VogenProject(
             bpm0=self.generate_tempos(project.song_tempo_list),
-            timeSig0=self.generate_time_signatures(project.time_signature_list),
+            time_sig0=self.generate_time_signatures(project.time_signature_list),
             utts=self.generate_tracks(project.track_list),
         )
 
