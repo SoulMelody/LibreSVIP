@@ -20,10 +20,10 @@ def prompt_fields(option_class: BaseModel) -> dict:
                 default_value = default_value.value if default_value else None
                 choice = Prompt.ask(
                     translated_title,
-                    choices=[x.name for x in field_info.annotation],
-                    default=default_value.name if default_value else None,
+                    choices=[x.value for x in field_info.annotation],
+                    default=default_value,
                 )
-                option_kwargs[option_key] = field_info.annotation[choice]
+                option_kwargs[option_key] = choice
             elif issubclass(field_info.annotation, bool):
                 option_kwargs[option_key] = Confirm.ask(
                     translated_title, default=default_value

@@ -1319,6 +1319,22 @@ msgstr "UtaFormatix3 数据格式 (*.ufdata)"
 msgid "Convertion plugin UFData format"
 msgstr "UFData格式转换插件"
 
+#: .ust.format_desc
+msgid "Project file of the original UTAU (*.ust)"
+msgstr "原版UTAU工程文件 (*.ust)"
+
+#: .ust.description
+msgid "Conversion plugin for UST file format"
+msgstr "UST文件格式转换插件"
+
+#: .ust.dump[1].description
+msgid "UST file version"
+msgstr "UST文件版本号"
+
+#: .ust.messages[0]
+msgid "UST project has no track"
+msgstr "UST工程中没有找到任何音轨"
+
 #: .ustx.format_desc
 msgid "OpenUtau project file (*.ustx)"
 msgstr "OpenUtau 工程文件 (*.ustx)"
