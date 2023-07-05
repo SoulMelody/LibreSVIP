@@ -19,4 +19,4 @@ class Y77Converter(plugin_base.SVSConverterBase):
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         y77_project = Y77Generator(options).generate_project(project)
-        path.write_text(y77_project.json(by_alias=True), encoding="utf-8")
+        path.write_text(y77_project.model_dump(mode="json", by_alias=True), encoding="utf-8")

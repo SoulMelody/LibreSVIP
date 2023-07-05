@@ -47,7 +47,8 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
                 root=[diff_singer_params]
             )
         path.write_text(
-            ds_project.json(
+            ds_project.model_dump(
+                mode="json",
                 ensure_ascii=False,
                 indent=options.indent
             ),
