@@ -1,10 +1,8 @@
 import abc
-import inspect
 import sys
 from types import SimpleNamespace
 from typing import (
     Annotated,
-    Any,
     Literal,
     Optional,
     Protocol,
@@ -16,9 +14,8 @@ from pydantic import BaseModel as PydanticBaseModel
 from pydantic import (
     Field,
     FieldValidationInfo,
-    SerializationInfo,
+    computed_field,
     field_validator,
-    model_serializer,
 )
 from typing_extensions import Self
 
@@ -36,28 +33,12 @@ json_dumps = json.dumps
 
 
 class BaseModel(PydanticBaseModel):
-    def __setattr__(self, name: str, value: Any) -> None:
-        """
-        To be able to use properties with setters
-        """
-        try:
-            super().__setattr__(name, value)
-        except ValueError as e:
-            setters = inspect.getmembers(
-                self.__class__,
-                predicate=lambda x: isinstance(x, property) and x.fset is not None,
-            )
-            for setter_name, func in setters:
-                if setter_name == name:
-                    object.__setattr__(self, name, value)
-                    break
-            else:
-                raise e
 
     class Config:
         populate_by_name = True
-    # # Uncomment the following line to enable strict mode
+    # # Uncomment the following lines to enable strict mode
     #     extra = "forbid"
+    #     strict = True
 
 
 @runtime_checkable
@@ -103,12 +84,9 @@ class ParamCurve(BaseModel):
             else Points(root=[Point(*each) for each in points])
         )
 
-    @model_serializer(mode="wrap")
-    def _serialize(self, handler, info: SerializationInfo):
-        data = handler(self)
-        if info.mode == "json":
-            data["TotalPointsCount"] = len(self.points)
-        return data
+    @computed_field(alias="TotalPointsCount")
+    def total_points_count(self) -> int:
+        return len(self.points)
 
     def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> Self:
         if interval <= 0:
