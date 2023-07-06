@@ -377,14 +377,14 @@ class SVNote(BaseModel):
         return RangeInterval([(self.onset, self.onset + self.duration)])
 
     def merge_attributes(self, attributes: SVNoteAttributes):
-        ori_dict = self.attributes.dict(
+        ori_dict = self.attributes.model_dump(
             by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
         )
-        new_dict = attributes.dict(
+        new_dict = attributes.model_dump(
             by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
         )
         ori_dict.update({k: v for k, v in new_dict.items() if k not in ori_dict})
-        self.attributes = SVNoteAttributes.parse_obj(ori_dict)
+        self.attributes = SVNoteAttributes.model_validate(ori_dict)
 
     def pitch_edited(
         self,
@@ -445,7 +445,7 @@ class SVVoice(SVBaseAttributes):
     render_mode: Optional[str] = Field(None, alias="renderMode")
 
     def to_attributes(self) -> SVNoteAttributes:
-        voice_dict = self.dict(
+        voice_dict = self.model_dump(
             by_alias=True,
             exclude_none=True,
             exclude_unset=True,
@@ -457,7 +457,7 @@ class SVVoice(SVBaseAttributes):
                 "improvise_attack_release",
             },
         )
-        return SVNoteAttributes.parse_obj(voice_dict)
+        return SVNoteAttributes.model_validate(voice_dict)
 
 
 class SVAudio(BaseModel):
