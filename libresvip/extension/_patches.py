@@ -66,14 +66,12 @@ configparser.ConfigParser.read_file = read_file
 
 def load_module(name: str, plugin_path: pathlib.Path) -> types.ModuleType:
     spec = importlib.util.spec_from_file_location(name, plugin_path)
-    spec.submodule_search_locations = [
-        str(plugin_path.parent),
-    ]
+    spec.submodule_search_locations = [str(plugin_path.parent)]
     module = importlib.util.module_from_spec(spec)
     try:
         spec.loader.exec_module(module)
-    except FileNotFoundError as e:
-        raise ImportError(f"{e.strerror}: {plugin_path}") from e
+    except Exception as e:
+        raise ImportError(f"{e}: {plugin_path}") from e
     return module
 
 

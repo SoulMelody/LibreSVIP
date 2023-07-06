@@ -1,10 +1,7 @@
 import dataclasses
-import pathlib
+import pkgutil
 
-try:
-    import ujson as json
-except ImportError:
-    import json
+from libresvip.model.base import json_loads
 
 
 @dataclasses.dataclass
@@ -12,9 +9,8 @@ class XStudio3Singers:
     singers: dict = dataclasses.field(init=False)
 
     def __post_init__(self):
-        plugin_path = pathlib.Path(__file__).parent
-        self.singers = json.loads(
-            (plugin_path / "singers.json").read_text(encoding="utf-8")
+        self.singers = json_loads(
+            pkgutil.get_data(__package__, "singers.json")
         )
 
     def get_name(self, uuid: str) -> str:

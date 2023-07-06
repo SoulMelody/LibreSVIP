@@ -82,17 +82,17 @@ class BinarySvipParser:
     def parse_params(self, track: XSSingingTrack) -> Params:
         kwargs = {}
         if (pitch_line := track.edited_pitch_line) is not None:
-            kwargs["Pitch"] = self.parse_param_curve(
+            kwargs["pitch"] = self.parse_param_curve(
                 pitch_line, op=lambda x: x - 1150 if x > 1050 else -100
             )
         if (volume_line := track.edited_volume_line) is not None:
-            kwargs["Volume"] = self.parse_param_curve(volume_line)
+            kwargs["volume"] = self.parse_param_curve(volume_line)
         if (breath_line := track.edited_breath_line) is not None:
-            kwargs["Breath"] = self.parse_param_curve(breath_line)
+            kwargs["breath"] = self.parse_param_curve(breath_line)
         if (gender_line := track.edited_gender_line) is not None:
-            kwargs["Gender"] = self.parse_param_curve(gender_line)
+            kwargs["gender"] = self.parse_param_curve(gender_line)
         if (power_line := track.edited_power_line) is not None:
-            kwargs["Power"] = self.parse_param_curve(power_line)
+            kwargs["power"] = self.parse_param_curve(power_line)
         return Params(**kwargs)
 
     def parse_note(self, note: XSNote) -> Note:
@@ -115,11 +115,11 @@ class BinarySvipParser:
         percent = note.vibrato_percent_info
         kwargs = {}
         if percent is not None:
-            kwargs["StartPercent"] = percent.start_percent
-            kwargs["EndPercent"] = percent.end_percent
+            kwargs["start_percent"] = percent.start_percent
+            kwargs["end_percent"] = percent.end_percent
         elif note.vibrato_percent > 0:
-            kwargs["StartPercent"] = 1.0 - note.vibrato_percent / 100.0
-            kwargs["EndPercent"] = 1.0
+            kwargs["start_percent"] = 1.0 - note.vibrato_percent / 100.0
+            kwargs["end_percent"] = 1.0
         vibrato = note.vibrato
         return VibratoParam(
             is_anti_phase=vibrato.is_anti_phase,

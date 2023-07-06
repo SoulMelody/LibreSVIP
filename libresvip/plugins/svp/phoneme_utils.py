@@ -1,14 +1,10 @@
-import pathlib
+import pkgutil
 
 import regex
 
-try:
-    import ujson as json
-except ImportError:
-    import json
-
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.model.base import json_loads
 
 default_durations = {
     "stop": 0.10,
@@ -23,9 +19,8 @@ default_durations = {
 }
 default_phone_ratio = 1.8
 
-plugin_path = pathlib.Path(__file__).parent
-phoneme_dictionary = json.loads((plugin_path / "phoneme_dictionary.json").read_text())
-xsampa_dictionary = json.loads((plugin_path / "xsampa_dictionary.json").read_text())
+phoneme_dictionary = json_loads(pkgutil.get_data(__package__, "phoneme_dictionary.json"))
+xsampa_dictionary = json_loads(pkgutil.get_data(__package__, "xsampa_dictionary.json"))
 
 
 def lyrics2pinyin(lyrics: list[str]) -> list[str]:
