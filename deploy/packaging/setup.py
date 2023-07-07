@@ -1,15 +1,24 @@
 from __future__ import annotations
 
+import contextlib
+import os
 import pathlib
 import sys
 
 import PySide6
+import shellingham
 from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../../").absolute().resolve()))
 
 from libresvip.core.constants import pkg_dir
 from libresvip.utils import download_and_setup_ffmpeg
+
+with contextlib.suppress(Exception):
+    if (
+        "conda" in sys.version or "Continuum" in sys.version
+    ) and shellingham.detect_shell()[0] == "bash" and os.name == "nt":
+        os.environ["PATH"] += f"os.pathsep{sys.base_prefix}/Library/bin"
 
 download_and_setup_ffmpeg()
 

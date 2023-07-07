@@ -9,7 +9,7 @@ python = ">=3.9,<3.12"
 charset-normalizer = "^3.1.0"
 loguru = "^0.7.0"
 omegaconf = "^2.3.0"
-platformdirs = "^3.8.0"
+platformdirs = "^3.8.1"
 portion = "^2.4.0"
 pydantic = "^2.0.2"
 pydantic-extra-types = "^2.0.0"
@@ -81,7 +81,7 @@ optional = true
 
 [tool.poetry.group.code_gen.dependencies]
 xsdata = { extras = ["cli"], version = "^23.6" }
-datamodel-code-generator = "^0.21.0"
+datamodel-code-generator = "^0.21.1"
 translate-toolkit = "^3.9.2"
 babel = "^2.12.1"
 

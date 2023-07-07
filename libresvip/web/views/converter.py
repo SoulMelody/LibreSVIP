@@ -162,6 +162,7 @@ def get_option_widgets(prefix: str):
             v_else=True,
             color="primary",
             density="comfortable",
+            type=("['int', 'float'].includes(field.type) ? 'number' : 'text'", ""),
             rules=(r"""[
                 (v) => {
                     switch (field.type) {
