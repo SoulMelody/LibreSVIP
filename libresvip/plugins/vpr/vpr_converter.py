@@ -1,4 +1,3 @@
-__package__ = "libresvip.plugins.vpr"
 import pathlib
 import zipfile
 

@@ -1,4 +1,3 @@
-__package__ = "libresvip.plugins.vspx"
 import pathlib
 
 import regex as re

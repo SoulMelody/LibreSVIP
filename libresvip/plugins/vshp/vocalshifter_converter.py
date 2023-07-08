@@ -1,4 +1,3 @@
-__package__ = "libresvip.plugins.vshp"
 import pathlib
 
 from libresvip.extension import base as plugin_base

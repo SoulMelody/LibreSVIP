@@ -1,5 +1,3 @@
-__package__ = "libresvip.plugins.srt"
-
 import pathlib
 
 from srt import compose

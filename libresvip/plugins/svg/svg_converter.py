@@ -1,5 +1,3 @@
-__package__ = "libresvip.plugins.svg"
-
 import pathlib
 
 from drawsvg import Drawing

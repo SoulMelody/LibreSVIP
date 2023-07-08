@@ -1,4 +1,3 @@
-__package__ = "libresvip.plugins.mid"
 import pathlib
 
 import mido

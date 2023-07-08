@@ -1,5 +1,3 @@
-__package__ = "libresvip.plugins.mxml"
-
 import pathlib
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser

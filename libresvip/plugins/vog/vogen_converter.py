@@ -1,4 +1,3 @@
-__package__ = "libresvip.plugins.vog"
 import pathlib
 import zipfile
 

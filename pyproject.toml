@@ -6,7 +6,7 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
-charset-normalizer = "^3.1.0"
+charset-normalizer = "^3.2.0"
 loguru = "^0.7.0"
 omegaconf = "^2.3.0"
 platformdirs = "^3.8.1"
@@ -90,7 +90,7 @@ babel = "^2.12.1"
 optional = true
 
 [tool.poetry.group.packaging.dependencies]
-cx-freeze = "^6.15.2"
+cx-freeze = "^6.15.3"
 
 
 [tool.poetry.group.test]
@@ -167,6 +167,7 @@ fix = true
 
 [tool.ruff.isort]
 known-first-party = ['libresvip', 'tests']
+known-third-party = ['srt']
 
 [tool.mypy]
 plugins = [

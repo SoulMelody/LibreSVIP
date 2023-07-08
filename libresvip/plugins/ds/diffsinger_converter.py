@@ -1,5 +1,3 @@
-__package__ = "libresvip.plugins.ds"
-
 import pathlib
 
 from libresvip.extension import base as plugin_base

@@ -1,4 +1,3 @@
-__package__ = "libresvip.plugins.ustx"
 import pathlib
 
 import yaml
