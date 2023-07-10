@@ -1,4 +1,5 @@
 import pathlib
+from gettext import gettext as _
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
@@ -25,16 +26,14 @@ class SvipConverter(plugin_base.SVSConverterBase):
         if ver_enum == BinarySvipVersion.SVIP7_0_0:
             project.version = "SVIP7.0.0"
         elif ver_enum == BinarySvipVersion.AUTO:
-            if project.version != "SVIP0.0.0":
-                pass
-            else:
+            if project.version == "SVIP0.0.0":
                 project.version = "SVIP6.0.0"
         elif ver_enum == BinarySvipVersion.SVIP6_0_0:
             project.version = "SVIP6.0.0"
         elif ver_enum == BinarySvipVersion.COMPAT:
             project.version = "SVIP0.0.0"
         else:
-            raise Exception("Unexpected enum value")
+            raise Exception(_("Unexpected enum value"))
         with SvipWriter() as registry:
             version, xs_project = BinarySvipGenerator(options=options).generate_project(
                 project

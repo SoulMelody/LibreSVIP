@@ -11,6 +11,7 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../../").absolute().resolve()))
 
+import libresvip
 from libresvip.core.constants import pkg_dir
 from libresvip.utils import download_and_setup_ffmpeg
 
@@ -18,7 +19,7 @@ with contextlib.suppress(Exception):
     if (
         "conda" in sys.version or "Continuum" in sys.version
     ) and shellingham.detect_shell()[0] == "bash" and os.name == "nt":
-        os.environ["PATH"] += f"os.pathsep{sys.base_prefix}/Library/bin"
+        os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
 download_and_setup_ffmpeg()
 
@@ -198,7 +199,7 @@ executables = [
 
 setup(
     name="LibreSVIP",
-    version="0.1",
+    version=libresvip.__version__,
     options={"build_exe": build_exe_options},
     executables=executables,
 )

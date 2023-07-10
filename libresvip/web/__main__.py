@@ -3,7 +3,7 @@ import argparse
 from trame.app import dev, get_server
 from trame_server.core import Server
 
-from . import i18n, layout, views
+from libresvip.web import i18n, layout, views
 
 
 def init_server(server: Server):
