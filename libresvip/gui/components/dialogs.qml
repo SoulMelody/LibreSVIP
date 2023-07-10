@@ -372,7 +372,7 @@ Item {
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Version: " + py.config_items.get_version())
+                text: qsTr("Version: ") + py.config_items.get_version()
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
