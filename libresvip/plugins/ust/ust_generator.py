@@ -28,7 +28,7 @@ class USTGenerator:
         if first_singing_track is None or not isinstance(first_singing_track, SingingTrack):
             raise ValueError("No singing track found")
         if not project.song_tempo_list:
-            project.song_tempo_list.append(SongTempo(BPM=DEFAULT_BPM))
+            project.song_tempo_list.append(SongTempo(bpm=DEFAULT_BPM))
         tempos = [str(project.song_tempo_list[0].bpm)]
         ust_track = self.generate_track(first_singing_track, project.song_tempo_list)
         return UTAUProject(

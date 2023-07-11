@@ -22,6 +22,11 @@ def _reload():
 
 
 def main(**kwargs):
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--port", type=int, default=8080)
+    arg_parser.add_argument("--exec_mode", type=str, default="main")
+
+    args = arg_parser.parse_known_args()[0]
     # Get or create server
     server = get_server()
     server.client_type = "vue3"
@@ -30,14 +35,8 @@ def main(**kwargs):
     init_server(server)
 
     # Start server
-    server.start(**kwargs)
+    server.start(**kwargs, port=args.port, exec_mode=args.exec_mode)
 
 
 if __name__ == "__main__":
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("--port", type=int, default=8080)
-    arg_parser.add_argument("--exec_mode", type=str, default="main")
-
-    args = arg_parser.parse_known_args()[0]
-
-    main(exec_mode=args.exec_mode)
+    main()
