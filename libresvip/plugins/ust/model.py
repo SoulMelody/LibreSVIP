@@ -149,7 +149,7 @@ class UTAUTrack(BaseModel):
 
 class UTAUProject(BaseModel):
     ust_version: list[float] = Field(default_factory=list)
-    charset: Optional[str]
+    charset: Optional[str] = None
     tempo: list[str] = Field(default_factory=list)
     project_name: list[str] = Field(default_factory=list)
     voice_dir: list[str] = Field(default_factory=list)

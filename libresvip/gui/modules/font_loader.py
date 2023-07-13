@@ -38,6 +38,6 @@ class FontLoader(QObject):
 
     @slot(str, result=str)
     def icon(self, icon_name: str) -> str:
-        font_family, icon_name = icon_name.split(".", 1)
+        font_family, _, icon_name = icon_name.partition(".")
         char_map = self.char_map(font_family)
         return chr(int(char_map.get(icon_name, "0"), 16))

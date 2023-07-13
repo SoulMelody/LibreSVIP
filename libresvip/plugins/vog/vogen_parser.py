@@ -31,7 +31,7 @@ class VogenParser:
         return [SongTempo(position=0, bpm=bpm0)]
 
     def parse_time_signatures(self, time_sig0: str) -> list[TimeSignature]:
-        numerator, denominator = time_sig0.split("/")
+        numerator, _, denominator = time_sig0.partition("/")
         return [TimeSignature(numerator=int(numerator), denominator=int(denominator))]
 
     def parse_tracks(self, utts: list[VogenTrack]) -> list[SingingTrack]:
