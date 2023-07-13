@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .mtp.format_desc
-msgid "Muta project file (*.mtp)"
-msgstr "Muta工程文件 (*.mtp)"
+msgid "Muta project file"
+msgstr "Muta工程文件"
 
 #: .mtp.description
 msgid "Conversion plugin for mtp file"

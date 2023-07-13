@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .vshp.format_desc
-msgid "VocalShifter project file (*.vshp)"
-msgstr "VocalShifter 工程文件 (*.vshp)"
+msgid "VocalShifter project file"
+msgstr "VocalShifter 工程文件"
 
 #: .vshp.load[0].title
 msgid "Convert wave pattern to singing pattern"

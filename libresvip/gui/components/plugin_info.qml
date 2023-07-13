@@ -143,7 +143,7 @@ GridLayout {
             font.family: materialFontLoader.name
         }
         Label {
-            text: qsTr(info.format_desc)
+            text: qsTr(info.file_format) + " " + info.suffix
         }
     }
 

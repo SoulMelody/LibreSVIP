@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .vspx.format_desc
-msgid "VocalSharp project file (*.vspx)"
-msgstr "VocalSharp 工程格式 (*.vspx)"
+msgid "VocalSharp project file"
+msgstr "VocalSharp 工程格式"
 
 #: .vspx.description
 msgid "Conversion plugin for VocalSharp project file"

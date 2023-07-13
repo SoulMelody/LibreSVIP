@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .dv.format_desc
-msgid "DeepVocal project file (*.dv)"
-msgstr "DeepVocal工程文件 (*.dv)"
+msgid "DeepVocal project file"
+msgstr "DeepVocal工程文件"
 
 #: .dv.description
 msgid "Conversion plugin for dv file"

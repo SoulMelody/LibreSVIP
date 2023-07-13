@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .ustx.format_desc
-msgid "OpenUtau project file (*.ustx)"
-msgstr "OpenUtau 工程文件 (*.ustx)"
+msgid "OpenUtau project file"
+msgstr "OpenUtau 工程文件"
 
 #: .ustx.description
 msgid "Conversion plugin for Ustx file format"

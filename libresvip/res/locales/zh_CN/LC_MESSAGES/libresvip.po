@@ -598,8 +598,8 @@ msgid "Choose a color"
 msgstr "选择颜色"
 
 #: .ds.format_desc
-msgid "DiffSinger parameters file (*.ds)"
-msgstr "DiffSinger参数文件（*.ds）"
+msgid "DiffSinger parameters file"
+msgstr "DiffSinger参数文件"
 
 #: .ds.description
 msgid "DiffSinger plugin."
@@ -686,16 +686,16 @@ msgid "The source file lacks pitch parameters."
 msgstr "源文件缺少音高参数"
 
 #: .dv.format_desc
-msgid "DeepVocal project file (*.dv)"
-msgstr "DeepVocal工程文件 (*.dv)"
+msgid "DeepVocal project file"
+msgstr "DeepVocal工程文件"
 
 #: .dv.description
 msgid "Conversion plugin for dv file"
 msgstr "dv 格式转换插件。"
 
 #: .gj.format_desc
-msgid "Gejigeji project file (*.gj)"
-msgstr "歌叽歌叽工程文件 (*.gj)"
+msgid "Gejigeji project file"
+msgstr "歌叽歌叽工程文件"
 
 #: .gj.description
 msgid ""
@@ -720,8 +720,8 @@ msgid "Default singer"
 msgstr "默认歌手"
 
 #: .json.format_desc
-msgid "OpenSVIP file (*.json)"
-msgstr "OpenSVIP 文件 (*.json)"
+msgid "OpenSVIP file"
+msgstr "OpenSVIP 文件"
 
 #: .json.description
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
@@ -738,8 +738,8 @@ msgid ""
 msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"
 
 #: .lrc.format_desc
-msgid "LRC lyric file (*.lrc)"
-msgstr "LRC 歌词文件 (*.lrc)"
+msgid "LRC lyric file"
+msgstr "LRC 歌词文件"
 
 #: .lrc.description
 msgid "Generator plugin for LRC lyric file"
@@ -810,8 +810,8 @@ msgid "Lyric Text encoding"
 msgstr "歌词文本编码"
 
 #: .mid.format_desc
-msgid "Standard MIDI file (SMF) (*.mid)"
-msgstr "标准MIDI文件 (*.mid)"
+msgid "Standard MIDI file (SMF)"
+msgstr "标准MIDI文件"
 
 #: .mid.description
 msgid "Conversion plugin for midi file"
@@ -937,16 +937,16 @@ msgstr ""
 "知道这是什么，否则不应更改此设置。"
 
 #: .mtp.format_desc
-msgid "Muta project file (*.mtp)"
-msgstr "Muta工程文件 (*.mtp)"
+msgid "Muta project file"
+msgstr "Muta工程文件"
 
 #: .mtp.description
 msgid "Conversion plugin for mtp file"
 msgstr "mtp 格式转换插件"
 
 #: .nn.format_desc
-msgid "NIAONiao Virtual Singer project file (*.nn)"
-msgstr "袅袅虚拟歌手工程文件 (*.nn)"
+msgid "NIAONiao Virtual Singer project file"
+msgstr "袅袅虚拟歌手工程文件"
 
 #: .nn.description
 msgid "Conversion plugin for NIAONiao project file"
@@ -961,16 +961,16 @@ msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
 
 #: .s5p.format_desc
-msgid "Synthesizer V Editor project file (*.s5p)"
-msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
+msgid "Synthesizer V Editor project file"
+msgstr "Synthesizer V Editor 工程文件"
 
 #: .s5p.description
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程格式转换插件。"
 
 #: .srt.format_desc
-msgid "SubRip subtitle file (*.srt)"
-msgstr "SubRip 字幕文件 (*.srt)"
+msgid "SubRip subtitle file"
+msgstr "SubRip 字幕文件"
 
 #: .srt.description
 msgid "Generator plugin for SRT subtitle file"
@@ -989,8 +989,8 @@ msgid "Text encoding"
 msgstr "文本编码"
 
 #: .svg.format_desc
-msgid "Scalable Vector Graphics (*.svg)"
-msgstr "可缩放矢量图形 (*.svg)"
+msgid "Scalable Vector Graphics"
+msgstr "可缩放矢量图形"
 
 #: .svg.description
 msgid ""
@@ -1104,8 +1104,8 @@ msgid "Grid line width"
 msgstr "网格线宽度"
 
 #: .svip.format_desc
-msgid "X Studio project file (*.svip)"
-msgstr "X Studio 工程文件 (*.svip)"
+msgid "X Studio project file"
+msgstr "X Studio 工程文件"
 
 #: .svip.description
 msgid "Conversion plugin for the original .svip binary file format"
@@ -1177,16 +1177,16 @@ msgid "Root not found"
 msgstr "未找到根对象"
 
 #: .svip3.format_desc
-msgid "Netease Cloud Music XStudio project file (*.svip3)"
-msgstr "网易云音乐·X Studio 工程文件 (*.svip3)"
+msgid "Netease Cloud Music XStudio project file"
+msgstr "网易云音乐·X Studio 工程文件"
 
 #: .svip3.description
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程转换插件"
 
 #: .svp.format_desc
-msgid "Synthesizer V Studio project file (*.svp)"
-msgstr "Synthesizer V Studio 工程文件 (*.svp)"
+msgid "Synthesizer V Studio project file"
+msgstr "Synthesizer V Studio 工程文件"
 
 #: .svp.description
 msgid ""
@@ -1312,16 +1312,16 @@ msgstr ""
 "Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
 
 #: .ufdata.format_desc
-msgid "UtaFormatix3 data format (*.ufdata)"
-msgstr "UtaFormatix3 数据格式 (*.ufdata)"
+msgid "UtaFormatix3 data format"
+msgstr "UtaFormatix3 数据格式"
 
 #: .ufdata.description
 msgid "Convertion plugin UFData format"
 msgstr "UFData格式转换插件"
 
 #: .ust.format_desc
-msgid "Project file of the original UTAU (*.ust)"
-msgstr "原版UTAU工程文件 (*.ust)"
+msgid "Project file of the original UTAU"
+msgstr "原版UTAU工程文件"
 
 #: .ust.description
 msgid "Conversion plugin for UST file format"
@@ -1336,16 +1336,16 @@ msgid "UST project has no track"
 msgstr "UST工程中没有找到任何音轨"
 
 #: .ustx.format_desc
-msgid "OpenUtau project file (*.ustx)"
-msgstr "OpenUtau 工程文件 (*.ustx)"
+msgid "OpenUtau project file"
+msgstr "OpenUtau 工程文件"
 
 #: .ustx.description
 msgid "Conversion plugin for Ustx file format"
 msgstr "Ustx格式转换插件"
 
 #: .vog.format_desc
-msgid "Vogen project file (*.vog)"
-msgstr "Vogen 工程文件 (*.vog)"
+msgid "Vogen project file"
+msgstr "Vogen 工程文件"
 
 #: .vog.description
 msgid "Conversion plugin for Vogen project file"
@@ -1356,16 +1356,16 @@ msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"
 
 #: .vpr.format_desc
-msgid "Vocaloid (5/6) Project file (*.vpr)"
-msgstr "Vocaloid (5/6) 工程格式 (*.vpr)"
+msgid "Vocaloid (5/6) Project file"
+msgstr "Vocaloid (5/6) 工程格式"
 
 #: .vpr.description
 msgid "Conversion plugin for Vocaloid (5/6) project file"
 msgstr "Vocaloid (5/6) 工程格式转换插件"
 
 #: .vshp.format_desc
-msgid "VocalShifter project file (*.vshp)"
-msgstr "VocalShifter 工程文件 (*.vshp)"
+msgid "VocalShifter project file"
+msgstr "VocalShifter 工程文件"
 
 #: .vshp.load[0].title
 msgid "Convert wave pattern to singing pattern"
@@ -1392,16 +1392,16 @@ msgid "Import breath curve"
 msgstr "导入呼吸曲线"
 
 #: .vspx.format_desc
-msgid "VocalSharp project file (*.vspx)"
-msgstr "VocalSharp 工程格式 (*.vspx)"
+msgid "VocalSharp project file"
+msgstr "VocalSharp 工程格式"
 
 #: .vspx.description
 msgid "Conversion plugin for VocalSharp project file"
 msgstr "VocalSharp格式转换插件"
 
 #: .y77.format_desc
-msgid "Yuan77 project file (*.y77)"
-msgstr "元七七工程文件 (*.y77)"
+msgid "Yuan77 project file"
+msgstr "元七七工程文件"
 
 #: .y77.description
 msgid "Conversion plugin for Yuan77 project file"

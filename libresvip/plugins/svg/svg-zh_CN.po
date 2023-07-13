@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .svg.format_desc
-msgid "Scalable Vector Graphics (*.svg)"
-msgstr "可缩放矢量图形 (*.svg)"
+msgid "Scalable Vector Graphics"
+msgstr "可缩放矢量图形"
 
 #: .svg.description
 msgid ""

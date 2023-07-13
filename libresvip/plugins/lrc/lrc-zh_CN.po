@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .lrc.format_desc
-msgid "LRC lyric file (*.lrc)"
-msgstr "LRC 歌词文件 (*.lrc)"
+msgid "LRC lyric file"
+msgstr "LRC 歌词文件"
 
 #: .lrc.description
 msgid "Generator plugin for LRC lyric file"

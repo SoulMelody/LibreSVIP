@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .s5p.format_desc
-msgid "Synthesizer V Editor project file (*.s5p)"
-msgstr "Synthesizer V Editor 工程文件 (*.s5p)"
+msgid "Synthesizer V Editor project file"
+msgstr "Synthesizer V Editor 工程文件"
 
 #: .s5p.description
 msgid "Conversion plugin for Synthesizer V Editor project file"

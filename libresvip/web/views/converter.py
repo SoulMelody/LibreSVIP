@@ -85,7 +85,7 @@ def get_dialog_widget(prefix: str):
                                 __properties=["slot"],
                             )
                             html.Span(
-                                v_text=f"translations[lang][plugin_details[{prefix}_format].format_desc]",
+                                v_text=f"translations[lang][plugin_details[{prefix}_format].file_format] + ' (*.' + {prefix}_format + ')'",
                             )
             vuetify3.VDivider()
             with vuetify3.VListSubheader("{{ translations[lang]['Introduction'] }}"):
@@ -210,10 +210,6 @@ def get_option_widgets(prefix: str):
 
 def initialize(server: Server):
     state, ctrl = server.state, server.controller
-    id2file_format = [
-        {"value": identifier, "text": f"{plugin.file_format} (*.{plugin.suffix})"}
-        for identifier, plugin in plugin_registry.items()
-    ]
     plugin_identifiers = list(plugin_registry.keys())
 
     state.setdefault("files_to_convert", [])
@@ -246,7 +242,7 @@ def initialize(server: Server):
                 "website": plugin.website,
                 "description": plugin.description,
                 "version": plugin.version_string,
-                "format_desc": f"{plugin.file_format} (*.{plugin.suffix})",
+                "file_format": plugin.file_format,
                 "icon_base64": plugin.icon_base64,
             }
             for identifier, plugin in plugin_registry.items()
@@ -473,7 +469,7 @@ def initialize(server: Server):
                 {
                     types: [
                         {
-                            description: translations[lang][plugin_details[input_format].description],
+                            description: translations[lang][plugin_details[input_format].file_format],
                             accept: {
                                 '*/*': ['.' + input_format],
                             }
@@ -538,8 +534,8 @@ def initialize(server: Server):
                                         ),
                                         color="primary",
                                         v_model="input_format",
-                                        items=("input_formats", id2file_format),
-                                        item_title=("(item) => translations[lang][item.text]", ""),
+                                        items=("input_formats", plugin_identifiers),
+                                        item_title=("(item) => translations[lang][plugin_details[item].file_format] + ' (*.' + item + ')'", ""),
                                         density="comfortable",
                                     )
                                 with vuetify3.VCol(cols=1):
@@ -594,8 +590,8 @@ def initialize(server: Server):
                                         ),
                                         color="primary",
                                         v_model="output_format",
-                                        items=("output_formats", id2file_format),
-                                        item_title=("(item) => translations[lang][item.text]", ""),
+                                        items=("output_formats", plugin_identifiers),
+                                        item_title=("(item) => translations[lang][plugin_details[item].file_format] + ' (*.' + item + ')'", ""),
                                         density="comfortable",
                                     )
                                 with vuetify3.VCol(cols=1):
@@ -682,7 +678,7 @@ def initialize(server: Server):
                                         html.B("{{ translations[lang]['Import Options'] }} ")
                                     with vuetify3.VCol(cols="auto", classes="text--secondary"):
                                         html.Span(
-                                            "[ {{ translations[lang]['Import from'] }} {{ translations[lang][plugin_details[input_format].format_desc] }} ]"
+                                            "[ {{ translations[lang]['Import from'] }} {{ translations[lang][plugin_details[input_format].file_format] }} ]"
                                         )
                             with vuetify3.VExpansionPanelText():
                                 with vuetify3.VForm():
@@ -694,7 +690,7 @@ def initialize(server: Server):
                                         html.B("{{ translations[lang]['Export Options'] }} ")
                                     with vuetify3.VCol(cols="auto", classes="text--secondary"):
                                         html.Span(
-                                            "[ {{ translations[lang]['Export to'] }} {{ translations[lang][plugin_details[output_format].format_desc] }} ]"
+                                            "[ {{ translations[lang]['Export to'] }} {{ translations[lang][plugin_details[output_format].file_format] }} ]"
                                         )
                             with vuetify3.VExpansionPanelText():
                                 with vuetify3.VForm():

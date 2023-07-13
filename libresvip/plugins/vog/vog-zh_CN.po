@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .vog.format_desc
-msgid "Vogen project file (*.vog)"
-msgstr "Vogen 工程文件 (*.vog)"
+msgid "Vogen project file"
+msgstr "Vogen 工程文件"
 
 #: .vog.description
 msgid "Conversion plugin for Vogen project file"

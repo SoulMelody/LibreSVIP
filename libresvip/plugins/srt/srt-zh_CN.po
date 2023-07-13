@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .srt.format_desc
-msgid "SubRip subtitle file (*.srt)"
-msgstr "SubRip 字幕文件 (*.srt)"
+msgid "SubRip subtitle file"
+msgstr "SubRip 字幕文件"
 
 #: .srt.description
 msgid "Generator plugin for SRT subtitle file"

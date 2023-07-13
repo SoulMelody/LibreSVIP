@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .svp.format_desc
-msgid "Synthesizer V Studio project file (*.svp)"
-msgstr "Synthesizer V Studio 工程文件 (*.svp)"
+msgid "Synthesizer V Studio project file"
+msgstr "Synthesizer V Studio 工程文件"
 
 #: .svp.description
 msgid ""

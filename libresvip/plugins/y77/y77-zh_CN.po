@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .y77.format_desc
-msgid "Yuan77 project file (*.y77)"
-msgstr "元七七工程文件 (*.y77)"
+msgid "Yuan77 project file"
+msgstr "元七七工程文件"
 
 #: .y77.description
 msgid "Conversion plugin for Yuan77 project file"

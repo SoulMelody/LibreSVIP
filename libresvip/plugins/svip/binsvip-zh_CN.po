@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .svip.format_desc
-msgid "X Studio project file (*.svip)"
-msgstr "X Studio 工程文件 (*.svip)"
+msgid "X Studio project file"
+msgstr "X Studio 工程文件"
 
 #: .svip.description
 msgid "Conversion plugin for the original .svip binary file format"

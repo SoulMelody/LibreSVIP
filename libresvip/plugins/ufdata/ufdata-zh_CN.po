@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .ufdata.format_desc
-msgid "UtaFormatix3 data format (*.ufdata)"
-msgstr "UtaFormatix3 数据格式 (*.ufdata)"
+msgid "UtaFormatix3 data format"
+msgstr "UtaFormatix3 数据格式"
 
 #: .ufdata.description
 msgid "Convertion plugin UFData format"

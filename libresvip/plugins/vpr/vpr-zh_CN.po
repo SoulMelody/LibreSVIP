@@ -14,8 +14,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .vpr.format_desc
-msgid "Vocaloid (5/6) Project file (*.vpr)"
-msgstr "Vocaloid (5/6) 工程格式 (*.vpr)"
+msgid "Vocaloid (5/6) Project file"
+msgstr "Vocaloid (5/6) 工程格式"
 
 #: .vpr.description
 msgid "Conversion plugin for Vocaloid (5/6) project file"

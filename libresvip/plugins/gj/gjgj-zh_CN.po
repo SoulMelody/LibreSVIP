@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .gj.format_desc
-msgid "Gejigeji project file (*.gj)"
-msgstr "歌叽歌叽工程文件 (*.gj)"
+msgid "Gejigeji project file"
+msgstr "歌叽歌叽工程文件"
 
 #: .gj.description
 msgid ""

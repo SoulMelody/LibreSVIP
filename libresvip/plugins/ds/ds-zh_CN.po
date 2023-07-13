@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .ds.format_desc
-msgid "DiffSinger parameters file (*.ds)"
-msgstr "DiffSinger参数文件（*.ds）"
+msgid "DiffSinger parameters file"
+msgstr "DiffSinger参数文件"
 
 #: .ds.description
 msgid "DiffSinger plugin."

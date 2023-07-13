@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .json.format_desc
-msgid "OpenSVIP file (*.json)"
-msgstr "OpenSVIP 文件 (*.json)"
+msgid "OpenSVIP file"
+msgstr "OpenSVIP 文件"
 
 #: .json.description
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"

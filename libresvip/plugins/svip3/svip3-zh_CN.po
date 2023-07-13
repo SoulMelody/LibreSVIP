@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .svip3.format_desc
-msgid "Netease Cloud Music XStudio project file (*.svip3)"
-msgstr "网易云音乐·X Studio 工程文件 (*.svip3)"
+msgid "Netease Cloud Music XStudio project file"
+msgstr "网易云音乐·X Studio 工程文件"
 
 #: .svip3.description
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"

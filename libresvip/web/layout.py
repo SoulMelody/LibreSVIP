@@ -108,7 +108,6 @@ def initialize(server: Server):
                 const targetEl = window.document.querySelector('.mdi-invert-colors')
                 if (!targetEl) return
                 const targetRect = targetEl.getBoundingClientRect()
-                window.console.log(targetRect)
                 const left = targetRect.left + targetRect.width / 2 + window.scrollX
                 const top = targetRect.top + targetRect.height / 2 + window.scrollY
                 el.style.setProperty('--clip-pos', `${left}px ${top}px`)

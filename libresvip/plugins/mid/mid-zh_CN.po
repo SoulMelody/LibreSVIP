@@ -13,8 +13,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .mid.format_desc
-msgid "Standard MIDI file (SMF) (*.mid)"
-msgstr "标准MIDI文件 (*.mid)"
+msgid "Standard MIDI file (SMF)"
+msgstr "标准MIDI文件"
 
 #: .mid.description
 msgid "Conversion plugin for midi file"

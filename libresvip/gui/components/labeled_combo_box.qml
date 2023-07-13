@@ -12,13 +12,15 @@ ComboBox {
     model: choices
     textRole: "text"
     valueRole: "value"
-    displayText: qsTr(currentText)
+    displayText: qsTr(currentText) + " (*." + currentValue + ")"
 
     delegate: MenuItem {
         width: ListView.view.width
         contentItem: Label {
             text: combo.textRole
-                ? qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])
+                ? (
+                    qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])
+                ) + " (*." + (Array.isArray(combo.model) ? modelData[combo.valueRole] : model[combo.valueRole]) + ")"
                 : qsTr(modelData)
             color: combo.highlightedIndex === index ? Material.accentColor : window.Material.foreground
         }

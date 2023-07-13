@@ -135,7 +135,7 @@ class TaskManager(QObject):
         self.input_formats.append_many(
             [
                 {
-                    "text": f"{plugin.file_format} (*.{plugin.suffix})",
+                    "text": plugin.file_format,
                     "value": plugin.suffix,
                 }
                 for plugin in plugin_registry.values()
@@ -144,7 +144,7 @@ class TaskManager(QObject):
         self.output_formats.append_many(
             [
                 {
-                    "text": f"{plugin.file_format} (*.{plugin.suffix})",
+                    "text": plugin.file_format,
                     "value": plugin.suffix,
                 }
                 for plugin in plugin_registry.values()
@@ -353,7 +353,8 @@ class TaskManager(QObject):
                 "website": plugin.website,
                 "description": plugin.description,
                 "version": plugin.version_string,
-                "format_desc": f"{plugin.file_format} (*.{plugin.suffix})",
+                "file_format": plugin.file_format,
+                "suffix": f"(*.{plugin.suffix})",
                 "icon_base64": f"data:image/png;base64,{plugin.icon_base64}",
             }
         return {
@@ -362,7 +363,8 @@ class TaskManager(QObject):
             "website": "",
             "description": "",
             "version": "",
-            "format_desc": "",
+            "file_format": "",
+            "suffix": "(*.*)",
             "icon_base64": "",
         }
 
@@ -464,7 +466,8 @@ class TaskManager(QObject):
                             "name": plugin_info.name,
                             "author": plugin_info.author,
                             "version": plugin_info.version,
-                            "format_desc": f"{plugin_info.file_format} (*.{plugin_info.suffix})",
+                            "file_format": plugin_info.file_format,
+                            "suffix": f"(*.{plugin_info.suffix})",
                             "directory": str(temp_plugin_dir.resolve().as_posix()),
                             "info_filename": plugin_info_filename,
                         }

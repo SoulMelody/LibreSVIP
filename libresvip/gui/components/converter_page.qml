@@ -968,7 +968,7 @@ Page {
                             }
                             Label {
                                 property string input_format_name: ""
-                                text: qsTr("[Import as ") + input_format_name + qsTr(" Format]")
+                                text: qsTr("[Import as ") + qsTr(input_format_name) + "]"
                                 color: Material.color(
                                     Material.Grey
                                 )
@@ -977,7 +977,7 @@ Page {
                                 Component.onCompleted: {
                                     py.task_manager.input_format_changed.connect((input_format) => {
                                         let plugin_info = py.task_manager.plugin_info("input_format")
-                                        input_format_name = plugin_info.name
+                                        input_format_name = plugin_info.file_format
                                     })
                                 }
                             }
@@ -1135,7 +1135,7 @@ Page {
                             }
                             Label {
                                 property string output_format_name: ""
-                                text: qsTr("[Export to ") + output_format_name + qsTr(" Format]")
+                                text: qsTr("[Export to ") + qsTr(output_format_name) + qsTr("]")
                                 font.pixelSize: 20
                                 color: Material.color(
                                     Material.Grey
@@ -1144,7 +1144,7 @@ Page {
                                 Component.onCompleted: {
                                     py.task_manager.output_format_changed.connect((output_format) => {
                                         let plugin_info = py.task_manager.plugin_info("output_format")
-                                        output_format_name = plugin_info.name
+                                        output_format_name = plugin_info.file_format
                                     })
                                 }
                             }
