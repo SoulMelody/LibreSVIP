@@ -63,6 +63,8 @@ ColumnLayout {
                 onClicked: {
                     converterPage.taskList.model.delete(index)
                 }
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Remove")
             }
             Rectangle {
                 id: statusIndicator
