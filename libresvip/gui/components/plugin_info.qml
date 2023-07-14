@@ -71,7 +71,7 @@ GridLayout {
         Layout.row: 0
         Layout.column: 3
         Layout.columnSpan: 7
-        text: info.name
+        text: qsTr(info.name)
         font.pixelSize: 30
         font.bold: true
     }

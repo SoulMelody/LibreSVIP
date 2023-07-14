@@ -17,6 +17,7 @@ def messages_iterator():
         plugin_suffix = plugin_info.suffix
         plugin_info = plugin_registry[plugin_suffix]
         plugin_metadata = {
+            "name": plugin_info.name,
             "file_format": plugin_info.file_format
         }
         if plugin_info.description:

@@ -2,7 +2,7 @@ import contextlib
 import dataclasses
 import enum
 import pathlib
-from typing import Optional
+from typing import Optional, cast
 
 from omegaconf import OmegaConf
 from omegaconf.errors import OmegaConfBaseException
@@ -69,10 +69,10 @@ class LibreSvipSettings:
 config_path = app_dir.user_config_path / "settings.yml"
 
 
-settings = OmegaConf.structured(LibreSvipSettings)
+settings = cast(LibreSvipSettings, OmegaConf.structured(LibreSvipSettings))
 if config_path.exists():
     with contextlib.suppress(OmegaConfBaseException):
-        settings = OmegaConf.merge(settings, OmegaConf.load(config_path))
+        settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
 
 
 def save_settings():

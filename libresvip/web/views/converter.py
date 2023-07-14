@@ -49,7 +49,7 @@ def get_dialog_widget(prefix: str):
                 with vuetify3.VCol(tag="span", cols="auto"):
                     with vuetify3.VRow(tag="span", no_gutters=True):
                         vuetify3.VListItemTitle(
-                            v_text=f"plugin_details[{prefix}_format].name",
+                            v_text=f"translations[lang][plugin_details[{prefix}_format].name]",
                             classes="text-h5",
                         )
                     with vuetify3.VRow(tag="span", no_gutters=True):
