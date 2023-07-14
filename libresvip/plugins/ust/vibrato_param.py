@@ -77,6 +77,9 @@ def append_utau_note_vibrato(
                 pos += sample_interval_in_millis
 
     return [
-        Point(tick_time_transformer.get_actual_ticks_from_secs((x + note_start_in_millis) / 1000), y)
+        Point(
+            round(tick_time_transformer.get_actual_ticks_from_secs((x + note_start_in_millis) / 1000)),
+            round(y)
+        )
         for x, y in interpolated_points
     ]

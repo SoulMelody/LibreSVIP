@@ -226,7 +226,6 @@ def initialize(server: Server):
     state.setdefault("input_options", {})
     state.setdefault("output_options", {})
     state.setdefault("converting", False)
-    state.setdefault("uploading", False)
     state.setdefault("input_format", settings.last_input_format or (
         plugin_identifiers[0] if plugin_identifiers else ""
     ))
