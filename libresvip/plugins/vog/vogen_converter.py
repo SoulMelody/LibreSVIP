@@ -1,3 +1,4 @@
+import io
 import pathlib
 import zipfile
 
@@ -12,7 +13,7 @@ from .vogen_parser import VogenParser
 
 class VogenConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        with zipfile.ZipFile(path, "r") as zf:
+        with zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r") as zf:
             proj_text = zf.read("chart.json")
         vogen_project = VogenProject.parse_raw(proj_text)
         return VogenParser(options).parse_project(vogen_project)
@@ -24,5 +25,7 @@ class VogenConverter(plugin_base.SVSConverterBase):
         proj_text = json_dumps(
             vogen_project.model_dump(by_alias=True), separators=(",", ":")
         )
-        with zipfile.ZipFile(path, "w") as zf:
+        buffer = io.BytesIO()
+        with zipfile.ZipFile(buffer, "w") as zf:
             zf.writestr("chart.json", proj_text)
+        path.write_bytes(buffer.getvalue())
