@@ -15,7 +15,7 @@ class VogenConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         with zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r") as zf:
             proj_text = zf.read("chart.json")
-        vogen_project = VogenProject.parse_raw(proj_text)
+        vogen_project = VogenProject.model_validate_json(proj_text)
         return VogenParser(options).parse_project(vogen_project)
 
     def dump(

@@ -4,9 +4,15 @@ import dataclasses
 import enum
 import functools
 import gettext
+import io
+import pathlib
 import secrets
+import tempfile
 import textwrap
-from concurrent.futures import ThreadPoolExecutor, as_completed
+import traceback
+import warnings
+import zipfile
+from concurrent.futures import ThreadPoolExecutor
 from operator import not_
 from typing import Optional, TypedDict, get_args, get_type_hints
 
@@ -16,15 +22,22 @@ from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from pyfakefs.fake_filesystem import FakeFilesystem
 from pyfakefs.fake_pathlib import FakePathlibModule
+from starlette.exceptions import HTTPException
+from starlette.requests import Request
+from starlette.responses import Response
 
 import libresvip
 from libresvip.core.config import DarkMode, Language, settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
+from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_registry
 from libresvip.model.base import BaseComplexModel
+from libresvip.utils import shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
 
-fake_pathlib = FakePathlibModule(FakeFilesystem())
+fake_pathlib = FakePathlibModule(FakeFilesystem(
+    create_temp_dir=True,
+))
 
 
 def dark_mode2str(mode: DarkMode) -> Optional[bool]:
@@ -49,6 +62,26 @@ def float_validator(value: str) -> bool:
         return False
     else:
         return True
+
+
+@dataclasses.dataclass
+class ConversionTask:
+    name: str
+    upload_path: pathlib.Path
+    output_path: pathlib.Path
+    converting: bool
+    success: Optional[bool]
+    error: Optional[str]
+    warning: Optional[str]
+
+    def reset(self):
+        self.converting = False
+        self.success = None
+        self.error = None
+        self.warning = None
+        if self.output_path.exists():
+            self.output_path.unlink()
+
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
@@ -79,20 +112,6 @@ def page_layout(lang: Optional[str] = None):
 
     if "dark_mode" not in app.storage.user:
         app.storage.user["dark_mode"] = dark_mode2str(DarkMode.SYSTEM)
-
-    files_to_convert = {}
-
-    @ui.refreshable
-    def tasks_container():
-        with ui.column().classes("w-full"):
-            for name in files_to_convert.keys():
-                with ui.row().classes("w-full items-center"):
-                    def remove_row():
-                        del files_to_convert[name]
-                        tasks_container.refresh()
-                    ui.label(name).classes('flex-grow')
-                    with ui.button(icon="close", on_click=remove_row).props("round"):
-                        ui.tooltip(_("Remove"))
 
     plugin_details = {
         identifier: {
@@ -270,20 +289,71 @@ def page_layout(lang: Optional[str] = None):
         _output_format: str = dataclasses.field(init=False)
         input_options: TypedDict = dataclasses.field(default_factory=dict)
         output_options: TypedDict = dataclasses.field(default_factory=dict)
+        files_to_convert: dict[str, ConversionTask] = dataclasses.field(default_factory=dict)
 
         def __post_init__(self):
             self.input_format = app.storage.user.get("last_input_format") or next(iter(plugin_registry), "")
             self.output_format = app.storage.user.get("last_output_format") or next(iter(plugin_registry), "")
             app.storage.user.setdefault("auto_detect_input_format", settings.auto_detect_input_format)
             app.storage.user.setdefault("reset_tasks_on_input_change", settings.reset_tasks_on_input_change)
+            app.add_route("/export/", self.export_all, methods=["GET"])
+            app.add_route("/export/{filename}", self.export_one, methods=["GET"])
+
+        @functools.cached_property
+        def temp_path(self) -> fake_pathlib.Path:
+            return fake_pathlib.Path(tempfile.gettempdir())
+
+        @ui.refreshable
+        def tasks_container(self):
+            with ui.column().classes("w-full"):
+                for info in self.files_to_convert.values():
+                    with ui.row().classes("w-full items-center"):
+                        def remove_row():
+                            del self.files_to_convert[info.name]
+                            self.tasks_container.refresh()
+                        ui.label(info.name).classes('flex-grow')
+                        ui.spinner().props("size=lg").bind_visibility_from(info, "converting")
+                        ui.icon("check", size="lg").classes("text-green-500").bind_visibility_from(info, "success")
+                        with ui.dialog() as error_dialog, ui.element("q-banner").classes("bg-red-500 w-auto") as error_banner:
+                            ui.label().classes("text-lg").bind_text_from(info, "error", backward=shorten_error_message)
+                            with error_banner.add_slot("action"):
+                                ui.button(_("Copy to clipboard"), on_click=lambda: ui.run_javascript(
+                                    f"navigator.clipboard.writeText({repr(info.error)})", respond=False
+                                ))
+                                ui.button(_("Close"), on_click=error_dialog.close)
+                        ui.button(icon="error", color="red", on_click=error_dialog.open).props("round").classes("text-lg").bind_visibility_from(info, "error")
+                        with ui.dialog() as warn_dialog, ui.element("q-banner").classes("bg-yellow-500 w-auto") as warn_banner:
+                            ui.label().classes("text-lg").bind_text_from(info, "warning", backward=str)
+                            with warn_banner.add_slot("action"):
+                                ui.button(_("Copy to clipboard"), on_click=lambda: ui.run_javascript(
+                                    f"navigator.clipboard.writeText({repr(info.warning)})", respond=False
+                                ))
+                                ui.button(_("Close"), on_click=warn_dialog.close)
+                        ui.button(icon="warning", color="yellow", on_click=warn_dialog.open).props("round").classes("text-lg").bind_visibility_from(info, "warning")
+                        ui.button(icon="download", on_click=lambda: ui.download(f"/export/{info.name}")).props("round").bind_visibility_from(info, "success")
+                        with ui.button(icon="close", on_click=remove_row).props("round"):
+                            ui.tooltip(_("Remove"))
 
         def add_task(self, args: UploadEventArguments) -> None:
             if app.storage.user.get('auto_detect_input_format'):
                 cur_suffix = args.name.rpartition(".")[-1].lower()
                 if cur_suffix in plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
-            files_to_convert[args.name] = args.content
-            tasks_container.refresh()
+            upload_path = self.temp_path / args.name
+            args.content.seek(0)
+            upload_path.write_bytes(args.content.read())
+            output_path = self.temp_path / tempfile.mktemp()
+            conversion_task = ConversionTask(
+                name=args.name,
+                upload_path=upload_path,
+                output_path=output_path,
+                converting=False,
+                success=None,
+                error=None,
+                warning=None,
+            )
+            self.files_to_convert[args.name] = conversion_task
+            self.tasks_container.refresh()
 
         @property
         def input_format(self) -> str:
@@ -293,7 +363,7 @@ def page_layout(lang: Optional[str] = None):
         def input_format(self, value: str) -> None:
             self._input_format = value
             if app.storage.user.get('reset_tasks_on_input_change'):
-                files_to_convert.clear()
+                self.files_to_convert.clear()
             app.storage.user['last_input_format'] = value
             input_plugin_info.refresh()
             input_panel_header.refresh()
@@ -313,7 +383,92 @@ def page_layout(lang: Optional[str] = None):
 
         @property
         def task_count(self) -> int:
-            return len(files_to_convert)
+            return len(self.files_to_convert)
+
+        def convert_one(self, task: ConversionTask):
+            task.converting = True
+            try:
+                with warnings.catch_warnings(record=True) as w:
+                    warnings.simplefilter("always", BaseWarning)
+                    input_plugin = plugin_registry[self.input_format]
+                    output_plugin = plugin_registry[self.output_format]
+                    input_option = get_type_hints(input_plugin.plugin_object.load).get(
+                        "options"
+                    )
+                    output_option = get_type_hints(output_plugin.plugin_object.dump).get(
+                        "options"
+                    )
+                    project = input_plugin.plugin_object.load(
+                        task.upload_path,
+                        input_option(**self.input_options),
+                    )
+                    task.output_path = task.output_path.with_suffix(f".{self.output_format}")
+                    output_plugin.plugin_object.dump(
+                        task.output_path, project, output_option(**self.output_options)
+                    )
+                task.success = True
+                if len(w):
+                    task.warning = "\n".join(
+                        str(warning)
+                        for warning in w
+                    )
+            except Exception:
+                task.success = False
+                task.error = traceback.format_exc()
+            task.converting = False
+
+        async def batch_convert(self):
+            loop = asyncio.get_event_loop()
+            with ThreadPoolExecutor(
+                max_workers=max(len(self.files_to_convert), 4)
+            ) as executor:
+                for task in self.files_to_convert.values():
+                    task.reset()
+                    await loop.run_in_executor(
+                        executor,
+                        self.convert_one,
+                        task,
+                    )
+            if any(
+                not task.success for task in self.files_to_convert.values()
+            ):
+                ui.notify(_("Conversion Failed"), closeBtn=_("Close"), type="negative")
+            else:
+                ui.notify(_("Conversion Successful"), closeBtn=_("Close"), type="positive")
+
+        def export_all(self, request: Request):
+            if len(self.files_to_convert) == 0:
+                raise HTTPException(400, "No files to export")
+            elif len(self.files_to_convert) == 1:
+                filename = next(iter(self.files_to_convert))
+                return self._export_one(filename)
+            buffer = io.BytesIO()
+            with zipfile.ZipFile(buffer, "w") as zip_file:
+                for task in self.files_to_convert.values():
+                    if task.success:
+                        zip_file.writestr(
+                            task.upload_path.with_suffix(task.output_path.suffix).name,
+                            task.output_path.read_bytes(),
+                        )
+            return Response(content=buffer.getvalue(), media_type="application/zip", headers={
+                "Content-Disposition": "attachment; filename=export.zip"
+            })
+
+        def export_one(self, request: Request):
+            return self._export_one(request.path_params["filename"])
+
+        def _export_one(self, filename: str):
+            if task := self.files_to_convert.get(filename):
+                if task.success:
+                    return Response(
+                        content=task.output_path.read_bytes(),
+                        media_type="application/octet-stream",
+                        headers={
+                            "Content-Disposition": f"attachment; filename={task.upload_path.with_suffix(task.output_path.suffix).name}"
+                        }
+                    )
+            raise HTTPException(404, "File not found")
+
 
     dark_toggler = ui.dark_mode().bind_value(
         app.storage.user, "dark_mode"
@@ -459,7 +614,7 @@ def page_layout(lang: Optional[str] = None):
                             'w-full h-full opacity-80 hover:opacity-100'
                         ) as tasks_card:
                             ui.label(_("Import project")).classes('text-h5 font-bold')
-                            tasks_container()
+                            selected_formats.tasks_container()
                             tasks_card.bind_visibility_from(selected_formats, "task_count", backward=bool)
                             with ui.upload(
                                 multiple=True,
@@ -494,11 +649,15 @@ def page_layout(lang: Optional[str] = None):
             with main_splitter.after:
                 with ui.card().classes('w-full h-auto min-h-full'):
                     with ui.row().classes('absolute top-0 right-2 m-2 z-10'):
-                        with ui.button(icon='play_arrow').props("round").bind_visibility(
+                        with ui.button(
+                            icon='play_arrow', on_click=selected_formats.batch_convert
+                        ).props("round").bind_visibility(
                             selected_formats, "task_count", backward=bool, forward=bool
                         ):
                             ui.tooltip(_("Start Conversion"))
-                        with ui.button(icon='download_for_offline').props("round").bind_visibility(
+                        with ui.button(
+                            icon='download_for_offline', on_click=lambda: ui.download("/export")
+                        ).props("round").bind_visibility(
                             selected_formats, "task_count", backward=bool, forward=bool
                         ):
                             ui.tooltip(_("Export"))
