@@ -18,7 +18,7 @@ from operator import not_
 from typing import Optional, TypedDict, Union, get_args, get_type_hints
 
 from nicegui import app, ui
-from nicegui.events import UploadEventArguments
+from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.globals import get_client
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
@@ -131,9 +131,7 @@ def page_layout(lang: Optional[str] = None):
 
     def plugin_info(attr_name: str):
         attr = getattr(selected_formats, attr_name)
-        with ui.row().classes(
-            "w-full h-full"
-        ):
+        with ui.row().classes("w-full h-full"):
             with ui.element("div").classes("w-100 h-100") as icon:
                 icon._props["style"] = f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
             ui.separator().props("vertical")
@@ -520,6 +518,41 @@ def page_layout(lang: Optional[str] = None):
                     with ui.row().classes("items-center"):
                         ui.icon("swap_vert").classes("text-lg")
                         ui.label(_("Swap Input and Output"))
+        def handle_key(e: KeyEventArguments):
+            if (
+                e.modifiers.alt or
+                e.modifiers.ctrl or
+                e.modifiers.meta or
+                e.modifiers.shift
+            ):
+                pass
+            elif e.key.number is not None and not e.action.repeat and e.action.keyup:
+                key = e.key.number
+                for formats_menu, format_item in [(input_formats_menu, input_format_item), (output_formats_menu, output_format_item)]:
+                    current_index = format_item._value_to_model_value(format_item.value)
+                    count = len(format_item._values)
+                    if formats_menu.value:
+                        if (count >= 10 + key):
+                            next_focus = 10 * ((current_index // 10) + 1)
+                            next_focus = key if next_focus + key >= count else next_focus + key
+                            format_item.value = format_item._values[next_focus]
+                        elif current_index != key:
+                            format_item.value = format_item._values[key]
+        ui.keyboard(on_key=handle_key, active=True)
+        with ui.button(_("Import format"), on_click=lambda: input_formats_menu.open(), icon="login"):
+            with ui.menu() as input_formats_menu:
+                input_format_item = ui.radio(
+                    {k: f"{i} " + _(v["file_format"]) + v["suffix"] for i, (k, v) in enumerate(plugin_details.items())},
+                ).bind_value(
+                    selected_formats, "input_format"
+                ).classes("text-sm")
+        with ui.button(_("Export format"), on_click=lambda: output_formats_menu.open(), icon="logout"):
+            with ui.menu() as output_formats_menu:
+                output_format_item = ui.radio(
+                    {k: f"{i} " + _(v["file_format"]) + v["suffix"] for i, (k, v) in enumerate(plugin_details.items())},
+                ).bind_value(
+                    selected_formats, "output_format"
+                )
         with ui.button(_("Switch Theme"), on_click=lambda: theme_menu.open(), icon="palette"):
             with ui.menu() as theme_menu:
                 with ui.menu_item(on_click=dark_toggler.disable):
@@ -579,7 +612,7 @@ def page_layout(lang: Optional[str] = None):
                                 ui.label(_("Choose file format")).classes('text-h5 font-bold')
                                 with ui.grid().classes('grid grid-cols-11 gap-4 w-full'):
                                     with ui.select(
-                                        {k: _(v["file_format"]) + "" + v["suffix"] for k, v in plugin_details.items()},
+                                        {k: _(v["file_format"]) + v["suffix"] for k, v in plugin_details.items()},
                                         label=_("Import format"),
                                     ).classes('col-span-10').bind_value(
                                         selected_formats, "input_format"
@@ -600,7 +633,7 @@ def page_layout(lang: Optional[str] = None):
                                     with ui.button(icon="swap_vert", on_click=switch_values).classes('w-fit aspect-square').props('round'):
                                         ui.tooltip(_("Swap Input and Output"))
                                     with ui.select(
-                                        {k: _(v["file_format"]) + "" + v["suffix"] for k, v in plugin_details.items()},
+                                        {k: _(v["file_format"]) + v["suffix"] for k, v in plugin_details.items()},
                                         label=_("Export format"),
                                     ).classes('col-span-10').bind_value(
                                         selected_formats, "output_format"
