@@ -3,7 +3,7 @@ WORKDIR /app
 ENV PYTHONUTF8=1
 COPY ./ /app
 
-RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/web/simple/ --global && \
+RUN pip config set global.index-url https://mirrors.cloud.tencent.com/pypi/simple/ --global && \
     pip install poetry && \
     poetry config virtualenvs.create false && \
     poetry install --without=desktop,dev,test,code_gen,ffmpeg,packaging --with=webui,ujson,midi,subtitle,protobuf,text,svg,xml,binary && \
