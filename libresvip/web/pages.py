@@ -474,7 +474,7 @@ def page_layout(lang: Optional[str] = None):
         app.storage.user, "dark_mode"
     )
     selected_formats = SelectedFormats()
-    ui.add_head_html('<script src="https://cdn.bootcdn.net/ajax/libs/axios/1.3.6/axios.min.js"></script>')
+    ui.add_head_html('<script src="https://cdn.jsdelivr.net/npm/axios@1/dist/axios.min.js"></script>')
     with ui.element('style') as style:  # fix icon position
         style._text = textwrap.dedent('''
         .q-icon {
