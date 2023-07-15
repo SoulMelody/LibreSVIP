@@ -284,7 +284,6 @@ def page_layout(lang: Optional[str] = None):
     output_options = ui.refreshable(
         functools.partial(options_form, "output", "dump")
     )
-    
 
     @dataclasses.dataclass
     class SelectedFormats:
@@ -304,7 +303,10 @@ def page_layout(lang: Optional[str] = None):
 
         @functools.cached_property
         def temp_path(self) -> fake_pathlib.Path:
-            return fake_pathlib.Path(tempfile.gettempdir())
+            user_temp_path = fake_pathlib.Path(tempfile.gettempdir()) / f"{cur_client.id}"
+            if not user_temp_path.exists():
+                user_temp_path.mkdir(exist_ok=True)
+            return user_temp_path
 
         @ui.refreshable
         def tasks_container(self):
@@ -628,9 +630,29 @@ def page_layout(lang: Optional[str] = None):
                             ).classes('absolute bottom-0 left-0 m-2 z-10') as fab:
                                 with fab.add_slot("active-icon"):
                                     ui.icon("construction").classes("rotate-45")
-                                with QFabAction(icon='refresh'):
+                                def add_class(element: ui.element, open: bool = False):
+                                    element.classes("toolbar-fab-active")
+                                    if open:
+                                        element.run_method("show")
+                                def remove_class(element: ui.element):
+                                    call_times = 0
+                                    async def hide():
+                                        nonlocal call_times
+                                        if call_times and await ui.run_javascript('!document.querySelector(".toolbar-fab-active")'):
+                                            fab.run_method("hide")
+                                            timer.deactivate()
+                                        call_times += 1
+                                    timer = ui.timer(0.5, hide)
+                                    element.classes(remove="toolbar-fab-active")
+                                fab.on("mouseover", lambda: add_class(fab, open=True))
+                                fab.on("mouseout", lambda: remove_class(fab))
+                                with QFabAction(icon='refresh') as fab_action_1:
+                                    fab_action_1.on("mouseover", lambda: add_class(fab_action_1))
+                                    fab_action_1.on("mouseout", lambda: remove_class(fab_action_1))
                                     ui.tooltip(_("Clear Task List"))
-                                with QFabAction(icon='filter_alt_off'):
+                                with QFabAction(icon='filter_alt_off') as fab_action_2:
+                                    fab_action_2.on("mouseover", lambda: add_class(fab_action_2))
+                                    fab_action_2.on("mouseout", lambda: remove_class(fab_action_2))
                                     ui.tooltip(_("Remove Tasks With Other Extensions"))
                             with ui.button(
                                 icon='add', on_click=lambda: ui.run_javascript(
@@ -748,6 +770,7 @@ def page_layout(lang: Optional[str] = None):
 if __name__ in {"__main__", "__mp_main__"}:
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("--port", type=int, default=8080)
+    arg_parser.add_argument("--reload", action="store_true")
     args = arg_parser.parse_args()
 
     secrets_path = app_dir.user_config_path / "secrets.txt"
@@ -756,6 +779,7 @@ if __name__ in {"__main__", "__mp_main__"}:
     storage_secret = secrets_path.read_text()
 
     ui.run(
+        reload=args.reload,
         dark=dark_mode2str(settings.dark_mode),
         port=args.port,
         storage_secret=storage_secret,
