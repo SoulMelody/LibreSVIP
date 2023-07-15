@@ -8,9 +8,9 @@ import gettext
 import io
 import pathlib
 import secrets
-import tempfile
 import textwrap
 import traceback
+import uuid
 import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
@@ -22,11 +22,10 @@ from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.globals import get_client
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from pyfakefs.fake_filesystem import FakeFilesystem
-from pyfakefs.fake_pathlib import FakePathlibModule
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import Response
+from upath import UPath
 
 import libresvip
 from libresvip.core.config import DarkMode, Language, settings
@@ -36,8 +35,6 @@ from libresvip.extension.manager import plugin_registry
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
-
-fake_pathlib = FakePathlibModule(FakeFilesystem(create_temp_dir=True,))
 
 
 def dark_mode2str(mode: DarkMode) -> Optional[bool]:
@@ -299,8 +296,8 @@ def page_layout(lang: Optional[str] = None):
             app.add_route(f"/export/{cur_client.id}/{{filename}}", self.export_one, methods=["GET"])
 
         @functools.cached_property
-        def temp_path(self) -> fake_pathlib.Path:
-            user_temp_path = fake_pathlib.Path(tempfile.gettempdir()) / f"{cur_client.id}"
+        def temp_path(self) -> UPath:
+            user_temp_path = UPath("memory:/") / f"{cur_client.id}"
             if not user_temp_path.exists():
                 user_temp_path.mkdir(exist_ok=True)
             return user_temp_path
@@ -344,7 +341,7 @@ def page_layout(lang: Optional[str] = None):
             upload_path = self.temp_path / args.name
             args.content.seek(0)
             upload_path.write_bytes(args.content.read())
-            output_path = self.temp_path / tempfile.mktemp()
+            output_path = self.temp_path / str(uuid.uuid4())
             conversion_task = ConversionTask(
                 name=args.name,
                 upload_path=upload_path,
@@ -431,9 +428,7 @@ def page_layout(lang: Optional[str] = None):
                         self.convert_one,
                         task,
                     )
-            if any(
-                not task.success for task in self.files_to_convert.values()
-            ):
+            if any(not task.success for task in self.files_to_convert.values()):
                 ui.notify(_("Conversion Failed"), closeBtn=_("Close"), type="negative")
             else:
                 ui.notify(_("Conversion Successful"), closeBtn=_("Close"), type="positive")
@@ -610,13 +605,12 @@ def page_layout(lang: Optional[str] = None):
                             with ui.column().classes("w-full"):
                                 ui.label(_("Choose file format")).classes('text-h5 font-bold')
                                 with ui.grid().classes('grid grid-cols-11 gap-4 w-full'):
-                                    with ui.select(
+                                    select1 = ui.select(
                                         {k: _(v["file_format"]) + v["suffix"] for k, v in plugin_details.items()},
                                         label=_("Import format"),
                                     ).classes('col-span-10').bind_value(
                                         selected_formats, "input_format"
-                                    ) as select1:
-                                        pass
+                                    )
                                     with ui.dialog() as input_info, ui.card():
                                         input_plugin_info()
                                         with ui.card_actions().props("align=right").classes("w-full"):
@@ -631,13 +625,12 @@ def page_layout(lang: Optional[str] = None):
                                     )
                                     with ui.button(icon="swap_vert", on_click=switch_values).classes('w-fit aspect-square').props('round'):
                                         ui.tooltip(_("Swap Input and Output"))
-                                    with ui.select(
+                                    select2 = ui.select(
                                         {k: _(v["file_format"]) + v["suffix"] for k, v in plugin_details.items()},
                                         label=_("Export format"),
                                     ).classes('col-span-10').bind_value(
                                         selected_formats, "output_format"
-                                    ) as select2:
-                                        pass
+                                    )
                                     with ui.dialog().classes("h-400 w-600") as output_info, ui.card():
                                         output_plugin_info()
                                         with ui.element("q-card-actions").props("align=right").classes("w-full"):

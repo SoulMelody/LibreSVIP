@@ -4,6 +4,7 @@ import pathlib
 import shutil
 import tempfile
 import traceback
+import uuid
 import warnings
 import zipfile
 from typing import Any, get_args, get_type_hints
@@ -11,10 +12,9 @@ from typing import Any, get_args, get_type_hints
 from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from pyfakefs.fake_filesystem import FakeFilesystem
-from pyfakefs.fake_pathlib import FakePathlibModule
 from qmlease import slot
 from qtpy.QtCore import QModelIndex, QObject, QRunnable, QThreadPool, QTimer, Signal, Slot
+from upath import UPath
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
@@ -25,9 +25,6 @@ from libresvip.utils import shorten_error_message
 from .model_proxy import ModelProxy
 from .url_opener import open_path
 
-fake_pathlib = FakePathlibModule(FakeFilesystem(
-    create_temp_dir=True,
-))
 
 class ConversionWorkerSignals(QObject):
     result = Signal(int, dict)
@@ -73,7 +70,7 @@ class ConversionWorker(QRunnable):
                     input_option(**self.input_options),
                 )
                 output_plugin.plugin_object.dump(
-                    fake_pathlib.Path(self.output_path),
+                    UPath(self.output_path),
                     project,
                     output_option(**self.output_options),
                 )
@@ -172,7 +169,7 @@ class TaskManager(QObject):
     @Slot(QModelIndex, int, int)
     def delete_tmp_file(self, index: QModelIndex, start: int, end: int):
         for i in range(start, end + 1):
-            path = fake_pathlib.Path(self.tasks[i]["tmp_path"])
+            path = UPath(self.tasks[i]["tmp_path"])
             if path.exists():
                 with contextlib.suppress(Exception):
                     path.unlink()
@@ -248,7 +245,7 @@ class TaskManager(QObject):
         if not task["success"]:
             return False
         output_dir = self.output_dir(task)
-        tmp_path = fake_pathlib.Path(task["tmp_path"])
+        tmp_path = UPath(task["tmp_path"])
         result = False
         try:
             target_path = output_dir / f"{task['stem']}{self.output_ext}"
@@ -459,7 +456,7 @@ class TaskManager(QObject):
     def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
         infos = []
         for path in paths:
-            temp_plugin_dir = fake_pathlib.Path(tempfile.mkdtemp(prefix="plugin"))
+            temp_plugin_dir = pathlib.Path(tempfile.mkdtemp(prefix="plugin"))
             with zipfile.ZipFile(path) as zip_file:
                 zip_file.extractall(path=temp_plugin_dir)
             if (
@@ -524,7 +521,7 @@ class TaskManager(QObject):
         )
         for i in range(len(self.tasks)):
             input_path = self.tasks[i]["path"]
-            output_path = tempfile.mktemp(suffix=self.output_ext)
+            output_path = f"memory:/{uuid.uuid4()}.{self.output_ext}"
             worker = ConversionWorker(
                 i,
                 input_path,
