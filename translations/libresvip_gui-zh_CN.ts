@@ -169,12 +169,6 @@
         <translation>[ 导入自 </translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="971"/>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1138"/>
-        <source> Format]</source>
-        <translation> 工程文件 ]</translation>
-    </message>
-    <message>
         <location filename="../libresvip/gui/components/converter_page.qml" line="1138"/>
         <source>[Export to </source>
         <translation>[ 导出为 </translation>
@@ -292,6 +286,11 @@
         <location filename="../libresvip/gui/components/dialogs.qml" line="369"/>
         <source>LibreSVIP</source>
         <translation>LibreSVIP</translation>
+    </message>
+    <message>
+        <location filename="../libresvip/gui/components/dialogs.qml" line="375"/>
+        <source>Version: </source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../libresvip/gui/components/dialogs.qml" line="379"/>
@@ -440,49 +439,54 @@
 <context>
     <name>task_row</name>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="94"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="96"/>
         <source>File successfully converted</source>
         <translation>此文件已成功转换</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="102"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="104"/>
         <source>Open</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="114"/>
-        <location filename="../libresvip/gui/components/task_row.qml" line="157"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="116"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="159"/>
         <source>Open folder</source>
         <translation>打开目录</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="268"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="270"/>
         <source>File %1 already exists. Overwrite?</source>
         <translation>文件 %1 已存在，是否覆盖？</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="149"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="151"/>
         <source>File skipped due to conflict</source>
         <translation>已跳过</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="193"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="67"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/gui/components/task_row.qml" line="195"/>
         <source>File failed to convert, below is the error message:</source>
         <translation>此文件转换失败，错误信息如下：</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="205"/>
-        <location filename="../libresvip/gui/components/task_row.qml" line="220"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="207"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="222"/>
         <source>Copy error message</source>
         <translation>复制错误信息</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="209"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="211"/>
         <source>Copied</source>
         <translation>已复制</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="267"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="269"/>
         <source>Do you want to overwrite the file?</source>
         <translation type="unfinished"></translation>
     </message>

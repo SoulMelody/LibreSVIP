@@ -1135,7 +1135,7 @@ Page {
                             }
                             Label {
                                 property string output_format_name: ""
-                                text: qsTr("[Export to ") + qsTr(output_format_name) + qsTr("]")
+                                text: qsTr("[Export to ") + qsTr(output_format_name) + "]"
                                 font.pixelSize: 20
                                 color: Material.color(
                                     Material.Grey

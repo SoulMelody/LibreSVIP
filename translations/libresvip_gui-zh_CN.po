@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-05 10:10+0800\n"
+"POT-Creation-Date: 2023-07-15 11:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,9 +109,6 @@ msgstr "过滤多余项目"
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-msgid " Format]"
-msgstr " 工程文件 ]"
-
 msgid "[Export to "
 msgstr "[ 导出为 "
 
@@ -182,6 +179,9 @@ msgstr "关于"
 
 msgid "LibreSVIP"
 msgstr "LibreSVIP"
+
+msgid "Version: "
+msgstr "版本："
 
 msgid "Author: SoulMelody"
 msgstr "作者：岁月静好_初心不忘"
@@ -264,6 +264,9 @@ msgstr "文件 %1 已存在，是否覆盖？"
 
 msgid "File skipped due to conflict"
 msgstr "已跳过"
+
+msgid "Remove"
+msgstr "移除"
 
 msgid "File failed to convert, below is the error message:"
 msgstr "此文件转换失败，错误信息如下："

@@ -1,4 +1,5 @@
 #! /usr/bin/python3
+import argparse
 import asyncio
 import dataclasses
 import enum
@@ -14,10 +15,11 @@ import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
-from typing import Optional, TypedDict, get_args, get_type_hints
+from typing import Optional, TypedDict, Union, get_args, get_type_hints
 
 from nicegui import app, ui
 from nicegui.events import UploadEventArguments
+from nicegui.globals import get_client
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from pyfakefs.fake_filesystem import FakeFilesystem
@@ -46,14 +48,8 @@ def dark_mode2str(mode: DarkMode) -> Optional[bool]:
     elif mode == DarkMode.DARK:
         return True
 
-def int_validator(value: str) -> bool:
-    try:
-        int(value)
-    except (ValueError, TypeError):
-        return False
-    else:
-        return True
-
+def int_validator(value: Union[int, float, str]) -> bool:
+    return value.isdigit() if isinstance(value, str) else isinstance(value, int)
 
 def float_validator(value: str) -> bool:
     try:
@@ -82,10 +78,16 @@ class ConversionTask:
         if self.output_path.exists():
             self.output_path.unlink()
 
+    def __del__(self):
+        self.upload_path.unlink()
+        if self.output_path.exists():
+            self.output_path.unlink()
+
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
 def page_layout(lang: Optional[str] = None):
+    cur_client = get_client()
 
     if "lang" not in app.storage.user:
         app.storage.user["lang"] = "en_US"
@@ -171,16 +173,16 @@ def page_layout(lang: Optional[str] = None):
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full items-center"):
             ui.icon(icon).classes('text-lg')
-            ui.label(_(title)).classes('text-subtitle1 font-bold')
-            ui.label(_(prefix) + " " + _(
+            ui.label(title).classes('text-subtitle1 font-bold')
+            ui.label(prefix + _(
                 plugin_details[attr]["file_format"]
-            )).classes('flex-grow')
+            ) + "]").classes('flex-grow')
 
     input_panel_header = ui.refreshable(
-        functools.partial(panel_header, "input_format", "Import Options", "Import from", "input")
+        functools.partial(panel_header, "input_format", _("Input Options"), _("[Import as "), "input")
     )
     output_panel_header = ui.refreshable(
-        functools.partial(panel_header, "output_format", "Export Options", "Export to", "output")
+        functools.partial(panel_header, "output_format", _("Output Options"), _("[Export to "), "output")
     )
 
     def options_form(attr_prefix: str, method: str):
@@ -282,6 +284,7 @@ def page_layout(lang: Optional[str] = None):
     output_options = ui.refreshable(
         functools.partial(options_form, "output", "dump")
     )
+    
 
     @dataclasses.dataclass
     class SelectedFormats:
@@ -296,8 +299,8 @@ def page_layout(lang: Optional[str] = None):
             self.output_format = app.storage.user.get("last_output_format") or next(iter(plugin_registry), "")
             app.storage.user.setdefault("auto_detect_input_format", settings.auto_detect_input_format)
             app.storage.user.setdefault("reset_tasks_on_input_change", settings.reset_tasks_on_input_change)
-            app.add_route("/export/", self.export_all, methods=["GET"])
-            app.add_route("/export/{filename}", self.export_one, methods=["GET"])
+            app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
+            app.add_route(f"/export/{cur_client.id}/{{filename}}", self.export_one, methods=["GET"])
 
         @functools.cached_property
         def temp_path(self) -> fake_pathlib.Path:
@@ -330,7 +333,7 @@ def page_layout(lang: Optional[str] = None):
                                 ))
                                 ui.button(_("Close"), on_click=warn_dialog.close)
                         ui.button(icon="warning", color="yellow", on_click=warn_dialog.open).props("round").bind_visibility_from(info, "warning")
-                        ui.button(icon="download", on_click=lambda: ui.download(f"/export/{info.name}")).props("round").bind_visibility_from(info, "success")
+                        ui.button(icon="download", on_click=lambda: ui.download(f"/export/{cur_client.id}/{info.name}")).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props("round"):
                             ui.tooltip(_("Remove"))
 
@@ -470,9 +473,7 @@ def page_layout(lang: Optional[str] = None):
             raise HTTPException(404, "File not found")
 
 
-    dark_toggler = ui.dark_mode().bind_value(
-        app.storage.user, "dark_mode"
-    )
+    dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
     ui.add_head_html('<script src="https://cdn.jsdelivr.net/npm/axios@1/dist/axios.min.js"></script>')
     with ui.element('style') as style:  # fix icon position
@@ -656,7 +657,7 @@ def page_layout(lang: Optional[str] = None):
                         ):
                             ui.tooltip(_("Start Conversion"))
                         with ui.button(
-                            icon='download_for_offline', on_click=lambda: ui.download("/export")
+                            icon='download_for_offline', on_click=lambda: ui.download(f"/export/{cur_client.id}/")
                         ).props("round").bind_visibility(
                             selected_formats, "task_count", backward=bool, forward=bool
                         ):
@@ -743,7 +744,12 @@ def page_layout(lang: Optional[str] = None):
         """).strip()
     )
 
+
 if __name__ in {"__main__", "__mp_main__"}:
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--port", type=int, default=8080)
+    args = arg_parser.parse_args()
+
     secrets_path = app_dir.user_config_path / "secrets.txt"
     if not secrets_path.exists():
         secrets_path.write_text(secrets.token_urlsafe(32))
@@ -751,9 +757,8 @@ if __name__ in {"__main__", "__mp_main__"}:
 
     ui.run(
         dark=dark_mode2str(settings.dark_mode),
-        port=8080,
+        port=args.port,
         storage_secret=storage_secret,
-        # window_size=(1280, 720),
         exclude="chart,mermaid,plotly",
         title="LibreSVIP",
         favicon=res_dir / "libresvip.ico",
