@@ -14,7 +14,7 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
         if options is None:
             options = InputOptions()
         sv_content = path.read_text().strip("\x00")
-        sv_proj = SVProject.parse_raw(sv_content)
+        sv_proj = SVProject.model_validate_json(sv_content)
         options.instant = options.instant and sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
 

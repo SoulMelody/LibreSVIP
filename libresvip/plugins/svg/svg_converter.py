@@ -14,4 +14,4 @@ class SvgConverter(plugin_base.WriteOnlyConverterBase):
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         drawing: Drawing = SvgGenerator(options).generate_project(project)
-        drawing.save_svg(path)
+        path.write_text(drawing.as_svg(), encoding="utf-8")

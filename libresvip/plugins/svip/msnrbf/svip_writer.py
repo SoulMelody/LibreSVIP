@@ -94,7 +94,7 @@ class SvipWriter(NrbfIOBase):
                 "obj": {},
             }
         )
-        SVIPFile.build_file(self.svip_file, path)
+        path.write_bytes(SVIPFile.build(self.svip_file))
 
     def write_library(self, library_name):
         self.id_max += 1

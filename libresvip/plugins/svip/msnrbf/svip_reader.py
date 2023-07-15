@@ -106,7 +106,7 @@ class SvipReader(NrbfIOBase):
             ref["real_obj"] = self.ref_map[ref["id_ref"]]
 
     def read(self, path: pathlib.Path) -> tuple[str, XSAppModel]:
-        self.svip_file = SVIPFile.parse_file(path)
+        self.svip_file = SVIPFile.parse(path.read_bytes())
         self.resolve_references()
 
         for record in self.svip_file.record_stream:

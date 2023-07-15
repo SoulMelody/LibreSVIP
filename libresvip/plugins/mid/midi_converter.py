@@ -1,3 +1,4 @@
+import io
 import pathlib
 
 import mido
@@ -12,7 +13,7 @@ from .options import InputOptions, OutputOptions
 
 class MidiConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        midi_file = mido.MidiFile(path)
+        midi_file = mido.MidiFile(file=io.BytesIO(path.read_bytes()))
         return MidiParser(
             options=options,
         ).decode_project(midi_file)
@@ -23,4 +24,6 @@ class MidiConverter(plugin_base.SVSConverterBase):
         midi_file = MidiGenerator(
             options=options,
         ).encode_project(project)
-        midi_file.save(path)
+        buffer = io.BytesIO()
+        midi_file.save(file=buffer)
+        path.write_bytes(buffer.getvalue())

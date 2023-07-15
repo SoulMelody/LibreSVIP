@@ -160,3 +160,4 @@ cython_debug/
 .vscode/settings.json
 assets/
 node_modules/
+.nicegui/

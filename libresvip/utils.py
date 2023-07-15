@@ -2,7 +2,7 @@ import contextlib
 import functools
 import pathlib
 from types import FunctionType
-from typing import Callable, TypeVar
+from typing import Callable, Optional, TypeVar
 
 import charset_normalizer
 from setuptools.extern.more_itertools import locate, rlocate
@@ -63,7 +63,9 @@ def gettext_lazy(message: str) -> str:
         return message
 
 
-def shorten_error_message(message: str) -> str:
+def shorten_error_message(message: Optional[str]) -> str:
+    if message is None:
+        return ""
     error_lines = message.splitlines()
     if len(error_lines) > 30:
         message = "\n".join(error_lines[:15] + ["..."] + error_lines[-15:])
