@@ -776,6 +776,7 @@ if __name__ in {"__main__", "__mp_main__"}:
 
     secrets_path = app_dir.user_config_path / "secrets.txt"
     if not secrets_path.exists():
+        secrets_path.parent.mkdir(parents=True, exist_ok=True)
         secrets_path.write_text(secrets.token_urlsafe(32))
     storage_secret = secrets_path.read_text()
 
