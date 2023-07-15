@@ -3,7 +3,7 @@ import runpy
 
 
 def main():
-    runpy.run_path(pathlib.Path(__file__).parent / "pages.py", run_name="__main__", alter_sys=True)
+    runpy.run_path(pathlib.Path(__file__).parent / "pages.py", run_name="__main__")
 
 
 if __name__ == "__main__":
