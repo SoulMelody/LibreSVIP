@@ -728,9 +728,9 @@ def page_layout(lang: Optional[str] = None):
                 }}
             }}
             document.addEventListener('DOMContentLoaded', () => {{
-                let uploader = document.querySelector("[id='{uploader.id}']")
+                let uploader = document.querySelector("[id='c{uploader.id}']")
 
-                let task_card = document.querySelector("[id='{tasks_card.id}']")
+                let task_card = document.querySelector("[id='c{tasks_card.id}']")
                 task_card.addEventListener('dragover', (event) => {{
                     event.preventDefault()
                 }})
@@ -744,7 +744,7 @@ def page_layout(lang: Optional[str] = None):
                     event.preventDefault()
                 }})
 
-                let upload_card = document.querySelector("[id='{upload_card.id}']")
+                let upload_card = document.querySelector("[id='c{upload_card.id}']")
                 upload_card.addEventListener('dragover', (event) => {{
                     event.preventDefault()
                 }})
@@ -786,7 +786,6 @@ if __name__ in {"__main__", "__mp_main__"}:
         host=args.host,
         port=args.port,
         storage_secret=storage_secret,
-        exclude="chart,mermaid,plotly",
         title="LibreSVIP",
         favicon=res_dir / "libresvip.ico",
     )
