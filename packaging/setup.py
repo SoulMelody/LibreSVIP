@@ -166,6 +166,7 @@ build_exe_options = {
     "include_files": include_files,
     "zip_include_packages": ["PySide6"],
     "packages": [
+        "anyio",
         "ass",
         "construct_typed",
         "drawsvg",
