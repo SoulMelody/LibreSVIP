@@ -315,21 +315,21 @@ def page_layout(lang: Optional[str] = None):
                         ui.spinner().props("size=lg").bind_visibility_from(info, "converting")
                         ui.icon("check", size="lg").classes("text-green-500").bind_visibility_from(info, "success")
                         with ui.dialog() as error_dialog, ui.element("q-banner").classes("bg-red-500 w-auto") as error_banner:
-                            ui.label().classes("text-lg").bind_text_from(info, "error", backward=shorten_error_message)
+                            ui.label().classes("text-lg").style("word-break: break-all; white-space: pre-wrap;").bind_text_from(info, "error", backward=shorten_error_message)
                             with error_banner.add_slot("action"):
                                 ui.button(_("Copy to clipboard"), on_click=lambda: ui.run_javascript(
                                     f"navigator.clipboard.writeText({repr(info.error)})", respond=False
                                 ))
                                 ui.button(_("Close"), on_click=error_dialog.close)
-                        ui.button(icon="error", color="red", on_click=error_dialog.open).props("round").classes("text-lg").bind_visibility_from(info, "error")
+                        ui.button(icon="error", color="red", on_click=error_dialog.open).props("round").bind_visibility_from(info, "error")
                         with ui.dialog() as warn_dialog, ui.element("q-banner").classes("bg-yellow-500 w-auto") as warn_banner:
-                            ui.label().classes("text-lg").bind_text_from(info, "warning", backward=str)
+                            ui.label().classes("text-lg").style("word-break: break-all; white-space: pre-wrap;").bind_text_from(info, "warning", backward=str)
                             with warn_banner.add_slot("action"):
                                 ui.button(_("Copy to clipboard"), on_click=lambda: ui.run_javascript(
                                     f"navigator.clipboard.writeText({repr(info.warning)})", respond=False
                                 ))
                                 ui.button(_("Close"), on_click=warn_dialog.close)
-                        ui.button(icon="warning", color="yellow", on_click=warn_dialog.open).props("round").classes("text-lg").bind_visibility_from(info, "warning")
+                        ui.button(icon="warning", color="yellow", on_click=warn_dialog.open).props("round").bind_visibility_from(info, "warning")
                         ui.button(icon="download", on_click=lambda: ui.download(f"/export/{info.name}")).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props("round"):
                             ui.tooltip(_("Remove"))
