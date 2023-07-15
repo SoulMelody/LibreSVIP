@@ -9,7 +9,7 @@ import PySide6
 import shellingham
 from cx_Freeze import Executable, setup
 
-sys.path.append(str(pathlib.Path("../../").absolute().resolve()))
+sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
 import libresvip
 from libresvip.core.constants import pkg_dir
