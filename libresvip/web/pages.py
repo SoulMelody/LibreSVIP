@@ -769,6 +769,7 @@ def page_layout(lang: Optional[str] = None):
 
 if __name__ in {"__main__", "__mp_main__"}:
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("--host", type=str, default="0.0.0.0")
     arg_parser.add_argument("--port", type=int, default=8080)
     arg_parser.add_argument("--reload", action="store_true")
     args = arg_parser.parse_args()
@@ -781,6 +782,7 @@ if __name__ in {"__main__", "__mp_main__"}:
     ui.run(
         reload=args.reload,
         dark=dark_mode2str(settings.dark_mode),
+        host=args.host,
         port=args.port,
         storage_secret=storage_secret,
         exclude="chart,mermaid,plotly",
