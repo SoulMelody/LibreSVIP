@@ -59,7 +59,7 @@ drawsvg = "^2.2.0"
 [tool.poetry.group.webui]
 optional = true
 [tool.poetry.group.webui.dependencies]
-nicegui = "^1.3.2"
+nicegui = "^1.3.3"
 
 [tool.poetry.group.desktop]
 optional = true
@@ -90,7 +90,7 @@ babel = "^2.12.1"
 optional = true
 
 [tool.poetry.group.packaging.dependencies]
-cx-freeze = "^6.15.3"
+cx-freeze = "^6.15.4"
 
 
 [tool.poetry.group.test]

@@ -37,9 +37,7 @@ from libresvip.model.base import BaseComplexModel
 from libresvip.utils import shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
 
-fake_pathlib = FakePathlibModule(FakeFilesystem(
-    create_temp_dir=True,
-))
+fake_pathlib = FakePathlibModule(FakeFilesystem(create_temp_dir=True,))
 
 
 def dark_mode2str(mode: DarkMode) -> Optional[bool]:
@@ -79,7 +77,8 @@ class ConversionTask:
             self.output_path.unlink()
 
     def __del__(self):
-        self.upload_path.unlink()
+        if self.upload_path.exists():
+            self.upload_path.unlink()
         if self.output_path.exists():
             self.output_path.unlink()
 
