@@ -1,6 +1,7 @@
 from itertools import chain
 from typing import NamedTuple, Optional
 
+from more_itertools import chunked
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -8,7 +9,6 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
-from setuptools.extern.more_itertools import chunked
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
 from libresvip.model.base import BaseModel

@@ -3,6 +3,7 @@ from itertools import chain
 from typing import Literal, NamedTuple, Optional
 from uuid import uuid4
 
+from more_itertools import chunked
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -10,7 +11,6 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
-from setuptools.extern.more_itertools import chunked
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, PointList
