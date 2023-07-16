@@ -621,10 +621,16 @@ def page_layout(lang: Optional[str] = None):
                         await ui.run_javascript("add_upload()", respond=False)
                     elif e.key == "i":
                         about_dialog.open()
-                    elif e.key == "s":
+                    elif e.key == "\\":
                         swap_values()
                     elif e.key == "/":
                         selected_formats.reset()
+                    elif e.key == "w":
+                        dark_toggler.disable()
+                    elif e.key == "b":
+                        dark_toggler.enable()
+                    elif e.key == "s":
+                        dark_toggler.auto()
                     elif e.key == "Enter":
                         await selected_formats.batch_convert()
             elif e.key.number is not None and not e.action.repeat and e.action.keyup:
@@ -674,7 +680,7 @@ def page_layout(lang: Optional[str] = None):
                         ui.label(_("Clear Task List"))
                 ui.separator()
                 with ui.menu_item(on_click=swap_values):
-                    ui.tooltip("Alt+S")
+                    ui.tooltip("Alt+\\")
                     with ui.row().classes("items-center"):
                         ui.icon("swap_vert").classes("text-lg")
                         ui.label(_("Swap Input and Output"))
@@ -712,14 +718,17 @@ def page_layout(lang: Optional[str] = None):
             ui.tooltip("Alt+T")
             with ui.menu() as theme_menu:
                 with ui.menu_item(on_click=dark_toggler.disable):
+                    ui.tooltip("Alt+W")
                     with ui.row().classes("items-center"):
                         ui.icon("light_mode").classes("text-lg")
                         ui.label(_("Light"))
                 with ui.menu_item(on_click=dark_toggler.enable):
+                    ui.tooltip("Alt+B")
                     with ui.row().classes("items-center"):
                         ui.icon("dark_mode").classes("text-lg")
                         ui.label(_("Dark"))
                 with ui.menu_item(on_click=dark_toggler.auto):
+                    ui.tooltip("Alt+S")
                     with ui.row().classes("items-center"):
                         ui.icon("brightness_auto").classes("text-lg")
                         ui.label(_("System"))
