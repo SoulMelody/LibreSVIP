@@ -49,7 +49,7 @@ def int_validator(value: Union[int, float, str, None]) -> bool:
     if isinstance(value, int):
         return True
     elif isinstance(value, str):
-        return value.replace('+', '-').removeprefix('-').isdigit()
+        return value.replace("+", "-").removeprefix("-").isdigit()
     elif value is None:
         return False
     else:
@@ -346,6 +346,18 @@ def page_layout(lang: Optional[str] = None):
                 user_temp_path.mkdir(exist_ok=True)
             return user_temp_path
 
+        def reset(self):
+            self.files_to_convert.clear()
+            self.tasks_container.refresh()
+
+        def filter_input_ext(self):
+            self.files_to_convert = {
+                name: info
+                for name, info in self.files_to_convert.items()
+                if info.upload_path.suffix == f".{self.input_format}"
+            }
+            self.tasks_container.refresh()
+
         @ui.refreshable
         def tasks_container(self):
             with ui.column().classes("w-full"):
@@ -366,9 +378,9 @@ def page_layout(lang: Optional[str] = None):
                         with ui.dialog() as error_dialog, ui.element(
                             "q-banner"
                         ).classes("bg-red-500 w-auto") as error_banner:
-                            with ui.scroll_area().classes(remove="nicegui-scroll-area").style(
-                                "width: 500px; height: 16rem;"
-                            ):
+                            with ui.scroll_area().classes(
+                                remove="nicegui-scroll-area"
+                            ).style("width: 500px; height: 16rem;"):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;"
                                 ).bind_text_from(
@@ -389,9 +401,9 @@ def page_layout(lang: Optional[str] = None):
                         with ui.dialog() as warn_dialog, ui.element("q-banner").classes(
                             "bg-yellow-500 w-auto"
                         ) as warn_banner:
-                            with ui.scroll_area().classes(remove="nicegui-scroll-area").style(
-                                "width: 500px; height: 16rem;"
-                            ):
+                            with ui.scroll_area().classes(
+                                remove="nicegui-scroll-area"
+                            ).style("width: 500px; height: 16rem;"):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;"
                                 ).bind_text_from(info, "warning", backward=str)
@@ -571,8 +583,11 @@ def page_layout(lang: Optional[str] = None):
         """
         ).strip()
 
-    def switch_values():
-        select1.value, select2.value = select2.value, select1.value
+    def swap_values():
+        select_input.value, select_output.value = (
+            select_output.value,
+            select_input.value,
+        )
 
     with ui.left_drawer(value=False) as drawer:
         pass
@@ -581,40 +596,37 @@ def page_layout(lang: Optional[str] = None):
         "items-center"
     ):
         ui.button(icon="menu", on_click=drawer.toggle)
-        with ui.button(_("Convert"), on_click=lambda: convert_menu.open(), icon="loop"):
-            with ui.menu() as convert_menu:
-                with ui.menu_item(
-                    on_click=lambda: ui.run_javascript("add_upload()", respond=False)
-                ):
-                    with ui.row().classes("items-center"):
-                        ui.icon("file_open").classes("text-lg")
-                        ui.label(_("Import project"))
-                with ui.menu_item().bind_visibility(
-                    selected_formats, "task_count", backward=bool, forward=bool
-                ):
-                    with ui.row().classes("items-center"):
-                        ui.icon("play_arrow").classes("text-lg")
-                        ui.label(_("Convert"))
-                with ui.menu_item().bind_visibility(
-                    selected_formats, "task_count", backward=bool, forward=bool
-                ):
-                    with ui.row().classes("items-center"):
-                        ui.icon("refresh").classes("text-lg")
-                        ui.label(_("Clear Task List"))
-                ui.separator()
-                with ui.menu_item(on_click=switch_values):
-                    with ui.row().classes("items-center"):
-                        ui.icon("swap_vert").classes("text-lg")
-                        ui.label(_("Swap Input and Output"))
 
-        def handle_key(e: KeyEventArguments):
+        async def handle_key(e: KeyEventArguments):
             if (
                 e.modifiers.alt
                 or e.modifiers.ctrl
                 or e.modifiers.meta
                 or e.modifiers.shift
             ):
-                pass
+                if e.modifiers.alt and e.action.keyup and not e.action.repeat:
+                    if e.key == "c":
+                        convert_menu.open()
+                    elif e.key == "[":
+                        input_formats_menu.open()
+                    elif e.key == "]":
+                        output_formats_menu.open()
+                    elif e.key == "t":
+                        theme_menu.open()
+                    elif e.key == "l":
+                        lang_menu.open()
+                    elif e.key == "h":
+                        help_menu.open()
+                    elif e.key == "o":
+                        await ui.run_javascript("add_upload()", respond=False)
+                    elif e.key == "i":
+                        about_dialog.open()
+                    elif e.key == "s":
+                        swap_values()
+                    elif e.key == "/":
+                        selected_formats.reset()
+                    elif e.key == "Enter":
+                        await selected_formats.batch_convert()
             elif e.key.number is not None and not e.action.repeat and e.action.keyup:
                 key = e.key.number
                 for formats_menu, format_item in [
@@ -634,9 +646,42 @@ def page_layout(lang: Optional[str] = None):
                             format_item.value = format_item._values[key]
 
         ui.keyboard(on_key=handle_key, active=True)
+        with ui.button(_("Convert"), on_click=lambda: convert_menu.open(), icon="loop"):
+            ui.tooltip("Alt+C")
+            with ui.menu() as convert_menu:
+                with ui.menu_item(
+                    on_click=lambda: ui.run_javascript("add_upload()", respond=False)
+                ):
+                    ui.tooltip("Alt+O")
+                    with ui.row().classes("items-center"):
+                        ui.icon("file_open").classes("text-lg")
+                        ui.label(_("Import project"))
+                with ui.menu_item(
+                    on_click=selected_formats.batch_convert
+                ).bind_visibility(
+                    selected_formats, "task_count", backward=bool, forward=bool
+                ):
+                    ui.tooltip("Alt+Enter")
+                    with ui.row().classes("items-center"):
+                        ui.icon("play_arrow").classes("text-lg")
+                        ui.label(_("Convert"))
+                with ui.menu_item(on_click=selected_formats.reset).bind_visibility(
+                    selected_formats, "task_count", backward=bool, forward=bool
+                ):
+                    ui.tooltip("Alt+/")
+                    with ui.row().classes("items-center"):
+                        ui.icon("refresh").classes("text-lg")
+                        ui.label(_("Clear Task List"))
+                ui.separator()
+                with ui.menu_item(on_click=swap_values):
+                    ui.tooltip("Alt+S")
+                    with ui.row().classes("items-center"):
+                        ui.icon("swap_vert").classes("text-lg")
+                        ui.label(_("Swap Input and Output"))
         with ui.button(
             _("Import format"), on_click=lambda: input_formats_menu.open(), icon="login"
         ):
+            ui.tooltip("Alt+[")
             with ui.menu() as input_formats_menu:
                 input_format_item = (
                     ui.radio(
@@ -653,6 +698,7 @@ def page_layout(lang: Optional[str] = None):
             on_click=lambda: output_formats_menu.open(),
             icon="logout",
         ):
+            ui.tooltip("Alt+]")
             with ui.menu() as output_formats_menu:
                 output_format_item = ui.radio(
                     {
@@ -663,6 +709,7 @@ def page_layout(lang: Optional[str] = None):
         with ui.button(
             _("Switch Theme"), on_click=lambda: theme_menu.open(), icon="palette"
         ):
+            ui.tooltip("Alt+T")
             with ui.menu() as theme_menu:
                 with ui.menu_item(on_click=dark_toggler.disable):
                     with ui.row().classes("items-center"):
@@ -679,6 +726,7 @@ def page_layout(lang: Optional[str] = None):
         with ui.button(
             _("Switch Language"), on_click=lambda: lang_menu.open(), icon="language"
         ):
+            ui.tooltip("Alt+L")
             with ui.menu() as lang_menu:
                 ui.menu_item(
                     "简体中文",
@@ -727,8 +775,10 @@ def page_layout(lang: Optional[str] = None):
             with ui.card_actions().props("align=right").classes("w-full"):
                 ui.button(_("Close"), on_click=about_dialog.close)
         with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
+            ui.tooltip("Alt+H")
             with ui.menu() as help_menu:
                 with ui.menu_item(on_click=about_dialog.open):
+                    ui.tooltip("Alt+I")
                     with ui.row().classes("items-center"):
                         ui.icon("info").classes("text-lg")
                         ui.label(_("About"))
@@ -746,7 +796,7 @@ def page_layout(lang: Optional[str] = None):
                                 with ui.grid().classes(
                                     "grid grid-cols-11 gap-4 w-full"
                                 ):
-                                    select1 = (
+                                    select_input = (
                                         ui.select(
                                             {
                                                 k: _(v["file_format"]) + v["suffix"]
@@ -782,10 +832,10 @@ def page_layout(lang: Optional[str] = None):
                                         app.storage.user, "reset_tasks_on_input_change"
                                     )
                                     with ui.button(
-                                        icon="swap_vert", on_click=switch_values
+                                        icon="swap_vert", on_click=swap_values
                                     ).classes("w-fit aspect-square").props("round"):
                                         ui.tooltip(_("Swap Input and Output"))
-                                    select2 = (
+                                    select_output = (
                                         ui.select(
                                             {
                                                 k: _(v["file_format"]) + v["suffix"]
@@ -852,7 +902,9 @@ def page_layout(lang: Optional[str] = None):
 
                                 fab.on("mouseover", lambda: add_class(fab, open=True))
                                 fab.on("mouseout", lambda: remove_class(fab))
-                                with QFabAction(icon="refresh") as fab_action_1:
+                                with QFabAction(
+                                    icon="refresh", on_click=selected_formats.reset
+                                ) as fab_action_1:
                                     fab_action_1.on(
                                         "mouseover", lambda: add_class(fab_action_1)
                                     )
@@ -860,7 +912,10 @@ def page_layout(lang: Optional[str] = None):
                                         "mouseout", lambda: remove_class(fab_action_1)
                                     )
                                     ui.tooltip(_("Clear Task List"))
-                                with QFabAction(icon="filter_alt_off") as fab_action_2:
+                                with QFabAction(
+                                    icon="filter_alt_off",
+                                    on_click=selected_formats.filter_input_ext,
+                                ) as fab_action_2:
                                     fab_action_2.on(
                                         "mouseover", lambda: add_class(fab_action_2)
                                     )
