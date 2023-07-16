@@ -6,6 +6,7 @@ import enum
 import functools
 import gettext
 import io
+import math
 import pathlib
 import secrets
 import textwrap
@@ -45,16 +46,19 @@ def dark_mode2str(mode: DarkMode) -> Optional[bool]:
 
 
 def int_validator(value: Union[int, float, str]) -> bool:
-    return value.isdigit() if isinstance(value, str) else isinstance(value, int)
+    if isinstance(value, int):
+        return True
+    elif isinstance(value, str):
+        return value.replace('+', '-').removeprefix('-').isdigit()
+    else:
+        return value.is_integer()
 
 
 def float_validator(value: str) -> bool:
     try:
-        float(value)
+        return not math.isnan(float(value))
     except (ValueError, TypeError):
         return False
-    else:
-        return True
 
 
 @dataclasses.dataclass
