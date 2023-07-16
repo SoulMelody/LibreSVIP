@@ -7,7 +7,7 @@ def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict:
     dict_content = pkgutil.get_data(__package__, f'dicts/{dict_name}.txt')
     opencpop_dict = {}
     reader = csv.DictReader(
-        io.BytesIO(dict_content),
+        io.StringIO(dict_content.decode('utf-8')),
         delimiter='\t', fieldnames=['pinyin', 'phone']
     )
     for row in reader:

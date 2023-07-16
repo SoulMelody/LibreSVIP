@@ -434,25 +434,25 @@ class TaskManager(QObject):
     def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
         infos = []
         for path in paths:
-            with zipfile.Path(path) as zip_file:
-                if (
-                    plugin_info_filename := self.plugin_info_file(zip_file)
-                ) is not None:
-                    plugin_info = plugin_manager.info_cls.load(
-                        plugin_info_filename
+            zip_file = zipfile.Path(path)
+            if (
+                plugin_info_filename := self.plugin_info_file(zip_file)
+            ) is not None:
+                plugin_info = plugin_manager.info_cls.load(
+                    plugin_info_filename
+                )
+                if plugin_info is not None:
+                    infos.append(
+                        {
+                            "name": plugin_info.name,
+                            "author": plugin_info.author,
+                            "version": plugin_info.version,
+                            "file_format": plugin_info.file_format,
+                            "suffix": f"(*.{plugin_info.suffix})",
+                            "info_filename": plugin_info_filename,
+                        }
                     )
-                    if plugin_info is not None:
-                        infos.append(
-                            {
-                                "name": plugin_info.name,
-                                "author": plugin_info.author,
-                                "version": plugin_info.version,
-                                "file_format": plugin_info.file_format,
-                                "suffix": f"(*.{plugin_info.suffix})",
-                                "info_filename": plugin_info_filename,
-                            }
-                        )
-                        logger.debug(infos)
+                    logger.debug(infos)
         return infos
 
     @slot(result=bool)
