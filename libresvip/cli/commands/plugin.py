@@ -1,5 +1,4 @@
 import enum
-import pathlib
 from gettext import gettext as _
 from typing import get_args, get_type_hints
 
@@ -8,7 +7,7 @@ from pydantic.fields import Field
 from rich.console import Console
 from rich.table import Table
 
-from libresvip.extension.manager import plugin_manager, plugin_registry
+from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 
 app = typer.Typer()
@@ -16,18 +15,13 @@ app = typer.Typer()
 
 @app.command("list")
 def list_plugins():
-    print_plugin_summary(plugin_registry.values())
-
-
-@app.command()
-def install(path: pathlib.Path):
-    plugin_manager.installFromZIP(path)
+    print_plugin_summary(plugin_manager.plugin_registry.values())
 
 
 @app.command()
 def detail(plugin_name: str):
-    if plugin_name in plugin_registry:
-        print_plugin_details(plugin_registry[plugin_name])
+    if plugin_name in plugin_manager.plugin_registry:
+        print_plugin_details(plugin_manager.plugin_registry[plugin_name])
     else:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!")
 
@@ -48,7 +42,7 @@ def print_plugin_summary(plugins):
         table.add_row(
             f"[{num + 1}] ",
             plugin.name + margin,
-            plugin.version_string + margin,
+            str(plugin.version) + margin,
             plugin.author + margin,
             plugin.suffix + margin,
             _(f"{plugin.file_format} (*.{plugin.suffix})") + margin,
@@ -60,7 +54,7 @@ def print_plugin_details(plugin):
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.name}\t{{}}{plugin.version_string}\t{{}}{plugin.author}".format(
+        f"{{}}{plugin.name}\t{{}}{str(plugin.version)}\t{{}}{plugin.author}".format(
             _("Plugin: "),
             _("Version: "),
             _("Author: "),

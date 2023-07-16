@@ -2,13 +2,16 @@ import abc
 import pathlib
 
 from pydantic import BaseModel
-from yapsy.IPlugin import IPlugin
 
 from ..model.base import Project
 from ..utils import ensure_path
 
 
-class SVSConverterBase(IPlugin, abc.ABC):
+class BasePlugin(abc.ABC):
+    pass
+
+
+class SVSConverterBase(BasePlugin, abc.ABC):
     def __init_subclass__(cls, **kwargs):
         cls.load = ensure_path(cls.load)
         cls.dump = ensure_path(cls.dump)

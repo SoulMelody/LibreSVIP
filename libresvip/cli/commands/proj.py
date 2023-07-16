@@ -5,7 +5,7 @@ from typing import get_type_hints
 import typer
 
 from libresvip.cli.prompt import prompt_fields
-from libresvip.extension.manager import plugin_registry
+from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import InstrumentalTrack
 
 app = typer.Typer()
@@ -15,10 +15,10 @@ def option_callback(ctx: typer.Context, value: pathlib.Path):
     if ctx.resilient_parsing:
         return
     ext = value.suffix.lstrip(".").lower()
-    if ext not in plugin_registry:
+    if ext not in plugin_manager.plugin_registry:
         raise typer.BadParameter(
             _("Extension {} is not supported. Supported extensions are: {}").format(
-                ext, list(plugin_registry.keys())
+                ext, list(plugin_manager.plugin_registry.keys())
             )
         )
     return value
@@ -37,9 +37,9 @@ def convert(
     Convert a file from one format to another.
     """
     input_ext = in_path.suffix.lstrip(".").lower()
-    input_plugin = plugin_registry[input_ext]
+    input_plugin = plugin_manager.plugin_registry[input_ext]
     output_ext = out_path.suffix.lstrip(".").lower()
-    output_plugin = plugin_registry[output_ext]
+    output_plugin = plugin_manager.plugin_registry[output_ext]
     input_option = get_type_hints(input_plugin.plugin_object.load).get("options")
     output_option = get_type_hints(output_plugin.plugin_object.dump).get("options")
     options = []
@@ -66,7 +66,7 @@ def add_accompaniment(
     mute: bool = typer.Option(False, help=_("Mute other tracks")),
 ):
     input_ext = in_path.suffix.lstrip(".").lower()
-    input_plugin = plugin_registry[input_ext]
+    input_plugin = plugin_manager.plugin_registry[input_ext]
     input_option = get_type_hints(input_plugin.plugin_object.load).get("options")
     option_type, option_class = _("Input Options: "), input_option
     option_kwargs = {}

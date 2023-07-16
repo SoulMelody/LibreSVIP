@@ -1,13 +1,12 @@
 import contextlib
 import enum
 import pathlib
-import shutil
 import tempfile
 import traceback
 import uuid
 import warnings
 import zipfile
-from typing import Any, get_args, get_type_hints
+from typing import Any, Optional, get_args, get_type_hints
 
 from loguru import logger
 from pydantic_core import PydanticUndefined
@@ -18,7 +17,7 @@ from upath import UPath
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import load_plugins, plugin_manager, plugin_registry
+from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
 from libresvip.utils import shorten_error_message
 
@@ -57,8 +56,8 @@ class ConversionWorker(QRunnable):
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
-                input_plugin = plugin_registry[self.input_format]
-                output_plugin = plugin_registry[self.output_format]
+                input_plugin = plugin_manager.plugin_registry[self.input_format]
+                output_plugin = plugin_manager.plugin_registry[self.output_format]
                 input_option = get_type_hints(input_plugin.plugin_object.load).get(
                     "options"
                 )
@@ -140,7 +139,7 @@ class TaskManager(QObject):
                     "text": plugin.file_format,
                     "value": plugin.suffix,
                 }
-                for plugin in plugin_registry.values()
+                for plugin in plugin_manager.plugin_registry.values()
             ],
         )
         self.output_formats.append_many(
@@ -149,7 +148,7 @@ class TaskManager(QObject):
                     "text": plugin.file_format,
                     "value": plugin.suffix,
                 }
-                for plugin in plugin_registry.values()
+                for plugin in plugin_manager.plugin_registry.values()
             ],
         )
         if not settings.last_input_format and self.input_formats:
@@ -331,7 +330,7 @@ class TaskManager(QObject):
             return
         self.input_format = input_format
         self.input_fields.clear()
-        plugin_input = plugin_registry[self.input_format]
+        plugin_input = plugin_manager.plugin_registry[self.input_format]
         if hasattr(plugin_input.plugin_object, "load"):
             option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
             input_fields = self.inspect_fields(option_class)
@@ -343,7 +342,7 @@ class TaskManager(QObject):
             return
         self.output_format = output_format
         self.output_fields.clear()
-        plugin_output = plugin_registry[self.output_format]
+        plugin_output = plugin_manager.plugin_registry[self.output_format]
         if hasattr(plugin_output.plugin_object, "dump"):
             option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
             output_fields = self.inspect_fields(option_class)
@@ -352,14 +351,14 @@ class TaskManager(QObject):
     @slot(str, result=dict)
     def plugin_info(self, name: str) -> dict:
         assert name in {"input_format", "output_format"}
-        if (suffix := getattr(self, name)) in plugin_registry:
-            plugin = plugin_registry[suffix]
+        if (suffix := getattr(self, name)) in plugin_manager.plugin_registry:
+            plugin = plugin_manager.plugin_registry[suffix]
             return {
                 "name": plugin.name,
                 "author": plugin.author,
                 "website": plugin.website,
                 "description": plugin.description,
-                "version": plugin.version_string,
+                "version": str(plugin.version),
                 "file_format": plugin.file_format,
                 "suffix": f"(*.{plugin.suffix})",
                 "icon_base64": f"data:image/png;base64,{plugin.icon_base64}",
@@ -402,7 +401,7 @@ class TaskManager(QObject):
         if (
             settings.auto_detect_input_format
             and path_obj is not None
-            and (suffix := path_obj.suffix[1:]) in plugin_registry
+            and (suffix := path_obj.suffix[1:]) in plugin_manager.plugin_registry
         ):
             self.set_str("input_format", suffix)
 
@@ -424,60 +423,36 @@ class TaskManager(QObject):
         assert name in {"input_format", "output_format"}
         getattr(self, f"{name}_changed").emit(value)
 
-    def plugin_info_file(self, temp_plugin_dir: pathlib.Path) -> str:
+    def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:
         plugin_info_filename = None
-        for analyzer in plugin_manager.getPluginLocator()._analyzers:
-            if analyzer.name == "info_ext":
-                for plugin_file in temp_plugin_dir.glob("*.*"):
-                    if analyzer.isValidPlugin(str(plugin_file)):
-                        plugin_info_filename = plugin_file.name
-                        break
-                break
+        for plugin_file in plugin_archive.iterdir():
+            if plugin_file.is_file() and plugin_file.name.endswith(f".{plugin_manager.info_extension}"):
+                plugin_info_filename = plugin_file
         return plugin_info_filename
-
-    @slot(list, result=int)
-    def install_plugins(self, infos: list[dict]) -> int:
-        success_count = 0
-        install_dir = pathlib.Path(plugin_manager.getInstallDir())
-        for info in infos:
-            try:
-                plugin_info, _ = plugin_manager._gatherCorePluginInfo(
-                    info["directory"], info["info_filename"]
-                )
-                if plugin_info is not None:
-                    shutil.copytree(info["directory"], install_dir / plugin_info.suffix)
-                success_count += 1
-            except Exception as e:
-                logger.exception(e)
-        load_plugins()
-        return success_count
 
     @slot(list, result=list)
     def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
         infos = []
         for path in paths:
-            temp_plugin_dir = pathlib.Path(tempfile.mkdtemp(prefix="plugin"))
-            with zipfile.ZipFile(path) as zip_file:
-                zip_file.extractall(path=temp_plugin_dir)
-            if (
-                plugin_info_filename := self.plugin_info_file(temp_plugin_dir)
-            ) is not None:
-                plugin_info, _ = plugin_manager._gatherCorePluginInfo(
-                    temp_plugin_dir, plugin_info_filename
-                )
-                if plugin_info is not None:
-                    infos.append(
-                        {
-                            "name": plugin_info.name,
-                            "author": plugin_info.author,
-                            "version": plugin_info.version,
-                            "file_format": plugin_info.file_format,
-                            "suffix": f"(*.{plugin_info.suffix})",
-                            "directory": str(temp_plugin_dir.resolve().as_posix()),
-                            "info_filename": plugin_info_filename,
-                        }
+            with zipfile.Path(path) as zip_file:
+                if (
+                    plugin_info_filename := self.plugin_info_file(zip_file)
+                ) is not None:
+                    plugin_info = plugin_manager.info_cls.load(
+                        plugin_info_filename
                     )
-                    logger.debug(infos)
+                    if plugin_info is not None:
+                        infos.append(
+                            {
+                                "name": plugin_info.name,
+                                "author": plugin_info.author,
+                                "version": plugin_info.version,
+                                "file_format": plugin_info.file_format,
+                                "suffix": f"(*.{plugin_info.suffix})",
+                                "info_filename": plugin_info_filename,
+                            }
+                        )
+                        logger.debug(infos)
         return infos
 
     @slot(result=bool)

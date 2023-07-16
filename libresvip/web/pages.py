@@ -31,7 +31,7 @@ import libresvip
 from libresvip.core.config import DarkMode, Language, settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_registry
+from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
@@ -117,12 +117,12 @@ def page_layout(lang: Optional[str] = None):
             "author": plugin.author,
             "website": plugin.website,
             "description": plugin.description,
-            "version": plugin.version_string,
+            "version": str(plugin.version),
             "suffix": f"(*.{plugin.suffix})",
             "file_format": plugin.file_format,
             "icon_base64": plugin.icon_base64,
         }
-        for identifier, plugin in plugin_registry.items()
+        for identifier, plugin in plugin_manager.plugin_registry.items()
     }
 
     def plugin_info(attr_name: str):
@@ -181,7 +181,7 @@ def page_layout(lang: Optional[str] = None):
 
     def options_form(attr_prefix: str, method: str):
         attr = getattr(selected_formats, attr_prefix + "_format")
-        plugin_input = plugin_registry[attr]
+        plugin_input = plugin_manager.plugin_registry[attr]
         field_types = {}
         option_class = None
         if hasattr(plugin_input.plugin_object, method):
@@ -288,8 +288,8 @@ def page_layout(lang: Optional[str] = None):
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(default_factory=dict)
 
         def __post_init__(self):
-            self.input_format = app.storage.user.get("last_input_format") or next(iter(plugin_registry), "")
-            self.output_format = app.storage.user.get("last_output_format") or next(iter(plugin_registry), "")
+            self.input_format = app.storage.user.get("last_input_format") or next(iter(plugin_manager.plugin_registry), "")
+            self.output_format = app.storage.user.get("last_output_format") or next(iter(plugin_manager.plugin_registry), "")
             app.storage.user.setdefault("auto_detect_input_format", settings.auto_detect_input_format)
             app.storage.user.setdefault("reset_tasks_on_input_change", settings.reset_tasks_on_input_change)
             app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
@@ -336,7 +336,7 @@ def page_layout(lang: Optional[str] = None):
         def add_task(self, args: UploadEventArguments) -> None:
             if app.storage.user.get('auto_detect_input_format'):
                 cur_suffix = args.name.rpartition(".")[-1].lower()
-                if cur_suffix in plugin_registry and cur_suffix != self.input_format:
+                if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
             upload_path = self.temp_path / args.name
             args.content.seek(0)
@@ -389,8 +389,8 @@ def page_layout(lang: Optional[str] = None):
             try:
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always", BaseWarning)
-                    input_plugin = plugin_registry[self.input_format]
-                    output_plugin = plugin_registry[self.output_format]
+                    input_plugin = plugin_manager.plugin_registry[self.input_format]
+                    output_plugin = plugin_manager.plugin_registry[self.output_format]
                     input_option = get_type_hints(input_plugin.plugin_object.load).get(
                         "options"
                     )

@@ -7,15 +7,15 @@ from typing import get_args, get_type_hints
 from loguru import logger
 from pydantic_extra_types.color import Color
 
-from libresvip.extension.manager import plugin_registry
+from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 
 
 def messages_iterator():
-    for plugin_info in plugin_registry.values():
+    for plugin_info in plugin_manager.plugin_registry.values():
         info_path : pathlib.Path = files(sys.modules[plugin_info.plugin_object.__module__])
         plugin_suffix = plugin_info.suffix
-        plugin_info = plugin_registry[plugin_suffix]
+        plugin_info = plugin_manager.plugin_registry[plugin_suffix]
         plugin_metadata = {
             "name": plugin_info.name,
             "file_format": plugin_info.file_format

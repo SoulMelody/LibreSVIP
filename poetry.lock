@@ -787,19 +787,22 @@ reference = "tencent"
 
 [[package]]
 name = "dnspython"
-version = "2.3.0"
+version = "2.4.0"
 description = "DNS toolkit"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "dnspython-2.3.0-py3-none-any.whl", hash = "sha256:89141536394f909066cabd112e3e1a37e4e654db00a25308b0f130bc3152eb46"},
-    {file = "dnspython-2.3.0.tar.gz", hash = "sha256:224e32b03eb46be70e12ef6d64e0be123a64e621ab4c0822ff6d450d52a540b9"},
+    {file = "dnspython-2.4.0-py3-none-any.whl", hash = "sha256:46b4052a55b56beea3a3bdd7b30295c292bd6827dd442348bc116f2d35b17f0a"},
+    {file = "dnspython-2.4.0.tar.gz", hash = "sha256:758e691dbb454d5ccf4e1b154a19e52847f79e21a42fef17b969144af29a4e6c"},
 ]
 
+[package.dependencies]
+httpcore = {version = ">=0.17.3", markers = "python_version >= \"3.8\""}
+sniffio = ">=1.1,<2.0"
+
 [package.extras]
-curio = ["curio (>=1.2,<2.0)", "sniffio (>=1.1,<2.0)"]
-dnssec = ["cryptography (>=2.6,<40.0)"]
-doh = ["h2 (>=4.1.0)", "httpx (>=0.21.1)", "requests (>=2.23.0,<3.0.0)", "requests-toolbelt (>=0.9.1,<0.11.0)"]
+dnssec = ["cryptography (>=2.6,<42.0)"]
+doh = ["h2 (>=4.1.0)", "httpx (>=0.24.1)"]
 doq = ["aioquic (>=0.9.20)"]
 idna = ["idna (>=2.1,<4.0)"]
 trio = ["trio (>=0.14,<0.23)"]
@@ -2141,13 +2144,13 @@ reference = "tencent"
 
 [[package]]
 name = "platformdirs"
-version = "3.8.1"
+version = "3.9.1"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.8.1-py3-none-any.whl", hash = "sha256:cec7b889196b9144d088e4c57d9ceef7374f6c39694ad1577a0aab50d27ea28c"},
-    {file = "platformdirs-3.8.1.tar.gz", hash = "sha256:f87ca4fcff7d2b0f81c6a748a77973d7af0f4d526f98f308477c3c436c74d528"},
+    {file = "platformdirs-3.9.1-py3-none-any.whl", hash = "sha256:ad8291ae0ae5072f66c16945166cb11c63394c7a3ad1b1bc9828ca3162da8c2f"},
+    {file = "platformdirs-3.9.1.tar.gz", hash = "sha256:1b42b450ad933e981d56e59f1b97495428c9bd60698baab9f3eb3d00d5822421"},
 ]
 
 [package.extras]
@@ -2724,13 +2727,13 @@ reference = "tencent"
 
 [[package]]
 name = "pysnooper"
-version = "1.1.1"
+version = "1.2.0"
 description = "A poor man's debugger for Python."
 optional = false
 python-versions = "*"
 files = [
-    {file = "PySnooper-1.1.1-py2.py3-none-any.whl", hash = "sha256:378f13d731a3e04d3d0350e5f295bdd0f1b49fc8a8b8bf2067fe1e5290bd20be"},
-    {file = "PySnooper-1.1.1.tar.gz", hash = "sha256:d17dc91cca1593c10230dce45e46b1d3ff0f8910f0c38e941edf6ba1260b3820"},
+    {file = "PySnooper-1.2.0-py2.py3-none-any.whl", hash = "sha256:aa859aa9a746cffc1f35e4ee469d49c3cc5185b5fc0c571feb3af3c94d2eb625"},
+    {file = "PySnooper-1.2.0.tar.gz", hash = "sha256:810669e162a250a066d8662e573adbc5af770e937c5b5578f28bb7355d1c859b"},
 ]
 
 [package.extras]
@@ -4169,21 +4172,6 @@ url = "https://mirrors.cloud.tencent.com/pypi/simple"
 reference = "tencent"
 
 [[package]]
-name = "yapsy"
-version = "1.12.2"
-description = "Yet another plugin system"
-optional = false
-python-versions = "*"
-files = [
-    {file = "Yapsy-1.12.2.tar.gz", hash = "sha256:d8113d9f9c74eacf65b4663c9c037d278c9cb273b5eee5f0e1803baeedb23f8b"},
-]
-
-[package.source]
-type = "legacy"
-url = "https://mirrors.cloud.tencent.com/pypi/simple"
-reference = "tencent"
-
-[[package]]
 name = "zstandard"
 version = "0.21.0"
 description = "Zstandard bindings for Python"
@@ -4249,4 +4237,4 @@ reference = "tencent"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "d8762cd2aee0e007d35e4c0788ac57782c3ea1c2cb46949a5a378b82e0d9d94e"
+content-hash = "afd83be2c353a1d5c8548cda6bffb1193dbc7839d57a38716aa458f0a1ee719a"

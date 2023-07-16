@@ -9,7 +9,7 @@ python = ">=3.9,<3.12"
 charset-normalizer = "^3.2.0"
 loguru = "^0.7.0"
 omegaconf = "^2.3.0"
-platformdirs = "^3.8.1"
+platformdirs = "^3.9.1"
 portion = "^2.4.0"
 pydantic = "^2.0.3"
 pydantic-extra-types = "^2.0.0"
@@ -20,7 +20,6 @@ setuptools = "^68.0.0"
 typer = { extras = ["all"], version = "^0.9.0" }
 universal-pathlib = "^0.0.23"
 wanakana-python = "^1.2.2"
-yapsy = "^1.12.2"
 
 [tool.poetry.group.ujson]
 optional = true
