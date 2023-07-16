@@ -45,16 +45,18 @@ def dark_mode2str(mode: DarkMode) -> Optional[bool]:
         return True
 
 
-def int_validator(value: Union[int, float, str]) -> bool:
+def int_validator(value: Union[int, float, str, None]) -> bool:
     if isinstance(value, int):
         return True
     elif isinstance(value, str):
         return value.replace('+', '-').removeprefix('-').isdigit()
+    elif value is None:
+        return False
     else:
         return value.is_integer()
 
 
-def float_validator(value: str) -> bool:
+def float_validator(value: Union[float, str, None]) -> bool:
     try:
         return not math.isnan(float(value))
     except (ValueError, TypeError):
