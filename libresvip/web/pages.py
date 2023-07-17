@@ -29,7 +29,7 @@ from starlette.responses import Response
 from upath import UPath
 
 import libresvip
-from libresvip.core.config import DarkMode, Language, settings
+from libresvip.core.config import DarkMode, settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_manager
@@ -98,8 +98,8 @@ def page_layout(lang: Optional[str] = None):
     if lang is None:
         lang = app.storage.user["lang"]
     try:
-        Language.from_locale(lang)
-    except ValueError:
+        assert lang in ["en_US", "zh_CN", "ja_JP"]
+    except AssertionError:
         lang = "en_US"
     if lang != app.storage.user["lang"]:
         app.storage.user["lang"] = lang
@@ -108,12 +108,10 @@ def page_layout(lang: Optional[str] = None):
         translation = gettext.translation(
             PACKAGE_NAME, res_dir / "locales", [lang], fallback=True
         )
-        gettext.textdomain(PACKAGE_NAME)
     except OSError:
         pass
     if translation is None:
         translation = gettext.NullTranslations()
-        gettext.textdomain("messages")
 
     def _(message: str) -> str:
         return translation.gettext(message)

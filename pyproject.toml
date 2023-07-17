@@ -64,7 +64,7 @@ nicegui = "^1.3.3"
 [tool.poetry.group.desktop]
 optional = true
 [tool.poetry.group.desktop.dependencies]
-pyside6 = "!=6.5.0"
+pyside6 = ">=6.4.0,!=6.5.0"
 qmlease = "^3.0.3"
 qtawesome = "^1.2.3"
 desktop-notifier = { version = "^3.5.6", markers = "platform_python_implementation == 'CPython'" }
@@ -144,30 +144,30 @@ profile = "black"
 [tool.ruff]
 src = ['libresvip', 'tests']
 select = [
-    # "ANN", # annotations
-    # "B",   # bugbear
-    "C4",  # comprehensions
-    "E",   # style errors
-    "F",   # flakes
-    "I",   # import sorting
-    "N",   # naming
-    "PGH", # pygrep-hooks
-    "PLC", # pylint convention
-    "PLE", # pylint error
-    # "PLR", # pylint refactor
-    # "RUF", # Ruff
-    "T10", # debugger
-    # "UP",  # upgrade
-    "W",   # style warnings
-    "YTT", # sys.version
+  # "ANN", # annotations
+  # "B",   # bugbear
+  "C4",  # comprehensions
+  "E",   # style errors
+  "F",   # flakes
+  "I",   # import sorting
+  "N",   # naming
+  "PGH", # pygrep-hooks
+  "PLC", # pylint convention
+  "PLE", # pylint error
+  # "PLR", # pylint refactor
+  # "RUF", # Ruff
+  "T10", # debugger
+  # "UP",  # upgrade
+  "W",   # style warnings
+  "YTT", # sys.version
 ]
 ignore = [
-    "C408", # Unnecessary `dict` call (rewrite as a literal)
-    "E402", # Module level import not at top of file
-    "E501", # Line too long
-    "E731", # Do not assign a lambda expression, use a def
-    "N802", # Function name should be lowercase
-    "N806", # Variable in function should be lowercase
+  "C408", # Unnecessary `dict` call (rewrite as a literal)
+  "E402", # Module level import not at top of file
+  "E501", # Line too long
+  "E731", # Do not assign a lambda expression, use a def
+  "N802", # Function name should be lowercase
+  "N806", # Variable in function should be lowercase
 ]
 line-length = 100
 fix = true
@@ -177,9 +177,7 @@ known-first-party = ['libresvip', 'tests']
 known-third-party = ['srt']
 
 [tool.mypy]
-plugins = [
-  "pydantic.mypy"
-]
+plugins = ["pydantic.mypy"]
 
 follow_imports = "silent"
 warn_redundant_casts = true
@@ -195,5 +193,10 @@ init_typed = true
 warn_required_dynamic_aliases = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning", "setuptools", "wheel"]
+requires = [
+  "poetry-core>=1.0.0",
+  "poetry-dynamic-versioning",
+  "setuptools",
+  "wheel",
+]
 build-backend = "poetry_dynamic_versioning.backend"

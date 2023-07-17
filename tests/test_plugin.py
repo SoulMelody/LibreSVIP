@@ -5,8 +5,10 @@ from pprint import pprint
 
 from rich import print
 
-from libresvip.extension.manager import plugin_registry
+from libresvip.extension.manager import plugin_manager
 from libresvip.utils import to_unicode
+
+plugin_registry = plugin_manager.plugin_registry
 
 
 def test_ust_write(shared_datadir):
@@ -166,7 +168,7 @@ def test_dspx_read(shared_datadir, capsys):
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.dspx"
-        proj = DspxModel.parse_file(proj_path)
+        proj = DspxModel.model_validate_json(proj_path.read_text(encoding="utf-8"))
         print(proj)
 
 

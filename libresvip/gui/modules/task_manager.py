@@ -1,7 +1,6 @@
 import contextlib
 import enum
 import pathlib
-import tempfile
 import traceback
 import uuid
 import warnings
