@@ -1,6 +1,7 @@
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
 from libresvip.utils import gettext_lazy as _
+from libresvip.utils import midi2note
 
 from ..models.ds_note import (
     AspirationDsNote,
@@ -13,7 +14,6 @@ from ..models.ds_note import (
 )
 from .lyric_util import LyricUtil
 from .pinyin_util import PinyinUtil
-from .tone_utils import midi2note
 
 
 class NoteListUtils:

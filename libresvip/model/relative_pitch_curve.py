@@ -1,6 +1,7 @@
 from bisect import bisect_right
 
-from libresvip.model.base import BaseModel, Field, Note, ParamCurve, Point, Points
+from libresvip.model.base import BaseModel, Field, Note, ParamCurve, Points
+from libresvip.model.point import Point
 
 
 class RelativePitchCurve(BaseModel):

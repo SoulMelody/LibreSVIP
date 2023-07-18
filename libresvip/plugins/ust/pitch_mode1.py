@@ -1,11 +1,11 @@
 import dataclasses
 
 from libresvip.model.base import Note, ParamCurve, Point, Points
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
 from .constants import (
     MODE1_PITCH_SAMPLING_INTERVAL_TICK,
 )
-from .relative_pitch_curve import RelativePitchCurve
 from .resampling import dot_resampled
 
 

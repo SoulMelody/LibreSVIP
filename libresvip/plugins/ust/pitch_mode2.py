@@ -6,13 +6,13 @@ from typing import Optional
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, Point, Points, SongTempo
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import find_last_index
 
 from .constants import MODE2_PITCH_MAX_POINT_COUNT, MODE2_PITCH_SAMPLING_INTERVAL_TICK
 from .interpolation import interpolate
 from .model import UTAUPitchBendMode
 from .rdp_simplification import simplify_shape_to
-from .relative_pitch_curve import RelativePitchCurve
 from .vibrato_param import UtauNoteVibratoParams, append_utau_note_vibrato
 
 

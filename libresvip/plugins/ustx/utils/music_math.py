@@ -2,8 +2,6 @@ import math
 
 
 class MusicMath:
-    base_freq = 440.0
-    a4_midi = 69
 
     @staticmethod
     def sin_easing_in_out(x0: float, x1: float, y0: float, y1: float, x: float) -> float:
