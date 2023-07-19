@@ -12,14 +12,14 @@ more-itertools = "^9.1.0"
 omegaconf = "^2.3.0"
 packaging = "^23.1"
 platformdirs = "^3.9.1"
-portion = "^2.4.0"
+portion = "^2.4.1"
 pydantic = "^2.0.3"
 pydantic-extra-types = "^2.0.0"
 pydub = "^0.25.1"
 pypinyin = "^0.49.0"
 regex = "^2023.6.3"
 typer = { extras = ["all"], version = "^0.9.0" }
-universal-pathlib = "^0.0.23"
+universal-pathlib = "^0.0.24"
 wanakana-python = "^1.2.2"
 
 [tool.poetry.group.ujson]
@@ -59,7 +59,7 @@ drawsvg = "^2.2.0"
 [tool.poetry.group.webui]
 optional = true
 [tool.poetry.group.webui.dependencies]
-nicegui = "^1.3.4"
+nicegui = "^1.3.5"
 
 [tool.poetry.group.desktop]
 optional = true
@@ -110,7 +110,7 @@ ruff = "^0.0.278"
 black = "^23.7.0"
 mypy = "^1.4.1"
 sourcery = "^1.6.0"
-bump-pydantic = "^0.3.0"
+bump-pydantic = "^0.6.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -120,8 +120,8 @@ pydub-stubs = "^0.25.1.0"
 urllib3 = "<2.0"
 
 [[tool.poetry.source]]
-name = "aliyun"
-url = "https://mirrors.aliyun.com/pypi/web/simple/"
+name = "tuna"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
 priority = "default"
 
 [tool.poetry.scripts]

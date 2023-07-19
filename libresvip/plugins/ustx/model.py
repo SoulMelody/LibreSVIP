@@ -7,7 +7,7 @@ from pydantic import Field
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.base import BaseModel, Point
 
-from .utils.music_math import MusicMath
+from .utils import music_math
 
 ParamType = SimpleNamespace(
     CURVE="Curve",
@@ -63,7 +63,7 @@ class UCurve(BaseModel):
             idx = -1
         idx = ~idx
         if 0 < idx < len(self.xs):
-            return round(MusicMath.linear(self.xs[idx - 1], self.xs[idx], self.ys[idx - 1], self.ys[idx], x))
+            return round(music_math.linear(self.xs[idx - 1], self.xs[idx], self.ys[idx - 1], self.ys[idx], x))
         return 0
 
 

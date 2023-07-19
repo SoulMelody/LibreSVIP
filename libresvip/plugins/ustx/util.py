@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from .model import PitchPoint, USTXProject, UVoicePart
-from .utils.music_math import MusicMath
+from .utils import music_math
 from .utils.time_axis import TimeAxis
 
 
@@ -61,7 +61,7 @@ class BasePitchGenerator:
             for point in pitch_points[1:]:
                 x = cls.pitch_start + index * cls.pitch_interval
                 while x <= point.x and index < len(pitches):
-                    pitch = MusicMath.interpolate_shape(prev_point.x, point.x, prev_point.y, point.y, x, prev_point.shape)
+                    pitch = music_math.interpolate_shape(prev_point.x, point.x, prev_point.y, point.y, x, prev_point.shape)
                     base_pitch = prev_note.tone * 100 if prev_note is not None and x < prev_note.end else note.tone * 100
                     pitches[index] += pitch - base_pitch
                     index += 1
