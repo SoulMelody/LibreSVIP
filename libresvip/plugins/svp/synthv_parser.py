@@ -5,7 +5,7 @@ from typing import Callable, Optional
 import regex as re
 from pydub.utils import db_to_float, ratio_to_db
 
-from libresvip.core.constants import DEFAULT_BPM, DEFAULT_LYRIC, DEFAULT_PHONEME
+from libresvip.core.constants import DEFAULT_BPM, DEFAULT_CHINESE_LYRIC, DEFAULT_PHONEME
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_interval import RangeInterval
 from libresvip.core.time_sync import TimeSynchronizer
@@ -433,7 +433,9 @@ class SynthVParser:
 
     @staticmethod
     def parse_note(sv_note: SVNote) -> Note:
-        note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
+        note = Note(
+            start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch
+        )
         note.length = (
             position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         )
@@ -441,7 +443,7 @@ class SynthVParser:
             note.lyric = sv_note.lyrics
             note.pronunciation = xsampa2pinyin(sv_note.phonemes)
         elif re.match(r"[a-zA-Z]", sv_note.lyrics) is not None:
-            note.lyric = DEFAULT_LYRIC
+            note.lyric = DEFAULT_CHINESE_LYRIC
             note.pronunciation = sv_note.lyrics
         else:
             note.lyric = sv_note.lyrics
@@ -516,7 +518,9 @@ class SynthVParser:
             and current_duration[0] != 1.0
         ):
             note_list[0].edited_phones = Phones(
-                head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
+                head_length_in_secs=min(
+                    1.8, current_duration[0] * current_phone_marks[0]
+                ),
             )
 
         for i in range(len(sv_note_list) - 1):

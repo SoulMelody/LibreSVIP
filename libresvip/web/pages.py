@@ -34,7 +34,7 @@ from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
-from libresvip.utils import shorten_error_message
+from libresvip.utils import lazy_translation, shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
 
 
@@ -483,6 +483,7 @@ def page_layout(lang: Optional[str] = None):
             return len(self.files_to_convert)
 
         def convert_one(self, task: ConversionTask):
+            lazy_translation.set(translation)
             task.converting = True
             try:
                 with warnings.catch_warnings(record=True) as w:

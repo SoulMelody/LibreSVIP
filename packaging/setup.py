@@ -156,6 +156,7 @@ build_exe_options = {
         "pydoc",
         "pydoc_data",
         "pythonnet",
+        "setuptools",
         "startlette",
         "tkinter",
         "uvicorn",

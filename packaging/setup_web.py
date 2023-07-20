@@ -26,15 +26,14 @@ include_files = [
     (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
 ]
 
-# base="Win32GUI" should be used only for Windows GUI app
-base = "Win32GUI" if sys.platform == "win32" else None
-
 
 build_exe_options = {
     "bin_excludes": [],
     # exclude packages that are not really needed
     "excludes": [
+        "aiohttp",
         "black",
+        "debugpy",
         "jedi",
         "numpy",
         "matplotlib",
@@ -48,6 +47,7 @@ build_exe_options = {
         "plotly",
         "pydoc",
         "pydoc_data",
+        "setuptools",
         "tkinter",
         "wslink",
         "wx",
@@ -56,6 +56,7 @@ build_exe_options = {
         "qtawesome",
         "desktop_notifier",
         "qtinter",
+        "zmq",
     ],
     "include_files": include_files,
     "zip_include_packages": [],
@@ -83,7 +84,7 @@ build_exe_options = {
 executables = [
     Executable(
         "../libresvip/web/__main__.py",
-        base=base,
+        base=None,
         icon="../libresvip/res/libresvip.ico",
         target_name="libresvip-web",
     ),

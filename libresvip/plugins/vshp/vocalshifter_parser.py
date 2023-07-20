@@ -6,7 +6,7 @@ from typing import Callable
 from construct import Container
 from pydub.utils import db_to_float
 
-from libresvip.core.constants import DEFAULT_LYRIC
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -103,7 +103,9 @@ class VocalShifterParser:
         )
         track_metadata = self.track_index2metadata[pattern_metadata.track_index]
         return InstrumentalTrack(
-            audio_file_path=ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]),
+            audio_file_path=ansi2unicode(
+                pattern_metadata.path_and_ext.split(b"\x00")[0]
+            ),
             offset=offset_in_ticks,
             solo=track_metadata.solo,
             mute=track_metadata.mute,
@@ -154,7 +156,7 @@ class VocalShifterParser:
                             start_pos=offset + round(note.start_tick * self.tick_rate),
                             length=int(note.length * self.tick_rate),
                             key_number=note.pitch // 100,
-                            lyric=DEFAULT_LYRIC,
+                            lyric=DEFAULT_CHINESE_LYRIC,
                         )
                     )
                 else:
@@ -172,7 +174,7 @@ class VocalShifterParser:
                     start_pos=offset + round(note.start_tick * self.tick_rate),
                     length=int(note.length * self.tick_rate),
                     key_number=note.pitch // 100,
-                    lyric=DEFAULT_LYRIC,
+                    lyric=DEFAULT_CHINESE_LYRIC,
                 )
                 for note in notes
             )

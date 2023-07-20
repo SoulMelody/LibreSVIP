@@ -3,7 +3,7 @@ from typing import Optional
 
 import regex as re
 
-from libresvip.core.constants import DEFAULT_LYRIC
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -178,7 +178,7 @@ class BinarySvipGenerator:
                 ),
                 key_index=note.key_number + 12,
                 head_tag=OpenSvipNoteHeadTags.get_index(note.head_tag),
-                lyric=note.lyric or DEFAULT_LYRIC,
+                lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
             )
             xs_note.width_pos = (
                 round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos))

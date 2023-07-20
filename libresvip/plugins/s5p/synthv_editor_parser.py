@@ -3,7 +3,7 @@ import os
 
 from pydub.utils import db_to_float, ratio_to_db
 
-from libresvip.core.constants import DEFAULT_BPM, DEFAULT_LYRIC
+from libresvip.core.constants import DEFAULT_BPM, DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -130,7 +130,7 @@ class SynthVEditorParser:
                 key_number=s5p_note.pitch,
                 start_pos=round(s5p_note.onset / TICK_RATE),
                 length=round(s5p_note.duration / TICK_RATE),
-                lyric=s5p_note.lyric.replace(" ", "") or DEFAULT_LYRIC,
+                lyric=s5p_note.lyric.replace(" ", "") or DEFAULT_CHINESE_LYRIC,
             )
             note_list.append(note)
         return note_list

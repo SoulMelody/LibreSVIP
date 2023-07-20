@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 import regex as re
 from pydub.utils import db_to_float, ratio_to_db
 
-from libresvip.core.constants import DEFAULT_LYRIC, TICKS_IN_BEAT
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -167,7 +167,7 @@ class Svip3Parser:
     @staticmethod
     def parse_lyric(svip3_note: Svip3Note) -> str:
         if re.search(r"[a-zA-Z]", svip3_note.lyric) is not None:
-            return DEFAULT_LYRIC
+            return DEFAULT_CHINESE_LYRIC
         return svip3_note.lyric
 
     @staticmethod

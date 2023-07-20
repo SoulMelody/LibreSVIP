@@ -8,7 +8,7 @@ from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
 from pydub.utils import ratio_to_db
 
-from libresvip.core.constants import DEFAULT_LYRIC
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -130,7 +130,7 @@ class SynthVGenerator:
                     return note.pronunciation
                 valid_chars = re.sub(
                     r"[\\s\\(\\)\\[\\]\\{\\}\\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”0-9a-zA-Z]",
-                    DEFAULT_LYRIC,
+                    DEFAULT_CHINESE_LYRIC,
                     note.lyric,
                 )
                 return valid_chars[0] if len(valid_chars) > 0 else ""

@@ -1,5 +1,7 @@
 import contextlib
+import contextvars
 import functools
+import gettext
 import math
 import pathlib
 from types import FunctionType
@@ -10,6 +12,9 @@ import regex as re
 from more_itertools import locate, rlocate
 
 T = TypeVar("T")
+lazy_translation: contextvars.ContextVar[
+    Optional[gettext.NullTranslations]
+] = contextvars.ContextVar("translator")
 
 
 def ensure_path(func: FunctionType) -> FunctionType:
@@ -59,6 +64,8 @@ def download_and_setup_ffmpeg():
 
 
 def gettext_lazy(message: str) -> str:
+    if (translation := lazy_translation.get()) is not None:
+        return translation.gettext(message)
     try:
         return gettext(message)
     except NameError:

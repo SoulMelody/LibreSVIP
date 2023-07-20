@@ -8,7 +8,7 @@ import regex as re
 from pydub.utils import ratio_to_db
 
 from libresvip.core.constants import (
-    DEFAULT_LYRIC,
+    DEFAULT_CHINESE_LYRIC,
     TICKS_IN_BEAT,
 )
 from libresvip.core.time_sync import TimeSynchronizer
@@ -79,7 +79,9 @@ class MidiParser:
 
     def decode_time_signatures(self, master_track) -> list[TimeSignature]:
         # no default
-        time_signature_changes = [TimeSignature(bar_index=0, numerator=4, denominator=4)]
+        time_signature_changes = [
+            TimeSignature(bar_index=0, numerator=4, denominator=4)
+        ]
 
         # traversing
         if self.options.import_time_signatures:
@@ -123,7 +125,7 @@ class MidiParser:
     def decode_track(self, track_idx, track) -> SingingTrack:
         last_note_on = collections.defaultdict(list)
         pitchbend_range_changed = collections.defaultdict(list)
-        lyrics = collections.defaultdict(lambda: DEFAULT_LYRIC)
+        lyrics = collections.defaultdict(lambda: DEFAULT_CHINESE_LYRIC)
         track_name = None
         notes = []
         pitch = ParamCurve()
@@ -179,7 +181,7 @@ class MidiParser:
                         )
                         lyric = lyrics[start_tick]
                         if re.search("[a-zA-Z]", lyric) is not None:
-                            note.lyric = DEFAULT_LYRIC
+                            note.lyric = DEFAULT_CHINESE_LYRIC
                             note.pronunciation = lyric
                         else:
                             note.lyric = lyric
