@@ -3,6 +3,8 @@ from __future__ import annotations
 from bisect import bisect_right
 from typing import Optional
 
+from more_itertools import pairwise
+
 from libresvip.model.base import BaseModel, Field, Note, ParamCurve, Points
 from libresvip.model.point import Point
 
@@ -46,12 +48,14 @@ class RelativePitchCurve(BaseModel):
         next_border = borders[index] if index < len(borders) else float("inf")
         converted_data = []
         for pos, value in pitch.points:
+            if value <= 0:
+                continue
             while pos >= next_border:
                 index += 1
                 next_border = borders[index] if index < len(borders) else float("inf")
                 current_note_key = notes[index].key_number
-            converted_value = value - current_note_key
-            converted_data.append(Point(x=pos, y=round(converted_value * 100)))
+            converted_value = value - current_note_key * 100
+            converted_data.append(Point(x=pos - 1920, y=converted_value))
         point_list = cls.append_points_at_borders(
             converted_data, notes, radius=border_append_radius
         )
@@ -66,9 +70,9 @@ class RelativePitchCurve(BaseModel):
                 pos = note.end_pos
                 continue
             if pos == note.start_pos:
-                borders.append(pos)
+                borders.append(pos + 1920)
             elif pos < note.start_pos:
-                borders.append((note.start_pos + pos) // 2)
+                borders.append((note.start_pos + pos) // 2 + 1920)
             else:
                 raise Exception("Notes Overlapped")
             pos = note.end_pos
@@ -81,17 +85,15 @@ class RelativePitchCurve(BaseModel):
         if radius <= 0:
             return data
         result = data.copy()
-        for i in range(len(notes) - 1):
-            last_note = notes[i]
-            this_note = notes[i + 1]
+        for last_note, this_note in pairwise(notes):
             if this_note.start_pos - last_note.end_pos > radius:
                 continue
             if (
                 first_point_at_this_note_index := next(
                     (
                         j
-                        for j, (tick, _) in enumerate(result)
-                        if tick >= this_note.start_pos
+                        for j, point in enumerate(result)
+                        if point.x >= this_note.start_pos + 1920
                     ),
                     None,
                 )
@@ -99,19 +101,19 @@ class RelativePitchCurve(BaseModel):
                 continue
             first_point_at_this_note = result[first_point_at_this_note_index]
             if (
-                first_point_at_this_note[0] == this_note.start_pos
-                or first_point_at_this_note[0] - this_note.start_pos > radius
+                first_point_at_this_note.x == this_note.start_pos + 1920
+                or first_point_at_this_note.x > this_note.start_pos + radius + 1920
             ):
                 continue
-            post_value = first_point_at_this_note[1]
-            new_point_tick = this_note.start_pos - radius
+            post_value = first_point_at_this_note.y
+            new_point_tick = this_note.start_pos + 1920 - radius
             new_point = Point(x=new_point_tick, y=post_value)
             result.insert(first_point_at_this_note_index, new_point)
             result = [
                 point
                 for point in result
                 if not (
-                    new_point_tick <= point[0] < this_note.start_pos
+                    new_point_tick <= point.x < this_note.start_pos + 1920
                     and point != new_point
                 )
             ]

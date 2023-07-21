@@ -1306,13 +1306,49 @@ msgstr "Vogen 工程格式转换插件"
 msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"
 
-#: .vpr.format_desc
+#: .vpr.name
+msgid "Vpr"
+msgstr ""
+
+#: .vpr.file_format .vpr.format_desc
 msgid "Vocaloid (5/6) Project file"
 msgstr "Vocaloid (5/6) 工程格式"
 
 #: .vpr.description
 msgid "Conversion plugin for Vocaloid (5/6) project file"
 msgstr "Vocaloid (5/6) 工程格式转换插件"
+
+#: .vpr.dump[0].title
+msgid "Is AI Singer"
+msgstr "是否AI歌手"
+
+#: .vpr.dump[0].description
+msgid "The default voicebank is AI singer or not"
+msgstr "默认声库是否属于AI类型"
+
+#: .vpr.dump[1].title
+msgid "Default language"
+msgstr "默认语言"
+
+#: .vpr.dump[1].description
+msgid "Default language id of voicebank and notes"
+msgstr "声库及音符的默认语言"
+
+#: .vpr.dump[2].title
+msgid "Default Comp ID"
+msgstr "默认的CompID"
+
+#: .vpr.dump[2].description
+msgid "Default comp_id of voicebank"
+msgstr "默认声库对应的comp_id"
+
+#: .vpr.dump[3].title
+msgid "Default Singer Name"
+msgstr "默认歌手名"
+
+#: .vpr.dump[3].description
+msgid "Default singer name of voicebank"
+msgstr "默认声库对应的歌手名"
 
 #: .vshp.format_desc
 msgid "VocalShifter project file"

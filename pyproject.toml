@@ -81,7 +81,7 @@ optional = true
 
 [tool.poetry.group.code_gen.dependencies]
 xsdata = { extras = ["cli"], version = "^23.6" }
-datamodel-code-generator = "^0.21.1"
+datamodel-code-generator = "^0.21.2"
 translate-toolkit = "^3.9.2"
 babel = "^2.12.1"
 
@@ -115,7 +115,7 @@ bump-pydantic = "^0.6.0"
 
 [tool.poetry.group.dev.dependencies]
 poetry-dynamic-versioning = "^0.25.0"
-types-regex = "^2023.6.3.0"
+types-regex = "^2023.6.3.1"
 pydub-stubs = "^0.25.1.0"
 urllib3 = "<2.0"
 

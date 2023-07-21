@@ -1,6 +1,7 @@
 import dataclasses
 import itertools
 
+from libresvip.core.constants import DEFAULT_ENGLISH_LYRIC
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -11,8 +12,14 @@ from libresvip.model.base import (
     Track,
 )
 
+from .constants import (
+    BPM_RATE,
+    PITCH_BEND_NAME,
+    PITCH_BEND_SENSITIVITY_NAME,
+)
 from .model import (
     VocaloidNotes,
+    VocaloidPartPitchData,
     VocaloidPoint,
     VocaloidProject,
     VocaloidTimeSig,
@@ -21,6 +28,7 @@ from .model import (
     VocaloidWavPart,
 )
 from .options import InputOptions
+from .vocaloid_pitch import pitch_from_vocaloid_parts
 
 
 @dataclasses.dataclass
@@ -55,7 +63,7 @@ class VocaloidParser:
         return [
             SongTempo(
                 position=tempo.pos,
-                bpm=tempo.value / 100,
+                bpm=tempo.value / BPM_RATE,
             )
             for tempo in tempos
         ]
@@ -78,27 +86,29 @@ class VocaloidParser:
                 elif part.ai_voice is not None:
                     comp_id = part.ai_voice.comp_id
                 singing_track = SingingTrack(
-                    offset=part.pos,
                     note_list=self.parse_notes(part.notes, part.pos),
                     ai_singer_name=self.comp_id2name.get(comp_id, ""),
-                    # TODO: Add support for params
                 )
+                part_data = VocaloidPartPitchData(
+                    start_pos=part.pos,
+                    pit=part.get_controller_events(PITCH_BEND_NAME),
+                    pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
+                )
+                if (part_pitch := pitch_from_vocaloid_parts(
+                    [part_data], singing_track.note_list
+                )) is not None:
+                    singing_track.edited_params.pitch = part_pitch
                 track_list.append(singing_track)
-            else:
-                part.pop("notes", None)
-                print(f"Unknown part type: {part}")
         return track_list
 
     def parse_notes(self, notes: list[VocaloidNotes], pos: int) -> list[Note]:
-        note_list = []
-        for note in notes:
-            note_list.append(
-                Note(
-                    start_pos=note.pos + pos,
-                    length=note.duration,
-                    key_number=note.number,
-                    lyric=note.lyric or note.phoneme,
-                    # pronunciation=note.phoneme,
-                )
+        return [
+            Note(
+                start_pos=note.pos + pos,
+                length=note.duration,
+                key_number=note.number,
+                lyric=note.lyric or DEFAULT_ENGLISH_LYRIC,
+                pronunciation=note.phoneme,
             )
-        return note_list
+            for note in notes
+        ]

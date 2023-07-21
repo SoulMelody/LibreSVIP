@@ -1,12 +1,35 @@
-from typing import Optional, Union
+import enum
+from dataclasses import dataclass
+from typing import Annotated, Optional, Union
 
-from pydantic import Extra, Field
+from pydantic import Field
 
 from libresvip.model.base import BaseModel
 
 
-class VocaloidBasePos(BaseModel):
+class VocaloidLanguage(enum.IntEnum):
+    JAPANESE: Annotated[int, Field(title="日本語")] = 0
+    ENGLISH: Annotated[int, Field(title="English")] = 1
+    KOREAN: Annotated[int, Field(title="한국어")] = 2
+    SPANISH: Annotated[int, Field(title="Español")] = 3
+    SIMPLIFIED_CHINESE: Annotated[int, Field(title="简体中文")] = 4
+
+
+@dataclass
+class ControllerEvent:
     pos: int
+    value: int
+
+
+@dataclass
+class VocaloidPartPitchData:
+    start_pos: int
+    pit: list[ControllerEvent]
+    pbs: list[ControllerEvent]
+
+
+class VocaloidBasePos(BaseModel):
+    pos: int = 0
 
 
 class VocaloidWithDur(VocaloidBasePos):
@@ -14,17 +37,17 @@ class VocaloidWithDur(VocaloidBasePos):
 
 
 class VocaloidPoint(VocaloidBasePos):
-    value: Optional[int] = None
+    value: Optional[Union[int, float]] = None
 
 
 class VocaloidTimeSig(BaseModel):
-    bar: Optional[int] = None
-    denom: Optional[int] = None
-    numer: Optional[int] = None
+    bar: int = 0
+    denom: int = 4
+    numer: int = 4
 
 
 class VocaloidExp(BaseModel):
-    opening: Optional[int] = None
+    opening: Optional[int] = 127
     accent: Optional[int] = None
     decay: Optional[int] = None
     bend_depth: Optional[int] = Field(None, alias="bendDepth")
@@ -48,16 +71,16 @@ class VocaloidAIExp(BaseModel):
 
 
 class VocaloidEnabled(BaseModel):
-    is_enabled: Optional[bool] = Field(None, alias="isEnabled")
+    is_enabled: Optional[bool] = Field(True, alias="isEnabled")
 
 
 class VocaloidGlobal(VocaloidEnabled):
-    value: Optional[int] = None
+    value: Optional[int] = 12000
 
 
 class VocaloidRegion(VocaloidEnabled):
-    begin: Optional[float] = None
-    end: Optional[float] = None
+    begin: Optional[float] = 0
+    end: Optional[float] = 7680
 
 
 class VocaloidParameters(BaseModel):
@@ -66,14 +89,14 @@ class VocaloidParameters(BaseModel):
 
 
 class VocaloidVersion(BaseModel):
-    major: Optional[int] = None
-    minor: Optional[int] = None
-    revision: Optional[int] = None
+    major: int = 5
+    minor: int = 0
+    revision: int = 0
 
 
 class VocaloidVibrato(BaseModel):
-    type: Optional[int] = None
-    duration: Optional[int] = None
+    type: Optional[int] = 0
+    duration: Optional[int] = 0
     depths: Optional[list[VocaloidPoint]] = Field(default_factory=list)
     rates: Optional[list[VocaloidPoint]] = Field(default_factory=list)
 
@@ -82,8 +105,9 @@ class VocaloidCompID(BaseModel):
     comp_id: Optional[str] = Field(alias="compID")
 
 
+
 class VocaloidLangID(BaseModel):
-    lang_id: Optional[int] = Field(None, alias="langID")
+    lang_id: Optional[VocaloidLanguage] = Field(VocaloidLanguage.SIMPLIFIED_CHINESE, alias="langID")
 
 
 class VocaloidVoice(VocaloidCompID, VocaloidLangID):
@@ -99,8 +123,8 @@ class VocaloidVoices(VocaloidCompID):
 
 
 class VocaloidWeight(BaseModel):
-    pre: Optional[int] = None
-    post: Optional[int] = None
+    pre: Optional[int] = 64
+    post: Optional[int] = 64
 
 
 class VocaloidControllers(BaseModel):
@@ -108,43 +132,47 @@ class VocaloidControllers(BaseModel):
     events: list[VocaloidPoint] = Field(default_factory=list)
 
 
-class VocaloidMidiEffects(BaseModel):
+class VocaloidFolded(BaseModel):
+    is_folded: Optional[bool] = Field(True, alias="isFolded")
+
+
+class VocaloidMidiEffects(VocaloidFolded):
     id: Optional[str] = None
     is_bypassed: Optional[bool] = Field(alias="isBypassed")
-    is_folded: Optional[bool] = Field(alias="isFolded")
     parameters: list[VocaloidParameters] = Field(default_factory=list)
 
 
 class VocaloidSingingSkill(BaseModel):
-    duration: Optional[int] = None
-    weight: Optional[VocaloidWeight] = None
+    duration: Optional[int] = 158
+    weight: Optional[VocaloidWeight] = Field(default_factory=VocaloidWeight)
 
 
-class VocaloidTempo(BaseModel):
+class VocaloidTempo(VocaloidFolded):
     events: list[VocaloidPoint] = Field(default_factory=list)
-    global_value: Optional[VocaloidGlobal] = Field(alias="global")
-    height: Optional[int] = None
-    is_folded: Optional[bool] = Field(alias="isFolded")
+    global_value: Optional[VocaloidGlobal] = Field(
+        alias="global", default_factory=VocaloidGlobal
+    )
+    height: Optional[int] = 0
     ara: Optional[VocaloidEnabled] = None
 
 
-class VocaloidTimeSigs(BaseModel):
+class VocaloidTimeSigs(VocaloidFolded):
     events: list[VocaloidTimeSig] = Field(default_factory=list)
-    is_folded: Optional[bool] = Field(alias="isFolded")
 
 
-class VocaloidAutomation(BaseModel):
-    is_folded: Optional[bool] = Field(alias="isFolded")
-    height: Optional[int] = None
+class VocaloidAutomation(VocaloidFolded):
+    height: int = 0
     events: list[VocaloidPoint] = Field(default_factory=list)
 
 
 class VocaloidMasterTrack(BaseModel):
-    loop: Optional[VocaloidRegion] = None
-    sampling_rate: Optional[int] = Field(alias="samplingRate")
-    tempo: Optional[VocaloidTempo] = None
-    time_sig: Optional[VocaloidTimeSigs] = Field(alias="timeSig")
-    volume: Optional[VocaloidAutomation] = None
+    loop: Optional[VocaloidRegion] = Field(default_factory=VocaloidRegion)
+    sampling_rate: int = Field(44100, alias="samplingRate")
+    tempo: Optional[VocaloidTempo] = Field(default_factory=VocaloidTempo)
+    time_sig: VocaloidTimeSigs = Field(
+        alias="timeSig", default_factory=VocaloidTimeSigs
+    )
+    volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
 
 
 class VocaloidDVQMRelease(VocaloidCompID):
@@ -160,69 +188,86 @@ class VocaloidDVQM(BaseModel):
 
 
 class VocaloidNotes(VocaloidLangID, VocaloidWithDur):
-    exp: Optional[VocaloidExp] = None
+    exp: Optional[VocaloidExp] = Field(default_factory=VocaloidExp)
     ai_exp: Optional[VocaloidAIExp] = Field(None, alias="aiExp")
-    is_protected: Optional[bool] = Field(alias="isProtected")
-    lyric: Optional[str] = None
-    number: Optional[int] = None
+    is_protected: Optional[bool] = Field(False, alias="isProtected")
+    lyric: str
+    number: int
     phoneme: Optional[str] = None
-    phoneme_positions: list[VocaloidBasePos] = Field(
-        default_factory=list, alias="phonemePositions"
+    phoneme_positions: Optional[list[VocaloidBasePos]] = Field(
+        None, alias="phonemePositions"
     )
-    singing_skill: Optional[VocaloidSingingSkill] = Field(None, alias="singingSkill")
-    velocity: Optional[int] = None
-    vibrato: Optional[VocaloidVibrato] = None
+    singing_skill: Optional[VocaloidSingingSkill] = Field(
+        alias="singingSkill", default_factory=VocaloidSingingSkill
+    )
+    velocity: int = 64
+    vibrato: Optional[VocaloidVibrato] = Field(default_factory=VocaloidVibrato)
     dvqm: Optional[VocaloidDVQM] = None
 
 
 class VocaloidWav(BaseModel):
-    name: Optional[str] = None
+    name: str
     original_name: Optional[str] = Field(alias="originalName")
 
 
-class VocaloidVoicePart(VocaloidWithDur, extra=Extra.forbid):
+class VocaloidVoicePart(VocaloidWithDur):
     name: Optional[str] = None
     midi_effects: list[VocaloidMidiEffects] = Field(
         default_factory=list, alias="midiEffects"
     )
-    notes: Optional[list[VocaloidNotes]] = None
+    notes: Optional[list[VocaloidNotes]] = Field(default_factory=list)
     style_preset_id: Optional[str] = Field(None, alias="stylePresetID")
-    style_name: Optional[str] = Field(None, alias="styleName")
+    style_name: Optional[str] = Field("No Effect", alias="styleName")
     voice: Optional[VocaloidVoice] = None
     ai_voice: Optional[VocaloidAIVoice] = Field(None, alias="aiVoice")
-    controllers: list[VocaloidControllers] = Field(default_factory=list)
+    controllers: Optional[list[VocaloidControllers]] = None
+
+    def get_controller_events(self, name: str) -> list[ControllerEvent]:
+        if self.controllers is None:
+            return []
+        return [
+            ControllerEvent(
+                pos=event.pos,
+                value=int(event.value),
+            )
+            for controller in self.controllers
+            if controller.name == name
+            for event in controller.events
+            if event.value is not None
+        ]
 
 
-class VocaloidWavPart(VocaloidBasePos):
+class VocaloidWavPart(VocaloidBasePos, extra="forbid"):
     region: Optional[VocaloidRegion] = None
-    name: Optional[str] = None
+    name: Optional[str] = ""
     wav: Optional[VocaloidWav] = None
 
 
 VocaloidParts = Union[VocaloidVoicePart, VocaloidWavPart]
 
 
-class VocaloidTracks(BaseModel):
-    bus_no: Optional[int] = Field(alias="busNo")
-    color: Optional[int] = None
-    height: Optional[int] = None
-    is_folded: Optional[bool] = Field(alias="isFolded")
-    is_muted: Optional[bool] = Field(alias="isMuted")
-    is_solo_mode: Optional[bool] = Field(alias="isSoloMode")
-    name: Optional[str] = None
-    panpot: Optional[VocaloidAutomation] = None
+class VocaloidTracks(VocaloidFolded):
+    bus_no: Optional[int] = Field(0, alias="busNo")
+    color: Optional[int] = 0
+    height: Optional[float] = 0
+    is_muted: bool = Field(False, alias="isMuted")
+    is_solo_mode: bool = Field(False, alias="isSoloMode")
+    name: Optional[str] = ""
+    panpot: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
     parts: list[VocaloidParts] = Field(default_factory=list)
-    type: Optional[int] = None
-    volume: Optional[VocaloidAutomation] = None
+    type: Optional[int] = 0
+    volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
     last_scroll_position_note_number: Optional[int] = Field(
         None, alias="lastScrollPositionNoteNumber"
     )
 
 
 class VocaloidProject(BaseModel):
-    master_track: Optional[VocaloidMasterTrack] = Field(alias="masterTrack")
-    title: Optional[str] = None
+    master_track: Optional[VocaloidMasterTrack] = Field(
+        alias="masterTrack", default_factory=VocaloidMasterTrack
+    )
+    title: Optional[str] = ""
     tracks: list[VocaloidTracks] = Field(default_factory=list)
-    vender: Optional[str] = None
-    version: Optional[VocaloidVersion] = None
+    vender: str = "Yamaha Corporation"
+    version: Optional[VocaloidVersion] = Field(default_factory=VocaloidVersion)
     voices: list[VocaloidVoices] = Field(default_factory=list)
