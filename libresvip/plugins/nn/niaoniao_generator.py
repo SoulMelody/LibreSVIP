@@ -54,7 +54,7 @@ class NiaoniaoGenerator:
         if not len(time_signature_list):
             self.first_bar_length = 1920
             return NNTimeSignature()
-        self.first_bar_length = time_signature_list[0].bar_length
+        self.first_bar_length = int(time_signature_list[0].bar_length())
         return NNTimeSignature(
             numerator=time_signature_list[0].numerator,
             denominator=time_signature_list[0].denominator,

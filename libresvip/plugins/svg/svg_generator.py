@@ -19,7 +19,7 @@ class SvgGenerator:
     def generate_project(self, project: Project) -> Drawing:
         self.coordinate_helper = CoordinateHelper(
             options=self.options,
-            pitch_position_offset=project.time_signature_list[0].bar_length,
+            pitch_position_offset=int(project.time_signature_list[0].bar_length()),
         )
         self.svg_factory = SvgFactory(
             coordinate_helper=self.coordinate_helper,

@@ -37,7 +37,7 @@ zstandard = "^0.21.0"
 pure-protobuf = "^3.0a5"
 
 [tool.poetry.group.midi.dependencies]
-mido = "^1.2.10"
+mido = "^1.3.0"
 
 [tool.poetry.group.subtitle.dependencies]
 srt = "^3.5.3"
@@ -106,7 +106,7 @@ optional = true
 [tool.poetry.group.linting.dependencies]
 isort = "^5.12.0"
 pre-commit = "^3.3.3"
-ruff = "^0.0.278"
+ruff = "^0.0.279"
 black = "^23.7.0"
 mypy = "^1.4.1"
 sourcery = "^1.6.0"

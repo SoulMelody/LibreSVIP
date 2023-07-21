@@ -2,7 +2,6 @@ import dataclasses
 
 import pypinyin
 
-from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -31,7 +30,7 @@ class Y77Generator:
             )
         else:
             first_singing_track = project.track_list[self.options.track_index]
-        self.first_bar_length = project.time_signature_list[0].bar_length
+        self.first_bar_length = int(project.time_signature_list[0].bar_length())
         y77_project = Y77Project(
             bars=100,
             bpm=project.song_tempo_list[0].bpm,

@@ -15,8 +15,8 @@ class OutputOptions(BaseModel):
         VocaloidLanguage.SIMPLIFIED_CHINESE, title="Default language", description="Default language id of voicebank and notes"
     )
     default_comp_id: str = Field(
-        "BP8CDDH5M7XN2PED", title="Default Comp ID", description="Default comp_id of voicebank"
+        "BL8CEAM5N4XN3LFK", title="Default Comp ID", description="Default comp_id of voicebank"
     )
     default_singer_name: str = Field(
-        "Luo_Tianyi_Meng", title="Default Singer Name", description="Default singer name of voicebank"
+        "Luo_Tianyi_Wan", title="Default Singer Name", description="Default singer name of voicebank"
     )

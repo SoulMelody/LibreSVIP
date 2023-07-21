@@ -69,9 +69,8 @@ class TimeSignature(BaseModel):
     numerator: int = Field(default=4, alias="Numerator")
     denominator: int = Field(default=4, alias="Denominator")
 
-    @property
-    def bar_length(self) -> float:
-        return (TICKS_IN_BEAT * 4) * self.numerator // self.denominator
+    def bar_length(self, ticks_in_beat: int = TICKS_IN_BEAT) -> float:
+        return (ticks_in_beat * 4) * self.numerator / self.denominator
 
 
 class ParamCurve(BaseModel):

@@ -76,7 +76,7 @@ class GjgjGenerator:
     def generate_time_signatures(
         self, time_signature_list: list[TimeSignature]
     ) -> list[GjgjTimeSignature]:
-        self.first_bar_length = time_signature_list[0].bar_length
+        self.first_bar_length = int(time_signature_list[0].bar_length())
         gjgj_time_signatures = []
         prev_ticks = 0
         for time_signature in time_signature_list:
@@ -88,7 +88,7 @@ class GjgjGenerator:
                 )
             )
             prev_ticks += round(
-                time_signature.bar_index * TICKS_IN_BEAT * time_signature.numerator
+                time_signature.bar_index * time_signature.bar_length()
             )
         return gjgj_time_signatures
 
