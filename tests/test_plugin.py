@@ -182,20 +182,13 @@ def test_vspx_read(shared_datadir):
 def test_vsqx_read(shared_datadir):
     from xsdata.formats.dataclass.parsers.xml import XmlParser
 
-    from libresvip.plugins.vsqx.models import judge_vsqx_version
+    from libresvip.plugins.vsqx.models import Vsqx  # noqa: F401
 
     proj_path = shared_datadir / "test.vsqx"
-    vsqx_version = judge_vsqx_version(str(proj_path))
-    if vsqx_version == "vsqx3":
-        from libresvip.plugins.vsqx.models.vsqx3 import Vsq3 as Vsqx
-    elif vsqx_version == "vsqx4":
-        from libresvip.plugins.vsqx.models.vsqx4 import Vsq4 as Vsqx
-    else:
-        raise ValueError("Invalid vsqx version")
 
     xml_parser = XmlParser()
-    proj = xml_parser.from_path(proj_path, Vsqx)
-    print(proj)
+    proj = xml_parser.from_path(proj_path)
+    print(type(proj))
 
 
 def test_mxml_read(shared_datadir):

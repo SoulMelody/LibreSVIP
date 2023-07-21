@@ -888,7 +888,7 @@ class WavPart:
 
 
 @dataclass
-class KaraokeTrack:
+class StereoTrack:
     class Meta:
         name = "karaokeTrack"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
@@ -903,7 +903,7 @@ class KaraokeTrack:
 
 
 @dataclass
-class KaraokeUnit:
+class StereoUnit:
     class Meta:
         name = "karaokeUnit"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
@@ -1135,7 +1135,7 @@ class ProsodyPart:
 
 
 @dataclass
-class SeTrack:
+class MonoTrack:
     class Meta:
         name = "seTrack"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
@@ -1150,7 +1150,7 @@ class SeTrack:
 
 
 @dataclass
-class SeUnit:
+class MonoUnit:
     class Meta:
         name = "seUnit"
         namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
@@ -1346,7 +1346,7 @@ class Mixer:
             "max_occurs": 16,
         },
     )
-    se_unit: Optional[SeUnit] = field(
+    mono_unit: Optional[MonoUnit] = field(
         default=None,
         metadata={
             "name": "seUnit",
@@ -1354,7 +1354,7 @@ class Mixer:
             "required": True,
         },
     )
-    karaoke_unit: Optional[KaraokeUnit] = field(
+    stereo_unit: Optional[StereoUnit] = field(
         default=None,
         metadata={
             "name": "karaokeUnit",
@@ -1553,7 +1553,7 @@ class Vsq3:
             "max_occurs": 16,
         },
     )
-    se_track: Optional[SeTrack] = field(
+    mono_track: Optional[MonoTrack] = field(
         default=None,
         metadata={
             "name": "seTrack",
@@ -1561,7 +1561,7 @@ class Vsq3:
             "required": True,
         },
     )
-    karaoke_track: Optional[KaraokeTrack] = field(
+    stereo_track: Optional[StereoTrack] = field(
         default=None,
         metadata={
             "name": "karaokeTrack",
