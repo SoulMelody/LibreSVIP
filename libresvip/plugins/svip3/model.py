@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from enum import IntEnum
 from typing import Annotated
 
-from pure_protobuf.annotations import Field
+from pure_protobuf.annotations import Field, ZigZagInt
 from pure_protobuf.message import BaseMessage
 
 
@@ -26,7 +26,7 @@ class Svip3NoteLengthValidateTag(IntEnum):
 
 @dataclass
 class Svip3LineParamNode(BaseMessage):
-    pos: Annotated[int, Field(1)] = 0
+    pos: Annotated[ZigZagInt, Field(1)] = 0
     value: Annotated[float, Field(2)] = 0.0
 
 

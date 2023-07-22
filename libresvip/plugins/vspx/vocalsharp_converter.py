@@ -68,7 +68,7 @@ class VocalSharpConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         raise NotImplementedError
         parser = XmlParser()
-        parsed = parser.parse(path, VocalSharpProject)
+        parsed = parser.from_bytes(path.read_bytes(), VocalSharpProject)
         return parsed
 
     def dump(

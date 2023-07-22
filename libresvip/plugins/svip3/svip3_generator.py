@@ -64,9 +64,7 @@ class Svip3Generator:
                 pos=first_signature.bar_index,
             )
         ]
-        self.first_bar_length = round(
-            1920 * first_signature.numerator / first_signature.denominator
-        )
+        self.first_bar_length = round(first_signature.bar_length())
         return song_beat_list
 
     def generate_song_tempos(
