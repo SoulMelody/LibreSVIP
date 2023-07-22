@@ -1310,7 +1310,7 @@ msgstr "请输入完整无误的歌手英文名字。"
 msgid "Vpr"
 msgstr ""
 
-#: .vpr.file_format .vpr.format_desc
+#: .vpr.file_format .vpr.format_desc
 msgid "Vocaloid (5/6) Project file"
 msgstr "Vocaloid (5/6) 工程格式"
 
@@ -1385,6 +1385,26 @@ msgstr "VocalSharp 工程格式"
 #: .vspx.description
 msgid "Conversion plugin for VocalSharp project file"
 msgstr "VocalSharp格式转换插件"
+
+#: .vsqx.name
+msgid "Vsqx"
+msgstr ""
+
+#: .vsqx.file_format
+msgid "Vocaloid (3/4) Project file"
+msgstr "Vocaloid (3/4) 工程格式"
+
+#: .vsqx.description
+msgid "Conversion plugin for Vocaloid (3/4) project file"
+msgstr "Vocaloid (3/4) 工程格式转换插件"
+
+#: .vsqx.dump[0].title
+msgid "Pretty XML"
+msgstr "美化XML"
+
+#: .vsqx.dump[0].description
+msgid "Whether to output pretty XML"
+msgstr "是否导出美化显示的XML"
 
 #: .y77.format_desc
 msgid "Yuan77 project file"

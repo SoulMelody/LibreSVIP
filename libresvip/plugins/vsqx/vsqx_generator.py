@@ -14,6 +14,7 @@ from libresvip.model.base import (
 
 from .constants import BPM_RATE
 from .model import (
+    VocaloidStyleTypes,
     Vsq4,
     Vsq4MCtrl,
     Vsq4MusicalPart,
@@ -35,8 +36,10 @@ from .vocaloid_pitch import generate_for_vocaloid
 @dataclasses.dataclass
 class VsqxGenerator:
     options: OutputOptions
+    style_params: dict = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> Vsq4:
+        self.style_params = VocaloidStyleTypes().model_dump(by_alias=True)
         vsqx = Vsq4()
         mixer = vsqx.mixer
         master_track = vsqx.master_track
@@ -73,10 +76,18 @@ class VsqxGenerator:
                 note=self.generate_notes(track.note_list),
                 singer=[Vsq4Singer(v_bs=self.options.default_lang_id)],
             )
+            musical_part.part_style.attr.extend(
+                Vsq4TypeParamAttr(
+                    id=param_name,
+                    value=param_value,
+                )
+                for param_name, param_value in self.style_params.items()
+                if not param_name.startswith("vib")
+            )
             if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
                 musical_part.m_ctrl = pitch
             vsqx_track.musical_part.append(musical_part)
-            vsqx_unit = Vsq4VsUnit()
+            vsqx_unit = Vsq4VsUnit(vs_track_no=track_index)
             vs_track_list.append(vsqx_track)
             vs_unit_list.append(vsqx_unit)
         return vs_track_list, vs_unit_list
@@ -116,6 +127,14 @@ class VsqxGenerator:
                 lyric=" ".join(
                     get_pinyin_series([note.lyric], filter_non_chinese=False)
                 ),
+            )
+            vsqx_note.note_style.attr.extend(
+                Vsq4TypeParamAttr(
+                    id=param_name,
+                    value=param_value,
+                )
+                for param_name, param_value in self.style_params.items()
+                if param_value is not None
             )
             if note.pronunciation:
                 vsqx_note.phnms = Vsq4TypePhonemes(

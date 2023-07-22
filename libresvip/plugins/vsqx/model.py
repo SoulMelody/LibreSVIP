@@ -1,4 +1,8 @@
-from typing import Union
+from typing import Optional, Union
+
+from pydantic import Field
+
+from libresvip.model.base import BaseModel
 
 from .models.vsqx3 import MasterTrack as Vsq3MasterTrack
 from .models.vsqx3 import MCtrl as Vsq3MCtrl
@@ -6,7 +10,9 @@ from .models.vsqx3 import Mixer as Vsq3Mixer
 from .models.vsqx3 import MonoTrack as Vsq3MonoTrack
 from .models.vsqx3 import MusicalPart as Vsq3MusicalPart
 from .models.vsqx3 import Note as Vsq3Note
+from .models.vsqx3 import NoteStyle as Vsq3NoteStyle
 from .models.vsqx3 import ParameterNames as Vsq3ParameterNames
+from .models.vsqx3 import PartStyle as Vsq3PartStyle
 from .models.vsqx3 import Singer as Vsq3Singer
 from .models.vsqx3 import StereoTrack as Vsq3StereoTrack
 from .models.vsqx3 import Tempo as Vsq3Tempo
@@ -25,7 +31,9 @@ from .models.vsqx4 import Mixer as Vsq4Mixer
 from .models.vsqx4 import MonoTrack as Vsq4MonoTrack
 from .models.vsqx4 import MusicalPart as Vsq4MusicalPart
 from .models.vsqx4 import Note as Vsq4Note
+from .models.vsqx4 import NoteStyle as Vsq4NoteStyle
 from .models.vsqx4 import ParameterNames as Vsq4ParameterNames
+from .models.vsqx4 import PartStyle as Vsq4PartStyle
 from .models.vsqx4 import Singer as Vsq4Singer
 from .models.vsqx4 import StereoTrack as Vsq4StereoTrack
 from .models.vsqx4 import Tempo as Vsq4Tempo
@@ -46,7 +54,9 @@ VsqxMixer = Union[Vsq3Mixer, Vsq4Mixer]
 VsqxMonoTrack = Union[Vsq3MonoTrack, Vsq4MonoTrack]
 VsqxMusicalPart = Union[Vsq3MusicalPart, Vsq4MusicalPart]
 VsqxNote = Union[Vsq3Note, Vsq4Note]
+VsqxNoteStyle = Union[Vsq3NoteStyle, Vsq4NoteStyle]
 VsqxParameterNames = Union[Vsq3ParameterNames, Vsq4ParameterNames]
+VsqxPartStyle = Union[Vsq3PartStyle, Vsq4PartStyle]
 VsqxTypePhonemes = Union[Vsq3TypePhonemes, Vsq4TypePhonemes]
 VsqxSinger = Union[Vsq3Singer, Vsq4Singer]
 VsqxStereoTrack = Union[Vsq3StereoTrack, Vsq4StereoTrack]
@@ -58,3 +68,17 @@ VsqxVsUnit = Union[Vsq3VsUnit, Vsq4VsUnit]
 VsqxVVoice = Union[Vsq3VVoice, Vsq4VVoice]
 VsqxVVoiceTable = Union[Vsq3VVoiceTable, Vsq4VVoiceTable]
 VsqxWavPart = Union[Vsq3WavPart, Vsq4WavPart]
+
+
+class VocaloidStyleTypes(BaseModel):
+    accent: int = 50
+    bend_depth: int = Field(0, alias="bendDep")
+    bend_length: int = Field(0, alias="bendLen")
+    decay: int = 50
+    fall_portamento: int = Field(0, alias="fallPort")
+    opening: int = 127
+    rise_portamento: int = Field(0, alias="risePort")
+    vibrato_length: int = Field(0, alias="vibLen")
+    vibrato_type: int = Field(0, alias="vibType")
+    vibrato_depth: Optional[list[int]] = Field(None, alias="vibDep")
+    vibrato_rate: Optional[list[int]] = Field(None, alias="vibRate")

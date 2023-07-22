@@ -1,0 +1,58 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-22 20:48+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.2\n"
+
+#: .vsqx.name
+msgid "Vsqx"
+msgstr ""
+
+#: .vsqx.file_format
+msgid "Vocaloid (3/4) Project file"
+msgstr "Vocaloid (3/4) 工程格式"
+
+#: .vsqx.description
+msgid "Conversion plugin for Vocaloid (3/4) project file"
+msgstr "Vocaloid (3/4) 工程格式转换插件"
+
+#: .vsqx.dump[0].title
+msgid "Pretty XML"
+msgstr "美化XML"
+
+#: .vsqx.dump[0].description
+msgid "Whether to output pretty XML"
+msgstr "是否导出美化显示的XML"
+
+#: .vsqx.dump[1].title
+msgid "Default language"
+msgstr "默认语言"
+
+#: .vsqx.dump[1].description
+msgid "Default language id of voicebank and notes"
+msgstr "声库及音符的默认语言"
+
+#: .vsqx.dump[2].title
+msgid "Default Comp ID"
+msgstr "默认的CompID"
+
+#: .vsqx.dump[2].description
+msgid "Default comp_id of voicebank"
+msgstr "默认声库对应的comp_id"
+
+#: .vsqx.dump[3].title
+msgid "Default Singer Name"
+msgstr "默认歌手名"
+
+#: .vsqx.dump[3].description
+msgid "Default singer name of voicebank"
+msgstr "默认声库对应的歌手名"

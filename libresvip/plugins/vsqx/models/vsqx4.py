@@ -50,7 +50,7 @@ class StylePlugin:
         namespace = VSQ4_NS
 
     style_plugin_id: Optional[str] = field(
-        default=None,
+        default="ACA9C502-A04B-42b5-B2EB-5CEA36D16FCE",
         metadata={
             "name": "id",
             "type": "Element",
@@ -59,7 +59,7 @@ class StylePlugin:
         },
     )
     style_plugin_name: Optional[str] = field(
-        default=None,
+        default="VOCALOID2 Compatible Style",
         metadata={
             "name": "name",
             "type": "Element",
@@ -67,7 +67,7 @@ class StylePlugin:
         },
     )
     version: Optional[str] = field(
-        default=None,
+        default="3.0.0.1",
         metadata={
             "type": "Element",
             "required": True,
@@ -124,7 +124,7 @@ class Singer:
         namespace = VSQ4_NS
 
     pos_tick: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "t",
             "type": "Element",
@@ -414,7 +414,7 @@ class MasterTrack:
         namespace = VSQ4_NS
 
     seq_name: Optional[str] = field(
-        default=None,
+        default="Untitled0",
         metadata={
             "name": "seqName",
             "type": "Element",
@@ -422,14 +422,14 @@ class MasterTrack:
         },
     )
     comment: Optional[str] = field(
-        default=None,
+        default="New VSQ File",
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     resolution: Optional[int] = field(
-        default=None,
+        default=480,
         metadata={
             "type": "Element",
             "required": True,
@@ -762,7 +762,7 @@ class WavPart:
         },
     )
     comment: Optional[str] = field(
-        default=None,
+        default="New Wav Part",
         metadata={
             "type": "Element",
             "required": True,
@@ -811,7 +811,7 @@ class MasterUnit:
         namespace = VSQ4_NS
 
     out_dev: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "oDev",
             "type": "Element",
@@ -834,7 +834,7 @@ class MasterUnit:
         },
     )
     ret_level: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "rLvl",
             "type": "Element",
@@ -842,7 +842,7 @@ class MasterUnit:
         },
     )
     vol: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -872,7 +872,7 @@ class MonoUnit:
         namespace = VSQ4_NS
 
     in_gain: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "iGin",
             "type": "Element",
@@ -888,7 +888,7 @@ class MonoUnit:
         },
     )
     send_level: Optional[int] = field(
-        default=None,
+        default=-898,
         metadata={
             "name": "sLvl",
             "type": "Element",
@@ -896,7 +896,7 @@ class MonoUnit:
         },
     )
     send_enable: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "sEnable",
             "type": "Element",
@@ -906,7 +906,7 @@ class MonoUnit:
         },
     )
     mute: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "m",
             "type": "Element",
@@ -916,7 +916,7 @@ class MonoUnit:
         },
     )
     solo: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "s",
             "type": "Element",
@@ -926,14 +926,14 @@ class MonoUnit:
         },
     )
     pan: Optional[int] = field(
-        default=None,
+        default=64,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     vol: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -974,7 +974,7 @@ class Note:
         },
     )
     velocity: Optional[int] = field(
-        default=None,
+        default=64,
         metadata={
             "name": "v",
             "type": "Element",
@@ -1000,7 +1000,7 @@ class Note:
         },
     )
     note_style: Optional[NoteStyle] = field(
-        default=None,
+        default_factory=NoteStyle,
         metadata={
             "name": "nStyle",
             "type": "Element",
@@ -1030,7 +1030,7 @@ class StereoUnit:
         namespace = VSQ4_NS
 
     in_gain: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "iGin",
             "type": "Element",
@@ -1046,7 +1046,7 @@ class StereoUnit:
         },
     )
     mute: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "m",
             "type": "Element",
@@ -1056,7 +1056,7 @@ class StereoUnit:
         },
     )
     solo: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "s",
             "type": "Element",
@@ -1066,7 +1066,7 @@ class StereoUnit:
         },
     )
     vol: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -1107,7 +1107,7 @@ class VsUnit:
         },
     )
     in_gain: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "iGin",
             "type": "Element",
@@ -1123,7 +1123,7 @@ class VsUnit:
         },
     )
     send_level: Optional[int] = field(
-        default=None,
+        default=-898,
         metadata={
             "name": "sLvl",
             "type": "Element",
@@ -1131,7 +1131,7 @@ class VsUnit:
         },
     )
     send_enable: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "sEnable",
             "type": "Element",
@@ -1141,7 +1141,7 @@ class VsUnit:
         },
     )
     mute: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "m",
             "type": "Element",
@@ -1151,7 +1151,7 @@ class VsUnit:
         },
     )
     solo: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "s",
             "type": "Element",
@@ -1161,14 +1161,14 @@ class VsUnit:
         },
     )
     pan: Optional[int] = field(
-        default=None,
+        default=64,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     vol: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -1183,7 +1183,7 @@ class Mixer:
         namespace = VSQ4_NS
 
     master_unit: Optional[MasterUnit] = field(
-        default=None,
+        default_factory=MasterUnit,
         metadata={
             "name": "masterUnit",
             "type": "Element",
@@ -1200,7 +1200,7 @@ class Mixer:
         },
     )
     mono_unit: Optional[MonoUnit] = field(
-        default=None,
+        default_factory=MonoUnit,
         metadata={
             "name": "monoUnit",
             "type": "Element",
@@ -1208,7 +1208,7 @@ class Mixer:
         },
     )
     stereo_unit: Optional[StereoUnit] = field(
-        default=None,
+        default_factory=StereoUnit,
         metadata={
             "name": "stUnit",
             "type": "Element",
@@ -1240,7 +1240,7 @@ class MusicalPart:
         },
     )
     part_name: Optional[str] = field(
-        default=None,
+        default="New Part",
         metadata={
             "name": "name",
             "type": "Element",
@@ -1248,14 +1248,14 @@ class MusicalPart:
         },
     )
     comment: Optional[str] = field(
-        default=None,
+        default="New Musical Part",
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     style_plugin: Optional[StylePlugin] = field(
-        default=None,
+        default_factory=StylePlugin,
         metadata={
             "name": "sPlug",
             "type": "Element",
@@ -1263,7 +1263,7 @@ class MusicalPart:
         },
     )
     part_style: Optional[PartStyle] = field(
-        default=None,
+        default_factory=PartStyle,
         metadata={
             "name": "pStyle",
             "type": "Element",
@@ -1324,7 +1324,7 @@ class VsTrack:
         },
     )
     comment: Optional[str] = field(
-        default=None,
+        default="Track",
         metadata={
             "type": "Element",
             "required": True,
@@ -1346,14 +1346,14 @@ class Vsq4:
         namespace = VSQ4_NS
 
     vender: Optional[str] = field(
-        default=None,
+        default="Yamaha Corporation",
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     version: Optional[str] = field(
-        default=None,
+        default="4.0.0.3",
         metadata={
             "type": "Element",
             "required": True,
@@ -1392,7 +1392,7 @@ class Vsq4:
         },
     )
     mono_track: Optional[MonoTrack] = field(
-        default=None,
+        default_factory=MonoTrack,
         metadata={
             "name": "monoTrack",
             "type": "Element",
@@ -1400,7 +1400,7 @@ class Vsq4:
         },
     )
     stereo_track: Optional[StereoTrack] = field(
-        default=None,
+        default_factory=StereoTrack,
         metadata={
             "name": "stTrack",
             "type": "Element",
