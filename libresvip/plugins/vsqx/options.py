@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from .enums import VocaloidLanguage
+
 
 class InputOptions(BaseModel):
     pass
@@ -8,6 +10,11 @@ class InputOptions(BaseModel):
 class OutputOptions(BaseModel):
     pretty_xml: bool = Field(
         True, title="Pretty XML", description="Whether to output pretty XML"
+    )
+    default_lang_id: VocaloidLanguage = Field(
+        VocaloidLanguage.SIMPLIFIED_CHINESE,
+        title="Default language",
+        description="Default language id of voicebank and notes",
     )
     default_comp_id: str = Field(
         "BETDB8W6KWZPYEB9",

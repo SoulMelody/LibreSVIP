@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
+from ..enums import VocaloidLanguage
+
 VSQ4_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/"
 
 
@@ -129,8 +131,8 @@ class Singer:
             "required": True,
         },
     )
-    v_bs: Optional[int] = field(
-        default=None,
+    v_bs: Optional[VocaloidLanguage] = field(
+        default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "bs",
             "type": "Element",
@@ -140,7 +142,7 @@ class Singer:
         },
     )
     v_pc: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "pc",
             "type": "Element",
@@ -273,7 +275,7 @@ class VVoiceParam:
         namespace = VSQ4_NS
 
     bre: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -282,7 +284,7 @@ class VVoiceParam:
         },
     )
     bri: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -291,7 +293,7 @@ class VVoiceParam:
         },
     )
     cle: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -300,7 +302,7 @@ class VVoiceParam:
         },
     )
     gen: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -309,7 +311,7 @@ class VVoiceParam:
         },
     )
     ope: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -668,8 +670,8 @@ class VVoice:
         name = "vVoice"
         namespace = VSQ4_NS
 
-    v_bs: Optional[int] = field(
-        default=None,
+    v_bs: Optional[VocaloidLanguage] = field(
+        default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "bs",
             "type": "Element",
@@ -679,7 +681,7 @@ class VVoice:
         },
     )
     v_pc: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "pc",
             "type": "Element",
@@ -706,7 +708,7 @@ class VVoice:
         },
     )
     v_voice_param: Optional[VVoiceParam] = field(
-        default=None,
+        default_factory=VVoiceParam,
         metadata={
             "name": "vPrm",
             "type": "Element",
@@ -1358,7 +1360,7 @@ class Vsq4:
         },
     )
     v_voice_table: Optional[VVoiceTable] = field(
-        default=None,
+        default_factory=VVoiceTable,
         metadata={
             "name": "vVoiceTable",
             "type": "Element",

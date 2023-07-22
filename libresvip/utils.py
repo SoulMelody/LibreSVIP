@@ -177,7 +177,7 @@ class EchoGenerator(saxutils.XMLGenerator):
             self._write(f" SYSTEM {saxutils.quoteattr(system_id)}")
 
     def end_dtd(self):
-        self._.write(">\n")
+        self._write(">\n")
 
     def start_entity(self, name):
         self._write(f"&{name};")

@@ -19,12 +19,14 @@ from .model import (
     Vsq4MusicalPart,
     Vsq4Note,
     Vsq4ParameterNames,
+    Vsq4Singer,
     Vsq4Tempo,
     Vsq4TimeSig,
     Vsq4TypeParamAttr,
     Vsq4TypePhonemes,
     Vsq4VsTrack,
     Vsq4VsUnit,
+    Vsq4VVoice,
 )
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
@@ -43,6 +45,12 @@ class VsqxGenerator:
             project.time_signature_list, master_track.pre_measure
         )
         master_track.tempo = self.generate_tempos(project.song_tempo_list, tick_prefix)
+        vsqx.v_voice_table.v_voice.append(
+            Vsq4VVoice(
+                comp_id=self.options.default_comp_id,
+                v_voice_name=self.options.default_singer_name,
+            )
+        )
         vsqx.vs_track, mixer.vs_unit = self.generate_singing_tracks(
             [track for track in project.track_list if isinstance(track, SingingTrack)],
             tick_prefix,
@@ -63,6 +71,7 @@ class VsqxGenerator:
                 pos_tick=tick_prefix,
                 play_time=track.note_list[-1].end_pos if track.note_list else 0,
                 note=self.generate_notes(track.note_list),
+                singer=[Vsq4Singer(v_bs=self.options.default_lang_id)],
             )
             if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
                 musical_part.m_ctrl = pitch

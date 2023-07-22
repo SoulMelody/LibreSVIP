@@ -7,6 +7,7 @@ from .models.vsqx3 import MonoTrack as Vsq3MonoTrack
 from .models.vsqx3 import MusicalPart as Vsq3MusicalPart
 from .models.vsqx3 import Note as Vsq3Note
 from .models.vsqx3 import ParameterNames as Vsq3ParameterNames
+from .models.vsqx3 import Singer as Vsq3Singer
 from .models.vsqx3 import StereoTrack as Vsq3StereoTrack
 from .models.vsqx3 import Tempo as Vsq3Tempo
 from .models.vsqx3 import TimeSig as Vsq3TimeSig
@@ -25,6 +26,7 @@ from .models.vsqx4 import MonoTrack as Vsq4MonoTrack
 from .models.vsqx4 import MusicalPart as Vsq4MusicalPart
 from .models.vsqx4 import Note as Vsq4Note
 from .models.vsqx4 import ParameterNames as Vsq4ParameterNames
+from .models.vsqx4 import Singer as Vsq4Singer
 from .models.vsqx4 import StereoTrack as Vsq4StereoTrack
 from .models.vsqx4 import Tempo as Vsq4Tempo
 from .models.vsqx4 import TimeSig as Vsq4TimeSig
@@ -46,6 +48,7 @@ VsqxMusicalPart = Union[Vsq3MusicalPart, Vsq4MusicalPart]
 VsqxNote = Union[Vsq3Note, Vsq4Note]
 VsqxParameterNames = Union[Vsq3ParameterNames, Vsq4ParameterNames]
 VsqxTypePhonemes = Union[Vsq3TypePhonemes, Vsq4TypePhonemes]
+VsqxSinger = Union[Vsq3Singer, Vsq4Singer]
 VsqxStereoTrack = Union[Vsq3StereoTrack, Vsq4StereoTrack]
 VsqxTempo = Union[Vsq3Tempo, Vsq4Tempo]
 VsqxTimeSig = Union[Vsq3TimeSig, Vsq4TimeSig]
