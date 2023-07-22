@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
+from ..enums import VocaloidLanguage
+
 VSQ3_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
 
@@ -20,7 +22,7 @@ class ParameterNames(Enum):
 class Aux:
     class Meta:
         name = "aux"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     aux_id: Optional[str] = field(
         default=None,
@@ -43,7 +45,7 @@ class Aux:
 class Dyn:
     class Meta:
         name = "dyn"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_sec: Optional[int] = field(
         default=None,
@@ -67,7 +69,7 @@ class Dyn:
 class Pch:
     class Meta:
         name = "pch"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_sec: Optional[int] = field(
         default=None,
@@ -91,7 +93,7 @@ class Pch:
 class Phnm:
     class Meta:
         name = "phnm"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_sec: Optional[int] = field(
         default=None,
@@ -123,7 +125,7 @@ class Phnm:
 class SeqAttr:
     class Meta:
         name = "seqAttr"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     elem: list["SeqAttr.Elem"] = field(
         default_factory=list,
@@ -163,7 +165,7 @@ class SeqAttr:
 class Singer:
     class Meta:
         name = "singer"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -173,8 +175,8 @@ class Singer:
             "required": True,
         },
     )
-    v_bs: Optional[int] = field(
-        default=None,
+    v_bs: Optional[VocaloidLanguage] = field(
+        default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "vBS",
             "type": "Element",
@@ -184,7 +186,7 @@ class Singer:
         },
     )
     v_pc: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "vPC",
             "type": "Element",
@@ -199,7 +201,7 @@ class Singer:
 class StylePlugin:
     class Meta:
         name = "stylePlugin"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     style_plugin_id: Optional[str] = field(
         default=None,
@@ -231,7 +233,7 @@ class StylePlugin:
 class Tempo:
     class Meta:
         name = "tempo"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -254,7 +256,7 @@ class Tempo:
 class TimeSig:
     class Meta:
         name = "timeSig"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_mes: Optional[int] = field(
         default=None,
@@ -343,10 +345,10 @@ class TypeVstSdkversion(Enum):
 class VVoiceParam:
     class Meta:
         name = "vVoiceParam"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     bre: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -355,7 +357,7 @@ class VVoiceParam:
         },
     )
     bri: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -364,7 +366,7 @@ class VVoiceParam:
         },
     )
     cle: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -373,7 +375,7 @@ class VVoiceParam:
         },
     )
     gen: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -382,7 +384,7 @@ class VVoiceParam:
         },
     )
     ope: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
             "required": True,
@@ -396,7 +398,7 @@ class VVoiceParam:
 class Voice:
     class Meta:
         name = "voice"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_sec: Optional[int] = field(
         default=None,
@@ -406,8 +408,8 @@ class Voice:
             "required": True,
         },
     )
-    v_bs: Optional[int] = field(
-        default=None,
+    v_bs: Optional[VocaloidLanguage] = field(
+        default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "vBS",
             "type": "Element",
@@ -417,7 +419,7 @@ class Voice:
         },
     )
     v_pc: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "vPC",
             "type": "Element",
@@ -432,7 +434,7 @@ class Voice:
 class MCtrl:
     class Meta:
         name = "mCtrl"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -455,7 +457,7 @@ class MCtrl:
 class MasterTrack:
     class Meta:
         name = "masterTrack"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     seq_name: Optional[str] = field(
         default=None,
@@ -480,7 +482,7 @@ class MasterTrack:
         },
     )
     pre_measure: Optional[int] = field(
-        default=None,
+        default=1,
         metadata={
             "name": "preMeasure",
             "type": "Element",
@@ -510,7 +512,7 @@ class MasterTrack:
 class NoteStyle:
     class Meta:
         name = "noteStyle"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     attr: list[TypeParamAttr] = field(
         default_factory=list,
@@ -531,7 +533,7 @@ class NoteStyle:
 class PCtrl:
     class Meta:
         name = "pCtrl"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_sec: Optional[int] = field(
         default=None,
@@ -554,7 +556,7 @@ class PCtrl:
 class PartStyle:
     class Meta:
         name = "partStyle"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     attr: list[TypeParamAttr] = field(
         default_factory=list,
@@ -569,7 +571,7 @@ class PartStyle:
 class PhraseStyle:
     class Meta:
         name = "phraseStyle"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -592,7 +594,7 @@ class PhraseStyle:
 class SCtrl:
     class Meta:
         name = "sCtrl"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -615,10 +617,10 @@ class SCtrl:
 class VVoice:
     class Meta:
         name = "vVoice"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
-    v_bs: Optional[int] = field(
-        default=None,
+    v_bs: Optional[VocaloidLanguage] = field(
+        default=VocaloidLanguage.SIMPLIFIED_CHINESE,
         metadata={
             "name": "vBS",
             "type": "Element",
@@ -628,7 +630,7 @@ class VVoice:
         },
     )
     v_pc: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "vPC",
             "type": "Element",
@@ -655,7 +657,7 @@ class VVoice:
         },
     )
     v_voice_param: Optional[VVoiceParam] = field(
-        default=None,
+        default_factory=VVoiceParam,
         metadata={
             "name": "vVoiceParam",
             "type": "Element",
@@ -668,7 +670,7 @@ class VVoice:
 class VstPlugin:
     class Meta:
         name = "vstPlugin"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     vst_plugin_id: Optional[str] = field(
         default=None,
@@ -749,7 +751,7 @@ class VstPlugin:
 class VstPluginSr:
     class Meta:
         name = "vstPluginSR"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     vst_plugin_id: Optional[str] = field(
         default=None,
@@ -830,7 +832,7 @@ class VstPluginSr:
 class WavPart:
     class Meta:
         name = "wavPart"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -902,7 +904,7 @@ class WavPart:
 class StereoTrack:
     class Meta:
         name = "karaokeTrack"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     wav_part: list[WavPart] = field(
         default_factory=list,
@@ -917,7 +919,7 @@ class StereoTrack:
 class StereoUnit:
     class Meta:
         name = "karaokeUnit"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     in_gain: Optional[int] = field(
         default=None,
@@ -966,7 +968,7 @@ class StereoUnit:
 class MasterUnit:
     class Meta:
         name = "masterUnit"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     out_dev: Optional[int] = field(
         default=None,
@@ -1012,7 +1014,7 @@ class MasterUnit:
 class Note:
     class Meta:
         name = "note"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -1076,7 +1078,7 @@ class Note:
 class ProsodyPart:
     class Meta:
         name = "prosodyPart"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -1149,7 +1151,7 @@ class ProsodyPart:
 class MonoTrack:
     class Meta:
         name = "seTrack"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     wav_part: list[WavPart] = field(
         default_factory=list,
@@ -1164,7 +1166,7 @@ class MonoTrack:
 class MonoUnit:
     class Meta:
         name = "seUnit"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     in_gain: Optional[int] = field(
         default=None,
@@ -1238,7 +1240,7 @@ class MonoUnit:
 class VVoiceTable:
     class Meta:
         name = "vVoiceTable"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     v_voice: list[VVoice] = field(
         default_factory=list,
@@ -1254,7 +1256,7 @@ class VVoiceTable:
 class VsUnit:
     class Meta:
         name = "vsUnit"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     vs_track_no: Optional[int] = field(
         default=None,
@@ -1338,7 +1340,7 @@ class VsUnit:
 class Mixer:
     class Meta:
         name = "mixer"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     master_unit: Optional[MasterUnit] = field(
         default=None,
@@ -1379,7 +1381,7 @@ class Mixer:
 class MusicalPart:
     class Meta:
         name = "musicalPart"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     pos_tick: Optional[int] = field(
         default=None,
@@ -1467,7 +1469,7 @@ class MusicalPart:
 class VsTrack:
     class Meta:
         name = "vsTrack"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     vs_track_no: Optional[int] = field(
         default=None,
@@ -1516,7 +1518,7 @@ class VsTrack:
 class Vsq3:
     class Meta:
         name = "vsq3"
-        namespace = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
+        namespace = VSQ3_NS
 
     vender: Optional[str] = field(
         default=None,
@@ -1533,7 +1535,7 @@ class Vsq3:
         },
     )
     v_voice_table: Optional[VVoiceTable] = field(
-        default=None,
+        default_factory=VVoiceTable,
         metadata={
             "name": "vVoiceTable",
             "type": "Element",
@@ -1541,14 +1543,14 @@ class Vsq3:
         },
     )
     mixer: Optional[Mixer] = field(
-        default=None,
+        default_factory=Mixer,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     master_track: Optional[MasterTrack] = field(
-        default=None,
+        default_factory=MasterTrack,
         metadata={
             "name": "masterTrack",
             "type": "Element",
