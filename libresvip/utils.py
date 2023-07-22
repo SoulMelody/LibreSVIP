@@ -42,12 +42,12 @@ def read_file(path: pathlib.Path) -> str:
     return to_unicode(content)
 
 
-def find_index(tempo_list: list[T], pred: Callable[[T], bool]) -> int:
-    return next(locate(tempo_list, pred), -1)
+def find_index(obj_list: list[T], pred: Callable[[T], bool]) -> int:
+    return next(locate(obj_list, pred), -1)
 
 
-def find_last_index(tempo_list: list[T], pred: Callable[[T], bool]) -> int:
-    return next(rlocate(tempo_list, pred), -1)
+def find_last_index(obj_list: list[T], pred: Callable[[T], bool]) -> int:
+    return next(rlocate(obj_list, pred), -1)
 
 
 def download_and_setup_ffmpeg():

@@ -86,6 +86,7 @@ class VocaloidParser:
                 elif part.ai_voice is not None:
                     comp_id = part.ai_voice.comp_id
                 singing_track = SingingTrack(
+                    title=part.name,
                     note_list=self.parse_notes(part.notes, part.pos),
                     ai_singer_name=self.comp_id2name.get(comp_id, ""),
                 )
