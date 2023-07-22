@@ -12,6 +12,8 @@ from libresvip.model.base import (
     Track,
 )
 
+from .constants import ControlChange
+from .midi_pitch import generate_for_midi
 from .options import OutputOptions
 
 
@@ -27,7 +29,7 @@ class MidiGenerator:
         return 1
 
     def encode_project(self, project: Project) -> mido.MidiFile:
-        mido_obj = mido.MidiFile()
+        mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         self.project = project
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         master_track = mido.MidiTrack()
@@ -90,9 +92,7 @@ class MidiGenerator:
             lyrics = [re.sub(r"(?!-)\p{punct}", "", lyric) for lyric in lyrics]
         pinyins = get_pinyin_series(lyrics)
         mido_track = mido.MidiTrack()
-        mido_track.name = track.title.encode(self.options.lyric_encoding).decode(
-            "latin-1"
-        )
+        mido_track.name = track.title
         for i, note in enumerate(track.note_list):
             if self.options.export_lyrics:
                 mido_track.append(
@@ -100,12 +100,7 @@ class MidiGenerator:
                         "lyrics",
                         text=(
                             pinyins[i] if self.options.compatible_lyric else lyrics[i]
-                        )
-                        .encode(
-                            self.options.lyric_encoding,
-                            errors="ignore",
-                        )
-                        .decode("latin-1"),
+                        ),
                         time=round(note.start_pos / self.tick_rate),
                     )
                 )
@@ -123,7 +118,37 @@ class MidiGenerator:
                     time=round(note.end_pos / self.tick_rate),
                 )
             )
-        # TODO: Add support for pitch bend
+        if pitch_data := generate_for_midi(track.edited_params.pitch, track.note_list):
+            for pbs_event in pitch_data.pbs:
+                msg_time = round(pbs_event.tick / self.tick_rate)
+                mido_track.extend([
+                    mido.Message(
+                        "control_change",
+                        control=ControlChange.RPN_MSB.value,
+                        value=0,
+                        time=msg_time,
+                    ),
+                    mido.Message(
+                        "control_change",
+                        control=ControlChange.RPN_LSB.value,
+                        value=0,
+                        time=msg_time,
+                    ),
+                    mido.Message(
+                        "control_change",
+                        control=ControlChange.DATA_ENTRY.value,
+                        value=pbs_event.value,
+                        time=msg_time,
+                    ),
+                ])
+            for pitch_event in pitch_data.pit:
+                mido_track.append(
+                    mido.Message(
+                        "pitchwheel",
+                        pitch=pitch_event.value,
+                        time=round(pitch_event.tick / self.tick_rate),
+                    )
+                )
         mido_track.sort(key=operator.attrgetter("time"))
         if len(mido_track):
             return mido_track

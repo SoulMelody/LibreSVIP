@@ -23,6 +23,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
 from .constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -128,7 +129,7 @@ class MidiParser:
         lyrics = collections.defaultdict(lambda: DEFAULT_CHINESE_LYRIC)
         track_name = None
         notes = []
-        pitch = ParamCurve()
+        rel_pitch = RelativePitchCurve()
         expression = ParamCurve()
         pitch_bend_sensitivity = DEFAULT_PITCH_BEND_SENSITIVITY
         volume_base = 0.0
@@ -136,14 +137,12 @@ class MidiParser:
             # Look for track name events
             if event.type == "track_name":
                 # Set the track name for the current track
-                track_name = event.name.encode("latin-1").decode(
-                    self.options.lyric_encoding, "ignore"
-                )
+                track_name = event.name
             # Note ons are note on events with velocity > 0
             elif event.type == "note_on" and event.velocity > 0:
                 # Store this as the last note-on location
                 note_on_index = (event.channel, event.note)
-                pitch.points.append(Point(round(event.time * self.tick_rate), 0))
+                rel_pitch.points.append(Point(round(event.time * self.tick_rate), 0))
                 last_note_on[note_on_index].append(event.time)
             # Note offs can also be note on events with 0 velocity
             elif event.type == "note_off" or (
@@ -196,7 +195,7 @@ class MidiParser:
             # Store pitch bends
             elif event.type == "pitchwheel":
                 # Create pitch bend class instance
-                pitch.points.append(
+                rel_pitch.points.append(
                     Point(
                         round(event.time * self.tick_rate),
                         pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE,
@@ -205,9 +204,7 @@ class MidiParser:
             # Store lyrics
             elif event.type == "lyrics":
                 if self.options.import_lyrics:
-                    lyric = event.text.encode("latin-1").decode(
-                        self.options.lyric_encoding
-                    )
+                    lyric = event.text
                     lyrics[event.time] = lyric
             elif event.type == "control_change":
                 if (
@@ -230,7 +227,8 @@ class MidiParser:
                     volume_base = velocity_to_db_change(event.value)
                 else:
                     pass
-        pitch.points.root.sort(key=operator.attrgetter("x"))
+        rel_pitch.points.root.sort(key=operator.attrgetter("x"))
+        pitch = rel_pitch.to_absolute(notes)
         edited_params = Params(
             pitch=pitch,
             volume=expression,
