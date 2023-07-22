@@ -6,6 +6,7 @@ import math
 import pathlib
 from types import FunctionType
 from typing import Callable, Optional, TypeVar
+from xml.sax import saxutils
 
 import charset_normalizer
 import regex as re
@@ -143,3 +144,52 @@ def midi2note(midi: float, *, round_midi=True) -> str:
     octave = (midi // 12) - 1
     pitch = pitch_map[midi % 12]
     return f"{pitch}{octave}"
+
+
+class EchoGenerator(saxutils.XMLGenerator):
+    # from https://code.activestate.com/recipes/84516-using-the-sax2-lexicalhandler-interface/
+
+    def __init__(self, out=None, encoding="iso-8859-1", short_empty_elements=False):
+        super().__init__(out, encoding, short_empty_elements)
+        self._in_entity = 0
+        self._in_cdata = 0
+
+    def characters(self, content):
+        if self._in_entity:
+            return
+        elif self._in_cdata:
+            self._write(content)
+        else:
+            super().characters(content)
+
+    # -- LexicalHandler interface
+
+    def comment(self, content):
+        self._write(f"<!--{content}-->")
+
+    def start_dtd(self, name, public_id, system_id):
+        self._write(f"<!DOCTYPE {name}")
+        if public_id:
+            self._write(
+                f" PUBLIC {saxutils.quoteattr(public_id)} {saxutils.quoteattr(system_id)}"
+            )
+        elif system_id:
+            self._write(f" SYSTEM {saxutils.quoteattr(system_id)}")
+
+    def end_dtd(self):
+        self._.write(">\n")
+
+    def start_entity(self, name):
+        self._write(f"&{name};")
+        self._in_entity = 1
+
+    def end_entity(self, name):
+        self._in_entity = 0
+
+    def start_cdata(self):
+        self._write("<![CDATA[")
+        self._in_cdata = 1
+
+    def end_cdata(self):
+        self._write("]]>")
+        self._in_cdata = 0

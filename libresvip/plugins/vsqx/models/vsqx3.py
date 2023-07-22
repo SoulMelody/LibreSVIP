@@ -5,6 +5,17 @@ from typing import Optional
 VSQ3_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq3/"
 
 
+class ParameterNames(Enum):
+    DYN = "DYN"
+    BRE = "BRE"
+    BRI = "BRI"
+    CLE = "CLE"
+    GEN = "GEN"
+    POR = "POR"
+    PBS = "PBS"
+    PIT = "PIT"
+
+
 @dataclass
 class Aux:
     class Meta:

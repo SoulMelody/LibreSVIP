@@ -1,23 +1,22 @@
 import pathlib
 from typing import Any, TextIO
 
-import regex as re
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
-from xsdata.formats.dataclass.serializers.xml import (
-    SerializerConfig,
-    XmlSerializer,
-)
+from xsdata.formats.dataclass.serializers.xml import SerializerConfig, XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.utils import EchoGenerator
 
-from .model import VocalSharpProject
+from .model import Vsqx
+from .models.vsqx4 import VSQ4_NS
 from .options import InputOptions, OutputOptions
+from .vsqx_generator import VsqxGenerator
+from .vsqx_parser import VsqxParser
 
 
-class VocalSharpXMLWriter(XmlEventWriter):
+class VocaloidXMLWriter(XmlEventWriter):
     def __init__(self, config: SerializerConfig, output: TextIO, ns_map: dict):
         super().__init__(config, output, ns_map)
         self.handler = EchoGenerator(
@@ -31,14 +30,14 @@ class VocalSharpXMLWriter(XmlEventWriter):
             and len(self.pending_tag) > 1
             and self.pending_tag[1]
             in (
+                "y",
+                "p",
+                "id",
                 "name",
-                "Name",
-                "Singer",
-                "lyric",
-                "LSD",
-                "symbol",
-                "sample",
-                "path",
+                "seqName",
+                "vender",
+                "comment",
+                "version",
             )
         ):
             self.flush_start(False)
@@ -55,32 +54,24 @@ class VocalSharpXMLWriter(XmlEventWriter):
             self.output.write(f' encoding="{self.config.encoding}" standalone="no"?>\n')
 
 
-def strip_whitespace(matcher):
-    first_tag = matcher.group(1)
-    second_tag = matcher.group(2)
-    if first_tag != second_tag:
-        return f"</{first_tag}><{second_tag}>"
-    else:
-        return matcher.group()
-
-
-class VocalSharpConverter(plugin_base.SVSConverterBase):
+class VsqxConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        raise NotImplementedError
-        parser = XmlParser()
-        parsed = parser.parse(path, VocalSharpProject)
-        return parsed
+        xml_parser = XmlParser()
+        vsqx_proj: Vsqx = xml_parser.from_bytes(path.read_bytes())
+        return VsqxParser(options).parse_project(vsqx_proj)
 
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
-        raise NotImplementedError
-        serializer = XmlSerializer(
-            config=SerializerConfig(pretty_print=True, pretty_print_indent="\t"),
-            writer=VocalSharpXMLWriter,
+        vsqx_proj = VsqxGenerator(options).generate_project(project)
+        xml_serializer = XmlSerializer(
+            config=SerializerConfig(
+                pretty_print=options.pretty_xml,
+                pretty_print_indent="\t",
+                schema_location=f"{VSQ4_NS} vsq4.xsd",
+            ),
+            writer=VocaloidXMLWriter,
         )
-        xml_text = serializer.render(project)
-        xml_text = re.sub(r"(<[a-zA-Z]>)\s+", r"\1", xml_text)
-        xml_text = re.sub(r"\s+(</[a-zA-Z]>)", r"\1", xml_text)
-        xml_text = re.sub(r"</([a-z])>\s+<([a-z])>", strip_whitespace, xml_text)
-        path.write_text(xml_text, encoding="utf-8")
+        path.write_text(
+            xml_serializer.render(vsqx_proj, ns_map={None: VSQ4_NS}), encoding="utf-8"
+        )

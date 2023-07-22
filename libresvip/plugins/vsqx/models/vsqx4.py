@@ -5,6 +5,19 @@ from typing import Optional
 VSQ4_NS = "http://www.yamaha.co.jp/vocaloid/schema/vsq4/"
 
 
+class ParameterNames(Enum):
+    DYN = "D"
+    BRE = "B"
+    BRI = "R"
+    CLE = "C"
+    GEN = "G"
+    POR = "T"
+    PBS = "S"
+    PIT = "P"
+    XSY = "X"
+    GWL = "W"
+
+
 @dataclass
 class Aux:
     class Meta:
@@ -176,7 +189,7 @@ class TimeSig:
             "required": True,
         },
     )
-    numi: Optional[int] = field(
+    nume: Optional[int] = field(
         default=None,
         metadata={
             "name": "nu",
@@ -383,7 +396,7 @@ class MCtrl:
         },
     )
     attr: Optional[TypeParamAttr] = field(
-        default=None,
+        default_factory=TypeParamAttr,
         metadata={
             "name": "v",
             "type": "Element",
@@ -421,7 +434,7 @@ class MasterTrack:
         },
     )
     pre_measure: Optional[int] = field(
-        default=None,
+        default=1,
         metadata={
             "name": "preMeasure",
             "type": "Element",
@@ -1224,9 +1237,10 @@ class MusicalPart:
             "required": True,
         },
     )
-    name: Optional[str] = field(
+    part_name: Optional[str] = field(
         default=None,
         metadata={
+            "name": "name",
             "type": "Element",
             "required": True,
         },
@@ -1299,9 +1313,10 @@ class VsTrack:
             "max_inclusive": 127,
         },
     )
-    name: Optional[str] = field(
+    track_name: Optional[str] = field(
         default=None,
         metadata={
+            "name": "name",
             "type": "Element",
             "required": True,
         },
@@ -1351,14 +1366,14 @@ class Vsq4:
         },
     )
     mixer: Optional[Mixer] = field(
-        default=None,
+        default_factory=Mixer,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
     master_track: Optional[MasterTrack] = field(
-        default=None,
+        default_factory=MasterTrack,
         metadata={
             "name": "masterTrack",
             "type": "Element",

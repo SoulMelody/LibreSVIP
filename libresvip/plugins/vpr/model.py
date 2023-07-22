@@ -2,7 +2,7 @@ import enum
 from dataclasses import dataclass
 from typing import Annotated, Optional, Union
 
-from pydantic import Field
+from pydantic import ConfigDict, Field
 
 from libresvip.model.base import BaseModel
 
@@ -105,9 +105,10 @@ class VocaloidCompID(BaseModel):
     comp_id: Optional[str] = Field(alias="compID")
 
 
-
 class VocaloidLangID(BaseModel):
-    lang_id: Optional[VocaloidLanguage] = Field(VocaloidLanguage.SIMPLIFIED_CHINESE, alias="langID")
+    lang_id: Optional[VocaloidLanguage] = Field(
+        VocaloidLanguage.SIMPLIFIED_CHINESE, alias="langID"
+    )
 
 
 class VocaloidVoice(VocaloidCompID, VocaloidLangID):
@@ -237,7 +238,11 @@ class VocaloidVoicePart(VocaloidWithDur):
         ]
 
 
-class VocaloidWavPart(VocaloidBasePos, extra="forbid"):
+class VocaloidWavPart(VocaloidBasePos):
+    model_config = ConfigDict(
+        populate_by_name=True,
+        extra="forbid",
+    )
     region: Optional[VocaloidRegion] = None
     name: Optional[str] = ""
     wav: Optional[VocaloidWav] = None
