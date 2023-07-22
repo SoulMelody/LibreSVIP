@@ -21,6 +21,7 @@ from typing import Optional, TypedDict, Union, get_args, get_type_hints
 from nicegui import app, ui
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.globals import get_client
+from nicegui.storage import request_contextvar
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -94,7 +95,15 @@ def page_layout(lang: Optional[str] = None):
     cur_client = get_client()
 
     if "lang" not in app.storage.user:
-        app.storage.user["lang"] = "en_US"
+        request = request_contextvar.get()
+        if accept_lang := request.headers.get("accept-language"):
+            first_lang = accept_lang.split(",")[0].partition(";")[0]
+            if first_lang.startswith("zh"):
+                app.storage.user["lang"] = "zh_CN"
+            elif first_lang.startswith("ja"):
+                app.storage.user["lang"] = "ja_JP"
+        if "lang" not in app.storage.user:
+            app.storage.user["lang"] = "en_US"
     if lang is None:
         lang = app.storage.user["lang"]
     try:
