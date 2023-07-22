@@ -3,7 +3,6 @@ from typing import Optional
 
 from libresvip.model.base import Note, ParamCurve, Point, Points
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.plugins.vpr.model import ControllerEvent
 
 from .constants import (
     BORDER_APPEND_RADIUS,
@@ -11,7 +10,7 @@ from .constants import (
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
     PITCH_MAX_VALUE,
 )
-from .model import VocaloidPartPitchData
+from .model import ControllerEvent, VocaloidPartPitchData
 
 
 def pitch_from_vocaloid_parts(data_by_parts: list[VocaloidPartPitchData], note_list: list[Note]) -> Optional[ParamCurve]:

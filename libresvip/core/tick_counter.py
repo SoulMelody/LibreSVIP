@@ -8,10 +8,9 @@ def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTe
         for tempo in tempo_list
         if tempo.position >= skip_ticks
     ]
-    if len(result) and result[0].position <= 0:
-        return result
-    i = find_last_index(tempo_list, lambda tempo: tempo.position <= skip_ticks)
-    result.insert(0, tempo_list[i].model_copy(update={"position": 0}))
+    if not result or result[0].position > 0:
+        i = find_last_index(tempo_list, lambda tempo: tempo.position <= skip_ticks)
+        result.insert(0, tempo_list[i].model_copy(update={"position": 0}))
     return result
 
 
@@ -24,7 +23,8 @@ def skip_beat_list(
         if beat.bar_index >= skip_bars
     ]
     if not result or result[0].bar_index > 0:
-        result.insert(0, beat_list[0].model_copy(update={"bar_index": 0}))
+        i = find_last_index(beat_list, lambda beat: beat.bar_index <= skip_bars)
+        result.insert(0, beat_list[i].model_copy(update={"bar_index": 0}))
     return result
 
 
