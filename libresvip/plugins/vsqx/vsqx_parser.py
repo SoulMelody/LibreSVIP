@@ -25,6 +25,7 @@ from .model import (
     VsqxTempo,
     VsqxTimeSig,
     VsqxVsTrack,
+    VsqxVsUnit,
     VsqxWavPart,
 )
 from .options import InputOptions
@@ -51,13 +52,20 @@ class VsqxParser:
             master_track.time_sig, measure_prefix
         )
         tempos = self.parse_tempos(master_track.tempo, tick_prefix)
-        singing_tracks = self.parse_singing_tracks(vsqx_project.vs_track, tick_prefix)
+        singing_tracks = self.parse_singing_tracks(vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix)
         wav_parts = []
+        wav_units = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part
+            wav_units += [vsqx_project.mixer.mono_unit] * len(
+                vsqx_project.mono_track.wav_part
+            )
         if vsqx_project.stereo_track is not None:
             wav_parts += vsqx_project.stereo_track.wav_part
-        instrumental_tracks = self.parse_instrumental_tracks(wav_parts, tick_prefix)
+            wav_units += [vsqx_project.mixer.stereo_unit] * len(
+                vsqx_project.stereo_track.wav_part
+            )
+        instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -100,11 +108,12 @@ class VsqxParser:
     def parse_singing_tracks(
         self,
         vs_tracks: list[VsqxVsTrack],
+        vs_units: list[VsqxVsUnit],
         tick_prefix: int,
     ) -> list[SingingTrack]:
         singing_tracks = []
-        for vs_track in vs_tracks:
-            singing_track = SingingTrack(title=vs_track.track_name)
+        for vs_track, vs_unit in zip(vs_tracks, vs_units):
+            singing_track = SingingTrack(title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo)
             for musical_part in vs_track.musical_part:
                 tick_offset = musical_part.pos_tick - tick_prefix
                 note_list = self.parse_notes(musical_part.note, tick_prefix)
@@ -155,6 +164,7 @@ class VsqxParser:
     def parse_instrumental_tracks(
         self,
         wav_parts: list[VsqxWavPart],
+        wav_units: list[VsqxVsUnit],
         tick_prefix: int,
     ) -> list[InstrumentalTrack]:
         return [
@@ -162,6 +172,8 @@ class VsqxParser:
                 title=wav_part.part_name,
                 audio_file_path=wav_part.file_path,
                 offset=wav_part.pos_tick - tick_prefix,
+                mute=wav_unit.mute,
+                solo=wav_unit.solo,
             )
-            for wav_part in wav_parts
+            for wav_part, wav_unit in zip(wav_parts, wav_units)
         ]

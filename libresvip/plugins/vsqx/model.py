@@ -8,6 +8,7 @@ from .models.vsqx3 import MasterTrack as Vsq3MasterTrack
 from .models.vsqx3 import MCtrl as Vsq3MCtrl
 from .models.vsqx3 import Mixer as Vsq3Mixer
 from .models.vsqx3 import MonoTrack as Vsq3MonoTrack
+from .models.vsqx3 import MonoUnit as Vsq3MonoUnit
 from .models.vsqx3 import MusicalPart as Vsq3MusicalPart
 from .models.vsqx3 import Note as Vsq3Note
 from .models.vsqx3 import NoteStyle as Vsq3NoteStyle
@@ -15,6 +16,7 @@ from .models.vsqx3 import ParameterNames as Vsq3ParameterNames
 from .models.vsqx3 import PartStyle as Vsq3PartStyle
 from .models.vsqx3 import Singer as Vsq3Singer
 from .models.vsqx3 import StereoTrack as Vsq3StereoTrack
+from .models.vsqx3 import StereoUnit as Vsq3StereoUnit
 from .models.vsqx3 import Tempo as Vsq3Tempo
 from .models.vsqx3 import TimeSig as Vsq3TimeSig
 from .models.vsqx3 import TypeParamAttr as Vsq3TypeParamAttr
@@ -29,6 +31,7 @@ from .models.vsqx4 import MasterTrack as Vsq4MasterTrack
 from .models.vsqx4 import MCtrl as Vsq4MCtrl
 from .models.vsqx4 import Mixer as Vsq4Mixer
 from .models.vsqx4 import MonoTrack as Vsq4MonoTrack
+from .models.vsqx4 import MonoUnit as Vsq4MonoUnit
 from .models.vsqx4 import MusicalPart as Vsq4MusicalPart
 from .models.vsqx4 import Note as Vsq4Note
 from .models.vsqx4 import NoteStyle as Vsq4NoteStyle
@@ -36,6 +39,7 @@ from .models.vsqx4 import ParameterNames as Vsq4ParameterNames
 from .models.vsqx4 import PartStyle as Vsq4PartStyle
 from .models.vsqx4 import Singer as Vsq4Singer
 from .models.vsqx4 import StereoTrack as Vsq4StereoTrack
+from .models.vsqx4 import StereoUnit as Vsq4StereoUnit
 from .models.vsqx4 import Tempo as Vsq4Tempo
 from .models.vsqx4 import TimeSig as Vsq4TimeSig
 from .models.vsqx4 import TypeParamAttr as Vsq4TypeParamAttr
@@ -52,6 +56,7 @@ VsqxMasterTrack = Union[Vsq3MasterTrack, Vsq4MasterTrack]
 VsqxMCtrl = Union[Vsq3MCtrl, Vsq4MCtrl]
 VsqxMixer = Union[Vsq3Mixer, Vsq4Mixer]
 VsqxMonoTrack = Union[Vsq3MonoTrack, Vsq4MonoTrack]
+VsqxMonoUnit = Union[Vsq3MonoUnit, Vsq4MonoUnit]
 VsqxMusicalPart = Union[Vsq3MusicalPart, Vsq4MusicalPart]
 VsqxNote = Union[Vsq3Note, Vsq4Note]
 VsqxNoteStyle = Union[Vsq3NoteStyle, Vsq4NoteStyle]
@@ -60,6 +65,7 @@ VsqxPartStyle = Union[Vsq3PartStyle, Vsq4PartStyle]
 VsqxTypePhonemes = Union[Vsq3TypePhonemes, Vsq4TypePhonemes]
 VsqxSinger = Union[Vsq3Singer, Vsq4Singer]
 VsqxStereoTrack = Union[Vsq3StereoTrack, Vsq4StereoTrack]
+VsqxStereoUnit = Union[Vsq3StereoUnit, Vsq4StereoUnit]
 VsqxTempo = Union[Vsq3Tempo, Vsq4Tempo]
 VsqxTimeSig = Union[Vsq3TimeSig, Vsq4TimeSig]
 VsqxTypeParamAttr = Union[Vsq3TypeParamAttr, Vsq4TypeParamAttr]

@@ -4,7 +4,7 @@ from typing import Optional
 
 
 @dataclass
-class VSPXParamMixin(abc.ABC):
+class VSPXParamBase(abc.ABC):
     time: Optional[int] = field(
         default=None,
         metadata={
@@ -22,55 +22,55 @@ class VSPXParamMixin(abc.ABC):
 
 
 @dataclass
-class BRE(VSPXParamMixin):
+class BRE(VSPXParamBase):
     class Meta:
         name = "B"
 
 
 @dataclass
-class DYN(VSPXParamMixin):
+class DYN(VSPXParamBase):
     class Meta:
         name = "D"
 
 
 @dataclass
-class GEN(VSPXParamMixin):
+class GEN(VSPXParamBase):
     class Meta:
         name = "G"
 
 
 @dataclass
-class PIT(VSPXParamMixin):
+class PIT(VSPXParamBase):
     class Meta:
         name = "P"
 
 
 @dataclass
-class BRI(VSPXParamMixin):
+class BRI(VSPXParamBase):
     class Meta:
         name = "R"
 
 
 @dataclass
-class STR(VSPXParamMixin):
+class STR(VSPXParamBase):
     class Meta:
         name = "S"
 
 
 @dataclass
-class VOC(VSPXParamMixin):
+class VOC(VSPXParamBase):
     class Meta:
         name = "V"
 
 
 @dataclass
-class GWL(VSPXParamMixin):
+class GWL(VSPXParamBase):
     class Meta:
         name = "W"
 
 
 @dataclass
-class XSY(VSPXParamMixin):
+class XSY(VSPXParamBase):
     class Meta:
         name = "X"
 
@@ -78,21 +78,21 @@ class XSY(VSPXParamMixin):
 @dataclass
 class Beat:
     bar_index: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "name": "barIndex",
             "type": "Element",
         },
     )
     beat_per_bar: Optional[int] = field(
-        default=None,
+        default=4,
         metadata={
             "name": "beatPerBar",
             "type": "Element",
         },
     )
     bar_divide: Optional[int] = field(
-        default=None,
+        default=4,
         metadata={
             "name": "barDivide",
             "type": "Element",
@@ -103,50 +103,50 @@ class Beat:
 @dataclass
 class DefaultParameter:
     dyn: Optional[int] = field(
-        default=None,
+        default=128,
         metadata={
             "type": "Element",
         },
     )
     strength: Optional[int] = field(
-        default=None,
+        default=128,
         metadata={
             "name": "str",
             "type": "Element",
         },
     )
     bri: Optional[int] = field(
-        default=None,
+        default=128,
         metadata={
             "type": "Element",
         },
     )
     voc: Optional[int] = field(
-        default=None,
+        default=255,
         metadata={
             "type": "Element",
         },
     )
     bre: Optional[int] = field(
-        default=None,
+        default=128,
         metadata={
             "type": "Element",
         },
     )
     gen: Optional[int] = field(
-        default=None,
+        default=128,
         metadata={
             "type": "Element",
         },
     )
     gwl: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
         },
     )
     xsy: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
         },
@@ -156,25 +156,25 @@ class DefaultParameter:
 @dataclass
 class Trill:
     pos: Optional[float] = field(
-        default=None,
+        default=0.25,
         metadata={
             "type": "Element",
         },
     )
     amplitude: Optional[float] = field(
-        default=None,
+        default=0.5,
         metadata={
             "type": "Element",
         },
     )
     frequency: Optional[float] = field(
-        default=None,
+        default=5.5,
         metadata={
             "type": "Element",
         },
     )
     phase: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
         },
@@ -204,44 +204,44 @@ class Sequence:
 
 
 @dataclass
-class InstrumentalTrack:
+class InstrumentalTrackBase(abc.ABC):
     name: Optional[str] = field(
-        default=None,
+        default="神秘立体声_1",
         metadata={
             "name": "Name",
             "type": "Element",
         },
     )
-    pan: Optional[int] = field(
-        default=None,
+    pan: Optional[float] = field(
+        default=0,
         metadata={
             "name": "Pan",
             "type": "Element",
         },
     )
-    gain: Optional[int] = field(
-        default=None,
+    gain: Optional[float] = field(
+        default=0,
         metadata={
             "name": "Gain",
             "type": "Element",
         },
     )
     is_mute: Optional[str] = field(
-        default=None,
+        default="False",
         metadata={
             "name": "IsMute",
             "type": "Element",
         },
     )
     is_solo: Optional[str] = field(
-        default=None,
+        default="False",
         metadata={
             "name": "IsSolo",
             "type": "Element",
         },
     )
-    sequences: list[Sequence] = field(
-        default_factory=list,
+    sequences: Optional[list[Sequence]] = field(
+        default=None,
         metadata={
             "name": "Sequence",
             "type": "Element",
@@ -250,15 +250,27 @@ class InstrumentalTrack:
 
 
 @dataclass
+class StereoTrack(InstrumentalTrackBase):
+    class Meta:
+        name = "StereoTrack"
+
+
+@dataclass
+class MonoTrack(InstrumentalTrackBase):
+    class Meta:
+        name = "MonoTrack"
+
+
+@dataclass
 class Tempo:
     pos: Optional[int] = field(
-        default=None,
+        default=0,
         metadata={
             "type": "Element",
         },
     )
-    bpm: Optional[int] = field(
-        default=None,
+    bpm: Optional[float] = field(
+        default=120,
         metadata={
             "type": "Element",
         },
@@ -270,13 +282,13 @@ class Point:
     class Meta:
         name = "p"
 
-    x: Optional[int] = field(
+    x: Optional[float] = field(
         default=None,
         metadata={
             "type": "Element",
         },
     )
-    y: Optional[int] = field(
+    y: Optional[float] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -413,14 +425,14 @@ class Note:
 @dataclass
 class NoteTrack:
     name: Optional[str] = field(
-        default=None,
+        default="神秘轨道_0",
         metadata={
             "name": "Name",
             "type": "Element",
         },
     )
     singer: Optional[str] = field(
-        default=None,
+        default="神秘歌手",
         metadata={
             "name": "Singer",
             "type": "Element",
@@ -433,14 +445,14 @@ class NoteTrack:
             "type": "Element",
         },
     )
-    pan: Optional[int] = field(
+    pan: Optional[float] = field(
         default=None,
         metadata={
             "name": "Pan",
             "type": "Element",
         },
     )
-    gain: Optional[int] = field(
+    gain: Optional[float] = field(
         default=None,
         metadata={
             "name": "Gain",
@@ -448,28 +460,28 @@ class NoteTrack:
         },
     )
     is_mute: Optional[str] = field(
-        default=None,
+        default="False",
         metadata={
             "name": "IsMute",
             "type": "Element",
         },
     )
     is_solo: Optional[str] = field(
-        default=None,
+        default="False",
         metadata={
             "name": "IsSolo",
             "type": "Element",
         },
     )
     default_parameter: Optional[DefaultParameter] = field(
-        default=None,
+        default_factory=DefaultParameter,
         metadata={
             "name": "DefaultParameter",
             "type": "Element",
         },
     )
     por: Optional[float] = field(
-        default=None,
+        default=0.07,
         metadata={
             "type": "Element",
         },
@@ -493,14 +505,14 @@ class NoteTrack:
 @dataclass
 class Project:
     samples_per_sec: Optional[int] = field(
-        default=None,
+        default=44100,
         metadata={
             "name": "SamplesPerSec",
             "type": "Element",
         },
     )
     resolution: Optional[int] = field(
-        default=None,
+        default=1920,
         metadata={
             "name": "Resolution",
             "type": "Element",
@@ -514,21 +526,21 @@ class Project:
         },
     )
     default_trill: Optional[Trill] = field(
-        default=None,
+        default_factory=Trill,
         metadata={
             "name": "DefaultTrill",
             "type": "Element",
         },
     )
     tempo: Optional[list[Tempo]] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "Tempo",
             "type": "Element",
         },
     )
     beat: Optional[list[Beat]] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "Beat",
             "type": "Element",
@@ -541,8 +553,8 @@ class Project:
             mixed=True,
             choices=(
                 {"name": "NoteTrack", "type": NoteTrack},
-                {"name": "StereoTrack", "type": InstrumentalTrack},
-                {"name": "MonoTrack", "type": InstrumentalTrack},
+                {"name": "StereoTrack", "type": StereoTrack},
+                {"name": "MonoTrack", "type": MonoTrack},
             ),
         ),
     )
@@ -554,14 +566,14 @@ class VocalSharpProject:
         name = "VSPX"
 
     version: Optional[str] = field(
-        default=None,
+        default="Beta0.0.0",
         metadata={
             "name": "Version",
             "type": "Element",
         },
     )
     project: Optional[Project] = field(
-        default=None,
+        default_factory=Project,
         metadata={
             "name": "Project",
             "type": "Element",

@@ -856,8 +856,8 @@ class MonoTrack:
         name = "monoTrack"
         namespace = VSQ4_NS
 
-    wav_part: list[WavPart] = field(
-        default_factory=list,
+    wav_part: Optional[list[WavPart]] = field(
+        default=None,
         metadata={
             "name": "wavPart",
             "type": "Element",
@@ -1014,8 +1014,8 @@ class StereoTrack:
         name = "stTrack"
         namespace = VSQ4_NS
 
-    wav_part: list[WavPart] = field(
-        default_factory=list,
+    wav_part: Optional[list[WavPart]] = field(
+        default=None,
         metadata={
             "name": "wavPart",
             "type": "Element",
@@ -1330,8 +1330,8 @@ class VsTrack:
             "required": True,
         },
     )
-    musical_part: list[MusicalPart] = field(
-        default_factory=list,
+    musical_part: Optional[list[MusicalPart]] = field(
+        default=None,
         metadata={
             "name": "vsPart",
             "type": "Element",
