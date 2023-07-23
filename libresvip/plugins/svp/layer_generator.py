@@ -37,7 +37,6 @@ class SigmoidNode:
     sigmoid_r: Callable[[float], float] = dataclasses.field(init=False)
     d_sigmoid_l: Callable[[float], float] = dataclasses.field(init=False)
     d_sigmoid_r: Callable[[float], float] = dataclasses.field(init=False)
-    k: int = dataclasses.field(default=5.5, init=False)
     _start: dataclasses.InitVar[float]
     _end: dataclasses.InitVar[float]
     _center: dataclasses.InitVar[float]
@@ -45,61 +44,49 @@ class SigmoidNode:
     _key_left: dataclasses.InitVar[int]
     _key_right: dataclasses.InitVar[int]
 
+    @property
+    def k(self) -> float:
+        return 5.5
+
     def __post_init__(self, _start, _end, _center, _radius, _key_left, _key_right):
         self.start = _start
         self.end = _end
         self.center = _center
-        h = (_key_left - _key_right) * 100
+        h = (_key_right - _key_left) * 100
         a = 1 / (1 + math.exp(self.k))
         power = 0.75
+
         l = self.center - self.start
-        if l >= _radius or l <= 0:
+        if l >= _radius:
             k_l = self.k
             h_l = h
-            d_l = 0.0
+            d_l = 0
         else:
-            a_l = a * (_radius / l) ** power
-            b_l = l / _radius
-            c_l = a_l * b_l * self.k / (2 * a_l - 1)
-            k_l = a_l / (2 * a_l - 1) * self.k - 1 / b_l * LambertW.evaluate(
-                c_l * math.exp(c_l), -1
-            )
+            al = a * math.pow(_radius / l, power)
+            bl = l / _radius
+            cl = al * bl * self.k / (2 * al - 1)
+            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(cl * math.exp(cl), -1)
             h_l = h * k_l / (2 * k_l - self.k)
             d_l = -_radius / k_l * math.log(2 * h_l / h - 1)
-        self.sigmoid_l = lambda x: (
-            _key_left * 100
-            + h_l / (1 + math.exp(-k_l / _radius * (x - self.center + d_l)))
-        )
 
-        def d_sigmoid_l(x):
-            exp = math.exp(-k_l / _radius * (x - self.center + d_l))
-            return h_l * k_l / _radius * exp / (1 + exp) ** 2
+        self.sigmoid_l = lambda x: _key_left * 100 + h_l / (1 + math.exp(-k_l / _radius * (x - self.center + d_l)))
+        self.d_sigmoid_l = lambda x: h_l * k_l / _radius * math.exp(-k_l / _radius * (x - self.center + d_l)) / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
 
-        self.d_sigmoid_l = d_sigmoid_l
         r = self.end - self.center
-        if r >= _radius or r <= 0:
+        if r >= _radius:
             k_r = self.k
             h_r = h
-            d_r = 0.0
+            d_r = 0
         else:
-            a_r = a * (_radius / r) ** power
-            b_r = r / _radius
-            c_r = a_r * b_r * self.k / (2 * a_r - 1)
-            k_r = a_r / (2 * a_r - 1) * self.k - 1 / b_r * LambertW.evaluate(
-                c_r * math.exp(c_r), -1
-            )
+            ar = a * math.pow(_radius / r, power)
+            br = r / _radius
+            cr = ar * br * self.k / (2 * ar - 1)
+            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
             h_r = h * k_r / (2 * k_r - self.k)
             d_r = -_radius / k_r * math.log(2 * h_r / h - 1)
-        self.sigmoid_r = lambda x: (
-            _key_right * 100
-            - h_r / (1 + math.exp(-k_r / _radius * (self.center - x + d_r)))
-        )
 
-        def d_sigmoid_r(x):
-            exp = math.exp(-k_r / _radius * (self.center - x + d_r))
-            return h_r * k_r / _radius * exp / (1 + exp) ** 2
-
-        self.d_sigmoid_r = d_sigmoid_r
+        self.sigmoid_r = lambda x: _key_right * 100 - h_r / (1 + math.exp(-k_r / _radius * (self.center - x + d_r)))
+        self.d_sigmoid_r = lambda x: h_r * k_r / _radius * math.exp(-k_r / _radius * (self.center - x + d_r)) / math.pow(1 + math.exp(-k_r / _radius * (self.center - x + d_r)), 2)
 
     def value_at_secs(self, secs: float) -> float:
         return self.sigmoid_l(secs) if secs <= self.center else self.sigmoid_r(secs)

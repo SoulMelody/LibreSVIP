@@ -278,11 +278,15 @@ def page_layout(lang: Optional[str] = None):
                             choices,
                             label=_(field_info.title),
                             value=default_value,
+                        ).bind_value(
+                            option_dict, option_key
                         ).classes("flex-grow")
                     elif issubclass(field_info.annotation, Color):
                         ui.color_input(
                             label=_(field_info.title),
                             value=default_value,
+                        ).bind_value(
+                            option_dict, option_key
                         ).classes("flex-grow")
                     elif issubclass(field_info.annotation, (str, BaseComplexModel)):
                         if issubclass(field_info.annotation, BaseComplexModel):
@@ -290,11 +294,15 @@ def page_layout(lang: Optional[str] = None):
                         ui.input(
                             label=_(field_info.title),
                             value=default_value,
+                        ).bind_value(
+                            option_dict, option_key
                         ).classes("flex-grow")
                     elif issubclass(field_info.annotation, (int, float)):
                         with ui.number(
                             label=_(field_info.title),
                             value=default_value,
+                        ).bind_value(
+                            option_dict, option_key
                         ).classes("flex-grow") as num_input:
                             if issubclass(field_info.annotation, int):
                                 num_input.validation = {

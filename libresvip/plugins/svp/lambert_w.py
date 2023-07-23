@@ -26,10 +26,10 @@ class LambertW:
     @classmethod
     def estimate(cls, x: float, branch: int = 0) -> float:
         if branch == -1:
-            if x > -0.2706706:
-                return -2
+            if x > -1 / math.e:
+                return -1 - math.log(-x / math.e - 1)
             else:
-                return -1 - math.acos(-4.11727 * x - 0.514659)
+                return -1 - math.sqrt(2 * (math.e * x + 1))
         else:
             return -1 + math.log(1 / math.e + math.e + x)
 

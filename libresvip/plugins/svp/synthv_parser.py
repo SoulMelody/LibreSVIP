@@ -45,7 +45,7 @@ from .track_merge_utils import track_override_with
 TICK_RATE = 1470000
 
 
-clip = partial(clamp, min_val=-1000, max_val=1000)
+clip = partial(clamp, lower=-1000, upper=1000)
 
 @dataclasses.dataclass
 class SynthVParser:
@@ -318,6 +318,7 @@ class SynthVParser:
                 for note in self.note_list
             ]
         ).expand(120)
+
         if self.options.pitch in {PitchOption.VIBRATO, PitchOption.PLAIN}:
             regard_default_vibrato_as_unedited = self.options.pitch == PitchOption.PLAIN
             pitch_interval = 0.1
@@ -379,10 +380,12 @@ class SynthVParser:
         curve.points.append(Point.start_point())
         for start, end in interval.shift(self.first_bar_tick).sub_ranges():
             curve.points.append(Point(start, -100))
-            for i in range(start, end, step):
-                curve.points.append(
+            curve.points.extend(
+                (
                     Point(i, generator.value_at_ticks(i - self.first_bar_tick))
+                    for i in range(start, end, step)
                 )
+            )
             curve.points.append(
                 Point(end, generator.value_at_ticks(end - self.first_bar_tick))
             )
