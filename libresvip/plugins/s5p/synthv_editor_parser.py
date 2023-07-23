@@ -143,7 +143,7 @@ class SynthVEditorParser:
     @staticmethod
     def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> ParamCurve:
         return ParamCurve(
-            point_list=Points(
+            points=Points(
                 root=[
                     Point(
                         x=round(point.offset * (interval / TICK_RATE)),

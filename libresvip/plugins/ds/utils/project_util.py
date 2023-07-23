@@ -67,8 +67,8 @@ def split_into_segments(project: Project, min_interval: int = 400, min_length: i
                 track_list=[SingingTrack(
                     note_list=buffer,
                     edited_params=Params(
-                        pitch=ParamCurve(point_list=Points(root=pitch_points)),
-                        gender=ParamCurve(point_list=Points(root=gender_points))
+                        pitch=ParamCurve(points=Points(root=pitch_points)),
+                        gender=ParamCurve(points=Points(root=gender_points))
                     )
                 )]
             )
@@ -91,8 +91,8 @@ def split_into_segments(project: Project, min_interval: int = 400, min_length: i
         track_list=[SingingTrack(
             note_list=buffer,
             edited_params=Params(
-                pitch=ParamCurve(point_list=Points(root=pitch_points)),
-                gender=ParamCurve(point_list=Points(root=gender_points))
+                pitch=ParamCurve(points=Points(root=pitch_points)),
+                gender=ParamCurve(points=Points(root=gender_points))
             )
         )]
     )

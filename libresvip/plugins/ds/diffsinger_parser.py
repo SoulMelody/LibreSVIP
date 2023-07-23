@@ -178,4 +178,4 @@ class DiffSingerParser:
                 )
             )
         points.append(Point.end_point())
-        return ParamCurve(point_list=points)
+        return ParamCurve(points=points)

@@ -5,12 +5,11 @@ from typing import Optional
 
 from more_itertools import pairwise
 
-from libresvip.model.base import BaseModel, Field, Note, ParamCurve, Points
+from libresvip.model.base import Note, ParamCurve, Points
 from libresvip.model.point import Point
 
 
-class RelativePitchCurve(BaseModel):
-    points: Points = Field(default_factory=Points)
+class RelativePitchCurve(ParamCurve):
 
     def to_absolute(self, note_list: list[Note]) -> ParamCurve:
         param_curve = ParamCurve()
