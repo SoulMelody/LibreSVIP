@@ -1175,13 +1175,13 @@ reference = "tuna"
 
 [[package]]
 name = "identify"
-version = "2.5.25"
+version = "2.5.26"
 description = "File identification library for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "identify-2.5.25-py2.py3-none-any.whl", hash = "sha256:9df2489842707d431b38ce3410ef8df40da5b10a3e28a3fcac1a42523e956409"},
-    {file = "identify-2.5.25.tar.gz", hash = "sha256:db4de0e758c0db8f81996816cd2f3f2f8c5c8d49a7fd02f3b4109aac6fd80e29"},
+    {file = "identify-2.5.26-py2.py3-none-any.whl", hash = "sha256:c22a8ead0d4ca11f1edd6c9418c3220669b3b7533ada0a0ffa6cc0ef85cf9b54"},
+    {file = "identify-2.5.26.tar.gz", hash = "sha256:7243800bce2f58404ed41b7c002e53d4d22bcf3ae1b7900c2d7aefd95394bf7f"},
 ]
 
 [package.extras]
@@ -4181,13 +4181,13 @@ reference = "tuna"
 
 [[package]]
 name = "xsdata"
-version = "23.6"
+version = "23.7"
 description = "Python XML Binding"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "xsdata-23.6-py3-none-any.whl", hash = "sha256:5a8df1211642c79949ab4eab31dfc383993ef2c2eb9253613f131048b7bfd735"},
-    {file = "xsdata-23.6.tar.gz", hash = "sha256:695a38de23d270a772d803e260c17eef65d98354884a955e30f08075c0f574a8"},
+    {file = "xsdata-23.7-py3-none-any.whl", hash = "sha256:ccfc72098275dcb65c558cf7850d71e01af3e1c212483f4df4e5d273f6d0e1dc"},
+    {file = "xsdata-23.7.tar.gz", hash = "sha256:8d79e9078d8ff4f8c4830ecda1208613a4b5e283a41e4cd304561bf6fca96aac"},
 ]
 
 [package.dependencies]
@@ -4276,4 +4276,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "44bbe2ea61473429532a16ff065d5bba3cba57d975021c23f2a658ced9cffbc5"
+content-hash = "78f80c6aa44ee6e0a9ec0a325e6b36bbf785bb1a6f54f19ea66422bc251c9212"

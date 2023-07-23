@@ -15,6 +15,8 @@ from libresvip.utils import EchoGenerator
 
 from .model import VocalSharpProject
 from .options import InputOptions, OutputOptions
+from .vspx_generator import VocalSharpGenerator
+from .vspx_parser import VocalSharpParser
 
 
 class VocalSharpXMLWriter(XmlEventWriter):
@@ -55,7 +57,7 @@ class VocalSharpXMLWriter(XmlEventWriter):
             self.output.write(f' encoding="{self.config.encoding}" standalone="no"?>\n')
 
 
-def strip_whitespace(matcher):
+def strip_whitespace(matcher: re.Match) -> str:
     first_tag = matcher.group(1)
     second_tag = matcher.group(2)
     if first_tag != second_tag:
@@ -64,23 +66,28 @@ def strip_whitespace(matcher):
         return matcher.group()
 
 
+def replace_self_closed(matcher: re.Match) -> str:
+    indent = matcher.group(1)
+    tag = matcher.group(2)
+    return f"{indent}<{tag}>{indent}</{tag}>"
+
+
 class VocalSharpConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        raise NotImplementedError
-        parser = XmlParser()
-        parsed = parser.from_bytes(path.read_bytes(), VocalSharpProject)
-        return parsed
+        vspx_project = XmlParser().from_bytes(path.read_bytes(), VocalSharpProject)
+        return VocalSharpParser(options).parse_project(vspx_project)
 
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
-        raise NotImplementedError
+        vspx_project = VocalSharpGenerator(options).generate_project(project)
         serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True, pretty_print_indent="\t"),
             writer=VocalSharpXMLWriter,
         )
-        xml_text = serializer.render(project)
+        xml_text = serializer.render(vspx_project)
         xml_text = re.sub(r"(<[a-zA-Z]>)\s+", r"\1", xml_text)
         xml_text = re.sub(r"\s+(</[a-zA-Z]>)", r"\1", xml_text)
         xml_text = re.sub(r"</([a-z])>\s+<([a-z])>", strip_whitespace, xml_text)
+        xml_text = re.sub(r"(\n\s*)<([a-zA-Z]+)/>", replace_self_closed, xml_text)
         path.write_text(xml_text, encoding="utf-8")

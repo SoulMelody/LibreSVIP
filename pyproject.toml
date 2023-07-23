@@ -47,7 +47,7 @@ ass = "^0.5.4"
 construct-typing = "^0.5.6"
 
 [tool.poetry.group.xml.dependencies]
-xsdata = { version = "^23.6" }
+xsdata = { version = "^23.7" }
 
 [tool.poetry.group.text.dependencies]
 textx = "^3.1.1"
@@ -80,7 +80,7 @@ static-ffmpeg = "^2.5"
 optional = true
 
 [tool.poetry.group.code_gen.dependencies]
-xsdata = { extras = ["cli"], version = "^23.6" }
+xsdata = { extras = ["cli"], version = "^23.7" }
 datamodel-code-generator = "^0.21.2"
 translate-toolkit = "^3.9.2"
 babel = "^2.12.1"
