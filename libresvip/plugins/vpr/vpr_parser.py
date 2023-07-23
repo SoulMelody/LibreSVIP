@@ -1,5 +1,4 @@
 import dataclasses
-import itertools
 
 from libresvip.core.constants import DEFAULT_ENGLISH_LYRIC
 from libresvip.model.base import (
@@ -70,36 +69,43 @@ class VocaloidParser:
 
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:
         track_list = []
-        for part in itertools.chain.from_iterable(track.parts for track in tracks):
-            if isinstance(part, VocaloidWavPart):
-                # wav_path = f"Project/Audio/{part.name}"
-                instrumental_track = InstrumentalTrack(
-                    title=part.name,
-                    offset=part.pos,
-                    audio_file_path=part.wav.original_name,
-                )
-                track_list.append(instrumental_track)
-            elif isinstance(part, VocaloidVoicePart):
-                comp_id = None
-                if part.voice is not None:
-                    comp_id = part.voice.comp_id
-                elif part.ai_voice is not None:
-                    comp_id = part.ai_voice.comp_id
-                singing_track = SingingTrack(
-                    title=part.name,
-                    note_list=self.parse_notes(part.notes, part.pos),
-                    ai_singer_name=self.comp_id2name.get(comp_id, ""),
-                )
-                part_data = VocaloidPartPitchData(
-                    start_pos=part.pos,
-                    pit=part.get_controller_events(PITCH_BEND_NAME),
-                    pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
-                )
-                if (part_pitch := pitch_from_vocaloid_parts(
-                    [part_data], singing_track.note_list
-                )) is not None:
-                    singing_track.edited_params.pitch = part_pitch
-                track_list.append(singing_track)
+        for track in tracks:
+            for part in track.parts:
+                if isinstance(part, VocaloidWavPart):
+                    # wav_path = f"Project/Audio/{part.name}"
+                    instrumental_track = InstrumentalTrack(
+                        title=part.name,
+                        offset=part.pos,
+                        mute=track.is_muted,
+                        Solo=track.is_solo_mode,
+                        audio_file_path=part.wav.original_name,
+                    )
+                    track_list.append(instrumental_track)
+                elif isinstance(part, VocaloidVoicePart):
+                    comp_id = None
+                    if part.voice is not None:
+                        comp_id = part.voice.comp_id
+                    elif part.ai_voice is not None:
+                        comp_id = part.ai_voice.comp_id
+                    singing_track = SingingTrack(
+                        title=part.name,
+                        mute=track.is_muted,
+                        Solo=track.is_solo_mode,
+                        note_list=self.parse_notes(part.notes, part.pos),
+                        ai_singer_name=self.comp_id2name.get(comp_id, ""),
+                    )
+                    part_data = VocaloidPartPitchData(
+                        start_pos=part.pos,
+                        pit=part.get_controller_events(PITCH_BEND_NAME),
+                        pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
+                    )
+                    if (
+                        part_pitch := pitch_from_vocaloid_parts(
+                            [part_data], singing_track.note_list
+                        )
+                    ) is not None:
+                        singing_track.edited_params.pitch = part_pitch
+                    track_list.append(singing_track)
         return track_list
 
     def parse_notes(self, notes: list[VocaloidNotes], pos: int) -> list[Note]:

@@ -132,7 +132,14 @@ class VocaloidGenerator:
                         self.end_tick,
                         wav_part.region.end,
                     )
-                    tracks.append(VocaloidTracks(name=track.title, parts=[wav_part]))
+                    tracks.append(
+                        VocaloidTracks(
+                            name=track.title,
+                            parts=[wav_part],
+                            is_muted=track.mute,
+                            is_solo_mode=track.solo,
+                        )
+                    )
             elif isinstance(track, SingingTrack):
                 notes = [
                     VocaloidNotes(
@@ -169,7 +176,12 @@ class VocaloidGenerator:
                             comp_id=self.options.default_comp_id,
                             lang_id=self.options.default_lang_id,
                         )
-                track = VocaloidTracks(name=track.title, parts=[part] if part else [])
+                track = VocaloidTracks(
+                    name=track.title,
+                    parts=[part] if part else [],
+                    is_muted=track.mute,
+                    is_solo_mode=track.solo,
+                )
                 track.panpot.events.append(VocaloidPoint(pos=0, value=0))
                 tracks.append(track)
                 if duration:

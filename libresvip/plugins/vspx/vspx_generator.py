@@ -1,8 +1,14 @@
+import contextlib
 import dataclasses
+import math
+from typing import Union
 
+from pydub import AudioSegment
+from pydub.exceptions import CouldntDecodeError
 from xsdata.formats.dataclass.models.generics import AnyElement
 
 from libresvip.model.base import (
+    InstrumentalTrack,
     Note,
     Project,
     SingingTrack,
@@ -14,9 +20,12 @@ from libresvip.utils import midi2note
 from .model import (
     VocalSharpBeat,
     VocalSharpDefaultTrill,
+    VocalSharpMonoTrack,
     VocalSharpNote,
     VocalSharpNoteTrack,
     VocalSharpProject,
+    VocalSharpSequence,
+    VocalSharpStereoTrack,
     VocalSharpSyllable,
     VocalSharpTempo,
 )
@@ -42,21 +51,32 @@ class VocalSharpGenerator:
         vspx_project.project.elements.extend(
             self.generate_time_signatures(project.time_signature_list)
         )
+        singing_tracks = self.generate_singing_tracks(
+            [track for track in project.track_list if isinstance(track, SingingTrack)]
+        )
+        vspx_project.project.elements.extend(singing_tracks)
         vspx_project.project.elements.extend(
-            self.generate_singing_tracks(
+            self.generate_instrumental_tracks(
                 [
                     track
                     for track in project.track_list
-                    if isinstance(track, SingingTrack)
+                    if isinstance(track, InstrumentalTrack)
                 ]
             )
         )
         max_duration = max(
-            (note.end_pos for track in project.track_list for note in track.note_list),
+            (
+                note.pos + note.duration
+                for track in singing_tracks
+                for note in track.note
+            ),
             default=0,
         )
+        vspx_duration = (
+            math.ceil(max(max_duration - 122880, 0) / 30720) * 30720 + 122880
+        )
         vspx_project.project.elements.insert(
-            2, AnyElement(qname="Duration", text=max_duration)
+            2, AnyElement(qname="Duration", text=vspx_duration)
         )
         return vspx_project
 
@@ -80,6 +100,38 @@ class VocalSharpGenerator:
             )
             for tempo in tempos
         ]
+
+    def generate_instrumental_tracks(
+        self, instrumental_tracks: list[InstrumentalTrack]
+    ) -> list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]:
+        track_list = []
+        for track in instrumental_tracks:
+            with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
+                audio_segment = AudioSegment.from_file(track.audio_file_path)
+                sequence = VocalSharpSequence(
+                    name=track.title,
+                    path=track.audio_file_path,
+                    pos=track.offset,
+                )
+                if audio_segment.channels == 1:
+                    track_list.append(
+                        VocalSharpMonoTrack(
+                            name=track.title,
+                            is_mute=str(track.mute),
+                            is_solo=str(track.solo),
+                            sequences=[sequence],
+                        )
+                    )
+                elif audio_segment.channels == 2:
+                    track_list.append(
+                        VocalSharpStereoTrack(
+                            name=track.title,
+                            is_mute=str(track.mute),
+                            is_solo=str(track.solo),
+                            sequences=[sequence],
+                        )
+                    )
+        return track_list
 
     def generate_singing_tracks(
         self, singing_tracks: list[SingingTrack]

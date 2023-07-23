@@ -82,7 +82,8 @@ def shorten_error_message(message: Optional[str]) -> str:
         message = "\n".join(error_lines[:15] + ["..."] + error_lines[-15:])
     return message
 
-def clamp(x: Real, lower: Real = float('-inf'), upper: Real = float('inf')) -> Real:
+
+def clamp(x: Real, lower: Real = float("-inf"), upper: Real = float("inf")) -> Real:
     """Limit a value to a given range.
 
     The returned value is guaranteed to be between *lower* and
@@ -96,11 +97,13 @@ def clamp(x: Real, lower: Real = float('-inf'), upper: Real = float('inf')) -> R
 
     """
     if upper < lower:
-        raise ValueError('expected upper bound (%r) >= lower bound (%r)'
-                         % (upper, lower))
+        raise ValueError(
+            "expected upper bound (%r) >= lower bound (%r)" % (upper, lower)
+        )
     return min(max(x, lower), upper)
 
 
+# convertion functions adapted from librosa
 def midi2hz(midi: float, a4_midi=69, base_freq=440.0) -> float:
     return base_freq * 2 ** ((midi - a4_midi) / 12)
 

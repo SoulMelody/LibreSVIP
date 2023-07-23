@@ -204,7 +204,7 @@ class VocalSharpSequence:
     class Meta:
         name = "Sequence"
 
-    pos: Optional[float] = field(
+    pos: Optional[int] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -266,7 +266,7 @@ class VocalSharpTrackBase(abc.ABC):
 @dataclass
 class VocalSharpInstrumentalTrackBase(VocalSharpTrackBase, abc.ABC):
     sequences: Optional[list[VocalSharpSequence]] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "Sequence",
             "type": "Element",
