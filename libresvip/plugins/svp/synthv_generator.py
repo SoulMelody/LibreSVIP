@@ -22,7 +22,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import find_index, find_last_index
+from libresvip.utils import clamp, find_index, find_last_index
 
 from .interval_utils import ticks_to_position
 from .model import (
@@ -446,7 +446,7 @@ class SynthVGenerator:
             and notes[0].edited_phones.head_length_in_secs > 0
         ):
             ratio = notes[0].edited_phones.head_length_in_secs / current_phone_marks[0]
-            current_sv_note.attributes.set_phone_duration(0, max(0.2, min(1.8, ratio)))
+            current_sv_note.attributes.set_phone_duration(0, clamp(ratio, 0.2, 1.8))
         for next_note, cur_pinyin, next_pinyin in zip(
             notes[1:], self.lyrics_pinyin[:-1], self.lyrics_pinyin[1:]
         ):
@@ -487,12 +487,12 @@ class SynthVGenerator:
                     y *= final_ratio
                     z *= final_ratio
                 current_sv_note.attributes.set_phone_duration(
-                    index, max(0.2, min(1.8, x))
+                    index, clamp(x, 0.2, 1.8)
                 )
                 current_sv_note.attributes.set_phone_duration(
-                    index + 1, max(0.2, min(1.8, y))
+                    index + 1, clamp(y, 0.2, 1.8)
                 )
-                next_sv_note.attributes.set_phone_duration(0, max(0.2, min(1.8, z)))
+                next_sv_note.attributes.set_phone_duration(0, clamp(z, 0.2, 1.8))
             elif current_main_part_edited:
                 ratio = (
                     current_note.edited_phones.mid_ratio_over_tail
@@ -501,10 +501,10 @@ class SynthVGenerator:
                 x = 2 * ratio / (1 + ratio)
                 y = 2 / (1 + ratio)
                 current_sv_note.attributes.set_phone_duration(
-                    index, max(0.2, min(1.8, x))
+                    index, clamp(x, 0.2, 1.8)
                 )
                 current_sv_note.attributes.set_phone_duration(
-                    index + 1, max(0.2, min(1.8, y))
+                    index + 1, clamp(y, 0.2, 1.8)
                 )
             elif next_head_part_edited:
                 ratio = (
@@ -518,8 +518,8 @@ class SynthVGenerator:
                 ):
                     ratio_z = 2 * ratio / (1 + ratio)
                     ratio_xy = 2 / (1 + ratio)
-                    ratio_z = max(0.2, min(1.8, ratio_z))
-                    ratio_xy = max(0.2, min(1.8, ratio_xy))
+                    ratio_z = clamp(ratio_z, 0.2, 1.8)
+                    ratio_xy = clamp(ratio_xy, 0.2, 1.8)
                     current_sv_note.attributes.set_phone_duration(index, ratio_xy)
                     if current_phone_marks[1] > 0:
                         current_sv_note.attributes.set_phone_duration(
@@ -548,9 +548,9 @@ class SynthVGenerator:
             x = 2 * ratio / (1 + ratio)
             y = 2 / (1 + ratio)
             index = 1 if current_phone_marks[0] > 0 else 0
-            current_sv_note.attributes.set_phone_duration(index, max(0.2, min(1.8, x)))
+            current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
             current_sv_note.attributes.set_phone_duration(
-                index + 1, max(0.2, min(1.8, y))
+                index + 1, clamp(y, 0.2, 1.8)
             )
         if current_sv_note.attributes.dur is not None:
             expected_length = number_of_phones(self.lyrics_pinyin[-1])

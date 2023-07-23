@@ -3,6 +3,7 @@ from typing import Optional
 
 from libresvip.model.base import Note, ParamCurve, Point, Points
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
+from libresvip.utils import clamp
 
 from .constants import (
     BORDER_APPEND_RADIUS,
@@ -90,16 +91,14 @@ def generate_for_vocaloid(pitch: ParamCurve, notes: list[Note]) -> Optional[Voca
             pit.extend(
                 ControllerEvent(
                     pitch_pos,
-                    min(
-                        max(
-                            round(
-                                pitch_value
-                                * PITCH_MAX_VALUE
-                                / 100
-                                / pbs_for_this_section
-                            ),
-                            -PITCH_MAX_VALUE,
+                    clamp(
+                        round(
+                            pitch_value
+                            * PITCH_MAX_VALUE
+                            / 100
+                            / pbs_for_this_section
                         ),
+                        -PITCH_MAX_VALUE,
                         PITCH_MAX_VALUE,
                     ),
                 )

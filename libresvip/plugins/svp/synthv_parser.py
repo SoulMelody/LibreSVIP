@@ -1,5 +1,5 @@
 import dataclasses
-from functools import reduce
+from functools import partial, reduce
 from typing import Callable, Optional
 
 import regex as re
@@ -22,7 +22,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import find_index
+from libresvip.utils import clamp, find_index
 
 from . import interpolation
 from .interval_utils import position_to_ticks
@@ -45,6 +45,8 @@ from .track_merge_utils import track_override_with
 TICK_RATE = 1470000
 
 
+clip = partial(clamp, min_val=-1000, max_val=1000)
+
 @dataclasses.dataclass
 class SynthVParser:
     options: InputOptions
@@ -58,17 +60,13 @@ class SynthVParser:
     group_split_counts: dict[str, int] = dataclasses.field(default_factory=dict)
     tracks_from_groups: list[Track] = dataclasses.field(default_factory=list)
 
-    @staticmethod
-    def clip(val: int) -> int:
-        return max(-1000, min(1000, val))
-
     def actual_value_at(
         self,
         compound_expr: CompoundParam,
         mapping_func: Callable[[float], int],
         ticks: int,
     ) -> int:
-        return self.clip(mapping_func(compound_expr.value_at_ticks(ticks) / 1000))
+        return clip(mapping_func(compound_expr.value_at_ticks(ticks) / 1000))
 
     @staticmethod
     def parse_interpolation(mode: str) -> Callable[[float], float]:
@@ -129,7 +127,7 @@ class SynthVParser:
         )
         if master_curve is None or not len(master_curve.points):
             curve.points = [
-                Point(point.x, self.clip(point.y))
+                Point(point.x, clip(point.y))
                 for point in generator.get_converted_curve(5)
             ]
             return curve
@@ -146,7 +144,7 @@ class SynthVParser:
                 _base_value=decoded_base_value,
             )
             curve.points = [
-                Point(point.x, self.clip(point.y))
+                Point(point.x, clip(point.y))
                 for point in master_generator.get_converted_curve(5)
             ]
             return curve

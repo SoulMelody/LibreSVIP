@@ -4,7 +4,7 @@ from typing import Callable, NamedTuple
 
 import more_itertools
 
-from libresvip.utils import find_index
+from libresvip.utils import clamp, find_index
 
 from .lambert_w import LambertW
 
@@ -123,29 +123,23 @@ class BaseLayerGenerator:
             if current_note.key == next_note.key:
                 continue
             if next_note.start - current_note.end <= MAX_BREAK:
-                start = max(
+                start = clamp(
+                    current_note.end
+                    - current_note.slide_right
+                    + next_note.slide_offset,
                     current_note.start,
-                    min(
-                        current_note.end,
-                        current_note.end
-                        - current_note.slide_right
-                        + next_note.slide_offset,
-                    ),
+                    current_note.end,
                 )
-                end = max(
+                end = clamp(
+                    next_note.start + next_note.slide_left + next_note.slide_offset,
                     next_note.start,
-                    min(
-                        next_note.end,
-                        next_note.start + next_note.slide_left + next_note.slide_offset,
-                    ),
+                    next_note.end,
                 )
-                mid = max(
+                mid = clamp(
+                    (current_note.end + next_note.start) / 2
+                    + next_note.slide_offset,
                     start,
-                    min(
-                        end,
-                        (current_note.end + next_note.start) / 2
-                        + next_note.slide_offset,
-                    ),
+                    end,
                 )
                 self.sigmoid_nodes.append(
                     SigmoidNode(
@@ -348,9 +342,10 @@ class GaussianLayerGenerator:
                 )
             else:
                 middle = (current_note.end + next_note.start) / 2
-                origin = max(
+                origin = clamp(
+                    middle + current_note.slide_offset,
                     current_note.start,
-                    min(current_note.end, middle + current_note.slide_offset),
+                    current_note.end,
                 )
 
                 depth_l = (

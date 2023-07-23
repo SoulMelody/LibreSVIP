@@ -4,6 +4,7 @@ import functools
 import gettext
 import math
 import pathlib
+from numbers import Real
 from types import FunctionType
 from typing import Callable, Optional, TypeVar
 from xml.sax import saxutils
@@ -80,6 +81,24 @@ def shorten_error_message(message: Optional[str]) -> str:
     if len(error_lines) > 30:
         message = "\n".join(error_lines[:15] + ["..."] + error_lines[-15:])
     return message
+
+def clamp(x: Real, lower: Real = float('-inf'), upper: Real = float('inf')) -> Real:
+    """Limit a value to a given range.
+
+    The returned value is guaranteed to be between *lower* and
+    *upper*. Integers, floats, and other comparable types can be
+    mixed.
+
+    Similar to `numpy's clip`_ function.
+
+    .. _numpy's clip: http://docs.scipy.org/doc/numpy/reference/generated/numpy.clip.html
+    .. from boltons: https://boltons.readthedocs.io/en/latest/mathutils.html#boltons.mathutils.clamp
+
+    """
+    if upper < lower:
+        raise ValueError('expected upper bound (%r) >= lower bound (%r)'
+                         % (upper, lower))
+    return min(max(x, lower), upper)
 
 
 def midi2hz(midi: float, a4_midi=69, base_freq=440.0) -> float:

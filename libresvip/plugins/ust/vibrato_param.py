@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Point
+from libresvip.utils import clamp
 
 
 @dataclass
@@ -50,11 +51,10 @@ def append_utau_note_vibrato(
     def vibrato(t: float) -> float:
         if t < start:
             return 0.0
-        else:
-            ease_in_factor = min(max((t - start) / ease_in_length, 0.0), 1.0)
-            ease_out_factor = min(max((note_length - t) / ease_out_length, 0.0), 1.0)
-            x = 2 * math.pi * (frequency * (t - start) - phase)
-            return depth * ease_in_factor * ease_out_factor * (math.sin(x) + shift)
+        ease_in_factor = clamp((t - start) / ease_in_length, 0.0, 1.0)
+        ease_out_factor = clamp((note_length - t) / ease_out_length, 0.0, 1.0)
+        x = 2 * math.pi * (frequency * (t - start) - phase)
+        return depth * ease_in_factor * ease_out_factor * (math.sin(x) + shift)
 
     note_start_in_millis = tick_time_transformer.get_actual_secs_from_ticks(note_start.start_pos) * 1000
 
