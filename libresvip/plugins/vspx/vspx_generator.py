@@ -1,8 +1,10 @@
+import bisect
 import contextlib
 import dataclasses
 import math
-from typing import Union
+from typing import Optional, Union
 
+import more_itertools
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
 from xsdata.formats.dataclass.models.generics import AnyElement
@@ -10,6 +12,7 @@ from xsdata.formats.dataclass.models.generics import AnyElement
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
@@ -18,11 +21,13 @@ from libresvip.model.base import (
 from libresvip.utils import midi2note
 
 from .model import (
+    PIT,
     VocalSharpBeat,
     VocalSharpDefaultTrill,
     VocalSharpMonoTrack,
     VocalSharpNote,
     VocalSharpNoteTrack,
+    VocalSharpParameter,
     VocalSharpProject,
     VocalSharpSequence,
     VocalSharpStereoTrack,
@@ -35,9 +40,11 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class VocalSharpGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> VocalSharpProject:
         vspx_project = VocalSharpProject()
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         vspx_project.project.elements.extend(
             [
                 AnyElement(qname="SamplesPerSec", text=44100),
@@ -145,6 +152,10 @@ class VocalSharpGenerator:
                 is_solo=str(track.solo),
                 note=self.generate_notes(track.note_list),
             )
+            if pitch_points := self.generate_pitch(
+                track.edited_params.pitch, track.note_list
+            ):
+                note_track.parameter = VocalSharpParameter(points=pitch_points)
             note_tracks.append(note_track)
         return note_tracks
 
@@ -159,3 +170,45 @@ class VocalSharpGenerator:
             )
             for note in notes
         ]
+
+    def generate_pitch(self, pitch: ParamCurve, note_list: list[Note]) -> list[PIT]:
+        note_boundaries = [
+            (prev_note.end_pos + next_note.start_pos) // 2
+            for prev_note, next_note in more_itertools.pairwise(note_list)
+        ]
+        pitch_points = []
+        prev_point: Optional[PIT] = None
+        for point in pitch.points:
+            cur_tick = point.x - self.first_bar_length
+            note = note_list[
+                min(
+                    bisect.bisect_left(note_boundaries, cur_tick),
+                    len(note_list) - 1,
+                )
+            ]
+            if point.y > 0:
+                if prev_point is not None:
+                    distance = cur_tick - prev_point.time
+                    for i in range(1, distance + 1):
+                        next_value = point.y - note.key_number * 100
+                        interpolated_value = round(
+                            prev_point.value
+                            + (next_value - prev_point.value) * i / distance
+                        )
+                        pitch_points.append(
+                            PIT(
+                                time=prev_point.time + i,
+                                value=interpolated_value,
+                            )
+                        )
+                else:
+                    pitch_points.append(
+                        PIT(
+                            time=cur_tick,
+                            value=point.y - note.key_number * 100,
+                        )
+                    )
+                prev_point = pitch_points[-1]
+            else:
+                prev_point = None
+        return pitch_points

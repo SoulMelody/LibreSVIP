@@ -15,7 +15,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import hz2midi, midi2hz, note2midi
+from libresvip.utils import note2midi
 
 from .model import (
     PIT,
@@ -146,19 +146,12 @@ class VocalSharpParser:
                         len(note_list) - 1,
                     )
                 ]
-                param_freq = midi2hz(
-                    note.key_number, a4_midi=57
-                ) + vspx_point.value * 10 / (90 - note.key_number)
-                if (
-                    param_freq > 0
-                    and (pit_value := hz2midi(param_freq, a4_midi=57)) > 0
-                ):
-                    pitch_points.append(
-                        Point(
-                            x=cur_tick,
-                            y=round(pit_value * 100),
-                        )
+                pitch_points.append(
+                    Point(
+                        x=cur_tick,
+                        y=round((note.key_number + vspx_point.value / 100) * 100),
                     )
+                )
                 prev_tick = cur_tick
         if len(pitch_points):
             pitch_points.append(Point(x=pitch_points[-1].x, y=-100))
