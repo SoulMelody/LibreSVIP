@@ -41,7 +41,7 @@ def test_vshp_read(shared_datadir):
     print(normlized_path)
 
 
-def test_dv_read(shared_datadir):
+def test_dv_read(shared_datadir, pretty_construct):
     from libresvip.plugins.dv.model import dv_project_struct
 
     proj_path = shared_datadir / "test.dv"
@@ -49,15 +49,16 @@ def test_dv_read(shared_datadir):
     pprint(asdict(proj))
 
 
-def test_mtp_read(shared_datadir):
+def test_mtp_read(shared_datadir, pretty_construct):
     from libresvip.plugins.mtp.model import MutaTrackType, muta_project_struct
 
     proj_path = shared_datadir / "test.mtp"
     proj = muta_project_struct.parse_file(proj_path)
-    for track in proj.tracks:
-        if track.track_type == MutaTrackType.SONG:
-            for note in track.song_track_data.notes:
-                print(chr(note.lyric[0]))
+    pprint(asdict(proj))
+    # for track in proj.tracks:
+    #     if track.track_type == MutaTrackType.SONG:
+    #         for note in track.song_track_data.notes:
+    #             print(chr(note.lyric[0]))
 
 
 def test_tssln_read(shared_datadir):
