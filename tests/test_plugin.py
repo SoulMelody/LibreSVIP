@@ -50,10 +50,10 @@ def test_dv_read(shared_datadir):
 
 
 def test_mtp_read(shared_datadir):
-    from libresvip.plugins.mtp.model import MutaTrackType, muta_project
+    from libresvip.plugins.mtp.model import MutaTrackType, muta_project_struct
 
     proj_path = shared_datadir / "test.mtp"
-    proj = muta_project.parse_file(proj_path)
+    proj = muta_project_struct.parse_file(proj_path)
     for track in proj.tracks:
         if track.track_type == MutaTrackType.SONG:
             for note in track.song_track_data.notes:

@@ -5,11 +5,14 @@ from construct import (
     Bytes,
     BytesInteger,
     Const,
+    Construct,
+    FocusedSeq,
     If,
     Int16ul,
     PaddedString,
     Padding,
     PascalString,
+    PrefixedArray,
     this,
 )
 from construct import Optional as CSOptional
@@ -17,6 +20,13 @@ from construct_typed import DataclassMixin, DataclassStruct, EnumBase, TEnum, cs
 
 Int32ul = BytesInteger(4, swapped=True)
 LineBreak = Const(b"\n")
+
+
+def muta_prefixed_array(data_model: DataclassMixin) -> Construct:
+    return PrefixedArray(
+        FocusedSeq("count", "count" / Int32ul, LineBreak),
+        DataclassStruct(data_model),
+    )
 
 
 class MutaTrackType(EnumBase):
@@ -64,23 +74,19 @@ class MutaPoint(DataclassMixin):
     line_break: bytes = csfield(LineBreak)
 
 
-@dataclasses.dataclass
-class MutaPoints(DataclassMixin):
-    count: int = csfield(Int32ul)
-    line_break: bytes = csfield(LineBreak)
-    points: list[MutaPoint] = csfield(DataclassStruct(MutaPoint)[this.count])
+MutaPoints = muta_prefixed_array(MutaPoint)
 
 
 @dataclasses.dataclass
 class MutaParams(DataclassMixin):
-    unknown_param: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    pitch_range: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    pitch_data: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    volume_data: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    vibrato_amplitude_range: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    vibrato_amplitude_data: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    vibrato_frequency_range: MutaPoints = csfield(DataclassStruct(MutaPoints))
-    vibrato_frequency_data: MutaPoints = csfield(DataclassStruct(MutaPoints))
+    unknown_param: MutaPoints = csfield(MutaPoints)
+    pitch_range: MutaPoints = csfield(MutaPoints)
+    pitch_data: MutaPoints = csfield(MutaPoints)
+    volume_data: MutaPoints = csfield(MutaPoints)
+    vibrato_amplitude_range: MutaPoints = csfield(MutaPoints)
+    vibrato_amplitude_data: MutaPoints = csfield(MutaPoints)
+    vibrato_frequency_range: MutaPoints = csfield(MutaPoints)
+    vibrato_frequency_data: MutaPoints = csfield(MutaPoints)
 
 
 @dataclasses.dataclass
@@ -90,9 +96,7 @@ class MutaSongTrackData(DataclassMixin):
     singer_name: str = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
     line_break1: bytes = csfield(LineBreak)
-    note_count: int = csfield(Int32ul)
-    line_break2: bytes = csfield(LineBreak)
-    notes: list[MutaNote] = csfield(DataclassStruct(MutaNote)[this.note_count])
+    notes: list[MutaNote] = csfield(muta_prefixed_array(MutaNote))
     params: list[MutaParams] = csfield(DataclassStruct(MutaParams))
 
 
@@ -122,19 +126,13 @@ class MutaTrack(DataclassMixin):
 class MutaProject(DataclassMixin):
     file_size: int = csfield(Int32ul)
     line_break1: bytes = csfield(LineBreak)
-    tempo_count: int = csfield(Int32ul)
+    tempos: list[MutaTempo] = csfield(muta_prefixed_array(MutaTempo))
     line_break2: bytes = csfield(LineBreak)
-    tempos: list[MutaTempo] = csfield(DataclassStruct(MutaTempo)[this.tempo_count])
-    line_break3: bytes = csfield(LineBreak)
-    time_signature_count: int = csfield(Int32ul)
-    line_break4: bytes = csfield(LineBreak)
     time_signatures: list[MutaTimeSignature] = csfield(
-        DataclassStruct(MutaTimeSignature)[this.time_signature_count]
+        muta_prefixed_array(MutaTimeSignature)
     )
-    line_break5: bytes = csfield(LineBreak)
-    track_count: int = csfield(Int32ul)
-    line_break6: bytes = csfield(LineBreak)
-    tracks: list[MutaTrack] = csfield(DataclassStruct(MutaTrack)[this.track_count])
+    line_break3: bytes = csfield(LineBreak)
+    tracks: list[MutaTrack] = csfield(muta_prefixed_array(MutaTrack))
 
 
-muta_project = DataclassStruct(MutaProject)
+muta_project_struct = DataclassStruct(MutaProject)
