@@ -10,6 +10,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 
+from .constants import NOTE_KEY_SUM
 from .model import (
     DvAudioTrack,
     DvNote,
@@ -57,29 +58,39 @@ class DeepVocalParser:
     def parse_time_signatures(
         self, dv_time_signatures: list[DvTimeSignature]
     ) -> list[TimeSignature]:
-        return shift_beat_list(
-            [
-                TimeSignature(
-                    bar_index=ts.measure_position,
-                    numerator=ts.numerator,
-                    denominator=ts.denominator,
-                )
-                for ts in dv_time_signatures
-            ],
-            4,
-        )
+        return [
+            time_signature
+            for time_signature in
+            shift_beat_list(
+                [
+                    TimeSignature(
+                        bar_index=ts.measure_position,
+                        numerator=ts.numerator,
+                        denominator=ts.denominator,
+                    )
+                    for ts in dv_time_signatures
+                ],
+                -1,
+            )
+            if time_signature.bar_index >= 0
+        ]
 
     def parse_tempos(self, dv_tempos: list[DvTempo]) -> list[SongTempo]:
-        return shift_tempo_list(
-            [
-                SongTempo(
-                    position=tempo.position,
-                    bpm=tempo.bpm / 100,
-                )
-                for tempo in dv_tempos
-            ],
-            self.tick_prefix,
-        )
+        return [
+            song_tempo
+            for song_tempo in
+            shift_tempo_list(
+                [
+                    SongTempo(
+                        position=tempo.position,
+                        bpm=tempo.bpm / 100,
+                    )
+                    for tempo in dv_tempos
+                ],
+                - self.tick_prefix,
+            )
+            if song_tempo.position >= 0
+        ]
 
     def parse_instrumental_tracks(
         self, dv_audio_tracks: list[DvAudioTrack]
@@ -109,7 +120,7 @@ class DeepVocalParser:
                     mute=dv_track.mute,
                     solo=dv_track.solo,
                     ai_singer_name=segment.singer_name,
-                    note_list=self.parse_notes(segment.notes, tick_offset),
+                    note_list=self.parse_notes(segment.notes, tick_offset - self.tick_prefix),
                 )
                 track_list.append(track)
         return track_list
@@ -120,7 +131,7 @@ class DeepVocalParser:
             note = Note(
                 start_pos=tick_offset + dv_note.start,
                 length=dv_note.length,
-                key_number=dv_note.key,
+                key_number=int(NOTE_KEY_SUM) - dv_note.key,
                 lyric=dv_note.word,
                 pronunciation=dv_note.phoneme,
             )
