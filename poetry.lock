@@ -573,17 +573,18 @@ reference = "tuna"
 
 [[package]]
 name = "construct-typing"
-version = "0.5.6"
+version = "0.6.1"
 description = "Extension for the python package 'construct' that adds typing features"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "construct-typing-0.5.6.tar.gz", hash = "sha256:0dc501351cd6b308f15ec54e5fe7c0fbc07cc1530a1b77b4303062a0a93c1297"},
-    {file = "construct_typing-0.5.6-py3-none-any.whl", hash = "sha256:39c948329e880564e33521cba497b21b07967c465b9c9037d6334e2cffa1ced9"},
+    {file = "construct-typing-0.6.1.tar.gz", hash = "sha256:5eb9b492aa9a7e4474ea78faead1196ee98fa04314b68daee2403e8db4e8e09b"},
+    {file = "construct_typing-0.6.1-py3-none-any.whl", hash = "sha256:cdf265ae4407c0be6db3eab746bd11d69b2d8d1ef6c0acdbe0ae84626e93e898"},
 ]
 
 [package.dependencies]
 construct = "2.10.68"
+typing-extensions = ">=4.6.0"
 
 [package.source]
 type = "legacy"
@@ -1842,13 +1843,13 @@ reference = "tuna"
 
 [[package]]
 name = "more-itertools"
-version = "9.1.0"
+version = "10.0.0"
 description = "More routines for operating on iterables, beyond itertools"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "more-itertools-9.1.0.tar.gz", hash = "sha256:cabaa341ad0389ea83c17a94566a53ae4c9d07349861ecb14dc6d0345cf9ac5d"},
-    {file = "more_itertools-9.1.0-py3-none-any.whl", hash = "sha256:d2bc7f02446e86a68911e58ded76d6561eea00cddfb2a91e7019bbb586c799f3"},
+    {file = "more-itertools-10.0.0.tar.gz", hash = "sha256:cd65437d7c4b615ab81c0640c0480bc29a550ea032891977681efd28344d51e1"},
+    {file = "more_itertools-10.0.0-py3-none-any.whl", hash = "sha256:928d514ffd22b5b0a8fce326d57f423a55d2ff783b093bab217eda71e732330f"},
 ]
 
 [package.source]
@@ -4276,4 +4277,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "78f80c6aa44ee6e0a9ec0a325e6b36bbf785bb1a6f54f19ea66422bc251c9212"
+content-hash = "20da065fd145b00dbc3aad90893fb467ed1f11d641d7bd5c63f69d756add1618"

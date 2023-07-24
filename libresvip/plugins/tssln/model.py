@@ -5,9 +5,11 @@ from construct import (
     Computed,
     CString,
     Float64l,
+    FocusedSeq,
     Int8ul,
     Int64sl,
     LazyBound,
+    PrefixedArray,
     Struct,
     Switch,
     this,
@@ -44,8 +46,8 @@ JUCEVarTypes = CSEnum(
     UNDEFINED=9,
 )
 
-
-JUCECompressedInt = Struct(
+JUCECompressedInt = FocusedSeq(
+    "value",
     "size" / Int8ul,
     "value" / BytesInteger(this.size, swapped=True),
 )
@@ -68,19 +70,17 @@ JUCEVariant = Struct(
             "DOUBLE": Float64l,
             "STRING": CString("utf-8"),
             "INT64": Int64sl,
-            "ARRAY": Struct(
-                "size" / JUCECompressedInt,
-                "value" / LazyBound(lambda: JUCEVariant)[this.size.value],
+            "ARRAY": PrefixedArray(
+                JUCECompressedInt,
+                LazyBound(lambda: JUCEVariant),
             ),
-            "BINARY": Bytes(this.size.value - 1),
+            "BINARY": Bytes(this.size - 1),
         },
     ),
 )
 
 JUCENode = Struct(
     "name" / CString("utf-8"),
-    "attrs_count" / JUCECompressedInt,
-    "attrs" / JUCEVariant[this.attrs_count.value],
-    "children_count" / JUCECompressedInt,
-    "children" / LazyBound(lambda: JUCENode)[this.children_count.value],
+    "attrs" / PrefixedArray(JUCECompressedInt, JUCEVariant),
+    "children" / PrefixedArray(JUCECompressedInt, LazyBound(lambda: JUCENode)),
 )

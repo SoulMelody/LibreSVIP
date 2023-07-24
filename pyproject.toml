@@ -8,7 +8,7 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 python = ">=3.9,<3.12"
 charset-normalizer = "^3.2.0"
 loguru = "^0.7.0"
-more-itertools = "^9.1.0"
+more-itertools = "^10.0.0"
 omegaconf = "^2.3.0"
 packaging = "^23.1"
 platformdirs = "^3.9.1"
@@ -44,7 +44,7 @@ srt = "^3.5.3"
 ass = "^0.5.4"
 
 [tool.poetry.group.binary.dependencies]
-construct-typing = "^0.5.6"
+construct-typing = "^0.6.1"
 
 [tool.poetry.group.xml.dependencies]
 xsdata = { version = "^23.7" }
