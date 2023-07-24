@@ -29,6 +29,9 @@ class DvPoint(DataclassMixin):
     y: int = csfield(Int32sl)
 
 
+DvParam = Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
+
+
 @dataclasses.dataclass
 class DvTempo(DataclassMixin):
     position: int = csfield(Int32ul)
@@ -44,20 +47,14 @@ class DvTimeSignature(DataclassMixin):
 
 @dataclasses.dataclass
 class DvNoteParameter(DataclassMixin):
-    amplitude_points: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
-    frequency_points: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
-    vibrato_points: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
+    amplitude_points: list[DvPoint] = csfield(DvParam)
+    frequency_points: list[DvPoint] = csfield(DvParam)
+    vibrato_points: list[DvPoint] = csfield(DvParam)
 
 
 @dataclasses.dataclass
 class DvNote(DataclassMixin):
-    start: int = csfield(Int32ul)
+    start: int = csfield(Int32sl)
     length: int = csfield(Int32ul)
     key: int = csfield(Int32ul)
     vibrato: int = csfield(Int32ul)
@@ -91,21 +88,13 @@ class DvSegment(DataclassMixin):
     notes: list[DvNote] = csfield(
         Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvNote)))
     )
-    volume_data: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
-    pitch_data: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
-    unknown_1: bytes = csfield(DvBytes)
-    breath_data: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
-    gender_data: list[DvPoint] = csfield(
-        Prefixed(Int32ul, PrefixedArray(Int32ul, DataclassStruct(DvPoint)))
-    )
-    unknown_2: bytes = csfield(DvBytes)
-    unknown_3: bytes = csfield(DvBytes)
+    volume_data: list[DvPoint] = csfield(DvParam)
+    pitch_data: list[DvPoint] = csfield(DvParam)
+    unknown_1: list[DvPoint] = csfield(DvParam)
+    breath_data: list[DvPoint] = csfield(DvParam)
+    gender_data: list[DvPoint] = csfield(DvParam)
+    unknown_2: list[DvPoint] = csfield(DvParam)
+    unknown_3: list[DvPoint] = csfield(DvParam)
 
 
 @dataclasses.dataclass
