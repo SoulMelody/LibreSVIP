@@ -42,10 +42,10 @@ def test_vshp_read(shared_datadir):
 
 
 def test_dv_read(shared_datadir):
-    from libresvip.plugins.dv.model import dv_project
+    from libresvip.plugins.dv.model import dv_project_struct
 
     proj_path = shared_datadir / "test.dv"
-    proj = dv_project.parse_file(proj_path)
+    proj = dv_project_struct.parse_file(proj_path)
     pprint(asdict(proj))
 
 
