@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
 from typing import Iterable, Optional
 
 import portion
-from typing_extensions import Self
 
 
 @dataclasses.dataclass
@@ -36,35 +37,35 @@ class RangeInterval:
     def includes(self, value: int) -> bool:
         return value in self.interval
 
-    def __contains__(self, interval: Self) -> bool:
+    def __contains__(self, interval: RangeInterval) -> bool:
         return interval.interval in self.interval
 
-    def intersection(self, interval: Self) -> Self:
+    def intersection(self, interval: RangeInterval) -> RangeInterval:
         new_interval = RangeInterval()
         new_interval.interval = self.interval & interval.interval
         return new_interval
 
-    def union(self, interval: Self) -> Self:
+    def union(self, interval: RangeInterval) -> RangeInterval:
         new_interval = RangeInterval()
         new_interval.interval = self.interval | interval.interval
         return new_interval
 
-    def sub(self, interval: Self) -> Self:
+    def sub(self, interval: RangeInterval) -> RangeInterval:
         new_interval = RangeInterval()
         new_interval.interval = self.interval - interval.interval
         return new_interval
 
-    def complement(self, complete_interval: Self) -> Self:
+    def complement(self, complete_interval: RangeInterval) -> RangeInterval:
         new_interval = RangeInterval()
         new_interval.interval = complete_interval.interval - self.interval
         return new_interval
 
     @singledispatchmethod
-    def expand(self, a) -> Self:
+    def expand(self, a) -> RangeInterval:
         raise NotImplementedError
 
     @expand.register(tuple)
-    def _(self, radius_tuple: tuple[int, int]) -> Self:
+    def _(self, radius_tuple: tuple[int, int]) -> RangeInterval:
         return RangeInterval(
             [
                 (sub_range[0] - radius_tuple[0], sub_range[1] + radius_tuple[1])
@@ -73,22 +74,22 @@ class RangeInterval:
         )
 
     @expand.register(int)
-    def _(self, radius: int) -> Self:
+    def _(self, radius: int) -> RangeInterval:
         return self.expand((radius, radius))
 
     @singledispatchmethod
-    def shrink(self, a) -> Self:
+    def shrink(self, a) -> RangeInterval:
         raise NotImplementedError
 
     @shrink.register(int)
-    def _(self, radius: int) -> Self:
+    def _(self, radius: int) -> RangeInterval:
         return self.expand((-radius, -radius))
 
     @shrink.register(tuple)
-    def _(self, radius_tuple: tuple[int, int]) -> Self:
+    def _(self, radius_tuple: tuple[int, int]) -> RangeInterval:
         return self.expand((-radius_tuple[0], -radius_tuple[1]))
 
-    def shift(self, offset: int) -> Self:
+    def shift(self, offset: int) -> RangeInterval:
         return RangeInterval(
             [
                 (sub_range[0] + offset, sub_range[1] + offset)
@@ -96,20 +97,20 @@ class RangeInterval:
             ]
         )
 
-    def __and__(self, other: Self) -> Self:
+    def __and__(self, other: RangeInterval) -> RangeInterval:
         return self.intersection(other)
 
-    def __or__(self, other: Self) -> Self:
+    def __or__(self, other: RangeInterval) -> RangeInterval:
         return self.union(other)
 
-    def __sub__(self, other: Self) -> Self:
+    def __sub__(self, other: RangeInterval) -> RangeInterval:
         return self.sub(other)
 
-    def __xor__(self, other: Self) -> Self:
+    def __xor__(self, other: RangeInterval) -> RangeInterval:
         return (self | other) - (self & other)
 
-    def __rshift__(self, other: int) -> Self:
+    def __rshift__(self, other: int) -> RangeInterval:
         return self.shift(other)
 
-    def __lshift__(self, other: int) -> Self:
+    def __lshift__(self, other: int) -> RangeInterval:
         return self.shift(-other)

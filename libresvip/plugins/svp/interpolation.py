@@ -6,7 +6,7 @@ def linear_interpolation(x: float) -> float:
 
 
 def cubic_interpolation(x: float) -> float:
-    return x * x * (3 - 2 * x)
+    return (3 - 2 * x) * x**2
 
 
 def cosine_interpolation(x: float) -> float:

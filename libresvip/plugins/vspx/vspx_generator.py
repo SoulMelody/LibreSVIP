@@ -18,6 +18,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import linear_interpolation
 from libresvip.utils import midi2note
 
 from .model import (
@@ -188,17 +189,18 @@ class VocalSharpGenerator:
             ]
             if point.y > 0:
                 if prev_point is not None:
-                    distance = cur_tick - prev_point.time
-                    for i in range(1, distance + 1):
-                        next_value = point.y - note.key_number * 100
-                        interpolated_value = round(
-                            prev_point.value
-                            + (next_value - prev_point.value) * i / distance
-                        )
+                    cur_value = point.y - note.key_number * 100
+                    for i in range(prev_point.time + 1, cur_tick):
                         pitch_points.append(
                             PIT(
                                 time=prev_point.time + i,
-                                value=interpolated_value,
+                                value=round(
+                                    linear_interpolation(
+                                        (prev_point.time, prev_point.value),
+                                        (cur_tick, cur_value),
+                                        i,
+                                    )
+                                ),
                             )
                         )
                 else:

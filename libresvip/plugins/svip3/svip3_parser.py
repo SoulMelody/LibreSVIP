@@ -201,9 +201,9 @@ class Svip3Parser:
         for pattern in pattern_list:
             curves.append(self.parse_pattern_curve(pattern))
         curve = ParamCurve()
-        curve.points.append(Point(-192000, -100))
+        curve.points.append(Point.start_point())
         curve.points.root.extend(self.merge_param_curves(curves))
-        curve.points.append(Point(sys.maxsize // 2, -100))
+        curve.points.append(Point.end_point())
         return curve
 
     @staticmethod

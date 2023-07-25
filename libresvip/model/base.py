@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import abc
 import sys
 from types import SimpleNamespace
@@ -18,7 +20,6 @@ from pydantic import (
     computed_field,
     field_validator,
 )
-from typing_extensions import Self
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.point import Point, PointList
@@ -51,7 +52,7 @@ class BaseComplexModel(Protocol):
 
     @classmethod
     @abc.abstractmethod
-    def from_str(cls, string: str) -> Self:
+    def from_str(cls, string: str) -> BaseComplexModel:
         pass
 
 
@@ -77,7 +78,8 @@ class ParamCurve(BaseModel):
     points: Points = Field(default_factory=Points, alias="PointList")
 
     @field_validator("points", mode="before")
-    def load_points(cls, points, _info: FieldValidationInfo) -> Points:  # noqa: N805
+    @classmethod
+    def load_points(cls, points, _info: FieldValidationInfo) -> Points:
         return (
             points
             if isinstance(points, Points)
@@ -88,7 +90,7 @@ class ParamCurve(BaseModel):
     def total_points_count(self) -> int:
         return len(self.points)
 
-    def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> Self:
+    def reduce_sample_rate(self, interval: int, interrupt_value: int = 0) -> ParamCurve:
         if interval <= 0:
             return self
         points = self.points
@@ -142,8 +144,7 @@ class ParamCurve(BaseModel):
             i -= 1
         if not prev_point_added:
             result.append(prev_point)
-        self.points = Points(root=result)
-        return self
+        return ParamCurve(points=Points(root=result))
 
     def split_into_segments(self, interrupt_value: int = 0) -> list[list[Point]]:
         segments = []

@@ -146,11 +146,11 @@ class CurveGenerator(ParamExpression):
     def get_converted_curve(self, step: int) -> list[Point]:
         result = []
         if len(self.point_list) == 0:
-            result.append(Point(-192000, self.base_value))
-            result.append(Point(1073741823, self.base_value))
+            result.append(Point.start_point(self.base_value))
+            result.append(Point.end_point(self.base_value))
             return result
         prev_point = self.point_list[0]
-        result.append(Point(-192000, prev_point.y))
+        result.append(Point.start_point(prev_point.y))
         result.append(Point(prev_point.x, prev_point.y))
         for current_point in self.point_list[1:]:
             if prev_point.y == self.base_value and current_point.y == self.base_value:
@@ -165,7 +165,7 @@ class CurveGenerator(ParamExpression):
                     result.append(Point(p, v))
             prev_point = current_point
         result.append(Point(prev_point.x, prev_point.y))
-        result.append(Point(1073741823, prev_point.y))
+        result.append(Point.end_point(prev_point.y))
         return result
 
 
