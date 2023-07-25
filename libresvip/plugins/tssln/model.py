@@ -1,15 +1,18 @@
+import math
+import struct
+
 from construct import (
     Byte,
     Bytes,
     BytesInteger,
     Computed,
+    Construct,
     CString,
     Float64l,
-    FocusedSeq,
-    Int8ul,
     Int64sl,
     LazyBound,
     PrefixedArray,
+    SizeofError,
     Struct,
     Switch,
     this,
@@ -46,11 +49,32 @@ JUCEVarTypes = CSEnum(
     UNDEFINED=9,
 )
 
-JUCECompressedInt = FocusedSeq(
-    "value",
-    "size" / Int8ul,
-    "value" / BytesInteger(this.size, swapped=True),
-)
+
+class JUCECompressedIntStruct(Construct):
+    def _sizeof(self, context, path):
+        raise SizeofError("JUCECompressedInt has no static size")
+
+    def _parse(self, stream, context, path) -> int:
+        byte = stream.read(1)
+        if not byte:
+            raise EOFError
+        width = struct.unpack("<B", byte)[0]
+        return int.from_bytes(stream.read(width), "little", signed=False)
+
+    def _build(self, obj: int, stream, context, path):
+        if obj < 0:
+            raise ValueError("Negative numbers not supported")
+        width = math.ceil(math.log(obj + 1, 16))
+        try:
+            content = obj.to_bytes(width, "little", signed=False)
+            stream.write(struct.pack("<B", width))
+            stream.write(struct.pack(content, obj))
+        except OverflowError:
+            raise ValueError("Number too large to be compressed")
+
+
+JUCECompressedInt = JUCECompressedIntStruct()
+
 
 JUCEVariant = Struct(
     "name" / CString("utf-8"),
@@ -61,12 +85,8 @@ JUCEVariant = Struct(
         this.type,
         {
             "INT": Int32sl,
-            "BOOL_TRUE": Struct(
-                "value" / Computed(lambda ctx: True),
-            ),
-            "BOOL_FALSE": Struct(
-                "value" / Computed(lambda ctx: False),
-            ),
+            "BOOL_TRUE": Computed(lambda ctx: True),
+            "BOOL_FALSE": Computed(lambda ctx: False),
             "DOUBLE": Float64l,
             "STRING": CString("utf-8"),
             "INT64": Int64sl,
