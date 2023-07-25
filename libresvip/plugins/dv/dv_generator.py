@@ -16,13 +16,15 @@ from libresvip.model.base import (
     TimeSignature,
 )
 
-from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, NOTE_KEY_SUM
+from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, MIN_SEGMENT_LENGTH
+from .deepvocal_pitch import convert_note_key, generate_for_dv
 from .model import (
     DvAudioInfo,
     DvAudioTrack,
     DvInnerProject,
     DvNote,
     DvNoteParameter,
+    DvPoint,
     DvProject,
     DvSegment,
     DvSingingTrack,
@@ -42,9 +44,11 @@ def size_of_object(obj: DataclassMixin) -> int:
 class DeepVocalGenerator:
     options: OutputOptions
     tick_prefix: int = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> DvProject:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         self.tick_prefix = round(4 * project.time_signature_list[0].bar_length())
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
         singing_tracks = self.generate_singing_tracks(
@@ -145,16 +149,45 @@ class DeepVocalGenerator:
                 start=self.tick_prefix,
                 name=track.title,
                 singer_name=track.ai_singer_name,
-                length=max(max(note.end_pos for note in track.note_list), 1920),
+                length=max(
+                    max(note.end_pos for note in track.note_list), MIN_SEGMENT_LENGTH
+                ),
                 notes=dv_notes,
-                volume_data=[],
-                pitch_data=[],
-                unknown_1=[],
-                breath_data=[],
-                gender_data=[],
-                unknown_2=[],
-                unknown_3=[],
+                volume_data=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
+                pitch_data=[
+                    DvPoint(x=-1, y=-1),
+                    DvPoint(x=307201, y=-1),
+                ],
+                unknown_1=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
+                breath_data=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
+                gender_data=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
+                unknown_2=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
+                unknown_3=[
+                    DvPoint(x=-1, y=128),
+                    DvPoint(x=307201, y=128),
+                ],
             )
+            if (
+                dv_segment_pitch_raw_data := generate_for_dv(
+                    self.first_bar_length, track.edited_params.pitch, track.note_list
+                )
+            ) is not None:
+                dv_segment.pitch_data = dv_segment_pitch_raw_data.data
             dv_track = DvSingingTrack(
                 name=track.title,
                 mute=track.mute,
@@ -176,21 +209,30 @@ class DeepVocalGenerator:
             DvNote(
                 start=note.start_pos,
                 length=note.length,
-                key=int(NOTE_KEY_SUM) - note.key_number,
+                key=convert_note_key(note.key_number),
                 phoneme=note.pronunciation or "",
                 word=note.lyric,
                 padding_1=0,
                 vibrato=50,
                 note_vibrato_data=DvNoteParameter(
-                    amplitude_points=[],
-                    frequency_points=[],
-                    vibrato_points=[],
+                    amplitude_points=[
+                        DvPoint(x=-1, y=0),
+                        DvPoint(x=100001, y=0),
+                    ],
+                    frequency_points=[
+                        DvPoint(x=-1, y=0),
+                        DvPoint(x=100001, y=0),
+                    ],
+                    vibrato_points=[
+                        DvPoint(x=0, y=0),
+                        DvPoint(x=1124, y=0),
+                    ],
                 ),
                 unknown_phonemes=DEFAULT_PHONEME_BYTES,
-                ben_depth=8,
-                ben_length=5,
-                por_head=16,
-                por_tail=16,
+                ben_depth=0,
+                ben_length=0,
+                por_head=0,
+                por_tail=0,
                 timbre=-1,
                 cross_lyric="",
                 cross_timbre=-1,

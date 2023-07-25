@@ -10,7 +10,6 @@ from libresvip.model.point import Point
 
 
 class RelativePitchCurve(ParamCurve):
-
     def to_absolute(self, note_list: list[Note]) -> ParamCurve:
         param_curve = ParamCurve()
         boundries = [(note.start_pos, note.end_pos) for note in note_list]
