@@ -262,13 +262,13 @@ reference = "tuna"
 
 [[package]]
 name = "bump-pydantic"
-version = "0.6.0"
+version = "0.6.1"
 description = "Convert Pydantic from V1 to V2 ♻"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "bump_pydantic-0.6.0-py3-none-any.whl", hash = "sha256:a430f171eb39ce355e277c7aded67ac427cadd42c5c025ad5519cfff25a73abc"},
-    {file = "bump_pydantic-0.6.0.tar.gz", hash = "sha256:33149329dd81b2868c84be835b072b3ee0199cb4d564736585ca73fb108dc4bd"},
+    {file = "bump_pydantic-0.6.1-py3-none-any.whl", hash = "sha256:258fd7f642e903b425c7210f0d2aaae2cf26291d53a225325c906e59807926d4"},
+    {file = "bump_pydantic-0.6.1.tar.gz", hash = "sha256:05c72427917c608ad124b56122349f66108f8ab7e2c64b2a844dcafb4a3de3a8"},
 ]
 
 [package.dependencies]
@@ -787,22 +787,18 @@ reference = "tuna"
 
 [[package]]
 name = "dnspython"
-version = "2.4.0"
+version = "2.4.1"
 description = "DNS toolkit"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "dnspython-2.4.0-py3-none-any.whl", hash = "sha256:46b4052a55b56beea3a3bdd7b30295c292bd6827dd442348bc116f2d35b17f0a"},
-    {file = "dnspython-2.4.0.tar.gz", hash = "sha256:758e691dbb454d5ccf4e1b154a19e52847f79e21a42fef17b969144af29a4e6c"},
+    {file = "dnspython-2.4.1-py3-none-any.whl", hash = "sha256:5b7488477388b8c0b70a8ce93b227c5603bc7b77f1565afe8e729c36c51447d7"},
+    {file = "dnspython-2.4.1.tar.gz", hash = "sha256:c33971c79af5be968bb897e95c2448e11a645ee84d93b265ce0b7aabe5dfdca8"},
 ]
-
-[package.dependencies]
-httpcore = {version = ">=0.17.3", markers = "python_version >= \"3.8\""}
-sniffio = ">=1.1,<2.0"
 
 [package.extras]
 dnssec = ["cryptography (>=2.6,<42.0)"]
-doh = ["h2 (>=4.1.0)", "httpx (>=0.24.1)"]
+doh = ["h2 (>=4.1.0)", "httpcore (>=0.17.3)", "httpx (>=0.24.1)"]
 doq = ["aioquic (>=0.9.20)"]
 idna = ["idna (>=2.1,<4.0)"]
 trio = ["trio (>=0.14,<0.23)"]
@@ -4277,4 +4273,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "0d99bbee29da2daf81e8539efb61456420065226cc5acf0e278e26d20536d3fa"
+content-hash = "1fe715ba3b9a0e409547c341757f94e5928685c59dd8ebe83ccd51d07f124952"

@@ -110,7 +110,7 @@ ruff = "^0.0.280"
 black = "^23.7.0"
 mypy = "^1.4.1"
 sourcery = "^1.6.0"
-bump-pydantic = "^0.6.0"
+bump-pydantic = "^0.6.1"
 
 
 [tool.poetry.group.dev.dependencies]

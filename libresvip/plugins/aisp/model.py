@@ -1,5 +1,5 @@
 import enum
-from typing import Annotated, Optional, Union
+from typing import Annotated, Literal, Optional, Union
 
 from pydantic import (
     Field,
@@ -97,25 +97,31 @@ class AISBaseTrack(BaseModel):
     idx: Optional[int] = Field(alias="i")
     solo: Optional[bool] = Field(alias="s")
     mute: Optional[bool] = Field(alias="m")
-    volume: Optional[int] = Field(alias="v")
+    volume: Optional[float] = Field(0, alias="v")
     name: Optional[str] = Field(alias="n")
 
 
 class AISSingVoiceTrack(AISBaseTrack):
-    track_type: Optional[AISTrackType] = Field(AISTrackType.TRACK_SING_VOICE, alias="t")
+    track_type: Literal[AISTrackType.TRACK_SING_VOICE] = Field(
+        AISTrackType.TRACK_SING_VOICE, alias="t"
+    )
     singer_namecn: Optional[str] = Field(alias="sn")
-    singer_nameen: Optional[str] = Field(alias="se")
-    singer_head_path: Optional[str] = Field(alias="sh")
+    singer_nameen: Optional[str] = Field("", alias="se")
+    singer_head_path: Optional[str] = Field("", alias="sh")
     items: list[AISSingVoicePattern] = Field(alias="im", default_factory=list)
 
 
 class AISAudioTrack(AISBaseTrack):
-    track_type: Optional[AISTrackType] = Field(AISTrackType.TRACK_AUDIO, alias="t")
+    track_type: Literal[AISTrackType.TRACK_AUDIO] = Field(
+        AISTrackType.TRACK_AUDIO, alias="t"
+    )
     items: list[AISAudioPattern] = Field(alias="im", default_factory=list)
 
 
 class AISMidiTrack(AISBaseTrack):
-    track_type: Optional[AISTrackType] = Field(AISTrackType.TRACK_MIDI, alias="t")
+    track_type: Literal[AISTrackType.TRACK_MIDI] = Field(
+        AISTrackType.TRACK_MIDI, alias="t"
+    )
 
 
 AISTrack = Annotated[
@@ -152,7 +158,7 @@ class AISProjectBody(BaseModel):
 class AISProjectHead(BaseModel):
     tempo: list[AISTempo] = Field(default_factory=list)
     signature: list[AISTimeSignature] = Field(default_factory=list)
+    flags: Optional[int] = 128
+    flage: Optional[int] = 256
     time: Optional[int] = None
-    flags: Optional[int] = None
-    flage: Optional[int] = None
     bar: Optional[int] = None

@@ -548,6 +548,18 @@ msgstr "导出"
 msgid "Advanced Options"
 msgstr "高级选项"
 
+#: .aisp.name
+msgid "AISingers"
+msgstr ""
+
+#: .aisp.file_format
+msgid "AISingers Studio project file"
+msgstr "AISingers Studio 工程文件"
+
+#: .aisp.description
+msgid "Conversion plugin for AISingers Studio project file"
+msgstr "AISingers Studio 工程文件转换插件"
+
 #: .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"

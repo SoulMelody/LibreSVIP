@@ -278,32 +278,26 @@ def page_layout(lang: Optional[str] = None):
                             choices,
                             label=_(field_info.title),
                             value=default_value,
-                        ).bind_value(
-                            option_dict, option_key
-                        ).classes("flex-grow")
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
                     elif issubclass(field_info.annotation, Color):
                         ui.color_input(
                             label=_(field_info.title),
                             value=default_value,
-                        ).bind_value(
-                            option_dict, option_key
-                        ).classes("flex-grow")
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
                     elif issubclass(field_info.annotation, (str, BaseComplexModel)):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
                         ui.input(
                             label=_(field_info.title),
                             value=default_value,
-                        ).bind_value(
-                            option_dict, option_key
-                        ).classes("flex-grow")
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
                     elif issubclass(field_info.annotation, (int, float)):
                         with ui.number(
                             label=_(field_info.title),
                             value=default_value,
-                        ).bind_value(
-                            option_dict, option_key
-                        ).classes("flex-grow") as num_input:
+                        ).bind_value(option_dict, option_key).classes(
+                            "flex-grow"
+                        ) as num_input:
                             if issubclass(field_info.annotation, int):
                                 num_input.validation = {
                                     _("Invalid integer"): int_validator
@@ -708,7 +702,7 @@ def page_layout(lang: Optional[str] = None):
                 input_format_item = (
                     ui.radio(
                         {
-                            k: f"{i} " + _(v["file_format"]) + v["suffix"]
+                            k: f"{i} " + _(v["file_format"]) + " " + v["suffix"]
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
                     )
@@ -724,7 +718,7 @@ def page_layout(lang: Optional[str] = None):
             with ui.menu() as output_formats_menu:
                 output_format_item = ui.radio(
                     {
-                        k: f"{i} " + _(v["file_format"]) + v["suffix"]
+                        k: f"{i} " + _(v["file_format"]) + " " + v["suffix"]
                         for i, (k, v) in enumerate(plugin_details.items())
                     },
                 ).bind_value(selected_formats, "output_format")
@@ -824,7 +818,9 @@ def page_layout(lang: Optional[str] = None):
                                     select_input = (
                                         ui.select(
                                             {
-                                                k: _(v["file_format"]) + v["suffix"]
+                                                k: _(v["file_format"])
+                                                + " "
+                                                + v["suffix"]
                                                 for k, v in plugin_details.items()
                                             },
                                             label=_("Import format"),
@@ -863,7 +859,9 @@ def page_layout(lang: Optional[str] = None):
                                     select_output = (
                                         ui.select(
                                             {
-                                                k: _(v["file_format"]) + v["suffix"]
+                                                k: _(v["file_format"])
+                                                + " "
+                                                + v["suffix"]
                                                 for k, v in plugin_details.items()
                                             },
                                             label=_("Export format"),
