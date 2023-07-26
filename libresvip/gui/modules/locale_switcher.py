@@ -2,9 +2,9 @@ import gettext
 from typing import Optional
 
 from qmlease import app, slot
-from qtpy.QtCore import QObject, QTranslator
+from qtpy.QtCore import QLocale, QObject, QTranslator
 
-from libresvip.core.config import Language, settings
+from libresvip.core.config import Language, config_path, settings
 from libresvip.core.constants import PACKAGE_NAME, res_dir
 
 
@@ -15,7 +15,9 @@ class GettextTranslator(QTranslator):
 
     def load_translation(self, lang, translation_dir):
         try:
-            self.translation = gettext.translation(PACKAGE_NAME, translation_dir, [lang])
+            self.translation = gettext.translation(
+                PACKAGE_NAME, translation_dir, [lang]
+            )
             gettext.textdomain(PACKAGE_NAME)
             gettext.bindtextdomain(PACKAGE_NAME, translation_dir)
         except OSError:
@@ -38,9 +40,10 @@ class GettextTranslator(QTranslator):
 class LocaleSwitcher(QObject):
     def __init__(self):
         super().__init__()
-        self.translator = GettextTranslator(
-            parent=app,
-        )
+        self.translator = GettextTranslator(parent=app)
+        if not config_path.exists():
+            sys_locale = QLocale.system().name()
+            settings.language = Language.from_locale(sys_locale)
         self.switch_language(settings.language.to_locale())
 
     @slot(str)

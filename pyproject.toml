@@ -13,7 +13,7 @@ omegaconf = "^2.3.0"
 packaging = "^23.1"
 platformdirs = "^3.9.1"
 portion = "^2.4.1"
-pydantic = "^2.1.0"
+pydantic = "^2.1.1"
 pydantic-extra-types = "^2.0.0"
 pydub = "^0.25.1"
 pypinyin = "^0.49.0"
@@ -82,7 +82,7 @@ optional = true
 [tool.poetry.group.code_gen.dependencies]
 xsdata = { extras = ["cli"], version = "^23.7" }
 datamodel-code-generator = "^0.21.2"
-translate-toolkit = "^3.9.2"
+translate-toolkit = "^3.10.0"
 babel = "^2.12.1"
 
 
