@@ -1,4 +1,5 @@
-from typing import Optional, Union
+import enum
+from typing import Annotated, Optional, Union
 
 from pydantic import (
     Field,
@@ -12,14 +13,20 @@ from pydantic import (
 from libresvip.model.base import BaseModel
 
 
+class AISTrackType(enum.IntEnum):
+    TRACK_SING_VOICE = 0
+    TRACK_AUDIO = 1
+    TRACK_MIDI = 2
+
+
 class AISNote(BaseModel):
     start: Optional[int] = Field(alias="s")
     length: Optional[int] = Field(alias="l")
-    m: Optional[int] = None
+    midi_no: Optional[int] = Field(alias="m")
     lyric: Optional[str] = Field(alias="ly")
     pinyin: Optional[str] = Field(alias="py")
     vel: Optional[int] = None
-    tri: Optional[bool] = None
+    triple: Optional[bool] = Field(alias="tri")
     pit: Optional[list[float]] = None
 
     @field_validator("pit", mode="before")
@@ -71,24 +78,50 @@ class AISNote(BaseModel):
         return pit_str.strip()
 
 
-class AISPattern(BaseModel):
+class AISBasePattern(BaseModel):
     uid: Optional[int] = None
+
+
+class AISSingVoicePattern(AISBasePattern):
     start: Optional[int] = Field(alias="s")
     length: Optional[int] = Field(alias="l")
     notes: list[AISNote] = Field(default_factory=list, alias="n")
 
 
-class AISTrack(BaseModel):
-    i: Optional[int] = None
-    t: Optional[int] = None
+class AISAudioPattern(AISBasePattern):
+    path_audio: Optional[str] = Field(alias="pa")
+    path_wave: Optional[str] = Field(alias="pw")
+
+
+class AISBaseTrack(BaseModel):
+    idx: Optional[int] = Field(alias="i")
     solo: Optional[bool] = Field(alias="s")
     mute: Optional[bool] = Field(alias="m")
     volume: Optional[int] = Field(alias="v")
     name: Optional[str] = Field(alias="n")
-    im: list[AISPattern] = Field(default_factory=list)
-    sn: Optional[str] = None
-    se: Optional[str] = None
-    sh: Optional[str] = None
+
+
+class AISSingVoiceTrack(AISBaseTrack):
+    track_type: Optional[AISTrackType] = Field(AISTrackType.TRACK_SING_VOICE, alias="t")
+    singer_namecn: Optional[str] = Field(alias="sn")
+    singer_nameen: Optional[str] = Field(alias="se")
+    singer_head_path: Optional[str] = Field(alias="sh")
+    items: list[AISSingVoicePattern] = Field(alias="im", default_factory=list)
+
+
+class AISAudioTrack(AISBaseTrack):
+    track_type: Optional[AISTrackType] = Field(AISTrackType.TRACK_AUDIO, alias="t")
+    items: list[AISAudioPattern] = Field(alias="im", default_factory=list)
+
+
+class AISMidiTrack(AISBaseTrack):
+    track_type: Optional[AISTrackType] = Field(AISTrackType.TRACK_MIDI, alias="t")
+
+
+AISTrack = Annotated[
+    Union[AISSingVoiceTrack, AISAudioTrack, AISMidiTrack],
+    Field(discriminator="track_type"),
+]
 
 
 class AISTimeSignature(BaseModel):
@@ -109,8 +142,11 @@ class AISTempo(BaseModel):
 
 
 class AISProjectBody(BaseModel):
-    num_track: Optional[int] = None
     tracks: list[AISTrack] = Field(default_factory=list)
+
+    @computed_field
+    def num_track(self) -> int:
+        return len(self.tracks)
 
 
 class AISProjectHead(BaseModel):
