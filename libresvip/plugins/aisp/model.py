@@ -58,13 +58,11 @@ class AISNote(BaseModel):
             return "0x500"
         pit_str = ""
         for key, group in itertools.groupby(value):
+            group_length = len(list(group))
             if key == 0:
-                if zero_length := len(list(group)) > 1:
-                    pit_str += "0x%d " % zero_length
-                else:
-                    pit_str += "0 "
+                pit_str += f"0x{group_length} " if group_length > 1 else "0 "
             if key != 0:
-                pit_str += f"{round(key, 2)} "
+                pit_str += f"{round(key, 2)} " * group_length
         return pit_str.strip()
 
 
