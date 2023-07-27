@@ -4,7 +4,14 @@ import math
 import pypinyin
 
 from libresvip.core.constants import DEFAULT_BPM
-from libresvip.model.base import Note, ParamCurve, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.model.base import (
+    Note,
+    ParamCurve,
+    Project,
+    SingingTrack,
+    SongTempo,
+    TimeSignature,
+)
 
 from .model import NNInfoLine, NNNote, NNPoints, NNProject, NNTimeSignature
 from .options import OutputOptions
@@ -40,17 +47,20 @@ class NiaoniaoGenerator:
             tempo=nn_tempo,
         )
         nn_project = NNProject(
-            info_line=nn_info_line,
-            notes=self.generate_notes(first_singing_track)
+            info_line=nn_info_line, notes=self.generate_notes(first_singing_track)
         )
         nn_project.note_count = len(nn_project.notes)
         if nn_project.note_count:
             nn_info_line.bar_count = math.ceil(
-                (nn_project.notes[-1].start + nn_project.notes[-1].duration) * self.length_multiplier / self.first_bar_length
+                (nn_project.notes[-1].start + nn_project.notes[-1].duration)
+                * self.length_multiplier
+                / self.first_bar_length
             )
         return nn_project
 
-    def generate_time_signature(self, time_signature_list: list[TimeSignature]) -> NNTimeSignature:
+    def generate_time_signature(
+        self, time_signature_list: list[TimeSignature]
+    ) -> NNTimeSignature:
         if not len(time_signature_list):
             self.first_bar_length = 1920
             return NNTimeSignature()
@@ -68,9 +78,8 @@ class NiaoniaoGenerator:
         for note in singing_track.note_list:
             nn_note = NNNote(
                 lyric=note.lyric,
-                pronunciation=note.pronunciation or " ".join(
-                    pypinyin.lazy_pinyin(note.lyric)
-                ),
+                pronunciation=note.pronunciation
+                or " ".join(pypinyin.lazy_pinyin(note.lyric)),
                 key=88 - note.key_number,
                 start=note.start_pos // self.length_multiplier,
                 duration=note.length // self.length_multiplier,
@@ -87,14 +96,21 @@ class NiaoniaoGenerator:
             note.start_pos + self.first_bar_length + int((note.length / 100.0) * i)
             for i in range(100)
         ]
-        pitch_param_in_note = [p for p in pitch_param_curve.points if p.x >= note.start_pos + self.first_bar_length and p.x <= note.start_pos + self.first_bar_length + note.length]
+        pitch_param_in_note = [
+            p
+            for p in pitch_param_curve.points
+            if p.x >= note.start_pos + self.first_bar_length
+            and p.x <= note.start_pos + self.first_bar_length + note.length
+        ]
 
         pitch_param_time_in_note = [p.x for p in pitch_param_in_note]
 
         nn_pitch_param = []
         for sample_time in sample_time_list:
             if sample_time in pitch_param_time_in_note:
-                pitch = next(p.y for p in pitch_param_curve.points if p.x == sample_time)
+                pitch = next(
+                    p.y for p in pitch_param_curve.points if p.x == sample_time
+                )
                 if pitch == -100:
                     nn_pitch_param.append(50)
                 else:
@@ -107,7 +123,11 @@ class NiaoniaoGenerator:
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
-                        value = 50 + round((point.y - note.key_number * 100) / 12)
+                        value = 50 + (
+                            0
+                            if point.y == -100
+                            else round((point.y - note.key_number * 100) / 12)
+                        )
 
                 nn_pitch_param.append(value)
 
@@ -119,7 +139,9 @@ class NiaoniaoGenerator:
                 buffer.append(nn_pitch_param[i])
             else:
                 for j in range(len(buffer)):
-                    nn_pitch_param[previous_node_index + j] = previous_node + j * (nn_pitch_param[i] - buffer[j]) / len(buffer)
+                    nn_pitch_param[previous_node_index + j] = previous_node + j * (
+                        nn_pitch_param[i] - buffer[j]
+                    ) / len(buffer)
                 buffer.clear()
 
             if nn_pitch_param[i] != previous_node:

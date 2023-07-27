@@ -49,10 +49,8 @@ class Y77Generator:
                 start=round(note.start_pos / 30),
                 len=round(note.length / 30),
                 pitch=88 - note.key_number,
-                py=note.pronunciation or " ".join(
-                    pypinyin.lazy_pinyin(note.lyric)
-                ),
-                pit=self.generate_pitch(singing_track.edited_params.pitch, note)
+                py=note.pronunciation or " ".join(pypinyin.lazy_pinyin(note.lyric)),
+                pit=self.generate_pitch(singing_track.edited_params.pitch, note),
             )
             for note in singing_track.note_list
         ]
@@ -62,14 +60,21 @@ class Y77Generator:
             note.start_pos + self.first_bar_length + int((note.length / 500.0) * i)
             for i in range(500)
         ]
-        pitch_param_in_note = [p for p in pitch_param_curve.points if p.x >= note.start_pos + self.first_bar_length and p.x <= note.start_pos + self.first_bar_length + note.length]
+        pitch_param_in_note = [
+            p
+            for p in pitch_param_curve.points
+            if p.x >= note.start_pos + self.first_bar_length
+            and p.x <= note.start_pos + self.first_bar_length + note.length
+        ]
 
         pitch_param_time_in_note = [p.x for p in pitch_param_in_note]
 
         y77_pitch_param = []
         for sample_time in sample_time_list:
             if sample_time in pitch_param_time_in_note:
-                pitch = next(p.y for p in pitch_param_curve.points if p.x == sample_time)
+                pitch = next(
+                    p.y for p in pitch_param_curve.points if p.x == sample_time
+                )
                 if pitch == -100:
                     y77_pitch_param.append(50)
                 else:
@@ -82,7 +87,11 @@ class Y77Generator:
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
-                        value = 50 + (point.y - note.key_number * 100) / 2
+                        value = 50 + (
+                            0
+                            if point.y == -100
+                            else (point.y - note.key_number * 100) / 2
+                        )
 
                 y77_pitch_param.append(value)
 
@@ -94,7 +103,9 @@ class Y77Generator:
                 buffer.append(y77_pitch_param[i])
             else:
                 for j in range(len(buffer)):
-                    y77_pitch_param[previous_node_index + j] = previous_node + j * (y77_pitch_param[i] - buffer[j]) / len(buffer)
+                    y77_pitch_param[previous_node_index + j] = previous_node + j * (
+                        y77_pitch_param[i] - buffer[j]
+                    ) / len(buffer)
                 buffer.clear()
 
             if y77_pitch_param[i] != previous_node:

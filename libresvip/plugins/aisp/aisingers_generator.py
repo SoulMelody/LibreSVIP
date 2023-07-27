@@ -193,8 +193,11 @@ class AiSingersGenerator:
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
-                        value = (point.y - note.key_number * 100) / 10
-
+                        value = (
+                            0
+                            if point.y == -100
+                            else (point.y - note.key_number * 100) / 10
+                        )
                 ais_pitch_param.append(value)
 
         buffer = []
