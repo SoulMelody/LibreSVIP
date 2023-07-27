@@ -488,7 +488,7 @@ class SongEditor:
 
 @dataclass
 class SoundSources:
-    sound_source: Optional[SoundSource] = field(
+    sound_source: list[SoundSource] = field(
         default=None,
         metadata={
             "name": "SoundSource",
@@ -516,7 +516,7 @@ class Tts:
             "type": "Element",
         },
     )
-    sound_sources: Optional[object] = field(
+    sound_sources: Optional[SoundSources] = field(
         default=None,
         metadata={
             "name": "SoundSources",
