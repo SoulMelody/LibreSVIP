@@ -50,7 +50,7 @@ def test_dv_read(shared_datadir, pretty_construct):
 
 
 def test_mtp_read(shared_datadir, pretty_construct):
-    from libresvip.plugins.mtp.model import MutaTrackType, muta_project_struct
+    from libresvip.plugins.mtp.model import muta_project_struct
 
     proj_path = shared_datadir / "test.mtp"
     proj = muta_project_struct.parse_file(proj_path)
@@ -61,7 +61,7 @@ def test_mtp_read(shared_datadir, pretty_construct):
     #             print(chr(note.lyric[0]))
 
 
-def test_tssln_read(shared_datadir):
+def test_tssln_read(shared_datadir, pretty_construct):
     from libresvip.plugins.tssln.model import JUCENode, VoiSonaTrackTypes
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
@@ -75,6 +75,7 @@ def test_tssln_read(shared_datadir):
                     elif attr.name == "PluginData":
                         plugin_data = JUCENode.parse(attr.value[48:])
                         print(plugin_data)
+                break
 
 
 def test_ustx_read(shared_datadir, capsys):
@@ -183,7 +184,7 @@ def test_vspx_read(shared_datadir):
 def test_vsqx_read(shared_datadir):
     from xsdata.formats.dataclass.parsers.xml import XmlParser
 
-    from libresvip.plugins.vsqx.models import Vsqx  # noqa: F401
+    from libresvip.plugins.vsqx.model import Vsqx  # noqa: F401
 
     proj_path = shared_datadir / "test.vsqx"
 

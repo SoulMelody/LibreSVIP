@@ -27,13 +27,18 @@ def pretty_construct():
 
     EnumIntegerString.__repr__ = contruct_enum_repr
 
-    _container_repr = Container.__repr__
-    def container_repr(self: Container) -> str:
-        return _container_repr(self)[10:-1]
+    def container_repr(self):
+        parts = [
+            f"{repr(k)}: {repr(v)}"
+            for k, v in self.items()
+            if not (isinstance(k, str) and k.startswith("_"))
+        ]
+        return "{" + ", ".join(parts) + "}"
 
     Container.__repr__ = container_repr
 
     _list_container_repr = ListContainer.__repr__
+
     def list_container_repr(self: ListContainer) -> str:
         return _list_container_repr(self)[14:-1]
 
