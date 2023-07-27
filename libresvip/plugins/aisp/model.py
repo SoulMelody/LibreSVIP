@@ -1,4 +1,5 @@
 import enum
+import itertools
 from typing import Annotated, Literal, Optional, Union
 
 from pydantic import (
@@ -25,8 +26,8 @@ class AISNote(BaseModel):
     midi_no: Optional[int] = Field(alias="m")
     lyric: Optional[str] = Field(alias="ly")
     pinyin: Optional[str] = Field(alias="py")
-    vel: Optional[int] = None
-    triple: Optional[bool] = Field(alias="tri")
+    vel: Optional[int] = 50
+    triple: Optional[bool] = Field(False, alias="tri")
     pit: Optional[list[float]] = None
 
     @field_validator("pit", mode="before")
@@ -54,27 +55,16 @@ class AISNote(BaseModel):
         cls, value: Optional[list[float]], _info: SerializationInfo
     ) -> str:
         if value is None:
-            return ""
+            return "0x500"
         pit_str = ""
-        i = 0
-        s0 = None
-        e0 = None
-        while i < len(value):
-            if s0 is None and value[i] == 0:
-                s0 = i
-                while (
-                    e0 is None
-                    and value[i] == 0
-                    and (value[i + 1] != 0 or i + 1 >= len(value))
-                ):
-                    e0 = i
-                    pit_str += "0x%d " % ((e0 - s0) + 1) if e0 > s0 else "0 "
-                    i += 1
-                    s0 = None
-                    e0 = None
-            if value[i] != 0:
-                pit_str += f"{round(value[i], 2)} "
-            i += 1
+        for key, group in itertools.groupby(value):
+            if key == 0:
+                if zero_length := len(list(group)) > 1:
+                    pit_str += "0x%d " % zero_length
+                else:
+                    pit_str += "0 "
+            if key != 0:
+                pit_str += f"{round(key, 2)} "
         return pit_str.strip()
 
 
@@ -95,8 +85,8 @@ class AISAudioPattern(AISBasePattern):
 
 class AISBaseTrack(BaseModel):
     idx: Optional[int] = Field(alias="i")
-    solo: Optional[bool] = Field(alias="s")
-    mute: Optional[bool] = Field(alias="m")
+    solo: Optional[bool] = Field(False, alias="s")
+    mute: Optional[bool] = Field(False, alias="m")
     volume: Optional[float] = Field(0, alias="v")
     name: Optional[str] = Field(alias="n")
 
@@ -131,9 +121,9 @@ AISTrack = Annotated[
 
 
 class AISTimeSignature(BaseModel):
-    beat_zi: Optional[int] = None
-    beat_mu: Optional[int] = None
-    start_bar: Optional[int] = None
+    beat_zi: Optional[int] = 4
+    beat_mu: Optional[int] = 4
+    start_bar: Optional[int] = 0
 
     @computed_field(alias="str")
     def str_value(self) -> str:
@@ -158,7 +148,7 @@ class AISProjectBody(BaseModel):
 class AISProjectHead(BaseModel):
     tempo: list[AISTempo] = Field(default_factory=list)
     signature: list[AISTimeSignature] = Field(default_factory=list)
-    flags: Optional[int] = 128
-    flage: Optional[int] = 256
+    flags: Optional[int] = -256
+    flage: Optional[int] = -128
     time: Optional[int] = None
     bar: Optional[int] = None

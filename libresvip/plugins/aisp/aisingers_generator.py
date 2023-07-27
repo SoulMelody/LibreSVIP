@@ -119,17 +119,18 @@ class AiSingersGenerator:
 
     def generate_tracks(self, tracks: list[Track]) -> list[AISSingVoiceTrack]:
         ais_tracks = []
-        for i, track in enumerate(tracks):
+        for track in tracks:
             if isinstance(track, SingingTrack):
                 if note_list := self.generate_notes(track):
                     ais_track = AISSingVoiceTrack(
-                        idx=i,
+                        idx=len(ais_tracks),
                         name=track.title,
                         mute=track.mute,
                         solo=track.solo,
                         singer_namecn=track.ai_singer_name,
                         items=[
                             AISSingVoicePattern(
+                                uid=len(tracks) + len(ais_tracks),
                                 start=0,
                                 length=max(
                                     note.start + note.length for note in note_list
@@ -151,7 +152,7 @@ class AiSingersGenerator:
                 lyric=note.lyric,
                 pinyin=note.pronunciation,
                 triple=False,
-                pit=[0] * 500,
+                pit="0x500",
             )
             if pitch_points := self.generate_pitch(track.edited_params.pitch, note):
                 ais_note.pit = pitch_points
@@ -167,8 +168,9 @@ class AiSingersGenerator:
         pitch_param_in_note = [
             p
             for p in pitch_param_curve.points
-            if p.x >= note.start_pos + self.first_bar_length
-            and p.x <= note.start_pos + self.first_bar_length + note.length
+            if note.start_pos + self.first_bar_length
+            <= p.x
+            <= note.end_pos + self.first_bar_length
         ]
 
         pitch_param_time_in_note = [p.x for p in pitch_param_in_note]
@@ -182,7 +184,7 @@ class AiSingersGenerator:
                 if pitch == -100:
                     ais_pitch_param.append(0)
                 else:
-                    value = round((pitch - note.key_number * 100) / 10)
+                    value = (pitch - note.key_number * 100) / 10
                     ais_pitch_param.append(value)
             else:
                 distance = -1
@@ -191,7 +193,7 @@ class AiSingersGenerator:
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
-                        value = round((point.y - note.key_number * 100) / 10)
+                        value = (point.y - note.key_number * 100) / 10
 
                 ais_pitch_param.append(value)
 

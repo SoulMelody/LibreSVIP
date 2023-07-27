@@ -1,7 +1,7 @@
 import pathlib
 
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project
+from libresvip.model.base import Project, json_dumps
 
 from .aisingers_generator import AiSingersGenerator
 from .aisingers_parser import AiSingersParser
@@ -26,8 +26,14 @@ class AiSingersConverter(plugin_base.SVSConverterBase):
             options
         ).generate_project(project)
         path.write_text(
-            ais_project_head.model_dump_json(by_alias=True)
+            json_dumps(
+                ais_project_head.model_dump(mode="json", by_alias=True),
+                separators=(", ", ": "),
+            )
             + "\n"
-            + ais_project_body.model_dump_json(by_alias=True),
+            + json_dumps(
+                ais_project_body.model_dump(mode="json", by_alias=True),
+                separators=(", ", ": "),
+            ),
             encoding="utf-8",
         )
