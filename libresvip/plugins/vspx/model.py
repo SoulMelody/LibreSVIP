@@ -512,18 +512,53 @@ class VocalSharpInnerProject:
     class Meta:
         name = "Project"
 
-    elements: Optional[list[object]] = field(
+    samples_per_sec: Optional[int] = field(
+        default=44100,
+        metadata={
+            "name": "SamplesPerSec",
+            "type": "Element",
+        },
+    )
+    resolution: Optional[int] = field(
+        default=1920,
+        metadata={
+            "name": "Resolution",
+            "type": "Element",
+        },
+    )
+    duration: Optional[int] = field(
+        default=None,
+        metadata={
+            "name": "Duration",
+            "type": "Element",
+        },
+    )
+    default_trill: Optional[VocalSharpDefaultTrill] = field(
+        default_factory=VocalSharpDefaultTrill,
+        metadata={
+            "name": "DefaultTrill",
+            "type": "Element",
+        },
+    )
+    tempo: Optional[list[VocalSharpTempo]] = field(
+        default_factory=list,
+        metadata={
+            "name": "Tempo",
+            "type": "Element",
+        },
+    )
+    beat: Optional[list[VocalSharpBeat]] = field(
+        default_factory=list,
+        metadata={
+            "name": "Beat",
+            "type": "Element",
+        },
+    )
+    tracks: Optional[list[object]] = field(
         default_factory=list,
         metadata=dict(
-            type="Wildcard",
-            mixed=True,
+            type="Elements",
             choices=(
-                {"name": "SamplesPerSec", "type": int},
-                {"name": "Resolution", "type": int},
-                {"name": "Duration", "type": int},
-                {"name": "DefaultTrill", "type": VocalSharpDefaultTrill},
-                {"name": "Tempo", "type": VocalSharpTempo},
-                {"name": "Beat", "type": VocalSharpBeat},
                 {"name": "NoteTrack", "type": VocalSharpNoteTrack},
                 {"name": "StereoTrack", "type": VocalSharpStereoTrack},
                 {"name": "MonoTrack", "type": VocalSharpMonoTrack},

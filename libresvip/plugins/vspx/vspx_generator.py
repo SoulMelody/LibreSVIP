@@ -7,7 +7,6 @@ from typing import Optional, Union
 import more_itertools
 from pydub import AudioSegment
 from pydub.exceptions import CouldntDecodeError
-from xsdata.formats.dataclass.models.generics import AnyElement
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -24,7 +23,6 @@ from libresvip.utils import midi2note
 from .model import (
     PIT,
     VocalSharpBeat,
-    VocalSharpDefaultTrill,
     VocalSharpMonoTrack,
     VocalSharpNote,
     VocalSharpNoteTrack,
@@ -46,24 +44,13 @@ class VocalSharpGenerator:
     def generate_project(self, project: Project) -> VocalSharpProject:
         vspx_project = VocalSharpProject()
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
-        vspx_project.project.elements.extend(
-            [
-                AnyElement(qname="SamplesPerSec", text=44100),
-                AnyElement(qname="Resolution", text=1920),
-            ]
-        )
-        vspx_project.project.elements.append(VocalSharpDefaultTrill())
-        vspx_project.project.elements.extend(
-            self.generate_tempos(project.song_tempo_list)
-        )
-        vspx_project.project.elements.extend(
-            self.generate_time_signatures(project.time_signature_list)
-        )
+        vspx_project.project.tempo = self.generate_tempos(project.song_tempo_list)
+        vspx_project.project.beat = self.generate_time_signatures(project.time_signature_list)
         singing_tracks = self.generate_singing_tracks(
             [track for track in project.track_list if isinstance(track, SingingTrack)]
         )
-        vspx_project.project.elements.extend(singing_tracks)
-        vspx_project.project.elements.extend(
+        vspx_project.project.tracks.extend(singing_tracks)
+        vspx_project.project.tracks.extend(
             self.generate_instrumental_tracks(
                 [
                     track
@@ -83,9 +70,7 @@ class VocalSharpGenerator:
         vspx_duration = (
             math.ceil(max(max_duration - 122880, 0) / 30720) * 30720 + 122880
         )
-        vspx_project.project.elements.insert(
-            2, AnyElement(qname="Duration", text=vspx_duration)
-        )
+        vspx_project.project.duration = vspx_duration
         return vspx_project
 
     def generate_time_signatures(

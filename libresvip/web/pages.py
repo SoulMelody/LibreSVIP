@@ -582,7 +582,7 @@ def page_layout(lang: Optional[str] = None):
     dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
     ui.add_head_html(
-        '<script src="https://cdn.jsdelivr.net/npm/axios@1/dist/axios.min.js"></script>'
+        '<script src="https://unpkg.com/axios@1/dist/axios.min.js"></script>'
     )
     with ui.element("style") as style:  # fix icon position
         style._text = textwrap.dedent(

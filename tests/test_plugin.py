@@ -175,9 +175,14 @@ def test_dspx_read(shared_datadir, capsys):
 
 
 def test_vspx_read(shared_datadir):
-    vspx_plugin = plugin_registry["vspx"].plugin_object
+    from xsdata.formats.dataclass.parsers.xml import XmlParser
+
+    from libresvip.plugins.vspx.model import VocalSharpProject
+
     proj_path = shared_datadir / "test.vspx"
-    proj = vspx_plugin.load(proj_path, None)
+
+    xml_parser = XmlParser()
+    proj = xml_parser.from_path(proj_path, VocalSharpProject)
     print(proj)
 
 

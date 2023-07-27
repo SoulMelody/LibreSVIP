@@ -38,31 +38,23 @@ class VocalSharpParser:
 
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
         time_signatures = self.parse_time_signatures(
-            [
-                track
-                for track in vspx_project.project.elements
-                if isinstance(track, VocalSharpBeat)
-            ]
+            vspx_project.project.beat
         )
         self.first_bar_length = time_signatures[0].bar_length()
         tempos = self.parse_tempos(
-            [
-                track
-                for track in vspx_project.project.elements
-                if isinstance(track, VocalSharpTempo)
-            ]
+            vspx_project.project.tempo
         )
         singing_tracks = self.parse_singing_tracks(
             [
                 track
-                for track in vspx_project.project.elements
+                for track in vspx_project.project.tracks
                 if isinstance(track, VocalSharpNoteTrack)
             ]
         )
         instrumental_tracks = self.parse_instrumental_tracks(
             [
                 track
-                for track in vspx_project.project.elements
+                for track in vspx_project.project.tracks
                 if isinstance(track, (VocalSharpMonoTrack, VocalSharpStereoTrack))
             ]
         )

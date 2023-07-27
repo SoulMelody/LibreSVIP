@@ -6,7 +6,10 @@ from xsdata.models.datatype import XmlTime
 
 
 @dataclass
-class Author:
+class CeVIOAuthor:
+    class Meta:
+        name = "Author"
+
     version: Optional[str] = field(
         default=None,
         metadata={
@@ -17,7 +20,10 @@ class Author:
 
 
 @dataclass
-class Data:
+class CeVIOData:
+    class Meta:
+        name = "Data"
+
     index: Optional[int] = field(
         default=None,
         metadata={
@@ -36,7 +42,10 @@ class Data:
 
 
 @dataclass
-class Dictionary:
+class CeVIODictionary:
+    class Meta:
+        name = "Dictionary"
+
     version: Optional[str] = field(
         default=None,
         metadata={
@@ -47,7 +56,10 @@ class Dictionary:
 
 
 @dataclass
-class Dynamics:
+class CeVIODynamics:
+    class Meta:
+        name = "Dynamics"
+
     clock: Optional[int] = field(
         default=None,
         metadata={
@@ -65,7 +77,10 @@ class Dynamics:
 
 
 @dataclass
-class Extension:
+class CeVIOExtension:
+    class Meta:
+        name = "Extension"
+
     vertical_ratio: Optional[str] = field(
         default=None,
         metadata={
@@ -76,7 +91,10 @@ class Extension:
 
 
 @dataclass
-class Group:
+class CeVIOGroup:
+    class Meta:
+        name = "Group"
+
     version: Optional[float] = field(
         default=None,
         metadata={
@@ -157,7 +175,10 @@ class Group:
 
 
 @dataclass
-class Key:
+class CeVIOKey:
+    class Meta:
+        name = "Key"
+
     clock: Optional[int] = field(
         default=None,
         metadata={
@@ -182,7 +203,10 @@ class Key:
 
 
 @dataclass
-class Note:
+class CeVIONote:
+    class Meta:
+        name = "Note"
+
     clock: Optional[int] = field(
         default=None,
         metadata={
@@ -235,7 +259,10 @@ class Note:
 
 
 @dataclass
-class ReferenceState:
+class CeVIOReferenceState:
+    class Meta:
+        name = "ReferenceState"
+
     current: Optional[str] = field(
         default=None,
         metadata={
@@ -253,7 +280,10 @@ class ReferenceState:
 
 
 @dataclass
-class Sound:
+class CeVIOSound:
+    class Meta:
+        name = "Sound"
+
     clock: Optional[int] = field(
         default=None,
         metadata={
@@ -271,7 +301,10 @@ class Sound:
 
 
 @dataclass
-class SoundSetting:
+class CeVIOSoundSetting:
+    class Meta:
+        name = "SoundSetting"
+
     rhythm: Optional[str] = field(
         default=None,
         metadata={
@@ -296,7 +329,10 @@ class SoundSetting:
 
 
 @dataclass
-class SoundSource:
+class CeVIOSoundSource:
+    class Meta:
+        name = "SoundSource"
+
     version: Optional[str] = field(
         default=None,
         metadata={
@@ -321,7 +357,10 @@ class SoundSource:
 
 
 @dataclass
-class Time:
+class CeVIOTime:
+    class Meta:
+        name = "Time"
+
     clock: Optional[int] = field(
         default=None,
         metadata={
@@ -346,7 +385,10 @@ class Time:
 
 
 @dataclass
-class ViewScale:
+class CeVIOViewScale:
+    class Meta:
+        name = "ViewScale"
+
     horizontal: Optional[Union[int, float]] = field(
         default=None,
         metadata={
@@ -364,8 +406,11 @@ class ViewScale:
 
 
 @dataclass
-class Beat:
-    time: Optional[Time] = field(
+class CeVIOBeat:
+    class Meta:
+        name = "Beat"
+
+    time: Optional[CeVIOTime] = field(
         default=None,
         metadata={
             "name": "Time",
@@ -375,7 +420,10 @@ class Beat:
 
 
 @dataclass
-class Groups:
+class CeVIOGroups:
+    class Meta:
+        name = "Groups"
+
     active_group: Optional[str] = field(
         default=None,
         metadata={
@@ -383,7 +431,7 @@ class Groups:
             "type": "Attribute",
         },
     )
-    group: list[Group] = field(
+    group: list[CeVIOGroup] = field(
         default_factory=list,
         metadata={
             "name": "Group",
@@ -393,7 +441,10 @@ class Groups:
 
 
 @dataclass
-class Score:
+class CeVIOScore:
+    class Meta:
+        name = "Score"
+
     alpha: Optional[float] = field(
         default=None,
         metadata={
@@ -415,14 +466,14 @@ class Score:
             "type": "Attribute",
         },
     )
-    key: Optional[Key] = field(
+    key: Optional[CeVIOKey] = field(
         default=None,
         metadata={
             "name": "Key",
             "type": "Element",
         },
     )
-    dynamics: list[Dynamics] = field(
+    dynamics: list[CeVIODynamics] = field(
         default_factory=list,
         metadata={
             "name": "Dynamics",
@@ -430,7 +481,7 @@ class Score:
             "sequential": True,
         },
     )
-    note: list[Note] = field(
+    note: list[CeVIONote] = field(
         default_factory=list,
         metadata={
             "name": "Note",
@@ -441,7 +492,10 @@ class Score:
 
 
 @dataclass
-class SongEditor:
+class CeVIOSongEditor:
+    class Meta:
+        name = "SongEditor"
+
     partition: Optional[int] = field(
         default=None,
         metadata={
@@ -470,14 +524,14 @@ class SongEditor:
             "type": "Attribute",
         },
     )
-    view_scale: Optional[ViewScale] = field(
+    view_scale: Optional[CeVIOViewScale] = field(
         default=None,
         metadata={
             "name": "ViewScale",
             "type": "Element",
         },
     )
-    reference_state: Optional[ReferenceState] = field(
+    reference_state: Optional[CeVIOReferenceState] = field(
         default=None,
         metadata={
             "name": "ReferenceState",
@@ -487,8 +541,11 @@ class SongEditor:
 
 
 @dataclass
-class SoundSources:
-    sound_source: list[SoundSource] = field(
+class CeVIOSoundSources:
+    class Meta:
+        name = "SoundSources"
+
+    sound_source: list[CeVIOSoundSource] = field(
         default=None,
         metadata={
             "name": "SoundSource",
@@ -498,7 +555,7 @@ class SoundSources:
 
 
 @dataclass
-class Tts:
+class CeVIOTts:
     class Meta:
         name = "TTS"
 
@@ -509,14 +566,14 @@ class Tts:
             "type": "Attribute",
         },
     )
-    dictionary: Optional[Dictionary] = field(
+    dictionary: Optional[CeVIODictionary] = field(
         default=None,
         metadata={
             "name": "Dictionary",
             "type": "Element",
         },
     )
-    sound_sources: Optional[SoundSources] = field(
+    sound_sources: Optional[CeVIOSoundSources] = field(
         default=None,
         metadata={
             "name": "SoundSources",
@@ -526,7 +583,10 @@ class Tts:
 
 
 @dataclass
-class TalkEditor:
+class CeVIOTalkEditor:
+    class Meta:
+        name = "TalkEditor"
+
     partition: Optional[int] = field(
         default=None,
         metadata={
@@ -534,7 +594,7 @@ class TalkEditor:
             "type": "Attribute",
         },
     )
-    extension: Optional[Extension] = field(
+    extension: Optional[CeVIOExtension] = field(
         default=None,
         metadata={
             "name": "Extension",
@@ -544,8 +604,11 @@ class TalkEditor:
 
 
 @dataclass
-class Tempo:
-    sound: list[Sound] = field(
+class CeVIOTempo:
+    class Meta:
+        name = "Tempo"
+
+    sound: list[CeVIOSound] = field(
         default_factory=list,
         metadata={
             "name": "Sound",
@@ -555,7 +618,10 @@ class Tempo:
 
 
 @dataclass
-class Timeline:
+class CeVIOTimeline:
+    class Meta:
+        name = "Timeline"
+
     partition: Optional[str] = field(
         default=None,
         metadata={
@@ -570,7 +636,7 @@ class Timeline:
             "type": "Attribute",
         },
     )
-    view_scale: Optional[ViewScale] = field(
+    view_scale: Optional[CeVIOViewScale] = field(
         default=None,
         metadata={
             "name": "ViewScale",
@@ -580,7 +646,10 @@ class Timeline:
 
 
 @dataclass
-class Parameter:
+class CeVIOParameter:
+    class Meta:
+        name = "Parameter"
+
     length: Optional[int] = field(
         default=None,
         metadata={
@@ -588,7 +657,7 @@ class Parameter:
             "type": "Attribute",
         },
     )
-    data: list[Union[Data, float, Decimal, int]] = field(
+    data: list[Union[CeVIOData, float, Decimal, int]] = field(
         default_factory=list,
         metadata={
             "name": "Data",
@@ -598,43 +667,46 @@ class Parameter:
 
 
 @dataclass
-class Parameters:
-    timing: Optional[Parameter] = field(
+class CeVIOParameters:
+    class Meta:
+        name = "Parameters"
+
+    timing: Optional[CeVIOParameter] = field(
         default=None,
         metadata={
             "name": "Timing",
             "type": "Element",
         },
     )
-    log_f0: Optional[Parameter] = field(
+    log_f0: Optional[CeVIOParameter] = field(
         default=None,
         metadata={
             "name": "LogF0",
             "type": "Element",
         },
     )
-    c0: Optional[Parameter] = field(
+    c0: Optional[CeVIOParameter] = field(
         default=None,
         metadata={
             "name": "C0",
             "type": "Element",
         },
     )
-    vib_amp: Optional[Parameter] = field(
+    vib_amp: Optional[CeVIOParameter] = field(
         default=None,
         metadata={
             "name": "VibAmp",
             "type": "Element",
         },
     )
-    vib_frq: Optional[Parameter] = field(
+    vib_frq: Optional[CeVIOParameter] = field(
         default=None,
         metadata={
             "name": "VibFrq",
             "type": "Element",
         },
     )
-    alpha: Optional[Parameter] = field(
+    alpha: Optional[CeVIOParameter] = field(
         default=None,
         metadata={
             "name": "Alpha",
@@ -644,7 +716,7 @@ class Parameters:
 
 
 @dataclass
-class Svss:
+class CeVIOSvss:
     class Meta:
         name = "SVSS"
 
@@ -655,14 +727,14 @@ class Svss:
             "type": "Attribute",
         },
     )
-    dictionary: Optional[Dictionary] = field(
+    dictionary: Optional[CeVIODictionary] = field(
         default=None,
         metadata={
             "name": "Dictionary",
             "type": "Element",
         },
     )
-    sound_sources: Optional[SoundSources] = field(
+    sound_sources: Optional[CeVIOSoundSources] = field(
         default=None,
         metadata={
             "name": "SoundSources",
@@ -672,22 +744,25 @@ class Svss:
 
 
 @dataclass
-class Generation:
-    author: Optional[Author] = field(
+class CeVIOGeneration:
+    class Meta:
+        name = "Generation"
+
+    author: Optional[CeVIOAuthor] = field(
         default=None,
         metadata={
             "name": "Author",
             "type": "Element",
         },
     )
-    tts: Optional[Tts] = field(
+    tts: Optional[CeVIOTts] = field(
         default=None,
         metadata={
             "name": "TTS",
             "type": "Element",
         },
     )
-    svss: Optional[Svss] = field(
+    svss: Optional[CeVIOSvss] = field(
         default=None,
         metadata={
             "name": "SVSS",
@@ -697,7 +772,10 @@ class Generation:
 
 
 @dataclass
-class Song:
+class CeVIOSong:
+    class Meta:
+        name = "Song"
+
     version: Optional[float] = field(
         default=None,
         metadata={
@@ -705,28 +783,28 @@ class Song:
             "type": "Attribute",
         },
     )
-    tempo: Optional[Tempo] = field(
+    tempo: Optional[CeVIOTempo] = field(
         default=None,
         metadata={
             "name": "Tempo",
             "type": "Element",
         },
     )
-    beat: Optional[Beat] = field(
+    beat: Optional[CeVIOBeat] = field(
         default=None,
         metadata={
             "name": "Beat",
             "type": "Element",
         },
     )
-    score: Optional[Score] = field(
+    score: Optional[CeVIOScore] = field(
         default=None,
         metadata={
             "name": "Score",
             "type": "Element",
         },
     )
-    parameter: Optional[Parameters] = field(
+    parameter: Optional[CeVIOParameters] = field(
         default=None,
         metadata={
             "name": "Parameter",
@@ -736,7 +814,8 @@ class Song:
 
 
 @dataclass
-class BaseUnit:
+class CeVIOBaseUnit:
+
     version: Optional[float] = field(
         default=None,
         metadata={
@@ -782,8 +861,8 @@ class BaseUnit:
 
 
 @dataclass
-class SongUnit(BaseUnit):
-    song: Optional[Song] = field(
+class CeVIOSongUnit(CeVIOBaseUnit):
+    song: Optional[CeVIOSong] = field(
         default=None,
         metadata={
             "name": "Song",
@@ -807,7 +886,10 @@ class SongUnit(BaseUnit):
 
 
 @dataclass
-class Component:
+class CeVIOComponent:
+    class Meta:
+        name = "Component"
+
     name: Optional[str] = field(
         default=None,
         metadata={
@@ -827,7 +909,10 @@ class Component:
 
 
 @dataclass
-class Phoneme:
+class CeVIOPhoneme:
+    class Meta:
+        name = "Phoneme"
+
     data: Optional[str] = field(
         default=None,
         metadata={
@@ -839,7 +924,10 @@ class Phoneme:
 
 
 @dataclass
-class Direction:
+class CeVIODirection:
+    class Meta:
+        name = "Direction"
+
     volume: Optional[float] = field(
         default=None,
         metadata={
@@ -880,7 +968,7 @@ class Direction:
             "required": True,
         },
     )
-    component: list[Component] = field(
+    component: list[CeVIOComponent] = field(
         default_factory=list,
         metadata={
             "name": "Component",
@@ -891,8 +979,11 @@ class Direction:
 
 
 @dataclass
-class Phonemes:
-    phoneme: list[Phoneme] = field(
+class CeVIOPhonemes:
+    class Meta:
+        name = "Phonemes"
+
+    phoneme: list[CeVIOPhoneme] = field(
         default_factory=list,
         metadata={
             "name": "Phoneme",
@@ -903,7 +994,7 @@ class Phonemes:
 
 
 @dataclass
-class TalkUnit(BaseUnit):
+class CeVIOTalkUnit(CeVIOBaseUnit):
     metadata: Optional[str] = field(
         default="",
         metadata={
@@ -911,7 +1002,7 @@ class TalkUnit(BaseUnit):
             "type": "Element",
         },
     )
-    direction: Optional[Direction] = field(
+    direction: Optional[CeVIODirection] = field(
         default=None,
         metadata={
             "name": "Direction",
@@ -919,7 +1010,7 @@ class TalkUnit(BaseUnit):
             "required": True,
         },
     )
-    phonemes: Optional[Phonemes] = field(
+    phonemes: Optional[CeVIOPhonemes] = field(
         default=None,
         metadata={
             "name": "Phonemes",
@@ -930,7 +1021,7 @@ class TalkUnit(BaseUnit):
 
 
 @dataclass
-class AudioUnit:
+class CeVIOAudioUnit(CeVIOBaseUnit):
     file_path: Optional[str] = field(
         default=None,
         metadata={
@@ -941,13 +1032,17 @@ class AudioUnit:
 
 
 @dataclass
-class Unit(SongUnit, TalkUnit, AudioUnit):
-    pass
+class CeVIOUnit(CeVIOSongUnit, CeVIOTalkUnit, CeVIOAudioUnit):
+    class Meta:
+        name = "Unit"
 
 
 @dataclass
-class Units:
-    unit: list[Unit] = field(
+class CeVIOUnits:
+    class Meta:
+        name = "Units"
+
+    unit: list[CeVIOUnit] = field(
         default_factory=list,
         metadata={
             "name": "Unit",
@@ -957,7 +1052,10 @@ class Units:
 
 
 @dataclass
-class Scene:
+class CeVIOScene:
+    class Meta:
+        name = "Scene"
+
     id: Optional[object] = field(
         default=None,
         metadata={
@@ -965,42 +1063,42 @@ class Scene:
             "type": "Attribute",
         },
     )
-    timeline: Optional[Timeline] = field(
+    timeline: Optional[CeVIOTimeline] = field(
         default=None,
         metadata={
             "name": "Timeline",
             "type": "Element",
         },
     )
-    talk_editor: Optional[TalkEditor] = field(
+    talk_editor: Optional[CeVIOTalkEditor] = field(
         default=None,
         metadata={
             "name": "TalkEditor",
             "type": "Element",
         },
     )
-    song_editor: Optional[SongEditor] = field(
+    song_editor: Optional[CeVIOSongEditor] = field(
         default=None,
         metadata={
             "name": "SongEditor",
             "type": "Element",
         },
     )
-    units: Optional[Units] = field(
+    units: Optional[CeVIOUnits] = field(
         default=None,
         metadata={
             "name": "Units",
             "type": "Element",
         },
     )
-    groups: Optional[Groups] = field(
+    groups: Optional[CeVIOGroups] = field(
         default=None,
         metadata={
             "name": "Groups",
             "type": "Element",
         },
     )
-    sound_setting: Optional[SoundSetting] = field(
+    sound_setting: Optional[CeVIOSoundSetting] = field(
         default=None,
         metadata={
             "name": "SoundSetting",
@@ -1010,7 +1108,7 @@ class Scene:
 
 
 @dataclass
-class Sequence:
+class CeVIOSequence:
     id: Optional[object] = field(
         default=None,
         metadata={
@@ -1018,7 +1116,7 @@ class Sequence:
             "type": "Attribute",
         },
     )
-    scene: Optional[Scene] = field(
+    scene: Optional[CeVIOScene] = field(
         default=None,
         metadata={
             "name": "Scene",
@@ -1036,14 +1134,14 @@ class CeVIOCreativeStudioProject:
             "type": "Attribute",
         },
     )
-    generation: Optional[Generation] = field(
+    generation: Optional[CeVIOGeneration] = field(
         default=None,
         metadata={
             "name": "Generation",
             "type": "Element",
         },
     )
-    sequence: Optional[Sequence] = field(
+    sequence: Optional[CeVIOSequence] = field(
         default=None,
         metadata={
             "name": "Sequence",
