@@ -410,7 +410,7 @@ class CeVIOBeat:
     class Meta:
         name = "Beat"
 
-    time: Optional[CeVIOTime] = field(
+    time: list[CeVIOTime] = field(
         default=None,
         metadata={
             "name": "Time",

@@ -1092,4 +1092,5 @@ if __name__ in {"__main__", "__mp_main__"}:
         storage_secret=storage_secret,
         title="LibreSVIP",
         favicon=res_dir / "libresvip.ico",
+        uvicorn_reload_includes="*.py,*.json,*.txt,*.yapsy-plugin",
     )
