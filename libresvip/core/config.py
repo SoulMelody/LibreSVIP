@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import contextlib
 import dataclasses
 import enum
@@ -16,7 +18,7 @@ class Language(enum.Enum):
     JAPANESE = "日本語"
 
     @classmethod
-    def from_locale(cls, locale):
+    def from_locale(cls, locale: str) -> Language:
         locale = locale.replace("-", "_").lower()
         if locale == "zh_cn":
             return cls.CHINESE
@@ -25,7 +27,7 @@ class Language(enum.Enum):
         else:
             return cls.ENGLISH
 
-    def to_locale(self):
+    def to_locale(self) -> str:
         if self == self.CHINESE:
             return "zh_CN"
         elif self == self.JAPANESE:
@@ -75,6 +77,6 @@ if config_path.exists():
         settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
 
 
-def save_settings():
+def save_settings() -> None:
     app_dir.user_config_path.mkdir(parents=True, exist_ok=True)
     OmegaConf.save(settings, config_path)

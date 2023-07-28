@@ -21,7 +21,7 @@ class TimeSynchronizer:
         skip_ticks: int,
         _is_absolute_time_code: bool,
         _default_tempo: float,
-    ):
+    ) -> None:
         if skip_ticks > 0:
             self.tempo_list = skip_tempo_list(ori_tempo_list, skip_ticks)
         else:
@@ -96,7 +96,7 @@ class TimeSynchronizer:
         start_tempo_index = find_last_index(
             self.tempo_list, lambda tempo: tempo.position <= start_ticks
         )
-        ticks = start_ticks
+        ticks: float = start_ticks
         secs = offset_secs
         for i in range(start_tempo_index, len(self.tempo_list) - 1):
             dur = (self.tempo_list[i + 1].position - ticks) / self.tempo_list[i].bpm / 8

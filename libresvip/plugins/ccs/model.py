@@ -42,6 +42,27 @@ class CeVIOData:
 
 
 @dataclass
+class CeVIODictExtension:
+    class Meta:
+        name = "Extension"
+
+    version: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "Version",
+            "type": "Attribute",
+        },
+    )
+
+    language: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "Language",
+            "type": "Attribute",
+        },
+    )
+
+@dataclass
 class CeVIODictionary:
     class Meta:
         name = "Dictionary"
@@ -51,6 +72,13 @@ class CeVIODictionary:
         metadata={
             "name": "Version",
             "type": "Attribute",
+        },
+    )
+    extension: Optional[CeVIODictExtension] = field(
+        default=None,
+        metadata={
+            "name": "Extension",
+            "type": "Element",
         },
     )
 
@@ -77,7 +105,7 @@ class CeVIODynamics:
 
 
 @dataclass
-class CeVIOExtension:
+class CeVIOTalkExtension:
     class Meta:
         name = "Extension"
 
@@ -102,7 +130,7 @@ class CeVIOGroup:
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    group_id: Optional[str] = field(
         default=None,
         metadata={
             "name": "Id",
@@ -291,7 +319,7 @@ class CeVIOSound:
             "type": "Attribute",
         },
     )
-    tempo: Optional[int] = field(
+    tempo: Optional[float] = field(
         default=None,
         metadata={
             "name": "Tempo",
@@ -340,7 +368,7 @@ class CeVIOSoundSource:
             "type": "Attribute",
         },
     )
-    id: Optional[str] = field(
+    sound_source_id: Optional[str] = field(
         default=None,
         metadata={
             "name": "Id",
@@ -594,7 +622,7 @@ class CeVIOTalkEditor:
             "type": "Attribute",
         },
     )
-    extension: Optional[CeVIOExtension] = field(
+    extension: Optional[CeVIOTalkExtension] = field(
         default=None,
         metadata={
             "name": "Extension",
@@ -823,7 +851,7 @@ class CeVIOBaseUnit:
             "type": "Attribute",
         },
     )
-    id: Optional[object] = field(
+    unit_id: Optional[object] = field(
         default=None,
         metadata={
             "name": "Id",
@@ -1056,7 +1084,7 @@ class CeVIOScene:
     class Meta:
         name = "Scene"
 
-    id: Optional[object] = field(
+    scene_id: Optional[object] = field(
         default=None,
         metadata={
             "name": "Id",
@@ -1109,7 +1137,7 @@ class CeVIOScene:
 
 @dataclass
 class CeVIOSequence:
-    id: Optional[object] = field(
+    sequence_id: Optional[object] = field(
         default=None,
         metadata={
             "name": "Id",

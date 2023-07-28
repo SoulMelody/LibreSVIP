@@ -115,8 +115,9 @@ bump-pydantic = "^0.6.1"
 
 [tool.poetry.group.dev.dependencies]
 poetry-dynamic-versioning = "^0.25.0"
-types-regex = "^2023.6.3.1"
 pydub-stubs = "^0.25.1.0"
+types-regex = "^2023.6.3.1"
+types-ujson = "^5.8.0.1"
 urllib3 = "<2.0"
 
 [[tool.poetry.source]]
@@ -142,24 +143,33 @@ line_length = 100
 profile = "black"
 
 [tool.ruff]
+target-version = "py39"
 src = ['libresvip', 'tests']
 select = [
-  # "ANN", # annotations
-  # "B",   # bugbear
-  "C4",  # comprehensions
-  "E",   # style errors
-  "F",   # flakes
-  "I",   # import sorting
-  "N",   # naming
-  "PGH", # pygrep-hooks
-  "PLC", # pylint convention
-  "PLE", # pylint error
-  # "PLR", # pylint refactor
-  # "RUF", # Ruff
-  "T10", # debugger
-  # "UP",  # upgrade
-  "W",   # style warnings
-  "YTT", # sys.version
+  "A",     # builtins
+  "ASYNC", # async
+  "C4",    # comprehensions
+  "E",     # style errors
+  "EM",    # error messages
+  "EXE",   # executable
+  "F",     # flakes
+  "G",     # logging
+  "I",     # import sorting
+  "INT",   # gettext
+  "N",     # naming
+  "PIE",   # pie
+  "PGH",   # pygrep-hooks
+  "PLC",   # pylint convention
+  "PLE",   # pylint error
+  "PT",    # pytest-style
+  "PTH",   # pathlib
+  "T10",   # debugger
+  "T20",   # print
+  "TCH",   # type-checking
+  "TID",   # tidy-imports
+  "TRY",   # tryceratops
+  "W",     # style warnings
+  "YTT",   # sys.version
 ]
 ignore = [
   "C408", # Unnecessary `dict` call (rewrite as a literal)
@@ -179,13 +189,16 @@ known-third-party = ['srt']
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 
+always_true = "PYSIDE6"
 follow_imports = "silent"
+disable_error_code = "method-assign,operator,override"
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true
 check_untyped_defs = true
 no_implicit_reexport = true
 disallow_untyped_defs = true
+warn_no_return = false
 
 [tool.pydantic-mypy]
 init_forbid_extra = true

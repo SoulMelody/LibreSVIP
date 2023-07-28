@@ -5,6 +5,7 @@ import sys
 from types import SimpleNamespace
 from typing import (
     Annotated,
+    Any,
     Literal,
     Optional,
     Protocol,
@@ -36,7 +37,7 @@ json_dumps = json.dumps
 
 class BaseModel(PydanticBaseModel):
     model_config = ConfigDict(
-        populate_by_name=True
+        populate_by_name=True,
         # # Uncomment the following lines to enable strict mode
         # extra="forbid",
         # strict=True,
@@ -79,7 +80,7 @@ class ParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def load_points(cls, points, _info: FieldValidationInfo) -> Points:
+    def load_points(cls, points: Union[Points, list[Any]], _info: FieldValidationInfo) -> Points:
         return (
             points
             if isinstance(points, Points)
@@ -134,7 +135,7 @@ class ParamCurve(BaseModel):
                 prev_point = current_point
                 i += 1
             result.append(
-                Point(round(x_sum / merged_count), round(y_sum / merged_count))
+                Point(round(x_sum / merged_count), round(y_sum / merged_count)),
             )
             x_sum = 0
             y_sum = 0
@@ -147,7 +148,7 @@ class ParamCurve(BaseModel):
         return ParamCurve(points=Points(root=result))
 
     def split_into_segments(self, interrupt_value: int = 0) -> list[list[Point]]:
-        segments = []
+        segments: list[list[Point]] = []
         if len(self.points) == 0:
             return segments
         elif len(self.points) == 1:
@@ -262,9 +263,9 @@ Track = Annotated[Union[SingingTrack, InstrumentalTrack], Field(discriminator="t
 class Project(BaseModel):
     version: str = Field(default="", alias="Version")
     song_tempo_list: list[SongTempo] = Field(
-        default_factory=list, alias="SongTempoList"
+        default_factory=list, alias="SongTempoList",
     )
     time_signature_list: list[TimeSignature] = Field(
-        default_factory=list, alias="TimeSignatureList"
+        default_factory=list, alias="TimeSignatureList",
     )
     track_list: list[Track] = Field(default_factory=list, alias="TrackList")

@@ -23,7 +23,8 @@ def load_module(name: str, plugin_path: pathlib.Path) -> types.ModuleType:
     try:
         spec.loader.exec_module(module)
     except Exception as e:
-        raise ImportError(f"{e}: {plugin_path}") from e
+        msg = f"{e}: {plugin_path}"
+        raise ImportError(msg) from e
     return module
 
 
@@ -35,14 +36,14 @@ class PluginManager:
     plugin_namespace: str
     install_path: pathlib.Path
     plugin_places: list[pathlib.Path]
-    plugin_registry: dict = dataclasses.field(default_factory=dict)
+    plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
     identifier_blacklist: list[str] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         sys.meta_path.append(self)
 
     @functools.cached_property
-    def lib_suffixes(self):
+    def lib_suffixes(self) -> list[str]:
         return all_suffixes()
 
     def find_spec(self, fullname, path, target=None):
@@ -58,7 +59,7 @@ class PluginManager:
             spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)
         return spec
 
-    def is_plugin(self, member):
+    def is_plugin(self, member: object) -> bool:
         return inspect.isclass(member) and issubclass(member, self.plugin_base) and member != self.plugin_base
 
     def _import_module(self, plugin_module_name: str, candidate_filepath: pathlib.Path) -> types.ModuleType:
@@ -81,8 +82,9 @@ class PluginManager:
             ):
                 candidate_filepath = candidate_filepath.with_suffix(entry_suffix)
             else:
+                msg = f"Cannot find a valid entry point for {plugin_module_name} in {candidate_filepath}"
                 raise ImportError(
-                    f"Cannot find a valid entry point for {plugin_module_name} in {candidate_filepath}"
+                    msg,
                 )
         if plugin_package not in sys.modules:
             sys.modules[plugin_package] = load_module(plugin_package, candidate_filepath)
@@ -123,11 +125,11 @@ class PluginManager:
                     if candidate_filepath.suffix in self.lib_suffixes:
                         candidate_filepath = candidate_filepath.with_suffix("")
                     _discovered.add(str(
-                        plugin_info_path.with_suffix(entry_suffix)
+                        plugin_info_path.with_suffix(entry_suffix),
                     ))
                 else:
                     logger.error(
-                        f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'"
+                        f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                     )
                     break
                 _candidates.append((candidate_infofile, candidate_filepath, plugin_info))

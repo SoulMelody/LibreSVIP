@@ -1,6 +1,7 @@
 from gettext import gettext as _
 
 import typer
+from loguru import logger
 from omegaconf import OmegaConf
 from omegaconf.errors import OmegaConfBaseException
 
@@ -10,12 +11,12 @@ app = typer.Typer()
 
 
 @app.command("list")
-def list_configurations():
+def list_configurations() -> None:
     for name, value in OmegaConf.to_container(settings, resolve=True).items():
         typer.echo(f"{name}: {value}")
 
 
-def conf_key_callback(value: str):
+def conf_key_callback(value: str) -> str:
     if value not in ["language"]:
         raise typer.BadParameter(
             _("Setting {} is not supported in cli mode.").format(value),
@@ -27,10 +28,10 @@ def conf_key_callback(value: str):
 def set_configuration(
     name: str = typer.Argument(callback=conf_key_callback),
     value: str = typer.Argument(),
-):
+) -> None:
     try:
         settings[name] = value
         save_settings()
         typer.echo(_("Set {} to {}").format(name, value))
     except OmegaConfBaseException as e:
-        raise e
+        logger.error(e)

@@ -3,9 +3,9 @@ from typing import Iterable
 import pypinyin
 import regex as re
 
-ENGLISH_CHARS: re.Pattern = re.compile(r"[a-zA-Z]+")
-CHINESE_RE: re.Pattern = re.compile(r"\p{Han}")
-WHITE_SPACE: re.Pattern = re.compile(r"[\s\n\r\t]+")
+ENGLISH_CHARS: re.Pattern[str] = re.compile(r"[a-zA-Z]+")
+CHINESE_RE: re.Pattern[str] = re.compile(r"\p{Han}")
+WHITE_SPACE: re.Pattern[str] = re.compile(r"[\s\n\r\t]+")
 
 
 def get_pinyin_series(

@@ -1,10 +1,11 @@
 import abc
 import pathlib
+from typing import Any
 
 from pydantic import BaseModel
 
-from ..model.base import Project
-from ..utils import ensure_path
+from libresvip.model.base import Project
+from libresvip.utils import ensure_path
 
 
 class BasePlugin(abc.ABC):
@@ -12,7 +13,7 @@ class BasePlugin(abc.ABC):
 
 
 class SVSConverterBase(BasePlugin, abc.ABC):
-    def __init_subclass__(cls, **kwargs):
+    def __init_subclass__(cls, **kwargs: dict[str, Any]) -> None:
         cls.load = ensure_path(cls.load)
         cls.dump = ensure_path(cls.dump)
         super().__init_subclass__(**kwargs)
@@ -22,7 +23,7 @@ class SVSConverterBase(BasePlugin, abc.ABC):
         pass
 
     @abc.abstractmethod
-    def dump(self, path: pathlib.Path, project: Project, options: BaseModel):
+    def dump(self, path: pathlib.Path, project: Project, options: BaseModel) -> None:
         pass
 
 
@@ -32,5 +33,5 @@ class WriteOnlyConverterBase(SVSConverterBase, abc.ABC):
 
 
 class ReadOnlyConverterBase(SVSConverterBase, abc.ABC):
-    def dump(self, path: pathlib.Path, project: Project, options: BaseModel):
+    def dump(self, path: pathlib.Path, project: Project, options: BaseModel) -> None:
         raise NotImplementedError

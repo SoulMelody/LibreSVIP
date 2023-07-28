@@ -15,7 +15,7 @@ from libresvip.gui.modules import (
 )
 
 
-def run():
+def run() -> None:
     os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
     QQuickStyle.setStyle("Material")
     app._register_backend = lambda: None

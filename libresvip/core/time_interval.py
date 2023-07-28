@@ -3,7 +3,7 @@ from __future__ import annotations
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
-from typing import Iterable, Optional
+from typing import Iterable, Optional, Union
 
 import portion
 
@@ -13,7 +13,7 @@ class RangeInterval:
     _sub_ranges: dataclasses.InitVar[Optional[list[tuple[int, int]]]] = None
     interval: portion.Interval = dataclasses.field(init=False)
 
-    def __post_init__(self, _sub_ranges: Optional[list[tuple[int, int]]]):
+    def __post_init__(self, _sub_ranges: Optional[list[tuple[int, int]]]) -> None:
         self.interval = reduce(
             operator.or_,
             (portion.closedopen(*sub_range) for sub_range in (_sub_ranges or [])),
@@ -61,7 +61,7 @@ class RangeInterval:
         return new_interval
 
     @singledispatchmethod
-    def expand(self, a) -> RangeInterval:
+    def expand(self, a: Union[tuple[int, int], int]) -> RangeInterval:
         raise NotImplementedError
 
     @expand.register(tuple)
@@ -78,7 +78,7 @@ class RangeInterval:
         return self.expand((radius, radius))
 
     @singledispatchmethod
-    def shrink(self, a) -> RangeInterval:
+    def shrink(self, a: Union[tuple[int, int], int]) -> RangeInterval:
         raise NotImplementedError
 
     @shrink.register(int)

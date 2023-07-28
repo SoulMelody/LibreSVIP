@@ -1,14 +1,16 @@
 import enum
-import pathlib
 import sys
 from importlib.resources import files
-from typing import get_args, get_type_hints
+from typing import TYPE_CHECKING, get_args, get_type_hints
 
 from loguru import logger
 from pydantic_extra_types.color import Color
 
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
+
+if TYPE_CHECKING:
+    import pathlib
 
 
 def messages_iterator():
@@ -30,16 +32,9 @@ def messages_iterator():
             )["options"]
             conv_fields = []
             for option_key, field_info in option_class.model_fields.items():
-                if issubclass(field_info.annotation, bool):
-                    field_metadata = {
-                        "title": field_info.title,
-                    }
-                    if field_info.description:
-                        field_metadata["description"] = field_info.description
-                    conv_fields.append(field_metadata)
-                elif issubclass(
+                if issubclass(
                     field_info.annotation,
-                    (str, int, float, Color, BaseComplexModel),
+                    (bool, str, int, float, Color, BaseComplexModel),
                 ):
                     field_metadata = {
                         "title": field_info.title,

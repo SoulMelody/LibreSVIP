@@ -3699,6 +3699,22 @@ url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
 reference = "tuna"
 
 [[package]]
+name = "types-ujson"
+version = "5.8.0.1"
+description = "Typing stubs for ujson"
+optional = false
+python-versions = "*"
+files = [
+    {file = "types-ujson-5.8.0.1.tar.gz", hash = "sha256:2b14388248ab4cd1f5efa8c464761112597ccd57c0d84238f73631abe0e20cfd"},
+    {file = "types_ujson-5.8.0.1-py3-none-any.whl", hash = "sha256:1923f373ba5df0eaa4e3fe5c85dbf4c0b475e2cce3f77f5f4b773347ea1a62c9"},
+]
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+reference = "tuna"
+
+[[package]]
 name = "typing-extensions"
 version = "4.7.1"
 description = "Backported and Experimental Type Hints for Python 3.7+"
@@ -4273,4 +4289,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "820bfc83e7934a128cc6d11d4f370f48cf9c1d79ae79cde053af778e8deaa3a8"
+content-hash = "6d805bdb90027230606b477acabaaa3158838c41374b96e23ab29fe76ae20c86"

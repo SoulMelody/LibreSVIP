@@ -5,8 +5,7 @@ import gettext
 import math
 import pathlib
 from numbers import Real
-from types import FunctionType
-from typing import Callable, Optional, TypeVar
+from typing import Any, Callable, Optional, TypeVar, Union
 from xml.sax import saxutils
 
 import charset_normalizer
@@ -19,7 +18,7 @@ lazy_translation: contextvars.ContextVar[
 ] = contextvars.ContextVar("translator")
 
 
-def ensure_path(func: FunctionType) -> FunctionType:
+def ensure_path(func: Callable[[Union[pathlib.Path, str]], Any]) -> Callable[[pathlib.Path], Any]:
     @functools.wraps(func)
     def wrapper(self, path, *args, **kwargs):
         if not isinstance(path, pathlib.Path):
@@ -31,17 +30,8 @@ def ensure_path(func: FunctionType) -> FunctionType:
 
 def to_unicode(content: bytes) -> str:
     guessed_charset = charset_normalizer.detect(content)
-    if guessed_charset["encoding"] is None:
-        encoding = "utf-8"
-    else:
-        encoding = guessed_charset["encoding"]
+    encoding = "utf-8" if guessed_charset["encoding"] is None else guessed_charset["encoding"]
     return content.decode(encoding)
-
-
-@ensure_path
-def read_file(path: pathlib.Path) -> str:
-    content = path.read_bytes()
-    return to_unicode(content)
 
 
 def find_index(obj_list: list[T], pred: Callable[[T], bool]) -> int:
@@ -98,7 +88,7 @@ def clamp(x: Real, lower: Real = float("-inf"), upper: Real = float("inf")) -> R
     """
     if upper < lower:
         raise ValueError(
-            "expected upper bound (%r) >= lower bound (%r)" % (upper, lower)
+            "expected upper bound (%r) >= lower bound (%r)" % (upper, lower),
         )
     return min(max(x, lower), upper)
 
@@ -141,15 +131,9 @@ def note2midi(note: str, *, round_midi=True) -> float:
     octave = match.group("octave")
     cents = match.group("cents")
 
-    if not octave:
-        octave = 0
-    else:
-        octave = int(octave)
+    octave = 0 if not octave else int(octave)
 
-    if not cents:
-        cents = 0
-    else:
-        cents = int(cents) * 1e-2
+    cents = 0 if not cents else int(cents) * 0.01
 
     note_value = 12 * (octave + 1) + pitch_map[pitch] + offset + cents
 
@@ -159,10 +143,9 @@ def note2midi(note: str, *, round_midi=True) -> float:
     return note_value
 
 
-def midi2note(midi: float, *, round_midi=True) -> str:
+def midi2note(midi: float) -> str:
     pitch_map = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    if round_midi:
-        midi = int(round(midi))
+    midi = int(round(midi))
     octave = (midi // 12) - 1
     pitch = pitch_map[midi % 12]
     return f"{pitch}{octave}"
@@ -193,7 +176,7 @@ class EchoGenerator(saxutils.XMLGenerator):
         self._write(f"<!DOCTYPE {name}")
         if public_id:
             self._write(
-                f" PUBLIC {saxutils.quoteattr(public_id)} {saxutils.quoteattr(system_id)}"
+                f" PUBLIC {saxutils.quoteattr(public_id)} {saxutils.quoteattr(system_id)}",
             )
         elif system_id:
             self._write(f" SYSTEM {saxutils.quoteattr(system_id)}")

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from functools import partial
-from typing import Generic, NamedTuple, TypeVar, Union
+from typing import Callable, Generic, NamedTuple, TypeVar, Union
 
 from more_itertools import pairwise
 from pydantic import (
@@ -33,7 +33,7 @@ class Point(NamedTuple):
 def _inner_interpolate(
     data: list[Point],
     sampling_interval_tick: int,
-    mapping: callable[[Point, Point, int], float],
+    mapping: Callable[[Point, Point, int], float],
 ) -> list[Point]:
     return (
         data
@@ -131,7 +131,7 @@ class PointList(BaseModel, Generic[PointType]):
         return {"root": values} if isinstance(values, list) else values
 
     @model_serializer(mode="wrap")
-    def _serialize(self, handler: callable, info: SerializationInfo):
+    def _serialize(self, handler: Callable, info: SerializationInfo):
         data = handler(self)
         return data["root"] if info.mode == "json" and isinstance(data, dict) else data
 
@@ -148,43 +148,43 @@ class PointList(BaseModel, Generic[PointType]):
     def __getitem__(self, index: int) -> PointType:
         return self.root[index]
 
-    def __setitem__(self, index: int, value: PointType):
+    def __setitem__(self, index: int, value: PointType) -> None:
         self.root[index] = value
 
-    def __delitem__(self, index: int):
+    def __delitem__(self, index: int) -> None:
         del self.root[index]
 
     def __contains__(self, item) -> bool:
         return item in self.root
 
-    def append(self, item: PointType):
+    def append(self, item: PointType) -> None:
         self.root.append(item)
 
-    def insert(self, i: int, item: PointType):
+    def insert(self, i: int, item: PointType) -> None:
         self.root.insert(i, item)
 
-    def pop(self, i: int = -1):
+    def pop(self, i: int = -1) -> PointType:
         return self.root.pop(i)
 
-    def remove(self, item: PointType):
+    def remove(self, item: PointType) -> None:
         self.root.remove(item)
 
-    def clear(self):
+    def clear(self) -> None:
         self.root.clear()
 
     def count(self, item: PointType) -> int:
         return self.root.count(item)
 
-    def index(self, item: PointType, *args):
+    def index(self, item: PointType, *args) -> int:
         return self.root.index(item, *args)
 
-    def reverse(self):
+    def reverse(self) -> None:
         self.root.reverse()
 
-    def sort(self, /, *args, **kwds):
+    def sort(self, /, *args, **kwds) -> None:
         self.root.sort(*args, **kwds)
 
-    def extend(self, other: Union[PointList, list[PointType]]):
+    def extend(self, other: Union[PointList, list[PointType]]) -> None:
         if isinstance(other, PointList):
             self.root.extend(other.root)
         else:

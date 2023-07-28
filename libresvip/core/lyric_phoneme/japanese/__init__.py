@@ -1,9 +1,16 @@
 from typing import Iterable
 
 from wanakana.japanese import (
-    is_japanese,  # noqa: F401
+    is_japanese,
+    is_kana,
     split_into_romaji,
 )
+
+__all__ = [
+    "is_kana",
+    "is_japanese",
+    "get_romaji_series",
+]
 
 
 def get_romaji_series(
