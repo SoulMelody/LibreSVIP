@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "libresvip"
-version = "0.0.0"
+version = "0.7.0"
 description = "Universal Converter for Singing Voice Projects"
 authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
@@ -116,7 +116,6 @@ bump-pydantic = "^0.6.1"
 
 
 [tool.poetry.group.dev.dependencies]
-poetry-dynamic-versioning = "^0.25.0"
 types-regex = "^2023.6.3.1"
 types-ujson = "^5.8.0.1"
 urllib3 = "<2.0"
@@ -130,10 +129,6 @@ priority = "default"
 cli = "libresvip.cli.__main__:app"
 gui = "libresvip.gui.__main__:run"
 web = "libresvip.web.__main__:main"
-
-[tool.poetry-dynamic-versioning]
-enable = true
-format = "{base}"
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"

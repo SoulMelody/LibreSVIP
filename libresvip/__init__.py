@@ -1,1 +1,5 @@
-__version__ = "0.7.0"
+import importlib.metadata
+
+from libresvip.core.constants import PACKAGE_NAME
+
+__version__ = importlib.metadata.version(PACKAGE_NAME)
