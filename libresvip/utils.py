@@ -39,19 +39,6 @@ def find_last_index(obj_list: list[T], pred: Callable[[T], bool]) -> int:
     return next(rlocate(obj_list, pred), -1)
 
 
-def download_and_setup_ffmpeg() -> None:
-    with contextlib.suppress(ImportError):
-        import static_ffmpeg
-        import static_ffmpeg.run
-
-        # static_ffmpeg.run.PLATFORM_ZIP_FILES = {
-        #     platform: "https://ghproxy.com/" + url
-        #     for platform, url in static_ffmpeg.run.PLATFORM_ZIP_FILES.items()
-        # }
-
-        static_ffmpeg.add_paths()
-
-
 def gettext_lazy(message: str) -> str:
     if (translation := lazy_translation.get()) is not None:
         return translation.gettext(message)

@@ -12,7 +12,6 @@ sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
 import libresvip
 from libresvip.core.constants import pkg_dir
-from libresvip.utils import download_and_setup_ffmpeg
 
 with contextlib.suppress(Exception):
     if (
@@ -21,8 +20,6 @@ with contextlib.suppress(Exception):
         and os.name == "nt"
     ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
-
-download_and_setup_ffmpeg()
 
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 
@@ -70,7 +67,7 @@ build_exe_options = {
         "libresvip",
         "mido",
         "pure_protobuf",
-        "pydub",
+        "pymediainfo",
         "srt",
         "textx",
         "xsdata",
