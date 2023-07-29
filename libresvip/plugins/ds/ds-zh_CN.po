@@ -3,15 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-23 11:26+0800\n"
+"POT-Creation-Date: 2023-07-29 22:06+0800\n"
 "PO-Revision-Date: 2023-05-26 07:38+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Translate Toolkit 3.9.2\n"
 
+#: .ds.name
+msgid "DiffSinger"
+msgstr ""
+
+#: .ds.file_format
 #: .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
@@ -88,15 +93,22 @@ msgid "Start from 0, -1 means automatic selection"
 msgstr "从0开始，-1表示自动选择"
 
 #: .ds.messages[0]
+msgid "Cannot find dict."
+msgstr "无法找到词典文件"
+
+#: .ds.messages[1]
+#: .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
+#: .ds.messages[2]
 #: .ds.messages[1]
 msgid ""
 "The selected dictionary does not contain the pronunciation “{}”. Please "
 "check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
+#: .ds.messages[3]
 #: .ds.messages[2]
 msgid "The source file lacks pitch parameters."
 msgstr "源文件缺少音高参数"

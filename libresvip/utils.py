@@ -1,11 +1,9 @@
 import contextlib
 import contextvars
-import functools
 import gettext
 import math
-import pathlib
 from numbers import Real
-from typing import Any, Callable, Optional, TypeVar, Union
+from typing import Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
 
 import charset_normalizer
@@ -20,19 +18,13 @@ lazy_translation: contextvars.ContextVar[
 ] = contextvars.ContextVar("translator")
 
 
-def ensure_path(func: Callable[[Union[pathlib.Path, str]], Any]) -> Callable[[pathlib.Path], Any]:
-    @functools.wraps(func)
-    def wrapper(self, path, *args, **kwargs):
-        if not isinstance(path, pathlib.Path):
-            path = pathlib.Path(path)
-        return func(self, path, *args, **kwargs)
-
-    return wrapper
-
-
 def to_unicode(content: bytes) -> str:
     guessed_charset = charset_normalizer.detect(content)
-    encoding = "utf-8" if guessed_charset["encoding"] is None else guessed_charset["encoding"]
+    encoding = (
+        "utf-8"
+        if guessed_charset["encoding"] is None
+        else cast(str, guessed_charset["encoding"])
+    )
     return content.decode(encoding)
 
 
@@ -44,7 +36,7 @@ def find_last_index(obj_list: list[T], pred: Callable[[T], bool]) -> int:
     return next(rlocate(obj_list, pred), -1)
 
 
-def download_and_setup_ffmpeg():
+def download_and_setup_ffmpeg() -> None:
     with contextlib.suppress(ImportError):
         import static_ffmpeg
         import static_ffmpeg.run
@@ -75,7 +67,11 @@ def shorten_error_message(message: Optional[str]) -> str:
     return message
 
 
-def clamp(x: Real, lower: Real = float("-inf"), upper: Real = float("inf")) -> Real:
+def clamp(
+    x: Real,
+    lower: Real = cast(Real, float("-inf")),
+    upper: Real = cast(Real, float("inf")),
+) -> Real:
     """Limit a value to a given range.
 
     The returned value is guaranteed to be between *lower* and
@@ -96,15 +92,15 @@ def clamp(x: Real, lower: Real = float("-inf"), upper: Real = float("inf")) -> R
 
 
 # convertion functions adapted from librosa
-def midi2hz(midi: float, a4_midi=69, base_freq=440.0) -> float:
+def midi2hz(midi: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
     return base_freq * 2 ** ((midi - a4_midi) / KEY_IN_OCTAVE)
 
 
-def hz2midi(hz: float, a4_midi=69, base_freq=440.0) -> float:
+def hz2midi(hz: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
     return a4_midi + KEY_IN_OCTAVE * math.log2(hz / base_freq)
 
 
-def note2midi(note: str, *, round_midi=True) -> float:
+def note2midi(note: str) -> float:
     pitch_map = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
     acc_map = {
         "#": 1,
@@ -119,10 +115,7 @@ def note2midi(note: str, *, round_midi=True) -> float:
     }
 
     match = re.match(
-        r"^(?P<note>[A-Ga-g])"
-        r"(?P<accidental>[#♯𝄪b!♭𝄫♮]*)"
-        r"(?P<octave>[+-]?\d+)?"
-        r"(?P<cents>[+-]\d+)?$",
+        r"^(?P<note>[A-Ga-g])" r"(?P<accidental>[#♯𝄪b!♭𝄫♮]*)" r"(?P<octave>[+-]?\d+)?$",
         note,
     )
     if not match:
@@ -131,16 +124,12 @@ def note2midi(note: str, *, round_midi=True) -> float:
     pitch = match.group("note").upper()
     offset = sum(acc_map[o] for o in match.group("accidental"))
     octave = match.group("octave")
-    cents = match.group("cents")
 
-    octave = 0 if not octave else int(octave)
+    octave = int(octave) if octave else 0
 
-    cents = 0 if not cents else int(cents) * 0.01
+    note_value = KEY_IN_OCTAVE * (octave + 1) + pitch_map[pitch] + offset
 
-    note_value = KEY_IN_OCTAVE * (octave + 1) + pitch_map[pitch] + offset + cents
-
-    if round_midi:
-        note_value = int(round(note_value))
+    note_value = int(round(note_value))
 
     return note_value
 
@@ -156,12 +145,14 @@ def midi2note(midi: float) -> str:
 class EchoGenerator(saxutils.XMLGenerator):
     # from https://code.activestate.com/recipes/84516-using-the-sax2-lexicalhandler-interface/
 
-    def __init__(self, out=None, encoding="iso-8859-1", short_empty_elements=False):
+    def __init__(
+        self, out=None, encoding="iso-8859-1", short_empty_elements=False
+    ) -> None:
         super().__init__(out, encoding, short_empty_elements)
         self._in_entity = 0
         self._in_cdata = 0
 
-    def characters(self, content):
+    def characters(self, content: Union[str, bytes]) -> None:
         if self._in_entity:
             return
         elif self._in_cdata:

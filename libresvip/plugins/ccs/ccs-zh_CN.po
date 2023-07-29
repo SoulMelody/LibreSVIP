@@ -1,0 +1,38 @@
+#. extracted from 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-29 22:06+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.9.2\n"
+
+#: .ccs.name
+msgid "CeVIO"
+msgstr ""
+
+#: .ccs.file_format
+msgid "CeVIO Creative Studio Project file"
+msgstr "CeVIO Creative Studio工程文件"
+
+#: .ccs.description
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr "CeVIO Creative Studio工程文件转换插件"
+
+#: .ccs.dump[0].title
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+#: .ccs.dump[1].title
+msgid "Default Voicebank ID"
+msgstr "默认声库ID"
+
+#: .ccs.dump[2].title
+msgid "Default Voicebank Version"
+msgstr "默认声库版本"

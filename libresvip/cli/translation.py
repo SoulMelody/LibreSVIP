@@ -8,7 +8,7 @@ from libresvip.core.constants import PACKAGE_NAME, res_dir
 def init_i18n() -> None:
     if not config_path.exists():
         sys_locale = locale.getdefaultlocale()[0]
-        settings.language = Language.from_locale(sys_locale)
+        settings.language = Language.from_locale(sys_locale or "en_US")
         save_settings()
     locale_name = settings.language.to_locale()
     if (res_dir / "locales" / locale_name).exists():

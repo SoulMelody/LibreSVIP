@@ -1,11 +1,11 @@
 import abc
+import functools
 import pathlib
-from typing import Any
+from typing import Any, Callable, Union
 
 from pydantic import BaseModel
 
 from libresvip.model.base import Project
-from libresvip.utils import ensure_path
 
 
 class BasePlugin(abc.ABC):
@@ -14,9 +14,24 @@ class BasePlugin(abc.ABC):
 
 class SVSConverterBase(BasePlugin, abc.ABC):
     def __init_subclass__(cls, **kwargs: dict[str, Any]) -> None:
-        cls.load = ensure_path(cls.load)
-        cls.dump = ensure_path(cls.dump)
+        cls.load = cls.ensure_path(cls.load)  # type: ignore [method-assign]
+        cls.dump = cls.ensure_path(cls.dump)  # type: ignore [method-assign]
         super().__init_subclass__(**kwargs)
+
+    @classmethod
+    def ensure_path(cls, func: Callable) -> Callable:  # type: ignore [type-arg]
+        @functools.wraps(func)
+        def wrapper(
+            self: SVSConverterBase,
+            path: Union[str, pathlib.Path],
+            *args: list[Any],
+            **kwargs: dict[str, Any]
+        ) -> Any:
+            if not isinstance(path, pathlib.Path):
+                path = pathlib.Path(path)
+            return func(self, path, *args, **kwargs)
+
+        return wrapper
 
     @abc.abstractmethod
     def load(self, path: pathlib.Path, options: BaseModel) -> Project:

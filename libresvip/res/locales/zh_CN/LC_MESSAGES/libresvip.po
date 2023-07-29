@@ -560,7 +560,35 @@ msgstr "AISingers Studio 工程文件"
 msgid "Conversion plugin for AISingers Studio project file"
 msgstr "AISingers Studio 工程文件转换插件"
 
-#: .ds.format_desc
+#: .ccs.name
+msgid "CeVIO"
+msgstr ""
+
+#: .ccs.file_format
+msgid "CeVIO Creative Studio Project file"
+msgstr "CeVIO Creative Studio工程文件"
+
+#: .ccs.description
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr "CeVIO Creative Studio工程文件转换插件"
+
+#: .ccs.dump[0].title
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+#: .ccs.dump[1].title
+msgid "Default Voicebank ID"
+msgstr "默认声库ID"
+
+#: .ccs.dump[2].title
+msgid "Default Voicebank Version"
+msgstr "默认声库版本"
+
+#: .ds.name
+msgid "DiffSinger"
+msgstr ""
+
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -568,7 +596,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.load[0].title .ds.dump[0].title
+#: .ds.load[0].title .ds.dump[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -635,16 +663,20 @@ msgid "Start from 0, -1 means automatic selection"
 msgstr "从0开始，-1表示自动选择"
 
 #: .ds.messages[0]
+msgid "Cannot find dict."
+msgstr "无法找到词典文件"
+
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[1]
+#: .ds.messages[2] .ds.messages[1]
 msgid ""
 "The selected dictionary does not contain the pronunciation “{}”. Please "
 "check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
-#: .ds.messages[2]
+#: .ds.messages[3] .ds.messages[2]
 msgid "The source file lacks pitch parameters."
 msgstr "源文件缺少音高参数"
 
@@ -1353,10 +1385,6 @@ msgstr "默认的CompID"
 #: .vpr.dump[2].description
 msgid "Default comp_id of voicebank"
 msgstr "默认声库对应的comp_id"
-
-#: .vpr.dump[3].title
-msgid "Default Singer Name"
-msgstr "默认歌手名"
 
 #: .vpr.dump[3].description
 msgid "Default singer name of voicebank"

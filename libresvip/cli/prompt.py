@@ -16,6 +16,8 @@ def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
             default_value = (
                 None if field_info.default is PydanticUndefined else field_info.default
             )
+            if field_info.title is None or field_info.annotation is None:
+                continue
             translated_title = f"{i + 1}. {{}}".format(_(field_info.title))
             if issubclass(field_info.annotation, enum.Enum):
                 default_value = default_value.value if default_value else None
@@ -27,19 +29,23 @@ def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
                 option_kwargs[option_key] = choice
             elif issubclass(field_info.annotation, bool):
                 option_kwargs[option_key] = Confirm.ask(
-                    translated_title, default=default_value,
+                    translated_title,
+                    default=default_value,
                 )
             elif issubclass(field_info.annotation, int):
                 option_kwargs[option_key] = IntPrompt.ask(
-                    translated_title, default=default_value,
+                    translated_title,
+                    default=default_value,
                 )
             elif issubclass(field_info.annotation, float):
                 option_kwargs[option_key] = FloatPrompt.ask(
-                    translated_title, default=default_value,
+                    translated_title,
+                    default=default_value,
                 )
             elif issubclass(field_info.annotation, (str, Color)):
                 option_kwargs[option_key] = Prompt.ask(
-                    translated_title, default=default_value,
+                    translated_title,
+                    default=default_value,
                 )
             elif issubclass(field_info.annotation, BaseComplexModel):
                 value_str = Prompt.ask(
