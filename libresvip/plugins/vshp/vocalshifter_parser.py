@@ -4,7 +4,6 @@ import pathlib
 from typing import Callable
 
 from construct import Container
-from pydub.utils import db_to_float
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
@@ -20,6 +19,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import db_to_float
 
 from .model import (
     VocalShifterPatternData,

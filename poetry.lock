@@ -2179,18 +2179,18 @@ reference = "tuna"
 
 [[package]]
 name = "platformdirs"
-version = "3.9.1"
+version = "3.10.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.9.1-py3-none-any.whl", hash = "sha256:ad8291ae0ae5072f66c16945166cb11c63394c7a3ad1b1bc9828ca3162da8c2f"},
-    {file = "platformdirs-3.9.1.tar.gz", hash = "sha256:1b42b450ad933e981d56e59f1b97495428c9bd60698baab9f3eb3d00d5822421"},
+    {file = "platformdirs-3.10.0-py3-none-any.whl", hash = "sha256:d7c24979f292f916dc9cbf8648319032f551ea8c49a4c9bf2fb556a02070ec1d"},
+    {file = "platformdirs-3.10.0.tar.gz", hash = "sha256:b45696dab2d7cc691a3226759c0d3b00c47c8b6e293d96f6436f733303f77f6d"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.5.20)", "proselint (>=0.13)", "sphinx (>=7.0.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)"]
+docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.1)", "sphinx-autodoc-typehints (>=1.24)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)"]
 
 [package.source]
 type = "legacy"
@@ -2597,22 +2597,6 @@ url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
 reference = "tuna"
 
 [[package]]
-name = "pydub-stubs"
-version = "0.25.1.0"
-description = "Stub-only package containing type information for pydub"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "pydub-stubs-0.25.1.0.tar.gz", hash = "sha256:57ff97da5faf221eda0f508e62a187766342490e07a450c63a76ca7e970da4da"},
-    {file = "pydub_stubs-0.25.1.0-py3-none-any.whl", hash = "sha256:7ff185c40838dfdfb344222ad6d962e99682fa2787557d771023af8c24593ddc"},
-]
-
-[package.source]
-type = "legacy"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
-reference = "tuna"
-
-[[package]]
 name = "pygments"
 version = "2.15.1"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -2625,6 +2609,43 @@ files = [
 
 [package.extras]
 plugins = ["importlib-metadata"]
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+reference = "tuna"
+
+[[package]]
+name = "pymediainfo"
+version = "6.0.1"
+description = "A Python wrapper for the mediainfo library."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pymediainfo-6.0.1-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:81165e895e1e362fa11c128ce2bc976cb8a74224f96f309a88ee047106041b0a"},
+    {file = "pymediainfo-6.0.1-py3-none-win32.whl", hash = "sha256:bb3a48ac9706626fd2fa7881f4271728459a1c9a082917deb0c7dd343d8a1be5"},
+    {file = "pymediainfo-6.0.1-py3-none-win_amd64.whl", hash = "sha256:c38e79d4d2062732ae555b564c3cac18a6de4f36e033066c617f386cf5e77564"},
+    {file = "pymediainfo-6.0.1.tar.gz", hash = "sha256:96e04bac0dfcb726bed70c314b1219121c4b9344c66a98f426ce27d7f9abffb0"},
+]
+
+[package.source]
+type = "legacy"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple"
+reference = "tuna"
+
+[[package]]
+name = "pymediainfo-lambda"
+version = "0.0.13"
+description = "A Python wrapper for the mediainfo library."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pymediainfo-lambda-0.0.13.tar.gz", hash = "sha256:33df4ed18cee56fc4d5bd4593e88cab9fb22e5789b35c24ba661b58380c3c296"},
+    {file = "pymediainfo_lambda-0.0.13-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:915886a1357c871eca0ad6770ec0b1fe2da5a0a4a82f5d2d17f2216422f3626b"},
+    {file = "pymediainfo_lambda-0.0.13-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:dde9150a4fade2a645708bcaafbb354b70d7db3b038a12bd61ccbfafde41f634"},
+    {file = "pymediainfo_lambda-0.0.13-py3-none-win32.whl", hash = "sha256:01c339fef635f77c2f0986abba89a50b90177755f00013c0946bac310b22cdb8"},
+    {file = "pymediainfo_lambda-0.0.13-py3-none-win_amd64.whl", hash = "sha256:5fbd10b96f00407c07c8206389a1e56fef9856d90df331fb2e4607f95a4c92ff"},
+]
 
 [package.source]
 type = "legacy"
@@ -3201,13 +3222,13 @@ reference = "tuna"
 
 [[package]]
 name = "rich"
-version = "13.4.2"
+version = "13.5.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "rich-13.4.2-py3-none-any.whl", hash = "sha256:8f87bc7ee54675732fa66a05ebfe489e27264caeeff3728c945d25971b6485ec"},
-    {file = "rich-13.4.2.tar.gz", hash = "sha256:d653d6bccede5844304c605d5aac802c7cf9621efd700b46c7ec2b51ea914898"},
+    {file = "rich-13.5.0-py3-none-any.whl", hash = "sha256:996670a7618ccce27c55ba6fc0142e6e343773e11d34c96566a17b71b0e6f179"},
+    {file = "rich-13.5.0.tar.gz", hash = "sha256:62c81e88dc078d2372858660e3d5566746870133e51321f852ccc20af5c7e7b2"},
 ]
 
 [package.dependencies]
@@ -4289,4 +4310,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "6d805bdb90027230606b477acabaaa3158838c41374b96e23ab29fe76ae20c86"
+content-hash = "437e26eae0b48a5071dca26222dbb061272768b1c7551dbe4f39f7a8ea216a32"

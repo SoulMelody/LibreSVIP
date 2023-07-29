@@ -1,12 +1,8 @@
-import contextlib
 import dataclasses
 import sys
 from typing import Callable, Optional
 
 import regex as re
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
-from pydub.utils import ratio_to_db
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.tick_counter import skip_beat_list
@@ -22,7 +18,13 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import clamp, find_index, find_last_index
+from libresvip.utils import (
+    audio_track_info,
+    clamp,
+    find_index,
+    find_last_index,
+    ratio_to_db,
+)
 
 from .interval_utils import ticks_to_position
 from .model import (
@@ -154,9 +156,8 @@ class SynthVGenerator:
                 filename=track.audio_file_path, duration=0
             )
             sv_track.main_ref.blick_offset = self.generate_audio_offset(track.offset)
-            with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-                audio_segment = AudioSegment.from_file(track.audio_file_path)
-                sv_track.main_ref.audio.duration = audio_segment.duration_seconds
+            if (track_info := audio_track_info(track.audio_file_path)) is not None:
+                sv_track.main_ref.audio.duration = track_info.duration / 1000
         else:
             return
         return sv_track
@@ -486,9 +487,7 @@ class SynthVGenerator:
                     x *= final_ratio
                     y *= final_ratio
                     z *= final_ratio
-                current_sv_note.attributes.set_phone_duration(
-                    index, clamp(x, 0.2, 1.8)
-                )
+                current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
                 current_sv_note.attributes.set_phone_duration(
                     index + 1, clamp(y, 0.2, 1.8)
                 )
@@ -500,9 +499,7 @@ class SynthVGenerator:
                 )
                 x = 2 * ratio / (1 + ratio)
                 y = 2 / (1 + ratio)
-                current_sv_note.attributes.set_phone_duration(
-                    index, clamp(x, 0.2, 1.8)
-                )
+                current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
                 current_sv_note.attributes.set_phone_duration(
                     index + 1, clamp(y, 0.2, 1.8)
                 )
@@ -549,9 +546,7 @@ class SynthVGenerator:
             y = 2 / (1 + ratio)
             index = 1 if current_phone_marks[0] > 0 else 0
             current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
-            current_sv_note.attributes.set_phone_duration(
-                index + 1, clamp(y, 0.2, 1.8)
-            )
+            current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
         if current_sv_note.attributes.dur is not None:
             expected_length = number_of_phones(self.lyrics_pinyin[-1])
             if len(current_sv_note.attributes.dur) < expected_length:

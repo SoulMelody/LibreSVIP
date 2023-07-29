@@ -1,11 +1,8 @@
-import contextlib
 import dataclasses
 import datetime
 import uuid
 from typing import Optional
 
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
 from xsdata.models.datatype import XmlTime
 
 from libresvip.core.constants import KEY_IN_OCTAVE
@@ -20,6 +17,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import audio_track_info
 
 from .cevio_pitch import generate_for_cevio
 from .constants import OCTAVE_OFFSET, TICK_RATE
@@ -150,8 +148,9 @@ class CeVIOGenerator:
                     new_unit.song.parameter.log_f0 = log_f0
                 results.append((new_unit, new_group))
             elif isinstance(track, InstrumentalTrack):
-                with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-                    audio_segment = AudioSegment.from_file(track.audio_file_path)
+                if (
+                    track_info := audio_track_info(track.audio_file_path, only_wav=True)
+                ) is not None:
                     start_secs = self.time_synchronizer.get_actual_secs_from_ticks(
                         track.offset
                     )
@@ -160,7 +159,7 @@ class CeVIOGenerator:
                     )
                     end_time = XmlTime.from_time(
                         datetime.datetime.utcfromtimestamp(
-                            audio_segment.duration_seconds
+                            track_info.duration / 1000
                         ).time()
                     )
                     new_group = CeVIOGroup(

@@ -1,10 +1,8 @@
 import dataclasses
-import sys
 from typing import Optional
 from urllib.parse import urljoin
 
 import regex as re
-from pydub.utils import db_to_float, ratio_to_db
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.model.base import (
@@ -20,6 +18,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import db_to_float, ratio_to_db
 
 from .constants import TYPE_URL_BASE, TrackType
 from .model import (

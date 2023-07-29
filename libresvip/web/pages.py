@@ -117,14 +117,19 @@ def page_layout(lang: Optional[str] = None):
     translation = None
     with contextlib.suppress(OSError):
         translation = gettext.translation(
-            PACKAGE_NAME, res_dir / "locales", [lang], fallback=True,
+            PACKAGE_NAME,
+            res_dir / "locales",
+            [lang],
+            fallback=True,
         )
 
     if translation is None:
         translation = gettext.NullTranslations()
 
     def _(message: str) -> str:
-        return translation.gettext(message)
+        if message.strip():
+            return translation.gettext(message)
+        return message
 
     if "dark_mode" not in app.storage.user:
         app.storage.user["dark_mode"] = dark_mode2str(DarkMode.SYSTEM)
@@ -195,7 +200,11 @@ def page_layout(lang: Optional[str] = None):
 
     input_panel_header = ui.refreshable(
         functools.partial(
-            panel_header, "input_format", _("Input Options"), _("[Import as "), "input",
+            panel_header,
+            "input_format",
+            _("Input Options"),
+            _("[Import as "),
+            "input",
         ),
     )
     output_panel_header = ui.refreshable(
@@ -213,9 +222,15 @@ def page_layout(lang: Optional[str] = None):
         plugin_input = plugin_manager.plugin_registry[attr]
         field_types = {}
         option_class = None
-        if hasattr(plugin_input.plugin_object, method) and (option_class := get_type_hints(
-            getattr(plugin_input.plugin_object, method),
-        ).get("options")) and hasattr(option_class, "model_fields"):
+        if (
+            hasattr(plugin_input.plugin_object, method)
+            and (
+                option_class := get_type_hints(
+                    getattr(plugin_input.plugin_object, method),
+                ).get("options")
+            )
+            and hasattr(option_class, "model_fields")
+        ):
             for option_key, field_info in option_class.model_fields.items():
                 if issubclass(
                     field_info.annotation,
@@ -255,12 +270,14 @@ def page_layout(lang: Optional[str] = None):
                             _(field_info.title),
                             value=default_value,
                         ).bind_value(
-                            option_dict, option_key,
+                            option_dict,
+                            option_key,
                         ).classes("flex-grow")
                     elif issubclass(field_info.annotation, enum.Enum):
                         default_value = default_value.value if default_value else None
                         annotations = get_type_hints(
-                            field_info.annotation, include_extras=True,
+                            field_info.annotation,
+                            include_extras=True,
                         )
                         choices = {}
                         for enum_item in field_info.annotation:
@@ -329,16 +346,20 @@ def page_layout(lang: Optional[str] = None):
 
         def __post_init__(self):
             self.input_format = app.storage.user.get("last_input_format") or next(
-                iter(plugin_manager.plugin_registry), "",
+                iter(plugin_manager.plugin_registry),
+                "",
             )
             self.output_format = app.storage.user.get("last_output_format") or next(
-                iter(plugin_manager.plugin_registry), "",
+                iter(plugin_manager.plugin_registry),
+                "",
             )
             app.storage.user.setdefault(
-                "auto_detect_input_format", settings.auto_detect_input_format,
+                "auto_detect_input_format",
+                settings.auto_detect_input_format,
             )
             app.storage.user.setdefault(
-                "reset_tasks_on_input_change", settings.reset_tasks_on_input_change,
+                "reset_tasks_on_input_change",
+                settings.reset_tasks_on_input_change,
             )
             app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
             app.add_route(
@@ -378,7 +399,8 @@ def page_layout(lang: Optional[str] = None):
 
                         ui.label(info.name).classes("flex-grow")
                         ui.spinner().props("size=lg").bind_visibility_from(
-                            info, "converting",
+                            info,
+                            "converting",
                         )
                         ui.icon("check", size="lg").classes(
                             "text-green-500",
@@ -392,7 +414,9 @@ def page_layout(lang: Optional[str] = None):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;",
                                 ).bind_text_from(
-                                    info, "error", backward=shorten_error_message,
+                                    info,
+                                    "error",
+                                    backward=shorten_error_message,
                                 )
                             with error_banner.add_slot("action"):
                                 ui.button(
@@ -404,7 +428,9 @@ def page_layout(lang: Optional[str] = None):
                                 )
                                 ui.button(_("Close"), on_click=error_dialog.close)
                         ui.button(
-                            icon="error", color="red", on_click=error_dialog.open,
+                            icon="error",
+                            color="red",
+                            on_click=error_dialog.open,
                         ).props("round").bind_visibility_from(info, "error")
                         with ui.dialog() as warn_dialog, ui.element("q-banner").classes(
                             "bg-yellow-500 w-auto",
@@ -425,7 +451,9 @@ def page_layout(lang: Optional[str] = None):
                                 )
                                 ui.button(_("Close"), on_click=warn_dialog.close)
                         ui.button(
-                            icon="warning", color="yellow", on_click=warn_dialog.open,
+                            icon="warning",
+                            color="yellow",
+                            on_click=warn_dialog.open,
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
@@ -518,7 +546,9 @@ def page_layout(lang: Optional[str] = None):
                         f".{self.output_format}",
                     )
                     output_plugin.plugin_object.dump(
-                        task.output_path, project, output_option(**self.output_options),
+                        task.output_path,
+                        project,
+                        output_option(**self.output_options),
                     )
                 task.success = True
                 if len(w):
@@ -544,7 +574,9 @@ def page_layout(lang: Optional[str] = None):
                 ui.notify(_("Conversion Failed"), closeBtn=_("Close"), type="negative")
             else:
                 ui.notify(
-                    _("Conversion Successful"), closeBtn=_("Close"), type="positive",
+                    _("Conversion Successful"),
+                    closeBtn=_("Close"),
+                    type="positive",
                 )
 
         def export_all(self, request: Request):
@@ -677,14 +709,20 @@ def page_layout(lang: Optional[str] = None):
                 with ui.menu_item(
                     on_click=selected_formats.batch_convert,
                 ).bind_visibility(
-                    selected_formats, "task_count", backward=bool, forward=bool,
+                    selected_formats,
+                    "task_count",
+                    backward=bool,
+                    forward=bool,
                 ):
                     ui.tooltip("Alt+Enter")
                     with ui.row().classes("items-center"):
                         ui.icon("play_arrow").classes("text-lg")
                         ui.label(_("Convert"))
                 with ui.menu_item(on_click=selected_formats.reset).bind_visibility(
-                    selected_formats, "task_count", backward=bool, forward=bool,
+                    selected_formats,
+                    "task_count",
+                    backward=bool,
+                    forward=bool,
                 ):
                     ui.tooltip("Alt+/")
                     with ui.row().classes("items-center"):
@@ -697,7 +735,9 @@ def page_layout(lang: Optional[str] = None):
                         ui.icon("swap_vert").classes("text-lg")
                         ui.label(_("Swap Input and Output"))
         with ui.button(
-            _("Import format"), on_click=lambda: input_formats_menu.open(), icon="login",
+            _("Import format"),
+            on_click=lambda: input_formats_menu.open(),
+            icon="login",
         ):
             ui.tooltip("Alt+[")
             with ui.menu() as input_formats_menu:
@@ -725,7 +765,9 @@ def page_layout(lang: Optional[str] = None):
                     },
                 ).bind_value(selected_formats, "output_format")
         with ui.button(
-            _("Switch Theme"), on_click=lambda: theme_menu.open(), icon="palette",
+            _("Switch Theme"),
+            on_click=lambda: theme_menu.open(),
+            icon="palette",
         ):
             ui.tooltip("Alt+T")
             with ui.menu() as theme_menu:
@@ -745,7 +787,9 @@ def page_layout(lang: Optional[str] = None):
                         ui.icon("brightness_auto").classes("text-lg")
                         ui.label(_("System"))
         with ui.button(
-            _("Switch Language"), on_click=lambda: lang_menu.open(), icon="language",
+            _("Switch Language"),
+            on_click=lambda: lang_menu.open(),
+            icon="language",
         ):
             ui.tooltip("Alt+L")
             with ui.menu() as lang_menu:
@@ -818,9 +862,7 @@ def page_layout(lang: Optional[str] = None):
                                 select_input = (
                                     ui.select(
                                         {
-                                            k: _(v["file_format"])
-                                            + " "
-                                            + v["suffix"]
+                                            k: _(v["file_format"]) + " " + v["suffix"]
                                             for k, v in plugin_details.items()
                                         },
                                         label=_("Import format"),
@@ -834,10 +876,12 @@ def page_layout(lang: Optional[str] = None):
                                         "align=right",
                                     ).classes("w-full"):
                                         ui.button(
-                                            _("Close"), on_click=input_info.close,
+                                            _("Close"),
+                                            on_click=input_info.close,
                                         )
                                 with ui.button(
-                                    icon="info", on_click=input_info.open,
+                                    icon="info",
+                                    on_click=input_info.open,
                                 ).classes(
                                     "min-w-[45px] max-w-[45px] aspect-square",
                                 ):
@@ -845,23 +889,24 @@ def page_layout(lang: Optional[str] = None):
                                 ui.switch(_("Auto detect import format")).classes(
                                     "col-span-5",
                                 ).bind_value(
-                                    app.storage.user, "auto_detect_input_format",
+                                    app.storage.user,
+                                    "auto_detect_input_format",
                                 )
                                 ui.switch(
                                     _("Reset list when import format changed"),
                                 ).classes("col-span-5").bind_value(
-                                    app.storage.user, "reset_tasks_on_input_change",
+                                    app.storage.user,
+                                    "reset_tasks_on_input_change",
                                 )
                                 with ui.button(
-                                    icon="swap_vert", on_click=swap_values,
+                                    icon="swap_vert",
+                                    on_click=swap_values,
                                 ).classes("w-fit aspect-square").props("round"):
                                     ui.tooltip(_("Swap Input and Output"))
                                 select_output = (
                                     ui.select(
                                         {
-                                            k: _(v["file_format"])
-                                            + " "
-                                            + v["suffix"]
+                                            k: _(v["file_format"]) + " " + v["suffix"]
                                             for k, v in plugin_details.items()
                                         },
                                         label=_("Export format"),
@@ -877,10 +922,12 @@ def page_layout(lang: Optional[str] = None):
                                         "align=right",
                                     ).classes("w-full"):
                                         ui.button(
-                                            _("Close"), on_click=output_info.close,
+                                            _("Close"),
+                                            on_click=output_info.close,
                                         )
                                 with ui.button(
-                                    icon="info", on_click=output_info.open,
+                                    icon="info",
+                                    on_click=output_info.open,
                                 ).classes(
                                     "min-w-[45px] max-w-[45px] aspect-square",
                                 ):
@@ -890,7 +937,9 @@ def page_layout(lang: Optional[str] = None):
                             ui.label(_("Import project")).classes("text-h5 font-bold")
                             selected_formats.tasks_container()
                             tasks_card.bind_visibility_from(
-                                selected_formats, "task_count", backward=bool,
+                                selected_formats,
+                                "task_count",
+                                backward=bool,
                             )
                             uploader = ui.upload(
                                 multiple=True,
@@ -926,13 +975,16 @@ def page_layout(lang: Optional[str] = None):
                                 fab.on("mouseover", lambda: add_class(fab, show=True))
                                 fab.on("mouseout", lambda: remove_class(fab))
                                 with QFabAction(
-                                    icon="refresh", on_click=selected_formats.reset,
+                                    icon="refresh",
+                                    on_click=selected_formats.reset,
                                 ) as fab_action_1:
                                     fab_action_1.on(
-                                        "mouseover", lambda: add_class(fab_action_1),
+                                        "mouseover",
+                                        lambda: add_class(fab_action_1),
                                     )
                                     fab_action_1.on(
-                                        "mouseout", lambda: remove_class(fab_action_1),
+                                        "mouseout",
+                                        lambda: remove_class(fab_action_1),
                                     )
                                     ui.tooltip(_("Clear Task List"))
                                 with QFabAction(
@@ -940,16 +992,19 @@ def page_layout(lang: Optional[str] = None):
                                     on_click=selected_formats.filter_input_ext,
                                 ) as fab_action_2:
                                     fab_action_2.on(
-                                        "mouseover", lambda: add_class(fab_action_2),
+                                        "mouseover",
+                                        lambda: add_class(fab_action_2),
                                     )
                                     fab_action_2.on(
-                                        "mouseout", lambda: remove_class(fab_action_2),
+                                        "mouseout",
+                                        lambda: remove_class(fab_action_2),
                                     )
                                     ui.tooltip(_("Remove Tasks With Other Extensions"))
                             with ui.button(
                                 icon="add",
                                 on_click=lambda: ui.run_javascript(
-                                    "add_upload()", respond=False,
+                                    "add_upload()",
+                                    respond=False,
                                 ),
                             ).props("round").classes(
                                 "absolute bottom-0 right-2 m-2 z-10",
@@ -957,14 +1012,18 @@ def page_layout(lang: Optional[str] = None):
                                 ui.badge().props(
                                     "floating color=orange",
                                 ).bind_text_from(
-                                    selected_formats, "task_count", backward=str,
+                                    selected_formats,
+                                    "task_count",
+                                    backward=str,
                                 )
                                 ui.tooltip(_("Continue Adding files"))
                         with ui.card().classes(
                             "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
                         ).style("cursor: pointer") as upload_card:
                             upload_card.bind_visibility_from(
-                                selected_formats, "task_count", backward=not_,
+                                selected_formats,
+                                "task_count",
+                                backward=not_,
                             )
                             ui.icon("file_upload").classes("text-6xl")
                             ui.label(
@@ -973,16 +1032,23 @@ def page_layout(lang: Optional[str] = None):
             with main_splitter.after, ui.card().classes("w-full h-auto min-h-full"):
                 with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                     with ui.button(
-                        icon="play_arrow", on_click=selected_formats.batch_convert,
+                        icon="play_arrow",
+                        on_click=selected_formats.batch_convert,
                     ).props("round").bind_visibility(
-                        selected_formats, "task_count", backward=bool, forward=bool,
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                        forward=bool,
                     ):
                         ui.tooltip(_("Start Conversion"))
                     with ui.button(
                         icon="download_for_offline",
                         on_click=lambda: ui.download(f"/export/{cur_client.id}/"),
                     ).props("round").bind_visibility(
-                        selected_formats, "task_count", backward=bool, forward=bool,
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                        forward=bool,
                     ):
                         ui.tooltip(_("Export"))
                 ui.label(_("Advanced Options")).classes("text-h5 font-bold")

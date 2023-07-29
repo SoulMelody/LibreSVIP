@@ -1,7 +1,5 @@
 import dataclasses
-import os
-
-from pydub.utils import db_to_float, ratio_to_db
+import pathlib
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
@@ -18,6 +16,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import db_to_float, ratio_to_db
 
 from .model import (
     S5pInstrumental,
@@ -118,7 +117,7 @@ class SynthVEditorParser:
         return InstrumentalTrack(
             mute=mixer.instrumental_muted,
             volume=self.parse_volume(mixer.gain_instrumental_decibel),
-            title=os.path.basename(track.filename),
+            title=pathlib.Path(track.filename).name,
             audio_file_path=track.filename,
             offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
         )

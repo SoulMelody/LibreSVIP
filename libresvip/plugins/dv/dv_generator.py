@@ -1,9 +1,6 @@
-import contextlib
 import dataclasses
 
 from construct_typed import DataclassMixin, DataclassStruct
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
 
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -15,6 +12,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.utils import audio_track_info
 
 from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, MIN_SEGMENT_LENGTH
 from .deepvocal_pitch import convert_note_key, generate_for_dv
@@ -111,15 +109,14 @@ class DeepVocalGenerator:
     ) -> list[DvTrack]:
         track_list = []
         for track in instrumental_tracks:
-            with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-                audio_segment = AudioSegment.from_file(track.audio_file_path)
+            if (track_info := audio_track_info(track.audio_file_path)) is not None:
                 audio_info = DvAudioInfo(
                     path=track.audio_file_path,
                     name=track.title,
                     start=track.offset + self.tick_prefix,
                     length=round(
                         self.time_synchronizer.get_actual_ticks_from_secs_offset(
-                            track.offset, audio_segment.duration_seconds
+                            track.offset, track_info.duration / 1000
                         )
                     ),
                 )

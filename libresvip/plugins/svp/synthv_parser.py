@@ -3,7 +3,6 @@ from functools import partial, reduce
 from typing import Callable, Optional
 
 import regex as re
-from pydub.utils import db_to_float, ratio_to_db
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_CHINESE_LYRIC, DEFAULT_PHONEME
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
@@ -22,7 +21,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import clamp, find_index
+from libresvip.utils import clamp, db_to_float, find_index, ratio_to_db
 
 from . import interpolation
 from .interval_utils import position_to_ticks
@@ -46,6 +45,7 @@ TICK_RATE = 1470000
 
 
 clip = partial(clamp, lower=-1000, upper=1000)
+
 
 @dataclasses.dataclass
 class SynthVParser:

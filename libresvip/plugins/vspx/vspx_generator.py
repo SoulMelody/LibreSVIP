@@ -1,12 +1,9 @@
 import bisect
-import contextlib
 import dataclasses
 import math
 from typing import Optional, Union
 
 import more_itertools
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -18,7 +15,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.model.point import linear_interpolation
-from libresvip.utils import midi2note
+from libresvip.utils import audio_track_info, midi2note
 
 from .model import (
     PIT,
@@ -45,7 +42,9 @@ class VocalSharpGenerator:
         vspx_project = VocalSharpProject()
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         vspx_project.project.tempo = self.generate_tempos(project.song_tempo_list)
-        vspx_project.project.beat = self.generate_time_signatures(project.time_signature_list)
+        vspx_project.project.beat = self.generate_time_signatures(
+            project.time_signature_list
+        )
         singing_tracks = self.generate_singing_tracks(
             [track for track in project.track_list if isinstance(track, SingingTrack)]
         )
@@ -99,14 +98,15 @@ class VocalSharpGenerator:
     ) -> list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]:
         track_list = []
         for track in instrumental_tracks:
-            with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-                audio_segment = AudioSegment.from_file(track.audio_file_path)
+            if (
+                track_info := audio_track_info(track.audio_file_path, only_wav=True)
+            ) is not None:
                 sequence = VocalSharpSequence(
                     name=track.title,
                     path=track.audio_file_path,
                     pos=track.offset,
                 )
-                if audio_segment.channels == 1:
+                if track_info.channel_s == 1:
                     track_list.append(
                         VocalSharpMonoTrack(
                             name=track.title,
@@ -115,7 +115,7 @@ class VocalSharpGenerator:
                             sequences=[sequence],
                         )
                     )
-                elif audio_segment.channels == 2:
+                elif track_info.channel_s == 2:
                     track_list.append(
                         VocalSharpStereoTrack(
                             name=track.title,

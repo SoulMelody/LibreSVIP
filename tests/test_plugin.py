@@ -201,7 +201,7 @@ def test_mxml_read(shared_datadir):
     from xsdata.formats.dataclass.parsers.config import ParserConfig
     from xsdata.formats.dataclass.parsers.xml import XmlParser
 
-    from libresvip.plugins.mxml.models.mxml2 import ScorePartwise
+    from libresvip.plugins.musicxml.models.mxml2 import ScorePartwise
 
     proj_path = shared_datadir / "test.musicxml"
     xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))

@@ -16,6 +16,7 @@ from .meta_info import LibreSvipPluginInfo, PluginInfo
 
 # import zipfile
 
+
 def load_module(name: str, plugin_path: pathlib.Path) -> types.ModuleType:
     spec = spec_from_file_location(name, plugin_path)
     spec.submodule_search_locations = [str(plugin_path.parent)]
@@ -47,10 +48,7 @@ class PluginManager:
         return all_suffixes()
 
     def find_spec(self, fullname, path, target=None):
-        if (
-            not fullname.startswith(self.plugin_namespace)
-            or not path
-        ):
+        if not fullname.startswith(self.plugin_namespace) or not path:
             return None
         path = [str(path) for path in self.plugin_places]
 
@@ -60,9 +58,15 @@ class PluginManager:
         return spec
 
     def is_plugin(self, member: object) -> bool:
-        return inspect.isclass(member) and issubclass(member, self.plugin_base) and member != self.plugin_base
+        return (
+            inspect.isclass(member)
+            and issubclass(member, self.plugin_base)
+            and member != self.plugin_base
+        )
 
-    def _import_module(self, plugin_module_name: str, candidate_filepath: pathlib.Path) -> types.ModuleType:
+    def _import_module(
+        self, plugin_module_name: str, candidate_filepath: pathlib.Path
+    ) -> types.ModuleType:
         """
         Import a module, trying either to find it as a single file or as a directory.
 
@@ -87,19 +91,21 @@ class PluginManager:
                     msg,
                 )
         if plugin_package not in sys.modules:
-            sys.modules[plugin_package] = load_module(plugin_package, candidate_filepath)
+            sys.modules[plugin_package] = load_module(
+                plugin_package, candidate_filepath
+            )
 
         return sys.modules[plugin_package]
 
     def import_plugins(self) -> None:
-        _candidates: list[
-            tuple[str, pathlib.Path, LibreSvipPluginInfo]
-        ] = []
+        _candidates: list[tuple[str, pathlib.Path, LibreSvipPluginInfo]] = []
         _discovered = set()
         for dir_path in self.plugin_places:
             # first of all, is it a directory :)
             if not dir_path.is_dir():
-                logger.debug(f"{self.__class__.__name__} skips {dir_path} (not a directory)")
+                logger.debug(
+                    f"{self.__class__.__name__} skips {dir_path} (not a directory)"
+                )
                 continue
             # iteratively walks through the directory
             for file_path in dir_path.glob(f"*/*.{self.info_extension}"):
@@ -109,9 +115,12 @@ class PluginManager:
                 # logger.debug("%s found a candidate:\n    %s" % (self.__class__.__name__, candidate_infofile))
                 if (plugin_info := self.info_cls.load(file_path)) is None:
                     # logger.debug("Plugin candidate '%s'  rejected by strategy '%s'" % (candidate_infofile, analyzer.name))
-                    break # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
+                    continue  # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
                 plugin_info_path = file_path.parent / plugin_info.module
-                if ((entry_suffix := plugin_info_path.suffix) in self.lib_suffixes and plugin_info_path.is_file()) or (
+                if (
+                    (entry_suffix := plugin_info_path.suffix) in self.lib_suffixes
+                    and plugin_info_path.is_file()
+                ) or (
                     entry_suffix := next(
                         (
                             suffix
@@ -124,15 +133,19 @@ class PluginManager:
                     candidate_filepath = plugin_info_path
                     if candidate_filepath.suffix in self.lib_suffixes:
                         candidate_filepath = candidate_filepath.with_suffix("")
-                    _discovered.add(str(
-                        plugin_info_path.with_suffix(entry_suffix),
-                    ))
+                    _discovered.add(
+                        str(
+                            plugin_info_path.with_suffix(entry_suffix),
+                        )
+                    )
                 else:
                     logger.error(
                         f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                     )
                     break
-                _candidates.append((candidate_infofile, candidate_filepath, plugin_info))
+                _candidates.append(
+                    (candidate_infofile, candidate_filepath, plugin_info)
+                )
                 # finally the candidate_infofile must not be discovered again
                 _discovered.add(candidate_infofile)
         for candidate_infofile, candidate_filepath, plugin_info in _candidates:
@@ -147,7 +160,9 @@ class PluginManager:
             if candidate_filepath.stem == "__init__":
                 candidate_filepath = candidate_filepath.parent
             try:
-                candidate_module = self._import_module(plugin_module_name, candidate_filepath)
+                candidate_module = self._import_module(
+                    plugin_module_name, candidate_filepath
+                )
             except Exception:
                 logger.exception(
                     f"Unable to import plugin: {candidate_filepath}",
@@ -155,13 +170,20 @@ class PluginManager:
                 continue
 
             try:
-                plugin_cls_name, plugin_cls = inspect.getmembers(candidate_module, self.is_plugin)[0]
+                plugin_cls_name, plugin_cls = inspect.getmembers(
+                    candidate_module, self.is_plugin
+                )[0]
                 plugin_info.plugin_object = plugin_cls()
-                if plugin_info.suffix not in self.plugin_registry and plugin_info.suffix not in self.identifier_blacklist:
+                if (
+                    plugin_info.suffix not in self.plugin_registry
+                    and plugin_info.suffix not in self.identifier_blacklist
+                ):
                     self.plugin_registry[plugin_info.suffix] = plugin_info
             except Exception:
-                logger.exception(f"Unable to create plugin object: {candidate_filepath}")
-                continue # If it didn't work once it wont again
+                logger.exception(
+                    f"Unable to create plugin object: {candidate_filepath}"
+                )
+                continue  # If it didn't work once it wont again
 
 
 plugin_manager = PluginManager(

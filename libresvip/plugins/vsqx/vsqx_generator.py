@@ -1,9 +1,5 @@
-import contextlib
 import dataclasses
 import operator
-
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
@@ -17,6 +13,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.utils import audio_track_info
 
 from .constants import BPM_RATE
 from .model import (
@@ -86,27 +83,31 @@ class VsqxGenerator:
 
     def generate_instrumental_track(
         self, track: InstrumentalTrack, vsqx: Vsq4, tick_prefix: int
-    ):
-        with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-            audio_segment = AudioSegment.from_file(track.audio_file_path)
+    ) -> None:
+        if (
+            track_info := audio_track_info(track.audio_file_path, only_wav=True)
+        ) is not None:
             wav_part = Vsq4WavPart(
                 part_name=track.title,
                 file_path=track.audio_file_path,
                 pos_tick=tick_prefix + track.offset,
-                play_time=round(self.time_synchronizer.get_actual_ticks_from_secs_offset(
-                    track.offset, audio_segment.duration_seconds
-                )) - track.offset,
-                sample_rate=audio_segment.frame_rate,
-                sample_reso=audio_segment.sample_width * 8,
-                channels=audio_segment.channels,
+                play_time=round(
+                    self.time_synchronizer.get_actual_ticks_from_secs_offset(
+                        track.offset, track_info.duration / 1000
+                    )
+                )
+                - track.offset,
+                sample_rate=track_info.sampling_rate,
+                sample_reso=track_info.bit_depth,
+                channels=track_info.channel_s,
             )
-            if audio_segment.channels == 1:
+            if track_info.channel_s == 1:
                 vsqx.mixer.mono_unit = Vsq4MonoUnit(
                     mute=int(track.mute),
                     solo=int(track.solo),
                 )
                 vsqx.mono_track = Vsq4MonoTrack(wav_part=[wav_part])
-            elif audio_segment.channels == 2:
+            elif track_info.channel_s == 2:
                 vsqx.mixer.stereo_unit = Vsq4StereoUnit(
                     mute=int(track.mute),
                     solo=int(track.solo),
@@ -138,7 +139,9 @@ class VsqxGenerator:
                     for param_name, param_value in self.style_params.items()
                     if not param_name.startswith("vib")
                 )
-                if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
+                if pitch := self.generate_pitch(
+                    track.edited_params.pitch, track.note_list
+                ):
                     musical_part.m_ctrl = pitch
                 vsqx_track.musical_part = [musical_part]
             vsqx_unit = Vsq4VsUnit(vs_track_no=track_index)

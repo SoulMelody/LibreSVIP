@@ -1,7 +1,5 @@
 import dataclasses
 
-from pydub.utils import ratio_to_db
-
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -14,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import ratio_to_db
 
 from .model import (
     S5pInstrumental,

@@ -1,10 +1,5 @@
-import contextlib
 import dataclasses
 from urllib.parse import urljoin
-
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
-from pydub.utils import ratio_to_db
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -17,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import audio_track_info, ratio_to_db
 
 from .color_pool import random_color
 from .constants import TYPE_URL_BASE, TrackType
@@ -123,9 +119,8 @@ class Svip3Generator:
         self, track: InstrumentalTrack
     ) -> list[Svip3AudioPattern]:
         kwargs = {}
-        with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-            audio_segment = AudioSegment.from_file(track.audio_file_path)
-            audio_duration_in_secs = audio_segment.duration_seconds
+        if (track_info := audio_track_info(track.audio_file_path)) is not None:
+            audio_duration_in_secs = track_info.duration / 1000
             audio_duration_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
                 audio_duration_in_secs
             )

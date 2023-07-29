@@ -5,12 +5,8 @@ import operator
 
 import mido
 import regex as re
-from pydub.utils import ratio_to_db
 
-from libresvip.core.constants import (
-    DEFAULT_CHINESE_LYRIC,
-    TICKS_IN_BEAT,
-)
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
@@ -24,6 +20,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
+from libresvip.utils import ratio_to_db
 
 from .constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -33,7 +30,7 @@ from .constants import (
     ControlChange,
 )
 from .note_overlap import has_overlap
-from .options import InputOptions, MultiChannelOption
+from .options import InputOptions
 
 
 def cc11_to_db_change(value):
@@ -234,7 +231,8 @@ class MidiParser:
             volume=expression,
         )
         if has_overlap(notes):
-            raise ValueError(f"Notes overlap in track {track_idx}")
+            msg = f"Notes overlap in track {track_idx}"
+            raise ValueError(msg)
         return SingingTrack(
             title=track_name or f"Track {track_idx + 1}",
             note_list=notes,

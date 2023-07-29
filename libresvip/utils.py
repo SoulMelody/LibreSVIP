@@ -2,6 +2,7 @@ import contextlib
 import contextvars
 import gettext
 import math
+import pathlib
 from numbers import Real
 from typing import Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
@@ -9,6 +10,8 @@ from xml.sax import saxutils
 import charset_normalizer
 import regex as re
 from more_itertools import locate, rlocate
+from pymediainfo import ET, MediaInfo
+from pymediainfo import Track as MediaInfoTrack
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 
@@ -91,7 +94,25 @@ def clamp(
     return min(max(x, lower), upper)
 
 
-# convertion functions adapted from librosa
+def audio_track_info(
+    file_path: Union[str, pathlib.Path], only_wav: bool = False
+) -> Optional[MediaInfoTrack]:
+    def filter_func(track: MediaInfoTrack) -> bool:
+        return track.format == "PCM" if only_wav else (track.duration is not None)
+
+    if MediaInfo.can_parse():
+        with contextlib.suppress(
+            FileNotFoundError, ET.ParseError, RuntimeError, ValueError
+        ):
+            media_info = MediaInfo.parse(file_path)
+            return next(
+                (track for track in media_info.audio_tracks if filter_func(track)),
+                None,
+            )
+    return None
+
+
+# convertion functions adapted from librosa and pydub
 def midi2hz(midi: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
     return base_freq * 2 ** ((midi - a4_midi) / KEY_IN_OCTAVE)
 
@@ -100,7 +121,7 @@ def hz2midi(hz: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
     return a4_midi + KEY_IN_OCTAVE * math.log2(hz / base_freq)
 
 
-def note2midi(note: str) -> float:
+def note2midi(note: str) -> Optional[float]:
     pitch_map = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
     acc_map = {
         "#": 1,
@@ -140,6 +161,39 @@ def midi2note(midi: float) -> str:
     octave = (midi // KEY_IN_OCTAVE) - 1
     pitch = pitch_map[midi % KEY_IN_OCTAVE]
     return f"{pitch}{octave}"
+
+
+# convertion functions copied from pydub
+def db_to_float(db: float, using_amplitude: bool = True) -> float:
+    """
+    Converts the input db to a float, which represents the equivalent
+    ratio in power.
+    """
+    db = float(db)
+    return 10 ** (db / 20) if using_amplitude else 10 ** (db / 10)
+
+
+def ratio_to_db(
+    ratio: float, val2: Optional[float] = None, using_amplitude: bool = True
+) -> float:
+    """
+    Converts the input float to db, which represents the equivalent
+    to the ratio in power represented by the multiplier passed in.
+    """
+    ratio = float(ratio)
+
+    # accept 2 values and use the ratio of val1 to val2
+    if val2 is not None:
+        ratio /= val2
+
+    # special case for multiply-by-zero (convert to silence)
+    if ratio == 0:
+        return -float("inf")
+
+    if using_amplitude:
+        return 20 * math.log(ratio, 10)
+    else:  # using power
+        return 10 * math.log(ratio, 10)
 
 
 class EchoGenerator(saxutils.XMLGenerator):

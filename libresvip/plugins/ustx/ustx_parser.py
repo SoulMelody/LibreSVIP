@@ -1,7 +1,5 @@
 import dataclasses
 
-from pydub.utils import db_to_float
-
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.model.base import (
@@ -14,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import db_to_float
 
 from .model import (
     UNote,
@@ -78,9 +77,7 @@ class UstxParser:
             time_signature_list.append(TimeSignature())
         return time_signature_list
 
-    def parse_tracks(
-        self, tracks: list[UTrack], project: USTXProject
-    ) -> list[Track]:
+    def parse_tracks(self, tracks: list[UTrack], project: USTXProject) -> list[Track]:
         track_list = [
             SingingTrack(
                 volume=self.parse_volume(ustx_track.volume),
@@ -123,8 +120,17 @@ class UstxParser:
 
         point_list = [Point(first_bar_length + part.position, -100)]
         for i in range(len(pitches)):
-            point_list.append(Point(first_bar_length + part.position + i * pitch_interval, int(pitches[i])))
-        point_list.append(Point(first_bar_length + part.position + len(pitches) * pitch_interval, -100))
+            point_list.append(
+                Point(
+                    first_bar_length + part.position + i * pitch_interval,
+                    int(pitches[i]),
+                )
+            )
+        point_list.append(
+            Point(
+                first_bar_length + part.position + len(pitches) * pitch_interval, -100
+            )
+        )
         return point_list
 
     def parse_notes(self, notes: list[UNote], tick_prefix: int) -> list[Note]:

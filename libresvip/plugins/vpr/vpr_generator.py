@@ -1,10 +1,6 @@
-import contextlib
 import dataclasses
 import pathlib
 from typing import Optional
-
-from pydub import AudioSegment
-from pydub.exceptions import CouldntDecodeError
 
 from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -16,12 +12,9 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import audio_track_info
 
-from .constants import (
-    BPM_RATE,
-    PITCH_BEND_NAME,
-    PITCH_BEND_SENSITIVITY_NAME,
-)
+from .constants import BPM_RATE, PITCH_BEND_NAME, PITCH_BEND_SENSITIVITY_NAME
 from .model import (
     VocaloidAIVoice,
     VocaloidControllers,
@@ -108,9 +101,10 @@ class VocaloidGenerator:
         for track in track_list:
             if isinstance(track, InstrumentalTrack):
                 wav_path = pathlib.Path(track.audio_file_path)
-                with contextlib.suppress(CouldntDecodeError, FileNotFoundError):
-                    audio_segment = AudioSegment.from_file(track.audio_file_path)
-                    audio_duration_in_secs = audio_segment.duration_seconds
+                if (
+                    track_info := audio_track_info(track.audio_file_path, only_wav=True)
+                ) is not None:
+                    audio_duration_in_secs = track_info.duration / 1000
                     audio_duration_in_ticks = (
                         self.time_synchronizer.get_actual_ticks_from_secs(
                             audio_duration_in_secs
