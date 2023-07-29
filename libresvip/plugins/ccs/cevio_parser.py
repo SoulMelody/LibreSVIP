@@ -83,12 +83,12 @@ class CeVIOParser:
 
         time_signatures = [time_signature.model_copy(update={"bar_index": time_signature.bar_index - 4}) for time_signature in time_signatures]
 
-        tick_prefix = time_signatures[0].bar_length() / TICK_RATE
+        tick_prefix = int(time_signatures[0].bar_length())
 
         tempos = []
         tempo_nodes = unit_node.song.tempo.sound
         for tempo_node in tempo_nodes:
-            tick = tempo_node.clock // TICK_RATE if tempo_node.clock is not None else None
+            tick = tempo_node.clock // TICK_RATE - tick_prefix if tempo_node.clock is not None else None
             bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
             if tick is not None and bpm is not None:
                 tempos.append(SongTempo(position=tick, bpm=bpm))
@@ -96,7 +96,7 @@ class CeVIOParser:
         notes = []
         note_nodes = unit_node.song.score.note
         for note_node in note_nodes:
-            tick_on = (note_node.clock // TICK_RATE) if note_node.clock is not None else None
+            tick_on = (note_node.clock // TICK_RATE) - tick_prefix if note_node.clock is not None else None
             duration = (note_node.duration // TICK_RATE) if note_node.duration is not None else None
             pitch_step = note_node.pitch_step if note_node.pitch_step is not None else None
             pitch_octave = note_node.pitch_octave - OCTAVE_OFFSET if note_node.pitch_octave is not None else None
