@@ -1,7 +1,6 @@
 import pathlib
 import zipfile
 from dataclasses import asdict
-from pprint import pprint
 
 from rich import print
 
@@ -46,7 +45,7 @@ def test_dv_read(shared_datadir, pretty_construct):
 
     proj_path = shared_datadir / "test.dv"
     proj = dv_project_struct.parse_file(proj_path)
-    pprint(asdict(proj))
+    print(asdict(proj))
 
 
 def test_mtp_read(shared_datadir, pretty_construct):
@@ -54,7 +53,7 @@ def test_mtp_read(shared_datadir, pretty_construct):
 
     proj_path = shared_datadir / "test.mtp"
     proj = muta_project_struct.parse_file(proj_path)
-    pprint(asdict(proj))
+    print(asdict(proj))
     # for track in proj.tracks:
     #     if track.track_type == MutaTrackType.SONG:
     #         for note in track.song_track_data.notes:
@@ -199,12 +198,13 @@ def test_vsqx_read(shared_datadir):
 
 
 def test_mxml_read(shared_datadir):
+    from xsdata.formats.dataclass.parsers.config import ParserConfig
     from xsdata.formats.dataclass.parsers.xml import XmlParser
 
-    from libresvip.plugins.mxml.models.mxml4 import ScorePartwise
+    from libresvip.plugins.mxml.models.mxml2 import ScorePartwise
 
-    proj_path = shared_datadir / "test.mxml"
-    xml_parser = XmlParser()
+    proj_path = shared_datadir / "test.musicxml"
+    xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
     proj = xml_parser.from_path(proj_path, ScorePartwise)
     print(proj)
 

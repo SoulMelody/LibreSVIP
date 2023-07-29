@@ -16,15 +16,15 @@ from libresvip.utils import download_and_setup_ffmpeg
 
 with contextlib.suppress(Exception):
     if (
-        "conda" in sys.version or "Continuum" in sys.version
-    ) and shellingham.detect_shell()[0] == "bash" and os.name == "nt":
+        ("conda" in sys.version or "Continuum" in sys.version)
+        and shellingham.detect_shell()[0] == "bash"
+        and os.name == "nt"
+    ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
 download_and_setup_ffmpeg()
 
-include_files = [
-    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
-]
+include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 
 
 build_exe_options = {
@@ -32,6 +32,7 @@ build_exe_options = {
     # exclude packages that are not really needed
     "excludes": [
         "aiohttp",
+        "attr",
         "black",
         "debugpy",
         "jedi",
@@ -77,7 +78,7 @@ build_exe_options = {
         "uvicorn.lifespan.on",
         "uvicorn.loops.auto",
         "uvicorn.protocols.http.auto",
-        "uvicorn.protocols.websockets.auto"
+        "uvicorn.protocols.websockets.auto",
     ],
 }
 

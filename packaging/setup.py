@@ -17,8 +17,10 @@ from libresvip.utils import download_and_setup_ffmpeg
 
 with contextlib.suppress(Exception):
     if (
-        "conda" in sys.version or "Continuum" in sys.version
-    ) and shellingham.detect_shell()[0] == "bash" and os.name == "nt":
+        ("conda" in sys.version or "Continuum" in sys.version)
+        and shellingham.detect_shell()[0] == "bash"
+        and os.name == "nt"
+    ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
 download_and_setup_ffmpeg()
@@ -29,9 +31,7 @@ except ImportError:
     get_qt_plugins_paths = None
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
-include_files = [
-    (pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))
-]
+include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
@@ -142,6 +142,7 @@ build_exe_options = {
     ),
     # exclude packages that are not really needed
     "excludes": [
+        "attr",
         "black",
         "jedi",
         "nicegui",
