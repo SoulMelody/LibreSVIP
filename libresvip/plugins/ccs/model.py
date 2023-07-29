@@ -11,7 +11,7 @@ class CeVIOAuthor:
         name = "Author"
 
     version: Optional[str] = field(
-        default=None,
+        default="3.2.21.2",
         metadata={
             "name": "Version",
             "type": "Attribute",
@@ -47,7 +47,7 @@ class CeVIODictExtension:
         name = "Extension"
 
     version: Optional[str] = field(
-        default=None,
+        default="1.0.0",
         metadata={
             "name": "Version",
             "type": "Attribute",
@@ -55,7 +55,7 @@ class CeVIODictExtension:
     )
 
     language: Optional[str] = field(
-        default=None,
+        default="English",
         metadata={
             "name": "Language",
             "type": "Attribute",
@@ -68,7 +68,7 @@ class CeVIODictionary:
         name = "Dictionary"
 
     version: Optional[str] = field(
-        default=None,
+        default="1.0.0",
         metadata={
             "name": "Version",
             "type": "Attribute",
@@ -123,8 +123,8 @@ class CeVIOGroup:
     class Meta:
         name = "Group"
 
-    version: Optional[float] = field(
-        default=None,
+    version: Optional[str] = field(
+        default="1.0",
         metadata={
             "name": "Version",
             "type": "Attribute",
@@ -138,7 +138,7 @@ class CeVIOGroup:
         },
     )
     category: str = field(
-        default=None,
+        default="SingerSong",
         metadata={
             "name": "Category",
             "type": "Attribute",
@@ -165,7 +165,7 @@ class CeVIOGroup:
             "type": "Attribute",
         },
     )
-    pan: Optional[int] = field(
+    pan: Optional[float] = field(
         default=None,
         metadata={
             "name": "Pan",
@@ -173,14 +173,14 @@ class CeVIOGroup:
         },
     )
     is_solo: Optional[bool] = field(
-        default=None,
+        default=False,
         metadata={
             "name": "IsSolo",
             "type": "Attribute",
         },
     )
     is_muted: Optional[bool] = field(
-        default=None,
+        default=False,
         metadata={
             "name": "IsMuted",
             "type": "Attribute",
@@ -194,7 +194,7 @@ class CeVIOGroup:
         },
     )
     language: Optional[str] = field(
-        default=None,
+        default="Japanese",
         metadata={
             "name": "Language",
             "type": "Attribute",
@@ -334,7 +334,7 @@ class CeVIOSoundSetting:
         name = "SoundSetting"
 
     rhythm: Optional[str] = field(
-        default=None,
+        default="4/4",
         metadata={
             "name": "Rhythm",
             "type": "Attribute",
@@ -362,7 +362,7 @@ class CeVIOSoundSource:
         name = "SoundSource"
 
     version: Optional[str] = field(
-        default=None,
+        default="1.0.0",
         metadata={
             "name": "Version",
             "type": "Attribute",
@@ -439,7 +439,7 @@ class CeVIOBeat:
         name = "Beat"
 
     time: list[CeVIOTime] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "Time",
             "type": "Element",
@@ -574,7 +574,7 @@ class CeVIOSoundSources:
         name = "SoundSources"
 
     sound_source: list[CeVIOSoundSource] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "SoundSource",
             "type": "Element",
@@ -588,21 +588,21 @@ class CeVIOTts:
         name = "TTS"
 
     version: Optional[str] = field(
-        default=None,
+        default="3.1.0",
         metadata={
             "name": "Version",
             "type": "Attribute",
         },
     )
     dictionary: Optional[CeVIODictionary] = field(
-        default=None,
+        default_factory=CeVIODictionary,
         metadata={
             "name": "Dictionary",
             "type": "Element",
         },
     )
     sound_sources: Optional[CeVIOSoundSources] = field(
-        default=None,
+        default_factory=CeVIOSoundSources,
         metadata={
             "name": "SoundSources",
             "type": "Element",
@@ -749,21 +749,21 @@ class CeVIOSvss:
         name = "SVSS"
 
     version: Optional[str] = field(
-        default=None,
+        default="3.0.5",
         metadata={
             "name": "Version",
             "type": "Attribute",
         },
     )
     dictionary: Optional[CeVIODictionary] = field(
-        default=None,
+        default_factory=CeVIODictionary,
         metadata={
             "name": "Dictionary",
             "type": "Element",
         },
     )
     sound_sources: Optional[CeVIOSoundSources] = field(
-        default=None,
+        default_factory=CeVIOSoundSources,
         metadata={
             "name": "SoundSources",
             "type": "Element",
@@ -777,21 +777,21 @@ class CeVIOGeneration:
         name = "Generation"
 
     author: Optional[CeVIOAuthor] = field(
-        default=None,
+        default_factory=CeVIOAuthor,
         metadata={
             "name": "Author",
             "type": "Element",
         },
     )
     tts: Optional[CeVIOTts] = field(
-        default=None,
+        default_factory=CeVIOTts,
         metadata={
             "name": "TTS",
             "type": "Element",
         },
     )
     svss: Optional[CeVIOSvss] = field(
-        default=None,
+        default_factory=CeVIOSvss,
         metadata={
             "name": "SVSS",
             "type": "Element",
@@ -804,8 +804,8 @@ class CeVIOSong:
     class Meta:
         name = "Song"
 
-    version: Optional[float] = field(
-        default=None,
+    version: Optional[str] = field(
+        default="1.02",
         metadata={
             "name": "Version",
             "type": "Attribute",
@@ -826,14 +826,14 @@ class CeVIOSong:
         },
     )
     score: Optional[CeVIOScore] = field(
-        default=None,
+        default_factory=CeVIOScore,
         metadata={
             "name": "Score",
             "type": "Element",
         },
     )
     parameter: Optional[CeVIOParameters] = field(
-        default=None,
+        default_factory=CeVIOParameters,
         metadata={
             "name": "Parameter",
             "type": "Element",
@@ -844,15 +844,15 @@ class CeVIOSong:
 @dataclass
 class CeVIOBaseUnit:
 
-    version: Optional[float] = field(
-        default=None,
+    version: Optional[str] = field(
+        default="1.0",
         metadata={
             "name": "Version",
             "type": "Attribute",
         },
     )
-    unit_id: Optional[object] = field(
-        default=None,
+    unit_id: Optional[str] = field(
+        default="",
         metadata={
             "name": "Id",
             "type": "Attribute",
@@ -880,7 +880,7 @@ class CeVIOBaseUnit:
         },
     )
     category: str = field(
-        default=None,
+        default="SingerSong",
         metadata={
             "name": "Category",
             "type": "Attribute",
@@ -905,7 +905,7 @@ class CeVIOSongUnit(CeVIOBaseUnit):
         },
     )
     language: Optional[str] = field(
-        default=None,
+        default="Japanese",
         metadata={
             "name": "Language",
             "type": "Attribute",
@@ -1024,7 +1024,7 @@ class CeVIOPhonemes:
 @dataclass
 class CeVIOTalkUnit(CeVIOBaseUnit):
     metadata: Optional[str] = field(
-        default="",
+        default=None,
         metadata={
             "name": "Metadata",
             "type": "Element",
@@ -1084,8 +1084,8 @@ class CeVIOScene:
     class Meta:
         name = "Scene"
 
-    scene_id: Optional[object] = field(
-        default=None,
+    scene_id: Optional[str] = field(
+        default="",
         metadata={
             "name": "Id",
             "type": "Attribute",
@@ -1113,21 +1113,21 @@ class CeVIOScene:
         },
     )
     units: Optional[CeVIOUnits] = field(
-        default=None,
+        default_factory=CeVIOUnits,
         metadata={
             "name": "Units",
             "type": "Element",
         },
     )
     groups: Optional[CeVIOGroups] = field(
-        default=None,
+        default_factory=CeVIOGroups,
         metadata={
             "name": "Groups",
             "type": "Element",
         },
     )
     sound_setting: Optional[CeVIOSoundSetting] = field(
-        default=None,
+        default_factory=CeVIOSoundSetting,
         metadata={
             "name": "SoundSetting",
             "type": "Element",
@@ -1137,15 +1137,17 @@ class CeVIOScene:
 
 @dataclass
 class CeVIOSequence:
-    sequence_id: Optional[object] = field(
-        default=None,
+    class Meta:
+        name = "Sequence"
+    sequence_id: Optional[str] = field(
+        default="",
         metadata={
             "name": "Id",
             "type": "Attribute",
         },
     )
     scene: Optional[CeVIOScene] = field(
-        default=None,
+        default_factory=CeVIOScene,
         metadata={
             "name": "Scene",
             "type": "Element",
@@ -1155,22 +1157,24 @@ class CeVIOSequence:
 
 @dataclass
 class CeVIOCreativeStudioProject:
+    class Meta:
+        name = "Scenario"
     code: Optional[str] = field(
-        default=None,
+        default="7251BC4B6168E7B2992FA620BD3E1E77",
         metadata={
             "name": "Code",
             "type": "Attribute",
         },
     )
     generation: Optional[CeVIOGeneration] = field(
-        default=None,
+        default_factory=CeVIOGeneration,
         metadata={
             "name": "Generation",
             "type": "Element",
         },
     )
     sequence: Optional[CeVIOSequence] = field(
-        default=None,
+        default_factory=CeVIOSequence,
         metadata={
             "name": "Sequence",
             "type": "Element",

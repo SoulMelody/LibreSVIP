@@ -4,6 +4,7 @@ import platformdirs
 
 PACKAGE_NAME = "libresvip"
 
+KEY_IN_OCTAVE = 12
 TICKS_IN_BEAT = 480
 DEFAULT_BPM = 120.0
 DEFAULT_PHONEME = DEFAULT_ENGLISH_LYRIC = "la"

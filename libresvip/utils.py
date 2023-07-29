@@ -12,6 +12,8 @@ import charset_normalizer
 import regex as re
 from more_itertools import locate, rlocate
 
+from libresvip.core.constants import KEY_IN_OCTAVE
+
 T = TypeVar("T")
 lazy_translation: contextvars.ContextVar[
     Optional[gettext.NullTranslations]
@@ -95,11 +97,11 @@ def clamp(x: Real, lower: Real = float("-inf"), upper: Real = float("inf")) -> R
 
 # convertion functions adapted from librosa
 def midi2hz(midi: float, a4_midi=69, base_freq=440.0) -> float:
-    return base_freq * 2 ** ((midi - a4_midi) / 12)
+    return base_freq * 2 ** ((midi - a4_midi) / KEY_IN_OCTAVE)
 
 
 def hz2midi(hz: float, a4_midi=69, base_freq=440.0) -> float:
-    return a4_midi + 12 * math.log2(hz / base_freq)
+    return a4_midi + KEY_IN_OCTAVE * math.log2(hz / base_freq)
 
 
 def note2midi(note: str, *, round_midi=True) -> float:
@@ -135,7 +137,7 @@ def note2midi(note: str, *, round_midi=True) -> float:
 
     cents = 0 if not cents else int(cents) * 0.01
 
-    note_value = 12 * (octave + 1) + pitch_map[pitch] + offset + cents
+    note_value = KEY_IN_OCTAVE * (octave + 1) + pitch_map[pitch] + offset + cents
 
     if round_midi:
         note_value = int(round(note_value))
@@ -146,8 +148,8 @@ def note2midi(note: str, *, round_midi=True) -> float:
 def midi2note(midi: float) -> str:
     pitch_map = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     midi = int(round(midi))
-    octave = (midi // 12) - 1
-    pitch = pitch_map[midi % 12]
+    octave = (midi // KEY_IN_OCTAVE) - 1
+    pitch = pitch_map[midi % KEY_IN_OCTAVE]
     return f"{pitch}{octave}"
 
 
