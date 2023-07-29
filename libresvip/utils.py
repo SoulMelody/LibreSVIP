@@ -92,10 +92,11 @@ def audio_track_info(
             FileNotFoundError, ET.ParseError, RuntimeError, ValueError
         ):
             media_info = MediaInfo.parse(file_path)
-            return next(
-                (track for track in media_info.audio_tracks if filter_func(track)),
-                None,
-            )
+            if not len(media_info.video_tracks):
+                return next(
+                    (track for track in media_info.audio_tracks if filter_func(track)),
+                    None,
+                )
     return None
 
 
