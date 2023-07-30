@@ -22,6 +22,7 @@ from construct import Optional as CSOptional
 from construct_typed import DataclassMixin, DataclassStruct, EnumBase, TEnum, csfield
 
 Int32ul = BytesInteger(4, swapped=True)
+Int32sl = BytesInteger(4, swapped=True, signed=True)
 LineBreak = Const(b"\n")
 
 
@@ -60,19 +61,25 @@ class MutaAudioTrackData(DataclassMixin):
 
 
 @dataclasses.dataclass
+class MutaNoteTiming(DataclassMixin):
+    ori_pos: int = csfield(Int32sl)
+    mod_pos: int = csfield(Int32sl)
+
+
+@dataclasses.dataclass
 class MutaNote(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     key: int = csfield(Int32ul)
     lyric: list[int] = csfield(Int16ul[8])
     phoneme: str = csfield(PaddedString(16, "utf-16-le"))
-    tmg_data: bytes = csfield(Bytes(40))
+    tmg_data: list[MutaNoteTiming] = csfield(DataclassStruct(MutaNoteTiming)[5])
     line_break: bytes = csfield(LineBreak)
 
 
 @dataclasses.dataclass
 class MutaPoint(DataclassMixin):
-    time: int = csfield(Int32ul)
+    time: int = csfield(Int32sl)
     value: int = csfield(Int32ul)
     line_break: bytes = csfield(LineBreak)
 
@@ -134,7 +141,7 @@ class MutaText(DataclassMixin):
 class MutaTalkTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
-    talker_name: str = csfield(Int16ul[258])
+    talker_name: list[int] = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
     line_break: bytes = csfield(LineBreak)
     text: MutaText = csfield(DataclassStruct(MutaText))

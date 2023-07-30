@@ -14,6 +14,7 @@ from libresvip.utils import audio_track_info
 from .model import (
     MutaAudioTrackData,
     MutaNote,
+    MutaNoteTiming,
     MutaParams,
     MutaProject,
     MutaSongTrackData,
@@ -117,7 +118,7 @@ class MutaGenerator:
                 key=139 - note.key_number,
                 lyric=[ord(c) for c in note.lyric] + [0] * (8 - len(note.lyric)),
                 phoneme=note.pronunciation or "",
-                tmg_data=b"\x00" * 40,
+                tmg_data=[MutaNoteTiming(ori_pos=0, mod_pos=0)] * 5,
             )
             for note in notes
         ]
