@@ -9,6 +9,7 @@ from construct import (
     Construct,
     FocusedSeq,
     GreedyBytes,
+    GreedyRange,
     If,
     Int16ul,
     PaddedString,
@@ -136,7 +137,7 @@ class MutaTalkTrackData(DataclassMixin):
     talker_name: str = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
     line_break: bytes = csfield(LineBreak)
-    texts: list[MutaText] = csfield(DataclassStruct(MutaText))
+    text: MutaText = csfield(DataclassStruct(MutaText))
 
 
 @dataclasses.dataclass
@@ -150,10 +151,10 @@ class MutaTrack(DataclassMixin):
     pan: int = csfield(Int32ul)
     name: str = csfield(PaddedString(12, "utf-16-le"))
     padding: bytes = csfield(Bytes(53))
-    talk_track_data: Optional[MutaTalkTrackData] = csfield(
+    talk_track_data: Optional[list[MutaTalkTrackData]] = csfield(
         If(
             this.track_type == MutaTrackType.TALK,
-            CSOptional(DataclassStruct(MutaTalkTrackData)),
+            GreedyRange(DataclassStruct(MutaTalkTrackData)),
         )
     )
     audio_track_data: Optional[MutaAudioTrackData] = csfield(
