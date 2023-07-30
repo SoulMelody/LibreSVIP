@@ -2,16 +2,18 @@ import dataclasses
 from typing import Optional
 
 from construct import (
+    Byte,
     Bytes,
     BytesInteger,
     Const,
     Construct,
     FocusedSeq,
+    GreedyBytes,
     If,
     Int16ul,
     PaddedString,
-    Padding,
     PascalString,
+    Prefixed,
     PrefixedArray,
     this,
 )
@@ -51,7 +53,7 @@ class MutaTimeSignature(DataclassMixin):
 @dataclasses.dataclass
 class MutaAudioTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
-    end: int = csfield(Int32ul)
+    length: int = csfield(Int32ul)
     file_path: str = csfield(PascalString(Int32ul, "utf-8"))
     line_break: bytes = csfield(LineBreak)
 
@@ -92,12 +94,49 @@ class MutaParams(DataclassMixin):
 @dataclasses.dataclass
 class MutaSongTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
-    end: int = csfield(Int32ul)
+    length: int = csfield(Int32ul)
     singer_name: str = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
     line_break1: bytes = csfield(LineBreak)
     notes: list[MutaNote] = csfield(muta_prefixed_array(MutaNote))
     params: list[MutaParams] = csfield(DataclassStruct(MutaParams))
+
+
+@dataclasses.dataclass
+class MutaPhoneme(DataclassMixin):
+    volume: int = csfield(Byte)
+    pos1: int = csfield(Int16ul)
+    length: int = csfield(Byte)
+    pos2: int = csfield(Int16ul)
+    pitch: int = csfield(Int32ul)
+    phoneme: bytes = csfield(Prefixed(Int32ul, GreedyBytes))
+    line_break: bytes = csfield(LineBreak)
+
+
+@dataclasses.dataclass
+class MutaText(DataclassMixin):
+    text: bytes = csfield(Prefixed(Int32ul, GreedyBytes))
+    line_break1: bytes = csfield(LineBreak)
+    volume: int = csfield(Byte)
+    speed: int = csfield(Byte)
+    tone: int = csfield(Byte)
+    quality: int = csfield(Byte)
+    normal: int = csfield(Byte)
+    happiness: int = csfield(Byte)
+    sadness: int = csfield(Byte)
+    reserved: int = csfield(Byte)
+    line_break2: bytes = csfield(LineBreak)
+    phonemes: list[MutaPhoneme] = csfield(muta_prefixed_array(MutaPhoneme))
+
+
+@dataclasses.dataclass
+class MutaTalkTrackData(DataclassMixin):
+    start: int = csfield(Int32ul)
+    length: int = csfield(Int32ul)
+    talker_name: str = csfield(Int16ul[258])
+    unknown_1: int = csfield(Int32ul)
+    line_break: bytes = csfield(LineBreak)
+    texts: list[MutaText] = csfield(DataclassStruct(MutaText))
 
 
 @dataclasses.dataclass
@@ -110,7 +149,13 @@ class MutaTrack(DataclassMixin):
     volume: int = csfield(Int32ul)
     pan: int = csfield(Int32ul)
     name: str = csfield(PaddedString(12, "utf-16-le"))
-    padding: bytes = csfield(Padding(53))
+    padding: bytes = csfield(Bytes(53))
+    talk_track_data: Optional[MutaTalkTrackData] = csfield(
+        If(
+            this.track_type == MutaTrackType.TALK,
+            CSOptional(DataclassStruct(MutaTalkTrackData)),
+        )
+    )
     audio_track_data: Optional[MutaAudioTrackData] = csfield(
         If(
             this.track_type == MutaTrackType.AUDIO,
