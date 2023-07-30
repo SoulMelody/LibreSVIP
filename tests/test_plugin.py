@@ -109,13 +109,19 @@ def test_y77_read(shared_datadir, capsys):
 
 
 def test_ppsf_read(shared_datadir, capsys):
+    from libresvip.plugins.ppsf.legacy_model import PpsfLegacyProject
     from libresvip.plugins.ppsf.model import PpsfProject
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ppsf"
-        proj_text = zipfile.ZipFile(proj_path, "r").read("ppsf.json")
-        proj = PpsfProject.model_validate_json(proj_text)
-        print(proj)
+        try:
+            proj_text = zipfile.ZipFile(proj_path, "r").read("ppsf.json")
+            proj = PpsfProject.model_validate_json(proj_text)
+            print(proj)
+        except zipfile.BadZipFile:
+            proj = PpsfLegacyProject.parse_file(proj_path)
+            for chunk in proj.body.chunks:
+                print(chunk.magic)
 
 
 def test_vog_read(shared_datadir, capsys):
