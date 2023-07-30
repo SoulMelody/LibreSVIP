@@ -13,15 +13,18 @@ from libresvip.model.base import BaseModel, Field
 
 
 class DsItem(BaseModel):
-    text: Union[str, list[str]]
-    ph_seq: Union[str, list[str]]
-    note_seq: Union[str, list[str]]
-    note_dur_seq: Union[str, list[float]]
-    is_slur_seq: Union[str, list[int]]
-    ph_dur: Union[str, list[float]]
+    text: list[str]
+    ph_seq: list[str]
+    note_seq: list[str]
+    note_dur: Optional[list[float]] = None
+    note_dur_seq: Optional[list[float]] = None
+    note_slur: Optional[list[int]] = None
+    is_slur_seq: Optional[list[int]] = None
+    ph_dur: list[float]
+    ph_num: Optional[list[int]] = None
     f0_timestep: float
     f0_seq: Union[str, list[float]]
-    input_type: Literal["phoneme"]
+    input_type: Optional[Literal["phoneme"]] = None
     offset: Union[str, float]
     seed: Optional[int] = None
     spk_mix: Optional[dict[str, list[float]]] = None
@@ -34,12 +37,12 @@ class DsItem(BaseModel):
     def _validate_str_list(cls, value, _info):
         return None if value is None else value.split()
 
-    @field_validator("f0_seq", "ph_dur", "note_dur_seq", mode="before")
+    @field_validator("f0_seq", "ph_dur", "note_dur", "note_dur_seq", mode="before")
     @classmethod
     def _validate_float_list(cls, value, _info):
         return None if value is None else [float(x) for x in value.split()]
 
-    @field_validator("is_slur_seq", mode="before")
+    @field_validator("is_slur_seq", "note_slur", "ph_num", mode="before")
     @classmethod
     def _validate_int_list(cls, value, _info):
         return None if value is None else [int(x) for x in value.split()]

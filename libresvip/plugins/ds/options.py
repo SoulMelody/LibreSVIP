@@ -2,10 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class InputOptions(BaseModel):
-    dict_name: str = Field(
-        default="opencpop-extension",
-        title="Dictionary Name",
-    )
+    pass
 
 
 class OutputOptions(InputOptions):
