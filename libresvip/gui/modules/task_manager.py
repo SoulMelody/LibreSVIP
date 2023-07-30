@@ -133,6 +133,7 @@ class TaskManager(QObject):
                 "choices": [],
             }
         )
+        self._input_fields_inited = False
         self.output_fields = ModelProxy(
             {
                 "name": "",
@@ -144,6 +145,7 @@ class TaskManager(QObject):
                 "choices": [],
             }
         )
+        self._output_fields_inited = False
         self.input_formats.append_many(
             [
                 {
@@ -337,7 +339,7 @@ class TaskManager(QObject):
 
     @slot(str)
     def set_input_fields(self, input_format: str) -> None:
-        if input_format == self.input_format:
+        if input_format == self.input_format and self._input_fields_inited:
             return
         self.input_format = input_format
         self.input_fields.clear()
@@ -346,10 +348,12 @@ class TaskManager(QObject):
             option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
             input_fields = self.inspect_fields(option_class)
             self.input_fields.append_many(input_fields)
+        if not self._input_fields_inited:
+            self._input_fields_inited = True
 
     @slot(str)
     def set_output_fields(self, output_format: str) -> None:
-        if output_format == self.output_format and self.output_fields:
+        if output_format == self.output_format and self._output_fields_inited:
             return
         self.output_format = output_format
         self.output_fields.clear()
@@ -358,6 +362,8 @@ class TaskManager(QObject):
             option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
             output_fields = self.inspect_fields(option_class)
             self.output_fields.append_many(output_fields)
+        if not self._output_fields_inited:
+            self._output_fields_inited = True
 
     @slot(str, result=dict)
     def plugin_info(self, name: str) -> dict:
