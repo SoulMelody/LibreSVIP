@@ -64,7 +64,7 @@ class MutaNote(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     key: int = csfield(Int32ul)
-    lyric: str = csfield(Int16ul[8])
+    lyric: list[int] = csfield(Int16ul[8])
     phoneme: str = csfield(PaddedString(16, "utf-16-le"))
     tmg_data: bytes = csfield(Bytes(40))
     line_break: bytes = csfield(LineBreak)
@@ -96,7 +96,7 @@ class MutaParams(DataclassMixin):
 class MutaSongTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
-    singer_name: str = csfield(Int16ul[258])
+    singer_name: list[int] = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
     line_break1: bytes = csfield(LineBreak)
     notes: list[MutaNote] = csfield(muta_prefixed_array(MutaNote))
