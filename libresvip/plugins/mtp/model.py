@@ -82,14 +82,14 @@ MutaPoints = muta_prefixed_array(MutaPoint)
 
 @dataclasses.dataclass
 class MutaParams(DataclassMixin):
-    unknown_param: MutaPoints = csfield(MutaPoints)
-    pitch_range: MutaPoints = csfield(MutaPoints)
-    pitch_data: MutaPoints = csfield(MutaPoints)
-    volume_data: MutaPoints = csfield(MutaPoints)
-    vibrato_amplitude_range: MutaPoints = csfield(MutaPoints)
-    vibrato_amplitude_data: MutaPoints = csfield(MutaPoints)
-    vibrato_frequency_range: MutaPoints = csfield(MutaPoints)
-    vibrato_frequency_data: MutaPoints = csfield(MutaPoints)
+    unknown_param: list[MutaPoint] = csfield(MutaPoints)
+    pitch_range: list[MutaPoint] = csfield(MutaPoints)
+    pitch_data: list[MutaPoint] = csfield(MutaPoints)
+    volume_data: list[MutaPoint] = csfield(MutaPoints)
+    vibrato_amplitude_range: list[MutaPoint] = csfield(MutaPoints)
+    vibrato_amplitude_data: list[MutaPoint] = csfield(MutaPoints)
+    vibrato_frequency_range: list[MutaPoint] = csfield(MutaPoints)
+    vibrato_frequency_data: list[MutaPoint] = csfield(MutaPoints)
 
 
 @dataclasses.dataclass
@@ -100,7 +100,7 @@ class MutaSongTrackData(DataclassMixin):
     unknown_1: int = csfield(Int32ul)
     line_break1: bytes = csfield(LineBreak)
     notes: list[MutaNote] = csfield(muta_prefixed_array(MutaNote))
-    params: list[MutaParams] = csfield(DataclassStruct(MutaParams))
+    params: MutaParams = csfield(DataclassStruct(MutaParams))
 
 
 @dataclasses.dataclass
@@ -170,7 +170,7 @@ class MutaTrack(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaProject(DataclassMixin):
-    file_size: int = csfield(Int32ul)
+    file_version: int = csfield(Int32ul)
     line_break1: bytes = csfield(LineBreak)
     tempos: list[MutaTempo] = csfield(muta_prefixed_array(MutaTempo))
     line_break2: bytes = csfield(LineBreak)

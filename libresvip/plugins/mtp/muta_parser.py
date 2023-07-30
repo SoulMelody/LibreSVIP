@@ -108,7 +108,7 @@ class MutaParser:
             note = Note(
                 start_pos=muta_note.start,
                 length=muta_note.length,
-                key_number=muta_note.key,
+                key_number=139 - muta_note.key,
                 lyric="".join(chr(char) for char in muta_note.lyric).rstrip("\0"),
                 pronunciation=muta_note.phoneme,
             )
