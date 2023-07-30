@@ -11,7 +11,15 @@ from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from qmlease import slot
-from qtpy.QtCore import QModelIndex, QObject, QRunnable, QThreadPool, QTimer, Signal, Slot
+from qtpy.QtCore import (
+    QModelIndex,
+    QObject,
+    QRunnable,
+    QThreadPool,
+    QTimer,
+    Signal,
+    Slot,
+)
 from upath import UPath
 
 from libresvip.core.config import settings
@@ -83,7 +91,11 @@ class ConversionWorker(QRunnable):
                 )
         except Exception:
             self.signals.result.emit(
-                self.index, {"success": False, "error": shorten_error_message(traceback.format_exc())}
+                self.index,
+                {
+                    "success": False,
+                    "error": shorten_error_message(traceback.format_exc()),
+                },
             )
 
 
@@ -251,7 +263,7 @@ class TaskManager(QObject):
                 target_path.unlink()
             target_path.write_bytes(tmp_path.read_bytes())
             result = True
-        except (FileExistsError, FileNotFoundError, OSError) as e:
+        except OSError as e:
             self.tasks.update(index, {"error": str(e)})
         return result
 
@@ -425,7 +437,9 @@ class TaskManager(QObject):
     def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:
         plugin_info_filename = None
         for plugin_file in plugin_archive.iterdir():
-            if plugin_file.is_file() and plugin_file.name.endswith(f".{plugin_manager.info_extension}"):
+            if plugin_file.is_file() and plugin_file.name.endswith(
+                f".{plugin_manager.info_extension}"
+            ):
                 plugin_info_filename = plugin_file
         return plugin_info_filename
 
@@ -434,12 +448,8 @@ class TaskManager(QObject):
         infos = []
         for path in paths:
             zip_file = zipfile.Path(path)
-            if (
-                plugin_info_filename := self.plugin_info_file(zip_file)
-            ) is not None:
-                plugin_info = plugin_manager.info_cls.load(
-                    plugin_info_filename
-                )
+            if (plugin_info_filename := self.plugin_info_file(zip_file)) is not None:
+                plugin_info = plugin_manager.info_cls.load(plugin_info_filename)
                 if plugin_info is not None:
                     infos.append(
                         {
