@@ -34,22 +34,24 @@ class DsItem(BaseModel):
 
     @field_validator("text", "note_seq", "ph_seq", mode="before")
     @classmethod
-    def _validate_str_list(cls, value, _info):
+    def _validate_str_list(cls, value, _info: ValidationInfo) -> list[str]:
         return None if value is None else value.split()
 
     @field_validator("f0_seq", "ph_dur", "note_dur", "note_dur_seq", mode="before")
     @classmethod
-    def _validate_float_list(cls, value, _info):
+    def _validate_float_list(cls, value, _info: ValidationInfo) -> list[float]:
         return None if value is None else [float(x) for x in value.split()]
 
     @field_validator("is_slur_seq", "note_slur", "ph_num", mode="before")
     @classmethod
-    def _validate_int_list(cls, value, _info):
+    def _validate_int_list(cls, value, _info: ValidationInfo) -> list[int]:
         return None if value is None else [int(x) for x in value.split()]
 
     @field_serializer(
         "f0_seq",
+        "ph_num",
         "ph_dur",
+        "note_slur",
         "note_dur_seq",
         "is_slur_seq",
         "text",
@@ -58,12 +60,14 @@ class DsItem(BaseModel):
         when_used="json-unless-none",
     )
     @classmethod
-    def _serialize_list(cls, value, _info):
+    def _serialize_list(cls, value, _info: SerializationInfo) -> str:
         return " ".join(str(x) for x in value)
 
     @field_validator("spk_mix", "gender", mode="before")
     @classmethod
-    def _validate_nested_dict(cls, value, _info):
+    def _validate_nested_dict(
+        cls, value, _info: ValidationInfo
+    ) -> dict[str, list[float]]:
         if value is None:
             return None
 
@@ -73,7 +77,7 @@ class DsItem(BaseModel):
 
     @field_serializer("spk_mix", "gender", when_used="json-unless-none")
     @classmethod
-    def _serialize_nested_dict(cls, value, _info):
+    def _serialize_nested_dict(cls, value, _info: SerializationInfo) -> dict[str, str]:
         return {key: " ".join(str(x) for x in value[key]) for key in value}
 
 
@@ -82,11 +86,11 @@ class DsProject(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def populate_root(cls, values, _info: ValidationInfo):
+    def populate_root(cls, values, _info: ValidationInfo) -> dict:
         return {"root": values} if isinstance(values, list) else values
 
     @model_serializer(mode="wrap")
-    def _serialize(self, handler, info: SerializationInfo):
+    def _serialize(self, handler, info: SerializationInfo) -> dict:
         data = handler(self)
         return data["root"] if info.mode == "json" and isinstance(data, dict) else data
 
