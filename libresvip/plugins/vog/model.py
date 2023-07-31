@@ -15,13 +15,13 @@ class VogenNote(BaseModel):
 
 class VogenTrack(BaseModel):
     name: Optional[str] = None
-    singer_id: Optional[str] = Field(alias="singerId")
+    singer_id: Optional[str] = Field(None, alias="singerId")
     rom_scheme: Optional[str] = Field("", alias="romScheme")
     notes: list[VogenNote] = Field(default_factory=list)
 
 
 class VogenProject(BaseModel):
-    time_sig0: Optional[str] = Field(alias="timeSig0")
+    time_sig0: Optional[str] = Field(None, alias="timeSig0")
     bpm0: Optional[float] = None
     accom_offset: Optional[int] = Field(0, alias="accomOffset")
     utts: list[VogenTrack] = Field(default_factory=list)

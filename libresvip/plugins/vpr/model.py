@@ -1,6 +1,6 @@
 import enum
 from dataclasses import dataclass
-from typing import Annotated, Optional, Union
+from typing import Annotated, Literal, Optional, Union
 
 from pydantic import ConfigDict, Field
 
@@ -13,6 +13,12 @@ class VocaloidLanguage(enum.IntEnum):
     KOREAN: Annotated[int, Field(title="한국어")] = 2
     SPANISH: Annotated[int, Field(title="Español")] = 3
     SIMPLIFIED_CHINESE: Annotated[int, Field(title="简体中文")] = 4
+
+
+class VocaloidTrackType(enum.IntEnum):
+    STANDARD = 0
+    AUDIO = 1
+    AI = 2
 
 
 @dataclass
@@ -95,14 +101,14 @@ class VocaloidVersion(BaseModel):
 
 
 class VocaloidVibrato(BaseModel):
-    type: Optional[int] = 0
+    type_value: Optional[int] = Field(0, alias="type")
     duration: Optional[int] = 0
     depths: Optional[list[VocaloidPoint]] = Field(default_factory=list)
     rates: Optional[list[VocaloidPoint]] = Field(default_factory=list)
 
 
 class VocaloidCompID(BaseModel):
-    comp_id: Optional[str] = Field(alias="compID")
+    comp_id: Optional[str] = Field(None, alias="compID")
 
 
 class VocaloidLangID(BaseModel):
@@ -138,8 +144,8 @@ class VocaloidFolded(BaseModel):
 
 
 class VocaloidMidiEffects(VocaloidFolded):
-    id: Optional[str] = None
-    is_bypassed: Optional[bool] = Field(alias="isBypassed")
+    id_value: Optional[str] = Field(None, alias="id")
+    is_bypassed: Optional[bool] = Field(None, alias="isBypassed")
     parameters: list[VocaloidParameters] = Field(default_factory=list)
 
 
@@ -178,9 +184,9 @@ class VocaloidMasterTrack(BaseModel):
 
 class VocaloidDVQMRelease(VocaloidCompID):
     speed: Optional[int] = None
-    level_names: Optional[list[str]] = Field(alias="levelNames")
-    top_factor: Optional[float] = Field(alias="topFactor")
-    is_protected: Optional[bool] = Field(alias="isProtected")
+    level_names: Optional[list[str]] = Field(None, alias="levelNames")
+    top_factor: Optional[float] = Field(None, alias="topFactor")
+    is_protected: Optional[bool] = Field(None, alias="isProtected")
 
 
 class VocaloidDVQM(BaseModel):
@@ -208,7 +214,7 @@ class VocaloidNotes(VocaloidLangID, VocaloidWithDur):
 
 class VocaloidWav(BaseModel):
     name: str
-    original_name: Optional[str] = Field(alias="originalName")
+    original_name: Optional[str] = Field(None, alias="originalName")
 
 
 class VocaloidVoicePart(VocaloidWithDur):
@@ -248,10 +254,7 @@ class VocaloidWavPart(VocaloidBasePos):
     wav: Optional[VocaloidWav] = None
 
 
-VocaloidParts = Union[VocaloidVoicePart, VocaloidWavPart]
-
-
-class VocaloidTracks(VocaloidFolded):
+class VocaloidBaseTracks(VocaloidFolded):
     bus_no: Optional[int] = Field(0, alias="busNo")
     color: Optional[int] = 0
     height: Optional[float] = 0
@@ -259,12 +262,36 @@ class VocaloidTracks(VocaloidFolded):
     is_solo_mode: bool = Field(False, alias="isSoloMode")
     name: Optional[str] = ""
     panpot: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
-    parts: list[VocaloidParts] = Field(default_factory=list)
-    type: Optional[int] = 0
     volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
     last_scroll_position_note_number: Optional[int] = Field(
         None, alias="lastScrollPositionNoteNumber"
     )
+
+
+class VocaloidStandardTrack(VocaloidBaseTracks):
+    parts: list[VocaloidVoicePart] = Field(default_factory=list)
+    type_value: Literal[VocaloidTrackType.STANDARD] = Field(
+        VocaloidTrackType.STANDARD, alias="type"
+    )
+
+
+class VocaloidAITrack(VocaloidBaseTracks):
+    parts: list[VocaloidVoicePart] = Field(default_factory=list)
+    type_value: Literal[VocaloidTrackType.AI] = Field(
+        VocaloidTrackType.AI, alias="type"
+    )
+
+
+class VocaloidAudioTrack(VocaloidBaseTracks):
+    parts: list[VocaloidWavPart] = Field(default_factory=list)
+    type_value: Literal[VocaloidTrackType.AUDIO] = Field(
+        VocaloidTrackType.AUDIO, alias="type"
+    )
+
+
+VocaloidTracks = Annotated[
+    Union[VocaloidStandardTrack], Field(discriminator="type_value")
+]
 
 
 class VocaloidProject(BaseModel):

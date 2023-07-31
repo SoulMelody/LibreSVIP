@@ -17,14 +17,13 @@ from .constants import (
     PITCH_BEND_SENSITIVITY_NAME,
 )
 from .model import (
+    VocaloidAudioTrack,
     VocaloidNotes,
     VocaloidPartPitchData,
     VocaloidPoint,
     VocaloidProject,
     VocaloidTimeSig,
     VocaloidTracks,
-    VocaloidVoicePart,
-    VocaloidWavPart,
 )
 from .options import InputOptions
 from .vocaloid_pitch import pitch_from_vocaloid_parts
@@ -70,8 +69,8 @@ class VocaloidParser:
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:
         track_list = []
         for track in tracks:
-            for part in track.parts:
-                if isinstance(part, VocaloidWavPart):
+            if isinstance(track, VocaloidAudioTrack):
+                for part in track.parts:
                     # wav_path = f"Project/Audio/{part.name}"
                     instrumental_track = InstrumentalTrack(
                         title=part.name,
@@ -81,7 +80,8 @@ class VocaloidParser:
                         audio_file_path=part.wav.original_name,
                     )
                     track_list.append(instrumental_track)
-                elif isinstance(part, VocaloidVoicePart):
+            else:
+                for part in track.parts:
                     comp_id = None
                     if part.voice is not None:
                         comp_id = part.voice.comp_id

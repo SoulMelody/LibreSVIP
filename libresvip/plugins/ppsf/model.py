@@ -13,13 +13,13 @@ class PpsfConst(BaseModel, Generic[ConstValue]):
 
 
 class PpsfCurvePointSeq(BaseModel):
-    border_type: Optional[int] = Field(alias="border-type")
-    note_index: Optional[int] = Field(alias="note-index")
+    border_type: Optional[int] = Field(None, alias="border-type")
+    note_index: Optional[int] = Field(None, alias="note-index")
     region_index: int = Field(alias="region-index")
 
 
 class PpsfCurvePoint(BaseModel):
-    plugin_descriptor: Optional[str] = Field(alias="plugin-descriptor")
+    plugin_descriptor: Optional[str] = Field(None, alias="plugin-descriptor")
     sequence: list[PpsfCurvePointSeq]
     sub_track_category: int = Field(alias="sub-track-category")
     sub_track_id: int = Field(alias="sub-track-id")
@@ -54,19 +54,19 @@ class PpsfNote(BaseModel):
 
 
 class PpsfRegion(BaseModel):
-    auto_expand_left: Optional[bool] = Field(alias="auto-expand-left")
-    auto_expand_right: Optional[bool] = Field(alias="auto-expand-right")
+    auto_expand_left: Optional[bool] = Field(None, alias="auto-expand-left")
+    auto_expand_right: Optional[bool] = Field(None, alias="auto-expand-right")
     length: int
     muted: bool
     name: str
     position: int
     z_order: int = Field(alias="z-order")
-    audio_event_index: Optional[int] = Field(alias="audio-event-index")
+    audio_event_index: Optional[int] = Field(None, alias="audio-event-index")
 
 
 class PpsfSubTrack(BaseModel):
     height: int
-    plugin_descriptor: Optional[str] = Field(alias="plugin-descriptor")
+    plugin_descriptor: Optional[str] = Field(None, alias="plugin-descriptor")
     sub_track_category: int = Field(alias="sub-track-category")
     sub_track_id: int = Field(alias="sub-track-id")
 
@@ -75,7 +75,7 @@ class PpsfParamPoint(BaseModel):
     curve_type: int
     pos: int
     value: int
-    region_index: Optional[int] = Field(alias="region-index")
+    region_index: Optional[int] = Field(None, alias="region-index")
 
 
 class PpsfBaseSequence(BaseModel):
@@ -86,15 +86,15 @@ class PpsfBaseSequence(BaseModel):
 
 
 class PpsfSeqParam(BaseModel):
-    base_sequence: Optional[PpsfBaseSequence] = Field(alias="base-sequence")
+    base_sequence: Optional[PpsfBaseSequence] = Field(None, alias="base-sequence")
     layers: Optional[list] = None
 
 
 class PpsfParameter(BaseModel):
     constant: int
     default: Optional[int] = None
-    max: Optional[int] = None
-    min: Optional[int] = None
+    max_value: Optional[int] = Field(None, alias="max")
+    min_value: Optional[int] = Field(None, alias="min")
     name: str
     sequence: list[PpsfParamPoint]
     use_sequence: bool
@@ -112,12 +112,12 @@ class PpsfFsmEffect(BaseModel):
 
 class PpsfEventTrack(BaseModel):
     curve_points: list[PpsfCurvePoint] = Field(alias="curve-points")
-    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(alias="fsm-effects")
+    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(None, alias="fsm-effects")
     height: int
     index: int
-    mute_solo: Optional[int] = Field(alias="mute-solo")
+    mute_solo: Optional[int] = Field(None, alias="mute-solo")
     notes: Optional[list[PpsfNote]] = Field(default_factory=list)
-    nt_envelope_preset_id: Optional[int] = Field(alias="nt-envelope-preset-id")
+    nt_envelope_preset_id: Optional[int] = Field(None, alias="nt-envelope-preset-id")
     regions: list[PpsfRegion]
     sub_tracks: list[PpsfSubTrack] = Field(alias="sub-tracks")
     total_height: int = Field(alias="total-height")
@@ -139,7 +139,7 @@ class PpsfTrackEditor(BaseModel):
     horizontal_scale: float = Field(alias="horizontal-scale")
     horizontal_scroll: int = Field(alias="horizontal-scroll")
     tempo_track: PpsfTempoTrack = Field(alias="tempo-track")
-    user_markers: Optional[list] = Field(alias="user-markers", default_factory=list)
+    user_markers: Optional[list] = Field(default_factory=list, alias="user-markers")
     width: int
     x: int
     y: int
@@ -147,21 +147,19 @@ class PpsfTrackEditor(BaseModel):
 
 class PpsfLoopPoint(BaseModel):
     begin: int
-    enable: Optional[bool] = None
-    enabled: Optional[bool] = None
+    enabled: Optional[bool] = Field(None, validation_alias="enable")
     end: int
 
 
 class PpsfMetronome(BaseModel):
-    enable: Optional[bool] = None
-    enabled: Optional[bool] = None
+    enabled: Optional[bool] = Field(None, validation_alias="enable")
     wav: str
 
 
 class PpsfGuiSettings(BaseModel):
     loop_point: Optional[PpsfLoopPoint] = None
     metronome: Optional[PpsfMetronome] = None
-    ambient_enabled: Optional[bool] = Field(alias="ambient-enabled")
+    ambient_enabled: Optional[bool] = Field(None, alias="ambient-enabled")
     file_fullpath: str = Field(alias="file-fullpath")
     playback_position: int = Field(alias="playback-position")
     project_length: int = Field(alias="project-length")
@@ -178,7 +176,7 @@ class PpsfAudioTrackEvent(BaseModel):
     playback_offset_sample: int
     tick_length: int
     tick_pos: int
-    enabled: Optional[bool] = None
+    enabled: Optional[bool] = Field(None, validation_alias="enable")
 
 
 class PpsfMixer(BaseModel):
@@ -189,7 +187,7 @@ class PpsfMixer(BaseModel):
 
 class PpsfAudioTrackItem(BaseModel):
     block_size: int
-    enabled: bool
+    enabled: Optional[bool] = Field(None, validation_alias="enable")
     events: list[PpsfAudioTrackEvent]
     input_channel: int
     mixer: PpsfMixer
@@ -285,13 +283,13 @@ class PpsfDvlTrackEvent(BaseModel):
     attack_speed_rate: int
     consonant_rate: int
     consonant_speed_rate: int
-    enabled: bool
+    enabled: Optional[bool] = Field(None, validation_alias="enable")
     length: int
     lyric: str
     note_number: int
-    note_off_pit_envelope: PpsfEnvelope
-    note_on_pit_envelope: PpsfEnvelope
-    portamento_envelope: PpsfEnvelope
+    note_off_pit_envelope: Optional[PpsfEnvelope] = None
+    note_on_pit_envelope: Optional[PpsfEnvelope] = None
+    portamento_envelope: Optional[PpsfEnvelope] = None
     vib_depth: Optional[PpsfEnvelope] = None
     vib_rate: Optional[PpsfEnvelope] = None
     vib_setting_id: Optional[int] = None
@@ -304,7 +302,7 @@ class PpsfDvlTrackEvent(BaseModel):
 
 
 class PpsfDvlTrackItem(BaseModel):
-    enabled: bool
+    enabled: Optional[bool] = Field(None, validation_alias="enable")
     events: list[PpsfDvlTrackEvent]
     mixer: PpsfMixer
     name: str
