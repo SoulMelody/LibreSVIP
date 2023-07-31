@@ -56,7 +56,7 @@ class JUCECompressedIntStruct(Construct):
         try:
             content = obj.to_bytes(width, "little", signed=False)
             stream.write(struct.pack("<B", width))
-            stream.write(struct.pack(content, obj))
+            stream.write(content)
         except OverflowError as e:
             msg = "Number too large to be compressed"
             raise ValueError(msg) from e
