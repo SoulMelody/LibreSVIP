@@ -61,20 +61,30 @@ def test_mtp_read(shared_datadir, pretty_construct):
 
 
 def test_tssln_read(shared_datadir, pretty_construct):
-    from libresvip.plugins.tssln.model import JUCENode, VoiSonaTrackTypes
+    import itertools
+
+    from libresvip.plugins.tssln.model import VoiSonaProject
+    from libresvip.plugins.tssln.value_tree import JUCENode
+
+    def build_tree(node: JUCENode) -> dict:
+        attr_dict = {
+            attr.name: build_tree(JUCENode.parse(attr.value[48:]))
+            if isinstance(attr.value, bytes)
+            else attr.value
+            for attr in node.attrs
+        }
+        children_dict = {
+            key: [next(iter(item.values())) for item in group]
+            for key, group in itertools.groupby(
+                (build_tree(child) for child in node.children),
+                key=lambda item: next(iter(item.keys())),
+            )
+        }
+        return {node.name: children_dict | attr_dict}
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
-    for child in value_tree.children:
-        if child.name == "Tracks":
-            for track in child.children:
-                for attr in track.attrs:
-                    if attr.name == "Type":
-                        if attr.value != int(VoiSonaTrackTypes.SINGING):
-                            break
-                    elif attr.name == "PluginData":
-                        plugin_data = JUCENode.parse(attr.value[48:])
-                        print(plugin_data)
-                break
+    tree_dict = build_tree(value_tree)
+    print(VoiSonaProject.model_validate(tree_dict["TSSolution"]))
 
 
 def test_ustx_read(shared_datadir, capsys):
@@ -203,7 +213,7 @@ def test_vsqx_read(shared_datadir):
     print(type(proj))
 
 
-def test_mxml_read(shared_datadir):
+def test_musicxml_read(shared_datadir):
     from xsdata.formats.dataclass.parsers.config import ParserConfig
     from xsdata.formats.dataclass.parsers.xml import XmlParser
 
