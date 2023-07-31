@@ -1,8 +1,12 @@
 import dataclasses
+from typing import Optional
 
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
+    Point,
+    Points,
     Project,
     SingingTrack,
     SongTempo,
@@ -11,6 +15,7 @@ from libresvip.model.base import (
 
 from .model import (
     MutaNote,
+    MutaPoint,
     MutaProject,
     MutaTempo,
     MutaTimeSignature,
@@ -23,9 +28,11 @@ from .options import InputOptions
 @dataclasses.dataclass
 class MutaParser:
     options: InputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, muta_project: MutaProject) -> Project:
         time_signatures = self.parse_time_signatures(muta_project.time_signatures)
+        self.first_bar_length = int(time_signatures[0].bar_length())
         tempos = self.parse_tempos(muta_project.tempos)
         singing_tracks = self.parse_singing_tracks(
             [
@@ -83,8 +90,27 @@ class MutaParser:
                     solo=muta_track.solo,
                     note_list=self.parse_notes(muta_track.song_track_data.notes),
                 )
+                if pitch := self.parse_pitch(
+                    muta_track.song_track_data.params.pitch_data
+                ):
+                    singing_track.edited_params.pitch = pitch
                 track_list.append(singing_track)
         return track_list
+
+    def parse_pitch(self, muta_pitch: list[MutaPoint]) -> Optional[ParamCurve]:
+        pitch_points = [Point.start_point()]
+        for muta_point in muta_pitch:
+            pitch_points.append(
+                Point(
+                    x=muta_point.time + self.first_bar_length,
+                    y=(muta_point.value + 1200) if muta_point.value > 0 else -100,
+                )
+            )
+        pitch_points.append(Point.end_point())
+        if len(pitch_points) > 2:
+            return ParamCurve(
+                points=Points(root=pitch_points),
+            )
 
     def parse_instrumental_tracks(
         self, muta_tracks: list[MutaTrack]

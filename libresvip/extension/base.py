@@ -3,9 +3,7 @@ import functools
 import pathlib
 from typing import Any, Callable, Union
 
-from pydantic import BaseModel
-
-from libresvip.model.base import Project
+from libresvip.model.base import BaseModel, Project
 
 
 class BasePlugin(abc.ABC):

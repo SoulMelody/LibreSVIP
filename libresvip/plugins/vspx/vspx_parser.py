@@ -37,13 +37,9 @@ class VocalSharpParser:
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
-        time_signatures = self.parse_time_signatures(
-            vspx_project.project.beat
-        )
+        time_signatures = self.parse_time_signatures(vspx_project.project.beat)
         self.first_bar_length = time_signatures[0].bar_length()
-        tempos = self.parse_tempos(
-            vspx_project.project.tempo
-        )
+        tempos = self.parse_tempos(vspx_project.project.tempo)
         singing_tracks = self.parse_singing_tracks(
             [
                 track
@@ -145,10 +141,10 @@ class VocalSharpParser:
                     )
                 )
                 prev_tick = cur_tick
-        if len(pitch_points):
+        if len(pitch_points) > 1:
             pitch_points.append(Point(x=pitch_points[-1].x, y=-100))
         pitch_points.append(Point.end_point())
-        if len(pitch_points):
+        if len(pitch_points) > 2:
             return ParamCurve(points=Points(root=pitch_points))
 
     def parse_instrumental_tracks(
