@@ -30,9 +30,11 @@ from .options import OutputOptions
 class MutaGenerator:
     options: OutputOptions
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> MutaProject:
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
+        self.first_bar_length = int(project.time_signature_list[0].bar_length())
         time_signatures = self.generate_time_signatures(project.time_signature_list)
         tempos = self.generate_tempos(project.song_tempo_list)
         singing_tracks = self.generate_singing_tracks(
@@ -89,8 +91,9 @@ class MutaGenerator:
                 padding=b"\x00" * 52 + b"\n",
                 talk_track_data=None,
                 song_track_data=MutaSongTrackData(
-                    start=0,
-                    length=max((note.end_pos for note in track.note_list), default=0),
+                    start=self.first_bar_length,
+                    length=max((note.end_pos for note in track.note_list), default=0)
+                    + self.first_bar_length,
                     singer_name=[ord(c) for c in self.options.default_singer_name]
                     + [0] * (258 - len(self.options.default_singer_name)),
                     unknown_1=0,
