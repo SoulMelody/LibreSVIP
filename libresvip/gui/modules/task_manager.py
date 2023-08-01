@@ -8,6 +8,7 @@ import zipfile
 from typing import Any, Optional, get_args, get_type_hints
 
 from loguru import logger
+from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from qmlease import slot
@@ -63,9 +64,7 @@ class ConversionWorker(QRunnable):
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
-                warnings.filterwarnings(
-                    "ignore", category=UserWarning, module="pydantic"
-                )
+                warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
                 input_option = get_type_hints(input_plugin.plugin_object.load).get(

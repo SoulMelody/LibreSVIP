@@ -24,6 +24,7 @@ from nicegui import app, ui
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.globals import get_client
 from nicegui.storage import request_contextvar
+from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -531,7 +532,7 @@ def page_layout(lang: Optional[str] = None):
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always", BaseWarning)
                     warnings.filterwarnings(
-                        "ignore", category=UserWarning, module="pydantic"
+                        "ignore", category=PydanticDeprecationWarning
                     )
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
@@ -1072,7 +1073,8 @@ def page_layout(lang: Optional[str] = None):
                 if (window.showOpenFilePicker) {{
                     let format_desc = document.querySelector('[role="combobox"]').value
                     let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
-                    let file_format = format_desc.split('(')[0]
+                    let bracket_index = format_desc.lastIndexOf('(')
+                    let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
                     window.showOpenFilePicker(
                         {{
                             types: [

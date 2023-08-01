@@ -3,7 +3,6 @@ from gettext import gettext as _
 from typing import get_args, get_type_hints
 
 import typer
-from pydantic.fields import Field
 from rich.console import Console
 from rich.table import Table
 
@@ -14,19 +13,19 @@ app = typer.Typer()
 
 
 @app.command("list")
-def list_plugins():
+def list_plugins() -> None:
     print_plugin_summary(plugin_manager.plugin_registry.values())
 
 
 @app.command()
-def detail(plugin_name: str):
+def detail(plugin_name: str) -> None:
     if plugin_name in plugin_manager.plugin_registry:
         print_plugin_details(plugin_manager.plugin_registry[plugin_name])
     else:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!")
 
 
-def print_plugin_summary(plugins):
+def print_plugin_summary(plugins) -> None:
     console = Console(color_system="256")
     if not plugins:
         console.print(_("No plugins are currently installed."))
@@ -39,18 +38,19 @@ def print_plugin_summary(plugins):
     table.add_column(_("Identifier"), justify="left", style="cyan")
     table.add_column(_("Applicable file format"), justify="left", style="cyan")
     for num, plugin in enumerate(plugins):
+        format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
         table.add_row(
             f"[{num + 1}] ",
             plugin.name + margin,
             str(plugin.version) + margin,
             plugin.author + margin,
             plugin.suffix + margin,
-            _(f"{plugin.file_format} (*.{plugin.suffix})") + margin,
+            _(format_desc) + margin,
         )
     console.print(table)
 
 
-def print_plugin_details(plugin):
+def print_plugin_details(plugin) -> None:
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
@@ -62,11 +62,12 @@ def print_plugin_details(plugin):
     )
     if plugin.website:
         typer.echo("\n" + _("Website: ") + plugin.website)
+    format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
     typer.echo(
         "\n"
         + "{} {}.".format(
             _("This plugin is applicable to"),
-            _(f"{plugin.file_format} (*.{plugin.suffix})"),
+            _(format_desc),
         )
     )
     typer.echo(
@@ -87,7 +88,6 @@ def print_plugin_details(plugin):
         typer.echo(
             _("This plugin supports the following {} conversion options:").format(op)
         )
-        field_info: Field
         for field_info in options.model_fields.values():
             if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(
