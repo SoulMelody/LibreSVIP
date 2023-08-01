@@ -72,6 +72,7 @@ class SVParamCurve(BaseModel):
     points: SVPoints = Field(default_factory=SVPoints)
 
     @field_validator("points", mode="before")
+    @classmethod
     def validate_points(cls, points: list[float], _info: FieldValidationInfo):
         return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
@@ -115,7 +116,7 @@ class SVParamCurve(BaseModel):
 
     def __add__(self, offset: int):
         new_curve = self.model_copy(deep=True)
-        new_curve.points = new_curve.load_points(new_curve.points)
+        new_curve.points = new_curve.validate_points(new_curve.points, None)
         for i in range(len(new_curve.points)):
             new_curve.points[i] = SVPoint(
                 new_curve.points[i].offset + offset, new_curve.points[i].value
@@ -138,7 +139,7 @@ class SVNoteAttrConsts:
 
 
 class SVParamTake(BaseModel):
-    id: int
+    id_value: int = Field(alias="id")
     expr: float
     liked: bool = False
 
@@ -501,6 +502,7 @@ class SVGroup(BaseModel):
     )
 
     @field_validator("notes", mode="before")
+    @classmethod
     def validate_notes(cls, v, _info: FieldValidationInfo):
         return [note for note in v if note["onset"] >= 0]
 

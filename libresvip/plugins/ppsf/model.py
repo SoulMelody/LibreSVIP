@@ -193,7 +193,7 @@ class PpsfMeter(BaseModel):
 
 class PpsfMeters(BaseModel):
     const: PpsfMeter
-    sequence: list[PpsfMeter]
+    sequence: list[PpsfMeter] = Field(default_factory=list)
     use_sequence: bool
 
 
@@ -209,18 +209,6 @@ class PpsfSingerTableItem(BaseModel):
     cid1: str
     name: str
     param1: PpsfSingerParam
-
-
-class PpsfVibDepthItem(BaseModel):
-    curve_type: int
-    pos: int
-    value: int
-
-
-class PpsfVibRateItem(BaseModel):
-    curve_type: int
-    pos: int
-    value: int
 
 
 class PpsfVocaloidTrackEvent(BaseModel):
@@ -240,8 +228,8 @@ class PpsfVocaloidTrackEvent(BaseModel):
     velocity: int
     vib_category: int
     vib_offset: int
-    vib_depth: Optional[list[PpsfVibDepthItem]] = None
-    vib_rate: Optional[list[PpsfVibRateItem]] = None
+    vib_depth: Optional[list[PpsfParamPoint]] = None
+    vib_rate: Optional[list[PpsfParamPoint]] = None
 
 
 class PpsfVocaloidTrackItem(BaseModel):
@@ -315,7 +303,7 @@ class PpsfTempo(BaseModel):
 
 class PpsfTempos(BaseModel):
     const: int
-    sequence: list[PpsfTempo]
+    sequence: list[PpsfTempo] = Field(default_factory=list)
     use_sequence: bool
 
 

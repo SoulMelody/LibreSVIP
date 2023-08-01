@@ -76,7 +76,7 @@ class VocaloidParser:
                         title=part.name,
                         offset=part.pos,
                         mute=track.is_muted,
-                        Solo=track.is_solo_mode,
+                        solo=track.is_solo_mode,
                         audio_file_path=part.wav.original_name,
                     )
                     track_list.append(instrumental_track)
@@ -90,7 +90,7 @@ class VocaloidParser:
                     singing_track = SingingTrack(
                         title=part.name,
                         mute=track.is_muted,
-                        Solo=track.is_solo_mode,
+                        solo=track.is_solo_mode,
                         note_list=self.parse_notes(part.notes, part.pos),
                         ai_singer_name=self.comp_id2name.get(comp_id, ""),
                     )

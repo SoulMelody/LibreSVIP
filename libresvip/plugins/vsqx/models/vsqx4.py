@@ -89,9 +89,10 @@ class SeqAttr:
             "min_occurs": 1,
         },
     )
-    id: Optional[str] = field(
+    seq_id: Optional[str] = field(
         default=None,
         metadata={
+            "name": "id",
             "type": "Attribute",
             "required": True,
         },
@@ -220,9 +221,10 @@ class TypeParamAttr:
             "required": True,
         },
     )
-    id: Optional[str] = field(
+    type_param_attr_id: Optional[str] = field(
         default=None,
         metadata={
+            "name": "id",
             "type": "Attribute",
             "required": True,
         },
@@ -857,7 +859,7 @@ class MonoTrack:
         namespace = VSQ4_NS
 
     wav_part: Optional[list[WavPart]] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "wavPart",
             "type": "Element",
@@ -1015,7 +1017,7 @@ class StereoTrack:
         namespace = VSQ4_NS
 
     wav_part: Optional[list[WavPart]] = field(
-        default=None,
+        default_factory=list,
         metadata={
             "name": "wavPart",
             "type": "Element",

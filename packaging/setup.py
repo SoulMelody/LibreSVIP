@@ -141,6 +141,7 @@ build_exe_options = {
     "excludes": [
         "attr",
         "black",
+        "cryptography",
         "jedi",
         "nicegui",
         "numpy",
@@ -158,7 +159,6 @@ build_exe_options = {
         "startlette",
         "tkinter",
         "uvicorn",
-        "wslink",
         "webview",
         "wx",
     ],

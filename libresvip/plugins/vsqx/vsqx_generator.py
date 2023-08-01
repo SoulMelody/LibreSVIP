@@ -133,7 +133,7 @@ class VsqxGenerator:
                 )
                 musical_part.part_style.attr.extend(
                     Vsq4TypeParamAttr(
-                        id=param_name,
+                        type_param_attr_id=param_name,
                         value=param_value,
                     )
                     for param_name, param_value in self.style_params.items()
@@ -187,7 +187,7 @@ class VsqxGenerator:
             )
             vsqx_note.note_style.attr.extend(
                 Vsq4TypeParamAttr(
-                    id=param_name,
+                    type_param_attr_id=param_name,
                     value=param_value,
                 )
                 for param_name, param_value in self.style_params.items()
@@ -207,7 +207,7 @@ class VsqxGenerator:
                 Vsq4MCtrl(
                     pos_tick=pbs_event.pos,
                     attr=Vsq4TypeParamAttr(
-                        id=Vsq4ParameterNames.PBS,
+                        type_param_attr_id=Vsq4ParameterNames.PBS,
                         value=pbs_event.value,
                     ),
                 )
@@ -217,7 +217,7 @@ class VsqxGenerator:
                 Vsq4MCtrl(
                     pos_tick=pit_event.pos,
                     attr=Vsq4TypeParamAttr(
-                        id=Vsq4ParameterNames.PIT,
+                        type_param_attr_id=Vsq4ParameterNames.PIT,
                         value=pit_event.value,
                     ),
                 )

@@ -52,7 +52,9 @@ class VsqxParser:
             master_track.time_sig, measure_prefix
         )
         tempos = self.parse_tempos(master_track.tempo, tick_prefix)
-        singing_tracks = self.parse_singing_tracks(vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix)
+        singing_tracks = self.parse_singing_tracks(
+            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix
+        )
         wav_parts = []
         wav_units = []
         if vsqx_project.mono_track is not None:
@@ -65,7 +67,9 @@ class VsqxParser:
             wav_units += [vsqx_project.mixer.stereo_unit] * len(
                 vsqx_project.stereo_track.wav_part
             )
-        instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
+        instrumental_tracks = self.parse_instrumental_tracks(
+            wav_parts, wav_units, tick_prefix
+        )
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -113,7 +117,9 @@ class VsqxParser:
     ) -> list[SingingTrack]:
         singing_tracks = []
         for vs_track, vs_unit in zip(vs_tracks, vs_units):
-            singing_track = SingingTrack(title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo)
+            singing_track = SingingTrack(
+                title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo
+            )
             for musical_part in vs_track.musical_part:
                 tick_offset = musical_part.pos_tick - tick_prefix
                 note_list = self.parse_notes(musical_part.note, tick_prefix)
@@ -148,7 +154,7 @@ class VsqxParser:
                     value=music_control.attr.value,
                 )
                 for music_control in music_controls
-                if music_control.attr.id == self.param_names.PIT
+                if music_control.attr.type_param_attr_id == self.param_names.PIT
             ],
             pbs=[
                 ControllerEvent(
@@ -156,7 +162,7 @@ class VsqxParser:
                     value=music_control.attr.value,
                 )
                 for music_control in music_controls
-                if music_control.attr.id == self.param_names.PBS
+                if music_control.attr.type_param_attr_id == self.param_names.PBS
             ],
         )
         return pitch_from_vocaloid_parts([pitch_data], note_list)

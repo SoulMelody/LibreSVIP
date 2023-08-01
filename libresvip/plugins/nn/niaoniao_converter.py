@@ -2,6 +2,7 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.utils import to_unicode
 
 from .model import NNModel
 from .niaoniao_generator import NiaoniaoGenerator
@@ -12,7 +13,7 @@ from .template import render_nn
 
 class NiaoNiaoConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        nn_project = NNModel.model_from_file(path)
+        nn_project = NNModel.model_from_str(to_unicode(path.read_bytes()))
         return NiaoNiaoParser(options).parse_project(nn_project)
 
     def dump(

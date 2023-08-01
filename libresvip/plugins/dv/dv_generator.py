@@ -147,7 +147,8 @@ class DeepVocalGenerator:
                 name=track.title,
                 singer_name=track.ai_singer_name,
                 length=max(
-                    max(note.end_pos for note in track.note_list), MIN_SEGMENT_LENGTH
+                    (note.end_pos for note in track.note_list),
+                    default=MIN_SEGMENT_LENGTH,
                 ),
                 notes=dv_notes,
                 volume_data=[

@@ -81,13 +81,17 @@ class GjgjParser:
                 denominator=time_signatures[0].denominator,
             )
         ]
-        self.first_bar_length = int(time_signatures[0].bar_length(self.ticks_in_beat))
+        self.first_bar_length = int(
+            time_signature_changes[0].bar_length(self.ticks_in_beat)
+        )
 
         prev_ticks = 0
         measure = 0
         for time_signature in time_signatures[1:]:
             tick = time_signature.time
-            measure += (tick - prev_ticks) / time_signature_changes[-1].bar_length(self.ticks_in_beat)
+            measure += (tick - prev_ticks) / time_signature_changes[-1].bar_length(
+                self.ticks_in_beat
+            )
             ts_obj = TimeSignature(
                 bar_index=math.floor(measure),
                 numerator=time_signature.numerator,

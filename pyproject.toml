@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "libresvip"
-version = "0.8.0"
+version = "0.8.1"
 description = "Universal Converter for Singing Voice Projects"
 authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
@@ -92,7 +92,7 @@ babel = "^2.12.1"
 optional = true
 
 [tool.poetry.group.packaging.dependencies]
-cx-freeze = "^6.15.4"
+cx-freeze = "^6.15.5"
 
 
 [tool.poetry.group.test]

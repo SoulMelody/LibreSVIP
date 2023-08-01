@@ -218,7 +218,7 @@ class VocaloidWav(BaseModel):
 
 
 class VocaloidVoicePart(VocaloidWithDur):
-    name: Optional[str] = None
+    name: Optional[str] = ""
     midi_effects: list[VocaloidMidiEffects] = Field(
         default_factory=list, alias="midiEffects"
     )
@@ -290,7 +290,8 @@ class VocaloidAudioTrack(VocaloidBaseTracks):
 
 
 VocaloidTracks = Annotated[
-    Union[VocaloidStandardTrack], Field(discriminator="type_value")
+    Union[VocaloidStandardTrack, VocaloidAITrack, VocaloidAudioTrack],
+    Field(discriminator="type_value"),
 ]
 
 
