@@ -42,6 +42,7 @@ jobs:
           pip install --upgrade poetry wheel setuptools
           poetry export --without webui,code_gen,dev,test,linting,ffmpeg --with desktop,ujson,midi,subtitle,protobuf,text,svg,xml,binary,packaging --without-urls --without-hashes -f requirements.txt --output requirements.txt
           pip install -r requirements.txt
+          poetry install
       - name: Build with cx_freeze
         run: |
           cd packaging
