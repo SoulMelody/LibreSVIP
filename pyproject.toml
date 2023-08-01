@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "libresvip"
-version = "0.7.0"
+version = "0.8.0"
 description = "Universal Converter for Singing Voice Projects"
 authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
