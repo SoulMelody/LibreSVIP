@@ -1,6 +1,7 @@
 import math
 import struct
 
+import more_itertools
 from construct import (
     Byte,
     Bytes,
@@ -93,3 +94,20 @@ JUCENode = Struct(
     "attrs" / PrefixedArray(JUCECompressedInt, JUCEVariant),
     "children" / PrefixedArray(JUCECompressedInt, LazyBound(lambda: JUCENode)),
 )
+
+
+def build_tree_dict(node: JUCENode) -> dict:
+    attr_dict = {
+        attr.name: build_tree_dict(JUCENode.parse(attr.value[48:]))
+        if isinstance(attr.value, bytes)
+        else attr.value
+        for attr in node.attrs
+    }
+    buckets = more_itertools.bucket(
+        (build_tree_dict(child) for child in node.children),
+        key=lambda item: next(iter(item.keys())),
+    )
+    children_dict = {
+        key: [next(iter(item.values())) for item in buckets[key]] for key in buckets
+    }
+    return {node.name: children_dict | attr_dict}

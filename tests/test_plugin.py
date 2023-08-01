@@ -61,29 +61,11 @@ def test_mtp_read(shared_datadir, pretty_construct):
 
 
 def test_tssln_read(shared_datadir, pretty_construct):
-    import itertools
-
     from libresvip.plugins.tssln.model import VoiSonaProject
-    from libresvip.plugins.tssln.value_tree import JUCENode
-
-    def build_tree(node: JUCENode) -> dict:
-        attr_dict = {
-            attr.name: build_tree(JUCENode.parse(attr.value[48:]))
-            if isinstance(attr.value, bytes)
-            else attr.value
-            for attr in node.attrs
-        }
-        children_dict = {
-            key: [next(iter(item.values())) for item in group]
-            for key, group in itertools.groupby(
-                (build_tree(child) for child in node.children),
-                key=lambda item: next(iter(item.keys())),
-            )
-        }
-        return {node.name: children_dict | attr_dict}
+    from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
-    tree_dict = build_tree(value_tree)
+    tree_dict = build_tree_dict(value_tree)
     print(VoiSonaProject.model_validate(tree_dict["TSSolution"]))
 
 
