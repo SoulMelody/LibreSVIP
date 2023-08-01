@@ -1,27 +1,39 @@
 [tool.poetry]
 name = "libresvip"
 version = "0.8.1"
+license = "MIT"
 description = "Universal Converter for Singing Voice Projects"
+readme = "README.md"
+repository = "https://github.com/SoulMelody/LibreSVIP"
 authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
+ass = "^0.5.4"
 charset-normalizer = "^3.2.0"
+construct-typing = "^0.6.1"
+drawsvg = "^2.2.0"
+jinja2 = "^3.1.2"
 loguru = "^0.7.0"
+mido = "^1.3.0"
 more-itertools = "^10.0.0"
 omegaconf = "^2.3.0"
 packaging = "^23.1"
 platformdirs = "^3.10.0"
 portion = "^2.4.1"
+pure-protobuf = "^3.0a5"
 pydantic = "^2.1.1"
 pydantic-extra-types = "^2.0.0"
 pymediainfo = { version = "^6.0.1", markers= "sys_platform != 'linux'" }
 pymediainfo-lambda = { version = "^0.0.13", markers= "sys_platform == 'linux'" }
 pypinyin = "^0.49.0"
 regex = "^2023.6.3"
+srt = "^3.5.3"
+textx = "^3.1.1"
 typer = { extras = ["all"], version = "^0.9.0" }
 universal-pathlib = "^0.0.24"
 wanakana-python = "^1.2.2"
+xsdata = { version = "^23.7" }
 
 [tool.poetry.group.ujson]
 optional = true
@@ -33,29 +45,6 @@ optional = true
 [tool.poetry.group.bike.dependencies]
 pycryptodome = "^3.18.0"
 zstandard = "^0.21.0"
-
-[tool.poetry.group.protobuf.dependencies]
-pure-protobuf = "^3.0a5"
-
-[tool.poetry.group.midi.dependencies]
-mido = "^1.3.0"
-
-[tool.poetry.group.subtitle.dependencies]
-srt = "^3.5.3"
-ass = "^0.5.4"
-
-[tool.poetry.group.binary.dependencies]
-construct-typing = "^0.6.1"
-
-[tool.poetry.group.xml.dependencies]
-xsdata = { version = "^23.7" }
-
-[tool.poetry.group.text.dependencies]
-textx = "^3.1.1"
-jinja2 = "^3.1.2"
-
-[tool.poetry.group.svg.dependencies]
-drawsvg = "^2.2.0"
 
 [tool.poetry.group.webui]
 optional = true
@@ -71,12 +60,6 @@ qtawesome = "^1.2.3"
 desktop-notifier = { version = "^3.5.6", markers = "platform_python_implementation == 'CPython'" }
 qtinter = "^0.11.0"
 httpx = "^0.24.1"
-
-[tool.poetry.group.ffmpeg]
-optional = true
-[tool.poetry.group.ffmpeg.dependencies]
-pydub = "^0.25.1"
-static-ffmpeg = "^2.5"
 
 [tool.poetry.group.code_gen]
 optional = true
@@ -108,7 +91,7 @@ optional = true
 [tool.poetry.group.linting.dependencies]
 isort = "^5.12.0"
 pre-commit = "^3.3.3"
-ruff = "^0.0.281"
+ruff = "^0.0.282"
 black = "^23.7.0"
 mypy = "^1.4.1"
 sourcery = "^1.6.0"

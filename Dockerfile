@@ -11,7 +11,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends libmediainfo
 RUN pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/ --global && \
     pip install poetry && \
     poetry config virtualenvs.create false && \
-    poetry install --without=desktop,dev,test,code_gen,ffmpeg,packaging --with=webui,ujson,midi,subtitle,protobuf,text,svg,xml,binary
+    poetry install --without=desktop,dev,test,code_gen,packaging --with=webui,ujson
 
 FROM python:3.11-slim as base
 WORKDIR /app
