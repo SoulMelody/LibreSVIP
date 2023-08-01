@@ -1,9 +1,17 @@
 import dataclasses
 from typing import Optional
 
-from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.model.base import (
+    InstrumentalTrack,
+    Note,
+    Project,
+    SingingTrack,
+    SongTempo,
+    TimeSignature,
+)
 
 from .model import (
+    PpsfAudioTrackItem,
     PpsfDvlTrackEvent,
     PpsfDvlTrackItem,
     PpsfMeters,
@@ -21,10 +29,13 @@ class PiaproStudioParser:
         time_signatures = self.parse_time_signatures(ppsf_project.ppsf.project.meter)
         tempos = self.parse_tempos(ppsf_project.ppsf.project.tempo)
         singing_tracks = self.parse_singing_tracks(ppsf_project.ppsf.project.dvl_track)
+        instrumental_tracks = self.parse_instrumental_tracks(
+            ppsf_project.ppsf.project.audio_track
+        )
         return Project(
             time_signature_list=time_signatures,
             song_tempo_list=tempos,
-            track_list=singing_tracks,
+            track_list=singing_tracks + instrumental_tracks,
         )
 
     def parse_time_signatures(self, ppsf_meters: PpsfMeters) -> list[TimeSignature]:
@@ -55,6 +66,20 @@ class PiaproStudioParser:
         if not len(tempos) or tempos[0].position != 0:
             tempos.insert(0, first_tempo)
         return tempos
+
+    def parse_instrumental_tracks(
+        self, ppsf_audio_tracks: list[PpsfAudioTrackItem]
+    ) -> list[InstrumentalTrack]:
+        tracks = []
+        for track in ppsf_audio_tracks:
+            for i, event in enumerate(track.events):
+                instrumental_track = InstrumentalTrack(
+                    title=f"{track.name} {i + 1}",
+                    audio_file_path=event.file_audio_data.file_path,
+                    offset=event.tick_pos,
+                )
+                tracks.append(instrumental_track)
+        return tracks
 
     def parse_singing_tracks(
         self, ppsf_dvl_tracks: Optional[list[PpsfDvlTrackItem]]
