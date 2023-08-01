@@ -162,7 +162,6 @@ select = [
   "T10",   # debugger
   "T20",   # print
   "TCH",   # type-checking
-  "TID",   # tidy-imports
   "TRY",   # tryceratops
   "W",     # style warnings
   "YTT",   # sys.version

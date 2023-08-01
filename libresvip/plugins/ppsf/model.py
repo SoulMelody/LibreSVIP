@@ -1,15 +1,8 @@
-from typing import Generic, Optional, TypeVar
+from typing import Optional
 
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
-
-ConstValue = TypeVar("ConstValue")
-
-
-class PpsfConst(BaseModel, Generic[ConstValue]):
-    const: ConstValue
-    use_sequence: bool
 
 
 class PpsfCurvePointSeq(BaseModel):
@@ -90,14 +83,10 @@ class PpsfSeqParam(BaseModel):
     layers: Optional[list] = None
 
 
-class PpsfParameter(BaseModel):
-    constant: int
+class PpsfParameter(PpsfBaseSequence):
     default: Optional[int] = None
     max_value: Optional[int] = Field(None, alias="max")
     min_value: Optional[int] = Field(None, alias="min")
-    name: str
-    sequence: list[PpsfParamPoint]
-    use_sequence: bool
 
 
 class PpsfFsmEffect(BaseModel):
@@ -197,8 +186,15 @@ class PpsfAudioTrackItem(BaseModel):
 
 
 class PpsfMeter(BaseModel):
+    measure: Optional[int] = None
     denomi: int
     nume: int
+
+
+class PpsfMeters(BaseModel):
+    const: PpsfMeter
+    sequence: list[PpsfMeter]
+    use_sequence: bool
 
 
 class PpsfSingerParam(BaseModel):
@@ -283,7 +279,7 @@ class PpsfDvlTrackEvent(BaseModel):
     attack_speed_rate: int
     consonant_rate: int
     consonant_speed_rate: int
-    enabled: Optional[bool] = Field(None, validation_alias="enable")
+    enabled: Optional[bool] = Field(True, validation_alias="enable")
     length: int
     lyric: str
     note_number: int
@@ -311,16 +307,28 @@ class PpsfDvlTrackItem(BaseModel):
     singer: PpsfSinger
 
 
+class PpsfTempo(BaseModel):
+    curve_type: int
+    tick: int
+    value: int
+
+
+class PpsfTempos(BaseModel):
+    const: int
+    sequence: list[PpsfTempo]
+    use_sequence: bool
+
+
 class PpsfInnerProject(BaseModel):
     audio_track: list[PpsfAudioTrackItem]
     block_size: int
     loop_point: Optional[PpsfLoopPoint] = None
-    meter: PpsfConst[PpsfMeter]
+    meter: PpsfMeters
     metronome: Optional[PpsfMetronome] = None
     name: str
     sampling_rate: int
     singer_table: list[PpsfSingerTableItem]
-    tempo: PpsfConst[int]
+    tempo: PpsfTempos
     vocaloid_track: list[PpsfVocaloidTrackItem]
     dvl_track: Optional[list[PpsfDvlTrackItem]] = None
 

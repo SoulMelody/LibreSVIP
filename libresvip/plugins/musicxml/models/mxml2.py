@@ -11379,7 +11379,7 @@ class Identification:
         },
     )
     encoding: Optional[Encoding] = field(
-        default=None,
+        default_factory=Encoding,
         metadata={
             "type": "Element",
         },
@@ -12642,7 +12642,7 @@ class ScorePart:
         },
     )
     part_name: Optional[PartName] = field(
-        default=None,
+        default_factory=PartName,
         metadata={
             "name": "part-name",
             "type": "Element",
@@ -13390,7 +13390,7 @@ class ScorePartwise:
         },
     )
     identification: Optional[Identification] = field(
-        default=None,
+        default_factory=Identification,
         metadata={
             "type": "Element",
         },
@@ -13408,7 +13408,7 @@ class ScorePartwise:
         },
     )
     part_list: Optional[PartList] = field(
-        default=None,
+        default_factory=PartList,
         metadata={
             "name": "part-list",
             "type": "Element",
