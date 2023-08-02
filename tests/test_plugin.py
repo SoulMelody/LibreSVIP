@@ -269,3 +269,16 @@ def test_svip_write(shared_datadir, capsys):
         #     version, proj = registry.read(proj_path)
         # with SvipWriter() as writer:
         #     writer.write(pathlib.Path("./test.svip"), version, proj)
+
+
+def test_vsq_read(shared_datadir: pathlib.Path) -> None:
+    import mido
+
+    vsq_file = mido.MidiFile(
+        shared_datadir / "test.vsq", charset="SHIFT-JIS", clip=True
+    )
+
+    for track in vsq_file.tracks:
+        for msg in track:
+            if isinstance(msg, mido.MetaMessage) and msg.type == "text":
+                print(msg)
