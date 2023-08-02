@@ -104,7 +104,9 @@ class MutaParser:
             pitch_points.append(
                 Point(
                     x=muta_point.time + tick_offset,
-                    y=(muta_point.value + 1200) if muta_point.value > 0 else -100,
+                    y=(muta_point.value + 1200)
+                    if 0 < muta_point.value < 12900
+                    else -100,
                 )
             )
         pitch_points.append(Point.end_point())

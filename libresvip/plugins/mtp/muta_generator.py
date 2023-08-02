@@ -4,6 +4,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
@@ -16,6 +17,7 @@ from .model import (
     MutaNote,
     MutaNoteTiming,
     MutaParams,
+    MutaPoint,
     MutaProject,
     MutaSongTrackData,
     MutaTempo,
@@ -110,8 +112,19 @@ class MutaGenerator:
                     ),
                 ),
             )
+            if pitch_points := self.generate_pitch(track.edited_params.pitch):
+                muta_track.song_track_data.params.pitch_data = pitch_points
             track_list.append(muta_track)
         return track_list
+
+    def generate_pitch(self, pitch: ParamCurve) -> list[MutaPoint]:
+        return [
+            MutaPoint(
+                time=point.x - self.first_bar_length,
+                value=12900 if point.y < 0 else point.y - 1200,
+            )
+            for point in pitch.points
+        ]
 
     def generate_notes(self, notes: list[Note]) -> list[MutaNote]:
         return [

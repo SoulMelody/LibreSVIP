@@ -80,7 +80,7 @@ class MutaNote(DataclassMixin):
 @dataclasses.dataclass
 class MutaPoint(DataclassMixin):
     time: int = csfield(Int32sl)
-    value: int = csfield(Int32ul)
+    value: int = csfield(Int32sl)
     line_break: bytes = csfield(LineBreak)
 
 
@@ -91,8 +91,8 @@ MutaPoints = muta_prefixed_array(MutaPoint)
 class MutaParams(DataclassMixin):
     unknown_param: list[MutaPoint] = csfield(MutaPoints)
     pitch_range: list[MutaPoint] = csfield(MutaPoints)
-    pitch_data: list[MutaPoint] = csfield(MutaPoints)
     volume_data: list[MutaPoint] = csfield(MutaPoints)
+    pitch_data: list[MutaPoint] = csfield(MutaPoints)
     vibrato_amplitude_range: list[MutaPoint] = csfield(MutaPoints)
     vibrato_amplitude_data: list[MutaPoint] = csfield(MutaPoints)
     vibrato_frequency_range: list[MutaPoint] = csfield(MutaPoints)
