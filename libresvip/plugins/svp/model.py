@@ -18,7 +18,7 @@ from libresvip.model.base import BaseModel, PointList
 from .interval_utils import position_to_ticks
 
 
-def uuid_str():
+def uuid_str() -> str:
     return str(uuid4())
 
 
@@ -49,6 +49,8 @@ class SVBaseAttributes(BaseModel):
     improvise_attack_release: Optional[bool] = Field(
         None, alias="improviseAttackRelease"
     )
+    language_override: Optional[str] = Field(None, alias="languageOverride")
+    phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
 
 
 class SVMeter(BaseModel):
@@ -73,11 +75,15 @@ class SVParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def validate_points(cls, points: list[float], _info: FieldValidationInfo):
+    def validate_points(
+        cls, points: list[float], _info: FieldValidationInfo
+    ) -> SVPoints:
         return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
     @field_serializer("points", when_used="json")
-    def serialize_points(self, points: SVPoints, _info: FieldSerializationInfo):
+    def serialize_points(
+        self, points: SVPoints, _info: FieldSerializationInfo
+    ) -> list[float]:
         return list(chain.from_iterable(points.root))
 
     def edited_range(self, default_value: float = 0.0) -> RangeInterval:
@@ -118,8 +124,8 @@ class SVParamCurve(BaseModel):
         new_curve = self.model_copy(deep=True)
         new_curve.points = new_curve.validate_points(new_curve.points, None)
         for i in range(len(new_curve.points)):
-            new_curve.points[i] = SVPoint(
-                new_curve.points[i].offset + offset, new_curve.points[i].value
+            new_curve.points[i] = new_curve.points[i]._replace(
+                offset=new_curve.points[i].offset + offset
             )
         return new_curve
 
@@ -151,9 +157,9 @@ class SVParamTakes(BaseModel):
 
 class SVNoteAttributes(SVBaseAttributes):
     t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
-    p_f0_vbr: float = Field(None, alias="pF0Vbr")
-    d_f0_jitter: float = Field(None, alias="dF0Jitter")
-    t_note_offset: float = Field(None, alias="tNoteOffset")
+    p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
+    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
+    t_note_offset: Optional[float] = Field(None, alias="tNoteOffset")
     dur: Optional[list[float]] = None
     alt: Optional[list[float]] = None
     expr_group: Optional[str] = Field(None, alias="exprGroup")
@@ -471,8 +477,8 @@ class SVDatabase(BaseModel):
     language: str = ""
     phoneset: str = ""
     version: Optional[str] = None
-    language_override: str = Field("", alias="languageOverride")
-    phoneset_override: str = Field("", alias="phonesetOverride")
+    language_override: Optional[str] = Field(None, alias="languageOverride")
+    phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
     backend_type: str = Field("", alias="backendType")
 
 

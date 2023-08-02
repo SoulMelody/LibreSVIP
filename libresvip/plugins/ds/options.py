@@ -5,7 +5,8 @@ class InputOptions(BaseModel):
     pass
 
 
-class OutputOptions(InputOptions):
+class OutputOptions(BaseModel):
+    dict_name: str = Field(default="opencpop-extension", title="Dictionary Name")
     split_threshold: float = Field(
         default=5,
         title="Split threshold (in seconds)",

@@ -12,13 +12,17 @@ from ..models.ds_note import (
     RestDsNote,
     RestDsPhoneme,
 )
+from . import pinyin_util
 from .lyric_util import LyricUtil
-from .pinyin_util import PinyinUtil
 
 
 class NoteListUtils:
     @staticmethod
-    def encode(os_notes: list[Note], synchronizer: TimeSynchronizer, trailing_space: float = 0.05) -> list[DsNote]:
+    def encode(
+        os_notes: list[Note],
+        synchronizer: TimeSynchronizer,
+        trailing_space: float = 0.05,
+    ) -> list[DsNote]:
         ds_notes = []
         prev_end_in_ticks = 0
         prev_actual_end_in_secs = 0
@@ -28,44 +32,79 @@ class NoteListUtils:
         max_asp_len = 0.4
         for index, note in enumerate(os_notes):
             # Calculate Positions
-            prev_end_in_secs = synchronizer.get_actual_secs_from_ticks(prev_end_in_ticks)
+            prev_end_in_secs = synchronizer.get_actual_secs_from_ticks(
+                prev_end_in_ticks
+            )
             cur_start_in_ticks = note.start_pos
             cur_end_in_ticks = cur_start_in_ticks + note.length
-            cur_start_in_secs = synchronizer.get_actual_secs_from_ticks(cur_start_in_ticks)
+            cur_start_in_secs = synchronizer.get_actual_secs_from_ticks(
+                cur_start_in_ticks
+            )
             cur_end_in_secs = synchronizer.get_actual_secs_from_ticks(cur_end_in_ticks)
             cur_actual_start_in_secs = cur_start_in_secs
             cur_actual_end_in_secs = cur_end_in_secs
-            if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
+            if (
+                note.edited_phones is not None
+                and note.edited_phones.head_length_in_secs >= 0
+            ):
                 cur_actual_start_in_secs -= note.edited_phones.head_length_in_secs
             elif "-" not in note.lyric:
-                raise Exception(
-                    _("The source file lacks phoneme parameters.")
-                )
-            if index < len(os_notes) - 1 and os_notes[index + 1].edited_phones is not None and os_notes[index + 1].edited_phones.head_length_in_secs >= 0:
+                raise ValueError(_("The source file lacks phoneme parameters."))
+            if (
+                index < len(os_notes) - 1
+                and os_notes[index + 1].edited_phones is not None
+                and os_notes[index + 1].edited_phones.head_length_in_secs >= 0
+            ):
                 next_note = os_notes[index + 1]
                 next_start_in_ticks = next_note.start_pos
-                next_start_in_secs = synchronizer.get_actual_secs_from_ticks(next_start_in_ticks)
+                next_start_in_secs = synchronizer.get_actual_secs_from_ticks(
+                    next_start_in_ticks
+                )
                 next_head = os_notes[index + 1].edited_phones.head_length_in_secs
                 next_actual_start_in_secs = next_start_in_secs - next_head
                 if cur_end_in_secs > next_actual_start_in_secs:
-                    cur_actual_end_in_secs -= cur_end_in_secs - next_actual_start_in_secs
+                    cur_actual_end_in_secs -= (
+                        cur_end_in_secs - next_actual_start_in_secs
+                    )
 
             # Fill Note Gap
             gap = cur_actual_start_in_secs - prev_actual_end_in_secs  # 音符间隙
             if gap > 0:  # 有间隙
                 if gap < min_asp_len:  # 间隙很小，休止
-                    rest_phoneme = RestDsPhoneme(_duration=round(cur_actual_start_in_secs - prev_actual_end_in_secs, 6))
-                    rest_note = RestDsNote(round(cur_start_in_secs - prev_end_in_secs, 6), rest_phoneme)
+                    rest_phoneme = RestDsPhoneme(
+                        _duration=round(
+                            cur_actual_start_in_secs - prev_actual_end_in_secs, 6
+                        )
+                    )
+                    rest_note = RestDsNote(
+                        round(cur_start_in_secs - prev_end_in_secs, 6), rest_phoneme
+                    )
                     ds_notes.append(rest_note)
                     prev_phoneme = rest_phoneme
                 elif gap < max_asp_len:  # 间隙适中，换气
-                    asp_phoneme = AspirationDsPhoneme(_duration=round(cur_actual_start_in_secs - prev_actual_end_in_secs, 6))
-                    aps_note = AspirationDsNote(round(cur_start_in_secs - prev_end_in_secs, 6), asp_phoneme)
+                    asp_phoneme = AspirationDsPhoneme(
+                        _duration=round(
+                            cur_actual_start_in_secs - prev_actual_end_in_secs, 6
+                        )
+                    )
+                    aps_note = AspirationDsNote(
+                        round(cur_start_in_secs - prev_end_in_secs, 6), asp_phoneme
+                    )
                     ds_notes.append(aps_note)
                     prev_phoneme = asp_phoneme
                 else:  # 间隙很大，换气
-                    rest_phoneme = RestDsPhoneme(_duration=round(cur_actual_start_in_secs - prev_actual_end_in_secs - max_asp_len, 6))
-                    rest_note = RestDsNote(round(cur_start_in_secs - prev_end_in_secs - max_asp_len, 6), rest_phoneme)
+                    rest_phoneme = RestDsPhoneme(
+                        _duration=round(
+                            cur_actual_start_in_secs
+                            - prev_actual_end_in_secs
+                            - max_asp_len,
+                            6,
+                        )
+                    )
+                    rest_note = RestDsNote(
+                        round(cur_start_in_secs - prev_end_in_secs - max_asp_len, 6),
+                        rest_phoneme,
+                    )
                     ds_notes.append(rest_note)
                     asp_phoneme = AspirationDsPhoneme(_duration=round(max_asp_len, 6))
                     aps_note = AspirationDsNote(round(max_asp_len, 6), asp_phoneme)
@@ -77,12 +116,18 @@ class NoteListUtils:
             if "-" in note.lyric:  # 转音
                 ds_phoneme.vowel = DsPhonemeItem(
                     phoneme=prev_phoneme.vowel.phoneme,
-                    duration=round(cur_actual_end_in_secs - cur_actual_start_in_secs, 6),
-                    note_name=midi2note(note.key_number)
+                    duration=round(
+                        cur_actual_end_in_secs - cur_actual_start_in_secs, 6
+                    ),
+                    note_name=midi2note(note.key_number),
                 )
             else:
-                pinyin = note.pronunciation if note.pronunciation else PinyinUtil.get_note_pinyin(note.lyric, index)
-                consonant, vowel = PinyinUtil.split(pinyin)
+                pinyin = (
+                    note.pronunciation
+                    if note.pronunciation
+                    else pinyin_util.get_note_pinyin(note.lyric, index)
+                )
+                consonant, vowel = pinyin_util.split(pinyin)
                 if consonant:  # 不是纯元音
                     consonant_note_name = (
                         midi2note(note.key_number)
@@ -92,24 +137,26 @@ class NoteListUtils:
                     ds_phoneme.consonant = DsPhonemeItem(
                         phoneme=consonant,
                         duration=round(cur_start_in_secs - cur_actual_start_in_secs, 6),
-                        note_name=consonant_note_name
+                        note_name=consonant_note_name,
                     )
                     ds_phoneme.vowel = DsPhonemeItem(
                         phoneme=vowel,
                         duration=round(cur_actual_end_in_secs - cur_start_in_secs, 6),
-                        note_name=midi2note(note.key_number)
+                        note_name=midi2note(note.key_number),
                     )
                 else:  # 纯元音
                     ds_phoneme.vowel = DsPhonemeItem(
                         phoneme=vowel,
-                        duration=round(cur_actual_end_in_secs - cur_actual_start_in_secs, 6),
-                        note_name=midi2note(note.key_number)
+                        duration=round(
+                            cur_actual_end_in_secs - cur_actual_start_in_secs, 6
+                        ),
+                        note_name=midi2note(note.key_number),
                     )
             ds_note = DsNote(
                 lyric=LyricUtil.get_symbol_removed_lyric(note.lyric),
                 ds_phoneme=ds_phoneme,
                 note_name=midi2note(note.key_number),
-                duration=round(cur_end_in_secs - cur_start_in_secs, 6)
+                duration=round(cur_end_in_secs - cur_start_in_secs, 6),
             )
             ds_notes.append(ds_note)
 
@@ -128,5 +175,5 @@ class NoteListUtils:
     @staticmethod
     def init_pinyin_utils(os_notes: list[Note]):
         lyric_list = [note.lyric for note in os_notes]
-        PinyinUtil.clear_all_pinyin()
-        PinyinUtil.add_pinyin_from_lyrics(lyric_list)
+        pinyin_util.clear_all_pinyin()
+        pinyin_util.add_pinyin_from_lyrics(lyric_list)

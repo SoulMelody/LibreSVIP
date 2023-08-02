@@ -54,9 +54,7 @@ class SrtGenerator:
     ):
         start_time = self.get_time_from_ticks(buffer[0].start_pos)
         end_time = self.get_time_from_ticks(buffer[-1].end_pos)
-        lyrics = ""
-        for note in buffer:
-            lyrics += SYMBOL_PATTERN.sub("", note.lyric)
+        lyrics = "".join(SYMBOL_PATTERN.sub("", note.lyric) for note in buffer)
         lyric_lines.append(
             Subtitle(
                 index=len(lyric_lines) + 1,

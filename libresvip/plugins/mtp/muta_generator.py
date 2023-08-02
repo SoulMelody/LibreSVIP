@@ -63,7 +63,7 @@ class MutaGenerator:
     ) -> list[MutaTimeSignature]:
         return [
             MutaTimeSignature(
-                measure_position=time_signature.bar_index,
+                measure_position=max(time_signature.bar_index - 1, 0),
                 numerator=time_signature.numerator,
                 denominator=time_signature.denominator,
             )
@@ -73,7 +73,7 @@ class MutaGenerator:
     def generate_tempos(self, tempos: list[SongTempo]) -> list[MutaTempo]:
         return [
             MutaTempo(
-                position=tempo.position,
+                position=tempo.position - self.first_bar_length,
                 bpm=round(tempo.bpm * 100),
             )
             for tempo in tempos
@@ -90,7 +90,7 @@ class MutaGenerator:
                 solo=track.solo,
                 volume=50,
                 pan=50,
-                padding=b"\x00" * 52 + b"\n",
+                padding=b"\x00" * 52,
                 talk_track_data=None,
                 song_track_data=MutaSongTrackData(
                     start=self.first_bar_length,
@@ -120,7 +120,7 @@ class MutaGenerator:
     def generate_pitch(self, pitch: ParamCurve) -> list[MutaPoint]:
         return [
             MutaPoint(
-                time=point.x - self.first_bar_length,
+                time=point.x - 2 * self.first_bar_length,
                 value=12900 if point.y < 0 else point.y - 1200,
             )
             for point in pitch.points
@@ -129,7 +129,7 @@ class MutaGenerator:
     def generate_notes(self, notes: list[Note]) -> list[MutaNote]:
         return [
             MutaNote(
-                start=note.start_pos,
+                start=note.start_pos - self.first_bar_length,
                 length=note.length,
                 key=139 - note.key_number,
                 lyric=[ord(c) for c in note.lyric] + [0] * (8 - len(note.lyric)),
@@ -155,7 +155,7 @@ class MutaGenerator:
                     solo=track.solo,
                     volume=50,
                     pan=50,
-                    padding=b"\x00" * 52 + b"\n",
+                    padding=b"\x00" * 52,
                     talk_track_data=None,
                     song_track_data=None,
                 )

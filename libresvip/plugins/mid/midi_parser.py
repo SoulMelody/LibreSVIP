@@ -33,11 +33,11 @@ from .note_overlap import has_overlap
 from .options import InputOptions
 
 
-def cc11_to_db_change(value):
+def cc11_to_db_change(value: float) -> float:
     return ratio_to_db((value / 127) ** EXPRESSION_CONSTANT + 1e-6)
 
 
-def velocity_to_db_change(value):
+def velocity_to_db_change(value: float) -> float:
     return ratio_to_db((value / 127) ** VELOCITY_CONSTANT + 1e-6)
 
 
@@ -48,34 +48,36 @@ class MidiParser:
     options: InputOptions
 
     @property
-    def tick_rate(self):
+    def tick_rate(self) -> float:
         if self.mido_obj is not None:
             return TICKS_IN_BEAT / self.mido_obj.ticks_per_beat
         return 1
 
-    def decode_project(self, mido_obj: mido.MidiFile) -> Project:
+    def parse_project(self, mido_obj: mido.MidiFile) -> Project:
         self.mido_obj = mido_obj
         self._convert_delta_to_cumulative(mido_obj.tracks)
         project = Project()
         if len(mido_obj.tracks):
             master_track = mido_obj.tracks[0]
-            project.song_tempo_list = self.decode_tempo(master_track)
+            project.song_tempo_list = self.parse_tempo(master_track)
             self.synchronizer = TimeSynchronizer(
                 project.song_tempo_list, _default_tempo=self.options.default_bpm
             )
-            project.time_signature_list = self.decode_time_signatures(master_track)
-        project.track_list = self.decode_tracks(mido_obj.tracks)
+            project.time_signature_list = self.parse_time_signatures(master_track)
+        project.track_list = self.parse_tracks(mido_obj.tracks)
         return project
 
     @staticmethod
-    def _convert_delta_to_cumulative(tracks):
+    def _convert_delta_to_cumulative(tracks: list[mido.MidiTrack]) -> None:
         for track in tracks:
             tick = 0
             for event in track:
                 event.time += tick
                 tick = event.time
 
-    def decode_time_signatures(self, master_track) -> list[TimeSignature]:
+    def parse_time_signatures(
+        self, master_track: mido.MidiTrack
+    ) -> list[TimeSignature]:
         # no default
         time_signature_changes = [
             TimeSignature(bar_index=0, numerator=4, denominator=4)
@@ -102,7 +104,7 @@ class MidiParser:
                     prev_ticks = tick
         return time_signature_changes
 
-    def decode_tempo(self, master_track) -> list[SongTempo]:
+    def parse_tempo(self, master_track: mido.MidiTrack) -> list[SongTempo]:
         # default bpm
         tempos = [SongTempo(position=0, bpm=self.options.default_bpm)]
 
@@ -120,7 +122,7 @@ class MidiParser:
                         tempos.append(SongTempo(position=tick, bpm=tempo))
         return tempos
 
-    def decode_track(self, track_idx, track) -> SingingTrack:
+    def parse_track(self, track_idx: int, track: mido.MidiTrack) -> SingingTrack:
         last_note_on = collections.defaultdict(list)
         pitchbend_range_changed = collections.defaultdict(list)
         lyrics = collections.defaultdict(lambda: DEFAULT_CHINESE_LYRIC)
@@ -135,13 +137,11 @@ class MidiParser:
             if event.type == "track_name":
                 # Set the track name for the current track
                 track_name = event.name
-            # Note ons are note on events with velocity > 0
             elif event.type == "note_on" and event.velocity > 0:
                 # Store this as the last note-on location
                 note_on_index = (event.channel, event.note)
                 rel_pitch.points.append(Point(round(event.time * self.tick_rate), 0))
                 last_note_on[note_on_index].append(event.time)
-            # Note offs can also be note on events with 0 velocity
             elif event.type == "note_off" or (
                 event.type == "note_on" and event.velocity == 0
             ):
@@ -182,14 +182,13 @@ class MidiParser:
                         else:
                             note.lyric = lyric
                         notes.append(note)
-                    if len(notes_to_close) > 0 and len(notes_to_keep) > 0:
+                    if notes_to_close and notes_to_keep:
                         # Note-on on the same tick but we already closed
                         # some previous notes -> it will continue, keep it.
                         last_note_on[key] = notes_to_keep
                     else:
                         # Remove the last note on for this instrument
                         del last_note_on[key]
-            # Store pitch bends
             elif event.type == "pitchwheel":
                 # Create pitch bend class instance
                 rel_pitch.points.append(
@@ -198,7 +197,6 @@ class MidiParser:
                         pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE,
                     )
                 )
-            # Store lyrics
             elif event.type == "lyrics":
                 if self.options.import_lyrics:
                     lyric = event.text
@@ -222,8 +220,6 @@ class MidiParser:
                     )
                 elif event.control == ControlChange.VOLUME and event.value:
                     volume_base = velocity_to_db_change(event.value)
-                else:
-                    pass
         rel_pitch.points.root.sort(key=operator.attrgetter("x"))
         pitch = rel_pitch.to_absolute(notes)
         edited_params = Params(
@@ -239,8 +235,8 @@ class MidiParser:
             edited_params=edited_params,
         )
 
-    def decode_tracks(self, midi_tracks) -> list[Track]:
-        tracks = []
-        for track_idx, track in enumerate(midi_tracks):
-            tracks.append(self.decode_track(track_idx, track))
-        return tracks
+    def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[Track]:
+        return [
+            self.parse_track(track_idx, track)
+            for track_idx, track in enumerate(midi_tracks)
+        ]

@@ -1,7 +1,8 @@
 import dataclasses
-import itertools
 import operator
 from typing import Optional
+
+import more_itertools
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -47,7 +48,7 @@ class CeVIOParser:
         time_signatures = []
         for index, unit_node in enumerate(singing_unit_nodes):
             group_id = unit_node.group
-            group = id2group.get(group_id, None)
+            group = id2group.get(group_id)
             track_name = group.name if group is not None else None
             track, tempo_part, time_signature_part = self.parse_singing_track(
                 index, unit_node, group, track_name
@@ -56,16 +57,14 @@ class CeVIOParser:
             tempos.extend(tempo_part)
             time_signatures.extend(time_signature_part)
 
-        tempos = self.merge_tempos(sorted(tempos, key=operator.attrgetter("position")))
-        time_signatures = self.merge_time_signatures(
-            sorted(time_signatures, key=operator.attrgetter("bar_index"))
-        )
+        tempos = self.merge_tempos(tempos)
+        time_signatures = self.merge_time_signatures(time_signatures)
 
         self.time_synchronizer = TimeSynchronizer(tempos)
 
         for index, unit_node in enumerate(audio_unit_nodes):
             group_id = unit_node.group
-            group = id2group.get(group_id, None)
+            group = id2group.get(group_id)
             track_name = group.name if group is not None else None
             track = self.parse_instrumental_track(index, unit_node, group, track_name)
             tracks.append(track)
@@ -77,20 +76,16 @@ class CeVIOParser:
         )
 
     def merge_tempos(self, tempos: list[SongTempo]) -> list[SongTempo]:
-        return [
-            next(group)
-            for key, group in itertools.groupby(tempos, operator.attrgetter("position"))
-        ]
+        buckets = more_itertools.bucket(tempos, operator.attrgetter("position"))
+        return [next(buckets[key]) for key in buckets]
 
     def merge_time_signatures(
         self, time_signatures: list[TimeSignature]
     ) -> list[TimeSignature]:
-        return [
-            next(group)
-            for key, group in itertools.groupby(
-                time_signatures, operator.attrgetter("bar_index")
-            )
-        ]
+        buckets = more_itertools.bucket(
+            time_signatures, operator.attrgetter("bar_index")
+        )
+        return [next(buckets[key]) for key in buckets]
 
     def parse_instrumental_track(
         self,

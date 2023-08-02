@@ -1,37 +1,41 @@
+import contextvars
+
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.utils import gettext_lazy as _
 
 from ..phoneme_dict import get_opencpop_dict
 
+pinyin_list_ctx: list[str] = contextvars.ContextVar("pinyin_list")
+phoneme_table_ctx: dict[str, str] = contextvars.ContextVar("phoneme_table")
 
-class PinyinUtil:
-    pinyin_list = []
-    phoneme_table = {}
 
-    @classmethod
-    def split(cls, pinyin: str) -> tuple[str, str]:
-        phoneme_table = cls.phoneme_table
-        if pinyin not in phoneme_table:
-            raise Exception(
-                _("The selected dictionary does not contain the pronunciation “{}”. Please check the pronunciation or try another dictionary.").format(pinyin)
-            )
+def split(pinyin: str) -> tuple[str, str]:
+    phoneme_table = phoneme_table_ctx.get()
+    if pinyin not in phoneme_table:
+        raise ValueError(
+            _(
+                "The selected dictionary does not contain the pronunciation “{}”. Please check the pronunciation or try another dictionary."
+            ).format(pinyin)
+        )
 
-        phonemes = phoneme_table[pinyin]
-        return ("", phonemes[0]) if len(phonemes) < 2 else (phonemes[0], phonemes[1])
+    phonemes = phoneme_table[pinyin]
+    return ("", phonemes[0]) if len(phonemes) < 2 else (phonemes[0], phonemes[1])
 
-    @classmethod
-    def add_pinyin_from_lyrics(cls, lyric_list: list[str]) -> None:
-        pinyinArray = get_pinyin_series(lyric_list)
-        cls.pinyin_list.extend(pinyinArray)
 
-    @classmethod
-    def load_phoneme_table(cls, dict_name: str) -> None:
-        cls.phoneme_table = get_opencpop_dict(dict_name)
+def add_pinyin_from_lyrics(lyric_list: list[str]) -> None:
+    pinyin_array = get_pinyin_series(lyric_list)
+    pinyin_list = pinyin_list_ctx.get()
+    pinyin_list.extend(pinyin_array)
 
-    @classmethod
-    def clear_all_pinyin(cls) -> None:
-        cls.pinyin_list.clear()
 
-    @classmethod
-    def get_note_pinyin(cls, note_lyric: str, index: int) -> str:
-        return "-" if "-" in note_lyric else cls.pinyin_list[index]
+def load_phoneme_table(dict_name: str) -> None:
+    phoneme_table_ctx.set(get_opencpop_dict(dict_name))
+
+
+def clear_all_pinyin() -> None:
+    pinyin_list_ctx.set([])
+
+
+def get_note_pinyin(note_lyric: str, index: int) -> str:
+    pinyin_list = pinyin_list_ctx.get()
+    return "-" if "-" in note_lyric else pinyin_list[index]

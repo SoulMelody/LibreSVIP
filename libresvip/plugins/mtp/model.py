@@ -28,8 +28,8 @@ LineBreak = Const(b"\n")
 
 def muta_prefixed_array(data_model: DataclassMixin) -> Construct:
     return PrefixedArray(
-        FocusedSeq("count", "count" / Int32ul, LineBreak),
-        DataclassStruct(data_model),
+        FocusedSeq("count", LineBreak, "count" / Int32ul),
+        FocusedSeq("item", LineBreak, "item" / DataclassStruct(data_model)),
     )
 
 
@@ -41,13 +41,13 @@ class MutaTrackType(EnumBase):
 
 @dataclasses.dataclass
 class MutaTempo(DataclassMixin):
-    position: int = csfield(Int32ul)
+    position: int = csfield(Int32sl)
     bpm: int = csfield(Int32ul)
 
 
 @dataclasses.dataclass
 class MutaTimeSignature(DataclassMixin):
-    measure_position: int = csfield(Int32ul)
+    measure_position: int = csfield(Int32sl)
     numerator: int = csfield(Int32ul)
     denominator: int = csfield(Int32ul)
 
@@ -57,7 +57,6 @@ class MutaAudioTrackData(DataclassMixin):
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     file_path: str = csfield(PascalString(Int32ul, "utf-8"))
-    line_break: bytes = csfield(LineBreak)
 
 
 @dataclasses.dataclass
@@ -74,14 +73,12 @@ class MutaNote(DataclassMixin):
     lyric: list[int] = csfield(Int16ul[8])
     phoneme: str = csfield(PaddedString(16, "utf-16-le"))
     tmg_data: list[MutaNoteTiming] = csfield(DataclassStruct(MutaNoteTiming)[5])
-    line_break: bytes = csfield(LineBreak)
 
 
 @dataclasses.dataclass
 class MutaPoint(DataclassMixin):
     time: int = csfield(Int32sl)
     value: int = csfield(Int32sl)
-    line_break: bytes = csfield(LineBreak)
 
 
 MutaPoints = muta_prefixed_array(MutaPoint)
@@ -101,11 +98,11 @@ class MutaParams(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaSongTrackData(DataclassMixin):
+    line_break: bytes = csfield(LineBreak)
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     singer_name: list[int] = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
-    line_break1: bytes = csfield(LineBreak)
     notes: list[MutaNote] = csfield(muta_prefixed_array(MutaNote))
     params: MutaParams = csfield(DataclassStruct(MutaParams))
 
@@ -118,13 +115,12 @@ class MutaPhoneme(DataclassMixin):
     pos2: int = csfield(Int16ul)
     pitch: int = csfield(Int32ul)
     phoneme: bytes = csfield(Prefixed(Int32ul, GreedyBytes))
-    line_break: bytes = csfield(LineBreak)
 
 
 @dataclasses.dataclass
 class MutaText(DataclassMixin):
     text: bytes = csfield(Prefixed(Int32ul, GreedyBytes))
-    line_break1: bytes = csfield(LineBreak)
+    line_break: bytes = csfield(LineBreak)
     volume: int = csfield(Byte)
     speed: int = csfield(Byte)
     tone: int = csfield(Byte)
@@ -133,7 +129,6 @@ class MutaText(DataclassMixin):
     happiness: int = csfield(Byte)
     sadness: int = csfield(Byte)
     reserved: int = csfield(Byte)
-    line_break2: bytes = csfield(LineBreak)
     phonemes: list[MutaPhoneme] = csfield(muta_prefixed_array(MutaPhoneme))
 
 
@@ -143,7 +138,6 @@ class MutaTalkTrackData(DataclassMixin):
     length: int = csfield(Int32ul)
     talker_name: list[int] = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
-    line_break: bytes = csfield(LineBreak)
     text: MutaText = csfield(DataclassStruct(MutaText))
 
 
@@ -157,7 +151,7 @@ class MutaTrack(DataclassMixin):
     volume: int = csfield(Int32ul)
     pan: int = csfield(Int32ul)
     name: str = csfield(PaddedString(12, "utf-16-le"))
-    padding: bytes = csfield(Bytes(53))
+    padding: bytes = csfield(Bytes(52))
     talk_track_data: Optional[list[MutaTalkTrackData]] = csfield(
         If(
             this.track_type == MutaTrackType.TALK,
@@ -178,14 +172,32 @@ class MutaTrack(DataclassMixin):
 @dataclasses.dataclass
 class MutaProject(DataclassMixin):
     file_version: int = csfield(Int32ul)
-    line_break1: bytes = csfield(LineBreak)
     tempos: list[MutaTempo] = csfield(muta_prefixed_array(MutaTempo))
-    line_break2: bytes = csfield(LineBreak)
     time_signatures: list[MutaTimeSignature] = csfield(
         muta_prefixed_array(MutaTimeSignature)
     )
-    line_break3: bytes = csfield(LineBreak)
     tracks: list[MutaTrack] = csfield(muta_prefixed_array(MutaTrack))
+    line_break: bytes = csfield(LineBreak)
 
 
 muta_project_struct = DataclassStruct(MutaProject)
+
+
+if __name__ == "__main__":
+    import pathlib
+
+    import wx
+    from construct_editor.wx_widgets import WxConstructHexEditor
+
+    app = wx.App(False)
+    frame = wx.Frame(None, title="Construct Hex Editor", size=(1000, 200))
+    editor_panel = WxConstructHexEditor(
+        frame,
+        construct=muta_project_struct,
+        binary=pathlib.Path(
+            r"C:\Users\SoulMelody\PycharmProjects\LibreSVIP\tests\data\test.mtp"
+        ).read_bytes(),
+    )
+    editor_panel.construct_editor.expand_all()
+    frame.Show(True)
+    app.MainLoop()

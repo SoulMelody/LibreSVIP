@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from functools import partial
-from typing import Callable, Generic, NamedTuple, TypeVar, Union
+from typing import TYPE_CHECKING, Callable, Generic, NamedTuple, TypeVar, Union
 
 from more_itertools import pairwise
 from pydantic import (
@@ -13,6 +13,9 @@ from pydantic import (
     model_serializer,
     model_validator,
 )
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 PointType = TypeVar("PointType")
 
@@ -36,15 +39,17 @@ def _inner_interpolate(
     mapping: Callable[[Point, Point, int], float],
 ) -> list[Point]:
     return (
-        data
-        if not data
-        else [data[0]]
-        + [
-            Point(x=x, y=round(mapping(start, end, x)))
-            for start, end in pairwise(data)
-            for x in range(start.x + 1, end.x, sampling_interval_tick)
-        ]
-        + [data[-1]]
+        (
+            [data[0]]
+            + [
+                Point(x=x, y=round(mapping(start, end, x)))
+                for start, end in pairwise(data)
+                for x in range(start.x + 1, end.x, sampling_interval_tick)
+            ]
+            + [data[-1]]
+        )
+        if data
+        else data
     )
 
 
@@ -154,7 +159,7 @@ class PointList(BaseModel, Generic[PointType]):
     def __delitem__(self, index: int) -> None:
         del self.root[index]
 
-    def __contains__(self, item) -> bool:
+    def __contains__(self, item: PointType) -> bool:
         return item in self.root
 
     def append(self, item: PointType) -> None:
@@ -184,7 +189,7 @@ class PointList(BaseModel, Generic[PointType]):
     def sort(self, /, *args, **kwds) -> None:
         self.root.sort(*args, **kwds)
 
-    def extend(self, other: Union[PointList, list[PointType]]) -> None:
+    def extend(self, other: Union[Self, list[PointType]]) -> None:
         if isinstance(other, PointList):
             self.root.extend(other.root)
         else:

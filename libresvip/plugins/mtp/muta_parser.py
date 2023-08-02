@@ -1,6 +1,7 @@
 import dataclasses
 from typing import Optional
 
+from libresvip.core.tick_counter import skip_beat_list
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -28,9 +29,11 @@ from .options import InputOptions
 @dataclasses.dataclass
 class MutaParser:
     options: InputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, muta_project: MutaProject) -> Project:
         time_signatures = self.parse_time_signatures(muta_project.time_signatures)
+        self.first_bar_length = int(time_signatures[0].bar_length())
         tempos = self.parse_tempos(muta_project.tempos)
         singing_tracks = self.parse_singing_tracks(
             [
@@ -55,19 +58,22 @@ class MutaParser:
     def parse_time_signatures(
         self, muta_time_signatures: list[MutaTimeSignature]
     ) -> list[TimeSignature]:
-        return [
-            TimeSignature(
-                bar_index=muta_time_signature.measure_position,
-                numerator=muta_time_signature.numerator,
-                denominator=muta_time_signature.denominator,
-            )
-            for muta_time_signature in muta_time_signatures
-        ]
+        return skip_beat_list(
+            [
+                TimeSignature(
+                    bar_index=muta_time_signature.measure_position + 1,
+                    numerator=muta_time_signature.numerator,
+                    denominator=muta_time_signature.denominator,
+                )
+                for muta_time_signature in muta_time_signatures
+            ],
+            0,
+        )
 
     def parse_tempos(self, muta_tempos: list[MutaTempo]) -> list[SongTempo]:
         return [
             SongTempo(
-                position=muta_tempo.position,
+                position=muta_tempo.position + self.first_bar_length,
                 bpm=muta_tempo.bpm / 100,
             )
             for muta_tempo in muta_tempos
@@ -90,7 +96,7 @@ class MutaParser:
                 )
                 if pitch := self.parse_pitch(
                     muta_track.song_track_data.params.pitch_data,
-                    muta_track.song_track_data.start,
+                    muta_track.song_track_data.start + self.first_bar_length,
                 ):
                     singing_track.edited_params.pitch = pitch
                 track_list.append(singing_track)
@@ -135,7 +141,7 @@ class MutaParser:
         notes = []
         for muta_note in muta_notes:
             note = Note(
-                start_pos=muta_note.start,
+                start_pos=muta_note.start + self.first_bar_length,
                 length=muta_note.length,
                 key_number=139 - muta_note.key,
                 lyric="".join(chr(char) for char in muta_note.lyric).rstrip("\0"),

@@ -13,17 +13,21 @@ from .options import InputOptions, OutputOptions
 
 class MidiConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        midi_file = mido.MidiFile(file=io.BytesIO(path.read_bytes()), charset=options.lyric_encoding)
+        midi_file = mido.MidiFile(
+            file=io.BytesIO(path.read_bytes()),
+            charset=options.lyric_encoding,
+            clip=True,
+        )
         return MidiParser(
             options=options,
-        ).decode_project(midi_file)
+        ).parse_project(midi_file)
 
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
         midi_file = MidiGenerator(
             options=options,
-        ).encode_project(project)
+        ).generate_project(project)
         buffer = io.BytesIO()
         midi_file.save(file=buffer)
         path.write_bytes(buffer.getvalue())
