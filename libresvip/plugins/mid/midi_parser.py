@@ -44,27 +44,30 @@ def velocity_to_db_change(value: float) -> float:
 @dataclasses.dataclass
 class MidiParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
-    mido_obj: mido.MidiFile = dataclasses.field(init=False)
+    ticks_per_beat: int = dataclasses.field(init=False)
     options: InputOptions
 
     @property
     def tick_rate(self) -> float:
-        if self.mido_obj is not None:
-            return TICKS_IN_BEAT / self.mido_obj.ticks_per_beat
+        if self.ticks_per_beat is not None:
+            return TICKS_IN_BEAT / self.ticks_per_beat
         return 1
 
     def parse_project(self, mido_obj: mido.MidiFile) -> Project:
-        self.mido_obj = mido_obj
+        self.ticks_per_beat = mido_obj.ticks_per_beat
         self._convert_delta_to_cumulative(mido_obj.tracks)
-        project = Project()
         if len(mido_obj.tracks):
             master_track = mido_obj.tracks[0]
-            project.song_tempo_list = self.parse_tempo(master_track)
+            song_tempo_list = self.parse_tempo(master_track)
             self.synchronizer = TimeSynchronizer(
-                project.song_tempo_list, _default_tempo=self.options.default_bpm
+                song_tempo_list, _default_tempo=self.options.default_bpm
             )
-            project.time_signature_list = self.parse_time_signatures(master_track)
-        project.track_list = self.parse_tracks(mido_obj.tracks)
+            time_signature_list = self.parse_time_signatures(master_track)
+        project = Project(
+            song_tempo_list=song_tempo_list,
+            time_signature_list=time_signature_list,
+            track_list=self.parse_tracks(mido_obj.tracks),
+        )
         return project
 
     @staticmethod
@@ -89,9 +92,8 @@ class MidiParser:
             measure = 0
             for event in master_track:
                 if event.type == "time_signature":
-                    tick_in_full_note = (
-                        self.mido_obj.ticks_per_beat
-                        * time_signature_changes[-1].numerator
+                    tick_in_full_note = time_signature_changes[-1].bar_length(
+                        self.ticks_per_beat
                     )
                     tick = event.time
                     measure += (tick - prev_ticks) / tick_in_full_note
@@ -128,7 +130,7 @@ class MidiParser:
         lyrics = collections.defaultdict(lambda: DEFAULT_CHINESE_LYRIC)
         track_name = None
         notes = []
-        rel_pitch = RelativePitchCurve()
+        rel_pitch_points = []
         expression = ParamCurve()
         pitch_bend_sensitivity = DEFAULT_PITCH_BEND_SENSITIVITY
         volume_base = 0.0
@@ -140,7 +142,7 @@ class MidiParser:
             elif event.type == "note_on" and event.velocity > 0:
                 # Store this as the last note-on location
                 note_on_index = (event.channel, event.note)
-                rel_pitch.points.append(Point(round(event.time * self.tick_rate), 0))
+                rel_pitch_points.append(Point(round(event.time * self.tick_rate), 0))
                 last_note_on[note_on_index].append(event.time)
             elif event.type == "note_off" or (
                 event.type == "note_on" and event.velocity == 0
@@ -191,7 +193,7 @@ class MidiParser:
                         del last_note_on[key]
             elif event.type == "pitchwheel":
                 # Create pitch bend class instance
-                rel_pitch.points.append(
+                rel_pitch_points.points.append(
                     Point(
                         round(event.time * self.tick_rate),
                         pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE,
@@ -220,8 +222,8 @@ class MidiParser:
                     )
                 elif event.control == ControlChange.VOLUME and event.value:
                     volume_base = velocity_to_db_change(event.value)
-        rel_pitch.points.root.sort(key=operator.attrgetter("x"))
-        pitch = rel_pitch.to_absolute(notes)
+        rel_pitch_points.sort(key=operator.attrgetter("x"))
+        pitch = RelativePitchCurve().to_absolute(rel_pitch_points, notes)
         edited_params = Params(
             pitch=pitch,
             volume=expression,

@@ -9,6 +9,8 @@ from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.model.base import (
     Project,
     SingingTrack,
+    SongTempo,
+    TimeSignature,
     Track,
 )
 
@@ -20,7 +22,6 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class MidiGenerator:
     options: OutputOptions
-    project: Project = dataclasses.field(init=False)
 
     @property
     def tick_rate(self) -> float:
@@ -30,11 +31,10 @@ class MidiGenerator:
 
     def generate_project(self, project: Project) -> mido.MidiFile:
         mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
-        self.project = project
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         master_track = mido.MidiTrack()
-        self.generate_tempos(master_track)
-        self.generate_time_signatures(master_track)
+        self.generate_tempos(master_track, project.song_tempo_list)
+        self.generate_time_signatures(master_track, project.time_signature_list)
         master_track.sort(key=operator.attrgetter("time"))
         mido_obj.tracks.append(master_track)
         mido_obj.tracks.extend(self.generate_tracks(project.track_list))
@@ -48,8 +48,10 @@ class MidiGenerator:
             for event in track:
                 tick, event.time = event.time, event.time - tick
 
-    def generate_tempos(self, master_track: mido.MidiTrack) -> None:
-        for tempo in self.project.song_tempo_list:
+    def generate_tempos(
+        self, master_track: mido.MidiTrack, song_tempo_list: list[SongTempo]
+    ) -> None:
+        for tempo in song_tempo_list:
             master_track.append(
                 mido.MetaMessage(
                     "set_tempo",
@@ -58,9 +60,11 @@ class MidiGenerator:
                 )
             )
 
-    def generate_time_signatures(self, master_track: mido.MidiTrack) -> None:
+    def generate_time_signatures(
+        self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
+    ) -> None:
         prev_ticks = 0
-        for time_signature in self.project.time_signature_list:
+        for time_signature in time_signature_list:
             master_track.append(
                 mido.MetaMessage(
                     "time_signature",

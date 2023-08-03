@@ -24,9 +24,13 @@ class UFDataParser:
     def parse_project(self, ufdata_project: UFData) -> Project:
         uf_project = ufdata_project.project
         time_signature_list = self.parse_time_signatures(uf_project.time_signatures)
-        tick_prefix = int(time_signature_list[0].bar_length() * uf_project.measure_prefix)
+        tick_prefix = int(
+            time_signature_list[0].bar_length() * uf_project.measure_prefix
+        )
         project = Project(
-            song_tempo_list=shift_tempo_list(self.parse_tempos(uf_project.tempos), tick_prefix),
+            song_tempo_list=shift_tempo_list(
+                self.parse_tempos(uf_project.tempos), tick_prefix
+            ),
             time_signature_list=shift_beat_list(
                 time_signature_list,
                 uf_project.measure_prefix,
@@ -58,19 +62,24 @@ class UFDataParser:
             for time_signature in time_signatures
         ]
 
-    def parse_tracks(self, tracks: list[UFTracks], tick_prefix: int) -> list[SingingTrack]:
+    def parse_tracks(
+        self, tracks: list[UFTracks], tick_prefix: int
+    ) -> list[SingingTrack]:
         track_list = []
         for track in tracks:
             singing_track = SingingTrack(
-                title=track.name,
-                note_list=self.parse_notes(track.notes, tick_prefix)
+                title=track.name, note_list=self.parse_notes(track.notes, tick_prefix)
             )
-            singing_track.edited_params.pitch = self.parse_pitch(track.pitch, singing_track.note_list, tick_prefix)
+            singing_track.edited_params.pitch = self.parse_pitch(
+                track.pitch, singing_track.note_list, tick_prefix
+            )
             track_list.append(singing_track)
         return track_list
 
     @staticmethod
-    def parse_pitch(pitch: UFPitch, note_list: list[Note], tick_prefix: int) -> ParamCurve:
+    def parse_pitch(
+        pitch: UFPitch, note_list: list[Note], tick_prefix: int
+    ) -> ParamCurve:
         if pitch.is_absolute:
             return ParamCurve(
                 points=Points(
@@ -83,18 +92,14 @@ class UFDataParser:
                     ]
                 )
             )
-        rel_pitch_curve = RelativePitchCurve(
-            points=Points(
-                root=[
-                    Point(
-                        x=tick + tick_prefix,
-                        y=round(value),
-                    )
-                    for tick, value in zip(pitch.ticks, pitch.values)
-                ]
+        rel_pitch_points = [
+            Point(
+                x=tick + tick_prefix,
+                y=round(value),
             )
-        )
-        return rel_pitch_curve.to_absolute(note_list)
+            for tick, value in zip(pitch.ticks, pitch.values)
+        ]
+        return RelativePitchCurve().to_absolute(rel_pitch_points, note_list)
 
     @staticmethod
     def parse_notes(notes: list[UFNotes], tick_prefix: int) -> list[Note]:

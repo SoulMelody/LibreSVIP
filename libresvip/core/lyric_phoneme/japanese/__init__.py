@@ -1,14 +1,14 @@
 from typing import Iterable
 
 from wanakana.japanese import (
-    is_japanese,
     is_kana,
+    is_romaji,
     split_into_romaji,
 )
 
 __all__ = [
     "is_kana",
-    "is_japanese",
+    "is_romaji",
     "get_romaji_series",
 ]
 

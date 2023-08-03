@@ -11,7 +11,7 @@ authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
 python = ">=3.9,<3.12"
 ass = "^0.5.4"
 charset-normalizer = "^3.2.0"
-construct-typing = "^0.6.1"
+construct-typing = "^0.6.2"
 drawsvg = "^2.2.0"
 jinja2 = "^3.1.2"
 loguru = "^0.7.0"
@@ -31,7 +31,7 @@ regex = "^2023.6.3"
 srt = "^3.5.3"
 textx = "^3.1.1"
 typer = { extras = ["all"], version = "^0.9.0" }
-universal-pathlib = "^0.0.24"
+universal-pathlib = "^0.1.0"
 wanakana-python = "^1.2.2"
 xsdata = { version = "^23.7" }
 
@@ -49,7 +49,7 @@ zstandard = "^0.21.0"
 [tool.poetry.group.webui]
 optional = true
 [tool.poetry.group.webui.dependencies]
-nicegui = "^1.3.6"
+nicegui = "^1.3.7"
 
 [tool.poetry.group.desktop]
 optional = true
