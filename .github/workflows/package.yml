@@ -44,24 +44,27 @@ jobs:
           pip install -r requirements.txt
           poetry config virtualenvs.create false
           poetry install
-      - name: Build with cx_freeze
+      - name: Build with cx_freeze (Windows & Linux)
         run: |
           cd packaging
-          python setup.py build_exe
+          python setup.py bdist_dumb
           cd ../..
-      - name: Compress build artifact
-        run: |
-          python -c "import glob; import shutil; [shutil.move(f, 'dist') for f in glob.glob('./packaging/build/exe.*')]"
-          python -c "import shutil; shutil.make_archive('libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}', 'xztar', '.', 'dist')"
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: libresvip-${{ matrix.os.arch }}
-          path: ./libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
-      - name: Create Release and Upload Artifact
+          path: ./packaging/dist
+      - name: Create Release for Linux
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest'
         with:
           tag_name: ${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            libresvip-${{ needs.make-outputs.outputs.VERSION }}-${{ matrix.os.arch }}.tar.xz
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
+      - name: Create Release for Windows
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'windows-latest'
+        with:
+          tag_name: ${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.zip

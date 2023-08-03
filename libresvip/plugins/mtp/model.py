@@ -54,6 +54,7 @@ class MutaTimeSignature(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaAudioTrackData(DataclassMixin):
+    line_break: bytes = csfield(LineBreak)
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     file_path: str = csfield(PascalString(Int32ul, "utf-8"))
@@ -134,10 +135,12 @@ class MutaText(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaTalkTrackData(DataclassMixin):
+    line_break1: bytes = csfield(LineBreak)
     start: int = csfield(Int32ul)
     length: int = csfield(Int32ul)
     talker_name: list[int] = csfield(Int16ul[258])
     unknown_1: int = csfield(Int32ul)
+    line_break2: bytes = csfield(LineBreak)
     text: MutaText = csfield(DataclassStruct(MutaText))
 
 
@@ -181,23 +184,3 @@ class MutaProject(DataclassMixin):
 
 
 muta_project_struct = DataclassStruct(MutaProject)
-
-
-if __name__ == "__main__":
-    import pathlib
-
-    import wx
-    from construct_editor.wx_widgets import WxConstructHexEditor
-
-    app = wx.App(False)
-    frame = wx.Frame(None, title="Construct Hex Editor", size=(1000, 200))
-    editor_panel = WxConstructHexEditor(
-        frame,
-        construct=muta_project_struct,
-        binary=pathlib.Path(
-            r"C:\Users\SoulMelody\PycharmProjects\LibreSVIP\tests\data\test.mtp"
-        ).read_bytes(),
-    )
-    editor_panel.construct_editor.expand_all()
-    frame.Show(True)
-    app.MainLoop()
