@@ -27,6 +27,7 @@ from .vocaloid_pitch import generate_for_vocaloid
 @dataclasses.dataclass
 class VsqGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     @property
     def tick_rate(self) -> float:
@@ -37,6 +38,9 @@ class VsqGenerator:
     def generate_project(self, project: Project) -> mido.MidiFile:
         mido_obj = mido.MidiFile(charset="latin1")
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
+        self.first_bar_length = int(
+            project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
+        )
         master_track = mido.MidiTrack()
         self.generate_tempos(master_track, project.song_tempo_list)
         self.generate_time_signatures(master_track, project.time_signature_list)
@@ -102,9 +106,11 @@ class VsqGenerator:
         self, track: SingingTrack, track_index: int, tracks_count: int
     ) -> Optional[mido.MidiTrack]:
         track_text = self.generate_track_text(track, track_index, tracks_count)
-        track_text = track_text.encode("shift-jis", errors="ignore").decode("latin1")
+        track_text = track_text.encode(
+            self.options.lyric_encoding, errors="ignore"
+        ).decode("latin1")
         mido_track = mido.MidiTrack()
-        while not len(track_text) == 0:
+        while len(track_text) != 0:
             event_id = len(mido_track)
             event_id_str = str(event_id).zfill(4)
             header = f"DM:{event_id_str}:"
@@ -125,11 +131,11 @@ class VsqGenerator:
         track: SingingTrack,
         track_index: int,
         tracks_count: int,
-        tick_prefix: int = 0,
         measure_prefix: int = 0,
     ) -> str:
         notes_lines = []
         lyrics_lines = []
+        tick_prefix = self.first_bar_length
         tick_lists = [note.start_pos + tick_prefix for note in track.note_list]
         for i, note in enumerate(track.note_list):
             number = f"{i + 1}"
@@ -185,8 +191,10 @@ class VsqGenerator:
                     [f"Feder{i}=0", f"Panpot{i}=0", f"Mute{i}=0", f"Solo{i}=0"]
                 )
         result.extend(["[EventList]", "0=ID#0000"])
-        for index, tick in enumerate(tick_lists):
-            result.append(f"{tick}=ID#{str(index + 1).zfill(4)}")
+        result.extend(
+            f"{tick}=ID#{str(index + 1).zfill(4)}"
+            for index, tick in enumerate(tick_lists)
+        )
         result.extend(
             [
                 f"{track.note_list[-1].end_pos + tick_prefix}=EOS",

@@ -692,13 +692,13 @@ reference = "tuna"
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.21.2"
+version = "0.21.3"
 description = "Datamodel Code Generator"
 optional = false
 python-versions = ">=3.7,<4.0"
 files = [
-    {file = "datamodel_code_generator-0.21.2-py3-none-any.whl", hash = "sha256:99f07ddeb4b58dbbcd7822ee83f44e408b9a9550975ea64a483df1e101abf4c2"},
-    {file = "datamodel_code_generator-0.21.2.tar.gz", hash = "sha256:824a11c4a0b2e5b23e102a55db0e4e9120d58cdf77e0cc35abd6efbcf7a46326"},
+    {file = "datamodel_code_generator-0.21.3-py3-none-any.whl", hash = "sha256:42b4fbf167a2352d5b7e5ee83dd57f0999683a0ebcac3b97f26c3ac135198957"},
+    {file = "datamodel_code_generator-0.21.3.tar.gz", hash = "sha256:a8f05509b7632d18f3f4bfa8a313769cbe0754dac3715d25d26c71d2c0d2e0d4"},
 ]
 
 [package.dependencies]
@@ -1820,13 +1820,13 @@ reference = "tuna"
 
 [[package]]
 name = "more-itertools"
-version = "10.0.0"
+version = "10.1.0"
 description = "More routines for operating on iterables, beyond itertools"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "more-itertools-10.0.0.tar.gz", hash = "sha256:cd65437d7c4b615ab81c0640c0480bc29a550ea032891977681efd28344d51e1"},
-    {file = "more_itertools-10.0.0-py3-none-any.whl", hash = "sha256:928d514ffd22b5b0a8fce326d57f423a55d2ff783b093bab217eda71e732330f"},
+    {file = "more-itertools-10.1.0.tar.gz", hash = "sha256:626c369fa0eb37bac0291bce8259b332fd59ac792fa5497b59837309cd5b114a"},
+    {file = "more_itertools-10.1.0-py3-none-any.whl", hash = "sha256:64e0735fcfdc6f3464ea133afe8ea4483b1c5fe3a3d69852e6503b43a0b222e6"},
 ]
 
 [package.source]
@@ -4212,4 +4212,4 @@ reference = "tuna"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "fcfbf6edad36b8eaaefd0386969a7794bdf84abf97c551acef09c8c6b06fb73e"
+content-hash = "f318fe9ebf2556c43ffee2f37a9ee68873ef1fa9edde2ff05d48afea28b6e061"
