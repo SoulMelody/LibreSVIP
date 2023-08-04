@@ -6,6 +6,7 @@ description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 repository = "https://github.com/SoulMelody/LibreSVIP"
 authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
+exclude = ["libresvip/plugins/*/*.po"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.12"
