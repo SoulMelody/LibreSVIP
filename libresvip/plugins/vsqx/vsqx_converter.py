@@ -1,5 +1,5 @@
 import pathlib
-from typing import Any, TextIO
+from typing import TYPE_CHECKING, Any, Optional, TextIO
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
@@ -9,21 +9,28 @@ from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.utils import EchoGenerator
 
-from .model import Vsqx
+from .enums import VsqxVersion
+from .models.vsqx3 import VSQ3_NS
 from .models.vsqx4 import VSQ4_NS
 from .options import InputOptions, OutputOptions
-from .vsqx_generator import VsqxGenerator
+from .vsq3_generator import Vsq3Generator
+from .vsq4_generator import Vsq4Generator
 from .vsqx_parser import VsqxParser
+
+if TYPE_CHECKING:
+    from .model import Vsqx
 
 
 class VocaloidXMLWriter(XmlEventWriter):
-    def __init__(self, config: SerializerConfig, output: TextIO, ns_map: dict):
+    def __init__(
+        self, config: SerializerConfig, output: TextIO, ns_map: dict[Optional[str], str]
+    ) -> None:
         super().__init__(config, output, ns_map)
         self.handler = EchoGenerator(
             out=self.output, encoding=self.config.encoding, short_empty_elements=True
         )
 
-    def set_data(self, data: Any):
+    def set_data(self, data: Any) -> None:
         if (
             isinstance(data, str)
             and self.pending_tag
@@ -61,7 +68,7 @@ class VocaloidXMLWriter(XmlEventWriter):
         else:
             super().set_data(data)
 
-    def start_document(self):
+    def start_document(self) -> None:
         if self.config.xml_declaration:
             self.output.write(f'<?xml version="{self.config.xml_version}"')
             self.output.write(f' encoding="{self.config.encoding}" standalone="no"?>\n')
@@ -76,15 +83,22 @@ class VsqxConverter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
-        vsqx_proj = VsqxGenerator(options).generate_project(project)
+        if options.vsqx_version == VsqxVersion.VSQ3:
+            vsqx_generator_class = Vsq3Generator
+            vsqx_namespace = VSQ3_NS
+        else:
+            vsqx_generator_class = Vsq4Generator
+            vsqx_namespace = VSQ4_NS
+        vsqx_proj = vsqx_generator_class(options).generate_project(project)
         xml_serializer = XmlSerializer(
             config=SerializerConfig(
                 pretty_print=options.pretty_xml,
                 pretty_print_indent="\t",
-                schema_location=f"{VSQ4_NS} vsq4.xsd",
+                schema_location=f"{vsqx_namespace} vsq{options.vsqx_version.value}.xsd",
             ),
             writer=VocaloidXMLWriter,
         )
         path.write_text(
-            xml_serializer.render(vsqx_proj, ns_map={None: VSQ4_NS}), encoding="utf-8"
+            xml_serializer.render(vsqx_proj, ns_map={None: vsqx_namespace}),
+            encoding="utf-8",
         )

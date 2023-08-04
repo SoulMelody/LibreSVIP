@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from .enums import VocaloidLanguage
+from .enums import VocaloidLanguage, VsqxVersion
 
 
 class InputOptions(BaseModel):
@@ -8,6 +8,9 @@ class InputOptions(BaseModel):
 
 
 class OutputOptions(BaseModel):
+    vsqx_version: VsqxVersion = Field(
+        VsqxVersion.VSQ4, title="VSQX Version", description="Version of VSQX"
+    )
     pretty_xml: bool = Field(
         True, title="Pretty XML", description="Whether to output pretty XML"
     )

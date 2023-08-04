@@ -42,7 +42,7 @@ from .vocaloid_pitch import generate_for_vocaloid
 
 
 @dataclasses.dataclass
-class VsqxGenerator:
+class Vsq4Generator:
     options: OutputOptions
     style_params: dict = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
@@ -207,7 +207,7 @@ class VsqxGenerator:
                 Vsq4MCtrl(
                     pos_tick=pbs_event.pos,
                     attr=Vsq4TypeParamAttr(
-                        type_param_attr_id=Vsq4ParameterNames.PBS,
+                        type_param_attr_id=Vsq4ParameterNames.PBS.value,
                         value=pbs_event.value,
                     ),
                 )
@@ -217,7 +217,7 @@ class VsqxGenerator:
                 Vsq4MCtrl(
                     pos_tick=pit_event.pos,
                     attr=Vsq4TypeParamAttr(
-                        type_param_attr_id=Vsq4ParameterNames.PIT,
+                        type_param_attr_id=Vsq4ParameterNames.PIT.value,
                         value=pit_event.value,
                     ),
                 )
