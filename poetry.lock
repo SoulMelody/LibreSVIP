@@ -521,16 +521,20 @@ reference = "tuna"
 
 [[package]]
 name = "click-default-group"
-version = "1.2.2"
-description = "Extends click.Group to invoke a command without explicit subcommand name"
+version = "1.2.4"
+description = "click_default_group"
 optional = false
-python-versions = "*"
+python-versions = ">=2.7"
 files = [
-    {file = "click-default-group-1.2.2.tar.gz", hash = "sha256:d9560e8e8dfa44b3562fbc9425042a0fd6d21956fcc2db0077f63f34253ab904"},
+    {file = "click_default_group-1.2.4-py2.py3-none-any.whl", hash = "sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f"},
+    {file = "click_default_group-1.2.4.tar.gz", hash = "sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e"},
 ]
 
 [package.dependencies]
 click = "*"
+
+[package.extras]
+test = ["pytest"]
 
 [package.source]
 type = "legacy"
