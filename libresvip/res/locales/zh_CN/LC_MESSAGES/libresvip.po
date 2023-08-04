@@ -596,7 +596,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.load[0].title .ds.dump[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -804,7 +804,11 @@ msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
 msgid "Lyric Text encoding"
 msgstr "歌词文本编码"
 
-#: .mid.format_desc
+#: .mid.name
+msgid "MIDI"
+msgstr ""
+
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -816,11 +820,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -931,13 +935,33 @@ msgstr ""
 "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你"
 "知道这是什么，否则不应更改此设置。"
 
-#: .mtp.format_desc
+#: .mtp.name
+msgid "Muta"
+msgstr ""
+
+#: .mtp.file_format .mtp.format_desc
 msgid "Muta project file"
 msgstr "Muta工程文件"
 
 #: .mtp.description
 msgid "Conversion plugin for mtp file"
 msgstr "mtp 格式转换插件"
+
+#: .mtp.dump[0].description
+msgid "The default singer name to use for all tracks"
+msgstr "在所有唱歌轨道中使用的默认歌手名称"
+
+#: .musicxml.name
+msgid "MusicXML"
+msgstr ""
+
+#: .musicxml.file_format
+msgid "MusicXML file"
+msgstr "MusicXML 文件"
+
+#: .musicxml.description
+msgid "Conversion plugin for MusicXML Score file"
+msgstr "MusicXML 乐谱文件转换插件"
 
 #: .nn.format_desc
 msgid "NIAONiao Virtual Singer project file"
@@ -954,6 +978,18 @@ msgstr "从0开始，-1表示自动选择"
 #: .nn.dump[1].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
+
+#: .ppsf.name
+msgid "Ppsf"
+msgstr ""
+
+#: .ppsf.file_format
+msgid "Piapro Studio NT project file"
+msgstr "Piapro Studio NT 工程文件"
+
+#: .ppsf.description
+msgid "Conversion plugin for Piapro Studio NT project file"
+msgstr "Piapro Studio NT 工程文件转换插件"
 
 #: .s5p.format_desc
 msgid "Synthesizer V Editor project file"
@@ -1098,7 +1134,11 @@ msgstr "网格线颜色"
 msgid "Grid line width"
 msgstr "网格线宽度"
 
-#: .svip.format_desc
+#: .svip.name
+msgid "BinSvip"
+msgstr ""
+
+#: .svip.file_format .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1168,6 +1208,10 @@ msgstr ""
 "并保存高版本工程文件时可能造成数据丢失。"
 
 #: .svip.messages[0]
+msgid "Unexpected enum value"
+msgstr "预期外的枚举值"
+
+#: .svip.messages[1] .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 
@@ -1306,6 +1350,18 @@ msgstr ""
 "减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
 "Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
 
+#: .tssln.name
+msgid "TSSln"
+msgstr ""
+
+#: .tssln.file_format
+msgid "Techno-Speech Solution file"
+msgstr "Techno-Speech 项目文件"
+
+#: .tssln.description
+msgid "Conversion plugin for VoiSona project file"
+msgstr "Voisona 工程文件转换插件"
+
 #: .ufdata.format_desc
 msgid "UtaFormatix3 data format"
 msgstr "UtaFormatix3 数据格式"
@@ -1426,13 +1482,25 @@ msgstr "VocalSharp 工程格式"
 msgid "Conversion plugin for VocalSharp project file"
 msgstr "VocalSharp格式转换插件"
 
+#: .vsq.name
+msgid "Vsq"
+msgstr ""
+
+#: .vsq.file_format
+msgid "Vocaloid 2 Sequence file"
+msgstr "Vocaloid 2 序列文件"
+
+#: .vsq.description
+msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr "Vocaloid 2 序列文件转换插件"
+
 #: .vsqx.name
 msgid "Vsqx"
 msgstr ""
 
 #: .vsqx.file_format
-msgid "Vocaloid (3/4) Project file"
-msgstr "Vocaloid (3/4) 工程格式"
+msgid "Vocaloid (3/4) Sequence file"
+msgstr "Vocaloid (3/4) 序列文件"
 
 #: .vsqx.description
 msgid "Conversion plugin for Vocaloid (3/4) project file"

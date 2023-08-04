@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-29 22:06+0800\n"
+"POT-Creation-Date: 2023-08-04 09:38+0800\n"
 "PO-Revision-Date: 2023-05-26 07:38+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,8 +25,8 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.load[0].title
 #: .ds.dump[0].title
+#: .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 

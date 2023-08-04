@@ -3,15 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 01:09+0800\n"
+"POT-Creation-Date: 2023-08-04 09:38+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Translate Toolkit 3.9.2\n"
 
+#: .mtp.name
+msgid "Muta"
+msgstr ""
+
+#: .mtp.file_format
 #: .mtp.format_desc
 msgid "Muta project file"
 msgstr "Muta工程文件"
@@ -19,3 +24,11 @@ msgstr "Muta工程文件"
 #: .mtp.description
 msgid "Conversion plugin for mtp file"
 msgstr "mtp 格式转换插件"
+
+#: .mtp.dump[0].title
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+#: .mtp.dump[0].description
+msgid "The default singer name to use for all tracks"
+msgstr "在所有唱歌轨道中使用的默认歌手名称"
