@@ -322,6 +322,7 @@ class TaskManager(QObject):
                             {
                                 "value": enum_item.value,
                                 "text": enum_field.title,
+                                "desc": enum_field.description or "",
                             }
                         )
                     else:

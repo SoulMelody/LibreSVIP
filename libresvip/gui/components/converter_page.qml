@@ -150,6 +150,9 @@ Page {
                             ? qsTr(Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole])
                             : qsTr(modelData)
                         color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
+                        ToolTip.visible: hovered && modelData["desc"] !== undefined
+                        ToolTip.text: qsTr(modelData["desc"] || "")
+                        ToolTip.delay: 500
                     }
                     highlighted: comboBox.highlightedIndex === index
                     hoverEnabled: comboBox.hoverEnabled

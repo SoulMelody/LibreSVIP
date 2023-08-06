@@ -67,11 +67,12 @@ def messages_iterator():
                                 _, enum_field = annotated_args[:2]
                             else:
                                 continue
-                            choices.append(
-                                {
-                                    "text": enum_field.title,
-                                }
-                            )
+                            choice = {
+                                "text": enum_field.title,
+                            }
+                            if enum_field.description:
+                                choice["description"] = enum_field.description
+                            choices.append(choice)
                         else:
                             logger.warning(enum_item.name)
                     field_metadata = {
