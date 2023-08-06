@@ -102,7 +102,6 @@ bump-pydantic = "^0.6.1"
 [tool.poetry.group.dev.dependencies]
 types-regex = "^2023.6.3.1"
 types-ujson = "^5.8.0.1"
-urllib3 = "<2.0"
 
 [[tool.poetry.source]]
 name = "tuna"

@@ -1,6 +1,7 @@
 import dataclasses
 import operator
 
+from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -193,10 +194,9 @@ class Vsq4Generator:
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None
             )
-            if note.pronunciation:
-                vsqx_note.phnms = Vsq4TypePhonemes(
-                    value=note.pronunciation,
-                )
+            vsqx_note.phnms = Vsq4TypePhonemes(
+                value=note.pronunciation or DEFAULT_PHONEME,
+            )
             note_list.append(vsqx_note)
         return note_list
 
