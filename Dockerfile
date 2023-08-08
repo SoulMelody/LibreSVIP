@@ -20,4 +20,4 @@ COPY ./ /app
 COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 
 EXPOSE 8080
-CMD ["python", "-m", "libresvip.web", "--port=8080", "--host=0.0.0.0"]
+CMD ["python", "-m", "libresvip.web", "--port=8080", "--host=0.0.0.0", "--server", "--daemon"]

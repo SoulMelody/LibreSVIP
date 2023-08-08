@@ -23,6 +23,8 @@ with contextlib.suppress(Exception):
 
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 
+base = "Win32GUI" if sys.platform == "win32" else None
+
 
 build_exe_options = {
     "bin_excludes": [],
@@ -70,6 +72,7 @@ build_exe_options = {
         "pymediainfo",
         "srt",
         "textx",
+        "webview",
         "xsdata",
         "email._header_value_parser",
         "uvicorn.lifespan.on",
@@ -82,7 +85,7 @@ build_exe_options = {
 executables = [
     Executable(
         "../libresvip/web/__main__.py",
-        base=None,
+        base=base,
         icon="../libresvip/res/libresvip.ico",
         target_name="libresvip-web",
     ),

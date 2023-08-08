@@ -1143,10 +1143,12 @@ def page_layout(lang: Optional[str] = None):
 
 if __name__ in {"__main__", "__mp_main__"}:
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("--host", type=str, default="0.0.0.0")
+    arg_parser.add_argument("--host", type=str, default="127.0.0.1")
     arg_parser.add_argument("--port", type=int, default=8080)
     arg_parser.add_argument("--reload", action="store_true")
-    args = arg_parser.parse_args()
+    arg_parser.add_argument("--server", action="store_true")
+    arg_parser.add_argument("--daemon", action="store_true")
+    args, argv = arg_parser.parse_known_args()
 
     secrets_path = app_dir.user_config_path / "secrets.txt"
     if not secrets_path.exists():
@@ -1155,9 +1157,11 @@ if __name__ in {"__main__", "__mp_main__"}:
     storage_secret = secrets_path.read_text()
 
     ui.run(
+        show=not args.daemon,
+        window_size=None if args.server else (1280, 720),
         reload=args.reload,
         dark=dark_mode2str(settings.dark_mode),
-        host=args.host,
+        host=args.host if args.server else None,
         port=args.port,
         storage_secret=storage_secret,
         title="LibreSVIP",
