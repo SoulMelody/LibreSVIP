@@ -46,11 +46,11 @@ Item {
         }
     }
     property QtObject openAbout: Action {
-        text: qsTr("&Info")
-        shortcut: "Alt+I"
+        text: qsTr("&About")
+        shortcut: "Alt+A"
         onTriggered: dialogs.aboutDialog.open()
     }
-    property QtObject openSettings: Action {
+    property QtObject openOptions: Action {
         text: qsTr("&Options")
         shortcut: "Alt+O"
         onTriggered: dialogs.settingsDialog.open()
@@ -61,8 +61,8 @@ Item {
         onTriggered: toolbar.openConvertMenu()
     }
     property QtObject openImportFormatMenu: Action {
-        text: qsTr("Import &From")
-        shortcut: "Alt+F"
+        text: qsTr("&Import From")
+        shortcut: "Alt+I"
         onTriggered: toolbar.openImportFormatMenu()
     }
     property QtObject openExportFormatMenu: Action {

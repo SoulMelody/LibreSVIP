@@ -43,7 +43,7 @@ Dialog {
                 color: "transparent"
             }
             Label {
-                text: qsTr("Settings")
+                text: qsTr("Options")
                 font.bold: true
                 font.pixelSize: 20
                 Layout.fillWidth: true
