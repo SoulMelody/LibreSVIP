@@ -219,4 +219,14 @@ ApplicationWindow {
                 break
         }
     }
+
+    Connections {
+        target: Application.styleHints
+        function onColorSchemeChanged(value) {
+            let currentTheme = py.config_items.get_theme()
+            if (currentTheme === "System") {
+                handleThemeChange(currentTheme)
+            }
+        }
+    }
 }
