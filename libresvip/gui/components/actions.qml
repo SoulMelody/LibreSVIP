@@ -47,7 +47,7 @@ Item {
     }
     property QtObject openAbout: Action {
         text: qsTr("&About")
-        shortcut: "Alt+A"
+        shortcut: "Ctrl+A"
         onTriggered: dialogs.aboutDialog.open()
     }
     property QtObject openOptions: Action {

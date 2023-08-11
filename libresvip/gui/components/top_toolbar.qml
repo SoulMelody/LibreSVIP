@@ -59,26 +59,6 @@ ToolBar {
         MenuBar {
             id: menus
             spacing: 0
-            delegate: MenuBarItem {
-                id: menuBarItem
-
-                contentItem: Text {
-                    text: menuBarItem.text + " abc "
-                    font: menuBarItem.font
-                    opacity: enabled ? 1.0 : 0.3
-                    color: menuBarItem.highlighted ? "#ffffff" : "#21be2b"
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    elide: Text.ElideRight
-                }
-
-                background: Rectangle {
-                    implicitWidth: 40
-                    implicitHeight: 40
-                    opacity: enabled ? 1 : 0.3
-                    color: menuBarItem.highlighted ? "#21be2b" : "transparent"
-                }
-            }
             menus: [
                 Menu {
                     id: convertMenu
@@ -304,7 +284,7 @@ ToolBar {
                     IconMenuItem {
                         action: actions.openAbout;
                         icon_name: "mdi6.information-outline"
-                        label: qsTr("About (Alt+A)");
+                        label: qsTr("About (Ctrl+A)");
                     }
                     IconMenuItem {
                         icon_name: "mdi6.progress-upload"
@@ -317,9 +297,6 @@ ToolBar {
                         label: qsTr("Documentation (F1)");
                         enabled: false
                     }
-                    Component.onCompleted: {
-                        openHelpMenu.connect(helpMenu.open)
-                    }
                 }
             ]
         }
@@ -327,7 +304,7 @@ ToolBar {
         ToolSeparator {}
 
         Label {
-            Layout.alignment: Qt.AlignRight
+            Layout.fillWidth: true
             text: window.title + " - " + qsTr("SVS Projects Converter")
             font.pixelSize: Qt.application.font.pixelSize * 1.2
             elide: Text.ElideRight
@@ -335,17 +312,20 @@ ToolBar {
 
         RowLayout {
             Layout.alignment: Qt.AlignRight
+            spacing: 0
             Button {
                 id: minimizeButton
                 Material.roundedScale: Material.NotRounded
                 leftPadding: 0
                 rightPadding: 0
+                topInset: 0
+                flat: true
                 implicitWidth: 40
                 background.implicitWidth: implicitWidth
                 text: py.qta.icon("mdi6.window-minimize")
                 font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize
-                onClicked: window.showMinimized();
+                font.pixelSize: Qt.application.font.pixelSize * 1.2
+                onClicked: window.showMinimized()
             }
 
             Button {
@@ -353,11 +333,13 @@ ToolBar {
                 Material.roundedScale: Material.NotRounded
                 leftPadding: 0
                 rightPadding: 0
+                topInset: 0
+                flat: true
                 implicitWidth: 40
                 background.implicitWidth: implicitWidth
                 text: window.visibility == Window.Maximized ? py.qta.icon("mdi6.window-restore") : py.qta.icon("mdi6.window-maximize")
                 font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize
+                font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: toggleMaximized()
             }
 
@@ -366,11 +348,13 @@ ToolBar {
                 Material.roundedScale: Material.NotRounded
                 leftPadding: 0
                 rightPadding: 0
+                topInset: 0
+                flat: true
                 implicitWidth: 40
                 background.implicitWidth: implicitWidth
                 text: py.qta.icon("mdi6.close")
                 font.family: materialFontLoader.name
-                font.pixelSize: Qt.application.font.pixelSize
+                font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: actions.quit.trigger()
             }
         }
