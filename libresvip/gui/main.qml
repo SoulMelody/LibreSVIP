@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
 import "./components/" as Components
 
 
@@ -17,6 +18,7 @@ ApplicationWindow {
     property int edgeSize: 8
     property bool yesToAll: false
     property bool noToAll: false
+    color: "transparent"
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
     Material.theme: {
@@ -35,8 +37,8 @@ ApplicationWindow {
         // from https://github.com/cutefishos/fishui/blob/main/src/controls/Window.qml
         height: edgeSize * 2
         width: height
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
+        anchors.bottom: rect.bottom
+        anchors.left: rect.left
         cursorShape: Qt.SizeBDiagCursor
         propagateComposedEvents: true
         preventStealing: false
@@ -58,8 +60,8 @@ ApplicationWindow {
     MouseArea {
         height: edgeSize * 2
         width: height
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
+        anchors.bottom: rect.bottom
+        anchors.right: rect.right
         cursorShape: Qt.SizeFDiagCursor
         propagateComposedEvents: true
         preventStealing: false
@@ -80,9 +82,9 @@ ApplicationWindow {
     // Top edge
     MouseArea {
         height: edgeSize / 2
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: header.top
+        anchors.left: rect.left
+        anchors.right: rect.right
+        anchors.top: rect.top
         anchors.leftMargin: edgeSize * 2
         anchors.rightMargin: edgeSize * 2
         cursorShape: Qt.SizeVerCursor
@@ -103,9 +105,9 @@ ApplicationWindow {
     // Bottom edge
     MouseArea {
         height: edgeSize / 2
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        anchors.left: rect.left
+        anchors.right: rect.right
+        anchors.bottom: rect.bottom
         anchors.leftMargin: edgeSize * 2
         anchors.rightMargin: edgeSize * 2
         cursorShape: Qt.SizeVerCursor
@@ -126,9 +128,9 @@ ApplicationWindow {
     // Left edge
     MouseArea {
         width: edgeSize / 2
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors.left: rect.left
+        anchors.top: rect.top
+        anchors.bottom: rect.bottom
         anchors.topMargin: edgeSize
         anchors.bottomMargin: edgeSize * 2
         cursorShape: Qt.SizeHorCursor
@@ -149,9 +151,9 @@ ApplicationWindow {
     // Right edge
     MouseArea {
         width: edgeSize / 2
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors.right: rect.right
+        anchors.top: rect.top
+        anchors.bottom: rect.bottom
         anchors.leftMargin: edgeSize
         anchors.bottomMargin: edgeSize * 2
         cursorShape: Qt.SizeHorCursor
@@ -187,14 +189,23 @@ ApplicationWindow {
         id: actions
     }
 
-    header: Components.TopToolbar {
-        id: toolbar
+    Rectangle {
+        id: rect
+        anchors.fill: parent
+        radius: window.visibility === Window.Maximized ? 0 : 8
+        anchors.margins: window.visibility === Window.Maximized ? 0 : 10
     }
 
     Components.ConverterPage {
         id: converterPage
-        anchors.fill: parent
-        anchors.margins: edgeSize
+        header: Components.TopToolbar {
+            id: toolbar
+        }
+        anchors.fill: rect
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: rect
+        }
     }
 
     Component {
