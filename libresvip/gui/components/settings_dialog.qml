@@ -4,6 +4,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Templates as T
 
 Dialog {
     id: settingsDialog
@@ -353,54 +354,83 @@ Dialog {
 
     RowLayout {
         anchors.fill: parent
-        ColumnLayout {
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
+        TabBar {
+            id: settingsTabBar
             Layout.fillHeight: true
             Layout.preferredWidth: 200
-            Repeater {
-                model: ListModel {
-                    ListElement {
-                        label: qsTr("Conversion Settings")
-                        value: "conversion"
-                    }
-                    ListElement {
-                        label: qsTr("Save Path Settings")
-                        value: "save_path"
-                    }
-                    ListElement {
-                        label: qsTr("Conflict Policy Settings")
-                        value: "file_conflict_policy"
-                    }
-                    ListElement {
-                        label: qsTr("Updates Settings")
-                        value: "updates"
+
+            contentItem: ListView {
+                model: settingsTabBar.contentModel
+                currentIndex: settingsTabBar.currentIndex
+
+                spacing: settingsTabBar.spacing
+                orientation: ListView.Vertical
+                boundsBehavior: Flickable.StopAtBounds
+                flickableDirection: Flickable.AutoFlickIfNeeded
+                snapMode: ListView.SnapToItem
+
+                highlightMoveDuration: 250
+                highlightResizeDuration: 0
+                highlightFollowsCurrentItem: true
+                highlightRangeMode: ListView.ApplyRange
+                preferredHighlightBegin: 48
+                preferredHighlightEnd: width - 48
+
+                highlight: Item {
+                    z: 2
+                    Rectangle {
+                        height: 2
+                        width: settingsTabBar.width
+                        y: settingsTabBar.position === T.TabBar.Footer ? 0 : parent.height - height
+                        color: settingsTabBar.Material.accentColor
                     }
                 }
-                Column {
-                    required property string label
-                    required property string value
-                    Layout.preferredWidth: 200
-                    height: 40
-                    Button {
-                        width: parent.width
-                        text: qsTr(label)
-                        onClicked: {
-                            switch (value) {
-                                case "conversion":
-                                    settingsStack.currentIndex = 0
-                                    break
-                                case "save_path":
-                                    settingsStack.currentIndex = 1
-                                    break
-                                case "file_conflict_policy":
-                                    settingsStack.currentIndex = 2
-                                    break
-                                case "updates":
-                                    settingsStack.currentIndex = 3
-                                    break
-                            }
-                        }
-                    }
+            }
+            spacing: 5
+
+            TabButton {
+                id: conversionSettingsBtn
+                width: 200
+                text: qsTr("Conversion Settings")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    settingsStack.currentIndex = 0
+                }
+            }
+
+            TabButton {
+                id: savePathSettingsBtn
+                width: 200
+                text: qsTr("Save Path Settings")
+                anchors.top: conversionSettingsBtn.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.spacing
+                onClicked: {
+                    settingsStack.currentIndex = 1
+                }
+            }
+
+            TabButton {
+                id: conflictPolicySettingsBtn
+                width: 200
+                text: qsTr("Conflict Policy Settings")
+                anchors.top: savePathSettingsBtn.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.spacing
+                onClicked: {
+                    settingsStack.currentIndex = 2
+                }
+            }
+
+            TabButton {
+                id: updatesSettingsBtn
+                width: 200
+                text: qsTr("Updates Settings")
+                anchors.top: conflictPolicySettingsBtn.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.spacing
+                onClicked: {
+                    settingsStack.currentIndex = 3
                 }
             }
         }
@@ -409,21 +439,17 @@ Dialog {
             width: 1
             color: "lightgrey"
         }
-        ColumnLayout {
+        StackLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            StackLayout {
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                id: settingsStack
-                currentIndex: 0
-                Component.onCompleted: {
-                    convertSettingsPage.createObject(settingsStack)
-                    savePathSettingsPage.createObject(settingsStack)
-                    conflictPolicySettingsPage.createObject(settingsStack)
-                    updatesSettingsPage.createObject(settingsStack)
-                    dialogs.save_folder_changed(py.config_items.get_save_folder())
-                }
+            id: settingsStack
+            currentIndex: 0
+            Component.onCompleted: {
+                convertSettingsPage.createObject(settingsStack)
+                savePathSettingsPage.createObject(settingsStack)
+                conflictPolicySettingsPage.createObject(settingsStack)
+                updatesSettingsPage.createObject(settingsStack)
+                dialogs.save_folder_changed(py.config_items.get_save_folder())
             }
         }
     }
