@@ -245,40 +245,84 @@ ToolBar {
                     Menu {
                         id: themesMenu
                         title: qsTr("Themes (&T)")
+                        ButtonGroup {
+                            id: themeButtonGroup
+                        }
                         MenuItem {
-                            text: qsTr("Light");
+                            id: lightThemeMenuItem
+                            checkable: true
+                            ButtonGroup.group: themeButtonGroup
+                            text: qsTr("Light")
                             onTriggered: {
                                 handleThemeChange("Light")
                             }
                         }
                         MenuItem {
-                            text: qsTr("Dark");
+                            id: darkThemeMenuItem
+                            checkable: true
+                            ButtonGroup.group: themeButtonGroup
+                            text: qsTr("Dark")
                             onTriggered: {
                                 handleThemeChange("Dark")
                             }
                         }
                         MenuItem {
-                            text: qsTr("System");
+                            id: systemThemeMenuItem
+                            checkable: true
+                            ButtonGroup.group: themeButtonGroup
+                            text: qsTr("System")
                             onTriggered: {
                                 handleThemeChange("System")
+                            }
+                        }
+                        Component.onCompleted: {
+                            let currentTheme = py.config_items.get_theme()
+                            if (currentTheme === "Light") {
+                                lightThemeMenuItem.checked = true
+                            } else if (currentTheme === "Dark") {
+                                darkThemeMenuItem.checked = true
+                            } else {
+                                systemThemeMenuItem.checked = true
                             }
                         }
                     }
                     Menu {
                         id: languageMenu
                         title: qsTr("Language (&L)")
+                        ButtonGroup {
+                            id: languageButtonGroup
+                        }
                         MenuItem {
+                            id: zhCNMenuItem
+                            checkable: true
+                            ButtonGroup.group: languageButtonGroup
                             text: "简体中文";
                             onTriggered: py.locale.switch_language("zh_CN")
                         }
                         MenuItem {
+                            id: enUSMenuItem
+                            checkable: true
+                            ButtonGroup.group: languageButtonGroup
                             text: "English";
                             onTriggered: py.locale.switch_language("en_US")
                         }
                         MenuItem {
+                            id: jaJPMenuItem
+                            checkable: true
+                            ButtonGroup.group: languageButtonGroup
                             text: "日本語";
                             onTriggered: py.locale.switch_language("ja_JP")
                             enabled: false
+                        }
+                        Component.onCompleted: {
+                            let currentLanguage = py.locale.get_language()
+                            if (currentLanguage === "zh_CN") {
+                                zhCNMenuItem.checked = true
+                            } else if (currentLanguage === "en_US") {
+                                enUSMenuItem.checked = true
+                            } else {
+                                jaJPMenuItem.checked = true
+                            }
                         }
                     }
                 },

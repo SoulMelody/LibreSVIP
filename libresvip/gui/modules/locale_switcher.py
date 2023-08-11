@@ -9,11 +9,11 @@ from libresvip.core.constants import PACKAGE_NAME, res_dir
 
 
 class GettextTranslator(QTranslator):
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent)
         self.translation = None
 
-    def load_translation(self, lang, translation_dir):
+    def load_translation(self, lang: str, translation_dir: str) -> None:
         try:
             self.translation = gettext.translation(
                 PACKAGE_NAME, translation_dir, [lang]
@@ -29,7 +29,7 @@ class GettextTranslator(QTranslator):
         self,
         context: str,
         source_text: str,
-        disambiguation: Optional[bytes] = ...,
+        disambiguation: Optional[bytes] = None,
         n: int = ...,
     ) -> str:
         if self.translation and source_text.strip():
@@ -38,7 +38,7 @@ class GettextTranslator(QTranslator):
 
 
 class LocaleSwitcher(QObject):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.translator = GettextTranslator(parent=app)
         if not config_path.exists():
@@ -46,8 +46,12 @@ class LocaleSwitcher(QObject):
             settings.language = Language.from_locale(sys_locale)
         self.switch_language(settings.language.to_locale())
 
+    @slot(result=str)
+    def get_language(self) -> str:
+        return settings.language.to_locale()
+
     @slot(str)
-    def switch_language(self, lang):
+    def switch_language(self, lang: str) -> None:
         if lang:
             translation_dir = str(res_dir / "locales")
             self.translator.load_translation(lang, translation_dir)
