@@ -10,6 +10,8 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
+from bdist_portable import BdistPortable
+
 import libresvip
 from libresvip.core.constants import pkg_dir
 
@@ -96,4 +98,7 @@ setup(
     version=libresvip.__version__,
     options={"build_exe": build_exe_options},
     executables=executables,
+    cmdclass={
+        "bdist_portable": BdistPortable,
+    },
 )

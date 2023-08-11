@@ -47,7 +47,7 @@ jobs:
       - name: Build with cx_freeze (Windows & Linux)
         run: |
           cd packaging
-          python setup.py bdist_dumb
+          python setup.py bdist_portable
           cd ../..
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
