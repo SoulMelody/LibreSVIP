@@ -13,7 +13,7 @@ class FontLoader(QObject):
         return pathlib.Path(qtawesome._instance()._get_fonts_directory())
 
     @functools.cache
-    def char_map(self, font_family: str) -> dict:
+    def char_map(self, font_family: str) -> dict[str, str]:
         return next(
             (
                 json.load((self.font_base_dir / fargs[2]).open())
@@ -24,7 +24,7 @@ class FontLoader(QObject):
         )
 
     @slot(str, result=str)
-    def font_dir(self, font_family: str) -> str:
+    def font_path(self, font_family: str) -> str:
         return QUrl.fromLocalFile(
             next(
                 (

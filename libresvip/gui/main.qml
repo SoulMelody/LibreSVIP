@@ -35,24 +35,20 @@ ApplicationWindow {
         anchors.fill: parent
         hoverEnabled: true
         onPositionChanged: (mouse) => {
-            if (mouse.x < 20) {
-                if (mouse.y < 20) {
-                    cursorShape = Qt.SizeFDiagCursor
-                } else if (mouse.y > window.height - 20) {
-                    cursorShape = Qt.SizeBDiagCursor
-                } else {
-                    cursorShape = Qt.SizeHorCursor
-                }
-            } else if (mouse.x > window.width - 20) {
-                if (mouse.y < 20) {
-                    cursorShape = Qt.SizeBDiagCursor
-                } else if (mouse.y > window.height - 20) {
-                    cursorShape = Qt.SizeFDiagCursor
-                } else {
-                    cursorShape = Qt.SizeHorCursor
-                }
-            } else if (mouse.y < 20 || mouse.y > window.height - 20) {
+            if (mouse.x > 25 && mouse.x < window.width - 25) {
                 cursorShape = Qt.SizeVerCursor
+            } else if (mouse.y > 25 && mouse.y < window.height - 25) {
+                cursorShape = Qt.SizeHorCursor
+            } else if (
+                (mouse.x < 25 && mouse.y < 25) ||
+                (mouse.x > window.width - 25 && mouse.y > window.height - 25)
+            ) {
+                cursorShape = Qt.SizeFDiagCursor
+            } else if (
+                (mouse.x < 25 && mouse.y > window.height - 25) ||
+                (mouse.x > window.width - 25 && mouse.y < 25)
+            ) {
+                cursorShape = Qt.SizeBDiagCursor
             }
         }
         onExited: cursorShape = Qt.ArrowCursor
@@ -65,22 +61,22 @@ ApplicationWindow {
         onActiveChanged: if (active) {
             const p = resizeHandler.centroid.position;
             let e = 0;
-            if (p.x < 20) { e |= Qt.LeftEdge }
-            if (p.x > width - 20) { e |= Qt.RightEdge }
-            if (p.y < 20) { e |= Qt.TopEdge }
-            if (p.y > height - 20) { e |= Qt.BottomEdge }
+            if (p.x < 25) { e |= Qt.LeftEdge }
+            if (p.x > width - 25) { e |= Qt.RightEdge }
+            if (p.y < 25) { e |= Qt.TopEdge }
+            if (p.y > height - 25) { e |= Qt.BottomEdge }
             window.startSystemResize(e);
         }
     }
 
     FontLoader {
         id: materialFontLoader
-        source: py.qta.font_dir("mdi6")
+        source: py.qta.font_path("mdi6")
     }
 
     FontLoader {
         id: remixFontLoader
-        source: py.qta.font_dir("ri")
+        source: py.qta.font_path("ri")
     }
 
     Components.Dialogs {
