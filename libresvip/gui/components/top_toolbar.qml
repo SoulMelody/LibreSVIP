@@ -56,6 +56,11 @@ ToolBar {
 
     RowLayout {
         anchors.fill: parent
+        Image {
+            source: py.config_items.icon_data()
+            sourceSize.width: 30
+            sourceSize.height: 30
+        }
         MenuBar {
             id: menus
             spacing: 0
@@ -356,6 +361,13 @@ ToolBar {
                 font.family: materialFontLoader.name
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: actions.quit.trigger()
+                onHoveredChanged: {
+                    if (hovered) {
+                        exitButton.background.color = Material.color(Material.Red)
+                    } else {
+                        exitButton.background.color = "transparent"
+                    }
+                }
             }
         }
     }

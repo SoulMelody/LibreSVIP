@@ -1,12 +1,14 @@
 import atexit
+import base64
 import pathlib
-from typing import Any
+from typing import Any, Optional
 
 from qmlease import slot
 from qtpy.QtCore import QObject, Signal
 
 import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings
+from libresvip.core.constants import res_dir
 
 from .model_proxy import ModelProxy
 
@@ -14,7 +16,7 @@ from .model_proxy import ModelProxy
 class ConfigItems(QObject):
     auto_set_output_extension_changed = Signal(bool)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
         self.folder_presets = ModelProxy({"path": ""})
         self.folder_presets.append_many(
@@ -22,11 +24,15 @@ class ConfigItems(QObject):
         )
         atexit.register(self.save_settings)
 
-    def save_settings(self):
+    def save_settings(self) -> None:
         settings.folder_presets = [
             pathlib.Path(item["path"]) for item in self.folder_presets.items
         ]
         save_settings()
+
+    @slot(result=str)
+    def icon_data(self) -> str:
+        return f"data:image/x-icon;base64,{base64.b64encode((res_dir / 'libresvip.ico').read_bytes()).decode()}"
 
     @slot(str, result=object)
     def qget(self, name: str) -> Any:
@@ -45,9 +51,10 @@ class ConfigItems(QObject):
         try:
             conflict_policy = ConflictPolicy(policy)
             settings.conflict_policy = conflict_policy
-            return True
         except ValueError:
             return False
+        else:
+            return True
 
     @slot(result=str)
     def get_theme(self) -> str:
@@ -58,16 +65,17 @@ class ConfigItems(QObject):
         try:
             dark_mode = DarkMode(theme)
             settings.dark_mode = dark_mode
-            return True
         except ValueError:
             return False
+        else:
+            return True
 
     @slot(str, result=bool)
-    def get_bool(self, key) -> bool:
+    def get_bool(self, key: str) -> bool:
         return getattr(settings, key)
 
     @slot(str, bool, result=bool)
-    def set_bool(self, key, value) -> bool:
+    def set_bool(self, key: str, value: bool) -> bool:
         if hasattr(settings, key):
             setattr(settings, key, value)
             if key == "auto_set_output_extension":
@@ -80,14 +88,14 @@ class ConfigItems(QObject):
         return str(path.as_posix())
 
     @slot(result=str)
-    def get_save_folder(self):
+    def get_save_folder(self) -> str:
         return self.posix_path(settings.save_folder)
 
     @slot(str, result=bool)
-    def dir_valid(self, value) -> bool:
+    def dir_valid(self, value: str) -> bool:
         path = pathlib.Path(value)
         return (not path.is_absolute() or path.exists()) and path.is_dir()
 
     @slot(str)
-    def set_save_folder(self, value):
+    def set_save_folder(self, value: str) -> None:
         settings.save_folder = pathlib.Path(value)
