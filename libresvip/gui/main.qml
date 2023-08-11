@@ -15,7 +15,6 @@ ApplicationWindow {
     minimumHeight: 600
     width: 1200
     height: 800
-    property int edgeSize: 8
     property bool yesToAll: false
     property bool noToAll: false
     color: "transparent"
@@ -32,142 +31,42 @@ ApplicationWindow {
         }
     }
 
-    // Left bottom edge
     MouseArea {
-        // from https://github.com/cutefishos/fishui/blob/main/src/controls/Window.qml
-        height: edgeSize * 2
-        width: height
-        anchors.bottom: rect.bottom
-        anchors.left: rect.left
-        cursorShape: Qt.SizeBDiagCursor
-        propagateComposedEvents: true
-        preventStealing: false
-        z: 999
-        visible: window.visibility !== Window.Maximized
-
-        onPressed: (mouse) => {
-            mouse.accepted = false
+        id: corner
+        anchors.fill: parent
+        hoverEnabled: true
+        onPositionChanged: (mouse) => {
+            if (mouse.x < 15) {
+                if (mouse.y < 15) {
+                    cursorShape = Qt.SizeFDiagCursor
+                } else if (mouse.y > window.height - 15) {
+                    cursorShape = Qt.SizeBDiagCursor
+                } else {
+                    cursorShape = Qt.SizeHorCursor
+                }
+            } else if (mouse.x > window.width - 15) {
+                if (mouse.y < 15) {
+                    cursorShape = Qt.SizeBDiagCursor
+                } else if (mouse.y > window.height - 15) {
+                    cursorShape = Qt.SizeFDiagCursor
+                } else {
+                    cursorShape = Qt.SizeHorCursor
+                }
+            } else if (mouse.y < 15 || mouse.y > window.height - 15) {
+                cursorShape = Qt.SizeVerCursor
+            }
         }
-
         DragHandler {
-            grabPermissions: TapHandler.TakeOverForbidden
-            target: null
-            onActiveChanged: if (active) { window.startSystemResize(Qt.LeftEdge | Qt.BottomEdge) }
-        }
-    }
-
-    // Right bottom edge
-    MouseArea {
-        height: edgeSize * 2
-        width: height
-        anchors.bottom: rect.bottom
-        anchors.right: rect.right
-        cursorShape: Qt.SizeFDiagCursor
-        propagateComposedEvents: true
-        preventStealing: false
-        z: 999
-        visible: window.visibility !== Window.Maximized
-
-        onPressed: (mouse) => {
-            mouse.accepted = false
-        }
-
-        DragHandler {
-            grabPermissions: TapHandler.TakeOverForbidden
-            target: null
-            onActiveChanged: if (active) { window.startSystemResize(Qt.RightEdge | Qt.BottomEdge) }
-        }
-    }
-
-    // Top edge
-    MouseArea {
-        height: edgeSize / 2
-        anchors.left: rect.left
-        anchors.right: rect.right
-        anchors.top: rect.top
-        anchors.leftMargin: edgeSize * 2
-        anchors.rightMargin: edgeSize * 2
-        cursorShape: Qt.SizeVerCursor
-        z: 999
-        visible: window.visibility !== Window.Maximized
-
-        onPressed: (mouse) => {
-            mouse.accepted = false
-        }
-
-        DragHandler {
-            grabPermissions: TapHandler.TakeOverForbidden
-            target: null
-            onActiveChanged: if (active) { window.startSystemResize(Qt.TopEdge) }
-        }
-    }
-
-    // Bottom edge
-    MouseArea {
-        height: edgeSize / 2
-        anchors.left: rect.left
-        anchors.right: rect.right
-        anchors.bottom: rect.bottom
-        anchors.leftMargin: edgeSize * 2
-        anchors.rightMargin: edgeSize * 2
-        cursorShape: Qt.SizeVerCursor
-        z: 999
-        visible: window.visibility !== Window.Maximized
-
-        onPressed: (mouse) => {
-            mouse.accepted = false
-        }
-
-        DragHandler {
-            grabPermissions: TapHandler.TakeOverForbidden
-            target: null
-            onActiveChanged: if (active) { window.startSystemResize(Qt.BottomEdge) }
-        }
-    }
-
-    // Left edge
-    MouseArea {
-        width: edgeSize / 2
-        anchors.left: rect.left
-        anchors.top: rect.top
-        anchors.bottom: rect.bottom
-        anchors.topMargin: edgeSize
-        anchors.bottomMargin: edgeSize * 2
-        cursorShape: Qt.SizeHorCursor
-        z: 999
-        visible: window.visibility !== Window.Maximized
-
-        onPressed: (mouse) => {
-            mouse.accepted = false
-        }
-
-        DragHandler {
-            grabPermissions: TapHandler.TakeOverForbidden
-            target: null
-            onActiveChanged: if (active) { window.startSystemResize(Qt.LeftEdge) }
-        }
-    }
-
-    // Right edge
-    MouseArea {
-        width: edgeSize / 2
-        anchors.right: rect.right
-        anchors.top: rect.top
-        anchors.bottom: rect.bottom
-        anchors.leftMargin: edgeSize
-        anchors.bottomMargin: edgeSize * 2
-        cursorShape: Qt.SizeHorCursor
-        z: 999
-        visible: window.visibility !== Window.Maximized
-
-        onPressed: (mouse) => {
-            mouse.accepted = false
-        }
-
-        DragHandler {
-            grabPermissions: TapHandler.TakeOverForbidden
-            target: null
-            onActiveChanged: if (active) { window.startSystemResize(Qt.RightEdge) }
+            id: resizeHandler
+            onActiveChanged: if (active) {
+                const p = resizeHandler.centroid.position;
+                let e = 0;
+                if (p.x / width < 0.10) { e |= Qt.LeftEdge }
+                if (p.x / width > 0.90) { e |= Qt.RightEdge }
+                if (p.y / height < 0.10) { e |= Qt.TopEdge }
+                if (p.y / height > 0.90) { e |= Qt.BottomEdge }
+                window.startSystemResize(e);
+            }
         }
     }
 
