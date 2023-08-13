@@ -56,10 +56,15 @@ ToolBar {
 
     RowLayout {
         anchors.fill: parent
-        Image {
-            source: py.config_items.icon_data()
-            sourceSize.width: 30
-            sourceSize.height: 30
+        Rectangle {
+            width: 48
+            height: 48
+            Image {
+                anchors.centerIn: parent
+                source: py.config_items.icon_data()
+                sourceSize.width: 20
+                sourceSize.height: 20
+            }
         }
         MenuBar {
             id: menus
@@ -369,7 +374,7 @@ ToolBar {
                 rightPadding: 0
                 topInset: 0
                 flat: true
-                implicitWidth: 40
+                implicitWidth: 46
                 background.implicitWidth: implicitWidth
                 text: py.qta.icon("mdi6.window-minimize")
                 font.family: materialFontLoader.name
@@ -384,7 +389,7 @@ ToolBar {
                 rightPadding: 0
                 topInset: 0
                 flat: true
-                implicitWidth: 40
+                implicitWidth: 46
                 background.implicitWidth: implicitWidth
                 text: window.visibility == Window.Maximized ? py.qta.icon("mdi6.window-restore") : py.qta.icon("mdi6.window-maximize")
                 font.family: materialFontLoader.name
@@ -399,7 +404,7 @@ ToolBar {
                 rightPadding: 0
                 topInset: 0
                 flat: true
-                implicitWidth: 40
+                implicitWidth: 46
                 background.implicitWidth: implicitWidth
                 text: py.qta.icon("mdi6.close")
                 font.family: materialFontLoader.name

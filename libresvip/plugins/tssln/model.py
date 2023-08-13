@@ -58,8 +58,8 @@ class VoiSonaNeuralVocoderInformation(BaseModel):
 
 
 class VoiSonaNeuralVocoderListItem(BaseModel):
-    neural_vocoder_information: list[VoiSonaNeuralVocoderInformation] = Field(
-        alias="NeuralVocoderInformation"
+    neural_vocoder_information: Optional[list[VoiSonaNeuralVocoderInformation]] = Field(
+        None, alias="NeuralVocoderInformation"
     )
 
 
@@ -164,7 +164,11 @@ class VoiSonaParameterItem(BaseModel):
 class VoiSonaParametersItem(BaseModel):
     timing: Optional[list[VoiSonaParameterItem]] = Field(None, alias="Timing")
     c0: Optional[list[VoiSonaParameterItem]] = Field(None, alias="C0")
+    c0_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="C0CTick")
     log_f0: Optional[list[VoiSonaParameterItem]] = Field(None, alias="LogF0")
+    log_f0_c_tick: Optional[list[VoiSonaParameterItem]] = Field(
+        None, alias="LogF0CTick"
+    )
     vocoder_log_f0: Optional[float] = Field(None, alias="VocoderLogF0")
     vib_amp: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibAmp")
     alpha: Optional[list[VoiSonaParameterItem]] = Field(None, alias="Alpha")
@@ -234,7 +238,7 @@ class VoiSonaAudioTrackItem(VoiSonaBaseTrackItem):
     track_type: Literal[VoiSonaTrackType.AUDIO] = Field(
         VoiSonaTrackType.AUDIO, alias="Type"
     )
-    audio_event: list[VoiSonaAudioEventItem] = Field(alias="AudioEvent")
+    audio_event: Optional[list[VoiSonaAudioEventItem]] = Field(None, alias="AudioEvent")
 
 
 class VoiSonaSingingTrackItem(VoiSonaBaseTrackItem):
