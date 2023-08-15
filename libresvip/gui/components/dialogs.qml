@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Window
+import QtQuick.Controls
 import QtQuick.Controls.Material as QQC2
 import QtQuick.Dialogs
 import QtQuick.Layouts
@@ -139,6 +140,12 @@ Item {
         y: window.height / 2 - height / 2
         property var plugin_infos: []
         standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
+        Overlay.modal: Rectangle {
+            anchors.fill: parent
+            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
+            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            color: Material.backgroundDimColor
+        }
 
         ColumnLayout {
             width: 400
@@ -206,6 +213,12 @@ Item {
         y: window.height / 2 - height / 2
         width: 700
         height: 500
+        Overlay.modal: Rectangle {
+            anchors.fill: parent
+            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
+            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            color: Material.backgroundDimColor
+        }
         header: ColumnLayout {
             Layout.fillWidth: true
             RowLayout {
@@ -362,6 +375,12 @@ Item {
         x: window.width / 2 - width / 2
         y: window.height / 2 - height / 2
         standardButtons: QQC2.Dialog.Ok
+        Overlay.modal: Rectangle {
+            anchors.fill: parent
+            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
+            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            color: Material.backgroundDimColor
+        }
 
         ColumnLayout {
             QQC2.Label {
@@ -423,5 +442,11 @@ Item {
     }
 
     property QtObject settingsDialog: SettingsDialog {
+        Overlay.modal: Rectangle {
+            anchors.fill: parent
+            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
+            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            color: Material.backgroundDimColor
+        }
     }
 }

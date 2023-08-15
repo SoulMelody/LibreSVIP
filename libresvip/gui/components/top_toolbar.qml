@@ -59,6 +59,7 @@ ToolBar {
         Rectangle {
             width: 48
             height: 48
+            color: "transparent"
             Image {
                 anchors.centerIn: parent
                 source: py.config_items.icon_data()
@@ -69,6 +70,10 @@ ToolBar {
         MenuBar {
             id: menus
             spacing: 0
+            background : Rectangle {
+                implicitHeight: 40
+                color: window.Material.background
+            }
             menus: [
                 Menu {
                     id: convertMenu
