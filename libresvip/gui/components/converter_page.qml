@@ -276,8 +276,8 @@ Page {
 
     SplitView {
         anchors.fill: parent
-        anchors.rightMargin: window.visibility === Window.Maximized ? 14 : 0
-        anchors.bottomMargin: window.visibility === Window.Maximized ? 14 : 0
+        anchors.rightMargin: (window.visibility === Window.Maximized && Qt.platform.os === "windows") ? 14 : 0
+        anchors.bottomMargin: (window.visibility === Window.Maximized && Qt.platform.os === "windows") ? 14 : 0
         orientation: Qt.Horizontal
 
         SplitView {

@@ -363,7 +363,10 @@ ToolBar {
         ToolSeparator {}
 
         Label {
+            objectName: "captionLabel"
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
             text: window.title + " - " + qsTr("SVS Projects Converter")
             font.pixelSize: Qt.application.font.pixelSize * 1.2
             elide: Text.ElideRight
@@ -371,7 +374,7 @@ ToolBar {
 
         RowLayout {
             Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: window.visibility === Window.Maximized ? 14 : 0
+            Layout.rightMargin: (window.visibility === Window.Maximized && Qt.platform.os === "windows") ? 14 : 0
             spacing: 0
             Button {
                 id: minimizeButton

@@ -30,12 +30,10 @@ FramelessWindow {
     }
 
     FontLoader {
-        id: materialFontLoader
         source: py.qta.font_path("mdi6")
     }
 
     FontLoader {
-        id: remixFontLoader
         source: py.qta.font_path("ri")
     }
 
