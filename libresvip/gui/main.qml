@@ -1,8 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
 import QtQuick.Controls.Material
-import Qt5Compat.GraphicalEffects
 import FramelessWindow
 import "./components/" as Components
 
@@ -49,22 +47,12 @@ FramelessWindow {
         id: actions
     }
 
-    Rectangle {
-        id: rect
-        anchors.fill: parent
-        radius: window.visibility === Window.Maximized ? 0 : 8
-    }
-
     Components.ConverterPage {
         id: converterPage
         header: Components.TopToolbar {
             id: toolbar
         }
-        anchors.fill: rect
-        layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: rect
-        }
+        anchors.fill: parent
     }
 
     Component {

@@ -31,7 +31,7 @@ except ImportError:
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
-qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick", "Qt5Compat"]
+qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
     qml_base_dir = "qml"
@@ -110,6 +110,7 @@ build_exe_options = {
                 "ScxmlQml",
                 "Sensors",
                 "SensorsQuick",
+                "ShaderTools",
                 "Sql",
                 "StateMachine",
                 "StateMachineQml",

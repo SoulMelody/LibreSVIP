@@ -10,6 +10,15 @@ from qtpy.QtQuick import QQuickItem, QQuickWindow
 from qtpy.QtWidgets import QApplication
 
 
+class MARGINS(ctypes.Structure):
+    _fields_ = [
+        ("cxLeftWidth", ctypes.c_int),
+        ("cxRightWidth", ctypes.c_int),
+        ("cyTopHeight", ctypes.c_int),
+        ("cyBottomHeight", ctypes.c_int),
+    ]
+
+
 class MinMaxInfo(ctypes.Structure):
     _fields_ = [
         ("ptReserved", POINT),
@@ -65,14 +74,33 @@ class Win32FramelessWindow(QQuickWindow):
         style = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
         style &= ~win32con.WS_EX_LAYERED
         win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, style)
+        self.add_shadow_effect()
+
+    @staticmethod
+    def is_composition_enabled() -> bool:
+        b_result = ctypes.c_int(0)
+        ctypes.windll.dwmapi.DwmIsCompositionEnabled(ctypes.byref(b_result))
+        return bool(b_result.value)
+
+    def add_shadow_effect(self) -> None:
+        if not self.is_composition_enabled():
+            return
+
+        dwmapi = ctypes.windll.dwmapi
+
+        hwnd = self.winId()
+        margins = MARGINS(-1, -1, -1, -1)
+        dwmapi.DwmExtendFrameIntoClientArea(hwnd, ctypes.byref(margins))
 
     def monitor_nccalcsize(self, msg: MSG) -> None:
-        monitor = win32api.MonitorFromWindow(msg.hWnd)
+        monitor = win32api.MonitorFromWindow(
+            msg.hWnd, win32con.MONITOR_DEFAULTTOPRIMARY
+        )
         if monitor is None and not self.monitor_info:
             return
         elif monitor is not None:
             self.monitor_info = win32api.GetMonitorInfo(monitor)
-        # 调整窗口大小
+
         params = ctypes.cast(msg.lParam, ctypes.POINTER(NCCalcSizeParams)).contents
         (
             params.rgrc[0].left,
