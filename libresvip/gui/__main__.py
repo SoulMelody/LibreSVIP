@@ -1,7 +1,9 @@
 import os
+import sys
 
 import qtinter
 from qmlease import app
+from qtpy.QtQml import qmlRegisterType
 from qtpy.QtQuickControls2 import QQuickStyle
 
 from libresvip.core.constants import pkg_dir, res_dir
@@ -17,10 +19,20 @@ from libresvip.gui.modules import (
 
 def run() -> None:
     os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
-    QQuickStyle.setStyle("Material")
     app._register_backend = lambda: None
+    QQuickStyle.setStyle("Material")
     app.set_app_name("LibreSVIP")
     app.set_app_icon(str((res_dir / "libresvip.ico").resolve()))
+    if sys.platform == "win32":
+        from libresvip.gui.modules.frameless_window_win32 import Win32FramelessWindow
+
+        qmlRegisterType(
+            Win32FramelessWindow, "FramelessWindow", 1, 0, "FramelessWindow"
+        )
+    else:
+        from libresvip.gui.modules.frameless_window import FramelessWindow
+
+        qmlRegisterType(FramelessWindow, "FramelessWindow", 1, 0, "FramelessWindow")
     config_items = ConfigItems()
     task_manager = TaskManager()
     config_items.auto_set_output_extension_changed.connect(

@@ -3,13 +3,13 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
+import FramelessWindow
 import "./components/" as Components
 
 
-ApplicationWindow {
+FramelessWindow {
     id: window
     title: qsTr("LibreSVIP")
-    flags: Qt.FramelessWindowHint | Qt.Window
     visible: true
     minimumWidth: 800
     minimumHeight: 600
@@ -28,44 +28,6 @@ ApplicationWindow {
                 return Material.Light
             default:
                 return Material.System
-        }
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        onPositionChanged: (mouse) => {
-            if (mouse.x > 25 && mouse.x < window.width - 25) {
-                cursorShape = Qt.SizeVerCursor
-            } else if (mouse.y > 25 && mouse.y < window.height - 25) {
-                cursorShape = Qt.SizeHorCursor
-            } else if (
-                (mouse.x < 25 && mouse.y < 25) ||
-                (mouse.x > window.width - 25 && mouse.y > window.height - 25)
-            ) {
-                cursorShape = Qt.SizeFDiagCursor
-            } else if (
-                (mouse.x < 25 && mouse.y > window.height - 25) ||
-                (mouse.x > window.width - 25 && mouse.y < 25)
-            ) {
-                cursorShape = Qt.SizeBDiagCursor
-            }
-        }
-        onExited: cursorShape = Qt.ArrowCursor
-        acceptedButtons: Qt.NoButton
-    }
-    DragHandler {
-        id: resizeHandler
-        grabPermissions: TapHandler.TakeOverForbidden
-        target: null
-        onActiveChanged: if (active) {
-            const p = resizeHandler.centroid.position;
-            let e = 0;
-            if (p.x < 25) { e |= Qt.LeftEdge }
-            if (p.x > width - 25) { e |= Qt.RightEdge }
-            if (p.y < 25) { e |= Qt.TopEdge }
-            if (p.y > height - 25) { e |= Qt.BottomEdge }
-            window.startSystemResize(e);
         }
     }
 
@@ -91,7 +53,6 @@ ApplicationWindow {
         id: rect
         anchors.fill: parent
         radius: window.visibility === Window.Maximized ? 0 : 8
-        anchors.margins: window.visibility === Window.Maximized ? 0 : 10
     }
 
     Components.ConverterPage {

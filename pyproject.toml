@@ -57,10 +57,12 @@ optional = true
 [tool.poetry.group.desktop.dependencies]
 pyside6 = ">6.5.0"
 qmlease = "^3.0.3"
+lk-utils = ">=2.5.5,<2.6.0"
 qtawesome = "^1.2.3"
 desktop-notifier = { version = "^3.5.6", markers = "platform_python_implementation == 'CPython'" }
 qtinter = "^0.11.0"
 httpx = "^0.24.1"
+pywin32 = { version = "^306", markers = "sys_platform == 'win32'" }
 
 [tool.poetry.group.code_gen]
 optional = true
@@ -184,9 +186,5 @@ init_typed = true
 warn_required_dynamic_aliases = true
 
 [build-system]
-requires = [
-  "poetry-core>=1.0.0",
-  "setuptools",
-  "wheel",
-]
+requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
 build-backend = "poetry_dynamic_versioning.backend"

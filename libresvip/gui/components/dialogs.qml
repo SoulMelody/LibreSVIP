@@ -215,8 +215,7 @@ Item {
         height: 500
         Overlay.modal: Rectangle {
             anchors.fill: parent
-            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
-            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            anchors.topMargin: toolbar.height
             color: Material.backgroundDimColor
         }
         header: ColumnLayout {
@@ -377,8 +376,7 @@ Item {
         standardButtons: QQC2.Dialog.Ok
         Overlay.modal: Rectangle {
             anchors.fill: parent
-            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
-            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            anchors.topMargin: toolbar.height
             color: Material.backgroundDimColor
         }
 
@@ -444,8 +442,7 @@ Item {
     property QtObject settingsDialog: SettingsDialog {
         Overlay.modal: Rectangle {
             anchors.fill: parent
-            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
-            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
+            anchors.topMargin: toolbar.height
             color: Material.backgroundDimColor
         }
     }
