@@ -408,6 +408,7 @@ ToolBar {
             Button {
                 id: exitButton
                 Material.roundedScale: Material.NotRounded
+                Layout.fillHeight: true
                 leftPadding: 0
                 rightPadding: 0
                 topInset: 0

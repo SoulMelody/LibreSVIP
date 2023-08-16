@@ -110,7 +110,6 @@ build_exe_options = {
                 "ScxmlQml",
                 "Sensors",
                 "SensorsQuick",
-                "ShaderTools",
                 "Sql",
                 "StateMachine",
                 "StateMachineQml",
