@@ -18,7 +18,7 @@ RoundButton {
         anchors.centerIn: parent
         anchors.margins: 0
         text: py.qta.icon(icon_name)
-        font.family: materialFontLoader.name
+        font.family: "Material Design Icons"
         font.pixelSize: diameter * 0.6
     }
 

@@ -260,7 +260,7 @@ Page {
             Layout.fillWidth: true
             Label {
                 text: py.qta.icon("mdi6.tune-variant")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
                 font.pixelSize: 12
             }
             Rectangle {
@@ -651,7 +651,7 @@ Page {
                             Label {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: py.qta.icon("mdi6.tray-arrow-up")
-                                font.family: materialFontLoader.name
+                                font.family: "Material Design Icons"
                                 font.pixelSize: 100
                             }
                             Label {
@@ -743,7 +743,7 @@ Page {
                             }
                             text: py.qta.icon("mdi6.hammer-wrench")
                             y: parent.height - this.height / 2 - 10
-                            font.family: materialFontLoader.name
+                            font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
                             radius: this.height / 2
                             Behavior on rotation {
@@ -788,7 +788,7 @@ Page {
                                             Material.Shade200
                                         );
                                     }
-                                    font.family: materialFontLoader.name
+                                    font.family: "Material Design Icons"
                                     font.pixelSize: Qt.application.font.pixelSize * 1.5
                                     radius: this.height / 2
                                     ToolTip.visible: hovered
@@ -812,7 +812,7 @@ Page {
                                             Material.Shade200
                                         );
                                     }
-                                    font.family: materialFontLoader.name
+                                    font.family: "Material Design Icons"
                                     font.pixelSize: Qt.application.font.pixelSize * 1.5
                                     radius: this.height / 2
                                     enabled: taskListView.count > 0
@@ -837,7 +837,7 @@ Page {
                                             Material.Shade200
                                         );
                                     }
-                                    font.family: materialFontLoader.name
+                                    font.family: "Material Design Icons"
                                     font.pixelSize: Qt.application.font.pixelSize * 1.5
                                     radius: this.height / 2
                                     ToolTip.visible: hovered
@@ -861,7 +861,7 @@ Page {
                                             Material.Shade200
                                         );
                                     }
-                                    font.family: materialFontLoader.name
+                                    font.family: "Material Design Icons"
                                     font.pixelSize: Qt.application.font.pixelSize * 1.5
                                     radius: this.height / 2
                                     ToolTip.visible: hovered
@@ -944,7 +944,7 @@ Page {
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
                                     text: py.qta.icon("mdi6.chevron-right")
-                                    font.family: materialFontLoader.name
+                                    font.family: "Material Design Icons"
                                     font.pixelSize: 20
                                     rotation: inputContainer.expanded ? 45 : 0
                                     Behavior on rotation {
@@ -1111,7 +1111,7 @@ Page {
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
                                     text: py.qta.icon("mdi6.chevron-right")
-                                    font.family: materialFontLoader.name
+                                    font.family: "Material Design Icons"
                                     font.pixelSize: 20
                                     rotation: outputContainer.expanded ? 45 : 0
                                     Behavior on rotation {

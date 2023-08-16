@@ -10,7 +10,7 @@ MenuItem {
     contentItem: Row {
         Label {
             text: py.qta.icon(icon_name)
-            font.family: materialFontLoader.name
+            font.family: "Material Design Icons"
             font.pixelSize: Qt.application.font.pixelSize * 1.2
             width: 35
             anchors.verticalCenter: parent.verticalCenter

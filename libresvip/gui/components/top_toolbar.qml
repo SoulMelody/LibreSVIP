@@ -383,7 +383,7 @@ ToolBar {
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
                 text: py.qta.icon("mdi6.window-minimize")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: window.showMinimized()
             }
@@ -400,7 +400,7 @@ ToolBar {
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
                 text: window.visibility == Window.Maximized ? py.qta.icon("mdi6.window-restore") : py.qta.icon("mdi6.window-maximize")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: toggleMaximized()
             }
@@ -416,7 +416,7 @@ ToolBar {
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
                 text: py.qta.icon("mdi6.close")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: actions.quit.trigger()
                 onHoveredChanged: {

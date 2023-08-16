@@ -40,7 +40,7 @@ ColumnLayout {
             anchors.right: parent.right
             Label {
                 text: py.qta.icon("mdi6.transfer-right")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.5
             }
 
@@ -84,7 +84,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    font.family: materialFontLoader.name
+                    font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
                     width: height
@@ -139,7 +139,7 @@ ColumnLayout {
                         }
                     }
                     text: py.qta.icon("mdi6.minus-thick")
-                    font.family: materialFontLoader.name
+                    font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
                     width: height
@@ -182,7 +182,7 @@ ColumnLayout {
                         }
                     }
                     text: py.qta.icon("mdi6.alert-circle")
-                    font.family: materialFontLoader.name
+                    font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
                     width: height

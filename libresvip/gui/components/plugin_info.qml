@@ -86,7 +86,7 @@ GridLayout {
         contentItem: RowLayout {
             Label {
                 text: py.qta.icon("mdi6.tag")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
             }
             Label {
                 text: info.version
@@ -109,7 +109,7 @@ GridLayout {
         contentItem: RowLayout {
             Label {
                 text: py.qta.icon("mdi6.account")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
             }
 
             Label {
@@ -123,7 +123,7 @@ GridLayout {
 
             Label {
                 text: py.qta.icon("mdi6.open-in-new")
-                font.family: materialFontLoader.name
+                font.family: "Material Design Icons"
             }
         }
         ToolTip {
@@ -140,7 +140,7 @@ GridLayout {
         Layout.columnSpan: 7
         Label {
             text: py.qta.icon("mdi6.file-outline")
-            font.family: materialFontLoader.name
+            font.family: "Material Design Icons"
         }
         Label {
             text: qsTr(info.file_format) + " " + info.suffix

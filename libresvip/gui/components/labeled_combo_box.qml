@@ -73,7 +73,7 @@ ComboBox {
         anchors.rightMargin: 20
         y: parent.height / 2 - 5
         text: py.qta.icon("mdi6.menu-down")
-        font.family: materialFontLoader.name
+        font.family: "Material Design Icons"
         font.pixelSize: (parent.height - 10) / 2
     }
 

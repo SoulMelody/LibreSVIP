@@ -76,7 +76,7 @@ Item {
                             z: 1
                             anchors.centerIn: parent
                             text: py.qta.icon("mdi6.close")
-                            font.family: materialFontLoader.name
+                            font.family: "Material Design Icons"
                             HoverHandler {
                                 acceptedDevices: PointerDevice.AllPointerTypes
                                 cursorShape: Qt.PointingHandCursor
@@ -301,7 +301,7 @@ Item {
                     QQC2.Button {
                         Layout.alignment: Qt.AlignHCenter
                         text: py.qta.icon("mdi6.plus")
-                        font.family: materialFontLoader.name
+                        font.family: "Material Design Icons"
                         font.pixelSize: Qt.application.font.pixelSize * 1.5
                         onClicked: {
                             folderPresetsListView.model.append({
@@ -344,7 +344,7 @@ Item {
                         QQC2.Label {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: py.qta.icon("mdi6.folder-plus-outline")
-                            font.family: materialFontLoader.name
+                            font.family: "Material Design Icons"
                             font.pixelSize: 100
                         }
                         QQC2.Label {
@@ -401,7 +401,7 @@ Item {
                     contentItem: RowLayout {
                         QQC2.Label {
                             text: py.qta.icon("ri.bilibili-line")
-                            font.family: remixFontLoader.name
+                            font.family: "remixicon"
                         }
                         QQC2.Label {
                             text: qsTr("Author's Profile")
@@ -415,7 +415,7 @@ Item {
                     contentItem: RowLayout {
                         QQC2.Label {
                             text: py.qta.icon("mdi6.github")
-                            font.family: materialFontLoader.name
+                            font.family: "Material Design Icons"
                         }
                         QQC2.Label {
                             text: qsTr("Repo URL")
