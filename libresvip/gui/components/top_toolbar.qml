@@ -371,7 +371,7 @@ ToolBar {
 
         RowLayout {
             Layout.alignment: Qt.AlignRight
-            Layout.rightMargin: window.visibility === Window.Maximized ? 15 : 0
+            Layout.rightMargin: window.visibility === Window.Maximized ? 14 : 0
             spacing: 0
             Button {
                 id: minimizeButton

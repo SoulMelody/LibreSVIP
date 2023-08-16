@@ -276,7 +276,8 @@ Page {
 
     SplitView {
         anchors.fill: parent
-        anchors.rightMargin: window.visibility === Window.Maximized ? 15 : 0
+        anchors.rightMargin: window.visibility === Window.Maximized ? 14 : 0
+        anchors.bottomMargin: window.visibility === Window.Maximized ? 14 : 0
         orientation: Qt.Horizontal
 
         SplitView {
@@ -631,6 +632,7 @@ Page {
                     MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
                         onEntered: {
                             if (taskListView.count == 0) {
                                 parent.opacity = 0.5

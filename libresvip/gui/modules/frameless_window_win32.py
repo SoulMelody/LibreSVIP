@@ -75,6 +75,11 @@ class Win32FramelessWindow(QQuickWindow):
         style &= ~win32con.WS_EX_LAYERED
         win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, style)
         self.add_shadow_effect()
+        screen_geometry = self.screen().availableGeometry()
+        self.setPosition(
+            (screen_geometry.width() - 1200) // 2,
+            (screen_geometry.height() - 800) // 2,
+        )
 
     @staticmethod
     def is_composition_enabled() -> bool:
