@@ -4,6 +4,7 @@ import struct
 import more_itertools
 from construct import (
     Byte,
+    Bytes,
     BytesInteger,
     Computed,
     Const,
@@ -110,7 +111,7 @@ JUCEPluginData = Prefixed(
     Struct(
         "data" / JUCENode,
         "padding" / Const(b"\x00" * 8),
-        "private_data" / JUCENode,
+        "private_data" / Bytes(100),
     ),
 )
 

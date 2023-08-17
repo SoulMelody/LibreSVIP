@@ -174,6 +174,13 @@ class VoiSonaParametersItem(BaseModel):
     )
     vocoder_log_f0: Optional[float] = Field(None, alias="VocoderLogF0")
     vib_amp: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibAmp")
+    vib_amp_c_tick: Optional[list[VoiSonaParameterItem]] = Field(
+        None, alias="VibAmpCTick"
+    )
+    vib_frq: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibFrq")
+    vib_frq_c_tick: Optional[list[VoiSonaParameterItem]] = Field(
+        None, alias="VibFrqCTick"
+    )
     alpha: Optional[list[VoiSonaParameterItem]] = Field(None, alias="Alpha")
     alpha_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="AlphaCTick")
     husky: Optional[list[VoiSonaParameterItem]] = Field(None, alias="Husky")
@@ -346,19 +353,13 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
                                         field_value.state_information,
                                         "StateInformation",
                                     ),
-                                    "private_data": {
-                                        "name": "JUCEPrivateData",
-                                        "attrs": [
-                                            {
-                                                "name": "Bypass",
-                                                "data": {
-                                                    "type": "BOOL_FALSE",
-                                                    "value": False,
-                                                },
-                                            }
-                                        ],
-                                        "children": [],
-                                    },
+                                    "private_data": (
+                                        b"JUCEPrivateData\x00\x01\x01"
+                                        b"Bypass\x00\x01\x01\x03\x00\x1d\x00\x00\x00\x00\x00\x00\x00"
+                                        b"JUCEPrivateDataList\x02\x00\x00\x00"
+                                        b"Comp0\x00\x00\x00\x00\x00\x00\x00\x0b~\x01\x00\x00\x00\x00\x00"
+                                        b"Cont;~\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+                                    ),
                                 }
                             ),
                         },
