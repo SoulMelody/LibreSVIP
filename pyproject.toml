@@ -1,119 +1,87 @@
-[tool.poetry]
+[project]
+authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
+license = { text = "MIT" }
+requires-python = ">=3.9,<3.12"
+dependencies = [
+  "ass<1.0.0,>=0.5.4",
+  "charset-normalizer<4.0.0,>=3.2.0",
+  "construct-typing<1.0.0,>=0.6.2",
+  "drawsvg<3.0.0,>=2.3.0",
+  "jinja2<4.0.0,>=3.1.2",
+  "loguru<1.0.0,>=0.7.0",
+  "mido<2.0.0,>=1.3.0",
+  "more-itertools<11.0.0,>=10.1.0",
+  "omegaconf<3.0.0,>=2.3.0",
+  "packaging<24.0,>=23.1",
+  "platformdirs<4.0.0,>=3.10.0",
+  "portion<3.0.0,>=2.4.1",
+  "pure-protobuf<4.0,>=3.0a5",
+  "pydantic>=2.1.1",
+  "pydantic-extra-types<3.0.0,>=2.0.0",
+  "pymediainfo<7.0.0,>=6.0.1; sys_platform != \"linux\"",
+  "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
+  "pypinyin<1.0.0,>=0.49.0",
+  "regex<2024.0.0,>=2023.8.8",
+  "srt<4.0.0,>=3.5.3",
+  "textx<4.0.0,>=3.1.1",
+  "typer[all]<1.0.0,>=0.9.0",
+  "universal-pathlib<1.0.0,>=0.1.1",
+  "wanakana-python<2.0.0,>=1.2.2",
+  "xsdata<24.0,>=23.8",
+]
 name = "libresvip"
 version = "0.8.1"
-license = "MIT"
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
+
+[project.urls]
 repository = "https://github.com/SoulMelody/LibreSVIP"
-authors = ["SoulMelody <yjxrtzyx@gmail.com>"]
-exclude = ["libresvip/plugins/*/*.po"]
 
-[tool.poetry.dependencies]
-python = ">=3.9,<3.12"
-ass = "^0.5.4"
-charset-normalizer = "^3.2.0"
-construct-typing = "^0.6.2"
-drawsvg = "^2.3.0"
-jinja2 = "^3.1.2"
-loguru = "^0.7.0"
-mido = "^1.3.0"
-more-itertools = "^10.1.0"
-omegaconf = "^2.3.0"
-packaging = "^23.1"
-platformdirs = "^3.10.0"
-portion = "^2.4.1"
-pure-protobuf = "^3.0a5"
-pydantic = "^2.1.1"
-pydantic-extra-types = "^2.0.0"
-pymediainfo = { version = "^6.0.1", markers = "sys_platform != 'linux'" }
-pymediainfo-lambda = { version = "^0.0.13", markers = "sys_platform == 'linux'" }
-pypinyin = "^0.49.0"
-regex = "^2023.8.8"
-srt = "^3.5.3"
-textx = "^3.1.1"
-typer = { extras = ["all"], version = "^0.9.0" }
-universal-pathlib = "^0.1.1"
-wanakana-python = "^1.2.2"
-xsdata = { version = "^23.8" }
+[project.optional-dependencies]
 
-[tool.poetry.group.ujson]
-optional = true
-[tool.poetry.group.ujson.dependencies]
-ujson = "^5.8.0"
+ujson = ["ujson>=5.8.0"]
+bike = ["pycryptodome>=3.18.0", "zstandard>=0.21.0"]
+webui = ["nicegui[native]>=1.3.9"]
+desktop = [
+  "pyside6>6.5.0",
+  "qmlease>=3.0.3",
+  "lk-utils>=2.5.5,<2.6.0",
+  "qtawesome>=1.2.3",
+  "qtinter>=0.11.0",
+  "httpx>=0.24.1",
+  "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
+  "pywin32>=306; sys_platform == \"win32\"",
+]
 
-[tool.poetry.group.bike]
-optional = true
-[tool.poetry.group.bike.dependencies]
-pycryptodome = "^3.18.0"
-zstandard = "^0.21.0"
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+typing_stubs = ["types-regex>=2023.8.8.0", "types-ujson>=5.8.0.1"]
+code_gen = [
+  "datamodel-code-generator>=0.21.4",
+  "translate-toolkit>=3.10.0",
+  "babel>=2.12.1",
+  "xsdata[cli]>=23.8",
+]
+packaging = ["cx-freeze>=6.15.5"]
+test = ["pytest>=7.4.0", "pytest-datadir>=1.4.1"]
+linting = [
+  "isort>=5.12.0",
+  "pre-commit>=3.3.3",
+  "ruff>=0.0.284",
+  "black>=23.7.0",
+  "mypy>=1.5.1",
+  "sourcery>=1.7.0",
+  "bump-pydantic>=0.6.1",
+]
 
-[tool.poetry.group.webui]
-optional = true
-[tool.poetry.group.webui.dependencies]
-nicegui = { version = "^1.3.9", extras = ["native"] }
+[tool.pdm.build]
+includes = []
+excludes = ["libresvip/plugins/*/*.po"]
 
-[tool.poetry.group.desktop]
-optional = true
-[tool.poetry.group.desktop.dependencies]
-pyside6 = ">6.5.0"
-qmlease = "^3.0.3"
-lk-utils = ">=2.5.5,<2.6.0"
-qtawesome = "^1.2.3"
-desktop-notifier = { version = "^3.5.6", markers = "platform_python_implementation == 'CPython'" }
-qtinter = "^0.11.0"
-httpx = "^0.24.1"
-pywin32 = { version = "^306", markers = "sys_platform == 'win32'" }
-
-[tool.poetry.group.code_gen]
-optional = true
-
-[tool.poetry.group.code_gen.dependencies]
-xsdata = { extras = ["cli"], version = "^23.8" }
-datamodel-code-generator = "^0.21.4"
-translate-toolkit = "^3.10.0"
-babel = "^2.12.1"
-
-
-[tool.poetry.group.packaging]
-optional = true
-
-[tool.poetry.group.packaging.dependencies]
-cx-freeze = "^6.15.5"
-
-
-[tool.poetry.group.test]
-optional = true
-
-[tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
-pytest-datadir = "^1.4.1"
-
-[tool.poetry.group.linting]
-optional = true
-
-[tool.poetry.group.linting.dependencies]
-isort = "^5.12.0"
-pre-commit = "^3.3.3"
-ruff = "^0.0.284"
-black = "^23.7.0"
-mypy = "^1.5.0"
-sourcery = "^1.7.0"
-bump-pydantic = "^0.6.1"
-
-
-[tool.poetry.group.dev.dependencies]
-types-regex = "^2023.8.8.0"
-types-ujson = "^5.8.0.1"
-
-[[tool.poetry.source]]
-name = "tuna"
-url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
-priority = "default"
-
-[tool.poetry.scripts]
-cli = "libresvip.cli.__main__:app"
-gui = "libresvip.gui.__main__:run"
-web = "libresvip.web.__main__:main"
+[tool.pdm.scripts]
+libresvip-cli = { call = "libresvip.cli.__main__:app" }
+libresvip-gui = { call = "libresvip.gui.__main__:run" }
+libresvip-web = { call = "libresvip.web.__main__:main" }
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
@@ -186,5 +154,5 @@ init_typed = true
 warn_required_dynamic_aliases = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools", "wheel"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["pdm-backend", "setuptools", "wheel"]
+build-backend = "pdm.backend"
