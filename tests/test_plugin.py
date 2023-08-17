@@ -60,13 +60,14 @@ def test_mtp_read(shared_datadir, pretty_construct):
     #             print(chr(note.lyric[0]))
 
 
-def test_tssln_read(shared_datadir, pretty_construct):
-    from libresvip.plugins.tssln.model import VoiSonaProject
+def test_tssln_write(shared_datadir, pretty_construct):
+    from libresvip.plugins.tssln.model import VoiSonaProject, model_to_value_tree
     from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
     tree_dict = build_tree_dict(value_tree)
-    print(VoiSonaProject.model_validate(tree_dict["TSSolution"]))
+    project = VoiSonaProject.model_validate(tree_dict["TSSolution"])
+    pathlib.Path("test.tssln").write_bytes(JUCENode.build(model_to_value_tree(project)))
 
 
 def test_ustx_read(shared_datadir, capsys):

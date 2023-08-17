@@ -96,7 +96,8 @@ class Null(Construct):
 
 class Utf8CodePoint(Construct):
     def _sizeof(self, context, path):
-        raise SizeofError("Utf8CodePoint has no static size")
+        msg = "Utf8CodePoint has no static size"
+        raise SizeofError(msg)
 
     def _parse(self, stream, context, path):
         byte = stream.read(1)
@@ -112,18 +113,21 @@ class Utf8CodePoint(Construct):
         elif b & 0xF8 == 0xF0:
             length = 4
         else:
-            raise ValueError("Invalid UTF-8 code point")
+            msg = "Invalid UTF-8 code point"
+            raise ValueError(msg)
         return (byte + stream.read(length - 1)).decode("utf-8")
 
     def _build(self, obj, stream, context, path):
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         stream.write(obj)
+        return obj
 
 
 class LengthPrefixedString(Construct):
     def _sizeof(self, context, path):
-        raise SizeofError("LengthPrefixedString has no static size")
+        msg = "LengthPrefixedString has no static size"
+        raise SizeofError(msg)
 
     def _parse(self, stream, context, path):
         length = 0
@@ -138,7 +142,8 @@ class LengthPrefixedString(Construct):
             if not b & 0x80:
                 break
         else:
-            raise ValueError("Invalid length-prefixed string")
+            msg = "Invalid length-prefixed string"
+            raise ValueError(msg)
         content = stream.read(length)
         return content.decode("utf-8")
 
@@ -151,6 +156,7 @@ class LengthPrefixedString(Construct):
             length >>= 7
         stream.write(bytes((length,)))
         stream.write(obj)
+        return obj
 
 
 Decimal = ExprAdapter(

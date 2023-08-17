@@ -4,14 +4,16 @@ import struct
 import more_itertools
 from construct import (
     Byte,
-    Bytes,
     BytesInteger,
     Computed,
+    Const,
     Construct,
     CString,
     Float64l,
+    GreedyBytes,
     Int64sl,
     LazyBound,
+    Prefixed,
     PrefixedArray,
     SizeofError,
     Struct,
@@ -49,7 +51,7 @@ class JUCECompressedIntStruct(Construct):
         width = struct.unpack("<B", byte)[0]
         return int.from_bytes(stream.read(width), "little", signed=False)
 
-    def _build(self, obj: int, stream, context, path):
+    def _build(self, obj: int, stream, context, path) -> int:
         if obj < 0:
             msg = "Negative numbers not supported"
             raise ValueError(msg)
@@ -61,6 +63,8 @@ class JUCECompressedIntStruct(Construct):
         except OverflowError as e:
             msg = "Number too large to be compressed"
             raise ValueError(msg) from e
+        else:
+            return obj
 
 
 JUCECompressedInt = JUCECompressedIntStruct()
@@ -68,24 +72,29 @@ JUCECompressedInt = JUCECompressedIntStruct()
 
 JUCEVariant = Struct(
     "name" / CString("utf-8"),
-    "size" / JUCECompressedInt,
-    "type" / JUCEVarTypes,
-    "value"
-    / Switch(
-        this.type,
-        {
-            "INT": Int32sl,
-            "BOOL_TRUE": Computed(lambda ctx: True),
-            "BOOL_FALSE": Computed(lambda ctx: False),
-            "DOUBLE": Float64l,
-            "STRING": CString("utf-8"),
-            "INT64": Int64sl,
-            "ARRAY": PrefixedArray(
-                JUCECompressedInt,
-                LazyBound(lambda: JUCEVariant),
+    "data"
+    / Prefixed(
+        JUCECompressedInt,
+        Struct(
+            "type" / JUCEVarTypes,
+            "value"
+            / Switch(
+                this.type,
+                {
+                    "INT": Int32sl,
+                    "BOOL_TRUE": Computed(lambda ctx: True),
+                    "BOOL_FALSE": Computed(lambda ctx: False),
+                    "DOUBLE": Float64l,
+                    "STRING": CString("utf-8"),
+                    "INT64": Int64sl,
+                    "ARRAY": PrefixedArray(
+                        JUCECompressedInt,
+                        LazyBound(lambda: JUCEVariant),
+                    ),
+                    "BINARY": GreedyBytes,
+                },
             ),
-            "BINARY": Bytes(this.size - 1),
-        },
+        ),
     ),
 )
 
@@ -96,11 +105,21 @@ JUCENode = Struct(
 )
 
 
+JUCEPluginData = Prefixed(
+    Int64sl,
+    Struct(
+        "data" / JUCENode,
+        "padding" / Const(b"\x00" * 8),
+        "private_data" / JUCENode,
+    ),
+)
+
+
 def build_tree_dict(node: JUCENode) -> dict:
     attr_dict = {
-        attr.name: build_tree_dict(JUCENode.parse(attr.value[48:]))
-        if isinstance(attr.value, bytes)
-        else attr.value
+        attr.name: build_tree_dict(JUCEPluginData.parse(attr.data.value[40:]).data)
+        if isinstance(attr.data.value, bytes)
+        else attr.data.value
         for attr in node.attrs
     }
     buckets = more_itertools.bucket(

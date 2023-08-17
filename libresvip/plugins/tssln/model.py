@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import enum
-from typing import Annotated, Literal, Optional, Union
+from types import GenericAlias
+from typing import Annotated, Any, Literal, Optional, Union, get_args
 
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
+
+from .value_tree import JUCEPluginData, JUCEVarTypes
 
 
 class VoiSonaPlayControlItem(BaseModel):
@@ -268,3 +271,105 @@ class VoiSonaProject(BaseModel):
     play_control: list[VoiSonaPlayControlItem] = Field(alias="PlayControl")
     tracks: list[VoiSonaTrack] = Field(alias="Tracks")
     gui_status: list[VoiSonaGuiStatus] = Field(alias="GUIStatus")
+
+
+def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict:
+    if issubclass(field_type, bool):
+        if field_value is True:
+            variant_type = JUCEVarTypes.BOOL_TRUE
+        elif field_value is False:
+            variant_type = JUCEVarTypes.BOOL_FALSE
+    elif issubclass(field_type, (enum.IntEnum, int)):
+        variant_type = JUCEVarTypes.INT
+    elif issubclass(field_type, float):
+        variant_type = JUCEVarTypes.DOUBLE
+    elif issubclass(field_type, str):
+        variant_type = JUCEVarTypes.STRING
+    elif issubclass(field_type, bytes):
+        variant_type = JUCEVarTypes.BINARY
+    else:
+        msg = f"Unknown field type {field_type}"
+        raise TypeError(msg)
+    return {
+        "name": field_name,
+        "data": {
+            "type": variant_type,
+            "value": field_value,
+        },
+    }
+
+
+def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
+    model_class = type(model)
+    value_tree = {
+        "name": name,
+        "attrs": [],
+        "children": [],
+    }
+    for field_name, field_info in model_class.model_fields.items():
+        field_value = getattr(model, field_name)
+        alias_field_name = field_info.alias or field_name
+        if field_value is not None:
+            if isinstance(field_info.annotation, type):
+                field_type = field_info.annotation
+            else:
+                if field_info.default is not None:
+                    field_type = type(field_info.default)
+                else:
+                    field_type = field_info.annotation
+                    while not isinstance(field_type, type):
+                        field_type = get_args(field_type)[0]
+            if isinstance(field_type, GenericAlias):
+                inner_type = get_args(field_type)[0]
+                if not isinstance(inner_type, type) or issubclass(
+                    inner_type, BaseModel
+                ):
+                    value_tree["children"].extend(
+                        model_to_value_tree(item, alias_field_name)
+                        for item in field_value
+                    )
+                else:
+                    value_tree["attrs"].extend(
+                        value_to_dict(alias_field_name, item, inner_type)
+                        for item in field_value
+                    )
+            elif alias_field_name == "PluginData":
+                value_tree["attrs"].append(
+                    {
+                        "name": alias_field_name,
+                        "data": {
+                            "type": JUCEVarTypes.BINARY,
+                            "value": b"VST3\x01\x00\x00\x00ABCDEF019182FAEB5465737056535369"
+                            + JUCEPluginData.build(
+                                {
+                                    "data": model_to_value_tree(
+                                        field_value.state_information,
+                                        "StateInformation",
+                                    ),
+                                    "private_data": {
+                                        "name": "JUCEPrivateData",
+                                        "attrs": [
+                                            {
+                                                "name": "Bypass",
+                                                "data": {
+                                                    "type": "BOOL_FALSE",
+                                                    "value": False,
+                                                },
+                                            }
+                                        ],
+                                        "children": [],
+                                    },
+                                }
+                            ),
+                        },
+                    }
+                )
+            elif issubclass(field_type, BaseModel):
+                value_tree["children"].append(
+                    model_to_value_tree(field_value, alias_field_name)
+                )
+            else:
+                value_tree["attrs"].append(
+                    value_to_dict(alias_field_name, field_value, field_type)
+                )
+    return value_tree
