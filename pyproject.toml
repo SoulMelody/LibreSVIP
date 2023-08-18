@@ -16,7 +16,7 @@ dependencies = [
   "platformdirs<4.0.0,>=3.10.0",
   "portion<3.0.0,>=2.4.1",
   "pure-protobuf<4.0,>=3.0a5",
-  "pydantic>=2.1.1",
+  "pydantic<3.0.0,>=2.2.0",
   "pydantic-extra-types<3.0.0,>=2.0.0",
   "pymediainfo<7.0.0,>=6.0.1; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
@@ -67,7 +67,7 @@ test = ["pytest>=7.4.0", "pytest-datadir>=1.4.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.3.3",
-  "ruff>=0.0.284",
+  "ruff>=0.0.285",
   "black>=23.7.0",
   "mypy>=1.5.1",
   "sourcery>=1.7.0",
