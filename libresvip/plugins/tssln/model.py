@@ -4,7 +4,7 @@ import enum
 from types import GenericAlias
 from typing import Annotated, Any, Literal, Optional, Union, get_args
 
-from pydantic import Field
+from pydantic import Field, computed_field
 
 from libresvip.model.base import BaseModel
 
@@ -13,21 +13,21 @@ from .value_tree import JUCEPluginData, JUCEVarTypes
 
 class VoiSonaPlayControlItem(BaseModel):
     loop: bool = Field(alias="Loop")
-    loop_start: float = Field(alias="LoopStart")
+    loop_start: float = Field(0, alias="LoopStart")
     loop_end: float = Field(alias="LoopEnd")
     play_position: float = Field(alias="PlayPosition")
 
 
 class VoiSonaSongEditorItem(BaseModel):
-    editor_width: int = Field(alias="EditorWidth")
-    editor_height: int = Field(alias="EditorHeight")
+    editor_width: int = Field(1920, alias="EditorWidth")
+    editor_height: int = Field(1080, alias="EditorHeight")
 
 
 class VoiSonaControlPanelStatus(BaseModel):
     quantization: int = Field(alias="Quantization")
     edit_tool: Optional[int] = Field(None, alias="EditTool")
-    record_note: bool = Field(alias="RecordNote")
-    record_tempo: bool = Field(alias="RecordTempo")
+    record_note: bool = Field(True, alias="RecordNote")
+    record_tempo: bool = Field(True, alias="RecordTempo")
 
 
 class VoiSonaAdjustToolBarStatus(BaseModel):
@@ -41,14 +41,11 @@ class VoiSonaPanelControllerStatus(BaseModel):
     key_panel: Optional[bool] = Field(None, alias="KeyPanel")
 
 
-class VoiSonaMainPanelStatus(BaseModel):
+class VoiSonaMainPanelStatus(VoiSonaPanelControllerStatus):
     scale_x: float = Field(alias="ScaleX")
     scale_y: float = Field(alias="ScaleY")
     scroll_x: Optional[float] = Field(None, alias="ScrollX")
     scroll_y: Optional[float] = Field(None, alias="ScrollY")
-    tempo_panel: Optional[bool] = Field(None, alias="TempoPanel")
-    beat_panel: Optional[bool] = Field(None, alias="BeatPanel")
-    key_panel: Optional[bool] = Field(None, alias="KeyPanel")
 
 
 class VoiSonaNeuralVocoderInformation(BaseModel):
@@ -72,16 +69,18 @@ class VoiSonaEmotionItem(BaseModel):
 
 
 class VoiSonaEmotionListItem(BaseModel):
-    emotion: list[VoiSonaEmotionItem] = Field(alias="Emotion")
+    emotion: list[VoiSonaEmotionItem] = Field(default_factory=list, alias="Emotion")
 
 
 class VoiSonaVoiceInformation(BaseModel):
     neural_vocoder_list: list[VoiSonaNeuralVocoderListItem] = Field(
-        alias="NeuralVocoderList"
+        default_factory=list, alias="NeuralVocoderList"
     )
-    emotion_list: list[VoiSonaEmotionListItem] = Field(alias="EmotionList")
+    emotion_list: list[VoiSonaEmotionListItem] = Field(
+        default_factory=list, alias="EmotionList"
+    )
     character_name: str = Field(alias="CharacterName")
-    language: str = Field(alias="Language")
+    language: str = Field("ja_JP", alias="Language")
     active_after_this_version: Optional[str] = Field(
         None, alias="ActiveAfterThisVersion"
     )
@@ -93,10 +92,10 @@ class VoiSonaVoiceInformation(BaseModel):
 
 
 class VoiSonaGlobalParameter(BaseModel):
-    global_vib_amp: float = Field(alias="GlobalVibAmp")
-    global_vib_frq: float = Field(alias="GlobalVibFrq")
-    global_alpha: float = Field(alias="GlobalAlpha")
-    global_husky: float = Field(alias="GlobalHusky")
+    global_vib_amp: float = Field(1, alias="GlobalVibAmp")
+    global_vib_frq: float = Field(0, alias="GlobalVibFrq")
+    global_alpha: float = Field(0, alias="GlobalAlpha")
+    global_husky: float = Field(0, alias="GlobalHusky")
     global_tune: Optional[float] = Field(None, alias="GlobalTune")
 
 
@@ -106,7 +105,7 @@ class VoiSonaSoundItem(BaseModel):
 
 
 class VoiSonaTempoItem(BaseModel):
-    sound: list[VoiSonaSoundItem] = Field(alias="Sound")
+    sound: list[VoiSonaSoundItem] = Field(default_factory=list, alias="Sound")
 
 
 class VoiSonaTimeItem(BaseModel):
@@ -116,7 +115,7 @@ class VoiSonaTimeItem(BaseModel):
 
 
 class VoiSonaBeatItem(BaseModel):
-    time: list[VoiSonaTimeItem] = Field(alias="Time")
+    time: list[VoiSonaTimeItem] = Field(default_factory=list, alias="Time")
 
 
 class VoiSonaKeyItem(BaseModel):
@@ -142,15 +141,15 @@ class VoiSonaNoteItem(BaseModel):
 
 
 class VoiSonaScoreItem(BaseModel):
-    key: list[VoiSonaKeyItem] = Field(alias="Key")
-    dynamics: list[VoiSonaDynamic] = Field(alias="Dynamics")
-    note: list[VoiSonaNoteItem] = Field(alias="Note")
+    key: list[VoiSonaKeyItem] = Field(default_factory=list, alias="Key")
+    dynamics: list[VoiSonaDynamic] = Field(default_factory=list, alias="Dynamics")
+    note: list[VoiSonaNoteItem] = Field(default_factory=list, alias="Note")
 
 
 class VoiSonaSongItem(BaseModel):
-    tempo: list[VoiSonaTempoItem] = Field(alias="Tempo")
-    beat: list[VoiSonaBeatItem] = Field(alias="Beat")
-    score: list[VoiSonaScoreItem] = Field(alias="Score")
+    tempo: list[VoiSonaTempoItem] = Field(default_factory=list, alias="Tempo")
+    beat: list[VoiSonaBeatItem] = Field(default_factory=list, alias="Beat")
+    score: list[VoiSonaScoreItem] = Field(default_factory=list, alias="Score")
 
 
 class VoiSonaPointData(BaseModel):
@@ -161,7 +160,10 @@ class VoiSonaPointData(BaseModel):
 
 class VoiSonaParameterItem(BaseModel):
     data: list[VoiSonaPointData] = Field(alias="Data")
-    length: int = Field(alias="Length")
+
+    @computed_field(alias="Length")
+    def length(self) -> int:
+        return len(self.data)
 
 
 class VoiSonaParametersItem(BaseModel):
@@ -192,14 +194,18 @@ class VoiSonaSignerConfig(BaseModel):
 
 
 class VoiSonaStateInformation(BaseModel):
-    song_editor: list[VoiSonaSongEditorItem] = Field(alias="SongEditor")
+    song_editor: list[VoiSonaSongEditorItem] = Field(
+        default_factory=list, alias="SongEditor"
+    )
     control_panel_status: list[VoiSonaControlPanelStatus] = Field(
-        alias="ControlPanelStatus"
+        default_factory=list, alias="ControlPanelStatus"
     )
     adjust_tool_bar_status: list[VoiSonaAdjustToolBarStatus] = Field(
-        alias="AdjustToolBarStatus"
+        default_factory=list, alias="AdjustToolBarStatus"
     )
-    main_panel_status: list[VoiSonaMainPanelStatus] = Field(alias="MainPanelStatus")
+    main_panel_status: list[VoiSonaMainPanelStatus] = Field(
+        default_factory=list, alias="MainPanelStatus"
+    )
     panel_controller_status: Optional[list[VoiSonaPanelControllerStatus]] = Field(
         None, alias="PanelControllerStatus"
     )
@@ -218,12 +224,14 @@ class VoiSonaStateInformation(BaseModel):
 
 
 class VoiSonaPluginData(BaseModel):
-    state_information: VoiSonaStateInformation = Field(alias="StateInformation")
+    state_information: VoiSonaStateInformation = Field(
+        default_factory=VoiSonaStateInformation, alias="StateInformation"
+    )
 
 
 class VoiSonaAudioEventItem(BaseModel):
-    path: str = Field(..., alias="Path")
-    offset: float = Field(..., alias="Offset")
+    path: str = Field(alias="Path")
+    offset: float = Field(alias="Offset")
 
 
 class VoiSonaTrackType(enum.IntEnum):
@@ -239,9 +247,9 @@ class VoiSonaTrackState(enum.IntEnum):
 
 class VoiSonaBaseTrackItem(BaseModel):
     name: str = Field(alias="Name")
-    state: VoiSonaTrackState = Field(alias="State")
-    volume: float = Field(alias="Volume")
-    pan: float = Field(alias="Pan")
+    state: VoiSonaTrackState = Field(VoiSonaTrackState.NONE, alias="State")
+    volume: float = Field(0, alias="Volume")
+    pan: float = Field(0, alias="Pan")
 
 
 class VoiSonaAudioTrackItem(VoiSonaBaseTrackItem):
@@ -255,7 +263,9 @@ class VoiSonaSingingTrackItem(VoiSonaBaseTrackItem):
     track_type: Literal[VoiSonaTrackType.SINGING] = Field(
         VoiSonaTrackType.SINGING, alias="Type"
     )
-    plugin_data: VoiSonaPluginData = Field(alias="PluginData")
+    plugin_data: VoiSonaPluginData = Field(
+        default_factory=VoiSonaPluginData, alias="PluginData"
+    )
 
 
 VoiSonaTrackItem = Annotated[
@@ -265,19 +275,21 @@ VoiSonaTrackItem = Annotated[
 
 
 class VoiSonaTrack(BaseModel):
-    track: list[VoiSonaTrackItem] = Field(alias="Track")
+    track: list[VoiSonaTrackItem] = Field(default_factory=list, alias="Track")
 
 
 class VoiSonaGuiStatus(BaseModel):
-    scale_x: float = Field(alias="ScaleX")
-    scale_y: float = Field(alias="ScaleY")
+    scale_x: float = Field(100, alias="ScaleX")
+    scale_y: float = Field(100, alias="ScaleY")
     grid_index: Optional[int] = Field(None, alias="GridIndex")
 
 
 class VoiSonaProject(BaseModel):
-    play_control: list[VoiSonaPlayControlItem] = Field(alias="PlayControl")
-    tracks: list[VoiSonaTrack] = Field(alias="Tracks")
-    gui_status: list[VoiSonaGuiStatus] = Field(alias="GUIStatus")
+    play_control: list[VoiSonaPlayControlItem] = Field(
+        default_factory=list, alias="PlayControl"
+    )
+    tracks: list[VoiSonaTrack] = Field(default_factory=list, alias="Tracks")
+    gui_status: list[VoiSonaGuiStatus] = Field(default_factory=list, alias="GUIStatus")
 
 
 def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict:
