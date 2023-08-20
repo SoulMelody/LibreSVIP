@@ -1,8 +1,20 @@
-from typing import Optional
+import enum
+from typing import Annotated, Optional
 
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
+
+
+class PpsfLanguage(enum.IntEnum):
+    JAPANESE: Annotated[int, Field(title="日本語")] = 0
+    ENGLISH: Annotated[int, Field(title="English")] = 1
+    SIMPLIFIED_CHINESE: Annotated[int, Field(title="简体中文")] = 4
+
+
+class PpsfCurveType(enum.IntEnum):
+    BORDER: Annotated[int, Field(title="Border")] = 0
+    NORMAL: Annotated[int, Field(title="Normal")] = 1
 
 
 class PpsfCurvePointSeq(BaseModel):
@@ -30,7 +42,7 @@ class PpsfSyllable(BaseModel):
 
 
 class PpsfNote(BaseModel):
-    language: int
+    language: PpsfLanguage = PpsfLanguage.JAPANESE
     region_index: int = Field(alias="region-index")
     syllables: list[PpsfSyllable] = Field(default_factory=list)
     event_index: Optional[int] = None
@@ -65,7 +77,7 @@ class PpsfSubTrack(BaseModel):
 
 
 class PpsfParamPoint(BaseModel):
-    curve_type: int
+    curve_type: PpsfCurveType = PpsfCurveType.NORMAL
     pos: int
     value: int
     region_index: Optional[int] = Field(None, alias="region-index")
@@ -302,7 +314,7 @@ class PpsfDvlTrackItem(BaseModel):
 
 
 class PpsfTempo(BaseModel):
-    curve_type: int
+    curve_type: PpsfCurveType = PpsfCurveType.NORMAL
     tick: int
     value: int
 
