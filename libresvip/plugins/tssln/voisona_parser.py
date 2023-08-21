@@ -14,11 +14,9 @@ from libresvip.model.base import (
     TimeSignature,
 )
 
+from .constants import OCTAVE_OFFSET, TICK_RATE
 from .model import VoiSonaAudioTrackItem, VoiSonaProject, VoiSonaSingingTrackItem
 from .options import InputOptions
-
-TICK_RATE = 2.0
-OCTAVE_OFFSET = -1
 
 
 @dataclasses.dataclass

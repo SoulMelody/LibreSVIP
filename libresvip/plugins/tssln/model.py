@@ -217,7 +217,7 @@ class VoiSonaStateInformation(BaseModel):
     )
     song: Optional[list[VoiSonaSongItem]] = Field(None, alias="Song")
     parameter: Optional[list[VoiSonaParametersItem]] = Field(None, alias="Parameter")
-    tempo_sync: Optional[bool] = Field(None, alias="TempoSync")
+    tempo_sync: Optional[bool] = Field(False, alias="TempoSync")
     signer_config: Optional[list[VoiSonaSignerConfig]] = Field(
         None, alias="SignerConfig"
     )
