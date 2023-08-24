@@ -40,8 +40,10 @@ class VoisonaGenerator:
         voisona_project = VoiSonaProject()
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
         self.first_bar_length = int(project.time_signature_list[0].bar_length())
-        self.generate_time_signatures(project.time_signature_list)
-        self.generate_tempos(project.song_tempo_list)
+        default_time_signatures = self.generate_time_signatures(
+            project.time_signature_list
+        )
+        default_tempos = self.generate_tempos(project.song_tempo_list)
         voisona_project.tracks.append(VoiSonaTrack())
         for i, track in enumerate(project.track_list):
             if track.mute:
@@ -69,9 +71,11 @@ class VoisonaGenerator:
                     name=f"Singer{i}",
                     state=track_state,
                 )
-                song_item = VoiSonaSongItem()
-                score_item = VoiSonaScoreItem(note=self.generate_notes(track.note_list))
-                song_item.score.append(score_item)
+                song_item = VoiSonaSongItem(
+                    beat=[default_time_signatures],
+                    tempo=[default_tempos],
+                    score=[VoiSonaScoreItem(note=self.generate_notes(track.note_list))],
+                )
                 singing_track.plugin_data.state_information.song = [song_item]
                 voisona_project.tracks[0].track.append(singing_track)
         return voisona_project

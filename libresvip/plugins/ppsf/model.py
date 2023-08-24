@@ -196,7 +196,7 @@ class PpsfAudioTrackItem(BaseModel):
     block_size: int = 512
     enabled: Optional[bool] = Field(None, validation_alias="enable")
     events: list[PpsfAudioTrackEvent] = Field(default_factory=list)
-    input_channel: int = 2
+    input_channel: int = 0
     mixer: PpsfMixer = Field(default_factory=PpsfMixer)
     name: str
     output_channel: int = 2
@@ -259,18 +259,18 @@ class PpsfVocaloidTrackItem(BaseModel):
 
 
 class PpsfSinger(BaseModel):
-    character_name: str
-    do_extrapolation: bool
-    frame_shift: float
-    gender: int
-    language_id: int
+    character_name: str = "miku"
+    do_extrapolation: bool = False
+    frame_shift: float = 0.003
+    gender: int = 0
+    language_id: PpsfLanguage = PpsfLanguage.JAPANESE
     library_id: str
-    name: str
-    singer_name: str
-    stationaly_type: str
+    name: str = ""
+    singer_name: str = "HATSUNE MIKU NT"
+    stationaly_type: str = "ParamedNDR"
     synthesis_version: str
-    tail_silent: float
-    vprm_morph_mode: str
+    tail_silent: float = 0.05
+    vprm_morph_mode: str = "Linear"
 
 
 class PpsfEnvelope(BaseModel):
@@ -281,7 +281,7 @@ class PpsfEnvelope(BaseModel):
 
 
 class PpsfDvlTrackEvent(BaseModel):
-    adjust_speed: bool
+    adjust_speed: Optional[bool] = None
     attack_speed_rate: int
     consonant_rate: int
     consonant_speed_rate: int
@@ -300,7 +300,7 @@ class PpsfDvlTrackEvent(BaseModel):
     protected: bool
     release_speed_rate: int
     symbols: str
-    vcl_like_note_off: bool
+    vcl_like_note_off: Optional[bool] = None
 
 
 class PpsfDvlTrackItem(BaseModel):

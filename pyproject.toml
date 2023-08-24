@@ -16,7 +16,7 @@ dependencies = [
   "platformdirs<4.0.0,>=3.10.0",
   "portion<3.0.0,>=2.4.1",
   "pure-protobuf<4.0,>=3.0a5",
-  "pydantic<3.0.0,>=2.2.1",
+  "pydantic<3.0.0,>=2.3.0",
   "pydantic-extra-types<3.0.0,>=2.0.0",
   "pymediainfo<7.0.0,>=6.0.1; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
@@ -28,7 +28,7 @@ dependencies = [
   "universal-pathlib<1.0.0,>=0.1.1",
   "wanakana-python<2.0.0,>=1.2.2",
   "xsdata<24.0,>=23.8",
-  "zstandard>=0.21.0"
+  "zstandard>=0.21.0",
 ]
 name = "libresvip"
 version = "0.8.1"
@@ -70,7 +70,7 @@ linting = [
   "ruff>=0.0.285",
   "black>=23.7.0",
   "mypy>=1.5.1",
-  "sourcery>=1.7.0",
+  "sourcery>=1.8.0",
   "bump-pydantic>=0.6.1",
 ]
 
