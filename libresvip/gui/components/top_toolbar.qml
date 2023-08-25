@@ -417,7 +417,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: py.qta.icon("mdi6.close")
+                text: hovered ? "<font color='white'>" + py.qta.icon("mdi6.close") + "</font>" : py.qta.icon("mdi6.close")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: actions.quit.trigger()

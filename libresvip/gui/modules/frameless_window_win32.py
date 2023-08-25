@@ -38,6 +38,7 @@ class Win32FramelessWindow(QQuickWindow):
             (screen_geometry.width() - 1200) // 2,
             (screen_geometry.height() - 800) // 2,
         )
+        self.prev_visibility = None
 
     @property
     def hwnd(self) -> int:
@@ -235,4 +236,15 @@ class Win32FramelessWindow(QQuickWindow):
             elif msg.message == win32con.WM_ACTIVATE:
                 if (hr := self.add_shadow_effect()) is not None:
                     return True, hr
+            elif msg.message == win32con.WM_SYSCOMMAND:
+                if msg.wParam == win32con.SC_RESTORE:
+                    if self.visibility() == QQuickWindow.Visibility.Minimized:
+                        if self.prev_visibility == QQuickWindow.Visibility.Maximized:
+                            self.showMaximized()
+                        else:
+                            self.showNormal()
+                        return True, 0
+            elif msg.message == win32con.WM_SIZE:
+                if msg.wParam == win32con.SIZE_MINIMIZED:
+                    self.prev_visibility = self.visibility()
         return super().nativeEvent(event_type, message)

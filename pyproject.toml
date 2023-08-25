@@ -62,7 +62,7 @@ code_gen = [
   "babel>=2.12.1",
   "xsdata[cli]>=23.8",
 ]
-packaging = ["cx-freeze>=6.15.5"]
+packaging = ["cx-freeze>=6.15.6"]
 test = ["pytest>=7.4.0", "pytest-datadir>=1.4.1"]
 linting = [
   "isort>=5.12.0",
