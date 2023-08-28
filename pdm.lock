@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "linting", "packaging", "test", "typ
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:1c9d66c9441fa5f2d4b173c909c3eb794a79501fd4b0ce085bfbcdcd2b50ae19"
+content_hash = "sha256:29549e20320a5e229a5f4d2bd3e1ff200466c1a122b851fc52479c3940a6b703"
 
 [[package]]
 name = "aiofiles"
@@ -411,19 +411,6 @@ files = [
 ]
 
 [[package]]
-name = "click-default-group"
-version = "1.2.4"
-requires_python = ">=2.7"
-summary = "click_default_group"
-dependencies = [
-    "click",
-]
-files = [
-    {file = "click_default_group-1.2.4-py2.py3-none-any.whl", hash = "sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f"},
-    {file = "click_default_group-1.2.4.tar.gz", hash = "sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e"},
-]
-
-[[package]]
 name = "clr-loader"
 version = "0.2.6"
 requires_python = ">=3.7"
@@ -597,17 +584,13 @@ files = [
 ]
 
 [[package]]
-name = "docformatter"
-version = "1.7.5"
-requires_python = ">=3.7,<4.0"
-summary = "Formats docstrings to follow PEP 257"
-dependencies = [
-    "charset-normalizer<4.0.0,>=3.0.0",
-    "untokenize<0.2.0,>=0.1.1",
-]
+name = "dnspython"
+version = "2.4.2"
+requires_python = ">=3.8,<4.0"
+summary = "DNS toolkit"
 files = [
-    {file = "docformatter-1.7.5-py3-none-any.whl", hash = "sha256:a24f5545ed1f30af00d106f5d85dc2fce4959295687c24c8f39f5263afaf9186"},
-    {file = "docformatter-1.7.5.tar.gz", hash = "sha256:ffed3da0daffa2e77f80ccba4f0e50bfa2755e1c10e130102571c890a61b246e"},
+    {file = "dnspython-2.4.2-py3-none-any.whl", hash = "sha256:57c6fbaaeaaf39c891292012060beb141791735dbb4004798328fc2c467402d8"},
+    {file = "dnspython-2.4.2.tar.gz", hash = "sha256:8dcfae8c7460a2f84b4072e26f1c9f4101ca20c071649cb7c34e8b6a93d58984"},
 ]
 
 [[package]]
@@ -616,6 +599,20 @@ version = "2.3.0"
 summary = "A Python 3 library for programmatically generating SVG (vector) images and animations.  Drawsvg can also render to PNG, MP4, and display your drawings in Jupyter notebook and Jupyter lab."
 files = [
     {file = "drawsvg-2.3.0-py3-none-any.whl", hash = "sha256:93ad2b465d0da0b98c4e2cde11b64ce0149e2f15f8cdc0bd8e68f8b30a2e0abf"},
+]
+
+[[package]]
+name = "email-validator"
+version = "2.0.0.post2"
+requires_python = ">=3.7"
+summary = "A robust email address syntax and deliverability validation library."
+dependencies = [
+    "dnspython>=2.0.0",
+    "idna>=2.0.0",
+]
+files = [
+    {file = "email_validator-2.0.0.post2-py3-none-any.whl", hash = "sha256:2466ba57cda361fb7309fd3d5a225723c788ca4bbad32a0ebd5373b99730285c"},
+    {file = "email_validator-2.0.0.post2.tar.gz", hash = "sha256:1ff6e86044200c56ae23595695c54e9614f4a9551e0e393614f764860b3d7900"},
 ]
 
 [[package]]
@@ -1305,7 +1302,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.3.11"
+version = "1.3.12"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
@@ -1326,23 +1323,23 @@ dependencies = [
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.3.11-py3-none-any.whl", hash = "sha256:873604bfbfdb7d648ae56fc9b2840859a49871977be7eed04ea92c80207bb7da"},
-    {file = "nicegui-1.3.11.tar.gz", hash = "sha256:d995ce1c75cbff157da1d77d3e321505901ca1038210e98abf84afa4abc19068"},
+    {file = "nicegui-1.3.12-py3-none-any.whl", hash = "sha256:7bd6fdfc5b0856ee8e3fd9f75edb822ff74ccf94033bd5962e453dacd0dd6636"},
+    {file = "nicegui-1.3.12.tar.gz", hash = "sha256:2454c0f0a98b5dbb798e0d6452545e38ecf1577a2c8d72c6f7be2667eca9b18a"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.3.11"
+version = "1.3.12"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.3.11",
+    "nicegui==1.3.12",
     "pywebview<5.0.0,>=4.0.2",
 ]
 files = [
-    {file = "nicegui-1.3.11-py3-none-any.whl", hash = "sha256:873604bfbfdb7d648ae56fc9b2840859a49871977be7eed04ea92c80207bb7da"},
-    {file = "nicegui-1.3.11.tar.gz", hash = "sha256:d995ce1c75cbff157da1d77d3e321505901ca1038210e98abf84afa4abc19068"},
+    {file = "nicegui-1.3.12-py3-none-any.whl", hash = "sha256:7bd6fdfc5b0856ee8e3fd9f75edb822ff74ccf94033bd5962e453dacd0dd6636"},
+    {file = "nicegui-1.3.12.tar.gz", hash = "sha256:2454c0f0a98b5dbb798e0d6452545e38ecf1577a2c8d72c6f7be2667eca9b18a"},
 ]
 
 [[package]]
@@ -1690,26 +1687,26 @@ files = [
 
 [[package]]
 name = "pydantic-extra-types"
-version = "2.0.0"
+version = "2.1.0"
 requires_python = ">=3.7"
 summary = "Extra Pydantic types."
 dependencies = [
-    "pydantic>=2.0b3",
+    "pydantic>=2.0.3",
 ]
 files = [
-    {file = "pydantic_extra_types-2.0.0-py3-none-any.whl", hash = "sha256:63e5109f00815e71fff2b82090ff0523baef6b8a51889356fd984ef50c184e64"},
-    {file = "pydantic_extra_types-2.0.0.tar.gz", hash = "sha256:137ddacb168d95ea77591dbb3739ec4da5eeac0fc4df7f797371d9904451a178"},
+    {file = "pydantic_extra_types-2.1.0-py3-none-any.whl", hash = "sha256:1b8aa83a2986b0bc6a7179834fdb423c5e0bcef6b2b4cd9261bf753ad7dcc483"},
+    {file = "pydantic_extra_types-2.1.0.tar.gz", hash = "sha256:d07b869e733d33712b07d6b8cd7b0223077c23ae5a1e23bd0699a00401259ec7"},
 ]
 
 [[package]]
 name = "pydantic"
 version = "2.3.0"
+extras = ["email"]
 requires_python = ">=3.7"
 summary = "Data validation using Python type hints"
 dependencies = [
-    "annotated-types>=0.4.0",
-    "pydantic-core==2.6.3",
-    "typing-extensions>=4.6.1",
+    "email-validator>=2.0.0",
+    "pydantic==2.3.0",
 ]
 files = [
     {file = "pydantic-2.3.0-py3-none-any.whl", hash = "sha256:45b5e446c6dfaad9444819a293b921a40e1db1aa61ea08aede0522529ce90e81"},
@@ -2262,27 +2259,27 @@ files = [
 
 [[package]]
 name = "ruff"
-version = "0.0.285"
+version = "0.0.286"
 requires_python = ">=3.7"
 summary = "An extremely fast Python linter, written in Rust."
 files = [
-    {file = "ruff-0.0.285-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:72a3a0936369b986b0e959f9090206ed3c18f9e5e439ea5b8e6867c6707aded5"},
-    {file = "ruff-0.0.285-py3-none-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:0d9ab6ad16742eb78919e0fba09f914f042409df40ad63423c34bb20d350162a"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:6c48926156288b8ac005eb1db5e77c15e8a37309ae49d9fb6771d5cf5f777590"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:1d2a60c102e7a5e147b58fc2cbea12a563c565383effc527c987ea2086a05742"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:b02aae62f922d088bb01943e1dbd861688ada13d735b78b8348a7d90121fd292"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:f572c4296d8c7ddd22c3204de4031965be524fdd1fdaaef273945932912b28c5"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:80effdf4fe69763d69eb4ab9443e186fd09e668b59fe70ba4b49f4c077d15a1b"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:5977ce304da35c263f5e082901bd7ac0bd2be845a8fcfd1a29e4d6680cddb307"},
-    {file = "ruff-0.0.285-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:72a087712d474fa17b915d7cb9ef807e1256182b12ddfafb105eb00aeee48d1a"},
-    {file = "ruff-0.0.285-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:7ce67736cd8dfe97162d1e7adfc2d9a1bac0efb9aaaff32e4042c7cde079f54b"},
-    {file = "ruff-0.0.285-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:5473a4c6cac34f583bff08c5f63b8def5599a0ea4dc96c0302fbd2cc0b3ecbad"},
-    {file = "ruff-0.0.285-py3-none-musllinux_1_2_i686.whl", hash = "sha256:e6b1c961d608d373a032f047a20bf3c55ad05f56c32e7b96dcca0830a2a72348"},
-    {file = "ruff-0.0.285-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:2933cc9631f453305399c7b8fb72b113ad76b49ae1d7103cc4afd3a423bed164"},
-    {file = "ruff-0.0.285-py3-none-win32.whl", hash = "sha256:770c5eb6376de024111443022cda534fb28980a9dd3b4abc83992a8770167ba6"},
-    {file = "ruff-0.0.285-py3-none-win_amd64.whl", hash = "sha256:a8c6ad6b9cd77489bf6d1510950cbbe47a843aa234adff0960bae64bd06c3b6d"},
-    {file = "ruff-0.0.285-py3-none-win_arm64.whl", hash = "sha256:de44fbc6c3b25fccee473ddf851416fd4e246fc6027b2197c395b1b3b3897921"},
-    {file = "ruff-0.0.285.tar.gz", hash = "sha256:45866048d1dcdcc80855998cb26c4b2b05881f9e043d2e3bfe1aa36d9a2e8f28"},
+    {file = "ruff-0.0.286-py3-none-macosx_10_7_x86_64.whl", hash = "sha256:8e22cb557e7395893490e7f9cfea1073d19a5b1dd337f44fd81359b2767da4e9"},
+    {file = "ruff-0.0.286-py3-none-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:68ed8c99c883ae79a9133cb1a86d7130feee0397fdf5ba385abf2d53e178d3fa"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:8301f0bb4ec1a5b29cfaf15b83565136c47abefb771603241af9d6038f8981e8"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:acc4598f810bbc465ce0ed84417ac687e392c993a84c7eaf3abf97638701c1ec"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:88c8e358b445eb66d47164fa38541cfcc267847d1e7a92dd186dddb1a0a9a17f"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:0433683d0c5dbcf6162a4beb2356e820a593243f1fa714072fec15e2e4f4c939"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ddb61a0c4454cbe4623f4a07fef03c5ae921fe04fede8d15c6e36703c0a73b07"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:47549c7c0be24c8ae9f2bce6f1c49fbafea83bca80142d118306f08ec7414041"},
+    {file = "ruff-0.0.286-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:559aa793149ac23dc4310f94f2c83209eedb16908a0343663be19bec42233d25"},
+    {file = "ruff-0.0.286-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:d73cfb1c3352e7aa0ce6fb2321f36fa1d4a2c48d2ceac694cb03611ddf0e4db6"},
+    {file = "ruff-0.0.286-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:3dad93b1f973c6d1db4b6a5da8690c5625a3fa32bdf38e543a6936e634b83dc3"},
+    {file = "ruff-0.0.286-py3-none-musllinux_1_2_i686.whl", hash = "sha256:26afc0851f4fc3738afcf30f5f8b8612a31ac3455cb76e611deea80f5c0bf3ce"},
+    {file = "ruff-0.0.286-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:9b6b116d1c4000de1b9bf027131dbc3b8a70507788f794c6b09509d28952c512"},
+    {file = "ruff-0.0.286-py3-none-win32.whl", hash = "sha256:556e965ac07c1e8c1c2d759ac512e526ecff62c00fde1a046acb088d3cbc1a6c"},
+    {file = "ruff-0.0.286-py3-none-win_amd64.whl", hash = "sha256:5d295c758961376c84aaa92d16e643d110be32add7465e197bfdaec5a431a107"},
+    {file = "ruff-0.0.286-py3-none-win_arm64.whl", hash = "sha256:1d6142d53ab7f164204b3133d053c4958d4d11ec3a39abf23a40b13b0784e3f0"},
+    {file = "ruff-0.0.286.tar.gz", hash = "sha256:f1e9d169cce81a384a26ee5bb8c919fe9ae88255f39a1a69fd1ebab233a85ed2"},
 ]
 
 [[package]]
@@ -2411,15 +2408,6 @@ summary = "A lil' TOML parser"
 files = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
-]
-
-[[package]]
-name = "toposort"
-version = "1.10"
-summary = "Implements a topological sort algorithm."
-files = [
-    {file = "toposort-1.10-py3-none-any.whl", hash = "sha256:cbdbc0d0bee4d2695ab2ceec97fe0679e9c10eab4b2a87a9372b929e70563a87"},
-    {file = "toposort-1.10.tar.gz", hash = "sha256:bfbb479c53d0a696ea7402601f4e693c97b0367837c8898bc6471adfca37a6bd"},
 ]
 
 [[package]]
@@ -2567,14 +2555,6 @@ dependencies = [
 files = [
     {file = "universal_pathlib-0.1.1-py3-none-any.whl", hash = "sha256:53e1edba0045653a2a20ec3bb2ba84e2d0f7a9cf61cd6a668378370c10584305"},
     {file = "universal_pathlib-0.1.1.tar.gz", hash = "sha256:5214c86f210feab9be5bcc002f042d65eaeec3c0933fd665a4336cb70e86c59d"},
-]
-
-[[package]]
-name = "untokenize"
-version = "0.1.1"
-summary = "Transforms tokens into original source code (while preserving whitespace)."
-files = [
-    {file = "untokenize-0.1.1.tar.gz", hash = "sha256:3865dbbbb8efb4bb5eaa72f1be7f3e0be00ea8b7f125c69cbd1f5fda926f37a2"},
 ]
 
 [[package]]
@@ -2820,16 +2800,10 @@ files = [
 [[package]]
 name = "xsdata"
 version = "23.8"
-extras = ["cli"]
 requires_python = ">=3.8"
 summary = "Python XML Binding"
 dependencies = [
-    "click-default-group>=1.2",
-    "click>=5.0",
-    "docformatter>=1.7.2",
-    "jinja2>=2.10",
-    "toposort>=1.5",
-    "xsdata==23.8",
+    "typing-extensions",
 ]
 files = [
     {file = "xsdata-23.8-py3-none-any.whl", hash = "sha256:3cf34ffb1ae35ac873e7eb53504e326d7997939f976a51814a57f77c8df8f09e"},

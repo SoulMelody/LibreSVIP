@@ -91,7 +91,7 @@ class VocaloidRegion(VocaloidEnabled):
 
 class VocaloidParameters(BaseModel):
     name: Optional[str] = None
-    value: Optional[Union[int, str]] = None
+    value: Optional[Union[int, float, str]] = None
 
 
 class VocaloidVersion(BaseModel):
@@ -144,6 +144,12 @@ class VocaloidFolded(BaseModel):
 
 
 class VocaloidMidiEffects(VocaloidFolded):
+    id_value: Optional[str] = Field(None, alias="id")
+    is_bypassed: Optional[bool] = Field(None, alias="isBypassed")
+    parameters: list[VocaloidParameters] = Field(default_factory=list)
+
+
+class VocaloidAudioEffects(VocaloidFolded):
     id_value: Optional[str] = Field(None, alias="id")
     is_bypassed: Optional[bool] = Field(None, alias="isBypassed")
     parameters: list[VocaloidParameters] = Field(default_factory=list)
@@ -221,6 +227,9 @@ class VocaloidVoicePart(VocaloidWithDur):
     name: Optional[str] = ""
     midi_effects: list[VocaloidMidiEffects] = Field(
         default_factory=list, alias="midiEffects"
+    )
+    audio_effects: list[VocaloidAudioEffects] = Field(
+        default_factory=list, alias="audioEffects"
     )
     notes: Optional[list[VocaloidNotes]] = Field(default_factory=list)
     style_preset_id: Optional[str] = Field(None, alias="stylePresetID")
