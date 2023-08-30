@@ -116,7 +116,7 @@ PpsfEditorDataTags = Mapping(
     Bytes(4),
     {
         "EditorTrackData": b"ETRS",
-        "EditorClipData": b"ETRS",
+        "EditorClipData": b"ECLS",
         "EditorNoteData": b"ENOT",
         "EditorEventData": b"EEVT",
     },
