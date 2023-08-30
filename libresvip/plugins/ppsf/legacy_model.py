@@ -112,6 +112,16 @@ PpsfTracks = Struct(
     "data" / PrefixedArray(Byte, PpsfTrack),
 )
 
+PpsfEditorDataTags = Mapping(
+    Bytes(4),
+    {
+        "EditorTrackData": b"ETRS",
+        "EditorClipData": b"ETRS",
+        "EditorNoteData": b"ENOT",
+        "EditorEventData": b"EEVT",
+    },
+)
+
 PpsfChunkTags = Mapping(
     Bytes(4),
     {
@@ -124,7 +134,7 @@ PpsfChunkTags = Mapping(
         "Clips": b"CLPS",
         "Events": b"EVTS",
         "Plugins": b"PLGS",
-        "Edits": b"EDTS",
+        "EditorDatas": b"EDTS",
     },
 )
 

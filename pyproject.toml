@@ -41,11 +41,12 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 [project.optional-dependencies]
 
 ujson = ["ujson>=5.8.0"]
-webui = ["nicegui[native]>=1.3.12"]
+webui = ["nicegui[native]>=1.3.13"]
 desktop = [
   "pyside6>6.5.0",
   "qmlease>=3.0.3",
   "lk-utils<3.0.0,>=2.5.5,!=2.6.0",
+  "qtpy<3.0.0,>=2.4.0",
   "qtawesome>=1.2.3",
   "qtinter>=0.11.0",
   "httpx>=0.24.1",
