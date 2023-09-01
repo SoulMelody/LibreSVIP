@@ -18,6 +18,17 @@ class PpsfCurveType(enum.IntEnum):
     NORMAL: Annotated[int, Field(title="Normal")] = 1
 
 
+class PpsfMuteflag(enum.IntEnum):
+    NONE: Annotated[int, Field(title="None")] = 0
+    MUTE: Annotated[int, Field(title="Mute")] = 1
+    SOLO: Annotated[int, Field(title="Solo")] = 2
+
+
+class PpsfTrackType(enum.IntEnum):
+    NT: Annotated[int, Field(title="NT")] = 0
+    AUDIO: Annotated[int, Field(title="Audio")] = 1
+
+
 class PpsfCurvePointSeq(BaseModel):
     border_type: Optional[int] = Field(None, alias="border-type")
     note_index: Optional[int] = Field(None, alias="note-index")
@@ -64,10 +75,10 @@ class PpsfRegion(BaseModel):
     auto_expand_right: Optional[bool] = Field(None, alias="auto-expand-right")
     length: int
     muted: bool = False
-    name: str
+    name: str = ""
     position: int
-    z_order: int = Field(alias="z-order")
-    audio_event_index: Optional[int] = Field(None, alias="audio-event-index")
+    z_order: int = Field(0, alias="z-order")
+    audio_event_index: Optional[int] = Field(0, alias="audio-event-index")
 
 
 class PpsfSubTrack(BaseModel):
@@ -88,12 +99,12 @@ class PpsfBaseSequence(BaseModel):
     constant: int
     name: str
     sequence: list[PpsfParamPoint] = Field(default_factory=list)
-    use_sequence: bool
+    use_sequence: bool = False
 
 
 class PpsfSeqParam(BaseModel):
     base_sequence: Optional[PpsfBaseSequence] = Field(None, alias="base-sequence")
-    layers: Optional[list] = None
+    layers: Optional[list] = Field(default_factory=list)
 
 
 class PpsfParameter(PpsfBaseSequence):
@@ -116,18 +127,20 @@ class PpsfEventTrack(BaseModel):
     curve_points: list[PpsfCurvePoint] = Field(
         default_factory=list, alias="curve-points"
     )
-    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(None, alias="fsm-effects")
-    height: int
+    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(
+        default_factory=list, alias="fsm-effects"
+    )
+    height: int = 64
     index: int
-    mute_solo: Optional[int] = Field(None, alias="mute-solo")
-    notes: Optional[list[PpsfNote]] = Field(default_factory=list)
+    mute_solo: Optional[PpsfMuteflag] = Field(PpsfMuteflag.NONE, alias="mute-solo")
+    notes: Optional[list[PpsfNote]] = None
     nt_envelope_preset_id: Optional[int] = Field(None, alias="nt-envelope-preset-id")
     regions: list[PpsfRegion] = Field(default_factory=list)
     sub_tracks: list[PpsfSubTrack] = Field(default_factory=list, alias="sub-tracks")
-    total_height: int = Field(alias="total-height")
-    track_type: int = Field(alias="track-type")
-    vertical_scale: float = Field(alias="vertical-scale")
-    vertical_scroll: int = Field(alias="vertical-scroll")
+    total_height: int = Field(64, alias="total-height")
+    track_type: PpsfTrackType = Field(alias="track-type")
+    vertical_scale: float = Field(1, alias="vertical-scale")
+    vertical_scroll: int = Field(0, alias="vertical-scroll")
 
 
 class PpsfTempoTrack(BaseModel):
@@ -140,17 +153,17 @@ class PpsfTrackEditor(BaseModel):
     event_tracks: list[PpsfEventTrack] = Field(
         default_factory=list, alias="event-tracks"
     )
-    header_width: int = Field(240, alias="header-width")
+    header_width: int = Field(264, alias="header-width")
     height: int = 720
-    horizontal_scale: float = Field(1, alias="horizontal-scale")
+    horizontal_scale: float = Field(0.08, alias="horizontal-scale")
     horizontal_scroll: int = Field(0, alias="horizontal-scroll")
     tempo_track: PpsfTempoTrack = Field(
         default_factory=PpsfTempoTrack, alias="tempo-track"
     )
     user_markers: Optional[list] = Field(default_factory=list, alias="user-markers")
     width: int = 1024
-    x: int = 0
-    y: int = 0
+    x: int = 100
+    y: int = 100
 
 
 class PpsfLoopPoint(BaseModel):
@@ -165,12 +178,12 @@ class PpsfMetronome(BaseModel):
 
 
 class PpsfGuiSettings(BaseModel):
-    loop_point: Optional[PpsfLoopPoint] = None
-    metronome: Optional[PpsfMetronome] = None
+    loop_point: Optional[PpsfLoopPoint] = Field(default_factory=PpsfLoopPoint)
+    metronome: Optional[PpsfMetronome] = Field(default_factory=PpsfMetronome)
     ambient_enabled: Optional[bool] = Field(None, alias="ambient-enabled")
     file_fullpath: str = Field("", alias="file-fullpath")
     playback_position: int = Field(0, alias="playback-position")
-    project_length: int = Field(0, alias="project-length")
+    project_length: int = Field(1920, alias="project-length")
     track_editor: PpsfTrackEditor = Field(
         default_factory=PpsfTrackEditor, alias="track-editor"
     )
@@ -186,36 +199,57 @@ class PpsfAudioTrackEvent(BaseModel):
     playback_offset_sample: int = 0
     tick_length: int = 0
     tick_pos: int
-    enabled: Optional[bool] = Field(None, validation_alias="enable")
+    enabled: Optional[bool] = Field(True, validation_alias="enable")
+
+
+def default_gain() -> PpsfSeqParam:
+    return PpsfSeqParam(
+        base_sequence=PpsfBaseSequence(
+            constant=750000,
+            name="Gain",
+        )
+    )
+
+
+def default_panpot() -> PpsfSeqParam:
+    return PpsfSeqParam(
+        base_sequence=PpsfBaseSequence(
+            constant=0,
+            name="Panpot",
+        )
+    )
 
 
 class PpsfMixer(BaseModel):
-    gain: PpsfSeqParam = Field(default_factory=PpsfSeqParam)
-    mixer_type: str = ""
-    panpot: PpsfSeqParam = Field(default_factory=PpsfSeqParam)
+    gain: PpsfSeqParam = Field(default_factory=default_gain)
+    mixer_type: str = "stereo"
+    panpot: PpsfSeqParam = Field(default_factory=default_panpot)
 
 
 class PpsfAudioTrackItem(BaseModel):
-    block_size: int = 512
-    enabled: Optional[bool] = Field(None, validation_alias="enable")
+    block_size: int = 279
+    enabled: Optional[bool] = Field(True, validation_alias="enable")
     events: list[PpsfAudioTrackEvent] = Field(default_factory=list)
     input_channel: int = 0
     mixer: PpsfMixer = Field(default_factory=PpsfMixer)
     name: str
     output_channel: int = 2
-    sampling_rate: int = 44100
+    sampling_rate: int = 48000
 
 
-class PpsfMeter(BaseModel):
-    measure: Optional[int] = None
+class PpsfBaseMeter(BaseModel):
     denomi: int = 4
     nume: int = 4
 
 
+class PpsfMeter(PpsfBaseMeter):
+    measure: int
+
+
 class PpsfMeters(BaseModel):
-    const: PpsfMeter = Field(default_factory=PpsfMeter)
-    sequence: list[PpsfMeter] = Field(default_factory=list)
-    use_sequence: bool = True
+    const: PpsfBaseMeter = Field(default_factory=PpsfBaseMeter)
+    sequence: Optional[list[PpsfMeter]] = None
+    use_sequence: bool = False
 
 
 class PpsfSingerParam(BaseModel):
@@ -324,18 +358,18 @@ class PpsfTempo(BaseModel):
 
 class PpsfTempos(BaseModel):
     const: int = 1200000
-    sequence: list[PpsfTempo] = Field(default_factory=list)
-    use_sequence: bool = True
+    sequence: Optional[list[PpsfTempo]] = None
+    use_sequence: bool = False
 
 
 class PpsfInnerProject(BaseModel):
     audio_track: list[PpsfAudioTrackItem] = Field(default_factory=list)
-    block_size: int = 512
+    block_size: int = 279
     loop_point: Optional[PpsfLoopPoint] = None
     meter: PpsfMeters = Field(default_factory=PpsfMeters)
     metronome: Optional[PpsfMetronome] = None
     name: str = ""
-    sampling_rate: int = 44100
+    sampling_rate: int = 48000
     singer_table: list[PpsfSingerTableItem] = Field(default_factory=list)
     tempo: PpsfTempos = Field(default_factory=PpsfTempos)
     vocaloid_track: list[PpsfVocaloidTrackItem] = Field(default_factory=list)
@@ -345,7 +379,7 @@ class PpsfInnerProject(BaseModel):
 class PpsfRoot(BaseModel):
     app_ver: str = "3.0.0.0"
     gui_settings: PpsfGuiSettings = Field(default_factory=PpsfGuiSettings)
-    ppsf_ver: str = "3.0"
+    ppsf_ver: str = "3.2"
     project: PpsfInnerProject = Field(default_factory=PpsfInnerProject)
 
 
