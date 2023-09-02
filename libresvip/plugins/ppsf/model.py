@@ -25,8 +25,8 @@ class PpsfMuteflag(enum.IntEnum):
 
 
 class PpsfTrackType(enum.IntEnum):
-    NT: Annotated[int, Field(title="NT")] = 0
     AUDIO: Annotated[int, Field(title="Audio")] = 1
+    NT: Annotated[int, Field(title="NT")] = 4
 
 
 class PpsfCurvePointSeq(BaseModel):
@@ -43,12 +43,12 @@ class PpsfCurvePoint(BaseModel):
 
 
 class PpsfSyllable(BaseModel):
-    footer_text: str = Field(alias="footer-text")
-    header_text: str = Field(alias="header-text")
-    is_list_end: bool = Field(alias="is-list-end")
-    is_list_top: bool = Field(alias="is-list-top")
-    is_word_end: bool = Field(alias="is-word-end")
-    is_word_top: bool = Field(alias="is-word-top")
+    footer_text: str = Field("", alias="footer-text")
+    header_text: str = Field("", alias="header-text")
+    is_list_end: bool = Field(True, alias="is-list-end")
+    is_list_top: bool = Field(True, alias="is-list-top")
+    is_word_end: bool = Field(True, alias="is-word-end")
+    is_word_top: bool = Field(True, alias="is-word-top")
     lyric_text: str = Field(alias="lyric-text")
     symbols_text: str = Field(alias="symbols-text")
 
@@ -60,14 +60,14 @@ class PpsfNote(BaseModel):
     event_index: Optional[int] = None
     length: Optional[int] = None
     muted: Optional[bool] = False
-    vibrato_preset_id: Optional[int] = None
-    voice_color_id: Optional[int] = None
-    voice_release_id: Optional[int] = None
-    note_env_preset_id: Optional[int] = None
-    note_gain_value: Optional[int] = None
-    note_param_edited_stats: Optional[int] = None
-    portamento_length: Optional[int] = None
-    portamento_offset: Optional[int] = None
+    vibrato_preset_id: Optional[int] = 0
+    voice_color_id: Optional[int] = 0
+    voice_release_id: Optional[int] = 0
+    note_env_preset_id: Optional[int] = 2
+    note_gain_value: Optional[int] = 0
+    note_param_edited_stats: Optional[int] = 0
+    portamento_length: Optional[int] = 180
+    portamento_offset: Optional[int] = -120
 
 
 class PpsfRegion(BaseModel):
@@ -78,7 +78,7 @@ class PpsfRegion(BaseModel):
     name: str = ""
     position: int
     z_order: int = Field(0, alias="z-order")
-    audio_event_index: Optional[int] = Field(0, alias="audio-event-index")
+    audio_event_index: Optional[int] = Field(None, alias="audio-event-index")
 
 
 class PpsfSubTrack(BaseModel):
@@ -183,7 +183,7 @@ class PpsfGuiSettings(BaseModel):
     ambient_enabled: Optional[bool] = Field(None, alias="ambient-enabled")
     file_fullpath: str = Field("", alias="file-fullpath")
     playback_position: int = Field(0, alias="playback-position")
-    project_length: int = Field(1920, alias="project-length")
+    project_length: int = Field(0, alias="project-length")
     track_editor: PpsfTrackEditor = Field(
         default_factory=PpsfTrackEditor, alias="track-editor"
     )
@@ -311,14 +311,18 @@ class PpsfSinger(BaseModel):
 
 
 class PpsfEnvelope(BaseModel):
-    length: int
-    offset: int
+    length: int = 0
+    offset: int = 0
     points: list[PpsfParamPoint] = Field(default_factory=list)
-    use_length: bool
+    use_length: bool = True
+
+
+def default_portamento_envelope() -> PpsfEnvelope:
+    return PpsfEnvelope(length=161, offset=-107)
 
 
 class PpsfDvlTrackEvent(BaseModel):
-    adjust_speed: Optional[bool] = None
+    adjust_speed: Optional[bool] = False
     attack_speed_rate: int = 800000
     consonant_rate: int = 950000
     consonant_speed_rate: int = 1000000
@@ -326,9 +330,11 @@ class PpsfDvlTrackEvent(BaseModel):
     length: int
     lyric: str
     note_number: int
-    note_off_pit_envelope: Optional[PpsfEnvelope] = None
-    note_on_pit_envelope: Optional[PpsfEnvelope] = None
-    portamento_envelope: Optional[PpsfEnvelope] = None
+    note_off_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
+    note_on_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
+    portamento_envelope: Optional[PpsfEnvelope] = Field(
+        default_factory=default_portamento_envelope
+    )
     vib_depth: Optional[PpsfEnvelope] = None
     vib_rate: Optional[PpsfEnvelope] = None
     vib_setting_id: Optional[int] = None
@@ -337,11 +343,11 @@ class PpsfDvlTrackEvent(BaseModel):
     protected: bool = False
     release_speed_rate: int = 1400000
     symbols: str = ""
-    vcl_like_note_off: Optional[bool] = None
+    vcl_like_note_off: Optional[bool] = False
 
 
 class PpsfDvlTrackItem(BaseModel):
-    enabled: Optional[bool] = Field(None, validation_alias="enable")
+    enabled: Optional[bool] = Field(True, validation_alias="enable")
     events: list[PpsfDvlTrackEvent] = Field(default_factory=list)
     mixer: PpsfMixer = Field(default_factory=PpsfMixer)
     name: str = "HATSUNE MIKU NT Original"

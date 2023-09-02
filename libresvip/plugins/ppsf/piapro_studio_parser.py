@@ -102,6 +102,7 @@ class PiaproStudioParser:
                 start_pos=event.pos,
                 length=event.length,
                 lyric=event.lyric,
+                pronunciation=event.symbols,
             )
             for event in ppsf_dvl_track_events
             if event.enabled

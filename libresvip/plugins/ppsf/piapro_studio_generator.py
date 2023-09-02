@@ -23,8 +23,10 @@ from .model import (
     PpsfMeter,
     PpsfMeters,
     PpsfMuteflag,
+    PpsfNote,
     PpsfProject,
     PpsfRegion,
+    PpsfSyllable,
     PpsfTempo,
     PpsfTempos,
     PpsfTrackType,
@@ -35,9 +37,11 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class PiaproStudioGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> PpsfProject:
+        self.first_bar_length = int(project.time_signature_list[0].bar_length())
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
         ppsf_project = PpsfProject()
         ppsf_project.ppsf.project.meter = self.generate_time_signatures(
@@ -50,11 +54,12 @@ class PiaproStudioGenerator:
         ppsf_project.ppsf.project.audio_track = self.generate_instrumental_tracks(
             project.track_list, ppsf_project.ppsf.gui_settings.track_editor.event_tracks
         )
+        ppsf_project.ppsf.gui_settings.project_length = self.first_bar_length
         for event_track in ppsf_project.ppsf.gui_settings.track_editor.event_tracks:
             for region in event_track.regions:
                 ppsf_project.ppsf.gui_settings.project_length = max(
                     ppsf_project.ppsf.gui_settings.project_length,
-                    region.position + region.length + 1920,
+                    region.position + region.length + self.first_bar_length,
                 )
         return ppsf_project
 
@@ -99,10 +104,33 @@ class PiaproStudioGenerator:
         dvl_tracks = []
         for track in tracks:
             if isinstance(track, SingingTrack):
-                PpsfDvlTrackItem(
-                    name=track.title, events=self.generate_notes(track.note_list)
-                )  # TODO: add to dvl_tracks
-                # dvl_tracks.append(dvl_track)
+                mute_flag = PpsfMuteflag.NONE
+                if track.mute:
+                    mute_flag = PpsfMuteflag.MUTE
+                elif track.solo:
+                    mute_flag = PpsfMuteflag.SOLO
+                event_track = PpsfEventTrack(
+                    index=len(event_tracks),
+                    track_type=PpsfTrackType.NT,
+                    mute_solo=mute_flag,
+                    notes=[],
+                    nt_envelope_preset_id=2,
+                )
+                track_events, event_track.notes = self.generate_notes(track.note_list)
+                event_track.regions.append(
+                    PpsfRegion(
+                        auto_expand_left=True,
+                        auto_expand_right=True,
+                        position=0,
+                        length=(track_events[-1].pos + track_events[-1].length)
+                        if len(track_events)
+                        else 0,
+                    )
+                )
+                dvl_tracks.append(
+                    PpsfDvlTrackItem(name=track.title, events=track_events)
+                )
+                event_tracks.append(event_track)
         return dvl_tracks
 
     def generate_instrumental_tracks(
@@ -150,19 +178,39 @@ class PiaproStudioGenerator:
                                 PpsfRegion(
                                     length=tick_length,
                                     position=track.offset,
+                                    audio_event_index=0,
                                 )
                             ],
                         )
                     )
         return audio_tracks
 
-    def generate_notes(self, notes: list[Note]) -> list[PpsfDvlTrackEvent]:
-        return [
-            PpsfDvlTrackEvent(
-                note_number=note.key_number,
-                pos=note.start_pos,
-                length=note.length,
-                lyric=note.lyric,
+    def generate_notes(
+        self, notes: list[Note]
+    ) -> tuple[list[PpsfDvlTrackEvent], list[PpsfNote]]:
+        track_events = []
+        ppsf_notes = []
+        for i, note in enumerate(notes):
+            track_events.append(
+                PpsfDvlTrackEvent(
+                    note_number=note.key_number,
+                    pos=note.start_pos,
+                    length=note.length,
+                    lyric=note.lyric,
+                    symbols=note.pronunciation or "",
+                )
             )
-            for note in notes
-        ]
+            ppsf_notes.append(
+                PpsfNote(
+                    region_index=0,
+                    event_index=i,
+                    length=note.length,
+                    syllables=[
+                        PpsfSyllable(
+                            lyric_text=note.lyric,
+                            symbols_text=note.pronunciation or "",
+                        )
+                    ],
+                )
+            )
+        return track_events, ppsf_notes

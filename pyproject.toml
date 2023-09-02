@@ -68,7 +68,7 @@ test = ["pytest>=7.4.0", "pytest-datadir>=1.4.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.3.3",
-  "ruff>=0.0.286",
+  "ruff>=0.0.287",
   "black>=23.7.0",
   "mypy>=1.5.1",
   "sourcery>=1.8.0",
