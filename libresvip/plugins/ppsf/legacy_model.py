@@ -1,21 +1,43 @@
+import math
+
 from construct import (
     Byte,
     Bytes,
     BytesInteger,
     Const,
+    ExprAdapter,
+    FixedSized,
     GreedyRange,
+    Int16ub,
     Int16ul,
     Mapping,
     PaddedString,
     PascalString,
     Prefixed,
     PrefixedArray,
+    Select,
     Struct,
+    Subconstruct,
     Switch,
+    obj_,
     this,
 )
 
 Int32ul = BytesInteger(4, swapped=True)
+
+
+def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
+    return Select(
+        PrefixedArray(Byte, subcon),
+        PrefixedArray(
+            ExprAdapter(
+                Int16ub,
+                encoder=obj_ ^ 56960,
+                decoder=obj_ ^ 56960,
+            ),
+            subcon,
+        ),
+    )
 
 
 PpsfTrackTags = Mapping(
@@ -109,7 +131,36 @@ PpsfTracksTags = Mapping(
 PpsfTracks = Struct(
     "magic" / PpsfTracksTags,
     "size" / Int32ul,
-    "data" / PrefixedArray(Byte, PpsfTrack),
+    "data" / ppsf_prefixed_array(PpsfTrack),
+)
+
+PpsfEventTags = Mapping(
+    Bytes(1),
+    {
+        "MidiEvent": b"\x00",
+        "MidiSysExEvent": b"\x03",
+        "MidiMetaEvent": b"\x04",
+        "VsqNoteEvent": b"\x05",
+        "MidiNoteEvent": b"\x07",
+        "Vocaloid3NoteEvent": b"\x08",
+        "AutomationEvent": b"\x09",
+        "AudioEvent": b"\x0b",
+    },
+)
+
+PpsfEvent = Struct(
+    "magic" / PpsfEventTags,
+    "size" / Int16ul,
+    "data" / Bytes(this.size),
+)
+
+PpsfRect = Struct(
+    "magic" / Const(b"RECT"),
+    "size" / Int32ul,
+    "width" / Int32ul,
+    "height" / Int32ul,
+    "x" / Int32ul,
+    "y" / Int32ul,
 )
 
 PpsfEditorDataTags = Mapping(
@@ -120,6 +171,27 @@ PpsfEditorDataTags = Mapping(
         "EditorNoteData": b"ENOT",
         "EditorEventData": b"EEVT",
     },
+)
+
+PpsfEditorData = Struct(
+    "magic" / PpsfEditorDataTags,
+    "size" / Int32ul,
+    "data" / Bytes(this.size),
+)
+
+PpsfEditorTrackData = Struct(
+    "magic" / Const(b"ETRS"),
+    "size" / Int32ul,
+    "data"
+    / FixedSized(
+        this.size,
+        Struct(
+            "unknown" / Bytes(52),
+            "track_datas" / ppsf_prefixed_array(PpsfEditorData),
+            "clip_datas" / ppsf_prefixed_array(PpsfEditorData),
+            "event_datas" / ppsf_prefixed_array(PpsfEditorData),
+        ),
+    ),
 )
 
 PpsfChunkTags = Mapping(
@@ -147,10 +219,31 @@ PpsfChunk = Struct(
         {
             "Tracks": Struct("tracks" / GreedyRange(PpsfTracks), Bytes(1)),
             "Clips": Struct(
-                "clips" / GreedyRange(PrefixedArray(Byte, PpsfClip)),
+                "clips" / GreedyRange(ppsf_prefixed_array(PpsfClip)),
+            ),
+            "Events": Struct(
+                "unknown" / Bytes(lambda this: math.ceil(math.log(this._.size, 256))),
+                "events"
+                / FixedSized(
+                    lambda this: this._.size - len(this.unknown) - 1,
+                    GreedyRange(PpsfEvent),
+                ),
+                Bytes(1),
             ),
             "Plugins": Struct(
-                "plugins" / GreedyRange(PrefixedArray(Byte, PpsfPlugin)),
+                "plugins" / GreedyRange(ppsf_prefixed_array(PpsfPlugin)),
+            ),
+            "EditorDatas": Struct(
+                "prefix" / Bytes(4),
+                "rect1" / PpsfRect,
+                "padding" / Bytes(73),
+                "editor_datas"
+                / FixedSized(
+                    lambda this: this._.size - 161, GreedyRange(PpsfEditorTrackData)
+                ),
+                "rect2" / PpsfRect,
+                "rect3" / PpsfRect,
+                "suffix" / Bytes(12),
             ),
         },
         Bytes(this.size),
