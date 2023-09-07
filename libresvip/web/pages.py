@@ -77,7 +77,7 @@ class ConversionTask:
     error: Optional[str]
     warning: Optional[str]
 
-    def reset(self):
+    def reset(self) -> None:
         self.converting = False
         self.success = None
         self.error = None
@@ -85,7 +85,7 @@ class ConversionTask:
         if self.output_path.exists():
             self.output_path.unlink()
 
-    def __del__(self):
+    def __del__(self) -> None:
         if self.upload_path.exists():
             self.upload_path.unlink()
         if self.output_path.exists():
@@ -94,7 +94,7 @@ class ConversionTask:
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
-def page_layout(lang: Optional[str] = None):
+def page_layout(lang: Optional[str] = None) -> None:
     cur_client = get_client()
 
     if "lang" not in app.storage.user:
@@ -149,7 +149,7 @@ def page_layout(lang: Optional[str] = None):
         for identifier, plugin in plugin_manager.plugin_registry.items()
     }
 
-    def plugin_info(attr_name: str):
+    def plugin_info(attr_name: str) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
             with ui.element("div").classes("w-100 h-100") as icon:
@@ -190,7 +190,7 @@ def page_layout(lang: Optional[str] = None):
     input_plugin_info = ui.refreshable(functools.partial(plugin_info, "input_format"))
     output_plugin_info = ui.refreshable(functools.partial(plugin_info, "output_format"))
 
-    def panel_header(attr_name: str, title: str, prefix: str, icon: str):
+    def panel_header(attr_name: str, title: str, prefix: str, icon: str) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full items-center"):
             ui.icon(icon).classes("text-lg")
@@ -218,7 +218,7 @@ def page_layout(lang: Optional[str] = None):
         ),
     )
 
-    def options_form(attr_prefix: str, method: str):
+    def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
         plugin_input = plugin_manager.plugin_registry[attr]
         field_types = {}
@@ -345,7 +345,7 @@ def page_layout(lang: Optional[str] = None):
             default_factory=dict,
         )
 
-        def __post_init__(self):
+        def __post_init__(self) -> None:
             self.input_format = app.storage.user.get("last_input_format") or next(
                 iter(plugin_manager.plugin_registry),
                 "",
@@ -376,11 +376,11 @@ def page_layout(lang: Optional[str] = None):
                 user_temp_path.mkdir(exist_ok=True)
             return user_temp_path
 
-        def reset(self):
+        def reset(self) -> None:
             self.files_to_convert.clear()
             self.tasks_container.refresh()
 
-        def filter_input_ext(self):
+        def filter_input_ext(self) -> None:
             self.files_to_convert = {
                 name: info
                 for name, info in self.files_to_convert.items()
@@ -389,12 +389,12 @@ def page_layout(lang: Optional[str] = None):
             self.tasks_container.refresh()
 
         @ui.refreshable
-        def tasks_container(self):
+        def tasks_container(self) -> None:
             with ui.column().classes("w-full"):
                 for info in self.files_to_convert.values():
                     with ui.row().classes("w-full items-center"):
 
-                        def remove_row():
+                        def remove_row() -> None:
                             del self.files_to_convert[info.name]
                             self.tasks_container.refresh()
 
@@ -525,7 +525,7 @@ def page_layout(lang: Optional[str] = None):
         def task_count(self) -> int:
             return len(self.files_to_convert)
 
-        def convert_one(self, task: ConversionTask):
+        def convert_one(self, task: ConversionTask) -> None:
             lazy_translation.set(translation)
             task.converting = True
             try:
@@ -562,7 +562,7 @@ def page_layout(lang: Optional[str] = None):
                 task.error = traceback.format_exc()
             task.converting = False
 
-        async def batch_convert(self):
+        async def batch_convert(self) -> None:
             loop = asyncio.get_event_loop()
             with ThreadPoolExecutor(
                 max_workers=max(len(self.files_to_convert), 4),
@@ -583,7 +583,7 @@ def page_layout(lang: Optional[str] = None):
                     type="positive",
                 )
 
-        def export_all(self, request: Request):
+        def export_all(self, request: Request) -> Response:
             if len(self.files_to_convert) == 0:
                 raise HTTPException(400, "No files to export")
             elif len(self.files_to_convert) == 1:
@@ -603,10 +603,10 @@ def page_layout(lang: Optional[str] = None):
                 headers={"Content-Disposition": "attachment; filename=export.zip"},
             )
 
-        def export_one(self, request: Request):
+        def export_one(self, request: Request) -> Response:
             return self._export_one(request.path_params["filename"])
 
-        def _export_one(self, filename: str):
+        def _export_one(self, filename: str) -> Response:
             if (task := self.files_to_convert.get(filename)) and task.success:
                 return Response(
                     content=task.output_path.read_bytes(),
@@ -619,9 +619,6 @@ def page_layout(lang: Optional[str] = None):
 
     dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
-    ui.add_head_html(
-        '<script src="https://unpkg.com/axios@1/dist/axios.min.js"></script>',
-    )
     with ui.element("style") as style:  # fix icon position
         style._text = textwrap.dedent(
             """
@@ -631,7 +628,7 @@ def page_layout(lang: Optional[str] = None):
         """,
         ).strip()
 
-    def swap_values():
+    def swap_values() -> None:
         select_input.value, select_output.value = (
             select_output.value,
             select_input.value,
@@ -645,7 +642,7 @@ def page_layout(lang: Optional[str] = None):
     ):
         ui.button(icon="menu", on_click=drawer.toggle)
 
-        async def handle_key(e: KeyEventArguments):
+        async def handle_key(e: KeyEventArguments) -> None:
             if (
                 e.modifiers.alt
                 or e.modifiers.ctrl
@@ -851,7 +848,7 @@ def page_layout(lang: Optional[str] = None):
                     ui.icon("info").classes("text-lg")
                     ui.label(_("About"))
 
-    with ui.card().classes("w-full").style("height: calc(100vh - 100px)"):
+    with ui.card().classes("w-full").style("height: calc(100vh - 120px)"):
         with ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter:
             with main_splitter.before:
                 with ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
@@ -956,15 +953,17 @@ def page_layout(lang: Optional[str] = None):
                                 with fab.add_slot("active-icon"):
                                     ui.icon("construction").classes("rotate-45")
 
-                                def add_class(element: ui.element, show: bool = False):
+                                def add_class(
+                                    element: ui.element, show: bool = False
+                                ) -> None:
                                     element.classes("toolbar-fab-active")
                                     if show:
                                         element.run_method("show")
 
-                                def remove_class(element: ui.element):
+                                def remove_class(element: ui.element) -> None:
                                     call_times = 0
 
-                                    async def hide():
+                                    async def hide() -> None:
                                         nonlocal call_times
                                         if call_times and await ui.run_javascript(
                                             '!document.querySelector(".toolbar-fab-active")',
@@ -1065,13 +1064,47 @@ def page_layout(lang: Optional[str] = None):
                     with export_panel.add_slot("header"):
                         output_panel_header()
                     output_options()
+    with ui.footer().classes("bg-transparent"):
+        ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
     ui.add_body_html(
         textwrap.dedent(
             f"""
         <script>
+            function get_element(element_id) {{
+                let element = getElement(element_id)
+                if (element.$refs.qRef !== undefined)
+                    return element.$refs.qRef
+                return element
+            }}
+            function post_form(url, data) {{
+                let ajax_bar = get_element({ajax_bar.id})
+                let form_data = new FormData()
+                for (let key in data) {{
+                    form_data.append(key, data[key])
+                }}
+                var xhr = new XMLHttpRequest();
+                var progress = 0
+                xhr.onreadystatechange = function() {{
+                    if (xhr.readyState === 4) {{
+                        ajax_bar.stop()
+                    }}
+                }}
+                xhr.upload.onprogress = function(event) {{
+                    if (event.lengthComputable) {{
+                        let next = event.loaded / event.total * 100
+                        if (next - progress > 0.5) {{
+                            ajax_bar.increment(next - progress)
+                            progress = next
+                        }}
+                    }}
+                }}
+                xhr.open('POST', url, true);
+                ajax_bar.start()
+                xhr.send(form_data);
+            }}
             function add_upload() {{
                 if (window.showOpenFilePicker) {{
-                    let format_desc = document.querySelector('[role="combobox"]').value
+                    let format_desc = get_element({select_input.id}).modelValue.label
                     let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
                     let bracket_index = format_desc.lastIndexOf('(')
                     let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
@@ -1091,13 +1124,13 @@ def page_layout(lang: Optional[str] = None):
                         for (const fileHandle of fileHandles) {{
                             const file = await fileHandle.getFile();
                             let file_name = file.name
-                            axios.postForm('{uploader._props['url']}', {{
+                            post_form('{uploader._props['url']}', {{
                                 file_name: file
                             }})
                         }}
                     }});
                 }} else {{
-                    document.querySelector(".q-uploader__input").click()
+                    get_element({uploader.id}).pickFiles()
                 }}
             }}
             document.addEventListener('DOMContentLoaded', () => {{
@@ -1110,7 +1143,7 @@ def page_layout(lang: Optional[str] = None):
                 task_card.addEventListener('drop', (event) => {{
                     for (let file of event.dataTransfer.files) {{
                         let file_name = file.name
-                        axios.postForm('{uploader._props['url']}', {{
+                        post_form('{uploader._props['url']}', {{
                             file_name: file
                         }})
                     }}
@@ -1128,7 +1161,7 @@ def page_layout(lang: Optional[str] = None):
                 upload_card.addEventListener('drop', (event) => {{
                     for (let file of event.dataTransfer.files) {{
                         let file_name = file.name
-                        axios.postForm('{uploader._props['url']}', {{
+                        post_form('{uploader._props['url']}', {{
                             file_name: file
                         }})
                     }}
