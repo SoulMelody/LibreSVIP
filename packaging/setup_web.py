@@ -64,7 +64,6 @@ build_exe_options = {
     "zip_include_packages": [],
     "packages": [
         "anyio",
-        "ass",
         "construct_typed",
         "drawsvg",
         "jinja2",

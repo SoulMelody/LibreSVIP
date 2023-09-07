@@ -3,35 +3,34 @@ authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 license = { text = "MIT" }
 requires-python = ">=3.9,<3.12"
 dependencies = [
-  "ass<1.0.0,>=0.5.4",
-  "charset-normalizer<4.0.0,>=3.2.0",
-  "construct-typing<1.0.0,>=0.6.2",
-  "drawsvg<3.0.0,>=2.3.0",
-  "jinja2<4.0.0,>=3.1.2",
-  "loguru<1.0.0,>=0.7.0",
-  "mido<2.0.0,>=1.3.0",
-  "more-itertools<11.0.0,>=10.1.0",
-  "omegaconf<3.0.0,>=2.3.0",
-  "packaging<24.0,>=23.1",
-  "platformdirs<4.0.0,>=3.10.0",
-  "portion<3.0.0,>=2.4.1",
-  "pure-protobuf<4.0,>=3.0a5",
-  "pydantic<3.0.0,>=2.3.0",
-  "pydantic-extra-types<3.0.0,>=2.1.0",
-  "pymediainfo<7.0.0,>=6.0.1; sys_platform != \"linux\"",
-  "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
-  "pypinyin<1.0.0,>=0.49.0",
-  "regex<2024.0.0,>=2023.8.8",
-  "srt<4.0.0,>=3.5.3",
-  "textx<4.0.0,>=3.1.1",
-  "typer[all]<1.0.0,>=0.9.0",
-  "universal-pathlib<1.0.0,>=0.1.3",
-  "wanakana-python<2.0.0,>=1.2.2",
-  "xsdata<24.0,>=23.8",
-  "zstandard>=0.21.0",
+    "charset-normalizer<4.0.0,>=3.2.0",
+    "construct-typing<1.0.0,>=0.6.2",
+    "drawsvg<3.0.0,>=2.3.0",
+    "jinja2<4.0.0,>=3.1.2",
+    "loguru<1.0.0,>=0.7.1",
+    "mido<2.0.0,>=1.3.0",
+    "more-itertools<11.0.0,>=10.1.0",
+    "omegaconf<3.0.0,>=2.3.0",
+    "packaging<24.0,>=23.1",
+    "platformdirs<4.0.0,>=3.10.0",
+    "portion<3.0.0,>=2.4.1",
+    "pure-protobuf<4.0,>=3.0a5",
+    "pydantic<3.0.0,>=2.3.0",
+    "pydantic-extra-types<3.0.0,>=2.1.0",
+    "pymediainfo<7.0.0,>=6.0.1; sys_platform != \"linux\"",
+    "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
+    "pypinyin<1.0.0,>=0.49.0",
+    "regex<2024.0.0,>=2023.8.8",
+    "srt<4.0.0,>=3.5.3",
+    "textx<4.0.0,>=3.1.1",
+    "typer[all]<1.0.0,>=0.9.0",
+    "universal-pathlib<1.0.0,>=0.1.3",
+    "wanakana-python<2.0.0,>=1.2.2",
+    "xsdata<24.0,>=23.8",
+    "zstandard>=0.21.0",
 ]
 name = "libresvip"
-version = "0.8.1"
+version = "0.9.0"
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 
@@ -56,15 +55,8 @@ desktop = [
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
-typing_stubs = ["types-regex>=2023.8.8.0", "types-ujson>=5.8.0.1"]
-code_gen = [
-  "datamodel-code-generator>=0.21.4",
-  "translate-toolkit>=3.10.0",
-  "babel>=2.12.1",
-  "xsdata[cli]>=23.8",
-]
-packaging = ["cx-freeze>=6.15.6"]
-test = ["pytest>=7.4.1", "pytest-datadir>=1.4.1"]
+code_gen = ["datamodel-code-generator>=0.21.5", "xsdata[cli]>=23.8"]
+i18n = ["translate-toolkit>=3.10.1", "babel>=2.12.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.4.0",
@@ -72,8 +64,11 @@ linting = [
   "black>=23.7.0",
   "mypy>=1.5.1",
   "sourcery>=1.8.0",
-  "bump-pydantic>=0.6.1",
 ]
+packaging = ["cx-freeze>=6.15.6"]
+subtitles = ["ass<1.0.0,>=0.5.4"]
+test = ["pytest>=7.4.1", "pytest-datadir>=1.4.1"]
+typing_stubs = ["types-regex>=2023.8.8.0", "types-ujson>=5.8.0.1"]
 
 [tool.pdm.build]
 includes = []

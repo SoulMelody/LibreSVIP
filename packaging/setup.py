@@ -168,7 +168,6 @@ build_exe_options = {
     "zip_include_packages": ["PySide6"],
     "packages": [
         "anyio",
-        "ass",
         "construct_typed",
         "drawsvg",
         "jinja2",
