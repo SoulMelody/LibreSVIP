@@ -13,7 +13,7 @@ PraatString:
 ;
 
 PraatRootItem:
-    TextGrid | Pitch | IntensityOrHarmonicity | Formant | PointProcess
+    TextGrid | Pitch | IntensityOrHarmonicity | Formant | PointProcess | PitchOrIntensityTier
 ;
 
 TextGrid:
@@ -24,10 +24,10 @@ TextGrid:
     "xmax =" xmax=NUMBER
     "tiers?" has_tiers?="<exists>"
     "size =" size=INT
-    "item []:" tiers*=Tiers
+    "item []:" tiers*=IntervalOrTextTier
 ;
 
-Tiers:
+IntervalOrTextTier:
     IntervalTier | TextTier
 ;
 
@@ -50,10 +50,10 @@ TextTier:
     "xmax =" xmax=NUMBER
     "points:"
     "size =" size=INT
-    points*=Point
+    points*=TextPoint
 ;
 
-Point:
+TextPoint:
     "points [" index=INT "]" ":"
     "number =" number=FLOAT
     "mark =" mark=PraatString
@@ -138,6 +138,22 @@ Formant:
     "maxnFormants =" maxnFormants=INT
     "frames []:"
     frames*=Frame
+;
+
+PitchOrIntensityTier:
+    "item [" index=INT "]" ":"
+    "class =" class=/"PitchTier"|"IntensityTier"/
+    "xmin =" xmin=NUMBER
+    "xmax =" xmax=NUMBER
+    "points :"
+    "size =" size=INT
+    points*=Point
+;
+
+Point:
+    "points [" index=INT "]" ":"
+    "number =" number=FLOAT
+    "value =" value=FLOAT
 ;
 
 Frame:
