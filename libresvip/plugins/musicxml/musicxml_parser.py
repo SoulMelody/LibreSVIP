@@ -1,10 +1,11 @@
 import dataclasses
+from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
 from libresvip.utils import note2midi
 
-from .models.mxml2 import ScorePartwise
+from .models.mxml2 import ScorePart, ScorePartwise, StartStop
 from .options import InputOptions
 
 
@@ -15,20 +16,34 @@ class MusicXMLParser:
     def parse_project(self, mxml: ScorePartwise) -> Project:
         part_nodes = mxml.part
 
-        mater_track = next((part for part in part_nodes if part.measure), None)
+        master_track = next((part for part in part_nodes if part.measure), None)
+        assert master_track is not None
         (
             time_signatures,
             tempos,
             measure_borders,
             import_tick_rate,
-        ) = self.parse_master_track(mater_track)
+        ) = self.parse_master_track(master_track)
         time_signatures = time_signatures or [TimeSignature()]
         tempos = tempos or [SongTempo()]
 
-        tracks = [
-            self.parse_track(index, part, measure_borders, import_tick_rate)
-            for index, part in enumerate(part_nodes)
-        ]
+        tracks = []
+        for index, part in enumerate(part_nodes):
+            score_part = None
+            if mxml.part_list is not None and part.part_id is not None:
+                score_part = next(
+                    (
+                        item
+                        for item in mxml.part_list.score_part
+                        if item.score_part_id == part.part_id
+                    ),
+                    None,
+                )
+            tracks.append(
+                self.parse_track(
+                    index, part, score_part, measure_borders, import_tick_rate
+                )
+            )
 
         return Project(
             track_list=tracks,
@@ -36,7 +51,9 @@ class MusicXMLParser:
             song_tempo_list=tempos,
         )
 
-    def parse_master_track(self, part_node: ScorePartwise.Part):
+    def parse_master_track(
+        self, part_node: ScorePartwise.Part
+    ) -> tuple[list[TimeSignature], list[SongTempo], list[int], float]:
         measure_nodes = part_node.measure
         divisions = int(measure_nodes[0].attributes[0].divisions)
         import_tick_rate = TICKS_IN_BEAT / divisions
@@ -72,15 +89,19 @@ class MusicXMLParser:
 
     def parse_track(
         self,
-        track_index,
+        track_index: int,
         part_node: ScorePartwise.Part,
-        measure_borders: list[tuple[int, int]],
+        score_part: Optional[ScorePart],
+        measure_borders: list[int],
         import_tick_rate: float,
     ) -> SingingTrack:
-        track_name = f"Track {track_index + 1}"
+        track_name = (
+            score_part.part_name.value
+            if score_part is not None and score_part.part_name is not None
+            else f"Track {track_index + 1}"
+        )
         notes = []
         is_inside_note = False
-        import_tick_rate = import_tick_rate
         measure_nodes = part_node.measure
         for index, measure_node in enumerate(measure_nodes):
             tick_position = measure_borders[index]
@@ -108,7 +129,7 @@ class MusicXMLParser:
                 step = pitch_node.step
                 alter_node = pitch_node.alter
                 alter = int(alter_node) if alter_node else 0
-                octave = int(pitch_node.octave) + 1
+                octave = int(pitch_node.octave)
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric
@@ -141,9 +162,9 @@ class MusicXMLParser:
                     and (tie_node := tie_nodes[0])
                     and tie_node.type_value
                 ):
-                    if tie_node.type_value == "start":
+                    if tie_node.type_value == StartStop.START:
                         is_inside_note = True
-                    elif tie_node.type_value == "stop":
+                    elif tie_node.type_value == StartStop.STOP:
                         is_inside_note = False
 
         return SingingTrack(

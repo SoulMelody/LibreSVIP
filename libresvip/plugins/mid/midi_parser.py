@@ -2,6 +2,7 @@ import collections
 import dataclasses
 import math
 import operator
+from gettext import gettext as _
 
 import mido
 import regex as re
@@ -229,7 +230,7 @@ class MidiParser:
             volume=expression,
         )
         if has_overlap(notes):
-            msg = f"Notes overlap in track {track_idx}"
+            msg = _("Overlapping notes in track {}").format(track_idx)
             raise ValueError(msg)
         return SingingTrack(
             title=track_name or f"Track {track_idx + 1}",

@@ -109,7 +109,7 @@ def hz2midi(hz: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
     return a4_midi + KEY_IN_OCTAVE * math.log2(hz / base_freq)
 
 
-def note2midi(note: str) -> Optional[float]:
+def note2midi(note: str) -> Optional[int]:
     pitch_map = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
     acc_map = {
         "#": 1,
@@ -138,9 +138,7 @@ def note2midi(note: str) -> Optional[float]:
 
     note_value = KEY_IN_OCTAVE * (octave + 1) + pitch_map[pitch] + offset
 
-    note_value = int(round(note_value))
-
-    return note_value
+    return int(round(note_value))
 
 
 def midi2note(midi: float) -> str:
