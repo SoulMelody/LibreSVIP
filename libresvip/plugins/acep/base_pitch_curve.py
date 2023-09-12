@@ -2,6 +2,7 @@ import dataclasses
 import math
 from typing import Iterable
 
+from more_itertools import convolve
 from pydantic import Field
 
 from .model import AcepNote, AcepTempo
@@ -34,12 +35,7 @@ def _convolve(note_list: list[NoteInSeconds]) -> list[float]:
     kernel_sum = sum(kernel)
     for i in range(119):
         kernel[i] /= kernel_sum
-    convolve_values = [0.0] * total_points
-    for i in range(total_points):
-        for j in range(119):
-            clipped_index = min(max(i - 59 + j, 0), total_points - 1)
-            convolve_values[i] += kernel[j] * init_values[clipped_index]
-    return convolve_values
+    return list(convolve(init_values, kernel))[59:-59]
 
 
 @dataclasses.dataclass
