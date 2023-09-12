@@ -349,90 +349,90 @@ msgstr "在线文档 (F1)"
 msgid "SVS Projects Converter"
 msgstr "歌声合成工程文件转换器"
 
-#: ../libresvip/cli/commands/conf.py:21
+#: ../libresvip/cli/commands/conf.py:22
 msgid "Setting {} is not supported in cli mode."
 msgstr "在命令行模式中不支持设置 {} 选项"
 
-#: ../libresvip/cli/commands/conf.py:34
+#: ../libresvip/cli/commands/conf.py:35
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
-#: ../libresvip/cli/commands/plugin.py:32
+#: ../libresvip/cli/commands/plugin.py:25
 msgid "Cannot find plugin "
 msgstr "未找到插件 "
 
-#: ../libresvip/cli/commands/plugin.py:38
+#: ../libresvip/cli/commands/plugin.py:31
 msgid "No plugins are currently installed."
 msgstr "目前尚未安装任何插件。"
 
-#: ../libresvip/cli/commands/plugin.py:41
+#: ../libresvip/cli/commands/plugin.py:34
 msgid "No."
 msgstr "序号"
 
-#: ../libresvip/cli/commands/plugin.py:42
+#: ../libresvip/cli/commands/plugin.py:35
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:44 ../libresvip/web/pages.py:155
+#: ../libresvip/cli/commands/plugin.py:37 ../libresvip/web/pages.py:171
 msgid "Author"
 msgstr "作者"
 
-#: ../libresvip/cli/commands/plugin.py:45
+#: ../libresvip/cli/commands/plugin.py:38
 msgid "Identifier"
 msgstr "标识符"
 
-#: ../libresvip/cli/commands/plugin.py:46
+#: ../libresvip/cli/commands/plugin.py:39
 msgid "Applicable file format"
 msgstr "适用格式"
 
-#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/cli/commands/plugin.py:58
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:66
+#: ../libresvip/cli/commands/plugin.py:60
 msgid "Author: "
 msgstr "作者： "
 
-#: ../libresvip/cli/commands/plugin.py:70
+#: ../libresvip/cli/commands/plugin.py:64
 msgid "Website: "
 msgstr "主页： "
 
-#: ../libresvip/cli/commands/plugin.py:74
+#: ../libresvip/cli/commands/plugin.py:69
 msgid "This plugin is applicable to"
 msgstr "此插件适用于"
 
-#: ../libresvip/cli/commands/plugin.py:79
+#: ../libresvip/cli/commands/plugin.py:74
 msgid ""
 "If you want to use this plugin, please specify '-i {}' (input) or '-o "
 "{}' (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:84
+#: ../libresvip/cli/commands/plugin.py:79
 msgid "Description: "
 msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:85
+#: ../libresvip/cli/commands/plugin.py:80
 msgid "input"
 msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:85
+#: ../libresvip/cli/commands/plugin.py:80
 msgid "output"
 msgstr "输出"
 
-#: ../libresvip/cli/commands/plugin.py:94
+#: ../libresvip/cli/commands/plugin.py:89
 msgid "This plugin supports the following {} conversion options:"
 msgstr "本插件可指定以下{}转换选项："
 
-#: ../libresvip/cli/commands/plugin.py:108
-#: ../libresvip/cli/commands/plugin.py:139
+#: ../libresvip/cli/commands/plugin.py:102
+#: ../libresvip/cli/commands/plugin.py:133
 msgid "Default: "
 msgstr "默认值："
 
-#: ../libresvip/cli/commands/plugin.py:110
+#: ../libresvip/cli/commands/plugin.py:104
 msgid "Available values:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/plugin.py:133
+#: ../libresvip/cli/commands/plugin.py:127
 msgid "Available fields:"
 msgstr "可用值如下："
 
@@ -460,93 +460,382 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
-#: ../libresvip/web/pages.py:147
+#: ../libresvip/web/pages.py:161
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:164 ../libresvip/web/pages.py:183
-#: ../libresvip/web/pages.py:586 ../libresvip/web/pages.py:607
+#: ../libresvip/web/pages.py:181 ../libresvip/web/pages.py:198
+#: ../libresvip/web/pages.py:748 ../libresvip/web/pages.py:764
+#: ../libresvip/web/pages.py:866 ../libresvip/web/pages.py:910
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:168
+#: ../libresvip/web/pages.py:188
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:274
+#: ../libresvip/web/pages.py:320
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:278
+#: ../libresvip/web/pages.py:324
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:329 ../libresvip/web/pages.py:337
+#: ../libresvip/web/pages.py:424 ../libresvip/web/pages.py:447
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:332 ../libresvip/web/pages.py:340
-#: ../libresvip/web/pages.py:444 ../libresvip/web/pages.py:446
-#: ../libresvip/web/pages.py:564 ../libresvip/web/pages.py:595
-#: ../libresvip/web/pages.py:616
+#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:453
+#: ../libresvip/web/pages.py:578 ../libresvip/web/pages.py:582
+#: ../libresvip/web/pages.py:842 ../libresvip/web/pages.py:880
+#: ../libresvip/web/pages.py:926
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:444
+#: ../libresvip/web/pages.py:578
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:446
+#: ../libresvip/web/pages.py:581
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:502 ../libresvip/web/pages.py:515
+#: ../libresvip/web/pages.py:700 ../libresvip/web/pages.py:721
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:509 ../libresvip/web/pages.py:623
+#: ../libresvip/web/pages.py:709 ../libresvip/web/pages.py:938
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:527
-msgid "Switch Theme"
-msgstr "切换主题"
-
-#: ../libresvip/web/pages.py:541
-msgid "Switch Language"
-msgstr "切换语言"
-
-#: ../libresvip/web/pages.py:583
-msgid "Choose file format"
-msgstr "选择格式"
-
-#: ../libresvip/web/pages.py:587
+#: ../libresvip/web/pages.py:739 ../libresvip/web/pages.py:869
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:598
-msgid "Auto detect import format"
-msgstr "自动检测导入格式"
-
-#: ../libresvip/web/pages.py:601
-msgid "Reset list when import format changed"
-msgstr "切换格式时重置列表"
-
-#: ../libresvip/web/pages.py:608
+#: ../libresvip/web/pages.py:756 ../libresvip/web/pages.py:913
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:655
+#: ../libresvip/web/pages.py:769
+msgid "Switch Theme"
+msgstr "切换主题"
+
+#: ../libresvip/web/pages.py:791
+msgid "Switch Language"
+msgstr "切换语言"
+
+#: ../libresvip/web/pages.py:857
+msgid "Choose file format"
+msgstr "选择格式"
+
+#: ../libresvip/web/pages.py:890
+msgid "Auto detect import format"
+msgstr "自动检测导入格式"
+
+#: ../libresvip/web/pages.py:897
+msgid "Reset list when import format changed"
+msgstr "切换格式时重置列表"
+
+#: ../libresvip/web/pages.py:1033
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:670
+#: ../libresvip/web/pages.py:1056
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:671
+#: ../libresvip/web/pages.py:1057
 msgid "Advanced Options"
 msgstr "高级选项"
+
+#: .acep.name
+msgid "ACE Studio"
+msgstr ""
+
+#: .acep.file_format
+msgid "ACE Studio project File"
+msgstr "ACE Studio 工程文件"
+
+#: .acep.description
+msgid "Conversion Plugin for ACE Studio project file"
+msgstr "ACE Studio 工程文件转换插件"
+
+#: .acep.load[0].title
+msgid "Keep all pronunciation information"
+msgstr "保留所有发音信息"
+
+#: .acep.load[0].description
+msgid ""
+"ACE Studio will add pronunciation to all notes. This is a redundant data for "
+"most Chinese characters, so by default only modified pronunciation will be "
+"kept. When this option is turned on, all pronunciation information will be "
+"kept unconditionally, but it may produce a larger file size. When the source "
+"file contains non-Chinese singing data, please turn on this option."
+msgstr ""
+"ACE Studio 会给所有的音符添加发音。这对于大部分的汉字而言是一种冗余数据，因此"
+"默认情况下只会保留被修改过的发音。打开此选项后，将无条件保留所有的发音信息，"
+"但可能产生更大的文件体积。当源文件中包含非汉语演唱数据时，请将此选项打开。"
+
+#: .acep.load[1].title
+msgid "Import tension envelope"
+msgstr "导入张力包络"
+
+#: .acep.load[1].description
+msgid ""
+"When turned on, the tension envelope will be mapped to the tension channel "
+"of the intermediate model."
+msgstr "打开后，张力包络将被映射至中介模型的力度通道。"
+
+#: .acep.load[2].title
+msgid "Import energy envelope"
+msgstr "导入力度包络"
+
+#: .acep.load[2].description
+msgid ""
+"When turned on, the energy envelope will be mapped to the energy channel of "
+"the intermediate model."
+msgstr ""
+"打开后，将可以通过映射比例选项控制力度包络映射至中介模型的力度通道和音量通道"
+"的比例。"
+
+#: .acep.load[3].title
+msgid "Strength-volume mapping coefficient"
+msgstr "力度-音量映射系数"
+
+#: .acep.load[3].description
+msgid ""
+"Since the strength parameter of ACE Studio has a significant impact on the "
+"volume, this option is provided to control the mapping coefficient of the "
+"strength envelope. The strength envelope will be multiplied by the value of "
+"this option as a whole and then mapped to the volume channel of the "
+"intermediate model, and the remaining part will be mapped to the strength "
+"channel. This option accepts values in the range of 0~1.0."
+msgstr ""
+"由于 ACE Studio 力度参数对音量的影响较为显著，故提供此选项控制力度包络的映射"
+"系数。力度包络将被整体乘以此选项的值后映射到中介模型的音量通道，剩余的部分将"
+"被映射到力度通道。此选项接受 0~1.0 范围内的值。"
+
+#: .acep.load[4].title
+msgid "Interval of curve sampling"
+msgstr "参数点采样间隔"
+
+#: .acep.load[4].description
+msgid ""
+"The unit is tick (the length of a quarter note is 480 ticks). By default, "
+"the parameter points in the acep file are stored in a very dense manner. "
+"Increasing the sampling interval appropriately will not cause much loss of "
+"accuracy, but it can get a smaller file size. Setting to 0 or a negative "
+"value means keeping the original sampling interval."
+msgstr ""
+"单位为tick（四分音符长度为 480 ticks）。默认情况下 acep 文件中的参数点采用非"
+"常密集的存储方式，适当提高采样间隔不会造成很大的精度损失，但可以得到更小的文"
+"件体积。设置为 0 或负值代表保持原有采样间隔。"
+
+#: .acep.load[5].title
+msgid "Breath parameter normalization"
+msgstr "气声实参标准化参数"
+
+#: .acep.load[5].description
+msgid ""
+"This option is an advanced option. After enabling this option, the breath "
+"parameters will be merged with the breath envelope after being transformed "
+"by the normalization. It is recommended to enable this option after fixing "
+"all parameters with a fixed brush. This option needs to set 5 values, "
+"separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means "
+"to perform Z-Score normalization on the parameter points, and minmax means "
+"to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter "
+"points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter "
+"points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized "
+"parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled "
+"parameter value will be added to this value."
+msgstr ""
+"此选项为高级选项。启用此选项后，气声实参将经过标准化变换后与气声包络合并。建"
+"议使用固定笔刷固定全部参数后再启用此选项。此选项需要设定 5 个值，彼此使"
+"用“,”隔开：\n"
+"(1) 标准化方法：none 代表关闭此选项，zscore 代表对参数点执行 Z-Score 标准化，"
+"minmax 代表将参数点 Min-Max 标准化至 [-1.0, 1.0] 区间。\n"
+"(2) 下阈值：0~10.0 范围内的实数，低于此值的参数点将不会参与标准化。\n"
+"(3) 上阈值：0~10.0 范围内的实数，高于此值的参数点将不会参与标准化。\n"
+"(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
+"(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
+
+#: .acep.load[6].title
+msgid "Tension parameter normalization"
+msgstr "张力实参标准化参数"
+
+#: .acep.load[6].description
+msgid ""
+"This option is an advanced option. After enabling this option, the tension "
+"parameters will be merged with the tension envelope after being transformed "
+"by the normalization. It is recommended to enable this option after fixing "
+"all parameters with a fixed brush. This option needs to set 5 values, "
+"separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means "
+"to perform Z-Score normalization on the parameter points, and minmax means "
+"to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter "
+"points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter "
+"points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized "
+"parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled "
+"parameter value will be added to this value."
+msgstr ""
+"此选项为高级选项。打开“导入张力包络”开关并启用此选项后，张力实参将经过标准化"
+"变换后与张力包络进行合并。建议使用固定笔刷固定全部参数后再启用此选项。此选项"
+"需要设定 5 个值，彼此使用“,”隔开：\n"
+"(1) 标准化方法：none 代表关闭此选项，zscore 代表对参数点执行 Z-Score 标准化，"
+"minmax 代表将参数点 Min-Max 标准化至 [-1.0, 1.0] 区间。\n"
+"(2) 下阈值：0~10.0 范围内的实数，低于此值的参数点将不会参与标准化。\n"
+"(3) 上阈值：0~10.0 范围内的实数，高于此值的参数点将不会参与标准化。\n"
+"(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
+"(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
+
+#: .acep.load[7].title
+msgid "Energy parameter normalization"
+msgstr "力度实参标准化参数"
+
+#: .acep.load[7].description
+msgid ""
+"This option is an advanced option. After enabling this option, the energy "
+"parameters will be merged with the energy envelope after being transformed "
+"by the normalization. It is recommended to enable this option after fixing "
+"all parameters with a fixed brush. This option needs to set 5 values, "
+"separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means "
+"to perform Z-Score normalization on the parameter points, and minmax means "
+"to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter "
+"points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter "
+"points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized "
+"parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled "
+"parameter value will be added to this value."
+msgstr ""
+"此选项为高级选项。打开“导入力度包络”开关并启用此选项后，力度实参将经过标准化"
+"变换后与力度包络进行合并。建议使用固定笔刷固定全部参数后再启用此选项。此选项"
+"需要设定 5 个值，彼此使用“,”隔开：\n"
+"(1) 标准化方法：none 代表关闭此选项，zscore 代表对参数点执行 Z-Score 标准化，"
+"minmax 代表将参数点 Min-Max 标准化至 [-1.0, 1.0] 区间。\n"
+"(2) 下阈值：0~10.0 范围内的实数，低于此值的参数点将不会参与标准化。\n"
+"(3) 上阈值：0~10.0 范围内的实数，高于此值的参数点将不会参与标准化。\n"
+"(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
+"(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
+
+#: .acep.dump[0].title
+msgid "Default singer"
+msgstr "默认使用的歌手"
+
+#: .acep.dump[0].description
+msgid "Please input the complete and correct singer name"
+msgstr "请输入完整无误的歌手名字。"
+
+#: .acep.dump[1].title
+msgid "Default breath length (ms)"
+msgstr "默认呼吸长度（毫秒）"
+
+#: .acep.dump[1].description
+msgid ""
+"This option is used to set the default breath length when the breath mark is "
+"converted to a breath parameter. The actual breath length may be less than "
+"the default value due to the small gap between notes; some notes may be "
+"shortened due to the insertion of breath marks. Setting to 0 or a negative "
+"value means ignoring all breath marks."
+msgstr ""
+"本选项用于设定换气标记被转换为呼吸参数时默认的呼吸长度。实际换气长度可能因音"
+"符间隙过小而小于默认值；部分音符可能随呼吸标记的插入而缩短。设置为 0 或负值代"
+"表忽略所有换气标记。"
+
+#: .acep.dump[2].title
+msgid "Map strength and tension parameters to"
+msgstr "将力度参数映射至"
+
+#: .acep.dump[2].choices[0].text
+msgid "Both strength and tension"
+msgstr "力度与张力"
+
+#: .acep.dump[2].choices[0].description
+msgid ""
+"Map both strength and tension parameters to strength and tension parameters, "
+"each with a weight of 50%."
+msgstr "将力度参数同时映射至力度与张力参数，二者将各占 50% 的权重。"
+
+#: .acep.dump[2].choices[1].text
+msgid "Only strength"
+msgstr "仅力度"
+
+#: .acep.dump[2].choices[1].description
+msgid ""
+"Map only strength parameters to strength parameters. Tension parameters will "
+"remain unparameterized."
+msgstr "仅将力度参数映射至力度参数。张力参数将保持无参。"
+
+#: .acep.dump[2].choices[2].text
+msgid "Only tension"
+msgstr "仅张力"
+
+#: .acep.dump[2].choices[2].description
+msgid ""
+"Map only tension parameters to tension parameters. Strength parameters will "
+"remain unparameterized."
+msgstr "仅将力度参数映射至张力参数。力度参数将保持无参。"
+
+#: .acep.dump[2].description
+msgid ""
+"ACE Studio has both strength and tension parameters, both of which can "
+"affect the strength of the singing. This option is used to set the mapping "
+"target of the strength parameter."
+msgstr ""
+"ACE Studio 同时具有力度与张力参数，二者均可影响歌声的力量感。可以选择力度参数"
+"的映射目标。"
+
+#: .acep.dump[3].title
+msgid "Threshold for splitting"
+msgstr "片段切分阈值"
+
+#: .acep.dump[3].description
+msgid ""
+"When the distance between notes exceeds the set value, they will be split "
+"into different segments (patterns) for subsequent editing. The threshold "
+"unit is the value of a quarter note, and the default is 8, which means that "
+"when the distance between notes exceeds 8 quarter notes (3840 ticks), they "
+"will be split. If you don't want to split at all, please set this option to "
+"0 or a negative value."
+msgstr ""
+"当音符之间的距离超过设定值时，将被切分至不同的片段（pattern）以便后续编辑。阈"
+"值单位为四分音符时值，默认为 8，即当音符间距超过 8 个四分音符时值（3840 "
+"ticks）时进行切分。若不希望进行任何切分，请将此选项设定为 0 或负值。"
+
+#: .acep.dump[4].title
+msgid "Lyrics language"
+msgstr "歌词语言"
+
+#: .acep.dump[4].choices[0].text
+msgid "Chinese"
+msgstr "中文"
+
+#: .acep.dump[4].choices[1].text
+msgid "Japanese"
+msgstr "日语"
+
+#: .acep.dump[4].choices[2].text
+msgid "English"
+msgstr "英语"
+
+#: .acep.dump[4].description
+msgid ""
+"ACE Studio supports three languages of lyrics. This option is used to set "
+"the language of lyrics."
+msgstr "ACE Studio 支持三大语种的歌词，本选项用于设定歌词的语言。"
 
 #: .aisp.name
 msgid "AISingers"
@@ -588,7 +877,7 @@ msgstr "默认声库版本"
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -596,7 +885,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -666,17 +955,17 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[2] .ds.messages[1]
+#: .ds.messages[2] .ds.messages[1]
 msgid ""
 "The selected dictionary does not contain the pronunciation “{}”. Please "
 "check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
-#: .ds.messages[3] .ds.messages[2]
+#: .ds.messages[3] .ds.messages[2]
 msgid "The source file lacks pitch parameters."
 msgstr "源文件缺少音高参数"
 
@@ -709,10 +998,6 @@ msgid ""
 "The unit is Tick. The larger the value, the smoother the editor; the smaller "
 "the value, the more accurate the volume parameter."
 msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
-
-#: .gj.dump[1].title
-msgid "Default singer"
-msgstr "默认歌手"
 
 #: .json.format_desc
 msgid "OpenSVIP file"
@@ -935,11 +1220,15 @@ msgstr ""
 "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你"
 "知道这是什么，否则不应更改此设置。"
 
+#: .mid.messages[0]
+msgid "Overlapping notes in track {}"
+msgstr "轨道{}中存在重叠音符"
+
 #: .mtp.name
 msgid "Muta"
 msgstr ""
 
-#: .mtp.file_format .mtp.format_desc
+#: .mtp.file_format .mtp.format_desc
 msgid "Muta project file"
 msgstr "Muta工程文件"
 
@@ -984,7 +1273,7 @@ msgid "Ppsf"
 msgstr ""
 
 #: .ppsf.file_format
-msgid "Piapro Studio NT project file"
+msgid "Piapro Studio NT Song file"
 msgstr "Piapro Studio NT 工程文件"
 
 #: .ppsf.description
@@ -1138,7 +1427,7 @@ msgstr "网格线宽度"
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format .svip.format_desc
+#: .svip.file_format .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1211,7 +1500,7 @@ msgstr ""
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: .svip.messages[1] .svip.messages[0]
+#: .svip.messages[1] .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 

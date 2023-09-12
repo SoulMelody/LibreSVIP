@@ -1,27 +1,33 @@
 from libresvip.model.base import ParamCurve, Point, Points
+from libresvip.utils import binary_find_first, binary_find_last
 
 from ..models.ds_param_curve import DsParamCurve, DsParamNode
-from .algorithm_utils import binary_find_first, binary_find_last
 
 
 class GenderParamUtils:
     @classmethod
-    def encode(cls, curve: ParamCurve, end: int, time_step: float = 0.005) -> DsParamCurve:
+    def encode(
+        cls, curve: ParamCurve, end: int, time_step: float = 0.005
+    ) -> DsParamCurve:
         end += 1920
         return DsParamCurve(
-            step_size=time_step,
-            point_list=cls.encode_point_list(curve.points, end)
+            step_size=time_step, point_list=cls.encode_point_list(curve.points, end)
         )
 
     @classmethod
     def encode_point_list(cls, os_point_list: Points, end: int) -> list[DsParamNode]:
-        valid_points = [p for p in os_point_list if p.x - 10 >= 1920 and p.x + 10 < end and -1000 <= p.y <= 1000]
+        valid_points = [
+            p
+            for p in os_point_list
+            if p.x - 10 >= 1920 and p.x + 10 < end and -1000 <= p.y <= 1000
+        ]
         ds_point_list = []
         for pos in range(1920, end, 5):
-            ds_point_list.append(DsParamNode(
-                time=pos / 1000.0,
-                value=cls.value_at(valid_points, pos) / 1000.0
-            ))
+            ds_point_list.append(
+                DsParamNode(
+                    time=pos / 1000.0, value=cls.value_at(valid_points, pos) / 1000.0
+                )
+            )
         return ds_point_list
 
     @staticmethod

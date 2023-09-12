@@ -1,0 +1,301 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-12 03:46+0800\n"
+"PO-Revision-Date: 2023-09-12 03:56+0800\n"
+"Last-Translator: SoulMelody <yjxrtzyx@gmail.com>\n"
+"Language-Team: \n"
+"Language: ace\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#: .acep.name
+msgid "ACE Studio"
+msgstr ""
+
+#: .acep.file_format
+msgid "ACE Studio project File"
+msgstr "ACE Studio 工程文件"
+
+#: .acep.description
+msgid "Conversion Plugin for ACE Studio project file"
+msgstr "ACE Studio 工程文件转换插件"
+
+#: .acep.load[0].title
+msgid "Keep all pronunciation information"
+msgstr "保留所有发音信息"
+
+#: .acep.load[0].description
+msgid ""
+"ACE Studio will add pronunciation to all notes. This is a redundant data for "
+"most Chinese characters, so by default only modified pronunciation will be "
+"kept. When this option is turned on, all pronunciation information will be "
+"kept unconditionally, but it may produce a larger file size. When the source "
+"file contains non-Chinese singing data, please turn on this option."
+msgstr ""
+"ACE Studio 会给所有的音符添加发音。这对于大部分的汉字而言是一种冗余数据，因此"
+"默认情况下只会保留被修改过的发音。打开此选项后，将无条件保留所有的发音信息，"
+"但可能产生更大的文件体积。当源文件中包含非汉语演唱数据时，请将此选项打开。"
+
+#: .acep.load[1].title
+msgid "Import tension envelope"
+msgstr "导入张力包络"
+
+#: .acep.load[1].description
+msgid ""
+"When turned on, the tension envelope will be mapped to the tension channel "
+"of the intermediate model."
+msgstr "打开后，张力包络将被映射至中介模型的力度通道。"
+
+#: .acep.load[2].title
+msgid "Import energy envelope"
+msgstr "导入力度包络"
+
+#: .acep.load[2].description
+msgid ""
+"When turned on, the energy envelope will be mapped to the energy channel of "
+"the intermediate model."
+msgstr ""
+"打开后，将可以通过映射比例选项控制力度包络映射至中介模型的力度通道和音量通道"
+"的比例。"
+
+#: .acep.load[3].title
+msgid "Strength-volume mapping coefficient"
+msgstr "力度-音量映射系数"
+
+#: .acep.load[3].description
+msgid ""
+"Since the strength parameter of ACE Studio has a significant impact on the "
+"volume, this option is provided to control the mapping coefficient of the "
+"strength envelope. The strength envelope will be multiplied by the value of "
+"this option as a whole and then mapped to the volume channel of the "
+"intermediate model, and the remaining part will be mapped to the strength "
+"channel. This option accepts values in the range of 0~1.0."
+msgstr ""
+"由于 ACE Studio 力度参数对音量的影响较为显著，故提供此选项控制力度包络的映射"
+"系数。力度包络将被整体乘以此选项的值后映射到中介模型的音量通道，剩余的部分将"
+"被映射到力度通道。此选项接受 0~1.0 范围内的值。"
+
+#: .acep.load[4].title
+msgid "Interval of curve sampling"
+msgstr "参数点采样间隔"
+
+#: .acep.load[4].description
+msgid ""
+"The unit is tick (the length of a quarter note is 480 ticks). By default, "
+"the parameter points in the acep file are stored in a very dense manner. "
+"Increasing the sampling interval appropriately will not cause much loss of "
+"accuracy, but it can get a smaller file size. Setting to 0 or a negative "
+"value means keeping the original sampling interval."
+msgstr ""
+"单位为tick（四分音符长度为 480 ticks）。默认情况下 acep 文件中的参数点采用非"
+"常密集的存储方式，适当提高采样间隔不会造成很大的精度损失，但可以得到更小的文"
+"件体积。设置为 0 或负值代表保持原有采样间隔。"
+
+#: .acep.load[5].title
+msgid "Breath parameter normalization"
+msgstr "气声实参标准化参数"
+
+#: .acep.load[5].description
+msgid ""
+"This option is an advanced option. After enabling this option, the breath "
+"parameters will be merged with the breath envelope after being transformed "
+"by the normalization. It is recommended to enable this option after fixing "
+"all parameters with a fixed brush. This option needs to set 5 values, "
+"separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means "
+"to perform Z-Score normalization on the parameter points, and minmax means "
+"to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter "
+"points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter "
+"points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized "
+"parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled "
+"parameter value will be added to this value."
+msgstr ""
+"此选项为高级选项。启用此选项后，气声实参将经过标准化变换后与气声包络合并。建"
+"议使用固定笔刷固定全部参数后再启用此选项。此选项需要设定 5 个值，彼此使"
+"用“,”隔开：\n"
+"(1) 标准化方法：none 代表关闭此选项，zscore 代表对参数点执行 Z-Score 标准化，"
+"minmax 代表将参数点 Min-Max 标准化至 [-1.0, 1.0] 区间。\n"
+"(2) 下阈值：0~10.0 范围内的实数，低于此值的参数点将不会参与标准化。\n"
+"(3) 上阈值：0~10.0 范围内的实数，高于此值的参数点将不会参与标准化。\n"
+"(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
+"(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
+
+#: .acep.load[6].title
+msgid "Tension parameter normalization"
+msgstr "张力实参标准化参数"
+
+#: .acep.load[6].description
+msgid ""
+"This option is an advanced option. After enabling this option, the tension "
+"parameters will be merged with the tension envelope after being transformed "
+"by the normalization. It is recommended to enable this option after fixing "
+"all parameters with a fixed brush. This option needs to set 5 values, "
+"separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means "
+"to perform Z-Score normalization on the parameter points, and minmax means "
+"to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter "
+"points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter "
+"points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized "
+"parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled "
+"parameter value will be added to this value."
+msgstr ""
+"此选项为高级选项。打开“导入张力包络”开关并启用此选项后，张力实参将经过标准化"
+"变换后与张力包络进行合并。建议使用固定笔刷固定全部参数后再启用此选项。此选项"
+"需要设定 5 个值，彼此使用“,”隔开：\n"
+"(1) 标准化方法：none 代表关闭此选项，zscore 代表对参数点执行 Z-Score 标准化，"
+"minmax 代表将参数点 Min-Max 标准化至 [-1.0, 1.0] 区间。\n"
+"(2) 下阈值：0~10.0 范围内的实数，低于此值的参数点将不会参与标准化。\n"
+"(3) 上阈值：0~10.0 范围内的实数，高于此值的参数点将不会参与标准化。\n"
+"(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
+"(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
+
+#: .acep.load[7].title
+msgid "Energy parameter normalization"
+msgstr "力度实参标准化参数"
+
+#: .acep.load[7].description
+msgid ""
+"This option is an advanced option. After enabling this option, the energy "
+"parameters will be merged with the energy envelope after being transformed "
+"by the normalization. It is recommended to enable this option after fixing "
+"all parameters with a fixed brush. This option needs to set 5 values, "
+"separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means "
+"to perform Z-Score normalization on the parameter points, and minmax means "
+"to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter "
+"points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter "
+"points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized "
+"parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled "
+"parameter value will be added to this value."
+msgstr ""
+"此选项为高级选项。打开“导入力度包络”开关并启用此选项后，力度实参将经过标准化"
+"变换后与力度包络进行合并。建议使用固定笔刷固定全部参数后再启用此选项。此选项"
+"需要设定 5 个值，彼此使用“,”隔开：\n"
+"(1) 标准化方法：none 代表关闭此选项，zscore 代表对参数点执行 Z-Score 标准化，"
+"minmax 代表将参数点 Min-Max 标准化至 [-1.0, 1.0] 区间。\n"
+"(2) 下阈值：0~10.0 范围内的实数，低于此值的参数点将不会参与标准化。\n"
+"(3) 上阈值：0~10.0 范围内的实数，高于此值的参数点将不会参与标准化。\n"
+"(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
+"(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
+
+#: .acep.dump[0].title
+msgid "Default singer"
+msgstr "默认使用的歌手"
+
+#: .acep.dump[0].description
+msgid "Please input the complete and correct singer name"
+msgstr "请输入完整无误的歌手名字。"
+
+#: .acep.dump[1].title
+msgid "Default breath length (ms)"
+msgstr "默认呼吸长度（毫秒）"
+
+#: .acep.dump[1].description
+msgid ""
+"This option is used to set the default breath length when the breath mark is "
+"converted to a breath parameter. The actual breath length may be less than "
+"the default value due to the small gap between notes; some notes may be "
+"shortened due to the insertion of breath marks. Setting to 0 or a negative "
+"value means ignoring all breath marks."
+msgstr ""
+"本选项用于设定换气标记被转换为呼吸参数时默认的呼吸长度。实际换气长度可能因音"
+"符间隙过小而小于默认值；部分音符可能随呼吸标记的插入而缩短。设置为 0 或负值代"
+"表忽略所有换气标记。"
+
+#: .acep.dump[2].title
+msgid "Map strength and tension parameters to"
+msgstr "将力度参数映射至"
+
+#: .acep.dump[2].choices[0].text
+msgid "Both strength and tension"
+msgstr "力度与张力"
+
+#: .acep.dump[2].choices[0].description
+msgid ""
+"Map both strength and tension parameters to strength and tension parameters, "
+"each with a weight of 50%."
+msgstr "将力度参数同时映射至力度与张力参数，二者将各占 50% 的权重。"
+
+#: .acep.dump[2].choices[1].text
+msgid "Only strength"
+msgstr "仅力度"
+
+#: .acep.dump[2].choices[1].description
+msgid ""
+"Map only strength parameters to strength parameters. Tension parameters will "
+"remain unparameterized."
+msgstr "仅将力度参数映射至力度参数。张力参数将保持无参。"
+
+#: .acep.dump[2].choices[2].text
+msgid "Only tension"
+msgstr "仅张力"
+
+#: .acep.dump[2].choices[2].description
+msgid ""
+"Map only tension parameters to tension parameters. Strength parameters will "
+"remain unparameterized."
+msgstr "仅将力度参数映射至张力参数。力度参数将保持无参。"
+
+#: .acep.dump[2].description
+msgid ""
+"ACE Studio has both strength and tension parameters, both of which can "
+"affect the strength of the singing. This option is used to set the mapping "
+"target of the strength parameter."
+msgstr ""
+"ACE Studio 同时具有力度与张力参数，二者均可影响歌声的力量感。可以选择力度参数"
+"的映射目标。"
+
+#: .acep.dump[3].title
+msgid "Threshold for splitting"
+msgstr "片段切分阈值"
+
+#: .acep.dump[3].description
+msgid ""
+"When the distance between notes exceeds the set value, they will be split "
+"into different segments (patterns) for subsequent editing. The threshold "
+"unit is the value of a quarter note, and the default is 8, which means that "
+"when the distance between notes exceeds 8 quarter notes (3840 ticks), they "
+"will be split. If you don't want to split at all, please set this option to "
+"0 or a negative value."
+msgstr ""
+"当音符之间的距离超过设定值时，将被切分至不同的片段（pattern）以便后续编辑。阈"
+"值单位为四分音符时值，默认为 8，即当音符间距超过 8 个四分音符时值（3840 "
+"ticks）时进行切分。若不希望进行任何切分，请将此选项设定为 0 或负值。"
+
+#: .acep.dump[4].title
+msgid "Lyrics language"
+msgstr "歌词语言"
+
+#: .acep.dump[4].choices[0].text
+msgid "Chinese"
+msgstr "中文"
+
+#: .acep.dump[4].choices[1].text
+msgid "Japanese"
+msgstr "日语"
+
+#: .acep.dump[4].choices[2].text
+msgid "English"
+msgstr "英语"
+
+#: .acep.dump[4].description
+msgid ""
+"ACE Studio supports three languages of lyrics. This option is used to set "
+"the language of lyrics."
+msgstr "ACE Studio 支持三大语种的歌词，本选项用于设定歌词的语言。"
