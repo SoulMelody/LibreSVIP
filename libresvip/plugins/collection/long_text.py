@@ -2,8 +2,8 @@ from textx import metamodel_from_str
 
 grammar = """
 PraatCollectionFile:
-    "File type =" file_type= '"ooTextFile"'
-    "Object class =" object_class= '"Collection"'
+    'File type = "ooTextFile"'
+    'Object class = "Collection"'
     "size =" size=INT
     "item []:" items*=PraatRootItem
 ;
@@ -13,12 +13,12 @@ PraatString:
 ;
 
 PraatRootItem:
-    TextGrid | Pitch | IntensityOrHarmonicity | Formant | PointProcess | PitchOrIntensityTier
+    TextGrid | Pitch | ThreeDimensional | Formant | PointProcess | PitchOrIntensityTier
 ;
 
 TextGrid:
-    "item [" index=INT "]" ":"
-    "class =" class= '"TextGrid"'
+    "item [" INT "]" ":"
+    "class =" item_type= '"TextGrid"'
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
@@ -32,8 +32,8 @@ IntervalOrTextTier:
 ;
 
 IntervalTier:
-    "item [" index=INT "]" ":"
-    "class =" class= '"IntervalTier"'
+    "item [" INT "]" ":"
+    "class =" item_type= '"IntervalTier"'
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
@@ -43,8 +43,8 @@ IntervalTier:
 ;
 
 TextTier:
-    "item [" index=INT "]" ":"
-    "class =" class= '"TextTier"'
+    "item [" INT "]" ":"
+    "class =" item_type= '"TextTier"'
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
@@ -54,21 +54,21 @@ TextTier:
 ;
 
 TextPoint:
-    "points [" index=INT "]" ":"
+    "points [" INT "]" ":"
     "number =" number=FLOAT
     "mark =" mark=PraatString
 ;
 
 Interval:
-    "intervals [" index=INT "]" ":"
+    "intervals [" INT "]" ":"
     "xmin =" xmin=FLOAT
     "xmax =" xmax=FLOAT
     "text =" text=PraatString
 ;
 
 Pitch:
-    "item [" index=INT "]" ":"
-    "class =" class= '"Pitch 1"'
+    "item [" INT "]" ":"
+    "class =" item_type= '"Pitch 1"'
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
@@ -76,14 +76,14 @@ Pitch:
     "dx =" dx=FLOAT
     "x1 =" x1=FLOAT
     "ceiling =" ceiling=INT
-    "maxnCandidates =" maxnCandidates=INT
+    "maxnCandidates =" size=INT
     "frames []:"
     frames*=Frame
 ;
 
-IntensityOrHarmonicity:
-    "item [" index=INT "]" ":"
-    "class =" class=/"Intensity 2"|"Harmonicity 2"/
+ThreeDimensional:
+    "item [" INT "]" ":"
+    "class =" item_type=/"Intensity 2"|"Harmonicity 2"|"Sound 2"/
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
@@ -95,7 +95,7 @@ IntensityOrHarmonicity:
     "ny =" ny=INT
     "dy =" dy=FLOAT
     "y1 =" y1=FLOAT
-    z?=Z
+    z=Z?
 ;
 
 Z:
@@ -109,12 +109,12 @@ Y:
 ;
 
 X:
-    "z [" y=INT "] [" x=INT "] =" value=FLOAT
+    "z [" INT "] [" INT "] =" value=FLOAT
 ;
 
 PointProcess:
-    "item [" index=INT "]" ":"
-    "class =" class= '"PointProcess 1"'
+    "item [" INT "]" ":"
+    "class =" item_type= '"PointProcess 1"'
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
@@ -123,26 +123,26 @@ PointProcess:
 ;
 
 T:
-    "t [" index=INT "] =" value=FLOAT
+    "t [" INT "] =" value=FLOAT
 ;
 
 Formant:
-    "item [" index=INT "]" ":"
-    "class =" class= '"Formant 2"'
+    "item [" INT "]" ":"
+    "class =" item_type= '"Formant 2"'
     "name =" name=PraatString
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
     "nx =" nx=INT
     "dx =" dx=FLOAT
     "x1 =" x1=FLOAT
-    "maxnFormants =" maxnFormants=INT
+    "maxnFormants =" size=INT
     "frames []:"
     frames*=Frame
 ;
 
 PitchOrIntensityTier:
-    "item [" index=INT "]" ":"
-    "class =" class=/"PitchTier"|"IntensityTier"/
+    "item [" INT "]" ":"
+    "class =" item_type=/"PitchTier"|"IntensityTier"/
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
     "points :"
@@ -151,32 +151,32 @@ PitchOrIntensityTier:
 ;
 
 Point:
-    "points [" index=INT "]" ":"
+    "points [" INT "]" ":"
     "number =" number=FLOAT
     "value =" value=FLOAT
 ;
 
 Frame:
-    "frames [" index=INT "]" ":"
+    "frames [" INT "]" ":"
     "intensity =" intensity=FLOAT
-    candidates?=Candidates
-    formants?=Formants
+    candidates=Candidates?
+    formants=Formants?
 ;
 
 Candidates:
-    "nCandidates =" nCandidates=INT
+    "nCandidates =" size=INT
     "candidates []:"
     candidates*=CandidateElement
 ;
 
 CandidateElement:
-    "candidates [" index=INT "]" ":"
+    "candidates [" INT "]" ":"
     "frequency =" frequency=FLOAT
     "strength =" strength=FLOAT
 ;
 
 Formants:
-    "nFormants =" nFormants=INT
+    "nFormants =" size=INT
     "formants []:"
     formants*=FormantElement
 ;
@@ -187,4 +187,4 @@ FormantElement:
 ;
 """
 
-PraatCollectionModel = metamodel_from_str(grammar)
+PraatLongTextModel = metamodel_from_str(grammar)
