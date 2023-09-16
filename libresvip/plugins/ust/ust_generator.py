@@ -14,32 +14,51 @@ class USTGenerator:
     options: OutputOptions
 
     def generate_project(self, project: Project) -> UTAUProject:
-        if self.options.track_index < 0:
-            first_singing_track = next(
-                (
-                    track
-                    for track in project.track_list
-                    if isinstance(track, SingingTrack)
-                ),
-                None,
-            )
-        else:
-            first_singing_track = project.track_list[self.options.track_index]
-        if first_singing_track is None or not isinstance(first_singing_track, SingingTrack):
-            raise ValueError("No singing track found")
         if not project.song_tempo_list:
             project.song_tempo_list.append(SongTempo(bpm=DEFAULT_BPM))
-        tempos = [str(project.song_tempo_list[0].bpm)]
-        ust_track = self.generate_track(first_singing_track, project.song_tempo_list)
+        tempos = [str(round(project.song_tempo_list[0].bpm, 2))]
+        if self.options.version < 2.0:
+            if self.options.track_index < 0:
+                first_singing_track = next(
+                    (
+                        track
+                        for track in project.track_list
+                        if isinstance(track, SingingTrack)
+                    ),
+                    None,
+                )
+            else:
+                first_singing_track = project.track_list[self.options.track_index]
+            if first_singing_track is None or not isinstance(
+                first_singing_track, SingingTrack
+            ):
+                msg = "No singing track found"
+                raise ValueError(msg)
+            ust_tracks = [
+                self.generate_track(first_singing_track, project.song_tempo_list)
+            ]
+        else:
+            singing_tracks = [
+                track for track in project.track_list if isinstance(track, SingingTrack)
+            ]
+            if not len(singing_tracks):
+                msg = "No singing track found"
+                raise ValueError(msg)
+            ust_tracks = [
+                self.generate_track(track, project.song_tempo_list)
+                for track in singing_tracks
+            ]
         return UTAUProject(
             charset=self.options.encoding,
             ust_version=[self.options.version],
             tempo=tempos,
-            track=ust_track,
+            track=ust_tracks,
             pitch_mode2=[True],
         )
 
-    def generate_track(self, track: SingingTrack, tempo_list: list[SongTempo]) -> UTAUTrack:
+    def generate_track(
+        self, track: SingingTrack, tempo_list: list[SongTempo]
+    ) -> UTAUTrack:
         mode1_track_pitch_data = pitch_to_utau_mode1_track(
             track.edited_params.pitch, track.note_list
         )
@@ -48,11 +67,13 @@ class USTGenerator:
         )
         utau_notes = []
         prev_bpm = tempo_list[0].bpm
-        for i, (note, mode1_pitch, mode2_pitch) in enumerate(zip(
-            track.note_list,
-            mode1_track_pitch_data.notes,
-            mode2_track_pitch_data.notes,
-        )):
+        for i, (note, mode1_pitch, mode2_pitch) in enumerate(
+            zip(
+                track.note_list,
+                mode1_track_pitch_data.notes,
+                mode2_track_pitch_data.notes,
+            )
+        ):
             cur_bpm = bpm_for_note(tempo_list, note)
             utau_note = UTAUNote(
                 note_type=str(i).zfill(4),
@@ -61,7 +82,7 @@ class USTGenerator:
                 note_num=[note.key_number],
                 pitch_bend_points=mode1_pitch.pitch_points,
                 pitchbend_type=["5"],
-                pitchbend_start=[0]
+                pitchbend_start=[0],
             )
             if mode2_pitch:
                 utau_note.pbs = [mode2_pitch.start]
@@ -84,7 +105,7 @@ class USTGenerator:
                         vibrato_params.shift,
                     ]
             if cur_bpm != prev_bpm:
-                utau_note.tempo = [str(cur_bpm)]
+                utau_note.tempo = [str(round(cur_bpm, 2))]
                 prev_bpm = cur_bpm
             utau_notes.append(utau_note)
         return UTAUTrack(

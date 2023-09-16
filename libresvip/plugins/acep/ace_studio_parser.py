@@ -73,21 +73,18 @@ class AceParser:
         return SongTempo(position=ace_tempo.position, bpm=ace_tempo.bpm)
 
     def parse_track(self, ace_track: AcepTrack) -> Optional[Track]:
-        real_ace_track = ace_track
-        if isinstance(real_ace_track, AcepAudioTrack):
-            if len(real_ace_track.patterns) == 0:
+        if isinstance(ace_track, AcepAudioTrack):
+            if len(ace_track.patterns) == 0:
                 return None
             track = InstrumentalTrack()
-            track.audio_file_path = real_ace_track.patterns[0].path
-        elif isinstance(real_ace_track, AcepVocalTrack):
+            track.audio_file_path = ace_track.patterns[0].path
+        elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
-                ai_singer_name=(
-                    id2singer.get(real_ace_track.singer.singer_id, None) or ""
-                )
+                ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
             )
             self.ace_note_list = []
             ace_params = AcepParams()
-            for pattern in real_ace_track.patterns:
+            for pattern in ace_track.patterns:
                 if len(pattern.notes) == 0:
                     continue
                 ace_notes = [
@@ -145,10 +142,10 @@ class AceParser:
             track.edited_params = self.parse_params(ace_params)
         else:
             return
-        track.title = real_ace_track.name
-        track.mute = real_ace_track.mute
-        track.solo = real_ace_track.solo
-        track.volume = 10 ** (real_ace_track.gain / 20)
+        track.title = ace_track.name
+        track.mute = ace_track.mute
+        track.solo = ace_track.solo
+        track.volume = 10 ** (ace_track.gain / 20)
         return track
 
     def parse_note(self, ace_note: AcepNote, pinyin: Optional[str] = None) -> Note:

@@ -6,6 +6,7 @@ from libresvip.model.base import BaseModel
 class InputOptions(BaseModel):
     pass
 
+
 class OutputOptions(BaseModel):
     track_index: int = Field(
         default=-1,
@@ -18,6 +19,6 @@ class OutputOptions(BaseModel):
         description="UST file version",
     )
     encoding: str = Field(
-        default="shift-jis",
+        default="Shift_JIS",
         title="Text encoding",
     )

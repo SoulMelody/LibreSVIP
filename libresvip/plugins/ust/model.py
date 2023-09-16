@@ -16,6 +16,7 @@ UTAUProject:
     (LineBreak 'UstVersion=' ust_version=FLOAT)?
     (
         (LineBreak 'Tempo=' tempo=/[^\r\n]*/) |
+        (LineBreak 'TimeSignatures=' time_signatures*=UTAUTimeSignature[','] ','?) |
         (LineBreak 'Tracks=' track_count=INT) |
         (LineBreak 'Project' 'Name'? '=' project_name=/[^\r\n]*/) |
         (LineBreak 'VoiceDir=' voice_dir=/[^\r\n]*/) |
@@ -28,13 +29,17 @@ UTAUProject:
         (LineBreak 'MapFirst=' map_first=BOOL) |
         (LineBreak 'Flags=' flags=/[^\r\n]*/)
     )*
-    (track=UTAUTrack)
+    (track*=UTAUTrack)
+;
+UTAUTimeSignature:
+    '(' numerator=INT '/' denominator=INT '/' bar_index=INT ')'
 ;
 LineBreak: '\r'? '\n';
 UTAUEnvelope:
     (p1=FLOAT ',' p2=FLOAT ',' p3=FLOAT ',' v1=FLOAT ',' v2=FLOAT ',' v3=FLOAT ',' v4=FLOAT) (
         (',,' p4=FLOAT) |
-        (',%,' p4=FLOAT (',' p5=FLOAT (',' v5=FLOAT)?)?)
+        (',%,' p4=FLOAT (',' p5=FLOAT (',' v5=FLOAT)?)?) |
+        (',' other_points+=FLOAT[','])
     )?
 ;
 UTAUPitchBendMode: /[srj]/ | '';
@@ -49,8 +54,10 @@ UTAUNote:
     LineBreak '[#' note_type=UTAUNoteType ']'
     (
         (LineBreak 'Length' '=' length=FLOAT) |
+        (LineBreak 'Duration' '=' duration=FLOAT) |
         (LineBreak 'Lyric' '=' lyric=/[^\r\n]*/) |
         (LineBreak 'NoteNum' '=' note_num=INT) |
+        (LineBreak 'Delta' '=' delta=INT) |
         (LineBreak 'PreUtterance' '=' pre_utterance=/[^\r\n]*/) |
         (LineBreak 'VoiceOverlap' '=' voice_overlap=FLOAT) |
         (LineBreak 'Intensity' '=' intensity=FLOAT) |
@@ -64,11 +71,13 @@ UTAUNote:
         (LineBreak 'PBType' '=' pitchbend_type=UTAUPitchBendType) |
         (LineBreak 'PBStart' '=' pitchbend_start=FLOAT) |
         (LineBreak /(Piches|Pitches|PitchBend)/ '=' pitch_bend_points*=INT[',']) |
-        (LineBreak 'PBS' '=' pbs+=FLOAT[';']) |
+        (LineBreak 'PBS' '=' pbs+=FLOAT[/;|,/]) |
         (LineBreak 'PBW' '=' pbw*=UTAUOptionalFloat[',']) |
         (LineBreak 'PBY' '=' pby*=UTAUOptionalFloat[',']) |
         (LineBreak 'VBR' '=' vbr*=UTAUOptionalFloat[',']) |
         (LineBreak 'PBM' '=' pbm*=UTAUPitchBendMode[',']) |
+        (LineBreak 'stptrim' '=' stp_trim=FLOAT) |
+        (LineBreak 'layer' '=' layer=INT) |
         (LineBreak '@preuttr' '=' at_preutterance=FLOAT) |
         (LineBreak '@overlap' '=' at_overlap=FLOAT) |
         (LineBreak '@stpoint' '=' at_start_point=FLOAT) |
@@ -108,13 +117,16 @@ class UTAUEnvelope(BaseModel):
     p4: Optional[float] = None
     p5: Optional[float] = None
     v5: Optional[float] = None
+    other_points: Optional[list[float]] = None
 
 
 class UTAUNote(BaseModel):
     note_type: str
     length: list[int] = Field(default_factory=list)
+    duration: list[int] = Field(default_factory=list)
     lyric: list[str] = Field(default_factory=list)
     note_num: list[int] = Field(default_factory=list)
+    delta: list[int] = Field(default_factory=list)
     key: list[str] = Field(default_factory=list)
     value: list[str] = Field(default_factory=list)
     pre_utterance: list[str] = Field(default_factory=list)
@@ -135,6 +147,8 @@ class UTAUNote(BaseModel):
     pby: list[UTAUOptionalFloat] = Field(default_factory=list)
     vbr: list[UTAUOptionalFloat] = Field(default_factory=list)
     pbm: list[UTAUPitchBendMode] = Field(default_factory=list)
+    stp_trim: list[float] = Field(default_factory=list)
+    layer: list[int] = Field(default_factory=list)
     at_preutterance: list[float] = Field(default_factory=list)
     at_overlap: list[float] = Field(default_factory=list)
     at_start_point: list[float] = Field(default_factory=list)
@@ -147,10 +161,17 @@ class UTAUTrack(BaseModel):
     notes: list[UTAUNote] = Field(default_factory=list)
 
 
+class UTAUTimeSignature(BaseModel):
+    numerator: int
+    denominator: int
+    bar_index: int
+
+
 class UTAUProject(BaseModel):
     ust_version: list[float] = Field(default_factory=list)
     charset: Optional[str] = None
     tempo: list[str] = Field(default_factory=list)
+    time_signatures: list[UTAUTimeSignature] = Field(default_factory=list)
     project_name: list[str] = Field(default_factory=list)
     voice_dir: list[str] = Field(default_factory=list)
     out_file: list[str] = Field(default_factory=list)
@@ -162,7 +183,7 @@ class UTAUProject(BaseModel):
     flags: list[str] = Field(default_factory=list)
     track_count: list[int] = Field(default_factory=list)
     pitch_mode2: list[bool] = Field(default_factory=list)
-    track: Optional[UTAUTrack] = Field(default_factory=UTAUTrack)
+    track: list[UTAUTrack] = Field(default_factory=list)
 
 
 USTModel = metamodel_from_str(
@@ -173,5 +194,6 @@ USTModel = metamodel_from_str(
         UTAUTrack,
         UTAUNote,
         UTAUEnvelope,
+        UTAUTimeSignature,
     ],
 )

@@ -3,6 +3,7 @@ import contextvars
 import gettext
 import math
 import pathlib
+import textwrap
 from numbers import Real
 from typing import Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
@@ -77,7 +78,7 @@ def gettext_lazy(message: str) -> str:
 def shorten_error_message(message: Optional[str]) -> str:
     if message is None:
         return ""
-    error_lines = message.splitlines()
+    error_lines = textwrap.wrap(message, 70)
     if len(error_lines) > 30:
         message = "\n".join(error_lines[:15] + ["..."] + error_lines[-15:])
     return message

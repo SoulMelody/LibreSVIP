@@ -7,6 +7,7 @@ from pydantic import Field, field_validator
 from libresvip.model.base import BaseModel
 
 from .model import AcepLyricsLanguage
+from .singers import DEFAULT_SINGER
 
 
 class StrengthMappingOption(Enum):
@@ -141,7 +142,7 @@ class InputOptions(BaseModel):
 
 class OutputOptions(BaseModel):
     singer: str = Field(
-        default="然糊糊",
+        default=DEFAULT_SINGER,
         title="Default singer",
         description="Please input the complete and correct singer name",
     )
