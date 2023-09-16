@@ -62,6 +62,7 @@ class CeVIODictExtension:
         },
     )
 
+
 @dataclass
 class CeVIODictionary:
     class Meta:
@@ -197,6 +198,13 @@ class CeVIOGroup:
         default="Japanese",
         metadata={
             "name": "Language",
+            "type": "Attribute",
+        },
+    )
+    snapshot: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "SnapShot",
             "type": "Attribute",
         },
     )
@@ -477,6 +485,27 @@ class CeVIOScore:
         default=None,
         metadata={
             "name": "Alpha",
+            "type": "Attribute",
+        },
+    )
+    pitch_shift: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "PitchShift",
+            "type": "Attribute",
+        },
+    )
+    pitch_tune: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "PitchTune",
+            "type": "Attribute",
+        },
+    )
+    husky: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "Husky",
             "type": "Attribute",
         },
     )
@@ -843,7 +872,6 @@ class CeVIOSong:
 
 @dataclass
 class CeVIOBaseUnit:
-
     version: Optional[str] = field(
         default="1.0",
         metadata={
@@ -1139,6 +1167,7 @@ class CeVIOScene:
 class CeVIOSequence:
     class Meta:
         name = "Sequence"
+
     sequence_id: Optional[str] = field(
         default="",
         metadata={
@@ -1159,6 +1188,7 @@ class CeVIOSequence:
 class CeVIOCreativeStudioProject:
     class Meta:
         name = "Scenario"
+
     code: Optional[str] = field(
         default="7251BC4B6168E7B2992FA620BD3E1E77",
         metadata={

@@ -209,12 +209,15 @@ def test_musicxml_read(shared_datadir):
 
 
 def test_ccs_read(shared_datadir):
+    # from xsdata.formats.dataclass.parsers.config import ParserConfig
     from xsdata.formats.dataclass.parsers.xml import XmlParser
 
     from libresvip.plugins.ccs.model import CeVIOCreativeStudioProject
 
     proj_path = shared_datadir / "test.ccs"
-    xml_parser = XmlParser()
+    xml_parser = XmlParser(
+        # config=ParserConfig(fail_on_unknown_attributes=True)
+    )
     proj = xml_parser.from_path(proj_path, CeVIOCreativeStudioProject)
     print(proj)
 
