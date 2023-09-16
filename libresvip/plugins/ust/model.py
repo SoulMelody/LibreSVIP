@@ -86,6 +86,7 @@ UTAUNote:
         (LineBreak '@cache' '=' cache_location=/[^\r\n]*/) |
         (LineBreak key=/\$[^=]+/ '=' value=/[^\r\n]*/)
     )*
+    (LineBreak /[\s\S]+/)?
 ;
 """
 

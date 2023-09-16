@@ -59,7 +59,7 @@ def pitch_to_utau_mode2_track(
                 [point for point in absolute_pitch if point.x < notes[0].end_pos],
                 notes[0].key_number,
             ),
-            -(min(point.x for point in absolute_pitch if point.x < 0) or 0),
+            -min((point.x for point in absolute_pitch if point.x < 0), default=0),
             bpm_for_note(tempos, notes[0]),
         ),  # first note
     ] + [
