@@ -292,6 +292,13 @@ class CeVIONote:
             "type": "Attribute",
         },
     )
+    accent: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "Accent",
+            "type": "Attribute",
+        },
+    )
 
 
 @dataclass
@@ -693,6 +700,13 @@ class CeVIOTimeline:
             "type": "Attribute",
         },
     )
+    start_position: Optional[XmlTime] = field(
+        default=None,
+        metadata={
+            "name": "StartPosition",
+            "type": "Attribute",
+        },
+    )
     view_scale: Optional[CeVIOViewScale] = field(
         default=None,
         metadata={
@@ -770,6 +784,13 @@ class CeVIOParameters:
             "type": "Element",
         },
     )
+    husky: Optional[CeVIOParameter] = field(
+        default=None,
+        metadata={
+            "name": "Husky",
+            "type": "Element",
+        },
+    )
 
 
 @dataclass
@@ -837,6 +858,13 @@ class CeVIOSong:
         default="1.02",
         metadata={
             "name": "Version",
+            "type": "Attribute",
+        },
+    )
+    common_keys: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "CommonKeys",
             "type": "Attribute",
         },
     )
