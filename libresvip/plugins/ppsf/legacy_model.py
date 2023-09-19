@@ -7,6 +7,7 @@ from construct import (
     Const,
     ExprAdapter,
     FixedSized,
+    FocusedSeq,
     GreedyRange,
     Int16ub,
     Int16ul,
@@ -34,6 +35,19 @@ def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
                 Int16ub,
                 encoder=obj_ ^ 56960,
                 decoder=obj_ ^ 56960,
+            ),
+            subcon,
+        ),
+        PrefixedArray(
+            FocusedSeq(
+                "size",
+                Const(b"\x81"),
+                "size"
+                / ExprAdapter(
+                    Byte,
+                    encoder=obj_ ^ 128,
+                    decoder=obj_ ^ 128,
+                ),
             ),
             subcon,
         ),
@@ -179,6 +193,19 @@ PpsfEditorData = Struct(
     "data" / Bytes(this.size),
 )
 
+PpsfEditorClipData = Struct(
+    "magic" / Const(b"ECLS"),
+    "size" / Int32ul,
+    "data"
+    / FixedSized(
+        this.size,
+        Struct(
+            "unknown" / Bytes(28),
+            "note_datas" / ppsf_prefixed_array(PpsfEditorData),
+        ),
+    ),
+)
+
 PpsfEditorTrackData = Struct(
     "magic" / Const(b"ETRS"),
     "size" / Int32ul,
@@ -188,7 +215,7 @@ PpsfEditorTrackData = Struct(
         Struct(
             "unknown" / Bytes(52),
             "track_datas" / ppsf_prefixed_array(PpsfEditorData),
-            "clip_datas" / ppsf_prefixed_array(PpsfEditorData),
+            "clip_datas" / ppsf_prefixed_array(PpsfEditorClipData),
             "event_datas" / ppsf_prefixed_array(PpsfEditorData),
         ),
     ),

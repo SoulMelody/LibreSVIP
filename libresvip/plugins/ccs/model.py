@@ -299,6 +299,13 @@ class CeVIONote:
             "type": "Attribute",
         },
     )
+    breath: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "Breath",
+            "type": "Attribute",
+        },
+    )
 
 
 @dataclass
