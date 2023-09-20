@@ -1,7 +1,7 @@
 import dataclasses
 import operator
 
-import mido
+import mido_fix as mido
 import regex as re
 
 from libresvip.core.constants import TICKS_IN_BEAT

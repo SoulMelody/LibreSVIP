@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:02a7b097cf41a6a5beed62cba425203dd3db009f33f0d7add8bdf04463709bcf"
+content_hash = "sha256:726042b1131e2aa6f952b493a2c74f3cbe802b20c1c9d27b8bf5a66db3c1f6fe"
 
 [[package]]
 name = "aiofiles"
@@ -383,6 +383,19 @@ files = [
 ]
 
 [[package]]
+name = "click-default-group"
+version = "1.2.4"
+requires_python = ">=2.7"
+summary = "click_default_group"
+dependencies = [
+    "click",
+]
+files = [
+    {file = "click_default_group-1.2.4-py2.py3-none-any.whl", hash = "sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f"},
+    {file = "click_default_group-1.2.4.tar.gz", hash = "sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e"},
+]
+
+[[package]]
 name = "clr-loader"
 version = "0.2.6"
 requires_python = ">=3.7"
@@ -564,6 +577,20 @@ summary = "DNS toolkit"
 files = [
     {file = "dnspython-2.4.2-py3-none-any.whl", hash = "sha256:57c6fbaaeaaf39c891292012060beb141791735dbb4004798328fc2c467402d8"},
     {file = "dnspython-2.4.2.tar.gz", hash = "sha256:8dcfae8c7460a2f84b4072e26f1c9f4101ca20c071649cb7c34e8b6a93d58984"},
+]
+
+[[package]]
+name = "docformatter"
+version = "1.7.5"
+requires_python = ">=3.7,<4.0"
+summary = "Formats docstrings to follow PEP 257"
+dependencies = [
+    "charset-normalizer<4.0.0,>=3.0.0",
+    "untokenize<0.2.0,>=0.1.1",
+]
+files = [
+    {file = "docformatter-1.7.5-py3-none-any.whl", hash = "sha256:a24f5545ed1f30af00d106f5d85dc2fce4959295687c24c8f39f5263afaf9186"},
+    {file = "docformatter-1.7.5.tar.gz", hash = "sha256:ffed3da0daffa2e77f80ccba4f0e50bfa2755e1c10e130102571c890a61b246e"},
 ]
 
 [[package]]
@@ -1174,16 +1201,11 @@ files = [
 ]
 
 [[package]]
-name = "mido"
-version = "1.3.0"
-requires_python = "~=3.7"
+name = "mido-fix"
+version = "1.2.12"
 summary = "MIDI Objects for Python"
-dependencies = [
-    "packaging~=23.1",
-]
 files = [
-    {file = "mido-1.3.0-py3-none-any.whl", hash = "sha256:a710a274c8a1a3fd481f526d174a16e117b5e58d719ad92937a67fb6167a9432"},
-    {file = "mido-1.3.0.tar.gz", hash = "sha256:84282e3ace34bca3f984220db2dbcb98245cfeafb854260c02e000750dca86aa"},
+    {file = "mido_fix-1.2.12.tar.gz", hash = "sha256:8ce7ad87f847de36c7dd3048876581113c4d83367d1f392e5a7a9f9562b3374e"},
 ]
 
 [[package]]
@@ -2527,6 +2549,15 @@ files = [
 ]
 
 [[package]]
+name = "toposort"
+version = "1.10"
+summary = "Implements a topological sort algorithm."
+files = [
+    {file = "toposort-1.10-py3-none-any.whl", hash = "sha256:cbdbc0d0bee4d2695ab2ceec97fe0679e9c10eab4b2a87a9372b929e70563a87"},
+    {file = "toposort-1.10.tar.gz", hash = "sha256:bfbb479c53d0a696ea7402601f4e693c97b0367837c8898bc6471adfca37a6bd"},
+]
+
+[[package]]
 name = "translate-toolkit"
 version = "3.10.1"
 requires_python = ">=3.8"
@@ -2658,6 +2689,14 @@ dependencies = [
 files = [
     {file = "universal_pathlib-0.1.3-py3-none-any.whl", hash = "sha256:9c6a78cd75dad2988eb1d5db52f4e85a8a3092cbe5eb2cf18882c1ef06470d43"},
     {file = "universal_pathlib-0.1.3.tar.gz", hash = "sha256:1a052ab5e0517301df66be6517e9fe63cd9fc00813e5ce71a73701441ac2b5c8"},
+]
+
+[[package]]
+name = "untokenize"
+version = "0.1.1"
+summary = "Transforms tokens into original source code (while preserving whitespace)."
+files = [
+    {file = "untokenize-0.1.1.tar.gz", hash = "sha256:3865dbbbb8efb4bb5eaa72f1be7f3e0be00ea8b7f125c69cbd1f5fda926f37a2"},
 ]
 
 [[package]]
@@ -2957,10 +2996,16 @@ files = [
 [[package]]
 name = "xsdata"
 version = "23.8"
+extras = ["cli"]
 requires_python = ">=3.8"
 summary = "Python XML Binding"
 dependencies = [
-    "typing-extensions",
+    "click-default-group>=1.2",
+    "click>=5.0",
+    "docformatter>=1.7.2",
+    "jinja2>=2.10",
+    "toposort>=1.5",
+    "xsdata==23.8",
 ]
 files = [
     {file = "xsdata-23.8-py3-none-any.whl", hash = "sha256:3cf34ffb1ae35ac873e7eb53504e326d7997939f976a51814a57f77c8df8f09e"},

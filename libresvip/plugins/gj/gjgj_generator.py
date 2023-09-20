@@ -1,7 +1,7 @@
 import contextlib
 import dataclasses
 
-import mido
+import mido_fix as mido
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -87,9 +87,7 @@ class GjgjGenerator:
                     time=prev_ticks,
                 )
             )
-            prev_ticks += round(
-                time_signature.bar_index * time_signature.bar_length()
-            )
+            prev_ticks += round(time_signature.bar_index * time_signature.bar_length())
         return gjgj_time_signatures
 
     def generate_tracks(
@@ -157,9 +155,7 @@ class GjgjGenerator:
             if note.edited_phones is not None:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:
-                        note_start_pos_in_ticks = (
-                            note.start_pos + self.first_bar_length
-                        )
+                        note_start_pos_in_ticks = note.start_pos + self.first_bar_length
                         note_start_pos_in_secs = (
                             self.time_synchronizer.get_actual_secs_from_ticks(
                                 note_start_pos_in_ticks

@@ -2,7 +2,7 @@ import dataclasses
 import operator
 from typing import Optional
 
-import mido
+import mido_fix as mido
 
 from libresvip.core.constants import (
     DEFAULT_JAPANESE_LYRIC,

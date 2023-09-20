@@ -4,7 +4,7 @@ import math
 import operator
 from gettext import gettext as _
 
-import mido
+import mido_fix as mido
 import regex as re
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT

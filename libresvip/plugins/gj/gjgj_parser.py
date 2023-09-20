@@ -1,7 +1,7 @@
 import dataclasses
 import math
 
-import mido
+import mido_fix as mido
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (

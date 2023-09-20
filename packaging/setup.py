@@ -172,7 +172,7 @@ build_exe_options = {
         "drawsvg",
         "jinja2",
         "libresvip",
-        "mido",
+        "mido_fix",
         "pure_protobuf",
         "pymediainfo",
         "PySide6.QtQuick",

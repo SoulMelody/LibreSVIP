@@ -3,7 +3,7 @@ import dataclasses
 import math
 from typing import Optional
 
-import mido
+import mido_fix as mido
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
@@ -59,7 +59,10 @@ class VsqParser:
     @staticmethod
     def get_measure_prefix(text: str) -> int:
         master_parser = configparser.ConfigParser()
-        master_parser.read_string(text)
+        try:
+            master_parser.read_string(text)
+        except configparser.Error:
+            master_parser.read_string(text.rsplit("\n", 1)[0])
         return master_parser.getint("Master", "PreMeasure", fallback=0)
 
     @staticmethod
@@ -138,7 +141,10 @@ class VsqParser:
         self, text: str, track_index: int, tick_prefix: int
     ) -> SingingTrack:
         vsq_track = configparser.ConfigParser()
-        vsq_track.read_string(text)
+        try:
+            vsq_track.read_string(text)
+        except configparser.Error:
+            vsq_track.read_string(text.rsplit("\n", 1)[0])
         singing_track = SingingTrack(
             title=vsq_track.get("Common", "Name", fallback=f"Track {track_index}"),
             note_list=self.parse_notes(vsq_track, tick_prefix)

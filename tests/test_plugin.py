@@ -276,7 +276,7 @@ def test_svip_write(shared_datadir, capsys):
 
 
 def test_vsq_read(shared_datadir: pathlib.Path) -> None:
-    import mido
+    import mido_fix as mido
 
     vsq_file = mido.MidiFile(
         shared_datadir / "test.vsq", charset="SHIFT-JIS", clip=True

@@ -1,7 +1,7 @@
 import io
 import pathlib
 
-import mido
+import mido_fix as mido
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
