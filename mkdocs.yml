@@ -1,0 +1,40 @@
+site_name: LibreSVIP
+site_author: SoulMelody
+site_description: >-
+  一个通用的歌声合成工程文件转换器
+theme:
+  name: material
+  custom_dir: libresvip/res
+  features:
+    - navigation.footer
+    - navigation.tabs
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换至深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换至浅色模式
+  icon:
+    repo: fontawesome/brands/github-alt
+  favicon: libresvip.ico
+  language: zh
+repo_name: SoulMelody/LibreSVIP
+repo_url: https://github.com/SoulMelody/LibreSVIP
+nav:
+  - 开发者文档:
+    - 歌声合成工程格式一览: project_formats.md
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/SoulMelody/LibreSVIP
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/libresvip/
