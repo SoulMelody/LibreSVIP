@@ -63,10 +63,10 @@ linting = [
   "ruff>=0.0.290",
   "black>=23.9.1",
   "mypy>=1.5.1",
-  "sourcery>=1.9.0",
+  "sourcery>=1.10.0",
 ]
-packaging = ["cx-freeze>=6.15.7"]
-docs = ["mkdocs-material<10.0.0,>=9.3.2"]
+packaging = ["cx-freeze>=6.15.8"]
+docs = ["mkdocs-material<10.0.0,>=9.4.0"]
 test = ["pytest>=7.4.2", "pytest-datadir>=1.4.1"]
 typing_stubs = ["types-regex>=2023.8.8.0", "types-ujson>=5.8.0.1"]
 

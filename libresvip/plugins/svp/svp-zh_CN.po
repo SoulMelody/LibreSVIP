@@ -3,15 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 01:09+0800\n"
+"POT-Creation-Date: 2023-09-22 16:19+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Translate Toolkit 3.10.1\n"
 
+#: .svp.name
+msgid "SynthV Studio"
+msgstr ""
+
+#: .svp.file_format
 #: .svp.format_desc
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio 工程文件"
@@ -48,13 +53,27 @@ msgstr "音高信息输入模式"
 msgid "Full pitch curve"
 msgstr "输入完整音高曲线"
 
+#: .svp.load[1].choices[0].description
+msgid "Input the full pitch curve regardless of editing"
+msgstr "不论是否经过编辑，均输入整条音高曲线"
+
 #: .svp.load[1].choices[1].text
 msgid "Edited part only (vibrato mode)"
 msgstr "仅输入已编辑部分（颤音模式）"
 
+#: .svp.load[1].choices[1].description
+msgid ""
+"Input the edited part of pitch curve; default vibrato will be imported if "
+"not edited"
+msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音也将被导入"
+
 #: .svp.load[1].choices[2].text
 msgid "Edited part only (plain mode)"
 msgstr "仅输入已编辑部分（平整模式）"
+
+#: .svp.load[1].choices[2].description
+msgid "Input the edited part of pitch curve; default vibrato will be ignored"
+msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音将被忽略"
 
 #: .svp.load[1].description
 msgid ""
@@ -90,9 +109,17 @@ msgstr "音符组导入方式"
 msgid "Split all to tracks"
 msgstr "全部拆分为轨道"
 
+#: .svp.load[3].choices[0].description
+msgid "Generate a track for each note group reference"
+msgstr "为每个音符组引用生成一个单独的音轨"
+
 #: .svp.load[3].choices[1].text
 msgid "Keep original position"
 msgstr "保留原始位置"
+
+#: .svp.load[3].choices[1].description
+msgid "Split note groups to separate tracks only when notes overlap"
+msgstr "仅在出现音符重叠时将音符组拆分至单独的音轨"
 
 #: .svp.load[3].description
 msgid ""
@@ -114,13 +141,28 @@ msgstr "自动颤音处理方式"
 msgid "All removed"
 msgstr "全部抹平"
 
+#: .svp.dump[0].choices[0].description
+msgid ""
+"All notes will be set to 0 vibrato depth to ensure the output pitch curve is "
+"the same as input"
+msgstr "所有音符的颤音深度将被设置为 0，以保证输出的音高曲线与输入一致"
+
 #: .svp.dump[0].choices[1].text
 msgid "All kept"
 msgstr "全部保留"
 
+#: .svp.dump[0].choices[1].description
+msgid ""
+"Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+msgstr "保持所有音符的默认颤音，但可能造成输入与输出音高曲线不一致"
+
 #: .svp.dump[0].choices[2].text
 msgid "Hybrid mode"
 msgstr "混合保留"
+
+#: .svp.dump[0].choices[2].description
+msgid "Remove vibrato in edited part, keep default vibrato in other parts"
+msgstr "在输入音高被编辑过的区域去除颤音，其余部分保留默认颤音"
 
 #: .svp.dump[1].title
 msgid ""

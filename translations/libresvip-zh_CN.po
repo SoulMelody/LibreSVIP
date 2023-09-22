@@ -1017,7 +1017,11 @@ msgid ""
 "larger file size."
 msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"
 
-#: .lrc.format_desc
+#: .lrc.name
+msgid "LRC"
+msgstr ""
+
+#: .lrc.file_format .lrc.format_desc
 msgid "LRC lyric file"
 msgstr "LRC 歌词文件"
 
@@ -1057,25 +1061,57 @@ msgstr "偏移处理方式"
 msgid "Act on timeline"
 msgstr "作用于时间轴"
 
+#: .lrc.dump[5].choices[0].description
+msgid ""
+"Shift the time axis for each line of lyrics, and keep the \"offset\" value "
+"in the metadata at 0."
+msgstr "对每一行歌词的时间轴作偏移，元数据的“offset”保持为0。"
+
 #: .lrc.dump[5].choices[1].text
 msgid "Act on metadata"
 msgstr "作用于元数据"
+
+#: .lrc.dump[5].choices[1].description
+msgid ""
+"Write the offset to the metadata \"offset\" without handling the lyrics time "
+"axis. Note that some players may not support the \"offset\" tag in the "
+"metadata, and choosing this option may cause the lyrics to display "
+"incorrectly."
+msgstr ""
+"写入偏移量到元数据的“offset”，不处理歌词的时间轴。注意：由于部分播放器不支持"
+"元数据里的“offset”标签，选择此选项可能会导致歌词显示时间不准确。"
 
 #: .lrc.dump[6].title
 msgid "New line by"
 msgstr "歌词换行方式"
 
 #: .lrc.dump[6].choices[0].text
-msgid "Both notes gap and punctuation"
+msgid "Both note gap and punctuation"
 msgstr "音符间隙和标点符号"
 
+#: .lrc.dump[6].choices[0].description
+msgid ""
+"When the interval between two adjacent notes is greater than or equal to "
+"thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符或遇到标点符号时另起新行。"
+
 #: .lrc.dump[6].choices[1].text
-msgid "Notes gap only"
+msgid "Note gap only"
 msgstr "仅音符间隙"
+
+#: .lrc.dump[6].choices[1].description
+msgid ""
+"When the interval between two adjacent notes is greater than or equal to "
+"thirty-second note, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符时另起新行。"
 
 #: .lrc.dump[6].choices[2].text
 msgid "Punctuation only"
 msgstr "仅标点符号"
+
+#: .lrc.dump[6].choices[2].description
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr "遇到标点符号时另起新行。"
 
 #: .lrc.dump[7].title
 msgid "Write timeline"
@@ -1093,7 +1129,7 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1105,11 +1141,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1288,21 +1324,17 @@ msgstr "Synthesizer V Editor 工程文件"
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程格式转换插件。"
 
-#: .srt.format_desc
+#: .srt.name
+msgid "SRT"
+msgstr ""
+
+#: .srt.file_format .srt.format_desc
 msgid "SubRip subtitle file"
 msgstr "SubRip 字幕文件"
 
 #: .srt.description
 msgid "Generator plugin for SRT subtitle file"
 msgstr "SRT 字幕格式转换插件"
-
-#: .srt.dump[1].choices[0].text
-msgid "Both note gap and punctuation"
-msgstr "音符间隙和标点符号"
-
-#: .srt.dump[1].choices[1].text
-msgid "Note gap only"
-msgstr "仅音符间隙"
 
 #: .srt.dump[2].title
 msgid "Text encoding"
@@ -1427,7 +1459,7 @@ msgstr "网格线宽度"
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format .svip.format_desc
+#: .svip.file_format .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1472,17 +1504,48 @@ msgstr "指定生成的 .svip 文件版本"
 msgid "Auto detect"
 msgstr "自动选择"
 
+#: .svip.dump[2].choices[0].description
+msgid ""
+"Use the version of the project file corresponding to the X Studio installed "
+"on your current system."
+msgstr "使用当前系统安装的 X Studio 所对应的工程文件版本。"
+
 #: .svip.dump[2].choices[1].text
 msgid "SVIP 7.0.0"
 msgstr "SVIP 7.0.0 版本"
+
+#: .svip.dump[2].choices[1].description
+msgid "Use the project file version of X Studio 2.0."
+msgstr "使用 X Studio 2.0 对应的工程文件版本。"
 
 #: .svip.dump[2].choices[2].text
 msgid "SVIP 6.0.0"
 msgstr "SVIP 6.0.0 版本"
 
+#: .svip.dump[2].choices[2].description
+msgid "Use the project file version which is compatible with X Studio 1.8."
+msgstr "使用兼容 X Studio 1.8 的工程文件版本。"
+
 #: .svip.dump[2].choices[3].text
 msgid "Max compatibility (read only)"
 msgstr "最大只读兼容"
+
+#: .svip.dump[2].choices[3].description
+msgid ""
+"Export project files that can be opened using any version of X Studio.\n"
+"Warning: After saving with this option, the volume, breath, gender, and "
+"power parameters will not be recognized by X Studio (no data is lost).\n"
+"To avoid irretrievable data loss, it is strongly recommended not to use X "
+"Studio to modify and save project files exported with this option. To "
+"restore the project file back to a safe editable state, select Save as SVIP "
+"6.0.0 or later."
+msgstr ""
+"导出可使用任意版本 X Studio 打开的工程文件。\n"
+"警告：使用此选项保存后，音量、气声、性别、力度参数将无法被 X Studio 识别（数"
+"据没有丢失）。\n"
+"为了避免无法挽回的数据丢失，强烈建议不要使用 X Studio 修改和保存使用此选项导"
+"出的工程文件。若要重新将工程文件恢复至可安全编辑的状态，请选择保存为 SVIP "
+"6.0.0 及以上版本。"
 
 #: .svip.dump[2].description
 msgid ""
@@ -1500,7 +1563,7 @@ msgstr ""
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: .svip.messages[1] .svip.messages[0]
+#: .svip.messages[1] .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 
@@ -1512,7 +1575,11 @@ msgstr "网易云音乐·X Studio 工程文件"
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程转换插件"
 
-#: .svp.format_desc
+#: .svp.name
+msgid "SynthV Studio"
+msgstr ""
+
+#: .svp.file_format .svp.format_desc
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio 工程文件"
 
@@ -1549,13 +1616,27 @@ msgstr "音高信息输入模式"
 msgid "Full pitch curve"
 msgstr "输入完整音高曲线"
 
+#: .svp.load[1].choices[0].description
+msgid "Input the full pitch curve regardless of editing"
+msgstr "不论是否经过编辑，均输入整条音高曲线"
+
 #: .svp.load[1].choices[1].text
 msgid "Edited part only (vibrato mode)"
 msgstr "仅输入已编辑部分（颤音模式）"
 
+#: .svp.load[1].choices[1].description
+msgid ""
+"Input the edited part of pitch curve; default vibrato will be imported if "
+"not edited"
+msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音也将被导入"
+
 #: .svp.load[1].choices[2].text
 msgid "Edited part only (plain mode)"
 msgstr "仅输入已编辑部分（平整模式）"
+
+#: .svp.load[1].choices[2].description
+msgid "Input the edited part of pitch curve; default vibrato will be ignored"
+msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音将被忽略"
 
 #: .svp.load[1].description
 msgid ""
@@ -1591,9 +1672,17 @@ msgstr "音符组导入方式"
 msgid "Split all to tracks"
 msgstr "全部拆分为轨道"
 
+#: .svp.load[3].choices[0].description
+msgid "Generate a track for each note group reference"
+msgstr "为每个音符组引用生成一个单独的音轨"
+
 #: .svp.load[3].choices[1].text
 msgid "Keep original position"
 msgstr "保留原始位置"
+
+#: .svp.load[3].choices[1].description
+msgid "Split note groups to separate tracks only when notes overlap"
+msgstr "仅在出现音符重叠时将音符组拆分至单独的音轨"
 
 #: .svp.load[3].description
 msgid ""
@@ -1615,13 +1704,28 @@ msgstr "自动颤音处理方式"
 msgid "All removed"
 msgstr "全部抹平"
 
+#: .svp.dump[0].choices[0].description
+msgid ""
+"All notes will be set to 0 vibrato depth to ensure the output pitch curve is "
+"the same as input"
+msgstr "所有音符的颤音深度将被设置为 0，以保证输出的音高曲线与输入一致"
+
 #: .svp.dump[0].choices[1].text
 msgid "All kept"
 msgstr "全部保留"
 
+#: .svp.dump[0].choices[1].description
+msgid ""
+"Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+msgstr "保持所有音符的默认颤音，但可能造成输入与输出音高曲线不一致"
+
 #: .svp.dump[0].choices[2].text
 msgid "Hybrid mode"
 msgstr "混合保留"
+
+#: .svp.dump[0].choices[2].description
+msgid "Remove vibrato in edited part, keep default vibrato in other parts"
+msgstr "在输入音高被编辑过的区域去除颤音，其余部分保留默认颤音"
 
 #: .svp.dump[1].title
 msgid ""
@@ -1796,10 +1900,14 @@ msgid "Conversion plugin for Vocaloid (3/4) project file"
 msgstr "Vocaloid (3/4) 工程格式转换插件"
 
 #: .vsqx.dump[0].title
+msgid "VSQX Version"
+msgstr "VSQX文件版本"
+
+#: .vsqx.dump[1].title
 msgid "Pretty XML"
 msgstr "美化XML"
 
-#: .vsqx.dump[0].description
+#: .vsqx.dump[1].description
 msgid "Whether to output pretty XML"
 msgstr "是否导出美化显示的XML"
 

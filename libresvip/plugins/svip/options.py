@@ -6,21 +6,33 @@ from pydantic import BaseModel, Field
 
 class BinarySvipVersion(Enum):
     AUTO: Annotated[
-        str, Field(title="Auto detect", description="使用当前系统安装的 X Studio 所对应的工程文件版本。")
+        str,
+        Field(
+            title="Auto detect",
+            description="Use the version of the project file corresponding to the X Studio installed on your current system.",
+        ),
     ] = "auto"
     SVIP7_0_0: Annotated[
-        str, Field(title="SVIP 7.0.0", description="使用 X Studio 2.0 对应的工程文件版本。")
+        str,
+        Field(
+            title="SVIP 7.0.0",
+            description="Use the project file version of X Studio 2.0.",
+        ),
     ] = "7.0.0"
     SVIP6_0_0: Annotated[
-        str, Field(title="SVIP 6.0.0", description="使用兼容 X Studio 1.8 的工程文件版本。")
+        str,
+        Field(
+            title="SVIP 6.0.0",
+            description="Use the project file version which is compatible with X Studio 1.8.",
+        ),
     ] = "6.0.0"
     COMPAT: Annotated[
         str,
         Field(
             title="Max compatibility (read only)",
-            description="""导出可使用任意版本 X Studio 打开的工程文件。
-警告：使用此选项保存后，音量、气声、性别、力度参数将无法被 X Studio 识别（数据没有丢失）。
-为了避免无法挽回的数据丢失，强烈建议不要使用 X Studio 修改和保存使用此选项导出的工程文件。若要重新将工程文件恢复至可安全编辑的状态，请选择保存为 SVIP 6.0.0 及以上版本。""",
+            description="""Export project files that can be opened using any version of X Studio.
+Warning: After saving with this option, the volume, breath, gender, and power parameters will not be recognized by X Studio (no data is lost).
+To avoid irretrievable data loss, it is strongly recommended not to use X Studio to modify and save project files exported with this option. To restore the project file back to a safe editable state, select Save as SVIP 6.0.0 or later.""",
         ),
     ] = "0.0.0"
 

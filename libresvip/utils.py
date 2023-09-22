@@ -1,11 +1,12 @@
 import contextlib
 import contextvars
 import gettext
+import io
 import math
 import pathlib
 import textwrap
 from numbers import Real
-from typing import Callable, Optional, TypeVar, Union, cast
+from typing import AnyStr, Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
 
 import charset_normalizer
@@ -213,13 +214,17 @@ class EchoGenerator(saxutils.XMLGenerator):
     # from https://code.activestate.com/recipes/84516-using-the-sax2-lexicalhandler-interface/
 
     def __init__(
-        self, out=None, encoding="iso-8859-1", short_empty_elements=False
+        self,
+        out: Optional[io.IOBase] = None,
+        encoding: str = "iso-8859-1",
+        short_empty_elements: bool = False,
     ) -> None:
         super().__init__(out, encoding, short_empty_elements)
         self._in_entity = 0
         self._in_cdata = 0
+        self._write: Callable[[AnyStr], None]
 
-    def characters(self, content: Union[str, bytes]) -> None:
+    def characters(self, content: AnyStr) -> None:
         if self._in_entity:
             return
         elif self._in_cdata:
@@ -229,10 +234,10 @@ class EchoGenerator(saxutils.XMLGenerator):
 
     # -- LexicalHandler interface
 
-    def comment(self, content):
-        self._write(f"<!--{content}-->")
+    def comment(self, content: AnyStr) -> None:
+        self._write(f"<!--{content!r}-->")
 
-    def start_dtd(self, name, public_id, system_id):
+    def start_dtd(self, name: str, public_id: str, system_id: str) -> None:
         self._write(f"<!DOCTYPE {name}")
         if public_id:
             self._write(
@@ -241,20 +246,20 @@ class EchoGenerator(saxutils.XMLGenerator):
         elif system_id:
             self._write(f" SYSTEM {saxutils.quoteattr(system_id)}")
 
-    def end_dtd(self):
+    def end_dtd(self) -> None:
         self._write(">\n")
 
-    def start_entity(self, name):
+    def start_entity(self, name: str) -> None:
         self._write(f"&{name};")
         self._in_entity = 1
 
-    def end_entity(self, name):
+    def end_entity(self, name: str) -> None:
         self._in_entity = 0
 
-    def start_cdata(self):
+    def start_cdata(self) -> None:
         self._write("<![CDATA[")
         self._in_cdata = 1
 
-    def end_cdata(self):
+    def end_cdata(self) -> None:
         self._write("]]>")
         self._in_cdata = 0

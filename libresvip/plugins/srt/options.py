@@ -9,14 +9,22 @@ class SplitOption(Enum):
         str,
         Field(
             title="Both note gap and punctuation",
-            description="两个相邻的音符间距大于等于32分音符或遇到标点符号时另起新行。",
+            description="When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line.",
         ),
     ] = "both"
     GAP: Annotated[
-        str, Field(title="Note gap only", description="两个相邻的音符间距大于等于32分音符时另起新行。")
+        str,
+        Field(
+            title="Note gap only",
+            description="When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line.",
+        ),
     ] = "gap"
     SYMBOL: Annotated[
-        str, Field(title="Punctuation only", description="遇到标点符号时另起新行。")
+        str,
+        Field(
+            title="Punctuation only",
+            description="When a punctuation mark is encountered, start a new line.",
+        ),
     ] = "symbol"
 
 

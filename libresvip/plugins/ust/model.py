@@ -9,7 +9,7 @@ grammar = r"""
 UTAUProject:
     (
         '[#VERSION]'
-        LineBreak 'UST Version' ' '? ust_version=FLOAT
+        LineBreak 'UST Version' '='? ust_version=FLOAT
         (LineBreak 'Charset=' charset=/[^\r\n]*/)?
     )?
     LineBreak? '[#SETTING]'

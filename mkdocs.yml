@@ -24,17 +24,18 @@ theme:
         icon: material/brightness-4
         name: 切换至浅色模式
   icon:
-    repo: fontawesome/brands/github-alt
+    logo: material/file-music
+    repo: material/github
   favicon: libresvip.ico
   language: zh
 repo_name: SoulMelody/LibreSVIP
 repo_url: https://github.com/SoulMelody/LibreSVIP
 nav:
   - 开发者文档:
-    - 歌声合成工程格式一览: project_formats.md
+      - 歌声合成工程格式一览: project_formats.md
 extra:
   social:
-    - icon: fontawesome/brands/github-alt
+    - icon: material/github
       link: https://github.com/SoulMelody/LibreSVIP
-    - icon: fontawesome/brands/python
+    - icon: material/language-python
       link: https://pypi.org/project/libresvip/

@@ -8,9 +8,7 @@ class InputOptions(BaseModel):
 
 
 class OutputOptions(BaseModel):
-    vsqx_version: VsqxVersion = Field(
-        VsqxVersion.VSQ4, title="VSQX Version", description="Version of VSQX"
-    )
+    vsqx_version: VsqxVersion = Field(VsqxVersion.VSQ4, title="VSQX Version")
     pretty_xml: bool = Field(
         True, title="Pretty XML", description="Whether to output pretty XML"
     )
