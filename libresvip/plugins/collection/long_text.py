@@ -13,7 +13,7 @@ PraatString:
 ;
 
 PraatRootItem:
-    TextGrid | Pitch | ThreeDimensional | Formant | PointProcess | PitchOrIntensityTier
+    TextGrid | Pitch | ThreeDimensional | Formant | PointProcess | RootTier
 ;
 
 TextGrid:
@@ -140,9 +140,9 @@ Formant:
     frames*=Frame
 ;
 
-PitchOrIntensityTier:
+RootTier:
     "item [" INT "]" ":"
-    "class =" item_type=/"PitchTier"|"IntensityTier"/
+    "class =" item_type=/"PitchTier"|"IntensityTier"|"DurationTier"/
     "xmin =" xmin=NUMBER
     "xmax =" xmax=NUMBER
     "points :"

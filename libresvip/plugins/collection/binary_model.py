@@ -76,6 +76,20 @@ TextTier = Struct(
     ),
 )
 
+RootTier = Struct(
+    "name" / PraatString,
+    "xmin" / Float64b,
+    "xmax" / Float64b,
+    "points"
+    / PrefixedArray(
+        Int32ub,
+        Struct(
+            "number" / Float64b,
+            "value" / Float64b,
+        ),
+    ),
+)
+
 TextGrid = Struct(
     "name" / PraatString,
     "xmin" / Float64b,
@@ -188,6 +202,9 @@ PraatRootItem = Struct(
             "Harmonicity 2": ThreeDimensional,
             "Sound 2": ThreeDimensional,
             "Formant 2": Formant,
+            "PitchTier": RootTier,
+            "IntensityTier": RootTier,
+            "DurationTier": RootTier,
         },
     ),
 )
