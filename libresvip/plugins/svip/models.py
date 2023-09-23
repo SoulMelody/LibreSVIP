@@ -1,9 +1,13 @@
 import dataclasses
 import enum
-import pkgutil
+import importlib.resources
 import re
+from typing import TYPE_CHECKING, Optional
 
 from libresvip.model.base import json_loads
+
+if TYPE_CHECKING:
+    import pathlib
 
 from .msnrbf.xstudio_models import (
     XSNoteHeadTag,
@@ -15,27 +19,24 @@ from .msnrbf.xstudio_models import (
 
 @dataclasses.dataclass
 class OpenSvipSingers:
-    singers: dict = dataclasses.field(init=False)
+    singers: dict[str, str] = dataclasses.field(init=False)
 
-    def __post_init__(self):
-        self.singers = json_loads(
-            pkgutil.get_data(__package__, "singers.json")
+    def __post_init__(self) -> None:
+        singers_data_path: pathlib.Path = importlib.resources.path(
+            __package__, "singers.json"
         )
+        self.singers = json_loads(singers_data_path.read_text(encoding="utf-8"))
 
     def get_name(self, id_: str) -> str:
         if id_ in self.singers:
             return self.singers[id_]
-        if re.match(r"[FM]\d+", id_) is not None:
-            return f"$({id_})"
-        return ""
+        return f"$({id_})" if re.match(r"[FM]\d+", id_) is not None else ""
 
     def get_id(self, name: str) -> str:
         for id_ in self.singers:
             if self.singers[id_] == name:
                 return id_
-        if re.match(r"\$\([FM]\d+\)", name) is not None:
-            return name[2:-1]
-        return ""
+        return name[2:-1] if re.match(r"\$\([FM]\d+\)", name) is not None else ""
 
 
 opensvip_singers = OpenSvipSingers()
@@ -52,7 +53,7 @@ class OpenSvipReverbPresets(enum.Enum):
     大梦 = XSReverbPresetEnum.LONGREVERB2
 
     @classmethod
-    def get_name(cls, index) -> str:
+    def get_name(cls, index: int) -> Optional[str]:
         if isinstance(index, XSReverbPreset):
             index = index.value
         return next(
@@ -61,7 +62,7 @@ class OpenSvipReverbPresets(enum.Enum):
         )
 
     @classmethod
-    def get_index(cls, name) -> XSReverbPreset:
+    def get_index(cls, name: str) -> XSReverbPreset:
         if name in cls.__members__:
             value = cls.__members__[name].value
         else:
@@ -73,17 +74,13 @@ class OpenSvipNoteHeadTags:
     tags = [None, "0", "V"]
 
     @classmethod
-    def get_name(cls, index) -> str:
-        if index in cls.tags:
-            return cls.tags[index]
-        return None
+    def get_name(cls, index: int) -> Optional[str]:
+        return cls.tags[index] if index in cls.tags else None
 
     @classmethod
-    def get_index(cls, name) -> XSNoteHeadTag:
-        for i, tag in enumerate(cls.tags):
-            if tag == name:
-                value = XSNoteHeadTagEnum(i)
-                break
-        else:
-            value = XSNoteHeadTagEnum.NoTag
+    def get_index(cls, name: str) -> XSNoteHeadTag:
+        value = next(
+            (XSNoteHeadTagEnum(i) for i, tag in enumerate(cls.tags) if tag == name),
+            XSNoteHeadTagEnum.NoTag,
+        )
         return XSNoteHeadTag(value)

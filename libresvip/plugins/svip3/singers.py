@@ -1,16 +1,18 @@
 import dataclasses
-import pkgutil
+import importlib.resources
 
 from libresvip.model.base import json_loads
 
 
 @dataclasses.dataclass
 class XStudio3Singers:
-    singers: dict = dataclasses.field(init=False)
+    singers: dict[str, str] = dataclasses.field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.singers = json_loads(
-            pkgutil.get_data(__package__, "singers.json")
+            importlib.resources.path(__package__, "singers.json").read_text(
+                encoding="utf-8"
+            )
         )
 
     def get_name(self, uuid: str) -> str:

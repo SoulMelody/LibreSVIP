@@ -1,4 +1,4 @@
-import pathlib
+import importlib.resources
 
 import platformdirs
 
@@ -14,6 +14,5 @@ DEFAULT_KOREAN_LYRIC = "라"
 
 app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 
-module = __import__(PACKAGE_NAME)
-pkg_dir = pathlib.Path(getattr(module, "__file__", "")).parent
+pkg_dir = importlib.resources.path(PACKAGE_NAME, ".")
 res_dir = pkg_dir / "res"

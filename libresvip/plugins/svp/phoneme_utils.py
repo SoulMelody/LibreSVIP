@@ -1,4 +1,4 @@
-import pkgutil
+import importlib.resources
 
 import regex
 
@@ -19,8 +19,13 @@ default_durations = {
 }
 default_phone_ratio = 1.8
 
-phoneme_dictionary = json_loads(pkgutil.get_data(__package__, "phoneme_dictionary.json"))
-xsampa_dictionary = json_loads(pkgutil.get_data(__package__, "xsampa_dictionary.json"))
+resource_path = importlib.resources.path(__package__, ".")
+phoneme_dictionary = json_loads(
+    (resource_path / "phoneme_dictionary.json").read_text(encoding="utf-8")
+)
+xsampa_dictionary = json_loads(
+    (resource_path / "xsampa_dictionary.json").read_text(encoding="utf-8")
+)
 
 
 def lyrics2pinyin(lyrics: list[str]) -> list[str]:

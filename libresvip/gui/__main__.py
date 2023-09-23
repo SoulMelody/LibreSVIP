@@ -3,6 +3,7 @@ import sys
 
 import qtinter
 from qmlease import app
+from qtpy.QtGui import QPixmap
 from qtpy.QtQml import qmlRegisterType
 from qtpy.QtQuickControls2 import QQuickStyle
 
@@ -21,8 +22,10 @@ def run() -> None:
     os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
     app._register_backend = lambda: None
     QQuickStyle.setStyle("Material")
+    icon_pixmap = QPixmap()
+    icon_pixmap.loadFromData((res_dir / "libresvip.ico").read_bytes())
     app.set_app_name("LibreSVIP")
-    app.set_app_icon(str((res_dir / "libresvip.ico").resolve()))
+    app.set_app_icon(icon_pixmap)
     if sys.platform == "win32":
         from libresvip.gui.modules.frameless_window_win32 import Win32FramelessWindow
 
