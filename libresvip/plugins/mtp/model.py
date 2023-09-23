@@ -68,7 +68,7 @@ class MutaNoteTiming(DataclassMixin):
 
 @dataclasses.dataclass
 class MutaNote(DataclassMixin):
-    start: int = csfield(Int32ul)
+    start: int = csfield(Int32sl)
     length: int = csfield(Int32ul)
     key: int = csfield(Int32ul)
     lyric: list[int] = csfield(Int16ul[8])

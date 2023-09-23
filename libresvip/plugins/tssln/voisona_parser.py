@@ -40,7 +40,10 @@ class VoiSonaParser:
         self.time_synchronizer = TimeSynchronizer(tempos)
         for track in voisona_project.tracks:
             for item in track.track:
-                if isinstance(item, VoiSonaAudioTrackItem):
+                if (
+                    isinstance(item, VoiSonaAudioTrackItem)
+                    and item.audio_event is not None
+                ):
                     for i, event in enumerate(item.audio_event):
                         tracks.append(
                             InstrumentalTrack(

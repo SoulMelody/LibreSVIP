@@ -133,7 +133,10 @@ class MutaGenerator:
                 length=note.length,
                 key=139 - note.key_number,
                 lyric=[ord(c) for c in note.lyric] + [0] * (8 - len(note.lyric)),
-                phoneme=note.pronunciation or "",
+                phoneme=note.pronunciation
+                if note.pronunciation
+                and len(note.pronunciation.encode("utf-16-le")) <= 16
+                else "",
                 tmg_data=[MutaNoteTiming(ori_pos=0, mod_pos=0)] * 5,
             )
             for note in notes

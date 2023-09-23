@@ -6,8 +6,10 @@ from gettext import gettext as _
 
 def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict[str, str]:
     opencpop_dict = {}
-    resource_path = importlib.resources(__package__, f"dicts/{dict_name}.txt")
-    if (dict_content := resource_path.read_text(encoding="utf-8")) is None:
+    resource_path = importlib.resources.path(__package__, "dicts")
+    if (
+        dict_content := (resource_path / f"{dict_name}.txt").read_text(encoding="utf-8")
+    ) is None:
         msg = _("Cannot find dict.")
         raise FileNotFoundError(msg)
     reader = csv.DictReader(

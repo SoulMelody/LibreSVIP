@@ -52,32 +52,34 @@ class MidiGenerator:
         self, master_track: mido.MidiTrack, song_tempo_list: list[SongTempo]
     ) -> None:
         for tempo in song_tempo_list:
-            master_track.append(
-                mido.MetaMessage(
-                    "set_tempo",
-                    tempo=mido.bpm2tempo(tempo.bpm),
-                    time=round(tempo.position / self.tick_rate),
+            if tempo.position >= 0:
+                master_track.append(
+                    mido.MetaMessage(
+                        "set_tempo",
+                        tempo=mido.bpm2tempo(tempo.bpm),
+                        time=round(tempo.position / self.tick_rate),
+                    )
                 )
-            )
 
     def generate_time_signatures(
         self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
     ) -> None:
         prev_ticks = 0
         for time_signature in time_signature_list:
-            master_track.append(
-                mido.MetaMessage(
-                    "time_signature",
-                    numerator=time_signature.numerator,
-                    denominator=time_signature.denominator,
-                    time=prev_ticks,
+            if time_signature.bar_index >= 0:
+                master_track.append(
+                    mido.MetaMessage(
+                        "time_signature",
+                        numerator=time_signature.numerator,
+                        denominator=time_signature.denominator,
+                        time=prev_ticks,
+                    )
                 )
-            )
-            prev_ticks += round(
-                time_signature.bar_index
-                * self.options.ticks_per_beat
-                * time_signature.numerator
-            )
+                prev_ticks += round(
+                    time_signature.bar_index
+                    * self.options.ticks_per_beat
+                    * time_signature.numerator
+                )
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
         mido_tracks = []
