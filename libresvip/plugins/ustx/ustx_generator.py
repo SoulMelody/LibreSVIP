@@ -196,7 +196,7 @@ class UstxGenerator:
     ) -> None:
         pitch_start = BasePitchGenerator.pitch_start
         pitch_interval = BasePitchGenerator.pitch_interval
-        base_pitch = BasePitchGenerator.base_pitch(part, project)  # 生成基础音高线
+        base_pitch = BasePitchGenerator(project).base_pitch(part)  # 生成基础音高线
         pitch_end_x = len(base_pitch) * pitch_interval + first_bar_length + 1
 
         # 如果os_pitch为空

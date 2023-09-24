@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import bisect
 import math
 from types import SimpleNamespace
 from typing import Annotated, Literal, Optional, Union
@@ -5,9 +8,8 @@ from typing import Annotated, Literal, Optional, Union
 from pydantic import Field
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
-from libresvip.model.base import BaseModel, Point
-
-from .utils import music_math
+from libresvip.model.base import BaseModel
+from libresvip.model.point import Point, linear_interpolation
 
 ParamType = SimpleNamespace(
     CURVE="Curve",
@@ -55,17 +57,16 @@ class UCurve(BaseModel):
     def is_empty(self):
         return len(self.xs) == 0 or all(y == 0 for y in self.ys)
 
-    def sample(self, x):
-        if x in self.xs:
-            idx = self.xs.index(x)
+    def sample(self, x: int) -> int:
+        idx = bisect.bisect_left(self.xs, x)
+        if idx < len(self.xs) and self.xs[idx] == x:
             return self.ys[idx]
-        else:
-            idx = -1
-        idx = ~idx
-        if 0 < idx < len(self.xs):
+        elif 0 < idx < len(self.xs):
             return round(
-                music_math.linear(
-                    self.xs[idx - 1], self.xs[idx], self.ys[idx - 1], self.ys[idx], x
+                linear_interpolation(
+                    (self.xs[idx - 1], self.xs[idx]),
+                    (self.ys[idx - 1], self.ys[idx]),
+                    x,
                 )
             )
         return 0
@@ -122,7 +123,7 @@ class UVibrato(BaseModel):
     def normalized_start(self):
         return 1.0 - self.length / 100.0
 
-    def evaluate(self, n_pos, n_period, note: "UNote") -> Point:
+    def evaluate(self, n_pos: int, n_period: int, note: UNote) -> Point:
         n_start = self.normalized_start
         n_in = self.length / 100.0 * self.in_value / 100.0
         n_in_pos = n_start + n_in

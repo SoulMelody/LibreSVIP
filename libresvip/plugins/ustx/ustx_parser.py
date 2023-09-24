@@ -30,11 +30,13 @@ from .util import BasePitchGenerator
 @dataclasses.dataclass
 class UstxParser:
     options: InputOptions
+    base_pitch_generator: BasePitchGenerator = dataclasses.field(init=False)
 
     def parse_project(self, ustx_project: USTXProject) -> Project:
+        self.base_pitch_generator = BasePitchGenerator(ustx_project)
         tempos = self.parse_tempos(ustx_project.tempos)
         time_signatures = self.parse_time_signatures(ustx_project.time_signatures)
-        tracks = self.parse_tracks(ustx_project.tracks, ustx_project)
+        tracks = self.parse_tracks(ustx_project.tracks, ustx_project.voice_parts)
         for track in tracks:
             track.edited_params.pitch.points.append(Point.end_point())
         tracks.extend(
@@ -77,7 +79,9 @@ class UstxParser:
             time_signature_list.append(TimeSignature())
         return time_signature_list
 
-    def parse_tracks(self, tracks: list[UTrack], project: USTXProject) -> list[Track]:
+    def parse_tracks(
+        self, tracks: list[UTrack], voice_parts: list[UVoicePart]
+    ) -> list[Track]:
         track_list = [
             SingingTrack(
                 volume=self.parse_volume(ustx_track.volume),
@@ -90,7 +94,7 @@ class UstxParser:
         ]
         for track in track_list:
             track.edited_params.pitch.points.append(Point.start_point())
-        for voice_part in project.voice_parts:
+        for voice_part in voice_parts:
             track_index = voice_part.track_no
             if track_index < len(track_list):
                 track = track_list[track_index]
@@ -100,18 +104,15 @@ class UstxParser:
                 track.title = voice_part.name
             notes = self.parse_notes(voice_part.notes, voice_part.position)
             track.note_list.extend(notes)
-            track.edited_params.pitch.points.extend(
-                self.parse_pitch(voice_part, project)
-            )
+            track.edited_params.pitch.points.extend(self.parse_pitch(voice_part))
         return [track for track in track_list if len(track.note_list)]
 
-    @staticmethod
-    def parse_pitch(part: UVoicePart, project: USTXProject) -> list[tuple[int, int]]:
-        pitch_start = BasePitchGenerator.pitch_start
-        pitch_interval = BasePitchGenerator.pitch_interval
+    def parse_pitch(self, part: UVoicePart) -> list[tuple[int, int]]:
+        pitch_start = self.base_pitch_generator.pitch_start
+        pitch_interval = self.base_pitch_generator.pitch_interval
         first_bar_length = 1920
 
-        pitches = BasePitchGenerator.base_pitch(part, project)
+        pitches = self.base_pitch_generator.base_pitch(part)
 
         curve = next((c for c in part.curves if c.abbr == "pitd"), None)
         if curve is not None and not curve.is_empty:
@@ -119,13 +120,13 @@ class UstxParser:
                 pitches[i] += curve.sample(pitch_start + i * pitch_interval)
 
         point_list = [Point(first_bar_length + part.position, -100)]
-        for i in range(len(pitches)):
-            point_list.append(
-                Point(
-                    first_bar_length + part.position + i * pitch_interval,
-                    int(pitches[i]),
-                )
+        point_list.extend(
+            Point(
+                first_bar_length + part.position + i * pitch_interval,
+                int(pitches[i]),
             )
+            for i in range(len(pitches))
+        )
         point_list.append(
             Point(
                 first_bar_length + part.position + len(pitches) * pitch_interval, -100

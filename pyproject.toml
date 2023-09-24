@@ -68,7 +68,11 @@ linting = [
 packaging = ["cx-freeze>=6.15.8"]
 docs = ["mkdocs-material<10.0.0,>=9.4.1"]
 test = ["pytest>=7.4.2", "pytest-datadir>=1.4.1"]
-typing_stubs = ["types-regex>=2023.8.8.0", "types-ujson>=5.8.0.1"]
+typing_stubs = [
+  "types-pyyaml>=6.0.12.12",
+  "types-regex>=2023.8.8.0",
+  "types-ujson>=5.8.0.1",
+]
 
 [tool.pdm.resolution.overrides]
 regex = "<2024.0.0,>=2023.8.8"
