@@ -31,6 +31,15 @@ except ImportError:
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
+if os.name == "nt":
+    version_info = sys.version_info
+    pywintypes_dll = f"pywintypes{version_info.major}{version_info.minor}.dll"
+    include_files.append(
+        (
+            pyside6_dir / "../pywin32_system32" / pywintypes_dll,
+            pathlib.Path(f"./lib/{pywintypes_dll}"),
+        )
+    )
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
