@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-15 11:01+0800\n"
+"POT-Creation-Date: 2023-09-24 20:25+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,8 +211,8 @@ msgstr "版本"
 msgid "Introduction"
 msgstr "简介"
 
-msgid "Settings"
-msgstr "设置"
+msgid "Options"
+msgstr "选项"
 
 msgid "Reset Task List When Changing Input File Type"
 msgstr "切换格式时重置列表"
@@ -295,9 +295,6 @@ msgstr "清空所有导入 (Ctrl+R)"
 msgid "Swap Input and Output (Ctrl+Tab)"
 msgstr "上下交换 (Ctrl+Tab)"
 
-msgid "Input Format (&F)"
-msgstr "导入格式 (&F)"
-
 msgid "Output Format (&E)"
 msgstr "导出格式 (&E)"
 
@@ -313,8 +310,17 @@ msgstr "管理插件"
 msgid "Open Plugin Store"
 msgstr "插件市场"
 
-msgid "Settings (&O)"
-msgstr "设置 (&O)"
+msgid "Formats (&F)"
+msgstr "格式 (&F)"
+
+msgid "Input Format (&I)"
+msgstr "导入格式 (&I)"
+
+msgid "Settings (&S)"
+msgstr "设置 (&S)"
+
+msgid "Options (&O)"
+msgstr "选项 (&O)"
 
 msgid "Themes (&T)"
 msgstr "主题 (&T)"
@@ -334,11 +340,8 @@ msgstr "语言 (&L)"
 msgid "Help (&H)"
 msgstr "帮助 (&H)"
 
-msgid "Help"
-msgstr "帮助"
-
-msgid "About (Alt+I)"
-msgstr "关于 (Alt+I)"
+msgid "About (Ctrl+A)"
+msgstr "关于 (Ctrl+A)"
 
 msgid "Check for Updates"
 msgstr "检查更新"

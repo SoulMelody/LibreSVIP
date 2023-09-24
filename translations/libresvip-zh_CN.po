@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-15 11:01+0800\n"
+"POT-Creation-Date: 2023-09-24 20:25+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,8 +211,8 @@ msgstr "版本"
 msgid "Introduction"
 msgstr "简介"
 
-msgid "Settings"
-msgstr "设置"
+msgid "Options"
+msgstr "选项"
 
 msgid "Reset Task List When Changing Input File Type"
 msgstr "切换格式时重置列表"
@@ -295,9 +295,6 @@ msgstr "清空所有导入 (Ctrl+R)"
 msgid "Swap Input and Output (Ctrl+Tab)"
 msgstr "上下交换 (Ctrl+Tab)"
 
-msgid "Input Format (&F)"
-msgstr "导入格式 (&F)"
-
 msgid "Output Format (&E)"
 msgstr "导出格式 (&E)"
 
@@ -313,8 +310,17 @@ msgstr "管理插件"
 msgid "Open Plugin Store"
 msgstr "插件市场"
 
-msgid "Settings (&O)"
-msgstr "设置 (&O)"
+msgid "Formats (&F)"
+msgstr "格式 (&F)"
+
+msgid "Input Format (&I)"
+msgstr "导入格式 (&I)"
+
+msgid "Settings (&S)"
+msgstr "设置 (&S)"
+
+msgid "Options (&O)"
+msgstr "选项 (&O)"
 
 msgid "Themes (&T)"
 msgstr "主题 (&T)"
@@ -334,11 +340,8 @@ msgstr "语言 (&L)"
 msgid "Help (&H)"
 msgstr "帮助 (&H)"
 
-msgid "Help"
-msgstr "帮助"
-
-msgid "About (Alt+I)"
-msgstr "关于 (Alt+I)"
+msgid "About (Ctrl+A)"
+msgstr "关于 (Ctrl+A)"
 
 msgid "Check for Updates"
 msgstr "检查更新"
@@ -524,6 +527,10 @@ msgstr "切换主题"
 #: ../libresvip/web/pages.py:791
 msgid "Switch Language"
 msgstr "切换语言"
+
+#: ../libresvip/web/pages.py:843
+msgid "Help"
+msgstr "帮助"
 
 #: ../libresvip/web/pages.py:857
 msgid "Choose file format"
@@ -1021,7 +1028,7 @@ msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。
 msgid "LRC"
 msgstr ""
 
-#: .lrc.file_format .lrc.format_desc
+#: .lrc.file_format .lrc.format_desc
 msgid "LRC lyric file"
 msgstr "LRC 歌词文件"
 
@@ -1129,7 +1136,7 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1141,11 +1148,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1328,7 +1335,7 @@ msgstr "Synthesizer V Editor 工程格式转换插件。"
 msgid "SRT"
 msgstr ""
 
-#: .srt.file_format .srt.format_desc
+#: .srt.file_format .srt.format_desc
 msgid "SubRip subtitle file"
 msgstr "SubRip 字幕文件"
 
@@ -1459,7 +1466,7 @@ msgstr "网格线宽度"
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format .svip.format_desc
+#: .svip.file_format .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1563,7 +1570,7 @@ msgstr ""
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: .svip.messages[1] .svip.messages[0]
+#: .svip.messages[1] .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 
@@ -1579,7 +1586,7 @@ msgstr "网易云音乐·X Studio 工程转换插件"
 msgid "SynthV Studio"
 msgstr ""
 
-#: .svp.file_format .svp.format_desc
+#: .svp.file_format .svp.format_desc
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio 工程文件"
 
