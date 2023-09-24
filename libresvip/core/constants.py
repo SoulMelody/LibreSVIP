@@ -14,5 +14,6 @@ DEFAULT_KOREAN_LYRIC = "라"
 
 app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 
-pkg_dir = importlib.resources.path(PACKAGE_NAME, ".")
-res_dir = pkg_dir / "res"
+with importlib.resources.path(PACKAGE_NAME, ".") as _pkg_dir:
+    pkg_dir = _pkg_dir
+    res_dir = pkg_dir / "res"

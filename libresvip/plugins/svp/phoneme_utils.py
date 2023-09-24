@@ -19,13 +19,13 @@ default_durations = {
 }
 default_phone_ratio = 1.8
 
-resource_path = importlib.resources.path(__package__, ".")
-phoneme_dictionary = json_loads(
-    (resource_path / "phoneme_dictionary.json").read_text(encoding="utf-8")
-)
-xsampa_dictionary = json_loads(
-    (resource_path / "xsampa_dictionary.json").read_text(encoding="utf-8")
-)
+with importlib.resources.path(__package__, ".") as resource_path:
+    phoneme_dictionary = json_loads(
+        (resource_path / "phoneme_dictionary.json").read_text(encoding="utf-8")
+    )
+    xsampa_dictionary = json_loads(
+        (resource_path / "xsampa_dictionary.json").read_text(encoding="utf-8")
+    )
 
 
 def lyrics2pinyin(lyrics: list[str]) -> list[str]:

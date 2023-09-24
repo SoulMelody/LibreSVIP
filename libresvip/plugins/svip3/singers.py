@@ -9,11 +9,8 @@ class XStudio3Singers:
     singers: dict[str, str] = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
-        self.singers = json_loads(
-            importlib.resources.path(__package__, "singers.json").read_text(
-                encoding="utf-8"
-            )
-        )
+        with importlib.resources.path(__package__, "singers.json") as singer_data_path:
+            self.singers = json_loads(singer_data_path.read_text(encoding="utf-8"))
 
     def get_name(self, uuid: str) -> str:
         return self.singers[uuid] if uuid in self.singers else ""

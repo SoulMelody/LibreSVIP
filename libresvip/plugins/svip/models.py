@@ -2,12 +2,9 @@ import dataclasses
 import enum
 import importlib.resources
 import re
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 from libresvip.model.base import json_loads
-
-if TYPE_CHECKING:
-    import pathlib
 
 from .msnrbf.xstudio_models import (
     XSNoteHeadTag,
@@ -22,10 +19,8 @@ class OpenSvipSingers:
     singers: dict[str, str] = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
-        singers_data_path: pathlib.Path = importlib.resources.path(
-            __package__, "singers.json"
-        )
-        self.singers = json_loads(singers_data_path.read_text(encoding="utf-8"))
+        with importlib.resources.path(__package__, "singers.json") as singers_data_path:
+            self.singers = json_loads(singers_data_path.read_text(encoding="utf-8"))
 
     def get_name(self, id_: str) -> str:
         if id_ in self.singers:
