@@ -55,7 +55,7 @@ desktop = [
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
-code_gen = ["datamodel-code-generator>=0.21.5", "xsdata[cli]>=23.8"]
+code_gen = ["datamodel-code-generator>=0.22.0", "xsdata[cli]>=23.8"]
 i18n = ["translate-toolkit>=3.10.1", "babel>=2.12.1"]
 linting = [
   "isort>=5.12.0",

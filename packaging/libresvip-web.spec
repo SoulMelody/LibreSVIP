@@ -77,6 +77,24 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
+to_keep = []
+js_lib_prefix = os.path.join("nicegui", "elements", "lib")
+to_exclude = [
+    os.path.join(js_lib_prefix, "echarts"),
+    os.path.join(js_lib_prefix, "highcharts"),
+    os.path.join(js_lib_prefix, "mermaid"),
+    os.path.join(js_lib_prefix, "plotly"),
+    os.path.join(js_lib_prefix, "vanilla-jsoneditor"),
+]
+
+for (dest, source, kind) in a.datas:
+    # Skip anything we don't need.
+    if any(dest.startswith(exclude_dir) for exclude_dir in to_exclude):
+        continue
+    to_keep.append((dest, source, kind))
+
+# Replace list of data files with filtered one.
+a.datas = to_keep
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(

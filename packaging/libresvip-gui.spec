@@ -70,6 +70,21 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
+to_keep = []
+to_exclude = [
+    "libQt6WebEngineCore.so.6",
+    "QtWebEngineCore",
+    "Qt6WebEngineCore.dll",
+]
+
+for (dest, source, kind) in a.binaries:
+    # Skip anything we don't need.
+    if os.path.split(dest)[1] in to_exclude:
+        continue
+    to_keep.append((dest, source, kind))
+
+# Replace list of data files with filtered one.
+a.binaries = to_keep
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(
