@@ -193,6 +193,21 @@ PpsfEditorData = Struct(
     "data" / Bytes(this.size),
 )
 
+PpsfMarker = Struct(
+    "magic" / Const(b"UMKR"),
+    "size" / Int32ul,
+    "data"
+    / FixedSized(
+        this.size,
+        GreedyRange(
+            Struct(
+                "index" / Bytes(4),
+                "tick" / Int32ul,
+            )
+        ),
+    ),
+)
+
 PpsfEditorClipData = Struct(
     "magic" / Const(b"ECLS"),
     "size" / Int32ul,
@@ -263,11 +278,10 @@ PpsfChunk = Struct(
             "EditorDatas": Struct(
                 "prefix" / Bytes(4),
                 "rect1" / PpsfRect,
-                "padding" / Bytes(73),
-                "editor_datas"
-                / FixedSized(
-                    lambda this: this._.size - 161, GreedyRange(PpsfEditorTrackData)
-                ),
+                "padding" / Bytes(70),
+                "markers" / ppsf_prefixed_array(PpsfMarker),
+                "unknown" / ppsf_prefixed_array(PpsfEditorData),
+                "editor_datas" / ppsf_prefixed_array(PpsfEditorTrackData),
                 "rect2" / PpsfRect,
                 "rect3" / PpsfRect,
                 "suffix" / Bytes(12),
