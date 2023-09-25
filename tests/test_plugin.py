@@ -286,3 +286,17 @@ def test_vsq_read(shared_datadir: pathlib.Path) -> None:
         for msg in track:
             if isinstance(msg, mido.MetaMessage) and msg.type == "text":
                 print(msg)
+
+
+def test_collection_read(shared_datadir: pathlib.Path) -> None:
+    from parselmouth import Intensity, Pitch, TextGrid
+    from parselmouth.praat import call
+
+    datas = call("Read from file", str(shared_datadir / "test.Collection"))
+    for i, data in enumerate(datas):
+        if isinstance(data, TextGrid):
+            print(i, "TextGrid")
+        elif isinstance(data, Pitch):
+            print(i, "Pitch")
+        elif isinstance(data, Intensity):
+            print(i, "Intensity")
