@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:e7646fb3cdc10b7e24100b950954fcf4c0a03ac7116c6651bb572114332ae4cf"
+content_hash = "sha256:7ce7f22e9905f5821bed07344432accae4de6a4ee4318dd6aa4c125a868e7c66"
 
 [[package]]
 name = "aiofiles"
@@ -1346,7 +1346,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.3.14"
+version = "1.3.15"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
@@ -1367,23 +1367,23 @@ dependencies = [
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.3.14-py3-none-any.whl", hash = "sha256:ebc4d8d7a756f5c5c60df9f9f84449d6e277d140f9cf18dcf2f87772763c04d8"},
-    {file = "nicegui-1.3.14.tar.gz", hash = "sha256:d3a872d1a4ae126842be26bc29ab1c0aeb648dac6a44050e987473687f5ca733"},
+    {file = "nicegui-1.3.15-py3-none-any.whl", hash = "sha256:99416e285c276d443d91106ca155e90fc4ade3709a3954a60ad7dbdf2448574b"},
+    {file = "nicegui-1.3.15.tar.gz", hash = "sha256:551301163cbe0ab2eb3ce977a25c7ca5bbb14259c6582f22e2c3e98fe8daee67"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.3.14"
+version = "1.3.15"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.3.14",
+    "nicegui==1.3.15",
     "pywebview<5.0.0,>=4.0.2",
 ]
 files = [
-    {file = "nicegui-1.3.14-py3-none-any.whl", hash = "sha256:ebc4d8d7a756f5c5c60df9f9f84449d6e277d140f9cf18dcf2f87772763c04d8"},
-    {file = "nicegui-1.3.14.tar.gz", hash = "sha256:d3a872d1a4ae126842be26bc29ab1c0aeb648dac6a44050e987473687f5ca733"},
+    {file = "nicegui-1.3.15-py3-none-any.whl", hash = "sha256:99416e285c276d443d91106ca155e90fc4ade3709a3954a60ad7dbdf2448574b"},
+    {file = "nicegui-1.3.15.tar.gz", hash = "sha256:551301163cbe0ab2eb3ce977a25c7ca5bbb14259c6582f22e2c3e98fe8daee67"},
 ]
 
 [[package]]

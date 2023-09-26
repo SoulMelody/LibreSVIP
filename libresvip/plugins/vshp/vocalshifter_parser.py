@@ -22,6 +22,8 @@ from libresvip.model.base import (
 from libresvip.utils import db_to_float
 
 from .model import (
+    VocalShifterLabel,
+    VocalShifterNote,
     VocalShifterPatternData,
     VocalShifterPatternMetadata,
     VocalShifterPatternType,
@@ -98,8 +100,8 @@ class VocalShifterParser:
             pattern_metadata.offset_samples + pattern_metadata.offset_correction
         )
         offset_in_seconds = sample_offset / sample_rate
-        offset_in_ticks = (
-            self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds) - 1920
+        offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
+            offset_in_seconds
         )
         track_metadata = self.track_index2metadata[pattern_metadata.track_index]
         return InstrumentalTrack(
@@ -133,8 +135,8 @@ class VocalShifterParser:
             pattern_metadata.offset_samples + pattern_metadata.offset_correction
         )
         offset_in_seconds = sample_offset / pattern_data.header.sample_rate
-        offset_in_ticks = (
-            self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds) - 1920
+        offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
+            offset_in_seconds
         )
         track.note_list = self.parse_note_list(
             offset_in_ticks,
@@ -145,29 +147,36 @@ class VocalShifterParser:
         return track
 
     def parse_note_list(
-        self, offset: int, notes: list[Container], labels: list[Container]
+        self,
+        offset: int,
+        notes: list[VocalShifterNote],
+        labels: list[VocalShifterLabel],
     ) -> list[Note]:
         note_list = []
-        if labels and len(labels) == len(notes):
-            for note, label in zip(notes, labels):
-                if label.start_tick != note.start_tick:
-                    note_list.append(
-                        Note(
-                            start_pos=offset + round(note.start_tick * self.tick_rate),
-                            length=int(note.length * self.tick_rate),
-                            key_number=note.pitch // 100,
-                            lyric=DEFAULT_CHINESE_LYRIC,
-                        )
+        if labels:
+            for label in labels:
+                target_note = next(
+                    (
+                        note
+                        for note in notes
+                        if note.start_tick
+                        <= label.start_tick
+                        <= note.start_tick + note.length
+                    ),
+                    None,
+                )
+                note_list.append(
+                    Note(
+                        start_pos=offset + round(label.start_tick * self.tick_rate),
+                        length=int(
+                            (label.end_tick - label.start_tick) * self.tick_rate
+                        ),
+                        key_number=target_note.pitch // 100
+                        if target_note is not None
+                        else 60,
+                        lyric=ansi2unicode(label.name.partition(b"\x00")[0]),
                     )
-                else:
-                    note_list.append(
-                        Note(
-                            start_pos=offset + round(note.start_tick * self.tick_rate),
-                            length=int(note.length * self.tick_rate),
-                            key_number=note.pitch // 100,
-                            lyric=ansi2unicode(label.name.partition(b"\x00")[0]),
-                        )
-                    )
+                )
         else:
             note_list.extend(
                 Note(
@@ -232,21 +241,24 @@ class VocalShifterParser:
                 if not has_pitch:
                     pitch_curve.points.append(
                         Point(
-                            round(self.synchronizer.get_actual_ticks_from_secs(offset)),
+                            round(self.synchronizer.get_actual_ticks_from_secs(offset))
+                            + 1920,
                             -100,
                         )
                     )
                     has_pitch = True
                 pitch_curve.points.append(
                     Point(
-                        round(self.synchronizer.get_actual_ticks_from_secs(offset)),
+                        round(self.synchronizer.get_actual_ticks_from_secs(offset))
+                        + 1920,
                         value,
                     )
                 )
             elif has_pitch:
                 pitch_curve.points.append(
                     Point(
-                        round(self.synchronizer.get_actual_ticks_from_secs(offset)),
+                        round(self.synchronizer.get_actual_ticks_from_secs(offset))
+                        + 1920,
                         -100,
                     )
                 )
@@ -268,7 +280,7 @@ class VocalShifterParser:
             value = getattr(point, attr_name)
             param_curve.points.append(
                 Point(
-                    self.synchronizer.get_actual_ticks_from_secs(offset),
+                    round(self.synchronizer.get_actual_ticks_from_secs(offset)) + 1920,
                     mapping_func(value),
                 )
             )
