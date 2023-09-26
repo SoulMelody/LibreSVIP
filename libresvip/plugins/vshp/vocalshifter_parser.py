@@ -148,7 +148,7 @@ class VocalShifterParser:
         self, offset: int, notes: list[Container], labels: list[Container]
     ) -> list[Note]:
         note_list = []
-        if labels and len(labels.labels) == len(notes):
+        if labels and len(labels) == len(notes):
             for note, label in zip(notes, labels):
                 if label.start_tick != note.start_tick:
                     note_list.append(
@@ -165,7 +165,7 @@ class VocalShifterParser:
                             start_pos=offset + round(note.start_tick * self.tick_rate),
                             length=int(note.length * self.tick_rate),
                             key_number=note.pitch // 100,
-                            lyric=ansi2unicode(label.name.split(b"\x00")[0]),
+                            lyric=ansi2unicode(label.name.partition(b"\x00")[0]),
                         )
                     )
         else:
@@ -232,19 +232,23 @@ class VocalShifterParser:
                 if not has_pitch:
                     pitch_curve.points.append(
                         Point(
-                            self.synchronizer.get_actual_ticks_from_secs(offset), -100
+                            round(self.synchronizer.get_actual_ticks_from_secs(offset)),
+                            -100,
                         )
                     )
                     has_pitch = True
                 pitch_curve.points.append(
                     Point(
-                        self.synchronizer.get_actual_ticks_from_secs(offset),
+                        round(self.synchronizer.get_actual_ticks_from_secs(offset)),
                         value,
                     )
                 )
             elif has_pitch:
                 pitch_curve.points.append(
-                    Point(self.synchronizer.get_actual_ticks_from_secs(offset), -100)
+                    Point(
+                        round(self.synchronizer.get_actual_ticks_from_secs(offset)),
+                        -100,
+                    )
                 )
                 has_pitch = False
             offset += time_step

@@ -2,11 +2,12 @@ from construct import (
     Bytes,
     BytesInteger,
     Const,
+    FixedSized,
     Float64l,
+    GreedyBytes,
     If,
     Int16sl,
     Int16ul,
-    PaddedString,
     Struct,
     this,
 )
@@ -20,7 +21,7 @@ VocalShifterLabel = Struct(
     "end_tick" / Int32ul,
     "index" / Int32ul,
     "padding" / Bytes(20),
-    "name" / PaddedString(64, "ascii"),
+    "name" / FixedSized(64, GreedyBytes),
 )
 
 
@@ -192,7 +193,7 @@ VocalShifterTrackColor = CSEnum(
 VocalShifterTrackMetadata = Struct(
     "magic" / Const(b"TRKP"),
     "size" / Int32ul,
-    "name" / PaddedString(64, "ascii"),
+    "name" / FixedSized(64, GreedyBytes),
     "volume" / Float64l,
     "pan" / Float64l,
     "mute" / Int32ul,
