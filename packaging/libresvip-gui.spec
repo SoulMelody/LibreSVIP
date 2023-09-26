@@ -9,7 +9,7 @@ sys.modules['FixTk'] = None
 
 import qmlease
 import shellingham
-from PyInstaller.utils.hooks import collect_data_files, copy_metadata
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
 from libresvip.core.constants import pkg_dir
 
@@ -36,7 +36,6 @@ a = Analysis(
         "construct_typed",
         "drawsvg",
         "jinja2",
-        "libresvip",
         "mido_fix",
         "portion",
         "pure_protobuf.annotations",
@@ -48,7 +47,7 @@ a = Analysis(
         "wanakana",
         "xsdata.formats.dataclass.parsers",
         "xsdata.formats.dataclass.serializers",
-    ],
+    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model"),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
