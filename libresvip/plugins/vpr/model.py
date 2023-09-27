@@ -1,6 +1,6 @@
 import enum
 from dataclasses import dataclass
-from typing import Annotated, Literal, Optional, Union
+from typing import Annotated, Optional, Union
 
 from pydantic import ConfigDict, Field
 
@@ -143,13 +143,7 @@ class VocaloidFolded(BaseModel):
     is_folded: Optional[bool] = Field(True, alias="isFolded")
 
 
-class VocaloidMidiEffects(VocaloidFolded):
-    id_value: Optional[str] = Field(None, alias="id")
-    is_bypassed: Optional[bool] = Field(None, alias="isBypassed")
-    parameters: list[VocaloidParameters] = Field(default_factory=list)
-
-
-class VocaloidAudioEffects(VocaloidFolded):
+class VocaloidEffects(VocaloidFolded):
     id_value: Optional[str] = Field(None, alias="id")
     is_bypassed: Optional[bool] = Field(None, alias="isBypassed")
     parameters: list[VocaloidParameters] = Field(default_factory=list)
@@ -225,10 +219,10 @@ class VocaloidWav(BaseModel):
 
 class VocaloidVoicePart(VocaloidWithDur):
     name: Optional[str] = ""
-    midi_effects: list[VocaloidMidiEffects] = Field(
+    midi_effects: list[VocaloidEffects] = Field(
         default_factory=list, alias="midiEffects"
     )
-    audio_effects: list[VocaloidAudioEffects] = Field(
+    audio_effects: list[VocaloidEffects] = Field(
         default_factory=list, alias="audioEffects"
     )
     notes: Optional[list[VocaloidNotes]] = Field(default_factory=list)
@@ -277,31 +271,9 @@ class VocaloidBaseTracks(VocaloidFolded):
     )
 
 
-class VocaloidStandardTrack(VocaloidBaseTracks):
-    parts: list[VocaloidVoicePart] = Field(default_factory=list)
-    type_value: Literal[VocaloidTrackType.STANDARD] = Field(
-        VocaloidTrackType.STANDARD, alias="type"
-    )
-
-
-class VocaloidAITrack(VocaloidBaseTracks):
-    parts: list[VocaloidVoicePart] = Field(default_factory=list)
-    type_value: Literal[VocaloidTrackType.AI] = Field(
-        VocaloidTrackType.AI, alias="type"
-    )
-
-
-class VocaloidAudioTrack(VocaloidBaseTracks):
-    parts: list[VocaloidWavPart] = Field(default_factory=list)
-    type_value: Literal[VocaloidTrackType.AUDIO] = Field(
-        VocaloidTrackType.AUDIO, alias="type"
-    )
-
-
-VocaloidTracks = Annotated[
-    Union[VocaloidStandardTrack, VocaloidAITrack, VocaloidAudioTrack],
-    Field(discriminator="type_value"),
-]
+class VocaloidTracks(VocaloidBaseTracks):
+    parts: list[Union[VocaloidVoicePart, VocaloidWavPart]] = Field(default_factory=list)
+    type_value: VocaloidTrackType = Field(alias="type")
 
 
 class VocaloidProject(BaseModel):
