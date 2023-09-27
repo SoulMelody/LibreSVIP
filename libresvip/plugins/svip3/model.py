@@ -63,7 +63,7 @@ class Svip3Note(BaseMessage):
 @dataclass
 class Svip3SingingPattern(BaseMessage):
     name: Annotated[str, Field(1)] = ""
-    type: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Singing_Pattern
+    type_value: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Singing_Pattern
     real_pos: Annotated[int, Field(3)] = 0
     real_dur: Annotated[int, Field(4)] = 0
     play_pos: Annotated[int, Field(5)] = 0
@@ -107,7 +107,7 @@ class Svip3SingingTrack(BaseMessage):
     name: Annotated[str, Field(4)] = ""
     solo: Annotated[bool, Field(5)] = False
     color: Annotated[str, Field(6)] = ""
-    type: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Singing_Track
+    type_value: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Singing_Track
     pattern_list: Annotated[list[Svip3SingingPattern], Field(8)] = field(
         default_factory=list
     )
@@ -149,7 +149,7 @@ class Svip3SongTone(BaseMessage):
 @dataclass
 class Svip3AudioPattern(BaseMessage):
     name: Annotated[str, Field(1)] = ""
-    type: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Audio_Pattern
+    type_value: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Audio_Pattern
     real_pos: Annotated[int, Field(3)] = 0
     real_dur: Annotated[int, Field(4)] = 0
     play_pos: Annotated[int, Field(5)] = 0
@@ -167,7 +167,7 @@ class Svip3AudioTrack(BaseMessage):
     name: Annotated[str, Field(4)] = ""
     solo: Annotated[bool, Field(5)] = False
     color: Annotated[str, Field(6)] = ""
-    type: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Audio_Track
+    type_value: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Audio_Track
     pattern_list: Annotated[list[Svip3AudioPattern], Field(8)] = field(
         default_factory=list
     )

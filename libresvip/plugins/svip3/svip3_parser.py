@@ -86,25 +86,29 @@ class Svip3Parser:
                 tracks.append(self.parse_singing_track(singing_track))
             elif track.type_url == urljoin(TYPE_URL_BASE, TrackType.AUDIO_TRACK):
                 audio_track = Svip3AudioTrack.loads(track.value)
-                tracks.append(self.parse_audio_track(audio_track))
+                if xstudio_audio_track := self.parse_audio_track(audio_track):
+                    tracks.append(xstudio_audio_track)
         return tracks
 
-    def parse_audio_track(self, audio_track: Svip3AudioTrack) -> InstrumentalTrack:
+    def parse_audio_track(
+        self, audio_track: Svip3AudioTrack
+    ) -> Optional[InstrumentalTrack]:
         audio_file_path = None
         offset = 0
         if len(audio_track.pattern_list):
             first_pattern = audio_track.pattern_list[0]
             audio_file_path = first_pattern.audio_file_path
             offset = first_pattern.real_pos
-        return InstrumentalTrack(
-            audio_file_path=audio_file_path,
-            offset=offset,
-            pan=self.parse_pan(audio_track.pan),
-            title=audio_track.name,
-            mute=audio_track.mute or False,
-            solo=audio_track.solo or False,
-            volume=self.to_linear_volume(audio_track.volume),
-        )
+        if audio_file_path is not None:
+            return InstrumentalTrack(
+                audio_file_path=audio_file_path,
+                offset=offset,
+                pan=self.parse_pan(audio_track.pan),
+                title=audio_track.name,
+                mute=audio_track.mute or False,
+                solo=audio_track.solo or False,
+                volume=self.to_linear_volume(audio_track.volume),
+            )
 
     @staticmethod
     def parse_pan(pan: float) -> float:

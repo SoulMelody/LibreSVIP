@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:1fe6d9af596e15df62311c81db4f218c5010faadb733a6dfbdbfe19095de9a0b"
+content_hash = "sha256:f9ead572b9af503be4296f84b42bd06731979d661f246187116ddb6199d2e10f"
 
 [[package]]
 name = "aiofiles"
@@ -1620,7 +1620,7 @@ files = [
 
 [[package]]
 name = "pure-protobuf"
-version = "3.0.0a5"
+version = "3.0.0rc1"
 requires_python = ">=3.8.0,<4.0.0"
 summary = "Protocol Buffers using Python type annotations"
 dependencies = [
@@ -1628,8 +1628,8 @@ dependencies = [
     "typing-extensions<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "pure_protobuf-3.0.0a5-py3-none-any.whl", hash = "sha256:29a3e278bd2f620b8bf54ed34911c3d2160fb8a41db9873735b80effd998be46"},
-    {file = "pure_protobuf-3.0.0a5.tar.gz", hash = "sha256:b07a73de000d29708e92d4b3fd155fe34c18ee8735970a69503011447d6aa35e"},
+    {file = "pure_protobuf-3.0.0rc1-py3-none-any.whl", hash = "sha256:def3e1308c459bd1bc33a46357120cbb79ad345cfc1ec232cd50e969876a76e3"},
+    {file = "pure_protobuf-3.0.0rc1.tar.gz", hash = "sha256:c80cbb28419bd5ae9ed6d64156474a4af581a40e3fa5a032be55b2b42fa8c8d9"},
 ]
 
 [[package]]
