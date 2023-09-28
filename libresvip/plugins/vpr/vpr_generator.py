@@ -16,16 +16,18 @@ from libresvip.utils import audio_track_info
 
 from .constants import BPM_RATE, PITCH_BEND_NAME, PITCH_BEND_SENSITIVITY_NAME
 from .model import (
+    VocaloidAITrack,
     VocaloidAIVoice,
+    VocaloidAudioTrack,
     VocaloidControllers,
     VocaloidLangID,
     VocaloidNotes,
     VocaloidPoint,
     VocaloidProject,
     VocaloidRegion,
+    VocaloidStandardTrack,
     VocaloidTimeSig,
     VocaloidTracks,
-    VocaloidTrackType,
     VocaloidVoice,
     VocaloidVoicePart,
     VocaloidVoices,
@@ -128,8 +130,7 @@ class VocaloidGenerator:
                         wav_part.region.end,
                     )
                     tracks.append(
-                        VocaloidTracks(
-                            type_value=VocaloidTrackType.AUDIO,
+                        VocaloidAudioTrack(
                             name=track.title,
                             parts=[wav_part],
                             is_muted=track.mute,
@@ -172,19 +173,18 @@ class VocaloidGenerator:
                             comp_id=self.options.default_comp_id,
                             lang_id=self.options.default_lang_id,
                         )
-                vocaloid_track = VocaloidTracks(
-                    type_value=(
-                        VocaloidTrackType.AI
-                        if self.options.is_ai_singer
-                        else VocaloidTrackType.STANDARD
-                    ),
+                track = (
+                    VocaloidAITrack
+                    if self.options.is_ai_singer
+                    else VocaloidStandardTrack
+                )(
                     name=track.title,
                     parts=[part] if part else [],
                     is_muted=track.mute,
                     is_solo_mode=track.solo,
                 )
-                vocaloid_track.panpot.events.append(VocaloidPoint(pos=0, value=0))
-                tracks.append(vocaloid_track)
+                track.panpot.events.append(VocaloidPoint(pos=0, value=0))
+                tracks.append(track)
                 if duration:
                     self.end_tick = max(
                         self.end_tick,

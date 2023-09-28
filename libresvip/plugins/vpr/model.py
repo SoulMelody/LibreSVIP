@@ -1,6 +1,6 @@
 import enum
 from dataclasses import dataclass
-from typing import Annotated, Optional, Union
+from typing import Annotated, Literal, Optional, Union
 
 from pydantic import ConfigDict, Field
 
@@ -271,9 +271,31 @@ class VocaloidBaseTracks(VocaloidFolded):
     )
 
 
-class VocaloidTracks(VocaloidBaseTracks):
-    parts: list[Union[VocaloidVoicePart, VocaloidWavPart]] = Field(default_factory=list)
-    type_value: VocaloidTrackType = Field(alias="type")
+class VocaloidStandardTrack(VocaloidBaseTracks):
+    parts: list[VocaloidVoicePart] = Field(default_factory=list)
+    type_value: Literal[VocaloidTrackType.STANDARD] = Field(
+        VocaloidTrackType.STANDARD, alias="type"
+    )
+
+
+class VocaloidAITrack(VocaloidBaseTracks):
+    parts: list[VocaloidVoicePart] = Field(default_factory=list)
+    type_value: Literal[VocaloidTrackType.AI] = Field(
+        VocaloidTrackType.AI, alias="type"
+    )
+
+
+class VocaloidAudioTrack(VocaloidBaseTracks):
+    parts: list[VocaloidWavPart] = Field(default_factory=list)
+    type_value: Literal[VocaloidTrackType.AUDIO] = Field(
+        VocaloidTrackType.AUDIO, alias="type"
+    )
+
+
+VocaloidTracks = Annotated[
+    Union[VocaloidStandardTrack, VocaloidAITrack, VocaloidAudioTrack],
+    Field(discriminator="type_value"),
+]
 
 
 class VocaloidProject(BaseModel):
