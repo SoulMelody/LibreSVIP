@@ -289,23 +289,6 @@ class TaskManager(QObject):
                         "value": default_value,
                     }
                 )
-            elif issubclass(
-                field_info.annotation, (str, int, float, Color, BaseComplexModel)
-            ):
-                if issubclass(field_info.annotation, BaseComplexModel):
-                    default_value = field_info.annotation.default_repr()
-                fields.append(
-                    {
-                        "type": "color"
-                        if issubclass(field_info.annotation, Color)
-                        else field_info.annotation.__name__,
-                        "name": option_key,
-                        "title": field_info.title,
-                        "description": field_info.description or "",
-                        "default": default_value,
-                        "value": default_value,
-                    }
-                )
             elif issubclass(field_info.annotation, enum.Enum):
                 if default_value is not None:
                     default_value = default_value.value
@@ -336,6 +319,23 @@ class TaskManager(QObject):
                         "default": default_value,
                         "value": default_value,
                         "choices": choices,
+                    }
+                )
+            elif issubclass(
+                field_info.annotation, (str, int, float, Color, BaseComplexModel)
+            ):
+                if issubclass(field_info.annotation, BaseComplexModel):
+                    default_value = field_info.annotation.default_repr()
+                fields.append(
+                    {
+                        "type": "color"
+                        if issubclass(field_info.annotation, Color)
+                        else field_info.annotation.__name__,
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
                     }
                 )
         return fields
