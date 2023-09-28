@@ -35,9 +35,11 @@ a = Analysis(
     hiddenimports=[
         "construct_typed",
         "drawsvg",
+        "google.protobuf.any_pb2",
+        "jinja2",
         "mido_fix",
         "portion",
-        "pure_protobuf.annotations",
+        "proto",
         "pypinyin",
         "srt",
         "textx",

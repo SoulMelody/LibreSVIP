@@ -1,6 +1,8 @@
 import dataclasses
 from urllib.parse import urljoin
 
+from google.protobuf import any_pb2
+
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -17,7 +19,6 @@ from libresvip.utils import audio_track_info, ratio_to_db
 from .color_pool import random_color
 from .constants import TYPE_URL_BASE, TrackType
 from .model import (
-    Svip3AnyTrack,
     Svip3AudioPattern,
     Svip3AudioTrack,
     Svip3BeatSize,
@@ -75,7 +76,7 @@ class Svip3Generator:
             for song_tempo in song_tempo_list
         ]
 
-    def generate_tracks(self, track_list: list[Track]) -> list[Svip3AnyTrack]:
+    def generate_tracks(self, track_list: list[Track]) -> list[any_pb2.Any]:
         svip3_track_list = []
         for track in track_list:
             color = random_color()
@@ -87,9 +88,9 @@ class Svip3Generator:
                 type_url = urljoin(TYPE_URL_BASE, TrackType.AUDIO_TRACK)
             else:
                 continue
-            svip3_track_container = Svip3AnyTrack(
+            svip3_track_container = any_pb2.Any(
                 type_url=type_url,
-                value=svip3_track.dumps(),
+                value=type(svip3_track).serialize(svip3_track),
             )
             svip3_track_list.append(svip3_track_container)
         return svip3_track_list

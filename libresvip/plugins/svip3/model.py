@@ -1,200 +1,517 @@
-from dataclasses import dataclass, field
-from enum import IntEnum
-from typing import Annotated
+from __future__ import annotations
 
-from pure_protobuf.annotations import Field, ZigZagInt
-from pure_protobuf.message import BaseMessage
+from typing import MutableSequence
+
+import proto
+from google.protobuf import any_pb2
+
+__protobuf__ = proto.module(
+    package="xstudio.proto",
+    manifest={
+        "Svip3TrackType",
+        "Svip3PatternType",
+        "Svip3NoteLengthValidateTag",
+        "Svip3Project",
+        "Svip3SongTempo",
+        "Svip3SongBeat",
+        "Svip3SongTone",
+        "Svip3BeatSize",
+        "Svip3Master",
+        "Svip3SingingTrack",
+        "Svip3AudioTrack",
+        "Svip3AudioPattern",
+        "Svip3SingingPattern",
+        "Svip3Vibrato",
+        "Svip3Note",
+        "Svip3VibratoStyle",
+        "Svip3LineParamNode",
+    },
+)
 
 
-class Svip3TrackType(IntEnum):
+class Svip3TrackType(proto.Enum):
     Track_None = 0
     Audio_Track = 1
     Singing_Track = 2
 
 
-class Svip3PatternType(IntEnum):
+class Svip3PatternType(proto.Enum):
     Pattern_None = 0
     Audio_Pattern = 1
     Singing_Pattern = 2
 
 
-class Svip3NoteLengthValidateTag(IntEnum):
+class Svip3NoteLengthValidateTag(proto.Enum):
     NONE = 0
     TOO_LONG = 1
     TOO_SHORT = 2
 
 
-@dataclass
-class Svip3LineParamNode(BaseMessage):
-    pos: Annotated[ZigZagInt, Field(1)] = 0
-    value: Annotated[float, Field(2)] = 0.0
-
-
-@dataclass
-class Svip3Vibrato(BaseMessage):
-    frequency: Annotated[float, Field(1)] = 0.0
-    amplitude: Annotated[float, Field(2)] = 0.0
-    phase: Annotated[float, Field(3)] = 0.0
-    start: Annotated[float, Field(4)] = 0.0
-    end: Annotated[float, Field(5)] = 0.0
-    attack_x: Annotated[float, Field(6)] = 0.0
-    attack_y: Annotated[float, Field(7)] = 0.0
-    release_x: Annotated[float, Field(8)] = 0.0
-    release_y: Annotated[float, Field(9)] = 0.0
-
-
-@dataclass
-class Svip3Note(BaseMessage):
-    start_pos: Annotated[int, Field(1)] = 0
-    width_pos: Annotated[int, Field(2)] = 0
-    key_index: Annotated[int, Field(3)] = 0
-    lyric: Annotated[str, Field(4)] = ""
-    pronouncing: Annotated[str, Field(5)] = ""
-    consonant_len: Annotated[int, Field(6)] = 0
-    has_consonant: Annotated[bool, Field(7)] = False
-    user_consonant_len: Annotated[int, Field(8)] = 0
-    sp_len: Annotated[int, Field(9)] = 0
-    sil_len: Annotated[int, Field(10)] = 0
-    length_validate_tag: Annotated[int, Field(11)] = 0
-    vibrato: Annotated[Svip3Vibrato, Field(12)] = field(default_factory=Svip3Vibrato)
-    user_sp_len: Annotated[int, Field(13)] = 0
-
-
-@dataclass
-class Svip3SingingPattern(BaseMessage):
-    name: Annotated[str, Field(1)] = ""
-    type_value: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Singing_Pattern
-    real_pos: Annotated[int, Field(3)] = 0
-    real_dur: Annotated[int, Field(4)] = 0
-    play_pos: Annotated[int, Field(5)] = 0
-    play_dur: Annotated[int, Field(6)] = 0
-    is_mute: Annotated[bool, Field(7)] = False
-    note_list: Annotated[list[Svip3Note], Field(8)] = field(default_factory=list)
-    edited_pitch_line: Annotated[list[Svip3LineParamNode], Field(9)] = field(
-        default_factory=list
+class Svip3Project(proto.Message):
+    project_file_path: str = proto.Field(
+        proto.STRING,
+        number=1,
     )
-    edited_volume_line: Annotated[list[Svip3LineParamNode], Field(10)] = field(
-        default_factory=list
+    version: str = proto.Field(
+        proto.STRING,
+        number=2,
     )
-    edited_power_line: Annotated[list[Svip3LineParamNode], Field(11)] = field(
-        default_factory=list
+    duration: int = proto.Field(
+        proto.INT32,
+        number=3,
     )
-    merge_pitch_line: Annotated[list[Svip3LineParamNode], Field(12)] = field(
-        default_factory=list
+    tempo_list: MutableSequence["Svip3SongTempo"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=4,
+        message="Svip3SongTempo",
     )
-    merge_power_line: Annotated[list[Svip3LineParamNode], Field(13)] = field(
-        default_factory=list
+    beat_list: MutableSequence["Svip3SongBeat"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=5,
+        message="Svip3SongBeat",
     )
-    edited_spec_trans_coef_line: Annotated[list[Svip3LineParamNode], Field(14)] = field(
-        default_factory=list
+    track_list: MutableSequence[any_pb2.Any] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=6,
+        message=any_pb2.Any,
     )
-    edited_ap_coef_line: Annotated[list[Svip3LineParamNode], Field(15)] = field(
-        default_factory=list
+    master: Svip3Master = proto.Field(
+        proto.MESSAGE,
+        number=7,
+        message="Svip3Master",
     )
-    edited_energy_value_line: Annotated[list[Svip3LineParamNode], Field(16)] = field(
-        default_factory=list
+    current_tone: str = proto.Field(
+        proto.STRING,
+        number=8,
     )
-    merge_energy_value_line: Annotated[list[Svip3LineParamNode], Field(17)] = field(
-        default_factory=list
+    piano_cells: int = proto.Field(
+        proto.INT32,
+        number=9,
     )
-
-
-@dataclass
-class Svip3SingingTrack(BaseMessage):
-    volume: Annotated[float, Field(1)] = 1.0
-    pan: Annotated[float, Field(2)] = 0.0
-    mute: Annotated[bool, Field(3)] = False
-    name: Annotated[str, Field(4)] = ""
-    solo: Annotated[bool, Field(5)] = False
-    color: Annotated[str, Field(6)] = ""
-    type_value: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Singing_Track
-    pattern_list: Annotated[list[Svip3SingingPattern], Field(8)] = field(
-        default_factory=list
+    loop_start: int = proto.Field(
+        proto.INT32,
+        number=10,
     )
-    ai_singer_id: Annotated[str, Field(9)] = ""
-    is_reverb_open: Annotated[bool, Field(10)] = False
-    reverb_type: Annotated[int, Field(11)] = 0
-    reverb_db: Annotated[float, Field(12)] = 0.0
-
-
-@dataclass
-class Svip3BeatSize(BaseMessage):
-    numerator: Annotated[int, Field(1)] = 4
-    denominator: Annotated[int, Field(2)] = 4
-
-
-@dataclass
-class Svip3Master(BaseMessage):
-    volume: Annotated[float, Field(1)] = 1.0
-
-
-@dataclass
-class Svip3SongBeat(BaseMessage):
-    pos: Annotated[int, Field(1)] = 0
-    beat_size: Annotated[Svip3BeatSize, Field(2)] = field(default_factory=Svip3BeatSize)
-
-
-@dataclass
-class Svip3SongTempo(BaseMessage):
-    pos: Annotated[int, Field(1)] = 0
-    tempo: Annotated[int, Field(2)] = 0
-
-
-@dataclass
-class Svip3SongTone(BaseMessage):
-    pos: Annotated[int, Field(1)] = 0
-    tone: Annotated[str, Field(2)] = ""
-
-
-@dataclass
-class Svip3AudioPattern(BaseMessage):
-    name: Annotated[str, Field(1)] = ""
-    type_value: Annotated[Svip3PatternType, Field(2)] = Svip3PatternType.Audio_Pattern
-    real_pos: Annotated[int, Field(3)] = 0
-    real_dur: Annotated[int, Field(4)] = 0
-    play_pos: Annotated[int, Field(5)] = 0
-    play_dur: Annotated[int, Field(6)] = 0
-    is_mute: Annotated[bool, Field(7)] = False
-    audio_file_path: Annotated[str, Field(8)] = ""
-    rising_falling_tone: Annotated[float, Field(9)] = 0.0
-
-
-@dataclass
-class Svip3AudioTrack(BaseMessage):
-    volume: Annotated[float, Field(1)] = 1.0
-    pan: Annotated[float, Field(2)] = 0.0
-    mute: Annotated[bool, Field(3)] = False
-    name: Annotated[str, Field(4)] = ""
-    solo: Annotated[bool, Field(5)] = False
-    color: Annotated[str, Field(6)] = ""
-    type_value: Annotated[Svip3TrackType, Field(7)] = Svip3TrackType.Audio_Track
-    pattern_list: Annotated[list[Svip3AudioPattern], Field(8)] = field(
-        default_factory=list
+    loop_end: int = proto.Field(
+        proto.INT32,
+        number=11,
+    )
+    is_open_adsorb: bool = proto.Field(
+        proto.BOOL,
+        number=12,
+    )
+    params_version: int = proto.Field(
+        proto.INT32,
+        number=13,
+    )
+    tone_list: MutableSequence["Svip3SongTone"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=14,
+        message="Svip3SongTone",
+    )
+    is_triplets: bool = proto.Field(
+        proto.BOOL,
+        number=15,
+    )
+    is_loop: bool = proto.Field(
+        proto.BOOL,
+        number=16,
+    )
+    is_last_play: bool = proto.Field(
+        proto.BOOL,
+        number=17,
     )
 
 
-@dataclass
-class Svip3AnyTrack(BaseMessage):
-    type_url: Annotated[str, Field(1)] = ""
-    value: Annotated[bytes, Field(2)] = b""
+class Svip3SongTempo(proto.Message):
+    pos: int = proto.Field(
+        proto.INT32,
+        number=1,
+    )
+    tempo: int = proto.Field(
+        proto.INT32,
+        number=2,
+    )
 
 
-@dataclass
-class Svip3Project(BaseMessage):
-    project_file_path: Annotated[str, Field(1)] = ""
-    version: Annotated[str, Field(2)] = "3.0.0"
-    duration: Annotated[int, Field(3)] = 0
-    tempo_list: Annotated[list[Svip3SongTempo], Field(4)] = field(default_factory=list)
-    beat_list: Annotated[list[Svip3SongBeat], Field(5)] = field(default_factory=list)
-    track_list: Annotated[list[Svip3AnyTrack], Field(6)] = field(default_factory=list)
-    master: Annotated[Svip3Master, Field(7)] = field(default_factory=Svip3Master)
-    current_tone: Annotated[str, Field(8)] = ""
-    piano_cells: Annotated[int, Field(9)] = 0
-    loop_start: Annotated[int, Field(10)] = 0
-    loop_end: Annotated[int, Field(11)] = 0
-    is_open_adsorb: Annotated[bool, Field(12)] = True
-    params_version: Annotated[int, Field(13)] = 0
-    tone_list: Annotated[list[Svip3SongTone], Field(14)] = field(default_factory=list)
-    is_triplets: Annotated[bool, Field(15)] = False
-    is_loop: Annotated[bool, Field(16)] = False
-    is_last_play: Annotated[bool, Field(17)] = False
+class Svip3SongBeat(proto.Message):
+    pos: int = proto.Field(
+        proto.INT32,
+        number=1,
+    )
+    beat_size: Svip3BeatSize = proto.Field(
+        proto.MESSAGE,
+        number=2,
+        message="Svip3BeatSize",
+    )
+
+
+class Svip3SongTone(proto.Message):
+    pos: int = proto.Field(
+        proto.INT32,
+        number=1,
+    )
+    tone: str = proto.Field(
+        proto.STRING,
+        number=2,
+    )
+
+
+class Svip3BeatSize(proto.Message):
+    numerator: int = proto.Field(
+        proto.INT32,
+        number=1,
+    )
+    denominator: int = proto.Field(
+        proto.INT32,
+        number=2,
+    )
+
+
+class Svip3Master(proto.Message):
+    volume: float = proto.Field(
+        proto.FLOAT,
+        number=1,
+    )
+
+
+class Svip3SingingTrack(proto.Message):
+    volume: float = proto.Field(
+        proto.FLOAT,
+        number=1,
+    )
+    pan: float = proto.Field(
+        proto.FLOAT,
+        number=2,
+    )
+    mute: bool = proto.Field(
+        proto.BOOL,
+        number=3,
+    )
+    name: str = proto.Field(
+        proto.STRING,
+        number=4,
+    )
+    solo: bool = proto.Field(
+        proto.BOOL,
+        number=5,
+    )
+    color: str = proto.Field(
+        proto.STRING,
+        number=6,
+    )
+    type_: Svip3TrackType = proto.Field(
+        proto.ENUM,
+        number=7,
+        enum="Svip3TrackType",
+    )
+    pattern_list: MutableSequence["Svip3SingingPattern"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=8,
+        message="Svip3SingingPattern",
+    )
+    ai_singer_id: str = proto.Field(
+        proto.STRING,
+        number=9,
+    )
+    is_reverb_open: bool = proto.Field(
+        proto.BOOL,
+        number=10,
+    )
+    reverb_type: int = proto.Field(
+        proto.INT32,
+        number=11,
+    )
+    reverb_db: float = proto.Field(
+        proto.FLOAT,
+        number=12,
+    )
+
+
+class Svip3AudioTrack(proto.Message):
+    volume: float = proto.Field(
+        proto.FLOAT,
+        number=1,
+    )
+    pan: float = proto.Field(
+        proto.FLOAT,
+        number=2,
+    )
+    mute: bool = proto.Field(
+        proto.BOOL,
+        number=3,
+    )
+    name: str = proto.Field(
+        proto.STRING,
+        number=4,
+    )
+    solo: bool = proto.Field(
+        proto.BOOL,
+        number=5,
+    )
+    color: str = proto.Field(
+        proto.STRING,
+        number=6,
+    )
+    type_: Svip3TrackType = proto.Field(
+        proto.ENUM,
+        number=7,
+        enum="Svip3TrackType",
+    )
+    pattern_list: MutableSequence["Svip3AudioPattern"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=8,
+        message="Svip3AudioPattern",
+    )
+
+
+class Svip3AudioPattern(proto.Message):
+    name: str = proto.Field(
+        proto.STRING,
+        number=1,
+    )
+    type_: Svip3PatternType = proto.Field(
+        proto.ENUM,
+        number=2,
+        enum="Svip3PatternType",
+    )
+    real_pos: int = proto.Field(
+        proto.INT32,
+        number=3,
+    )
+    real_dur: int = proto.Field(
+        proto.INT32,
+        number=4,
+    )
+    play_pos: int = proto.Field(
+        proto.INT32,
+        number=5,
+    )
+    play_dur: int = proto.Field(
+        proto.INT32,
+        number=6,
+    )
+    is_mute: bool = proto.Field(
+        proto.BOOL,
+        number=7,
+    )
+    audio_file_path: str = proto.Field(
+        proto.STRING,
+        number=8,
+    )
+    rising_falling_tone: float = proto.Field(
+        proto.FLOAT,
+        number=9,
+    )
+
+
+class Svip3SingingPattern(proto.Message):
+    name: str = proto.Field(
+        proto.STRING,
+        number=1,
+    )
+    type_: Svip3PatternType = proto.Field(
+        proto.ENUM,
+        number=2,
+        enum="Svip3PatternType",
+    )
+    real_pos: int = proto.Field(
+        proto.INT32,
+        number=3,
+    )
+    real_dur: int = proto.Field(
+        proto.INT32,
+        number=4,
+    )
+    play_pos: int = proto.Field(
+        proto.INT32,
+        number=5,
+    )
+    play_dur: int = proto.Field(
+        proto.INT32,
+        number=6,
+    )
+    is_mute: bool = proto.Field(
+        proto.BOOL,
+        number=7,
+    )
+    note_list: MutableSequence["Svip3Note"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=8,
+        message="Svip3Note",
+    )
+    edited_pitch_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=9,
+        message="Svip3LineParamNode",
+    )
+    edited_volume_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=10,
+        message="Svip3LineParamNode",
+    )
+    edited_power_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=11,
+        message="Svip3LineParamNode",
+    )
+    merge_pitch_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=12,
+        message="Svip3LineParamNode",
+    )
+    merge_power_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=13,
+        message="Svip3LineParamNode",
+    )
+    edited_spec_trans_coef_line: MutableSequence[
+        "Svip3LineParamNode"
+    ] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=14,
+        message="Svip3LineParamNode",
+    )
+    edited_ap_coef_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=15,
+        message="Svip3LineParamNode",
+    )
+    edited_energy_value_line: MutableSequence[
+        "Svip3LineParamNode"
+    ] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=16,
+        message="Svip3LineParamNode",
+    )
+    merge_energy_value_line: MutableSequence[
+        "Svip3LineParamNode"
+    ] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=17,
+        message="Svip3LineParamNode",
+    )
+
+
+class Svip3Vibrato(proto.Message):
+    frequency: float = proto.Field(
+        proto.FLOAT,
+        number=1,
+    )
+    amplitude: float = proto.Field(
+        proto.FLOAT,
+        number=2,
+    )
+    phase: float = proto.Field(
+        proto.FLOAT,
+        number=3,
+    )
+    start: float = proto.Field(
+        proto.FLOAT,
+        number=4,
+    )
+    end: float = proto.Field(
+        proto.FLOAT,
+        number=5,
+    )
+    attack_x: float = proto.Field(
+        proto.FLOAT,
+        number=6,
+    )
+    attack_y: float = proto.Field(
+        proto.FLOAT,
+        number=7,
+    )
+    release_x: float = proto.Field(
+        proto.FLOAT,
+        number=8,
+    )
+    release_y: float = proto.Field(
+        proto.FLOAT,
+        number=9,
+    )
+
+
+class Svip3Note(proto.Message):
+    start_pos: int = proto.Field(
+        proto.INT32,
+        number=1,
+    )
+    width_pos: int = proto.Field(
+        proto.INT32,
+        number=2,
+    )
+    key_index: int = proto.Field(
+        proto.INT32,
+        number=3,
+    )
+    lyric: str = proto.Field(
+        proto.STRING,
+        number=4,
+    )
+    pronouncing: str = proto.Field(
+        proto.STRING,
+        number=5,
+    )
+    consonant_len: int = proto.Field(
+        proto.INT32,
+        number=6,
+    )
+    has_consonant: bool = proto.Field(
+        proto.BOOL,
+        number=7,
+    )
+    user_consonant_len: int = proto.Field(
+        proto.INT32,
+        number=8,
+    )
+    sp_len: int = proto.Field(
+        proto.INT32,
+        number=9,
+    )
+    sil_len: int = proto.Field(
+        proto.INT32,
+        number=10,
+    )
+    length_validate_tag: Svip3NoteLengthValidateTag = proto.Field(
+        proto.ENUM,
+        number=11,
+        enum="Svip3NoteLengthValidateTag",
+    )
+    vibrato: Svip3Vibrato = proto.Field(
+        proto.MESSAGE,
+        number=12,
+        message="Svip3Vibrato",
+    )
+    user_sp_len: int = proto.Field(
+        proto.INT32,
+        number=13,
+    )
+
+
+class Svip3VibratoStyle(proto.Message):
+    is_anti_phase: bool = proto.Field(
+        proto.BOOL,
+        number=1,
+    )
+    amp_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=2,
+        message="Svip3LineParamNode",
+    )
+    freq_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=3,
+        message="Svip3LineParamNode",
+    )
+
+
+class Svip3LineParamNode(proto.Message):
+    pos: int = proto.Field(
+        proto.SINT32,
+        number=1,
+    )
+    value: float = proto.Field(
+        proto.FLOAT,
+        number=2,
+    )

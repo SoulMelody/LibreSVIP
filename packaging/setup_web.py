@@ -66,10 +66,11 @@ build_exe_options = {
         "anyio",
         "construct_typed",
         "drawsvg",
+        "google.protobuf",
         "jinja2",
         "libresvip",
         "mido_fix",
-        "pure_protobuf",
+        "proto",
         "pymediainfo",
         "srt",
         "textx",
@@ -80,6 +81,8 @@ build_exe_options = {
         "uvicorn.loops.auto",
         "uvicorn.protocols.http.auto",
         "uvicorn.protocols.websockets.auto",
+        "fsspec.implementations.memory",
+        "upath.implementations.memory",
     ],
 }
 
