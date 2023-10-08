@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Shapes
+import LibreSVIP
 
 Page {
     title: qsTr("Converter")
@@ -259,7 +260,7 @@ Page {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: py.qta.icon("mdi6.tune-variant")
+                text: IconicFontLoader.icon("mdi6.tune-variant")
                 font.family: "Material Design Icons"
                 font.pixelSize: 12
             }
@@ -324,19 +325,19 @@ Page {
                             onActivated: (index) => {
                                 if (
                                     resetTasksOnInputChange.checked &&
-                                    py.task_manager.get_str("input_format") != currentValue
+                                    TaskManager.get_str("input_format") != currentValue
                                 ) {
                                     actions.clearTasks.trigger()
                                 }
-                                py.task_manager.set_str("input_format", currentValue)
+                                TaskManager.set_str("input_format", currentValue)
                             }
                             Component.onCompleted: {
-                                let last_input_format = py.task_manager.get_str("input_format")
+                                let last_input_format = TaskManager.get_str("input_format")
                                 if (last_input_format != null) {
                                     this.currentIndex = indexOfValue(last_input_format)
                                 }
                                 dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")"
-                                py.task_manager.input_format_changed.connect((input_format) => {
+                                TaskManager.input_format_changed.connect((input_format) => {
                                     let new_index = indexOfValue(input_format)
                                     if (new_index != currentIndex) {
                                         currentIndex = new_index
@@ -346,10 +347,10 @@ Page {
                                         dialogs.openDialog.nameFilters[0] = name_filter
                                     }
                                 })
-                                py.task_manager.set_str("input_format", currentValue)
+                                TaskManager.set_str("input_format", currentValue)
                             }
                             width: parent.width
-                            choices: py.task_manager.qget("input_formats")
+                            choices: TaskManager.qget("input_formats")
                         }
                     }
                     IconButton {
@@ -420,10 +421,10 @@ Page {
                             x: - width * 0.5
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                             contentItem: PluginInfo {
-                                info: py.task_manager.plugin_info("input_format")
+                                info: TaskManager.plugin_info("input_format")
                                 Component.onCompleted: {
-                                    py.task_manager.input_format_changed.connect( (input_format) => {
-                                        info = py.task_manager.plugin_info("input_format")
+                                    TaskManager.input_format_changed.connect( (input_format) => {
+                                        info = TaskManager.plugin_info("input_format")
                                     })
                                 }
                             }
@@ -436,9 +437,9 @@ Page {
                         Layout.preferredWidth: parent.width * 0.4
                         height: 40
                         text: qsTr("Auto-Detect Input File Type")
-                        checked: py.config_items.get_bool("auto_detect_input_format")
+                        checked: ConfigItems.get_bool("auto_detect_input_format")
                         onClicked: {
-                            py.config_items.set_bool("auto_detect_input_format", checked)
+                            ConfigItems.set_bool("auto_detect_input_format", checked)
                             dialogs.settingsDialog.autoDetectInputFormatChanged(checked)
                         }
                         Component.onCompleted: {
@@ -455,9 +456,9 @@ Page {
                         Layout.preferredWidth: parent.width * 0.4
                         height: 40
                         text: qsTr("Reset Tasks When Changing Input")
-                        checked: py.config_items.get_bool("reset_tasks_on_input_change")
+                        checked: ConfigItems.get_bool("reset_tasks_on_input_change")
                         onClicked: {
-                            py.config_items.set_bool("reset_tasks_on_input_change", checked)
+                            ConfigItems.set_bool("reset_tasks_on_input_change", checked)
                             dialogs.settingsDialog.resetTasksOnInputChangeChanged(checked)
                         }
                         Connections {
@@ -485,8 +486,8 @@ Page {
                                 outputFormat.currentIndex,
                                 inputFormat.currentIndex
                             ]
-                            py.task_manager.set_str("input_format", inputFormat.currentValue)
-                            py.task_manager.set_str("output_format", outputFormat.currentValue)
+                            TaskManager.set_str("input_format", inputFormat.currentValue)
+                            TaskManager.set_str("output_format", outputFormat.currentValue)
                         }
                     }
                     Grid {
@@ -499,23 +500,23 @@ Page {
                             id: outputFormat
                             hint: qsTr("Output Format: ")
                             onActivated: (index) => {
-                                py.task_manager.set_str("output_format", currentValue)
+                                TaskManager.set_str("output_format", currentValue)
                             }
                             Component.onCompleted: {
-                                let last_output_format = py.task_manager.get_str("output_format")
+                                let last_output_format = TaskManager.get_str("output_format")
                                 if (last_output_format != null) {
                                     this.currentIndex = indexOfValue(last_output_format)
                                 }
-                                py.task_manager.output_format_changed.connect((output_format) => {
+                                TaskManager.output_format_changed.connect((output_format) => {
                                     let new_index = indexOfValue(output_format)
                                     if (new_index != currentIndex) {
                                         currentIndex = new_index
                                     }
                                 })
-                                py.task_manager.set_str("output_format", currentValue)
+                                TaskManager.set_str("output_format", currentValue)
                             }
                             width: parent.width
-                            model: py.task_manager.qget("output_formats")
+                            model: TaskManager.qget("output_formats")
                         }
                     }
                     IconButton {
@@ -586,10 +587,10 @@ Page {
                             x: - width * 0.5
                             closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                             contentItem: PluginInfo {
-                                info: py.task_manager.plugin_info("output_format")
+                                info: TaskManager.plugin_info("output_format")
                                 Component.onCompleted: {
-                                    py.task_manager.output_format_changed.connect( (output_format) => {
-                                        info = py.task_manager.plugin_info("output_format")
+                                    TaskManager.output_format_changed.connect( (output_format) => {
+                                        info = TaskManager.plugin_info("output_format")
                                     })
                                 }
                             }
@@ -601,12 +602,12 @@ Page {
                         Layout.column: 0
                         height: 40
                         text: qsTr("Set Output File Extension Automatically")
-                        checked: py.config_items.get_bool("auto_set_output_extension")
+                        checked: ConfigItems.get_bool("auto_set_output_extension")
                         onClicked: {
-                            py.config_items.set_bool("auto_set_output_extension", checked)
+                            ConfigItems.set_bool("auto_set_output_extension", checked)
                         }
                         Component.onCompleted: {
-                            py.config_items.auto_set_output_extension_changed.connect( (value) => {
+                            ConfigItems.auto_set_output_extension_changed.connect( (value) => {
                                 value === checked ? null : checked = value
                             })
                         }
@@ -620,7 +621,7 @@ Page {
                 SplitView.maximumHeight: parent.height - 250
                 anchors.bottom: parent.bottom
                 onDropped: (event) => {
-                    py.task_manager.add_task_paths(event.urls.map(dialogs.url2path))
+                    TaskManager.add_task_paths(event.urls.map(dialogs.url2path))
                 }
                 DashedRectangle {
                     anchors.fill: parent
@@ -650,7 +651,7 @@ Page {
                             anchors.centerIn: parent
                             Label {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                text: py.qta.icon("mdi6.tray-arrow-up")
+                                text: IconicFontLoader.icon("mdi6.tray-arrow-up")
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 100
                             }
@@ -679,7 +680,7 @@ Page {
                         ListView {
                             id: taskListView
                             Layout.fillWidth: true
-                            model: py.task_manager.qget("tasks")
+                            model: TaskManager.qget("tasks")
                             delegate: Qt.createComponent(
                                 "task_row.qml"
                             )
@@ -741,7 +742,7 @@ Page {
                                     Material.Shade300
                                 );
                             }
-                            text: py.qta.icon("mdi6.hammer-wrench")
+                            text: IconicFontLoader.icon("mdi6.hammer-wrench")
                             y: parent.height - this.height / 2 - 10
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -780,7 +781,7 @@ Page {
                             Row {
                                 RoundButton {
                                     id: addTaskButton
-                                    text: py.qta.icon("mdi6.plus")
+                                    text: IconicFontLoader.icon("mdi6.plus")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -804,7 +805,7 @@ Page {
                                 }
                                 RoundButton {
                                     id: clearTaskButton
-                                    text: py.qta.icon("mdi6.refresh")
+                                    text: IconicFontLoader.icon("mdi6.refresh")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -829,7 +830,7 @@ Page {
                                 }
                                 RoundButton {
                                     id: resetExtensionButton
-                                    text: py.qta.icon("mdi6.form-textbox")
+                                    text: IconicFontLoader.icon("mdi6.form-textbox")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -848,12 +849,12 @@ Page {
                                         }
                                     }
                                     onClicked: {
-                                        py.task_manager.reset_stems()
+                                        TaskManager.reset_stems()
                                     }
                                 }
                                 RoundButton {
                                     id: removeOtherExtensionButton
-                                    text: py.qta.icon("mdi6.filter-minus-outline")
+                                    text: IconicFontLoader.icon("mdi6.filter-minus-outline")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -943,7 +944,7 @@ Page {
                                 radius: this.height / 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
-                                    text: py.qta.icon("mdi6.chevron-right")
+                                    text: IconicFontLoader.icon("mdi6.chevron-right")
                                     font.family: "Material Design Icons"
                                     font.pixelSize: 20
                                     rotation: inputContainer.expanded ? 45 : 0
@@ -980,8 +981,8 @@ Page {
                                 font.pixelSize: 20
                                 anchors.verticalCenter: parent.verticalCenter
                                 Component.onCompleted: {
-                                    py.task_manager.input_format_changed.connect((input_format) => {
-                                        let plugin_info = py.task_manager.plugin_info("input_format")
+                                    TaskManager.input_format_changed.connect((input_format) => {
+                                        let plugin_info = TaskManager.plugin_info("input_format")
                                         input_format_name = plugin_info.file_format
                                     })
                                 }
@@ -1050,7 +1051,7 @@ Page {
                         }
                         ListView {
                             id: inputFields
-                            model: py.task_manager.qget("input_fields")
+                            model: TaskManager.qget("input_fields")
                             delegate: Column {
                                 Component.onCompleted: {
                                     if (index == 0) {
@@ -1110,7 +1111,7 @@ Page {
                                 radius: this.height / 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
-                                    text: py.qta.icon("mdi6.chevron-right")
+                                    text: IconicFontLoader.icon("mdi6.chevron-right")
                                     font.family: "Material Design Icons"
                                     font.pixelSize: 20
                                     rotation: outputContainer.expanded ? 45 : 0
@@ -1147,8 +1148,8 @@ Page {
                                 )
                                 anchors.verticalCenter: parent.verticalCenter
                                 Component.onCompleted: {
-                                    py.task_manager.output_format_changed.connect((output_format) => {
-                                        let plugin_info = py.task_manager.plugin_info("output_format")
+                                    TaskManager.output_format_changed.connect((output_format) => {
+                                        let plugin_info = TaskManager.plugin_info("output_format")
                                         output_format_name = plugin_info.file_format
                                     })
                                 }
@@ -1217,7 +1218,7 @@ Page {
                         }
                         ListView {
                             id: outputFields
-                            model: py.task_manager.qget("output_fields")
+                            model: TaskManager.qget("output_fields")
                             delegate: Column {
                                 Component.onCompleted: {
                                     if (index == 0) {
@@ -1323,10 +1324,10 @@ Page {
                         Layout.preferredWidth: parent.width * 0.7
                         height: 50
                         placeholderText: qsTr("Output Folder")
-                        text: py.config_items.get_save_folder()
+                        text: ConfigItems.get_save_folder()
                         onEditingFinished: {
-                            if (py.config_items.dir_valid(text) === true) {
-                                py.config_items.set_save_folder(text)
+                            if (ConfigItems.dir_valid(text) === true) {
+                                ConfigItems.set_save_folder(text)
                                 saveFolderTextField.text = text
                             } else {
                                 undo()
@@ -1419,7 +1420,7 @@ Page {
                                 }
                             }
                             Connections {
-                                target: py.task_manager
+                                target: TaskManager
                                 function onBusy_changed(busy) {
                                     startConversionBtn.contentItem.text = busy ? qsTr("Converting") : qsTr("Start Conversion")
                                     startConversionBtn.enabled = taskListView.count > 0 && !busy
@@ -1434,9 +1435,9 @@ Page {
                         Layout.column: 0
                         Layout.preferredWidth: parent.width * 0.4
                         text: qsTr("Open Output Folder When Done")
-                        checked: py.config_items.get_bool("open_save_folder_on_completion")
+                        checked: ConfigItems.get_bool("open_save_folder_on_completion")
                         onClicked: {
-                            py.config_items.set_bool("open_save_folder_on_completion", checked)
+                            ConfigItems.set_bool("open_save_folder_on_completion", checked)
                             dialogs.settingsDialog.autoOpenSaveFolderChanged(checked)
                         }
                         Component.onCompleted: {
@@ -1467,11 +1468,11 @@ Page {
                             {value: "Prompt", text: qsTr("Prompt")}
                         ]
                         onActivated: (index) => {
-                            py.config_items.set_conflict_policy(currentValue)
+                            ConfigItems.set_conflict_policy(currentValue)
                             dialogs.settingsDialog.conflictPolicyChanged(currentValue)
                         }
                         Component.onCompleted: {
-                            currentIndex = indexOfValue(py.config_items.get_conflict_policy())
+                            currentIndex = indexOfValue(ConfigItems.get_conflict_policy())
                             dialogs.settingsDialog.conflictPolicyChanged.connect( (value) => {
                                 switch (value) {
                                     case "Overwrite":

@@ -30,7 +30,7 @@ Item {
         text: qsTr("&Restore Task List")
         shortcut: "Ctrl+R"
         onTriggered: {
-            if (!py.task_manager.is_busy()) {
+            if (!TaskManager.is_busy()) {
                 converterPage.taskList.model.clear()
             } else {
                 let message_box = messageBox.createObject(
@@ -94,7 +94,7 @@ Item {
         text: qsTr("&Start Conversion")
         shortcut: "Ctrl+Enter"
         onTriggered: {
-            py.task_manager.start_conversion()
+            TaskManager.start_conversion()
         }
     }
     property QtObject quit: Action {

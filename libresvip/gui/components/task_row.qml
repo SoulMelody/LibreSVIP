@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import QtQuick.Shapes
+import LibreSVIP
 
 ColumnLayout {
     id: taskRow
@@ -39,7 +39,7 @@ ColumnLayout {
             Layout.alignment: Qt.AlignVCenter
             anchors.right: parent.right
             Label {
-                text: py.qta.icon("mdi6.transfer-right")
+                text: IconicFontLoader.icon("mdi6.transfer-right")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.5
             }
@@ -75,7 +75,7 @@ ColumnLayout {
                     id: successButton
                     anchors.centerIn: parent
                     visible: false
-                    text: py.qta.icon("mdi6.check")
+                    text: IconicFontLoader.icon("mdi6.check")
                     background: Rectangle {
                         color: Material.color(Material.Green, Material.Shade300)
                         radius: parent.height / 2
@@ -104,7 +104,7 @@ ColumnLayout {
                                     text: qsTr("Open")
                                 }
                                 onClicked: {
-                                    py.task_manager.open_output_path(index)
+                                    TaskManager.open_output_path(index)
                                 }
                             }
                             Button {
@@ -116,7 +116,7 @@ ColumnLayout {
                                     text: qsTr("Open folder")
                                 }
                                 onClicked: {
-                                    py.task_manager.open_output_dir(index)
+                                    TaskManager.open_output_dir(index)
                                 }
                             }
                         }
@@ -138,7 +138,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: py.qta.icon("mdi6.minus-thick")
+                    text: IconicFontLoader.icon("mdi6.minus-thick")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
@@ -159,7 +159,7 @@ ColumnLayout {
                                     text: qsTr("Open folder")
                                 }
                                 onClicked: {
-                                    py.task_manager.open_output_dir(index)
+                                    TaskManager.open_output_dir(index)
                                 }
                             }
                         }
@@ -181,7 +181,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: py.qta.icon("mdi6.alert-circle")
+                    text: IconicFontLoader.icon("mdi6.alert-circle")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
@@ -206,7 +206,7 @@ ColumnLayout {
                                 }
                                 text: qsTr("Copy error message")
                                 onClicked: {
-                                    let copy_result = py.clipboard.set_clipboard(errorLabel.text)
+                                    let copy_result = Clipboard.set_clipboard(errorLabel.text)
                                     if (copy_result) {
                                         text = qsTr("Copied")
                                         resetCopyErrorButtonTimer.start()
@@ -245,16 +245,16 @@ ColumnLayout {
         color: Material.color(Material.Grey, Material.Shade700)
     }
     Connections {
-        target: py.task_manager
+        target: TaskManager
         function onAll_tasks_finished() {
             let success = converterPage.taskList.model.get(index).success
             if (success) {
-                let conflict = py.task_manager.output_path_exists(index)
-                let conflict_policy = py.config_items.get_conflict_policy()
+                let conflict = TaskManager.output_path_exists(index)
+                let conflict_policy = ConfigItems.get_conflict_policy()
                 if (!conflict || conflict_policy == "Overwrite" || (
                     conflict_policy == "Prompt" && window.yesToAll
                 )) {
-                    let move_result = py.task_manager.move_to_output(index)
+                    let move_result = TaskManager.move_to_output(index)
                     if (move_result) {
                         successButton.visible = true
                     } else {
@@ -268,10 +268,10 @@ ColumnLayout {
                         {
                             body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
                             message: qsTr("File %1 already exists. Overwrite?").arg(
-                                py.task_manager.get_output_path(index)
+                                TaskManager.get_output_path(index)
                             ),
                             onOk: () => {
-                                let move_result = py.task_manager.move_to_output(index)
+                                let move_result = TaskManager.move_to_output(index)
                                 if (move_result) {
                                     successButton.visible = true
                                 } else {

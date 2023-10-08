@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
 import QtQuick.Layouts
+import LibreSVIP
 
 ToolBar {
     id: toolBar
@@ -62,7 +63,7 @@ ToolBar {
             color: "transparent"
             Image {
                 anchors.centerIn: parent
-                source: py.config_items.icon_data()
+                source: ConfigItems.icon_data()
                 sourceSize.width: 20
                 sourceSize.height: 20
             }
@@ -118,18 +119,18 @@ ToolBar {
                         }
                         contentItem: ListView {
                             id: importMenuList
-                            model: py.task_manager.qget("input_formats")
+                            model: TaskManager.qget("input_formats")
                             delegate: MenuItem {
                                 checkable: true
                                 checked: ListView.isCurrentItem
                                 ButtonGroup.group: inputFormatButtonGroup
                                 onTriggered: {
-                                    py.task_manager.set_str("input_format", model.value)
+                                    TaskManager.set_str("input_format", model.value)
                                 }
                                 text: String(index % 10) + " " + qsTr(model.text)
                             }
                             Connections {
-                                target: py.task_manager
+                                target: TaskManager
                                 function onInput_format_changed(input_format) {
                                     let new_index = converterPage.inputFormatComboBox.indexOfValue(input_format)
                                     if (new_index != importMenuList.currentIndex) {
@@ -175,18 +176,18 @@ ToolBar {
                         }
                         contentItem: ListView {
                             id: exportMenuList
-                            model: py.task_manager.qget("output_formats")
+                            model: TaskManager.qget("output_formats")
                             delegate: MenuItem {
                                 checkable: true
                                 checked: ListView.isCurrentItem
                                 ButtonGroup.group: exportFormatButtonGroup
                                 onTriggered: {
-                                    py.task_manager.set_str("output_format", model.value)
+                                    TaskManager.set_str("output_format", model.value)
                                 }
                                 text: String(index % 10) + " " + qsTr(model.text)
                             }
                             Connections {
-                                target: py.task_manager
+                                target: TaskManager
                                 function onOutput_format_changed(output_format) {
                                     let new_index = converterPage.outputFormatComboBox.indexOfValue(output_format)
                                     if (new_index != exportMenuList.currentIndex) {
@@ -286,7 +287,7 @@ ToolBar {
                             }
                         }
                         Component.onCompleted: {
-                            let currentTheme = py.config_items.get_theme()
+                            let currentTheme = ConfigItems.get_theme()
                             if (currentTheme === "Light") {
                                 lightThemeMenuItem.checked = true
                             } else if (currentTheme === "Dark") {
@@ -307,25 +308,25 @@ ToolBar {
                             checkable: true
                             ButtonGroup.group: languageButtonGroup
                             text: "简体中文";
-                            onTriggered: py.locale.switch_language("zh_CN")
+                            onTriggered: LocaleSwitcher.switch_language("zh_CN")
                         }
                         MenuItem {
                             id: enUSMenuItem
                             checkable: true
                             ButtonGroup.group: languageButtonGroup
                             text: "English";
-                            onTriggered: py.locale.switch_language("en_US")
+                            onTriggered: LocaleSwitcher.switch_language("en_US")
                         }
                         MenuItem {
                             id: jaJPMenuItem
                             checkable: true
                             ButtonGroup.group: languageButtonGroup
                             text: "日本語";
-                            onTriggered: py.locale.switch_language("ja_JP")
+                            onTriggered: LocaleSwitcher.switch_language("ja_JP")
                             enabled: false
                         }
                         Component.onCompleted: {
-                            let currentLanguage = py.locale.get_language()
+                            let currentLanguage = LocaleSwitcher.get_language()
                             if (currentLanguage === "zh_CN") {
                                 zhCNMenuItem.checked = true
                             } else if (currentLanguage === "en_US") {
@@ -349,7 +350,7 @@ ToolBar {
                         icon_name: "mdi6.progress-upload"
                         label: qsTr("Check for Updates");
                         enabled: true
-                        onTriggered: py.notifier.check_for_updates()
+                        onTriggered: Notifier.check_for_updates()
                     }
                     IconMenuItem {
                         icon_name: "mdi6.text-box-search-outline"
@@ -384,7 +385,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: py.qta.icon("mdi6.window-minimize")
+                text: IconicFontLoader.icon("mdi6.window-minimize")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: window.showMinimized()
@@ -401,7 +402,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: window.visibility == Window.Maximized ? py.qta.icon("mdi6.window-restore") : py.qta.icon("mdi6.window-maximize")
+                text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi6.window-restore") : IconicFontLoader.icon("mdi6.window-maximize")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: toggleMaximized()
@@ -417,7 +418,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: hovered ? "<font color='white'>" + py.qta.icon("mdi6.close") + "</font>" : py.qta.icon("mdi6.close")
+                text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi6.close") + "</font>" : IconicFontLoader.icon("mdi6.close")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: actions.quit.trigger()

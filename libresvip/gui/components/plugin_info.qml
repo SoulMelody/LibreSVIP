@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Shapes
+import LibreSVIP
 
 GridLayout {
     property var info
@@ -85,7 +86,7 @@ GridLayout {
         }
         contentItem: RowLayout {
             Label {
-                text: py.qta.icon("mdi6.tag")
+                text: IconicFontLoader.icon("mdi6.tag")
                 font.family: "Material Design Icons"
             }
             Label {
@@ -108,7 +109,7 @@ GridLayout {
         }
         contentItem: RowLayout {
             Label {
-                text: py.qta.icon("mdi6.account")
+                text: IconicFontLoader.icon("mdi6.account")
                 font.family: "Material Design Icons"
             }
 
@@ -122,7 +123,7 @@ GridLayout {
             }
 
             Label {
-                text: py.qta.icon("mdi6.open-in-new")
+                text: IconicFontLoader.icon("mdi6.open-in-new")
                 font.family: "Material Design Icons"
             }
         }
@@ -139,7 +140,7 @@ GridLayout {
         Layout.column: 3
         Layout.columnSpan: 7
         Label {
-            text: py.qta.icon("mdi6.file-outline")
+            text: IconicFontLoader.icon("mdi6.file-outline")
             font.family: "Material Design Icons"
         }
         Label {

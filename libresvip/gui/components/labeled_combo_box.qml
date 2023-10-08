@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
+import LibreSVIP
 
 ComboBox {
     property string hint
@@ -72,7 +73,7 @@ ComboBox {
         anchors.right: parent.right
         anchors.rightMargin: 20
         y: parent.height / 2 - 5
-        text: py.qta.icon("mdi6.menu-down")
+        text: IconicFontLoader.icon("mdi6.menu-down")
         font.family: "Material Design Icons"
         font.pixelSize: (parent.height - 10) / 2
     }
@@ -93,11 +94,11 @@ ComboBox {
         }
 
         onAboutToShow: {
-            combo.indicator.text = py.qta.icon("mdi6.menu-up")
+            combo.indicator.text = IconicFontLoader.icon("mdi6.menu-up")
         }
 
         onAboutToHide: {
-            combo.indicator.text = py.qta.icon("mdi6.menu-down")
+            combo.indicator.text = IconicFontLoader.icon("mdi6.menu-down")
         }
     }
 }

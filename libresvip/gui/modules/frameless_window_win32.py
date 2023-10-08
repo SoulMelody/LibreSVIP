@@ -6,8 +6,13 @@ import win32con
 import win32gui
 from qtpy.QtCore import QObject, QPoint, QRect, Qt
 from qtpy.QtGui import QCursor, QMouseEvent
+from qtpy.QtQml import QmlElement
 from qtpy.QtQuick import QQuickItem, QQuickWindow
 from qtpy.QtWidgets import QApplication
+
+QML_IMPORT_NAME = "FramelessWindow"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
 
 class MARGINS(ctypes.Structure):
@@ -19,7 +24,8 @@ class MARGINS(ctypes.Structure):
     ]
 
 
-class Win32FramelessWindow(QQuickWindow):
+@QmlElement
+class FramelessWindow(QQuickWindow):
     def __init__(self, parent: QObject = None, border_width: int = 5):
         super().__init__(parent)
         self.setFlags(
@@ -186,6 +192,10 @@ class Win32FramelessWindow(QQuickWindow):
                                 Qt.KeyboardModifier.NoModifier,
                             ),
                         )
+                        # if self.visibility() == QQuickWindow.Visibility.Maximized:
+                        #     self.showNormal()
+                        # else:
+                        #     self.showMaximized()
                         return True, 0
             elif msg.message in [win32con.WM_NCLBUTTONUP, win32con.WM_NCRBUTTONUP]:
                 pos = QCursor.pos()

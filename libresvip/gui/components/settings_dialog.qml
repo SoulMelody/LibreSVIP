@@ -19,7 +19,7 @@ Dialog {
 
     function save_folder_type(save_folder) {
         let preset_folder = null
-        if (dialogs.folderPresetsList.model.rowCount() > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+        if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
             preset_folder = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
         }
         switch (save_folder) {
@@ -74,9 +74,9 @@ Dialog {
             ColumnLayout {
                 Switch {
                     text: qsTr("Auto-Detect Input File Type")
-                    checked: py.config_items.get_bool("auto_detect_input_format")
+                    checked: ConfigItems.get_bool("auto_detect_input_format")
                     onClicked: {
-                        py.config_items.set_bool("auto_detect_input_format", checked)
+                        ConfigItems.set_bool("auto_detect_input_format", checked)
                         autoDetectInputFormatChanged(checked)
                     }
                     Component.onCompleted: {
@@ -87,9 +87,9 @@ Dialog {
                 }
                 Switch {
                     text: qsTr("Reset Task List When Changing Input File Type")
-                    checked: py.config_items.get_bool("reset_tasks_on_input_change")
+                    checked: ConfigItems.get_bool("reset_tasks_on_input_change")
                     onClicked: {
-                        py.config_items.set_bool("reset_tasks_on_input_change", checked)
+                        ConfigItems.set_bool("reset_tasks_on_input_change", checked)
                         resetTasksOnInputChangeChanged(checked)
                     }
                     Component.onCompleted: {
@@ -100,28 +100,28 @@ Dialog {
                 }
                 Switch {
                     text: qsTr("Set Output File Extension Automatically")
-                    checked: py.config_items.get_bool("auto_set_output_extension")
+                    checked: ConfigItems.get_bool("auto_set_output_extension")
                     onClicked: {
-                        py.config_items.set_bool("auto_set_output_extension", checked)
+                        ConfigItems.set_bool("auto_set_output_extension", checked)
                     }
                     Component.onCompleted: {
-                        py.config_items.auto_set_output_extension_changed.connect( (value) => {
+                        ConfigItems.auto_set_output_extension_changed.connect( (value) => {
                             value === checked ? null : checked = value
                         })
                     }
                 }
                 Switch {
                     text: qsTr("Multi-Threaded Conversion")
-                    checked: py.config_items.get_bool("multi_threaded_conversion")
+                    checked: ConfigItems.get_bool("multi_threaded_conversion")
                     onClicked: {
-                        py.config_items.set_bool("multi_threaded_conversion", checked)
+                        ConfigItems.set_bool("multi_threaded_conversion", checked)
                     }
                 }
                 Switch {
                     text: qsTr("Open Output Folder When Done")
-                    checked: py.config_items.get_bool("open_save_folder_on_completion")
+                    checked: ConfigItems.get_bool("open_save_folder_on_completion")
                     onClicked: {
-                        py.config_items.set_bool("open_save_folder_on_completion", checked)
+                        ConfigItems.set_bool("open_save_folder_on_completion", checked)
                         autoOpenSaveFolderChanged(checked)
                     }
                     Component.onCompleted: {
@@ -162,10 +162,10 @@ Dialog {
                             return
                         }
                         default:
-                            cur_value = py.config_items.get_save_folder()
+                            cur_value = ConfigItems.get_save_folder()
                             break
                     }
-                    py.config_items.set_save_folder(cur_value)
+                    ConfigItems.set_save_folder(cur_value)
                     dialogs.save_folder_changed(cur_value)
                 }
             }
@@ -198,9 +198,9 @@ Dialog {
                             if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                 presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                 if (presetRadio.checked) {
-                                    let save_folder = py.config_items.get_save_folder()
+                                    let save_folder = ConfigItems.get_save_folder()
                                     if (save_folder !== presetRadioToolTip.text) {
-                                        py.config_items.set_save_folder(presetRadioToolTip.text)
+                                        ConfigItems.set_save_folder(presetRadioToolTip.text)
                                         dialogs.save_folder_changed(presetRadioToolTip.text)
                                     }
                                 }
@@ -213,9 +213,9 @@ Dialog {
                             if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                 presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                 if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                    let save_folder = py.config_items.get_save_folder()
+                                    let save_folder = ConfigItems.get_save_folder()
                                     if (save_folder !== presetRadioToolTip.text) {
-                                        py.config_items.set_save_folder(presetRadioToolTip.text)
+                                        ConfigItems.set_save_folder(presetRadioToolTip.text)
                                         dialogs.save_folder_changed(presetRadioToolTip.text)
                                     }
                                 }
@@ -225,7 +225,7 @@ Dialog {
                             if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
                                 presetRadioToolTip.text = ""
                                 if (presetRadio.checked) {
-                                    dialogs.save_folder_changed(py.config_items.get_save_folder())
+                                    dialogs.save_folder_changed(ConfigItems.get_save_folder())
                                 }
                             }
                         }
@@ -288,10 +288,10 @@ Dialog {
                             cur_value = "Prompt"
                             break
                         default:
-                            cur_value = py.config_items.get_conflict_policy()
+                            cur_value = ConfigItems.get_conflict_policy()
                             break
                     }
-                    py.config_items.set_conflict_policy(cur_value)
+                    ConfigItems.set_conflict_policy(cur_value)
                     conflictPolicyChanged(cur_value)
                 }
             }
@@ -300,19 +300,19 @@ Dialog {
                 RadioButton {
                     id: overwriteRadio
                     text: qsTr("Overwrite")
-                    checked: py.config_items.get_conflict_policy() === "Overwrite"
+                    checked: ConfigItems.get_conflict_policy() === "Overwrite"
                     ButtonGroup.group: conflictPolicyGroup
                 }
                 RadioButton {
                     id: skipRadio
                     text: qsTr("Skip")
-                    checked: py.config_items.get_conflict_policy() === "Skip"
+                    checked: ConfigItems.get_conflict_policy() === "Skip"
                     ButtonGroup.group: conflictPolicyGroup
                 }
                 RadioButton {
                     id: promptRadio
                     text: qsTr("Prompt")
-                    checked: py.config_items.get_conflict_policy() === "Prompt"
+                    checked: ConfigItems.get_conflict_policy() === "Prompt"
                     ButtonGroup.group: conflictPolicyGroup
                 }
             }
@@ -343,9 +343,9 @@ Dialog {
             Column {
                 Switch {
                     text: qsTr("Auto Check for Updates")
-                    checked: py.config_items.get_bool("auto_check_for_updates")
+                    checked: ConfigItems.get_bool("auto_check_for_updates")
                     onClicked: {
-                        py.config_items.set_bool("auto_check_for_updates", checked)
+                        ConfigItems.set_bool("auto_check_for_updates", checked)
                     }
                 }
             }
@@ -449,7 +449,7 @@ Dialog {
                 savePathSettingsPage.createObject(settingsStack)
                 conflictPolicySettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
-                dialogs.save_folder_changed(py.config_items.get_save_folder())
+                dialogs.save_folder_changed(ConfigItems.get_save_folder())
             }
         }
     }

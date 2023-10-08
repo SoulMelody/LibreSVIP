@@ -1,8 +1,14 @@
 from qtpy.QtCore import QCoreApplication, QEvent, Qt
 from qtpy.QtGui import QMouseEvent
+from qtpy.QtQml import QmlElement
 from qtpy.QtQuick import QQuickWindow
 
+QML_IMPORT_NAME = "FramelessWindow"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
+
+@QmlElement
 class FramelessWindow(QQuickWindow):
     def __init__(self, parent=None, border_width: int = 5):
         super().__init__(parent)

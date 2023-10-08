@@ -9,8 +9,8 @@ import qtinter
 from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
-from qmlease import slot
-from qtpy.QtCore import QObject
+from qtpy.QtCore import QObject, Slot
+from qtpy.QtQml import QmlElement, QmlSingleton
 
 import libresvip
 from libresvip.core.config import settings
@@ -18,7 +18,13 @@ from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 
 from .url_opener import open_path, open_url
 
+QML_IMPORT_NAME = "LibreSVIP"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
+
+@QmlElement
+@QmlSingleton
 class Notifier(QObject):
     def __init__(self):
         super().__init__()
@@ -56,7 +62,7 @@ class Notifier(QObject):
                     ).format(filename),
                 )
 
-    @slot()
+    @Slot()
     @qtinter.asyncslot
     async def check_for_updates(self):
         failed = False

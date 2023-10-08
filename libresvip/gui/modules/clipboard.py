@@ -1,13 +1,20 @@
-from qmlease import app, slot
-from qtpy.QtCore import QObject
+from qtpy.QtCore import QObject, Slot
+from qtpy.QtGui import QGuiApplication
+from qtpy.QtQml import QmlElement, QmlSingleton
+
+QML_IMPORT_NAME = "LibreSVIP"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
 
+@QmlElement
+@QmlSingleton
 class Clipboard(QObject):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
-        self.clipboard = app.clipboard()
+        self.clipboard = QGuiApplication.clipboard()
 
-    @slot(str, result=bool)
+    @Slot(str, result=bool)
     def set_clipboard(self, text):
         self.clipboard.setText(text)
         return True

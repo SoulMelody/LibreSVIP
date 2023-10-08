@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls.Material
 import FramelessWindow
+import LibreSVIP
 import "./components/" as Components
 
 
@@ -19,7 +20,7 @@ FramelessWindow {
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
     Material.theme: {
-        switch (py.config_items.get_theme()) {
+        switch (ConfigItems.get_theme()) {
             case "Dark":
                 return Material.Dark
             case "Light":
@@ -30,11 +31,11 @@ FramelessWindow {
     }
 
     FontLoader {
-        source: py.qta.font_path("mdi6")
+        source: IconicFontLoader.font_path("mdi6")
     }
 
     FontLoader {
-        source: py.qta.font_path("ri")
+        source: IconicFontLoader.font_path("ri")
     }
 
     Components.Dialogs {
@@ -64,15 +65,15 @@ FramelessWindow {
         switch (theme) {
             case "Light":
                 window.Material.theme = Material.Light
-                py.config_items.set_theme("Light")
+                ConfigItems.set_theme("Light")
                 break
             case "Dark":
                 window.Material.theme = Material.Dark
-                py.config_items.set_theme("Dark")
+                ConfigItems.set_theme("Dark")
                 break
             case "System":
                 window.Material.theme = Material.System
-                py.config_items.set_theme("System")
+                ConfigItems.set_theme("System")
                 break
         }
     }
@@ -80,10 +81,17 @@ FramelessWindow {
     Connections {
         target: Application.styleHints
         function onColorSchemeChanged(value) {
-            let currentTheme = py.config_items.get_theme()
+            let currentTheme = ConfigItems.get_theme()
             if (currentTheme === "System") {
                 handleThemeChange(currentTheme)
             }
+        }
+    }
+
+    Connections {
+        target: ConfigItems
+        function onAuto_set_output_extension_changed(value) {
+            TaskManager.reset_output_ext("")
         }
     }
 }

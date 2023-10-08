@@ -7,7 +7,7 @@ import os
 import sys
 sys.modules['FixTk'] = None
 
-import qmlease
+import PySide6
 import shellingham
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
@@ -26,12 +26,12 @@ a = Analysis(
     ['../libresvip/gui/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
-        os.path.join(qmlease.__path__[0], os.pardir)
+        os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=[],
     datas=[
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("qmlease") + collect_data_files("xsdata"),
+    ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("xsdata"),
     hiddenimports=[
         "construct_typed",
         "drawsvg",

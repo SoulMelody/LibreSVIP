@@ -11,8 +11,8 @@ from loguru import logger
 from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from qmlease import slot
 from qtpy.QtCore import (
+    QAbstractListModel,
     QModelIndex,
     QObject,
     QRunnable,
@@ -21,6 +21,7 @@ from qtpy.QtCore import (
     Signal,
     Slot,
 )
+from qtpy.QtQml import QmlElement, QmlSingleton
 from upath import UPath
 
 from libresvip.core.config import settings
@@ -31,6 +32,10 @@ from libresvip.utils import shorten_error_message
 
 from .model_proxy import ModelProxy
 from .url_opener import open_path
+
+QML_IMPORT_NAME = "LibreSVIP"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
 
 class ConversionWorkerSignals(QObject):
@@ -59,7 +64,7 @@ class ConversionWorker(QRunnable):
         self.output_options = output_options
         self.signals = ConversionWorkerSignals()
 
-    @slot()
+    @Slot()
     def run(self):
         try:
             with warnings.catch_warnings(record=True) as w:
@@ -101,6 +106,8 @@ class ConversionWorker(QRunnable):
             )
 
 
+@QmlElement
+@QmlSingleton
 class TaskManager(QObject):
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
@@ -181,7 +188,7 @@ class TaskManager(QObject):
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
 
     @Slot(QModelIndex, int, int)
-    def delete_tmp_file(self, index: QModelIndex, start: int, end: int):
+    def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:
         for i in range(start, end + 1):
             path = UPath(self.tasks[i]["tmp_path"])
             if path.exists():
@@ -204,7 +211,7 @@ class TaskManager(QObject):
     def output_format(self, value: str):
         settings.last_output_format = value
 
-    @slot(result=bool)
+    @Slot(result=bool)
     def start_conversion(self) -> bool:
         if self.is_busy():
             return False
@@ -215,7 +222,7 @@ class TaskManager(QObject):
     def output_ext(self) -> str:
         return f".{self.output_format}" if settings.auto_set_output_extension else ""
 
-    @slot(bool)
+    @Slot(bool)
     def reset_output_ext(self, value: bool):
         self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
@@ -231,29 +238,29 @@ class TaskManager(QObject):
         output_dir = self.output_dir(task)
         return output_dir / f"{task['stem']}{self.output_ext}"
 
-    @slot(int, result=str)
+    @Slot(int, result=str)
     def get_output_path(self, index: int) -> str:
         task = self.tasks[index]
         return str(self.output_path(task))
 
-    @slot(int, result=bool)
+    @Slot(int, result=bool)
     def open_output_dir(self, index: int) -> bool:
         task = self.tasks[index]
         open_path(self.output_dir(task))
         return True
 
-    @slot(int, result=bool)
+    @Slot(int, result=bool)
     def open_output_path(self, index: int) -> bool:
         task = self.tasks[index]
         open_path(self.output_path(task))
         return True
 
-    @slot(int, result=bool)
+    @Slot(int, result=bool)
     def output_path_exists(self, index: int) -> str:
         task = self.tasks[index]
         return self.output_path(task).exists()
 
-    @slot(int, result=bool)
+    @Slot(int, result=bool)
     def move_to_output(self, index: int) -> bool:
         task = self.tasks[index]
         if not task["success"]:
@@ -340,35 +347,41 @@ class TaskManager(QObject):
                 )
         return fields
 
-    @slot(str)
+    @Slot(str)
     def set_input_fields(self, input_format: str) -> None:
         if input_format == self.input_format and self._input_fields_inited:
             return
-        self.input_format = input_format
-        self.input_fields.clear()
-        plugin_input = plugin_manager.plugin_registry[self.input_format]
-        if hasattr(plugin_input.plugin_object, "load"):
-            option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
-            input_fields = self.inspect_fields(option_class)
-            self.input_fields.append_many(input_fields)
-        if not self._input_fields_inited:
-            self._input_fields_inited = True
+        if input_format:
+            self.input_format = input_format
+            self.input_fields.clear()
+            plugin_input = plugin_manager.plugin_registry[self.input_format]
+            if hasattr(plugin_input.plugin_object, "load"):
+                option_class = get_type_hints(plugin_input.plugin_object.load)[
+                    "options"
+                ]
+                input_fields = self.inspect_fields(option_class)
+                self.input_fields.append_many(input_fields)
+            if not self._input_fields_inited:
+                self._input_fields_inited = True
 
-    @slot(str)
+    @Slot(str)
     def set_output_fields(self, output_format: str) -> None:
         if output_format == self.output_format and self._output_fields_inited:
             return
-        self.output_format = output_format
-        self.output_fields.clear()
-        plugin_output = plugin_manager.plugin_registry[self.output_format]
-        if hasattr(plugin_output.plugin_object, "dump"):
-            option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
-            output_fields = self.inspect_fields(option_class)
-            self.output_fields.append_many(output_fields)
-        if not self._output_fields_inited:
-            self._output_fields_inited = True
+        if output_format:
+            self.output_format = output_format
+            self.output_fields.clear()
+            plugin_output = plugin_manager.plugin_registry[self.output_format]
+            if hasattr(plugin_output.plugin_object, "dump"):
+                option_class = get_type_hints(plugin_output.plugin_object.dump)[
+                    "options"
+                ]
+                output_fields = self.inspect_fields(option_class)
+                self.output_fields.append_many(output_fields)
+            if not self._output_fields_inited:
+                self._output_fields_inited = True
 
-    @slot(str, result=dict)
+    @Slot(str, result="QVariant")
     def plugin_info(self, name: str) -> dict:
         assert name in {"input_format", "output_format"}
         if (suffix := getattr(self, name)) in plugin_manager.plugin_registry:
@@ -394,12 +407,12 @@ class TaskManager(QObject):
             "icon_base64": "",
         }
 
-    @slot()
+    @Slot()
     def reset_stems(self) -> None:
         for i, task in enumerate(self.tasks):
             self.tasks.update(i, {"stem": pathlib.Path(task["path"]).stem})
 
-    @slot(list)
+    @Slot(list)
     def add_task_paths(self, paths: list[str]) -> None:
         tasks = []
         path_obj = None
@@ -425,20 +438,16 @@ class TaskManager(QObject):
         ):
             self.set_str("input_format", suffix)
 
-    @slot(str, result=object)
+    @Slot(str, result=QAbstractListModel)
     def qget(self, name: str) -> Any:
         return getattr(self, name)
 
-    @slot(str, object)
-    def qset(self, name: str, value: Any) -> None:
-        setattr(self, name, value)
-
-    @slot(str, result=str)
+    @Slot(str, result=str)
     def get_str(self, name: str) -> str:
         assert name in {"input_format", "output_format"}
         return getattr(self, name)
 
-    @slot(str, str)
+    @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
         getattr(self, f"{name}_changed").emit(value)
@@ -452,7 +461,7 @@ class TaskManager(QObject):
                 plugin_info_filename = plugin_file
         return plugin_info_filename
 
-    @slot(list, result=list)
+    @Slot(list, result=object)
     def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
         infos = []
         for path in paths:
@@ -473,11 +482,11 @@ class TaskManager(QObject):
                     logger.debug(infos)
         return infos
 
-    @slot(result=bool)
+    @Slot(result=bool)
     def is_busy(self) -> bool:
         return self.thread_pool.activeThreadCount() > 0
 
-    @slot()
+    @Slot()
     def check_busy(self) -> None:
         if self.is_busy():
             self.set_busy(True)
@@ -502,7 +511,7 @@ class TaskManager(QObject):
     def set_busy(self, busy: bool) -> None:
         self.busy_changed.emit(busy)
 
-    @slot()
+    @Slot()
     def start(self):
         self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}

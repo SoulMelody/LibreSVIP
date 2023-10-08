@@ -43,7 +43,6 @@ build_exe_options = {
         "Cython",
         "sqlite3",
         "test",
-        "qmlease",
         "pep517",
         "PIL",
         "plotly",

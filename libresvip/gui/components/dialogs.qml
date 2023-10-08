@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material as QQC2
 import QtQuick.Dialogs
 import QtQuick.Layouts
+import LibreSVIP
 
 Item {
     signal save_folder_changed(string folder)
@@ -43,7 +44,7 @@ Item {
                     Layout.preferredWidth: 400
                     text: model.path
                     onEditingFinished: {
-                        if (py.config_items.dir_valid(text) === false) {
+                        if (ConfigItems.dir_valid(text) === false) {
                             undo()
                         } else {
                             folderPresetsListView.model.update(index, {path: text})
@@ -75,7 +76,7 @@ Item {
                         QQC2.Label {
                             z: 1
                             anchors.centerIn: parent
-                            text: py.qta.icon("mdi6.close")
+                            text: IconicFontLoader.icon("mdi6.close")
                             font.family: "Material Design Icons"
                             HoverHandler {
                                 acceptedDevices: PointerDevice.AllPointerTypes
@@ -128,7 +129,7 @@ Item {
         fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
-            py.task_manager.add_task_paths(
+            TaskManager.add_task_paths(
                 selectedFiles.map(url2path)
             )
         }
@@ -161,7 +162,7 @@ Item {
             }
         }
         onAccepted: {
-            py.task_manager.install_plugins(plugin_infos)
+            TaskManager.install_plugins(plugin_infos)
         }
         function show_dialog(plugin_infos) {
             this.plugin_infos = plugin_infos
@@ -174,7 +175,7 @@ Item {
         fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
-            let plugin_infos = py.task_manager.extract_plugin_infos(selectedFiles.map(
+            let plugin_infos = TaskManager.extract_plugin_infos(selectedFiles.map(
                 url2path
             ))
             if (plugin_infos.length > 0) {
@@ -187,11 +188,11 @@ Item {
         currentFolder: ""
         onAccepted: {
             let path = url2path(selectedFolder)
-            py.config_items.set_save_folder(path)
+            ConfigItems.set_save_folder(path)
             save_folder_changed(path)
         }
         onRejected: {
-            save_folder_changed(py.config_items.get_save_folder())
+            save_folder_changed(ConfigItems.get_save_folder())
         }
     }
 
@@ -275,10 +276,10 @@ Item {
                     contentWidth: availableWidth
                     ListView {
                         id: folderPresetsListView
-                        model: py.config_items.qget("folder_presets")
+                        model: ConfigItems.qget("folder_presets")
                         delegate: folderPresetDelegate
                         Component.onCompleted: {
-                            let save_folder = py.config_items.get_save_folder()
+                            let save_folder = ConfigItems.get_save_folder()
                             if (count > 0) {
                                 for (let i = 0; i < count; i++) {
                                     if (model.get(i).path == save_folder) {
@@ -300,7 +301,7 @@ Item {
                     }
                     QQC2.Button {
                         Layout.alignment: Qt.AlignHCenter
-                        text: py.qta.icon("mdi6.plus")
+                        text: IconicFontLoader.icon("mdi6.plus")
                         font.family: "Material Design Icons"
                         font.pixelSize: Qt.application.font.pixelSize * 1.5
                         onClicked: {
@@ -343,7 +344,7 @@ Item {
                         anchors.centerIn: parent
                         QQC2.Label {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: py.qta.icon("mdi6.folder-plus-outline")
+                            text: IconicFontLoader.icon("mdi6.folder-plus-outline")
                             font.family: "Material Design Icons"
                             font.pixelSize: 100
                         }
@@ -389,7 +390,7 @@ Item {
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Version: ") + py.config_items.get_version()
+                text: qsTr("Version: ") + ConfigItems.get_version()
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
@@ -400,7 +401,7 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: py.qta.icon("ri.bilibili-line")
+                            text: IconicFontLoader.icon("ri.bilibili-line")
                             font.family: "remixicon"
                         }
                         QQC2.Label {
@@ -414,7 +415,7 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: py.qta.icon("mdi6.github")
+                            text: IconicFontLoader.icon("mdi6.github")
                             font.family: "Material Design Icons"
                         }
                         QQC2.Label {

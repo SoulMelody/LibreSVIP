@@ -1,11 +1,18 @@
 import gettext
 from typing import Optional
 
-from qmlease import app, slot
-from qtpy.QtCore import QLocale, QObject, QTranslator
+from qtpy.QtCore import QLocale, QObject, QTranslator, Slot
+from qtpy.QtGui import QGuiApplication
+from qtpy.QtQml import QmlElement, QmlSingleton
 
 from libresvip.core.config import Language, config_path, settings
 from libresvip.core.constants import PACKAGE_NAME, res_dir
+
+from .application import qml_engine
+
+QML_IMPORT_NAME = "LibreSVIP"
+QML_IMPORT_MAJOR_VERSION = 1
+QML_IMPORT_MINOR_VERSION = 0
 
 
 class GettextTranslator(QTranslator):
@@ -37,27 +44,29 @@ class GettextTranslator(QTranslator):
         return source_text
 
 
+@QmlElement
+@QmlSingleton
 class LocaleSwitcher(QObject):
     def __init__(self) -> None:
         super().__init__()
-        self.translator = GettextTranslator(parent=app)
+        self.translator = GettextTranslator()
         if not config_path.exists():
             sys_locale = QLocale.system().name()
             settings.language = Language.from_locale(sys_locale)
         self.switch_language(settings.language.to_locale())
 
-    @slot(result=str)
+    @Slot(result=str)
     def get_language(self) -> str:
         return settings.language.to_locale()
 
-    @slot(str)
+    @Slot(str)
     def switch_language(self, lang: str) -> None:
         if lang:
             translation_dir = str(res_dir / "locales")
             self.translator.load_translation(lang, translation_dir)
-            app.installTranslator(self.translator)
-            app.engine.retranslate()
+            QGuiApplication.installTranslator(self.translator)
+            qml_engine.retranslate()
             settings.language = Language.from_locale(lang)
         else:
-            app.removeTranslator(self.translator)
+            QGuiApplication.removeTranslator(self.translator)
             settings.language = Language.ENGLISH
