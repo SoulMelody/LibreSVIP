@@ -82,6 +82,7 @@ build_exe_options = {
         "uvicorn.protocols.websockets.auto",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
+        "zstd",
     ],
 }
 

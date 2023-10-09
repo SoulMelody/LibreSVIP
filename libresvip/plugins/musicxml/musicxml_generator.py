@@ -1,9 +1,8 @@
 import dataclasses
 import operator
+import re
 from decimal import Decimal
 from typing import Optional
-
-import regex as re
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Project, SingingTrack, TimeSignature

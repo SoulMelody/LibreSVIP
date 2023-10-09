@@ -1,15 +1,13 @@
 import dataclasses
 import datetime
 
-import regex as re
 from srt import Subtitle
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Project, SingingTrack
+from libresvip.utils import SYMBOL_PATTERN
 
 from .options import OutputOptions, SplitOption
-
-SYMBOL_PATTERN = re.compile(r"(?!-)\p{punct}+")
 
 
 @dataclasses.dataclass

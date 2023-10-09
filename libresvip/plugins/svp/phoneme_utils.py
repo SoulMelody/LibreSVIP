@@ -1,4 +1,4 @@
-import regex
+import re
 
 from libresvip.core.constants import DEFAULT_PHONEME, resource_path
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -30,7 +30,7 @@ def lyrics2pinyin(lyrics: list[str]) -> list[str]:
     pinyin_list = []
     builder = ""
     for lyric in lyrics:
-        if regex.match(r"[a-zA-Z]", lyric) is not None:
+        if re.match(r"[a-zA-Z]", lyric) is not None:
             if len(builder):
                 pinyin_list.extend(get_pinyin_series(builder, filter_non_chinese=False))
                 builder = ""
@@ -43,7 +43,7 @@ def lyrics2pinyin(lyrics: list[str]) -> list[str]:
 
 
 def xsampa2pinyin(xsampa: str) -> str:
-    xsampa = regex.sub(r"\s+", " ", xsampa).strip()
+    xsampa = re.sub(r"\s+", " ", xsampa).strip()
     return xsampa_dictionary.get(xsampa, DEFAULT_PHONEME)
 
 

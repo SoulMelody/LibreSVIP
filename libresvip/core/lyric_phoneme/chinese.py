@@ -1,10 +1,11 @@
+import re
 from typing import Iterable
 
 import pypinyin
-import regex as re
+import zhon
 
 ENGLISH_CHARS: re.Pattern[str] = re.compile(r"[a-zA-Z]+")
-CHINESE_RE: re.Pattern[str] = re.compile(r"\p{Han}")
+CHINESE_RE: re.Pattern[str] = re.compile(zhon.hanzi.characters)
 WHITE_SPACE: re.Pattern[str] = re.compile(r"[\s\n\r\t]+")
 
 

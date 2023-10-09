@@ -48,6 +48,7 @@ a = Analysis(
         "wanakana",
         "xsdata.formats.dataclass.parsers",
         "xsdata.formats.dataclass.serializers",
+        "zstd",
     ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model"),
     hookspath=[],
     hooksconfig={},

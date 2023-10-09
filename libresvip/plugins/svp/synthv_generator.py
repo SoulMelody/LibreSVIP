@@ -1,8 +1,7 @@
 import dataclasses
+import re
 import sys
 from typing import Callable, Optional
-
-import regex as re
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.tick_counter import skip_beat_list

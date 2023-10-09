@@ -1,10 +1,9 @@
 import dataclasses
 import datetime
 
-import regex as re
-
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
+from libresvip.utils import SYMBOL_PATTERN
 
 from .model import (
     AlbumInfoTag,
@@ -17,8 +16,6 @@ from .model import (
     TitleInfoTag,
 )
 from .options import OffsetPolicyOption, OutputOptions, SplitOption
-
-SYMBOL_PATTERN = re.compile(r"(?!-)\p{punct}+")
 
 
 @dataclasses.dataclass

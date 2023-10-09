@@ -1,7 +1,6 @@
 import dataclasses
+import re
 from typing import Optional
-
-import regex as re
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer

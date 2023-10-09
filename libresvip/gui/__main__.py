@@ -1,15 +1,18 @@
 import os
 import sys
 
+os.environ["QT_API"] = "pyside6"
+
 import qtinter
 from qtpy.QtGui import QIcon, QPixmap
 from qtpy.QtQuickControls2 import QQuickStyle
 
-if sys.platform == "win32":
+try:
+    assert sys.platform == "win32"
     from libresvip.gui.modules.frameless_window_win32 import (
         FramelessWindow,  # noqa: F401
     )
-else:
+except (AssertionError, ImportError):
     from libresvip.gui.modules.frameless_window import FramelessWindow  # noqa: F401
 
 from libresvip.core.constants import pkg_dir, res_dir

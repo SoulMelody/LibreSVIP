@@ -2,10 +2,10 @@ import collections
 import dataclasses
 import math
 import operator
+import re
 from gettext import gettext as _
 
 import mido_fix as mido
-import regex as re
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer

@@ -4,13 +4,14 @@ import gettext
 import io
 import math
 import pathlib
+import re
 import textwrap
 from numbers import Real
 from typing import AnyStr, Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
 
 import charset_normalizer
-import regex as re
+import zhon
 from more_itertools import locate, rlocate
 from pymediainfo import ET, MediaInfo
 from pymediainfo import Track as MediaInfoTrack
@@ -21,6 +22,11 @@ T = TypeVar("T")
 lazy_translation: contextvars.ContextVar[
     Optional[gettext.NullTranslations]
 ] = contextvars.ContextVar("translator")
+
+
+SYMBOL_PATTERN = re.compile(
+    rf"(?!-)[\!\"\#\$%\&'\(\)\*,\./:;<=>\?\[\\\]\^_`\{{\|\}}\~{zhon.hanzi.punctuation}]+"
+)
 
 
 def to_unicode(content: bytes) -> str:

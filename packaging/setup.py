@@ -191,6 +191,7 @@ build_exe_options = {
         "xsdata",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
+        "zstd",
     ],
 }
 

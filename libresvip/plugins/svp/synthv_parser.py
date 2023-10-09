@@ -1,8 +1,7 @@
 import dataclasses
+import re
 from functools import partial, reduce
 from typing import Callable, Optional
-
-import regex as re
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_CHINESE_LYRIC, DEFAULT_PHONEME
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list

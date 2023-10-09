@@ -1,8 +1,8 @@
 import dataclasses
+import re
 from typing import Optional
 from urllib.parse import urljoin
 
-import regex as re
 from google.protobuf import any_pb2
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT

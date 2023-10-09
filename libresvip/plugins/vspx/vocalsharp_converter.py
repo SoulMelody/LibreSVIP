@@ -1,7 +1,7 @@
 import pathlib
+import re
 from typing import Any, TextIO
 
-import regex as re
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
 from xsdata.formats.dataclass.serializers.xml import (

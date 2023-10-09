@@ -2,7 +2,6 @@ import dataclasses
 import operator
 
 import mido_fix as mido
-import regex as re
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -13,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import SYMBOL_PATTERN
 
 from .constants import ControlChange
 from .midi_pitch import generate_for_midi
@@ -95,7 +95,7 @@ class MidiGenerator:
             for note in track.note_list
         ]
         if self.options.remove_symbols:
-            lyrics = [re.sub(r"(?!-)\p{punct}", "", lyric) for lyric in lyrics]
+            lyrics = [SYMBOL_PATTERN.sub("", lyric) for lyric in lyrics]
         pinyins = get_pinyin_series(lyrics)
         mido_track = mido.MidiTrack()
         mido_track.name = track.title
