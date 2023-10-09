@@ -1,8 +1,6 @@
-import importlib.resources
-
 import regex
 
-from libresvip.core.constants import DEFAULT_PHONEME
+from libresvip.core.constants import DEFAULT_PHONEME, resource_path
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.model.base import json_loads
 
@@ -19,12 +17,12 @@ default_durations = {
 }
 default_phone_ratio = 1.8
 
-with importlib.resources.path(__package__, ".") as resource_path:
+with resource_path(__package__, ".") as resource_dir:
     phoneme_dictionary = json_loads(
-        (resource_path / "phoneme_dictionary.json").read_text(encoding="utf-8")
+        (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
     )
     xsampa_dictionary = json_loads(
-        (resource_path / "xsampa_dictionary.json").read_text(encoding="utf-8")
+        (resource_dir / "xsampa_dictionary.json").read_text(encoding="utf-8")
     )
 
 
