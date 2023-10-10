@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:6fa6a1471b18da058395418db604b91cf108a0ada551f42c855a885151eddbc6"
+content_hash = "sha256:e485382e5f8603cef26833e3cab87379bb98a20e47ee800e716dc7202f68bd81"
 
 [[package]]
 name = "aiofiles"
@@ -392,6 +392,19 @@ files = [
 ]
 
 [[package]]
+name = "click-default-group"
+version = "1.2.4"
+requires_python = ">=2.7"
+summary = "click_default_group"
+dependencies = [
+    "click",
+]
+files = [
+    {file = "click_default_group-1.2.4-py2.py3-none-any.whl", hash = "sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f"},
+    {file = "click_default_group-1.2.4.tar.gz", hash = "sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e"},
+]
+
+[[package]]
 name = "clr-loader"
 version = "0.2.6"
 requires_python = ">=3.7"
@@ -576,6 +589,20 @@ files = [
 ]
 
 [[package]]
+name = "docformatter"
+version = "1.7.5"
+requires_python = ">=3.7,<4.0"
+summary = "Formats docstrings to follow PEP 257"
+dependencies = [
+    "charset-normalizer<4.0.0,>=3.0.0",
+    "untokenize<0.2.0,>=0.1.1",
+]
+files = [
+    {file = "docformatter-1.7.5-py3-none-any.whl", hash = "sha256:a24f5545ed1f30af00d106f5d85dc2fce4959295687c24c8f39f5263afaf9186"},
+    {file = "docformatter-1.7.5.tar.gz", hash = "sha256:ffed3da0daffa2e77f80ccba4f0e50bfa2755e1c10e130102571c890a61b246e"},
+]
+
+[[package]]
 name = "drawsvg"
 version = "2.3.0"
 summary = "A Python 3 library for programmatically generating SVG (vector) images and animations.  Drawsvg can also render to PNG, MP4, and display your drawings in Jupyter notebook and Jupyter lab."
@@ -712,25 +739,25 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.11.5"
+version = "1.11.6"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
     "PyYAML>=5.1.1",
     "click>=6.7",
-    "google-api-core>=2.8.0",
+    "google-api-core[grpc]!=2.0.*,!=2.1.*,!=2.10.*,!=2.2.*,!=2.3.*,!=2.4.*,!=2.5.*,!=2.6.*,!=2.7.*,!=2.8.*,!=2.9.*,<3.0.0dev,>=1.34.0",
     "googleapis-common-protos>=1.55.0",
     "grpc-google-iam-v1<1.0.0dev,>=0.12.4",
     "grpcio>=1.24.3",
     "inflection<1.0.0dev,>=0.5.1",
     "jinja2>=2.10",
     "libcst<2.0.0dev,>=0.4.9",
-    "protobuf<5.0.0dev,>=3.18.0",
+    "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.11.5.tar.gz", hash = "sha256:fab67664e9448094dacbc08ce43a92eda1d9ccbbf5f8239129357abde4f1638e"},
-    {file = "gapic_generator-1.11.5-py3-none-any.whl", hash = "sha256:882850b8cd5988f39ca18f0c638f476b4e71698c7aef5ca8006e31cb7bfb9f45"},
+    {file = "gapic-generator-1.11.6.tar.gz", hash = "sha256:fb3a4199a5d8c0fb31490059a5427931710c1fb446f83177ceff5574fff3008d"},
+    {file = "gapic_generator-1.11.6-py3-none-any.whl", hash = "sha256:4b22dfa599cf4a9829e6f4ad5fd0ed942d56888d8a60b0bfe34bd9adc86a5172"},
 ]
 
 [[package]]
@@ -763,6 +790,24 @@ dependencies = [
     "googleapis-common-protos<2.0.dev0,>=1.56.2",
     "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0.dev0,>=3.19.5",
     "requests<3.0.0.dev0,>=2.18.0",
+]
+files = [
+    {file = "google-api-core-2.12.0.tar.gz", hash = "sha256:c22e01b1e3c4dcd90998494879612c38d0a3411d1f7b679eb89e2abe3ce1f553"},
+    {file = "google_api_core-2.12.0-py3-none-any.whl", hash = "sha256:ec6054f7d64ad13b41e43d96f735acbd763b0f3b695dabaa2d579673f6a6e160"},
+]
+
+[[package]]
+name = "google-api-core"
+version = "2.12.0"
+extras = ["grpc"]
+requires_python = ">=3.7"
+summary = "Google API client core library"
+dependencies = [
+    "google-api-core==2.12.0",
+    "grpcio-status<2.0.dev0,>=1.33.2",
+    "grpcio-status<2.0.dev0,>=1.49.1; python_version >= \"3.11\"",
+    "grpcio<2.0dev,>=1.33.2",
+    "grpcio<2.0dev,>=1.49.1; python_version >= \"3.11\"",
 ]
 files = [
     {file = "google-api-core-2.12.0.tar.gz", hash = "sha256:c22e01b1e3c4dcd90998494879612c38d0a3411d1f7b679eb89e2abe3ce1f553"},
@@ -861,6 +906,21 @@ files = [
     {file = "grpcio-1.59.0-cp39-cp39-win32.whl", hash = "sha256:3b8ff795d35a93d1df6531f31c1502673d1cebeeba93d0f9bd74617381507e3f"},
     {file = "grpcio-1.59.0-cp39-cp39-win_amd64.whl", hash = "sha256:38823bd088c69f59966f594d087d3a929d1ef310506bee9e3648317660d65b81"},
     {file = "grpcio-1.59.0.tar.gz", hash = "sha256:acf70a63cf09dd494000007b798aff88a436e1c03b394995ce450be437b8e54f"},
+]
+
+[[package]]
+name = "grpcio-status"
+version = "1.59.0"
+requires_python = ">=3.6"
+summary = "Status proto mapping for gRPC"
+dependencies = [
+    "googleapis-common-protos>=1.5.5",
+    "grpcio>=1.59.0",
+    "protobuf>=4.21.6",
+]
+files = [
+    {file = "grpcio-status-1.59.0.tar.gz", hash = "sha256:f93b9c33e0a26162ef8431bfcffcc3e1fb217ccd8d7b5b3061b6e9f813e698b5"},
+    {file = "grpcio_status-1.59.0-py3-none-any.whl", hash = "sha256:cb5a222b14a80ee050bff9676623822e953bff0c50d2d29180de723652fdf10d"},
 ]
 
 [[package]]
@@ -2171,56 +2231,50 @@ files = [
 
 [[package]]
 name = "pyside6"
-version = "6.5.2"
+version = "6.5.3"
 requires_python = "<3.12,>=3.7"
 summary = "Python bindings for the Qt cross-platform application and UI framework"
 dependencies = [
-    "PySide6-Addons==6.5.2",
-    "PySide6-Essentials==6.5.2",
-    "shiboken6==6.5.2",
+    "PySide6-Addons==6.5.3",
+    "PySide6-Essentials==6.5.3",
+    "shiboken6==6.5.3",
 ]
 files = [
-    {file = "PySide6-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:b509e4d3ffde4a594d70000f881452643c9aaed800bad2959882075c01f72428"},
-    {file = "PySide6-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:e6d879ca0f8827a7866856fbedd08857e4bd8f9a858dc998dea10d1913e97938"},
-    {file = "PySide6-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:0356dc73c138c25b980d716e425801a61d4aa1d9f7811cf8a825499edfd4d1ae"},
-    {file = "PySide6-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:f0944cb0da34dc3b0bb62c7a20b6618667760eccdaa4262a90ba7f64b19fb783"},
-    {file = "PySide6-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:ca259b4377eb74e4c9cb74a2afb18c37658f0c83dc18229d1f325974739f6df2"},
-    {file = "PySide6-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:ad82cb12f805c5bec7693d6f1c0d6e4ae4b9462eb368a81bc0d3091de8fae76e"},
+    {file = "PySide6-6.5.3-cp37-abi3-macosx_11_0_universal2.whl", hash = "sha256:be53e7c64710fc4307afd33147e241a06cd97b18fae887ee611d8d4b373dbb04"},
+    {file = "PySide6-6.5.3-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:84f3d3e278e5ea00f1558ac7e1eeb382bba1df7732bdb025ee654e7b4b3cd451"},
+    {file = "PySide6-6.5.3-cp37-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:48f4579ca49225cfff8f512178551bdf6aa9031198527f71799bcc061a0f2327"},
+    {file = "PySide6-6.5.3-cp37-abi3-win_amd64.whl", hash = "sha256:aaaf5acfaaf9575740df03ee1aa706e2f38d8fcca2255acbbd3a5701f6f2f416"},
 ]
 
 [[package]]
 name = "pyside6-addons"
-version = "6.5.2"
+version = "6.5.3"
 requires_python = "<3.12,>=3.7"
 summary = "Python bindings for the Qt cross-platform application and UI framework (Addons)"
 dependencies = [
-    "PySide6-Essentials==6.5.2",
-    "shiboken6==6.5.2",
+    "PySide6-Essentials==6.5.3",
+    "shiboken6==6.5.3",
 ]
 files = [
-    {file = "PySide6_Addons-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:a31cb7eca2e8cd80332e131124ed9ad197610a2a80eac4f2bd58e9124e38060a"},
-    {file = "PySide6_Addons-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:bea98d823179b814109dcf3ac6c8a0eddf886570aa9ef8ef09b6bae37bc227ca"},
-    {file = "PySide6_Addons-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:c77e06fd511cc8b9292c01724504d6806c33c1f5904bc59f5a8c560a74c15438"},
-    {file = "PySide6_Addons-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:15bf592e54b3409853c3db23bdb20fb14725b84d50feee862e8b2a3a8a3a0627"},
-    {file = "PySide6_Addons-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:26b55a658fed94a0b3c09927b408663860aca530bf6e83040dcb8fdcc221877d"},
-    {file = "PySide6_Addons-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:793a53b7db32f7780fa9571a14f0bce3700604247127cdb2125b380c577a92eb"},
+    {file = "PySide6_Addons-6.5.3-cp37-abi3-macosx_11_0_universal2.whl", hash = "sha256:047162b158ee929d43c21cdc3ac48e75fec612f2e5492b317190fac98d2de5c6"},
+    {file = "PySide6_Addons-6.5.3-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:e5bc1fa95351182dc2c003e07320d5509218ccc0840d10197d7d452aa5de5d2e"},
+    {file = "PySide6_Addons-6.5.3-cp37-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:be0dcfb15d44c2973c3c122058f1df8c3c9d93abd4170534e06dbf986aa30e26"},
+    {file = "PySide6_Addons-6.5.3-cp37-abi3-win_amd64.whl", hash = "sha256:dd1d294d48798bd297bde02d3ea02f313a86e38ed3944519228466bdfb537961"},
 ]
 
 [[package]]
 name = "pyside6-essentials"
-version = "6.5.2"
+version = "6.5.3"
 requires_python = "<3.12,>=3.7"
 summary = "Python bindings for the Qt cross-platform application and UI framework (Essentials)"
 dependencies = [
-    "shiboken6==6.5.2",
+    "shiboken6==6.5.3",
 ]
 files = [
-    {file = "PySide6_Essentials-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:c9606de7afaee57f2c0861cc4b973bd630556dd38ec0d1542560cba81c27ab81"},
-    {file = "PySide6_Essentials-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:1620e82b38714a1570b142c01694d0415a25526517b24620ff9b00c9f76cfca9"},
-    {file = "PySide6_Essentials-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:e67b10f96f0ac5ed24d7e3c4985d37c70550a9dee6f38b127faf5e5341151665"},
-    {file = "PySide6_Essentials-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:149f1db77d82f35c6a88a403f5297645ebe737df28e163ac4dc402dfa0b961ee"},
-    {file = "PySide6_Essentials-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:4be6ed964cb863823f2788717b9a6ba8f1d94eb3fa2bf1584f4621ab5e021e27"},
-    {file = "PySide6_Essentials-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:6b21cf78b33554f793d409d79b828d9578d34200c86f813ef1b8dac756589b71"},
+    {file = "PySide6_Essentials-6.5.3-cp37-abi3-macosx_11_0_universal2.whl", hash = "sha256:4d9c95ded938e557052fc67efe68d57108856df141a1b499497fd7999419e3eb"},
+    {file = "PySide6_Essentials-6.5.3-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:45580138be91f5fdcefb4d28dadb56d3640eb658575af97b49057e10c22a024d"},
+    {file = "PySide6_Essentials-6.5.3-cp37-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:8244bc185b0243ba7c4491033e592b247e44a63d69213e9a45ee38e87e0f1f90"},
+    {file = "PySide6_Essentials-6.5.3-cp37-abi3-win_amd64.whl", hash = "sha256:f928b98ec349c87f9ccc63a482917779f59fa646893722c53c2fe2a1e4f335e0"},
 ]
 
 [[package]]
@@ -2666,16 +2720,14 @@ files = [
 
 [[package]]
 name = "shiboken6"
-version = "6.5.2"
+version = "6.5.3"
 requires_python = "<3.12,>=3.7"
 summary = "Python/C++ bindings helper module"
 files = [
-    {file = "shiboken6-6.5.2-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:ba7af130d34ea03e329baebd80982d2635aee7e58dbb07a07085509a501ed03f"},
-    {file = "shiboken6-6.5.2-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:3fbc35ff3c19e7d39433671bfc1be3d7fa9d071bfdd0ffe1c2a4d27acd6cf6a5"},
-    {file = "shiboken6-6.5.2-cp37-abi3-win_amd64.whl", hash = "sha256:558bdb3b0ccc8aac5f9029eabfd6ad8d41f93a87cd7f54395e07732fce39280d"},
-    {file = "shiboken6-6.5.2-pp39-pypy39_pp73-macosx_10_9_universal2.whl", hash = "sha256:4e073b40734a7f9cc6ac289c735362967bb45c34f591f7c0fab7cef1d62e6a66"},
-    {file = "shiboken6-6.5.2-pp39-pypy39_pp73-manylinux_2_28_x86_64.whl", hash = "sha256:cc89759aabafce49b629b189ed7c81986fedaac695714a4eed1aaeb16783c6a9"},
-    {file = "shiboken6-6.5.2-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:e60d8dd3292e3f87662b9e37ae5c558c519f8250da627c473b68bd8d24ed3243"},
+    {file = "shiboken6-6.5.3-cp37-abi3-macosx_11_0_universal2.whl", hash = "sha256:faaca92dcbbf26c0ae13f189746c38482e40859e0897b0ed4dee5e04f69fda71"},
+    {file = "shiboken6-6.5.3-cp37-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:4cdda98df511243c40f1dd4d9eac25a7191c2583ac673147ecdae0ffa3b9223f"},
+    {file = "shiboken6-6.5.3-cp37-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:1bc928ca9f1c1d16ff8fe0585627738a15552bb3329c04fca2c74a443618a6b3"},
+    {file = "shiboken6-6.5.3-cp37-abi3-win_amd64.whl", hash = "sha256:a013367e38a12b3f69ba02e79f133df4fba8d21b55a78c6999cdb31c25609524"},
 ]
 
 [[package]]
@@ -2783,6 +2835,15 @@ summary = "A lil' TOML parser"
 files = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+
+[[package]]
+name = "toposort"
+version = "1.10"
+summary = "Implements a topological sort algorithm."
+files = [
+    {file = "toposort-1.10-py3-none-any.whl", hash = "sha256:cbdbc0d0bee4d2695ab2ceec97fe0679e9c10eab4b2a87a9372b929e70563a87"},
+    {file = "toposort-1.10.tar.gz", hash = "sha256:bfbb479c53d0a696ea7402601f4e693c97b0367837c8898bc6471adfca37a6bd"},
 ]
 
 [[package]]
@@ -2931,6 +2992,14 @@ dependencies = [
 files = [
     {file = "universal_pathlib-0.1.3-py3-none-any.whl", hash = "sha256:9c6a78cd75dad2988eb1d5db52f4e85a8a3092cbe5eb2cf18882c1ef06470d43"},
     {file = "universal_pathlib-0.1.3.tar.gz", hash = "sha256:1a052ab5e0517301df66be6517e9fe63cd9fc00813e5ce71a73701441ac2b5c8"},
+]
+
+[[package]]
+name = "untokenize"
+version = "0.1.1"
+summary = "Transforms tokens into original source code (while preserving whitespace)."
+files = [
+    {file = "untokenize-0.1.1.tar.gz", hash = "sha256:3865dbbbb8efb4bb5eaa72f1be7f3e0be00ea8b7f125c69cbd1f5fda926f37a2"},
 ]
 
 [[package]]
@@ -3230,10 +3299,16 @@ files = [
 [[package]]
 name = "xsdata"
 version = "23.8"
+extras = ["cli"]
 requires_python = ">=3.8"
 summary = "Python XML Binding"
 dependencies = [
-    "typing-extensions",
+    "click-default-group>=1.2",
+    "click>=5.0",
+    "docformatter>=1.7.2",
+    "jinja2>=2.10",
+    "toposort>=1.5",
+    "xsdata==23.8",
 ]
 files = [
     {file = "xsdata-23.8-py3-none-any.whl", hash = "sha256:3cf34ffb1ae35ac873e7eb53504e326d7997939f976a51814a57f77c8df8f09e"},

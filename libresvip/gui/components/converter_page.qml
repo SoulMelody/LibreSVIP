@@ -914,6 +914,7 @@ Page {
                 SplitView.minimumHeight: parent.height - 250
                 SplitView.maximumHeight: parent.height - 200
                 contentWidth: availableWidth
+                contentHeight: advancedSettingsColumn.implicitHeight + 20
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
@@ -923,6 +924,7 @@ Page {
                     )
                 }
                 ColumnLayout {
+                    id: advancedSettingsColumn
                     anchors.fill: parent
                     anchors.topMargin: 20
                     anchors.leftMargin: 20
@@ -1269,11 +1271,6 @@ Page {
                                 }
                             }
                         }
-                    }
-                    Rectangle {
-                        Layout.fillWidth: true
-                        height: 10
-                        color: "transparent"
                     }
                 }
             }
