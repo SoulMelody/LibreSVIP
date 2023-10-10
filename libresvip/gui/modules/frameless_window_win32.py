@@ -182,20 +182,10 @@ class FramelessWindow(QQuickWindow):
                         self.maximize_btn.height(),
                     )
                     if rect.contains(x_pos, y_pos):
-                        QApplication.sendEvent(
-                            self.maximize_btn,
-                            QMouseEvent(
-                                QMouseEvent.Type.MouseButtonPress,
-                                QPoint(),
-                                Qt.MouseButton.NoButton,
-                                Qt.MouseButton.NoButton,
-                                Qt.KeyboardModifier.NoModifier,
-                            ),
-                        )
-                        # if self.visibility() == QQuickWindow.Visibility.Maximized:
-                        #     self.showNormal()
-                        # else:
-                        #     self.showMaximized()
+                        if self.visibility() == QQuickWindow.Visibility.Maximized:
+                            self.showNormal()
+                        else:
+                            self.showMaximized()
                         return True, 0
             elif msg.message in [win32con.WM_NCLBUTTONUP, win32con.WM_NCRBUTTONUP]:
                 pos = QCursor.pos()
