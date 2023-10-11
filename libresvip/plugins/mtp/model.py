@@ -9,7 +9,6 @@ from construct import (
     Construct,
     FocusedSeq,
     GreedyBytes,
-    GreedyRange,
     If,
     Int16ul,
     PaddedString,
@@ -18,7 +17,6 @@ from construct import (
     PrefixedArray,
     this,
 )
-from construct import Optional as CSOptional
 from construct_typed import DataclassMixin, DataclassStruct, EnumBase, TEnum, csfield
 
 Int32ul = BytesInteger(4, swapped=True)
@@ -147,7 +145,7 @@ class MutaTalkTrackData(DataclassMixin):
 @dataclasses.dataclass
 class MutaTrack(DataclassMixin):
     track_type: MutaTrackType = csfield(TEnum(Int32ul, MutaTrackType))
-    track_index: int = csfield(Int32ul)
+    seq_count: int = csfield(Int32ul)
     line_break: bytes = csfield(LineBreak)
     mute: int = csfield(Int32ul)
     solo: int = csfield(Int32ul)
@@ -158,17 +156,20 @@ class MutaTrack(DataclassMixin):
     talk_track_data: Optional[list[MutaTalkTrackData]] = csfield(
         If(
             this.track_type == MutaTrackType.TALK,
-            GreedyRange(DataclassStruct(MutaTalkTrackData)),
+            DataclassStruct(MutaTalkTrackData)[this.seq_count],
         )
     )
-    audio_track_data: Optional[MutaAudioTrackData] = csfield(
+    audio_track_data: Optional[list[MutaAudioTrackData]] = csfield(
         If(
             this.track_type == MutaTrackType.AUDIO,
-            CSOptional(DataclassStruct(MutaAudioTrackData)),
-        )
+            DataclassStruct(MutaAudioTrackData)[this.seq_count],
+        ),
     )
-    song_track_data: Optional[MutaSongTrackData] = csfield(
-        If(this.track_type == MutaTrackType.SONG, DataclassStruct(MutaSongTrackData))
+    song_track_data: Optional[list[MutaSongTrackData]] = csfield(
+        If(
+            this.track_type == MutaTrackType.SONG,
+            DataclassStruct(MutaSongTrackData)[this.seq_count],
+        )
     )
 
 

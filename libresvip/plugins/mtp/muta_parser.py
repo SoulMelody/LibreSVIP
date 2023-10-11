@@ -84,19 +84,19 @@ class MutaParser:
     ) -> list[SingingTrack]:
         track_list = []
         for muta_track in muta_singing_tracks:
-            if muta_track.song_track_data is not None:
+            for part in muta_track.song_track_data:
                 singing_track = SingingTrack(
                     title=muta_track.name,
                     ai_singer_name="".join(
-                        chr(char) for char in muta_track.song_track_data.singer_name
+                        chr(char) for char in part.singer_name
                     ).rstrip("\0"),
                     mute=muta_track.mute,
                     solo=muta_track.solo,
-                    note_list=self.parse_notes(muta_track.song_track_data.notes),
+                    note_list=self.parse_notes(part.notes),
                 )
                 if pitch := self.parse_pitch(
-                    muta_track.song_track_data.params.pitch_data,
-                    muta_track.song_track_data.start + self.first_bar_length,
+                    part.params.pitch_data,
+                    part.start + self.first_bar_length,
                 ):
                     singing_track.edited_params.pitch = pitch
                 track_list.append(singing_track)
@@ -126,13 +126,13 @@ class MutaParser:
     ) -> list[InstrumentalTrack]:
         track_list = []
         for muta_track in muta_tracks:
-            if muta_track.audio_track_data is not None:
+            for part in muta_track.audio_track_data:
                 instrumental_track = InstrumentalTrack(
                     title=muta_track.name,
                     mute=muta_track.mute,
                     solo=muta_track.solo,
-                    offset=muta_track.audio_track_data.start,
-                    audio_file_path=muta_track.audio_track_data.file_path.rstrip("\0"),
+                    offset=part.start,
+                    audio_file_path=part.file_path.rstrip("\0"),
                 )
                 track_list.append(instrumental_track)
         return track_list

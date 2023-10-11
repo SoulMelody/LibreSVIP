@@ -84,7 +84,7 @@ class MutaGenerator:
         for track in tracks:
             muta_track = MutaTrack(
                 track_type=MutaTrackType.SONG,
-                track_index=len(track_list) + 1,
+                seq_count=1,
                 name=f"Song{len(track_list) + 1}",
                 mute=track.mute,
                 solo=track.solo,
@@ -92,28 +92,33 @@ class MutaGenerator:
                 pan=50,
                 padding=b"\x00" * 52,
                 talk_track_data=None,
-                song_track_data=MutaSongTrackData(
-                    start=self.first_bar_length,
-                    length=max((note.end_pos for note in track.note_list), default=0)
-                    + self.first_bar_length,
-                    singer_name=[ord(c) for c in self.options.default_singer_name]
-                    + [0] * (258 - len(self.options.default_singer_name)),
-                    unknown_1=0,
-                    notes=self.generate_notes(track.note_list),
-                    params=MutaParams(
-                        unknown_param=[],
-                        pitch_range=[],
-                        pitch_data=[],
-                        volume_data=[],
-                        vibrato_amplitude_range=[],
-                        vibrato_amplitude_data=[],
-                        vibrato_frequency_range=[],
-                        vibrato_frequency_data=[],
-                    ),
-                ),
+                audio_track_data=None,
+                song_track_data=[
+                    MutaSongTrackData(
+                        start=self.first_bar_length,
+                        length=max(
+                            (note.end_pos for note in track.note_list), default=0
+                        )
+                        + self.first_bar_length,
+                        singer_name=[ord(c) for c in self.options.default_singer_name]
+                        + [0] * (258 - len(self.options.default_singer_name)),
+                        unknown_1=0,
+                        notes=self.generate_notes(track.note_list),
+                        params=MutaParams(
+                            unknown_param=[],
+                            pitch_range=[],
+                            pitch_data=[],
+                            volume_data=[],
+                            vibrato_amplitude_range=[],
+                            vibrato_amplitude_data=[],
+                            vibrato_frequency_range=[],
+                            vibrato_frequency_data=[],
+                        ),
+                    )
+                ],
             )
             if pitch_points := self.generate_pitch(track.edited_params.pitch):
-                muta_track.song_track_data.params.pitch_data = pitch_points
+                muta_track.song_track_data[0].params.pitch_data = pitch_points
             track_list.append(muta_track)
         return track_list
 
@@ -152,7 +157,7 @@ class MutaGenerator:
             ) is not None:
                 muta_track = MutaTrack(
                     track_type=MutaTrackType.AUDIO,
-                    track_index=len(track_list) + 1 + singing_track_count,
+                    seq_count=1,
                     name=f"Audio{len(track_list) + 1}",
                     mute=track.mute,
                     solo=track.solo,
@@ -161,15 +166,17 @@ class MutaGenerator:
                     padding=b"\x00" * 52,
                     talk_track_data=None,
                     song_track_data=None,
-                )
-                muta_track.audio_track_data = MutaAudioTrackData(
-                    start=track.offset,
-                    length=round(
-                        self.time_synchronizer.get_actual_ticks_from_secs_offset(
-                            track.offset, track_info.duration / 1000
+                    audio_track_data=[
+                        MutaAudioTrackData(
+                            start=track.offset,
+                            length=round(
+                                self.time_synchronizer.get_actual_ticks_from_secs_offset(
+                                    track.offset, track_info.duration / 1000
+                                )
+                            ),
+                            file_path=track.audio_file_path + "\0",
                         )
-                    ),
-                    file_path=track.audio_file_path + "\0",
+                    ],
                 )
                 track_list.append(muta_track)
         return track_list
