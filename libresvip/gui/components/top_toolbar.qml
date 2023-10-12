@@ -302,6 +302,9 @@ ToolBar {
                         title: qsTr("Language (&L)")
                         ButtonGroup {
                             id: languageButtonGroup
+                            onClicked: {
+                                dialogs.openDialog.nameFilters[0] = qsTr(converterPage.inputFormatComboBox.currentText) + " (*." + converterPage.inputFormatComboBox.currentValue + ")"
+                            }
                         }
                         MenuItem {
                             id: zhCNMenuItem
