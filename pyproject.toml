@@ -3,26 +3,26 @@ authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 license = { text = "MIT" }
 requires-python = ">=3.9,<3.12"
 classifiers = [
-    'Development Status :: 4 - Beta',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: Implementation :: CPython',
-    'Programming Language :: Python :: Implementation :: PyPy',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3 :: Only',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
-    'Intended Audience :: Developers',
-    'Intended Audience :: End Users/Desktop',
-    'License :: OSI Approved :: MIT License',
-    'Environment :: Console',
-    'Operating System :: Unix',
-    'Operating System :: POSIX :: Linux',
-    'Operating System :: Microsoft :: Windows :: Windows 10',
-    'Operating System :: Microsoft :: Windows :: Windows 11',
-    'Framework :: Pydantic :: 2',
-    'Topic :: File Formats',
-    'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
+  'Development Status :: 4 - Beta',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: Implementation :: CPython',
+  'Programming Language :: Python :: Implementation :: PyPy',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3 :: Only',
+  'Programming Language :: Python :: 3.9',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Intended Audience :: Developers',
+  'Intended Audience :: End Users/Desktop',
+  'License :: OSI Approved :: MIT License',
+  'Environment :: Console',
+  'Operating System :: Unix',
+  'Operating System :: POSIX :: Linux',
+  'Operating System :: Microsoft :: Windows :: Windows 10',
+  'Operating System :: Microsoft :: Windows :: Windows 11',
+  'Framework :: Pydantic :: 2',
+  'Topic :: File Formats',
+  'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
 ]
 dependencies = [
   "charset-normalizer<4.0.0,>=3.3.0",
@@ -72,7 +72,6 @@ desktop = [
   "qtinter>=0.11.0",
   "httpx>=0.24.1",
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
-  "pywin32>=306; sys_platform == \"win32\" and platform_python_implementation == \"CPython\"",
 ]
 
 [tool.pdm]
@@ -80,7 +79,7 @@ desktop = [
 code_gen = [
   "datamodel-code-generator>=0.22.1",
   "gapic-generator>=1.11.6",
-  "xsdata[cli]>=23.8"
+  "xsdata[cli]>=23.8",
 ]
 i18n = ["translate-toolkit>=3.10.1", "babel>=2.13.0"]
 linting = [

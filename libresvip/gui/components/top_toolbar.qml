@@ -379,6 +379,7 @@ ToolBar {
             Button {
                 id: minimizeButton
                 Material.roundedScale: Material.NotRounded
+                Layout.fillHeight: true
                 leftPadding: 0
                 rightPadding: 0
                 topInset: 0
@@ -395,6 +396,7 @@ ToolBar {
                 id: maximizeButton
                 objectName: "maximizeButton"
                 Material.roundedScale: Material.NotRounded
+                Layout.fillHeight: true
                 hoverEnabled: true
                 leftPadding: 0
                 rightPadding: 0

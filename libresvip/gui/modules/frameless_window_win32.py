@@ -2,13 +2,13 @@ import ctypes
 from ctypes.wintypes import MSG, WPARAM
 from typing import Optional
 
-import win32con
-import win32gui
 from qtpy.QtCore import QObject, QPoint, QRect, Qt
 from qtpy.QtGui import QCursor, QMouseEvent
 from qtpy.QtQml import QmlElement
 from qtpy.QtQuick import QQuickItem, QQuickWindow
 from qtpy.QtWidgets import QApplication
+
+from . import win32_constants as win32con
 
 QML_IMPORT_NAME = "FramelessWindow"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -58,9 +58,11 @@ class FramelessWindow(QQuickWindow):
 
     def set_borderless(self) -> None:
         hwnd = self.hwnd
-        style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
+        user32 = ctypes.windll.user32
 
-        win32gui.SetWindowLong(
+        style = user32.GetWindowLongW(hwnd, win32con.GWL_STYLE)
+
+        user32.SetWindowLongW(
             hwnd,
             win32con.GWL_STYLE,
             style
@@ -70,9 +72,9 @@ class FramelessWindow(QQuickWindow):
             | win32con.WS_THICKFRAME,
         )
 
-        style = win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
+        style = user32.GetWindowLongW(hwnd, win32con.GWL_EXSTYLE)
         style &= ~win32con.WS_EX_LAYERED
-        win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, style)
+        user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, style)
 
     def add_shadow_effect(self) -> Optional[ctypes.HRESULT]:
         if not self.is_composition_enabled:

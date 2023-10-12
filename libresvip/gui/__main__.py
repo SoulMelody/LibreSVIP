@@ -31,6 +31,8 @@ def run() -> None:
         qml_engine.load(
             pkg_dir / "gui" / "main.qml",
         )
+        if not qml_engine.rootObjects():
+            sys.exit(-1)
         app.exec()
 
 
