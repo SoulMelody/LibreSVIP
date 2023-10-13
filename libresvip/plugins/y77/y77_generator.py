@@ -30,6 +30,7 @@ class Y77Generator:
             )
         else:
             first_singing_track = project.track_list[self.options.track_index]
+            assert isinstance(first_singing_track, SingingTrack)
         self.first_bar_length = int(project.time_signature_list[0].bar_length())
         y77_project = Y77Project(
             bars=100,
@@ -47,7 +48,7 @@ class Y77Generator:
             Y77Note(
                 lyric=note.lyric,
                 start=round(note.start_pos / 30),
-                len=round(note.length / 30),
+                length=round(note.length / 30),
                 pitch=88 - note.key_number,
                 py=note.pronunciation or " ".join(pypinyin.lazy_pinyin(note.lyric)),
                 pit=self.generate_pitch(singing_track.edited_params.pitch, note),

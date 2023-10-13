@@ -7,7 +7,7 @@ from libresvip.model.base import BaseModel
 
 class Y77Note(BaseModel):
     py: Optional[str] = None
-    len: Optional[int] = None
+    length: Optional[int] = Field(alias="len")
     start: Optional[int] = None
     lyric: Optional[str] = None
     pitch: Optional[int] = None

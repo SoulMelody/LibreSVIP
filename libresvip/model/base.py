@@ -17,7 +17,7 @@ from pydantic import BaseModel as PydanticBaseModel
 from pydantic import (
     ConfigDict,
     Field,
-    FieldValidationInfo,
+    ValidationInfo,
     computed_field,
     field_validator,
 )
@@ -80,7 +80,9 @@ class ParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def load_points(cls, points: Union[Points, list[Any]], _info: FieldValidationInfo) -> Points:
+    def load_points(
+        cls, points: Union[Points, list[Any]], _info: ValidationInfo
+    ) -> Points:
         return (
             points
             if isinstance(points, Points)
@@ -263,9 +265,11 @@ Track = Annotated[Union[SingingTrack, InstrumentalTrack], Field(discriminator="t
 class Project(BaseModel):
     version: str = Field(default="", alias="Version")
     song_tempo_list: list[SongTempo] = Field(
-        default_factory=list, alias="SongTempoList",
+        default_factory=list,
+        alias="SongTempoList",
     )
     time_signature_list: list[TimeSignature] = Field(
-        default_factory=list, alias="TimeSignatureList",
+        default_factory=list,
+        alias="TimeSignatureList",
     )
     track_list: list[Track] = Field(default_factory=list, alias="TrackList")

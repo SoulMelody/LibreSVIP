@@ -54,7 +54,7 @@ class Y77Parser:
             note = Note(
                 lyric=y77_note.lyric,
                 start_pos=y77_note.start * 30,
-                length=y77_note.len * 30,
+                length=y77_note.length * 30,
                 key_number=88 - y77_note.pitch,
             )
             phonemes = pypinyin.pinyin(
@@ -69,7 +69,7 @@ class Y77Parser:
         params = Params()
         for y77_note in notes:
             if len(y77_note.pit):
-                step = y77_note.len * 30 / (len(y77_note.pit) - 1)
+                step = y77_note.length * 30 / (len(y77_note.pit) - 1)
                 pbs = y77_note.pbs + 1
                 params.pitch.points.append(Point(y77_note.start * 30 - 5 + 1920, -100))
                 for i in range(len(y77_note.pit)):
@@ -87,6 +87,6 @@ class Y77Parser:
                         )
                     )
                 params.pitch.points.append(
-                    Point((y77_note.start + y77_note.len) * 30 + 5 + 1920, -100)
+                    Point((y77_note.start + y77_note.length) * 30 + 5 + 1920, -100)
                 )
         return params

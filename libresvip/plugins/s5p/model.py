@@ -5,7 +5,7 @@ from more_itertools import chunked
 from pydantic import (
     Field,
     FieldSerializationInfo,
-    FieldValidationInfo,
+    ValidationInfo,
     field_serializer,
     field_validator,
 )
@@ -67,7 +67,7 @@ class S5pNote(BaseModel):
 
 
 class S5pTrackMixer(BaseModel):
-    gain_decibel: float = Field(..., alias="gainDecibel")
+    gain_decibel: float = Field(0.0, alias="gainDecibel")
     pan: float = 0.0
     muted: bool = False
     solo: bool = False
@@ -93,9 +93,10 @@ class S5pParameters(BaseModel):
         "breathiness",
         "voicing",
         "gender",
-        mode="before"
+        mode="before",
     )
-    def validate_points(cls, points: list[float], _info: FieldValidationInfo):
+    @classmethod
+    def validate_points(cls, points: list[float], _info: ValidationInfo) -> S5pPoints:
         if not isinstance(points, S5pPoints):
             return S5pPoints(root=[S5pPoint(*each) for each in chunked(points, 2)])
         return points
@@ -108,9 +109,11 @@ class S5pParameters(BaseModel):
         "breathiness",
         "voicing",
         "gender",
-        when_used="json"
+        when_used="json",
     )
-    def serialize_points(self, points: S5pPoints, _info: FieldSerializationInfo):
+    def serialize_points(
+        self, points: S5pPoints, _info: FieldSerializationInfo
+    ) -> list[float]:
         return list(chain.from_iterable(points.root))
 
 

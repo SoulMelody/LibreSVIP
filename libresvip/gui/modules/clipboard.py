@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtCore import QObject, Slot
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QmlElement, QmlSingleton
@@ -12,11 +14,11 @@ QML_IMPORT_MINOR_VERSION = 0
 @QmlElement
 @QmlSingleton
 class Clipboard(QObject):
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
         self.clipboard = QGuiApplication.clipboard()
 
     @Slot(str, result=bool)
-    def set_clipboard(self, text):
+    def set_clipboard(self, text: str) -> bool:
         self.clipboard.set_text(text)
         return True

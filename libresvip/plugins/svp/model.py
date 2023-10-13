@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 from itertools import chain
 from typing import Literal, NamedTuple, Optional
@@ -7,13 +9,14 @@ from more_itertools import chunked
 from pydantic import (
     Field,
     FieldSerializationInfo,
-    FieldValidationInfo,
+    ValidationInfo,
     field_serializer,
     field_validator,
 )
 
 from libresvip.core.time_interval import RangeInterval
-from libresvip.model.base import BaseModel, PointList
+from libresvip.model.base import BaseModel
+from libresvip.model.point import PointList
 
 from .interval_utils import position_to_ticks
 
@@ -75,9 +78,7 @@ class SVParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def validate_points(
-        cls, points: list[float], _info: FieldValidationInfo
-    ) -> SVPoints:
+    def validate_points(cls, points: list[float], _info: ValidationInfo) -> SVPoints:
         return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
 
     @field_serializer("points", when_used="json")
@@ -120,7 +121,7 @@ class SVParamCurve(BaseModel):
             interval |= RangeInterval([(points[-1].offset, sys.maxsize // 2)])
         return interval
 
-    def __add__(self, offset: int):
+    def __add__(self, offset: int) -> SVParamCurve:
         new_curve = self.model_copy(deep=True)
         new_curve.points = new_curve.validate_points(new_curve.points, None)
         for i in range(len(new_curve.points)):
@@ -174,7 +175,7 @@ class SVNoteAttributes(SVBaseAttributes):
             else self.t_f0_offset
         )
 
-    def _set_transition_offset(self, value):
+    def _set_transition_offset(self, value: float) -> None:
         self.t_f0_offset = value
 
     transition_offset = property(_get_transition_offset, _set_transition_offset)
@@ -509,10 +510,10 @@ class SVGroup(BaseModel):
 
     @field_validator("notes", mode="before")
     @classmethod
-    def validate_notes(cls, v, _info: FieldValidationInfo):
+    def validate_notes(cls, v: list[dict], _info: ValidationInfo) -> list[dict]:
         return [note for note in v if note["onset"] >= 0]
 
-    def overlapped_with(self, other: "SVGroup") -> bool:
+    def overlapped_with(self, other: SVGroup) -> bool:
         for note in self.notes:
             for other_note in other.notes:
                 x = note.onset - (other_note.onset + other_note.duration)
@@ -524,7 +525,7 @@ class SVGroup(BaseModel):
                     return True
         return False
 
-    def __add__(self, blick_offset: int):
+    def __add__(self, blick_offset: int) -> SVGroup:
         new_group = self.model_copy(deep=True)
         new_group.notes = [
             note + blick_offset for note in self.notes if note.onset + blick_offset >= 0
@@ -532,7 +533,7 @@ class SVGroup(BaseModel):
         new_group.parameters += blick_offset
         return new_group
 
-    def __xor__(self, pitch_offset):
+    def __xor__(self, pitch_offset: int) -> SVGroup:
         new_group = self.model_copy(deep=True)
         for note in new_group.notes:
             note ^= pitch_offset
@@ -540,11 +541,11 @@ class SVGroup(BaseModel):
 
 
 class SVMixer(BaseModel):
-    pan: float
-    mute: bool
-    solo: bool
+    pan: float = 0.0
+    mute: bool = False
+    solo: bool = False
     display: bool = True
-    gain_decibel: float = Field(alias="gainDecibel")
+    gain_decibel: float = Field(0.0, alias="gainDecibel")
 
 
 class SVTrack(BaseModel):

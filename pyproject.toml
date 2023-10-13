@@ -78,12 +78,14 @@ desktop = [
 code_gen = [
   "datamodel-code-generator>=0.22.1",
   "gapic-generator>=1.11.7",
-  "xsdata[cli]>=23.8",
+  "click-default-group>=1.2",
+  "docformatter>=1.7.2",
+  "toposort>=1.5",
 ]
 i18n = ["translate-toolkit>=3.10.1", "babel>=2.13.0"]
 linting = [
   "isort>=5.12.0",
-  "pre-commit>=3.4.0",
+  "pre-commit>=3.5.0",
   "ruff>=0.0.292",
   "black>=23.9.1",
   "mypy>=1.6.0",
@@ -91,7 +93,7 @@ linting = [
 ]
 packaging = [
   "cx-freeze>=6.15.9",
-  "pyinstaller>=6.0.0",
+  "pyinstaller>=6.1.0",
   "shellingham<2.0.0,>=1.5.3",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.4.5"]
@@ -149,12 +151,9 @@ select = [
   "YTT",   # sys.version
 ]
 ignore = [
-  "C408", # Unnecessary `dict` call (rewrite as a literal)
   "E402", # Module level import not at top of file
   "E501", # Line too long
   "E731", # Do not assign a lambda expression, use a def
-  "N802", # Function name should be lowercase
-  "N806", # Variable in function should be lowercase
 ]
 line-length = 100
 fix = true
