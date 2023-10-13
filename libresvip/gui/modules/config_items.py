@@ -3,8 +3,8 @@ import base64
 import pathlib
 from typing import Any, Optional
 
-from qtpy.QtCore import QObject, Signal, Slot
-from qtpy.QtQml import QmlElement, QmlSingleton
+from PySide6.QtCore import QObject, Signal, Slot
+from PySide6.QtQml import QmlElement, QmlSingleton
 
 import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings

@@ -86,7 +86,7 @@ GridLayout {
         }
         contentItem: RowLayout {
             Label {
-                text: IconicFontLoader.icon("mdi6.tag")
+                text: IconicFontLoader.icon("mdi7.tag")
                 font.family: "Material Design Icons"
             }
             Label {
@@ -109,7 +109,7 @@ GridLayout {
         }
         contentItem: RowLayout {
             Label {
-                text: IconicFontLoader.icon("mdi6.account")
+                text: IconicFontLoader.icon("mdi7.account")
                 font.family: "Material Design Icons"
             }
 
@@ -123,7 +123,7 @@ GridLayout {
             }
 
             Label {
-                text: IconicFontLoader.icon("mdi6.open-in-new")
+                text: IconicFontLoader.icon("mdi7.open-in-new")
                 font.family: "Material Design Icons"
             }
         }
@@ -140,7 +140,7 @@ GridLayout {
         Layout.column: 3
         Layout.columnSpan: 7
         Label {
-            text: IconicFontLoader.icon("mdi6.file-outline")
+            text: IconicFontLoader.icon("mdi7.file-outline")
             font.family: "Material Design Icons"
         }
         Label {

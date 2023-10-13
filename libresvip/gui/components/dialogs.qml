@@ -29,7 +29,7 @@ Item {
                     }
                 }
                 IconButton {
-                    icon_name: "mdi6.folder"
+                    icon_name: "mdi7.folder"
                     diameter: 38
                     icon_size_multiplier: 1.5
                     onClicked: {
@@ -76,7 +76,7 @@ Item {
                         QQC2.Label {
                             z: 1
                             anchors.centerIn: parent
-                            text: IconicFontLoader.icon("mdi6.close")
+                            text: IconicFontLoader.icon("mdi7.close")
                             font.family: "Material Design Icons"
                             HoverHandler {
                                 acceptedDevices: PointerDevice.AllPointerTypes
@@ -91,7 +91,7 @@ Item {
                     }
                 }
                 IconButton {
-                    icon_name: "mdi6.trash-can-outline"
+                    icon_name: "mdi7.trash-can-outline"
                     diameter: 38
                     icon_size_multiplier: 1.5
                     onClicked: {
@@ -236,7 +236,7 @@ Item {
                 }
                 IconButton {
                     Layout.alignment: Qt.AlignRight
-                    icon_name: "mdi6.close"
+                    icon_name: "mdi7.close"
                     diameter: 30
                     icon_size_multiplier: 1.5
                     onClicked: folderPresetsDialog.close()
@@ -301,7 +301,7 @@ Item {
                     }
                     QQC2.Button {
                         Layout.alignment: Qt.AlignHCenter
-                        text: IconicFontLoader.icon("mdi6.plus")
+                        text: IconicFontLoader.icon("mdi7.plus")
                         font.family: "Material Design Icons"
                         font.pixelSize: Qt.application.font.pixelSize * 1.5
                         onClicked: {
@@ -344,7 +344,7 @@ Item {
                         anchors.centerIn: parent
                         QQC2.Label {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: IconicFontLoader.icon("mdi6.folder-plus-outline")
+                            text: IconicFontLoader.icon("mdi7.folder-plus-outline")
                             font.family: "Material Design Icons"
                             font.pixelSize: 100
                         }
@@ -401,8 +401,8 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: IconicFontLoader.icon("ri.bilibili-line")
-                            font.family: "remixicon"
+                            text: IconicFontLoader.icon("mdi7.television-classic")
+                            font.family: "Material Design Icons"
                         }
                         QQC2.Label {
                             text: qsTr("Author's Profile")
@@ -415,7 +415,7 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: IconicFontLoader.icon("mdi6.github")
+                            text: IconicFontLoader.icon("mdi7.github")
                             font.family: "Material Design Icons"
                         }
                         QQC2.Label {

@@ -9,8 +9,8 @@ import qtinter
 from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
-from qtpy.QtCore import QObject, Slot
-from qtpy.QtQml import QmlElement, QmlSingleton
+from PySide6.QtCore import QObject, Slot
+from PySide6.QtQml import QmlElement, QmlSingleton
 
 import libresvip
 from libresvip.core.config import settings

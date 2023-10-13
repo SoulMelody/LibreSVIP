@@ -1,7 +1,9 @@
-from qtpy.QtCore import QCoreApplication, QEvent, Qt
-from qtpy.QtGui import QMouseEvent
-from qtpy.QtQml import QmlElement
-from qtpy.QtQuick import QQuickWindow
+from PySide6.QtCore import QCoreApplication, QEvent, Qt
+from PySide6.QtGui import QMouseEvent
+from PySide6.QtQml import QmlElement
+from PySide6.QtQuick import QQuickWindow
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 QML_IMPORT_NAME = "FramelessWindow"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -12,50 +14,50 @@ QML_IMPORT_MINOR_VERSION = 0
 class FramelessWindow(QQuickWindow):
     def __init__(self, parent=None, border_width: int = 5):
         super().__init__(parent)
-        self.setFlags(
-            self.flags() | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
+        self.flags = (
+            self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
         )
         self.border_width = border_width
-        QCoreApplication.instance().installEventFilter(self)
+        QCoreApplication.instance().install_event_filter(self)
 
-    def eventFilter(self, obj, event: QEvent):
+    def event_filter(self, obj, event: QEvent):
         et = event.type()
         if et != QMouseEvent.Type.MouseButtonPress and et != QMouseEvent.Type.MouseMove:
             return False
 
         edges = Qt.Edge(0)
-        pos = event.globalPos() - self.position()
+        pos = event.global_pos() - self.position()
         if pos.x() < self.border_width:
             edges |= Qt.Edge.LeftEdge
-        if pos.x() >= self.width() - self.border_width:
+        if pos.x() >= self.width - self.border_width:
             edges |= Qt.Edge.RightEdge
         if pos.y() < self.border_width:
             edges |= Qt.Edge.TopEdge
-        if pos.y() >= self.height() - self.border_width:
+        if pos.y() >= self.height - self.border_width:
             edges |= Qt.Edge.BottomEdge
 
         if (
             et == QMouseEvent.Type.MouseMove
-            and self.windowState() == Qt.WindowState.WindowNoState
+            and self.window_state() == Qt.WindowState.WindowNoState
         ):
             if edges in (
                 Qt.Edge.LeftEdge | Qt.Edge.TopEdge,
                 Qt.Edge.RightEdge | Qt.Edge.BottomEdge,
             ):
-                self.setCursor(Qt.CursorShape.SizeFDiagCursor)
+                self.set_cursor(Qt.CursorShape.SizeFDiagCursor)
             elif edges in (
                 Qt.Edge.RightEdge | Qt.Edge.TopEdge,
                 Qt.Edge.LeftEdge | Qt.Edge.BottomEdge,
             ):
-                self.setCursor(Qt.CursorShape.SizeBDiagCursor)
+                self.set_cursor(Qt.CursorShape.SizeBDiagCursor)
             elif edges in (Qt.Edge.TopEdge, Qt.Edge.BottomEdge):
-                self.setCursor(Qt.CursorShape.SizeVerCursor)
+                self.set_cursor(Qt.CursorShape.SizeVerCursor)
             elif edges in (Qt.Edge.LeftEdge, Qt.Edge.RightEdge):
-                self.setCursor(Qt.CursorShape.SizeHorCursor)
+                self.set_cursor(Qt.CursorShape.SizeHorCursor)
             else:
-                self.setCursor(Qt.CursorShape.ArrowCursor)
+                self.set_cursor(Qt.CursorShape.ArrowCursor)
 
         elif obj == self and et == QMouseEvent.Type.MouseButtonPress and edges:
-            self.startSystemResize(edges)
+            self.start_system_resize(edges)
 
         return False

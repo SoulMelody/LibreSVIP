@@ -1,9 +1,11 @@
 import gettext
 from typing import Optional
 
-from qtpy.QtCore import QLocale, QObject, QTranslator, Slot
-from qtpy.QtGui import QGuiApplication
-from qtpy.QtQml import QmlElement, QmlSingleton
+from PySide6.QtCore import QLocale, QObject, QTranslator, Slot
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QmlElement, QmlSingleton
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import Language, config_path, settings
 from libresvip.core.constants import PACKAGE_NAME, res_dir
@@ -64,9 +66,9 @@ class LocaleSwitcher(QObject):
         if lang:
             translation_dir = str(res_dir / "locales")
             self.translator.load_translation(lang, translation_dir)
-            QGuiApplication.installTranslator(self.translator)
+            QGuiApplication.install_translator(self.translator)
             qml_engine.retranslate()
             settings.language = Language.from_locale(lang)
         else:
-            QGuiApplication.removeTranslator(self.translator)
+            QGuiApplication.remove_translator(self.translator)
             settings.language = Language.ENGLISH

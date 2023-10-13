@@ -2,11 +2,12 @@ import ctypes
 from ctypes.wintypes import MSG, WPARAM
 from typing import Optional
 
-from qtpy.QtCore import QObject, QPoint, QRect, Qt
-from qtpy.QtGui import QCursor, QMouseEvent
-from qtpy.QtQml import QmlElement
-from qtpy.QtQuick import QQuickItem, QQuickWindow
-from qtpy.QtWidgets import QApplication
+from PySide6.QtCore import QObject, QPoint, QRect, Qt
+from PySide6.QtGui import QCursor, QGuiApplication, QMouseEvent
+from PySide6.QtQml import QmlElement
+from PySide6.QtQuick import QQuickItem, QQuickWindow
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from . import win32_constants as win32con
 
@@ -28,8 +29,8 @@ class MARGINS(ctypes.Structure):
 class FramelessWindow(QQuickWindow):
     def __init__(self, parent: QObject = None, border_width: int = 5):
         super().__init__(parent)
-        self.setFlags(
-            self.flags()
+        self.flags = (
+            self.flags
             | Qt.WindowType.FramelessWindowHint
             | Qt.WindowType.Window
             | Qt.WindowType.WindowMinMaxButtonsHint
@@ -39,8 +40,8 @@ class FramelessWindow(QQuickWindow):
         self.caption_label = None
         self.maximize_btn_hovered = False
         self.set_borderless()
-        screen_geometry = self.screen().availableGeometry()
-        self.setPosition(
+        screen_geometry = self.screen().available_geometry
+        self.set_position(
             (screen_geometry.width() - 1200) // 2,
             (screen_geometry.height() - 800) // 2,
         )
@@ -48,7 +49,7 @@ class FramelessWindow(QQuickWindow):
 
     @property
     def hwnd(self) -> int:
-        return self.winId()
+        return self.win_id()
 
     @property
     def is_composition_enabled(self) -> bool:
@@ -85,30 +86,32 @@ class FramelessWindow(QQuickWindow):
         margins = MARGINS(-1, -1, -1, -1)
         return dwmapi.DwmExtendFrameIntoClientArea(self.hwnd, ctypes.byref(margins))
 
-    def nativeEvent(self, event_type: bytes, message: int) -> tuple[bool, int]:
+    def native_event(self, event_type: bytes, message: int) -> tuple[bool, int]:
         if self.caption_label is None:
-            self.caption_label = self.findChild(QQuickItem, "captionLabel")
+            self.caption_label: QQuickItem = self.find_child(QQuickItem, "captionLabel")
         if self.maximize_btn is None:
-            self.maximize_btn = self.findChild(QQuickItem, "maximizeButton")
+            self.maximize_btn: QQuickItem = self.find_child(
+                QQuickItem, "maximizeButton"
+            )
         if event_type == b"windows_generic_MSG":
             msg = MSG.from_address(message.__int__())
 
             if msg.message == win32con.WM_NCHITTEST and self.border_width is not None:
                 if msg.hWnd == self.hwnd:
                     pos = QCursor.pos()
-                    x_pos = pos.x() - self.x()
-                    y_pos = pos.y() - self.y()
-                    w, h = self.width(), self.height()
+                    x_pos = pos.x() - self.x
+                    y_pos = pos.y() - self.y
+                    w, h = self.width, self.height
                     bw = (
                         0
-                        if self.visibility() == QQuickWindow.Visibility.Maximized
+                        if self.visibility == QQuickWindow.Visibility.Maximized
                         else self.border_width
                     )
                     lx = x_pos < bw
                     rx = x_pos > w - bw
                     ty = y_pos < bw
                     by = y_pos > h - bw
-                    if not self.visibility() == QQuickWindow.Visibility.Maximized:
+                    if not self.visibility == QQuickWindow.Visibility.Maximized:
                         if lx and ty:
                             return True, win32con.HTTOPLEFT
                         elif rx and by:
@@ -126,15 +129,15 @@ class FramelessWindow(QQuickWindow):
                         elif rx:
                             return True, win32con.HTRIGHT
                     if self.maximize_btn is not None:
-                        top_left = self.maximize_btn.mapToGlobal(QPoint(0, 0))
+                        top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                         rect = QRect(
-                            top_left.x() - self.x(),
-                            top_left.y() - self.y(),
-                            self.maximize_btn.width(),
-                            self.maximize_btn.height(),
+                            top_left.x() - self.x,
+                            top_left.y() - self.y,
+                            self.maximize_btn.width,
+                            self.maximize_btn.height,
                         )
                         if rect.contains(x_pos, y_pos):
-                            QApplication.sendEvent(
+                            QGuiApplication.send_event(
                                 self.maximize_btn,
                                 QMouseEvent(
                                     QMouseEvent.Type.HoverEnter,
@@ -147,7 +150,7 @@ class FramelessWindow(QQuickWindow):
                             self.maximize_btn_hovered = True
                             return True, win32con.HTMAXBUTTON
                         elif self.maximize_btn_hovered:
-                            QApplication.sendEvent(
+                            QGuiApplication.send_event(
                                 self.maximize_btn,
                                 QMouseEvent(
                                     QMouseEvent.Type.HoverLeave,
@@ -159,12 +162,12 @@ class FramelessWindow(QQuickWindow):
                             )
                             self.maximize_btn_hovered = False
                     if self.caption_label is not None:
-                        top_left = self.caption_label.mapToGlobal(QPoint(0, 0))
+                        top_left = self.caption_label.map_to_global(QPoint(0, 0))
                         rect = QRect(
-                            top_left.x() - self.x(),
-                            top_left.y() - self.y(),
-                            self.caption_label.width(),
-                            self.caption_label.height(),
+                            top_left.x() - self.x,
+                            top_left.y() - self.y,
+                            self.caption_label.width,
+                            self.caption_label.height,
                         )
                         if rect.contains(x_pos, y_pos):
                             return True, win32con.HTCAPTION
@@ -173,36 +176,36 @@ class FramelessWindow(QQuickWindow):
                 win32con.WM_NCLBUTTONDBLCLK,
             ]:
                 pos = QCursor.pos()
-                x_pos = pos.x() - self.x()
-                y_pos = pos.y() - self.y()
+                x_pos = pos.x() - self.x
+                y_pos = pos.y() - self.y
                 if self.maximize_btn is not None:
-                    top_left = self.maximize_btn.mapToGlobal(QPoint(0, 0))
+                    top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                     rect = QRect(
-                        top_left.x() - self.x(),
-                        top_left.y() - self.y(),
-                        self.maximize_btn.width(),
-                        self.maximize_btn.height(),
+                        top_left.x() - self.x,
+                        top_left.y() - self.y,
+                        self.maximize_btn.width,
+                        self.maximize_btn.height,
                     )
                     if rect.contains(x_pos, y_pos):
-                        if self.visibility() == QQuickWindow.Visibility.Maximized:
-                            self.showNormal()
+                        if self.visibility == QQuickWindow.Visibility.Maximized:
+                            self.show_normal()
                         else:
-                            self.showMaximized()
+                            self.show_maximized()
                         return True, 0
             elif msg.message in [win32con.WM_NCLBUTTONUP, win32con.WM_NCRBUTTONUP]:
                 pos = QCursor.pos()
-                x_pos = pos.x() - self.x()
-                y_pos = pos.y() - self.y()
+                x_pos = pos.x() - self.x
+                y_pos = pos.y() - self.y
                 if self.maximize_btn is not None:
-                    top_left = self.maximize_btn.mapToGlobal(QPoint(0, 0))
+                    top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                     rect = QRect(
-                        top_left.x() - self.x(),
-                        top_left.y() - self.y(),
-                        self.maximize_btn.width(),
-                        self.maximize_btn.height(),
+                        top_left.x() - self.x,
+                        top_left.y() - self.y,
+                        self.maximize_btn.width,
+                        self.maximize_btn.height,
                     )
                     if rect.contains(x_pos, y_pos):
-                        QApplication.sendEvent(
+                        QGuiApplication.send_event(
                             self.maximize_btn,
                             QMouseEvent(
                                 QMouseEvent.Type.MouseButtonRelease,
@@ -240,13 +243,13 @@ class FramelessWindow(QQuickWindow):
                     return True, hr
             elif msg.message == win32con.WM_SYSCOMMAND:
                 if msg.wParam == win32con.SC_RESTORE:
-                    if self.visibility() == QQuickWindow.Visibility.Minimized:
+                    if self.visibility == QQuickWindow.Visibility.Minimized:
                         if self.prev_visibility == QQuickWindow.Visibility.Maximized:
-                            self.showMaximized()
+                            self.show_maximized()
                         else:
-                            self.showNormal()
+                            self.show_normal()
                         return True, 0
             elif msg.message == win32con.WM_SIZE:
                 if msg.wParam == win32con.SIZE_MINIMIZED:
-                    self.prev_visibility = self.visibility()
-        return super().nativeEvent(event_type, message)
+                    self.prev_visibility = self.visibility
+        return super().native_event(event_type, message)

@@ -11,7 +11,7 @@ from loguru import logger
 from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
-from qtpy.QtCore import (
+from PySide6.QtCore import (
     QAbstractListModel,
     QModelIndex,
     QObject,
@@ -21,8 +21,10 @@ from qtpy.QtCore import (
     Signal,
     Slot,
 )
-from qtpy.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement, QmlSingleton
 from upath import UPath
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
@@ -177,13 +179,13 @@ class TaskManager(QObject):
             settings.last_input_format = self.input_formats[0]["value"]
         if not settings.last_output_format and self.output_formats:
             settings.last_output_format = self.output_formats[0]["value"]
-        self.thread_pool = QThreadPool.globalInstance()
+        self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
         self.output_format_changed.connect(self.reset_output_ext)
         self._start_conversion.connect(self.start)
         self.timer = QTimer()
-        self.timer.setInterval(100)
+        self.timer.interval = 100
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
 
@@ -484,7 +486,7 @@ class TaskManager(QObject):
 
     @Slot(result=bool)
     def is_busy(self) -> bool:
-        return self.thread_pool.activeThreadCount() > 0
+        return self.thread_pool.active_thread_count > 0
 
     @Slot()
     def check_busy(self) -> None:
@@ -492,7 +494,7 @@ class TaskManager(QObject):
             self.set_busy(True)
         else:
             self.set_busy(False)
-            if self.timer.isActive():
+            if self.timer.active:
                 self.timer.stop()
                 if settings.open_save_folder_on_completion:
                     success_task = next(
@@ -518,7 +520,7 @@ class TaskManager(QObject):
         output_options = {field["name"]: field["value"] for field in self.output_fields}
         for i in range(len(self.tasks)):
             self.tasks.update(i, {"success": False, "error": "", "warning": ""})
-        self.thread_pool.setMaxThreadCount(
+        self.thread_pool.max_thread_count = (
             max(len(self.tasks), 4) if settings.multi_threaded_conversion else 1
         )
         for i in range(len(self.tasks)):

@@ -41,7 +41,7 @@ Page {
                 }
             }
             IconButton {
-                icon_name: "mdi6.eyedropper-variant"
+                icon_name: "mdi7.eyedropper-variant"
                 diameter: 30
                 icon_size_multiplier: 1.5
                 onClicked: {
@@ -55,7 +55,7 @@ Page {
                 }
             }
             IconButton {
-                icon_name: "mdi6.help-circle-outline"
+                icon_name: "mdi7.help-circle-outline"
                 diameter: 30
                 icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
@@ -103,7 +103,7 @@ Page {
                 color: "transparent"
             }
             IconButton {
-                icon_name: "mdi6.help-circle-outline"
+                icon_name: "mdi7.help-circle-outline"
                 diameter: 30
                 icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
@@ -183,7 +183,7 @@ Page {
                 model: field.choices
             }
             IconButton {
-                icon_name: "mdi6.help-circle-outline"
+                icon_name: "mdi7.help-circle-outline"
                 diameter: 30
                 icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
@@ -237,7 +237,7 @@ Page {
                 }
             }
             IconButton {
-                icon_name: "mdi6.help-circle-outline"
+                icon_name: "mdi7.help-circle-outline"
                 diameter: 30
                 icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
@@ -260,7 +260,7 @@ Page {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: IconicFontLoader.icon("mdi6.tune-variant")
+                text: IconicFontLoader.icon("mdi7.tune-variant")
                 font.family: "Material Design Icons"
                 font.pixelSize: 12
             }
@@ -357,7 +357,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.row: 1
                         Layout.column: 8
-                        icon_name: "mdi6.information-outline"
+                        icon_name: "mdi7.information-outline"
                         diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
@@ -473,7 +473,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.row: 2
                         Layout.column: 8
-                        icon_name: "mdi6.swap-vertical"
+                        icon_name: "mdi7.swap-vertical"
                         diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
@@ -523,7 +523,7 @@ Page {
                         Layout.columnSpan: 2
                         Layout.row: 3
                         Layout.column: 8
-                        icon_name: "mdi6.information-outline"
+                        icon_name: "mdi7.information-outline"
                         diameter: 38
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
@@ -651,7 +651,7 @@ Page {
                             anchors.centerIn: parent
                             Label {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                text: IconicFontLoader.icon("mdi6.tray-arrow-up")
+                                text: IconicFontLoader.icon("mdi7.tray-arrow-up")
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 100
                             }
@@ -742,7 +742,7 @@ Page {
                                     Material.Shade300
                                 );
                             }
-                            text: IconicFontLoader.icon("mdi6.hammer-wrench")
+                            text: IconicFontLoader.icon("mdi7.hammer-wrench")
                             y: parent.height - this.height / 2 - 10
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -781,7 +781,7 @@ Page {
                             Row {
                                 RoundButton {
                                     id: addTaskButton
-                                    text: IconicFontLoader.icon("mdi6.plus")
+                                    text: IconicFontLoader.icon("mdi7.plus")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -805,7 +805,7 @@ Page {
                                 }
                                 RoundButton {
                                     id: clearTaskButton
-                                    text: IconicFontLoader.icon("mdi6.refresh")
+                                    text: IconicFontLoader.icon("mdi7.refresh")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -830,7 +830,7 @@ Page {
                                 }
                                 RoundButton {
                                     id: resetExtensionButton
-                                    text: IconicFontLoader.icon("mdi6.form-textbox")
+                                    text: IconicFontLoader.icon("mdi7.form-textbox")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -854,7 +854,7 @@ Page {
                                 }
                                 RoundButton {
                                     id: removeOtherExtensionButton
-                                    text: IconicFontLoader.icon("mdi6.filter-minus-outline")
+                                    text: IconicFontLoader.icon("mdi7.filter-minus-outline")
                                     background: Rectangle {
                                         radius: this.height / 2
                                         color: Material.color(
@@ -946,7 +946,7 @@ Page {
                                 radius: this.height / 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
-                                    text: IconicFontLoader.icon("mdi6.chevron-right")
+                                    text: IconicFontLoader.icon("mdi7.chevron-right")
                                     font.family: "Material Design Icons"
                                     font.pixelSize: 20
                                     rotation: inputContainer.expanded ? 45 : 0
@@ -1113,7 +1113,7 @@ Page {
                                 radius: this.height / 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 contentItem: Label {
-                                    text: IconicFontLoader.icon("mdi6.chevron-right")
+                                    text: IconicFontLoader.icon("mdi7.chevron-right")
                                     font.family: "Material Design Icons"
                                     font.pixelSize: 20
                                     rotation: outputContainer.expanded ? 45 : 0
@@ -1305,7 +1305,7 @@ Page {
                         Layout.columnSpan: 1
                         Layout.row: 1
                         Layout.column: 0
-                        icon_name: "mdi6.folder"
+                        icon_name: "mdi7.folder"
                         icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Choose Output Folder")

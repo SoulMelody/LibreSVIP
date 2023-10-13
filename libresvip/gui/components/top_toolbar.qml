@@ -82,27 +82,27 @@ ToolBar {
                     title: qsTr("Convert (&C)")
                     IconMenuItem {
                         action: actions.openFile;
-                        icon_name: "mdi6.file-import-outline"
+                        icon_name: "mdi7.file-import-outline"
                         label: qsTr("Import Projects (Ctrl+O)");
                     }
                     IconMenuItem {
                         id: startConversionMenuItem
                         action: actions.startConversion;
-                        icon_name: "mdi6.share-all-outline"
+                        icon_name: "mdi7.share-all-outline"
                         label: qsTr("Perform All Tasks (Ctrl+Enter)");
                         enabled: converterPage.startConversionButton.enabled
                     }
                     IconMenuItem {
                         id: clearTasksMenuItem
                         action: actions.clearTasks;
-                        icon_name: "mdi6.refresh"
+                        icon_name: "mdi7.refresh"
                         label: qsTr("Clear Tasks (Ctrl+R)");
                         enabled: converterPage.taskList.count > 0
                     }
                     MenuSeparator {}
                     IconMenuItem {
                         action: actions.swapInputOutput;
-                        icon_name: "mdi6.swap-vertical"
+                        icon_name: "mdi7.swap-vertical"
                         label: qsTr("Swap Input and Output (Ctrl+Tab)");
                     }
                 },
@@ -230,16 +230,16 @@ ToolBar {
                     title: qsTr("Plugins (&P)")
                     IconMenuItem {
                         action: actions.installPlugin;
-                        icon_name: "mdi6.puzzle-plus-outline"
+                        icon_name: "mdi7.puzzle-plus-outline"
                         label: qsTr("Install a Plugin (Ctrl+I)")
                     }
                     IconMenuItem {
-                        icon_name: "mdi6.puzzle-edit-outline"
+                        icon_name: "mdi7.puzzle-edit-outline"
                         label: qsTr("Manage Plugins")
                         enabled: false
                     }
                     IconMenuItem {
-                        icon_name: "mdi6.store-search"
+                        icon_name: "mdi7.store-search"
                         label: qsTr("Open Plugin Store")
                         enabled: false
                     }
@@ -346,17 +346,17 @@ ToolBar {
                     width: 250
                     IconMenuItem {
                         action: actions.openAbout;
-                        icon_name: "mdi6.information-outline"
+                        icon_name: "mdi7.information-outline"
                         label: qsTr("About (Ctrl+A)");
                     }
                     IconMenuItem {
-                        icon_name: "mdi6.progress-upload"
+                        icon_name: "mdi7.progress-upload"
                         label: qsTr("Check for Updates");
                         enabled: true
                         onTriggered: Notifier.check_for_updates()
                     }
                     IconMenuItem {
-                        icon_name: "mdi6.text-box-search-outline"
+                        icon_name: "mdi7.text-box-search-outline"
                         label: qsTr("Documentation (F1)");
                         enabled: false
                     }
@@ -389,7 +389,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: IconicFontLoader.icon("mdi6.window-minimize")
+                text: IconicFontLoader.icon("mdi7.window-minimize")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: window.showMinimized()
@@ -407,7 +407,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi6.window-restore") : IconicFontLoader.icon("mdi6.window-maximize")
+                text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi7.window-restore") : IconicFontLoader.icon("mdi7.window-maximize")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: toggleMaximized()
@@ -423,7 +423,7 @@ ToolBar {
                 flat: true
                 implicitWidth: 46
                 background.implicitWidth: implicitWidth
-                text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi6.close") + "</font>" : IconicFontLoader.icon("mdi6.close")
+                text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi7.close") + "</font>" : IconicFontLoader.icon("mdi7.close")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.2
                 onClicked: actions.quit.trigger()

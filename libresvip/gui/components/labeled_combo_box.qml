@@ -73,7 +73,7 @@ ComboBox {
         anchors.right: parent.right
         anchors.rightMargin: 20
         y: parent.height / 2 - 5
-        text: IconicFontLoader.icon("mdi6.menu-down")
+        text: IconicFontLoader.icon("mdi7.menu-down")
         font.family: "Material Design Icons"
         font.pixelSize: (parent.height - 10) / 2
     }
@@ -94,11 +94,11 @@ ComboBox {
         }
 
         onAboutToShow: {
-            combo.indicator.text = IconicFontLoader.icon("mdi6.menu-up")
+            combo.indicator.text = IconicFontLoader.icon("mdi7.menu-up")
         }
 
         onAboutToHide: {
-            combo.indicator.text = IconicFontLoader.icon("mdi6.menu-down")
+            combo.indicator.text = IconicFontLoader.icon("mdi7.menu-down")
         }
     }
 }

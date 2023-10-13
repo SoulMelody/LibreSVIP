@@ -51,7 +51,7 @@ Dialog {
             }
             IconButton {
                 Layout.alignment: Qt.AlignRight
-                icon_name: "mdi6.close"
+                icon_name: "mdi7.close"
                 diameter: 30
                 icon_size_multiplier: 1.5
                 onClicked: settingsDialog.close()

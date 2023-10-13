@@ -39,7 +39,7 @@ ColumnLayout {
             Layout.alignment: Qt.AlignVCenter
             anchors.right: parent.right
             Label {
-                text: IconicFontLoader.icon("mdi6.transfer-right")
+                text: IconicFontLoader.icon("mdi7.transfer-right")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.5
             }
@@ -58,7 +58,7 @@ ColumnLayout {
             }
 
             IconButton {
-                icon_name: "mdi6.trash-can-outline"
+                icon_name: "mdi7.trash-can-outline"
                 icon_size_multiplier: 1.2
                 onClicked: {
                     converterPage.taskList.model.delete(index)
@@ -75,7 +75,7 @@ ColumnLayout {
                     id: successButton
                     anchors.centerIn: parent
                     visible: false
-                    text: IconicFontLoader.icon("mdi6.check")
+                    text: IconicFontLoader.icon("mdi7.check")
                     background: Rectangle {
                         color: Material.color(Material.Green, Material.Shade300)
                         radius: parent.height / 2
@@ -138,7 +138,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: IconicFontLoader.icon("mdi6.minus-thick")
+                    text: IconicFontLoader.icon("mdi7.minus-thick")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
@@ -181,7 +181,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: IconicFontLoader.icon("mdi6.alert-circle")
+                    text: IconicFontLoader.icon("mdi7.alert-circle")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height

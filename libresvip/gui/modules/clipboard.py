@@ -1,6 +1,8 @@
-from qtpy.QtCore import QObject, Slot
-from qtpy.QtGui import QGuiApplication
-from qtpy.QtQml import QmlElement, QmlSingleton
+from PySide6.QtCore import QObject, Slot
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QmlElement, QmlSingleton
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -16,5 +18,5 @@ class Clipboard(QObject):
 
     @Slot(str, result=bool)
     def set_clipboard(self, text):
-        self.clipboard.setText(text)
+        self.clipboard.set_text(text)
         return True

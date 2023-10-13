@@ -1,13 +1,15 @@
 import pathlib
 
-from qtpy.QtCore import QUrl
-from qtpy.QtGui import QDesktopServices
+from PySide6.QtCore import QUrl
+from PySide6.QtGui import QDesktopServices
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 
-def open_path(path: pathlib.Path):
-    output_url = QUrl.fromLocalFile(path)
-    QDesktopServices.openUrl(output_url)
+def open_path(path: pathlib.Path) -> None:
+    output_url = QUrl.from_local_file(path)
+    QDesktopServices.open_url(output_url)
 
 
-def open_url(url: str):
-    QDesktopServices.openUrl(QUrl(url))
+def open_url(url: str) -> None:
+    QDesktopServices.open_url(QUrl(url))

@@ -1,5 +1,5 @@
-from qtpy.QtGui import QGuiApplication
-from qtpy.QtQml import QQmlApplicationEngine
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QQmlApplicationEngine
 
 __all__ = [
     "app",
