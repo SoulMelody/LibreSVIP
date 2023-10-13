@@ -186,6 +186,11 @@ build_exe_options = {
     ],
 }
 
+bdist_dmg_options = {
+    "volume_label": "LibreSVIP",
+    "applications_shortcut": True,
+}
+
 executables = [
     Executable(
         "../libresvip/cli/__main__.py",
@@ -203,7 +208,10 @@ executables = [
 setup(
     name="LibreSVIP",
     version=libresvip.__version__,
-    options={"build_exe": build_exe_options},
+    options={
+        "build_exe": build_exe_options,
+        "bdist_dmg": bdist_dmg_options,
+    },
     executables=executables,
     cmdclass={
         "bdist_portable": BdistPortable,

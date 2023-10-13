@@ -85,6 +85,7 @@ class Notifier(QObject):
                     remote_version = Version(data["tag_name"].removeprefix("v"))
                     if remote_version > local_version:
                         uname = platform.uname()
+                        arch = uname.machine.lower()
                         buttons = [
                             Button(
                                 self.tr("Open in Browser"),
@@ -94,8 +95,9 @@ class Notifier(QObject):
                                 ),
                             )
                         ]
-                        if uname.machine.endswith("64"):
-                            arch = uname.machine.lower()
+                        if arch.endswith("64") and (
+                            "aarch" not in arch and "arm" not in arch
+                        ):
                             asset = None
                             if uname.system == "Windows":
                                 asset = next(
@@ -116,6 +118,18 @@ class Notifier(QObject):
                                         if fnmatch.fnmatch(
                                             asset["name"],
                                             f"LibreSVIP-*.linux-{arch}.tar.gz",
+                                        )
+                                    ),
+                                    None,
+                                )
+                            elif uname.system == "Darwin":
+                                asset = next(
+                                    (
+                                        asset
+                                        for asset in data["assets"]
+                                        if fnmatch.fnmatch(
+                                            asset["name"],
+                                            f"LibreSVIP-*.macos-{arch}.dmg",
                                         )
                                     ),
                                     None,

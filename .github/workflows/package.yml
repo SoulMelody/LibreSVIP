@@ -24,6 +24,8 @@ jobs:
             arch: win-x64
           - runs-on: ubuntu-latest
             arch: linux-x64
+          - runs-on: macos-latest
+            arch: osx-x64
 
     steps:
       - uses: actions/checkout@v3
@@ -40,10 +42,19 @@ jobs:
       - name: Install dependencies
         run: pdm sync -G desktop -G ujson -G packaging --no-editable
       - name: Build with cx_freeze (Windows & Linux)
+        if: matrix.os.runs-on != 'macos-latest'
         run: |
           cd packaging
           pdm run python setup.py bdist_portable
-          cd ../..
+          cd ..
+      - name: Build with cx_freeze (MacOS Intel)
+        if: matrix.os.runs-on == 'macos-latest'
+        run: |
+          cd packaging
+          pdm run python setup.py bdist_dmg
+          mkdir dist
+          mv build/LibreSVIP.dmg dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
+          cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
@@ -56,6 +67,13 @@ jobs:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
+      - name: Create Release for MacOS Intel
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'macos-latest'
+        with:
+          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
       - name: Create Release for Windows
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'windows-latest'
