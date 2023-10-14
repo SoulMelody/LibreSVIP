@@ -5,6 +5,7 @@ import os
 import pathlib
 import sys
 
+import nicegui
 import shellingham
 from cx_Freeze import Executable, setup
 
@@ -26,10 +27,24 @@ with contextlib.suppress(Exception):
 include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
 
 base = "Win32GUI" if sys.platform == "win32" else None
+nicegui_assets_dir = pathlib.Path(nicegui.__path__[0]) / "elements" / "lib"
 
 
 build_exe_options = {
-    "bin_excludes": [],
+    "bin_excludes": [
+        asset_path.name
+        for lib_name in [
+            "aggrid",
+            "echarts",
+            "highcharts",
+            "mermaid",
+            "plotly",
+            "three",
+            "vanilla-jsoneditor",
+        ]
+        for asset_path in (nicegui_assets_dir / lib_name).rglob("*")
+        if asset_path.is_file()
+    ],
     # exclude packages that are not really needed
     "excludes": [
         "aiohttp",
