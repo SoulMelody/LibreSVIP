@@ -177,6 +177,7 @@ build_exe_options = {
         "proto",
         "pymediainfo",
         "PySide6.QtQuick",
+        "PySide6.QtOpenGL",
         "srt",
         "textx",
         "xsdata",
