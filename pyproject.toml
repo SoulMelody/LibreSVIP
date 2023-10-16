@@ -64,7 +64,10 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 [project.optional-dependencies]
 
 ujson = ["ujson>=5.8.0"]
-webui = ["nicegui[native]>=1.3.16"]
+webui = [
+  "nicegui[native]>=1.3.17",
+  "python-socketio>=5.10.0"
+]
 desktop = [
   "pyside6<6.6.0,>=6.5.1",
   "fonticon-materialdesignicons7>=7.2.96",
@@ -77,16 +80,16 @@ desktop = [
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.22.1",
-  "gapic-generator>=1.11.7",
-  "click-default-group>=1.2",
-  "docformatter>=1.7.2",
-  "toposort>=1.5",
+  "gapic-generator>=1.11.8",
+  "click-default-group>=1.2.4",
+  "docformatter>=1.7.5",
+  "toposort>=1.10",
 ]
 i18n = ["translate-toolkit>=3.10.1", "babel>=2.13.0"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.5.0",
-  "ruff>=0.0.292",
+  "ruff>=0.1.0",
   "black>=23.9.1",
   "mypy>=1.6.0",
   "sourcery>=1.10.1",
@@ -96,7 +99,7 @@ packaging = [
   "pyinstaller>=6.1.0",
   "shellingham<2.0.0,>=1.5.3",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.4.5"]
+docs = ["mkdocs-material<10.0.0,>=9.4.6"]
 test = ["pytest>=7.4.2", "pytest-datadir>=1.5.0"]
 typing_stubs = [
   "types-protobuf>=4.24.0.2",
