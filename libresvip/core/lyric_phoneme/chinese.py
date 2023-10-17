@@ -5,7 +5,7 @@ import pypinyin
 import zhon
 
 ENGLISH_CHARS: re.Pattern[str] = re.compile(r"[a-zA-Z]+")
-CHINESE_RE: re.Pattern[str] = re.compile(zhon.hanzi.characters)
+CHINESE_RE: re.Pattern[str] = re.compile(rf"[{zhon.hanzi.characters}]")
 WHITE_SPACE: re.Pattern[str] = re.compile(r"[\s\n\r\t]+")
 
 
