@@ -55,7 +55,7 @@ dependencies = [
   "zstd<2.0.0,>=1.5.5.1",
 ]
 name = "libresvip"
-version = "0.9.3"
+version = "0.9.4"
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 
