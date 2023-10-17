@@ -1,5 +1,5 @@
 import ctypes
-from ctypes.wintypes import MSG, WPARAM
+from ctypes.wintypes import MSG
 from typing import Optional
 
 from PySide6.QtCore import QObject, QPoint, QRect, Qt
@@ -30,10 +30,7 @@ class FramelessWindow(QQuickWindow):
     def __init__(self, parent: QObject = None, border_width: int = 5):
         super().__init__(parent)
         self.flags = (
-            self.flags
-            | Qt.WindowType.FramelessWindowHint
-            | Qt.WindowType.Window
-            | Qt.WindowType.WindowMinMaxButtonsHint
+            self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
         )
         self.border_width = border_width
         self.maximize_btn = None
@@ -87,8 +84,6 @@ class FramelessWindow(QQuickWindow):
         return dwmapi.DwmExtendFrameIntoClientArea(self.hwnd, ctypes.byref(margins))
 
     def native_event(self, event_type: bytes, message: int) -> tuple[bool, int]:
-        if self.caption_label is None:
-            self.caption_label: QQuickItem = self.find_child(QQuickItem, "captionLabel")
         if self.maximize_btn is None:
             self.maximize_btn: QQuickItem = self.find_child(
                 QQuickItem, "maximizeButton"
@@ -161,16 +156,6 @@ class FramelessWindow(QQuickWindow):
                                 ),
                             )
                             self.maximize_btn_hovered = False
-                    if self.caption_label is not None:
-                        top_left = self.caption_label.map_to_global(QPoint(0, 0))
-                        rect = QRect(
-                            top_left.x() - self.x,
-                            top_left.y() - self.y,
-                            self.caption_label.width,
-                            self.caption_label.height,
-                        )
-                        if rect.contains(x_pos, y_pos):
-                            return True, win32con.HTCAPTION
             elif msg.message in [
                 win32con.WM_NCLBUTTONDOWN,
                 win32con.WM_NCLBUTTONDBLCLK,
@@ -187,10 +172,16 @@ class FramelessWindow(QQuickWindow):
                         self.maximize_btn.height,
                     )
                     if rect.contains(x_pos, y_pos):
-                        if self.visibility == QQuickWindow.Visibility.Maximized:
-                            self.show_normal()
-                        else:
-                            self.show_maximized()
+                        QGuiApplication.send_event(
+                            self.maximize_btn,
+                            QMouseEvent(
+                                QMouseEvent.Type.MouseButtonPress,
+                                QPoint(),
+                                Qt.MouseButton.NoButton,
+                                Qt.MouseButton.NoButton,
+                                Qt.KeyboardModifier.NoModifier,
+                            ),
+                        )
                         return True, 0
             elif msg.message in [win32con.WM_NCLBUTTONUP, win32con.WM_NCRBUTTONUP]:
                 pos = QCursor.pos()
@@ -215,27 +206,6 @@ class FramelessWindow(QQuickWindow):
                                 Qt.KeyboardModifier.NoModifier,
                             ),
                         )
-                if (
-                    msg.message == win32con.WM_NCRBUTTONUP
-                    and msg.wParam == win32con.HTCAPTION
-                ):
-                    pos = QCursor.pos()
-                    hwnd = self.hwnd
-                    if menu := ctypes.windll.user32.GetSystemMenu(hwnd, False):
-                        if cmd := ctypes.windll.user32.TrackPopupMenuEx(
-                            menu,
-                            win32con.TPM_LEFTALIGN
-                            | win32con.TPM_TOPALIGN
-                            | win32con.TPM_NONOTIFY
-                            | win32con.TPM_RETURNCMD,
-                            pos.x(),
-                            pos.y(),
-                            hwnd,
-                            None,
-                        ):
-                            ctypes.windll.user32.PostMessageW(
-                                hwnd, win32con.WM_SYSCOMMAND, WPARAM(cmd), 0
-                            )
             elif msg.message == win32con.WM_NCCALCSIZE:
                 return True, win32con.WVR_REDRAW if msg.wParam else 0
             elif msg.message == win32con.WM_ACTIVATE:

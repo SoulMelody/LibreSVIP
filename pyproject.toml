@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 license = { text = "MIT" }
-requires-python = ">=3.9,<3.12"
+requires-python = ">=3.9,<3.13"
 classifiers = [
   'Development Status :: 4 - Beta',
   'Programming Language :: Python',
@@ -12,6 +12,7 @@ classifiers = [
   'Programming Language :: Python :: 3.9',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
   'Intended Audience :: Developers',
   'Intended Audience :: End Users/Desktop',
   'License :: OSI Approved :: MIT License',
@@ -69,7 +70,7 @@ webui = [
   "python-socketio>=5.10.0"
 ]
 desktop = [
-  "pyside6<6.6.0,>=6.5.1",
+  "pyside6<6.7.0,>=6.5.1,!=6.5.3",
   "fonticon-materialdesignicons7>=7.2.96",
   "qtinter>=0.11.0",
   "httpx>=0.24.1",
@@ -90,7 +91,7 @@ linting = [
   "isort>=5.12.0",
   "pre-commit>=3.5.0",
   "ruff>=0.1.0",
-  "black>=23.9.1",
+  "black>=23.10.0",
   "mypy>=1.6.0",
   "sourcery>=1.10.1",
 ]
