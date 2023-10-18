@@ -65,7 +65,11 @@ class FramelessWindow(QQuickWindow):
         user32.SetWindowLongW(
             hwnd,
             win32con.GWL_STYLE,
-            style | win32con.CS_DBLCLKS | win32con.WS_THICKFRAME,
+            style
+            | win32con.WS_MAXIMIZEBOX
+            | win32con.WS_CAPTION
+            | win32con.CS_DBLCLKS
+            | win32con.WS_THICKFRAME,
         )
 
         style = user32.GetWindowLongW(hwnd, win32con.GWL_EXSTYLE)

@@ -57,17 +57,81 @@ ToolBar {
 
     RowLayout {
         anchors.fill: parent
-        Rectangle {
-            width: 48
-            height: 48
-            color: "transparent"
-            Image {
-                anchors.centerIn: parent
-                source: ConfigItems.icon_data()
-                sourceSize.width: 20
-                sourceSize.height: 20
+        layoutDirection: Qt.RightToLeft
+
+        RowLayout {
+            Layout.alignment: Qt.AlignRight
+            spacing: 0
+            Button {
+                id: minimizeButton
+                Material.roundedScale: Material.NotRounded
+                Layout.fillHeight: true
+                leftPadding: 0
+                rightPadding: 0
+                topInset: 0
+                flat: true
+                implicitWidth: 46
+                background.implicitWidth: implicitWidth
+                text: IconicFontLoader.icon("mdi7.window-minimize")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize * 1.2
+                onClicked: window.showMinimized()
+            }
+
+            Button {
+                id: maximizeButton
+                objectName: "maximizeButton"
+                Material.roundedScale: Material.NotRounded
+                Layout.fillHeight: true
+                hoverEnabled: true
+                leftPadding: 0
+                rightPadding: 0
+                topInset: 0
+                flat: true
+                implicitWidth: 46
+                background.implicitWidth: implicitWidth
+                text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi7.window-restore") : IconicFontLoader.icon("mdi7.window-maximize")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize * 1.2
+                onClicked: toggleMaximized()
+            }
+
+            Button {
+                id: exitButton
+                Material.roundedScale: Material.NotRounded
+                Layout.fillHeight: true
+                leftPadding: 0
+                rightPadding: 0
+                topInset: 0
+                flat: true
+                implicitWidth: 46
+                background.implicitWidth: implicitWidth
+                text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi7.close") + "</font>" : IconicFontLoader.icon("mdi7.close")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize * 1.2
+                onClicked: actions.quit.trigger()
+                onHoveredChanged: {
+                    if (hovered) {
+                        exitButton.background.color = Material.color(Material.Red)
+                    } else {
+                        exitButton.background.color = "transparent"
+                    }
+                }
             }
         }
+
+        Label {
+            objectName: "captionLabel"
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            verticalAlignment: Text.AlignVCenter
+            text: window.title + " - " + qsTr("SVS Projects Converter")
+            font.pixelSize: Qt.application.font.pixelSize * 1.2
+            elide: Text.ElideRight
+        }
+
+        ToolSeparator {}
+
         MenuBar {
             id: menus
             spacing: 0
@@ -364,76 +428,15 @@ ToolBar {
             ]
         }
 
-        ToolSeparator {}
-
-        Label {
-            objectName: "captionLabel"
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            verticalAlignment: Text.AlignVCenter
-            text: window.title + " - " + qsTr("SVS Projects Converter")
-            font.pixelSize: Qt.application.font.pixelSize * 1.2
-            elide: Text.ElideRight
-        }
-
-        RowLayout {
-            Layout.alignment: Qt.AlignRight
-            spacing: 0
-            Button {
-                id: minimizeButton
-                Material.roundedScale: Material.NotRounded
-                Layout.fillHeight: true
-                leftPadding: 0
-                rightPadding: 0
-                topInset: 0
-                flat: true
-                implicitWidth: 46
-                background.implicitWidth: implicitWidth
-                text: IconicFontLoader.icon("mdi7.window-minimize")
-                font.family: "Material Design Icons"
-                font.pixelSize: Qt.application.font.pixelSize * 1.2
-                onClicked: window.showMinimized()
-            }
-
-            Button {
-                id: maximizeButton
-                objectName: "maximizeButton"
-                Material.roundedScale: Material.NotRounded
-                Layout.fillHeight: true
-                hoverEnabled: true
-                leftPadding: 0
-                rightPadding: 0
-                topInset: 0
-                flat: true
-                implicitWidth: 46
-                background.implicitWidth: implicitWidth
-                text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi7.window-restore") : IconicFontLoader.icon("mdi7.window-maximize")
-                font.family: "Material Design Icons"
-                font.pixelSize: Qt.application.font.pixelSize * 1.2
-                onClicked: toggleMaximized()
-            }
-
-            Button {
-                id: exitButton
-                Material.roundedScale: Material.NotRounded
-                Layout.fillHeight: true
-                leftPadding: 0
-                rightPadding: 0
-                topInset: 0
-                flat: true
-                implicitWidth: 46
-                background.implicitWidth: implicitWidth
-                text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi7.close") + "</font>" : IconicFontLoader.icon("mdi7.close")
-                font.family: "Material Design Icons"
-                font.pixelSize: Qt.application.font.pixelSize * 1.2
-                onClicked: actions.quit.trigger()
-                onHoveredChanged: {
-                    if (hovered) {
-                        exitButton.background.color = Material.color(Material.Red)
-                    } else {
-                        exitButton.background.color = "transparent"
-                    }
-                }
+        Rectangle {
+            width: 48
+            height: 48
+            color: "transparent"
+            Image {
+                anchors.centerIn: parent
+                source: ConfigItems.icon_data()
+                sourceSize.width: 20
+                sourceSize.height: 20
             }
         }
     }
