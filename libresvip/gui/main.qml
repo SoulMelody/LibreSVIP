@@ -48,7 +48,7 @@ FramelessWindow {
             id: toolbar
         }
         anchors.fill: parent
-        anchors.margins: (window.visibility === Window.Maximized && Qt.platform.os === "windows") ? 8 : 0
+        anchors.margins: 0
     }
 
     Component {

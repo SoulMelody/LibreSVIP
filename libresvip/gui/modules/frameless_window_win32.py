@@ -30,11 +30,13 @@ class FramelessWindow(QQuickWindow):
     def __init__(self, parent: QObject = None, border_width: int = 5):
         super().__init__(parent)
         self.flags = (
-            self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
+            self.flags
+            | Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Window
+            | Qt.WindowType.WindowMinMaxButtonsHint
         )
         self.border_width = border_width
         self.maximize_btn = None
-        self.caption_label = None
         self.maximize_btn_hovered = False
         self.set_borderless()
         screen_geometry = self.screen().available_geometry
@@ -63,11 +65,7 @@ class FramelessWindow(QQuickWindow):
         user32.SetWindowLongW(
             hwnd,
             win32con.GWL_STYLE,
-            style
-            | win32con.WS_MAXIMIZEBOX
-            | win32con.WS_CAPTION
-            | win32con.CS_DBLCLKS
-            | win32con.WS_THICKFRAME,
+            style | win32con.CS_DBLCLKS | win32con.WS_THICKFRAME,
         )
 
         style = user32.GetWindowLongW(hwnd, win32con.GWL_EXSTYLE)
