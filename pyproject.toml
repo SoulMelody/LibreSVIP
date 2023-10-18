@@ -77,11 +77,18 @@ desktop = [
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
 ]
 
+[project.scripts]
+libresvip-cli = "libresvip.cli.__main__:app"
+libresvip-web = "libresvip.web.__main__:main"
+
+[project.gui-scripts]
+libresvip-gui = "libresvip.gui.__main__:run"
+
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.22.1",
-  "gapic-generator>=1.11.8",
+  "gapic-generator>=1.11.9",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
@@ -93,7 +100,7 @@ linting = [
   "ruff>=0.1.0",
   "black>=23.10.0",
   "mypy>=1.6.1",
-  "sourcery>=1.10.1",
+  "sourcery>=1.11.0",
 ]
 packaging = [
   "cx-freeze>=6.15.9",
@@ -112,11 +119,6 @@ typing_stubs = [
 [tool.pdm.build]
 includes = ["libresvip"]
 excludes = ["tests", "libresvip/plugins/*/*.po"]
-
-[tool.pdm.scripts]
-libresvip-cli = { call = "libresvip.cli.__main__:app" }
-libresvip-gui = { call = "libresvip.gui.__main__:run" }
-libresvip-web = { call = "libresvip.web.__main__:main" }
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"

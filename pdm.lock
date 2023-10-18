@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:d4c1501627f34b33ecf5dc06eda19dd8a5daa1139e71c863a342017cabc34ee3"
+content_hash = "sha256:0a547cce296ae53d32e7fd07a622ad94de0810040d52759074a82ad64561cca7"
 
 [[package]]
 name = "aiofiles"
@@ -771,7 +771,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.11.8"
+version = "1.11.9"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
@@ -788,8 +788,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.11.8.tar.gz", hash = "sha256:b1672e75940d13d3c832937a04bc25d574951a0ba1cbd9123da3dfd4854c334e"},
-    {file = "gapic_generator-1.11.8-py3-none-any.whl", hash = "sha256:1ca4e35e16f528e3630fc72766cd5f48d12fe2b86d543f83c5572bd1c9641ff2"},
+    {file = "gapic-generator-1.11.9.tar.gz", hash = "sha256:7fdf0d9c82a959db8e5255a5f766fe7f87485402db2fdc50014c51fca76e2933"},
+    {file = "gapic_generator-1.11.9-py3-none-any.whl", hash = "sha256:7139a19db27b0f8988c6696cb1edee55b78b6965c5843dc7aef4fe44dda68c7d"},
 ]
 
 [[package]]
@@ -1678,6 +1678,10 @@ summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
     "nicegui==1.3.17",
     "pywebview<5.0.0,>=4.0.2",
+]
+files = [
+    {file = "nicegui-1.3.17-py3-none-any.whl", hash = "sha256:96a492654702b3608eda2ae569c59143d5459f68fa0fbc508ba8cf09582e5cab"},
+    {file = "nicegui-1.3.17.tar.gz", hash = "sha256:605943e2e3bcc07a7a762396d396b5316a032cb507fa28b647543738ac7ae1ee"},
 ]
 
 [[package]]
@@ -2871,12 +2875,12 @@ files = [
 
 [[package]]
 name = "sourcery"
-version = "1.10.1"
+version = "1.11.0"
 summary = "Magically refactor Python"
 files = [
-    {file = "sourcery-1.10.1-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:ab5cb4e5681cd6b6093cfdfba782703578f879fbe0f46b07451386386fb285d3"},
-    {file = "sourcery-1.10.1-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:7588811152c6bc846ed57fbbf6df74160f80883c6b2a55b6c1fa0029a0ea33dd"},
-    {file = "sourcery-1.10.1-py2.py3-none-win_amd64.whl", hash = "sha256:c5adfd268dcff47c155e8765d78a71de8eef9331281ab127eae28d9581b1e775"},
+    {file = "sourcery-1.11.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:81e6ae979c33a8cdff585d99c376f2cef18e25e35eadaa39e12df60fdeda9e2a"},
+    {file = "sourcery-1.11.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:775fd902a982024ebc10bc8169b3a83466942130d073777fffe03631d6624992"},
+    {file = "sourcery-1.11.0-py2.py3-none-win_amd64.whl", hash = "sha256:e6508b7e9bb1b7b9ccd5d06e814ee4d87c14b632bb002005965305628be43fb9"},
 ]
 
 [[package]]
