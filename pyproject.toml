@@ -70,7 +70,7 @@ webui = [
   "python-socketio>=5.10.0"
 ]
 desktop = [
-  "pyside6<6.7.0,>=6.5.1,!=6.5.3",
+  "pyside6<6.7.0,>=6.6.0",
   "fonticon-materialdesignicons7>=7.2.96",
   "qtinter>=0.11.0",
   "httpx>=0.24.1",

@@ -10,7 +10,7 @@ FramelessWindow {
     id: window
     title: qsTr("LibreSVIP")
     visible: true
-    minimumWidth: 800
+    minimumWidth: 600
     minimumHeight: 600
     width: 1200
     height: 800
@@ -48,7 +48,7 @@ FramelessWindow {
             id: toolbar
         }
         anchors.fill: parent
-        anchors.margins: 0
+        anchors.margins: (window.visibility === Window.Maximized && Qt.platform.os === "windows") ? 8 : 0
     }
 
     Component {

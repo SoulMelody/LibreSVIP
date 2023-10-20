@@ -463,7 +463,7 @@ class TaskManager(QObject):
                 plugin_info_filename = plugin_file
         return plugin_info_filename
 
-    @Slot(list, result=object)
+    @Slot(list, result="QVariant")
     def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
         infos = []
         for path in paths:

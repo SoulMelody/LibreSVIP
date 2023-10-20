@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:275ed3b1e800e7786ae36df5cbcbfe42ef3e13926e2e597d963f0e6961315af8"
+content_hash = "sha256:6aaa1d66a53c3f02e1944bd459a5571bdf4b770bd4d519a5dbffd61a14f4b2ab"
 
 [[package]]
 name = "aiofiles"
@@ -883,10 +883,6 @@ summary = "Common protobufs used in Google APIs"
 dependencies = [
     "googleapis-common-protos==1.61.0",
     "grpcio<2.0.0.dev0,>=1.44.0",
-]
-files = [
-    {file = "googleapis-common-protos-1.61.0.tar.gz", hash = "sha256:8a64866a97f6304a7179873a465d6eee97b7a24ec6cfd78e0f575e96b821240b"},
-    {file = "googleapis_common_protos-1.61.0-py2.py3-none-any.whl", hash = "sha256:22f1915393bb3245343f6efe87f6fe868532efc12aa26b391b15132e1279f1c0"},
 ]
 
 [[package]]
