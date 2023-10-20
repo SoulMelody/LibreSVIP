@@ -14,8 +14,8 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.9.0\n"
 
 #: .ust.format_desc
-msgid "Project file of the original UTAU"
-msgstr "原版UTAU工程文件"
+msgid "UTAU Sequence Text"
+msgstr "UTAU 序列文本"
 
 #: .ust.description
 msgid "Conversion plugin for UST file format"

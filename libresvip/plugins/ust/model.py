@@ -29,7 +29,7 @@ UTAUProject:
         (LineBreak 'MapFirst=' map_first=BOOL) |
         (LineBreak 'Flags=' flags=/[^\r\n]*/)
     )*
-    (track*=UTAUTrack)
+    (track*=UTAUTrack) LineBreak*
 ;
 UTAUTimeSignature:
     '(' numerator=INT '/' denominator=INT '/' bar_index=INT ')'
@@ -47,9 +47,10 @@ UTAUOptionalFloat: FLOAT | '';
 UTAUPitchBendType: '5' | 'OldData';
 UTAUTrack:
     notes+=UTAUNote
-    (LineBreak '[#TRACKEND]' LineBreak*)?
+    (LineBreak '[#TRACKEND]')?
 ;
 UTAUNoteType: /(\d{4}|PREV|NEXT|INSERT|DELETE)/;
+UTAUNoteHead: '[#' UTAUNoteType ']';
 UTAUNote:
     LineBreak '[#' note_type=UTAUNoteType ']'
     (
@@ -84,9 +85,9 @@ UTAUNote:
         (LineBreak '@filename' '=' sample_filename=/[^\r\n]*/) |
         (LineBreak '@alias' '=' alias=/[^\r\n]*/) |
         (LineBreak '@cache' '=' cache_location=/[^\r\n]*/) |
-        (LineBreak key=/\$[^=]+/ '=' value=/[^\r\n]*/)
+        (LineBreak key=/\$?[^=\r\n]+/ '=' value=/[^\r\n]*/) |
+        (LineBreak !UTAUNoteHead /[^=\r\n]*/)
     )*
-    (LineBreak /[\s\S]+/)?
 ;
 """
 
