@@ -16,10 +16,8 @@ class ModelProxy(QAbstractListModel):
     """
     references:
         https://github.com/likianta/qmlease/blob/master/qmlease/qmlside/model/model.py
-        https://pyblish.gitbooks.io/developer-guide/content/qml_and_python
-            _interoperability.html
-        https://stackoverflow.com/questions/54687953/declaring-a
-            -qabstractlistmodel-as-a-property-in-pyside2
+        https://pyblish.gitbooks.io/developer-guide/content/qml_and_python_interoperability.html
+        https://stackoverflow.com/questions/54687953/declaring-a-qabstractlistmodel-as-a-property-in-pyside2
     """
 
     _defaults: dict[str, Any]  # see also `self._auto_complete`
@@ -89,7 +87,7 @@ class ModelProxy(QAbstractListModel):
         self._items[index:index] = list(map(self._auto_complete, items))
         self.end_insert_rows()
 
-    @Slot(result=object)
+    @Slot(result="QVariant")
     def pop(self) -> Item:
         self.begin_remove_rows(
             QModelIndex(), len(self._items) - 1, len(self._items) - 1
@@ -98,7 +96,7 @@ class ModelProxy(QAbstractListModel):
         self.end_remove_rows()
         return out
 
-    @Slot(int, result=object)
+    @Slot(int, result="QVariant")
     def pop_many(self, count: int) -> Items:
         assert count > 0
         self.begin_remove_rows(
@@ -109,24 +107,22 @@ class ModelProxy(QAbstractListModel):
         self.end_remove_rows()
         return b
 
-    @Slot(int, result=object)
-    def delete(self, index: int) -> Item:
+    @Slot(int)
+    def delete(self, index: int) -> None:
         self.begin_remove_rows(QModelIndex(), index, index)
-        out = self._items.pop(index)
+        self._items.pop(index)
         self.end_remove_rows()
-        return out
 
-    @Slot(int, int, result=object)
-    def delete_many(self, index: int, count: int) -> Items:
+    @Slot(int, int)
+    def delete_many(self, index: int, count: int) -> None:
         assert count > 0
         self.begin_remove_rows(QModelIndex(), index, index + count - 1)
-        a, b = (
+        a, _ = (
             self._items[:index] + self._items[index + count :],
             self._items[index : index + count],
         )
         self._items = a
         self.end_remove_rows()
-        return b
 
     @Slot(int, int)
     def move(self, old_index: int, new_index: int) -> None:
