@@ -36,7 +36,6 @@ build_exe_options = {
         for lib_name in [
             "aggrid",
             "echarts",
-            "highcharts",
             "mermaid",
             "plotly",
             "three",
@@ -58,6 +57,7 @@ build_exe_options = {
         "Cython",
         "sqlite3",
         "test",
+        "pandas",
         "pep517",
         "PIL",
         "plotly",

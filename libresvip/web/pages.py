@@ -21,8 +21,8 @@ from typing import Any, Optional, TypedDict, Union, get_args, get_type_hints
 from urllib.parse import quote
 
 from nicegui import app, ui
+from nicegui.context import get_client
 from nicegui.events import KeyEventArguments, UploadEventArguments
-from nicegui.globals import get_client
 from nicegui.storage import request_contextvar
 from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
@@ -248,7 +248,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             TypedDict(f"{attr_prefix.title()}Options", field_types)(),
         )
         option_dict = getattr(selected_formats, attr_prefix + "_options")
-        with ui.column():
+        with ui.column().classes("w-full"):
             for i, (option_key, field_info) in enumerate(
                 option_class.model_fields.items(),
             ):
@@ -852,7 +852,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         with ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter:
             with main_splitter.before:
                 with ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
-                    with left_splitter.before, ui.card().classes("h-full"):
+                    with left_splitter.before, ui.card().classes("h-full w-full"):
                         with ui.column().classes("w-full"):
                             ui.label(_("Choose file format")).classes(
                                 "text-h5 font-bold",
