@@ -26,7 +26,7 @@ classifiers = [
   'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
 ]
 dependencies = [
-  "charset-normalizer<4.0.0,>=3.3.0",
+  "charset-normalizer<4.0.0,>=3.3.1",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.3.0",
   "importlib-resources<7.0.0,>=6.1.0; python_version < \"3.10\"",
@@ -55,7 +55,7 @@ dependencies = [
   "zstd<2.0.0,>=1.5.5.1",
 ]
 name = "libresvip"
-version = "0.9.4"
+version = "0.9.5"
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 
@@ -66,8 +66,7 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 
 ujson = ["ujson>=5.8.0"]
 webui = [
-  "nicegui[native]>=1.3.17",
-  "python-socketio>=5.10.0"
+  "nicegui[native]>=1.3.18",
 ]
 desktop = [
   "pyside6<6.7.0,>=6.6.0",
@@ -110,11 +109,14 @@ packaging = [
 docs = ["mkdocs-material<10.0.0,>=9.4.6"]
 test = ["pytest>=7.4.2", "pytest-datadir>=1.5.0"]
 typing_stubs = [
-  "types-protobuf>=4.24.0.2",
+  "types-protobuf>=4.24.0.3",
   "types-pyyaml>=6.0.12.12",
   "types-ujson>=5.8.0.1",
   "types-zstd>=1.5.0.3",
 ]
+
+[tool.pdm.resolution.overrides]
+construct = "<2.11.0,>=2.10.69"
 
 [tool.pdm.build]
 includes = ["libresvip"]
