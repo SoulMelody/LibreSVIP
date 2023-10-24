@@ -424,7 +424,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
                                         f"navigator.clipboard.writeText({repr(info.error)})",
-                                        respond=False,
                                     ),
                                 )
                                 ui.button(_("Close"), on_click=error_dialog.close)
@@ -447,7 +446,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
                                         f"navigator.clipboard.writeText({repr(info.warning)})",
-                                        respond=False,
                                     ),
                                 )
                                 ui.button(_("Close"), on_click=warn_dialog.close)
@@ -663,7 +661,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     elif e.key == "h":
                         help_menu.open()
                     elif e.key == "o":
-                        await ui.run_javascript("add_upload()", respond=False)
+                        ui.run_javascript("add_upload()")
                     elif e.key == "i":
                         about_dialog.open()
                     elif e.key == "\\":
@@ -701,7 +699,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             ui.tooltip("Alt+C")
             with ui.menu() as convert_menu:
                 with ui.menu_item(
-                    on_click=lambda: ui.run_javascript("add_upload()", respond=False),
+                    on_click=lambda: ui.run_javascript("add_upload()"),
                 ):
                     ui.tooltip("Alt+O")
                     with ui.row().classes("items-center"):
@@ -965,7 +963,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                                     async def hide() -> None:
                                         nonlocal call_times
-                                        if call_times and await ui.run_javascript(
+                                        if call_times and ui.run_javascript(
                                             '!document.querySelector(".toolbar-fab-active")',
                                         ):
                                             fab.run_method("hide")
@@ -1007,7 +1005,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 icon="add",
                                 on_click=lambda: ui.run_javascript(
                                     "add_upload()",
-                                    respond=False,
                                 ),
                             ).props("round").classes(
                                 "absolute bottom-0 right-2 m-2 z-10",
