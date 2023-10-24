@@ -4,7 +4,7 @@ from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.utils import to_unicode
 
-from .model import USTModel
+from .model import ust_grammar, ust_visitor
 from .options import InputOptions, OutputOptions
 from .template import render_ust
 from .ust_generator import USTGenerator
@@ -13,7 +13,8 @@ from .ust_parser import USTParser
 
 class USTConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ust_project = USTModel.model_from_str(to_unicode(path.read_bytes()))
+        tree = ust_grammar.parse(to_unicode(path.read_bytes()))
+        ust_project = ust_visitor.visit(tree)
         return USTParser(options).parse_project(ust_project)
 
     def dump(

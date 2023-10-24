@@ -16,7 +16,7 @@ class USTGenerator:
     def generate_project(self, project: Project) -> UTAUProject:
         if not project.song_tempo_list:
             project.song_tempo_list.append(SongTempo(bpm=DEFAULT_BPM))
-        tempos = [str(round(project.song_tempo_list[0].bpm, 2))]
+        tempo = project.song_tempo_list[0].bpm
         if self.options.version < 2.0:
             if self.options.track_index < 0:
                 first_singing_track = next(
@@ -50,10 +50,10 @@ class USTGenerator:
             ]
         return UTAUProject(
             charset=self.options.encoding,
-            ust_version=[self.options.version],
-            tempo=tempos,
+            ust_version=self.options.version,
+            tempo=tempo,
             track=ust_tracks,
-            pitch_mode2=[True],
+            pitch_mode2=True,
         )
 
     def generate_track(
@@ -77,12 +77,12 @@ class USTGenerator:
             cur_bpm = bpm_for_note(tempo_list, note)
             utau_note = UTAUNote(
                 note_type=str(i).zfill(4),
-                lyric=[note.lyric],
-                length=[note.length],
-                note_num=[note.key_number],
+                lyric=note.lyric,
+                length=note.length,
+                note_num=note.key_number,
                 pitch_bend_points=mode1_pitch.pitch_points,
-                pitchbend_type=["5"],
-                pitchbend_start=[0],
+                pitchbend_type="5",
+                pitchbend_start=0,
             )
             if mode2_pitch:
                 utau_note.pbs = [mode2_pitch.start]
@@ -94,18 +94,9 @@ class USTGenerator:
                 if mode2_pitch.curve_types:
                     utau_note.pbm = mode2_pitch.curve_types
                 if mode2_pitch.vibrato_params:
-                    vibrato_params = mode2_pitch.vibrato_params
-                    utau_note.vbr = [
-                        vibrato_params.length,
-                        vibrato_params.period,
-                        vibrato_params.depth,
-                        vibrato_params.fade_in,
-                        vibrato_params.fade_out,
-                        vibrato_params.phase_shift,
-                        vibrato_params.shift,
-                    ]
+                    utau_note.vbr = mode2_pitch.vibrato_params
             if cur_bpm != prev_bpm:
-                utau_note.tempo = [str(round(cur_bpm, 2))]
+                utau_note.tempo = cur_bpm
                 prev_bpm = cur_bpm
             utau_notes.append(utau_note)
         return UTAUTrack(

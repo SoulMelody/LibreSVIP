@@ -36,6 +36,7 @@ dependencies = [
   "more-itertools<11.0.0,>=10.1.0",
   "omegaconf<3.0.0,>=2.3.0",
   "packaging<24.0,>=23.2",
+  "parsimonious<0.11.0,>=0.10.0",
   "platformdirs<4.0.0,>=3.11.0",
   "portion<3.0.0,>=2.4.1",
   "proto-plus<2.0.0,>=1.22.3",
@@ -46,7 +47,6 @@ dependencies = [
   "pypinyin<1.0.0,>=0.49.0",
   "rich<14.0.0,>=13.6.0",
   "srt<4.0.0,>=3.5.3",
-  "textx<4.0.0,>=3.1.1",
   "typer<1.0.0,>=0.9.0",
   "universal-pathlib<1.0.0,>=0.1.4",
   "wanakana-python<2.0.0,>=1.2.2",
@@ -92,19 +92,19 @@ code_gen = [
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.10.1", "babel>=2.13.0"]
+i18n = ["translate-toolkit>=3.10.1", "babel>=2.13.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.5.0",
-  "ruff>=0.1.1",
+  "ruff>=0.1.2",
   "black>=23.10.1",
   "mypy>=1.6.1",
   "sourcery>=1.11.0",
 ]
 packaging = [
-  "cx-freeze>=6.15.9",
+  "cx-freeze>=6.15.10",
   "pyinstaller>=6.1.0",
-  "shellingham<2.0.0,>=1.5.3",
+  "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.4.6"]
 test = ["pytest>=7.4.2", "pytest-datadir>=1.5.0"]

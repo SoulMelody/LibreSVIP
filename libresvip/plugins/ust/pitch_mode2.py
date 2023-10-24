@@ -11,9 +11,9 @@ from libresvip.utils import find_last_index
 
 from .constants import MODE2_PITCH_MAX_POINT_COUNT, MODE2_PITCH_SAMPLING_INTERVAL_TICK
 from .interpolation import interpolate
-from .model import UTAUPitchBendMode
+from .model import UtauNoteVibrato, UTAUPitchBendMode
 from .rdp_simplification import simplify_shape_to
-from .vibrato_param import UtauNoteVibratoParams, append_utau_note_vibrato
+from .vibrato_param import append_utau_note_vibrato
 
 
 def milli_sec_from_tick(tick: int, bpm: float) -> float:
@@ -28,7 +28,7 @@ class UtauMode2NotePitchData:
     widths: list[float] = dataclasses.field(default_factory=list)  # milliSec
     shifts: list[float] = dataclasses.field(default_factory=list)  # 10 cents
     curve_types: list[UTAUPitchBendMode] = dataclasses.field(default_factory=list)
-    vibrato_params: Optional[UtauNoteVibratoParams] = None
+    vibrato_params: Optional[UtauNoteVibrato] = None
 
 
 @dataclasses.dataclass

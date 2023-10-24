@@ -11,19 +11,21 @@ plugin_registry = plugin_manager.plugin_registry
 
 
 def test_ust_write(shared_datadir):
-    from libresvip.plugins.ust.model import USTModel
+    from libresvip.plugins.ust.model import ust_grammar, ust_visitor
     from libresvip.plugins.ust.template import render_ust
 
     proj_path = shared_datadir / "test.ust"
-    proj = USTModel.model_from_str(to_unicode(proj_path.read_bytes()))
+    tree = ust_grammar.parse(to_unicode(proj_path.read_bytes()))
+    proj = ust_visitor.visit(tree)
     render_ust(proj, pathlib.Path("test.ust"), encoding="utf-8")
 
 
 def test_nn_read(shared_datadir):
-    from libresvip.plugins.nn.model import NNModel
+    from libresvip.plugins.nn.model import nn_grammar, nn_visitor
 
     proj_path = shared_datadir / "test.nn"
-    proj = NNModel.model_from_file(proj_path, encoding="utf-8")
+    tree = nn_grammar.parse(proj_path.read_text(encoding="utf-8"))
+    proj = nn_visitor.visit(tree)
     for note in proj.notes:
         print(len(note.dynamics.points))
 

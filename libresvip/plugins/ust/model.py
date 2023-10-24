@@ -1,111 +1,140 @@
-from typing import Literal, NamedTuple, Optional, Union
+import ast
+from typing import Any, Literal, Optional, Union
 
-from pydantic import Field
-from textx import metamodel_from_str
+from parsimonious import Grammar, NodeVisitor
+from parsimonious.nodes import Node
+from pydantic import BaseModel, Field
 
-from libresvip.model.base import BaseModel
+from .constants import MAX_ACCEPTED_BPM
 
-grammar = r"""
-UTAUProject:
-    (
-        '[#VERSION]'
-        LineBreak 'UST Version' '='? ust_version=FLOAT
-        (LineBreak 'Charset=' charset=/[^\r\n]*/)?
-    )?
-    LineBreak? '[#SETTING]'
-    (LineBreak 'UstVersion=' ust_version=FLOAT)?
-    (
-        (LineBreak 'Tempo=' tempo=/[^\r\n]*/) |
-        (LineBreak 'TimeSignatures=' time_signatures*=UTAUTimeSignature[','] ','?) |
-        (LineBreak 'Tracks=' track_count=INT) |
-        (LineBreak 'Project' 'Name'? '=' project_name=/[^\r\n]*/) |
-        (LineBreak 'VoiceDir=' voice_dir=/[^\r\n]*/) |
-        (LineBreak 'OutFile=' out_file=/[^\r\n]*/) |
-        (LineBreak 'CacheDir=' cache_dir=/[^\r\n]*/) |
-        (LineBreak 'Tool1=' tool1=/[^\r\n]*/) |
-        (LineBreak 'Tool2=' tool2=/[^\r\n]*/) |
-        (LineBreak 'Mode2=' pitch_mode2=BOOL) |
-        (LineBreak 'Autoren=' autoren=BOOL) |
-        (LineBreak 'MapFirst=' map_first=BOOL) |
-        (LineBreak 'Flags=' flags=/[^\r\n]*/)
-    )*
-    (track*=UTAUTrack) LineBreak*
-;
-UTAUTimeSignature:
-    '(' numerator=INT '/' denominator=INT '/' bar_index=INT ')'
-;
-LineBreak: '\r'? '\n';
-UTAUEnvelope:
-    (p1=FLOAT ',' p2=FLOAT ',' p3=FLOAT ',' v1=FLOAT ',' v2=FLOAT ',' v3=FLOAT ',' v4=FLOAT) (
-        (',,' p4=FLOAT) |
-        (',%,' p4=FLOAT (',' p5=FLOAT (',' v5=FLOAT)?)?) |
-        (',' other_points+=FLOAT[','])
-    )?
-;
-UTAUPitchBendMode: /[srj]/ | '';
-UTAUOptionalFloat: FLOAT | '';
-UTAUPitchBendType: '5' | 'OldData';
-UTAUTrack:
-    notes+=UTAUNote
-    (LineBreak '[#TRACKEND]')?
-;
-UTAUNoteType: /(\d{4}|PREV|NEXT|INSERT|DELETE)/;
-UTAUNoteHead: '[#' UTAUNoteType ']';
-UTAUNote:
-    LineBreak '[#' note_type=UTAUNoteType ']'
-    (
-        (LineBreak 'Length' '=' length=FLOAT) |
-        (LineBreak 'Duration' '=' duration=FLOAT) |
-        (LineBreak 'Lyric' '=' lyric=/[^\r\n]*/) |
-        (LineBreak 'NoteNum' '=' note_num=INT) |
-        (LineBreak 'Delta' '=' delta=INT) |
-        (LineBreak 'PreUtterance' '=' pre_utterance=/[^\r\n]*/) |
-        (LineBreak 'VoiceOverlap' '=' voice_overlap=FLOAT) |
-        (LineBreak 'Intensity' '=' intensity=FLOAT) |
-        (LineBreak /(Modulation|Moduration)/ '=' modulation=FLOAT) |
-        (LineBreak 'StartPoint' '=' start_point=FLOAT) |
-        (LineBreak 'Envelope' '=' envelope=UTAUEnvelope) |
-        (LineBreak 'Tempo' '=' tempo=/[^\r\n]*/) |
-        (LineBreak 'Velocity' '=' velocity=FLOAT) |
-        (LineBreak 'Label' '=' label=/[^\r\n]*/) |
-        (LineBreak 'Flags' '=' flags=/[^\r\n]*/) |
-        (LineBreak 'PBType' '=' pitchbend_type=UTAUPitchBendType) |
-        (LineBreak 'PBStart' '=' pitchbend_start=FLOAT) |
-        (LineBreak /(Piches|Pitches|PitchBend)/ '=' pitch_bend_points*=INT[',']) |
-        (LineBreak 'PBS' '=' pbs+=FLOAT[/;|,/]) |
-        (LineBreak 'PBW' '=' pbw*=UTAUOptionalFloat[',']) |
-        (LineBreak 'PBY' '=' pby*=UTAUOptionalFloat[',']) |
-        (LineBreak 'VBR' '=' vbr*=UTAUOptionalFloat[',']) |
-        (LineBreak 'PBM' '=' pbm*=UTAUPitchBendMode[',']) |
-        (LineBreak 'stptrim' '=' stp_trim=FLOAT) |
-        (LineBreak 'layer' '=' layer=INT) |
-        (LineBreak '@preuttr' '=' at_preutterance=FLOAT) |
-        (LineBreak '@overlap' '=' at_overlap=FLOAT) |
-        (LineBreak '@stpoint' '=' at_start_point=FLOAT) |
-        (LineBreak '@filename' '=' sample_filename=/[^\r\n]*/) |
-        (LineBreak '@alias' '=' alias=/[^\r\n]*/) |
-        (LineBreak '@cache' '=' cache_location=/[^\r\n]*/) |
-        (LineBreak key=/\$?[^=\r\n]+/ '=' value=/[^\r\n]*/) |
-        (LineBreak !UTAUNoteHead /[^=\r\n]*/)
-    )*
-;
-"""
+ust_grammar = Grammar(
+    r"""
+    ust_project =
+        ust_header?
+        ust_setting_section
+        ust_track*
+        newline*
+
+    ust_header =
+        "[#VERSION]"
+        newline "UST Version" "="? float
+        (newline "Charset" "=" value)?
+
+    ust_setting_section =
+        newline? "[#SETTING]"
+        (newline ust_setting_line)*
+
+    ust_time_signature =
+        "(" int "/" int  "/" int ")"
+
+    ust_setting_line =
+        ("UstVersion" "=" float) /
+        ("Tempo" "=" value) /
+        ("TimeSignatures" "=" ust_time_signature ("," ust_time_signature)* ","?) /
+        ("Tracks" "=" int) /
+        (~"Project(Name)?" "=" value) /
+        ("VoiceDir" "=" value) /
+        ("OutFile" "=" value) /
+        ("CacheDir" "=" value) /
+        ("Tool1" "=" value) /
+        ("Tool2" "=" value) /
+        ("Mode2" "=" bool) /
+        ("Autoren" "=" bool) /
+        ("MapFirst" "=" bool) /
+        ("Flags" "=" value)
+
+    ust_track =
+        ust_note*
+        (newline ust_track_end)?
+
+    ust_note =
+        newline ust_note_head
+        (newline ust_note_attr)*
+
+    ust_note_head =
+        "[#" ~"(\d{4}|PREV|NEXT|INSERT|DELETE)" "]"
+
+    ust_track_end = "[#TRACKEND]"
+
+    ust_tag_entry = ust_note_head / ust_track_end
+
+    utau_pitch_bend_mode =
+        "s" / "r" / "j" / ""
+
+    ust_pitch_bend_type =
+        "5" / "OldData"
+
+    ust_note_attr =
+        ("Length" "=" float) /
+        ("Duration" "=" float) /
+        ("Lyric" "=" value) /
+        ("NoteNum" "=" int) /
+        ("Delta" "=" int) /
+        ("PreUtterance" "=" value) /
+        ("VoiceOverlap" "=" float) /
+        ("Intensity" "=" float) /
+        (~"Modulation|Moduration" "=" float) /
+        ("StartPoint" "=" float) /
+        ("Envelope" "=" ust_envelope) /
+        ("Tempo" "=" value) /
+        ("Velocity" "=" float) /
+        ("Label" "=" value) /
+        ("Flags" "=" value) /
+        ("PBType" "=" ust_pitch_bend_type) /
+        ("PBStart" "=" float) /
+        (~"Piches|Pitches|PitchBend" "=" int ("," int)* ) /
+        ("PBS" "=" float (~";|," float)* ) /
+        ("PBW" "=" optional_float ("," optional_float)*) /
+        ("PBY" "=" optional_float ("," optional_float)*) /
+        ("VBR" "=" optional_float ("," optional_float)*) /
+        ("PBM" "=" utau_pitch_bend_mode ("," utau_pitch_bend_mode)* ) /
+        ("stptrim" "=" float) /
+        ("layer" "=" int) /
+        ("@preuttr" "=" float) /
+        ("@overlap" "=" float) /
+        ("@stpoint" "=" float) /
+        ("@filename" "=" value) /
+        ("@alias" "=" value) /
+        ("@cache" "=" value) /
+        (~"\$?[^=\r\n]+" "=" value) /
+        (!ust_tag_entry value)
+
+    ust_envelope =
+        float ("," float){6}
+        (
+            (",%," float ("," float ("," float)?)?) /
+            (",," float) /
+            ("," float)*
+        )
+
+    value = ~"[^\r\n]*"
+    newline = ~"\r?\n"
+    bool = "1" / "0" / "True" / "False"
+    optional_float = float?
+    float = (int frac) / int
+    int = "-"? ((digit1to9 digits) / digit)
+    frac = "." digits
+    digits = digit+
+    digit1to9 = ~"[1-9]"
+    digit = ~"[0-9]"
+    """
+)
 
 UTAUPitchBendMode = Literal["s", "r", "j", ""]
 
 UTAUPitchBendType = Literal["OldData", "5"]
 
-UTAUOptionalFloat = Union[float, Literal[""]]
+OptionalFloat = Union[float, Literal[""]]
 
 
-class UTAUVibrato(NamedTuple):
-    length: float
-    period: float
-    depth: Optional[float]
-    fade_in: Optional[float]
-    fade_out: Optional[float]
-    phase_shift: Optional[float]
-    shift: Optional[float]
+class UtauNoteVibrato(BaseModel):
+    length: float  # percentage of the note's length
+    period: float  # milliSec
+    depth: float = 0  # cent
+    fade_in: float = 0  # percentage of the vibrato's length
+    fade_out: float = 0  # percentage of the vibrato's length
+    phase_shift: float = 0  # percentage of period
+    shift: float = 0  # percentage of depth
 
 
 class UTAUEnvelope(BaseModel):
@@ -124,39 +153,37 @@ class UTAUEnvelope(BaseModel):
 
 class UTAUNote(BaseModel):
     note_type: str
-    length: list[int] = Field(default_factory=list)
-    duration: list[int] = Field(default_factory=list)
-    lyric: list[str] = Field(default_factory=list)
-    note_num: list[int] = Field(default_factory=list)
-    delta: list[int] = Field(default_factory=list)
-    key: list[str] = Field(default_factory=list)
-    value: list[str] = Field(default_factory=list)
-    pre_utterance: list[str] = Field(default_factory=list)
-    voice_overlap: list[float] = Field(default_factory=list)
-    intensity: list[float] = Field(default_factory=list)
-    modulation: list[float] = Field(default_factory=list)
-    start_point: list[float] = Field(default_factory=list)
-    envelope: list[UTAUEnvelope] = Field(default_factory=list)
-    tempo: list[str] = Field(default_factory=list)
-    velocity: list[float] = Field(default_factory=list)
-    label: list[str] = Field(default_factory=list)
-    flags: list[str] = Field(default_factory=list)
-    pitchbend_type: list[UTAUPitchBendType] = Field(default_factory=list)
-    pitchbend_start: list[float] = Field(default_factory=list)
+    length: int
+    lyric: str
+    note_num: int
+    duration: Optional[int] = None
+    delta: Optional[int] = None
+    pre_utterance: Optional[str] = None
+    label: Optional[str] = None
+    flags: Optional[str] = None
+    envelope: Optional[UTAUEnvelope] = None
+    voice_overlap: Optional[float] = None
+    intensity: Optional[float] = None
+    modulation: Optional[float] = None
+    start_point: Optional[float] = None
+    tempo: Optional[float] = None
+    velocity: Optional[float] = None
+    pitchbend_start: Optional[float] = None
+    pitchbend_type: Optional[UTAUPitchBendType] = None
     pitch_bend_points: list[int] = Field(default_factory=list)
     pbs: list[float] = Field(default_factory=list)
-    pbw: list[UTAUOptionalFloat] = Field(default_factory=list)
-    pby: list[UTAUOptionalFloat] = Field(default_factory=list)
-    vbr: list[UTAUOptionalFloat] = Field(default_factory=list)
+    pbw: list[OptionalFloat] = Field(default_factory=list)
+    pby: list[OptionalFloat] = Field(default_factory=list)
     pbm: list[UTAUPitchBendMode] = Field(default_factory=list)
-    stp_trim: list[float] = Field(default_factory=list)
-    layer: list[int] = Field(default_factory=list)
-    at_preutterance: list[float] = Field(default_factory=list)
-    at_overlap: list[float] = Field(default_factory=list)
-    at_start_point: list[float] = Field(default_factory=list)
-    sample_filename: list[str] = Field(default_factory=list)
-    alias: list[str] = Field(default_factory=list)
-    cache_location: list[str] = Field(default_factory=list)
+    vbr: Optional[UtauNoteVibrato] = None
+    stp_trim: Optional[float] = None
+    layer: Optional[int] = None
+    at_preutterance: Optional[float] = None
+    at_overlap: Optional[float] = None
+    at_start_point: Optional[float] = None
+    sample_filename: Optional[str] = None
+    alias: Optional[str] = None
+    cache_location: Optional[str] = None
 
 
 class UTAUTrack(BaseModel):
@@ -170,32 +197,231 @@ class UTAUTimeSignature(BaseModel):
 
 
 class UTAUProject(BaseModel):
-    ust_version: list[float] = Field(default_factory=list)
+    ust_version: float
+    project_name: str = "New Project"
+    track_count: int = 1
+    pitch_mode2: bool = False
     charset: Optional[str] = None
-    tempo: list[str] = Field(default_factory=list)
+    tempo: Optional[float] = None
+    voice_dir: Optional[str] = None
+    out_file: Optional[str] = None
+    cache_dir: Optional[str] = None
+    tool1: Optional[str] = None
+    tool2: Optional[str] = None
+    flags: Optional[str] = None
+    autoren: Optional[bool] = None
+    map_first: Optional[bool] = None
     time_signatures: list[UTAUTimeSignature] = Field(default_factory=list)
-    project_name: list[str] = Field(default_factory=list)
-    voice_dir: list[str] = Field(default_factory=list)
-    out_file: list[str] = Field(default_factory=list)
-    cache_dir: list[str] = Field(default_factory=list)
-    tool1: list[str] = Field(default_factory=list)
-    tool2: list[str] = Field(default_factory=list)
-    autoren: list[bool] = Field(default_factory=list)
-    map_first: list[bool] = Field(default_factory=list)
-    flags: list[str] = Field(default_factory=list)
-    track_count: list[int] = Field(default_factory=list)
-    pitch_mode2: list[bool] = Field(default_factory=list)
     track: list[UTAUTrack] = Field(default_factory=list)
 
 
-USTModel = metamodel_from_str(
-    grammar,
-    skipws=False,
-    classes=[
-        UTAUProject,
-        UTAUTrack,
-        UTAUNote,
-        UTAUEnvelope,
-        UTAUTimeSignature,
-    ],
-)
+class UstVisitor(NodeVisitor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.pending_metadata: dict[str, Any] = {}
+        self.pending_note_attrs: dict[str, Any] = {}
+        self.pending_notes: list[UTAUNote] = []
+
+    @staticmethod
+    def tempo2bpm(tempo: str) -> float:
+        return float(tempo.replace(",", "."))
+
+    def visit_ust_project(self, node: Node, visited_children: list[Any]) -> UTAUProject:
+        self.pending_metadata["track"] = [
+            track for track in visited_children[2] if track is not None
+        ]
+        return UTAUProject(**self.pending_metadata)
+
+    def visit_ust_header(self, node: Node, visited_children: list[Any]) -> None:
+        self.pending_metadata["ust_version"] = visited_children[4]
+        if isinstance(visited_children[-1], list):
+            self.pending_metadata["charset"] = visited_children[-1][-1][-1]
+
+    def visit_ust_setting_line(self, node: Node, visited_children: list[Any]) -> None:
+        key = visited_children[0][0].text
+        if key == "Tempo":
+            if (
+                tempo_value := self.tempo2bpm(visited_children[0][2])
+            ) < MAX_ACCEPTED_BPM:
+                self.pending_metadata["tempo"] = tempo_value
+        elif key == "UstVersion":
+            self.pending_metadata["ust_version"] = visited_children[0][2]
+        elif key == "Tracks":
+            self.pending_metadata["track_count"] = visited_children[0][2]
+        elif key in ("Project", "ProjectName"):
+            self.pending_metadata["project_name"] = visited_children[0][2]
+        elif key == "Mode2":
+            self.pending_metadata["pitch_mode2"] = visited_children[0][2]
+        elif key == "VoiceDir":
+            self.pending_metadata["voice_dir"] = visited_children[0][2]
+        elif key == "OutFile":
+            self.pending_metadata["out_file"] = visited_children[0][2]
+        elif key == "CacheDir":
+            self.pending_metadata["cache_dir"] = visited_children[0][2]
+        elif key == "Tool1":
+            self.pending_metadata["tool1"] = visited_children[0][2]
+        elif key == "Tool2":
+            self.pending_metadata["tool2"] = visited_children[0][2]
+        elif key == "Autoren":
+            self.pending_metadata["autoren"] = visited_children[0][2]
+        elif key == "MapFirst":
+            self.pending_metadata["map_first"] = visited_children[0][2]
+        elif key == "Flags":
+            self.pending_metadata["flags"] = visited_children[0][2]
+        elif key == "TimeSignatures":
+            numerator, denominator, bar_index = visited_children[0][2][1::2]
+            self.pending_metadata["time_signatures"] = [
+                UTAUTimeSignature(
+                    numerator=numerator, denominator=denominator, bar_index=bar_index
+                )
+            ]
+            for pair in visited_children[0][3]:
+                numerator, denominator, bar_index = pair[1][1::2]
+                self.pending_metadata["time_signatures"].append(
+                    UTAUTimeSignature(
+                        numerator=numerator,
+                        denominator=denominator,
+                        bar_index=bar_index,
+                    )
+                )
+
+    def visit_ust_envelope(
+        self, node: Node, visited_children: list[Any]
+    ) -> UTAUEnvelope:
+        kwargs = {"p1": visited_children[0]}
+        (
+            kwargs["p2"],
+            kwargs["p3"],
+            kwargs["v1"],
+            kwargs["v2"],
+            kwargs["v3"],
+            kwargs["v4"],
+        ) = (pair[1] for pair in visited_children[1][:6])
+        if isinstance(visited_children[2][0], list):
+            if isinstance(visited_children[2][0][0], list):
+                kwargs["other_points"] = [pair[1] for pair in visited_children[2][0]]
+            elif visited_children[2][0][0].text == ",,":
+                kwargs["p4"] = visited_children[2][0][1]
+            elif visited_children[2][0][0].text == ",%,":
+                kwargs["p4"] = visited_children[2][0][1]
+                if isinstance(visited_children[2][0][2], list):
+                    kwargs["p5"] = visited_children[2][0][2][0][1]
+                    if isinstance(visited_children[2][0][2][0][2], list):
+                        kwargs["v5"] = visited_children[2][0][2][0][2][0][1]
+        return UTAUEnvelope(**kwargs)
+
+    def visit_value(self, node: Node, visited_children: list[Any]) -> str:
+        return node.text
+
+    def visit_utau_pitch_bend_mode(
+        self, node: Node, visited_children: list[Any]
+    ) -> str:
+        return node.text
+
+    def visit_ust_pitch_bend_type(self, node: Node, visited_children: list[Any]) -> str:
+        return node.text
+
+    def visit_ust_note_attr(self, node: Node, visited_children: list[Any]) -> None:
+        key = visited_children[0][0].text
+        if key == "Length":
+            self.pending_note_attrs["length"] = visited_children[0][2]
+        elif key == "Lyric":
+            self.pending_note_attrs["lyric"] = visited_children[0][2]
+        elif key == "NoteNum":
+            self.pending_note_attrs["note_num"] = visited_children[0][2]
+        elif key == "Tempo":
+            self.pending_note_attrs["tempo"] = self.tempo2bpm(visited_children[0][2])
+        elif key == "PBType":
+            self.pending_note_attrs["pitchbend_type"] = visited_children[0][2]
+        elif key == "PBStart":
+            self.pending_note_attrs["pitchbend_start"] = visited_children[0][2]
+        elif key in ("Modulation", "Moduration"):
+            self.pending_note_attrs["modulation"] = visited_children[0][2]
+        elif key == "Envelope":
+            self.pending_note_attrs["envelope"] = visited_children[0][2]
+        elif key == "Flags":
+            self.pending_note_attrs["flags"] = visited_children[0][2]
+        elif key == "Intensity":
+            self.pending_note_attrs["intensity"] = visited_children[0][2]
+        elif key == "Velocity":
+            self.pending_note_attrs["velocity"] = visited_children[0][2]
+        elif key == "PreUtterance":
+            self.pending_note_attrs["pre_utterance"] = visited_children[0][2]
+        elif key == "StartPoint":
+            self.pending_note_attrs["start_point"] = visited_children[0][2]
+        elif key == "Delta":
+            self.pending_note_attrs["delta"] = visited_children[0][2]
+        elif key == "Duration":
+            self.pending_note_attrs["duration"] = visited_children[0][2]
+        elif key == "VoiceOverlap":
+            self.pending_note_attrs["voice_overlap"] = visited_children[0][2]
+        elif key == "Label":
+            self.pending_note_attrs["label"] = visited_children[0][2]
+        elif key in ("Piches", "Pitches", "PitchBend"):
+            self.pending_note_attrs["pitch_bend_points"] = [visited_children[0][2]]
+            if isinstance(visited_children[0][3], list):
+                self.pending_note_attrs["pitch_bend_points"].extend(
+                    [pair[1] for pair in visited_children[0][3]]
+                )
+        elif key in ("PBS", "PBM", "PBW", "PBY"):
+            self.pending_note_attrs[key.lower()] = [visited_children[0][2]]
+            if isinstance(visited_children[0][3], list):
+                self.pending_note_attrs[key.lower()].extend(
+                    [pair[1] for pair in visited_children[0][3]]
+                )
+        elif key == "VBR":
+            vibrato_kwargs = {"length": visited_children[0][2]}
+            for i, pair in enumerate(visited_children[0][3]):
+                if isinstance(pair[1], float):
+                    if i == 0:
+                        vibrato_kwargs["period"] = pair[1]
+                    elif i == 1:
+                        vibrato_kwargs["depth"] = pair[1]
+                    elif i == 2:
+                        vibrato_kwargs["fade_in"] = pair[1]
+                    elif i == 3:
+                        vibrato_kwargs["fade_out"] = pair[1]
+                    elif i == 4:
+                        vibrato_kwargs["phase_shift"] = pair[1]
+                    elif i == 5:
+                        vibrato_kwargs["shift"] = pair[1]
+            self.pending_note_attrs["vbr"] = UtauNoteVibrato(**vibrato_kwargs)
+        # else:
+        # ignored
+
+    def visit_ust_note_head(self, node: Node, visited_children: list[Any]) -> str:
+        if len(self.pending_note_attrs):
+            self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
+            self.pending_note_attrs = {}
+        self.pending_note_attrs["note_type"] = visited_children[1].text
+
+    def visit_ust_track(
+        self, node: Node, visited_children: list[Any]
+    ) -> Optional[UTAUTrack]:
+        if len(self.pending_note_attrs):
+            self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
+            self.pending_note_attrs = {}
+        if len(self.pending_notes):
+            ust_track = UTAUTrack(notes=self.pending_notes)
+            self.pending_notes = []
+            return ust_track
+
+    def visit_bool(self, node: Node, visited_children: list[Any]) -> bool:
+        return ast.literal_eval(node.text)
+
+    def visit_int(self, node: Node, visited_children: list[Any]) -> int:
+        return int(node.text)
+
+    def visit_float(self, node: Node, visited_children: list[Any]) -> float:
+        return float(node.text)
+
+    def visit_optional_float(
+        self, node: Node, visited_children: list[Any]
+    ) -> OptionalFloat:
+        return visited_children[0] if len(visited_children) == 1 else node.text
+
+    def generic_visit(self, node: Node, visited_children: list[Any]) -> Any:
+        return visited_children or node
+
+
+ust_visitor = UstVisitor()
