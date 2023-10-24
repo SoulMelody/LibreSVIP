@@ -117,6 +117,7 @@ typing_stubs = [
 
 [tool.pdm.resolution.overrides]
 construct = "<2.11.0,>=2.10.69"
+winsdk = "==1.0.0b10"
 
 [tool.pdm.build]
 includes = ["libresvip"]

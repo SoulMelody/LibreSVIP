@@ -6,7 +6,7 @@ groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packagin
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:e468f33ac08640bda37ec9c2161191c27d6c1efbe540d512dd3914589761c976"
+content_hash = "sha256:906cfe86247dc052f9f984627034ec208994ba31ea2470fec98fd58d60d4845b"
 
 [[package]]
 name = "aiofiles"
@@ -3439,20 +3439,23 @@ files = [
 
 [[package]]
 name = "winsdk"
-version = "1.0.0b9"
-requires_python = ">=3.7"
+version = "1.0.0b10"
+requires_python = ">=3.8"
 summary = "Python bindings for the Windows SDK"
 files = [
-    {file = "winsdk-1.0.0b9-cp310-cp310-win32.whl", hash = "sha256:b6bcf6ed7a0e97793c7b75e0acac0eb5fb658e0fcbcf12b1b3631e7eb668b294"},
-    {file = "winsdk-1.0.0b9-cp310-cp310-win_amd64.whl", hash = "sha256:dc44220e107f51c2bf2b3ba46b4c7140f53f3f3e1b7662e0cb18739acb7478d0"},
-    {file = "winsdk-1.0.0b9-cp310-cp310-win_arm64.whl", hash = "sha256:c17c76d7a9328d4da5b569beffcc3403ee32cdb8194b340dfc1df9a3a5866f0e"},
-    {file = "winsdk-1.0.0b9-cp311-cp311-win32.whl", hash = "sha256:f8cb2a1cf67c452f5479f6d6f80744fb00fb595ba5feb80be05354a21fdd7692"},
-    {file = "winsdk-1.0.0b9-cp311-cp311-win_amd64.whl", hash = "sha256:e0c55273575f4fc4992a6bb67e6229890aa88db8dea9c3c580e3a4c358f9833d"},
-    {file = "winsdk-1.0.0b9-cp311-cp311-win_arm64.whl", hash = "sha256:cc6ae631aa18f3c3eac975562f2874de11131363c45130dedd557e7789a2d165"},
-    {file = "winsdk-1.0.0b9-cp39-cp39-win32.whl", hash = "sha256:1127ec12faa8793e82cc64d983a84d46a20806c24782d2469e5445b008828076"},
-    {file = "winsdk-1.0.0b9-cp39-cp39-win_amd64.whl", hash = "sha256:d19d7095cf6368161e32deede8e2cebc164589b881f56dce4ad110b54417e989"},
-    {file = "winsdk-1.0.0b9-cp39-cp39-win_arm64.whl", hash = "sha256:ce56f4739dc71e3dd65cd9ffb2f527871285aca097fc1fc24f1865d6327bab18"},
-    {file = "winsdk-1.0.0b9.tar.gz", hash = "sha256:207d35f9ab445521d4f060b5c1f2181660390cd3db27b32961af7438478fb226"},
+    {file = "winsdk-1.0.0b10-cp310-cp310-win32.whl", hash = "sha256:90f75c67e166d588a045bcde0117a4631c705904f7af4ac42644479dcf0d8c52"},
+    {file = "winsdk-1.0.0b10-cp310-cp310-win_amd64.whl", hash = "sha256:c3be3fbf692b8888bac8c0712c490c080ab8976649ef01f9f6365947f4e5a8b1"},
+    {file = "winsdk-1.0.0b10-cp310-cp310-win_arm64.whl", hash = "sha256:6ab69dd65d959d94939c21974a33f4f1dfa625106c8784435ecacbd8ff0bf74d"},
+    {file = "winsdk-1.0.0b10-cp311-cp311-win32.whl", hash = "sha256:9ea4fdad9ca8a542198aee3c753ac164b8e2f550d760bb88815095d64750e0f5"},
+    {file = "winsdk-1.0.0b10-cp311-cp311-win_amd64.whl", hash = "sha256:f12e25bbf0a658270203615677520b8170edf500fba11e0f80359c5dbf090676"},
+    {file = "winsdk-1.0.0b10-cp311-cp311-win_arm64.whl", hash = "sha256:e77bce44a9ff151562bd261b2a1a8255e258bb10696d0d31ef63267a27628af1"},
+    {file = "winsdk-1.0.0b10-cp312-cp312-win32.whl", hash = "sha256:775a55a71e05ec2aa262c1fd67d80f270d4186bbdbbee2f43c9c412cf76f0761"},
+    {file = "winsdk-1.0.0b10-cp312-cp312-win_amd64.whl", hash = "sha256:8231ce5f16e1fc88bb7dda0adf35633b5b26101eae3b0799083ca2177f03e4e5"},
+    {file = "winsdk-1.0.0b10-cp312-cp312-win_arm64.whl", hash = "sha256:f4ab469ada19b34ccfc69a148090f98b40a1da1da797b50b9cbba0c090c365a5"},
+    {file = "winsdk-1.0.0b10-cp39-cp39-win32.whl", hash = "sha256:4f04d3e50eeb8ca5fe4eb2e39785f3fa594199819acdfb23a10aaef4b97699ad"},
+    {file = "winsdk-1.0.0b10-cp39-cp39-win_amd64.whl", hash = "sha256:7948bc5d8a02d73b1db043788d32b2988b8e7e29a25e503c21d34478e630eaf1"},
+    {file = "winsdk-1.0.0b10-cp39-cp39-win_arm64.whl", hash = "sha256:342b1095cbd937865cee962676e279a1fd28896a0680724fcf9c65157e7ebdb7"},
+    {file = "winsdk-1.0.0b10.tar.gz", hash = "sha256:8f39ea759626797449371f857c9085b84bb9f3b6d493dc6525e2cedcb3d15ea2"},
 ]
 
 [[package]]
