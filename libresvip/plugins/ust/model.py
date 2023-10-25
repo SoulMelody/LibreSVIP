@@ -386,10 +386,25 @@ class UstVisitor(NodeVisitor):
                     elif i == 5:
                         vibrato_kwargs["shift"] = pair[1]
             self.pending_note_attrs["vbr"] = UtauNoteVibrato(**vibrato_kwargs)
-        # else:
-        # ignored
+        elif key == "stptrim":
+            self.pending_note_attrs["stp_trim"] = visited_children[0][2]
+        elif key == "layer":
+            self.pending_note_attrs["layer"] = visited_children[0][2]
+        elif key == "@preuttr":
+            self.pending_note_attrs["at_preutterance"] = visited_children[0][2]
+        elif key == "@overlap":
+            self.pending_note_attrs["at_overlap"] = visited_children[0][2]
+        elif key == "@stpoint":
+            self.pending_note_attrs["at_start_point"] = visited_children[0][2]
+        elif key == "@filename":
+            self.pending_note_attrs["sample_filename"] = visited_children[0][2]
+        elif key == "@alias":
+            self.pending_note_attrs["alias"] = visited_children[0][2]
+        elif key == "@cache":
+            self.pending_note_attrs["cache_location"] = visited_children[0][2]
+        # else: # ignored
 
-    def visit_ust_note_head(self, node: Node, visited_children: list[Any]) -> str:
+    def visit_ust_note_head(self, node: Node, visited_children: list[Any]) -> None:
         if len(self.pending_note_attrs):
             self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
             self.pending_note_attrs = {}
@@ -422,6 +437,3 @@ class UstVisitor(NodeVisitor):
 
     def generic_visit(self, node: Node, visited_children: list[Any]) -> Any:
         return visited_children or node
-
-
-ust_visitor = UstVisitor()

@@ -11,12 +11,12 @@ plugin_registry = plugin_manager.plugin_registry
 
 
 def test_ust_write(shared_datadir):
-    from libresvip.plugins.ust.model import ust_grammar, ust_visitor
+    from libresvip.plugins.ust.model import UstVisitor, ust_grammar
     from libresvip.plugins.ust.template import render_ust
 
     proj_path = shared_datadir / "test.ust"
     tree = ust_grammar.parse(to_unicode(proj_path.read_bytes()))
-    proj = ust_visitor.visit(tree)
+    proj = UstVisitor().visit(tree)
     render_ust(proj, pathlib.Path("test.ust"), encoding="utf-8")
 
 
