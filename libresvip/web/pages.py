@@ -1029,7 +1029,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ui.label(
                                 _("Drag and drop files here or click to upload"),
                             ).classes("text-lg")
-            with main_splitter.after, ui.card().classes("w-full h-auto min-h-full"):
+            with main_splitter.after, ui.card().classes(
+                "w-full h-auto min-h-full"
+            ).style("box-shadow: 0 0 0 #ccc !important;"):
                 with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                     with ui.button(
                         icon="play_arrow",
