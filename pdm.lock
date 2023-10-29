@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:dd526731d844b3c6581fe50c140d1400427eb4673843116fdef24ffbfb0d4aae"
+content_hash = "sha256:48c018658e9c5c95cb810d9bd605cdbc0d8b146d4b8ce86ee18d34a19e616690"
 
 [[package]]
 name = "aiofiles"
@@ -681,12 +681,12 @@ files = [
 
 [[package]]
 name = "filelock"
-version = "3.12.4"
+version = "3.13.0"
 requires_python = ">=3.8"
 summary = "A platform independent file lock."
 files = [
-    {file = "filelock-3.12.4-py3-none-any.whl", hash = "sha256:08c21d87ded6e2b9da6728c3dff51baf1dcecf973b768ef35bcbc3447edb9ad4"},
-    {file = "filelock-3.12.4.tar.gz", hash = "sha256:2e6f249f1f3654291606e046b09f1fd5eac39b360664c27f5aad072012f8bcbd"},
+    {file = "filelock-3.13.0-py3-none-any.whl", hash = "sha256:a552f4fde758f4eab33191e9548f671970f8b06d436d31388c9aa1e5861a710f"},
+    {file = "filelock-3.13.0.tar.gz", hash = "sha256:63c6052c82a1a24c873a549fbd39a26982e8f35a3016da231ead11a5be9dad44"},
 ]
 
 [[package]]
@@ -1039,12 +1039,12 @@ files = [
 
 [[package]]
 name = "identify"
-version = "2.5.30"
+version = "2.5.31"
 requires_python = ">=3.8"
 summary = "File identification library for Python"
 files = [
-    {file = "identify-2.5.30-py2.py3-none-any.whl", hash = "sha256:afe67f26ae29bab007ec21b03d4114f41316ab9dd15aa8736a167481e108da54"},
-    {file = "identify-2.5.30.tar.gz", hash = "sha256:f302a4256a15c849b91cfcdcec052a8ce914634b2f77ae87dad29cd749f2d88d"},
+    {file = "identify-2.5.31-py2.py3-none-any.whl", hash = "sha256:90199cb9e7bd3c5407a9b7e81b4abec4bb9d249991c79439ec8af740afc6293d"},
+    {file = "identify-2.5.31.tar.gz", hash = "sha256:7736b3c7a28233637e3c36550646fc6389bedd74ae84cb788200cc8e2dd60b75"},
 ]
 
 [[package]]
@@ -1504,7 +1504,7 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.4.6"
+version = "9.4.7"
 requires_python = ">=3.8"
 summary = "Documentation that simply works"
 dependencies = [
@@ -1512,7 +1512,7 @@ dependencies = [
     "colorama~=0.4",
     "jinja2~=3.0",
     "markdown~=3.2",
-    "mkdocs-material-extensions~=1.2",
+    "mkdocs-material-extensions~=1.3",
     "mkdocs>=1.5.3,~=1.5",
     "paginate~=0.5",
     "pygments~=2.16",
@@ -1521,8 +1521,8 @@ dependencies = [
     "requests~=2.26",
 ]
 files = [
-    {file = "mkdocs_material-9.4.6-py3-none-any.whl", hash = "sha256:78802035d5768a78139c84ad7dce0c6493e8f7dc4861727d36ed91d1520a54da"},
-    {file = "mkdocs_material-9.4.6.tar.gz", hash = "sha256:09665e60df7ee9e5ff3a54af173f6d45be718b1ee7dd962bcff3102b81fb0c14"},
+    {file = "mkdocs_material-9.4.7-py3-none-any.whl", hash = "sha256:4d698d52bb6a6a3c452ab854481c4cdb68453a0420956a6aee2de55fe15fe610"},
+    {file = "mkdocs_material-9.4.7.tar.gz", hash = "sha256:e704e001c9ef17291e1d3462c202425217601653e18f68f85d28eff4690e662b"},
 ]
 
 [[package]]
@@ -2999,12 +2999,12 @@ files = [
 
 [[package]]
 name = "types-protobuf"
-version = "4.24.0.3"
+version = "4.24.0.4"
 requires_python = ">=3.7"
 summary = "Typing stubs for protobuf"
 files = [
-    {file = "types-protobuf-4.24.0.3.tar.gz", hash = "sha256:048ca006a08ac0563ff04a86ddcdda6f8877b024f5ff89ed6180510b017c3a91"},
-    {file = "types_protobuf-4.24.0.3-py3-none-any.whl", hash = "sha256:6652be32c647a855cd9c01e6c556ecdc94988188c4de89942ad13e906537aaee"},
+    {file = "types-protobuf-4.24.0.4.tar.gz", hash = "sha256:57ab42cb171dfdba2c74bb5b50c250478538cc3c5ed95b8b368929ad0c9f90a5"},
+    {file = "types_protobuf-4.24.0.4-py3-none-any.whl", hash = "sha256:131ab7d0cbc9e444bc89c994141327dcce7bcaeded72b1acb72a94827eb9c7af"},
 ]
 
 [[package]]

@@ -79,7 +79,9 @@ class SVParamCurve(BaseModel):
     @field_validator("points", mode="before")
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> SVPoints:
-        return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
+        if _info.mode == "json":
+            return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
+        return SVPoints(root=points)
 
     @field_serializer("points", when_used="json")
     def serialize_points(
@@ -123,7 +125,6 @@ class SVParamCurve(BaseModel):
 
     def __add__(self, offset: int) -> SVParamCurve:
         new_curve = self.model_copy(deep=True)
-        new_curve.points = new_curve.validate_points(new_curve.points, None)
         for i in range(len(new_curve.points)):
             new_curve.points[i] = new_curve.points[i]._replace(
                 offset=new_curve.points[i].offset + offset
