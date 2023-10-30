@@ -74,7 +74,9 @@ config_path = app_dir.user_config_path / "settings.yml"
 settings = cast(LibreSvipSettings, OmegaConf.structured(LibreSvipSettings))
 if config_path.exists():
     with contextlib.suppress(OmegaConfBaseException):
-        settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
+        settings = cast(
+            LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path))
+        )
 
 
 def save_settings() -> None:

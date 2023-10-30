@@ -147,7 +147,7 @@ def track_override_with(
     main_note_list = track.note_list
     interval = RangeInterval()
     main_left_index = main_right_index = -1
-    for i in range(0, len(note_list)):
+    for i in range(len(note_list)):
         main_left_index = (
             find_last_index(
                 main_note_list, lambda note: note.start_pos <= note_list[i].start_pos

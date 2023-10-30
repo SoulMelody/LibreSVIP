@@ -65,12 +65,22 @@ class SigmoidNode:
             al = a * math.pow(_radius / l, power)
             bl = l / _radius
             cl = al * bl * self.k / (2 * al - 1)
-            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(cl * math.exp(cl), -1)
+            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(
+                cl * math.exp(cl), -1
+            )
             h_l = h * k_l / (2 * k_l - self.k)
             d_l = -_radius / k_l * math.log(2 * h_l / h - 1)
 
-        self.sigmoid_l = lambda x: _key_left * 100 + h_l / (1 + math.exp(-k_l / _radius * (x - self.center + d_l)))
-        self.d_sigmoid_l = lambda x: h_l * k_l / _radius * math.exp(-k_l / _radius * (x - self.center + d_l)) / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
+        self.sigmoid_l = lambda x: _key_left * 100 + h_l / (
+            1 + math.exp(-k_l / _radius * (x - self.center + d_l))
+        )
+        self.d_sigmoid_l = (
+            lambda x: h_l
+            * k_l
+            / _radius
+            * math.exp(-k_l / _radius * (x - self.center + d_l))
+            / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
+        )
 
         r = self.end - self.center
         if r >= _radius:
@@ -81,12 +91,22 @@ class SigmoidNode:
             ar = a * math.pow(_radius / r, power)
             br = r / _radius
             cr = ar * br * self.k / (2 * ar - 1)
-            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
+            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(
+                cr * math.exp(cr), -1
+            )
             h_r = h * k_r / (2 * k_r - self.k)
             d_r = -_radius / k_r * math.log(2 * h_r / h - 1)
 
-        self.sigmoid_r = lambda x: _key_right * 100 - h_r / (1 + math.exp(-k_r / _radius * (self.center - x + d_r)))
-        self.d_sigmoid_r = lambda x: h_r * k_r / _radius * math.exp(-k_r / _radius * (self.center - x + d_r)) / math.pow(1 + math.exp(-k_r / _radius * (self.center - x + d_r)), 2)
+        self.sigmoid_r = lambda x: _key_right * 100 - h_r / (
+            1 + math.exp(-k_r / _radius * (self.center - x + d_r))
+        )
+        self.d_sigmoid_r = (
+            lambda x: h_r
+            * k_r
+            / _radius
+            * math.exp(-k_r / _radius * (self.center - x + d_r))
+            / math.pow(1 + math.exp(-k_r / _radius * (self.center - x + d_r)), 2)
+        )
 
     def value_at_secs(self, secs: float) -> float:
         return self.sigmoid_l(secs) if secs <= self.center else self.sigmoid_r(secs)
@@ -123,8 +143,7 @@ class BaseLayerGenerator:
                     next_note.end,
                 )
                 mid = clamp(
-                    (current_note.end + next_note.start) / 2
-                    + next_note.slide_offset,
+                    (current_note.end + next_note.start) / 2 + next_note.slide_offset,
                     start,
                     end,
                 )

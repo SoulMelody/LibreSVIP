@@ -9,7 +9,23 @@ class JapaneseLyricsTypeFLag(IntFlag):
 
 class JapaneseLyricsType(Enum):
     UNKNOWN = JapaneseLyricsTypeFLag.OTHER
-    ROMAJI_CV = ~JapaneseLyricsTypeFLag.OTHER & JapaneseLyricsTypeFLag.IS_ROMAJI & JapaneseLyricsTypeFLag.IS_CV
-    ROMAJI_VCV = ~JapaneseLyricsTypeFLag.OTHER &JapaneseLyricsTypeFLag.IS_ROMAJI & ~JapaneseLyricsTypeFLag.IS_CV
-    KANA_CV = ~JapaneseLyricsTypeFLag.OTHER & ~JapaneseLyricsTypeFLag.IS_ROMAJI & JapaneseLyricsTypeFLag.IS_CV
-    KANA_VCV = ~JapaneseLyricsTypeFLag.OTHER & ~JapaneseLyricsTypeFLag.IS_ROMAJI & ~JapaneseLyricsTypeFLag.IS_CV
+    ROMAJI_CV = (
+        ~JapaneseLyricsTypeFLag.OTHER
+        & JapaneseLyricsTypeFLag.IS_ROMAJI
+        & JapaneseLyricsTypeFLag.IS_CV
+    )
+    ROMAJI_VCV = (
+        ~JapaneseLyricsTypeFLag.OTHER
+        & JapaneseLyricsTypeFLag.IS_ROMAJI
+        & ~JapaneseLyricsTypeFLag.IS_CV
+    )
+    KANA_CV = (
+        ~JapaneseLyricsTypeFLag.OTHER
+        & ~JapaneseLyricsTypeFLag.IS_ROMAJI
+        & JapaneseLyricsTypeFLag.IS_CV
+    )
+    KANA_VCV = (
+        ~JapaneseLyricsTypeFLag.OTHER
+        & ~JapaneseLyricsTypeFLag.IS_ROMAJI
+        & ~JapaneseLyricsTypeFLag.IS_CV
+    )
