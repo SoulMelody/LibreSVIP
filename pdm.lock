@@ -2216,14 +2216,14 @@ files = [
 
 [[package]]
 name = "pymediainfo"
-version = "6.0.1"
+version = "6.1.0"
 requires_python = ">=3.7"
 summary = "A Python wrapper for the mediainfo library."
 files = [
-    {file = "pymediainfo-6.0.1-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:81165e895e1e362fa11c128ce2bc976cb8a74224f96f309a88ee047106041b0a"},
-    {file = "pymediainfo-6.0.1-py3-none-win32.whl", hash = "sha256:bb3a48ac9706626fd2fa7881f4271728459a1c9a082917deb0c7dd343d8a1be5"},
-    {file = "pymediainfo-6.0.1-py3-none-win_amd64.whl", hash = "sha256:c38e79d4d2062732ae555b564c3cac18a6de4f36e033066c617f386cf5e77564"},
-    {file = "pymediainfo-6.0.1.tar.gz", hash = "sha256:96e04bac0dfcb726bed70c314b1219121c4b9344c66a98f426ce27d7f9abffb0"},
+    {file = "pymediainfo-6.1.0-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:69d5d3cac056c24a68a1129216aec82a222e804a35f88567c08585e8ae7ef2b3"},
+    {file = "pymediainfo-6.1.0-py3-none-win32.whl", hash = "sha256:19e6baeca3db71f12ed568f056de899fd02f380990fb10f43a26c32b67362dd3"},
+    {file = "pymediainfo-6.1.0-py3-none-win_amd64.whl", hash = "sha256:f3f6bad666c65ac993dd8d64f45a2b26ba2acd50f9875f74cebb624dbf2f8da0"},
+    {file = "pymediainfo-6.1.0.tar.gz", hash = "sha256:186a0b41a94524f0984d085ca6b945c79a254465b7097f2560dc0c04e8d1d8a5"},
 ]
 
 [[package]]
@@ -2747,15 +2747,15 @@ files = [
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.18.2"
+version = "0.18.3"
 requires_python = ">=3"
 summary = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 dependencies = [
     "ruamel-yaml-clib>=0.2.7; platform_python_implementation == \"CPython\" and python_version < \"3.13\"",
 ]
 files = [
-    {file = "ruamel.yaml-0.18.2-py3-none-any.whl", hash = "sha256:92076ac8a83dbf44ca661dbed3c935229c8cbc2f10b05959dd3bd5292d8353d3"},
-    {file = "ruamel.yaml-0.18.2.tar.gz", hash = "sha256:9bce33f7a814cea4c29a9c62fe872d2363d6220b767891d956eacea8fa5e6fe8"},
+    {file = "ruamel.yaml-0.18.3-py3-none-any.whl", hash = "sha256:b5d119e1f9678cf90b58f64bbd2a4e78af76860ae39fab3e73323e622b462df9"},
+    {file = "ruamel.yaml-0.18.3.tar.gz", hash = "sha256:36dbbe90390d977f957436570d2bd540bfd600e6ec5a1ea42bcdb9fc7963d802"},
 ]
 
 [[package]]
