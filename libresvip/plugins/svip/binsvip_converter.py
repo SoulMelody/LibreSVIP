@@ -33,7 +33,7 @@ class SvipConverter(plugin_base.SVSConverterBase):
         elif ver_enum == BinarySvipVersion.COMPAT:
             project.version = "SVIP0.0.0"
         else:
-            raise Exception(_("Unexpected enum value"))
+            raise ValueError(_("Unexpected enum value"))
         with SvipWriter() as registry:
             version, xs_project = BinarySvipGenerator(options=options).generate_project(
                 project

@@ -1,8 +1,10 @@
-from libresvip.model.base import ParamCurve, Point, Points
+from libresvip.model.base import ParamCurve, Points
+from libresvip.model.point import Point
 from libresvip.utils import gettext_lazy as _
 from libresvip.utils import midi2hz
 
-from ..models.ds_param_curve import DsParamCurve, DsParamNode
+from ..models.ds_param_curve import DsParamCurve
+from ..models.ds_param_node import DsParamNode
 
 
 class PitchParamUtils:
@@ -28,7 +30,7 @@ class PitchParamUtils:
                 for pos in range(1920, end, 5)
             ]
         else:
-            raise Exception(_("The source file lacks pitch parameters."))
+            raise ValueError(_("The source file lacks pitch parameters."))
 
     @staticmethod
     def value_at(segment: list[Point], ticks: float) -> float:

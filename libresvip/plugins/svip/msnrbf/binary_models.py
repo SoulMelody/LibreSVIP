@@ -68,7 +68,7 @@ class DateTimeAdapter(Adapter):
         else:
             kind = 2
         ticks = (obj - datetime(1, 1, 1)).total_seconds() * 10000000
-        return DateTimeBitStruct.build(dict(ticks=ticks, kind=kind))
+        return DateTimeBitStruct.build({"ticks": ticks, "kind": kind})
 
     def _decode(self, obj, context, path):
         date_time = datetime(1, 1, 1) + timedelta(microseconds=obj.ticks / 10)

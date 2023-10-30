@@ -1,18 +1,18 @@
-import os
+import pathlib
 import sys
 
 import pytest
 
-sys.path.append(os.path.dirname(os.path.curdir))
+sys.path.append(str(pathlib.Path().parent))
 
 
 @pytest.fixture()
-def pinyin_example():
+def pinyin_example() -> list[str]:
     return ["山东菏泽", "曹县，", "牛pi", "666我滴", "宝贝儿！", "行-走-", "行-业-", "-"]
 
 
 @pytest.fixture()
-def pretty_construct():
+def pretty_construct() -> None:
     from enum import IntEnum
 
     from construct import Container, EnumIntegerString, ListContainer
@@ -43,3 +43,5 @@ def pretty_construct():
         return _list_container_repr(self)[14:-1]
 
     ListContainer.__repr__ = list_container_repr
+
+    return None

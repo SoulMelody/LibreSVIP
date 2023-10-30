@@ -111,7 +111,7 @@ class GjgjGenerator:
         self, track: SingingTrack, track_index: int
     ) -> GjgjSingingTrack:
         return GjgjSingingTrack(
-            id=str(track_index),
+            id_value=str(track_index),
             name=singer2id[self.options.singer or track.ai_singer_name],
             master_volume=GjgjTrackVolume(mute=track.mute),
             beat_items=self.generate_notes(track.note_list),
@@ -123,7 +123,7 @@ class GjgjGenerator:
         self, track: InstrumentalTrack, track_index: int
     ) -> GjgjInstrumentalTrack:
         return GjgjInstrumentalTrack(
-            id=str(track_index),
+            id_value=str(track_index),
             path=track.audio_file_path,
             offset=self.position_to_time(track.offset),
             master_volume=GjgjTrackVolume(mute=track.mute),
@@ -186,7 +186,7 @@ class GjgjGenerator:
                         )
             notes.append(
                 GjgjBeatItems(
-                    id=self.max_note_id,
+                    id_value=self.max_note_id,
                     lyric=note.lyric,
                     pinyin=pronunciation,
                     start_tick=note.start_pos + self.first_bar_length,

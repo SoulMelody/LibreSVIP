@@ -1,12 +1,14 @@
 import pathlib
-
-from drawsvg import Drawing
+from typing import TYPE_CHECKING
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 
 from .options import OutputOptions
 from .svg_generator import SvgGenerator
+
+if TYPE_CHECKING:
+    from drawsvg import Drawing
 
 
 class SvgConverter(plugin_base.WriteOnlyConverterBase):

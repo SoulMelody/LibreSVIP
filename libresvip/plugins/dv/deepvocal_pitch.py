@@ -4,8 +4,7 @@ import dataclasses
 import operator
 from functools import singledispatch
 from itertools import groupby
-from numbers import Real
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
@@ -25,6 +24,9 @@ from .constants import (
     SAMPLING_INTERVAL_TICK,
 )
 from .model import DvPoint
+
+if TYPE_CHECKING:
+    from numbers import Real
 
 
 @dataclasses.dataclass
@@ -118,8 +120,6 @@ def apply_default_pitch(
                 )
             )
         if point.y != -100:
-            if point.y <= 3000:
-                print(point)
             result.append(point._replace(x=point.x + first_bar_length))
         else:
             result.append(Point(x=point.x + first_bar_length, y=-100))

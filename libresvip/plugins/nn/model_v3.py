@@ -14,7 +14,7 @@ class NoteDictListItem(BaseModel):
     len_64note: int
     vel: float = Field(alias="VEL")
     dyn_list: list[int] = Field(alias="DYN_list")
-    id: int
+    id_value: int = Field(alias="id")
     row: int
     is_triple: bool
     pinyin: str
@@ -34,7 +34,7 @@ class TrackDictListItem(BaseModel):
     readme_path: str
     name: str
     head_path: str
-    type: int
+    type_: int = Field(alias="type")
 
 
 class Niao3Project(BaseModel):

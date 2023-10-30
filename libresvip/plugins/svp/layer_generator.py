@@ -48,7 +48,9 @@ class SigmoidNode:
     def k(self) -> float:
         return 5.5
 
-    def __post_init__(self, _start, _end, _center, _radius, _key_left, _key_right):
+    def __post_init__(
+        self, _start, _end, _center, _radius, _key_left, _key_right
+    ) -> None:
         self.start = _start
         self.end = _end
         self.center = _center
@@ -56,14 +58,14 @@ class SigmoidNode:
         a = 1 / (1 + math.exp(self.k))
         power = 0.75
 
-        l = self.center - self.start
-        if l >= _radius:
+        left = self.center - self.start
+        if left >= _radius:
             k_l = self.k
             h_l = h
             d_l = 0
         else:
-            al = a * math.pow(_radius / l, power)
-            bl = l / _radius
+            al = a * math.pow(_radius / left, power)
+            bl = left / _radius
             cl = al * bl * self.k / (2 * al - 1)
             k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(
                 cl * math.exp(cl), -1
@@ -199,7 +201,8 @@ class BaseLayerGenerator:
                 secs - second.start
             )
         else:
-            raise ValueError("More than two sigmoid nodes overlapped")
+            msg = "More than two sigmoid nodes overlapped"
+            raise ValueError(msg)
 
     @staticmethod
     def cubic_bezier(

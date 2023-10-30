@@ -353,7 +353,8 @@ class SvipWriter(NrbfIOBase):
                                 }
                             )
                     else:
-                        raise Exception(f"Unknown type {field_type}")
+                        msg = f"Unknown type {field_type}"
+                        raise TypeError(msg)
                     value = getattr(obj, field.name)
                     if value is None:
                         result["obj"]["member_values"].append(
@@ -426,7 +427,8 @@ class SvipWriter(NrbfIOBase):
                                 }
                             )
                     else:
-                        raise Exception(f"Unknown type {field_type}")
+                        msg = f"Unknown type {field_type}"
+                        raise TypeError(msg)
                     result["obj"]["class_info"]["member_names"].append(
                         field.metadata["alias"]
                     )
@@ -538,5 +540,6 @@ class SvipWriter(NrbfIOBase):
                                 }
                             )
                     else:
-                        raise Exception(f"Unknown type {field_type}")
+                        msg = f"Unknown type {field_type}"
+                        raise TypeError(msg)
         return result

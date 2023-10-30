@@ -331,10 +331,10 @@ class VocalSharpParameter:
 
     points: list[object] = field(
         default_factory=list,
-        metadata=dict(
-            type="Wildcard",
-            mixed=True,
-            choices=(
+        metadata={
+            "type": "Wildcard",
+            "mixed": True,
+            "choices": (
                 {"name": "B", "type": BRE},
                 {"name": "D", "type": DYN},
                 {"name": "G", "type": GEN},
@@ -345,7 +345,7 @@ class VocalSharpParameter:
                 {"name": "W", "type": GWL},
                 {"name": "X", "type": XSY},
             ),
-        ),
+        },
     )
 
 
@@ -556,14 +556,14 @@ class VocalSharpInnerProject:
     )
     tracks: Optional[list[object]] = field(
         default_factory=list,
-        metadata=dict(
-            type="Elements",
-            choices=(
+        metadata={
+            "type": "Elements",
+            "choices": (
                 {"name": "NoteTrack", "type": VocalSharpNoteTrack},
                 {"name": "StereoTrack", "type": VocalSharpStereoTrack},
                 {"name": "MonoTrack", "type": VocalSharpMonoTrack},
             ),
-        ),
+        },
     )
 
 

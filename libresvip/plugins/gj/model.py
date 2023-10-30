@@ -13,7 +13,7 @@ class GjgjBeatStyle(Enum):
 
 
 class GjgjBeatItems(BaseModel):
-    id: Optional[int] = Field(alias="ID")
+    id_value: Optional[int] = Field(alias="ID")
     lyric: Optional[str] = Field(alias="Lyric")
     pinyin: Optional[str] = Field(alias="Pinyin")
     start_tick: Optional[int] = Field(alias="StartTick")
@@ -100,7 +100,7 @@ class GjgjVolumeMap(BaseModel):
 
 
 class GjgjSingingTrack(BaseModel):
-    id: Optional[str] = Field(alias="ID")
+    id_value: Optional[str] = Field(alias="ID")
     type_: Optional[int] = Field(0, alias="Type")
     name: Optional[str] = Field(alias="Name")
     beat_items: list[GjgjBeatItems] = Field(default_factory=list, alias="BeatItems")
@@ -118,7 +118,7 @@ class GjgjSingingTrack(BaseModel):
 
 
 class GjgjInstrumentalTrack(BaseModel):
-    id: Optional[str] = Field(alias="ID")
+    id_value: Optional[str] = Field(alias="ID")
     type_: Optional[int] = Field(1, alias="Type")
     path: Optional[str] = Field(alias="Path")
     offset: Optional[int] = Field(alias="Offset")
@@ -133,7 +133,7 @@ class GjgjMidiControl(BaseModel):
 
 
 class GjgjMidiTrack(BaseModel):
-    id: Optional[str] = Field(alias="ID")
+    id_value: Optional[str] = Field(alias="ID")
     type_: Optional[int] = Field(2, alias="Type")
     sort_index: Optional[int] = Field(alias="SortIndex")
     bank: Optional[int] = Field(alias="Bank")
