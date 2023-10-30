@@ -21,7 +21,7 @@ class JsonSvipConverter(plugin_base.SVSConverterBase):
             json_dumps(
                 project.model_dump(mode="json", by_alias=True),
                 ensure_ascii=False,
-                **dump_kwargs
+                **dump_kwargs,
             ),
             encoding="utf-8",
         )

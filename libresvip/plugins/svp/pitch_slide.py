@@ -16,18 +16,12 @@ class PitchSlide:
 
     @classmethod
     def cosine_slide(cls):
-        return cls(
-            0.05, 0.1, interpolation.cosine_interpolation
-        )
+        return cls(0.05, 0.1, interpolation.cosine_interpolation)
 
     @classmethod
     def cubic_slide(cls):
-        return cls(
-            0.05, 0.1, interpolation.cubic_interpolation
-        )
+        return cls(0.05, 0.1, interpolation.cubic_interpolation)
 
     @classmethod
     def sigmoid_slide(cls):
-        return cls(
-            0.075, 0.48, partial(interpolation.sigmoid_interpolation, k=5.5)
-        )
+        return cls(0.075, 0.48, partial(interpolation.sigmoid_interpolation, k=5.5))

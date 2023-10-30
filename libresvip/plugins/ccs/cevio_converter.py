@@ -17,11 +17,16 @@ from .options import InputOptions, OutputOptions
 
 class CeVIOConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ccs_project = XmlParser().from_bytes(path.read_bytes(), CeVIOCreativeStudioProject)
+        ccs_project = XmlParser().from_bytes(
+            path.read_bytes(), CeVIOCreativeStudioProject
+        )
         return CeVIOParser(options).parse_project(ccs_project)
 
     def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions,
+        self,
+        path: pathlib.Path,
+        project: Project,
+        options: OutputOptions,
     ) -> None:
         ccs_project = CeVIOGenerator(options).generate_project(project)
         serializer = XmlSerializer(

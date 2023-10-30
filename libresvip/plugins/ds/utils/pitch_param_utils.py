@@ -7,11 +7,12 @@ from ..models.ds_param_curve import DsParamCurve, DsParamNode
 
 class PitchParamUtils:
     @classmethod
-    def encode(cls, curve: ParamCurve, end: int, time_step: float = 0.005) -> DsParamCurve:
+    def encode(
+        cls, curve: ParamCurve, end: int, time_step: float = 0.005
+    ) -> DsParamCurve:
         end += 1920
         return DsParamCurve(
-            step_size=time_step,
-            point_list=cls.encode_point_list(curve.points, end)
+            step_size=time_step, point_list=cls.encode_point_list(curve.points, end)
         )
 
     @classmethod
@@ -27,9 +28,7 @@ class PitchParamUtils:
                 for pos in range(1920, end, 5)
             ]
         else:
-            raise Exception(
-                _("The source file lacks pitch parameters.")
-            )
+            raise Exception(_("The source file lacks pitch parameters."))
 
     @staticmethod
     def value_at(segment: list[Point], ticks: float) -> float:

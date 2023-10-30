@@ -4,21 +4,21 @@ from libresvip.model.base import BaseModel
 
 
 class NoteDictListItem(BaseModel):
-    vib_rat: int = Field(alias='VIB_rat')
-    vib_len: int = Field(alias='VIB_len')
+    vib_rat: int = Field(alias="VIB_rat")
+    vib_len: int = Field(alias="VIB_len")
     start_64note: int
-    pbs: int = Field(alias='PBS')
-    cle: float = Field(alias='CLE')
-    vib_dep: int = Field(alias='VIB_dep')
+    pbs: int = Field(alias="PBS")
+    cle: float = Field(alias="CLE")
+    vib_dep: int = Field(alias="VIB_dep")
     lyric: str
     len_64note: int
-    vel: float = Field(alias='VEL')
-    dyn_list: list[int] = Field(alias='DYN_list')
+    vel: float = Field(alias="VEL")
+    dyn_list: list[int] = Field(alias="DYN_list")
     id: int
     row: int
     is_triple: bool
     pinyin: str
-    pit_list: list[int] = Field(alias='PIT_list')
+    pit_list: list[int] = Field(alias="PIT_list")
 
 
 class TrackDictListItem(BaseModel):

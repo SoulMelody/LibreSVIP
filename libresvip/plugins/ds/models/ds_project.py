@@ -65,5 +65,5 @@ class DsProjectModel:
             f0_timestep=str(self.pitch_param_curve.step_size),
             f0_seq=f0_sequence,
             gender_timestep=str(self.gender_param_curve.step_size),
-            gender=gender_sequence
+            gender=gender_sequence,
         )

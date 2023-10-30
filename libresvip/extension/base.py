@@ -23,7 +23,7 @@ class SVSConverterBase(BasePlugin, abc.ABC):
             self: SVSConverterBase,
             path: Union[str, pathlib.Path],
             *args: list[Any],
-            **kwargs: dict[str, Any]
+            **kwargs: dict[str, Any],
         ) -> Any:
             if not isinstance(path, pathlib.Path):
                 path = pathlib.Path(path)

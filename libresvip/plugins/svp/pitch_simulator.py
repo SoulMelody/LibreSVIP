@@ -30,7 +30,7 @@ class PitchSimulator:
         current_slide = min(current_dur * max_slide_percent, max_slide_time)
 
         self.pitch_tags.append((current_head, current_note.key_number))
-        for i in range(0, len(self.note_list) - 1):
+        for i in range(len(self.note_list) - 1):
             next_note = self.note_list[i + 1]
             next_head = self.synchronizer.get_actual_secs_from_ticks(
                 next_note.start_pos

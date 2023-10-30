@@ -8,10 +8,12 @@ class DsPhonemeItem:
     duration: float = 0.0
     note_name: str = ""
 
+
 @dataclass
 class DsPhoneme:
     consonant: DsPhonemeItem = field(default_factory=DsPhonemeItem)
     vowel: DsPhonemeItem = field(default_factory=DsPhonemeItem)
+
 
 @dataclass
 class DsNote:
@@ -24,12 +26,14 @@ class DsNote:
     def is_slur(self):
         return "-" in self.lyric
 
+
 @dataclass
 class AspirationDsPhoneme(DsPhoneme):
     _duration: InitVar[float] = 0.0
 
     def __post_init__(self, _duration):
         self.vowel = DsPhonemeItem("AP", _duration, "rest")
+
 
 @dataclass
 class AspirationDsNote(DsNote):
@@ -44,6 +48,7 @@ class RestDsPhoneme(DsPhoneme):
 
     def __post_init__(self, _duration):
         self.vowel = DsPhonemeItem("SP", _duration, "rest")
+
 
 @dataclass
 class RestDsNote(DsNote):

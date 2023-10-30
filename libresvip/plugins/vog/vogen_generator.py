@@ -56,9 +56,7 @@ class VogenGenerator:
                 on=note.start_pos,
                 dur=note.length,
                 lyric=note.lyric,
-                rom=note.pronunciation or " ".join(
-                    pypinyin.lazy_pinyin(note.lyric)
-                ),
+                rom=note.pronunciation or " ".join(pypinyin.lazy_pinyin(note.lyric)),
                 pitch=note.key_number,
             )
             for note in note_list

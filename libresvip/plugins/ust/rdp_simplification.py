@@ -24,6 +24,7 @@ def perpendicular_distance(pt: Point, line_start: Point, line_end: Point) -> flo
 
     return math.hypot(ax, ay)
 
+
 def simplify_shape(point_list: list[Point], epsilon: float) -> list[Point]:
     if len(point_list) < 2:
         return point_list
@@ -40,7 +41,7 @@ def simplify_shape(point_list: list[Point], epsilon: float) -> list[Point]:
 
     # If max distance is greater than epsilon, recursively simplify
     if dmax > epsilon:
-        first_line = point_list[:index + 1]
+        first_line = point_list[: index + 1]
         last_line = point_list[index:]
         rec_results1 = simplify_shape(first_line, epsilon)
         rec_results2 = simplify_shape(last_line, epsilon)
@@ -50,6 +51,7 @@ def simplify_shape(point_list: list[Point], epsilon: float) -> list[Point]:
     else:
         # Just return start and end points
         return [point_list[0], point_list[-1]]
+
 
 def simplify_shape_to(point_list: list[Point], max_point_count: int) -> list[Point]:
     step = 0.05
