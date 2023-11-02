@@ -60,12 +60,12 @@ class Svip3Project(proto.Message):
         proto.INT32,
         number=3,
     )
-    tempo_list: MutableSequence["Svip3SongTempo"] = proto.RepeatedField(
+    tempo_list: MutableSequence[Svip3SongTempo] = proto.RepeatedField(
         proto.MESSAGE,
         number=4,
         message="Svip3SongTempo",
     )
-    beat_list: MutableSequence["Svip3SongBeat"] = proto.RepeatedField(
+    beat_list: MutableSequence[Svip3SongBeat] = proto.RepeatedField(
         proto.MESSAGE,
         number=5,
         message="Svip3SongBeat",
@@ -104,7 +104,7 @@ class Svip3Project(proto.Message):
         proto.INT32,
         number=13,
     )
-    tone_list: MutableSequence["Svip3SongTone"] = proto.RepeatedField(
+    tone_list: MutableSequence[Svip3SongTone] = proto.RepeatedField(
         proto.MESSAGE,
         number=14,
         message="Svip3SongTone",
@@ -205,7 +205,7 @@ class Svip3SingingTrack(proto.Message):
         number=7,
         enum="Svip3TrackType",
     )
-    pattern_list: MutableSequence["Svip3SingingPattern"] = proto.RepeatedField(
+    pattern_list: MutableSequence[Svip3SingingPattern] = proto.RepeatedField(
         proto.MESSAGE,
         number=8,
         message="Svip3SingingPattern",
@@ -225,6 +225,10 @@ class Svip3SingingTrack(proto.Message):
     reverb_db: float = proto.Field(
         proto.FLOAT,
         number=12,
+    )
+    is_rap_track: bool = proto.Field(
+        proto.BOOL,
+        number=13,
     )
 
 
@@ -258,7 +262,7 @@ class Svip3AudioTrack(proto.Message):
         number=7,
         enum="Svip3TrackType",
     )
-    pattern_list: MutableSequence["Svip3AudioPattern"] = proto.RepeatedField(
+    pattern_list: MutableSequence[Svip3AudioPattern] = proto.RepeatedField(
         proto.MESSAGE,
         number=8,
         message="Svip3AudioPattern",
@@ -335,61 +339,61 @@ class Svip3SingingPattern(proto.Message):
         proto.BOOL,
         number=7,
     )
-    note_list: MutableSequence["Svip3Note"] = proto.RepeatedField(
+    note_list: MutableSequence[Svip3Note] = proto.RepeatedField(
         proto.MESSAGE,
         number=8,
         message="Svip3Note",
     )
-    edited_pitch_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    edited_pitch_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=9,
         message="Svip3LineParamNode",
     )
-    edited_volume_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    edited_volume_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=10,
         message="Svip3LineParamNode",
     )
-    edited_power_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    edited_power_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=11,
         message="Svip3LineParamNode",
     )
-    merge_pitch_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    merge_pitch_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=12,
         message="Svip3LineParamNode",
     )
-    merge_power_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    merge_power_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=13,
         message="Svip3LineParamNode",
     )
     edited_spec_trans_coef_line: MutableSequence[
-        "Svip3LineParamNode"
+        Svip3LineParamNode
     ] = proto.RepeatedField(
         proto.MESSAGE,
         number=14,
         message="Svip3LineParamNode",
     )
-    edited_ap_coef_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    edited_ap_coef_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=15,
         message="Svip3LineParamNode",
     )
-    edited_energy_value_line: MutableSequence[
-        "Svip3LineParamNode"
-    ] = proto.RepeatedField(
+    edited_energy_value_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=16,
         message="Svip3LineParamNode",
     )
-    merge_energy_value_line: MutableSequence[
-        "Svip3LineParamNode"
-    ] = proto.RepeatedField(
+    merge_energy_value_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=17,
         message="Svip3LineParamNode",
+    )
+    rap_type: int = proto.Field(
+        proto.INT32,
+        number=18,
     )
 
 
@@ -487,6 +491,18 @@ class Svip3Note(proto.Message):
         proto.INT32,
         number=13,
     )
+    tone: int = proto.Field(
+        proto.INT32,
+        number=14,
+    )
+    left_pitch: float = proto.Field(
+        proto.FLOAT,
+        number=15,
+    )
+    right_pitch: float = proto.Field(
+        proto.FLOAT,
+        number=16,
+    )
 
 
 class Svip3VibratoStyle(proto.Message):
@@ -494,12 +510,12 @@ class Svip3VibratoStyle(proto.Message):
         proto.BOOL,
         number=1,
     )
-    amp_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    amp_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=2,
         message="Svip3LineParamNode",
     )
-    freq_line: MutableSequence["Svip3LineParamNode"] = proto.RepeatedField(
+    freq_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=3,
         message="Svip3LineParamNode",

@@ -17,7 +17,7 @@ from libresvip.model.base import (
 from libresvip.utils import audio_track_info, ratio_to_db
 
 from .color_pool import random_color
-from .constants import TYPE_URL_BASE, TrackType
+from .constants import TYPE_URL_BASE, Svip3TrackType
 from .model import (
     Svip3AudioPattern,
     Svip3AudioTrack,
@@ -82,10 +82,10 @@ class Svip3Generator:
             color = random_color()
             if isinstance(track, SingingTrack):
                 svip3_track = self.generate_singing_track(track, color)
-                type_url = urljoin(TYPE_URL_BASE, TrackType.SINGING_TRACK)
+                type_url = urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK)
             elif isinstance(track, InstrumentalTrack):
                 svip3_track = self.generate_instrumental_track(track, color)
-                type_url = urljoin(TYPE_URL_BASE, TrackType.AUDIO_TRACK)
+                type_url = urljoin(TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK)
             else:
                 continue
             svip3_track_container = any_pb2.Any(

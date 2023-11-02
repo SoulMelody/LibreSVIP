@@ -1,7 +1,10 @@
 import pathlib
 from typing import Any
 
-import zstd
+try:
+    import zstandard as zstd
+except ImportError:
+    import zstd
 from pydantic import Base64Bytes, Field
 
 from libresvip.model.base import BaseModel, json_dumps, json_loads
