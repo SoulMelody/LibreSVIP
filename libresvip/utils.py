@@ -166,9 +166,9 @@ def note2midi(note: str) -> Optional[int]:
     if not match:
         return None
 
-    pitch = match.group("note").upper()
-    offset = sum(acc_map[o] for o in match.group("accidental"))
-    octave = match.group("octave")
+    pitch = match["note"].upper()
+    offset = sum(acc_map[o] for o in match["accidental"])
+    octave = match["octave"]
 
     octave = int(octave) if octave else 0
 
@@ -191,7 +191,6 @@ def db_to_float(db: float, using_amplitude: bool = True) -> float:
     Converts the input db to a float, which represents the equivalent
     ratio in power.
     """
-    db = float(db)
     return 10 ** (db / 20) if using_amplitude else 10 ** (db / 10)
 
 
@@ -202,7 +201,6 @@ def ratio_to_db(
     Converts the input float to db, which represents the equivalent
     to the ratio in power represented by the multiplier passed in.
     """
-    ratio = float(ratio)
 
     # accept 2 values and use the ratio of val1 to val2
     if val2 is not None:

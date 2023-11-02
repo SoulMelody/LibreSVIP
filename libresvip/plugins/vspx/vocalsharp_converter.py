@@ -58,8 +58,8 @@ class VocalSharpXMLWriter(XmlEventWriter):
 
 
 def strip_whitespace(matcher: re.Match) -> str:
-    first_tag = matcher.group(1)
-    second_tag = matcher.group(2)
+    first_tag = matcher[1]
+    second_tag = matcher[2]
     if first_tag != second_tag:
         return f"</{first_tag}><{second_tag}>"
     else:
@@ -67,8 +67,8 @@ def strip_whitespace(matcher: re.Match) -> str:
 
 
 def replace_self_closed(matcher: re.Match) -> str:
-    indent = matcher.group(1)
-    tag = matcher.group(2)
+    indent = matcher[1]
+    tag = matcher[2]
     return f"{indent}<{tag}>{indent}</{tag}>"
 
 

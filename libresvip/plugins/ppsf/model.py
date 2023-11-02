@@ -68,6 +68,8 @@ class PpsfNote(BaseModel):
     note_param_edited_stats: Optional[int] = 0
     portamento_length: Optional[int] = 180
     portamento_offset: Optional[int] = -120
+    vibrato_depth: Optional[int] = 0
+    vibrato_rate: Optional[int] = 0
 
 
 class PpsfRegion(BaseModel):

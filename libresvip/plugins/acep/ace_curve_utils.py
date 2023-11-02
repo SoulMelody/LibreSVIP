@@ -93,7 +93,7 @@ class AcepParamCurveList(BaseModel):
     def z_score_normalize(self, d=1, b=0):
         if not self.root:
             return self
-        points = sum([curve.values for curve in self.root])
+        points = sum(curve.values for curve in self.root)
         miu = statistics.mean(points)
         sigma = statistics.stdev(points)
         return type(self)(

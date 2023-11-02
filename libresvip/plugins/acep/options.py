@@ -50,10 +50,8 @@ class NormalizationArgument(BaseModel):
 
     @classmethod
     def default_repr(cls) -> str:
-        default_strs = []
         fields = cls.model_fields
-        for field in fields.values():
-            default_strs.append(str(field.default))
+        default_strs = [str(field.default) for field in fields.values()]
         return ",".join(default_strs)
 
     @classmethod

@@ -146,7 +146,7 @@ class MusicXMLGenerator:
         tie_type = {
             MXmlMeasureContent.NoteType.BEGIN: StartStop.START,
             MXmlMeasureContent.NoteType.END: StartStop.STOP,
-        }.get(note.note_type, None)
+        }.get(note.note_type)
         if tie_type is not None:
             note_node.tie.append(Tie(type_value=tie_type))
             note_node.notations.append(Notations(tied=[Tied(type_value=tie_type)]))
@@ -237,8 +237,10 @@ class MusicXMLGenerator:
             tick += ticks_in_measure * (time_signature.bar_index - measure)
             measure = time_signature.bar_index
             current_measure = measure
-            for _ in range(current_measure - previous_measure):
-                measure_border_ticks.append(measure_border_ticks[-1] + ticks_in_measure)
+            measure_border_ticks.extend(
+                measure_border_ticks[-1] + ticks_in_measure
+                for _ in range(current_measure - previous_measure)
+            )
             prev_time_signature = time_signature
         last_tick = key_ticks[-1].tick
         if last_tick >= tick + (
@@ -253,8 +255,10 @@ class MusicXMLGenerator:
             measure += tick_diff / ticks_in_measure
             tick = last_tick
             current_measure = measure
-            for _ in range(int(current_measure) - previous_measure):
-                measure_border_ticks.append(measure_border_ticks[-1] + ticks_in_measure)
+            measure_border_ticks.extend(
+                measure_border_ticks[-1] + ticks_in_measure
+                for _ in range(int(current_measure) - previous_measure)
+            )
         measure_border_ticks.append(
             measure_border_ticks[-1]
             + ticks_in_full_note
