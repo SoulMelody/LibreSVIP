@@ -765,7 +765,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.11.10"
+version = "1.11.11"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
@@ -782,8 +782,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.11.10.tar.gz", hash = "sha256:f5298bea574a748c14d452dc65ae7364511c120319b513598793b963deb613a3"},
-    {file = "gapic_generator-1.11.10-py3-none-any.whl", hash = "sha256:f990bb3e4f0ea983112a3fadcacb4aa4d77240a91a6e9cbd3d98f7cf81a7b951"},
+    {file = "gapic-generator-1.11.11.tar.gz", hash = "sha256:a413b77885f800255302602256d41c7007d15654c3f8990e2e195ed3d56a9fda"},
+    {file = "gapic_generator-1.11.11-py3-none-any.whl", hash = "sha256:90a08ca745f7e93cc6933cad14f0c1718cf0bd148acdbdf77a35bdc38afcda2e"},
 ]
 
 [[package]]
