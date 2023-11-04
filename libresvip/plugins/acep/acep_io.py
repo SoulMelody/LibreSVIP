@@ -26,7 +26,7 @@ class AcepFile(BaseModel):
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
     if not isinstance(src, pathlib.Path):
         src = pathlib.Path(src)
-    acep_file = AcepFile.model_validate_json(src.read_text())
+    acep_file = AcepFile.model_validate_json(src.read_text(encoding="utf-8"))
     decompressed = zstd.decompress(acep_file.content)
     return json_loads(decompressed)
 
@@ -40,5 +40,6 @@ def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> No
     target.write_text(
         json_dumps(
             acep_file.model_dump(mode="json", by_alias=True), separators=(",", ":")
-        )
+        ),
+        encoding="utf-8",
     )

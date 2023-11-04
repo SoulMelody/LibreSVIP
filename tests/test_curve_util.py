@@ -3,7 +3,7 @@ import sys
 from libresvip.model.base import ParamCurve, Point, Points
 
 
-def test_curve_split_01():
+def test_curve_split_01() -> None:
     points = Points(
         root=[Point(1, 1), Point(2, 1), Point(3, 0), Point(4, 1), Point(5, 1)]
     )
@@ -13,7 +13,7 @@ def test_curve_split_01():
     assert segments[0] == [(1, 1), (2, 1), (3, 0), (4, 1), (5, 1)]
 
 
-def test_curve_split_02():
+def test_curve_split_02() -> None:
     points = Points(
         root=[
             Point(1, 0),
@@ -41,7 +41,7 @@ def test_curve_split_02():
     ]
 
 
-def test_curve_split_04():
+def test_curve_split_04() -> None:
     points = Points(
         root=[
             Point(-192000, 0),
