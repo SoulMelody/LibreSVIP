@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import sys
 from itertools import chain
-from typing import Literal, NamedTuple, Optional
+from typing import Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
 from more_itertools import chunked
@@ -478,7 +478,7 @@ class SVDatabase(BaseModel):
     name: str = ""
     language: str = ""
     phoneset: str = ""
-    version: Optional[str] = None
+    version: Optional[Union[str, int]] = None
     language_override: Optional[str] = Field(None, alias="languageOverride")
     phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
     backend_type: str = Field("", alias="backendType")
