@@ -3,7 +3,8 @@ import re
 from functools import partial, reduce
 from typing import Callable, Optional
 
-from libresvip.core.constants import DEFAULT_BPM, DEFAULT_CHINESE_LYRIC, DEFAULT_PHONEME
+from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
+from libresvip.core.lyric_phoneme.japanese import get_romaji_series, is_kana
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_interval import RangeInterval
 from libresvip.core.time_sync import TimeSynchronizer
@@ -439,14 +440,12 @@ class SynthVParser:
         note.length = (
             position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         )
+        note.lyric = sv_note.lyrics
         if sv_note.phonemes:
-            note.lyric = sv_note.lyrics
-            note.pronunciation = xsampa2pinyin(sv_note.phonemes)
-        elif re.match(r"[a-zA-Z]", sv_note.lyrics) is not None:
-            note.lyric = DEFAULT_CHINESE_LYRIC
-            note.pronunciation = sv_note.lyrics
-        else:
-            note.lyric = sv_note.lyrics
+            if is_kana(note.lyric):
+                note.pronunciation = " ".join(get_romaji_series(note.lyric))
+            else:
+                note.pronunciation = xsampa2pinyin(sv_note.phonemes)
         return note
 
     def parse_note_list(self, sv_note_list: list[SVNote]) -> list[Note]:

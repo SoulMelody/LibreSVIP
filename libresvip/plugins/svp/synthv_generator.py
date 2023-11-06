@@ -278,11 +278,7 @@ class SynthVGenerator:
         return SVNote(
             onset=onset,
             pitch=note.key_number,
-            lyrics=(
-                note.lyric
-                if note.pronunciation is None or not len(note.pronunciation.strip())
-                else note.pronunciation
-            ),
+            lyrics=note.lyric or note.pronunciation,
             duration=ticks_to_position(note.end_pos) - onset,
         )
 
