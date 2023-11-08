@@ -29,22 +29,30 @@ class DsItem(BaseModel):
     seed: Optional[int] = None
     spk_mix: Optional[dict[str, list[float]]] = None
     spk_mix_timestep: Optional[float] = None
-    gender: Optional[dict[str, list[float]]] = None
+    gender: Optional[list[float]] = None
     gender_timestep: Optional[float] = None
 
     @field_validator("text", "note_seq", "ph_seq", mode="before")
     @classmethod
-    def _validate_str_list(cls, value, _info: ValidationInfo) -> list[str]:
+    def _validate_str_list(
+        cls, value: Optional[str], _info: ValidationInfo
+    ) -> list[str]:
         return None if value is None else value.split()
 
-    @field_validator("f0_seq", "ph_dur", "note_dur", "note_dur_seq", mode="before")
+    @field_validator(
+        "f0_seq", "ph_dur", "note_dur", "note_dur_seq", "gender", mode="before"
+    )
     @classmethod
-    def _validate_float_list(cls, value, _info: ValidationInfo) -> list[float]:
+    def _validate_float_list(
+        cls, value: Optional[str], _info: ValidationInfo
+    ) -> list[float]:
         return None if value is None else [float(x) for x in value.split()]
 
     @field_validator("is_slur_seq", "note_slur", "ph_num", mode="before")
     @classmethod
-    def _validate_int_list(cls, value, _info: ValidationInfo) -> list[int]:
+    def _validate_int_list(
+        cls, value: Optional[str], _info: ValidationInfo
+    ) -> list[int]:
         return None if value is None else [int(x) for x in value.split()]
 
     @field_serializer(
@@ -57,16 +65,19 @@ class DsItem(BaseModel):
         "text",
         "note_seq",
         "ph_seq",
+        "gender",
         when_used="json-unless-none",
     )
     @classmethod
-    def _serialize_list(cls, value, _info: SerializationInfo) -> str:
+    def _serialize_list(
+        cls, value: list[Union[str, int, float]], _info: SerializationInfo
+    ) -> str:
         return " ".join(str(x) for x in value)
 
-    @field_validator("spk_mix", "gender", mode="before")
+    @field_validator("spk_mix", mode="before")
     @classmethod
     def _validate_nested_dict(
-        cls, value, _info: ValidationInfo
+        cls, value: dict[str, str], _info: ValidationInfo
     ) -> dict[str, list[float]]:
         if value is None:
             return None
@@ -75,9 +86,11 @@ class DsItem(BaseModel):
             value[key] = [float(x) for x in value[key].split()]
         return value
 
-    @field_serializer("spk_mix", "gender", when_used="json-unless-none")
+    @field_serializer("spk_mix", when_used="json-unless-none")
     @classmethod
-    def _serialize_nested_dict(cls, value, _info: SerializationInfo) -> dict[str, str]:
+    def _serialize_nested_dict(
+        cls, value: dict[str, list[float]], _info: SerializationInfo
+    ) -> dict[str, str]:
         return {key: " ".join(str(x) for x in value[key]) for key in value}
 
 
@@ -86,7 +99,7 @@ class DsProject(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def populate_root(cls, values, _info: ValidationInfo) -> dict:
+    def populate_root(cls, values: list[dict], _info: ValidationInfo) -> dict:
         return {"root": values} if isinstance(values, list) else values
 
     @model_serializer(mode="wrap")
