@@ -38,7 +38,7 @@ dependencies = [
   "omegaconf<3.0.0,>=2.3.0",
   "packaging<24.0,>=23.2",
   "parsimonious<0.11.0,>=0.10.0",
-  "platformdirs<4.0.0,>=3.11.0",
+  "platformdirs<5.0.0,>=3.11.0",
   "portion<3.0.0,>=2.4.1",
   "proto-plus<2.0.0,>=1.22.3",
   "pydantic<3.0.0,>=2.4.2,!=2.4.1",
@@ -92,8 +92,8 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.22.1",
-  "gapic-generator>=1.11.11",
+  "datamodel-code-generator>=0.23.0",
+  "gapic-generator>=1.12.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
@@ -102,10 +102,10 @@ i18n = ["translate-toolkit>=3.11.0", "babel>=2.13.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.5.0",
-  "ruff>=0.1.4",
+  "ruff>=0.1.5",
   "black>=23.11.0",
-  "mypy>=1.6.1",
-  "sourcery>=1.13.0",
+  "mypy>=1.7.0",
+  "sourcery>=1.14.0",
 ]
 packaging = [
   "cx-freeze>=6.15.10",
@@ -122,6 +122,7 @@ typing_stubs = [
 ]
 
 [tool.pdm.resolution.overrides]
+platformdirs = "<5.0.0,>=4.0.0"
 construct = "<2.11.0,>=2.10.69"
 winsdk = "==1.0.0b10"
 
