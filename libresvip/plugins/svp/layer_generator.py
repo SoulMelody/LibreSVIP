@@ -131,7 +131,11 @@ class BaseLayerGenerator:
         for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
-            if next_note.start - current_note.end <= MAX_BREAK:
+            if (
+                current_note.slide_right
+                and next_note.slide_left
+                and next_note.start - current_note.end <= MAX_BREAK
+            ):
                 start = clamp(
                     current_note.end
                     - current_note.slide_right
