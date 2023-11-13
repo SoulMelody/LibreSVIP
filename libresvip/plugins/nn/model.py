@@ -128,8 +128,8 @@ class NNVisitor(NodeVisitor):
         )
 
     def visit_nn_points(self, node: Node, visited_children: list[Any]) -> NNPoints:
-        point_count, *point_nodes = visited_children
-        points = [point_node[0][-1] for point_node in point_nodes]
+        point_count, point_node_root = visited_children
+        points = [point_node[-1] for point_node in point_node_root]
         return NNPoints(point_count=point_count, points=points)
 
     def visit_word(self, node: Node, visited_children: list[Any]) -> str:

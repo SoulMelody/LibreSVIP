@@ -194,10 +194,10 @@ class MidiParser:
                         del last_note_on[key]
             elif event.type == "pitchwheel":
                 # Create pitch bend class instance
-                rel_pitch_points.points.append(
+                rel_pitch_points.append(
                     Point(
                         round(event.time * self.tick_rate),
-                        pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE,
+                        round(pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE),
                     )
                 )
             elif event.type == "lyrics":
