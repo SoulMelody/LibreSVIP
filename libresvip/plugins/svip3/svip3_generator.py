@@ -122,8 +122,8 @@ class Svip3Generator:
         kwargs = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
             audio_duration_in_secs = track_info.duration / 1000
-            audio_duration_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
-                audio_duration_in_secs
+            audio_duration_in_ticks = round(
+                self.synchronizer.get_actual_ticks_from_secs(audio_duration_in_secs)
             )
             kwargs["real_dur"] = kwargs["play_dur"] = audio_duration_in_ticks
             if track.offset >= 0:

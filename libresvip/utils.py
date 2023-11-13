@@ -74,10 +74,11 @@ def binary_find_last(n: list[T], pred: Callable[[T], bool]) -> Optional[T]:
 
 
 def gettext_lazy(message: str) -> str:
-    if (translation := lazy_translation.get()) is not None:
-        return translation.gettext(message)
+    with contextlib.suppress(LookupError):
+        if (translation := lazy_translation.get()) is not None:
+            return translation.gettext(message)
     try:
-        return gettext(message)
+        return _(message)
     except NameError:
         return message
 

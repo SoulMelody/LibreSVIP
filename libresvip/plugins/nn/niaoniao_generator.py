@@ -139,9 +139,10 @@ class NiaoniaoGenerator:
                 buffer.append(nn_pitch_param[i])
             else:
                 for j in range(len(buffer)):
-                    nn_pitch_param[previous_node_index + j] = previous_node + j * (
-                        nn_pitch_param[i] - buffer[j]
-                    ) / len(buffer)
+                    nn_pitch_param[previous_node_index + j] = round(
+                        previous_node
+                        + j * (nn_pitch_param[i] - buffer[j]) / len(buffer)
+                    )
                 buffer.clear()
 
             if nn_pitch_param[i] != previous_node:
