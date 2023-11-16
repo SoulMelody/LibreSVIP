@@ -163,22 +163,19 @@ class AceGenerator:
                                 0,
                                 self.synchronizer.get_actual_ticks_from_secs_offset(
                                     buffer[0].start_pos,
-                                    -0.3 if buffer[0].head_tag == "V" else 0,
+                                    -0.3,
                                 ),
                             )
                         )
                     )
                     vocal_pattern = AcepVocalPattern(
                         pos=self.pattern_start,
-                        dur=max(
-                            round(
-                                self.synchronizer.get_actual_ticks_from_ticks(
-                                    buffer[-1].end_pos
-                                )
+                        dur=round(
+                            self.synchronizer.get_actual_ticks_from_ticks(
+                                buffer[-1].end_pos
                             )
-                            - self.pattern_start,
-                            7680,
-                        ),
+                        )
+                        - self.pattern_start,
                     )
                     vocal_pattern.notes.extend(
                         self.generate_note(note) for note in buffer
@@ -305,7 +302,6 @@ class AceGenerator:
 
     def generate_params(self, parameters: Params) -> AcepParams:
         result = AcepParams(
-            pitch_delta=self.generate_pitch_curves(parameters.pitch),
             breathiness=self.generate_param_curves(
                 parameters.breath, self.linear_transform(0.2, 1, 2.5)
             ),
@@ -313,6 +309,8 @@ class AceGenerator:
                 parameters.gender, self.linear_transform(-1, 0, 1)
             ),
         )
+        if self.options.export_pitch:
+            result.pitch_delta = self.generate_pitch_curves(parameters.pitch)
         if self.options.map_strength_info == StrengthMappingOption.BOTH:
             result.energy = self.generate_param_curves(
                 parameters.strength, lambda x: self.linear_transform(0, 1, 2)(x / 2)

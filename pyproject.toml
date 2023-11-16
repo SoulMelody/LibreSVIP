@@ -46,7 +46,7 @@ dependencies = [
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
   "pypinyin<1.0.0,>=0.49.0",
-  "rich<14.0.0,>=13.6.0",
+  "rich<14.0.0,>=13.7.0",
   "srt<4.0.0,>=3.5.3",
   "typer<1.0.0,>=0.9.0",
   "wanakana-python<2.0.0,>=1.2.2",
@@ -92,13 +92,13 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.23.0",
+  "datamodel-code-generator>=0.24.2",
   "gapic-generator>=1.12.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.11.0", "babel>=2.13.1"]
+i18n = ["translate-toolkit>=3.11.1", "babel>=2.13.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.5.0",
