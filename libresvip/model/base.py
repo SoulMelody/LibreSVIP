@@ -17,8 +17,11 @@ from pydantic import BaseModel as PydanticBaseModel
 from pydantic import (
     ConfigDict,
     Field,
+    RootModel,
+    SerializationInfo,
     ValidationInfo,
     computed_field,
+    field_serializer,
     field_validator,
 )
 
@@ -57,8 +60,8 @@ class BaseComplexModel(Protocol):
         pass
 
 
-class Points(PointList[Point]):
-    pass
+class Points(PointList, RootModel[list[Point]]):
+    root: list[Point] = Field(default_factory=list)
 
 
 class SongTempo(BaseModel):
@@ -88,6 +91,11 @@ class ParamCurve(BaseModel):
             if isinstance(points, Points)
             else Points(root=[Point(*each) for each in points])
         )
+
+    @field_serializer("points", when_used="json-unless-none")
+    @classmethod
+    def serialize_points(cls, points: list[Point], _info: SerializationInfo):
+        return points
 
     @computed_field(alias="TotalPointsCount")
     def total_points_count(self) -> int:

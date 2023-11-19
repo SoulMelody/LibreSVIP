@@ -9,6 +9,7 @@ from more_itertools import chunked
 from pydantic import (
     Field,
     FieldSerializationInfo,
+    RootModel,
     ValidationInfo,
     field_serializer,
     field_validator,
@@ -30,8 +31,8 @@ class SVPoint(NamedTuple):
     value: float
 
 
-class SVPoints(PointList[SVPoint]):
-    pass
+class SVPoints(PointList, RootModel[list[SVPoint]]):
+    root: list[SVPoint] = Field(default_factory=list)
 
 
 class SVBaseAttributes(BaseModel):

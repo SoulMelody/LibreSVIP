@@ -1,18 +1,11 @@
 from __future__ import annotations
 
+import abc
 import math
 from functools import partial
-from typing import TYPE_CHECKING, Callable, Generic, NamedTuple, TypeVar, Union
+from typing import TYPE_CHECKING, Callable, NamedTuple, TypeVar, Union
 
 from more_itertools import pairwise
-from pydantic import (
-    BaseModel,
-    Field,
-    SerializationInfo,
-    ValidationInfo,
-    model_serializer,
-    model_validator,
-)
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -127,22 +120,8 @@ def sin_easing_out_interpolation(
     return y0 + (y1 - y0) * math.sin((x - x0) / (x1 - x0) * math.pi / 2)
 
 
-class PointList(BaseModel, Generic[PointType]):
-    root: list[PointType] = Field(default_factory=list)
-
-    @model_validator(mode="before")
-    @classmethod
-    def populate_root(cls, values, _info: ValidationInfo):
-        return {"root": values} if isinstance(values, list) else values
-
-    @model_serializer(mode="wrap")
-    def _serialize(self, handler: Callable, info: SerializationInfo):
-        data = handler(self)
-        return data["root"] if info.mode == "json" and isinstance(data, dict) else data
-
-    @classmethod
-    def model_modify_json_schema(cls, json_schema):
-        return json_schema["properties"]["root"]
+class PointList(abc.ABC):
+    root: list[PointType]
 
     def __iter__(self):
         return iter(self.root)

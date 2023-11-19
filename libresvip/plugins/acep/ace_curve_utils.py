@@ -1,7 +1,7 @@
 import statistics
 from typing import Callable, Optional
 
-from pydantic import Field, model_serializer, model_validator
+from pydantic import Field, RootModel
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
@@ -21,18 +21,8 @@ class AcepParamCurve(BaseModel):
         )
 
 
-class AcepParamCurveList(BaseModel):
+class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     root: list[AcepParamCurve] = Field(default_factory=list)
-
-    @model_validator(mode="before")
-    @classmethod
-    def populate_root(cls, values, _info):
-        return {"root": values} if isinstance(values, list) else values
-
-    @model_serializer(mode="wrap")
-    def _serialize(self, handler, info):
-        data = handler(self)
-        return data["root"] if info.mode == "json" else data
 
     def plus(self, others, default_value: float, transform: Callable[[float], float]):
         if not others:

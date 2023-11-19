@@ -5,6 +5,7 @@ from more_itertools import chunked
 from pydantic import (
     Field,
     FieldSerializationInfo,
+    RootModel,
     ValidationInfo,
     field_serializer,
     field_validator,
@@ -20,8 +21,8 @@ class S5pPoint(NamedTuple):
     value: float
 
 
-class S5pPoints(PointList[S5pPoint]):
-    pass
+class S5pPoints(PointList, RootModel[list[S5pPoint]]):
+    root: list[S5pPoint] = Field(default_factory=list)
 
 
 class S5pMeterItem(BaseModel):
