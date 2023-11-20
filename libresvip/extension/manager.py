@@ -9,6 +9,7 @@ from importlib.util import module_from_spec, spec_from_file_location
 
 from loguru import logger
 
+from libresvip.core.config import settings
 from libresvip.core.constants import app_dir, pkg_dir
 
 from .base import BasePlugin, SVSConverterBase
@@ -38,7 +39,6 @@ class PluginManager:
     install_path: pathlib.Path
     plugin_places: list[pathlib.Path]
     plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
-    identifier_blacklist: list[str] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
         sys.meta_path.append(self)
@@ -65,7 +65,7 @@ class PluginManager:
         )
 
     def _import_module(
-        self, plugin_module_name: str, candidate_filepath: pathlib.Path
+        self, plugin_module_name: str, candidate_filepath: pathlib.Path, reload: bool
     ) -> types.ModuleType:
         """
         Import a module, trying either to find it as a single file or as a directory.
@@ -90,16 +90,18 @@ class PluginManager:
                 raise ImportError(
                     msg,
                 )
-        if plugin_package not in sys.modules:
+        if plugin_package not in sys.modules or reload:
             sys.modules[plugin_package] = load_module(
                 plugin_package, candidate_filepath
             )
 
         return sys.modules[plugin_package]
 
-    def import_plugins(self) -> None:
+    def import_plugins(self, reload: bool = False) -> None:
         _candidates: list[tuple[str, pathlib.Path, LibreSvipPluginInfo]] = []
         _discovered = set()
+        if reload:
+            self.plugin_registry.clear()
         for dir_path in self.plugin_places:
             # first of all, is it a directory :)
             if not dir_path.is_dir():
@@ -152,6 +154,11 @@ class PluginManager:
             # make sure to attribute a unique module name to the one
             # that is about to be loaded
             plugin_module_name = f"{self.plugin_namespace}.{plugin_info.suffix}"
+            if (
+                plugin_info.suffix in self.plugin_registry and not reload
+            ) or plugin_info.suffix in settings.disabled_plugins:
+                logger.debug(f"Skipped plugin: {plugin_info.suffix}")
+                continue
             # tolerance on the presence (or not) of the py extensions
             if candidate_filepath.suffix in self.lib_suffixes:
                 candidate_filepath = candidate_filepath.with_suffix("")
@@ -161,7 +168,7 @@ class PluginManager:
                 candidate_filepath = candidate_filepath.parent
             try:
                 candidate_module = self._import_module(
-                    plugin_module_name, candidate_filepath
+                    plugin_module_name, candidate_filepath, reload
                 )
             except Exception:
                 logger.exception(
@@ -174,11 +181,7 @@ class PluginManager:
                     candidate_module, self.is_plugin
                 )[0]
                 plugin_info.plugin_object = plugin_cls()
-                if (
-                    plugin_info.suffix not in self.plugin_registry
-                    and plugin_info.suffix not in self.identifier_blacklist
-                ):
-                    self.plugin_registry[plugin_info.suffix] = plugin_info
+                self.plugin_registry[plugin_info.suffix] = plugin_info
             except Exception:
                 logger.exception(
                     f"Unable to create plugin object: {candidate_filepath}"

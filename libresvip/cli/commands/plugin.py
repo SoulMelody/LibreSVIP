@@ -6,10 +6,35 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from libresvip.core.config import save_settings, settings
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 
 app = typer.Typer()
+
+
+@app.command()
+def toggle(identifier: str) -> None:
+    if identifier in plugin_manager.plugin_registry:
+        try:
+            settings.disabled_plugins.append(identifier)
+            plugin_manager.import_plugins(reload=True)
+            assert identifier not in plugin_manager.plugin_registry
+            save_settings()
+            typer.secho(_("The plugin is successfully disabled."), fg="green")
+        except AssertionError:
+            typer.secho(_("Failed to disable the plugin!"), err=True, fg="red")
+    elif identifier in settings.disabled_plugins:
+        try:
+            settings.disabled_plugins.remove(identifier)
+            plugin_manager.import_plugins(reload=True)
+            assert identifier in plugin_manager.plugin_registry
+            save_settings()
+            typer.secho(_("The plugin is successfully enabled."), fg="green")
+        except AssertionError:
+            typer.secho(_("Failed to enable the plugin!"), err=True, fg="red")
+    else:
+        typer.secho(_("Unable to find the plugin."), fg="yellow")
 
 
 @app.command("list")
@@ -22,7 +47,7 @@ def detail(plugin_name: str) -> None:
     if plugin_name in plugin_manager.plugin_registry:
         print_plugin_details(plugin_manager.plugin_registry[plugin_name])
     else:
-        typer.echo(_("Cannot find plugin ") + f"{plugin_name}!")
+        typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
 def print_plugin_summary(plugins) -> None:

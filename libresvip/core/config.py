@@ -52,6 +52,7 @@ class ConflictPolicy(enum.Enum):
 class LibreSvipSettings:
     # Common
     language: Language = dataclasses.field(default=Language.CHINESE)
+    disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # both web and GUI
     last_input_format: Optional[str] = dataclasses.field(default=None)
     last_output_format: Optional[str] = dataclasses.field(default=None)
