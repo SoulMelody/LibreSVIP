@@ -10,7 +10,7 @@ FramelessWindow {
     id: window
     title: qsTr("LibreSVIP")
     visible: true
-    minimumWidth: 600
+    minimumWidth: 700
     minimumHeight: 600
     width: 1200
     height: 800

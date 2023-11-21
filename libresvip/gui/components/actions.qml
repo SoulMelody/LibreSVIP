@@ -19,6 +19,10 @@ Item {
         shortcut: "Ctrl+I"
         onTriggered: dialogs.installPluginDialog.open()
     }
+    property QtObject managePlugins : Action {
+        text: qsTr("Manage Plugins")
+        shortcut: "Ctrl+;"
+    }
     property QtObject swapInputOutput: Action {
         text: qsTr("&Swap Input/Output")
         shortcut: "Ctrl+Tab"

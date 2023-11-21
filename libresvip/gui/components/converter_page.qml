@@ -277,7 +277,6 @@ Page {
 
     ColumnLayout {
         id: selectFormatCard
-        Layout.fillWidth: true
         Label {
             text: qsTr("Select File Formats")
             font.pixelSize: 20
@@ -1487,13 +1486,14 @@ Page {
         id: smallView
         visible: false
         anchors.fill: parent
+        anchors.margins: 10
         ColumnLayout {
             id: smallViewColumn
             LayoutItemProxy {
                 target: selectFormatCard
             }
             LayoutItemProxy {
-                width: smallView.width
+                width: window.width - 25
                 height: 500
                 target: taskListArea
             }
@@ -1501,7 +1501,7 @@ Page {
                 target: advancedSettingsColumn
             }
             LayoutItemProxy {
-                width: smallView.width
+                width: window.width - 25
                 target: outputSettingsCard
             }
         }
