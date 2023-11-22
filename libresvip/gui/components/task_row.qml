@@ -309,6 +309,7 @@ ColumnLayout {
                 if (error) {
                     errorLabel.text = error
                     errorButton.visible = true
+                    runningIndicator.visible = false
                 } else if (errorButton.visible) {
                     errorButton.visible = false
                 }

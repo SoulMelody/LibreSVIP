@@ -491,24 +491,23 @@ class TaskManager(QObject):
     @Slot()
     def check_busy(self) -> None:
         if self.is_busy():
-            self.set_busy(True)
-        else:
-            self.set_busy(False)
-            if self.timer.active:
-                self.timer.stop()
-                if settings.open_save_folder_on_completion:
-                    success_task = next(
-                        (
-                            task
-                            for i, task in enumerate(self.tasks)
-                            if task["success"] and not self.output_path_exists(i)
-                        ),
-                        None,
-                    )
-                    if success_task is not None:
-                        output_dir = self.output_dir(success_task)
-                        open_path(output_dir)
-                self.all_tasks_finished.emit()
+            return
+        self.set_busy(False)
+        if self.timer.active:
+            self.timer.stop()
+            if settings.open_save_folder_on_completion:
+                success_task = next(
+                    (
+                        task
+                        for i, task in enumerate(self.tasks)
+                        if task["success"] and not self.output_path_exists(i)
+                    ),
+                    None,
+                )
+                if success_task is not None:
+                    output_dir = self.output_dir(success_task)
+                    open_path(output_dir)
+            self.all_tasks_finished.emit()
 
     def set_busy(self, busy: bool) -> None:
         self.busy_changed.emit(busy)
