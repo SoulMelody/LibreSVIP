@@ -41,7 +41,7 @@ dependencies = [
   "platformdirs<5.0.0,>=4.0.0",
   "portion<3.0.0,>=2.4.1",
   "proto-plus<2.0.0,>=1.22.3",
-  "pydantic<3.0.0,>=2.5.1,!=2.4.1",
+  "pydantic<3.0.0,>=2.5.2",
   "pydantic-extra-types<3.0.0,>=2.1.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
@@ -70,7 +70,7 @@ upath = [
   "universal-pathlib<1.0.0,>=0.1.4",
 ]
 webui = [
-  "nicegui[native]>=1.4.2",
+  "nicegui[native]>=1.4.3",
   "libresvip[upath]",
 ]
 desktop = [

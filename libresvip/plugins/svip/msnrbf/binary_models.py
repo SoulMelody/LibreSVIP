@@ -44,10 +44,10 @@ Int32sl = BytesInteger(4, swapped=True, signed=True)
 
 
 class TimeSpanAdapter(Adapter):
-    def _encode(self, obj, context, path):
+    def _encode(self, obj: timedelta, context, path) -> int:
         return int(obj.total_seconds() * 10000000)
 
-    def _decode(self, obj, context, path):
+    def _decode(self, obj: int, context, path) -> timedelta:
         return timedelta(microseconds=obj / 10)
 
 
@@ -60,7 +60,7 @@ DateTimeBitStruct = BitStruct(
 
 
 class DateTimeAdapter(Adapter):
-    def _encode(self, obj, context, path):
+    def _encode(self, obj: datetime, context, path) -> DateTimeBitStruct:
         if obj.tzinfo is None:
             kind = 0
         elif obj.tzinfo.utcoffset(obj) == timedelta(0):
@@ -70,12 +70,12 @@ class DateTimeAdapter(Adapter):
         ticks = (obj - datetime(1, 1, 1)).total_seconds() * 10000000
         return DateTimeBitStruct.build({"ticks": ticks, "kind": kind})
 
-    def _decode(self, obj, context, path):
+    def _decode(self, obj: DateTimeBitStruct, context, path) -> datetime:
         date_time = datetime(1, 1, 1) + timedelta(microseconds=obj.ticks / 10)
         if obj.kind == 1:
             date_time = date_time.replace(tzinfo=timezone.utc)
         elif obj.kind == 2:
-            local_timezone = datetime.now(timezone.utc).astimezone().tzinfo
+            local_timezone = datetime.now(tz=timezone.utc).astimezone().tzinfo
             date_time = date_time.replace(tzinfo=local_timezone)
         return date_time
 

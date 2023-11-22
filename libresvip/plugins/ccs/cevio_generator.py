@@ -141,7 +141,9 @@ class CeVIOGenerator:
                         max_tick
                     )
                     new_unit.duration = XmlTime.from_time(
-                        datetime.datetime.utcfromtimestamp(max_secs).time()
+                        datetime.datetime.fromtimestamp(
+                            max_secs, tz=datetime.timezone.utc
+                        ).time()
                     )
 
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
@@ -155,11 +157,13 @@ class CeVIOGenerator:
                         track.offset
                     )
                     start_time = XmlTime.from_time(
-                        datetime.datetime.utcfromtimestamp(start_secs).time()
+                        datetime.datetime.fromtimestamp(
+                            start_secs, tz=datetime.timezone.utc
+                        ).time()
                     )
                     end_time = XmlTime.from_time(
-                        datetime.datetime.utcfromtimestamp(
-                            track_info.duration / 1000
+                        datetime.datetime.fromtimestamp(
+                            track_info.duration / 1000, tz=datetime.timezone.utc
                         ).time()
                     )
                     new_group = CeVIOGroup(
