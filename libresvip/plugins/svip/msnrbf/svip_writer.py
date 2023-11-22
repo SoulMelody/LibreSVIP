@@ -1,6 +1,7 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import enum
+import inspect
 import math
 import pathlib
 from collections import defaultdict
@@ -219,7 +220,7 @@ class SvipWriter(NrbfIOBase):
         fields = sorted(
             dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0)
         )
-        class_name = obj.__class__.__doc__
+        class_name = inspect.getdoc(type(obj))
 
         if (
             subcon_class_name is not None
@@ -261,7 +262,7 @@ class SvipWriter(NrbfIOBase):
                     if field_origin in (list, XSBuf, XSBufList):
                         field_type = field_origin
                         if dataclasses.is_dataclass(field_args[0]):
-                            subcon_class_name = field_args[0].__doc__
+                            subcon_class_name = inspect.getdoc(field_args[0])
                     elif (
                         field_origin == Union
                         and len(field_args) == 2
@@ -318,7 +319,7 @@ class SvipWriter(NrbfIOBase):
                             {"info": PrimitiveTypeEnum.Byte}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = field_type.__doc__
+                        sub_class_name = inspect.getdoc(field_type)
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -373,7 +374,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append({"value": value})
                     elif issubclass(field_type, list):
                         if len(value) > 0:
-                            subcon_class_name = value[0].__class__.__doc__
+                            subcon_class_name = inspect.getdoc(type(value[0]))
                         result["obj"]["member_values"].append(
                             {
                                 "value": self.write_binary_array(
@@ -390,7 +391,7 @@ class SvipWriter(NrbfIOBase):
                             }
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = field_type.__doc__
+                        sub_class_name = inspect.getdoc(field_type)
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -453,7 +454,7 @@ class SvipWriter(NrbfIOBase):
                     if field_origin in (list, XSBuf, XSBufList):
                         field_type = field_origin
                         if dataclasses.is_dataclass(field_args[0]):
-                            subcon_class_name = field_args[0].__doc__
+                            subcon_class_name = inspect.getdoc(field_args[0])
                     elif (
                         field_origin == Union
                         and len(field_args) == 2
@@ -486,7 +487,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append({"value": value})
                     elif issubclass(field_type, list):
                         if len(value) > 0:
-                            subcon_class_name = value[0].__class__.__doc__
+                            subcon_class_name = inspect.getdoc(type(value[0]))
                         result["obj"]["member_values"].append(
                             {
                                 "value": self.write_binary_array(
@@ -503,7 +504,7 @@ class SvipWriter(NrbfIOBase):
                             }
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = field_type.__doc__
+                        sub_class_name = inspect.getdoc(field_type)
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"

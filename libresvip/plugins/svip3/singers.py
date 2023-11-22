@@ -9,7 +9,9 @@ class XStudio3Singers:
     singers: dict[str, str] = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
-        with importlib.resources.path(__package__, "singers.json") as singer_data_path:
+        with importlib.resources.path(
+            "libresvip.plugins.svip3", "singers.json"
+        ) as singer_data_path:
             self.singers = json_loads(singer_data_path.read_text(encoding="utf-8"))
 
     def get_name(self, uuid: str) -> str:

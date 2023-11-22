@@ -19,7 +19,9 @@ class OpenSvipSingers:
     singers: dict[str, str] = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
-        with importlib.resources.path(__package__, "singers.json") as singers_data_path:
+        with importlib.resources.path(
+            "libresvip.plugins.svip", "singers.json"
+        ) as singers_data_path:
             self.singers = json_loads(singers_data_path.read_text(encoding="utf-8"))
 
     def get_name(self, id_: str) -> str:
@@ -52,14 +54,14 @@ class OpenSvipReverbPresets(enum.Enum):
         if isinstance(index, XSReverbPreset):
             index = index.value
         return next(
-            (name for name, member in cls.__members__.items() if member.value == index),
+            (name for name in cls._member_names_ if cls[name].value == index),
             None,
         )
 
     @classmethod
     def get_index(cls, name: str) -> XSReverbPreset:
-        if name in cls.__members__:
-            value = cls.__members__[name].value
+        if name in cls._member_names_:
+            value = cls[name].value
         else:
             value = XSReverbPresetEnum.NONE
         return XSReverbPreset(value=value)

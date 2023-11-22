@@ -17,7 +17,7 @@ default_durations = {
 }
 default_phone_ratio = 1.8
 
-with resource_path(__package__, ".") as resource_dir:
+with resource_path("libresvip.plugins.svp", ".") as resource_dir:
     phoneme_dictionary = json_loads(
         (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
     )

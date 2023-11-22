@@ -2,6 +2,7 @@
 import abc
 import dataclasses
 import enum
+import inspect
 import math
 import struct
 from itertools import chain
@@ -556,7 +557,7 @@ class XSAppModel:
 
 
 fullname2classes = {
-    cls.__doc__: cls
+    inspect.getdoc(cls): cls
     for cls in (
         XSAppModel,
         XSBeatSize,

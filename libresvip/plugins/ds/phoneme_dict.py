@@ -7,7 +7,7 @@ from libresvip.core.constants import resource_path
 
 def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict[str, str]:
     opencpop_dict = {}
-    with resource_path(__package__, "dicts") as dict_dir:
+    with resource_path("libresvip.plugins.ds", "dicts") as dict_dir:
         if (
             dict_content := (dict_dir / f"{dict_name}.txt").read_text(encoding="utf-8")
         ) is None:
