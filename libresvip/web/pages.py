@@ -19,7 +19,7 @@ from operator import not_
 from typing import Any, Optional, TypedDict, Union, get_args, get_type_hints
 from urllib.parse import quote
 
-from nicegui import app, ui
+from nicegui import app, binding, ui
 from nicegui.context import get_client
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.storage import request_contextvar
@@ -39,6 +39,8 @@ from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import lazy_translation, shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
+
+binding.MAX_PROPAGATION_TIME = 0.03
 
 
 def dark_mode2str(mode: DarkMode) -> Optional[bool]:

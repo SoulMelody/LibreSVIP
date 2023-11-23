@@ -12,11 +12,23 @@ nn_grammar = Grammar(
         nn_info_line newline
         int newline
         (nn_note newline?)*
+        nn_chord?
+        nn_drum?
+
+    nn_chord          =
+        "#CHORD" newline
+        int newline
+        ('[' nn_legacy_points ']' newline)*
+
+    nn_drum           =
+        "#DRUM" newline
+        '[' nn_legacy_points ']' newline
 
     newline           = ~"\r?\n"
     nn_time_signature = int " " int
     nn_info_line      = float ' ' nn_time_signature ' ' int ' ' int ' ' int ' 0 0 0 0'
     nn_points         = int (',' int)*
+    nn_legacy_points  = int (', ' int)*
     nn_note           = ' ' word ' ' pinyin ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' int ' ' nn_points ' ' nn_points ' ' int
 
     word              = ~"([\u4e00-\u9fff]|-|[a-z]+)"
@@ -70,7 +82,7 @@ class NNProject(BaseModel):
 
 class NNVisitor(NodeVisitor):
     def visit_nn_project(self, node: Node, visited_children: list[Any]) -> NNProject:
-        info_line, _, note_count, _, note_pairs = visited_children
+        info_line, _, note_count, _, note_pairs, _, _ = visited_children
         return NNProject(
             info_line=info_line,
             note_count=note_count,

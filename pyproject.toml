@@ -104,7 +104,7 @@ linting = [
   "pre-commit>=3.5.0",
   "ruff>=0.1.6",
   "black>=23.11.0",
-  "mypy>=1.7.0",
+  "mypy>=1.7.1",
   "sourcery>=1.14.0",
 ]
 packaging = [
@@ -112,7 +112,7 @@ packaging = [
   "pyinstaller>=6.2.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.4.10"]
+docs = ["mkdocs-material<10.0.0,>=9.4.11"]
 test = ["pytest>=7.4.3", "pytest-datadir>=1.5.0"]
 typing_stubs = [
   "types-protobuf>=4.24.0.4",
