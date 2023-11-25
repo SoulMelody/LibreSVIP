@@ -860,19 +860,19 @@ files = [
 
 [[package]]
 name = "httpx"
-version = "0.25.1"
+version = "0.25.2"
 requires_python = ">=3.8"
 summary = "The next generation HTTP client."
 dependencies = [
     "anyio",
     "certifi",
-    "httpcore",
+    "httpcore==1.*",
     "idna",
     "sniffio",
 ]
 files = [
-    {file = "httpx-0.25.1-py3-none-any.whl", hash = "sha256:fec7d6cc5c27c578a391f7e87b9aa7d3d8fbcd034f6399f9f79b45bcc12a866a"},
-    {file = "httpx-0.25.1.tar.gz", hash = "sha256:ffd96d5cf901e63863d9f1b4b6807861dbea4d301613415d9e6e57ead15fc5d0"},
+    {file = "httpx-0.25.2-py3-none-any.whl", hash = "sha256:a05d3d052d9b2dfce0e3896636467f8a5342fb2b902c819428e1ac65413ca118"},
+    {file = "httpx-0.25.2.tar.gz", hash = "sha256:8b8fcaa0c8ea7b05edd69a094e63a2094c4efcb48129fb757361bc423c0ad9e8"},
 ]
 
 [[package]]
@@ -887,12 +887,12 @@ files = [
 
 [[package]]
 name = "idna"
-version = "3.4"
+version = "3.5"
 requires_python = ">=3.5"
 summary = "Internationalized Domain Names in Applications (IDNA)"
 files = [
-    {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
-    {file = "idna-3.4.tar.gz", hash = "sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4"},
+    {file = "idna-3.5-py3-none-any.whl", hash = "sha256:79b8f0ac92d2351be5f6122356c9a592c96d81c9a79e4b488bf2a6a15f88057a"},
+    {file = "idna-3.5.tar.gz", hash = "sha256:27009fe2735bf8723353582d48575b23c533cc2c2de7b5a68908d91b5eb18d08"},
 ]
 
 [[package]]
@@ -1282,7 +1282,7 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.4.11"
+version = "9.4.12"
 requires_python = ">=3.8"
 summary = "Documentation that simply works"
 dependencies = [
@@ -1299,8 +1299,8 @@ dependencies = [
     "requests~=2.26",
 ]
 files = [
-    {file = "mkdocs_material-9.4.11-py3-none-any.whl", hash = "sha256:794b81d74df4fd7dee952dd4502f7b6a7913a1fc56021e5f36f8e96eb20ffb25"},
-    {file = "mkdocs_material-9.4.11.tar.gz", hash = "sha256:82c2bdbdc8445854f400d12831a8b0f7602efaaead7b264ac3c45aa3aa240755"},
+    {file = "mkdocs_material-9.4.12-py3-none-any.whl", hash = "sha256:1adf4e49a6ae59b333d82acedef176f381c27be808bba82074f88dfefc4a5b01"},
+    {file = "mkdocs_material-9.4.12.tar.gz", hash = "sha256:378fae65dbd47e422cabb912f417b3a67db087d150a601dc7b94dbcc26981cbe"},
 ]
 
 [[package]]
