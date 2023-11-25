@@ -1,18 +1,52 @@
 import statistics
-from typing import Callable, Optional
+from itertools import chain
+from typing import Callable, NamedTuple, Optional
 
-from pydantic import Field, RootModel
+from more_itertools import chunked
+from pydantic import (
+    Field,
+    FieldSerializationInfo,
+    RootModel,
+    ValidationInfo,
+    field_serializer,
+    field_validator,
+)
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
+from libresvip.model.point import PointList
+
+
+class AcepAnchorPoint(NamedTuple):
+    pos: float
+    value: float
+
+
+class AcepAnchorPoints(PointList, RootModel[list[AcepAnchorPoint]]):
+    root: list[AcepAnchorPoint] = Field(default_factory=list)
 
 
 class AcepParamCurve(BaseModel):
     curve_type: str = Field("data", alias="type")
     offset: int = 0
     values: list[float] = Field(default_factory=list)
-    points: Optional[list[float]] = None
+    points: Optional[AcepAnchorPoints] = None
     points_vuv: Optional[list[float]] = Field(None, alias="pointsVUV")
+
+    @field_validator("points", mode="before")
+    @classmethod
+    def validate_points(
+        cls, points: list[float], _info: ValidationInfo
+    ) -> AcepAnchorPoints:
+        return AcepAnchorPoints(
+            root=[AcepAnchorPoint(*each) for each in chunked(points, 2)]
+        )
+
+    @field_serializer("points", when_used="json")
+    def serialize_points(
+        self, points: AcepAnchorPoints, _info: FieldSerializationInfo
+    ) -> list[float]:
+        return list(chain.from_iterable(points.root))
 
     def transform(self, value_transform: Callable[[float], float]):
         return self.model_copy(

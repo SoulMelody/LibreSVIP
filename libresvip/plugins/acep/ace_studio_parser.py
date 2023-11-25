@@ -108,7 +108,8 @@ class AceParser:
                     ace_curves = [
                         curve
                         for curve in src.root
-                        if curve.offset + pattern.pos >= -self.first_bar_ticks
+                        if curve.curve_type != "anchor"
+                        and curve.offset + pattern.pos >= -self.first_bar_ticks
                         and curve.offset + len(curve.values) > pattern.clip_pos
                         and curve.offset < pattern.clip_pos + pattern.clip_dur
                     ]
