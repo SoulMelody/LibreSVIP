@@ -1,12 +1,173 @@
+from __future__ import annotations
+
+import math
+import statistics
 from enum import Enum
-from typing import Annotated, Literal, Optional, Union
+from itertools import chain
+from typing import Annotated, Callable, Literal, NamedTuple, Optional, Union
 
-from pydantic import Field
+from more_itertools import chunked
+from pydantic import (
+    Field,
+    FieldSerializationInfo,
+    RootModel,
+    ValidationInfo,
+    field_serializer,
+    field_validator,
+)
 
+from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
+from libresvip.model.point import PointList, linear_interpolation
 
-from .ace_curve_utils import AcepParamCurveList
+from .ace_curve_utils import interpolate_akima
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
+
+
+class AcepAnchorPoint(NamedTuple):
+    pos: float
+    value: float
+
+
+class AcepAnchorPoints(PointList, RootModel[list[AcepAnchorPoint]]):
+    root: list[AcepAnchorPoint] = Field(default_factory=list)
+
+
+class AcepParamCurve(BaseModel):
+    curve_type: str = Field("data", alias="type")
+    offset: int = 0
+    values: list[float] = Field(default_factory=list)
+    points: Optional[AcepAnchorPoints] = None
+    points_vuv: Optional[list[float]] = Field(None, alias="pointsVUV")
+
+    @field_validator("points", mode="before")
+    @classmethod
+    def validate_points(
+        cls, points: list[float], _info: ValidationInfo
+    ) -> AcepAnchorPoints:
+        return AcepAnchorPoints(
+            root=[AcepAnchorPoint(*each) for each in chunked(points, 2)]
+        )
+
+    @field_serializer("points", when_used="json")
+    def serialize_points(
+        self, points: AcepAnchorPoints, _info: FieldSerializationInfo
+    ) -> list[float]:
+        return list(chain.from_iterable(points.root))
+
+    def points2values(self) -> None:
+        if self.curve_type == "anchor":
+            if len(self.points.root) > 2:
+                self.offset = math.floor(self.points.root[0].pos)
+                self.values = interpolate_akima(
+                    [point.pos for point in self.points.root],
+                    [point.value for point in self.points.root],
+                    list(range(self.offset, math.ceil(self.points.root[-1].pos) + 1)),
+                )
+            elif len(self.points.root) == 2:
+                self.offset = math.floor(self.points.root[0].pos)
+                self.values = [
+                    linear_interpolation(self.points.root[0], self.points.root[-1], pos)
+                    for pos in range(
+                        self.offset, math.ceil(self.points.root[-1].pos) + 1
+                    )
+                ]
+
+    def transform(self, value_transform: Callable[[float], float]) -> AcepParamCurve:
+        return self.model_copy(
+            update={"values": [value_transform(each) for each in self.values]},
+            deep=True,
+        )
+
+
+class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
+    root: list[AcepParamCurve] = Field(default_factory=list)
+
+    def plus(
+        self, others, default_value: float, transform: Callable[[float], float]
+    ) -> AcepParamCurveList:
+        if not others:
+            return self
+        result_ranges = RangeInterval(
+            [
+                (curve.offset, curve.offset + len(curve.values))
+                for curve in (self.root + others.root)
+            ],
+        ).sub_ranges()
+        result_curve_list = type(self)()
+        for start, end in result_ranges:
+            result_curve = AcepParamCurve()
+            result_curve.offset = start
+            result_curve.values = [0.0] * (end - start)
+            for self_curve in (
+                curve for curve in self.root if start <= curve.offset < end
+            ):
+                index = self_curve.offset - start
+                for value in self_curve.values:
+                    result_curve.values[index] = value
+                    index += 1
+            for other_curve in (
+                curve for curve in others.root if start <= curve.offset < end
+            ):
+                index = other_curve.offset - start
+                for value in other_curve.values:
+                    if result_curve.values[index] == 0.0:
+                        result_curve.values[index] = default_value
+                    result_curve.values[index] += transform(value)
+                    index += 1
+            result_curve_list.root.append(result_curve)
+        return result_curve_list
+
+    def exclude(self, predicate: Callable[[float], bool]) -> AcepParamCurveList:
+        result = type(self)()
+        for curve in self.root:
+            buffer = []
+            pos = curve.offset
+            for value in curve.values:
+                pos += 1
+                if predicate(value):
+                    if buffer:
+                        result.root.append(
+                            AcepParamCurve(offset=pos - len(buffer), values=buffer)
+                        )
+                        buffer = []
+                else:
+                    buffer.append(value)
+
+            if buffer:
+                result.root.append(
+                    AcepParamCurve(offset=pos - len(buffer), values=buffer)
+                )
+
+        return result
+
+    def z_score_normalize(self, d: float = 1, b: float = 0) -> AcepParamCurveList:
+        if not self.root:
+            return self
+        points = sum(curve.values for curve in self.root)
+        miu = statistics.mean(points)
+        sigma = statistics.stdev(points)
+        return type(self)(
+            root=[
+                curve.transform(lambda x: (x - miu) / sigma * d + b)
+                for curve in self.root
+            ]
+        )
+
+    def minmax_normalize(self, r: float = 1, b: float = 0) -> AcepParamCurveList:
+        if not self.root:
+            return self
+        minmax = sum((curve.values for curve in self.root), [])
+        min_ = min(minmax)
+        max_ = max(minmax)
+        return type(self)(
+            root=[
+                curve.transform(lambda x: r * (2 * (x - min_) / (max_ - min_) - 1) + b)
+                for curve in self.root
+            ]
+            if abs(max_ - min_) > 1e-3
+            else [curve.transform(lambda x: 0) for curve in self.root]
+        )
 
 
 class AcepLyricsLanguage(Enum):

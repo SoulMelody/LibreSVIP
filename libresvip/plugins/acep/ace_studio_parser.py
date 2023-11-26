@@ -19,12 +19,12 @@ from libresvip.model.base import (
     Track,
 )
 
-from .ace_curve_utils import AcepParamCurveList
 from .base_pitch_curve import BasePitchCurve
 from .model import (
     AcepAudioTrack,
     AcepLyricsLanguage,
     AcepNote,
+    AcepParamCurveList,
     AcepParams,
     AcepProject,
     AcepTempo,
@@ -105,11 +105,13 @@ class AceParser:
                 def merge_curves(
                     src: AcepParamCurveList, dst: AcepParamCurveList
                 ) -> None:
+                    for curve in src.root:
+                        if curve.curve_type == "anchor":
+                            curve.points2values()
                     ace_curves = [
                         curve
                         for curve in src.root
-                        if curve.curve_type != "anchor"
-                        and curve.offset + pattern.pos >= -self.first_bar_ticks
+                        if curve.offset + pattern.pos >= -self.first_bar_ticks
                         and curve.offset + len(curve.values) > pattern.clip_pos
                         and curve.offset < pattern.clip_pos + pattern.clip_dur
                     ]
@@ -310,17 +312,24 @@ class AceParser:
             for ace_curve in ace_curves.root:
                 pos = ace_curve.offset
                 curve.points.append(Point(pos + self.first_bar_ticks, -100))
-                for value in ace_curve.values:
-                    abs_semitone = (
-                        base_pitch.semitone_value_at(
-                            self.synchronizer.get_actual_secs_from_ticks(pos)
+                if ace_curve.curve_type == "anchor":
+                    for value in ace_curve.values:
+                        curve.points.append(
+                            Point(pos + self.first_bar_ticks, round(value * 100))
                         )
-                        + value
-                    )
-                    curve.points.append(
-                        Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
-                    )
-                    pos += 1
+                        pos += 1
+                else:
+                    for value in ace_curve.values:
+                        abs_semitone = (
+                            base_pitch.semitone_value_at(
+                                self.synchronizer.get_actual_secs_from_ticks(pos)
+                            )
+                            + value
+                        )
+                        curve.points.append(
+                            Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
+                        )
+                        pos += 1
                 curve.points.append(Point(pos - 1 + self.first_bar_ticks, -100))
         curve.points.append(Point.end_point())
         if self.options.curve_sample_interval > 0:

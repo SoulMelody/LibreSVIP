@@ -18,7 +18,6 @@ from libresvip.model.base import (
 )
 from libresvip.utils import audio_track_info, binary_find_first, binary_find_last
 
-from .ace_curve_utils import AcepParamCurve, AcepParamCurveList
 from .base_pitch_curve import BasePitchCurve
 from .color_pool import count_color, get_color
 from .curve_segment_utils import get_value_from_segment
@@ -27,6 +26,8 @@ from .model import (
     AcepAudioTrack,
     AcepLyricsLanguage,
     AcepNote,
+    AcepParamCurve,
+    AcepParamCurveList,
     AcepParams,
     AcepProject,
     AcepSeedComposition,
