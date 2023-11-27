@@ -124,8 +124,12 @@ def test_acep_read(
 
 
 def test_ppsf_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
+    shared_datadir: pathlib.Path,
+    capsys: pytest.CaptureFixture[str],
+    pretty_construct: None,
 ) -> None:
+    import struct
+
     from libresvip.plugins.ppsf.legacy_model import PpsfLegacyProject
     from libresvip.plugins.ppsf.model import PpsfProject
 
@@ -138,7 +142,23 @@ def test_ppsf_read(
         except zipfile.BadZipFile:
             proj = PpsfLegacyProject.parse_file(proj_path)
             for chunk in proj.body.chunks:
-                print(chunk.magic)
+                if chunk.magic == "Events":
+                    event_level = 0
+                    for event in chunk.data.events:
+                        if event.magic == "MidiEvent":
+                            (tick,) = struct.unpack_from(
+                                "<i",
+                                event.data,
+                            )
+                            if tick == 0:
+                                event_level += 1
+                            if event_level == 1:  # set_tempo
+                                print(
+                                    tick,
+                                    struct.unpack_from("<i", event.data, 4)[0] / 100,
+                                )
+                            if event_level == 2:  # time_signature
+                                print(tick, struct.unpack_from("<2b", event.data, 4))
 
 
 def test_vog_read(
