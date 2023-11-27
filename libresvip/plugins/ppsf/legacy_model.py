@@ -1,4 +1,4 @@
-import math
+import io
 
 from construct import (
     Byte,
@@ -8,7 +8,9 @@ from construct import (
     ExprAdapter,
     FixedSized,
     FocusedSeq,
+    GreedyBytes,
     GreedyRange,
+    GreedyString,
     Int16ub,
     Int16ul,
     Mapping,
@@ -17,14 +19,48 @@ from construct import (
     Prefixed,
     PrefixedArray,
     Select,
+    SizeofError,
+    StreamError,
     Struct,
     Subconstruct,
     Switch,
     obj_,
+    stream_read,
+    stream_seek,
     this,
 )
 
 Int32ul = BytesInteger(4, swapped=True)
+
+
+class Number(Subconstruct):
+    def __init__(self, subcon, consume=False, require=True):
+        super().__init__(subcon)
+        self.consume = consume
+        self.require = require
+
+    def _parse(self, stream, context, path):
+        data = b""
+        while True:
+            try:
+                b = stream_read(stream, 1, path)
+            except StreamError:
+                if self.require:
+                    raise
+                else:
+                    break
+            if b not in b"0123456789.":
+                stream_seek(stream, -1, 1, path)
+                break
+            data += b
+        if self.subcon is GreedyBytes:
+            return data
+        if type(self.subcon) is GreedyString:
+            return data.decode(self.subcon.encoding)
+        return self.subcon._parsereport(io.BytesIO(data), context, path)
+
+    def _sizeof(self, context, path):
+        raise SizeofError(path=path)
 
 
 def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
@@ -215,7 +251,9 @@ PpsfEditorClipData = Struct(
     / FixedSized(
         this.size,
         Struct(
-            "unknown" / Bytes(28),
+            "unknown1" / Bytes(7),
+            "unknown2" / Number(GreedyString("utf-8")),
+            "unknown3" / Bytes(13),
             "note_datas" / ppsf_prefixed_array(PpsfEditorData),
         ),
     ),
@@ -228,7 +266,9 @@ PpsfEditorTrackData = Struct(
     / FixedSized(
         this.size,
         Struct(
-            "unknown" / Bytes(52),
+            "unknown1" / Bytes(29),
+            "unknown2" / Number(GreedyString("utf-8")),
+            "unknown3" / Bytes(22),
             "track_datas" / ppsf_prefixed_array(PpsfEditorData),
             "clip_datas" / ppsf_prefixed_array(PpsfEditorClipData),
             "event_datas" / ppsf_prefixed_array(PpsfEditorData),
@@ -264,13 +304,7 @@ PpsfChunk = Struct(
                 "clips" / GreedyRange(ppsf_prefixed_array(PpsfClip)),
             ),
             "Events": Struct(
-                "unknown" / Bytes(lambda this: math.ceil(math.log(this._.size, 256))),
-                "events"
-                / FixedSized(
-                    lambda this: this._.size - len(this.unknown) - 1,
-                    GreedyRange(PpsfEvent),
-                ),
-                Bytes(1),
+                "events" / GreedyRange(ppsf_prefixed_array(PpsfEvent)),
             ),
             "Plugins": Struct(
                 "plugins" / GreedyRange(ppsf_prefixed_array(PpsfPlugin)),
@@ -278,10 +312,14 @@ PpsfChunk = Struct(
             "EditorDatas": Struct(
                 "prefix" / Bytes(4),
                 "rect1" / PpsfRect,
-                "padding" / Bytes(70),
+                "unknown1" / Bytes(13),
+                "unknown2" / Number(GreedyString("utf-8")),
+                "unknown3" / Bytes(48),
                 "markers" / ppsf_prefixed_array(PpsfMarker),
-                "unknown" / ppsf_prefixed_array(PpsfEditorData),
+                "unknown4" / ppsf_prefixed_array(PpsfEditorData),
                 "editor_datas" / ppsf_prefixed_array(PpsfEditorTrackData),
+                "other_track_datas" / GreedyRange(PpsfEditorData),
+                "padding" / Bytes(1),
                 "rect2" / PpsfRect,
                 "rect3" / PpsfRect,
                 "suffix" / Bytes(12),

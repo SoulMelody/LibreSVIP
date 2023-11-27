@@ -130,6 +130,9 @@ def test_ppsf_read(
 ) -> None:
     import struct
 
+    from construct import Byte, PascalString
+    from more_itertools import split_into
+
     from libresvip.plugins.ppsf.legacy_model import PpsfLegacyProject
     from libresvip.plugins.ppsf.model import PpsfProject
 
@@ -141,24 +144,52 @@ def test_ppsf_read(
             print(proj)
         except zipfile.BadZipFile:
             proj = PpsfLegacyProject.parse_file(proj_path)
+            clip_offsets = []
+            clip_note_counts = []
+            events_chunk = None
             for chunk in proj.body.chunks:
                 if chunk.magic == "Events":
-                    event_level = 0
-                    for event in chunk.data.events:
-                        if event.magic == "MidiEvent":
-                            (tick,) = struct.unpack_from(
-                                "<i",
-                                event.data,
-                            )
-                            if tick == 0:
-                                event_level += 1
-                            if event_level == 1:  # set_tempo
-                                print(
-                                    tick,
-                                    struct.unpack_from("<i", event.data, 4)[0] / 100,
+                    events_chunk = chunk
+                elif chunk.magic == "Clips":
+                    for clip_group in chunk.data.clips:
+                        for clip in clip_group:
+                            if clip.magic == "Vocaloid3NoteClip":
+                                (clip_offset,) = struct.unpack_from(
+                                    "<i", clip.data, len(clip.data) - 32
                                 )
-                            if event_level == 2:  # time_signature
-                                print(tick, struct.unpack_from("<2b", event.data, 4))
+                                clip_offsets.append(clip_offset)
+                elif chunk.magic == "EditorDatas":
+                    for track_data in chunk.data.editor_datas:
+                        for clip_data in track_data.data.clip_datas:
+                            clip_note_counts.append(len(clip_data.data.note_datas))
+            event_level = 0
+            note_events = []
+            for event_group in events_chunk.data.events:
+                for event in event_group:
+                    if event.magic == "MidiEvent":
+                        (tick,) = struct.unpack_from(
+                            "<i",
+                            event.data,
+                        )
+                        if tick == 0:
+                            event_level += 1
+                        if event_level == 1:  # set_tempo
+                            print(
+                                tick,
+                                struct.unpack_from("<i", event.data, 4)[0] / 10000,
+                            )
+                        elif event_level == 2:  # time_signature
+                            print(tick, struct.unpack_from("<2b", event.data, 4))
+                    elif event.magic == "Vocaloid3NoteEvent":
+                        note_events.append(event)
+            for i, note_group in enumerate(split_into(note_events, clip_note_counts)):
+                for note in note_group:
+                    note_offset, pit, length = struct.unpack_from(
+                        "<ibi",
+                        note.data,
+                    )
+                    lyric = PascalString(Byte, "utf-8").parse(note.data[16:])
+                    print(clip_offsets[i] + note_offset, length, pit, lyric)
 
 
 def test_vog_read(
