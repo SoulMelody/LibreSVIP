@@ -1,4 +1,5 @@
 import io
+import string
 
 from construct import (
     Byte,
@@ -31,9 +32,10 @@ from construct import (
 )
 
 Int32ul = BytesInteger(4, swapped=True)
+printable_bytes = string.printable.encode()
 
 
-class Number(Subconstruct):
+class Printable(Subconstruct):
     def __init__(self, subcon, consume=False, require=True):
         super().__init__(subcon)
         self.consume = consume
@@ -49,7 +51,7 @@ class Number(Subconstruct):
                     raise
                 else:
                     break
-            if b not in b"0123456789.":
+            if b not in printable_bytes:
                 stream_seek(stream, -1, 1, path)
                 break
             data += b
@@ -83,6 +85,19 @@ def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
                     Byte,
                     encoder=obj_ ^ 128,
                     decoder=obj_ ^ 128,
+                ),
+            ),
+            subcon,
+        ),
+        PrefixedArray(
+            FocusedSeq(
+                "size",
+                Const(b"\x81"),
+                "size"
+                / ExprAdapter(
+                    Int16ub,
+                    encoder=obj_ * 2 - (obj_ & 127),
+                    decoder=((obj_ & 127) + obj_) // 2,
                 ),
             ),
             subcon,
@@ -252,7 +267,7 @@ PpsfEditorClipData = Struct(
         this.size,
         Struct(
             "unknown1" / Bytes(7),
-            "unknown2" / Number(GreedyString("utf-8")),
+            "unknown2" / Printable(GreedyString("utf-8")),
             "unknown3" / Bytes(13),
             "note_datas" / ppsf_prefixed_array(PpsfEditorData),
         ),
@@ -267,7 +282,7 @@ PpsfEditorTrackData = Struct(
         this.size,
         Struct(
             "unknown1" / Bytes(29),
-            "unknown2" / Number(GreedyString("utf-8")),
+            "unknown2" / Printable(GreedyString("utf-8")),
             "unknown3" / Bytes(22),
             "track_datas" / ppsf_prefixed_array(PpsfEditorData),
             "clip_datas" / ppsf_prefixed_array(PpsfEditorClipData),
@@ -313,7 +328,7 @@ PpsfChunk = Struct(
                 "prefix" / Bytes(4),
                 "rect1" / PpsfRect,
                 "unknown1" / Bytes(13),
-                "unknown2" / Number(GreedyString("utf-8")),
+                "unknown2" / Printable(GreedyString("utf-8")),
                 "unknown3" / Bytes(48),
                 "markers" / ppsf_prefixed_array(PpsfMarker),
                 "unknown4" / ppsf_prefixed_array(PpsfEditorData),

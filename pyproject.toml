@@ -92,7 +92,7 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.0",
+  "datamodel-code-generator>=0.25.1",
   "gapic-generator>=1.12.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
@@ -112,7 +112,7 @@ packaging = [
   "pyinstaller>=6.2.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.4.11"]
+docs = ["mkdocs-material<10.0.0,>=9.4.14"]
 test = ["pytest>=7.4.3", "pytest-datadir>=1.5.0"]
 typing_stubs = [
   "types-protobuf>=4.24.0.4",
