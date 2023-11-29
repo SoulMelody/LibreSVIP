@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:807090618c4808ad908be3baef995b3815fa745326f25f980d794a90d46436c9"
+content_hash = "sha256:ae7494247423c40f64367de5fdda2e8a37bfee105edc983ba905e677b35cc529"
 
 [[package]]
 name = "aiofiles"
@@ -338,12 +338,12 @@ files = [
 
 [[package]]
 name = "construct"
-version = "2.10.69"
+version = "2.10.70"
 requires_python = ">=3.6"
 summary = "A powerful declarative symmetric parser/builder for binary data"
 files = [
-    {file = "construct-2.10.69-py3-none-any.whl", hash = "sha256:6b8d0ee239e1cc933829b3573df7c9d9d9554344d82f6281c11a913e2be95cb3"},
-    {file = "construct-2.10.69.tar.gz", hash = "sha256:08573d1573827a6fe6b846756d54270650e221a6cec6a72e06b582cde775599e"},
+    {file = "construct-2.10.70-py3-none-any.whl", hash = "sha256:c80be81ef595a1a821ec69dc16099550ed22197615f4320b57cc9ce2a672cb30"},
+    {file = "construct-2.10.70.tar.gz", hash = "sha256:4d2472f9684731e58cc9c56c463be63baa1447d674e0d66aeb5627b22f512c29"},
 ]
 
 [[package]]
@@ -604,7 +604,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.12.0"
+version = "1.13.0"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
@@ -621,8 +621,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.12.0.tar.gz", hash = "sha256:6b899bf8ac093083a4fa866862d989d569c0ada06cdc8ad59576c33effa3b786"},
-    {file = "gapic_generator-1.12.0-py3-none-any.whl", hash = "sha256:cdd7b331d39da5d99f30aca59f55aa1f05126ec5f4e05b076e938ee299ffd367"},
+    {file = "gapic-generator-1.13.0.tar.gz", hash = "sha256:ac2f739864aec442f4860fdfc4c5fcd0236df12f1381688c56ea91c87d66a68a"},
+    {file = "gapic_generator-1.13.0-py3-none-any.whl", hash = "sha256:545c6bc78f62b7ccd0d5a8d59ee3ce4b1b6ac5eb702a26816374ae997a9e6117"},
 ]
 
 [[package]]

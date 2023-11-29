@@ -272,6 +272,7 @@ class AcepPattern(BaseModel):
     dur: int = 0
     clip_pos: int = Field(0, alias="clipPos")
     clip_dur: int = Field(0, alias="clipDur")
+    enabled: Optional[bool] = True
 
 
 class AcepAnalysedBeat(BaseModel):

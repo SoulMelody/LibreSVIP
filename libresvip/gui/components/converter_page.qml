@@ -1489,19 +1489,22 @@ Page {
         anchors.margins: 10
         ColumnLayout {
             id: smallViewColumn
+            implicitWidth: window.width - 25
             LayoutItemProxy {
+                Layout.fillWidth: true
                 target: selectFormatCard
             }
             LayoutItemProxy {
-                width: window.width - 25
+                Layout.fillWidth: true
                 height: 500
                 target: taskListArea
             }
             LayoutItemProxy {
+                Layout.fillWidth: true
                 target: advancedSettingsColumn
             }
             LayoutItemProxy {
-                width: window.width - 25
+                Layout.fillWidth: true
                 target: outputSettingsCard
             }
         }
