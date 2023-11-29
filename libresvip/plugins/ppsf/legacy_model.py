@@ -1,6 +1,3 @@
-import io
-import string
-
 from construct import (
     Byte,
     Bytes,
@@ -9,9 +6,7 @@ from construct import (
     ExprAdapter,
     FixedSized,
     FocusedSeq,
-    GreedyBytes,
     GreedyRange,
-    GreedyString,
     Int16ub,
     Int16ul,
     Mapping,
@@ -20,49 +15,14 @@ from construct import (
     Prefixed,
     PrefixedArray,
     Select,
-    SizeofError,
-    StreamError,
     Struct,
     Subconstruct,
     Switch,
     obj_,
-    stream_read,
-    stream_seek,
     this,
 )
 
 Int32ul = BytesInteger(4, swapped=True)
-printable_bytes = string.printable.encode()
-
-
-class Printable(Subconstruct):
-    def __init__(self, subcon, consume=False, require=True):
-        super().__init__(subcon)
-        self.consume = consume
-        self.require = require
-
-    def _parse(self, stream, context, path):
-        data = b""
-        while True:
-            try:
-                b = stream_read(stream, 1, path)
-            except StreamError:
-                if self.require:
-                    raise
-                else:
-                    break
-            if b not in printable_bytes:
-                stream_seek(stream, -1, 1, path)
-                break
-            data += b
-        if self.subcon is GreedyBytes:
-            return data
-        if type(self.subcon) is GreedyString:
-            return data.decode(self.subcon.encoding)
-        return self.subcon._parsereport(io.BytesIO(data), context, path)
-
-    def _sizeof(self, context, path):
-        raise SizeofError(path=path)
 
 
 def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
@@ -266,8 +226,8 @@ PpsfEditorClipData = Struct(
     / FixedSized(
         this.size,
         Struct(
-            "unknown1" / Bytes(7),
-            "unknown2" / Printable(GreedyString("utf-8")),
+            "unknown1" / Bytes(6),
+            "unknown2" / PascalString(Byte, "utf-8"),
             "unknown3" / Bytes(13),
             "note_datas" / ppsf_prefixed_array(PpsfEditorData),
         ),
@@ -281,8 +241,8 @@ PpsfEditorTrackData = Struct(
     / FixedSized(
         this.size,
         Struct(
-            "unknown1" / Bytes(29),
-            "unknown2" / Printable(GreedyString("utf-8")),
+            "unknown1" / Bytes(28),
+            "unknown2" / PascalString(Byte, "utf-8"),
             "unknown3" / Bytes(22),
             "track_datas" / ppsf_prefixed_array(PpsfEditorData),
             "clip_datas" / ppsf_prefixed_array(PpsfEditorClipData),
@@ -327,8 +287,8 @@ PpsfChunk = Struct(
             "EditorDatas": Struct(
                 "prefix" / Bytes(4),
                 "rect1" / PpsfRect,
-                "unknown1" / Bytes(13),
-                "unknown2" / Printable(GreedyString("utf-8")),
+                "unknown1" / Bytes(12),
+                "unknown2" / PascalString(Byte, "utf-8"),
                 "unknown3" / Bytes(48),
                 "markers" / ppsf_prefixed_array(PpsfMarker),
                 "unknown4" / ppsf_prefixed_array(PpsfEditorData),

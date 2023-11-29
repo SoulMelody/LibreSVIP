@@ -25,7 +25,7 @@ from pydantic import (
     field_validator,
 )
 
-from libresvip.core.constants import TICKS_IN_BEAT
+from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.point import Point, PointList
 
 try:
@@ -66,7 +66,7 @@ class Points(PointList, RootModel[list[Point]]):
 
 class SongTempo(BaseModel):
     position: int = Field(default=0, alias="Position")
-    bpm: float = Field(default=120.0, alias="BPM")
+    bpm: float = Field(default=DEFAULT_BPM, alias="BPM")
 
 
 class TimeSignature(BaseModel):

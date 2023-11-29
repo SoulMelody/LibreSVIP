@@ -17,9 +17,9 @@ msgid "Ppsf"
 msgstr ""
 
 #: .ppsf.file_format
-msgid "Piapro Studio NT Song file"
-msgstr "Piapro Studio NT 工程文件"
+msgid "Piapro Studio Song file"
+msgstr "Piapro Studio 工程文件"
 
 #: .ppsf.description
-msgid "Conversion plugin for Piapro Studio NT project file"
-msgstr "Piapro Studio NT 工程文件转换插件"
+msgid "Conversion plugin for Piapro Studio project file"
+msgstr "Piapro Studio 工程文件转换插件"

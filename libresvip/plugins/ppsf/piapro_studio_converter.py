@@ -5,18 +5,28 @@ import zipfile
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, json_dumps, json_loads
 
+from .legacy_model import PpsfLegacyProject
 from .model import PpsfProject
 from .options import InputOptions, OutputOptions
 from .piapro_studio_generator import PiaproStudioGenerator
-from .piapro_studio_parser import PiaproStudioParser
+from .piapro_studio_legacy_parser import PiaproStudioLegacyParser
+from .piapro_studio_nt_parser import PiaproStudioNTParser
 
 
 class PiaproStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        with zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r") as zf:
-            proj_text = zf.read("ppsf.json")
-        ppsf_project = PpsfProject.model_validate(json_loads(proj_text))
-        return PiaproStudioParser(options).parse_project(ppsf_project)
+        content = path.read_bytes()
+        if content[:2] == b"PK":
+            with zipfile.ZipFile(io.BytesIO(content), "r") as zf:
+                proj_text = zf.read("ppsf.json")
+            ppsf_project = PpsfProject.model_validate(json_loads(proj_text))
+            return PiaproStudioNTParser(options).parse_project(ppsf_project)
+        elif content[:4] == b"PPSF":
+            ppsf_project = PpsfLegacyProject.parse(content)
+            return PiaproStudioLegacyParser(options).parse_project(ppsf_project)
+        else:
+            msg = "Unrecognizable format"
+            raise ValueError(msg)
 
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions

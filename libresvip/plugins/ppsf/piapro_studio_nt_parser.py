@@ -22,7 +22,7 @@ from .options import InputOptions
 
 
 @dataclasses.dataclass
-class PiaproStudioParser:
+class PiaproStudioNTParser:
     options: InputOptions
 
     def parse_project(self, ppsf_project: PpsfProject) -> Project:
