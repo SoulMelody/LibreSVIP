@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-09-12 03:57+0800\n"
+"POT-Creation-Date: 2023-11-30 03:38+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.13.1\n"
 
 #: ../libresvip/cli/commands/conf.py:22
 msgid "Setting {} is not supported in cli mode."
@@ -26,90 +26,110 @@ msgstr "在命令行模式中不支持设置 {} 选项"
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
-#: ../libresvip/cli/commands/plugin.py:25
+#: ../libresvip/cli/commands/plugin.py:24
+msgid "The plugin is successfully disabled."
+msgstr "插件已成功禁用。"
+
+#: ../libresvip/cli/commands/plugin.py:26
+msgid "Failed to disable the plugin!"
+msgstr "插件禁用失败！"
+
+#: ../libresvip/cli/commands/plugin.py:33
+msgid "The plugin is successfully enabled."
+msgstr "插件已成功启用。"
+
+#: ../libresvip/cli/commands/plugin.py:35
+msgid "Failed to enable the plugin!"
+msgstr "插件启用失败！"
+
+#: ../libresvip/cli/commands/plugin.py:37
+msgid "Unable to find the plugin."
+msgstr "无法找到该插件。"
+
+#: ../libresvip/cli/commands/plugin.py:50
 msgid "Cannot find plugin "
 msgstr "未找到插件 "
 
-#: ../libresvip/cli/commands/plugin.py:31
+#: ../libresvip/cli/commands/plugin.py:56
 msgid "No plugins are currently installed."
 msgstr "目前尚未安装任何插件。"
 
-#: ../libresvip/cli/commands/plugin.py:34
+#: ../libresvip/cli/commands/plugin.py:59
 msgid "No."
 msgstr "序号"
 
-#: ../libresvip/cli/commands/plugin.py:35
+#: ../libresvip/cli/commands/plugin.py:60
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:36 ../libresvip/web/pages.py:167
+#: ../libresvip/cli/commands/plugin.py:61 ../libresvip/web/pages.py:168
 msgid "Version"
 msgstr "版本"
 
-#: ../libresvip/cli/commands/plugin.py:37 ../libresvip/web/pages.py:171
+#: ../libresvip/cli/commands/plugin.py:62 ../libresvip/web/pages.py:172
 msgid "Author"
 msgstr "作者"
 
-#: ../libresvip/cli/commands/plugin.py:38
+#: ../libresvip/cli/commands/plugin.py:63
 msgid "Identifier"
 msgstr "标识符"
 
-#: ../libresvip/cli/commands/plugin.py:39
+#: ../libresvip/cli/commands/plugin.py:64
 msgid "Applicable file format"
 msgstr "适用格式"
 
-#: ../libresvip/cli/commands/plugin.py:58
+#: ../libresvip/cli/commands/plugin.py:83
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:59 ../libresvip/web/pages.py:814
+#: ../libresvip/cli/commands/plugin.py:84 ../libresvip/web/pages.py:813
 msgid "Version: "
 msgstr "版本： "
 
-#: ../libresvip/cli/commands/plugin.py:60
+#: ../libresvip/cli/commands/plugin.py:85
 msgid "Author: "
 msgstr "作者： "
 
-#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/cli/commands/plugin.py:89
 msgid "Website: "
 msgstr "主页： "
 
-#: ../libresvip/cli/commands/plugin.py:69
+#: ../libresvip/cli/commands/plugin.py:94
 msgid "This plugin is applicable to"
 msgstr "此插件适用于"
 
-#: ../libresvip/cli/commands/plugin.py:74
+#: ../libresvip/cli/commands/plugin.py:99
 msgid ""
 "If you want to use this plugin, please specify '-i {}' (input) or '-o {}'"
 " (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:79
+#: ../libresvip/cli/commands/plugin.py:104
 msgid "Description: "
 msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:80
+#: ../libresvip/cli/commands/plugin.py:105
 msgid "input"
 msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:80
+#: ../libresvip/cli/commands/plugin.py:105
 msgid "output"
 msgstr "输出"
 
-#: ../libresvip/cli/commands/plugin.py:89
+#: ../libresvip/cli/commands/plugin.py:114
 msgid "This plugin supports the following {} conversion options:"
 msgstr "本插件可指定以下{}转换选项："
 
-#: ../libresvip/cli/commands/plugin.py:102
-#: ../libresvip/cli/commands/plugin.py:133
+#: ../libresvip/cli/commands/plugin.py:127
+#: ../libresvip/cli/commands/plugin.py:158
 msgid "Default: "
 msgstr "默认值："
 
-#: ../libresvip/cli/commands/plugin.py:104
+#: ../libresvip/cli/commands/plugin.py:129
 msgid "Available values:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/plugin.py:127
+#: ../libresvip/cli/commands/plugin.py:152
 msgid "Available fields:"
 msgstr "可用值如下："
 
@@ -137,178 +157,178 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
-#: ../libresvip/web/pages.py:161
+#: ../libresvip/web/pages.py:162
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:181 ../libresvip/web/pages.py:198
-#: ../libresvip/web/pages.py:748 ../libresvip/web/pages.py:764
-#: ../libresvip/web/pages.py:866 ../libresvip/web/pages.py:910
+#: ../libresvip/web/pages.py:182 ../libresvip/web/pages.py:199
+#: ../libresvip/web/pages.py:747 ../libresvip/web/pages.py:763
+#: ../libresvip/web/pages.py:865 ../libresvip/web/pages.py:909
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:187
+#: ../libresvip/web/pages.py:188
 msgid "Introduction"
 msgstr "简介"
 
-#: ../libresvip/web/pages.py:188
+#: ../libresvip/web/pages.py:189
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:206
+#: ../libresvip/web/pages.py:207
 msgid "Input Options"
 msgstr "输入选项"
 
-#: ../libresvip/web/pages.py:207
+#: ../libresvip/web/pages.py:208
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: ../libresvip/web/pages.py:215
+#: ../libresvip/web/pages.py:216
 msgid "Output Options"
 msgstr "输出选项"
 
-#: ../libresvip/web/pages.py:216
+#: ../libresvip/web/pages.py:217
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: ../libresvip/web/pages.py:320
+#: ../libresvip/web/pages.py:321
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:324
+#: ../libresvip/web/pages.py:325
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:424 ../libresvip/web/pages.py:447
+#: ../libresvip/web/pages.py:425 ../libresvip/web/pages.py:447
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:453
-#: ../libresvip/web/pages.py:578 ../libresvip/web/pages.py:582
-#: ../libresvip/web/pages.py:842 ../libresvip/web/pages.py:880
-#: ../libresvip/web/pages.py:926
+#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:452
+#: ../libresvip/web/pages.py:577 ../libresvip/web/pages.py:581
+#: ../libresvip/web/pages.py:841 ../libresvip/web/pages.py:879
+#: ../libresvip/web/pages.py:925
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:468
+#: ../libresvip/web/pages.py:467
 msgid "Remove"
 msgstr "移除"
 
-#: ../libresvip/web/pages.py:578
+#: ../libresvip/web/pages.py:577
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:581
+#: ../libresvip/web/pages.py:580
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:700 ../libresvip/web/pages.py:721
+#: ../libresvip/web/pages.py:699 ../libresvip/web/pages.py:720
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:709 ../libresvip/web/pages.py:938
+#: ../libresvip/web/pages.py:708 ../libresvip/web/pages.py:937
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:731 ../libresvip/web/pages.py:992
+#: ../libresvip/web/pages.py:730 ../libresvip/web/pages.py:991
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: ../libresvip/web/pages.py:737 ../libresvip/web/pages.py:906
+#: ../libresvip/web/pages.py:736 ../libresvip/web/pages.py:905
 msgid "Swap Input and Output"
 msgstr "上下交换"
 
-#: ../libresvip/web/pages.py:739 ../libresvip/web/pages.py:869
+#: ../libresvip/web/pages.py:738 ../libresvip/web/pages.py:868
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:756 ../libresvip/web/pages.py:913
+#: ../libresvip/web/pages.py:755 ../libresvip/web/pages.py:912
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:769
+#: ../libresvip/web/pages.py:768
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:779
+#: ../libresvip/web/pages.py:778
 msgid "Light"
 msgstr "浅色"
 
-#: ../libresvip/web/pages.py:784
+#: ../libresvip/web/pages.py:783
 msgid "Dark"
 msgstr "深色"
 
-#: ../libresvip/web/pages.py:789
+#: ../libresvip/web/pages.py:788
 msgid "System"
 msgstr "跟随系统"
 
-#: ../libresvip/web/pages.py:791
+#: ../libresvip/web/pages.py:790
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:811 ../libresvip/web/pages.py:849
+#: ../libresvip/web/pages.py:810 ../libresvip/web/pages.py:848
 msgid "About"
 msgstr "关于"
 
-#: ../libresvip/web/pages.py:813
+#: ../libresvip/web/pages.py:812
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/web/pages.py:817
+#: ../libresvip/web/pages.py:816
 msgid "Author: SoulMelody"
 msgstr "作者： "
 
-#: ../libresvip/web/pages.py:821
+#: ../libresvip/web/pages.py:820
 msgid "Author's Profile"
 msgstr "作者主页"
 
-#: ../libresvip/web/pages.py:827
+#: ../libresvip/web/pages.py:826
 msgid "Repo URL"
 msgstr "仓库地址"
 
-#: ../libresvip/web/pages.py:832
+#: ../libresvip/web/pages.py:831
 msgid ""
 "LibreSVIP is an open-sourced, liberal and extensionable framework that "
 "can convert your singing synthesis projects between different file "
 "formats."
 msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: ../libresvip/web/pages.py:837
+#: ../libresvip/web/pages.py:836
 msgid ""
 "All people should have the right and freedom to choose. That's why we're "
 "committed to giving you a second chance to keep your creations free from "
 "the constraints of platforms and coterie."
 msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
 
-#: ../libresvip/web/pages.py:843
+#: ../libresvip/web/pages.py:842
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:857
+#: ../libresvip/web/pages.py:856
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:889 ../libresvip/web/pages.py:935
+#: ../libresvip/web/pages.py:888 ../libresvip/web/pages.py:934
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: ../libresvip/web/pages.py:890
+#: ../libresvip/web/pages.py:889
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:897
+#: ../libresvip/web/pages.py:896
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1005
+#: ../libresvip/web/pages.py:1004
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: ../libresvip/web/pages.py:1022
+#: ../libresvip/web/pages.py:1020
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: ../libresvip/web/pages.py:1033
+#: ../libresvip/web/pages.py:1031
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
