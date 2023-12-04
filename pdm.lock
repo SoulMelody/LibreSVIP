@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:ae7494247423c40f64367de5fdda2e8a37bfee105edc983ba905e677b35cc529"
+content_hash = "sha256:58d2d6811725a7380f0bb435412b6ff56e192bf471ccb6ba0fa59b1aee9b167e"
 
 [[package]]
 name = "aiofiles"
@@ -338,12 +338,11 @@ files = [
 
 [[package]]
 name = "construct"
-version = "2.10.70"
+version = "2.10.68"
 requires_python = ">=3.6"
 summary = "A powerful declarative symmetric parser/builder for binary data"
 files = [
-    {file = "construct-2.10.70-py3-none-any.whl", hash = "sha256:c80be81ef595a1a821ec69dc16099550ed22197615f4320b57cc9ce2a672cb30"},
-    {file = "construct-2.10.70.tar.gz", hash = "sha256:4d2472f9684731e58cc9c56c463be63baa1447d674e0d66aeb5627b22f512c29"},
+    {file = "construct-2.10.68.tar.gz", hash = "sha256:7b2a3fd8e5f597a5aa1d614c3bd516fa065db01704c72a1efaaeec6ef23d8b45"},
 ]
 
 [[package]]
@@ -906,15 +905,15 @@ files = [
 
 [[package]]
 name = "importlib-metadata"
-version = "6.9.0"
+version = "7.0.0"
 requires_python = ">=3.8"
 summary = "Read metadata from Python packages"
 dependencies = [
     "zipp>=0.5",
 ]
 files = [
-    {file = "importlib_metadata-6.9.0-py3-none-any.whl", hash = "sha256:1c8dc6839ddc9771412596926f24cb5a553bbd40624ee2c7e55e531542bed3b8"},
-    {file = "importlib_metadata-6.9.0.tar.gz", hash = "sha256:e8acb523c335a91822674e149b46c0399ec4d328c4d1f6e49c273da5ff0201b9"},
+    {file = "importlib_metadata-7.0.0-py3-none-any.whl", hash = "sha256:d97503976bb81f40a193d41ee6570868479c69d5068651eb039c40d850c59d67"},
+    {file = "importlib_metadata-7.0.0.tar.gz", hash = "sha256:7fc841f8b8332803464e5dc1c63a2e59121f46ca186c0e2e182e80bf8c1319f7"},
 ]
 
 [[package]]
@@ -1169,12 +1168,12 @@ files = [
 
 [[package]]
 name = "markdown2"
-version = "2.4.10"
+version = "2.4.11"
 requires_python = ">=3.5, <4"
 summary = "A fast and complete Python implementation of Markdown"
 files = [
-    {file = "markdown2-2.4.10-py2.py3-none-any.whl", hash = "sha256:e6105800483783831f5dc54f827aa5b44eb137ecef5a70293d8ecfbb4109ecc6"},
-    {file = "markdown2-2.4.10.tar.gz", hash = "sha256:cdba126d90dc3aef6f4070ac342f974d63f415678959329cc7909f96cc235d72"},
+    {file = "markdown2-2.4.11-py2.py3-none-any.whl", hash = "sha256:2fff5d8e9283218797c5db0e9caad14c4307839919297c5be6ae507d4eeaddbc"},
+    {file = "markdown2-2.4.11.tar.gz", hash = "sha256:c04841d0f9df37457396b9d73c54846ddb097a73e7eb7c81d1589e0bba566cda"},
 ]
 
 [[package]]
@@ -3002,23 +3001,20 @@ files = [
 
 [[package]]
 name = "winsdk"
-version = "1.0.0b10"
-requires_python = ">=3.8"
+version = "1.0.0b9"
+requires_python = ">=3.7"
 summary = "Python bindings for the Windows SDK"
 files = [
-    {file = "winsdk-1.0.0b10-cp310-cp310-win32.whl", hash = "sha256:90f75c67e166d588a045bcde0117a4631c705904f7af4ac42644479dcf0d8c52"},
-    {file = "winsdk-1.0.0b10-cp310-cp310-win_amd64.whl", hash = "sha256:c3be3fbf692b8888bac8c0712c490c080ab8976649ef01f9f6365947f4e5a8b1"},
-    {file = "winsdk-1.0.0b10-cp310-cp310-win_arm64.whl", hash = "sha256:6ab69dd65d959d94939c21974a33f4f1dfa625106c8784435ecacbd8ff0bf74d"},
-    {file = "winsdk-1.0.0b10-cp311-cp311-win32.whl", hash = "sha256:9ea4fdad9ca8a542198aee3c753ac164b8e2f550d760bb88815095d64750e0f5"},
-    {file = "winsdk-1.0.0b10-cp311-cp311-win_amd64.whl", hash = "sha256:f12e25bbf0a658270203615677520b8170edf500fba11e0f80359c5dbf090676"},
-    {file = "winsdk-1.0.0b10-cp311-cp311-win_arm64.whl", hash = "sha256:e77bce44a9ff151562bd261b2a1a8255e258bb10696d0d31ef63267a27628af1"},
-    {file = "winsdk-1.0.0b10-cp312-cp312-win32.whl", hash = "sha256:775a55a71e05ec2aa262c1fd67d80f270d4186bbdbbee2f43c9c412cf76f0761"},
-    {file = "winsdk-1.0.0b10-cp312-cp312-win_amd64.whl", hash = "sha256:8231ce5f16e1fc88bb7dda0adf35633b5b26101eae3b0799083ca2177f03e4e5"},
-    {file = "winsdk-1.0.0b10-cp312-cp312-win_arm64.whl", hash = "sha256:f4ab469ada19b34ccfc69a148090f98b40a1da1da797b50b9cbba0c090c365a5"},
-    {file = "winsdk-1.0.0b10-cp39-cp39-win32.whl", hash = "sha256:4f04d3e50eeb8ca5fe4eb2e39785f3fa594199819acdfb23a10aaef4b97699ad"},
-    {file = "winsdk-1.0.0b10-cp39-cp39-win_amd64.whl", hash = "sha256:7948bc5d8a02d73b1db043788d32b2988b8e7e29a25e503c21d34478e630eaf1"},
-    {file = "winsdk-1.0.0b10-cp39-cp39-win_arm64.whl", hash = "sha256:342b1095cbd937865cee962676e279a1fd28896a0680724fcf9c65157e7ebdb7"},
-    {file = "winsdk-1.0.0b10.tar.gz", hash = "sha256:8f39ea759626797449371f857c9085b84bb9f3b6d493dc6525e2cedcb3d15ea2"},
+    {file = "winsdk-1.0.0b9-cp310-cp310-win32.whl", hash = "sha256:b6bcf6ed7a0e97793c7b75e0acac0eb5fb658e0fcbcf12b1b3631e7eb668b294"},
+    {file = "winsdk-1.0.0b9-cp310-cp310-win_amd64.whl", hash = "sha256:dc44220e107f51c2bf2b3ba46b4c7140f53f3f3e1b7662e0cb18739acb7478d0"},
+    {file = "winsdk-1.0.0b9-cp310-cp310-win_arm64.whl", hash = "sha256:c17c76d7a9328d4da5b569beffcc3403ee32cdb8194b340dfc1df9a3a5866f0e"},
+    {file = "winsdk-1.0.0b9-cp311-cp311-win32.whl", hash = "sha256:f8cb2a1cf67c452f5479f6d6f80744fb00fb595ba5feb80be05354a21fdd7692"},
+    {file = "winsdk-1.0.0b9-cp311-cp311-win_amd64.whl", hash = "sha256:e0c55273575f4fc4992a6bb67e6229890aa88db8dea9c3c580e3a4c358f9833d"},
+    {file = "winsdk-1.0.0b9-cp311-cp311-win_arm64.whl", hash = "sha256:cc6ae631aa18f3c3eac975562f2874de11131363c45130dedd557e7789a2d165"},
+    {file = "winsdk-1.0.0b9-cp39-cp39-win32.whl", hash = "sha256:1127ec12faa8793e82cc64d983a84d46a20806c24782d2469e5445b008828076"},
+    {file = "winsdk-1.0.0b9-cp39-cp39-win_amd64.whl", hash = "sha256:d19d7095cf6368161e32deede8e2cebc164589b881f56dce4ad110b54417e989"},
+    {file = "winsdk-1.0.0b9-cp39-cp39-win_arm64.whl", hash = "sha256:ce56f4739dc71e3dd65cd9ffb2f527871285aca097fc1fc24f1865d6327bab18"},
+    {file = "winsdk-1.0.0b9.tar.gz", hash = "sha256:207d35f9ab445521d4f060b5c1f2181660390cd3db27b32961af7438478fb226"},
 ]
 
 [[package]]
