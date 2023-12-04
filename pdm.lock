@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:b4500ec68c8e027f064eb39ff70c8921ad5f77cf5a2c7459f7f1b8a5d8635825"
+content_hash = "sha256:88c4d4edf87917fb984c960989dfbd574eb57afa8021b1a79dac27c42828d83f"
 
 [[package]]
 name = "aiofiles"
@@ -1369,7 +1369,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.4"
+version = "1.4.5"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
@@ -1391,23 +1391,23 @@ dependencies = [
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.4-py3-none-any.whl", hash = "sha256:0b5c6ffa3d8839ac69b55a4b719f60ebf2ee3588c6a5bc59313337d5e43238e0"},
-    {file = "nicegui-1.4.4.tar.gz", hash = "sha256:900c01445aeffa250dbeac89cae0b7fef0b2055414a18cc4221a2a0cbc211e38"},
+    {file = "nicegui-1.4.5-py3-none-any.whl", hash = "sha256:2c67acc63a50446bbd00e4fdefaefcaa17d60d0c19232267950537dc996b4292"},
+    {file = "nicegui-1.4.5.tar.gz", hash = "sha256:29879b66502e4662245590bbe0d94931d0e036d24c70ca3ef5917f3bc65f7b8f"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.4"
+version = "1.4.5"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.4",
+    "nicegui==1.4.5",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.4-py3-none-any.whl", hash = "sha256:0b5c6ffa3d8839ac69b55a4b719f60ebf2ee3588c6a5bc59313337d5e43238e0"},
-    {file = "nicegui-1.4.4.tar.gz", hash = "sha256:900c01445aeffa250dbeac89cae0b7fef0b2055414a18cc4221a2a0cbc211e38"},
+    {file = "nicegui-1.4.5-py3-none-any.whl", hash = "sha256:2c67acc63a50446bbd00e4fdefaefcaa17d60d0c19232267950537dc996b4292"},
+    {file = "nicegui-1.4.5.tar.gz", hash = "sha256:29879b66502e4662245590bbe0d94931d0e036d24c70ca3ef5917f3bc65f7b8f"},
 ]
 
 [[package]]
