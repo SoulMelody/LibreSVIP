@@ -3,6 +3,7 @@
   "extends": [
     "config:recommended"
   ],
+  "rangeStrategy": "bump",
   "enabledManagers": ["pep621", "github-actions"],
   "labels": ["dependencies"],
   "packageRules": [
