@@ -57,12 +57,12 @@ class MidiParser:
             for exp in self.options.channels.split(","):
                 if exp:
                     start, sep, end = exp.partition("-")
-                    if start.isdigit():
+                    if start.isdigit() and not start.startswith("0"):
                         if not len(end):
-                            self.selected_channels.append(int(start))
-                        elif end.isdigit():
+                            self.selected_channels.append(int(start) - 1)
+                        elif end.isdigit() and not end.startswith("0"):
                             self.selected_channels.extend(
-                                range(int(start), int(end) + 1)
+                                range(int(start) - 1, int(end))
                             )
 
     @property
