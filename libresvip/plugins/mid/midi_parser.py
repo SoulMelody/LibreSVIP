@@ -6,8 +6,9 @@ import re
 from gettext import gettext as _
 
 import mido_fix as mido
+import more_itertools
 
-from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
+from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
@@ -31,7 +32,7 @@ from .constants import (
     ControlChange,
 )
 from .note_overlap import has_overlap
-from .options import InputOptions
+from .options import InputOptions, MultiChannelOption
 
 
 def cc11_to_db_change(value: float) -> float:
@@ -44,9 +45,25 @@ def velocity_to_db_change(value: float) -> float:
 
 @dataclasses.dataclass
 class MidiParser:
+    options: InputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     ticks_per_beat: int = dataclasses.field(init=False)
-    options: InputOptions
+    selected_channels: list[int] = dataclasses.field(default_factory=list)
+
+    def __post_init__(self):
+        if self.options.multi_channel == MultiChannelOption.FIRST:
+            self.selected_channels = [0]
+        elif self.options.multi_channel == MultiChannelOption.CUSTOM:
+            for exp in self.options.channels.split(","):
+                if exp:
+                    start, sep, end = exp.partition("-")
+                    if start.isdigit():
+                        if not len(end):
+                            self.selected_channels.append(int(start))
+                        elif end.isdigit():
+                            self.selected_channels.extend(
+                                range(int(start), int(end) + 1)
+                            )
 
     @property
     def tick_rate(self) -> float:
@@ -64,12 +81,11 @@ class MidiParser:
                 song_tempo_list, _default_tempo=self.options.default_bpm
             )
             time_signature_list = self.parse_time_signatures(master_track)
-        project = Project(
+        return Project(
             song_tempo_list=song_tempo_list,
             time_signature_list=time_signature_list,
             track_list=self.parse_tracks(mido_obj.tracks),
         )
-        return project
 
     @staticmethod
     def _convert_delta_to_cumulative(tracks: list[mido.MidiTrack]) -> None:
@@ -125,121 +141,139 @@ class MidiParser:
                         tempos.append(SongTempo(position=tick, bpm=tempo))
         return tempos
 
-    def parse_track(self, track_idx: int, track: mido.MidiTrack) -> SingingTrack:
-        last_note_on = collections.defaultdict(list)
-        pitchbend_range_changed = collections.defaultdict(list)
-        lyrics = collections.defaultdict(lambda: DEFAULT_CHINESE_LYRIC)
-        track_name = None
-        notes = []
-        rel_pitch_points = []
-        expression = ParamCurve()
-        pitch_bend_sensitivity = DEFAULT_PITCH_BEND_SENSITIVITY
-        volume_base = 0.0
-        for event in track:
-            # Look for track name events
-            if event.type == "track_name":
-                # Set the track name for the current track
-                track_name = event.name
-            elif event.type == "note_on" and event.velocity > 0:
-                # Store this as the last note-on location
-                note_on_index = (event.channel, event.note)
-                rel_pitch_points.append(Point(round(event.time * self.tick_rate), 0))
-                last_note_on[note_on_index].append(event.time)
-            elif event.type == "note_off" or (
-                event.type == "note_on" and event.velocity == 0
-            ):
-                # Check that a note-on exists (ignore spurious note-offs)
-                key = (event.channel, event.note)
-                if key in last_note_on:
-                    # Get the start/stop times and velocity of every note
-                    # which was turned on with this instrument/drum/pitch.
-                    # One note-off may close multiple note-on events from
-                    # previous ticks. In case there's a note-off and then
-                    # note-on at the same tick we keep the open note from
-                    # this tick.
-                    end_tick = event.time
-                    open_notes = last_note_on[key]
-
-                    notes_to_close = [
-                        start_tick
-                        for start_tick in open_notes
-                        if start_tick != end_tick
-                    ]
-                    notes_to_keep = [
-                        start_tick
-                        for start_tick in open_notes
-                        if start_tick == end_tick
-                    ]
-
-                    for start_tick in notes_to_close:
-                        # Create the note event
-                        note = Note(
-                            key_number=event.note,
-                            start_pos=round(start_tick * self.tick_rate),
-                            length=round((end_tick - start_tick) * self.tick_rate),
-                        )
-                        lyric = lyrics[start_tick]
-                        if re.search("[a-zA-Z]", lyric) is not None:
-                            note.lyric = DEFAULT_CHINESE_LYRIC
-                            note.pronunciation = lyric
-                        else:
-                            note.lyric = lyric
-                        notes.append(note)
-                    if notes_to_close and notes_to_keep:
-                        # Note-on on the same tick but we already closed
-                        # some previous notes -> it will continue, keep it.
-                        last_note_on[key] = notes_to_keep
-                    else:
-                        # Remove the last note on for this instrument
-                        del last_note_on[key]
-            elif event.type == "pitchwheel":
-                # Create pitch bend class instance
-                rel_pitch_points.append(
-                    Point(
-                        round(event.time * self.tick_rate),
-                        round(pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE),
+    def parse_track(self, track_idx: int, track: mido.MidiTrack) -> list[SingingTrack]:
+        tracks = []
+        event_buckets = more_itertools.bucket(
+            (event for event in track if hasattr(event, "channel")),
+            key=operator.attrgetter("channel"),
+        )
+        for channel in event_buckets:
+            if self.selected_channels and channel not in self.selected_channels:
+                continue
+            last_note_on = collections.defaultdict(list)
+            pitchbend_range_changed = collections.defaultdict(list)
+            lyrics = collections.defaultdict(lambda: DEFAULT_PHONEME)
+            track_name = None
+            notes = []
+            rel_pitch_points = []
+            expression = ParamCurve()
+            pitch_bend_sensitivity = DEFAULT_PITCH_BEND_SENSITIVITY
+            volume_base = 0.0
+            for event in event_buckets[channel]:
+                # Look for track name events
+                if event.type == "track_name":
+                    # Set the track name for the current track
+                    track_name = event.name
+                elif event.type == "note_on" and event.velocity > 0:
+                    # Store this as the last note-on location
+                    rel_pitch_points.append(
+                        Point(round(event.time * self.tick_rate), 0)
                     )
-                )
-            elif event.type == "lyrics":
-                if self.options.import_lyrics:
-                    lyric = event.text
-                    lyrics[event.time] = lyric
-            elif event.type == "control_change":
-                if (
-                    event.control == ControlChange.DATA_ENTRY
-                    and len(pitchbend_range_changed[event.time]) >= 2
+                    last_note_on[event.note].append(event.time)
+                elif event.type == "note_off" or (
+                    event.type == "note_on" and event.velocity == 0
                 ):
-                    pitch_bend_sensitivity = event.value
-                elif event.control == ControlChange.RPN_MSB and event.value == 0:
-                    pitchbend_range_changed[event.time].append(event.value)
-                elif event.control == ControlChange.RPN_LSB and event.value == 0:
-                    pitchbend_range_changed[event.time].append(event.value)
-                elif event.control == ControlChange.EXPRESSION and event.value:
-                    expression.points.append(
+                    # Check that a note-on exists (ignore spurious note-offs)
+                    key = event.note
+                    if key in last_note_on:
+                        # Get the start/stop times and velocity of every note
+                        # which was turned on with this instrument/drum/pitch.
+                        # One note-off may close multiple note-on events from
+                        # previous ticks. In case there's a note-off and then
+                        # note-on at the same tick we keep the open note from
+                        # this tick.
+                        end_tick = event.time
+                        open_notes = last_note_on[key]
+
+                        notes_to_close = [
+                            start_tick
+                            for start_tick in open_notes
+                            if start_tick != end_tick
+                        ]
+                        notes_to_keep = [
+                            start_tick
+                            for start_tick in open_notes
+                            if start_tick == end_tick
+                        ]
+
+                        for start_tick in notes_to_close:
+                            # Create the note event
+                            note = Note(
+                                key_number=event.note,
+                                start_pos=round(start_tick * self.tick_rate),
+                                length=round((end_tick - start_tick) * self.tick_rate),
+                            )
+                            lyric = lyrics[start_tick]
+                            if re.search("[a-zA-Z]", lyric) is not None:
+                                note.lyric = DEFAULT_PHONEME
+                                note.pronunciation = lyric
+                            else:
+                                note.lyric = lyric
+                            notes.append(note)
+                        if notes_to_close and notes_to_keep:
+                            # Note-on on the same tick but we already closed
+                            # some previous notes -> it will continue, keep it.
+                            last_note_on[key] = notes_to_keep
+                        else:
+                            # Remove the last note on for this instrument
+                            del last_note_on[key]
+                elif event.type == "pitchwheel":
+                    # Create pitch bend class instance
+                    rel_pitch_points.append(
                         Point(
                             round(event.time * self.tick_rate),
-                            round(volume_base + cc11_to_db_change(event.value)),
+                            round(
+                                pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE
+                            ),
                         )
                     )
-                elif event.control == ControlChange.VOLUME and event.value:
-                    volume_base = velocity_to_db_change(event.value)
-        rel_pitch_points.sort(key=operator.attrgetter("x"))
-        pitch = RelativePitchCurve().to_absolute(rel_pitch_points, notes)
-        edited_params = Params(
-            pitch=pitch,
-            volume=expression,
-        )
-        if has_overlap(notes):
-            msg = _("Overlapping notes in track {}").format(track_idx)
-            raise ValueError(msg)
-        return SingingTrack(
-            title=track_name or f"Track {track_idx + 1}",
-            note_list=notes,
-            edited_params=edited_params,
-        )
+                elif event.type == "lyrics":
+                    if self.options.import_lyrics:
+                        lyric = event.text
+                        lyrics[event.time] = lyric
+                elif event.type == "control_change":
+                    if (
+                        event.is_cc(ControlChange.DATA_ENTRY)
+                        and len(pitchbend_range_changed[event.time]) >= 2
+                    ):
+                        pitch_bend_sensitivity = event.value
+                    elif event.is_cc(ControlChange.RPN_MSB) and event.value == 0:
+                        pitchbend_range_changed[event.time].append(event.value)
+                    elif event.is_cc(ControlChange.RPN_LSB) and event.value == 0:
+                        pitchbend_range_changed[event.time].append(event.value)
+                    elif event.is_cc(ControlChange.EXPRESSION) and event.value:
+                        expression.points.append(
+                            Point(
+                                round(event.time * self.tick_rate),
+                                round(volume_base + cc11_to_db_change(event.value)),
+                            )
+                        )
+                    elif event.is_cc(ControlChange.VOLUME) and event.value:
+                        volume_base = velocity_to_db_change(event.value)
+            rel_pitch_points.sort(key=operator.attrgetter("x"))
+            pitch = RelativePitchCurve().to_absolute(rel_pitch_points, notes)
+            edited_params = Params(
+                pitch=pitch,
+                volume=expression,
+            )
+            if has_overlap(notes):
+                msg = _("Overlapping notes in track {}").format(track_idx)
+                raise ValueError(msg)
+            if len(notes):
+                tracks.append(
+                    SingingTrack(
+                        title=track_name or f"Track {track_idx + 1} ({channel})",
+                        note_list=notes,
+                        edited_params=edited_params,
+                    )
+                )
+        return tracks
 
     def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[Track]:
-        return [
-            self.parse_track(track_idx, track)
-            for track_idx, track in enumerate(midi_tracks)
-        ]
+        return sum(
+            (
+                self.parse_track(track_idx, track)
+                for track_idx, track in enumerate(midi_tracks)
+            ),
+            [],
+        )
