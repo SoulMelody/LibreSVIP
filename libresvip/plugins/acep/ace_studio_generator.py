@@ -183,7 +183,7 @@ class AceGenerator:
                         - self.pattern_start,
                     )
                     vocal_pattern.notes.extend(
-                        self.generate_note(note) for note in buffer
+                        self.generate_note(note) for note in buffer if note.lyric
                     )
                     vocal_pattern.clip_dur = vocal_pattern.dur
                     buffer.clear()
