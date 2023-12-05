@@ -102,7 +102,7 @@ i18n = ["translate-toolkit>=3.11.1", "babel>=2.13.1"]
 linting = [
   "isort>=5.12.0",
   "pre-commit>=3.5.0",
-  "ruff>=0.1.6",
+  "ruff>=0.1.7",
   "black>=23.11.0",
   "mypy>=1.7.1",
   "sourcery>=1.14.0",
