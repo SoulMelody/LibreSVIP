@@ -3,6 +3,7 @@ import math
 import random
 from typing import Callable, Optional
 
+from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -71,6 +72,7 @@ class AceGenerator:
             project.song_tempo_list,
             self.first_bar_ticks,
             self.has_multi_tempo,
+            next((tempo.bpm for tempo in self.ace_tempo_list), DEFAULT_BPM),
         )
 
         for track in project.track_list:
@@ -135,6 +137,8 @@ class AceGenerator:
                     - audio_pattern.pos
                 )
                 audio_pattern.clip_dur = audio_pattern.dur - audio_pattern.clip_pos
+            else:
+                return
             ace_audio_track.patterns.append(audio_pattern)
             ace_track = ace_audio_track
         elif isinstance(track, SingingTrack):
@@ -194,14 +198,18 @@ class AceGenerator:
                 ):
                     prev_end = prev_note.end_pos
                     cur_start = cur_note.start_pos
-                    if cur_start - prev_end > self.options.split_threshold > 0:
+                    if (
+                        cur_start - prev_end
+                        > self.options.split_threshold * TICKS_IN_BEAT
+                        > 0
+                    ):
                         generate_vocal_pattern()
                     buffer.append(cur_note)
                 if len(buffer):
                     generate_vocal_pattern()
             ace_track = ace_vocal_track
         else:
-            return None
+            return
         ace_track.name = track.title
         ace_track.mute = track.mute
         ace_track.solo = track.solo
@@ -246,12 +254,11 @@ class AceGenerator:
         start_pos = self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
         end_pos = self.synchronizer.get_actual_ticks_from_ticks(note.end_pos)
         ace_note = AcepNote(
-            pos=round(start_pos),
+            pos=round(start_pos) - self.pattern_start,
             pitch=note.key_number,
             lyric=note.lyric,
         )
         ace_note.dur = round(end_pos - start_pos)
-        ace_note.pos -= self.pattern_start
 
         if "-" not in note.lyric:
             ace_note.pronunciation = (

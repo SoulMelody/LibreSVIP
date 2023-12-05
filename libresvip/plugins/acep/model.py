@@ -49,7 +49,7 @@ class AcepParamCurve(BaseModel):
             root=[AcepAnchorPoint(*each) for each in chunked(points, 2)]
         )
 
-    @field_serializer("points", when_used="json")
+    @field_serializer("points", when_used="json-unless-none")
     def serialize_points(
         self, points: AcepAnchorPoints, _info: FieldSerializationInfo
     ) -> list[float]:

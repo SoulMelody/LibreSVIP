@@ -155,9 +155,9 @@ class OutputOptions(BaseModel):
         description="ACE Studio has both strength and tension parameters, both of which can affect the strength of the singing. This option is used to set the mapping target of the strength parameter.",
     )
     split_threshold: int = Field(
-        default=8,
+        default=1,
         title="Threshold for splitting",
-        description="When the distance between notes exceeds the set value, they will be split into different segments (patterns) for subsequent editing. The threshold unit is the value of a quarter note, and the default is 8, which means that when the distance between notes exceeds 8 quarter notes (3840 ticks), they will be split. If you don't want to split at all, please set this option to 0 or a negative value.",
+        description="When the distance between notes exceeds the set value, they will be split into different segments (patterns) for subsequent editing. The threshold unit is the value of a quarter note, and the default is 1, which means that when the distance between notes exceeds 1 quarter notes (480 ticks), they will be split. If you don't want to split at all, please set this option to 0 or a negative value.",
     )
     lyric_language: AcepLyricsLanguage = Field(
         default=AcepLyricsLanguage.CHINESE,
