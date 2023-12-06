@@ -304,5 +304,15 @@ msgstr "是否导出音高参数"
 
 #: .acep.dump[5].description
 msgid ""
-"When turned on, it may cause consonant issues, so it is turned off by default"
-msgstr "打开后，可能会导致辅音发声问题，因此默认关闭"
+"Warning: when turned on, it may cause consonant issues"
+msgstr "请注意：打开后，可能会导致辅音发声问题"
+
+#: .acep.dump[6].title
+msgid ""
+"Default consonant length (ticks)"
+msgstr "默认辅音长度 (单位为ticks)"
+
+#: .acep.dump[6].description
+msgid ""
+"Set default consonant length for notes if not specified"
+msgstr "给未设置辅音长度的音符添加默认值"

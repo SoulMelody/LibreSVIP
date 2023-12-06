@@ -178,7 +178,7 @@ class VocalSharpGenerator:
                     for i in range(prev_point.time + 1, cur_tick):
                         pitch_points.append(
                             PIT(
-                                time=prev_point.time + i,
+                                time=i,
                                 value=round(
                                     linear_interpolation(
                                         (prev_point.time, prev_point.value),

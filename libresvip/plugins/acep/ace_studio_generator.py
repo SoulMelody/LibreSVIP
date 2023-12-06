@@ -310,23 +310,16 @@ class AceGenerator:
         base_pitch = BasePitchCurve(
             self.ace_note_list, self.ace_tempo_list, self.pattern_start
         )
-        pattern_start_second = tick_to_second(self.pattern_start, self.ace_tempo_list)
-        left_bound = (
-            tick_to_second(
-                max(0, self.pattern_start + self.ace_note_list[0].pos - 240),
-                self.ace_tempo_list,
-            )
-            - pattern_start_second
+        left_bound = tick_to_second(
+            max(0, self.pattern_start + self.ace_note_list[0].pos - 240),
+            self.ace_tempo_list,
         )
-        right_bound = (
-            tick_to_second(
-                self.pattern_start
-                + self.ace_note_list[-1].pos
-                + self.ace_note_list[-1].dur
-                + 120,
-                self.ace_tempo_list,
-            )
-            - pattern_start_second
+        right_bound = tick_to_second(
+            self.pattern_start
+            + self.ace_note_list[-1].pos
+            + self.ace_note_list[-1].dur
+            + 120,
+            self.ace_tempo_list,
         )
 
         segments = []
@@ -334,16 +327,12 @@ class AceGenerator:
             if seg[-1].x < self.first_bar_ticks:
                 continue
             start_sec = (
-                (
-                    tick_to_second(seg[0].x - self.first_bar_ticks, self.ace_tempo_list)
-                    - pattern_start_second
-                )
+                (tick_to_second(seg[0].x - self.first_bar_ticks, self.ace_tempo_list))
                 if seg[0].x > self.first_bar_ticks
                 else 0
             )
-            end_sec = (
-                tick_to_second(seg[-1].x - self.first_bar_ticks, self.ace_tempo_list)
-                - pattern_start_second
+            end_sec = tick_to_second(
+                seg[-1].x - self.first_bar_ticks, self.ace_tempo_list
             )
             if start_sec <= right_bound and end_sec >= left_bound:
                 segments.append(seg)
@@ -357,7 +346,7 @@ class AceGenerator:
                         and tick_to_second(
                             point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
-                        <= pattern_start_second + left_bound
+                        <= left_bound
                     ),
                 )
                 or segment[0]
@@ -370,7 +359,7 @@ class AceGenerator:
                         and tick_to_second(
                             point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
-                        >= pattern_start_second + right_bound
+                        >= right_bound
                     ),
                 )
                 or segment[-1]
@@ -392,9 +381,8 @@ class AceGenerator:
                 tick_to_second(end_point.x - self.first_bar_ticks, self.ace_tempo_list)
                 - tick_to_second(tick - self.first_bar_ticks, self.ace_tempo_list)
             ) / (curve_end - ace_curve.offset)
-            second = (
-                tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
-                - pattern_start_second
+            second = tick_to_second(
+                round(tick - self.first_bar_ticks), self.ace_tempo_list
             )
             while second < left_bound:
                 ace_curve.offset += 1
@@ -416,39 +404,28 @@ class AceGenerator:
         self, curve: ParamCurve, mapping_func: Callable[[float], float]
     ) -> AcepParamCurveList:
         ace_curves = AcepParamCurveList()
-        pattern_start_second = tick_to_second(self.pattern_start, self.ace_tempo_list)
-        left_bound = (
-            tick_to_second(
-                max(0, self.pattern_start + self.ace_note_list[0].pos - 240),
-                self.ace_tempo_list,
-            )
-            - pattern_start_second
+        left_bound = tick_to_second(
+            max(0, self.pattern_start + self.ace_note_list[0].pos - 240),
+            self.ace_tempo_list,
         )
-        right_bound = (
-            tick_to_second(
-                self.pattern_start
-                + self.ace_note_list[-1].pos
-                + self.ace_note_list[-1].dur
-                + 120,
-                self.ace_tempo_list,
-            )
-            - pattern_start_second
+        right_bound = tick_to_second(
+            self.pattern_start
+            + self.ace_note_list[-1].pos
+            + self.ace_note_list[-1].dur
+            + 120,
+            self.ace_tempo_list,
         )
         segments = []
         for seg in curve.split_into_segments(-100):
             if seg[-1].x < self.first_bar_ticks:
                 continue
             start_sec = (
-                (
-                    tick_to_second(seg[0].x - self.first_bar_ticks, self.ace_tempo_list)
-                    - pattern_start_second
-                )
+                (tick_to_second(seg[0].x - self.first_bar_ticks, self.ace_tempo_list))
                 if seg[0].x > self.first_bar_ticks
                 else 0
             )
-            end_sec = (
-                tick_to_second(seg[-1].x - self.first_bar_ticks, self.ace_tempo_list)
-                - pattern_start_second
+            end_sec = tick_to_second(
+                seg[-1].x - self.first_bar_ticks, self.ace_tempo_list
             )
             if start_sec <= right_bound and end_sec >= left_bound:
                 segments.append(seg)
@@ -461,7 +438,7 @@ class AceGenerator:
                         and tick_to_second(
                             point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
-                        <= pattern_start_second + left_bound
+                        <= left_bound
                     ),
                 )
                 or segment[0]
@@ -474,7 +451,7 @@ class AceGenerator:
                         and tick_to_second(
                             point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
-                        >= pattern_start_second + right_bound
+                        >= right_bound
                     ),
                 )
                 or segment[-1]
@@ -494,9 +471,8 @@ class AceGenerator:
                 tick_to_second(end_point.x - self.first_bar_ticks, self.ace_tempo_list)
                 - tick_to_second(tick - self.first_bar_ticks, self.ace_tempo_list)
             ) / (curve_end - ace_curve.offset)
-            second = (
-                tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
-                - pattern_start_second
+            second = tick_to_second(
+                round(tick - self.first_bar_ticks), self.ace_tempo_list
             )
             while second < left_bound:
                 ace_curve.offset += 1
