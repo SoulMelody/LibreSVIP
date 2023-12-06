@@ -263,7 +263,7 @@ class AcepNote(BaseModel):
     )
     syllable: Optional[str] = ""
     br_len: int = Field(0, alias="brLen")
-    vibrato: AcepVibrato = Field(default_factory=AcepVibrato)
+    vibrato: Optional[AcepVibrato] = None
 
 
 class AcepPattern(BaseModel):
