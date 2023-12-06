@@ -235,21 +235,25 @@ class AceGenerator:
             ace_note.pronunciation = (
                 note.pronunciation if note.pronunciation is not None else pinyin
             )
+            if (
+                note.edited_phones is not None
+                and note.edited_phones.head_length_in_secs >= 0
+            ):
+                phone_start_in_secs = (
+                    tick_to_second(note.start_pos, self.ace_tempo_list)
+                    - note.edited_phones.head_length_in_secs
+                )
+                phone_start_in_ticks = second_to_tick(
+                    phone_start_in_secs, self.ace_tempo_list
+                )
+                ace_note.head_consonants = [
+                    round(note.start_pos - phone_start_in_ticks)
+                ]
+            elif self.options.default_consonant_length:
+                ace_note.head_consonants = [self.options.default_consonant_length]
         else:
             ace_note.lyric = ace_note.pronunciation = "-"
 
-        if (
-            note.edited_phones is not None
-            and note.edited_phones.head_length_in_secs >= 0
-        ):
-            phone_start_in_secs = (
-                tick_to_second(note.start_pos, self.ace_tempo_list)
-                - note.edited_phones.head_length_in_secs
-            )
-            phone_start_in_ticks = second_to_tick(
-                phone_start_in_secs, self.ace_tempo_list
-            )
-            ace_note.consonant_len = round(note.start_pos - phone_start_in_ticks)
         if note.head_tag == "V" and self.options.breath > 0:
             breath_start_in_secs = (
                 tick_to_second(note.start_pos, self.ace_tempo_list)

@@ -170,12 +170,13 @@ class AceParser:
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
             note.head_tag = "V"
-        if ace_note.consonant_len is not None:
+        if len(ace_note.head_consonants):
             note.edited_phones = Phones(
                 head_length_in_secs=(
                     tick_to_second(note.start_pos, self.ace_tempo_list)
                     - tick_to_second(
-                        note.start_pos - ace_note.consonant_len, self.ace_tempo_list
+                        note.start_pos - ace_note.head_consonants[0],
+                        self.ace_tempo_list,
                     )
                 )
             )

@@ -169,3 +169,8 @@ class OutputOptions(BaseModel):
         title="Export pitch curve or not",
         description="When turned on, it may cause consonant issues, so it is turned off by default",
     )
+    default_consonant_length: int = Field(
+        default=50,
+        title="Default consonant length (ticks)",
+        description="Set default consonant length for notes if not specified",
+    )
