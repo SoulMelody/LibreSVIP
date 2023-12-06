@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:4545fcdd48f6ef1d5c4f019b34251142bbb194b7e715ee7da6b002841be96bdb"
+content_hash = "sha256:552082b00419cb8ae727b161541bb7880b344f1f18ce00ad0e6a02255b7dfc57"
 
 [[package]]
 name = "aiofiles"
@@ -1571,15 +1571,15 @@ files = [
 
 [[package]]
 name = "portion"
-version = "2.4.1"
+version = "2.4.2"
 requires_python = "~= 3.7"
 summary = "Python data structure and operations for intervals"
 dependencies = [
     "sortedcontainers~=2.2",
 ]
 files = [
-    {file = "portion-2.4.1-py3-none-any.whl", hash = "sha256:e4b3d7a394382bed97de0d36458ba62d11a0cbbc01ea13163c2bbde5da6b4eba"},
-    {file = "portion-2.4.1.tar.gz", hash = "sha256:9dcbf1808898f440aed304a5e9f0742a2859eca3b0ac7f1f58e50502852a8ef9"},
+    {file = "portion-2.4.2-py3-none-any.whl", hash = "sha256:17f0388d7df3488313ac527d8da9542d2c1329dfefb8793a77ad2dfc97596051"},
+    {file = "portion-2.4.2.tar.gz", hash = "sha256:5289b40d98959b16b3f6927781678935d3df1b7c14947f5d7778e5e04dd9a065"},
 ]
 
 [[package]]
