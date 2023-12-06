@@ -150,5 +150,6 @@ class SynthVEditorGenerator:
                 value=point.y * 100,
             )
             for point in pitch.points
+            if point.y != -100
         ]
         return S5pPoints(root=points)

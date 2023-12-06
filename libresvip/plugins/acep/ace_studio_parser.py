@@ -4,7 +4,6 @@ from typing import Callable, Optional
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import skip_tempo_list
-from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -33,6 +32,7 @@ from .model import (
 )
 from .options import InputOptions, NormalizationMethod
 from .singers import id2singer
+from .time_utils import tick_to_second
 
 
 @dataclasses.dataclass
@@ -40,7 +40,6 @@ class AceParser:
     options: InputOptions
     content_version: int = dataclasses.field(init=False)
     ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
-    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
     ace_note_list: list[AcepNote] = dataclasses.field(init=False)
 
@@ -60,7 +59,6 @@ class AceParser:
             ],
             skip_ticks=self.first_bar_ticks,
         )
-        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         for track in ace_project.tracks:
             track.gain += ace_project.master.gain
         for ace_track in ace_project.tracks:
@@ -175,9 +173,9 @@ class AceParser:
         if ace_note.consonant_len is not None:
             note.edited_phones = Phones(
                 head_length_in_secs=(
-                    self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
-                    - self.synchronizer.get_actual_secs_from_ticks(
-                        note.start_pos - ace_note.consonant_len
+                    tick_to_second(note.start_pos, self.ace_tempo_list)
+                    - tick_to_second(
+                        note.start_pos - ace_note.consonant_len, self.ace_tempo_list
                     )
                 )
             )
@@ -322,7 +320,7 @@ class AceParser:
                     for value in ace_curve.values:
                         abs_semitone = (
                             base_pitch.semitone_value_at(
-                                self.synchronizer.get_actual_secs_from_ticks(pos)
+                                tick_to_second(pos, self.ace_tempo_list)
                             )
                             + value
                         )

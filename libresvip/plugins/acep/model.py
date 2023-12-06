@@ -46,7 +46,7 @@ class AcepParamCurve(BaseModel):
         cls, points: list[float], _info: ValidationInfo
     ) -> AcepAnchorPoints:
         return AcepAnchorPoints(
-            root=[AcepAnchorPoint(*each) for each in chunked(points, 2)]
+            root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)]
         )
 
     @field_serializer("points", when_used="json-unless-none")

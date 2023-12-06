@@ -3,10 +3,9 @@ import math
 import random
 from typing import Callable, Optional
 
-from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_tempo_list
-from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -39,7 +38,7 @@ from .model import (
 )
 from .options import OutputOptions, StrengthMappingOption
 from .singers import DEFAULT_SEED, DEFAULT_SINGER_ID, singer2id, singer2seed
-from .time_utils import tick_to_second
+from .time_utils import second_to_tick, tick_to_second
 
 
 @dataclasses.dataclass
@@ -48,7 +47,6 @@ class AceGenerator:
     has_multi_tempo: bool = dataclasses.field(init=False)
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
-    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
     ace_note_list: list[AcepNote] = dataclasses.field(init=False)
     pattern_start: int = dataclasses.field(init=False)
@@ -66,13 +64,6 @@ class AceGenerator:
         ace_project.beats_per_bar = numerator
         self.ace_tempo_list = ace_project.tempos = self.generate_tempos(
             project.song_tempo_list
-        )
-
-        self.synchronizer = TimeSynchronizer(
-            project.song_tempo_list,
-            self.first_bar_ticks,
-            self.has_multi_tempo,
-            next((tempo.bpm for tempo in self.ace_tempo_list), DEFAULT_BPM),
         )
 
         for track in project.track_list:
@@ -112,27 +103,19 @@ class AceGenerator:
             audio_pattern = AcepAudioPattern(path=track.audio_file_path)
             actual_original_offset = self.generate_audio_offset(track.offset)
             if actual_original_offset < 0:
-                audio_pattern.clip_dur = round(
-                    self.synchronizer.get_actual_ticks_from_ticks(
-                        -actual_original_offset
-                    )
-                )
+                audio_pattern.clip_dur = round(-actual_original_offset)
                 audio_pattern.pos = -audio_pattern.clip_dur
             else:
-                audio_pattern.pos = round(
-                    self.synchronizer.get_actual_ticks_from_ticks(
-                        actual_original_offset
-                    )
-                )
+                audio_pattern.pos = round(actual_original_offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
                 offset = (
-                    self.synchronizer.get_actual_secs_from_ticks(audio_pattern.pos)
+                    tick_to_second(audio_pattern.pos, self.ace_tempo_list)
                     if audio_pattern.pos > 0
                     else audio_pattern.pos / self.first_bar_tempo[0].bpm / 8
                 )
                 audio_pattern.dur = round(
-                    self.synchronizer.get_actual_ticks_from_secs(
-                        offset + track_info.duration / 1000
+                    second_to_tick(
+                        offset + track_info.duration / 1000, self.ace_tempo_list
                     )
                     - audio_pattern.pos
                 )
@@ -163,24 +146,14 @@ class AceGenerator:
 
                 def generate_vocal_pattern() -> None:
                     self.pattern_start = round(
-                        self.synchronizer.get_actual_ticks_from_ticks(
-                            max(
-                                0,
-                                self.synchronizer.get_actual_ticks_from_secs_offset(
-                                    buffer[0].start_pos,
-                                    -0.3,
-                                ),
-                            )
+                        max(
+                            0,
+                            buffer[0].start_pos - 240,
                         )
                     )
                     vocal_pattern = AcepVocalPattern(
                         pos=self.pattern_start,
-                        dur=round(
-                            self.synchronizer.get_actual_ticks_from_ticks(
-                                buffer[-1].end_pos
-                            )
-                        )
-                        - self.pattern_start,
+                        dur=round(buffer[-1].end_pos) - self.pattern_start,
                     )
                     vocal_pattern.notes.extend(
                         self.generate_note(note) for note in buffer if note.lyric
@@ -221,7 +194,7 @@ class AceGenerator:
         if not self.has_multi_tempo:
             return offset
         if offset > 0:
-            return round(self.synchronizer.get_actual_ticks_from_secs(offset))
+            return round(second_to_tick(offset))
         current_pos = self.first_bar_ticks
         actual_pos = self.first_bar_ticks + offset
         res = 0.0
@@ -251,14 +224,12 @@ class AceGenerator:
     def generate_note(self, note: Note, pinyin: Optional[str] = None) -> AcepNote:
         if self.options.lyric_language == AcepLyricsLanguage.CHINESE and not pinyin:
             pinyin = next(iter(get_pinyin_series(note.lyric)), None)
-        start_pos = self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-        end_pos = self.synchronizer.get_actual_ticks_from_ticks(note.end_pos)
         ace_note = AcepNote(
-            pos=round(start_pos) - self.pattern_start,
+            pos=round(note.start_pos) - self.pattern_start,
             pitch=note.key_number,
             lyric=note.lyric,
         )
-        ace_note.dur = round(end_pos - start_pos)
+        ace_note.dur = round(note.end_pos - note.start_pos)
 
         if "-" not in note.lyric:
             ace_note.pronunciation = (
@@ -272,28 +243,22 @@ class AceGenerator:
             and note.edited_phones.head_length_in_secs >= 0
         ):
             phone_start_in_secs = (
-                self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
+                tick_to_second(note.start_pos, self.ace_tempo_list)
                 - note.edited_phones.head_length_in_secs
             )
-            phone_start_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
-                phone_start_in_secs
+            phone_start_in_ticks = second_to_tick(
+                phone_start_in_secs, self.ace_tempo_list
             )
-            ace_note.consonant_len = round(
-                self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-                - phone_start_in_ticks
-            )
+            ace_note.consonant_len = round(note.start_pos - phone_start_in_ticks)
         if note.head_tag == "V" and self.options.breath > 0:
             breath_start_in_secs = (
-                self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
+                tick_to_second(note.start_pos, self.ace_tempo_list)
                 - self.options.breath / 1000
             )
-            breath_start_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
-                breath_start_in_secs
+            breath_start_in_ticks = second_to_tick(
+                breath_start_in_secs, self.ace_tempo_list
             )
-            ace_note.br_len = round(
-                self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-                - breath_start_in_ticks
-            )
+            ace_note.br_len = round(note.start_pos - breath_start_in_ticks)
         return ace_note
 
     @staticmethod
@@ -366,18 +331,14 @@ class AceGenerator:
                 continue
             start_sec = (
                 (
-                    self.synchronizer.get_actual_secs_from_ticks(
-                        seg[0].x - self.first_bar_ticks
-                    )
+                    tick_to_second(seg[0].x - self.first_bar_ticks, self.ace_tempo_list)
                     - pattern_start_second
                 )
                 if seg[0].x > self.first_bar_ticks
                 else 0
             )
             end_sec = (
-                self.synchronizer.get_actual_secs_from_ticks(
-                    seg[-1].x - self.first_bar_ticks
-                )
+                tick_to_second(seg[-1].x - self.first_bar_ticks, self.ace_tempo_list)
                 - pattern_start_second
             )
             if start_sec <= right_bound and end_sec >= left_bound:
@@ -389,8 +350,8 @@ class AceGenerator:
                     segment,
                     lambda point: (
                         point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
+                        and tick_to_second(
+                            point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
                         <= pattern_start_second + left_bound
                     ),
@@ -402,8 +363,8 @@ class AceGenerator:
                     segment,
                     lambda point: (
                         point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
+                        and tick_to_second(
+                            point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
                         >= pattern_start_second + right_bound
                     ),
@@ -413,19 +374,9 @@ class AceGenerator:
             if start_point.x == end_point.x:
                 continue
             ace_curve = AcepParamCurve(
-                offset=round(
-                    self.synchronizer.get_actual_ticks_from_ticks(
-                        start_point.x - self.first_bar_ticks
-                    )
-                    - self.pattern_start
-                )
+                offset=round(start_point.x - self.first_bar_ticks - self.pattern_start)
             )
-            curve_end = round(
-                self.synchronizer.get_actual_ticks_from_ticks(
-                    end_point.x - self.first_bar_ticks
-                )
-                - self.pattern_start
-            )
+            curve_end = round(end_point.x - self.first_bar_ticks - self.pattern_start)
             tick_step = (end_point.x - start_point.x) / (curve_end - ace_curve.offset)
             tick = start_point.x
             while tick < self.first_bar_ticks:
@@ -433,13 +384,12 @@ class AceGenerator:
                 tick += tick_step
             tick = max(self.first_bar_ticks, round(tick))
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
-            second_step = self.synchronizer.get_duration_secs_from_ticks(
-                tick - self.first_bar_ticks, end_point.x - self.first_bar_ticks
+            second_step = (
+                tick_to_second(end_point.x - self.first_bar_ticks, self.ace_tempo_list)
+                - tick_to_second(tick - self.first_bar_ticks, self.ace_tempo_list)
             ) / (curve_end - ace_curve.offset)
             second = (
-                self.synchronizer.get_actual_secs_from_ticks(
-                    round(tick - self.first_bar_ticks)
-                )
+                tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
                 - pattern_start_second
             )
             while second < left_bound:
@@ -486,18 +436,14 @@ class AceGenerator:
                 continue
             start_sec = (
                 (
-                    self.synchronizer.get_actual_secs_from_ticks(
-                        seg[0].x - self.first_bar_ticks
-                    )
+                    tick_to_second(seg[0].x - self.first_bar_ticks, self.ace_tempo_list)
                     - pattern_start_second
                 )
                 if seg[0].x > self.first_bar_ticks
                 else 0
             )
             end_sec = (
-                self.synchronizer.get_actual_secs_from_ticks(
-                    seg[-1].x - self.first_bar_ticks
-                )
+                tick_to_second(seg[-1].x - self.first_bar_ticks, self.ace_tempo_list)
                 - pattern_start_second
             )
             if start_sec <= right_bound and end_sec >= left_bound:
@@ -508,8 +454,8 @@ class AceGenerator:
                     segment,
                     lambda point: (
                         point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
+                        and tick_to_second(
+                            point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
                         <= pattern_start_second + left_bound
                     ),
@@ -521,8 +467,8 @@ class AceGenerator:
                     segment,
                     lambda point: (
                         point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
+                        and tick_to_second(
+                            point.x - self.first_bar_ticks, self.ace_tempo_list
                         )
                         >= pattern_start_second + right_bound
                     ),
@@ -530,19 +476,9 @@ class AceGenerator:
                 or segment[-1]
             )
             ace_curve = AcepParamCurve(
-                offset=round(
-                    self.synchronizer.get_actual_ticks_from_ticks(
-                        start_point.x - self.first_bar_ticks
-                    )
-                    - self.pattern_start
-                )
+                offset=round(start_point.x - self.first_bar_ticks - self.pattern_start)
             )
-            curve_end = round(
-                self.synchronizer.get_actual_ticks_from_ticks(
-                    end_point.x - self.first_bar_ticks
-                )
-                - self.pattern_start
-            )
+            curve_end = round(end_point.x - self.first_bar_ticks - self.pattern_start)
             tick_step = (end_point.x - start_point.x) / (curve_end - ace_curve.offset)
             tick = start_point.x
             while tick < self.first_bar_ticks:
@@ -550,13 +486,12 @@ class AceGenerator:
                 tick += tick_step
             tick = max(self.first_bar_ticks, round(tick))
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
-            second_step = self.synchronizer.get_duration_secs_from_ticks(
-                tick - self.first_bar_ticks, end_point.x - self.first_bar_ticks
+            second_step = (
+                tick_to_second(end_point.x - self.first_bar_ticks, self.ace_tempo_list)
+                - tick_to_second(tick - self.first_bar_ticks, self.ace_tempo_list)
             ) / (curve_end - ace_curve.offset)
             second = (
-                self.synchronizer.get_actual_secs_from_ticks(
-                    round(tick - self.first_bar_ticks)
-                )
+                tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
                 - pattern_start_second
             )
             while second < left_bound:
