@@ -4,6 +4,7 @@ from typing import Optional
 
 import more_itertools
 
+from libresvip.core.tick_counter import skip_beat_list, skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -71,8 +72,8 @@ class CeVIOParser:
 
         return Project(
             track_list=tracks,
-            time_signature_list=time_signatures,
-            song_tempo_list=tempos,
+            time_signature_list=skip_beat_list(time_signatures, 0),
+            song_tempo_list=skip_tempo_list(tempos, 0),
         )
 
     def merge_tempos(self, tempos: list[SongTempo]) -> list[SongTempo]:

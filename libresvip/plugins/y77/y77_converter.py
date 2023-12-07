@@ -2,6 +2,7 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, json_dumps, json_loads
+from libresvip.model.reset_time_axis import reset_time_axis
 
 from .model import Y77Project
 from .options import InputOptions, OutputOptions
@@ -17,6 +18,7 @@ class Y77Converter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
+        project = reset_time_axis(project, options.tempo)
         y77_project = Y77Generator(options).generate_project(project)
         path.write_text(
             json_dumps(y77_project.model_dump(mode="json", by_alias=True)),

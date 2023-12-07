@@ -4,6 +4,7 @@ import zipfile
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, json_dumps
+from libresvip.model.reset_time_axis import reset_time_axis
 
 from .model import VogenProject
 from .options import InputOptions, OutputOptions
@@ -21,6 +22,7 @@ class VogenConverter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
+        project = reset_time_axis(project, options.tempo)
         vogen_project = VogenGenerator(options).generate_project(project)
         proj_text = json_dumps(
             vogen_project.model_dump(by_alias=True), separators=(",", ":")

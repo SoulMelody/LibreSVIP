@@ -2,12 +2,13 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, json_dumps
+from libresvip.model.reset_time_axis import reset_time_axis
 
 from .diffsinger_generator import DiffSingerGenerator
 from .diffsinger_parser import DiffSingerParser
 from .model import DsProject
 from .options import InputOptions, OutputOptions
-from .utils.project_util import reset_time_axis, split_into_segments
+from .utils.project_util import split_into_segments
 
 
 class DiffSingerConverter(plugin_base.SVSConverterBase):
@@ -33,7 +34,7 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
                 series.append(ds_params)
             ds_project = DsProject(root=series)
         else:
-            reset_time_axis(project)
+            project = reset_time_axis(project)
             diff_singer_params = DiffSingerGenerator(
                 options=options, trailing_space=0.5
             ).generate(project)

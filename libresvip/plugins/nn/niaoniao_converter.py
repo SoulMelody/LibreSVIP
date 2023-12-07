@@ -2,6 +2,7 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.model.reset_time_axis import reset_time_axis
 from libresvip.utils import to_unicode
 
 from .model import nn_grammar, nn_visitor
@@ -20,5 +21,6 @@ class NiaoNiaoConverter(plugin_base.SVSConverterBase):
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions
     ) -> None:
+        project = reset_time_axis(project, options.tempo)
         nn_project = NiaoniaoGenerator(options).generate_project(project)
         render_nn(nn_project, path)

@@ -1,6 +1,5 @@
 from typing import Iterable
 
-from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     ParamCurve,
     Params,
@@ -8,62 +7,9 @@ from libresvip.model.base import (
     Points,
     Project,
     SingingTrack,
-    SongTempo,
     TimeSignature,
 )
-
-
-def reset_time_axis(project: Project, tempo: int = 125) -> None:
-    synchronizer = TimeSynchronizer(
-        project.song_tempo_list, _is_absolute_time_code=True, _default_tempo=tempo
-    )
-    for track in project.track_list:
-        if isinstance(track, SingingTrack):
-            for note in track.note_list:
-                end = round(
-                    synchronizer.get_actual_ticks_from_ticks(
-                        note.start_pos + note.length
-                    )
-                )
-                note.start_pos = round(
-                    synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-                )
-                note.length = end - note.start_pos
-
-            first_bar_ticks = (
-                1920
-                * project.time_signature_list[0].numerator
-                / project.time_signature_list[0].denominator
-            )
-            for i in range(len(track.edited_params.pitch.points)):
-                pos, val = (
-                    track.edited_params.pitch.points[i].x,
-                    track.edited_params.pitch.points[i].y,
-                )
-                pos = (
-                    round(
-                        synchronizer.get_actual_ticks_from_ticks(pos - first_bar_ticks)
-                    )
-                    + 1920
-                )
-                track.edited_params.pitch.points[i] = Point(pos, val)
-            for i in range(len(track.edited_params.gender.points)):
-                pos, val = (
-                    track.edited_params.gender.points[i].x,
-                    track.edited_params.gender.points[i].y,
-                )
-                pos = (
-                    round(
-                        synchronizer.get_actual_ticks_from_ticks(pos - first_bar_ticks)
-                    )
-                    + 1920
-                )
-                track.edited_params.gender.points[i] = Point(pos, val)
-
-    project.song_tempo_list = [SongTempo(bpm=tempo, position=0)]
-    project.time_signature_list = [
-        TimeSignature(bar_index=0, numerator=4, denominator=4)
-    ]
+from libresvip.model.reset_time_axis import reset_time_axis
 
 
 def split_into_segments(
@@ -73,7 +19,7 @@ def split_into_segments(
     if not track or not track.note_list:
         return []
 
-    reset_time_axis(project)
+    project = reset_time_axis(project)
     buffer = [track.note_list[0]]
 
     cur_seg_start = max(

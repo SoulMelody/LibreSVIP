@@ -3,15 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 01:09+0800\n"
+"POT-Creation-Date: 2023-12-08 06:11+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Translate Toolkit 3.11.1\n"
 
+#: .vog.name
+msgid "Vogen"
+msgstr ""
+
+#: .vog.file_format
 #: .vog.format_desc
 msgid "Vogen project file"
 msgstr "Vogen 工程文件"
@@ -21,9 +26,19 @@ msgid "Conversion plugin for Vogen project file"
 msgstr "Vogen 工程格式转换插件"
 
 #: .vog.dump[0].title
+msgid "Constant tempo"
+msgstr "恒定曲速"
+
+#: .vog.dump[0].description
+msgid "Use this tempo to reset time axis of projects with dynamic tempos"
+msgstr "使用此曲速重设变速音乐的时间轴"
+
+#: .vog.dump[1].title
+#: .vog.dump[0].title
 msgid "Singer name"
 msgstr "歌手"
 
+#: .vog.dump[1].description
 #: .vog.dump[0].description
 msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"

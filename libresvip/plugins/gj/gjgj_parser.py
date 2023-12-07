@@ -214,7 +214,7 @@ class GjgjParser:
 
     def parse_volume_curve(self, volume_map: list[GjgjVolumeMap]) -> ParamCurve:
         volume_curve = ParamCurve()
-        volume_curve.points = [
+        volume_curve.points.root = [
             Point(round(volume_item.time), round(volume_item.volume))
             for volume_item in volume_map
         ]

@@ -126,7 +126,7 @@ class SynthVParser:
             _base_value=decoded_base_value,
         )
         if master_curve is None or not len(master_curve.points):
-            curve.points = [
+            curve.points.root = [
                 Point(point.x, clip(point.y))
                 for point in generator.get_converted_curve(5)
             ]
@@ -143,7 +143,7 @@ class SynthVParser:
                 _interpolation=interpolation_func,
                 _base_value=decoded_base_value,
             )
-            curve.points = [
+            curve.points.root = [
                 Point(point.x, clip(point.y))
                 for point in master_generator.get_converted_curve(5)
             ]
