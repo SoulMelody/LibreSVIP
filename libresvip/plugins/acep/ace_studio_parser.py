@@ -17,6 +17,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import clamp
 
 from .base_pitch_curve import BasePitchCurve
 from .model import (
@@ -186,16 +187,14 @@ class AceParser:
         def linear_transform(
             lower_bound: float, middle_value: float, upper_bound: float
         ) -> Callable[[float], int]:
-            return lambda x: max(
-                -1000,
-                min(
-                    1000,
-                    round(
-                        (x - middle_value) / (upper_bound - middle_value) * 1000
-                        if x >= middle_value
-                        else (x - middle_value) / (middle_value - lower_bound) * 1000
-                    ),
+            return lambda x: clamp(
+                round(
+                    (x - middle_value) / (upper_bound - middle_value) * 1000
+                    if x >= middle_value
+                    else (x - middle_value) / (middle_value - lower_bound) * 1000
                 ),
+                -1000,
+                1000,
             )
 
         if self.options.breath_normalization.enabled:

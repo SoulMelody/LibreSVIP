@@ -6,7 +6,7 @@ from enum import Enum
 from itertools import chain
 from typing import Annotated, Callable, Literal, NamedTuple, Optional, Union
 
-from more_itertools import chunked
+from more_itertools import chunked, minmax
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -157,9 +157,9 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def minmax_normalize(self, r: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        minmax = sum((curve.values for curve in self.root), [])
-        min_ = min(minmax)
-        max_ = max(minmax)
+        min_, max_ = minmax(
+            sum((curve.values for curve in self.root), []), default=(0, 0)
+        )
         return type(self)(
             root=[
                 curve.transform(lambda x: r * (2 * (x - min_) / (max_ - min_) - 1) + b)

@@ -130,7 +130,7 @@ class UVibrato(BaseModel):
         n_out = self.length / 100.0 * self.out / 100.0
         n_out_pos = 1.0 - n_out
         t = (n_pos - n_start) / n_period + self.shift / 100.0
-        y = math.sin(2 * math.pi * t) * self.depth
+        y = math.sin(math.tau * t) * self.depth
         if n_pos < n_start:
             y = 0.0
         elif n_pos < n_in_pos:

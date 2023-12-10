@@ -441,7 +441,7 @@ class VibratoNode:
             self.amplitude
             * zoom
             * 100.0
-            * math.sin(2 * math.pi * self.frequency * (secs - self.start) + self.phase)
+            * math.sin(math.tau * self.frequency * (secs - self.start) + self.phase)
         )
 
 
