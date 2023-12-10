@@ -1,11 +1,6 @@
 import dataclasses
-import functools
 from typing import Optional
 
-import more_itertools
-import portion
-
-from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -14,18 +9,21 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.model.point import Point, cosine_easing_in_interpolation
+from libresvip.model.point import Point
 
 from .model import (
     PpsfAudioTrackItem,
     PpsfCurveType,
     PpsfDvlTrackEvent,
     PpsfDvlTrackItem,
+    PpsfEventTrack,
     PpsfMeters,
     PpsfProject,
     PpsfTempos,
+    PpsfTrackType,
 )
 from .options import InputOptions
+from .ppsf_interval_dict import ppsf_key_interval_dict
 
 
 @dataclasses.dataclass
@@ -37,7 +35,14 @@ class PiaproStudioNTParser:
         time_signatures = self.parse_time_signatures(ppsf_project.ppsf.project.meter)
         self.first_bar_ticks = round(time_signatures[0].bar_length())
         tempos = self.parse_tempos(ppsf_project.ppsf.project.tempo)
-        singing_tracks = self.parse_singing_tracks(ppsf_project.ppsf.project.dvl_track)
+        singing_tracks = self.parse_singing_tracks(
+            ppsf_project.ppsf.project.dvl_track,
+            [
+                event_track
+                for event_track in ppsf_project.ppsf.gui_settings.track_editor.event_tracks
+                if event_track.track_type == PpsfTrackType.NT
+            ],
+        )
         instrumental_tracks = self.parse_instrumental_tracks(
             ppsf_project.ppsf.project.audio_track
         )
@@ -78,54 +83,6 @@ class PiaproStudioNTParser:
             tempos.insert(0, first_tempo)
         return tempos
 
-    @staticmethod
-    def base_key_interval_dict(track: SingingTrack) -> PiecewiseIntervalDict:
-        interval_dict = PiecewiseIntervalDict()
-        if len(track.note_list) == 1:
-            interval_dict[portion.closedopen(0, portion.inf)] = track.note_list[
-                0
-            ].key_number
-        else:
-            for is_first, is_last, (prev_note, next_note) in more_itertools.mark_ends(
-                more_itertools.pairwise(track.note_list)
-            ):
-                if is_first:
-                    interval_dict[
-                        portion.closedopen(0, prev_note.start_pos)
-                    ] = prev_note.key_number
-                if prev_note.length > 120:
-                    interval_dict[
-                        portion.closedopen(prev_note.start_pos, prev_note.end_pos - 120)
-                    ] = prev_note.key_number
-                    pitch_pos = prev_note.end_pos - 120
-                else:
-                    pitch_pos = prev_note.start_pos
-                if next_note.start_pos - pitch_pos <= 480:
-                    interval_dict[
-                        portion.closedopen(pitch_pos, next_note.start_pos)
-                    ] = functools.partial(
-                        cosine_easing_in_interpolation,
-                        start=Point(x=pitch_pos, y=prev_note.key_number),
-                        end=Point(x=next_note.start_pos, y=next_note.key_number),
-                    )
-                else:
-                    interval_dict[
-                        portion.closedopen(
-                            pitch_pos, (prev_note.end_pos + next_note.start_pos) // 2
-                        )
-                    ] = prev_note.key_number
-                    interval_dict[
-                        portion.closedopen(
-                            (prev_note.end_pos + next_note.start_pos) // 2,
-                            next_note.start_pos,
-                        )
-                    ] = next_note.key_number
-                if is_last:
-                    interval_dict[
-                        portion.closedopen(next_note.start_pos, portion.inf)
-                    ] = next_note.key_number
-        return interval_dict
-
     def parse_instrumental_tracks(
         self, ppsf_audio_tracks: list[PpsfAudioTrackItem]
     ) -> list[InstrumentalTrack]:
@@ -141,11 +98,13 @@ class PiaproStudioNTParser:
         return tracks
 
     def parse_singing_tracks(
-        self, ppsf_dvl_tracks: Optional[list[PpsfDvlTrackItem]]
+        self,
+        ppsf_dvl_tracks: Optional[list[PpsfDvlTrackItem]],
+        event_tracks: list[PpsfEventTrack],
     ) -> list[SingingTrack]:
         tracks = []
         if ppsf_dvl_tracks is not None:
-            for track in ppsf_dvl_tracks:
+            for track, event_track in zip(ppsf_dvl_tracks, event_tracks):
                 singing_track = SingingTrack(
                     title=track.name,
                     ai_singer_name=track.singer.singer_name,
@@ -153,7 +112,9 @@ class PiaproStudioNTParser:
                 )
                 for parameter in track.parameters:
                     if parameter.base_sequence.name == "pitch_bend":
-                        key_interval_dict = self.base_key_interval_dict(singing_track)
+                        key_interval_dict = ppsf_key_interval_dict(
+                            track.events, event_track.notes
+                        )
                         for point in parameter.base_sequence.sequence:
                             if (
                                 point.curve_type == PpsfCurveType.BORDER

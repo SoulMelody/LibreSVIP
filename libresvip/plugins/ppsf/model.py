@@ -347,6 +347,10 @@ class PpsfDvlTrackEvent(BaseModel):
     symbols: str = ""
     vcl_like_note_off: Optional[bool] = False
 
+    @property
+    def end_pos(self) -> int:
+        return self.pos + self.length
+
 
 class PpsfDvlTrackItem(BaseModel):
     enabled: Optional[bool] = Field(True, validation_alias="enable")
