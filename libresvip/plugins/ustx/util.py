@@ -22,13 +22,26 @@ class BasePitchGenerator:
         )
         prev_note = None
 
+        index = 0
         for note in part.notes:
-            index = max(
-                1, int((note.position - self.pitch_start) / self.pitch_interval)
-            )
-            while index * self.pitch_interval < note.end:
-                pitches[index] = note.tone * 100
+            if (
+                0 < index < len(pitches)
+                and self.pitch_start + index * self.pitch_interval < note.position
+            ):
+                pitches[index] = pitches[index - 1]
                 index += 1
+            if (
+                index < len(pitches)
+                and (
+                    pad := (note.end - self.pitch_start) // self.pitch_interval - index
+                )
+                >= 0
+            ):
+                pitches[index : index + pad + 1] = [note.tone * 100] * pad
+                index += pad + 1
+        index = max(1, index)
+        if index < len(pitches):
+            pitches[index:] = [pitches[index - 1]] * (len(pitches) - index)
 
         for note in part.notes:
             if note.vibrato.length <= 0:

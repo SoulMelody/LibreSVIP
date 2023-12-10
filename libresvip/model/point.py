@@ -96,30 +96,6 @@ interpolate_cosine_ease_out = partial(
 )
 
 
-def sin_easing_in_out_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: float
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return y0 + (y1 - y0) * (1 - math.cos((x - x0) / (x1 - x0) * math.pi)) / 2
-
-
-def sin_easing_in_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: float
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return y0 + (y1 - y0) * (1 - math.cos((x - x0) / (x1 - x0) * math.pi / 2))
-
-
-def sin_easing_out_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: float
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return y0 + (y1 - y0) * math.sin((x - x0) / (x1 - x0) * math.pi / 2)
-
-
 class PointList(abc.ABC):
     root: list[PointType]
 
