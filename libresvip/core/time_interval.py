@@ -3,9 +3,17 @@ from __future__ import annotations
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
-from typing import Iterable, Optional, Union
+from typing import Any, Iterable, Optional, Union
 
 import portion
+
+
+class PiecewiseIntervalDict(portion.IntervalDict):
+    def __getitem__(self, key: Union[portion.Interval, int, float]) -> Any:
+        item = super().__getitem__(key)
+        if not isinstance(key, portion.Interval) and callable(item):
+            item = item(key)
+        return item
 
 
 @dataclasses.dataclass

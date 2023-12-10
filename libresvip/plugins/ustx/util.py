@@ -37,7 +37,7 @@ class BasePitchGenerator:
                 )
                 >= 0
             ):
-                pitches[index : index + pad + 1] = [note.tone * 100] * pad
+                pitches[index : index + pad + 1] = [note.tone * 100] * (pad + 1)
                 index += pad + 1
         index = max(1, index)
         if index < len(pitches):

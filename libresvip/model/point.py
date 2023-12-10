@@ -29,13 +29,13 @@ class Point(NamedTuple):
 def _inner_interpolate(
     data: list[Point],
     sampling_interval_tick: int,
-    mapping: Callable[[Point, Point, int], float],
+    mapping: Callable[[int, Point, Point], float],
 ) -> list[Point]:
     return (
         (
             [data[0]]
             + [
-                Point(x=x, y=round(mapping(start, end, x)))
+                Point(x=x, y=round(mapping(x, start, end)))
                 for start, end in pairwise(data)
                 for x in range(start.x + 1, end.x, sampling_interval_tick)
             ]
@@ -47,7 +47,7 @@ def _inner_interpolate(
 
 
 def linear_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: int
+    x: int, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -58,7 +58,7 @@ interpolate_linear = partial(_inner_interpolate, mapping=linear_interpolation)
 
 
 def cosine_easing_in_out_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: int
+    x: int, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -71,7 +71,7 @@ interpolate_cosine_ease_in_out = partial(
 
 
 def cosine_easing_in_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: int
+    x: int, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -84,7 +84,7 @@ interpolate_cosine_ease_in = partial(
 
 
 def cosine_easing_out_interpolation(
-    start: tuple[float, float], end: tuple[float, float], x: int
+    x: int, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end

@@ -67,7 +67,7 @@ class AcepParamCurve(BaseModel):
             elif len(self.points.root) == 2:
                 self.offset = math.floor(self.points.root[0].pos)
                 self.values = [
-                    linear_interpolation(self.points.root[0], self.points.root[-1], pos)
+                    linear_interpolation(pos, self.points.root[0], self.points.root[-1])
                     for pos in range(
                         self.offset, math.ceil(self.points.root[-1].pos) + 1
                     )

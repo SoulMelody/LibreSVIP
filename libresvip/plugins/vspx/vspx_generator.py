@@ -181,9 +181,9 @@ class VocalSharpGenerator:
                                 time=i,
                                 value=round(
                                     linear_interpolation(
+                                        i,
                                         (prev_point.time, prev_point.value),
                                         (cur_tick, cur_value),
-                                        i,
                                     )
                                 ),
                             )

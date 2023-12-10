@@ -64,9 +64,9 @@ class UCurve(BaseModel):
         elif 0 < idx < len(self.xs):
             return round(
                 linear_interpolation(
+                    x,
                     (self.xs[idx - 1], self.ys[idx - 1]),
                     (self.xs[idx], self.ys[idx]),
-                    x,
                 )
             )
         return 0
