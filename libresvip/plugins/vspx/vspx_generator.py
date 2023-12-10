@@ -1,10 +1,8 @@
-import bisect
 import dataclasses
 import math
 from typing import Optional, Union
 
-import more_itertools
-
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -31,16 +29,19 @@ from .model import (
     VocalSharpTempo,
 )
 from .options import OutputOptions
+from .vspx_interval_dict import vspx_key_interval_dict
 
 
 @dataclasses.dataclass
 class VocalSharpGenerator:
     options: OutputOptions
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> VocalSharpProject:
         vspx_project = VocalSharpProject()
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         vspx_project.project.tempo = self.generate_tempos(project.song_tempo_list)
         vspx_project.project.beat = self.generate_time_signatures(
             project.time_signature_list
@@ -139,7 +140,7 @@ class VocalSharpGenerator:
                 note=self.generate_notes(track.note_list),
             )
             if pitch_points := self.generate_pitch(
-                track.edited_params.pitch, track.note_list
+                track.edited_params.pitch, track.note_list, note_track.por
             ):
                 note_track.parameter = VocalSharpParameter(points=pitch_points)
             note_tracks.append(note_track)
@@ -157,24 +158,20 @@ class VocalSharpGenerator:
             for note in notes
         ]
 
-    def generate_pitch(self, pitch: ParamCurve, note_list: list[Note]) -> list[PIT]:
-        note_boundaries = [
-            (prev_note.end_pos + next_note.start_pos) // 2
-            for prev_note, next_note in more_itertools.pairwise(note_list)
-        ]
+    def generate_pitch(
+        self, pitch: ParamCurve, note_list: list[Note], por: float
+    ) -> list[PIT]:
+        key_interval_dict = vspx_key_interval_dict(note_list, por, self.synchronizer)
         pitch_points = []
         prev_point: Optional[PIT] = None
         for point in pitch.points:
             cur_tick = point.x - self.first_bar_length
-            note = note_list[
-                min(
-                    bisect.bisect_left(note_boundaries, cur_tick),
-                    len(note_list) - 1,
-                )
-            ]
-            if point.y > 0:
+            if (
+                point.y > 0
+                and (base_key := key_interval_dict.get(cur_tick)) is not None
+            ):
                 if prev_point is not None:
-                    cur_value = point.y - note.key_number * 100
+                    cur_value = point.y - base_key * 100
                     for i in range(prev_point.time + 1, cur_tick):
                         pitch_points.append(
                             PIT(
@@ -192,7 +189,7 @@ class VocalSharpGenerator:
                     pitch_points.append(
                         PIT(
                             time=cur_tick,
-                            value=point.y - note.key_number * 100,
+                            value=round(point.y - base_key * 100),
                         )
                     )
                 prev_point = pitch_points[-1]

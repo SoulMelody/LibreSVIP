@@ -1,9 +1,7 @@
-import bisect
 import dataclasses
 from typing import Union
 
-import more_itertools
-
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -29,17 +27,20 @@ from .model import (
     VocalSharpTempo,
 )
 from .options import InputOptions
+from .vspx_interval_dict import vspx_key_interval_dict
 
 
 @dataclasses.dataclass
 class VocalSharpParser:
     options: InputOptions
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
         time_signatures = self.parse_time_signatures(vspx_project.project.beat)
         self.first_bar_length = time_signatures[0].bar_length()
         tempos = self.parse_tempos(vspx_project.project.tempo)
+        self.synchronizer = TimeSynchronizer(tempos)
         singing_tracks = self.parse_singing_tracks(
             [
                 track
@@ -94,7 +95,7 @@ class VocalSharpParser:
                 note_list=self.parse_notes(track.note),
             )
             singing_track.edited_params.pitch = self.parse_pitch(
-                track.parameter, singing_track.note_list
+                track.parameter, singing_track.note_list, track.por
             )
             tracks.append(singing_track)
         return tracks
@@ -112,12 +113,9 @@ class VocalSharpParser:
         ]
 
     def parse_pitch(
-        self, parameter: VocalSharpParameter, note_list: list[Note]
+        self, parameter: VocalSharpParameter, note_list: list[Note], por: float
     ) -> ParamCurve:
-        note_boundaries = [
-            (prev_note.end_pos + next_note.start_pos) // 2
-            for prev_note, next_note in more_itertools.pairwise(note_list)
-        ]
+        key_interval_dict = vspx_key_interval_dict(note_list, por, self.synchronizer)
         pitch_points = [Point.start_point()]
         prev_tick = None
         for vspx_point in parameter.points:
@@ -128,18 +126,13 @@ class VocalSharpParser:
                 elif vspx_point.time - prev_tick > 1:
                     pitch_points.append(Point(x=prev_tick, y=-100))
                     pitch_points.append(Point(x=cur_tick, y=-100))
-                note = note_list[
-                    min(
-                        bisect.bisect_left(note_boundaries, vspx_point.time),
-                        len(note_list) - 1,
+                if (base_key := key_interval_dict.get(vspx_point.time)) is not None:
+                    pitch_points.append(
+                        Point(
+                            x=cur_tick,
+                            y=round(base_key * 100 + vspx_point.value),
+                        )
                     )
-                ]
-                pitch_points.append(
-                    Point(
-                        x=cur_tick,
-                        y=round((note.key_number + vspx_point.value / 100) * 100),
-                    )
-                )
                 prev_tick = cur_tick
         if len(pitch_points) > 1:
             pitch_points.append(Point(x=pitch_points[-1].x, y=-100))

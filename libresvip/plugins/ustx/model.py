@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import bisect
+import functools
 import math
 from types import SimpleNamespace
 from typing import Annotated, Literal, Optional, Union
@@ -119,7 +120,7 @@ class UVibrato(BaseModel):
     shift: Optional[float] = None
     drift: Optional[float] = None
 
-    @property
+    @functools.cached_property
     def normalized_start(self):
         return 1.0 - self.length / 100.0
 
@@ -167,7 +168,7 @@ class UNote(BaseModel):
     phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
     phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
 
-    @property
+    @functools.cached_property
     def end(self) -> int:
         return self.position + self.duration
 
