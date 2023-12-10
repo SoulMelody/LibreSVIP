@@ -1,5 +1,6 @@
 import dataclasses
 
+from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -197,7 +198,7 @@ class PiaproStudioGenerator:
                     pos=note.start_pos,
                     length=note.length,
                     lyric=note.lyric,
-                    symbols=note.pronunciation or "",
+                    symbols=note.pronunciation or DEFAULT_PHONEME,
                 )
             )
             ppsf_notes.append(
@@ -208,7 +209,7 @@ class PiaproStudioGenerator:
                     syllables=[
                         PpsfSyllable(
                             lyric_text=note.lyric,
-                            symbols_text=note.pronunciation or "",
+                            symbols_text=note.pronunciation or DEFAULT_PHONEME,
                         )
                     ],
                 )
