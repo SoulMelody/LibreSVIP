@@ -112,7 +112,7 @@ packaging = [
   "pyinstaller>=6.3.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.5.1"]
+docs = ["mkdocs-material<10.0.0,>=9.5.2"]
 test = ["pytest>=7.4.3", "pytest-datadir>=1.5.0"]
 typing_stubs = [
   "types-protobuf>=4.24.0.4",
