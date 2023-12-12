@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:caac570043aa25e2f07e9809505625ade33981f276b31b3873c07256be17c3ba"
+content_hash = "sha256:b84fa36b7d2368463146f77f50b105181b3695bebfc4d9354422e7d1a49df893"
 
 [[package]]
 name = "aiofiles"
@@ -181,15 +181,12 @@ files = [
 
 [[package]]
 name = "babel"
-version = "2.13.1"
+version = "2.14.0"
 requires_python = ">=3.7"
 summary = "Internationalization utilities"
-dependencies = [
-    "setuptools; python_version >= \"3.12\"",
-]
 files = [
-    {file = "Babel-2.13.1-py3-none-any.whl", hash = "sha256:7077a4984b02b6727ac10f1f7294484f737443d7e2e66c5e4380e41a3ae0b4ed"},
-    {file = "Babel-2.13.1.tar.gz", hash = "sha256:33e0952d7dd6374af8dbf6768cc4ddf3ccfefc244f9986d4074704f2fbd18900"},
+    {file = "Babel-2.14.0-py3-none-any.whl", hash = "sha256:efb1a25b7118e67ce3a259bed20545c29cb68be8ad2c784c83689981b7a57287"},
+    {file = "Babel-2.14.0.tar.gz", hash = "sha256:6919867db036398ba21eb5c7a0f6b28ab8cbc3ae7a73a44ebe34ae74a4e7d363"},
 ]
 
 [[package]]
