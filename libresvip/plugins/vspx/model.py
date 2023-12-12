@@ -2,6 +2,8 @@ import abc
 from dataclasses import dataclass, field
 from typing import Optional
 
+from libresvip.utils import note2midi
+
 
 @dataclass
 class VocalSharpParamBase(abc.ABC):
@@ -457,6 +459,14 @@ class VocalSharpNote:
             "type": "Element",
         },
     )
+
+    @property
+    def end_pos(self) -> int:
+        return self.pos + self.duration
+
+    @property
+    def key_number(self) -> int:
+        return note2midi(self.pitch)
 
 
 @dataclass

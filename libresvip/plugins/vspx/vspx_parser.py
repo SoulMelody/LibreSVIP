@@ -13,7 +13,6 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import note2midi
 
 from .model import (
     PIT,
@@ -21,7 +20,6 @@ from .model import (
     VocalSharpMonoTrack,
     VocalSharpNote,
     VocalSharpNoteTrack,
-    VocalSharpParameter,
     VocalSharpProject,
     VocalSharpStereoTrack,
     VocalSharpTempo,
@@ -94,9 +92,7 @@ class VocalSharpParser:
                 ai_singer_name=track.singer,
                 note_list=self.parse_notes(track.note),
             )
-            singing_track.edited_params.pitch = self.parse_pitch(
-                track.parameter, singing_track.note_list, track.por
-            )
+            singing_track.edited_params.pitch = self.parse_pitch(track)
             tracks.append(singing_track)
         return tracks
 
@@ -105,20 +101,18 @@ class VocalSharpParser:
             Note(
                 start_pos=note.pos,
                 length=note.duration,
-                key_number=note2midi(note.pitch),
+                key_number=note.key_number,
                 lyric=note.lyric,
                 pronunciation=note.lyric,
             )
             for note in note_list
         ]
 
-    def parse_pitch(
-        self, parameter: VocalSharpParameter, note_list: list[Note], por: float
-    ) -> ParamCurve:
-        key_interval_dict = vspx_key_interval_dict(note_list, por, self.synchronizer)
+    def parse_pitch(self, note_track: VocalSharpNoteTrack) -> ParamCurve:
+        key_interval_dict = vspx_key_interval_dict(note_track, self.synchronizer)
         pitch_points = [Point.start_point()]
         prev_tick = None
-        for vspx_point in parameter.points:
+        for vspx_point in note_track.parameter.points:
             if isinstance(vspx_point, PIT):
                 cur_tick = vspx_point.time + self.first_bar_length
                 if prev_tick is None:
@@ -137,8 +131,9 @@ class VocalSharpParser:
         if len(pitch_points) > 1:
             pitch_points.append(Point(x=pitch_points[-1].x, y=-100))
         pitch_points.append(Point.end_point())
-        if len(pitch_points) > 2:
-            return ParamCurve(points=Points(root=pitch_points))
+        if len(pitch_points) <= 2:
+            pitch_points.clear()
+        return ParamCurve(points=Points(root=pitch_points))
 
     def parse_instrumental_tracks(
         self, track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]

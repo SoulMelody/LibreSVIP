@@ -140,7 +140,7 @@ class VocalSharpGenerator:
                 note=self.generate_notes(track.note_list),
             )
             if pitch_points := self.generate_pitch(
-                track.edited_params.pitch, track.note_list, note_track.por
+                track.edited_params.pitch, note_track
             ):
                 note_track.parameter = VocalSharpParameter(points=pitch_points)
             note_tracks.append(note_track)
@@ -159,9 +159,9 @@ class VocalSharpGenerator:
         ]
 
     def generate_pitch(
-        self, pitch: ParamCurve, note_list: list[Note], por: float
+        self, pitch: ParamCurve, note_track: VocalSharpNoteTrack
     ) -> list[PIT]:
-        key_interval_dict = vspx_key_interval_dict(note_list, por, self.synchronizer)
+        key_interval_dict = vspx_key_interval_dict(note_track, self.synchronizer)
         pitch_points = []
         prev_point: Optional[PIT] = None
         for point in pitch.points:
