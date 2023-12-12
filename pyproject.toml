@@ -117,7 +117,7 @@ test = ["pytest>=7.4.3", "pytest-datadir>=1.5.0"]
 typing_stubs = [
   "types-protobuf>=4.24.0.4",
   "types-pyyaml>=6.0.12.12",
-  "types-ujson>=5.8.0.1",
+  "types-ujson>=5.9.0.0",
   "types-zstd>=1.5.0.3; platform_python_implementation == \"PyPy\"",
 ]
 
