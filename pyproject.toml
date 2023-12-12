@@ -56,7 +56,7 @@ dependencies = [
   "zstd<2.0.0,>=1.5.5.1; platform_python_implementation == \"PyPy\"",
 ]
 name = "libresvip"
-version = "0.9.8"
+version = "0.9.9"
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 

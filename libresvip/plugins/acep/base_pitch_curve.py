@@ -48,7 +48,7 @@ def acep_vibrato_value_curve(
     return (
         math.sin(
             math.pi
-            * (2 * (seconds - vibrato_start) * vibrato.frequency + vibrato.phase)
+            * (2 * (seconds - vibrato_start) * vibrato.frequency - vibrato.phase)
         )
         * vibrato.amplitude
         * 0.5
@@ -97,27 +97,29 @@ class BasePitchCurve:
                     vibrato_start + note.vibrato.attack_ratio * vibrato_duration
                 )
                 release_time = note_end - note.vibrato.release_ratio * vibrato_duration
+                if note.vibrato.release_ratio:
+                    self.vibrato_coef_interval_dict[
+                        portion.openclosed(release_time, note_end)
+                    ] = functools.partial(
+                        linear_interpolation,
+                        start=(release_time, note.vibrato.release_level),
+                        end=(note_end, 0),
+                    )
                 self.vibrato_coef_interval_dict[
-                    portion.closed(vibrato_start, attack_time)
-                ] = functools.partial(
-                    linear_interpolation,
-                    start=(vibrato_start, 0),
-                    end=(attack_time, note.vibrato.attack_level),
-                )
-                self.vibrato_coef_interval_dict[
-                    portion.open(attack_time, release_time)
+                    portion.closed(attack_time, release_time)
                 ] = functools.partial(
                     linear_interpolation,
                     start=(attack_time, note.vibrato.attack_level),
                     end=(release_time, note.vibrato.release_level),
                 )
-                self.vibrato_coef_interval_dict[
-                    portion.closed(release_time, note_end)
-                ] = functools.partial(
-                    linear_interpolation,
-                    start=(release_time, note.vibrato.release_level),
-                    end=(note_end, 0),
-                )
+                if note.vibrato.attack_ratio:
+                    self.vibrato_coef_interval_dict[
+                        portion.closedopen(vibrato_start, attack_time)
+                    ] = functools.partial(
+                        linear_interpolation,
+                        start=(vibrato_start, 0),
+                        end=(attack_time, note.vibrato.attack_level),
+                    )
         self.values_in_semitone = _convolve(note_list)
 
     def semitone_value_at(self, seconds: float) -> float:

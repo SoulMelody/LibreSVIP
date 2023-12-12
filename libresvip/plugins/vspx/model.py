@@ -181,7 +181,7 @@ class VocalSharpTrillBase(abc.ABC):
             "type": "Element",
         },
     )
-    phase: Optional[int] = field(
+    phase: Optional[float] = field(
         default=0,
         metadata={
             "type": "Element",
@@ -459,10 +459,6 @@ class VocalSharpNote:
             "type": "Element",
         },
     )
-
-    @property
-    def end_pos(self) -> int:
-        return self.pos + self.duration
 
     @property
     def key_number(self) -> int:

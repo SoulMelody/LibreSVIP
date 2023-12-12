@@ -90,14 +90,13 @@ class UstxParser:
                 ai_singer_name=ustx_track.singer or "",
             )
             for ustx_track in tracks
-            if ustx_track.singer
         ]
         for track in track_list:
             track.edited_params.pitch.points.append(Point.start_point())
         for voice_part in voice_parts:
             track_index = voice_part.track_no
             if track_index < len(track_list):
-                track = track_list[track_index]
+                track: SingingTrack = track_list[track_index]
             else:
                 continue
             if not track.title:

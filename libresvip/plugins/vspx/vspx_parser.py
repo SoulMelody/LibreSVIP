@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Union
+from typing import Optional, Union
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -17,6 +17,7 @@ from libresvip.model.base import (
 from .model import (
     PIT,
     VocalSharpBeat,
+    VocalSharpDefaultTrill,
     VocalSharpMonoTrack,
     VocalSharpNote,
     VocalSharpNoteTrack,
@@ -25,16 +26,18 @@ from .model import (
     VocalSharpTempo,
 )
 from .options import InputOptions
-from .vspx_interval_dict import vspx_key_interval_dict
+from .vspx_interval_dict import BasePitchCurve
 
 
 @dataclasses.dataclass
 class VocalSharpParser:
     options: InputOptions
+    default_trill: Optional[VocalSharpDefaultTrill] = None
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
+        self.default_trill = vspx_project.project.default_trill
         time_signatures = self.parse_time_signatures(vspx_project.project.beat)
         self.first_bar_length = time_signatures[0].bar_length()
         tempos = self.parse_tempos(vspx_project.project.tempo)
@@ -109,7 +112,9 @@ class VocalSharpParser:
         ]
 
     def parse_pitch(self, note_track: VocalSharpNoteTrack) -> ParamCurve:
-        key_interval_dict = vspx_key_interval_dict(note_track, self.synchronizer)
+        base_pitch_curve = BasePitchCurve(
+            note_track, self.default_trill, self.synchronizer
+        )
         pitch_points = [Point.start_point()]
         prev_tick = None
         for vspx_point in note_track.parameter.points:
@@ -120,7 +125,12 @@ class VocalSharpParser:
                 elif vspx_point.time - prev_tick > 1:
                     pitch_points.append(Point(x=prev_tick, y=-100))
                     pitch_points.append(Point(x=cur_tick, y=-100))
-                if (base_key := key_interval_dict.get(vspx_point.time)) is not None:
+                vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(
+                    vspx_point.time
+                )
+                if (
+                    base_key := base_pitch_curve.semitone_value_at(vspx_point_secs)
+                ) is not None:
                     pitch_points.append(
                         Point(
                             x=cur_tick,
