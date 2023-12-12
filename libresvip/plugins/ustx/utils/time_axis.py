@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import datetime
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
@@ -41,10 +40,8 @@ class TempoSegment:
 class TimeAxis:
     time_sig_segments: list[TimeSigSegment] = field(default_factory=list)
     tempo_segments: list[TempoSegment] = field(default_factory=list)
-    timestamp: int = None
 
     def build_segments(self, project: USTXProject):
-        self.timestamp = datetime.datetime.now().timestamp()
         self.time_sig_segments.clear()
         for i in range(len(project.time_signatures)):
             timesig = project.time_signatures[i]
