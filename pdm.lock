@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:b84fa36b7d2368463146f77f50b105181b3695bebfc4d9354422e7d1a49df893"
+content_hash = "sha256:92a4fb150c88ca1c49cc79d692a00d321da1a1a6b6e815f6cd65bf2bf008eb42"
 
 [[package]]
 name = "aiofiles"
@@ -2008,15 +2008,15 @@ files = [
 
 [[package]]
 name = "pydantic-extra-types"
-version = "2.1.0"
+version = "2.2.0"
 requires_python = ">=3.7"
 summary = "Extra Pydantic types."
 dependencies = [
     "pydantic>=2.0.3",
 ]
 files = [
-    {file = "pydantic_extra_types-2.1.0-py3-none-any.whl", hash = "sha256:1b8aa83a2986b0bc6a7179834fdb423c5e0bcef6b2b4cd9261bf753ad7dcc483"},
-    {file = "pydantic_extra_types-2.1.0.tar.gz", hash = "sha256:d07b869e733d33712b07d6b8cd7b0223077c23ae5a1e23bd0699a00401259ec7"},
+    {file = "pydantic_extra_types-2.2.0-py3-none-any.whl", hash = "sha256:d4c6bcab0ea4b5300075ae7a664c134d923ac35496ad8caa0feae30234f14756"},
+    {file = "pydantic_extra_types-2.2.0.tar.gz", hash = "sha256:7f2fdd5251729745983cf8cdc5e431ffee2362f283fff54f68122625cef82c11"},
 ]
 
 [[package]]
