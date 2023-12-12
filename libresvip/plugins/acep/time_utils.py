@@ -1,14 +1,16 @@
-from more_itertools import pairwise
+import more_itertools
 
 from .model import AcepTempo
 
 
 def tick_to_second(tick: int, tempo_list: list[AcepTempo]) -> float:
     secs = 0.0
-    for tempo, next_tempo in pairwise(tempo_list):
+    for tempo, next_tempo in more_itertools.pairwise(tempo_list):
         if tick <= next_tempo.position:
             break
         secs += (next_tempo.position - tempo.position) / tempo.bpm / 8
+    else:
+        tempo = next_tempo
     if len(tempo_list) == 1:
         tempo = tempo_list[0]
     if tick < tempo.position:
@@ -19,11 +21,13 @@ def tick_to_second(tick: int, tempo_list: list[AcepTempo]) -> float:
 
 def second_to_tick(second: float, tempo_list: list[AcepTempo]) -> int:
     secs = 0.0
-    for tempo, next_tempo in pairwise(tempo_list):
+    for tempo, next_tempo in more_itertools.pairwise(tempo_list):
         next_secs = secs + ((next_tempo.position - tempo.position) / tempo.bpm / 8)
         if second <= next_secs:
             break
         secs = next_secs
+    else:
+        tempo = next_tempo
     if len(tempo_list) == 1:
         tempo = tempo_list[0]
     if second < secs:
