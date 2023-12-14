@@ -1,53 +1,41 @@
-def interpolate_akima(x: list[float], y: list[float], x_new: list[int]) -> list[float]:
-    """translated to pure python from https://github.com/cgohlke/akima"""
-    n = len(x)
-
-    # Validation
-    if n < 3:
-        msg = "Data points too small"
-        raise ValueError(msg)
-
-    dx = [x[i + 1] - x[i] for i in range(n - 1)]
-    if any(d <= 0 for d in dx):
-        msg = "X must be monotonically increasing"
-        raise ValueError(msg)
-
-    # Differences
-    m = [(y[i + 1] - y[i]) / dx[i] for i in range(n - 1)]
-
-    mm = 2.0 * m[0] - m[1]
-    mmm = 2.0 * mm - m[0]
-    mp = 2.0 * m[n - 2] - m[n - 3]
-    mpp = 2.0 * mp - m[n - 2]
-
-    m1 = [mmm, mm, *m, mp, mpp]
-
-    # Slope estimates
-    dm = [abs(m1[i + 1] - m1[i]) for i in range(len(m1) - 1)]
-    f1, f2 = dm[2 : n + 2], dm[:n]
-    f12 = [f1[i] + f2[i] for i in range(n)]
-
-    # Detect almost equal slopes
-    ids = [i for i in range(n - 1) if f12[i] > 1e-9 * max(f12)]
-    b = m1[1 : n + 1]
-
-    for i in ids:
-        b[i] = (f1[i] * m1[i + 1] + f2[i] * m1[i + 2]) / f12[i]
-
-    c = [(3 * m[i] - 2 * b[i] - b[i + 1]) / dx[i] for i in range(n - 1)]
-    d = [(b[i] + b[i + 1] - 2 * m[i]) / dx[i] ** 2 for i in range(n - 1)]
-
-    bins = [0] * len(x_new)
-    for j, val in enumerate(x_new):
-        idx = 0
-        while idx < n - 1 and x[idx] <= val:
-            idx += 1
-        bins[j] = idx - 1
-
-    bb = bins
-    wj = [x_new[j] - x[bb[j]] for j in range(len(x_new))]
-
-    return [
-        ((wj[j] * d[bb[j]] + c[bb[j]]) * wj[j] + b[bb[j]]) * wj[j] + y[bb[j]]
-        for j in range(len(x_new))
-    ]
+def interpolate_hermite(
+    x: list[float], y: list[float], x_new: list[float], k0: float = 0, kn: float = 0
+) -> list[float]:
+    list1: list[float] = []
+    if len(x) == 0:
+        return [0] * len(x_new)
+    list2: list[float] = [k0]
+    for j in range(1, len(x) - 1):
+        list2.append((y[j + 1] - y[j - 1]) / (x[j + 1] - x[j - 1]))
+    list2.append(kn)
+    num: int = 0
+    for i in range(len(x_new)):
+        while num < len(x) and x[num] < x_new[i]:
+            num += 1
+        point1: tuple[float, float]
+        num2: float
+        if num == 0:
+            point1 = (x_new[i], y[0])
+            num2 = 0
+        else:
+            point1 = (x[num - 1], y[num - 1])
+            num2 = list2[num - 1]
+        point2: tuple[float, float]
+        num3: float
+        if num == len(x):
+            point2 = (x_new[i], y[len(x) - 1])
+            num3 = 0
+        else:
+            point2 = (x[num], y[num])
+            num3 = list2[num]
+        num4: float = x_new[i] - point1[0]
+        num5: float = x_new[i] - point2[0]
+        t: float = num4 / (point2[0] - point1[0])
+        t2: float = num5 / (point1[0] - point2[0])
+        list1.append(
+            ((1 + 2 * t) * t2**2) * point1[1]
+            + ((1 + 2 * t2) * t**2) * point2[1]
+            + (num4 * (t2**2)) * num2
+            + (num5 * (t**2)) * num3
+        )
+    return list1
