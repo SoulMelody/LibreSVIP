@@ -100,7 +100,7 @@ code_gen = [
 ]
 i18n = ["translate-toolkit>=3.11.1", "babel>=2.14.0"]
 linting = [
-  "isort>=5.13.1",
+  "isort>=5.13.2",
   "pre-commit>=3.6.0",
   "ruff>=0.1.8",
   "black>=23.12.0",
