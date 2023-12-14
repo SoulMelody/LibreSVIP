@@ -15,19 +15,19 @@ from .constants import (
 )
 
 
-class CeVIOPitchEvent(NamedTuple):
+class VoiSonaPitchEvent(NamedTuple):
     index: Optional[int]
     repeat: Optional[int]
     value: float
 
 
-class CeVIOPitchEventFloat(NamedTuple):
+class VoiSonaPitchEventFloat(NamedTuple):
     index: Optional[float]
     repeat: Optional[float]
     value: Optional[float]
 
     @classmethod
-    def from_event(cls, event: CeVIOPitchEvent) -> CeVIOPitchEventFloat:
+    def from_event(cls, event: VoiSonaPitchEvent) -> VoiSonaPitchEventFloat:
         return cls(
             float(event.index) if event.index is not None else None,
             float(event.repeat) if event.repeat is not None else None,
@@ -36,8 +36,8 @@ class CeVIOPitchEventFloat(NamedTuple):
 
 
 @dataclasses.dataclass
-class CeVIOTrackPitchData:
-    events: list[CeVIOPitchEvent]
+class VoiSonaTrackPitchData:
+    events: list[VoiSonaPitchEvent]
     tempos: list[SongTempo]
     tick_prefix: int
 
@@ -52,7 +52,7 @@ class CeVIOTrackPitchData:
         return length + MIN_DATA_LENGTH
 
 
-def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
+def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve]:
     converted_points = [Point.start_point()]
     current_value = -100
 
@@ -82,25 +82,25 @@ def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
     )
 
 
-def append_ending_points(data: CeVIOTrackPitchData) -> CeVIOTrackPitchData:
+def append_ending_points(data: VoiSonaTrackPitchData) -> VoiSonaTrackPitchData:
     result = []
     next_pos = None
     for event in data.events:
         pos = event.index if event.index is not None else next_pos
         length = event.repeat if event.repeat is not None else 1
         if next_pos is not None and next_pos < pos:
-            result.append(CeVIOPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-        result.append(CeVIOPitchEvent(pos, length, event.value))
+            result.append(VoiSonaPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+        result.append(VoiSonaPitchEvent(pos, length, event.value))
         next_pos = pos + length
     if next_pos is not None:
-        result.append(CeVIOPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-    return CeVIOTrackPitchData(result, data.tempos, data.tick_prefix)
+        result.append(VoiSonaPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+    return VoiSonaTrackPitchData(result, data.tempos, data.tick_prefix)
 
 
-def normalize_to_tick(data: CeVIOTrackPitchData) -> list[CeVIOPitchEventFloat]:
+def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloat]:
     tempos = expand(data.tempos, data.tick_prefix)
-    events = [CeVIOPitchEventFloat.from_event(event) for event in data.events]
-    events_normalized: list[CeVIOPitchEventFloat] = []
+    events = [VoiSonaPitchEventFloat.from_event(event) for event in data.events]
+    events_normalized: list[VoiSonaPitchEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
@@ -142,10 +142,10 @@ def normalize_to_tick(data: CeVIOTrackPitchData) -> list[CeVIOPitchEventFloat]:
         next_pos = pos + repeat
         next_tick_pos = tick_pos + repeat_in_ticks
         events_normalized.append(
-            CeVIOPitchEventFloat(tick_pos, repeat_in_ticks, event.value)
+            VoiSonaPitchEventFloat(tick_pos, repeat_in_ticks, event.value)
         )
     return [
-        CeVIOPitchEventFloat(
+        VoiSonaPitchEventFloat(
             tick.index + data.tick_prefix,
             tick.repeat,
             tick.value if tick.value != TEMP_VALUE_AS_NULL else None,
@@ -155,9 +155,9 @@ def normalize_to_tick(data: CeVIOTrackPitchData) -> list[CeVIOPitchEventFloat]:
 
 
 def shape_events(
-    events_with_full_params: list[CeVIOPitchEventFloat],
-) -> list[CeVIOPitchEventFloat]:
-    result: list[CeVIOPitchEventFloat] = []
+    events_with_full_params: list[VoiSonaPitchEventFloat],
+) -> list[VoiSonaPitchEventFloat]:
+    result: list[VoiSonaPitchEventFloat] = []
     for event in events_with_full_params:
         if event.repeat is not None and event.repeat > 0:
             if result:
@@ -184,9 +184,9 @@ def expand(tempos: list[SongTempo], tick_prefix: int) -> list[tuple[int, float, 
     return result
 
 
-def generate_for_cevio(
+def generate_for_voisona(
     pitch: ParamCurve, tempos: list[SongTempo], tick_prefix: int
-) -> Optional[CeVIOTrackPitchData]:
+) -> Optional[VoiSonaTrackPitchData]:
     events_with_full_params = []
     for i, this_point in enumerate(pitch.points):
         next_point = pitch.points[i + 1] if i + 1 < len(pitch.points) else None
@@ -197,7 +197,7 @@ def generate_for_cevio(
         value = math.log(midi2hz(this_point.y / 100)) if this_point.y != -100 else None
         if value is not None:
             events_with_full_params.append(
-                CeVIOPitchEventFloat(float(index), float(repeat), float(value))
+                VoiSonaPitchEventFloat(float(index), float(repeat), float(value))
             )
     are_events_connected_to_next = [
         this_event.index + this_event.repeat >= next_event.index
@@ -221,14 +221,14 @@ def generate_for_cevio(
         length = last_event_with_index.index
         for event in events[events.index(last_event_with_index) :]:
             length += event.repeat or 1
-    return CeVIOTrackPitchData(events, [], tick_prefix)
+    return VoiSonaTrackPitchData(events, [], tick_prefix)
 
 
 def denormalize_from_tick(
-    events_with_full_params: list[CeVIOPitchEventFloat],
+    events_with_full_params: list[VoiSonaPitchEventFloat],
     tempos_in_ticks: list[SongTempo],
     tick_prefix: int,
-) -> list[CeVIOPitchEvent]:
+) -> list[VoiSonaPitchEvent]:
     tempos = expand(
         [
             tempo.model_copy(update={"position": tempo.position + tick_prefix})
@@ -277,25 +277,27 @@ def denormalize_from_tick(
             TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
         )
         events.append(
-            CeVIOPitchEvent(round(pos), int(round(repeat)), event_double.value)
+            VoiSonaPitchEvent(round(pos), int(round(repeat)), event_double.value)
         )
     return events
 
 
 def restore_connection(
-    events: list[CeVIOPitchEvent], are_events_connected_to_next: list[bool]
-) -> list[CeVIOPitchEvent]:
+    events: list[VoiSonaPitchEvent], are_events_connected_to_next: list[bool]
+) -> list[VoiSonaPitchEvent]:
     new_events = []
     for event, is_connected_to_next in zip(events, are_events_connected_to_next):
         new_events.append(event)
         if not is_connected_to_next:
             new_events.append(
-                CeVIOPitchEvent(event.index + event.repeat, 0, event.value)
+                VoiSonaPitchEvent(event.index + event.repeat, 0, event.value)
             )
     return new_events
 
 
-def merge_events_if_possible(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEvent]:
+def merge_events_if_possible(
+    events: list[VoiSonaPitchEvent],
+) -> list[VoiSonaPitchEvent]:
     new_events = []
     for event, next_event in zip(events, events[1:] + [None]):
         if (
@@ -304,7 +306,7 @@ def merge_events_if_possible(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEv
             and event.index + event.repeat == next_event.index
         ):
             new_events.append(
-                CeVIOPitchEvent(
+                VoiSonaPitchEvent(
                     event.index, event.repeat + next_event.repeat, event.value
                 )
             )
@@ -313,7 +315,7 @@ def merge_events_if_possible(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEv
     return new_events
 
 
-def remove_redundant_index(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEvent]:
+def remove_redundant_index(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitchEvent]:
     new_events = []
     for prev_event, event in zip([None] + events[:-1], events):
         if (
@@ -322,13 +324,13 @@ def remove_redundant_index(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEven
             and prev_event.repeat is not None
             and prev_event.index + prev_event.repeat == event.index
         ):
-            new_events.append(CeVIOPitchEvent(None, event.repeat, event.value))
+            new_events.append(VoiSonaPitchEvent(None, event.repeat, event.value))
         else:
             new_events.append(event)
     return new_events
 
 
-def remove_redundant_repeat(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEvent]:
+def remove_redundant_repeat(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitchEvent]:
     return [
         event if event.repeat != 1 else event._replace(repeat=None) for event in events
     ]

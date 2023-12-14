@@ -153,9 +153,7 @@ class CeVIOParser:
         tempo_nodes = unit_node.song.tempo.sound
         for tempo_node in tempo_nodes:
             tick = (
-                tempo_node.clock // TICK_RATE - tick_prefix
-                if tempo_node.clock is not None
-                else None
+                tempo_node.clock // TICK_RATE if tempo_node.clock is not None else None
             )
             bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
             if tick is not None and bpm is not None:
@@ -165,9 +163,7 @@ class CeVIOParser:
         note_nodes = unit_node.song.score.note
         for note_node in note_nodes:
             tick_on = (
-                (note_node.clock // TICK_RATE) - tick_prefix
-                if note_node.clock is not None
-                else None
+                (note_node.clock // TICK_RATE) if note_node.clock is not None else None
             )
             duration = (
                 (note_node.duration // TICK_RATE)

@@ -4,6 +4,12 @@ from typing import Optional
 
 import more_itertools
 
+from libresvip.core.tick_counter import (
+    shift_beat_list,
+    shift_tempo_list,
+    skip_beat_list,
+    skip_tempo_list,
+)
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -15,8 +21,18 @@ from libresvip.model.base import (
 )
 
 from .constants import OCTAVE_OFFSET, TICK_RATE
-from .model import VoiSonaAudioTrackItem, VoiSonaProject, VoiSonaSingingTrackItem
+from .model import (
+    VoiSonaAudioTrackItem,
+    VoiSonaPointData,
+    VoiSonaProject,
+    VoiSonaSingingTrackItem,
+)
 from .options import InputOptions
+from .voisona_pitch import (
+    VoiSonaPitchEvent,
+    VoiSonaTrackPitchData,
+    pitch_from_voisona_track,
+)
 
 
 @dataclasses.dataclass
@@ -32,8 +48,8 @@ class VoiSonaParser:
             for item in track.track:
                 if isinstance(item, VoiSonaSingingTrackItem):
                     if parse_result := self.parse_singing_track(item):
-                        track, tempo_part, time_signature_part = parse_result
-                        tracks.append(track)
+                        singing_track, tempo_part, time_signature_part = parse_result
+                        tracks.append(singing_track)
                         tempos.extend(tempo_part)
                         time_signatures.extend(time_signature_part)
         tempos = self.merge_tempos(tempos)
@@ -58,8 +74,8 @@ class VoiSonaParser:
                         )
         time_signatures = self.merge_time_signatures(time_signatures)
         return Project(
-            time_signature_list=time_signatures,
-            song_tempo_list=tempos,
+            time_signature_list=skip_beat_list(time_signatures, 0),
+            song_tempo_list=skip_tempo_list(tempos, 0),
             track_list=tracks,
         )
 
@@ -87,7 +103,7 @@ class VoiSonaParser:
         tempos = []
         notes = []
 
-        tick_prefix = -int(time_signatures[0].bar_length())
+        tick_prefix = int(time_signatures[0].bar_length())
         for song in track.plugin_data.state_information.song:
             for beat in song.beat:
                 for time_node in beat.time:
@@ -115,7 +131,7 @@ class VoiSonaParser:
                         prev_tick = tick
             for tempo in song.tempo:
                 for tempo_node in tempo.sound:
-                    tick = tempo_node.clock // TICK_RATE - tick_prefix
+                    tick = tempo_node.clock // TICK_RATE
                     bpm = (
                         float(tempo_node.tempo)
                         if tempo_node.tempo is not None
@@ -134,11 +150,34 @@ class VoiSonaParser:
                             length=note_node.duration // TICK_RATE,
                         )
                     )
+        tempos = shift_tempo_list(tempos, tick_prefix)
+        voisona_track_pitch_data = None
+        if track.plugin_data.state_information.parameter is not None:
+            for parameter in track.plugin_data.state_information.parameter:
+                if parameter.log_f0 is not None:
+                    for curve in parameter.log_f0:
+                        pitch_data_nodes: list[VoiSonaPointData] = curve.data
+                        pitch_datas = []
+                        for data_node in pitch_data_nodes:
+                            if pitch_data := self.parse_pitch_data(data_node):
+                                pitch_datas.append(pitch_data)
+                        voisona_track_pitch_data = VoiSonaTrackPitchData(
+                            events=pitch_datas, tempos=tempos, tick_prefix=tick_prefix
+                        )
+        time_signatures = shift_beat_list(time_signatures, 1)
+        singing_track = SingingTrack(title=track.name, note_list=notes)
+        if (
+            voisona_track_pitch_data is not None
+            and (pitch := pitch_from_voisona_track(voisona_track_pitch_data))
+            is not None
+        ):
+            singing_track.edited_params.pitch = pitch
+        return singing_track, tempos, time_signatures
 
-        time_signatures = [
-            time_signature.model_copy(
-                update={"bar_index": time_signature.bar_index + 1}
-            )
-            for time_signature in time_signatures
-        ]
-        return SingingTrack(title=track.name, note_list=notes), tempos, time_signatures
+    @staticmethod
+    def parse_pitch_data(data_element: VoiSonaPointData) -> Optional[VoiSonaPitchEvent]:
+        value = float(data_element.value) if data_element.value is not None else None
+        if value is not None:
+            index = data_element.index or None
+            repeat = data_element.repeat or None
+            return VoiSonaPitchEvent(index=index, repeat=repeat, value=value)

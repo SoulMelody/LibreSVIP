@@ -4,7 +4,7 @@ import enum
 from types import GenericAlias
 from typing import Annotated, Any, Literal, Optional, Union, get_args
 
-from pydantic import Field, computed_field
+from pydantic import Field
 
 from libresvip.model.base import BaseModel
 
@@ -159,11 +159,8 @@ class VoiSonaPointData(BaseModel):
 
 
 class VoiSonaParameterItem(BaseModel):
-    data: list[VoiSonaPointData] = Field(alias="Data")
-
-    @computed_field(alias="Length")
-    def length(self) -> int:
-        return len(self.data)
+    length: int = Field(alias="Length")
+    data: list[VoiSonaPointData] = Field(default_factory=list, alias="Data")
 
 
 class VoiSonaParametersItem(BaseModel):
@@ -338,13 +335,12 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
         if field_value is not None:
             if isinstance(field_info.annotation, type):
                 field_type = field_info.annotation
+            elif field_info.default is None:
+                field_type = field_info.annotation
+                while not isinstance(field_type, type):
+                    field_type = get_args(field_type)[0]
             else:
-                if field_info.default is not None:
-                    field_type = type(field_info.default)
-                else:
-                    field_type = field_info.annotation
-                    while not isinstance(field_type, type):
-                        field_type = get_args(field_type)[0]
+                field_type = type(field_info.default)
             if isinstance(field_type, GenericAlias):
                 inner_type = get_args(field_type)[0]
                 if not isinstance(inner_type, type) or issubclass(

@@ -10,7 +10,7 @@ from pydantic import Field
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.base import BaseModel
-from libresvip.model.point import Point, linear_interpolation
+from libresvip.model.point import linear_interpolation
 
 ParamType = SimpleNamespace(
     CURVE="Curve",
@@ -55,7 +55,7 @@ class UCurve(BaseModel):
     abbr: Optional[str] = None
 
     @property
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return len(self.xs) == 0 or all(y == 0 for y in self.ys)
 
     def sample(self, x: int) -> int:
@@ -128,7 +128,7 @@ class UVibrato(BaseModel):
     def normalized_start(self) -> float:
         return 1.0 - self.length / 100.0
 
-    def evaluate(self, n_pos: int, n_period: int, note: UNote) -> Point:
+    def evaluate(self, n_pos: int, n_period: int, note: UNote) -> tuple[float, float]:
         n_start = self.normalized_start
         n_in = self.length / 100.0 * self.in_value / 100.0
         n_in_pos = n_start + n_in
@@ -142,7 +142,7 @@ class UVibrato(BaseModel):
             y *= (n_pos - n_start) / n_in
         elif n_pos > n_out_pos:
             y *= (1.0 - n_pos) / n_out
-        return Point(note.position + note.duration * n_pos, note.tone + y / 100.0)
+        return (note.position + note.duration * n_pos, note.tone + y / 100.0)
 
 
 class UExpression(BaseModel):
