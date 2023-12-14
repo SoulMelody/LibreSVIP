@@ -88,8 +88,9 @@ class UstxParser:
                 solo=ustx_track.solo,
                 mute=ustx_track.mute,
                 ai_singer_name=ustx_track.singer or "",
+                title=ustx_track.track_name or f"Track {i + 1}",
             )
-            for ustx_track in tracks
+            for i, ustx_track in enumerate(tracks)
         ]
         for track in track_list:
             track.edited_params.pitch.points.append(Point.start_point())

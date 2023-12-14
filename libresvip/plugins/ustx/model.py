@@ -97,6 +97,9 @@ class URendererSettings(BaseModel):
 
 
 class UTrack(BaseModel):
+    track_name: Optional[str] = None
+    track_color: Optional[str] = None
+    voice_color_names: Optional[list[str]] = None
     singer: Optional[str] = None
     phonemizer: Optional[str] = None
     renderer_settings: Optional[URendererSettings] = None
@@ -119,9 +122,10 @@ class UVibrato(BaseModel):
     out: Optional[float] = None
     shift: Optional[float] = None
     drift: Optional[float] = None
+    vol_link: Optional[float] = None
 
     @functools.cached_property
-    def normalized_start(self):
+    def normalized_start(self) -> float:
         return 1.0 - self.length / 100.0
 
     def evaluate(self, n_pos: int, n_period: int, note: UNote) -> Point:
@@ -208,3 +212,7 @@ class USTXProject(BaseModel):
     tracks: list[UTrack] = Field(default_factory=list)
     voice_parts: list[UVoicePart] = Field(default_factory=list)
     wave_parts: list[UWavePart] = Field(default_factory=list)
+    exp_selectors: Optional[list[str]] = None
+    exp_primary: Optional[int] = 0
+    exp_secondary: Optional[int] = 1
+    key: Optional[int] = 0

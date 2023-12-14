@@ -16,6 +16,7 @@ from .model import (
     UCurve,
     UNote,
     UPitch,
+    URendererSettings,
     USTXProject,
     UTempo,
     UTimeSignature,
@@ -99,9 +100,10 @@ class UstxGenerator:
     @staticmethod
     def generate_track(os_track: Track) -> UTrack:
         return UTrack(
+            track_name=os_track.title,
             singer="",
             phonemizer="OpenUtau.Core.DefaultPhonemizer",  # 默认音素器
-            renderer="CLASSIC",  # 经典渲染器
+            renderer_settings=URendererSettings(renderer="CLASSIC"),
             mute=os_track.mute,
             solo=os_track.solo,
             volume=math.log10(os_track.volume) * 10,  # 绝对音量转对数音量
