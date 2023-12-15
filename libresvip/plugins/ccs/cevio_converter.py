@@ -1,10 +1,9 @@
 import pathlib
 
+from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.parsers.xml import XmlParser
-from xsdata.formats.dataclass.serializers.xml import (
-    SerializerConfig,
-    XmlSerializer,
-)
+from xsdata.formats.dataclass.serializers.config import SerializerConfig
+from xsdata.formats.dataclass.serializers.xml import XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
@@ -17,9 +16,9 @@ from .options import InputOptions, OutputOptions
 
 class CeVIOConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ccs_project = XmlParser().from_bytes(
-            path.read_bytes(), CeVIOCreativeStudioProject
-        )
+        ccs_project = XmlParser(
+            config=ParserConfig(fail_on_unknown_properties=False)
+        ).from_bytes(path.read_bytes(), CeVIOCreativeStudioProject)
         return CeVIOParser(options).parse_project(ccs_project)
 
     def dump(
