@@ -6,7 +6,7 @@ from typing import NamedTuple, Optional
 
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
-from libresvip.utils import hz2midi, midi2hz
+from libresvip.utils import find_last_index, hz2midi, midi2hz
 
 from .constants import (
     MIN_DATA_LENGTH,
@@ -43,12 +43,12 @@ class CeVIOTrackPitchData:
 
     @property
     def length(self) -> int:
-        last_event_with_index = next(
-            (event for event in reversed(self.events) if event.index is not None), None
+        last_has_index = find_last_index(
+            self.events, lambda event: event.index is not None
         )
-        length = last_event_with_index.index
-        for event in self.events[self.events.index(last_event_with_index) :]:
-            length += event.repeat or 1
+        length = last_has_index + sum(
+            event.repeat or 1 for event in self.events[last_has_index:]
+        )
         return length + MIN_DATA_LENGTH
 
 
