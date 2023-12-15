@@ -58,7 +58,7 @@ jobs:
           mv build/LibreSVIP.dmg dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
           cd ..
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: libresvip-${{ matrix.os.arch }}
           path: ./packaging/dist
