@@ -46,7 +46,7 @@ class VoiSonaTrackPitchData:
         last_has_index = find_last_index(
             self.events, lambda event: event.index is not None
         )
-        length = last_has_index + sum(
+        length = self.events[last_has_index].index + sum(
             event.repeat or 1 for event in self.events[last_has_index:]
         )
         return length + MIN_DATA_LENGTH
