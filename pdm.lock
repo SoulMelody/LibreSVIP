@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:2fce2c715e428f3c3006a41827829ff4daa4ebd9b1140c494228c25569f54db0"
+content_hash = "sha256:6782259de2b182a73258a1c4b0c8c1eb25f26b1ebd9004ffa6bf7a2a93a7c09e"
 
 [[package]]
 name = "aiofiles"
@@ -1830,6 +1830,20 @@ dependencies = [
 files = [
     {file = "proto-plus-1.23.0.tar.gz", hash = "sha256:89075171ef11988b3fa157f5dbd8b9cf09d65fffee97e29ce403cd8defba19d2"},
     {file = "proto_plus-1.23.0-py3-none-any.whl", hash = "sha256:a829c79e619e1cf632de091013a4173deed13a55f326ef84f05af6f50ff4c82c"},
+]
+
+[[package]]
+name = "proto-plus-stubs"
+version = "0.6.0"
+requires_python = ">=3.7,<4.0"
+summary = "Type stubs for proto-plus"
+dependencies = [
+    "proto-plus>=1.18.0",
+    "types-protobuf>=3.17.4",
+]
+files = [
+    {file = "proto_plus_stubs-0.6.0-py3-none-any.whl", hash = "sha256:8d4162b2051a7cf0d0e4cae105d5e37a915cc1dd7ba2691d83f5efc5da2b5604"},
+    {file = "proto_plus_stubs-0.6.0.tar.gz", hash = "sha256:9ef7ee22d67d34d517e2ab6e8a8bebf4276562483a2ff538c219686b58a17c2f"},
 ]
 
 [[package]]
