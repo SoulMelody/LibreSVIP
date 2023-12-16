@@ -116,6 +116,7 @@ docs = ["mkdocs-material<10.0.0,>=9.5.2"]
 test = ["pytest>=7.4.3", "pytest-datadir>=1.5.0"]
 typing_stubs = [
   "proto-plus-stubs>=0.6.0",
+  "types-parsimonious>=0.10.0.10",
   "types-pyyaml>=6.0.12.12",
   "types-ujson>=5.9.0.0",
   "types-zstd>=1.5.0.3; platform_python_implementation == \"PyPy\"",
