@@ -525,6 +525,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             return len(self.files_to_convert)
 
         def convert_one(self, task: ConversionTask) -> None:
+            task.reset()
             lazy_translation.set(translation)
             task.converting = True
             try:
@@ -562,25 +563,32 @@ def page_layout(lang: Optional[str] = None) -> None:
             task.converting = False
 
         async def batch_convert(self) -> None:
+            n = ui.notification()
+
             loop = asyncio.get_event_loop()
             with ThreadPoolExecutor(
                 max_workers=max(len(self.files_to_convert), 4),
             ) as executor:
-                for task in self.files_to_convert.values():
-                    task.reset()
-                    await loop.run_in_executor(
+                futures: list[asyncio.Future] = [
+                    loop.run_in_executor(
                         executor,
                         self.convert_one,
                         task,
                     )
+                    for task in self.files_to_convert.values()
+                ]
+                for i, future in enumerate(asyncio.as_completed(futures)):
+                    n.message = _("Conversion Progress") + f" {i} / {len(futures)}"
+                    n.spinner = True
+                    await future
+            n.close_button = _("Close")
+            n.spinner = False
             if any(not task.success for task in self.files_to_convert.values()):
-                ui.notify(_("Conversion Failed"), closeBtn=_("Close"), type="negative")
+                n.message = _("Conversion Failed")
+                n.type = "negative"
             else:
-                ui.notify(
-                    _("Conversion Successful"),
-                    closeBtn=_("Close"),
-                    type="positive",
-                )
+                n.message = _("Conversion Successful")
+                n.type = "positive"
 
         def export_all(self, request: Request) -> Response:
             if len(self.files_to_convert) == 0:
@@ -708,21 +716,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.label(_("Import project"))
                 with ui.menu_item(
                     on_click=selected_formats.batch_convert,
-                ).bind_visibility(
+                ).bind_visibility_from(
                     selected_formats,
                     "task_count",
                     backward=bool,
-                    forward=bool,
                 ):
                     ui.tooltip("Alt+Enter")
                     with ui.row().classes("items-center"):
                         ui.icon("play_arrow").classes("text-lg")
                         ui.label(_("Convert"))
-                with ui.menu_item(on_click=selected_formats.reset).bind_visibility(
+                with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
                     selected_formats,
                     "task_count",
                     backward=bool,
-                    forward=bool,
                 ):
                     ui.tooltip("Alt+/")
                     with ui.row().classes("items-center"):
@@ -1030,28 +1036,26 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ui.label(
                                 _("Drag and drop files here or click to upload"),
                             ).classes("text-lg")
-            with main_splitter.after, ui.card().classes(
+            with main_splitter.after, ui.scroll_area().classes(
                 "w-full h-auto min-h-full"
-            ).style("box-shadow: 0 0 0 #ccc !important;"):
+            ):
                 with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                     with ui.button(
                         icon="play_arrow",
                         on_click=selected_formats.batch_convert,
-                    ).props("round").bind_visibility(
+                    ).props("round").bind_visibility_from(
                         selected_formats,
                         "task_count",
                         backward=bool,
-                        forward=bool,
                     ):
                         ui.tooltip(_("Start Conversion"))
                     with ui.button(
                         icon="download_for_offline",
                         on_click=lambda: ui.download(f"/export/{cur_client.id}/"),
-                    ).props("round").bind_visibility(
+                    ).props("round").bind_visibility_from(
                         selected_formats,
                         "task_count",
                         backward=bool,
-                        forward=bool,
                     ):
                         ui.tooltip(_("Export"))
                 ui.label(_("Advanced Options")).classes("text-h5 font-bold")

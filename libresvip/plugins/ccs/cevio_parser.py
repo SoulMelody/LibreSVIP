@@ -78,7 +78,7 @@ class CeVIOParser:
 
     def merge_tempos(self, tempos: list[SongTempo]) -> list[SongTempo]:
         buckets = more_itertools.bucket(tempos, operator.attrgetter("position"))
-        return [next(buckets[key]) for key in buckets]
+        return [next(buckets[key]) for key in buckets] or [SongTempo()]
 
     def merge_time_signatures(
         self, time_signatures: list[TimeSignature]
@@ -86,7 +86,7 @@ class CeVIOParser:
         buckets = more_itertools.bucket(
             time_signatures, operator.attrgetter("bar_index")
         )
-        return [next(buckets[key]) for key in buckets]
+        return [next(buckets[key]) for key in buckets] or [TimeSignature()]
 
     def parse_instrumental_track(
         self,
