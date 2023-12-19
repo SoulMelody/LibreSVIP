@@ -457,8 +457,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
-                            on_click=lambda: ui.download(
-                                f"/export/{cur_client.id}/{info.name}",
+                            on_click=functools.partial(
+                                selected_formats.save_file, info.name
                             ),
                         ).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props(
@@ -578,7 +578,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     for task in self.files_to_convert.values()
                 ]
                 for i, future in enumerate(asyncio.as_completed(futures)):
-                    n.message = _("Conversion Progress") + f" {i} / {len(futures)}"
+                    n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
                     n.spinner = True
                     await future
             n.close_button = _("Close")
@@ -591,8 +591,31 @@ def page_layout(lang: Optional[str] = None) -> None:
                 n.type = "positive"
 
         def export_all(self, request: Request) -> Response:
+            if result := self._export_all():
+                return Response(*result)
+            raise HTTPException(400, "No files to export")
+
+        def export_one(self, request: Request) -> Response:
+            if result := self._export_one(request.path_params["filename"]):
+                return Response(*result)
+            raise HTTPException(404, "File not found")
+
+        def _export_one(
+            self, filename: str
+        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+            if (task := self.files_to_convert.get(filename)) and task.success:
+                return (
+                    task.output_path.read_bytes(),
+                    200,
+                    {
+                        "Content-Disposition": f"attachment; filename={quote(task.upload_path.with_suffix(task.output_path.suffix).name)}",
+                    },
+                    "application/octet-stream",
+                )
+
+        def _export_all(self) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if len(self.files_to_convert) == 0:
-                raise HTTPException(400, "No files to export")
+                return None
             elif len(self.files_to_convert) == 1:
                 filename = next(iter(self.files_to_convert))
                 return self._export_one(filename)
@@ -604,25 +627,36 @@ def page_layout(lang: Optional[str] = None) -> None:
                             task.upload_path.with_suffix(task.output_path.suffix).name,
                             task.output_path.read_bytes(),
                         )
-            return Response(
-                content=buffer.getvalue(),
-                media_type="application/zip",
-                headers={"Content-Disposition": "attachment; filename=export.zip"},
+            return (
+                buffer.getvalue(),
+                200,
+                {"Content-Disposition": "attachment; filename=export.zip"},
+                "application/zip",
             )
 
-        def export_one(self, request: Request) -> Response:
-            return self._export_one(request.path_params["filename"])
+        async def save_file(self, file_name: str = "") -> None:
+            if app.native.main_window is not None and hasattr(
+                app.native.main_window, "create_file_dialog"
+            ):
+                import webview
 
-        def _export_one(self, filename: str) -> Response:
-            if (task := self.files_to_convert.get(filename)) and task.success:
-                return Response(
-                    content=task.output_path.read_bytes(),
-                    media_type="application/octet-stream",
-                    headers={
-                        "Content-Disposition": f"attachment; filename={quote(task.upload_path.with_suffix(task.output_path.suffix).name)}",
-                    },
+                save_path = await app.native.main_window.create_file_dialog(
+                    webview.SAVE_DIALOG, save_filename=file_name or "export.zip"
                 )
-            raise HTTPException(404, "File not found")
+                if save_path is None:  # Canceled
+                    return
+                elif not isinstance(save_path, str):  # list[str]
+                    save_path = save_path[0]
+                if not file_name and (result := self._export_all()):
+                    pathlib.Path(save_path).write_bytes(result[0])
+                elif result := self._export_one(file_name):
+                    pathlib.Path(save_path).write_bytes(result[0])
+                else:
+                    ui.notify(_("Save failed!"), type="negative")
+                    return
+                ui.notify(_("Saved"), type="positive")
+            else:
+                ui.download(f"/export/{cur_client.id}/{file_name}")
 
     dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
@@ -1051,7 +1085,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.tooltip(_("Start Conversion"))
                     with ui.button(
                         icon="download_for_offline",
-                        on_click=lambda: ui.download(f"/export/{cur_client.id}/"),
+                        on_click=selected_formats.save_file,
                     ).props("round").bind_visibility_from(
                         selected_formats,
                         "task_count",
