@@ -641,19 +641,19 @@ def page_layout(lang: Optional[str] = None) -> None:
             if app.native.main_window is not None and hasattr(
                 app.native.main_window, "create_file_dialog"
             ):
-                file_path = await app.native.main_window.create_file_dialog(
+                file_paths = await app.native.main_window.create_file_dialog(
+                    allow_multiple=True,
                     file_types=[
                         select_input.options[select_input.value],
                         _("All files (*.*)"),
-                    ]
+                    ],
                 )
-                if file_path is None:  # Canceled
+                if file_paths is None:  # Canceled
                     return
-                elif not isinstance(file_path, str):  # list[str]
-                    file_path = file_path[0]
-                path = pathlib.Path(file_path)
-                with path.open("rb") as content:
-                    self._add_task(path.name, content)
+                for file_path in file_paths:
+                    path = pathlib.Path(file_path)
+                    with path.open("rb") as content:
+                        self._add_task(path.name, content)
             else:
                 ui.run_javascript("add_upload()")
 
@@ -1020,57 +1020,18 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
                                 with fab.add_slot("active-icon"):
                                     ui.icon("construction").classes("rotate-45")
-
-                                def add_class(
-                                    element: ui.element, show: bool = False
-                                ) -> None:
-                                    element.classes("toolbar-fab-active")
-                                    if show:
-                                        element.run_method("show")
-
-                                def remove_class(element: ui.element) -> None:
-                                    call_times = 0
-
-                                    async def hide() -> None:
-                                        nonlocal call_times
-                                        if call_times and ui.run_javascript(
-                                            '!document.querySelector(".toolbar-fab-active")',
-                                        ):
-                                            fab.run_method("hide")
-                                            timer.deactivate()
-                                        call_times += 1
-
-                                    timer = ui.timer(0.5, hide)
-                                    element.classes(remove="toolbar-fab-active")
-
-                                fab.on("mouseover", lambda: add_class(fab, show=True))
-                                fab.on("mouseout", lambda: remove_class(fab))
-                                with QFabAction(
+                                fab.on(
+                                    "mouseenter",
+                                    functools.partial(fab.run_method, "show"),
+                                )
+                                QFabAction(
                                     icon="refresh",
                                     on_click=selected_formats.reset,
-                                ) as fab_action_1:
-                                    fab_action_1.on(
-                                        "mouseover",
-                                        lambda: add_class(fab_action_1),
-                                    )
-                                    fab_action_1.on(
-                                        "mouseout",
-                                        lambda: remove_class(fab_action_1),
-                                    )
-                                    ui.tooltip(_("Clear Task List"))
-                                with QFabAction(
+                                ).tooltip(_("Clear Task List"))
+                                QFabAction(
                                     icon="filter_alt_off",
                                     on_click=selected_formats.filter_input_ext,
-                                ) as fab_action_2:
-                                    fab_action_2.on(
-                                        "mouseover",
-                                        lambda: add_class(fab_action_2),
-                                    )
-                                    fab_action_2.on(
-                                        "mouseout",
-                                        lambda: remove_class(fab_action_2),
-                                    )
-                                    ui.tooltip(_("Remove Tasks With Other Extensions"))
+                                ).tooltip(_("Remove Tasks With Other Extensions"))
                             with ui.button(
                                 icon="add",
                                 on_click=selected_formats.add_upload,
