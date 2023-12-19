@@ -16,7 +16,7 @@ import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
-from typing import Any, Optional, TypedDict, Union, get_args, get_type_hints
+from typing import Any, BinaryIO, Optional, TypedDict, Union, get_args, get_type_hints
 from urllib.parse import quote
 
 from nicegui import app, binding, ui
@@ -391,7 +391,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @ui.refreshable
         def tasks_container(self) -> None:
-            with ui.column().classes("w-full"):
+            with ui.scroll_area().classes("w-full"):
                 for info in self.files_to_convert.values():
                     with ui.row().classes("w-full items-center"):
 
@@ -466,20 +466,20 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ):
                             ui.tooltip(_("Remove"))
 
-        def add_task(self, args: UploadEventArguments) -> None:
+        def _add_task(self, name: str, content: BinaryIO) -> None:
             if app.storage.user.get("auto_detect_input_format"):
-                cur_suffix = args.name.rpartition(".")[-1].lower()
+                cur_suffix = name.rpartition(".")[-1].lower()
                 if (
                     cur_suffix in plugin_manager.plugin_registry
                     and cur_suffix != self.input_format
                 ):
                     self.input_format = cur_suffix
-            upload_path = self.temp_path / args.name
-            args.content.seek(0)
-            upload_path.write_bytes(args.content.read())
+            upload_path = self.temp_path / name
+            content.seek(0)
+            upload_path.write_bytes(content.read())
             output_path = self.temp_path / str(uuid.uuid4())
             conversion_task = ConversionTask(
-                name=args.name,
+                name=name,
                 upload_path=upload_path,
                 output_path=output_path,
                 converting=False,
@@ -487,8 +487,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 error=None,
                 warning=None,
             )
-            self.files_to_convert[args.name] = conversion_task
+            self.files_to_convert[name] = conversion_task
             self.tasks_container.refresh()
+
+        def add_task(self, args: UploadEventArguments) -> None:
+            self._add_task(args.name, args.content)
 
         @property
         def input_format(self) -> str:
@@ -634,6 +637,26 @@ def page_layout(lang: Optional[str] = None) -> None:
                 "application/zip",
             )
 
+        async def add_upload(self) -> None:
+            if app.native.main_window is not None and hasattr(
+                app.native.main_window, "create_file_dialog"
+            ):
+                file_path = await app.native.main_window.create_file_dialog(
+                    file_types=[
+                        select_input.options[select_input.value],
+                        _("All files (*.*)"),
+                    ]
+                )
+                if file_path is None:  # Canceled
+                    return
+                elif not isinstance(file_path, str):  # list[str]
+                    file_path = file_path[0]
+                path = pathlib.Path(file_path)
+                with path.open("rb") as content:
+                    self._add_task(path.name, content)
+            else:
+                ui.run_javascript("add_upload()")
+
         async def save_file(self, file_name: str = "") -> None:
             if app.native.main_window is not None and hasattr(
                 app.native.main_window, "create_file_dialog"
@@ -710,7 +733,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     elif e.key == "h":
                         help_menu.open()
                     elif e.key == "o":
-                        ui.run_javascript("add_upload()")
+                        await selected_formats.add_upload()
                     elif e.key == "i":
                         about_dialog.open()
                     elif e.key == "\\":
@@ -748,7 +771,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             ui.tooltip("Alt+C")
             with ui.menu() as convert_menu:
                 with ui.menu_item(
-                    on_click=lambda: ui.run_javascript("add_upload()"),
+                    on_click=selected_formats.add_upload,
                 ):
                     ui.tooltip("Alt+O")
                     with ui.row().classes("items-center"):
@@ -1050,9 +1073,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     ui.tooltip(_("Remove Tasks With Other Extensions"))
                             with ui.button(
                                 icon="add",
-                                on_click=lambda: ui.run_javascript(
-                                    "add_upload()",
-                                ),
+                                on_click=selected_formats.add_upload,
                             ).props("round").classes(
                                 "absolute bottom-0 right-2 m-2 z-10",
                             ):
@@ -1067,6 +1088,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         with ui.card().classes(
                             "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
                         ).style("cursor: pointer") as upload_card:
+                            upload_card.on("click", selected_formats.add_upload)
                             upload_card.bind_visibility_from(
                                 selected_formats,
                                 "task_count",
@@ -1197,10 +1219,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                 let upload_card = document.querySelector("[id='c{upload_card.id}']")
                 upload_card.addEventListener('dragover', (event) => {{
                     event.preventDefault()
-                }})
-                upload_card.addEventListener('click', (event) => {{
-                    event.preventDefault()
-                    add_upload()
                 }})
                 upload_card.addEventListener('drop', (event) => {{
                     for (let file of event.dataTransfer.files) {{
