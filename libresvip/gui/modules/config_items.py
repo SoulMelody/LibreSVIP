@@ -9,6 +9,7 @@ from PySide6.QtQml import QmlElement, QmlSingleton
 import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings
 from libresvip.core.constants import res_dir
+from libresvip.extension.manager import plugin_manager
 
 from .model_proxy import ModelProxy
 
@@ -27,6 +28,16 @@ class ConfigItems(QObject):
         self.folder_presets = ModelProxy({"path": ""})
         self.folder_presets.append_many(
             [{"path": self.posix_path(path)} for path in settings.folder_presets]
+        )
+        self.plugin_cadidates = ModelProxy({"value": "", "text": ""})
+        self.plugin_cadidates.append_many(
+            [
+                {
+                    "text": plugin.file_format,
+                    "value": plugin.suffix,
+                }
+                for _, _, plugin in plugin_manager._candidates
+            ],
         )
         atexit.register(self.save_settings)
 
@@ -75,6 +86,20 @@ class ConfigItems(QObject):
             return False
         else:
             return True
+
+    @Slot(str, result=None)
+    def toggle_plugin(self, key: str) -> None:
+        if (
+            key in plugin_manager.plugin_registry
+            and key not in settings.disabled_plugins
+        ):
+            settings.disabled_plugins.append(key)
+        elif key in settings.disabled_plugins:
+            settings.disabled_plugins.remove(key)
+
+    @Slot(str, result=bool)
+    def enabled(self, key: str) -> bool:
+        return key in plugin_manager.plugin_registry
 
     @Slot(str, result=bool)
     def get_bool(self, key: str) -> bool:

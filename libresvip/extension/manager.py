@@ -39,6 +39,9 @@ class PluginManager:
     install_path: pathlib.Path
     plugin_places: list[pathlib.Path]
     plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
+    _candidates: list[
+        tuple[str, pathlib.Path, LibreSvipPluginInfo]
+    ] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
         sys.meta_path.append(self)
@@ -97,11 +100,9 @@ class PluginManager:
 
         return sys.modules[plugin_package]
 
-    def import_plugins(self, reload: bool = False) -> None:
-        _candidates: list[tuple[str, pathlib.Path, LibreSvipPluginInfo]] = []
+    def scan_candidates(self) -> None:
+        self._candidates.clear()
         _discovered = set()
-        if reload:
-            self.plugin_registry.clear()
         for dir_path in self.plugin_places:
             # first of all, is it a directory :)
             if not dir_path.is_dir():
@@ -145,12 +146,17 @@ class PluginManager:
                         f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                     )
                     break
-                _candidates.append(
+                self._candidates.append(
                     (candidate_infofile, candidate_filepath, plugin_info)
                 )
                 # finally the candidate_infofile must not be discovered again
                 _discovered.add(candidate_infofile)
-        for candidate_infofile, candidate_filepath, plugin_info in _candidates:
+
+    def import_plugins(self, reload: bool = False) -> None:
+        if reload:
+            self.plugin_registry.clear()
+        self.scan_candidates()
+        for candidate_infofile, candidate_filepath, plugin_info in self._candidates:
             # make sure to attribute a unique module name to the one
             # that is about to be loaded
             plugin_module_name = f"{self.plugin_namespace}.{plugin_info.suffix}"
