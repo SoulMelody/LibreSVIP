@@ -640,20 +640,26 @@ def page_layout(lang: Optional[str] = None) -> None:
             ):
                 import webview
 
+                result = None
+                if not file_name:
+                    result = self._export_all()
+                else:
+                    result = self._export_one(file_name)
+                if result is None:
+                    ui.notify(_("Save failed!"), type="negative")
+                    return
+
                 save_path = await app.native.main_window.create_file_dialog(
-                    webview.SAVE_DIALOG, save_filename=file_name or "export.zip"
+                    webview.SAVE_DIALOG,
+                    save_filename=result[2]["Content-Disposition"].removeprefix(
+                        "attachment; filename="
+                    ),
                 )
                 if save_path is None:  # Canceled
                     return
                 elif not isinstance(save_path, str):  # list[str]
                     save_path = save_path[0]
-                if not file_name and (result := self._export_all()):
-                    pathlib.Path(save_path).write_bytes(result[0])
-                elif result := self._export_one(file_name):
-                    pathlib.Path(save_path).write_bytes(result[0])
-                else:
-                    ui.notify(_("Save failed!"), type="negative")
-                    return
+                pathlib.Path(save_path).write_bytes(result[0])
                 ui.notify(_("Saved"), type="positive")
             else:
                 ui.download(f"/export/{cur_client.id}/{file_name}")
