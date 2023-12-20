@@ -87,8 +87,8 @@ class ConfigItems(QObject):
         else:
             return True
 
-    @Slot(str, result=None)
-    def toggle_plugin(self, key: str) -> None:
+    @Slot(str, result=bool)
+    def toggle_plugin(self, key: str) -> bool:
         if (
             key in plugin_manager.plugin_registry
             and key not in settings.disabled_plugins
@@ -96,6 +96,10 @@ class ConfigItems(QObject):
             settings.disabled_plugins.append(key)
         elif key in settings.disabled_plugins:
             settings.disabled_plugins.remove(key)
+        else:
+            return False
+        plugin_manager.import_plugins(reload=True)
+        return True
 
     @Slot(str, result=bool)
     def enabled(self, key: str) -> bool:

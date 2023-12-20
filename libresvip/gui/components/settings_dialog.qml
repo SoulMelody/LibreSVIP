@@ -342,10 +342,15 @@ Dialog {
         ListView {
             model: ConfigItems.qget("plugin_cadidates")
             delegate: CheckDelegate {
+                LayoutMirroring.enabled: true
                 text: qsTr(model.text)
                 checked: ConfigItems.enabled(model.value)
                 onToggled: {
-                    ConfigItems.toggle_plugin(model.value)
+                    if (ConfigItems.toggle_plugin(model.value)) {
+                        TaskManager.reload_formats()
+                        TaskManager.set_str("input_format", converterPage.inputFormatComboBox.currentValue)
+                        TaskManager.set_str("output_format", converterPage.outputFormatComboBox.currentValue)
+                    }
                 }
             }
         }

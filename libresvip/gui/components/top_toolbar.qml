@@ -205,7 +205,7 @@ ToolBar {
                                     onTriggered: {
                                         TaskManager.set_str("input_format", model.value)
                                     }
-                                    text: String(index % 10) + " " + qsTr(model.text)
+                                    text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
                                     target: TaskManager
@@ -262,7 +262,7 @@ ToolBar {
                                     onTriggered: {
                                         TaskManager.set_str("output_format", model.value)
                                     }
-                                    text: String(index % 10) + " " + qsTr(model.text)
+                                    text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
                                     target: TaskManager

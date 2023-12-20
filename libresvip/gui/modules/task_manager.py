@@ -157,28 +157,7 @@ class TaskManager(QObject):
             }
         )
         self._output_fields_inited = False
-        self.input_formats.append_many(
-            [
-                {
-                    "text": plugin.file_format,
-                    "value": plugin.suffix,
-                }
-                for plugin in plugin_manager.plugin_registry.values()
-            ],
-        )
-        self.output_formats.append_many(
-            [
-                {
-                    "text": plugin.file_format,
-                    "value": plugin.suffix,
-                }
-                for plugin in plugin_manager.plugin_registry.values()
-            ],
-        )
-        if not settings.last_input_format and self.input_formats:
-            settings.last_input_format = self.input_formats[0]["value"]
-        if not settings.last_output_format and self.output_formats:
-            settings.last_output_format = self.output_formats[0]["value"]
+        self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
@@ -188,6 +167,29 @@ class TaskManager(QObject):
         self.timer.interval = 100
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
+
+    @Slot(result=None)
+    def reload_formats(self) -> None:
+        self.input_formats.clear()
+        self.input_formats.append_many(
+            [
+                {
+                    "text": plugin.file_format,
+                    "value": plugin.suffix,
+                }
+                for plugin in plugin_manager.plugin_registry.values()
+            ],
+        )
+        self.output_formats.clear()
+        self.output_formats.append_many(
+            [
+                {
+                    "text": plugin.file_format,
+                    "value": plugin.suffix,
+                }
+                for plugin in plugin_manager.plugin_registry.values()
+            ],
+        )
 
     @Slot(QModelIndex, int, int)
     def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:

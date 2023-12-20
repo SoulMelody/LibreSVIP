@@ -308,7 +308,7 @@ Page {
                             }
                             dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")"
                             TaskManager.input_format_changed.connect((input_format) => {
-                                let new_index = indexOfValue(input_format)
+                                let new_index = Math.max(indexOfValue(input_format), 0)
                                 if (new_index != currentIndex) {
                                     currentIndex = new_index
                                 }
@@ -472,7 +472,7 @@ Page {
                                 this.currentIndex = indexOfValue(last_output_format)
                             }
                             TaskManager.output_format_changed.connect((output_format) => {
-                                let new_index = indexOfValue(output_format)
+                                let new_index = Math.max(indexOfValue(output_format), 0)
                                 if (new_index != currentIndex) {
                                     currentIndex = new_index
                                 }
