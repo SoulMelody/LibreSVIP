@@ -19,7 +19,6 @@ ToolBar {
     signal openHelpMenu()
 
     function toggleMaximized() {
-        // from https://github.com/yjg30737/qml-rounded-shadow-framelesswindow
         if (window.visibility === Window.Maximized) {
             window.showNormal();
         } else {

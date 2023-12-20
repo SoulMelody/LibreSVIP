@@ -3,7 +3,7 @@ from ctypes.wintypes import MSG
 from typing import Optional
 
 from PySide6.QtCore import QObject, QPoint, QRect, Qt
-from PySide6.QtGui import QCursor, QGuiApplication, QMouseEvent
+from PySide6.QtGui import QGuiApplication, QMouseEvent
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickItem, QQuickWindow
 
@@ -45,6 +45,13 @@ class FramelessWindow(QQuickWindow):
             (screen_geometry.height() - 800) // 2,
         )
         self.prev_visibility = None
+
+    def get_point_from_lparam(self, l_param: int) -> tuple[int, int]:
+        pixel_ratio = self.screen().device_pixel_ratio
+        return (
+            (l_param & 0xFFFF) // pixel_ratio - self.x,
+            (l_param >> 16) // pixel_ratio - self.y,
+        )
 
     @property
     def hwnd(self) -> int:
@@ -91,13 +98,11 @@ class FramelessWindow(QQuickWindow):
                 QQuickItem, "maximizeButton"
             )
         if event_type == b"windows_generic_MSG":
-            msg = MSG.from_address(message.__int__())
+            msg = MSG.from_address(int(message))
 
             if msg.message == win32con.WM_NCHITTEST and self.border_width is not None:
                 if msg.hWnd == self.hwnd:
-                    pos = QCursor.pos()
-                    x_pos = pos.x() - self.x
-                    y_pos = pos.y() - self.y
+                    x_pos, y_pos = self.get_point_from_lparam(msg.lParam)
                     w, h = self.width, self.height
                     bw = (
                         0
@@ -134,38 +139,44 @@ class FramelessWindow(QQuickWindow):
                             self.maximize_btn.height,
                         )
                         if rect.contains(x_pos, y_pos):
-                            QGuiApplication.send_event(
-                                self.maximize_btn,
-                                QMouseEvent(
-                                    QMouseEvent.Type.HoverEnter,
-                                    QPoint(),
-                                    Qt.MouseButton.NoButton,
-                                    Qt.MouseButton.NoButton,
-                                    Qt.KeyboardModifier.NoModifier,
-                                ),
-                            )
-                            self.maximize_btn_hovered = True
                             return True, win32con.HTMAXBUTTON
-                        elif self.maximize_btn_hovered:
-                            QGuiApplication.send_event(
-                                self.maximize_btn,
-                                QMouseEvent(
-                                    QMouseEvent.Type.HoverLeave,
-                                    QPoint(),
-                                    Qt.MouseButton.NoButton,
-                                    Qt.MouseButton.NoButton,
-                                    Qt.KeyboardModifier.NoModifier,
-                                ),
-                            )
-                            self.maximize_btn_hovered = False
             elif msg.message in [
-                win32con.WM_NCLBUTTONDOWN,
-                win32con.WM_NCLBUTTONDBLCLK,
+                win32con.WM_NCMOUSEHOVER,
+                win32con.WM_NCMOUSEMOVE,
+                win32con.WM_NCMOUSELEAVE,
             ]:
-                pos = QCursor.pos()
-                x_pos = pos.x() - self.x
-                y_pos = pos.y() - self.y
                 if self.maximize_btn is not None:
+                    x_pos, y_pos = self.get_point_from_lparam(msg.lParam)
+                    top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
+                    rect = QRect(
+                        top_left.x() - self.x,
+                        top_left.y() - self.y,
+                        self.maximize_btn.width,
+                        self.maximize_btn.height,
+                    )
+
+                    maximize_btn_hovered = rect.contains(x_pos, y_pos)
+                    if maximize_btn_hovered:
+                        if self.maximize_btn_hovered:
+                            mouse_event_type = QMouseEvent.Type.HoverMove
+                        else:
+                            mouse_event_type = QMouseEvent.Type.HoverEnter
+                    else:
+                        mouse_event_type = QMouseEvent.Type.HoverLeave
+                    QGuiApplication.send_event(
+                        self.maximize_btn,
+                        QMouseEvent(
+                            mouse_event_type,
+                            QPoint(),
+                            Qt.MouseButton.NoButton,
+                            Qt.MouseButton.NoButton,
+                            Qt.KeyboardModifier.NoModifier,
+                        ),
+                    )
+                    self.maximize_btn_hovered = maximize_btn_hovered
+            elif msg.message in [win32con.WM_NCLBUTTONDOWN, win32con.WM_NCLBUTTONUP]:
+                if self.maximize_btn is not None:
+                    x_pos, y_pos = self.get_point_from_lparam(msg.lParam)
                     top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                     rect = QRect(
                         top_left.x() - self.x,
@@ -177,34 +188,12 @@ class FramelessWindow(QQuickWindow):
                         QGuiApplication.send_event(
                             self.maximize_btn,
                             QMouseEvent(
-                                QMouseEvent.Type.MouseButtonPress,
+                                QMouseEvent.Type.MouseButtonPress
+                                if msg.message == win32con.WM_NCLBUTTONDOWN
+                                else QMouseEvent.Type.MouseButtonRelease,
                                 QPoint(),
-                                Qt.MouseButton.NoButton,
-                                Qt.MouseButton.NoButton,
-                                Qt.KeyboardModifier.NoModifier,
-                            ),
-                        )
-                        return True, 0
-            elif msg.message in [win32con.WM_NCLBUTTONUP, win32con.WM_NCRBUTTONUP]:
-                pos = QCursor.pos()
-                x_pos = pos.x() - self.x
-                y_pos = pos.y() - self.y
-                if self.maximize_btn is not None:
-                    top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
-                    rect = QRect(
-                        top_left.x() - self.x,
-                        top_left.y() - self.y,
-                        self.maximize_btn.width,
-                        self.maximize_btn.height,
-                    )
-                    if rect.contains(x_pos, y_pos):
-                        QGuiApplication.send_event(
-                            self.maximize_btn,
-                            QMouseEvent(
-                                QMouseEvent.Type.MouseButtonRelease,
-                                QPoint(),
-                                Qt.MouseButton.NoButton,
-                                Qt.MouseButton.NoButton,
+                                Qt.MouseButton.LeftButton,
+                                Qt.MouseButton.LeftButton,
                                 Qt.KeyboardModifier.NoModifier,
                             ),
                         )
