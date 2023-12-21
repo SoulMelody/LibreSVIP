@@ -14,15 +14,6 @@ Item {
         shortcut: "Ctrl+Shift+S"
         onTriggered: dialogs.saveDialog.open()
     }
-    property QtObject installPlugin : Action {
-        text: qsTr("&Install Plugin")
-        shortcut: "Ctrl+I"
-        onTriggered: dialogs.installPluginDialog.open()
-    }
-    property QtObject managePlugins : Action {
-        text: qsTr("Manage Plugins")
-        shortcut: "Ctrl+;"
-    }
     property QtObject swapInputOutput: Action {
         text: qsTr("&Swap Input/Output")
         shortcut: "Ctrl+Tab"
