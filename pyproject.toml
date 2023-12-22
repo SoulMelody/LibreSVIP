@@ -41,7 +41,7 @@ dependencies = [
   "platformdirs<5.0.0,>=4.1.0",
   "portion<3.0.0,>=2.4.2",
   "proto-plus<2.0.0,>=1.23.0",
-  "pydantic<3.0.0,>=2.5.2",
+  "pydantic<3.0.0,>=2.5.3",
   "pydantic-extra-types<3.0.0,>=2.2.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
