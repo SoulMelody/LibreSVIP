@@ -7,6 +7,7 @@ import warnings
 import zipfile
 from typing import Any, Optional, get_args, get_type_hints
 
+import more_itertools
 from loguru import logger
 from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
@@ -54,8 +55,8 @@ class ConversionWorker(QRunnable):
         output_format: str,
         input_options: dict[str, Any],
         output_options: dict[str, Any],
-        parent=None,
-    ):
+        parent: Optional[QObject] = None,
+    ) -> None:
         super().__init__(parent=parent)
         self.index = index
         self.input_path = input_path
@@ -67,7 +68,7 @@ class ConversionWorker(QRunnable):
         self.signals = ConversionWorkerSignals()
 
     @Slot()
-    def run(self):
+    def run(self) -> None:
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
@@ -117,7 +118,7 @@ class TaskManager(QObject):
     all_tasks_finished = Signal()
     _start_conversion = Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
         self.tasks = ModelProxy(
             {
@@ -204,7 +205,7 @@ class TaskManager(QObject):
         return settings.last_input_format
 
     @input_format.setter
-    def input_format(self, value: str):
+    def input_format(self, value: str) -> None:
         settings.last_input_format = value
 
     @property
@@ -212,7 +213,7 @@ class TaskManager(QObject):
         return settings.last_output_format
 
     @output_format.setter
-    def output_format(self, value: str):
+    def output_format(self, value: str) -> None:
         settings.last_output_format = value
 
     @Slot(result=bool)
@@ -227,7 +228,7 @@ class TaskManager(QObject):
         return f".{self.output_format}" if settings.auto_set_output_extension else ""
 
     @Slot(bool)
-    def reset_output_ext(self, value: bool):
+    def reset_output_ext(self, value: bool) -> None:
         self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
     @staticmethod
@@ -454,6 +455,15 @@ class TaskManager(QObject):
     @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
+        if name == "input_format" and settings.reset_tasks_on_input_change:
+            if value != self.input_format:
+                if delete_len := more_itertools.ilen(
+                    more_itertools.rstrip(
+                        self.tasks,
+                        lambda task: task["path"].lower().endswith(f".{value}"),
+                    )
+                ):
+                    self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
 
     def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:
