@@ -566,7 +566,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             task.converting = False
 
         async def batch_convert(self) -> None:
-            n = ui.notification()
+            n = ui.notification(_("Converting"), timeout=0)
 
             loop = asyncio.get_event_loop()
             with ThreadPoolExecutor(
@@ -581,9 +581,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                     for task in self.files_to_convert.values()
                 ]
                 for i, future in enumerate(asyncio.as_completed(futures)):
+                    await future
                     n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
                     n.spinner = True
-                    await future
             n.close_button = _("Close")
             n.spinner = False
             if any(not task.success for task in self.files_to_convert.values()):
