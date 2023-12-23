@@ -19,14 +19,16 @@ from .options import InputOptions
 @dataclasses.dataclass
 class Y77Parser:
     options: InputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, y77_project: Y77Project) -> Project:
-        project = Project(
+        time_signatures = self.parse_time_signatures(y77_project)
+        self.first_bar_length = round(time_signatures[0].bar_length())
+        return Project(
             song_tempo_list=self.parse_tempos(y77_project.bpm),
-            time_signature_list=self.parse_time_signatures(y77_project),
+            time_signature_list=time_signatures,
             track_list=self.parse_tracks(y77_project.notes),
         )
-        return project
 
     def parse_tempos(self, bpm: float) -> list[SongTempo]:
         return [SongTempo(bpm=bpm, position=0)]
@@ -71,11 +73,14 @@ class Y77Parser:
             if len(y77_note.pit):
                 step = y77_note.length * 30 / (len(y77_note.pit) - 1)
                 pbs = y77_note.pbs + 1
-                params.pitch.points.append(Point(y77_note.start * 30 - 5 + 1920, -100))
+                params.pitch.points.append(
+                    Point(y77_note.start * 30 - 5 + self.first_bar_length, -100)
+                )
                 for i in range(len(y77_note.pit)):
                     params.pitch.points.append(
                         Point(
-                            round(y77_note.start * 30 + i * step) + 1920,
+                            round(y77_note.start * 30 + i * step)
+                            + self.first_bar_length,
                             round(
                                 (
                                     (y77_note.pit[i] - 50) / 50 * pbs
@@ -87,6 +92,11 @@ class Y77Parser:
                         )
                     )
                 params.pitch.points.append(
-                    Point((y77_note.start + y77_note.length) * 30 + 5 + 1920, -100)
+                    Point(
+                        (y77_note.start + y77_note.length) * 30
+                        + 5
+                        + self.first_bar_length,
+                        -100,
+                    )
                 )
         return params
