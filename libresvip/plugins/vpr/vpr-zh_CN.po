@@ -18,12 +18,12 @@ msgstr ""
 
 #: .vpr.file_format
 #: .vpr.format_desc
-msgid "Vocaloid （5/6） Project file"
-msgstr "Vocaloid （5/6） 工程格式"
+msgid "New Vocaloid Project file"
+msgstr "新版Vocaloid工程格式"
 
 #: .vpr.description
-msgid "Conversion plugin for Vocaloid （5/6） project file"
-msgstr "Vocaloid （5/6） 工程格式转换插件"
+msgid "Conversion plugin for New Vocaloid project file"
+msgstr "新版Vocaloid工程格式转换插件"
 
 #: .vpr.dump[0].title
 msgid "Is AI Singer"

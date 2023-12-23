@@ -194,7 +194,7 @@ class AceGenerator:
         if not self.has_multi_tempo:
             return offset
         if offset > 0:
-            return round(second_to_tick(offset))
+            return round(second_to_tick(offset, self.ace_tempo_list))
         current_pos = self.first_bar_ticks
         actual_pos = self.first_bar_ticks + offset
         res = 0.0

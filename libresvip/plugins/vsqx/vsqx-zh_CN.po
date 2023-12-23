@@ -17,12 +17,12 @@ msgid "Vsqx"
 msgstr ""
 
 #: .vsqx.file_format
-msgid "Vocaloid （3/4） Sequence file"
-msgstr "Vocaloid （3/4） 序列文件"
+msgid "Vocaloid Sequence XML file"
+msgstr "Vocaloid XML序列文件"
 
 #: .vsqx.description
-msgid "Conversion plugin for Vocaloid （3/4） project file"
-msgstr "Vocaloid （3/4） 工程格式转换插件"
+msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr "Vocaloid XML序列格式转换插件"
 
 #: .vsqx.dump[0].title
 msgid "VSQX Version"
