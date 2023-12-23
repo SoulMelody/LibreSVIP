@@ -166,6 +166,7 @@ class AiSingersGenerator:
                                 path_audio=track.audio_file_path,
                                 path_wave=track.audio_file_path,
                                 len_sec=int(offset_secs),
+                                n_channel=track_info.channel_s,
                             )
                         ],
                     )

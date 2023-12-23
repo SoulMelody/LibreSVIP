@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-24 20:25+0800\n"
+"POT-Creation-Date: 2023-12-23 12:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,9 +157,6 @@ msgstr "开发者是"
 msgid ", which supports "
 msgstr "，适用于"
 
-msgid "Compressed Plugin Package (*.zip)"
-msgstr "插件压缩包 (*.zip)"
-
 msgid "Custom folder"
 msgstr "自定义路径"
 
@@ -247,6 +244,9 @@ msgstr "导出路径设置"
 msgid "Conflict Policy Settings"
 msgstr "冲突解决策略设置"
 
+msgid "Select Plugins"
+msgstr "选择插件"
+
 msgid "Updates Settings"
 msgstr "更新设置"
 
@@ -297,18 +297,6 @@ msgstr "上下交换 (Ctrl+Tab)"
 
 msgid "Output Format (&E)"
 msgstr "导出格式 (&E)"
-
-msgid "Plugins (&P)"
-msgstr "插件 (&P)"
-
-msgid "Install a Plugin (Ctrl+I)"
-msgstr "安装插件 (Ctrl+I)"
-
-msgid "Manage Plugins"
-msgstr "管理插件"
-
-msgid "Open Plugin Store"
-msgstr "插件市场"
 
 msgid "Formats (&F)"
 msgstr "格式 (&F)"
