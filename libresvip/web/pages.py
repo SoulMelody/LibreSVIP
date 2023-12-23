@@ -17,7 +17,7 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
 from typing import Any, BinaryIO, Optional, TypedDict, Union, get_args, get_type_hints
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 from nicegui import app, binding, ui
 from nicegui.context import get_client
@@ -672,10 +672,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ui.notify(_("Save failed!"), type="negative")
                     return
 
+                save_filename = unquote(
+                    result[2]["Content-Disposition"].removeprefix(
+                        "attachment; filename="
+                    )
+                )
                 save_path = await app.native.main_window.create_file_dialog(
                     webview.SAVE_DIALOG,
-                    save_filename=result[2]["Content-Disposition"].removeprefix(
-                        "attachment; filename="
+                    save_filename=save_filename,
+                    file_types=(
+                        _("Compressed Archive (*.zip)")
+                        if save_filename.endswith(".zip")
+                        else select_output.options[select_output.value],
+                        _("All files (*.*)"),
                     ),
                 )
                 if save_path is None:  # Canceled
