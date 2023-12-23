@@ -17,6 +17,7 @@ from PySide6.QtCore import (
     QModelIndex,
     QObject,
     QRunnable,
+    Qt,
     QThreadPool,
     QTimer,
     Signal,
@@ -546,6 +547,8 @@ class TaskManager(QObject):
                 input_options,
                 output_options,
             )
-            worker.signals.result.connect(self.tasks.update)
+            worker.signals.result.connect(
+                self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+            )
             self.thread_pool.start(worker)
         self.timer.start()
