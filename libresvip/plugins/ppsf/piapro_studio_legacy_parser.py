@@ -68,44 +68,49 @@ class PiaproStudioLegacyParser:
         tempos = []
         time_signatures = []
         if events_chunk is not None:
-            event_level = 0
             prev_tick = -TICKS_IN_BEAT * 4
             for event_group in events_chunk.data.events:
+                events_by_level = []
                 for event in event_group:
                     if event.magic == "MidiEvent":
                         (tick,) = struct.unpack_from(
                             "<i",
                             event.data,
                         )
-                        if tick == 0:
-                            event_level += 1
-                        if event_level == 1:
-                            bpm = struct.unpack_from("<i", event.data, 4)[0] / 10000
-                            tempos.append(
-                                SongTempo(
-                                    position=tick,
-                                    bpm=bpm,
-                                )
+                        if event.data[-1] == 0:
+                            if tick == 0:
+                                events_by_level.append([])
+                            if len(events_by_level):
+                                events_by_level[-1].append((tick, event.data))
+
+                if len(events_by_level) > 1:
+                    for tick, event_data in events_by_level[-2]:
+                        bpm = struct.unpack_from("<i", event_data, 4)[0] / 10000
+                        tempos.append(
+                            SongTempo(
+                                position=tick,
+                                bpm=bpm,
                             )
-                        elif event_level == 2:
-                            (denominator, numerator) = struct.unpack_from(
-                                "<2b", event.data, 4
+                        )
+                    for tick, event_data in events_by_level[-1]:
+                        (denominator, numerator) = struct.unpack_from(
+                            "<2b", event_data, 4
+                        )
+                        if len(time_signatures):
+                            prev_bar_length = time_signatures[-1].bar_length()
+                            prev_bar_index = time_signatures[-1].bar_index
+                        else:
+                            prev_bar_length = TICKS_IN_BEAT * 4
+                            prev_bar_index = 0
+                        time_signatures.append(
+                            TimeSignature(
+                                bar_index=prev_bar_index
+                                + (tick - prev_tick) // prev_bar_length,
+                                numerator=numerator,
+                                denominator=denominator,
                             )
-                            if len(time_signatures):
-                                prev_bar_length = time_signatures[-1].bar_length()
-                                prev_bar_index = time_signatures[-1].bar_index
-                            else:
-                                prev_bar_length = TICKS_IN_BEAT * 4
-                                prev_bar_index = 0
-                            time_signatures.append(
-                                TimeSignature(
-                                    bar_index=prev_bar_index
-                                    + (tick - prev_tick) // prev_bar_length,
-                                    numerator=numerator,
-                                    denominator=denominator,
-                                )
-                            )
-                            prev_tick = tick
+                        )
+                        prev_tick = tick
         if not tempos:
             tempos.append(SongTempo())
         if not time_signatures:
