@@ -46,10 +46,25 @@ class SynthVEditorGenerator:
             tempo=self.generate_tempos(project.song_tempo_list),
             meter=self.generate_time_signatures(project.time_signature_list),
         )
-        instrumental_track = self.generate_instrumental_track(project.track_list)
-        if instrumental_track is not None:
-            s5p_project.instrumental = instrumental_track
-            s5p_project.mixer = self.generate_mixer(project.track_list)
+        if (
+            instrumental_track := next(
+                (
+                    S5pInstrumental(
+                        filename=track.audio_file_path,
+                        offset=self.synchronizer.get_actual_secs_from_ticks(
+                            track.offset
+                        ),
+                    )
+                    for track in project.track_list
+                    if isinstance(track, InstrumentalTrack)
+                ),
+                None,
+            )
+        ) is not None:
+            s5p_project.instrumental = self.generate_instrumental_track(
+                instrumental_track
+            )
+            s5p_project.mixer = self.generate_mixer(instrumental_track)
         return s5p_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[S5pTempoItem]:
@@ -115,30 +130,16 @@ class SynthVEditorGenerator:
             for note in note_list
         ]
 
-    def generate_instrumental_track(self, track_list: list[Track]) -> S5pInstrumental:
-        return next(
-            (
-                S5pInstrumental(
-                    filename=track.audio_file_path,
-                    offset=track.offset,
-                )
-                for track in track_list
-                if isinstance(track, InstrumentalTrack)
-            ),
-            None,
+    def generate_instrumental_track(self, track: InstrumentalTrack) -> S5pInstrumental:
+        return S5pInstrumental(
+            filename=track.audio_file_path,
+            offset=self.synchronizer.get_actual_secs_from_ticks(track.offset),
         )
 
-    def generate_mixer(self, track_list: list[Track]) -> S5pMixer:
-        return next(
-            (
-                S5pMixer(
-                    gain_instrumental_decibel=self.generate_volume(track.volume),
-                    instrumental_muted=track.mute,
-                )
-                for track in track_list
-                if isinstance(track, InstrumentalTrack)
-            ),
-            None,
+    def generate_mixer(self, track: InstrumentalTrack) -> S5pMixer:
+        return S5pMixer(
+            gain_instrumental_decibel=self.generate_volume(track.volume),
+            instrumental_muted=track.mute,
         )
 
     def generate_parameters(
