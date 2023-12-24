@@ -9,7 +9,11 @@ from pydantic import Base64Bytes, Field
 
 from libresvip.model.base import BaseModel, json_dumps, json_loads
 
-from .model import AcepDebug
+
+class AcepDebug(BaseModel):
+    os: str = "windows"
+    platform: str = "pc"
+    version: str = "10"
 
 
 class AcepFile(BaseModel):

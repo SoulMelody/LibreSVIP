@@ -4,14 +4,15 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
-    ParamCurve,
     Params,
+    Points,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import ratio_to_db
 
 from .model import (
@@ -35,9 +36,11 @@ TICK_RATE = 1470000
 @dataclasses.dataclass
 class SynthVEditorGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> S5pProject:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         s5p_project = S5pProject(
             tracks=self.generate_singing_tracks(project.track_list),
             tempo=self.generate_tempos(project.song_tempo_list),
@@ -95,7 +98,9 @@ class SynthVEditorGenerator:
                     mixer=track_mixer,
                 )
                 if track.edited_params is not None:
-                    s5p_track.parameters = self.generate_parameters(track.edited_params)
+                    s5p_track.parameters = self.generate_parameters(
+                        track.edited_params, track.note_list
+                    )
                 tracks.append(s5p_track)
         return tracks
 
@@ -136,20 +141,25 @@ class SynthVEditorGenerator:
             None,
         )
 
-    def generate_parameters(self, edited_params: Params) -> S5pParameters:
+    def generate_parameters(
+        self, edited_params: Params, note_list: list[Note]
+    ) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
+        rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
+            edited_params.pitch, note_list
+        )
         return S5pParameters(
-            pitch_delta=self.generate_pitch_delta(edited_params.pitch, interval),
+            pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
             interval=interval,
         )
 
-    def generate_pitch_delta(self, pitch: ParamCurve, interval: int) -> S5pPoints:
+    def generate_pitch_delta(self, pitch: Points, interval: int) -> S5pPoints:
         points = [
             S5pPoint(
                 offset=round(point.x / (interval / TICK_RATE)),
-                value=point.y * 100,
+                value=point.y,
             )
-            for point in pitch.points
+            for point in pitch or []
             if point.y != -100
         ]
         return S5pPoints(root=points)

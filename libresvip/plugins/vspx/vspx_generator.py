@@ -174,19 +174,19 @@ class VocalSharpGenerator:
             ):
                 if prev_point is not None:
                     cur_value = point.y - base_key * 100
-                    for i in range(prev_point.time + 1, cur_tick):
-                        pitch_points.append(
-                            PIT(
-                                time=i,
-                                value=round(
-                                    linear_interpolation(
-                                        i,
-                                        (prev_point.time, prev_point.value),
-                                        (cur_tick, cur_value),
-                                    )
-                                ),
-                            )
+                    pitch_points.extend(
+                        PIT(
+                            time=i,
+                            value=round(
+                                linear_interpolation(
+                                    i,
+                                    (prev_point.time, prev_point.value),
+                                    (cur_tick, cur_value),
+                                )
+                            ),
                         )
+                        for i in range(prev_point.time + 1, cur_tick)
+                    )
                 else:
                     pitch_points.append(
                         PIT(

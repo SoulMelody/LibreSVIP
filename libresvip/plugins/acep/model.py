@@ -191,12 +191,6 @@ class AcepLyricsLanguage(Enum):
     ] = "ENG"
 
 
-class AcepDebug(BaseModel):
-    os: str = "windows"
-    platform: str = "pc"
-    version: str = "10"
-
-
 class AcepMaster(BaseModel):
     gain: float = Field(default=0.0, le=6.0)
 
