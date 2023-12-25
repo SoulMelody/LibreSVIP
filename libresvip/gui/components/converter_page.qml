@@ -954,22 +954,28 @@ Page {
                         Transition {
                             from: "expanded"
                             to: "collapsed"
-                            PropertyAnimation {
-                                target: inputContainer
-                                properties: "y,opacity,Layout.maximumHeight,visible"
-                                duration: 300
-                                easing.type: Easing.InOutQuad
+                            SequentialAnimation {
+                                PropertyAnimation {
+                                    target: inputContainer
+                                    properties: "y,opacity,Layout.maximumHeight"
+                                    duration: 300
+                                    easing.type: Easing.InOutQuad
+                                }
+                                PropertyAction { target: inputContainer; property: "visible" }
                             }
                         },
 
                         Transition {
                             from: "collapsed"
                             to: "expanded"
-                            PropertyAnimation {
-                                target: inputContainer
-                                properties: "y,opacity,Layout.maximumHeight,visible"
-                                duration: 300
-                                easing.type: Easing.InOutQuad
+                            SequentialAnimation {
+                                PropertyAction { target: inputContainer; property: "visible" }
+                                PropertyAnimation {
+                                    target: inputContainer
+                                    properties: "y,opacity,Layout.maximumHeight"
+                                    duration: 300
+                                    easing.type: Easing.InOutQuad
+                                }
                             }
                         }
                     ]
@@ -1121,22 +1127,28 @@ Page {
                         Transition {
                             from: "expanded"
                             to: "collapsed"
-                            PropertyAnimation {
-                                target: outputContainer
-                                properties: "y,opacity,Layout.maximumHeight,visible"
-                                duration: 300
-                                easing.type: Easing.InOutQuad
+                            SequentialAnimation {
+                                PropertyAnimation {
+                                    target: outputContainer
+                                    properties: "y,opacity,Layout.maximumHeight"
+                                    duration: 300
+                                    easing.type: Easing.InOutQuad
+                                }
+                                PropertyAction { target: outputContainer; property: "visible" }
                             }
                         },
 
                         Transition {
                             from: "collapsed"
                             to: "expanded"
-                            PropertyAnimation {
-                                target: outputContainer
-                                properties: "y,opacity,Layout.maximumHeight,visible"
-                                duration: 300
-                                easing.type: Easing.InOutQuad
+                            SequentialAnimation {
+                                PropertyAction { target: outputContainer; property: "visible" }
+                                PropertyAnimation {
+                                    target: outputContainer
+                                    properties: "y,opacity,Layout.maximumHeight"
+                                    duration: 300
+                                    easing.type: Easing.InOutQuad
+                                }
                             }
                         }
                     ]
