@@ -4,11 +4,11 @@ import enum
 from types import GenericAlias
 from typing import Annotated, Any, Literal, Optional, Union, get_args
 
-from pydantic import Field, computed_field
+from pydantic import Field
 
 from libresvip.model.base import BaseModel
 
-from .value_tree import JUCEPluginData, JUCEVarTypes
+from .value_tree import JUCENode, JUCEVarTypes
 
 
 class VoiSonaPlayControlItem(BaseModel):
@@ -159,11 +159,8 @@ class VoiSonaPointData(BaseModel):
 
 
 class VoiSonaParameterItem(BaseModel):
-    data: list[VoiSonaPointData] = Field(alias="Data")
-
-    @computed_field(alias="Length")
-    def length(self) -> int:
-        return len(self.data)
+    length: int = Field(alias="Length")
+    data: list[VoiSonaPointData] = Field(default_factory=list, alias="Data")
 
 
 class VoiSonaParametersItem(BaseModel):
@@ -220,6 +217,9 @@ class VoiSonaStateInformation(BaseModel):
     tempo_sync: Optional[bool] = Field(False, alias="TempoSync")
     signer_config: Optional[list[VoiSonaSignerConfig]] = Field(
         None, alias="SignerConfig"
+    )
+    version_of_app_file_saved: Optional[str] = Field(
+        "1.8.0.17", alias="VersionOfAppFileSaved"
     )
 
 
@@ -281,6 +281,7 @@ class VoiSonaTrack(BaseModel):
 class VoiSonaGuiStatus(BaseModel):
     scale_x: float = Field(100, alias="ScaleX")
     scale_y: float = Field(100, alias="ScaleY")
+    grid_mode: Optional[int] = Field(None, alias="GridMode")
     grid_index: Optional[int] = Field(None, alias="GridIndex")
 
 
@@ -290,6 +291,9 @@ class VoiSonaProject(BaseModel):
     )
     tracks: list[VoiSonaTrack] = Field(default_factory=list, alias="Tracks")
     gui_status: list[VoiSonaGuiStatus] = Field(default_factory=list, alias="GUIStatus")
+    version_of_app_file_saved: Optional[str] = Field(
+        "1.8.0.17", alias="VersionOfAppFileSaved"
+    )
 
 
 def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict:
@@ -331,13 +335,12 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
         if field_value is not None:
             if isinstance(field_info.annotation, type):
                 field_type = field_info.annotation
+            elif field_info.default is None:
+                field_type = field_info.annotation
+                while not isinstance(field_type, type):
+                    field_type = get_args(field_type)[0]
             else:
-                if field_info.default is not None:
-                    field_type = type(field_info.default)
-                else:
-                    field_type = field_info.annotation
-                    while not isinstance(field_type, type):
-                        field_type = get_args(field_type)[0]
+                field_type = type(field_info.default)
             if isinstance(field_type, GenericAlias):
                 inner_type = get_args(field_type)[0]
                 if not isinstance(inner_type, type) or issubclass(
@@ -358,21 +361,11 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
                         "name": alias_field_name,
                         "data": {
                             "type": JUCEVarTypes.BINARY,
-                            "value": b"VST3\x01\x00\x00\x00ABCDEF019182FAEB5465737056535369"
-                            + JUCEPluginData.build(
-                                {
-                                    "data": model_to_value_tree(
-                                        field_value.state_information,
-                                        "StateInformation",
-                                    ),
-                                    "private_data": (
-                                        b"JUCEPrivateData\x00\x01\x01"
-                                        b"Bypass\x00\x01\x01\x03\x00\x1d\x00\x00\x00\x00\x00\x00\x00"
-                                        b"JUCEPrivateDataList\x02\x00\x00\x00"
-                                        b"Comp0\x00\x00\x00\x00\x00\x00\x00\x0b~\x01\x00\x00\x00\x00\x00"
-                                        b"Cont;~\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-                                    ),
-                                }
+                            "value": JUCENode.build(
+                                model_to_value_tree(
+                                    field_value.state_information,
+                                    "StateInformation",
+                                )
                             ),
                         },
                     }

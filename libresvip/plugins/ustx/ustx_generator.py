@@ -16,6 +16,7 @@ from .model import (
     UCurve,
     UNote,
     UPitch,
+    URendererSettings,
     USTXProject,
     UTempo,
     UTimeSignature,
@@ -67,9 +68,8 @@ class UstxGenerator:
             wave_parts=[],
         )
 
-        track_no = 0
         ustx_project.tracks = []
-        for os_track in os_project.track_list:
+        for track_no, os_track in enumerate(os_project.track_list):
             ustx_project.tracks.append(self.generate_track(os_track))
             if isinstance(os_track, SingingTrack):  # 合成音轨
                 ustx_project.voice_parts.append(
@@ -81,7 +81,6 @@ class UstxGenerator:
                 ustx_project.wave_parts.append(
                     self.generate_wave_part(os_track, track_no)
                 )
-            track_no += 1
         return ustx_project
 
     @staticmethod
@@ -101,9 +100,10 @@ class UstxGenerator:
     @staticmethod
     def generate_track(os_track: Track) -> UTrack:
         return UTrack(
+            track_name=os_track.title,
             singer="",
             phonemizer="OpenUtau.Core.DefaultPhonemizer",  # 默认音素器
-            renderer="CLASSIC",  # 经典渲染器
+            renderer_settings=URendererSettings(renderer="CLASSIC"),
             mute=os_track.mute,
             solo=os_track.solo,
             volume=math.log10(os_track.volume) * 10,  # 绝对音量转对数音量
@@ -158,15 +158,11 @@ class UstxGenerator:
     def generate_note(
         os_note: Note, snap_first: bool, last_note_key_number: int
     ) -> UNote:
-        # snap_first：是否与上一个音符挨着，挨着就是True
-        # last_note_key_number：上一个音符的音高
-        y0 = 0
-        if snap_first:
-            y0 = (last_note_key_number - os_note.key_number) * 10
+        y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
         lyric = LyricUtil.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
-        if os_note.pronunciation is not None:  # 如果有发音，则用发音
+        if os_note.pronunciation:  # 如果有发音，则用发音
             lyric = os_note.pronunciation
-        if "-" == lyric:  # OpenUTAU中的连音符为+
+        if lyric == "-":  # OpenUTAU中的连音符为+
             lyric = "+"
         if len(lyric) == 2 and LyricUtil.is_punctuation(lyric[1]):  # 删除标点符号
             lyric = lyric[:1]

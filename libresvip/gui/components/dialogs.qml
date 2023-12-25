@@ -170,20 +170,6 @@ Item {
         }
     }
 
-    property QtObject installPluginDialog: FileDialog {
-        nameFilters: [qsTr("Compressed Plugin Package (*.zip)")]
-        fileMode: FileDialog.OpenFiles
-        currentFolder: ""
-        onAccepted: {
-            let plugin_infos = TaskManager.extract_plugin_infos(selectedFiles.map(
-                url2path
-            ))
-            if (plugin_infos.length > 0) {
-                confirmInstallDialog.show_dialog(plugin_infos)
-            }
-        }
-    }
-
     property QtObject saveDialog: FolderDialog {
         currentFolder: ""
         onAccepted: {

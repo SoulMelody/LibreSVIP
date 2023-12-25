@@ -138,7 +138,6 @@ Dialog {
         id: savePathSettingsPage
         ColumnLayout {
             spacing: 0
-            anchors.margins: 15
             Layout.fillWidth: true
             ButtonGroup {
                 id: saveFolderGroup
@@ -169,83 +168,86 @@ Dialog {
                     dialogs.save_folder_changed(cur_value)
                 }
             }
-            RadioButton {
-                ButtonGroup.group: saveFolderGroup
-                id: sameAsSourceRadio
-                text: qsTr("Same as Source")
-            }
-            RadioButton {
-                ButtonGroup.group: saveFolderGroup
-                id: desktopRadio
-                text: qsTr("Desktop")
-            }
-            RadioButton {
-                ButtonGroup.group: saveFolderGroup
-                id: presetRadio
-                enabled: dialogs.folderPresetsList.count > 0
-                text: qsTr("Preset Folder")
-                ToolTip {
-                    id: presetRadioToolTip
-                    visible: presetRadio.hovered && text !== ""
-                    Component.onCompleted: {
-                        if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                            text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                        }
-                    }
-                    Connections {
-                        target: dialogs.folderPresetBtnGroup
-                        function onClicked() {
+            ColumnLayout {
+                Layout.margins: 15
+                RadioButton {
+                    ButtonGroup.group: saveFolderGroup
+                    id: sameAsSourceRadio
+                    text: qsTr("Same as Source")
+                }
+                RadioButton {
+                    ButtonGroup.group: saveFolderGroup
+                    id: desktopRadio
+                    text: qsTr("Desktop")
+                }
+                RadioButton {
+                    ButtonGroup.group: saveFolderGroup
+                    id: presetRadio
+                    enabled: dialogs.folderPresetsList.count > 0
+                    text: qsTr("Preset Folder")
+                    ToolTip {
+                        id: presetRadioToolTip
+                        visible: presetRadio.hovered && text !== ""
+                        Component.onCompleted: {
                             if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                if (presetRadio.checked) {
-                                    let save_folder = ConfigItems.get_save_folder()
-                                    if (save_folder !== presetRadioToolTip.text) {
-                                        ConfigItems.set_save_folder(presetRadioToolTip.text)
-                                        dialogs.save_folder_changed(presetRadioToolTip.text)
+                                text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                            }
+                        }
+                        Connections {
+                            target: dialogs.folderPresetBtnGroup
+                            function onClicked() {
+                                if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                    presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                    if (presetRadio.checked) {
+                                        let save_folder = ConfigItems.get_save_folder()
+                                        if (save_folder !== presetRadioToolTip.text) {
+                                            ConfigItems.set_save_folder(presetRadioToolTip.text)
+                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    Connections {
-                        target: dialogs.folderPresetsList.model
-                        function onDataChanged(idx1, idx2, value) {
-                            if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                    let save_folder = ConfigItems.get_save_folder()
-                                    if (save_folder !== presetRadioToolTip.text) {
-                                        ConfigItems.set_save_folder(presetRadioToolTip.text)
-                                        dialogs.save_folder_changed(presetRadioToolTip.text)
+                        Connections {
+                            target: dialogs.folderPresetsList.model
+                            function onDataChanged(idx1, idx2, value) {
+                                if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                    presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                    if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
+                                        let save_folder = ConfigItems.get_save_folder()
+                                        if (save_folder !== presetRadioToolTip.text) {
+                                            ConfigItems.set_save_folder(presetRadioToolTip.text)
+                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                                        }
                                     }
                                 }
                             }
-                        }
-                        function onRowsRemoved(idx, first, last) {
-                            if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
-                                presetRadioToolTip.text = ""
-                                if (presetRadio.checked) {
-                                    dialogs.save_folder_changed(ConfigItems.get_save_folder())
+                            function onRowsRemoved(idx, first, last) {
+                                if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
+                                    presetRadioToolTip.text = ""
+                                    if (presetRadio.checked) {
+                                        dialogs.save_folder_changed(ConfigItems.get_save_folder())
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            RadioButton {
-                ButtonGroup.group: saveFolderGroup
-                id: customRadio
-                text: qsTr("Custom (Browse ...)")
-            }
-            Rectangle {
-                Layout.fillWidth: true
-                border.color: "lightgrey"
-                height: 1
-            }
-            Button {
-                text: qsTr("Manage Folders Presets")
-                onClicked: {
-                    dialogs.folderPresetsDialog.open()
+                RadioButton {
+                    ButtonGroup.group: saveFolderGroup
+                    id: customRadio
+                    text: qsTr("Custom (Browse ...)")
+                }
+                Rectangle {
+                    Layout.fillWidth: true
+                    border.color: "lightgrey"
+                    height: 1
+                }
+                Button {
+                    text: qsTr("Manage Folders Presets")
+                    onClicked: {
+                        dialogs.folderPresetsDialog.open()
+                    }
                 }
             }
             Connections {
@@ -267,12 +269,12 @@ Dialog {
     }
 
     Component {
-        id: conflictPolicySettingsPage        
+        id: conflictPolicySettingsPage
         GroupBox {
             anchors.margins: 15
             background: Rectangle {
                 color: "transparent"
-            }    
+            }
             ButtonGroup {
                 id: conflictPolicyGroup
                 onClicked: (button) => {
@@ -334,18 +336,39 @@ Dialog {
             }
         }
     }
+
+    Component {
+        id: pluginsSettingsPage
+        ListView {
+            model: ConfigItems.qget("plugin_cadidates")
+            delegate: CheckDelegate {
+                LayoutMirroring.enabled: true
+                text: qsTr(model.text)
+                checked: ConfigItems.enabled(model.value)
+                onToggled: {
+                    if (ConfigItems.toggle_plugin(model.value)) {
+                        TaskManager.reload_formats()
+                        TaskManager.set_str("input_format", converterPage.inputFormatComboBox.currentValue)
+                        TaskManager.set_str("output_format", converterPage.outputFormatComboBox.currentValue)
+                    }
+                }
+            }
+        }
+    }
     
     Component {
         id: updatesSettingsPage
         ColumnLayout {
-            anchors.margins: 15
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Column {
-                Switch {
-                    text: qsTr("Auto Check for Updates")
-                    checked: ConfigItems.get_bool("auto_check_for_updates")
-                    onClicked: {
-                        ConfigItems.set_bool("auto_check_for_updates", checked)
+            ColumnLayout {
+                Layout.margins: 15
+                Column {
+                    Switch {
+                        text: qsTr("Auto Check for Updates")
+                        checked: ConfigItems.get_bool("auto_check_for_updates")
+                        onClicked: {
+                            ConfigItems.set_bool("auto_check_for_updates", checked)
+                        }
                     }
                 }
             }
@@ -423,14 +446,26 @@ Dialog {
             }
 
             TabButton {
-                id: updatesSettingsBtn
+                id: pluginsSettingsBtn
                 width: 200
-                text: qsTr("Updates Settings")
+                text: qsTr("Select Plugins")
                 anchors.top: conflictPolicySettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 3
+                }
+            }
+
+            TabButton {
+                id: updatesSettingsBtn
+                width: 200
+                text: qsTr("Updates Settings")
+                anchors.top: pluginsSettingsBtn.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.spacing
+                onClicked: {
+                    settingsStack.currentIndex = 4
                 }
             }
         }
@@ -448,6 +483,7 @@ Dialog {
                 convertSettingsPage.createObject(settingsStack)
                 savePathSettingsPage.createObject(settingsStack)
                 conflictPolicySettingsPage.createObject(settingsStack)
+                pluginsSettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
                 dialogs.save_folder_changed(ConfigItems.get_save_folder())
             }

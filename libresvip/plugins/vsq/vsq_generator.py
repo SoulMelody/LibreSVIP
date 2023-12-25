@@ -36,12 +36,13 @@ class VsqGenerator:
         return 1
 
     def generate_project(self, project: Project) -> mido.MidiFile:
-        mido_obj = mido.MidiFile(charset="latin1")
+        mido_obj = mido.MidiFile(charset="ascii")
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         self.first_bar_length = int(
             project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
         )
         master_track = mido.MidiTrack()
+        master_track.name = "Master Track"
         self.generate_tempos(master_track, project.song_tempo_list)
         self.generate_time_signatures(master_track, project.time_signature_list)
         master_track.sort(key=operator.attrgetter("time"))
@@ -108,7 +109,7 @@ class VsqGenerator:
         track_text = self.generate_track_text(track, track_index, tracks_count)
         track_text = track_text.encode(
             self.options.lyric_encoding, errors="ignore"
-        ).decode("latin1")
+        ).decode("ascii", errors="ignore")
         mido_track = mido.MidiTrack()
         while len(track_text) != 0:
             event_id = len(mido_track)

@@ -6,7 +6,6 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
-    ParamCurve,
     Params,
     Point,
     Points,
@@ -16,6 +15,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import db_to_float, ratio_to_db
 
 from .model import (
@@ -37,11 +37,14 @@ TICK_RATE = 1470000
 @dataclasses.dataclass
 class SynthVEditorParser:
     options: InputOptions
+    first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def parse_project(self, s5p_project: S5pProject) -> Project:
-        track_list = self.parse_singing_tracks(s5p_project.tracks)
         tempo_list = self.parse_tempos(s5p_project.tempo)
+        time_signature_list = self.parse_time_signatures(s5p_project.meter)
+        self.first_bar_length = round(time_signature_list[0].bar_length())
+        track_list = self.parse_singing_tracks(s5p_project.tracks)
         self.synchronizer = TimeSynchronizer(tempo_list)
         if s5p_project.instrumental is not None:
             track_list.append(
@@ -50,7 +53,7 @@ class SynthVEditorParser:
                 )
             )
         return Project(
-            time_signature_list=self.parse_time_signatures(s5p_project.meter),
+            time_signature_list=time_signature_list,
             song_tempo_list=tempo_list,
             track_list=track_list,
         )
@@ -98,10 +101,11 @@ class SynthVEditorParser:
                 pan=track.mixer.pan,
                 ai_singer_name=track.db_name or "",
                 title=track.name or f"Track {i + 1}",
-                note_list=self.parse_notes(track.notes),
-                edited_params=self.parse_params(track.parameters),
+                note_list=note_list,
+                edited_params=self.parse_params(track.parameters, note_list),
             )
             for i, track in enumerate(tracks)
+            if (note_list := self.parse_notes(track.notes))
         ]
 
     @staticmethod
@@ -123,32 +127,34 @@ class SynthVEditorParser:
         )
 
     def parse_notes(self, notes: list[S5pNote]) -> list[Note]:
-        note_list = []
-        for s5p_note in notes:
-            note = Note(
+        return [
+            Note(
                 key_number=s5p_note.pitch,
                 start_pos=round(s5p_note.onset / TICK_RATE),
                 length=round(s5p_note.duration / TICK_RATE),
                 lyric=s5p_note.lyric.replace(" ", "") or DEFAULT_CHINESE_LYRIC,
             )
-            note_list.append(note)
-        return note_list
+            for s5p_note in notes
+        ]
 
-    def parse_params(self, parameters: S5pParameters) -> Params:
+    def parse_params(self, parameters: S5pParameters, note_list: list[Note]) -> Params:
+        rel_pitch_points = self.parse_pitch_curve(
+            parameters.pitch_delta, parameters.interval
+        )
         return Params(
-            pitch=self.parse_pitch_curve(parameters.pitch_delta, parameters.interval),
+            pitch=RelativePitchCurve(self.first_bar_length).to_absolute(
+                rel_pitch_points, note_list
+            ),
         )
 
     @staticmethod
-    def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> ParamCurve:
-        return ParamCurve(
-            points=Points(
-                root=[
-                    Point(
-                        x=round(point.offset * (interval / TICK_RATE)),
-                        y=round(point.value / 100),
-                    )
-                    for point in pitch_delta
-                ]
-            ),
+    def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> Points:
+        return Points(
+            root=[
+                Point(
+                    x=round(point.offset * (interval / TICK_RATE)),
+                    y=round(point.value),
+                )
+                for point in pitch_delta
+            ]
         )

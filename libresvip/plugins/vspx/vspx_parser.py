@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Union
+from typing import Optional, Union
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -13,30 +13,31 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import note2midi
 
 from .model import (
     PIT,
     VocalSharpBeat,
+    VocalSharpDefaultTrill,
     VocalSharpMonoTrack,
     VocalSharpNote,
     VocalSharpNoteTrack,
-    VocalSharpParameter,
     VocalSharpProject,
     VocalSharpStereoTrack,
     VocalSharpTempo,
 )
 from .options import InputOptions
-from .vspx_interval_dict import vspx_key_interval_dict
+from .vspx_interval_dict import BasePitchCurve
 
 
 @dataclasses.dataclass
 class VocalSharpParser:
     options: InputOptions
+    default_trill: Optional[VocalSharpDefaultTrill] = None
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
+        self.default_trill = vspx_project.project.default_trill
         time_signatures = self.parse_time_signatures(vspx_project.project.beat)
         self.first_bar_length = time_signatures[0].bar_length()
         tempos = self.parse_tempos(vspx_project.project.tempo)
@@ -94,9 +95,7 @@ class VocalSharpParser:
                 ai_singer_name=track.singer,
                 note_list=self.parse_notes(track.note),
             )
-            singing_track.edited_params.pitch = self.parse_pitch(
-                track.parameter, singing_track.note_list, track.por
-            )
+            singing_track.edited_params.pitch = self.parse_pitch(track)
             tracks.append(singing_track)
         return tracks
 
@@ -105,20 +104,20 @@ class VocalSharpParser:
             Note(
                 start_pos=note.pos,
                 length=note.duration,
-                key_number=note2midi(note.pitch),
+                key_number=note.key_number,
                 lyric=note.lyric,
                 pronunciation=note.lyric,
             )
             for note in note_list
         ]
 
-    def parse_pitch(
-        self, parameter: VocalSharpParameter, note_list: list[Note], por: float
-    ) -> ParamCurve:
-        key_interval_dict = vspx_key_interval_dict(note_list, por, self.synchronizer)
+    def parse_pitch(self, note_track: VocalSharpNoteTrack) -> ParamCurve:
+        base_pitch_curve = BasePitchCurve(
+            note_track, self.default_trill, self.synchronizer
+        )
         pitch_points = [Point.start_point()]
         prev_tick = None
-        for vspx_point in parameter.points:
+        for vspx_point in note_track.parameter.points:
             if isinstance(vspx_point, PIT):
                 cur_tick = vspx_point.time + self.first_bar_length
                 if prev_tick is None:
@@ -126,7 +125,12 @@ class VocalSharpParser:
                 elif vspx_point.time - prev_tick > 1:
                     pitch_points.append(Point(x=prev_tick, y=-100))
                     pitch_points.append(Point(x=cur_tick, y=-100))
-                if (base_key := key_interval_dict.get(vspx_point.time)) is not None:
+                vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(
+                    vspx_point.time
+                )
+                if (
+                    base_key := base_pitch_curve.semitone_value_at(vspx_point_secs)
+                ) is not None:
                     pitch_points.append(
                         Point(
                             x=cur_tick,
@@ -137,8 +141,9 @@ class VocalSharpParser:
         if len(pitch_points) > 1:
             pitch_points.append(Point(x=pitch_points[-1].x, y=-100))
         pitch_points.append(Point.end_point())
-        if len(pitch_points) > 2:
-            return ParamCurve(points=Points(root=pitch_points))
+        if len(pitch_points) <= 2:
+            pitch_points.clear()
+        return ParamCurve(points=Points(root=pitch_points))
 
     def parse_instrumental_tracks(
         self, track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-24 20:25+0800\n"
+"POT-Creation-Date: 2023-12-23 12:21+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,9 +157,6 @@ msgstr "开发者是"
 msgid ", which supports "
 msgstr "，适用于"
 
-msgid "Compressed Plugin Package (*.zip)"
-msgstr "插件压缩包 (*.zip)"
-
 msgid "Custom folder"
 msgstr "自定义路径"
 
@@ -247,6 +244,9 @@ msgstr "导出路径设置"
 msgid "Conflict Policy Settings"
 msgstr "冲突解决策略设置"
 
+msgid "Select Plugins"
+msgstr "选择插件"
+
 msgid "Updates Settings"
 msgstr "更新设置"
 
@@ -297,18 +297,6 @@ msgstr "上下交换 (Ctrl+Tab)"
 
 msgid "Output Format (&E)"
 msgstr "导出格式 (&E)"
-
-msgid "Plugins (&P)"
-msgstr "插件 (&P)"
-
-msgid "Install a Plugin (Ctrl+I)"
-msgstr "安装插件 (Ctrl+I)"
-
-msgid "Manage Plugins"
-msgstr "管理插件"
-
-msgid "Open Plugin Store"
-msgstr "插件市场"
 
 msgid "Formats (&F)"
 msgstr "格式 (&F)"
@@ -483,13 +471,17 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
+#: ../libresvip/model/relative_pitch_curve.py:85
+msgid "Notes Overlapped"
+msgstr "音符重叠"
+
 #: ../libresvip/web/pages.py:162
 msgid "name"
 msgstr "名称"
 
 #: ../libresvip/web/pages.py:182 ../libresvip/web/pages.py:199
-#: ../libresvip/web/pages.py:747 ../libresvip/web/pages.py:763
-#: ../libresvip/web/pages.py:865 ../libresvip/web/pages.py:909
+#: ../libresvip/web/pages.py:816 ../libresvip/web/pages.py:832
+#: ../libresvip/web/pages.py:934 ../libresvip/web/pages.py:978
 msgid "file_format"
 msgstr "文件格式"
 
@@ -510,69 +502,84 @@ msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
 #: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:452
-#: ../libresvip/web/pages.py:577 ../libresvip/web/pages.py:581
-#: ../libresvip/web/pages.py:841 ../libresvip/web/pages.py:879
-#: ../libresvip/web/pages.py:925
+#: ../libresvip/web/pages.py:587 ../libresvip/web/pages.py:910
+#: ../libresvip/web/pages.py:948 ../libresvip/web/pages.py:994
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:577
+#: ../libresvip/web/pages.py:585
+msgid "Conversion Progress"
+msgstr "转换进度"
+
+#: ../libresvip/web/pages.py:590
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:580
+#: ../libresvip/web/pages.py:593
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:699 ../libresvip/web/pages.py:720
+#: ../libresvip/web/pages.py:648
+msgid "All files (*.*)"
+msgstr "所有文件 (*.*)"
+
+#: ../libresvip/web/pages.py:672
+msgid "Save failed!"
+msgstr "保存失败！"
+
+#: ../libresvip/web/pages.py:686
+msgid "Saved"
+msgstr "已保存"
+
+#: ../libresvip/web/pages.py:770 ../libresvip/web/pages.py:790
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:708 ../libresvip/web/pages.py:937
+#: ../libresvip/web/pages.py:779 ../libresvip/web/pages.py:1006
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:738 ../libresvip/web/pages.py:868
+#: ../libresvip/web/pages.py:807 ../libresvip/web/pages.py:937
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:755 ../libresvip/web/pages.py:912
+#: ../libresvip/web/pages.py:824 ../libresvip/web/pages.py:981
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:768
+#: ../libresvip/web/pages.py:837
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:790
+#: ../libresvip/web/pages.py:859
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:842
+#: ../libresvip/web/pages.py:911
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:856
+#: ../libresvip/web/pages.py:925
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:889
+#: ../libresvip/web/pages.py:958
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:896
+#: ../libresvip/web/pages.py:965
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1031
+#: ../libresvip/web/pages.py:1060
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1056
+#: ../libresvip/web/pages.py:1083
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:1057
+#: ../libresvip/web/pages.py:1084
 msgid "Advanced Options"
 msgstr "高级选项"
 
@@ -1807,8 +1814,10 @@ msgid "Techno-Speech Solution file"
 msgstr "Techno-Speech 项目文件"
 
 #: .tssln.description
-msgid "Conversion plugin for VoiSona project file"
-msgstr "Voisona 工程文件转换插件"
+msgid ""
+"Conversion plugin for VoiSona project file (Only versions 1.8.0 and later "
+"are supported)"
+msgstr "Voisona 工程文件转换插件 (仅支持1.8.0及以上版本保存的工程)"
 
 #: .ufdata.format_desc
 msgid "UtaFormatix3 data format"
@@ -1863,12 +1872,12 @@ msgid "Vpr"
 msgstr ""
 
 #: .vpr.file_format .vpr.format_desc
-msgid "Vocaloid (5/6) Project file"
-msgstr "Vocaloid (5/6) 工程格式"
+msgid "New Vocaloid Project file"
+msgstr "新版Vocaloid工程格式"
 
 #: .vpr.description
-msgid "Conversion plugin for Vocaloid (5/6) project file"
-msgstr "Vocaloid (5/6) 工程格式转换插件"
+msgid "Conversion plugin for New Vocaloid project file"
+msgstr "新版Vocaloid工程格式转换插件"
 
 #: .vpr.dump[0].title
 msgid "Is AI Singer"
@@ -1951,12 +1960,12 @@ msgid "Vsqx"
 msgstr ""
 
 #: .vsqx.file_format
-msgid "Vocaloid (3/4) Sequence file"
-msgstr "Vocaloid (3/4) 序列文件"
+msgid "Vocaloid Sequence XML file"
+msgstr "Vocaloid XML序列文件"
 
 #: .vsqx.description
-msgid "Conversion plugin for Vocaloid (3/4) project file"
-msgstr "Vocaloid (3/4) 工程格式转换插件"
+msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr "Vocaloid XML序列格式转换插件"
 
 #: .vsqx.dump[0].title
 msgid "VSQX Version"

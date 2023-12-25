@@ -184,18 +184,16 @@ class CeVIOGenerator:
         return results
 
     def generate_notes(self, notes: list[Note]) -> list[CeVIONote]:
-        ccs_notes = []
-        for note in notes:
-            ccs_notes.append(
-                CeVIONote(
-                    clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
-                    duration=int(note.length * TICK_RATE),
-                    lyric=note.lyric,
-                    pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
-                    pitch_step=note.key_number % KEY_IN_OCTAVE,
-                )
+        return [
+            CeVIONote(
+                clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
+                duration=int(note.length * TICK_RATE),
+                lyric=note.lyric,
+                pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
+                pitch_step=note.key_number % KEY_IN_OCTAVE,
             )
-        return ccs_notes
+            for note in notes
+        ]
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]

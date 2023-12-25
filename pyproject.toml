@@ -41,11 +41,11 @@ dependencies = [
   "platformdirs<5.0.0,>=4.1.0",
   "portion<3.0.0,>=2.4.2",
   "proto-plus<2.0.0,>=1.23.0",
-  "pydantic<3.0.0,>=2.5.2",
-  "pydantic-extra-types<3.0.0,>=2.1.0",
+  "pydantic<3.0.0,>=2.5.3",
+  "pydantic-extra-types<3.0.0,>=2.2.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
-  "pypinyin<1.0.0,>=0.49.0",
+  "pypinyin<1.0.0,>=0.50.0",
   "rich<14.0.0,>=13.7.0",
   "srt<4.0.0,>=3.5.3",
   "typer<1.0.0,>=0.9.0",
@@ -56,7 +56,7 @@ dependencies = [
   "zstd<2.0.0,>=1.5.5.1; platform_python_implementation == \"PyPy\"",
 ]
 name = "libresvip"
-version = "0.9.8"
+version = "0.9.9"
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 
@@ -65,19 +65,19 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 
 [project.optional-dependencies]
 
-ujson = ["ujson>=5.8.0"]
+ujson = ["ujson>=5.9.0"]
 upath = [
   "universal-pathlib<1.0.0,>=0.1.4",
 ]
 webui = [
-  "nicegui[native]>=1.4.5",
+  "nicegui[native]>=1.4.6",
   "libresvip[upath]",
 ]
 desktop = [
   "pyside6<6.7.0,>=6.6.1",
   "fonticon-materialdesignicons7>=7.2.96",
   "qtinter>=0.11.0",
-  "httpx>=0.25.2",
+  "httpx>=0.26.0",
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
 ]
@@ -92,32 +92,33 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.1",
+  "datamodel-code-generator>=0.25.2",
   "gapic-generator>=1.13.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.11.1", "babel>=2.13.1"]
+i18n = ["translate-toolkit>=3.12.1", "babel>=2.14.0"]
 linting = [
-  "isort>=5.13.0",
+  "isort>=5.13.2",
   "pre-commit>=3.6.0",
-  "ruff>=0.1.7",
-  "black>=23.11.0",
-  "mypy>=1.7.1",
-  "sourcery>=1.14.0",
+  "ruff>=0.1.9",
+  "black>=23.12.1",
+  "mypy>=1.8.0",
+  "sourcery>=1.15.0",
 ]
 packaging = [
-  "cx-freeze>=6.15.11",
-  "pyinstaller>=6.2.0",
+  "cx-freeze>=6.15.12",
+  "pyinstaller>=6.3.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.5.1"]
+docs = ["mkdocs-material<10.0.0,>=9.5.3"]
 test = ["pytest>=7.4.3", "pytest-datadir>=1.5.0"]
 typing_stubs = [
-  "types-protobuf>=4.24.0.4",
+  "proto-plus-stubs>=0.6.0",
+  "types-parsimonious>=0.10.0.10",
   "types-pyyaml>=6.0.12.12",
-  "types-ujson>=5.8.0.1",
+  "types-ujson>=5.9.0.0",
   "types-zstd>=1.5.0.3; platform_python_implementation == \"PyPy\"",
 ]
 

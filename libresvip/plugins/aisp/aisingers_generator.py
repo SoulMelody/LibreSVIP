@@ -1,7 +1,10 @@
 import bisect
 import dataclasses
 
+from libresvip.core.constants import DEFAULT_PHONEME
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
+    InstrumentalTrack,
     Note,
     ParamCurve,
     Project,
@@ -10,8 +13,11 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import audio_track_info
 
 from .model import (
+    AISAudioPattern,
+    AISAudioTrack,
     AISNote,
     AISProjectBody,
     AISProjectHead,
@@ -26,11 +32,13 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class AiSingersGenerator:
     options: OutputOptions
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(
         self, project: Project
     ) -> tuple[AISProjectHead, AISProjectBody]:
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         ais_time_signatures = self.generate_time_signatures(project.time_signature_list)
         ais_tempos = self.generate_tempos(
@@ -140,6 +148,29 @@ class AiSingersGenerator:
                         ],
                     )
                     ais_tracks.append(ais_track)
+            elif isinstance(track, InstrumentalTrack):
+                if track_info := audio_track_info(track.audio_file_path, only_wav=True):
+                    offset_secs = track_info.duration / 1000
+                    end_tick = self.synchronizer.get_actual_ticks_from_secs_offset(
+                        track.offset, offset_secs
+                    )
+                    ais_track = AISAudioTrack(
+                        idx=len(ais_tracks),
+                        name=track.title,
+                        mute=track.mute,
+                        solo=track.solo,
+                        items=[
+                            AISAudioPattern(
+                                start=track.offset // 15,
+                                length=(end_tick - track.offset) // 15,
+                                path_audio=track.audio_file_path,
+                                path_wave=track.audio_file_path,
+                                len_sec=int(offset_secs),
+                                n_channel=track_info.channel_s,
+                            )
+                        ],
+                    )
+                    ais_tracks.append(ais_track)
         return ais_tracks
 
     def generate_notes(self, track: SingingTrack) -> list[AISNote]:
@@ -150,7 +181,7 @@ class AiSingersGenerator:
                 start=round(note.start_pos / 15),
                 length=round(note.length / 15),
                 lyric=note.lyric,
-                pinyin=note.pronunciation,
+                pinyin=note.pronunciation or DEFAULT_PHONEME,
                 triple=False,
                 pit="0x500",
             )
@@ -173,20 +204,11 @@ class AiSingersGenerator:
             <= note.end_pos + self.first_bar_length
         ]
 
-        pitch_param_time_in_note = [p.x for p in pitch_param_in_note]
+        pitch_param_time_in_note = dict(pitch_param_in_note)
 
         ais_pitch_param = []
         for sample_time in sample_time_list:
-            if sample_time in pitch_param_time_in_note:
-                pitch = next(
-                    p.y for p in pitch_param_curve.points if p.x == sample_time
-                )
-                if pitch == -100:
-                    ais_pitch_param.append(0)
-                else:
-                    value = (pitch - note.key_number * 100) / 10
-                    ais_pitch_param.append(value)
-            else:
+            if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1
                 value = 0
 
@@ -200,6 +222,10 @@ class AiSingersGenerator:
                         )
                 ais_pitch_param.append(value)
 
+            elif pitch == -100:
+                ais_pitch_param.append(0)
+            else:
+                ais_pitch_param.append((pitch - note.key_number * 100) / 10)
         buffer = []
         previous_node = ais_pitch_param[0]
         previous_node_index = 0

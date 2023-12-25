@@ -16,8 +16,8 @@ import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
-from typing import Any, Optional, TypedDict, Union, get_args, get_type_hints
-from urllib.parse import quote
+from typing import Any, BinaryIO, Optional, TypedDict, Union, get_args, get_type_hints
+from urllib.parse import quote, unquote
 
 from nicegui import app, binding, ui
 from nicegui.context import get_client
@@ -391,7 +391,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @ui.refreshable
         def tasks_container(self) -> None:
-            with ui.column().classes("w-full"):
+            with ui.scroll_area().classes("w-full"):
                 for info in self.files_to_convert.values():
                     with ui.row().classes("w-full items-center"):
 
@@ -457,8 +457,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
-                            on_click=lambda: ui.download(
-                                f"/export/{cur_client.id}/{info.name}",
+                            on_click=functools.partial(
+                                selected_formats.save_file, info.name
                             ),
                         ).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props(
@@ -466,20 +466,20 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ):
                             ui.tooltip(_("Remove"))
 
-        def add_task(self, args: UploadEventArguments) -> None:
+        def _add_task(self, name: str, content: BinaryIO) -> None:
             if app.storage.user.get("auto_detect_input_format"):
-                cur_suffix = args.name.rpartition(".")[-1].lower()
+                cur_suffix = name.rpartition(".")[-1].lower()
                 if (
                     cur_suffix in plugin_manager.plugin_registry
                     and cur_suffix != self.input_format
                 ):
                     self.input_format = cur_suffix
-            upload_path = self.temp_path / args.name
-            args.content.seek(0)
-            upload_path.write_bytes(args.content.read())
+            upload_path = self.temp_path / name
+            content.seek(0)
+            upload_path.write_bytes(content.read())
             output_path = self.temp_path / str(uuid.uuid4())
             conversion_task = ConversionTask(
-                name=args.name,
+                name=name,
                 upload_path=upload_path,
                 output_path=output_path,
                 converting=False,
@@ -487,8 +487,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 error=None,
                 warning=None,
             )
-            self.files_to_convert[args.name] = conversion_task
+            self.files_to_convert[name] = conversion_task
             self.tasks_container.refresh()
+
+        def add_task(self, args: UploadEventArguments) -> None:
+            self._add_task(args.name, args.content)
 
         @property
         def input_format(self) -> str:
@@ -525,6 +528,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             return len(self.files_to_convert)
 
         def convert_one(self, task: ConversionTask) -> None:
+            task.reset()
             lazy_translation.set(translation)
             task.converting = True
             try:
@@ -562,29 +566,59 @@ def page_layout(lang: Optional[str] = None) -> None:
             task.converting = False
 
         async def batch_convert(self) -> None:
+            n = ui.notification(_("Converting"), timeout=0)
+
             loop = asyncio.get_event_loop()
             with ThreadPoolExecutor(
                 max_workers=max(len(self.files_to_convert), 4),
             ) as executor:
-                for task in self.files_to_convert.values():
-                    task.reset()
-                    await loop.run_in_executor(
+                futures: list[asyncio.Future] = [
+                    loop.run_in_executor(
                         executor,
                         self.convert_one,
                         task,
                     )
+                    for task in self.files_to_convert.values()
+                ]
+                for i, future in enumerate(asyncio.as_completed(futures)):
+                    await future
+                    n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
+                    n.spinner = True
+            n.close_button = _("Close")
+            n.spinner = False
             if any(not task.success for task in self.files_to_convert.values()):
-                ui.notify(_("Conversion Failed"), closeBtn=_("Close"), type="negative")
+                n.message = _("Conversion Failed")
+                n.type = "negative"
             else:
-                ui.notify(
-                    _("Conversion Successful"),
-                    closeBtn=_("Close"),
-                    type="positive",
-                )
+                n.message = _("Conversion Successful")
+                n.type = "positive"
 
         def export_all(self, request: Request) -> Response:
+            if result := self._export_all():
+                return Response(*result)
+            raise HTTPException(400, "No files to export")
+
+        def export_one(self, request: Request) -> Response:
+            if result := self._export_one(request.path_params["filename"]):
+                return Response(*result)
+            raise HTTPException(404, "File not found")
+
+        def _export_one(
+            self, filename: str
+        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+            if (task := self.files_to_convert.get(filename)) and task.success:
+                return (
+                    task.output_path.read_bytes(),
+                    200,
+                    {
+                        "Content-Disposition": f"attachment; filename={quote(task.upload_path.with_suffix(task.output_path.suffix).name)}",
+                    },
+                    "application/octet-stream",
+                )
+
+        def _export_all(self) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if len(self.files_to_convert) == 0:
-                raise HTTPException(400, "No files to export")
+                return None
             elif len(self.files_to_convert) == 1:
                 filename = next(iter(self.files_to_convert))
                 return self._export_one(filename)
@@ -596,25 +630,71 @@ def page_layout(lang: Optional[str] = None) -> None:
                             task.upload_path.with_suffix(task.output_path.suffix).name,
                             task.output_path.read_bytes(),
                         )
-            return Response(
-                content=buffer.getvalue(),
-                media_type="application/zip",
-                headers={"Content-Disposition": "attachment; filename=export.zip"},
+            return (
+                buffer.getvalue(),
+                200,
+                {"Content-Disposition": "attachment; filename=export.zip"},
+                "application/zip",
             )
 
-        def export_one(self, request: Request) -> Response:
-            return self._export_one(request.path_params["filename"])
-
-        def _export_one(self, filename: str) -> Response:
-            if (task := self.files_to_convert.get(filename)) and task.success:
-                return Response(
-                    content=task.output_path.read_bytes(),
-                    media_type="application/octet-stream",
-                    headers={
-                        "Content-Disposition": f"attachment; filename={quote(task.upload_path.with_suffix(task.output_path.suffix).name)}",
-                    },
+        async def add_upload(self) -> None:
+            if app.native.main_window is not None and hasattr(
+                app.native.main_window, "create_file_dialog"
+            ):
+                file_paths = await app.native.main_window.create_file_dialog(
+                    allow_multiple=True,
+                    file_types=[
+                        select_input.options[select_input.value],
+                        _("All files (*.*)"),
+                    ],
                 )
-            raise HTTPException(404, "File not found")
+                if file_paths is None:  # Canceled
+                    return
+                for file_path in file_paths:
+                    path = pathlib.Path(file_path)
+                    with path.open("rb") as content:
+                        self._add_task(path.name, content)
+            else:
+                ui.run_javascript("add_upload()")
+
+        async def save_file(self, file_name: str = "") -> None:
+            if app.native.main_window is not None and hasattr(
+                app.native.main_window, "create_file_dialog"
+            ):
+                import webview
+
+                result = None
+                if not file_name:
+                    result = self._export_all()
+                else:
+                    result = self._export_one(file_name)
+                if result is None:
+                    ui.notify(_("Save failed!"), type="negative")
+                    return
+
+                save_filename = unquote(
+                    result[2]["Content-Disposition"].removeprefix(
+                        "attachment; filename="
+                    )
+                )
+                save_path = await app.native.main_window.create_file_dialog(
+                    webview.SAVE_DIALOG,
+                    save_filename=save_filename,
+                    file_types=(
+                        _("Compressed Archive (*.zip)")
+                        if save_filename.endswith(".zip")
+                        else select_output.options[select_output.value],
+                        _("All files (*.*)"),
+                    ),
+                )
+                if save_path is None:  # Canceled
+                    return
+                elif not isinstance(save_path, str):  # list[str]
+                    save_path = save_path[0]
+                pathlib.Path(save_path).write_bytes(result[0])
+                ui.notify(_("Saved"), type="positive")
+            else:
+                ui.download(f"/export/{cur_client.id}/{file_name}")
 
     dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
@@ -662,7 +742,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     elif e.key == "h":
                         help_menu.open()
                     elif e.key == "o":
-                        ui.run_javascript("add_upload()")
+                        await selected_formats.add_upload()
                     elif e.key == "i":
                         about_dialog.open()
                     elif e.key == "\\":
@@ -700,7 +780,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             ui.tooltip("Alt+C")
             with ui.menu() as convert_menu:
                 with ui.menu_item(
-                    on_click=lambda: ui.run_javascript("add_upload()"),
+                    on_click=selected_formats.add_upload,
                 ):
                     ui.tooltip("Alt+O")
                     with ui.row().classes("items-center"):
@@ -708,21 +788,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.label(_("Import project"))
                 with ui.menu_item(
                     on_click=selected_formats.batch_convert,
-                ).bind_visibility(
+                ).bind_visibility_from(
                     selected_formats,
                     "task_count",
                     backward=bool,
-                    forward=bool,
                 ):
                     ui.tooltip("Alt+Enter")
                     with ui.row().classes("items-center"):
                         ui.icon("play_arrow").classes("text-lg")
                         ui.label(_("Convert"))
-                with ui.menu_item(on_click=selected_formats.reset).bind_visibility(
+                with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
                     selected_formats,
                     "task_count",
                     backward=bool,
-                    forward=bool,
                 ):
                     ui.tooltip("Alt+/")
                     with ui.row().classes("items-center"):
@@ -951,62 +1029,21 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
                                 with fab.add_slot("active-icon"):
                                     ui.icon("construction").classes("rotate-45")
-
-                                def add_class(
-                                    element: ui.element, show: bool = False
-                                ) -> None:
-                                    element.classes("toolbar-fab-active")
-                                    if show:
-                                        element.run_method("show")
-
-                                def remove_class(element: ui.element) -> None:
-                                    call_times = 0
-
-                                    async def hide() -> None:
-                                        nonlocal call_times
-                                        if call_times and ui.run_javascript(
-                                            '!document.querySelector(".toolbar-fab-active")',
-                                        ):
-                                            fab.run_method("hide")
-                                            timer.deactivate()
-                                        call_times += 1
-
-                                    timer = ui.timer(0.5, hide)
-                                    element.classes(remove="toolbar-fab-active")
-
-                                fab.on("mouseover", lambda: add_class(fab, show=True))
-                                fab.on("mouseout", lambda: remove_class(fab))
-                                with QFabAction(
+                                fab.on(
+                                    "mouseenter",
+                                    functools.partial(fab.run_method, "show"),
+                                )
+                                QFabAction(
                                     icon="refresh",
                                     on_click=selected_formats.reset,
-                                ) as fab_action_1:
-                                    fab_action_1.on(
-                                        "mouseover",
-                                        lambda: add_class(fab_action_1),
-                                    )
-                                    fab_action_1.on(
-                                        "mouseout",
-                                        lambda: remove_class(fab_action_1),
-                                    )
-                                    ui.tooltip(_("Clear Task List"))
-                                with QFabAction(
+                                ).tooltip(_("Clear Task List"))
+                                QFabAction(
                                     icon="filter_alt_off",
                                     on_click=selected_formats.filter_input_ext,
-                                ) as fab_action_2:
-                                    fab_action_2.on(
-                                        "mouseover",
-                                        lambda: add_class(fab_action_2),
-                                    )
-                                    fab_action_2.on(
-                                        "mouseout",
-                                        lambda: remove_class(fab_action_2),
-                                    )
-                                    ui.tooltip(_("Remove Tasks With Other Extensions"))
+                                ).tooltip(_("Remove Tasks With Other Extensions"))
                             with ui.button(
                                 icon="add",
-                                on_click=lambda: ui.run_javascript(
-                                    "add_upload()",
-                                ),
+                                on_click=selected_formats.add_upload,
                             ).props("round").classes(
                                 "absolute bottom-0 right-2 m-2 z-10",
                             ):
@@ -1021,6 +1058,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         with ui.card().classes(
                             "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
                         ).style("cursor: pointer") as upload_card:
+                            upload_card.on("click", selected_formats.add_upload)
                             upload_card.bind_visibility_from(
                                 selected_formats,
                                 "task_count",
@@ -1030,28 +1068,26 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ui.label(
                                 _("Drag and drop files here or click to upload"),
                             ).classes("text-lg")
-            with main_splitter.after, ui.card().classes(
+            with main_splitter.after, ui.scroll_area().classes(
                 "w-full h-auto min-h-full"
-            ).style("box-shadow: 0 0 0 #ccc !important;"):
+            ):
                 with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                     with ui.button(
                         icon="play_arrow",
                         on_click=selected_formats.batch_convert,
-                    ).props("round").bind_visibility(
+                    ).props("round").bind_visibility_from(
                         selected_formats,
                         "task_count",
                         backward=bool,
-                        forward=bool,
                     ):
                         ui.tooltip(_("Start Conversion"))
                     with ui.button(
                         icon="download_for_offline",
-                        on_click=lambda: ui.download(f"/export/{cur_client.id}/"),
-                    ).props("round").bind_visibility(
+                        on_click=selected_formats.save_file,
+                    ).props("round").bind_visibility_from(
                         selected_formats,
                         "task_count",
                         backward=bool,
-                        forward=bool,
                     ):
                         ui.tooltip(_("Export"))
                 ui.label(_("Advanced Options")).classes("text-h5 font-bold")
@@ -1153,10 +1189,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                 let upload_card = document.querySelector("[id='c{upload_card.id}']")
                 upload_card.addEventListener('dragover', (event) => {{
                     event.preventDefault()
-                }})
-                upload_card.addEventListener('click', (event) => {{
-                    event.preventDefault()
-                    add_upload()
                 }})
                 upload_card.addEventListener('drop', (event) => {{
                     for (let file of event.dataTransfer.files) {{

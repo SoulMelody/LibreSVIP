@@ -118,7 +118,7 @@ JUCEPluginData = Prefixed(
 
 def build_tree_dict(node: JUCENode) -> dict:
     attr_dict = {
-        attr.name: build_tree_dict(JUCEPluginData.parse(attr.data.value[40:]).data)
+        attr.name: build_tree_dict(JUCENode.parse(attr.data.value))
         if isinstance(attr.data.value, bytes)
         else attr.data.value
         for attr in node.attrs

@@ -2,6 +2,8 @@ import abc
 from dataclasses import dataclass, field
 from typing import Optional
 
+from libresvip.utils import note2midi
+
 
 @dataclass
 class VocalSharpParamBase(abc.ABC):
@@ -179,7 +181,7 @@ class VocalSharpTrillBase(abc.ABC):
             "type": "Element",
         },
     )
-    phase: Optional[int] = field(
+    phase: Optional[float] = field(
         default=0,
         metadata={
             "type": "Element",
@@ -457,6 +459,10 @@ class VocalSharpNote:
             "type": "Element",
         },
     )
+
+    @property
+    def key_number(self) -> int:
+        return note2midi(self.pitch)
 
 
 @dataclass

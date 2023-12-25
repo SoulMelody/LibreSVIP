@@ -2,6 +2,7 @@ import enum
 import itertools
 from typing import Annotated, Literal, Optional, Union
 
+import more_itertools
 from pydantic import (
     Field,
     SerializationInfo,
@@ -29,6 +30,9 @@ class AISNote(BaseModel):
     vel: Optional[int] = 50
     triple: Optional[bool] = Field(False, alias="tri")
     pit: Optional[list[float]] = None
+    bc: Optional[int] = 0
+    bj: Optional[int] = 0
+    bq: Optional[int] = 0
 
     @field_validator("pit", mode="before")
     @classmethod
@@ -41,8 +45,9 @@ class AISNote(BaseModel):
             value = value.split()
         pit_list = []
         for x in value:
-            if isinstance(x, str) and "0x" in x:
-                pit_list.extend([0] * int(x[2:]))
+            if isinstance(x, str) and "x" in x:
+                x, _, repeat_times = x.partition("x")
+                pit_list.extend([float(x)] * int(repeat_times))
             elif isinstance(x, str):
                 pit_list.append(float(x))
             else:
@@ -58,27 +63,30 @@ class AISNote(BaseModel):
             return "0x500"
         pit_str = ""
         for key, group in itertools.groupby(value):
-            group_length = len(list(group))
-            if key == 0:
-                pit_str += f"0x{group_length} " if group_length > 1 else "0 "
-            if key != 0:
-                pit_str += f"{round(key, 2)} " * group_length
+            group_length = more_itertools.ilen(group)
+            pit_str += (
+                f"{round(key, 2)}x{group_length} "
+                if group_length > 1
+                else f"{round(key, 2)} "
+            )
         return pit_str.strip()
 
 
 class AISBasePattern(BaseModel):
     uid: Optional[int] = None
+    start: Optional[int] = Field(alias="s")
+    length: Optional[int] = Field(alias="l")
 
 
 class AISSingVoicePattern(AISBasePattern):
-    start: Optional[int] = Field(alias="s")
-    length: Optional[int] = Field(alias="l")
     notes: list[AISNote] = Field(default_factory=list, alias="n")
 
 
 class AISAudioPattern(AISBasePattern):
     path_audio: Optional[str] = Field(alias="pa")
     path_wave: Optional[str] = Field(alias="pw")
+    n_channel: Optional[int] = 2
+    len_sec: Optional[int] = 0
 
 
 class AISBaseTrack(BaseModel):

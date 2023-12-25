@@ -29,7 +29,7 @@ from .model import (
     VocalSharpTempo,
 )
 from .options import OutputOptions
-from .vspx_interval_dict import vspx_key_interval_dict
+from .vspx_interval_dict import BasePitchCurve
 
 
 @dataclasses.dataclass
@@ -140,7 +140,7 @@ class VocalSharpGenerator:
                 note=self.generate_notes(track.note_list),
             )
             if pitch_points := self.generate_pitch(
-                track.edited_params.pitch, track.note_list, note_track.por
+                track.edited_params.pitch, note_track
             ):
                 note_track.parameter = VocalSharpParameter(points=pitch_points)
             note_tracks.append(note_track)
@@ -159,32 +159,34 @@ class VocalSharpGenerator:
         ]
 
     def generate_pitch(
-        self, pitch: ParamCurve, note_list: list[Note], por: float
+        self, pitch: ParamCurve, note_track: VocalSharpNoteTrack
     ) -> list[PIT]:
-        key_interval_dict = vspx_key_interval_dict(note_list, por, self.synchronizer)
+        base_pitch_curve = BasePitchCurve(note_track, None, self.synchronizer)
         pitch_points = []
         prev_point: Optional[PIT] = None
         for point in pitch.points:
             cur_tick = point.x - self.first_bar_length
+            cur_secs = self.synchronizer.get_actual_secs_from_ticks(cur_tick)
             if (
                 point.y > 0
-                and (base_key := key_interval_dict.get(cur_tick)) is not None
+                and (base_key := base_pitch_curve.semitone_value_at(cur_secs))
+                is not None
             ):
                 if prev_point is not None:
                     cur_value = point.y - base_key * 100
-                    for i in range(prev_point.time + 1, cur_tick):
-                        pitch_points.append(
-                            PIT(
-                                time=i,
-                                value=round(
-                                    linear_interpolation(
-                                        i,
-                                        (prev_point.time, prev_point.value),
-                                        (cur_tick, cur_value),
-                                    )
-                                ),
-                            )
+                    pitch_points.extend(
+                        PIT(
+                            time=i,
+                            value=round(
+                                linear_interpolation(
+                                    i,
+                                    (prev_point.time, prev_point.value),
+                                    (cur_tick, cur_value),
+                                )
+                            ),
                         )
+                        for i in range(prev_point.time + 1, cur_tick)
+                    )
                 else:
                     pitch_points.append(
                         PIT(

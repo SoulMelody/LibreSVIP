@@ -1,6 +1,7 @@
 import dataclasses
 
 from libresvip.model.base import (
+    InstrumentalTrack,
     Note,
     ParamCurve,
     Point,
@@ -13,6 +14,7 @@ from libresvip.model.base import (
 )
 
 from .model import (
+    AISAudioTrack,
     AISNote,
     AISProjectBody,
     AISProjectHead,
@@ -87,6 +89,17 @@ class AiSingersParser:
                         points=Points(root=pitch_points)
                     )
                 track_list.append(singing_track)
+            elif isinstance(ais_track, AISAudioTrack):
+                track_list.extend(
+                    InstrumentalTrack(
+                        title=f"{ais_track.name} ({i})",
+                        mute=ais_track.mute,
+                        solo=ais_track.solo,
+                        audio_file_path=item.path_audio,
+                        offset=item.start * 15,
+                    )
+                    for i, item in enumerate(ais_track.items)
+                )
         return track_list
 
     def parse_notes(

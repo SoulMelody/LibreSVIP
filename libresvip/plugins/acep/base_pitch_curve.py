@@ -1,10 +1,15 @@
 import dataclasses
+import functools
 import math
 from typing import Iterable
 
+import portion
 from more_itertools import convolve
 
-from .model import AcepNote, AcepTempo
+from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.model.point import linear_interpolation
+
+from .model import AcepNote, AcepTempo, AcepVibrato
 from .time_utils import tick_to_second
 
 
@@ -13,19 +18,6 @@ class NoteInSeconds:
     semitone: int
     start: float = 0.0
     end: float = 0.0
-
-
-@dataclasses.dataclass
-class NoteVibrato:
-    start: float
-    end: float
-    amplitude: float
-    frequency: float
-    phase: float
-    attack_time: float
-    release_time: float
-    attack_level: float
-    release_level: float
 
 
 def _convolve(note_list: list[NoteInSeconds]) -> list[float]:
@@ -50,12 +42,30 @@ def _convolve(note_list: list[NoteInSeconds]) -> list[float]:
     return list(convolve(init_values, kernel))[59:-59]
 
 
+def acep_vibrato_value_curve(
+    seconds: float, vibrato_start: float, vibrato: AcepVibrato
+) -> float:
+    return (
+        math.sin(
+            math.pi
+            * (2 * (seconds - vibrato_start) * vibrato.frequency - vibrato.phase)
+        )
+        * vibrato.amplitude
+        * 0.5
+    )
+
+
 @dataclasses.dataclass
 class BasePitchCurve:
     notes: dataclasses.InitVar[Iterable[AcepNote]]
     tempos: dataclasses.InitVar[list[AcepTempo]]
     tick_offset: dataclasses.InitVar[int] = 0
-    vibrato_list: list[NoteVibrato] = dataclasses.field(default_factory=list)
+    vibrato_value_interval_dict: PiecewiseIntervalDict = dataclasses.field(
+        default_factory=PiecewiseIntervalDict
+    )
+    vibrato_coef_interval_dict: PiecewiseIntervalDict = dataclasses.field(
+        default_factory=PiecewiseIntervalDict
+    )
     values_in_semitone: list[float] = dataclasses.field(default_factory=list)
 
     def __post_init__(
@@ -76,21 +86,40 @@ class BasePitchCurve:
                     note.pos + note.vibrato.start_pos + tick_offset, tempos
                 )
                 vibrato_duration = note_end - vibrato_start
-                self.vibrato_list.append(
-                    NoteVibrato(
-                        start=vibrato_start,
-                        end=note_end,
-                        amplitude=note.vibrato.amplitude,
-                        frequency=note.vibrato.frequency,
-                        phase=note.vibrato.phase,
-                        attack_time=vibrato_start
-                        + note.vibrato.attack_ratio * vibrato_duration,
-                        release_time=note_end
-                        - note.vibrato.release_ratio * vibrato_duration,
-                        attack_level=note.vibrato.attack_level,
-                        release_level=note.vibrato.release_level,
-                    )
+                self.vibrato_value_interval_dict[
+                    portion.closed(vibrato_start, note_end)
+                ] = functools.partial(
+                    acep_vibrato_value_curve,
+                    vibrato_start=vibrato_start,
+                    vibrato=note.vibrato,
                 )
+                attack_time = (
+                    vibrato_start + note.vibrato.attack_ratio * vibrato_duration
+                )
+                release_time = note_end - note.vibrato.release_ratio * vibrato_duration
+                if note.vibrato.release_ratio:
+                    self.vibrato_coef_interval_dict[
+                        portion.openclosed(release_time, note_end)
+                    ] = functools.partial(
+                        linear_interpolation,
+                        start=(release_time, note.vibrato.release_level),
+                        end=(note_end, 0),
+                    )
+                self.vibrato_coef_interval_dict[
+                    portion.closed(attack_time, release_time)
+                ] = functools.partial(
+                    linear_interpolation,
+                    start=(attack_time, note.vibrato.attack_level),
+                    end=(release_time, note.vibrato.release_level),
+                )
+                if note.vibrato.attack_ratio:
+                    self.vibrato_coef_interval_dict[
+                        portion.closedopen(vibrato_start, attack_time)
+                    ] = functools.partial(
+                        linear_interpolation,
+                        start=(vibrato_start, 0),
+                        end=(attack_time, note.vibrato.attack_level),
+                    )
         self.values_in_semitone = _convolve(note_list)
 
     def semitone_value_at(self, seconds: float) -> float:
@@ -104,45 +133,7 @@ class BasePitchCurve:
         pitch_value = (1 - lambda_) * self.values_in_semitone[
             clipped_left_index
         ] + lambda_ * self.values_in_semitone[clipped_right_index]
-        if (
-            vibrato := next(
-                (
-                    vibrato
-                    for vibrato in self.vibrato_list
-                    if vibrato.start <= seconds < vibrato.end
-                ),
-                None,
-            )
-        ) is not None:
-            vibrato_value = (
-                math.sin(
-                    math.pi
-                    * (
-                        2 * (seconds - vibrato.start) * vibrato.frequency
-                        + vibrato.phase
-                    )
-                )
-                * vibrato.amplitude
-                * 0.5
-            )
-            if seconds < vibrato.attack_time:
-                vibrato_value *= (
-                    vibrato.attack_level
-                    * (seconds - vibrato.start)
-                    / (vibrato.attack_time - vibrato.start)
-                )
-            elif seconds >= vibrato.release_time:
-                vibrato_value *= (
-                    vibrato.release_level
-                    * (vibrato.end - seconds)
-                    / (vibrato.end - vibrato.release_time)
-                )
-            else:
-                ratio = (seconds - vibrato.attack_time) / (
-                    vibrato.release_time - vibrato.attack_time
-                )
-                vibrato_value *= vibrato.attack_level + ratio * (
-                    vibrato.release_level - vibrato.attack_level
-                )
+        if (vibrato_value := self.vibrato_value_interval_dict.get(seconds)) is not None:
+            vibrato_value *= self.vibrato_coef_interval_dict[seconds]
             pitch_value += vibrato_value
         return pitch_value

@@ -4,14 +4,15 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
-    ParamCurve,
     Params,
+    Points,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import ratio_to_db
 
 from .model import (
@@ -35,18 +36,35 @@ TICK_RATE = 1470000
 @dataclasses.dataclass
 class SynthVEditorGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> S5pProject:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         s5p_project = S5pProject(
             tracks=self.generate_singing_tracks(project.track_list),
             tempo=self.generate_tempos(project.song_tempo_list),
             meter=self.generate_time_signatures(project.time_signature_list),
         )
-        instrumental_track = self.generate_instrumental_track(project.track_list)
-        if instrumental_track is not None:
-            s5p_project.instrumental = instrumental_track
-            s5p_project.mixer = self.generate_mixer(project.track_list)
+        if (
+            instrumental_track := next(
+                (
+                    S5pInstrumental(
+                        filename=track.audio_file_path,
+                        offset=self.synchronizer.get_actual_secs_from_ticks(
+                            track.offset
+                        ),
+                    )
+                    for track in project.track_list
+                    if isinstance(track, InstrumentalTrack)
+                ),
+                None,
+            )
+        ) is not None:
+            s5p_project.instrumental = self.generate_instrumental_track(
+                instrumental_track
+            )
+            s5p_project.mixer = self.generate_mixer(instrumental_track)
         return s5p_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[S5pTempoItem]:
@@ -95,7 +113,9 @@ class SynthVEditorGenerator:
                     mixer=track_mixer,
                 )
                 if track.edited_params is not None:
-                    s5p_track.parameters = self.generate_parameters(track.edited_params)
+                    s5p_track.parameters = self.generate_parameters(
+                        track.edited_params, track.note_list
+                    )
                 tracks.append(s5p_track)
         return tracks
 
@@ -110,46 +130,37 @@ class SynthVEditorGenerator:
             for note in note_list
         ]
 
-    def generate_instrumental_track(self, track_list: list[Track]) -> S5pInstrumental:
-        return next(
-            (
-                S5pInstrumental(
-                    filename=track.audio_file_path,
-                    offset=track.offset,
-                )
-                for track in track_list
-                if isinstance(track, InstrumentalTrack)
-            ),
-            None,
+    def generate_instrumental_track(self, track: InstrumentalTrack) -> S5pInstrumental:
+        return S5pInstrumental(
+            filename=track.audio_file_path,
+            offset=self.synchronizer.get_actual_secs_from_ticks(track.offset),
         )
 
-    def generate_mixer(self, track_list: list[Track]) -> S5pMixer:
-        return next(
-            (
-                S5pMixer(
-                    gain_instrumental_decibel=self.generate_volume(track.volume),
-                    instrumental_muted=track.mute,
-                )
-                for track in track_list
-                if isinstance(track, InstrumentalTrack)
-            ),
-            None,
+    def generate_mixer(self, track: InstrumentalTrack) -> S5pMixer:
+        return S5pMixer(
+            gain_instrumental_decibel=self.generate_volume(track.volume),
+            instrumental_muted=track.mute,
         )
 
-    def generate_parameters(self, edited_params: Params) -> S5pParameters:
+    def generate_parameters(
+        self, edited_params: Params, note_list: list[Note]
+    ) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
+        rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
+            edited_params.pitch, note_list
+        )
         return S5pParameters(
-            pitch_delta=self.generate_pitch_delta(edited_params.pitch, interval),
+            pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
             interval=interval,
         )
 
-    def generate_pitch_delta(self, pitch: ParamCurve, interval: int) -> S5pPoints:
+    def generate_pitch_delta(self, pitch: Points, interval: int) -> S5pPoints:
         points = [
             S5pPoint(
                 offset=round(point.x / (interval / TICK_RATE)),
-                value=point.y * 100,
+                value=point.y,
             )
-            for point in pitch.points
+            for point in pitch or []
             if point.y != -100
         ]
         return S5pPoints(root=points)

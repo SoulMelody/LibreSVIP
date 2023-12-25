@@ -20,7 +20,7 @@ from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
 from libresvip.model.point import PointList, linear_interpolation
 
-from .ace_curve_utils import interpolate_akima
+from .ace_curve_utils import interpolate_hermite
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
 
@@ -56,10 +56,10 @@ class AcepParamCurve(BaseModel):
         return list(chain.from_iterable(points.root))
 
     def points2values(self) -> None:
-        if self.curve_type == "anchor":
+        if self.curve_type == "anchor" and self.points is not None:
             if len(self.points.root) > 2:
                 self.offset = math.floor(self.points.root[0].pos)
-                self.values = interpolate_akima(
+                self.values = interpolate_hermite(
                     [point.pos for point in self.points.root],
                     [point.value for point in self.points.root],
                     list(range(self.offset, math.ceil(self.points.root[-1].pos) + 1)),
@@ -189,12 +189,6 @@ class AcepLyricsLanguage(Enum):
             title="English",
         ),
     ] = "ENG"
-
-
-class AcepDebug(BaseModel):
-    os: str = "windows"
-    platform: str = "pc"
-    version: str = "10"
 
 
 class AcepMaster(BaseModel):

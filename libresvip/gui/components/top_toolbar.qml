@@ -8,6 +8,9 @@ import LibreSVIP
 
 ToolBar {
     id: toolBar
+    implicitHeight: 32
+    height: 32
+    // clip: true
     signal openConvertMenu()
     signal openFormatsMenu()
     signal openImportFormatMenu()
@@ -19,7 +22,6 @@ ToolBar {
     signal openHelpMenu()
 
     function toggleMaximized() {
-        // from https://github.com/yjg30737/qml-rounded-shadow-framelesswindow
         if (window.visibility === Window.Maximized) {
             window.showNormal();
         } else {
@@ -28,7 +30,7 @@ ToolBar {
     }
 
     background: Rectangle {
-        implicitHeight: 48
+        implicitHeight: 32
         color: window.Material.background
         border.width: 1
         border.color: Material.color(
@@ -60,14 +62,14 @@ ToolBar {
         spacing: 0
 
         Rectangle {
-            width: 48
-            height: 48
+            width: 32
+            height: 32
             color: "transparent"
             Image {
                 anchors.centerIn: parent
                 source: ConfigItems.icon_data()
-                sourceSize.width: 20
-                sourceSize.height: 20
+                sourceSize.width: 16
+                sourceSize.height: 16
             }
         }
 
@@ -76,6 +78,8 @@ ToolBar {
             layoutDirection: Qt.RightToLeft
 
             RowLayout {
+                implicitHeight: 24
+                spacing: 0
                 Button {
                     id: minimizeButton
                     Material.roundedScale: Material.NotRounded
@@ -83,12 +87,15 @@ ToolBar {
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
+                    bottomInset: 0
                     flat: true
                     implicitWidth: 46
+                    implicitHeight: 24
                     background.implicitWidth: implicitWidth
+                    background.implicitHeight: implicitHeight
                     text: IconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize * 1.3
                     onClicked: window.showMinimized()
                 }
 
@@ -101,12 +108,15 @@ ToolBar {
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
+                    bottomInset: 0
                     flat: true
                     implicitWidth: 46
+                    implicitHeight: 24
                     background.implicitWidth: implicitWidth
+                    background.implicitHeight: implicitHeight
                     text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi7.window-restore") : IconicFontLoader.icon("mdi7.window-maximize")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize * 1.3
                     onClicked: toggleMaximized()
                 }
 
@@ -117,12 +127,15 @@ ToolBar {
                     leftPadding: 0
                     rightPadding: 0
                     topInset: 0
+                    bottomInset: 0
                     flat: true
                     implicitWidth: 46
+                    implicitHeight: 24
                     background.implicitWidth: implicitWidth
+                    background.implicitHeight: implicitHeight
                     text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi7.close") + "</font>" : IconicFontLoader.icon("mdi7.close")
                     font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    font.pixelSize: Qt.application.font.pixelSize * 1.3
                     onClicked: actions.quit.trigger()
                     onHoveredChanged: {
                         if (hovered) {
@@ -144,20 +157,21 @@ ToolBar {
                 elide: Text.ElideRight
             }
 
-            ToolSeparator {}
+            ToolSeparator {
+                contentItem.implicitHeight: 16
+            }
 
-            MenuBar {
-                id: menus
-                spacing: 0
-                background : Rectangle {
-                    implicitHeight: 40
-                    color: window.Material.background
-                }
-                menus: [
+            RowLayout {
+                Button {
+                    Material.roundedScale: Material.NotRounded
+                    Layout.fillHeight: true
+                    flat: true
+                    text: qsTr("Convert (&C)")
+                    onClicked: convertMenu.open()
                     Menu {
                         id: convertMenu
                         width: 300
-                        title: qsTr("Convert (&C)")
+                        y: parent.height
                         IconMenuItem {
                             action: actions.openFile;
                             icon_name: "mdi7.file-import-outline"
@@ -183,11 +197,18 @@ ToolBar {
                             icon_name: "mdi7.swap-vertical"
                             label: qsTr("Swap Input and Output (Ctrl+Tab)");
                         }
-                    },
+                    }
+                }
+                Button {
+                    Material.roundedScale: Material.NotRounded
+                    Layout.fillHeight: true
+                    flat: true
+                    text: qsTr("Formats (&F)")
+                    onClicked: formatsMenu.open()
                     Menu {
                         id: formatsMenu
                         width: 200
-                        title: qsTr("Formats (&F)")
+                        y: parent.height
                         Menu {
                             id: importFormatMenu
                             width: 300
@@ -205,7 +226,7 @@ ToolBar {
                                     onTriggered: {
                                         TaskManager.set_str("input_format", model.value)
                                     }
-                                    text: String(index % 10) + " " + qsTr(model.text)
+                                    text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
                                     target: TaskManager
@@ -262,7 +283,7 @@ ToolBar {
                                     onTriggered: {
                                         TaskManager.set_str("output_format", model.value)
                                     }
-                                    text: String(index % 10) + " " + qsTr(model.text)
+                                    text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
                                     target: TaskManager
@@ -302,30 +323,17 @@ ToolBar {
                                 }
                             }
                         }
-                    },
-                    Menu {
-                        id: pluginsMenu
-                        title: qsTr("Plugins (&P)")
-                        IconMenuItem {
-                            icon_name: "mdi7.puzzle-plus-outline"
-                            label: qsTr("Install a Plugin (Ctrl+I)")
-                            enabled: false
-                        }
-                        IconMenuItem {
-                            action: actions.managePlugins;
-                            icon_name: "mdi7.puzzle-edit-outline"
-                            label: qsTr("Manage Plugins")
-                            enabled: false
-                        }
-                        IconMenuItem {
-                            icon_name: "mdi7.store-search"
-                            label: qsTr("Open Plugin Store")
-                            enabled: false
-                        }
-                    },
+                    }
+                }
+                Button {
+                    Material.roundedScale: Material.NotRounded
+                    Layout.fillHeight: true
+                    flat: true
+                    text: qsTr("Settings (&S)")
+                    onClicked: settingsMenu.open()
                     Menu {
                         id: settingsMenu
-                        title: qsTr("Settings (&S)")
+                        y: parent.height
                         MenuItem {
                             text: qsTr("Options (&O)")
                             onTriggered: {
@@ -418,11 +426,18 @@ ToolBar {
                                 }
                             }
                         }
-                    },
+                    }
+                }
+                Button {
+                    Material.roundedScale: Material.NotRounded
+                    Layout.fillHeight: true
+                    flat: true
+                    text: qsTr("Help (&H)")
+                    onClicked: helpMenu.open()
                     Menu {
                         id: helpMenu
-                        title: qsTr("Help (&H)")
                         width: 250
+                        y: parent.height
                         IconMenuItem {
                             action: actions.openAbout;
                             icon_name: "mdi7.information-outline"
@@ -440,7 +455,7 @@ ToolBar {
                             enabled: false
                         }
                     }
-                ]
+                }
             }
         }
     }

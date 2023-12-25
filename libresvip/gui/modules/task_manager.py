@@ -7,6 +7,7 @@ import warnings
 import zipfile
 from typing import Any, Optional, get_args, get_type_hints
 
+import more_itertools
 from loguru import logger
 from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
@@ -16,6 +17,7 @@ from PySide6.QtCore import (
     QModelIndex,
     QObject,
     QRunnable,
+    Qt,
     QThreadPool,
     QTimer,
     Signal,
@@ -54,8 +56,8 @@ class ConversionWorker(QRunnable):
         output_format: str,
         input_options: dict[str, Any],
         output_options: dict[str, Any],
-        parent=None,
-    ):
+        parent: Optional[QObject] = None,
+    ) -> None:
         super().__init__(parent=parent)
         self.index = index
         self.input_path = input_path
@@ -67,7 +69,7 @@ class ConversionWorker(QRunnable):
         self.signals = ConversionWorkerSignals()
 
     @Slot()
-    def run(self):
+    def run(self) -> None:
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
@@ -117,7 +119,7 @@ class TaskManager(QObject):
     all_tasks_finished = Signal()
     _start_conversion = Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
         self.tasks = ModelProxy(
             {
@@ -157,28 +159,7 @@ class TaskManager(QObject):
             }
         )
         self._output_fields_inited = False
-        self.input_formats.append_many(
-            [
-                {
-                    "text": plugin.file_format,
-                    "value": plugin.suffix,
-                }
-                for plugin in plugin_manager.plugin_registry.values()
-            ],
-        )
-        self.output_formats.append_many(
-            [
-                {
-                    "text": plugin.file_format,
-                    "value": plugin.suffix,
-                }
-                for plugin in plugin_manager.plugin_registry.values()
-            ],
-        )
-        if not settings.last_input_format and self.input_formats:
-            settings.last_input_format = self.input_formats[0]["value"]
-        if not settings.last_output_format and self.output_formats:
-            settings.last_output_format = self.output_formats[0]["value"]
+        self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
         self.output_format_changed.connect(self.set_output_fields)
@@ -188,6 +169,29 @@ class TaskManager(QObject):
         self.timer.interval = 100
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
+
+    @Slot(result=None)
+    def reload_formats(self) -> None:
+        self.input_formats.clear()
+        self.input_formats.append_many(
+            [
+                {
+                    "text": plugin.file_format,
+                    "value": plugin.suffix,
+                }
+                for plugin in plugin_manager.plugin_registry.values()
+            ],
+        )
+        self.output_formats.clear()
+        self.output_formats.append_many(
+            [
+                {
+                    "text": plugin.file_format,
+                    "value": plugin.suffix,
+                }
+                for plugin in plugin_manager.plugin_registry.values()
+            ],
+        )
 
     @Slot(QModelIndex, int, int)
     def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:
@@ -202,7 +206,7 @@ class TaskManager(QObject):
         return settings.last_input_format
 
     @input_format.setter
-    def input_format(self, value: str):
+    def input_format(self, value: str) -> None:
         settings.last_input_format = value
 
     @property
@@ -210,7 +214,7 @@ class TaskManager(QObject):
         return settings.last_output_format
 
     @output_format.setter
-    def output_format(self, value: str):
+    def output_format(self, value: str) -> None:
         settings.last_output_format = value
 
     @Slot(result=bool)
@@ -225,7 +229,7 @@ class TaskManager(QObject):
         return f".{self.output_format}" if settings.auto_set_output_extension else ""
 
     @Slot(bool)
-    def reset_output_ext(self, value: bool):
+    def reset_output_ext(self, value: bool) -> None:
         self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
     @staticmethod
@@ -452,6 +456,15 @@ class TaskManager(QObject):
     @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
+        if name == "input_format" and settings.reset_tasks_on_input_change:
+            if value != self.input_format:
+                if delete_len := more_itertools.ilen(
+                    more_itertools.rstrip(
+                        self.tasks,
+                        lambda task: task["path"].lower().endswith(f".{value}"),
+                    )
+                ):
+                    self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
 
     def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:
@@ -534,6 +547,8 @@ class TaskManager(QObject):
                 input_options,
                 output_options,
             )
-            worker.signals.result.connect(self.tasks.update)
+            worker.signals.result.connect(
+                self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+            )
             self.thread_pool.start(worker)
         self.timer.start()

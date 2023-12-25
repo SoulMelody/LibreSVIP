@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import dataclasses
 from bisect import bisect_right
+from gettext import gettext as _
 from typing import Optional, Union
 
 from more_itertools import pairwise
@@ -81,7 +82,7 @@ class RelativePitchCurve:
             elif pos < note.start_pos:
                 borders.append((note.start_pos + pos) // 2 + self.first_bar_length)
             else:
-                msg = "Notes Overlapped"
+                msg = _("Notes Overlapped")
                 raise ValueError(msg)
             pos = note.end_pos
         return borders

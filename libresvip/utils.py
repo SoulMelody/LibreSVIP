@@ -7,7 +7,7 @@ import pathlib
 import re
 import textwrap
 from numbers import Real
-from typing import AnyStr, Callable, Optional, TypeVar, Union, cast
+from typing import Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
 
 import charset_normalizer
@@ -229,9 +229,9 @@ class EchoGenerator(saxutils.XMLGenerator):
         super().__init__(out, encoding, short_empty_elements)
         self._in_entity = 0
         self._in_cdata = 0
-        self._write: Callable[[AnyStr], None]
+        self._write: Callable[[str], None]
 
-    def characters(self, content: AnyStr) -> None:
+    def characters(self, content: str) -> None:
         if self._in_entity:
             return
         elif self._in_cdata:
@@ -241,7 +241,7 @@ class EchoGenerator(saxutils.XMLGenerator):
 
     # -- LexicalHandler interface
 
-    def comment(self, content: AnyStr) -> None:
+    def comment(self, content: str) -> None:
         self._write(f"<!--{content!r}-->")
 
     def start_dtd(self, name: str, public_id: str, system_id: str) -> None:

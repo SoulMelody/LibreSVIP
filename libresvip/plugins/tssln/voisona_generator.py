@@ -1,10 +1,12 @@
 import dataclasses
+from typing import Optional
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
@@ -17,6 +19,9 @@ from .model import (
     VoiSonaAudioTrackItem,
     VoiSonaBeatItem,
     VoiSonaNoteItem,
+    VoiSonaParameterItem,
+    VoiSonaParametersItem,
+    VoiSonaPointData,
     VoiSonaProject,
     VoiSonaScoreItem,
     VoiSonaSingingTrackItem,
@@ -28,6 +33,7 @@ from .model import (
     VoiSonaTrackState,
 )
 from .options import OutputOptions
+from .voisona_pitch import generate_for_voisona
 
 
 @dataclasses.dataclass
@@ -39,7 +45,9 @@ class VoisonaGenerator:
     def generate_project(self, project: Project) -> VoiSonaProject:
         voisona_project = VoiSonaProject()
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
-        self.first_bar_length = int(project.time_signature_list[0].bar_length())
+        self.first_bar_length = int(
+            project.time_signature_list[0].bar_length() * TICK_RATE
+        )
         default_time_signatures = self.generate_time_signatures(
             project.time_signature_list
         )
@@ -78,6 +86,12 @@ class VoisonaGenerator:
                 )
                 singing_track.plugin_data.state_information.song = [song_item]
                 voisona_project.tracks[0].track.append(singing_track)
+                if log_f0 := self.generate_pitch(
+                    track.edited_params.pitch, project.song_tempo_list
+                ):
+                    singing_track.plugin_data.state_information.parameter = [
+                        VoiSonaParametersItem(log_f0=[log_f0])
+                    ]
         return voisona_project
 
     def generate_tempos(self, tempos: list[SongTempo]) -> VoiSonaTempoItem:
@@ -122,17 +136,33 @@ class VoisonaGenerator:
         return beat
 
     def generate_notes(self, notes: list[Note]) -> list[VoiSonaNoteItem]:
-        voisona_notes = []
-        for note in notes:
-            voisona_notes.append(
-                VoiSonaNoteItem(
-                    clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
-                    duration=int(note.length * TICK_RATE),
-                    lyric=note.lyric,
-                    pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
-                    pitch_step=note.key_number % KEY_IN_OCTAVE,
-                    syllabic=0,
-                    phoneme="",
-                )
+        return [
+            VoiSonaNoteItem(
+                clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
+                duration=int(note.length * TICK_RATE),
+                lyric=note.lyric,
+                pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
+                pitch_step=note.key_number % KEY_IN_OCTAVE,
+                syllabic=0,
+                phoneme="",
             )
-        return voisona_notes
+            for note in notes
+        ]
+
+    def generate_pitch(
+        self, pitch: ParamCurve, tempo_list: list[SongTempo]
+    ) -> Optional[VoiSonaParameterItem]:
+        if (
+            data := generate_for_voisona(pitch, tempo_list, self.first_bar_length)
+        ) is not None:
+            return VoiSonaParameterItem(
+                length=data.length,
+                data=[
+                    VoiSonaPointData(
+                        index=each.index,
+                        repeat=each.repeat,
+                        value=each.value,
+                    )
+                    for each in data.events
+                ],
+            )

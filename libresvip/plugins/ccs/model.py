@@ -20,9 +20,9 @@ class CeVIOAuthor:
 
 
 @dataclass
-class CeVIOData:
+class CeVIONoData:
     class Meta:
-        name = "Data"
+        name = "NoData"
 
     index: Optional[int] = field(
         default=None,
@@ -38,6 +38,13 @@ class CeVIOData:
             "type": "Attribute",
         },
     )
+
+
+@dataclass
+class CeVIOData(CeVIONoData):
+    class Meta:
+        name = "Data"
+
     value: Optional[Union[float, int, Decimal]] = field(default=None)
 
 
@@ -292,6 +299,34 @@ class CeVIONote:
             "type": "Attribute",
         },
     )
+    staccato: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "Staccato",
+            "type": "Attribute",
+        },
+    )
+    slur_start: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "SlurStart",
+            "type": "Attribute",
+        },
+    )
+    slur_stop: Optional[bool] = field(
+        default=None,
+        metadata={
+            "name": "SlurStop",
+            "type": "Attribute",
+        },
+    )
+    syllabic: Optional[int] = field(
+        default=None,
+        metadata={
+            "name": "Syllabic",
+            "type": "Attribute",
+        },
+    )
     accent: Optional[bool] = field(
         default=None,
         metadata={
@@ -502,6 +537,13 @@ class CeVIOScore:
             "type": "Attribute",
         },
     )
+    tune: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "Tune",
+            "type": "Attribute",
+        },
+    )
     pitch_shift: Optional[float] = field(
         default=None,
         metadata={
@@ -523,6 +565,20 @@ class CeVIOScore:
             "type": "Attribute",
         },
     )
+    vib_amp: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "VibAmp",
+            "type": "Attribute",
+        },
+    )
+    vib_frq: Optional[float] = field(
+        default=None,
+        metadata={
+            "name": "VibFrq",
+            "type": "Attribute",
+        },
+    )
     emotion0: Optional[Union[float, int]] = field(
         default=None,
         metadata={
@@ -537,8 +593,8 @@ class CeVIOScore:
             "type": "Attribute",
         },
     )
-    key: Optional[CeVIOKey] = field(
-        default=None,
+    key: list[CeVIOKey] = field(
+        default_factory=list,
         metadata={
             "name": "Key",
             "type": "Element",
@@ -739,6 +795,13 @@ class CeVIOParameter:
         default_factory=list,
         metadata={
             "name": "Data",
+            "type": "Element",
+        },
+    )
+    no_data: Optional[list[CeVIONoData]] = field(
+        default=None,
+        metadata={
+            "name": "NoData",
             "type": "Element",
         },
     )
@@ -949,6 +1012,20 @@ class CeVIOBaseUnit:
             "type": "Attribute",
         },
     )
+    text: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "Text",
+            "type": "Attribute",
+        },
+    )
+    snap_shot: Optional[str] = field(
+        default=None,
+        metadata={
+            "name": "SnapShot",
+            "type": "Attribute",
+        },
+    )
 
 
 @dataclass
@@ -1010,6 +1087,27 @@ class CeVIOPhoneme:
             "name": "Data",
             "type": "Attribute",
             "required": True,
+        },
+    )
+    volume: Optional[Union[Decimal, float]] = field(
+        default=None,
+        metadata={
+            "name": "Volume",
+            "type": "Attribute",
+        },
+    )
+    speed: Optional[Union[float, Decimal]] = field(
+        default=None,
+        metadata={
+            "name": "Speed",
+            "type": "Attribute",
+        },
+    )
+    tone: Optional[Union[Decimal, float]] = field(
+        default=None,
+        metadata={
+            "name": "Tone",
+            "type": "Attribute",
         },
     )
 
@@ -1085,11 +1183,101 @@ class CeVIOPhonemes:
 
 
 @dataclass
+class Word:
+    class Meta:
+        name = "word"
+
+    phoneme: Optional[str] = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    pronunciation: Optional[str] = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+            "required": True,
+        },
+    )
+    pos: Optional[str] = field(
+        default=None,
+        metadata={
+            "type": "Attribute",
+        },
+    )
+    value: str = field(default="")
+
+
+@dataclass
+class AcousticPhrase:
+    class Meta:
+        name = "acoustic_phrase"
+
+    word: list[Word] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
+        },
+    )
+
+
+@dataclass
+class Base:
+    acoustic_phrase: list[AcousticPhrase] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
+        },
+    )
+
+
+@dataclass
+class Edited:
+    acoustic_phrase: list[AcousticPhrase] = field(
+        default_factory=list,
+        metadata={
+            "type": "Element",
+        },
+    )
+
+
+@dataclass
+class CeVIOMetadataEN:
+    class Meta:
+        name = "Metadata_EN"
+
+    base: Optional[Base] = field(
+        default=None,
+        metadata={
+            "name": "Base",
+            "type": "Element",
+            "required": True,
+        },
+    )
+    edited: Optional[Edited] = field(
+        default=None,
+        metadata={
+            "name": "Edited",
+            "type": "Element",
+        },
+    )
+
+
+@dataclass
 class CeVIOTalkUnit(CeVIOBaseUnit):
     metadata: Optional[str] = field(
         default=None,
         metadata={
             "name": "Metadata",
+            "type": "Element",
+        },
+    )
+    metadata_en: Optional[CeVIOMetadataEN] = field(
+        default=None,
+        metadata={
+            "name": "Metadata_EN",
             "type": "Element",
         },
     )
