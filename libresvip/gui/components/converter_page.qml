@@ -385,7 +385,7 @@ Page {
                     Popup {
                         id: inputFormatInfo
                         y: 45
-                        x: - width * 0.5
+                        x: smallView.visible ? - width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
                             info: TaskManager.plugin_info("input_format")
@@ -545,7 +545,7 @@ Page {
                     Popup {
                         id: outputFormatInfo
                         y: 45
-                        x: - width * 0.5
+                        x: smallView.visible ? - width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
                             info: TaskManager.plugin_info("output_format")
@@ -1499,6 +1499,7 @@ Page {
         visible: false
         anchors.fill: parent
         anchors.margins: 10
+        contentHeight: smallViewColumn.implicitHeight + 20
         ColumnLayout {
             id: smallViewColumn
             implicitWidth: window.width - 25
