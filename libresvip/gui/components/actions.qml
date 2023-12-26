@@ -7,7 +7,11 @@ Item {
     property QtObject openFile: Action {
         text: qsTr("&Open")
         shortcut: "Ctrl+O"
-        onTriggered: dialogs.openDialog.open()
+        onTriggered: {   
+            if (converterPage.inputFormatComboBox.enabled) {
+                dialogs.openDialog.open()
+            }
+        }
     }
     property QtObject chooseSavePath: Action {
         text: qsTr("&Choose Save Path")
@@ -25,7 +29,7 @@ Item {
         text: qsTr("&Restore Task List")
         shortcut: "Ctrl+R"
         onTriggered: {
-            if (!TaskManager.is_busy()) {
+            if (converterPage.inputFormatComboBox.enabled) {
                 converterPage.taskList.model.clear()
             } else {
                 let message_box = messageBox.createObject(
@@ -58,12 +62,20 @@ Item {
     property QtObject openImportFormatMenu: Action {
         text: qsTr("&Import From")
         shortcut: "Alt+I"
-        onTriggered: toolbar.openImportFormatMenu()
+        onTriggered: {   
+            if (converterPage.inputFormatComboBox.enabled) {
+                toolbar.openImportFormatMenu()
+            }
+        }
     }
     property QtObject openExportFormatMenu: Action {
         text: qsTr("&Export To")
         shortcut: "Alt+E"
-        onTriggered: toolbar.openExportFormatMenu()
+        onTriggered: {   
+            if (converterPage.outputFormatComboBox.enabled) {
+                toolbar.openExportFormatMenu()
+            }
+        }
     }
     property QtObject openHelpMenu: Action {
         text: qsTr("&Help")
@@ -80,16 +92,13 @@ Item {
         shortcut: "Alt+T"
         onTriggered: toolbar.openThemesMenu()
     }
-    property QtObject openPluginsMenu: Action {
-        text: qsTr("&Plugins")
-        shortcut: "Alt+P"
-        onTriggered: toolbar.openPluginsMenu()
-    }
     property QtObject startConversion: Action {
         text: qsTr("&Start Conversion")
         shortcut: "Ctrl+Enter"
         onTriggered: {
-            TaskManager.start_conversion()
+            if (converterPage.startConversionButton.enabled) {
+                TaskManager.start_conversion()
+            }
         }
     }
     property QtObject quit: Action {

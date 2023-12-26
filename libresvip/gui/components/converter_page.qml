@@ -441,18 +441,21 @@ Page {
                     icon_name: "mdi7.swap-vertical"
                     diameter: 38
                     icon_size_multiplier: 1.5
+                    enabled: inputFormat.enabled && outputFormat.enabled
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
-                        [
-                            inputFormat.currentIndex,
-                            outputFormat.currentIndex
-                        ] = [
-                            outputFormat.currentIndex,
-                            inputFormat.currentIndex
-                        ]
-                        TaskManager.set_str("input_format", inputFormat.currentValue)
-                        TaskManager.set_str("output_format", outputFormat.currentValue)
+                        if (inputFormat.enabled && outputFormat.enabled) {
+                            [
+                                inputFormat.currentIndex,
+                                outputFormat.currentIndex
+                            ] = [
+                                outputFormat.currentIndex,
+                                inputFormat.currentIndex
+                            ]
+                            TaskManager.set_str("input_format", inputFormat.currentValue)
+                            TaskManager.set_str("output_format", outputFormat.currentValue)
+                        }
                     }
                 }
             }
@@ -579,7 +582,9 @@ Page {
     DropArea {
         id: taskListArea
         onDropped: (event) => {
-            TaskManager.add_task_paths(event.urls.map(dialogs.url2path))
+            if (inputFormat.enabled) {
+                TaskManager.add_task_paths(event.urls.map(dialogs.url2path))
+            }
         }
         DashedRectangle {
             anchors.fill: parent
@@ -783,7 +788,9 @@ Page {
                                 }
                             }
                             onClicked: {
-                                actions.clearTasks.trigger()
+                                if (startConversionBtn.enabled) {
+                                    actions.clearTasks.trigger()
+                                }
                             }
                         }
                         RoundButton {
@@ -807,7 +814,9 @@ Page {
                                 }
                             }
                             onClicked: {
-                                TaskManager.reset_stems()
+                                if (startConversionBtn.enabled) {
+                                    TaskManager.reset_stems()
+                                }
                             }
                         }
                         RoundButton {
@@ -831,12 +840,14 @@ Page {
                                 }
                             }
                             onClicked: {
-                                for (var i = 0; i < taskListView.count; i++) {
-                                    var task = taskListView.model.get(i)
-                                    let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
-                                    if (extension != inputFormat.currentValue) {
-                                        taskListView.model.delete(i)
-                                        i--
+                                if (startConversionBtn.enabled) {
+                                    for (var i = 0; i < taskListView.count; i++) {
+                                        var task = taskListView.model.get(i)
+                                        let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
+                                        if (extension != inputFormat.currentValue) {
+                                            taskListView.model.delete(i)
+                                            i--
+                                        }
                                     }
                                 }
                             }
@@ -1319,6 +1330,7 @@ Page {
                         target: TaskManager
                         function onBusy_changed(busy) {
                             startConversionBtn.contentItem.text = busy ? qsTr("Converting") : qsTr("Start Conversion")
+                            inputFormat.enabled = outputFormat.enabled = !busy
                             startConversionBtn.enabled = taskListView.count > 0 && !busy
                             startConversionBtn.anim_running = busy
                         }

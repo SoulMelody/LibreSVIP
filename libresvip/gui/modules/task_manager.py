@@ -101,13 +101,14 @@ class ConversionWorker(QRunnable):
                     },
                 )
         except Exception:
-            self.signals.result.emit(
-                self.index,
-                {
-                    "success": False,
-                    "error": shorten_error_message(traceback.format_exc()),
-                },
-            )
+            with contextlib.suppress(RuntimeError):
+                self.signals.result.emit(
+                    self.index,
+                    {
+                        "success": False,
+                        "error": shorten_error_message(traceback.format_exc()),
+                    },
+                )
 
 
 @QmlElement

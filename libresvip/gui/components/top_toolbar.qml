@@ -10,12 +10,10 @@ ToolBar {
     id: toolBar
     implicitHeight: 32
     height: 32
-    // clip: true
     signal openConvertMenu()
     signal openFormatsMenu()
     signal openImportFormatMenu()
     signal openExportFormatMenu()
-    signal openPluginsMenu()
     signal openSettingsMenu()
     signal openThemesMenu()
     signal openLanguageMenu()
@@ -213,6 +211,7 @@ ToolBar {
                             id: importFormatMenu
                             width: 300
                             title: qsTr("Input Format (&I)")
+                            enabled: converterPage.inputFormatComboBox.enabled
                             ButtonGroup {
                                 id: inputFormatButtonGroup
                             }
@@ -270,6 +269,7 @@ ToolBar {
                             id: exportFormatMenu
                             width: 300
                             title: qsTr("Output Format (&E)")
+                            enabled: converterPage.outputFormatComboBox.enabled
                             ButtonGroup {
                                 id: exportFormatButtonGroup
                             }
@@ -478,9 +478,6 @@ ToolBar {
                 formatsMenu.open()
             }
             exportFormatMenu.open()
-        }
-        function onOpenPluginsMenu() {
-            pluginsMenu.open()
         }
         function openSettingsMenu() {
             settingsMenu.open()
