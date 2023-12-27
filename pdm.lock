@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:26084a06af1876f62d4044298cf60c61d261937355e4280d1f63921e071c3a7a"
+content_hash = "sha256:588f4b04ac7548bd06a89908b9742914548fcd7966be0ce5453dd2d057061e0a"
 
 [[package]]
 name = "aiofiles"
@@ -545,18 +545,17 @@ files = [
 
 [[package]]
 name = "fastapi"
-version = "0.105.0"
+version = "0.108.0"
 requires_python = ">=3.8"
 summary = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 dependencies = [
-    "anyio<4.0.0,>=3.7.1",
     "pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4",
-    "starlette<0.28.0,>=0.27.0",
+    "starlette<0.33.0,>=0.29.0",
     "typing-extensions>=4.8.0",
 ]
 files = [
-    {file = "fastapi-0.105.0-py3-none-any.whl", hash = "sha256:f19ebf6fdc82a3281d10f2cb4774bdfa90238e3b40af3525a0c09fd08ad1c480"},
-    {file = "fastapi-0.105.0.tar.gz", hash = "sha256:4d12838819aa52af244580675825e750ad67c9df4614f557a769606af902cf22"},
+    {file = "fastapi-0.108.0-py3-none-any.whl", hash = "sha256:8c7bc6d315da963ee4cdb605557827071a9a7f95aeb8fcdd3bde48cdc8764dd7"},
+    {file = "fastapi-0.108.0.tar.gz", hash = "sha256:5056e504ac6395bf68493d71fcfc5352fdbd5fda6f88c21f6420d80d81163296"},
 ]
 
 [[package]]
@@ -1370,14 +1369,14 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.7"
+version = "1.4.8"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
     "Pygments<3.0.0,>=2.15.1",
     "aiofiles<24.0.0,>=23.1.0",
     "fastapi-socketio<0.0.11,>=0.0.10",
-    "fastapi<1.0.0,>=0.93",
+    "fastapi<1.0.0,>=0.108.0",
     "httpx<1.0.0,>=0.24.0",
     "ifaddr<0.3.0,>=0.2.0",
     "itsdangerous<3.0.0,>=2.1.2",
@@ -1392,23 +1391,23 @@ dependencies = [
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.7-py3-none-any.whl", hash = "sha256:3882c523e4349120000127f1ded13e2712f2a0c042d1e5e3690499eb76ef5f00"},
-    {file = "nicegui-1.4.7.tar.gz", hash = "sha256:db9bf984352380f09bb0eb1719feb63fa68af790d372e1f782c7aa5e17be036d"},
+    {file = "nicegui-1.4.8-py3-none-any.whl", hash = "sha256:0104e8bd6ae010b5b989c079ae0679f7514293db76f1f6609610f2920488b6fc"},
+    {file = "nicegui-1.4.8.tar.gz", hash = "sha256:69dea9579fade7a5db401445fff954d00775921aa9c10693967f2ec3faf44454"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.7"
+version = "1.4.8"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.7",
+    "nicegui==1.4.8",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.7-py3-none-any.whl", hash = "sha256:3882c523e4349120000127f1ded13e2712f2a0c042d1e5e3690499eb76ef5f00"},
-    {file = "nicegui-1.4.7.tar.gz", hash = "sha256:db9bf984352380f09bb0eb1719feb63fa68af790d372e1f782c7aa5e17be036d"},
+    {file = "nicegui-1.4.8-py3-none-any.whl", hash = "sha256:0104e8bd6ae010b5b989c079ae0679f7514293db76f1f6609610f2920488b6fc"},
+    {file = "nicegui-1.4.8.tar.gz", hash = "sha256:69dea9579fade7a5db401445fff954d00775921aa9c10693967f2ec3faf44454"},
 ]
 
 [[package]]
@@ -2498,16 +2497,16 @@ files = [
 
 [[package]]
 name = "starlette"
-version = "0.27.0"
-requires_python = ">=3.7"
+version = "0.32.0.post1"
+requires_python = ">=3.8"
 summary = "The little ASGI library that shines."
 dependencies = [
     "anyio<5,>=3.4.0",
     "typing-extensions>=3.10.0; python_version < \"3.10\"",
 ]
 files = [
-    {file = "starlette-0.27.0-py3-none-any.whl", hash = "sha256:918416370e846586541235ccd38a474c08b80443ed31c578a418e2209b3eef91"},
-    {file = "starlette-0.27.0.tar.gz", hash = "sha256:6a6b0d042acb8d469a01eba54e9cda6cbd24ac602c4cd016723117d6a7e73b75"},
+    {file = "starlette-0.32.0.post1-py3-none-any.whl", hash = "sha256:cd0cb10ddb49313f609cedfac62c8c12e56c7314b66d89bb077ba228bada1b09"},
+    {file = "starlette-0.32.0.post1.tar.gz", hash = "sha256:e54e2b7e2fb06dff9eac40133583f10dfa05913f5a85bf26f427c7a40a9a3d02"},
 ]
 
 [[package]]
