@@ -190,6 +190,8 @@ class CeVIOParser:
                 and key is not None
                 and lyric is not None
             ):
+                if lyric == "ー":
+                    lyric = "-"
                 notes.append(
                     Note(
                         key_number=key, lyric=lyric, start_pos=tick_on, length=duration

@@ -188,7 +188,7 @@ class CeVIOGenerator:
             CeVIONote(
                 clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
                 duration=int(note.length * TICK_RATE),
-                lyric=note.lyric,
+                lyric="ー" if note.lyric == "-" else note.lyric,
                 pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
                 pitch_step=note.key_number % KEY_IN_OCTAVE,
             )

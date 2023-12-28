@@ -145,7 +145,7 @@ class VoiSonaParser:
                     notes.append(
                         Note(
                             key_number=note_node.pitch_step + pitch_octave * 12,
-                            lyric=note_node.lyric,
+                            lyric="-" if note_node.lyric == "ー" else note_node.lyric,
                             start_pos=(note_node.clock // TICK_RATE),
                             length=note_node.duration // TICK_RATE,
                         )
