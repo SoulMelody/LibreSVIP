@@ -68,6 +68,7 @@ class DsItem(BaseModel):
         "ph_num",
         "ph_dur",
         "note_slur",
+        "note_dur",
         "note_dur_seq",
         "is_slur_seq",
         "text",
