@@ -1,6 +1,7 @@
+from typing import Optional
+
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
-from libresvip.utils import gettext_lazy as _
 from libresvip.utils import midi2hz
 
 from ..models.ds_param_curve import DsParamCurve
@@ -18,7 +19,9 @@ class PitchParamUtils:
         )
 
     @classmethod
-    def encode_point_list(cls, os_point_list: Points, end: int) -> list[DsParamNode]:
+    def encode_point_list(
+        cls, os_point_list: Points, end: int
+    ) -> Optional[list[DsParamNode]]:
         if valid_points := [
             p for p in os_point_list if p.x >= 1930 and p.x + 10 < end and p.y >= 0
         ]:
@@ -30,7 +33,7 @@ class PitchParamUtils:
                 for pos in range(1920, end, 5)
             ]
         else:
-            raise ValueError(_("The source file lacks pitch parameters."))
+            return None
 
     @staticmethod
     def value_at(segment: list[Point], ticks: float) -> float:

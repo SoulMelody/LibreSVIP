@@ -122,10 +122,8 @@ class NoteListUtils:
                     note_name=midi2note(note.key_number),
                 )
             else:
-                pinyin = (
-                    note.pronunciation
-                    if note.pronunciation
-                    else pinyin_util.get_note_pinyin(note.lyric, index)
+                pinyin = note.pronunciation or pinyin_util.get_note_pinyin(
+                    note.lyric, index
                 )
                 consonant, vowel = pinyin_util.split(pinyin)
                 if consonant:  # 不是纯元音

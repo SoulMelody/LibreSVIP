@@ -18,7 +18,7 @@ def split(pinyin: str) -> tuple[str, str]:
             ).format(pinyin)
         )
 
-    phonemes = phoneme_table[pinyin]
+    phonemes = phoneme_table[pinyin].split()
     return ("", phonemes[0]) if len(phonemes) < 2 else (phonemes[0], phonemes[1])
 
 

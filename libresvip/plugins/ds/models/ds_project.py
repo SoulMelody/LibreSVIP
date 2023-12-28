@@ -15,7 +15,10 @@ class DsProjectModel:
         ds_notes = self.note_list
         input_text = ""
         phoneme_seq = ""
+        phoneme_counts = []
         input_note_seq = ""
+        input_duration = ""
+        input_slur = ""
         input_duration_seq = ""
         is_slur_seq = ""
         phoneme_dur_seq = ""
@@ -25,22 +28,27 @@ class DsProjectModel:
             consonant = ds_phoneme.consonant
             vowel = ds_phoneme.vowel
             input_text += cur_note.lyric.replace("-", "")
+            phoneme_counts.append(1)
             if consonant.phoneme:
                 phoneme_seq += f"{consonant.phoneme} "
                 phoneme_dur_seq += f"{consonant.duration} "
                 is_slur_seq += "0 "
-                input_duration_seq += f"{cur_note.duration} "
-                input_note_seq += f"{cur_note.note_name} "
+                input_duration_seq += f"{consonant.duration} "
+                phoneme_counts[-1] += 1
             phoneme_seq += vowel.phoneme
             phoneme_dur_seq += str(vowel.duration)
             input_note_seq += vowel.note_name
+            input_duration += str(cur_note.duration)
             input_duration_seq += str(cur_note.duration)
             is_slur_seq += "1" if cur_note.is_slur else "0"
+            input_slur += "1" if cur_note.is_slur else "0"
             if i < len(ds_notes) - 1:
                 if not cur_note.is_slur:
                     input_text += " "
                 input_note_seq += " "
+                input_duration += " "
                 input_duration_seq += " "
+                input_slur += " "
                 is_slur_seq += " "
                 phoneme_seq += " "
                 phoneme_dur_seq += " "
@@ -59,11 +67,16 @@ class DsProjectModel:
             text=input_text,
             ph_seq=phoneme_seq,
             note_seq=input_note_seq,
+            note_dur=input_duration,
             note_dur_seq=input_duration_seq,
+            note_slur=input_slur,
             is_slur_seq=is_slur_seq,
             ph_dur=phoneme_dur_seq,
+            ph_num=" ".join(str(phoneme_count) for phoneme_count in phoneme_counts),
             f0_timestep=str(self.pitch_param_curve.step_size),
             f0_seq=f0_sequence,
             gender_timestep=str(self.gender_param_curve.step_size),
             gender=gender_sequence,
+            offset=0,
+            input_type="phoneme",
         )

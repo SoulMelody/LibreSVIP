@@ -70,9 +70,10 @@ class UFDataParser:
             singing_track = SingingTrack(
                 title=track.name, note_list=self.parse_notes(track.notes, tick_prefix)
             )
-            singing_track.edited_params.pitch = self.parse_pitch(
-                track.pitch, singing_track.note_list, tick_prefix
-            )
+            if track.pitch is not None:
+                singing_track.edited_params.pitch = self.parse_pitch(
+                    track.pitch, singing_track.note_list, tick_prefix
+                )
             track_list.append(singing_track)
         return track_list
 

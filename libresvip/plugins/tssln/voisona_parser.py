@@ -60,18 +60,18 @@ class VoiSonaParser:
                     isinstance(item, VoiSonaAudioTrackItem)
                     and item.audio_event is not None
                 ):
-                    for i, event in enumerate(item.audio_event):
-                        tracks.append(
-                            InstrumentalTrack(
-                                title=f"{item.name} {i + 1}",
-                                audio_file_path=event.path,
-                                offset=int(
-                                    self.time_synchronizer.get_actual_ticks_from_secs(
-                                        event.offset
-                                    )
-                                ),
-                            )
+                    tracks.extend(
+                        InstrumentalTrack(
+                            title=f"{item.name} {i + 1}",
+                            audio_file_path=event.path,
+                            offset=int(
+                                self.time_synchronizer.get_actual_ticks_from_secs(
+                                    event.offset
+                                )
+                            ),
                         )
+                        for i, event in enumerate(item.audio_event)
+                    )
         time_signatures = self.merge_time_signatures(time_signatures)
         return Project(
             time_signature_list=skip_beat_list(time_signatures, 0),

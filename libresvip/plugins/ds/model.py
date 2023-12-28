@@ -23,7 +23,7 @@ class DsItem(BaseModel):
     ph_dur: list[float]
     ph_num: Optional[list[int]] = None
     f0_timestep: float
-    f0_seq: Union[str, list[float]]
+    f0_seq: Optional[Union[str, list[float]]] = None
     input_type: Optional[Literal["phoneme"]] = None
     offset: Union[str, float]
     seed: Optional[int] = None
@@ -31,6 +31,8 @@ class DsItem(BaseModel):
     spk_mix_timestep: Optional[float] = None
     gender: Optional[list[float]] = None
     gender_timestep: Optional[float] = None
+    velocity: Optional[list[float]] = None
+    velocity_timestep: Optional[float] = None
 
     @field_validator("text", "note_seq", "ph_seq", mode="before")
     @classmethod
@@ -40,7 +42,13 @@ class DsItem(BaseModel):
         return None if value is None else value.split()
 
     @field_validator(
-        "f0_seq", "ph_dur", "note_dur", "note_dur_seq", "gender", mode="before"
+        "f0_seq",
+        "ph_dur",
+        "note_dur",
+        "note_dur_seq",
+        "gender",
+        "velocity",
+        mode="before",
     )
     @classmethod
     def _validate_float_list(
@@ -66,6 +74,7 @@ class DsItem(BaseModel):
         "note_seq",
         "ph_seq",
         "gender",
+        "velocity",
         when_used="json-unless-none",
     )
     @classmethod
