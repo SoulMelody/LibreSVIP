@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import dataclasses
 import math
 from typing import NamedTuple, Optional
@@ -62,16 +63,17 @@ def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
     for event in events_normalized:
         pos = event.index - data.tick_prefix
         length = event.repeat
-        value = (
-            round(hz2midi(math.e**event.value) * 100)
-            if event.value is not None
-            else -100
-        )
-        if value != current_value or next_pos != pos:
-            converted_points.append(Point(x=round(pos), y=value))
-            if value == -100:
+        with contextlib.suppress(OverflowError):
+            value = (
+                round(hz2midi(math.e**event.value) * 100)
+                if event.value is not None
+                else -100
+            )
+            if value != current_value or next_pos != pos:
                 converted_points.append(Point(x=round(pos), y=value))
-            current_value = value
+                if value == -100:
+                    converted_points.append(Point(x=round(pos), y=value))
+                current_value = value
         next_pos = pos + length
     converted_points.append(Point.end_point())
 
