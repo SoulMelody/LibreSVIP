@@ -2,18 +2,20 @@ import contextlib
 import importlib.resources
 import pathlib
 import sys
+from typing import Final
 
 import platformdirs
 
-PACKAGE_NAME = "libresvip"
+PACKAGE_NAME: Final[str] = "libresvip"
 
-KEY_IN_OCTAVE = 12
-TICKS_IN_BEAT = 480
-DEFAULT_BPM = 120.0
-DEFAULT_PHONEME = DEFAULT_ENGLISH_LYRIC = "la"
-DEFAULT_CHINESE_LYRIC = "啦"
-DEFAULT_JAPANESE_LYRIC = "ラ"
-DEFAULT_KOREAN_LYRIC = "라"
+KEY_IN_OCTAVE: Final[int] = 12
+TICKS_IN_BEAT: Final[int] = 480
+DEFAULT_BPM: Final[float] = 120.0
+DEFAULT_PHONEME: Final[str] = "la"
+DEFAULT_ENGLISH_LYRIC: Final[str] = DEFAULT_PHONEME
+DEFAULT_CHINESE_LYRIC: Final[str] = "啦"
+DEFAULT_JAPANESE_LYRIC: Final[str] = "ラ"
+DEFAULT_KOREAN_LYRIC: Final[str] = "라"
 
 app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 

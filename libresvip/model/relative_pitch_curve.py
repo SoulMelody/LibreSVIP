@@ -8,6 +8,7 @@ from typing import Optional, Union
 from more_itertools import pairwise
 
 from libresvip.core.constants import TICKS_IN_BEAT
+from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.model.base import Note, ParamCurve, Points
 from libresvip.model.point import Point
 
@@ -83,7 +84,7 @@ class RelativePitchCurve:
                 borders.append((note.start_pos + pos) // 2 + self.first_bar_length)
             else:
                 msg = _("Notes Overlapped")
-                raise ValueError(msg)
+                raise NotesOverlappedError(msg)
             pos = note.end_pos
         return borders
 

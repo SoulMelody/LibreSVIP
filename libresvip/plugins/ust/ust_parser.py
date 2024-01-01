@@ -3,6 +3,7 @@ from gettext import gettext as _
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
 
 from .model import UTAUNote, UTAUProject, UTAUTimeSignature
@@ -55,7 +56,7 @@ class USTParser:
             )
             return project
         else:
-            raise ValueError(_("UST project has no track"))
+            raise NoTrackError(_("UST project has no track"))
 
     def parse_time_signatures(
         self, time_signatures: list[UTAUTimeSignature]

@@ -2,6 +2,7 @@ import io
 import pathlib
 import zipfile
 
+from libresvip.core.exceptions import InvalidFileTypeError
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, json_dumps, json_loads
 
@@ -26,7 +27,7 @@ class PiaproStudioConverter(plugin_base.SVSConverterBase):
             return PiaproStudioLegacyParser(options).parse_project(ppsf_project)
         else:
             msg = "Unrecognizable format"
-            raise ValueError(msg)
+            raise InvalidFileTypeError(msg)
 
     def dump(
         self, path: pathlib.Path, project: Project, options: OutputOptions

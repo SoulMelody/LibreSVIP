@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-import contextlib
 import dataclasses
 import math
+import warnings
+from gettext import gettext as _
 from typing import NamedTuple, Optional
 
+from libresvip.core.warning_types import ParamsWarning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
 from libresvip.utils import find_last_index, hz2midi, midi2hz
@@ -63,7 +65,7 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
     for event in events_normalized:
         pos = event.index - data.tick_prefix
         length = event.repeat
-        with contextlib.suppress(OverflowError):
+        try:
             value = (
                 round(hz2midi(math.e**event.value) * 100)
                 if event.value is not None
@@ -74,6 +76,8 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
                 if value == -100:
                     converted_points.append(Point(x=round(pos), y=value))
                 current_value = value
+        except OverflowError:
+            warnings.warn(_("Pitch value is out of bounds"), ParamsWarning)
         next_pos = pos + length
     converted_points.append(Point.end_point())
 

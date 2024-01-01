@@ -1,6 +1,7 @@
 import dataclasses
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import Project, SingingTrack, SongTempo
 
 from .model import UTAUNote, UTAUProject, UTAUTrack
@@ -33,7 +34,7 @@ class USTGenerator:
                 first_singing_track, SingingTrack
             ):
                 msg = "No singing track found"
-                raise ValueError(msg)
+                raise NoTrackError(msg)
             ust_tracks = [
                 self.generate_track(first_singing_track, project.song_tempo_list)
             ]
@@ -43,7 +44,7 @@ class USTGenerator:
             ]
             if not len(singing_tracks):
                 msg = "No singing track found"
-                raise ValueError(msg)
+                raise NoTrackError(msg)
             ust_tracks = [
                 self.generate_track(track, project.song_tempo_list)
                 for track in singing_tracks

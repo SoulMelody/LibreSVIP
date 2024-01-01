@@ -4,6 +4,7 @@ from typing import Callable, NamedTuple
 
 import more_itertools
 
+from libresvip.core.exceptions import ParamsError
 from libresvip.utils import clamp, find_index
 
 from .lambert_w import LambertW
@@ -206,7 +207,7 @@ class BaseLayerGenerator:
             )
         else:
             msg = "More than two sigmoid nodes overlapped"
-            raise ValueError(msg)
+            raise ParamsError(msg)
 
     @staticmethod
     def cubic_bezier(

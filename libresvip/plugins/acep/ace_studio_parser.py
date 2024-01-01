@@ -1,9 +1,11 @@
 import dataclasses
+import warnings
 from typing import Callable, Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import skip_tempo_list
+from libresvip.core.warning_types import UnknownWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -222,7 +224,7 @@ class AceParser:
                 )
             else:
                 msg = f"Unknown normalization method: {self.options.breath_normalization.normalize_method}"
-                raise ValueError(msg)
+                warnings.warn(msg, UnknownWarning)
 
             ace_params.breathiness = ace_params.breathiness.plus(
                 normalized, 1.0, lambda x: x * 1.5 if x >= 0 else x * 0.8
@@ -253,7 +255,7 @@ class AceParser:
                 )
             else:
                 msg = f"Unknown normalization method: {self.options.tension_normalization.normalize_method}"
-                raise ValueError(msg)
+                warnings.warn(msg, UnknownWarning)
 
             ace_params.tension = ace_params.tension.plus(
                 normalized, 1.0, lambda x: x * 0.5 if x >= 0 else x * 0.3
@@ -284,7 +286,7 @@ class AceParser:
                 )
             else:
                 msg = f"Unknown normalization method: {self.options.energy_normalization.normalize_method}"
-                raise ValueError(msg)
+                warnings.warn(msg, UnknownWarning)
 
             ace_params.energy = ace_params.energy.plus(normalized, 1.0, lambda x: x)
 

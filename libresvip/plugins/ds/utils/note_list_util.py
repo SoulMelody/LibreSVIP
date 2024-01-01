@@ -1,3 +1,4 @@
+from libresvip.core.exceptions import ParamsError
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
 from libresvip.utils import gettext_lazy as _
@@ -49,7 +50,7 @@ class NoteListUtils:
             ):
                 cur_actual_start_in_secs -= note.edited_phones.head_length_in_secs
             elif "-" not in note.lyric:
-                raise ValueError(_("The source file lacks phoneme parameters."))
+                raise ParamsError(_("The source file lacks phoneme parameters."))
             if (
                 index < len(os_notes) - 1
                 and os_notes[index + 1].edited_phones is not None
@@ -165,13 +166,15 @@ class NoteListUtils:
         return ds_notes
 
     @staticmethod
-    def insert_end_rest_note(ds_notes: list[DsNote], trailing_space: float = 0.05):
+    def insert_end_rest_note(
+        ds_notes: list[DsNote], trailing_space: float = 0.05
+    ) -> None:
         end_rest_phoneme = RestDsPhoneme(_duration=trailing_space)
         end_rest_note = RestDsNote(duration=trailing_space, ds_phoneme=end_rest_phoneme)
         ds_notes.append(end_rest_note)
 
     @staticmethod
-    def init_pinyin_utils(os_notes: list[Note]):
+    def init_pinyin_utils(os_notes: list[Note]) -> None:
         lyric_list = [note.lyric for note in os_notes]
         pinyin_util.clear_all_pinyin()
         pinyin_util.add_pinyin_from_lyrics(lyric_list)

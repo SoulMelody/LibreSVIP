@@ -6,6 +6,8 @@ import math
 import pathlib
 import re
 import textwrap
+import warnings
+from gettext import gettext as _
 from numbers import Real
 from typing import Callable, Optional, TypeVar, Union, cast
 from xml.sax import saxutils
@@ -17,6 +19,7 @@ from pymediainfo import ET, MediaInfo
 from pymediainfo import Track as MediaInfoTrack
 
 from libresvip.core.constants import KEY_IN_OCTAVE
+from libresvip.core.warning_types import UnknownWarning
 
 T = TypeVar("T")
 lazy_translation: contextvars.ContextVar[
@@ -77,10 +80,7 @@ def gettext_lazy(message: str) -> str:
     with contextlib.suppress(LookupError):
         if (translation := lazy_translation.get()) is not None:
             return translation.gettext(message)
-    try:
-        return _(message)
-    except NameError:
-        return message
+    return _(message)
 
 
 def shorten_error_message(message: Optional[str]) -> str:
@@ -125,15 +125,20 @@ def audio_track_info(
         return track.format == "PCM" if only_wav else (track.duration is not None)
 
     if MediaInfo.can_parse():
-        with contextlib.suppress(
-            FileNotFoundError, ET.ParseError, RuntimeError, ValueError
-        ):
-            media_info = MediaInfo.parse(file_path)
-            if not len(media_info.video_tracks):
-                return next(
-                    (track for track in media_info.audio_tracks if filter_func(track)),
-                    None,
-                )
+        try:
+            with contextlib.suppress(ET.ParseError, RuntimeError, ValueError):
+                media_info = MediaInfo.parse(file_path)
+                if not len(media_info.video_tracks):
+                    return next(
+                        (
+                            track
+                            for track in media_info.audio_tracks
+                            if filter_func(track)
+                        ),
+                        None,
+                    )
+        except FileNotFoundError:
+            warnings.warn(_("Audio file not found: ") + f"{file_path}", UnknownWarning)
     return None
 
 

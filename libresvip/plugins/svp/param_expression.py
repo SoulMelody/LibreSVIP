@@ -27,7 +27,7 @@ class ParamOperators(enum.Enum):
 
 class ParamExpression(abc.ABC):
     @abc.abstractmethod
-    def value_at_ticks(self, ticks: int):
+    def value_at_ticks(self, ticks: int) -> int:
         pass
 
     def __add__(self, other):
@@ -82,7 +82,7 @@ class ScaledParam(ParamExpression):
     expression: ParamExpression
     ratio: float
 
-    def value_at_ticks(self, ticks: int):
+    def value_at_ticks(self, ticks: int) -> int:
         return int(round(self.ratio * self.expression.value_at_ticks(ticks)))
 
 
@@ -91,7 +91,7 @@ class TranslationalParam(ParamExpression):
     expression: ParamExpression
     offset: int
 
-    def value_at_ticks(self, ticks: int):
+    def value_at_ticks(self, ticks: int) -> int:
         return self.expression.value_at_ticks(ticks) + self.offset
 
 
@@ -104,7 +104,12 @@ class CurveGenerator(ParamExpression):
     _interpolation: dataclasses.InitVar[Callable[[float], float]]
     _base_value: dataclasses.InitVar[int] = 0
 
-    def __post_init__(self, _point_list, _interpolation, _base_value=0):
+    def __post_init__(
+        self,
+        _point_list: list[Point],
+        _interpolation: Callable[[float], float],
+        _base_value: int = 0,
+    ) -> None:
         self.point_list = []
         current_pos = -1
         current_sum = 0
@@ -175,7 +180,7 @@ class CompoundParam(ParamExpression):
     op: ParamOperators
     expr2: ParamExpression
 
-    def value_at_ticks(self, ticks: int):
+    def value_at_ticks(self, ticks: int) -> float:
         ticks1 = self.expr1.value_at_ticks(ticks)
         ticks2 = self.expr2.value_at_ticks(ticks)
         if self.op == ParamOperators.ADD:
@@ -208,7 +213,7 @@ class PitchGenerator(ParamExpression):
         _pitch_diff: ParamExpression,
         _vibrato_env: ParamExpression,
         _note_list: list[SVNote],
-    ):
+    ) -> None:
         self.synchronizer = _synchronizer
         self.pitch_diff = _pitch_diff
         self.vibrato_env = _vibrato_env
@@ -241,12 +246,12 @@ class PitchGenerator(ParamExpression):
         self.vibrato_layer = VibratoLayerGenerator(note_structs)
         self.gaussian_layer = GaussianLayerGenerator(note_structs)
 
-    def value_at_ticks(self, ticks: int):
+    def value_at_ticks(self, ticks: int) -> int:
         return self.value_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
     def value_at_secs(self, secs: float) -> int:
         ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
-        result = round(
+        return round(
             self.base_layer.pitch_at_secs(secs)
             + self.pitch_diff.value_at_ticks(ticks)
             + self.vibrato_layer.pitch_diff_at_secs(secs)
@@ -254,4 +259,3 @@ class PitchGenerator(ParamExpression):
             / 1000
             + self.gaussian_layer.pitch_diff_at_secs(secs)
         )
-        return result

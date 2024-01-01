@@ -3,6 +3,7 @@ import dataclasses
 import math
 import operator
 import re
+import warnings
 from gettext import gettext as _
 
 import mido_fix as mido
@@ -10,6 +11,7 @@ import more_itertools
 
 from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import NotesWarning
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -50,7 +52,7 @@ class MidiParser:
     ticks_per_beat: int = dataclasses.field(init=False)
     selected_channels: list[int] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.options.multi_channel == MultiChannelOption.FIRST:
             self.selected_channels = [0]
         elif self.options.multi_channel == MultiChannelOption.CUSTOM:
@@ -258,7 +260,7 @@ class MidiParser:
             )
             if has_overlap(notes):
                 msg = _("Overlapping notes in track {}").format(track_idx)
-                raise ValueError(msg)
+                warnings.warn(msg, NotesWarning)
             if len(notes):
                 tracks.append(
                     SingingTrack(
