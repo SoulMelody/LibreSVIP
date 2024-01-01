@@ -322,7 +322,12 @@ ColumnLayout {
                             onOk: () => {
                                 let move_result = TaskManager.move_to_output(index)
                                 if (move_result) {
-                                    successButton.visible = true
+                                    if (task_result.warning) {
+                                        warningLabel.text = task_result.warning
+                                        warningButton.visible = true
+                                    } else {
+                                        successButton.visible = true
+                                    }
                                 } else {
                                     errorButton.visible = true
                                 }
@@ -340,7 +345,7 @@ ColumnLayout {
         }
         function onBusy_changed(busy) {
             if (busy) {
-                successButton.visible = errorButton.visible = skipButton.visible = false
+                successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
                 runningIndicator.visible = true
             } else {
                 runningIndicator.visible = false
