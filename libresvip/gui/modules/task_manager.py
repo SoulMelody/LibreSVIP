@@ -91,7 +91,7 @@ class ConversionWorker(QRunnable):
                     project,
                     output_option(**self.output_options),
                 )
-                warning_str = "\n".join(str(each) for each in w)
+                warning_str = "\n".join(str(each.message) for each in w)
                 self.signals.result.emit(
                     self.index,
                     {

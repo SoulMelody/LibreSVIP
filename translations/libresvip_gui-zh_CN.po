@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-23 12:21+0800\n"
+"POT-Creation-Date: 2024-01-01 23:29+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -267,6 +267,9 @@ msgstr "已跳过"
 
 msgid "Remove"
 msgstr "移除"
+
+msgid "This project file may contain abnormal or illegal data"
+msgstr "此工程文件中可能包含不正常或不合法的数据"
 
 msgid "File failed to convert, below is the error message:"
 msgstr "此文件转换失败，错误信息如下："

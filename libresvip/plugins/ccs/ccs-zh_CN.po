@@ -1,17 +1,16 @@
 #. extracted from 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-29 22:06+0800\n"
+"POT-Creation-Date: 2024-01-01 23:34+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.2\n"
+"X-Generator: Translate Toolkit 3.12.1\n"
 
 #: .ccs.name
 msgid "CeVIO"
@@ -36,3 +35,7 @@ msgstr "默认声库ID"
 #: .ccs.dump[2].title
 msgid "Default Voicebank Version"
 msgstr "默认声库版本"
+
+#: .ccs.messages[0]
+msgid "Pitch value is out of bounds"
+msgstr "音高值越界"

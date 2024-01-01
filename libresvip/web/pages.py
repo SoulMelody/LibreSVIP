@@ -559,7 +559,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     )
                 task.success = True
                 if len(w):
-                    task.warning = "\n".join(str(warning) for warning in w)
+                    task.warning = "\n".join(str(warning.message) for warning in w)
             except Exception:
                 task.success = False
                 task.error = traceback.format_exc()

@@ -7,7 +7,6 @@
     "python": "==3.11"
   },
   "rangeStrategy": "bump",
-  "lockFileMaintenance": { "enabled": true },
   "enabledManagers": ["pep621", "github-actions"],
   "labels": ["dependencies"],
   "packageRules": [

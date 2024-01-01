@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-23 12:21+0800\n"
+"POT-Creation-Date: 2024-01-01 23:29+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -268,6 +268,9 @@ msgstr "已跳过"
 msgid "Remove"
 msgstr "移除"
 
+msgid "This project file may contain abnormal or illegal data"
+msgstr "此工程文件中可能包含不正常或不合法的数据"
+
 msgid "File failed to convert, below is the error message:"
 msgstr "此文件转换失败，错误信息如下："
 
@@ -471,7 +474,7 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
-#: ../libresvip/model/relative_pitch_curve.py:85
+#: ../libresvip/model/relative_pitch_curve.py:86
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
@@ -480,8 +483,8 @@ msgid "name"
 msgstr "名称"
 
 #: ../libresvip/web/pages.py:182 ../libresvip/web/pages.py:199
-#: ../libresvip/web/pages.py:816 ../libresvip/web/pages.py:832
-#: ../libresvip/web/pages.py:934 ../libresvip/web/pages.py:978
+#: ../libresvip/web/pages.py:825 ../libresvip/web/pages.py:841
+#: ../libresvip/web/pages.py:943 ../libresvip/web/pages.py:987
 msgid "file_format"
 msgstr "文件格式"
 
@@ -502,8 +505,8 @@ msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
 #: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:452
-#: ../libresvip/web/pages.py:587 ../libresvip/web/pages.py:910
-#: ../libresvip/web/pages.py:948 ../libresvip/web/pages.py:994
+#: ../libresvip/web/pages.py:587 ../libresvip/web/pages.py:919
+#: ../libresvip/web/pages.py:957 ../libresvip/web/pages.py:1003
 msgid "Close"
 msgstr "关闭"
 
@@ -519,7 +522,7 @@ msgstr "转换失败"
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:648
+#: ../libresvip/web/pages.py:648 ../libresvip/web/pages.py:687
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
@@ -527,59 +530,63 @@ msgstr "所有文件 (*.*)"
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:686
+#: ../libresvip/web/pages.py:684
+msgid "Compressed Archive (*.zip)"
+msgstr "压缩文件 (*.zip)"
+
+#: ../libresvip/web/pages.py:695
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:770 ../libresvip/web/pages.py:790
+#: ../libresvip/web/pages.py:779 ../libresvip/web/pages.py:799
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:779 ../libresvip/web/pages.py:1006
+#: ../libresvip/web/pages.py:788 ../libresvip/web/pages.py:1015
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:807 ../libresvip/web/pages.py:937
+#: ../libresvip/web/pages.py:816 ../libresvip/web/pages.py:946
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:824 ../libresvip/web/pages.py:981
+#: ../libresvip/web/pages.py:833 ../libresvip/web/pages.py:990
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:837
+#: ../libresvip/web/pages.py:846
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:859
+#: ../libresvip/web/pages.py:868
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:911
+#: ../libresvip/web/pages.py:920
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:925
+#: ../libresvip/web/pages.py:934
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:958
+#: ../libresvip/web/pages.py:967
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:965
+#: ../libresvip/web/pages.py:974
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1060
+#: ../libresvip/web/pages.py:1069
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1083
+#: ../libresvip/web/pages.py:1092
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:1084
+#: ../libresvip/web/pages.py:1093
 msgid "Advanced Options"
 msgstr "高级选项"
 
@@ -923,11 +930,15 @@ msgstr "默认声库ID"
 msgid "Default Voicebank Version"
 msgstr "默认声库版本"
 
+#: .ccs.messages[0]
+msgid "Pitch value is out of bounds"
+msgstr "音高值越界"
+
 #: .ds.name
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -935,7 +946,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -1005,19 +1016,15 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[2] .ds.messages[1]
+#: .ds.messages[2] .ds.messages[1]
 msgid ""
 "The selected dictionary does not contain the pronunciation “{}”. Please "
 "check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
-
-#: .ds.messages[3] .ds.messages[2]
-msgid "The source file lacks pitch parameters."
-msgstr "源文件缺少音高参数"
 
 #: .dv.format_desc
 msgid "DeepVocal project file"
@@ -1027,7 +1034,11 @@ msgstr "DeepVocal工程文件"
 msgid "Conversion plugin for dv file"
 msgstr "dv 格式转换插件。"
 
-#: .gj.format_desc
+#: .gj.name
+msgid "gjgj"
+msgstr ""
+
+#: .gj.file_format .gj.format_desc
 msgid "Gejigeji project file"
 msgstr "歌叽歌叽工程文件"
 
@@ -1048,6 +1059,10 @@ msgid ""
 "The unit is Tick. The larger the value, the smoother the editor; the smaller "
 "the value, the more accurate the volume parameter."
 msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
+
+#: .gj.messages[0]
+msgid "Unsupported pinyin:"
+msgstr "不支持的拼音："
 
 #: .json.format_desc
 msgid "OpenSVIP file"
@@ -1342,7 +1357,7 @@ msgstr "MusicXML 乐谱文件转换插件"
 msgid "NIAONiao"
 msgstr ""
 
-#: .nn.file_format .nn.format_desc
+#: .nn.file_format .nn.format_desc
 msgid "NIAONiao Virtual Singer project file"
 msgstr "袅袅虚拟歌手工程文件"
 
@@ -1358,11 +1373,11 @@ msgstr "恒定曲速"
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr "使用此曲速重设变速音乐的时间轴"
 
-#: .nn.dump[1].description .nn.dump[0].description
+#: .nn.dump[1].description .nn.dump[0].description
 msgid "Start from 0, -1 means auto select"
 msgstr "从0开始，-1表示自动选择"
 
-#: .nn.dump[2].description .nn.dump[1].description
+#: .nn.dump[2].description .nn.dump[1].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
 
@@ -1855,7 +1870,7 @@ msgstr "Ustx格式转换插件"
 msgid "Vogen"
 msgstr ""
 
-#: .vog.file_format .vog.format_desc
+#: .vog.file_format .vog.format_desc
 msgid "Vogen project file"
 msgstr "Vogen 工程文件"
 
@@ -1863,7 +1878,7 @@ msgstr "Vogen 工程文件"
 msgid "Conversion plugin for Vogen project file"
 msgstr "Vogen 工程格式转换插件"
 
-#: .vog.dump[1].description .vog.dump[0].description
+#: .vog.dump[1].description .vog.dump[0].description
 msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"
 
@@ -1983,7 +1998,7 @@ msgstr "是否导出美化显示的XML"
 msgid "Y77"
 msgstr ""
 
-#: .y77.file_format .y77.format_desc
+#: .y77.file_format .y77.format_desc
 msgid "Yuan77 project file"
 msgstr "元七七工程文件"
 

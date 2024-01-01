@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-12-23 12:17+0800\n"
+"POT-Creation-Date: 2024-01-01 23:29+0800\n"
 "PO-Revision-Date: 2023-05-28 22:49+0800\n"
 "Last-Translator: \n"
 "Language: zh_CN\n"
@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.14.0\n"
 
 #: ../libresvip/cli/commands/conf.py:22
 msgid "Setting {} is not supported in cli mode."
@@ -82,7 +82,7 @@ msgstr "适用格式"
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:84 ../libresvip/web/pages.py:882
+#: ../libresvip/cli/commands/plugin.py:84 ../libresvip/web/pages.py:891
 msgid "Version: "
 msgstr "版本： "
 
@@ -157,7 +157,7 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
-#: ../libresvip/model/relative_pitch_curve.py:85
+#: ../libresvip/model/relative_pitch_curve.py:86
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
@@ -166,8 +166,8 @@ msgid "name"
 msgstr "名称"
 
 #: ../libresvip/web/pages.py:182 ../libresvip/web/pages.py:199
-#: ../libresvip/web/pages.py:816 ../libresvip/web/pages.py:832
-#: ../libresvip/web/pages.py:934 ../libresvip/web/pages.py:978
+#: ../libresvip/web/pages.py:825 ../libresvip/web/pages.py:841
+#: ../libresvip/web/pages.py:943 ../libresvip/web/pages.py:987
 msgid "file_format"
 msgstr "文件格式"
 
@@ -208,8 +208,8 @@ msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
 #: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:452
-#: ../libresvip/web/pages.py:587 ../libresvip/web/pages.py:910
-#: ../libresvip/web/pages.py:948 ../libresvip/web/pages.py:994
+#: ../libresvip/web/pages.py:587 ../libresvip/web/pages.py:919
+#: ../libresvip/web/pages.py:957 ../libresvip/web/pages.py:1003
 msgid "Close"
 msgstr "关闭"
 
@@ -233,7 +233,7 @@ msgstr "转换失败"
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:648
+#: ../libresvip/web/pages.py:648 ../libresvip/web/pages.py:687
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
@@ -241,129 +241,133 @@ msgstr "所有文件 (*.*)"
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:686
+#: ../libresvip/web/pages.py:684
+msgid "Compressed Archive (*.zip)"
+msgstr "压缩文件 (*.zip)"
+
+#: ../libresvip/web/pages.py:695
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:770 ../libresvip/web/pages.py:790
+#: ../libresvip/web/pages.py:779 ../libresvip/web/pages.py:799
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:779 ../libresvip/web/pages.py:1006
+#: ../libresvip/web/pages.py:788 ../libresvip/web/pages.py:1015
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:799 ../libresvip/web/pages.py:1030
+#: ../libresvip/web/pages.py:808 ../libresvip/web/pages.py:1039
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: ../libresvip/web/pages.py:805 ../libresvip/web/pages.py:974
+#: ../libresvip/web/pages.py:814 ../libresvip/web/pages.py:983
 msgid "Swap Input and Output"
 msgstr "上下交换"
 
-#: ../libresvip/web/pages.py:807 ../libresvip/web/pages.py:937
+#: ../libresvip/web/pages.py:816 ../libresvip/web/pages.py:946
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:824 ../libresvip/web/pages.py:981
+#: ../libresvip/web/pages.py:833 ../libresvip/web/pages.py:990
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:837
+#: ../libresvip/web/pages.py:846
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:847
+#: ../libresvip/web/pages.py:856
 msgid "Light"
 msgstr "浅色"
 
-#: ../libresvip/web/pages.py:852
+#: ../libresvip/web/pages.py:861
 msgid "Dark"
 msgstr "深色"
 
-#: ../libresvip/web/pages.py:857
+#: ../libresvip/web/pages.py:866
 msgid "System"
 msgstr "跟随系统"
 
-#: ../libresvip/web/pages.py:859
+#: ../libresvip/web/pages.py:868
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:879 ../libresvip/web/pages.py:917
+#: ../libresvip/web/pages.py:888 ../libresvip/web/pages.py:926
 msgid "About"
 msgstr "关于"
 
-#: ../libresvip/web/pages.py:881
+#: ../libresvip/web/pages.py:890
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/web/pages.py:885
+#: ../libresvip/web/pages.py:894
 msgid "Author: SoulMelody"
 msgstr "作者： "
 
-#: ../libresvip/web/pages.py:889
+#: ../libresvip/web/pages.py:898
 msgid "Author's Profile"
 msgstr "作者主页"
 
-#: ../libresvip/web/pages.py:895
+#: ../libresvip/web/pages.py:904
 msgid "Repo URL"
 msgstr "仓库地址"
 
-#: ../libresvip/web/pages.py:900
+#: ../libresvip/web/pages.py:909
 msgid ""
 "LibreSVIP is an open-sourced, liberal and extensionable framework that "
 "can convert your singing synthesis projects between different file "
 "formats."
 msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: ../libresvip/web/pages.py:905
+#: ../libresvip/web/pages.py:914
 msgid ""
 "All people should have the right and freedom to choose. That's why we're "
 "committed to giving you a second chance to keep your creations free from "
 "the constraints of platforms and coterie."
 msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
 
-#: ../libresvip/web/pages.py:911
+#: ../libresvip/web/pages.py:920
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:925
+#: ../libresvip/web/pages.py:934
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:957 ../libresvip/web/pages.py:1003
+#: ../libresvip/web/pages.py:966 ../libresvip/web/pages.py:1012
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: ../libresvip/web/pages.py:958
+#: ../libresvip/web/pages.py:967
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:965
+#: ../libresvip/web/pages.py:974
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1034
+#: ../libresvip/web/pages.py:1043
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: ../libresvip/web/pages.py:1048
+#: ../libresvip/web/pages.py:1057
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: ../libresvip/web/pages.py:1060
+#: ../libresvip/web/pages.py:1069
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1074
+#: ../libresvip/web/pages.py:1083
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: ../libresvip/web/pages.py:1083
+#: ../libresvip/web/pages.py:1092
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:1084
+#: ../libresvip/web/pages.py:1093
 msgid "Advanced Options"
 msgstr "高级选项"
 

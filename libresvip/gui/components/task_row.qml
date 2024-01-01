@@ -68,11 +68,13 @@ ColumnLayout {
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Remove")
             }
+
             Rectangle {
                 id: statusIndicator
                 height: 44
                 width: height
                 color: "transparent"
+
                 RoundButton {
                     id: successButton
                     anchors.centerIn: parent
@@ -172,6 +174,46 @@ ColumnLayout {
                 }
 
                 RoundButton {
+                    id: warningButton
+                    anchors.centerIn: parent
+                    visible: false
+                    background: Rectangle {
+                        color: Material.color(Material.Orange, Material.Shade300)
+                        radius: parent.height / 2
+                        HoverHandler {
+                            acceptedDevices: PointerDevice.AllPointerTypes
+                            cursorShape: Qt.PointingHandCursor
+                        }
+                    }
+                    text: IconicFontLoader.icon("mdi7.alert-circle")
+                    font.family: "Material Design Icons"
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                    height: parent.height
+                    width: height
+                    radius: height / 2
+                    ToolTip {
+                        id: warningToolTip
+                        contentItem: ColumnLayout {
+                            Label {
+                                text: qsTr("This project file may contain abnormal or illegal data")
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 1
+                                color: Material.color(Material.Gray, Material.Shade0)
+                            }
+                            Label {
+                                id: warningLabel
+                                text: ""
+                            }
+                        }
+                    }
+                    onClicked: {
+                        warningToolTip.visible = !warningToolTip.visible
+                    }
+                }
+
+                RoundButton {
                     id: errorButton
                     anchors.centerIn: parent
                     visible: false
@@ -249,8 +291,8 @@ ColumnLayout {
     Connections {
         target: TaskManager
         function onAll_tasks_finished() {
-            let success = converterPage.taskList.model.get(index).success
-            if (success) {
+            let task_result = converterPage.taskList.model.get(index)
+            if (task_result.success) {
                 let conflict = TaskManager.output_path_exists(index)
                 let conflict_policy = ConfigItems.get_conflict_policy()
                 if (!conflict || conflict_policy == "Overwrite" || (
@@ -258,7 +300,12 @@ ColumnLayout {
                 )) {
                     let move_result = TaskManager.move_to_output(index)
                     if (move_result) {
-                        successButton.visible = true
+                        if (task_result.warning) {
+                            warningLabel.text = task_result.warning
+                            warningButton.visible = true
+                        } else {
+                            successButton.visible = true
+                        }
                     } else {
                         errorButton.visible = true
                     }

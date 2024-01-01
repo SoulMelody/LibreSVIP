@@ -3,15 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 01:09+0800\n"
+"POT-Creation-Date: 2024-01-01 23:34+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Translate Toolkit 3.12.1\n"
 
+#: .gj.name
+msgid "gjgj"
+msgstr ""
+
+#: .gj.file_format
 #: .gj.format_desc
 msgid "Gejigeji project file"
 msgstr "歌叽歌叽工程文件"
@@ -37,3 +42,7 @@ msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音�
 #: .gj.dump[1].title
 msgid "Default singer"
 msgstr "默认歌手"
+
+#: .gj.messages[0]
+msgid "Unsupported pinyin:"
+msgstr "不支持的拼音："

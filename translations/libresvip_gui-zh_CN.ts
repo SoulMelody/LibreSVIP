@@ -89,7 +89,7 @@
     </message>
     <message>
         <location filename="../libresvip/gui/components/converter_page.qml" line="331"/>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="491"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="494"/>
         <source>View Detail Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,123 +104,123 @@
         <translation>切换格式时重置列表</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="445"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="446"/>
         <source>Swap Input and Output</source>
         <translation>上下交换</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="465"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="468"/>
         <source>Output Format: </source>
         <translation>导出工程格式： </translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="564"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="567"/>
         <source>Set Output File Extension Automatically</source>
         <translation>自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="861"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="872"/>
         <source>Advanced Settings</source>
         <translation>高级选项</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="895"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="906"/>
         <source>Input Options</source>
         <translation>输入选项</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1062"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1079"/>
         <source>Output Options</source>
         <translation>输出选项</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="629"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="634"/>
         <source>Task List</source>
         <translation>任务列表</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="617"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="622"/>
         <source>Drag and drop files here</source>
         <translation>拖拽或单击导入文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="754"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="759"/>
         <source>Continue Adding files</source>
         <translation>继续添加文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="779"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="784"/>
         <source>Clear Task List</source>
         <translation>清空所有导入</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="803"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="810"/>
         <source>Reset Default Extension</source>
         <translation>恢复默认命名</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="827"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="836"/>
         <source>Remove Tasks With Other Extensions</source>
         <translation>过滤多余项目</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="906"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="917"/>
         <source>[Import as </source>
         <translation>[ 导入自 </translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1073"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1090"/>
         <source>[Export to </source>
         <translation>[ 导出为 </translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1209"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1232"/>
         <source>Output Settings</source>
         <translation>输出设置</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1322"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1346"/>
         <source>Choose Output Folder</source>
         <translation>选择输出文件夹</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1331"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1355"/>
         <source>Output Folder</source>
         <translation>输出文件夹</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1288"/>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1309"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1311"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1332"/>
         <source>Start Conversion</source>
         <translation>开始转换</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1309"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1332"/>
         <source>Converting</source>
         <translation>转换中</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1214"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1237"/>
         <source>Open Output Folder When Done</source>
         <translation>完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1352"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1376"/>
         <source>Deal with Conflicts:</source>
         <translation>遇到同名文件时：</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1359"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1383"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1360"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1384"/>
         <source>Skip</source>
         <translation>跳过</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/converter_page.qml" line="1361"/>
+        <location filename="../libresvip/gui/components/converter_page.qml" line="1385"/>
         <source>Prompt</source>
         <translation>询问</translation>
     </message>
@@ -439,54 +439,59 @@
 <context>
     <name>task_row</name>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="96"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="100"/>
         <source>File successfully converted</source>
         <translation>此文件已成功转换</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="104"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="108"/>
         <source>Open</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="116"/>
-        <location filename="../libresvip/gui/components/task_row.qml" line="159"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="120"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="163"/>
         <source>Open folder</source>
         <translation>打开目录</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="270"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="319"/>
         <source>File %1 already exists. Overwrite?</source>
         <translation>文件 %1 已存在，是否覆盖？</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="151"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="155"/>
         <source>File skipped due to conflict</source>
         <translation>已跳过</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="67"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="69"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="195"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="198"/>
+        <source>This project file may contain abnormal or illegal data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/gui/components/task_row.qml" line="239"/>
         <source>File failed to convert, below is the error message:</source>
         <translation>此文件转换失败，错误信息如下：</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="207"/>
-        <location filename="../libresvip/gui/components/task_row.qml" line="222"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="251"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="266"/>
         <source>Copy error message</source>
         <translation>复制错误信息</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="211"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="255"/>
         <source>Copied</source>
         <translation>已复制</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/task_row.qml" line="269"/>
+        <location filename="../libresvip/gui/components/task_row.qml" line="318"/>
         <source>Do you want to overwrite the file?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -494,42 +499,42 @@
 <context>
     <name>top_toolbar</name>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="169"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="167"/>
         <source>Convert (&amp;C)</source>
         <translation>转换 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="178"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="176"/>
         <source>Import Projects (Ctrl+O)</source>
         <translation>导入文件 (Ctrl+O)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="184"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="182"/>
         <source>Perform All Tasks (Ctrl+Enter)</source>
         <translation>开始转换 (Ctrl+Enter)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="191"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="189"/>
         <source>Clear Tasks (Ctrl+R)</source>
         <translation>清空所有导入 (Ctrl+R)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="198"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="196"/>
         <source>Swap Input and Output (Ctrl+Tab)</source>
         <translation>上下交换 (Ctrl+Tab)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="272"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="271"/>
         <source>Output Format (&amp;E)</source>
         <translation>导出格式 (&amp;E)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="206"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="204"/>
         <source>Formats (&amp;F)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="215"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="213"/>
         <source>Input Format (&amp;I)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -589,7 +594,7 @@
         <translation>在线文档 (F1)</translation>
     </message>
     <message>
-        <location filename="../libresvip/gui/components/top_toolbar.qml" line="155"/>
+        <location filename="../libresvip/gui/components/top_toolbar.qml" line="153"/>
         <source>SVS Projects Converter</source>
         <translation>歌声合成工程文件转换器</translation>
     </message>
