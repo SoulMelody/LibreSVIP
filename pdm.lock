@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:f1dcca58c7ec61002a4d50d69b5b5cd4aee7ddca2d91052491c418b0e4b90a0e"
+content_hash = "sha256:da4145506207ff12e9efb8b5cb5d0203e13920057a56e599b52c725bb9e249d2"
 
 [[package]]
 name = "aiofiles"
@@ -1371,7 +1371,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.8"
+version = "1.4.9"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
@@ -1388,28 +1388,28 @@ dependencies = [
     "python-multipart<0.0.7,>=0.0.6",
     "python-socketio>=5.10.0",
     "typing-extensions>=4.0.0",
-    "uvicorn[standard]<0.23.0,>=0.22.0",
+    "uvicorn[standard]>=0.22.0",
     "vbuild>=0.8.2",
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.8-py3-none-any.whl", hash = "sha256:0104e8bd6ae010b5b989c079ae0679f7514293db76f1f6609610f2920488b6fc"},
-    {file = "nicegui-1.4.8.tar.gz", hash = "sha256:69dea9579fade7a5db401445fff954d00775921aa9c10693967f2ec3faf44454"},
+    {file = "nicegui-1.4.9-py3-none-any.whl", hash = "sha256:bfcee1de68b65870676f95416fd55ccae63d486219afa511e401c7b2b81c6801"},
+    {file = "nicegui-1.4.9.tar.gz", hash = "sha256:330e0f4276ae206e06c68f29f9741325b4db3fec70e78a902137e6e8e9402ffd"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.8"
+version = "1.4.9"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.8",
+    "nicegui==1.4.9",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.8-py3-none-any.whl", hash = "sha256:0104e8bd6ae010b5b989c079ae0679f7514293db76f1f6609610f2920488b6fc"},
-    {file = "nicegui-1.4.8.tar.gz", hash = "sha256:69dea9579fade7a5db401445fff954d00775921aa9c10693967f2ec3faf44454"},
+    {file = "nicegui-1.4.9-py3-none-any.whl", hash = "sha256:bfcee1de68b65870676f95416fd55ccae63d486219afa511e401c7b2b81c6801"},
+    {file = "nicegui-1.4.9.tar.gz", hash = "sha256:330e0f4276ae206e06c68f29f9741325b4db3fec70e78a902137e6e8e9402ffd"},
 ]
 
 [[package]]
