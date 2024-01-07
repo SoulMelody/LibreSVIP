@@ -1,7 +1,7 @@
 import dataclasses
 import functools
 import math
-from typing import Iterable
+from collections.abc import Iterable
 
 import portion
 from more_itertools import convolve

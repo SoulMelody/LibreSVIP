@@ -3,9 +3,12 @@ from __future__ import annotations
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
-from typing import Any, Iterable, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import portion
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class PiecewiseIntervalDict(portion.IntervalDict):
