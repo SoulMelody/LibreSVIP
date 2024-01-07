@@ -88,6 +88,6 @@ class UFDataGenerator:
     def generate_pitch(pitch: ParamCurve) -> UFPitch:
         return UFPitch(
             is_absolute=True,
-            ticks=[point.x for point in pitch.points],
-            values=[point.y for point in pitch.points],
+            ticks=[point.x for point in pitch.points.root],
+            values=[point.y for point in pitch.points.root],
         )

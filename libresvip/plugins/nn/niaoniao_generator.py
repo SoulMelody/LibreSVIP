@@ -95,7 +95,7 @@ class NiaoniaoGenerator:
         ]
         pitch_param_in_note = [
             p
-            for p in pitch_param_curve.points
+            for p in pitch_param_curve.points.root
             if p.x >= note.start_pos + self.first_bar_length
             and p.x <= note.start_pos + self.first_bar_length + note.length
         ]

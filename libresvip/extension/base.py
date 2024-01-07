@@ -1,7 +1,8 @@
 import abc
 import functools
 import pathlib
-from typing import Any, Callable, Union
+from collections.abc import Callable
+from typing import Any, Union
 
 from libresvip.model.base import BaseModel, Project
 

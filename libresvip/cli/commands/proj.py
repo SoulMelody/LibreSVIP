@@ -1,6 +1,6 @@
 import pathlib
 from gettext import gettext as _
-from typing import get_type_hints
+from typing import Optional, get_type_hints
 
 import typer
 
@@ -11,7 +11,7 @@ from libresvip.model.base import InstrumentalTrack
 app = typer.Typer()
 
 
-def option_callback(ctx: typer.Context, value: pathlib.Path):
+def option_callback(ctx: typer.Context, value: pathlib.Path) -> Optional[pathlib.Path]:
     if ctx.resilient_parsing:
         return
     ext = value.suffix.lstrip(".").lower()
@@ -32,7 +32,7 @@ def convert(
     out_path: pathlib.Path = typer.Argument(
         "", exists=False, dir_okay=False, callback=option_callback
     ),
-):
+) -> None:
     """
     Convert a file from one format to another.
     """
@@ -64,7 +64,7 @@ def add_accompaniment(
     audio_path: pathlib.Path = typer.Argument("", exists=True, dir_okay=False),
     offset: int = typer.Option(0, help=_("Offset in milliseconds")),
     mute: bool = typer.Option(False, help=_("Mute other tracks")),
-):
+) -> None:
     input_ext = in_path.suffix.lstrip(".").lower()
     input_plugin = plugin_manager.plugin_registry[input_ext]
     input_option = get_type_hints(input_plugin.plugin_object.load).get("options")

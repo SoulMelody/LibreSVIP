@@ -103,7 +103,6 @@ linting = [
   "isort>=5.13.2",
   "pre-commit>=3.6.0",
   "ruff>=0.1.11",
-  "black>=23.12.1",
   "mypy>=1.8.0",
   "sourcery>=1.15.0",
 ]
@@ -159,6 +158,7 @@ select = [
   "T20",   # print
   "TCH",   # type-checking
   "TRY",   # tryceratops
+  "UP",    # pyupgrade
   "W",     # style warnings
   "YTT",   # sys.version
 ]
@@ -166,6 +166,7 @@ ignore = [
   "E402", # Module level import not at top of file
   "E501", # Line too long
   "E731", # Do not assign a lambda expression, use a def
+  "UP007", # Use `X | Y` for type annotations
 ]
 line-length = 100
 fix = true

@@ -1,4 +1,5 @@
 import enum
+from collections.abc import Sequence
 from gettext import gettext as _
 from typing import get_args, get_type_hints
 
@@ -8,6 +9,7 @@ from rich.table import Table
 
 from libresvip.core.config import save_settings, settings
 from libresvip.extension.manager import plugin_manager
+from libresvip.extension.meta_info import LibreSvipPluginInfo
 from libresvip.model.base import BaseComplexModel
 
 app = typer.Typer()
@@ -50,7 +52,7 @@ def detail(plugin_name: str) -> None:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
-def print_plugin_summary(plugins) -> None:
+def print_plugin_summary(plugins: Sequence[LibreSvipPluginInfo]) -> None:
     console = Console(color_system="256")
     if not plugins:
         console.print(_("No plugins are currently installed."))
@@ -136,9 +138,7 @@ def print_plugin_details(plugin) -> None:
                             if len(annotated_args) == 2:
                                 enum_type, enum_field = annotated_args
                                 typer.echo(
-                                    "\t{}\t=>\t{}".format(
-                                        enum_item.value, _(enum_field.title)
-                                    )
+                                    f"\t{enum_item.value}\t=>\t{_(enum_field.title)}"
                                 )
             elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(

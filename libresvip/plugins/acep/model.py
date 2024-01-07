@@ -4,7 +4,7 @@ import math
 import statistics
 from enum import Enum
 from itertools import chain
-from typing import Annotated, Callable, Literal, NamedTuple, Optional, Union
+from typing import TYPE_CHECKING, Annotated, Literal, NamedTuple, Optional, Union
 
 from more_itertools import chunked, minmax
 from pydantic import (
@@ -23,13 +23,16 @@ from libresvip.model.point import PointList, linear_interpolation
 from .ace_curve_utils import interpolate_hermite
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
 
 class AcepAnchorPoint(NamedTuple):
     pos: float
     value: float
 
 
-class AcepAnchorPoints(PointList, RootModel[list[AcepAnchorPoint]]):
+class AcepAnchorPoints(PointList[AcepAnchorPoint], RootModel[list[AcepAnchorPoint]]):
     root: list[AcepAnchorPoint] = Field(default_factory=list)
 
 

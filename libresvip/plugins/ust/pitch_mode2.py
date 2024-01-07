@@ -5,7 +5,8 @@ from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, ParamCurve, Point, SongTempo
+from libresvip.model.base import Note, ParamCurve, SongTempo
+from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import find_last_index
 
@@ -23,8 +24,8 @@ def milli_sec_from_tick(tick: int, bpm: float) -> float:
 @dataclasses.dataclass
 class UtauMode2NotePitchData:
     bpm: float
-    start: float  # milliSec, None only if the note is not applied with pitch
-    start_shift: float  # 10 cents
+    start: Optional[float]  # milliSec, None only if the note is not applied with pitch
+    start_shift: Optional[float]  # 10 cents
     widths: list[float] = dataclasses.field(default_factory=list)  # milliSec
     shifts: list[float] = dataclasses.field(default_factory=list)  # 10 cents
     curve_types: list[UTAUPitchBendMode] = dataclasses.field(default_factory=list)

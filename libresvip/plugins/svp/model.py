@@ -31,7 +31,7 @@ class SVPoint(NamedTuple):
     value: float
 
 
-class SVPoints(PointList, RootModel[list[SVPoint]]):
+class SVPoints(PointList[SVPoint], RootModel[list[SVPoint]]):
     root: list[SVPoint] = Field(default_factory=list)
 
 
@@ -95,7 +95,7 @@ class SVParamCurve(BaseModel):
         interval = RangeInterval()
         points = [
             SVPoint(position_to_ticks(point.offset), point.value)
-            for point in self.points
+            for point in self.points.root
         ]
         if not points:
             return interval

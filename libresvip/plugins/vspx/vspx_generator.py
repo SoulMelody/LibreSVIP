@@ -164,7 +164,7 @@ class VocalSharpGenerator:
         base_pitch_curve = BasePitchCurve(note_track, None, self.synchronizer)
         pitch_points = []
         prev_point: Optional[PIT] = None
-        for point in pitch.points:
+        for point in pitch.points.root:
             cur_tick = point.x - self.first_bar_length
             cur_secs = self.synchronizer.get_actual_secs_from_ticks(cur_tick)
             if (

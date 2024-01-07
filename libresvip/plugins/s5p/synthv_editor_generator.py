@@ -5,7 +5,7 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     Params,
-    Points,
+    Point,
     Project,
     SingingTrack,
     SongTempo,
@@ -150,17 +150,19 @@ class SynthVEditorGenerator:
             edited_params.pitch, note_list
         )
         return S5pParameters(
-            pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
+            pitch_delta=self.generate_pitch_delta(
+                rel_pitch_points.root if rel_pitch_points is not None else [], interval
+            ),
             interval=interval,
         )
 
-    def generate_pitch_delta(self, pitch: Points, interval: int) -> S5pPoints:
+    def generate_pitch_delta(self, pitch: list[Point], interval: int) -> S5pPoints:
         points = [
             S5pPoint(
                 offset=round(point.x / (interval / TICK_RATE)),
                 value=point.y,
             )
-            for point in pitch or []
+            for point in pitch
             if point.y != -100
         ]
         return S5pPoints(root=points)

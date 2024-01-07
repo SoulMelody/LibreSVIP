@@ -1,5 +1,6 @@
+from collections.abc import Iterator
 from functools import cache
-from typing import Any, Iterator, Union
+from typing import Any, Optional, Union
 
 from PySide6.QtCore import QAbstractListModel, QModelIndex, Slot
 
@@ -172,8 +173,8 @@ class ModelProxy(QAbstractListModel):
     @Slot(int, int, result="QVariant")
     def get_many(
         self,
-        start: int = None,
-        end: int = None,  # TODO: shall we use `count` instead?
+        start: Optional[int] = None,
+        end: Optional[int] = None,  # TODO: shall we use `count` instead?
     ) -> Items:
         if start is not None and end is None:
             start, end = 0, start
@@ -192,9 +193,7 @@ class ModelProxy(QAbstractListModel):
         # how to create QModelIndex instance: use `self.createIndex(row, col)`.
         # ref: https://blog.csdn.net/LaoYuanPython/article/details/102011031
         qindex = self.create_index(index, 0)
-        self.dataChanged.emit(
-            qindex, qindex, [self._name_2_role[x] for x in item.keys()]
-        )
+        self.dataChanged.emit(qindex, qindex, [self._name_2_role[x] for x in item])
 
     @Slot(int, list)
     def update_many(self, start: int, items: Items) -> None:

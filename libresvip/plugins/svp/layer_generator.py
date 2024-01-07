@@ -1,6 +1,7 @@
 import dataclasses
 import math
-from typing import Callable, NamedTuple
+from collections.abc import Callable
+from typing import NamedTuple
 
 import more_itertools
 

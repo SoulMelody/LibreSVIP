@@ -1,7 +1,8 @@
 import dataclasses
 import re
+from collections.abc import Callable
 from functools import partial, reduce
-from typing import Callable, Optional
+from typing import Optional
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.japanese import get_romaji_series, is_kana
@@ -120,7 +121,7 @@ class SynthVParser:
                     position_to_ticks(point.offset) + self.first_bar_tick,
                     mapping_func(point.value + base_value),
                 )
-                for point in sv_curve.points
+                for point in sv_curve.points.root
             ],
             _interpolation=interpolation_func,
             _base_value=decoded_base_value,
@@ -138,7 +139,7 @@ class SynthVParser:
                         position_to_ticks(point.offset) + self.first_bar_tick,
                         mapping_func(point.value + base_value),
                     )
-                    for point in master_curve.points
+                    for point in master_curve.points.root
                 ],
                 _interpolation=interpolation_func,
                 _base_value=decoded_base_value,
@@ -154,7 +155,7 @@ class SynthVParser:
                     position_to_ticks(point.offset) + self.first_bar_tick,
                     round(point.value * 1000),
                 )
-                for point in sv_curve.points
+                for point in sv_curve.points.root
             ],
             _interpolation=self.parse_interpolation(sv_curve.mode),
             _base_value=round(base_value * 1000),
@@ -165,7 +166,7 @@ class SynthVParser:
                     position_to_ticks(point.offset) + self.first_bar_tick,
                     round(point.value * 1000),
                 )
-                for point in master_curve.points
+                for point in master_curve.points.root
             ],
             _interpolation=self.parse_interpolation(master_curve.mode),
         )
@@ -261,7 +262,7 @@ class SynthVParser:
                     position_to_ticks(point.offset),
                     round(point.value),
                 )
-                for point in pitch_diff.points
+                for point in pitch_diff.points.root
             ],
             _interpolation=self.parse_interpolation(pitch_diff.mode),
         )
@@ -271,7 +272,7 @@ class SynthVParser:
                     position_to_ticks(point.offset),
                     round(point.value * 1000),
                 )
-                for point in vibrato_env.points
+                for point in vibrato_env.points.root
             ],
             _interpolation=self.parse_interpolation(vibrato_env.mode),
             _base_value=1000,
@@ -283,7 +284,7 @@ class SynthVParser:
                         position_to_ticks(point.offset),
                         round(point.value),
                     )
-                    for point in master_pitch_diff.points
+                    for point in master_pitch_diff.points.root
                 ],
                 _interpolation=self.parse_interpolation(master_pitch_diff.mode),
             )
@@ -294,7 +295,7 @@ class SynthVParser:
                         position_to_ticks(point.offset),
                         round(point.value * 1000),
                     )
-                    for point in master_vibrato_env.points
+                    for point in master_vibrato_env.points.root
                 ],
                 _interpolation=self.parse_interpolation(vibrato_env.mode),
             )
@@ -305,7 +306,7 @@ class SynthVParser:
                         position_to_ticks(point.offset),
                         round(point.value),
                     )
-                    for point in self.instant_pitch.points
+                    for point in self.instant_pitch.points.root
                 ],
                 _interpolation=self.parse_interpolation(self.instant_pitch.mode),
             )
@@ -381,10 +382,8 @@ class SynthVParser:
         for start, end in interval.shift(self.first_bar_tick).sub_ranges():
             curve.points.append(Point(start, -100))
             curve.points.extend(
-                (
-                    Point(i, generator.value_at_ticks(i - self.first_bar_tick))
-                    for i in range(start, end, step)
-                )
+                Point(i, generator.value_at_ticks(i - self.first_bar_tick))
+                for i in range(start, end, step)
             )
             curve.points.append(
                 Point(end, generator.value_at_ticks(end - self.first_bar_tick))

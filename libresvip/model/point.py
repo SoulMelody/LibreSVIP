@@ -3,11 +3,13 @@ from __future__ import annotations
 import abc
 import math
 from functools import partial
-from typing import TYPE_CHECKING, Callable, NamedTuple, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Generic, NamedTuple, TypeVar, Union
 
 from more_itertools import pairwise
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from typing_extensions import Self
 
 PointType = TypeVar("PointType")
@@ -96,11 +98,8 @@ interpolate_cosine_ease_out = partial(
 )
 
 
-class PointList(abc.ABC):
+class PointList(abc.ABC, Generic[PointType]):
     root: list[PointType]
-
-    def __iter__(self):
-        return iter(self.root)
 
     def __len__(self) -> int:
         return len(self.root)
@@ -135,13 +134,13 @@ class PointList(abc.ABC):
     def count(self, item: PointType) -> int:
         return self.root.count(item)
 
-    def index(self, item: PointType, *args) -> int:
+    def index(self, item: PointType, *args: Any) -> int:
         return self.root.index(item, *args)
 
     def reverse(self) -> None:
         self.root.reverse()
 
-    def sort(self, /, *args, **kwds) -> None:
+    def sort(self, /, *args: Any, **kwds: Any) -> None:
         self.root.sort(*args, **kwds)
 
     def extend(self, other: Union[Self, list[PointType]]) -> None:

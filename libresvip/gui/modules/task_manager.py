@@ -457,15 +457,18 @@ class TaskManager(QObject):
     @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
-        if name == "input_format" and settings.reset_tasks_on_input_change:
-            if value != self.input_format:
-                if delete_len := more_itertools.ilen(
-                    more_itertools.rstrip(
-                        self.tasks,
-                        lambda task: task["path"].lower().endswith(f".{value}"),
-                    )
-                ):
-                    self.tasks.delete_many(0, delete_len)
+        if (
+            name == "input_format"
+            and settings.reset_tasks_on_input_change
+            and value != self.input_format
+        ):
+            if delete_len := more_itertools.ilen(
+                more_itertools.rstrip(
+                    self.tasks,
+                    lambda task: task["path"].lower().endswith(f".{value}"),
+                )
+            ):
+                self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
 
     def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:

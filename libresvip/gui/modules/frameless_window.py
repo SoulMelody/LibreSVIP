@@ -12,7 +12,7 @@ QML_IMPORT_MINOR_VERSION = 0
 
 @QmlElement
 class FramelessWindow(QQuickWindow):
-    def __init__(self, parent=None, border_width: int = 5):
+    def __init__(self, parent=None, border_width: int = 5) -> None:
         super().__init__(parent)
         self.flags = (
             self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
@@ -22,7 +22,10 @@ class FramelessWindow(QQuickWindow):
 
     def event_filter(self, obj, event: QEvent):
         et = event.type()
-        if et != QMouseEvent.Type.MouseButtonPress and et != QMouseEvent.Type.MouseMove:
+        if et not in [
+            QMouseEvent.Type.MouseButtonPress,
+            QMouseEvent.Type.MouseMove,
+        ]:
             return False
 
         edges = Qt.Edge(0)

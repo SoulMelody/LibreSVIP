@@ -31,32 +31,30 @@ class USTParser:
     )
 
     def parse_project(self, ust_project: UTAUProject) -> Project:
-        if len(ust_project.track):
-            tracks = []
-            time_signatures = self.parse_time_signatures(ust_project.time_signatures)
-            for ust_track in ust_project.track:
-                tempos, notes = self.parse_notes(ust_project.tempo, ust_track.notes)
-                track = SingingTrack(
-                    note_list=notes,
-                )
-                if ust_project.pitch_mode2:
-                    track.edited_params.pitch = pitch_from_utau_mode2_track(
-                        self.mode2_track_pitch_data, track.note_list, tempos
-                    )
-                else:
-                    track.edited_params.pitch = pitch_from_utau_mode1_track(
-                        self.mode1_track_pitch_data,
-                        track.note_list,
-                    )
-                tracks.append(track)
-            project = Project(
-                song_tempo_list=tempos,
-                time_signature_list=time_signatures,
-                track_list=tracks,
-            )
-            return project
-        else:
+        if not len(ust_project.track):
             raise NoTrackError(_("UST project has no track"))
+        tracks = []
+        time_signatures = self.parse_time_signatures(ust_project.time_signatures)
+        for ust_track in ust_project.track:
+            tempos, notes = self.parse_notes(ust_project.tempo, ust_track.notes)
+            track = SingingTrack(
+                note_list=notes,
+            )
+            if ust_project.pitch_mode2:
+                track.edited_params.pitch = pitch_from_utau_mode2_track(
+                    self.mode2_track_pitch_data, track.note_list, tempos
+                )
+            else:
+                track.edited_params.pitch = pitch_from_utau_mode1_track(
+                    self.mode1_track_pitch_data,
+                    track.note_list,
+                )
+            tracks.append(track)
+        return Project(
+            song_tempo_list=tempos,
+            time_signature_list=time_signatures,
+            track_list=tracks,
+        )
 
     def parse_time_signatures(
         self, time_signatures: list[UTAUTimeSignature]

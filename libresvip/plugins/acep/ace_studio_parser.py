@@ -1,6 +1,7 @@
 import dataclasses
 import warnings
-from typing import Callable, Optional
+from collections.abc import Callable
+from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series

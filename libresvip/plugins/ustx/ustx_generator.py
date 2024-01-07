@@ -138,7 +138,7 @@ class UstxGenerator:
         self.generate_pitch(
             ustx_voice_part,
             ustx_project,
-            os_track.edited_params.pitch.points,
+            os_track.edited_params.pitch.points.root,
             first_bar_length,
         )
 

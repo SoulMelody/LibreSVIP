@@ -23,7 +23,7 @@ class PitchParamUtils:
         cls, os_point_list: Points, end: int
     ) -> Optional[list[DsParamNode]]:
         if valid_points := [
-            p for p in os_point_list if p.x >= 1930 and p.x + 10 < end and p.y >= 0
+            p for p in os_point_list.root if p.x >= 1930 and p.x + 10 < end and p.y >= 0
         ]:
             return [
                 DsParamNode(

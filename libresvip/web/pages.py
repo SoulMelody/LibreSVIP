@@ -16,7 +16,15 @@ import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
-from typing import Any, BinaryIO, Optional, TypedDict, Union, get_args, get_type_hints
+from typing import (
+    Any,
+    BinaryIO,
+    Optional,
+    SupportsFloat,
+    TypedDict,
+    get_args,
+    get_type_hints,
+)
 from urllib.parse import quote, unquote
 
 from nicegui import app, binding, ui
@@ -50,21 +58,21 @@ def dark_mode2str(mode: DarkMode) -> Optional[bool]:
         return True
 
 
-def int_validator(value: Union[int, float, str, None]) -> bool:
+def int_validator(value: Optional[SupportsFloat]) -> bool:
     if isinstance(value, int):
         return True
     elif isinstance(value, str):
         return value.replace("+", "-").removeprefix("-").isdigit()
-    elif value is None:
-        return False
-    else:
+    elif isinstance(value, float):
         return value.is_integer()
+    else:
+        return False
 
 
-def float_validator(value: Union[float, str, None]) -> bool:
-    try:
+def float_validator(value: Optional[SupportsFloat]) -> bool:
+    if isinstance(value, SupportsFloat):
         return not math.isnan(float(value))
-    except (ValueError, TypeError):
+    else:
         return False
 
 

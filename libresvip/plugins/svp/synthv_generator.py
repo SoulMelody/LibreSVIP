@@ -1,7 +1,8 @@
 import dataclasses
 import re
 import sys
-from typing import Callable, Optional
+from collections.abc import Callable
+from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.tick_counter import skip_beat_list
@@ -228,7 +229,7 @@ class SynthVGenerator:
         buffer = []
         min_interval = 1
         last_point = None
-        for point in curve.points:
+        for point in curve.points.root:
             if point.x >= self.first_bar_tick:
                 point = point._replace(x=point.x - self.first_bar_tick)
                 if point.y == -100:

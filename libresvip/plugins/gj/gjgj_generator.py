@@ -211,7 +211,7 @@ class GjgjGenerator:
         ori_prev_ticks = -100
         pitch_points = []
         modify_ranges = []
-        for point in pitch.points:
+        for point in pitch.points.root:
             ori_ticks, ori_value = point.x, point.y
             if ori_prev_ticks != ori_ticks:
                 if ori_value != -100 and ori_ticks not in (-192000, 1073741823):

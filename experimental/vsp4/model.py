@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from typing import MutableMapping, MutableSequence
+from typing import TYPE_CHECKING
 
 import proto
+
+if TYPE_CHECKING:
+    from collections.abc import MutableMapping, MutableSequence
 
 __protobuf__ = proto.module(
     package="org.vocalsharp.vocalshaper.vsp4",
@@ -220,7 +223,7 @@ class SeqSourceInstance(proto.Message):
 
 
 class SourceInstanceList(proto.Message):
-    sources: MutableSequence["SeqSourceInstance"] = proto.RepeatedField(
+    sources: MutableSequence[SeqSourceInstance] = proto.RepeatedField(
         proto.MESSAGE,
         number=1,
         message="SeqSourceInstance",
@@ -233,7 +236,7 @@ class SeqTrack(proto.Message):
         number=1,
         enum=TrackType,
     )
-    info: "SeqTrackInfo" = proto.Field(
+    info: SeqTrackInfo = proto.Field(
         proto.MESSAGE,
         number=2,
         message="SeqTrackInfo",
@@ -242,7 +245,7 @@ class SeqTrack(proto.Message):
         proto.BOOL,
         number=3,
     )
-    sources: "SourceInstanceList" = proto.Field(
+    sources: SourceInstanceList = proto.Field(
         proto.MESSAGE,
         number=4,
         message="SourceInstanceList",
@@ -286,12 +289,12 @@ class PluginState(proto.Message):
 
 
 class Plugin(proto.Message):
-    info: "PluginInfo" = proto.Field(
+    info: PluginInfo = proto.Field(
         proto.MESSAGE,
         number=1,
         message="PluginInfo",
     )
-    state: "PluginState" = proto.Field(
+    state: PluginState = proto.Field(
         proto.MESSAGE,
         number=2,
         message="PluginState",
@@ -332,7 +335,7 @@ class MixerTrack(proto.Message):
         number=1,
         enum=TrackType,
     )
-    info: "MixerTrackInfo" = proto.Field(
+    info: MixerTrackInfo = proto.Field(
         proto.MESSAGE,
         number=2,
         message="MixerTrackInfo",
@@ -345,7 +348,7 @@ class MixerTrack(proto.Message):
         proto.UINT32,
         number=4,
     )
-    effects: "PluginDock" = proto.Field(
+    effects: PluginDock = proto.Field(
         proto.MESSAGE,
         number=5,
         message="PluginDock",

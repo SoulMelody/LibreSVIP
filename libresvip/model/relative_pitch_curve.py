@@ -3,7 +3,7 @@ from __future__ import annotations
 import dataclasses
 from bisect import bisect_right
 from gettext import gettext as _
-from typing import Optional, Union
+from typing import Optional
 
 from more_itertools import pairwise
 
@@ -17,9 +17,7 @@ from libresvip.model.point import Point
 class RelativePitchCurve:
     first_bar_length: int = TICKS_IN_BEAT * 4
 
-    def to_absolute(
-        self, points: Union[Points, list[Point]], note_list: list[Note]
-    ) -> ParamCurve:
+    def to_absolute(self, points: list[Point], note_list: list[Note]) -> ParamCurve:
         param_curve = ParamCurve()
         boundries = [(note.start_pos, note.end_pos) for note in note_list]
         prev_index = -1
@@ -55,7 +53,7 @@ class RelativePitchCurve:
         current_note_key = notes[0].key_number
         next_border = borders[index] if index < len(borders) else float("inf")
         converted_data = []
-        for pos, value in pitch.points:
+        for pos, value in pitch.points.root:
             if value <= 0:
                 continue
             while pos >= next_border:

@@ -242,7 +242,7 @@ class BinarySvipGenerator:
             op = lambda x: x
         line = XSLineParam()
         # param_curve.points = sorted(param_curve.points, key=operator.attrgetter("x"))
-        for p in param_curve.points:
+        for p in param_curve.points.root:
             if left <= p.x <= right:
                 if (
                     self.is_absolute_time_mode

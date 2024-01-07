@@ -1,8 +1,9 @@
 import asyncio
 import fnmatch
 import platform
+from collections.abc import Sequence
 from functools import partial
-from typing import Optional, Sequence
+from typing import Optional
 
 import httpx
 import qtinter
@@ -26,7 +27,7 @@ QML_IMPORT_MINOR_VERSION = 0
 @QmlElement
 @QmlSingleton
 class Notifier(QObject):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.request_timeout = 30
         try:
@@ -186,7 +187,7 @@ class Notifier(QObject):
         except Exception as e:
             logger.error(e)
 
-    async def clear_all_messages_async(self):
+    async def clear_all_messages_async(self) -> None:
         try:
             if len(self.notifier.current_notifications):
                 await self.notifier.clear_all()

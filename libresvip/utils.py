@@ -7,9 +7,9 @@ import pathlib
 import re
 import textwrap
 import warnings
+from collections.abc import Callable
 from gettext import gettext as _
-from numbers import Real
-from typing import Callable, Optional, TypeVar, Union, cast
+from typing import Optional, TypeVar, Union, cast
 from xml.sax import saxutils
 
 import charset_normalizer
@@ -95,10 +95,10 @@ def shorten_error_message(message: Optional[str]) -> str:
 
 
 def clamp(
-    x: Real,
-    lower: Real = cast(Real, float("-inf")),
-    upper: Real = cast(Real, float("inf")),
-) -> Real:
+    x: float,
+    lower: float = float("-inf"),
+    upper: float = float("inf"),
+) -> float:
     """Limit a value to a given range.
 
     The returned value is guaranteed to be between *lower* and
@@ -112,9 +112,8 @@ def clamp(
 
     """
     if upper < lower:
-        raise ValueError(
-            "expected upper bound (%r) >= lower bound (%r)" % (upper, lower),
-        )
+        msg = f"expected upper bound ({upper!r}) >= lower bound ({lower!r})"
+        raise ValueError(msg)
     return min(max(x, lower), upper)
 
 

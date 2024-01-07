@@ -60,7 +60,7 @@ class BaseComplexModel(Protocol):
         pass
 
 
-class Points(PointList, RootModel[list[Point]]):
+class Points(PointList[Point], RootModel[list[Point]]):
     root: list[Point] = Field(default_factory=list)
 
 
@@ -168,7 +168,7 @@ class ParamCurve(BaseModel):
             return segments
         buffer = []
         if interrupt_value != 0:
-            for point in self.points:
+            for point in self.points.root:
                 if point.x >= 0 and point.y < sys.maxsize // 2:
                     if point.y != interrupt_value:
                         buffer.append(point)

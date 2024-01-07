@@ -1,7 +1,7 @@
 import dataclasses
 import math
 import pathlib
-from typing import Callable
+from collections.abc import Callable
 
 from construct import Container
 

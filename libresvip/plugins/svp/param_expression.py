@@ -2,7 +2,7 @@ import abc
 import dataclasses
 import enum
 import operator
-from typing import Callable, Iterable
+from collections.abc import Callable, Iterable
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.point import Point

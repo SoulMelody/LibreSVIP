@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from operator import attrgetter
 
 from more_itertools import minmax
@@ -6,7 +7,9 @@ from libresvip.model.point import Point
 
 
 def resampled(
-    data: list[Point], interval: int, interpolate_method: callable
+    data: list[Point],
+    interval: int,
+    interpolate_method: Callable[[Point, Point, int], float],
 ) -> list[Point]:
     result = []
     left_point, right_point = minmax(

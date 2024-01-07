@@ -8,7 +8,6 @@ from libresvip.model.base import (
     Note,
     Params,
     Point,
-    Points,
     Project,
     SingingTrack,
     SongTempo,
@@ -148,13 +147,11 @@ class SynthVEditorParser:
         )
 
     @staticmethod
-    def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> Points:
-        return Points(
-            root=[
-                Point(
-                    x=round(point.offset * (interval / TICK_RATE)),
-                    y=round(point.value),
-                )
-                for point in pitch_delta
-            ]
-        )
+    def parse_pitch_curve(pitch_delta: S5pPoints, interval: int) -> list[Point]:
+        return [
+            Point(
+                x=round(point.offset * (interval / TICK_RATE)),
+                y=round(point.value),
+            )
+            for point in pitch_delta
+        ]

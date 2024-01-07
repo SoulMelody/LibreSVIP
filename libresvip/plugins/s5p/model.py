@@ -21,7 +21,7 @@ class S5pPoint(NamedTuple):
     value: float
 
 
-class S5pPoints(PointList, RootModel[list[S5pPoint]]):
+class S5pPoints(PointList[S5pPoint], RootModel[list[S5pPoint]]):
     root: list[S5pPoint] = Field(default_factory=list)
 
 

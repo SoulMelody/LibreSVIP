@@ -128,7 +128,7 @@ class MutaGenerator:
                 time=point.x - 2 * self.first_bar_length,
                 value=12900 if point.y < 0 else point.y - 1200,
             )
-            for point in pitch.points
+            for point in pitch.points.root
         ]
 
     def generate_notes(self, notes: list[Note]) -> list[MutaNote]:

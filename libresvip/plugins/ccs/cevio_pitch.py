@@ -194,7 +194,7 @@ def generate_for_cevio(
     pitch: ParamCurve, tempos: list[SongTempo], tick_prefix: int
 ) -> Optional[CeVIOTrackPitchData]:
     events_with_full_params = []
-    for i, this_point in enumerate(pitch.points):
+    for i, this_point in enumerate(pitch.points.root):
         next_point = pitch.points[i + 1] if i + 1 < len(pitch.points) else None
         end_tick = next_point.x if next_point else None
         index = this_point.x

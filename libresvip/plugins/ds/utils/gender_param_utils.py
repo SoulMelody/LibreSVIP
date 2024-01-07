@@ -18,7 +18,7 @@ class GenderParamUtils:
     def encode_point_list(cls, os_point_list: Points, end: int) -> list[DsParamNode]:
         valid_points = [
             p
-            for p in os_point_list
+            for p in os_point_list.root
             if p.x - 10 >= 1920 and p.x + 10 < end and -1000 <= p.y <= 1000
         ]
         ds_point_list = []

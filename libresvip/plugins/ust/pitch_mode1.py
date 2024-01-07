@@ -25,13 +25,13 @@ def pitch_from_utau_mode1_track(
     pitch_points = []
     for note, note_pitch in zip(notes, pitch_data.notes):
         if note_pitch is not None and len(note_pitch.pitch_points):
-            pitch_points += [
+            pitch_points.extend(
                 Point(
                     x=note.start_pos + index * MODE1_PITCH_SAMPLING_INTERVAL_TICK,
                     y=value,
                 )
                 for index, value in enumerate(note_pitch.pitch_points)
-            ]
+            )
     return RelativePitchCurve().to_absolute(pitch_points, notes)
 
 
@@ -42,7 +42,7 @@ def pitch_to_utau_mode1_track(
     for note in notes:
         data = [
             point
-            for point in pitch.points
+            for point in pitch.points.root
             if note.start_pos <= point.x - 1920 < note.end_pos
         ]
         if not len(data):

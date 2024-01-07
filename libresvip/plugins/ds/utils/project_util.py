@@ -1,4 +1,4 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 from libresvip.model.base import (
     ParamCurve,
@@ -39,12 +39,12 @@ def split_into_segments(
             seg_note_start_pos = buffer[0].start_pos
             pitch_points = [
                 Point(pos - seg_note_start_pos + prepare_space, val)
-                for pos, val in track.edited_params.pitch.points
+                for pos, val in track.edited_params.pitch.points.root
                 if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
             ]
             gender_points = [
                 Point(pos - seg_note_start_pos + prepare_space, val)
-                for pos, val in track.edited_params.gender.points
+                for pos, val in track.edited_params.gender.points.root
                 if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
             ]
             for note in buffer:
@@ -79,12 +79,12 @@ def split_into_segments(
     seg_note_start_pos = buffer[0].start_pos
     pitch_points = [
         Point(pos - seg_note_start_pos + prepare_space, val)
-        for pos, val in track.edited_params.pitch.points
+        for pos, val in track.edited_params.pitch.points.root
         if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
     ]
     gender_points = [
         Point(pos - seg_note_start_pos + prepare_space, val)
-        for pos, val in track.edited_params.gender.points
+        for pos, val in track.edited_params.gender.points.root
         if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
     ]
     for note in buffer:

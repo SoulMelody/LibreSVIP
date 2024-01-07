@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from typing import MutableSequence
+from typing import TYPE_CHECKING
 
 import proto
 from google.protobuf import any_pb2
+
+if TYPE_CHECKING:
+    from collections.abc import MutableSequence
 
 __protobuf__ = proto.module(
     package="xstudio.proto",
