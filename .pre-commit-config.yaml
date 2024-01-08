@@ -5,7 +5,7 @@ repos:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
       - id: ruff-format
-        args: ["--config", "pyproject.toml"]
+        args: ["--config", "pyproject.toml", --diff]
 
   - repo: https://github.com/pdm-project/pdm
     rev: 2.11.1
