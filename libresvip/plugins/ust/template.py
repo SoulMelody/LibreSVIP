@@ -57,9 +57,5 @@ VBR={{ note.vbr.length }},{{ note.vbr.period }},{% if note.vbr.depth is defined 
 )
 
 
-def render_ust(
-    ust_project: UTAUProject, output_path: pathlib.Path, encoding: str = "utf-8"
-):
-    output_path.write_text(
-        UST_TEMPLATE.render(ust_project=ust_project), encoding=encoding
-    )
+def render_ust(ust_project: UTAUProject, output_path: pathlib.Path, encoding: str = "utf-8"):
+    output_path.write_text(UST_TEMPLATE.render(ust_project=ust_project), encoding=encoding)

@@ -53,19 +53,13 @@ class DeepVocalGenerator:
             [track for track in project.track_list if isinstance(track, SingingTrack)]
         )
         audio_tracks = self.generate_instrumental_tracks(
-            [
-                track
-                for track in project.track_list
-                if isinstance(track, InstrumentalTrack)
-            ]
+            [track for track in project.track_list if isinstance(track, InstrumentalTrack)]
         )
         return DvProject(
             inner_project=DvInnerProject(
                 tracks=singing_tracks + audio_tracks,
                 tempos=self.generate_tempos(project.song_tempo_list),
-                time_signatures=self.generate_time_signatures(
-                    project.time_signature_list
-                ),
+                time_signatures=self.generate_time_signatures(project.time_signature_list),
             )
         )
 
@@ -95,9 +89,7 @@ class DeepVocalGenerator:
             )
             for tempo in shift_tempo_list(
                 [
-                    song_tempo
-                    if i > 0
-                    else song_tempo.model_copy(update={"position": 0})
+                    song_tempo if i > 0 else song_tempo.model_copy(update={"position": 0})
                     for i, song_tempo in enumerate(tempos)
                 ],
                 self.tick_prefix,
@@ -136,9 +128,7 @@ class DeepVocalGenerator:
                 )
         return track_list
 
-    def generate_singing_tracks(
-        self, singing_tracks: list[SingingTrack]
-    ) -> list[DvTrack]:
+    def generate_singing_tracks(self, singing_tracks: list[SingingTrack]) -> list[DvTrack]:
         track_list = []
         for track in singing_tracks:
             dv_notes = self.generate_notes(track.note_list)

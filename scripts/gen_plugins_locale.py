@@ -26,9 +26,7 @@ if TYPE_CHECKING:
 
 def messages_iterator():
     for plugin_info in plugin_manager.plugin_registry.values():
-        info_path: pathlib.Path = files(
-            sys.modules[plugin_info.plugin_object.__module__]
-        )
+        info_path: pathlib.Path = files(sys.modules[plugin_info.plugin_object.__module__])
         plugin_suffix = plugin_info.suffix
         plugin_info = plugin_manager.plugin_registry[plugin_suffix]
         plugin_metadata = {
@@ -40,9 +38,7 @@ def messages_iterator():
         for method in ("load", "dump"):
             if not hasattr(plugin_info.plugin_object, method):
                 continue
-            option_class = get_type_hints(getattr(plugin_info.plugin_object, method))[
-                "options"
-            ]
+            option_class = get_type_hints(getattr(plugin_info.plugin_object, method))["options"]
             conv_fields = []
             for option_key, field_info in option_class.model_fields.items():
                 if issubclass(
@@ -56,9 +52,7 @@ def messages_iterator():
                         field_metadata["description"] = field_info.description
                     conv_fields.append(field_metadata)
                 elif issubclass(field_info.annotation, enum.Enum):
-                    annotations = get_type_hints(
-                        field_info.annotation, include_extras=True
-                    )
+                    annotations = get_type_hints(field_info.annotation, include_extras=True)
                     choices = []
                     for enum_item in field_info.annotation:
                         if enum_item.name in annotations:

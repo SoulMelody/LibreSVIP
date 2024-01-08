@@ -27,14 +27,10 @@ class VocaloidConverter(plugin_base.SVSConverterBase):
             archive_file.writestr(
                 "Project/sequence.json",
                 json_dumps(
-                    vocaloid_project.model_dump(
-                        mode="json", exclude_none=True, by_alias=True
-                    ),
+                    vocaloid_project.model_dump(mode="json", exclude_none=True, by_alias=True),
                     ensure_ascii=False,
                 ),
             )
             for wav_name, wav_path in generator.wav_paths.items():
-                archive_file.writestr(
-                    f"Project/Audio/{wav_name}", wav_path.read_bytes()
-                )
+                archive_file.writestr(f"Project/Audio/{wav_name}", wav_path.read_bytes())
         path.write_bytes(buffer.getvalue())

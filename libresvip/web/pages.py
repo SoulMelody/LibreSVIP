@@ -262,15 +262,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 option_class.model_fields.items(),
             ):
                 default_value = (
-                    None
-                    if field_info.default is PydanticUndefined
-                    else field_info.default
+                    None if field_info.default is PydanticUndefined else field_info.default
                 )
                 with ui.row().classes("items-center w-full") as row:
                     if i:
-                        row._props[
-                            "style"
-                        ] = """
+                        row._props["style"] = """
                             background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
                             background-size: 8px 1px;
                             background-repeat: repeat-x;
@@ -465,9 +461,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
-                            on_click=functools.partial(
-                                selected_formats.save_file, info.name
-                            ),
+                            on_click=functools.partial(selected_formats.save_file, info.name),
                         ).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props(
                             "round",
@@ -477,10 +471,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         def _add_task(self, name: str, content: BinaryIO) -> None:
             if app.storage.user.get("auto_detect_input_format"):
                 cur_suffix = name.rpartition(".")[-1].lower()
-                if (
-                    cur_suffix in plugin_manager.plugin_registry
-                    and cur_suffix != self.input_format
-                ):
+                if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
             upload_path = self.temp_path / name
             content.seek(0)
@@ -542,9 +533,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             try:
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always", BaseWarning)
-                    warnings.filterwarnings(
-                        "ignore", category=PydanticDeprecationWarning
-                    )
+                    warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
                     input_option = get_type_hints(input_plugin.plugin_object.load).get(
@@ -611,9 +600,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 return Response(*result)
             raise HTTPException(404, "File not found")
 
-        def _export_one(
-            self, filename: str
-        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if (task := self.files_to_convert.get(filename)) and task.success:
                 return (
                     task.output_path.read_bytes(),
@@ -681,9 +668,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     return
 
                 save_filename = unquote(
-                    result[2]["Content-Disposition"].removeprefix(
-                        "attachment; filename="
-                    )
+                    result[2]["Content-Disposition"].removeprefix("attachment; filename=")
                 )
                 save_path = await app.native.main_window.create_file_dialog(
                     webview.SAVE_DIALOG,
@@ -730,12 +715,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         ui.button(icon="menu", on_click=drawer.toggle)
 
         async def handle_key(e: KeyEventArguments) -> None:
-            if (
-                e.modifiers.alt
-                or e.modifiers.ctrl
-                or e.modifiers.meta
-                or e.modifiers.shift
-            ):
+            if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
                 if e.modifiers.alt and e.action.keyup and not e.action.repeat:
                     if e.key == "c":
                         convert_menu.open()
@@ -776,9 +756,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     if formats_menu.value:
                         if count >= 10 + key:
                             next_focus = 10 * ((current_index // 10) + 1)
-                            next_focus = (
-                                key if next_focus + key >= count else next_focus + key
-                            )
+                            next_focus = key if next_focus + key >= count else next_focus + key
                             format_item.value = format_item._values[next_focus]
                         elif current_index != key:
                             format_item.value = format_item._values[key]
@@ -881,15 +859,11 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ui.menu() as lang_menu:
                 ui.menu_item(
                     "简体中文",
-                    on_click=lambda: ui.open("/?lang=zh_CN")
-                    if lang != "zh_CN"
-                    else None,
+                    on_click=lambda: ui.open("/?lang=zh_CN") if lang != "zh_CN" else None,
                 )
                 ui.menu_item(
                     "English",
-                    on_click=lambda: ui.open("/?lang=en_US")
-                    if lang != "en_US"
-                    else None,
+                    on_click=lambda: ui.open("/?lang=en_US") if lang != "en_US" else None,
                 )
                 ui.menu_item("日本語").props("disabled")
         with ui.dialog() as about_dialog, ui.card():
@@ -1076,9 +1050,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ui.label(
                                 _("Drag and drop files here or click to upload"),
                             ).classes("text-lg")
-            with main_splitter.after, ui.scroll_area().classes(
-                "w-full h-auto min-h-full"
-            ):
+            with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
                 with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                     with ui.button(
                         icon="play_arrow",

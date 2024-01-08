@@ -50,9 +50,7 @@ class SigmoidNode:
     def k(self) -> float:
         return 5.5
 
-    def __post_init__(
-        self, _start, _end, _center, _radius, _key_left, _key_right
-    ) -> None:
+    def __post_init__(self, _start, _end, _center, _radius, _key_left, _key_right) -> None:
         self.start = _start
         self.end = _end
         self.center = _center
@@ -69,9 +67,7 @@ class SigmoidNode:
             al = a * math.pow(_radius / left, power)
             bl = left / _radius
             cl = al * bl * self.k / (2 * al - 1)
-            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(
-                cl * math.exp(cl), -1
-            )
+            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(cl * math.exp(cl), -1)
             h_l = h * k_l / (2 * k_l - self.k)
             d_l = -_radius / k_l * math.log(2 * h_l / h - 1)
 
@@ -95,9 +91,7 @@ class SigmoidNode:
             ar = a * math.pow(_radius / r, power)
             br = r / _radius
             cr = ar * br * self.k / (2 * ar - 1)
-            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(
-                cr * math.exp(cr), -1
-            )
+            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
             h_r = h * k_r / (2 * k_r - self.k)
             d_r = -_radius / k_r * math.log(2 * h_r / h - 1)
 
@@ -139,9 +133,7 @@ class BaseLayerGenerator:
                 and next_note.start - current_note.end <= MAX_BREAK
             ):
                 start = clamp(
-                    current_note.end
-                    - current_note.slide_right
-                    + next_note.slide_offset,
+                    current_note.end - current_note.slide_right + next_note.slide_offset,
                     current_note.start,
                     current_note.end,
                 )
@@ -181,9 +173,7 @@ class BaseLayerGenerator:
     def pitch_at_secs(self, secs: float) -> float:
         query = [node for node in self.sigmoid_nodes if node.start <= secs < node.end]
         if len(query) == 0:
-            on_note_index = find_index(
-                self.note_list, lambda note: note.start <= secs < note.end
-            )
+            on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
                 return self.note_list[on_note_index].key * 100
             return (
@@ -203,9 +193,7 @@ class BaseLayerGenerator:
             top = second.value_at_secs(first.end)
             diff1 = first.slope_at_secs(second.start)
             diff2 = second.slope_at_secs(first.end)
-            return self.cubic_bezier(width, bottom, top, diff1, diff2)(
-                secs - second.start
-            )
+            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - second.start)
         else:
             msg = "More than two sigmoid nodes overlapped"
             raise ParamsError(msg)
@@ -253,14 +241,10 @@ class GaussianNode:
         if is_end_point:
             sigma_l = min(sigma_base, _length_l / self.expand)
             self.start = self.origin - sigma_l * self.expand
-            self.gaussian_l = lambda x: _depth * math.exp(
-                -(((x - self.origin) / sigma_l) ** 2)
-            )
+            self.gaussian_l = lambda x: _depth * math.exp(-(((x - self.origin) / sigma_l) ** 2))
             sigma_r = min(sigma_base, _length_r / self.expand)
             self.end = self.origin + sigma_r * self.expand
-            self.gaussian_r = lambda x: _depth * math.exp(
-                -(((x - self.origin) / sigma_r) ** 2)
-            )
+            self.gaussian_r = lambda x: _depth * math.exp(-(((x - self.origin) / sigma_r) ** 2))
         else:
             sign = 1 if _depth > 0 else -1 if _depth < 0 else 0
             depth = abs(_depth)
@@ -481,7 +465,5 @@ class VibratoLayerGenerator:
 
     def pitch_diff_at_secs(self, secs: float) -> float:
         return sum(
-            node.value_at_secs(secs)
-            for node in self.vibrato_nodes
-            if node.start <= secs < node.end
+            node.value_at_secs(secs) for node in self.vibrato_nodes if node.start <= secs < node.end
         )

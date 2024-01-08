@@ -40,9 +40,7 @@ class MusicXMLParser:
                     None,
                 )
             tracks.append(
-                self.parse_track(
-                    index, part, score_part, measure_borders, import_tick_rate
-                )
+                self.parse_track(index, part, score_part, measure_borders, import_tick_rate)
             )
 
         return Project(
@@ -70,9 +68,7 @@ class MusicXMLParser:
             ):
                 numerator = int(time_signature_node.beats[0])
                 denominator = int(time_signature_node.beat_type[0])
-                current_time_signature = TimeSignature(
-                    numerator=numerator, denominator=denominator
-                )
+                current_time_signature = TimeSignature(numerator=numerator, denominator=denominator)
                 time_signatures.append(current_time_signature)
 
             sound_nodes = measure_node.sound
@@ -109,9 +105,7 @@ class MusicXMLParser:
             for note_node in note_nodes:
                 duration_nodes = note_node.duration
                 duration = (
-                    int(duration_nodes[0]) * import_tick_rate
-                    if len(duration_nodes)
-                    else None
+                    int(duration_nodes[0]) * import_tick_rate if len(duration_nodes) else None
                 )
                 if not duration:
                     if note_node.grace:
@@ -133,11 +127,7 @@ class MusicXMLParser:
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric
-                lyric = (
-                    lyric_nodes[0].text[0].value
-                    if len(lyric_nodes)
-                    else DEFAULT_CHINESE_LYRIC
-                )
+                lyric = lyric_nodes[0].text[0].value if len(lyric_nodes) else DEFAULT_CHINESE_LYRIC
 
                 if not is_inside_note:
                     note = Note(
@@ -157,11 +147,7 @@ class MusicXMLParser:
                 tick_position += duration
 
                 tie_nodes = note_node.tie
-                if (
-                    len(tie_nodes)
-                    and (tie_node := tie_nodes[0])
-                    and tie_node.type_value
-                ):
+                if len(tie_nodes) and (tie_node := tie_nodes[0]) and tie_node.type_value:
                     if tie_node.type_value == StartStop.START:
                         is_inside_note = True
                     elif tie_node.type_value == StartStop.STOP:

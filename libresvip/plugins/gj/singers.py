@@ -14,6 +14,4 @@ singer2id = defaultdict(
     },
 )
 
-id2singer = defaultdict(
-    lambda: DEFAULT_SINGER, {value: key for key, value in singer2id.items()}
-)
+id2singer = defaultdict(lambda: DEFAULT_SINGER, {value: key for key, value in singer2id.items()})

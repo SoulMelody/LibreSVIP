@@ -51,9 +51,7 @@ class XSLineParam:
 
     def convert_to_param(self):
         self.line_param = struct.pack("<i", len(self.nodes))
-        self.line_param += struct.pack(
-            f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes)
-        )
+        self.line_param += struct.pack(f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes))
         expected_len = max(64, 2 ** math.ceil(math.log2(len(self.line_param))))
         if len(self.line_param) < expected_len:
             self.line_param += b"\x00" * (expected_len - len(self.line_param))

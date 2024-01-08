@@ -232,7 +232,6 @@ VocalShifterProjectData = Struct(
     "size" / Int32ul,
     "project_metadata" / VocalShifterProjectMetadata,
     "track_metadatas" / VocalShifterTrackMetadata[this.project_metadata.track_count],
-    "pattern_metadatas"
-    / VocalShifterPatternMetadata[this.project_metadata.pattern_count],
+    "pattern_metadatas" / VocalShifterPatternMetadata[this.project_metadata.pattern_count],
     "pattern_datas" / VocalShifterPatternData[this.project_metadata.pattern_count],
 )

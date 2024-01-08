@@ -49,9 +49,7 @@ class Svip3Parser:
             track_list=tracks,
         )
 
-    def parse_time_signatures(
-        self, beat_list: list[Svip3SongBeat]
-    ) -> list[TimeSignature]:
+    def parse_time_signatures(self, beat_list: list[Svip3SongBeat]) -> list[TimeSignature]:
         time_signature_list = []
         for beat in beat_list:
             time_signature_list.append(
@@ -90,9 +88,7 @@ class Svip3Parser:
                     tracks.append(xstudio_audio_track)
         return tracks
 
-    def parse_audio_track(
-        self, audio_track: Svip3AudioTrack
-    ) -> Optional[InstrumentalTrack]:
+    def parse_audio_track(self, audio_track: Svip3AudioTrack) -> Optional[InstrumentalTrack]:
         audio_file_path = None
         offset = 0
         if len(audio_track.pattern_list):
@@ -191,10 +187,7 @@ class Svip3Parser:
         if svip3_note.consonant_len > 0:
             return Phones(
                 head_length_in_secs=(
-                    svip3_note.consonant_len
-                    / TICKS_IN_BEAT
-                    * 60.0
-                    / self.song_tempo_list[0].bpm
+                    svip3_note.consonant_len / TICKS_IN_BEAT * 60.0 / self.song_tempo_list[0].bpm
                 )
             )
         return None
@@ -230,9 +223,7 @@ class Svip3Parser:
         visible_nodes = [
             node
             for node in pattern.edited_pitch_line
-            if left + self.first_bar_length
-            <= node.pos + offset
-            <= right + self.first_bar_length
+            if left + self.first_bar_length <= node.pos + offset <= right + self.first_bar_length
         ]
         for node in visible_nodes:
             pos = node.pos + offset

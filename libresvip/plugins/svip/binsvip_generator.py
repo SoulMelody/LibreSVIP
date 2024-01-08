@@ -66,9 +66,7 @@ class BinarySvipGenerator:
             )
         )
         self.first_bar_tempo = [
-            tempo
-            for tempo in project.song_tempo_list
-            if tempo.position < self.first_bar_tick
+            tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]
         self.is_absolute_time_mode = any(
             (tempo.bpm < 20 or tempo.bpm > 300) for tempo in project.song_tempo_list
@@ -83,8 +81,7 @@ class BinarySvipGenerator:
         # beat
         beat_list = model.beat_list.buf.items
         if self.is_absolute_time_mode or any(
-            (beat.numerator > 255 or beat.denominator > 32)
-            for beat in project.time_signature_list
+            (beat.numerator > 255 or beat.denominator > 32) for beat in project.time_signature_list
         ):
             beat_list.append(XSSongBeat(bar_index=0, beat_size=XSBeatSize(x=4, y=4)))
         else:
@@ -172,9 +169,7 @@ class BinarySvipGenerator:
     def generate_note(self, note: Note) -> XSNote:
         if note.lyric or note.pronunciation:
             xs_note = XSNote(
-                start_pos=round(
-                    self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-                ),
+                start_pos=round(self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)),
                 key_index=note.key_number + 12,
                 head_tag=OpenSvipNoteHeadTags.get_index(note.head_tag),
                 lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
@@ -244,17 +239,10 @@ class BinarySvipGenerator:
         # param_curve.points = sorted(param_curve.points, key=operator.attrgetter("x"))
         for p in param_curve.points.root:
             if left <= p.x <= right:
-                if (
-                    self.is_absolute_time_mode
-                    and is_ticks
-                    and p.x != left
-                    and p.x != right
-                ):
+                if self.is_absolute_time_mode and is_ticks and p.x != left and p.x != right:
                     pos = (
                         round(
-                            self.synchronizer.get_actual_ticks_from_ticks(
-                                p.x - self.first_bar_tick
-                            )
+                            self.synchronizer.get_actual_ticks_from_ticks(p.x - self.first_bar_tick)
                         )
                         + 1920
                     )

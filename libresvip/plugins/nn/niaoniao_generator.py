@@ -27,11 +27,7 @@ class NiaoniaoGenerator:
         self.length_multiplier = 60 if self.options.version == 19 else 30
         if self.options.track_index < 0:
             first_singing_track = next(
-                (
-                    track
-                    for track in project.track_list
-                    if isinstance(track, SingingTrack)
-                ),
+                (track for track in project.track_list if isinstance(track, SingingTrack)),
                 None,
             )
         else:
@@ -55,9 +51,7 @@ class NiaoniaoGenerator:
             )
         return nn_project
 
-    def generate_time_signature(
-        self, time_signature_list: list[TimeSignature]
-    ) -> NNTimeSignature:
+    def generate_time_signature(self, time_signature_list: list[TimeSignature]) -> NNTimeSignature:
         if not len(time_signature_list):
             self.first_bar_length = 1920
             return NNTimeSignature()
@@ -75,16 +69,13 @@ class NiaoniaoGenerator:
         for note in singing_track.note_list:
             nn_note = NNNote(
                 lyric=note.lyric,
-                pronunciation=note.pronunciation
-                or " ".join(pypinyin.lazy_pinyin(note.lyric)),
+                pronunciation=note.pronunciation or " ".join(pypinyin.lazy_pinyin(note.lyric)),
                 key=88 - note.key_number,
                 start=note.start_pos // self.length_multiplier,
                 duration=note.length // self.length_multiplier,
             )
             if singing_track.edited_params.pitch:
-                nn_note.pitch = self.generate_pitch(
-                    singing_track.edited_params.pitch, note
-                )
+                nn_note.pitch = self.generate_pitch(singing_track.edited_params.pitch, note)
             nn_notes.append(nn_note)
         return nn_notes
 
@@ -112,9 +103,7 @@ class NiaoniaoGenerator:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
                         value = 50 + (
-                            0
-                            if point.y == -100
-                            else round((point.y - note.key_number * 100) / 12)
+                            0 if point.y == -100 else round((point.y - note.key_number * 100) / 12)
                         )
 
                 nn_pitch_param.append(value)
@@ -132,8 +121,7 @@ class NiaoniaoGenerator:
             else:
                 for j in range(len(buffer)):
                     nn_pitch_param[previous_node_index + j] = round(
-                        previous_node
-                        + j * (nn_pitch_param[i] - buffer[j]) / len(buffer)
+                        previous_node + j * (nn_pitch_param[i] - buffer[j]) / len(buffer)
                     )
                 buffer.clear()
 

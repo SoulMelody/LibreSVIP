@@ -45,12 +45,8 @@ class VoisonaGenerator:
     def generate_project(self, project: Project) -> VoiSonaProject:
         voisona_project = VoiSonaProject()
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
-        self.first_bar_length = int(
-            project.time_signature_list[0].bar_length() * TICK_RATE
-        )
-        default_time_signatures = self.generate_time_signatures(
-            project.time_signature_list
-        )
+        self.first_bar_length = int(project.time_signature_list[0].bar_length() * TICK_RATE)
+        default_time_signatures = self.generate_time_signatures(project.time_signature_list)
         default_tempos = self.generate_tempos(project.song_tempo_list)
         voisona_project.tracks.append(VoiSonaTrack())
         for i, track in enumerate(project.track_list):
@@ -67,9 +63,7 @@ class VoisonaGenerator:
                     audio_event=[
                         VoiSonaAudioEventItem(
                             path=track.audio_file_path,
-                            offset=self.time_synchronizer.get_actual_secs_from_ticks(
-                                track.offset
-                            ),
+                            offset=self.time_synchronizer.get_actual_secs_from_ticks(track.offset),
                         )
                     ],
                 )
@@ -98,17 +92,14 @@ class VoisonaGenerator:
         return VoiSonaTempoItem(
             sound=[
                 VoiSonaSoundItem(
-                    clock=round(tempo.position * TICK_RATE)
-                    + (self.first_bar_length if i else 0),
+                    clock=round(tempo.position * TICK_RATE) + (self.first_bar_length if i else 0),
                     tempo=tempo.bpm,
                 )
                 for i, tempo in enumerate(tempos)
             ]
         )
 
-    def generate_time_signatures(
-        self, time_signatures: list[TimeSignature]
-    ) -> VoiSonaBeatItem:
+    def generate_time_signatures(self, time_signatures: list[TimeSignature]) -> VoiSonaBeatItem:
         beat = VoiSonaBeatItem(
             time=[
                 VoiSonaTimeItem(
@@ -152,9 +143,7 @@ class VoisonaGenerator:
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
     ) -> Optional[VoiSonaParameterItem]:
-        if (
-            data := generate_for_voisona(pitch, tempo_list, self.first_bar_length)
-        ) is not None:
+        if (data := generate_for_voisona(pitch, tempo_list, self.first_bar_length)) is not None:
             return VoiSonaParameterItem(
                 length=data.length,
                 data=[

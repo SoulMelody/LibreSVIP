@@ -19,8 +19,7 @@ class BdistPortable(Command):
         (
             "plat-name=",
             "p",
-            "platform name to embed in generated filenames "
-            "(default: %s)" % get_platform(),
+            "platform name to embed in generated filenames " "(default: %s)" % get_platform(),
         ),
         (
             "format=",
@@ -30,8 +29,7 @@ class BdistPortable(Command):
         (
             "keep-temp",
             "k",
-            "keep the pseudo-installation tree around after "
-            + "creating the distribution archive",
+            "keep the pseudo-installation tree around after " + "creating the distribution archive",
         ),
         ("dist-dir=", "d", "directory to put final built distributions in"),
         ("skip-build", None, "skip rebuilding everything (for testing/debugging)"),

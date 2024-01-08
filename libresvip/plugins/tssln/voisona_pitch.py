@@ -46,9 +46,7 @@ class VoiSonaTrackPitchData:
 
     @property
     def length(self) -> int:
-        last_has_index = find_last_index(
-            self.events, lambda event: event.index is not None
-        )
+        last_has_index = find_last_index(self.events, lambda event: event.index is not None)
         length = self.events[last_has_index].index + sum(
             event.repeat or 1 for event in self.events[last_has_index:]
         )
@@ -66,11 +64,7 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
         pos = event.index - data.tick_prefix
         length = event.repeat
         try:
-            value = (
-                round(hz2midi(math.e**event.value) * 100)
-                if event.value is not None
-                else -100
-            )
+            value = round(hz2midi(math.e**event.value) * 100) if event.value is not None else -100
             if value != current_value or next_pos != pos:
                 converted_points.append(Point(x=round(pos), y=value))
                 if value == -100:
@@ -81,11 +75,7 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
         next_pos = pos + length
     converted_points.append(Point.end_point())
 
-    return (
-        ParamCurve(points=Points(root=converted_points))
-        if len(converted_points) > 2
-        else None
-    )
+    return ParamCurve(points=Points(root=converted_points)) if len(converted_points) > 2 else None
 
 
 def append_ending_points(data: VoiSonaTrackPitchData) -> VoiSonaTrackPitchData:
@@ -119,9 +109,7 @@ def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloa
                 and tempos[current_tempo_index + 1][0] <= event.index
             ):
                 current_tempo_index += 1
-            ticks_in_time_unit = (
-                TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
-            )
+            ticks_in_time_unit = TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
             tick_pos = (
                 tempos[current_tempo_index][1]
                 + (event.index - tempos[current_tempo_index][0]) * ticks_in_time_unit
@@ -141,15 +129,11 @@ def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloa
             )
             current_tempo_index += 1
         repeat_in_ticks += (
-            remaining_repeat
-            * TIME_UNIT_AS_TICKS_PER_BPM
-            * tempos[current_tempo_index][2]
+            remaining_repeat * TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
         )
         next_pos = pos + repeat
         next_tick_pos = tick_pos + repeat_in_ticks
-        events_normalized.append(
-            VoiSonaPitchEventFloat(tick_pos, repeat_in_ticks, event.value)
-        )
+        events_normalized.append(VoiSonaPitchEventFloat(tick_pos, repeat_in_ticks, event.value))
     return [
         VoiSonaPitchEventFloat(
             tick.index + data.tick_prefix,
@@ -206,9 +190,7 @@ def generate_for_voisona(
                 VoiSonaPitchEventFloat(float(index), float(repeat), float(value))
             )
     are_events_connected_to_next = [
-        this_event.index + this_event.repeat >= next_event.index
-        if next_event
-        else False
+        this_event.index + this_event.repeat >= next_event.index if next_event else False
         for this_event, next_event in zip(
             events_with_full_params, events_with_full_params[1:] + [None]
         )
@@ -243,9 +225,7 @@ def denormalize_from_tick(
         tick_prefix,
     )
     events_with_full_params = [
-        event
-        if event.index is None
-        else event._replace(index=event.index + tick_prefix)
+        event if event.index is None else event._replace(index=event.index + tick_prefix)
         for event in events_with_full_params
     ]
     events = []
@@ -254,17 +234,13 @@ def denormalize_from_tick(
         if event_double.index is not None:
             tick_pos = event_double.index
         while (
-            current_tempo_index + 1 < len(tempos)
-            and tempos[current_tempo_index + 1][1] < tick_pos
+            current_tempo_index + 1 < len(tempos) and tempos[current_tempo_index + 1][1] < tick_pos
         ):
             current_tempo_index += 1
-        ticks_per_time_unit = (
-            tempos[current_tempo_index][2] * TIME_UNIT_AS_TICKS_PER_BPM
-        )
+        ticks_per_time_unit = tempos[current_tempo_index][2] * TIME_UNIT_AS_TICKS_PER_BPM
         pos = (
             tempos[current_tempo_index][0]
-            + (event_double.index - tempos[current_tempo_index][1])
-            / ticks_per_time_unit
+            + (event_double.index - tempos[current_tempo_index][1]) / ticks_per_time_unit
         )
         repeat_in_ticks = event_double.repeat
         remaining_repeat_in_ticks = repeat_in_ticks
@@ -272,9 +248,7 @@ def denormalize_from_tick(
         while (current_tempo_index + 1 < len(tempos)) and (
             tempos[current_tempo_index + 1][1] < tick_pos + repeat_in_ticks
         ):
-            repeat += tempos[current_tempo_index + 1][0] - max(
-                tempos[current_tempo_index][0], pos
-            )
+            repeat += tempos[current_tempo_index + 1][0] - max(tempos[current_tempo_index][0], pos)
             remaining_repeat_in_ticks -= tempos[current_tempo_index + 1][1] - max(
                 tempos[current_tempo_index][1], tick_pos
             )
@@ -282,9 +256,7 @@ def denormalize_from_tick(
         repeat += remaining_repeat_in_ticks / (
             TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
         )
-        events.append(
-            VoiSonaPitchEvent(round(pos), int(round(repeat)), event_double.value)
-        )
+        events.append(VoiSonaPitchEvent(round(pos), int(round(repeat)), event_double.value))
     return events
 
 
@@ -295,9 +267,7 @@ def restore_connection(
     for event, is_connected_to_next in zip(events, are_events_connected_to_next):
         new_events.append(event)
         if not is_connected_to_next:
-            new_events.append(
-                VoiSonaPitchEvent(event.index + event.repeat, 0, event.value)
-            )
+            new_events.append(VoiSonaPitchEvent(event.index + event.repeat, 0, event.value))
     return new_events
 
 
@@ -312,9 +282,7 @@ def merge_events_if_possible(
             and event.index + event.repeat == next_event.index
         ):
             new_events.append(
-                VoiSonaPitchEvent(
-                    event.index, event.repeat + next_event.repeat, event.value
-                )
+                VoiSonaPitchEvent(event.index, event.repeat + next_event.repeat, event.value)
             )
         else:
             new_events.append(event)
@@ -337,6 +305,4 @@ def remove_redundant_index(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitch
 
 
 def remove_redundant_repeat(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitchEvent]:
-    return [
-        event if event.repeat != 1 else event._replace(repeat=None) for event in events
-    ]
+    return [event if event.repeat != 1 else event._replace(repeat=None) for event in events]

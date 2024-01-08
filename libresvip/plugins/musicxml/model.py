@@ -39,9 +39,7 @@ class MXmlMeasureContent:
         return cls(duration=duration, note=None, note_type=None, bpm=None)
 
     @classmethod
-    def with_note(
-        cls, duration: int, note: Note, note_type: NoteType
-    ) -> MXmlMeasureContent:
+    def with_note(cls, duration: int, note: Note, note_type: NoteType) -> MXmlMeasureContent:
         return cls(duration=duration, note=note, note_type=note_type, bpm=None)
 
 

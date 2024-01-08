@@ -22,9 +22,7 @@ class MidiConverter(plugin_base.SVSConverterBase):
             options=options,
         ).parse_project(midi_file)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         midi_file = MidiGenerator(
             options=options,
         ).generate_project(project)

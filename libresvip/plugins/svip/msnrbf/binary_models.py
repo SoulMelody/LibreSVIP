@@ -390,17 +390,13 @@ MemberTypeInfo = Struct(
 
 MemberValueWithType = Struct(
     "binary_type_enum"
-    / Computed(
-        lambda this: (this._.member_type_info["binary_type_enums"][this._._index])
-    ),
+    / Computed(lambda this: (this._.member_type_info["binary_type_enums"][this._._index])),
     "value"
     / Switch(
         lambda this: this.binary_type_enum,
         {
             "Primitive": PrimitiveType(
-                lambda this: this._.member_type_info["additional_infos"][this._._index][
-                    "info"
-                ]
+                lambda this: this._.member_type_info["additional_infos"][this._._index]["info"]
             ),
         },
         default=LazyBound(lambda: Record),
@@ -434,16 +430,12 @@ ClassWithId = ObjectRegistryAdapter(
         "metadata_id" / Int32sl,
         "class_info"
         / Computed(
-            lambda this: (
-                classes_by_id[threading.get_ident()][this.metadata_id]["class_info"]
-            )
+            lambda this: (classes_by_id[threading.get_ident()][this.metadata_id]["class_info"])
         ),
         "member_type_info"
         / Computed(
             lambda this: (
-                classes_by_id[threading.get_ident()][this.metadata_id].get(
-                    "member_type_info", None
-                )
+                classes_by_id[threading.get_ident()][this.metadata_id].get("member_type_info", None)
             )
         ),
         "member_values"
@@ -523,7 +515,7 @@ BinaryArray = ObjectRegistryAdapter(
                     ),
                 ),
             ),
-        )
+        ),
         # TODO: implement multidimensional arrays
     )
 )
@@ -575,8 +567,7 @@ ArraySinglePrimitive = ObjectRegistryAdapter(
         "record_type_enum" / Computed(RecordTypeEnum.ArraySinglePrimitive),
         "array_info" / ArrayInfo,
         "primitive_type_enum" / PrimitiveTypeEnum,
-        "member_values"
-        / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
+        "member_values" / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
     )
 )
 
@@ -674,8 +665,7 @@ Record = Struct(
 )
 
 RecordStream = RepeatUntil(
-    lambda obj, lst, ctx: obj is None
-    or obj["record_type_enum"] == RecordTypeEnum.MessageEnd,
+    lambda obj, lst, ctx: obj is None or obj["record_type_enum"] == RecordTypeEnum.MessageEnd,
     Record,
 )
 

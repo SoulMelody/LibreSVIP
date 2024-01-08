@@ -10,8 +10,6 @@ from .srt_generator import SrtGenerator
 
 
 class SrtConverter(plugin_base.WriteOnlyConverterBase):
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         items = SrtGenerator(options).generate_project(project)
         path.write_text(compose(items), encoding=options.encoding)

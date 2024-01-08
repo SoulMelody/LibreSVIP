@@ -102,10 +102,7 @@ class RangeInterval:
 
     def shift(self, offset: int) -> RangeInterval:
         return RangeInterval(
-            [
-                (sub_range[0] + offset, sub_range[1] + offset)
-                for sub_range in self.sub_ranges()
-            ]
+            [(sub_range[0] + offset, sub_range[1] + offset) for sub_range in self.sub_ranges()]
         )
 
     def __and__(self, other: RangeInterval) -> RangeInterval:

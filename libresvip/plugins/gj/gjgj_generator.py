@@ -56,14 +56,10 @@ class GjgjGenerator:
             tempo_map=GjgjTempoMap(
                 ticks_per_quarter_note=TICKS_IN_BEAT,
                 tempos=self.generate_tempos(project.song_tempo_list),
-                time_signature=self.generate_time_signatures(
-                    project.time_signature_list
-                ),
+                time_signature=self.generate_time_signatures(project.time_signature_list),
             ),
         )
-        gjgj_project.tracks, gjgj_project.accompaniments = self.generate_tracks(
-            project.track_list
-        )
+        gjgj_project.tracks, gjgj_project.accompaniments = self.generate_tracks(project.track_list)
         return gjgj_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[GjgjTempos]:
@@ -104,15 +100,11 @@ class GjgjGenerator:
                 singing_tracks.append(self.generate_singing_track(track, track_index))
                 track_index += 1
             elif isinstance(track, InstrumentalTrack):
-                instrumental_tracks.append(
-                    self.generate_instrumental_track(track, track_index)
-                )
+                instrumental_tracks.append(self.generate_instrumental_track(track, track_index))
                 track_index += 1
         return singing_tracks, instrumental_tracks
 
-    def generate_singing_track(
-        self, track: SingingTrack, track_index: int
-    ) -> GjgjSingingTrack:
+    def generate_singing_track(self, track: SingingTrack, track_index: int) -> GjgjSingingTrack:
         return GjgjSingingTrack(
             id_value=str(track_index),
             name=singer2id[self.options.singer or track.ai_singer_name],
@@ -135,9 +127,7 @@ class GjgjGenerator:
     def position_to_time(self, origin: int) -> int:
         position = origin + self.first_bar_length
         if position > 0:
-            return round(
-                self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000
-            )
+            return round(self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000)
         else:
             return round(position / TICKS_IN_BEAT * 60 / self.first_bar_bpm * 10000000)
 
@@ -161,31 +151,23 @@ class GjgjGenerator:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:
                         note_start_pos_in_ticks = note.start_pos + self.first_bar_length
-                        note_start_pos_in_secs = (
-                            self.time_synchronizer.get_actual_secs_from_ticks(
-                                note_start_pos_in_ticks
-                            )
+                        note_start_pos_in_secs = self.time_synchronizer.get_actual_secs_from_ticks(
+                            note_start_pos_in_ticks
                         )
                         phone_head_position_in_secs = (
-                            note_start_pos_in_secs
-                            + note.edited_phones.head_length_in_secs
+                            note_start_pos_in_secs + note.edited_phones.head_length_in_secs
                         )
                         phone_head_position_in_ticks = (
                             self.time_synchronizer.get_actual_ticks_from_secs(
                                 phone_head_position_in_secs
                             )
                         )
-                        difference = (
-                            note_start_pos_in_ticks - phone_head_position_in_ticks
-                        )
+                        difference = note_start_pos_in_ticks - phone_head_position_in_ticks
                         pre_time = -difference * (2000 / 3) / TICKS_IN_BEAT
 
                     if note.edited_phones.mid_ratio_over_tail != -1:
                         post_time = (
-                            -(
-                                note.length
-                                / (1 + note.edited_phones.mid_ratio_over_tail)
-                            )
+                            -(note.length / (1 + note.edited_phones.mid_ratio_over_tail))
                             * (2000 / 3)
                             / TICKS_IN_BEAT
                         )

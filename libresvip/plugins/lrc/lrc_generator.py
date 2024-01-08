@@ -36,8 +36,7 @@ class LrcGenerator:
             commit_flag = False
             condition_symbol = SYMBOL_PATTERN.search(note.lyric) is not None
             condition_gap = (
-                i + 1 < len(note_list)
-                and note_list[i + 1].start_pos - note.end_pos >= 60
+                i + 1 < len(note_list) and note_list[i + 1].start_pos - note.end_pos >= 60
             )
             if self.options.split_by == SplitOption.SYMBOL:
                 commit_flag = condition_symbol
@@ -103,6 +102,4 @@ class LrcGenerator:
         )
 
     def get_time_from_ticks(self, ticks: int) -> datetime.datetime:
-        return datetime.datetime.fromtimestamp(
-            self.synchronizer.get_actual_secs_from_ticks(ticks)
-        )
+        return datetime.datetime.fromtimestamp(self.synchronizer.get_actual_secs_from_ticks(ticks))

@@ -30,9 +30,7 @@ class UFDataGenerator:
         return UFData(
             project=UFProject(
                 tempos=self.generate_tempos(project.song_tempo_list),
-                time_signatures=self.generate_time_signatures(
-                    project.time_signature_list
-                ),
+                time_signatures=self.generate_time_signatures(project.time_signature_list),
                 tracks=self.generate_tracks(project.track_list),
                 measure_prefix=0,
             )

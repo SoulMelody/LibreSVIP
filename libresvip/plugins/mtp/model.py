@@ -177,9 +177,7 @@ class MutaTrack(DataclassMixin):
 class MutaProject(DataclassMixin):
     file_version: int = csfield(Int32ul)
     tempos: list[MutaTempo] = csfield(muta_prefixed_array(MutaTempo))
-    time_signatures: list[MutaTimeSignature] = csfield(
-        muta_prefixed_array(MutaTimeSignature)
-    )
+    time_signatures: list[MutaTimeSignature] = csfield(muta_prefixed_array(MutaTimeSignature))
     tracks: list[MutaTrack] = csfield(muta_prefixed_array(MutaTrack))
     line_break: bytes = csfield(LineBreak)
 

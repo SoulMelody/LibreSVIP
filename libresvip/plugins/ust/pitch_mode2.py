@@ -34,9 +34,7 @@ class UtauMode2NotePitchData:
 
 @dataclasses.dataclass
 class UtauMode2TrackPitchData:
-    notes: list[Optional[UtauMode2NotePitchData]] = dataclasses.field(
-        default_factory=list
-    )
+    notes: list[Optional[UtauMode2NotePitchData]] = dataclasses.field(default_factory=list)
 
 
 @dataclasses.dataclass
@@ -75,11 +73,7 @@ def pitch_to_utau_mode2_track(
             ),
             (
                 next(
-                    (
-                        point.x
-                        for point in absolute_pitch
-                        if point.x >= notes[i].start_pos
-                    ),
+                    (point.x for point in absolute_pitch if point.x >= notes[i].start_pos),
                     notes[i].start_pos,
                 )
                 - notes[i].start_pos
@@ -106,9 +100,7 @@ def pitch_to_utau_mode2_track(
                 curr_note.points[0].y / 10,
                 [
                     milli_sec_from_tick(next_point.x - prev_point.x, curr_note.bpm)
-                    for prev_point, next_point in zip(
-                        curr_note.points, curr_note.points[1:]
-                    )
+                    for prev_point, next_point in zip(curr_note.points, curr_note.points[1:])
                 ],
                 [point.y / 10 for point in curr_note.points[1:]],
                 [""] * (len(curr_note.points) - 1),
@@ -137,9 +129,7 @@ def pitch_from_utau_mode2_track(
         )
         if note_pitch.start is not None:
             pos_in_millis = note_start_in_millis + note_pitch.start
-            tick_pos = tick_time_transformer.get_actual_ticks_from_secs(
-                pos_in_millis / 1000
-            )
+            tick_pos = tick_time_transformer.get_actual_ticks_from_secs(pos_in_millis / 1000)
             start_shift = round(
                 (last_note.key_number - note.key_number) * 100
                 if last_note and note.start_pos == last_note.end_pos
@@ -158,9 +148,7 @@ def pitch_from_utau_mode2_track(
                 if curve_type is None:
                     curve_type = ""
                 pos_in_millis += width
-                tick_pos = tick_time_transformer.get_actual_ticks_from_secs(
-                    pos_in_millis / 1000
-                )
+                tick_pos = tick_time_transformer.get_actual_ticks_from_secs(pos_in_millis / 1000)
                 this_point = Point(x=round(tick_pos), y=round(shift * 10))
                 last_point = points[-1]
                 if this_point.x != last_point.x and this_point.y != last_point.y:
@@ -208,9 +196,7 @@ def fix_points_at_last_note(
     if last_note is None or last_note.end_pos != this_note.start_pos:
         return pitch_data
     fixed = [
-        Point(
-            x=point.x, y=point.y + (this_note.key_number - last_note.key_number) * 100
-        )
+        Point(x=point.x, y=point.y + (this_note.key_number - last_note.key_number) * 100)
         if point.x < this_note.start_pos
         else point
         for point in pitch_data
@@ -248,9 +234,7 @@ def shape(pitch_data: list[Point]) -> list[Point]:
     shaped_data = []
     for point in sorted_data:
         if shaped_data and shaped_data[-1].x == point.x:
-            shaped_data[-1] = Point(
-                x=shaped_data[-1].x, y=(shaped_data[-1].y + point.y) // 2
-            )
+            shaped_data[-1] = Point(x=shaped_data[-1].x, y=(shaped_data[-1].y + point.y) // 2)
         else:
             shaped_data.append(point)
     return shaped_data

@@ -86,11 +86,7 @@ class TimeAxis:
             if i == 0:
                 assert tempo.position == 0
             index = next(
-                (
-                    j
-                    for j, seg in enumerate(self.tempo_segments)
-                    if seg.tick_pos >= tempo.position
-                ),
+                (j for j, seg in enumerate(self.tempo_segments) if seg.tick_pos >= tempo.position),
                 -1,
             )
             if index < 0:
@@ -134,36 +130,23 @@ class TimeAxis:
             if i > 0:
                 self.tempo_segments[i].ms_pos = (
                     self.tempo_segments[i - 1].ms_pos
-                    + self.tempo_segments[i - 1].ticks
-                    * self.tempo_segments[i - 1].ms_per_tick
+                    + self.tempo_segments[i - 1].ticks * self.tempo_segments[i - 1].ms_per_tick
                 )
                 self.tempo_segments[i - 1].ms_end = self.tempo_segments[i].ms_pos
 
     def tick_pos_to_ms_pos(self, tick: float) -> float:
         segment = next(
-            (
-                seg
-                for seg in self.tempo_segments
-                if seg.tick_pos == tick or seg.tick_end > tick
-            ),
+            (seg for seg in self.tempo_segments if seg.tick_pos == tick or seg.tick_end > tick),
             None,
         )
-        return (
-            segment.ms_pos + segment.ms_per_tick * (tick - segment.tick_pos)
-            if segment
-            else 0
-        )
+        return segment.ms_pos + segment.ms_per_tick * (tick - segment.tick_pos) if segment else 0
 
     def ms_pos_to_tick_pos(self, ms: float) -> int:
         segment = next(
             (seg for seg in self.tempo_segments if seg.ms_pos == ms or seg.ms_end > ms),
             None,
         )
-        tick_pos = (
-            segment.tick_pos + (ms - segment.ms_pos) * segment.ticks_per_ms
-            if segment
-            else 0
-        )
+        tick_pos = segment.tick_pos + (ms - segment.ms_pos) * segment.ticks_per_ms if segment else 0
         return round(tick_pos)
 
     def ms_between_tick_pos(self, tick_pos: float, tick_end: float) -> float:

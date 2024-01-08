@@ -166,9 +166,7 @@ class UNote(BaseModel):
     lyric: Optional[str] = None
     pitch: Optional[UPitch] = None
     vibrato: Optional[UVibrato] = None
-    note_expressions: Optional[list[UExpression]] = Field(
-        default_factory=list
-    )  # deprecated
+    note_expressions: Optional[list[UExpression]] = Field(default_factory=list)  # deprecated
     phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
     phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
 

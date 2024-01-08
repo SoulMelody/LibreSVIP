@@ -28,11 +28,7 @@ class SvgGenerator:
         )
         if self.options.track_index < 0:
             first_singing_track = next(
-                (
-                    track
-                    for track in project.track_list
-                    if isinstance(track, SingingTrack)
-                ),
+                (track for track in project.track_list if isinstance(track, SingingTrack)),
                 None,
             )
         else:

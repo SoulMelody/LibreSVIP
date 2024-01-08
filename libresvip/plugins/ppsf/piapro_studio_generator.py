@@ -45,9 +45,7 @@ class PiaproStudioGenerator:
         self.first_bar_length = int(project.time_signature_list[0].bar_length())
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
         ppsf_project = PpsfProject()
-        ppsf_project.ppsf.project.meter = self.generate_time_signatures(
-            project.time_signature_list
-        )
+        ppsf_project.ppsf.project.meter = self.generate_time_signatures(project.time_signature_list)
         ppsf_project.ppsf.project.tempo = self.generate_tempos(project.song_tempo_list)
         ppsf_project.ppsf.project.dvl_track = self.generate_singing_tracks(
             project.track_list, ppsf_project.ppsf.gui_settings.track_editor.event_tracks
@@ -64,9 +62,7 @@ class PiaproStudioGenerator:
                 )
         return ppsf_project
 
-    def generate_time_signatures(
-        self, time_signatures: list[TimeSignature]
-    ) -> PpsfMeters:
+    def generate_time_signatures(self, time_signatures: list[TimeSignature]) -> PpsfMeters:
         ppsf_meters = PpsfMeters()
         if len(time_signatures):
             ppsf_meters.const.nume = time_signatures[0].numerator
@@ -128,9 +124,7 @@ class PiaproStudioGenerator:
                         else 0,
                     )
                 )
-                dvl_tracks.append(
-                    PpsfDvlTrackItem(name=track.title, events=track_events)
-                )
+                dvl_tracks.append(PpsfDvlTrackItem(name=track.title, events=track_events))
                 event_tracks.append(event_track)
         return dvl_tracks
 
@@ -143,9 +137,7 @@ class PiaproStudioGenerator:
                 if (
                     track_info := audio_track_info(track.audio_file_path, only_wav=True)
                 ) is not None:
-                    offset = self.time_synchronizer.get_actual_secs_from_ticks(
-                        track.offset
-                    )
+                    offset = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
                     tick_length = round(
                         self.time_synchronizer.get_actual_ticks_from_secs(
                             offset + track_info.duration / 1000
@@ -158,9 +150,7 @@ class PiaproStudioGenerator:
                             PpsfAudioTrackEvent(
                                 tick_length=tick_length,
                                 tick_pos=track.offset,
-                                file_audio_data=PpsfFileAudioData(
-                                    file_path=track.audio_file_path
-                                ),
+                                file_audio_data=PpsfFileAudioData(file_path=track.audio_file_path),
                             )
                         ],
                     )
@@ -186,9 +176,7 @@ class PiaproStudioGenerator:
                     )
         return audio_tracks
 
-    def generate_notes(
-        self, notes: list[Note]
-    ) -> tuple[list[PpsfDvlTrackEvent], list[PpsfNote]]:
+    def generate_notes(self, notes: list[Note]) -> tuple[list[PpsfDvlTrackEvent], list[PpsfNote]]:
         track_events = []
         ppsf_notes = []
         for i, note in enumerate(notes):

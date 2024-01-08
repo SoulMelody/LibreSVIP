@@ -14,8 +14,6 @@ class MutaConverter(plugin_base.SVSConverterBase):
         muta_project = muta_project_struct.parse(path.read_bytes())
         return MutaParser(options).parse_project(muta_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         muta_project = MutaGenerator(options).generate_project(project)
         path.write_bytes(muta_project_struct.build(muta_project))

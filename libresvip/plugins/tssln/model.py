@@ -76,14 +76,10 @@ class VoiSonaVoiceInformation(BaseModel):
     neural_vocoder_list: list[VoiSonaNeuralVocoderListItem] = Field(
         default_factory=list, alias="NeuralVocoderList"
     )
-    emotion_list: list[VoiSonaEmotionListItem] = Field(
-        default_factory=list, alias="EmotionList"
-    )
+    emotion_list: list[VoiSonaEmotionListItem] = Field(default_factory=list, alias="EmotionList")
     character_name: str = Field(alias="CharacterName")
     language: str = Field("ja_JP", alias="Language")
-    active_after_this_version: Optional[str] = Field(
-        None, alias="ActiveAfterThisVersion"
-    )
+    active_after_this_version: Optional[str] = Field(None, alias="ActiveAfterThisVersion")
     voice_file_name: str = Field(alias="VoiceFileName")
     voice_lib_file_name: Optional[str] = Field(None, alias="VoiceLibFileName")
     voice_version: str = Field(alias="VoiceVersion")
@@ -168,18 +164,12 @@ class VoiSonaParametersItem(BaseModel):
     c0: Optional[list[VoiSonaParameterItem]] = Field(None, alias="C0")
     c0_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="C0CTick")
     log_f0: Optional[list[VoiSonaParameterItem]] = Field(None, alias="LogF0")
-    log_f0_c_tick: Optional[list[VoiSonaParameterItem]] = Field(
-        None, alias="LogF0CTick"
-    )
+    log_f0_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="LogF0CTick")
     vocoder_log_f0: Optional[float] = Field(None, alias="VocoderLogF0")
     vib_amp: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibAmp")
-    vib_amp_c_tick: Optional[list[VoiSonaParameterItem]] = Field(
-        None, alias="VibAmpCTick"
-    )
+    vib_amp_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibAmpCTick")
     vib_frq: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibFrq")
-    vib_frq_c_tick: Optional[list[VoiSonaParameterItem]] = Field(
-        None, alias="VibFrqCTick"
-    )
+    vib_frq_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="VibFrqCTick")
     alpha: Optional[list[VoiSonaParameterItem]] = Field(None, alias="Alpha")
     alpha_c_tick: Optional[list[VoiSonaParameterItem]] = Field(None, alias="AlphaCTick")
     husky: Optional[list[VoiSonaParameterItem]] = Field(None, alias="Husky")
@@ -191,9 +181,7 @@ class VoiSonaSignerConfig(BaseModel):
 
 
 class VoiSonaStateInformation(BaseModel):
-    song_editor: list[VoiSonaSongEditorItem] = Field(
-        default_factory=list, alias="SongEditor"
-    )
+    song_editor: list[VoiSonaSongEditorItem] = Field(default_factory=list, alias="SongEditor")
     control_panel_status: list[VoiSonaControlPanelStatus] = Field(
         default_factory=list, alias="ControlPanelStatus"
     )
@@ -215,12 +203,8 @@ class VoiSonaStateInformation(BaseModel):
     song: Optional[list[VoiSonaSongItem]] = Field(None, alias="Song")
     parameter: Optional[list[VoiSonaParametersItem]] = Field(None, alias="Parameter")
     tempo_sync: Optional[bool] = Field(False, alias="TempoSync")
-    signer_config: Optional[list[VoiSonaSignerConfig]] = Field(
-        None, alias="SignerConfig"
-    )
-    version_of_app_file_saved: Optional[str] = Field(
-        "1.8.0.17", alias="VersionOfAppFileSaved"
-    )
+    signer_config: Optional[list[VoiSonaSignerConfig]] = Field(None, alias="SignerConfig")
+    version_of_app_file_saved: Optional[str] = Field("1.8.0.17", alias="VersionOfAppFileSaved")
 
 
 class VoiSonaPluginData(BaseModel):
@@ -253,19 +237,13 @@ class VoiSonaBaseTrackItem(BaseModel):
 
 
 class VoiSonaAudioTrackItem(VoiSonaBaseTrackItem):
-    track_type: Literal[VoiSonaTrackType.AUDIO] = Field(
-        VoiSonaTrackType.AUDIO, alias="Type"
-    )
+    track_type: Literal[VoiSonaTrackType.AUDIO] = Field(VoiSonaTrackType.AUDIO, alias="Type")
     audio_event: Optional[list[VoiSonaAudioEventItem]] = Field(None, alias="AudioEvent")
 
 
 class VoiSonaSingingTrackItem(VoiSonaBaseTrackItem):
-    track_type: Literal[VoiSonaTrackType.SINGING] = Field(
-        VoiSonaTrackType.SINGING, alias="Type"
-    )
-    plugin_data: VoiSonaPluginData = Field(
-        default_factory=VoiSonaPluginData, alias="PluginData"
-    )
+    track_type: Literal[VoiSonaTrackType.SINGING] = Field(VoiSonaTrackType.SINGING, alias="Type")
+    plugin_data: VoiSonaPluginData = Field(default_factory=VoiSonaPluginData, alias="PluginData")
 
 
 VoiSonaTrackItem = Annotated[
@@ -286,14 +264,10 @@ class VoiSonaGuiStatus(BaseModel):
 
 
 class VoiSonaProject(BaseModel):
-    play_control: list[VoiSonaPlayControlItem] = Field(
-        default_factory=list, alias="PlayControl"
-    )
+    play_control: list[VoiSonaPlayControlItem] = Field(default_factory=list, alias="PlayControl")
     tracks: list[VoiSonaTrack] = Field(default_factory=list, alias="Tracks")
     gui_status: list[VoiSonaGuiStatus] = Field(default_factory=list, alias="GUIStatus")
-    version_of_app_file_saved: Optional[str] = Field(
-        "1.8.0.17", alias="VersionOfAppFileSaved"
-    )
+    version_of_app_file_saved: Optional[str] = Field("1.8.0.17", alias="VersionOfAppFileSaved")
 
 
 def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict:
@@ -343,17 +317,13 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
                 field_type = type(field_info.default)
             if isinstance(field_type, GenericAlias):
                 inner_type = get_args(field_type)[0]
-                if not isinstance(inner_type, type) or issubclass(
-                    inner_type, BaseModel
-                ):
+                if not isinstance(inner_type, type) or issubclass(inner_type, BaseModel):
                     value_tree["children"].extend(
-                        model_to_value_tree(item, alias_field_name)
-                        for item in field_value
+                        model_to_value_tree(item, alias_field_name) for item in field_value
                     )
                 else:
                     value_tree["attrs"].extend(
-                        value_to_dict(alias_field_name, item, inner_type)
-                        for item in field_value
+                        value_to_dict(alias_field_name, item, inner_type) for item in field_value
                     )
             elif alias_field_name == "PluginData":
                 value_tree["attrs"].append(
@@ -371,11 +341,7 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
                     }
                 )
             elif issubclass(field_type, BaseModel):
-                value_tree["children"].append(
-                    model_to_value_tree(field_value, alias_field_name)
-                )
+                value_tree["children"].append(model_to_value_tree(field_value, alias_field_name))
             else:
-                value_tree["attrs"].append(
-                    value_to_dict(alias_field_name, field_value, field_type)
-                )
+                value_tree["attrs"].append(value_to_dict(alias_field_name, field_value, field_type))
     return value_tree

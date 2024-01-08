@@ -16,9 +16,9 @@ from .options import InputOptions, OutputOptions
 
 class CeVIOConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ccs_project = XmlParser(
-            config=ParserConfig(fail_on_unknown_properties=False)
-        ).from_bytes(path.read_bytes(), CeVIOCreativeStudioProject)
+        ccs_project = XmlParser(config=ParserConfig(fail_on_unknown_properties=False)).from_bytes(
+            path.read_bytes(), CeVIOCreativeStudioProject
+        )
         return CeVIOParser(options).parse_project(ccs_project)
 
     def dump(

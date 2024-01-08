@@ -42,15 +42,11 @@ class UstxGenerator:
         if not ustx_time_signatures:
             ustx_time_signatures.append(UTimeSignature(0, 4, 4))
         first_bar_length = (
-            1920
-            * ustx_time_signatures[0].beat_per_bar
-            / ustx_time_signatures[0].beat_unit
+            1920 * ustx_time_signatures[0].beat_per_bar / ustx_time_signatures[0].beat_unit
         )
 
         # 曲速
-        tempos = [
-            self.generate_tempo(x, first_bar_length) for x in os_project.song_tempo_list
-        ]
+        tempos = [self.generate_tempo(x, first_bar_length) for x in os_project.song_tempo_list]
         if not tempos:
             tempos.append(
                 UTempo(
@@ -73,21 +69,15 @@ class UstxGenerator:
             ustx_project.tracks.append(self.generate_track(os_track))
             if isinstance(os_track, SingingTrack):  # 合成音轨
                 ustx_project.voice_parts.append(
-                    self.generate_voice_part(
-                        os_track, track_no, ustx_project, first_bar_length
-                    )
+                    self.generate_voice_part(os_track, track_no, ustx_project, first_bar_length)
                 )
             else:  # 伴奏音轨
-                ustx_project.wave_parts.append(
-                    self.generate_wave_part(os_track, track_no)
-                )
+                ustx_project.wave_parts.append(self.generate_wave_part(os_track, track_no))
         return ustx_project
 
     @staticmethod
     def generate_tempo(os_tempo: SongTempo, first_bar_length: int = 1920) -> UTempo:
-        return UTempo(
-            position=max(os_tempo.position - first_bar_length, 0), bpm=os_tempo.bpm
-        )
+        return UTempo(position=max(os_tempo.position - first_bar_length, 0), bpm=os_tempo.bpm)
 
     @staticmethod
     def generate_time_signature(os_time_signature: TimeSignature) -> UTimeSignature:
@@ -116,9 +106,7 @@ class UstxGenerator:
         ustx_project: USTXProject,
         first_bar_length: int = 1920,
     ) -> UVoicePart:
-        ustx_voice_part = UVoicePart(
-            name=os_track.title, track_no=track_no, position=0, notes=[]
-        )
+        ustx_voice_part = UVoicePart(name=os_track.title, track_no=track_no, position=0, notes=[])
         if not os_track.note_list:
             return ustx_voice_part
         last_note_end_pos = -480  # 上一个音符的结束时间
@@ -155,9 +143,7 @@ class UstxGenerator:
         )
 
     @staticmethod
-    def generate_note(
-        os_note: Note, snap_first: bool, last_note_key_number: int
-    ) -> UNote:
+    def generate_note(os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
         y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
         lyric = LyricUtil.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
         if os_note.pronunciation:  # 如果有发音，则用发音
@@ -178,9 +164,7 @@ class UstxGenerator:
                     PitchPoint(x=0, y=0, shape="io"),
                 ],
             ),
-            vibrato=UVibrato(
-                length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0
-            ),
+            vibrato=UVibrato(length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0),
         )
 
     @staticmethod
@@ -206,7 +190,9 @@ class UstxGenerator:
         os_pitch_pointer = 0  # 当前位于输入os_pitch的第几个采样点
         pitd = UCurve(abbr="pitd", xs=[], ys=[])
         for i in range(len(base_pitch)):
-            time = i * pitch_interval + pitch_start  # 当前openutau采样点的时间，以tick为单位，从0开始
+            time = (
+                i * pitch_interval + pitch_start
+            )  # 当前openutau采样点的时间，以tick为单位，从0开始
             while os_pitch[os_pitch_pointer + 1][0] <= time + first_bar_length:
                 os_pitch_pointer += 1
             # 此时，os_pitch_pointer对应的位置恰好在time之前(或等于)，区间[os_pitch_pointer,os_pitch_pointer+1)包含time

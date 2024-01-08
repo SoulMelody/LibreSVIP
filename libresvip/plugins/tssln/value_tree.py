@@ -127,7 +127,5 @@ def build_tree_dict(node: JUCENode) -> dict:
         (build_tree_dict(child) for child in node.children),
         key=lambda item: next(iter(item.keys())),
     )
-    children_dict = {
-        key: [next(iter(item.values())) for item in buckets[key]] for key in buckets
-    }
+    children_dict = {key: [next(iter(item.values())) for item in buckets[key]] for key in buckets}
     return {node.name: children_dict | attr_dict}

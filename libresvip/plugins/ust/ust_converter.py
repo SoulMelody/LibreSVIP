@@ -17,8 +17,6 @@ class USTConverter(plugin_base.SVSConverterBase):
         ust_project = UstVisitor().visit(tree)
         return USTParser(options).parse_project(ust_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         ust_project = USTGenerator(options).generate_project(project)
         render_ust(ust_project, path, options.encoding)

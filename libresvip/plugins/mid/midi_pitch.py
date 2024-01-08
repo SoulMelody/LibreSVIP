@@ -49,15 +49,12 @@ def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitc
     for section in pitch_sectioned:
         if len(section):
             max_abs_value = max(abs(point.y / 100) for point in section)
-            pbs_for_this_section = min(
-                math.ceil(max_abs_value), MAX_PITCH_BEND_SENSITIVITY
-            )
+            pbs_for_this_section = min(math.ceil(max_abs_value), MAX_PITCH_BEND_SENSITIVITY)
             if pbs_for_this_section > DEFAULT_PITCH_BEND_SENSITIVITY:
                 pbs.extend(
                     (
                         ControlEvent(
-                            section[-1][0]
-                            + MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS // 2,
+                            section[-1][0] + MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS // 2,
                             DEFAULT_PITCH_BEND_SENSITIVITY,
                         ),
                     )
@@ -68,9 +65,7 @@ def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitc
                 ControlEvent(
                     pitch_pos,
                     clamp(
-                        round(
-                            pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section
-                        ),
+                        round(pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section),
                         -PITCH_MAX_VALUE,
                         PITCH_MAX_VALUE,
                     ),

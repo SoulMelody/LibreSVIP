@@ -56,18 +56,13 @@ class VoiSonaParser:
         self.time_synchronizer = TimeSynchronizer(tempos)
         for track in voisona_project.tracks:
             for item in track.track:
-                if (
-                    isinstance(item, VoiSonaAudioTrackItem)
-                    and item.audio_event is not None
-                ):
+                if isinstance(item, VoiSonaAudioTrackItem) and item.audio_event is not None:
                     tracks.extend(
                         InstrumentalTrack(
                             title=f"{item.name} {i + 1}",
                             audio_file_path=event.path,
                             offset=int(
-                                self.time_synchronizer.get_actual_ticks_from_secs(
-                                    event.offset
-                                )
+                                self.time_synchronizer.get_actual_ticks_from_secs(event.offset)
                             ),
                         )
                         for i, event in enumerate(item.audio_event)
@@ -83,12 +78,8 @@ class VoiSonaParser:
         buckets = more_itertools.bucket(tempos, key=operator.attrgetter("position"))
         return [next(buckets[key]) for key in buckets] or [SongTempo()]
 
-    def merge_time_signatures(
-        self, time_signatures: list[TimeSignature]
-    ) -> list[TimeSignature]:
-        buckets = more_itertools.bucket(
-            time_signatures, key=operator.attrgetter("bar_index")
-        )
+    def merge_time_signatures(self, time_signatures: list[TimeSignature]) -> list[TimeSignature]:
+        buckets = more_itertools.bucket(time_signatures, key=operator.attrgetter("bar_index"))
         return [next(buckets[key]) for key in buckets] or [TimeSignature()]
 
     def parse_singing_track(
@@ -111,11 +102,7 @@ class VoiSonaParser:
                     numerator = time_node.beats
                     denominator = time_node.beat_type
 
-                    if (
-                        tick is not None
-                        and numerator is not None
-                        and denominator is not None
-                    ):
+                    if tick is not None and numerator is not None and denominator is not None:
                         ticks_in_measure = time_signatures[-1].bar_length()
                         tick_diff = tick - prev_tick
                         measure_diff = tick_diff / ticks_in_measure
@@ -132,11 +119,7 @@ class VoiSonaParser:
             for tempo in song.tempo:
                 for tempo_node in tempo.sound:
                     tick = tempo_node.clock // TICK_RATE
-                    bpm = (
-                        float(tempo_node.tempo)
-                        if tempo_node.tempo is not None
-                        else None
-                    )
+                    bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
                     if tick is not None and bpm is not None:
                         tempos.append(SongTempo(position=tick, bpm=bpm))
             for score in song.score:
@@ -168,8 +151,7 @@ class VoiSonaParser:
         singing_track = SingingTrack(title=track.name, note_list=notes)
         if (
             voisona_track_pitch_data is not None
-            and (pitch := pitch_from_voisona_track(voisona_track_pitch_data))
-            is not None
+            and (pitch := pitch_from_voisona_track(voisona_track_pitch_data)) is not None
         ):
             singing_track.edited_params.pitch = pitch
         return singing_track, tempos, time_signatures

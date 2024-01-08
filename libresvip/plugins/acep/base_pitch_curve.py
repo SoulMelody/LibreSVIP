@@ -28,9 +28,7 @@ def _convolve(note_list: list[NoteInSeconds]) -> list[float]:
         init_values[i] = note_list[note_index].semitone
         if note_index < len(note_list) - 1:
             ts = 0.001 * i
-            if ts >= 0.5 * (
-                note_list[note_index].end + note_list[note_index + 1].start
-            ):
+            if ts >= 0.5 * (note_list[note_index].end + note_list[note_index + 1].start):
                 note_index += 1
     kernel = [0.0] * 119
     for i in range(119):
@@ -42,14 +40,9 @@ def _convolve(note_list: list[NoteInSeconds]) -> list[float]:
     return list(convolve(init_values, kernel))[59:-59]
 
 
-def acep_vibrato_value_curve(
-    seconds: float, vibrato_start: float, vibrato: AcepVibrato
-) -> float:
+def acep_vibrato_value_curve(seconds: float, vibrato_start: float, vibrato: AcepVibrato) -> float:
     return (
-        math.sin(
-            math.pi
-            * (2 * (seconds - vibrato_start) * vibrato.frequency - vibrato.phase)
-        )
+        math.sin(math.pi * (2 * (seconds - vibrato_start) * vibrato.frequency - vibrato.phase))
         * vibrato.amplitude
         * 0.5
     )
@@ -68,9 +61,7 @@ class BasePitchCurve:
     )
     values_in_semitone: list[float] = dataclasses.field(default_factory=list)
 
-    def __post_init__(
-        self, notes: Iterable[AcepNote], tempos: list[AcepTempo], tick_offset: int
-    ):
+    def __post_init__(self, notes: Iterable[AcepNote], tempos: list[AcepTempo], tick_offset: int):
         note_list = []
         for note in notes:
             note_end = tick_to_second(note.pos + note.dur + tick_offset, tempos)
@@ -93,9 +84,7 @@ class BasePitchCurve:
                     vibrato_start=vibrato_start,
                     vibrato=note.vibrato,
                 )
-                attack_time = (
-                    vibrato_start + note.vibrato.attack_ratio * vibrato_duration
-                )
+                attack_time = vibrato_start + note.vibrato.attack_ratio * vibrato_duration
                 release_time = note_end - note.vibrato.release_ratio * vibrato_duration
                 if note.vibrato.release_ratio:
                     self.vibrato_coef_interval_dict[
@@ -127,9 +116,7 @@ class BasePitchCurve:
         left_index = math.floor(position)
         lambda_ = position - left_index
         clipped_left_index = min(int(left_index), len(self.values_in_semitone) - 1)
-        clipped_right_index = min(
-            clipped_left_index + 1, len(self.values_in_semitone) - 1
-        )
+        clipped_right_index = min(clipped_left_index + 1, len(self.values_in_semitone) - 1)
         pitch_value = (1 - lambda_) * self.values_in_semitone[
             clipped_left_index
         ] + lambda_ * self.values_in_semitone[clipped_right_index]

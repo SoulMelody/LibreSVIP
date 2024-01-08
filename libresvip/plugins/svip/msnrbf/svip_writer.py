@@ -74,17 +74,13 @@ class SvipWriter(NrbfIOBase):
         )
         self.model_library_id = self.write_library(LIBRARY_NAME_SINGING_TOOL_MODEL)
         self.lib_library_id = self.write_library(LIBRARY_NAME_SINGING_TOOL_LIBRARY)
-        self.svip_file["record_stream"].append(
-            self.write_dataclass(model, app_model_id)
-        )
+        self.svip_file["record_stream"].append(self.write_dataclass(model, app_model_id))
         while not self.ids.empty():
             not_written = self.deq()
             ref = references_by_id[self.cur_thread_id][not_written]
             if dataclasses.is_dataclass(ref["real_obj"]):
                 self.svip_file["record_stream"].append(
-                    self.write_dataclass(
-                        ref["real_obj"], not_written, ref["subcon_class_name"]
-                    )
+                    self.write_dataclass(ref["real_obj"], not_written, ref["subcon_class_name"])
                 )
             else:
                 self.svip_file["record_stream"].append(ref["real_obj"])
@@ -101,9 +97,9 @@ class SvipWriter(NrbfIOBase):
         self.id_max += 1
         result = self.id_max
         model_library = {"library_id": result, "library_name": library_name}
-        libraries_by_id[self.cur_thread_id][
-            model_library["library_id"]
-        ] = model_library["library_name"]
+        libraries_by_id[self.cur_thread_id][model_library["library_id"]] = model_library[
+            "library_name"
+        ]
         self.svip_file["record_stream"].append(
             {"record_type_enum": RecordTypeEnum.BinaryLibrary, "obj": model_library}
         )
@@ -217,9 +213,7 @@ class SvipWriter(NrbfIOBase):
         return self.create_reference(result, object_id, None)
 
     def write_dataclass(self, obj, object_id, subcon_class_name=None):
-        fields = sorted(
-            dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0)
-        )
+        fields = sorted(dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0))
         class_name = inspect.getdoc(type(obj))
 
         if (
@@ -246,9 +240,7 @@ class SvipWriter(NrbfIOBase):
                 },
             }
             if class_name.startswith("System."):
-                result[
-                    "record_type_enum"
-                ] = RecordTypeEnum.SystemClassWithMembersAndTypes
+                result["record_type_enum"] = RecordTypeEnum.SystemClassWithMembersAndTypes
             else:
                 if class_name.startswith("SingingTool.Model."):
                     result["obj"]["library_id"] = self.model_library_id
@@ -271,18 +263,13 @@ class SvipWriter(NrbfIOBase):
                         field_type = field_args[0]
                     else:
                         field_type = field.type
-                    if (
-                        field.name == "edited_power_line"
-                        and self.svip_file["version"] != "7.0.0"
-                    ):
+                    if field.name == "edited_power_line" and self.svip_file["version"] != "7.0.0":
                         continue
                     if issubclass(field_type, str):
                         result["obj"]["member_type_info"]["binary_type_enums"].append(
                             BinaryTypeEnum.String
                         )
-                        result["obj"]["member_type_info"]["additional_infos"].append(
-                            {"info": None}
-                        )
+                        result["obj"]["member_type_info"]["additional_infos"].append({"info": None})
                     elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
                         result["obj"]["member_type_info"]["binary_type_enums"].append(
                             BinaryTypeEnum.Primitive
@@ -325,30 +312,24 @@ class SvipWriter(NrbfIOBase):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
 
                         if sub_class_name.startswith("System."):
-                            result["obj"]["member_type_info"][
-                                "binary_type_enums"
-                            ].append(BinaryTypeEnum.SystemClass)
-                            result["obj"]["member_type_info"][
-                                "additional_infos"
-                            ].append(
+                            result["obj"]["member_type_info"]["binary_type_enums"].append(
+                                BinaryTypeEnum.SystemClass
+                            )
+                            result["obj"]["member_type_info"]["additional_infos"].append(
                                 {
                                     "info": sub_class_name,
                                 }
                             )
                         else:
-                            result["obj"]["member_type_info"][
-                                "binary_type_enums"
-                            ].append(BinaryTypeEnum.Class)
-                            result["obj"]["member_type_info"][
-                                "additional_infos"
-                            ].append(
+                            result["obj"]["member_type_info"]["binary_type_enums"].append(
+                                BinaryTypeEnum.Class
+                            )
+                            result["obj"]["member_type_info"]["additional_infos"].append(
                                 {
                                     "info": {
                                         "type_name": sub_class_name,
                                         "library_id": self.model_library_id
-                                        if sub_class_name.startswith(
-                                            "SingingTool.Model."
-                                        )
+                                        if sub_class_name.startswith("SingingTool.Model.")
                                         else self.lib_library_id,
                                     },
                                 }
@@ -384,11 +365,7 @@ class SvipWriter(NrbfIOBase):
                         )
                     elif issubclass(field_type, bytes):
                         result["obj"]["member_values"].append(
-                            {
-                                "value": self.create_primitive_array(
-                                    getattr(obj, field.name)
-                                )
-                            }
+                            {"value": self.create_primitive_array(getattr(obj, field.name))}
                         )
                     elif dataclasses.is_dataclass(field_type):
                         sub_class_name = inspect.getdoc(field_type)
@@ -404,11 +381,7 @@ class SvipWriter(NrbfIOBase):
                             obj_id = self.enq()
                         if hasattr(field_type, "value"):
                             result["obj"]["member_values"].append(
-                                {
-                                    "value": self.write_dataclass(
-                                        value, -obj_id, sub_class_name
-                                    )
-                                }
+                                {"value": self.write_dataclass(value, -obj_id, sub_class_name)}
                             )
                         elif field.name.endswith("_line") and not len(value.line_param):
                             result["obj"]["member_values"].append(
@@ -421,18 +394,12 @@ class SvipWriter(NrbfIOBase):
                             )
                         else:
                             result["obj"]["member_values"].append(
-                                {
-                                    "value": self.create_reference(
-                                        value, obj_id, sub_class_name
-                                    )
-                                }
+                                {"value": self.create_reference(value, obj_id, sub_class_name)}
                             )
                     else:
                         msg = f"Unknown type {field_type}"
                         raise TypeError(msg)
-                    result["obj"]["class_info"]["member_names"].append(
-                        field.metadata["alias"]
-                    )
+                    result["obj"]["class_info"]["member_names"].append(field.metadata["alias"])
                     result["obj"]["class_info"]["member_count"] += 1
             self.class_defs[class_name] = result
             classes_by_id[self.cur_thread_id][object_id] = result["obj"]
@@ -441,9 +408,7 @@ class SvipWriter(NrbfIOBase):
                 "record_type_enum": RecordTypeEnum.ClassWithId,
                 "obj": {
                     "object_id": object_id,
-                    "metadata_id": self.class_defs[class_name]["obj"]["class_info"][
-                        "object_id"
-                    ],
+                    "metadata_id": self.class_defs[class_name]["obj"]["class_info"]["object_id"],
                     "member_values": [],
                 },
             }
@@ -464,10 +429,7 @@ class SvipWriter(NrbfIOBase):
                     else:
                         field_type = field.type
 
-                    if (
-                        field.name == "edited_power_line"
-                        and self.svip_file["version"] != "7.0.0"
-                    ):
+                    if field.name == "edited_power_line" and self.svip_file["version"] != "7.0.0":
                         continue
                     value = getattr(obj, field.name)
                     if value is None:
@@ -497,11 +459,7 @@ class SvipWriter(NrbfIOBase):
                         )
                     elif issubclass(field_type, bytes):
                         result["obj"]["member_values"].append(
-                            {
-                                "value": self.create_primitive_array(
-                                    getattr(obj, field.name)
-                                )
-                            }
+                            {"value": self.create_primitive_array(getattr(obj, field.name))}
                         )
                     elif dataclasses.is_dataclass(field_type):
                         sub_class_name = inspect.getdoc(field_type)
@@ -517,11 +475,7 @@ class SvipWriter(NrbfIOBase):
                             obj_id = self.enq()
                         if hasattr(field_type, "value"):
                             result["obj"]["member_values"].append(
-                                {
-                                    "value": self.write_dataclass(
-                                        value, -obj_id, sub_class_name
-                                    )
-                                }
+                                {"value": self.write_dataclass(value, -obj_id, sub_class_name)}
                             )
                         elif field.name.endswith("_line") and not len(value.line_param):
                             result["obj"]["member_values"].append(
@@ -534,11 +488,7 @@ class SvipWriter(NrbfIOBase):
                             )
                         else:
                             result["obj"]["member_values"].append(
-                                {
-                                    "value": self.create_reference(
-                                        value, obj_id, sub_class_name
-                                    )
-                                }
+                                {"value": self.create_reference(value, obj_id, sub_class_name)}
                             )
                     else:
                         msg = f"Unknown type {field_type}"

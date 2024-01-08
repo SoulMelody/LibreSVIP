@@ -21,23 +21,15 @@ class USTGenerator:
         if self.options.version < 2.0:
             if self.options.track_index < 0:
                 first_singing_track = next(
-                    (
-                        track
-                        for track in project.track_list
-                        if isinstance(track, SingingTrack)
-                    ),
+                    (track for track in project.track_list if isinstance(track, SingingTrack)),
                     None,
                 )
             else:
                 first_singing_track = project.track_list[self.options.track_index]
-            if first_singing_track is None or not isinstance(
-                first_singing_track, SingingTrack
-            ):
+            if first_singing_track is None or not isinstance(first_singing_track, SingingTrack):
                 msg = "No singing track found"
                 raise NoTrackError(msg)
-            ust_tracks = [
-                self.generate_track(first_singing_track, project.song_tempo_list)
-            ]
+            ust_tracks = [self.generate_track(first_singing_track, project.song_tempo_list)]
         else:
             singing_tracks = [
                 track for track in project.track_list if isinstance(track, SingingTrack)
@@ -46,8 +38,7 @@ class USTGenerator:
                 msg = "No singing track found"
                 raise NoTrackError(msg)
             ust_tracks = [
-                self.generate_track(track, project.song_tempo_list)
-                for track in singing_tracks
+                self.generate_track(track, project.song_tempo_list) for track in singing_tracks
             ]
         return UTAUProject(
             charset=self.options.encoding,
@@ -57,9 +48,7 @@ class USTGenerator:
             pitch_mode2=True,
         )
 
-    def generate_track(
-        self, track: SingingTrack, tempo_list: list[SongTempo]
-    ) -> UTAUTrack:
+    def generate_track(self, track: SingingTrack, tempo_list: list[SongTempo]) -> UTAUTrack:
         mode1_track_pitch_data = pitch_to_utau_mode1_track(
             track.edited_params.pitch, track.note_list
         )

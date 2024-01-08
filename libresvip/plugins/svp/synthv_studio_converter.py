@@ -18,9 +18,7 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
         options.instant = options.instant and sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options is None:
             options = OutputOptions()
         sv_project = SynthVGenerator(

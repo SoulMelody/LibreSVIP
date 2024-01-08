@@ -57,9 +57,7 @@ class BinarySvipParser:
         if isinstance(track, XSSingingTrack):
             result_track = SingingTrack()
             result_track.ai_singer_name = opensvip_singers.get_name(track.ai_singer_id)
-            result_track.reverb_preset = OpenSvipReverbPresets.get_name(
-                track.reverb_preset.value
-            )
+            result_track.reverb_preset = OpenSvipReverbPresets.get_name(track.reverb_preset.value)
             for note in track.note_list.buf.items:
                 if (ele := self.parse_note(note)) is not None:
                     result_track.note_list.append(ele)

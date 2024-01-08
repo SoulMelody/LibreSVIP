@@ -14,9 +14,7 @@ class UFDataConverter(plugin_base.SVSConverterBase):
         ufdata_project = UFData.model_validate(json_loads(path.read_text("utf-8")))
         return UFDataParser(options).parse_project(ufdata_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         ufdata_project = UFDataGenerator(options).generate_project(project)
         path.write_text(
             json_dumps(ufdata_project.model_dump(mode="json", by_alias=True)),

@@ -28,11 +28,7 @@ class SvipReader(NrbfIOBase):
         if "Class" in str(obj.binary_type_enum):
             if obj.member_values is not None:
                 for member in obj.member_values:
-                    if (
-                        member is None
-                        or member.real_obj is None
-                        or member.real_obj.obj is None
-                    ):
+                    if member is None or member.real_obj is None or member.real_obj.obj is None:
                         results.append(None)
                     else:
                         obj = member.real_obj.obj

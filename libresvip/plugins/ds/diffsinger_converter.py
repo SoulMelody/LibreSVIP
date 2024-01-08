@@ -16,9 +16,7 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
         ds_project = DsProject.model_validate_json(path.read_text("utf-8"))
         return DiffSingerParser(options).parse_project(ds_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options.split_threshold >= 0:
             segments = split_into_segments(
                 project, options.min_interval, int(options.split_threshold * 1000)
@@ -35,9 +33,9 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
             ds_project = DsProject(root=series)
         else:
             project = reset_time_axis(project)
-            diff_singer_params = DiffSingerGenerator(
-                options=options, trailing_space=0.5
-            ).generate(project)
+            diff_singer_params = DiffSingerGenerator(options=options, trailing_space=0.5).generate(
+                project
+            )
             if options.seed >= 0:
                 diff_singer_params.seed = options.seed
             ds_project = DsProject(root=[diff_singer_params])

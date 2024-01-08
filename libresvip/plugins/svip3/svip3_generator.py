@@ -64,9 +64,7 @@ class Svip3Generator:
         self.first_bar_length = round(first_signature.bar_length())
         return song_beat_list
 
-    def generate_song_tempos(
-        self, song_tempo_list: list[SongTempo]
-    ) -> list[Svip3SongTempo]:
+    def generate_song_tempos(self, song_tempo_list: list[SongTempo]) -> list[Svip3SongTempo]:
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return [
             Svip3SongTempo(
@@ -95,9 +93,7 @@ class Svip3Generator:
             svip3_track_list.append(svip3_track_container)
         return svip3_track_list
 
-    def generate_instrumental_track(
-        self, track: InstrumentalTrack, color: str
-    ) -> Svip3AudioTrack:
+    def generate_instrumental_track(self, track: InstrumentalTrack, color: str) -> Svip3AudioTrack:
         return Svip3AudioTrack(
             name=track.title,
             color=color,
@@ -116,9 +112,7 @@ class Svip3Generator:
     def generate_pan(pan: float) -> float:
         return pan * 10.0
 
-    def generate_audio_patterns(
-        self, track: InstrumentalTrack
-    ) -> list[Svip3AudioPattern]:
+    def generate_audio_patterns(self, track: InstrumentalTrack) -> list[Svip3AudioPattern]:
         kwargs = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
             audio_duration_in_secs = track_info.duration / 1000
@@ -147,9 +141,7 @@ class Svip3Generator:
             patterns.append(Svip3AudioPattern(**kwargs))
         return patterns
 
-    def generate_singing_track(
-        self, track: SingingTrack, color: str
-    ) -> Svip3SingingTrack:
+    def generate_singing_track(self, track: SingingTrack, color: str) -> Svip3SingingTrack:
         return Svip3SingingTrack(
             name=track.title,
             color=color,
@@ -161,9 +153,7 @@ class Svip3Generator:
             pattern_list=self.generate_singing_patterns(track),
         )
 
-    def generate_singing_patterns(
-        self, track: SingingTrack
-    ) -> list[Svip3SingingPattern]:
+    def generate_singing_patterns(self, track: SingingTrack) -> list[Svip3SingingPattern]:
         last_note = track.note_list[-1]
         if last_note.end_pos > self.song_duration:
             self.song_duration = last_note.end_pos + 1920
@@ -185,10 +175,7 @@ class Svip3Generator:
         for note in note_list:
             consonant_length = 0
             has_consonant = False
-            if (
-                note.edited_phones is not None
-                and note.edited_phones.head_length_in_secs > 0
-            ):
+            if note.edited_phones is not None and note.edited_phones.head_length_in_secs > 0:
                 has_consonant = True
                 phone_start_in_secs = (
                     self.synchronizer.get_actual_secs_from_ticks(note.start_pos)

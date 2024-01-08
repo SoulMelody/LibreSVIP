@@ -45,12 +45,8 @@ class AcepParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def validate_points(
-        cls, points: list[float], _info: ValidationInfo
-    ) -> AcepAnchorPoints:
-        return AcepAnchorPoints(
-            root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)]
-        )
+    def validate_points(cls, points: list[float], _info: ValidationInfo) -> AcepAnchorPoints:
+        return AcepAnchorPoints(root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)])
 
     @field_serializer("points", when_used="json-unless-none")
     def serialize_points(
@@ -71,9 +67,7 @@ class AcepParamCurve(BaseModel):
                 self.offset = math.floor(self.points.root[0].pos)
                 self.values = [
                     linear_interpolation(pos, self.points.root[0], self.points.root[-1])
-                    for pos in range(
-                        self.offset, math.ceil(self.points.root[-1].pos) + 1
-                    )
+                    for pos in range(self.offset, math.ceil(self.points.root[-1].pos) + 1)
                 ]
 
     def transform(self, value_transform: Callable[[float], float]) -> AcepParamCurve:
@@ -102,16 +96,12 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
             result_curve = AcepParamCurve()
             result_curve.offset = start
             result_curve.values = [0.0] * (end - start)
-            for self_curve in (
-                curve for curve in self.root if start <= curve.offset < end
-            ):
+            for self_curve in (curve for curve in self.root if start <= curve.offset < end):
                 index = self_curve.offset - start
                 for value in self_curve.values:
                     result_curve.values[index] = value
                     index += 1
-            for other_curve in (
-                curve for curve in others.root if start <= curve.offset < end
-            ):
+            for other_curve in (curve for curve in others.root if start <= curve.offset < end):
                 index = other_curve.offset - start
                 for value in other_curve.values:
                     if result_curve.values[index] == 0.0:
@@ -130,17 +120,13 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
                 pos += 1
                 if predicate(value):
                     if buffer:
-                        result.root.append(
-                            AcepParamCurve(offset=pos - len(buffer), values=buffer)
-                        )
+                        result.root.append(AcepParamCurve(offset=pos - len(buffer), values=buffer))
                         buffer = []
                 else:
                     buffer.append(value)
 
             if buffer:
-                result.root.append(
-                    AcepParamCurve(offset=pos - len(buffer), values=buffer)
-                )
+                result.root.append(AcepParamCurve(offset=pos - len(buffer), values=buffer))
 
         return result
 
@@ -151,18 +137,13 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
         miu = statistics.mean(points)
         sigma = statistics.stdev(points)
         return type(self)(
-            root=[
-                curve.transform(lambda x: (x - miu) / sigma * d + b)
-                for curve in self.root
-            ]
+            root=[curve.transform(lambda x: (x - miu) / sigma * d + b) for curve in self.root]
         )
 
     def minmax_normalize(self, r: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        min_, max_ = minmax(
-            sum((curve.values for curve in self.root), []), default=(0, 0)
-        )
+        min_, max_ = minmax(sum((curve.values for curve in self.root), []), default=(0, 0))
         return type(self)(
             root=[
                 curve.transform(lambda x: r * (2 * (x - min_) / (max_ - min_) - 1) + b)
@@ -205,17 +186,13 @@ class AcepTempo(BaseModel):
 
 
 class AcepParams(BaseModel):
-    pitch_delta: AcepParamCurveList = Field(
-        default_factory=AcepParamCurveList, alias="pitchDelta"
-    )
+    pitch_delta: AcepParamCurveList = Field(default_factory=AcepParamCurveList, alias="pitchDelta")
     energy: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     breathiness: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     tension: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     falsetto: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     gender: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
-    real_energy: AcepParamCurveList = Field(
-        default_factory=AcepParamCurveList, alias="realEnergy"
-    )
+    real_energy: AcepParamCurveList = Field(default_factory=AcepParamCurveList, alias="realEnergy")
     real_breathiness: AcepParamCurveList = Field(
         default_factory=AcepParamCurveList, alias="realBreathiness"
     )
@@ -252,12 +229,8 @@ class AcepNote(BaseModel):
     pronunciation: str = ""
     new_line: bool = Field(False, alias="newLine")
     consonant_len: Optional[int] = Field(None, alias="consonantLen")
-    head_consonants: Optional[list[int]] = Field(
-        default_factory=list, alias="headConsonants"
-    )
-    tail_consonants: Optional[list[int]] = Field(
-        default_factory=list, alias="tailConsonants"
-    )
+    head_consonants: Optional[list[int]] = Field(default_factory=list, alias="headConsonants")
+    tail_consonants: Optional[list[int]] = Field(default_factory=list, alias="tailConsonants")
     syllable: Optional[str] = ""
     br_len: int = Field(0, alias="brLen")
     vibrato: Optional[AcepVibrato] = None

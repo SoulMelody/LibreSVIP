@@ -104,9 +104,7 @@ class MidiGenerator:
                 mido_track.append(
                     mido.MetaMessage(
                         "lyrics",
-                        text=(
-                            pinyins[i] if self.options.compatible_lyric else lyrics[i]
-                        ),
+                        text=(pinyins[i] if self.options.compatible_lyric else lyrics[i]),
                         time=round(note.start_pos / self.tick_rate),
                     )
                 )

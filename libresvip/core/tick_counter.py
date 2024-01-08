@@ -14,9 +14,7 @@ def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTe
     return result
 
 
-def skip_beat_list(
-    beat_list: list[TimeSignature], skip_bars: int
-) -> list[TimeSignature]:
+def skip_beat_list(beat_list: list[TimeSignature], skip_bars: int) -> list[TimeSignature]:
     result = [
         beat.model_copy(update={"bar_index": beat.bar_index - skip_bars})
         for beat in beat_list
@@ -39,9 +37,7 @@ def shift_tempo_list(tempo_list: list[SongTempo], shift_ticks: int) -> list[Song
     return result
 
 
-def shift_beat_list(
-    beat_list: list[TimeSignature], shift_bars: int
-) -> list[TimeSignature]:
+def shift_beat_list(beat_list: list[TimeSignature], shift_bars: int) -> list[TimeSignature]:
     result = beat_list[:1]
     result.extend(
         [

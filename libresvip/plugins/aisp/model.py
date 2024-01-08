@@ -56,18 +56,14 @@ class AISNote(BaseModel):
 
     @field_serializer("pit", when_used="json-unless-none")
     @classmethod
-    def serialize_pit(
-        cls, value: Optional[list[float]], _info: SerializationInfo
-    ) -> str:
+    def serialize_pit(cls, value: Optional[list[float]], _info: SerializationInfo) -> str:
         if value is None:
             return "0x500"
         pit_str = ""
         for key, group in itertools.groupby(value):
             group_length = more_itertools.ilen(group)
             pit_str += (
-                f"{round(key, 2)}x{group_length} "
-                if group_length > 1
-                else f"{round(key, 2)} "
+                f"{round(key, 2)}x{group_length} " if group_length > 1 else f"{round(key, 2)} "
             )
         return pit_str.strip()
 
@@ -108,16 +104,12 @@ class AISSingVoiceTrack(AISBaseTrack):
 
 
 class AISAudioTrack(AISBaseTrack):
-    track_type: Literal[AISTrackType.TRACK_AUDIO] = Field(
-        AISTrackType.TRACK_AUDIO, alias="t"
-    )
+    track_type: Literal[AISTrackType.TRACK_AUDIO] = Field(AISTrackType.TRACK_AUDIO, alias="t")
     items: list[AISAudioPattern] = Field(alias="im", default_factory=list)
 
 
 class AISMidiTrack(AISBaseTrack):
-    track_type: Literal[AISTrackType.TRACK_MIDI] = Field(
-        AISTrackType.TRACK_MIDI, alias="t"
-    )
+    track_type: Literal[AISTrackType.TRACK_MIDI] = Field(AISTrackType.TRACK_MIDI, alias="t")
 
 
 AISTrack = Annotated[

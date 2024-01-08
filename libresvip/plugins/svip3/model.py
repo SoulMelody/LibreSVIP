@@ -372,9 +372,7 @@ class Svip3SingingPattern(proto.Message):
         number=13,
         message="Svip3LineParamNode",
     )
-    edited_spec_trans_coef_line: MutableSequence[
-        Svip3LineParamNode
-    ] = proto.RepeatedField(
+    edited_spec_trans_coef_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=14,
         message="Svip3LineParamNode",

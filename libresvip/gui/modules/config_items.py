@@ -42,9 +42,7 @@ class ConfigItems(QObject):
         atexit.register(self.save_settings)
 
     def save_settings(self) -> None:
-        settings.folder_presets = [
-            pathlib.Path(item["path"]) for item in self.folder_presets.items
-        ]
+        settings.folder_presets = [pathlib.Path(item["path"]) for item in self.folder_presets.items]
         save_settings()
 
     @Slot(result=str)
@@ -89,10 +87,7 @@ class ConfigItems(QObject):
 
     @Slot(str, result=bool)
     def toggle_plugin(self, key: str) -> bool:
-        if (
-            key in plugin_manager.plugin_registry
-            and key not in settings.disabled_plugins
-        ):
+        if key in plugin_manager.plugin_registry and key not in settings.disabled_plugins:
             settings.disabled_plugins.append(key)
         elif key in settings.disabled_plugins:
             settings.disabled_plugins.remove(key)

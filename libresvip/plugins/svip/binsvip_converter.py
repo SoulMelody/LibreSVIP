@@ -17,9 +17,7 @@ class SvipConverter(plugin_base.SVSConverterBase):
             version, xs_project = reader.read(path)
             return BinarySvipParser().parse_project(version, xs_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options is None:
             options = OutputOptions()
         ver_enum = options.version
@@ -35,7 +33,5 @@ class SvipConverter(plugin_base.SVSConverterBase):
         else:
             raise ValueError(_("Unexpected enum value"))
         with SvipWriter() as registry:
-            version, xs_project = BinarySvipGenerator(options=options).generate_project(
-                project
-            )
+            version, xs_project = BinarySvipGenerator(options=options).generate_project(project)
             registry.write(path, version, xs_project)

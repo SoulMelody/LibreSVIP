@@ -45,9 +45,7 @@ class DsTimeSignature(BaseModel):
 
 
 class DsTimeline(BaseModel):
-    time_signatures: list[DsTimeSignature] = Field(
-        default_factory=list, alias="timeSignatures"
-    )
+    time_signatures: list[DsTimeSignature] = Field(default_factory=list, alias="timeSignatures")
     tempos: list[DsTempo] = Field(default_factory=list)
     labels: list[DsLabel] = Field(default_factory=list)
 
@@ -77,9 +75,7 @@ class DsParamAnchor(BaseModel):
     nodes: list[DsParamNode] = Field(default_factory=list)
 
 
-DsParamCurve = Annotated[
-    Union[DsParamFree, DsParamAnchor], Field(discriminator="type_")
-]
+DsParamCurve = Annotated[Union[DsParamFree, DsParamAnchor], Field(discriminator="type_")]
 
 
 class DsParam(BaseModel):

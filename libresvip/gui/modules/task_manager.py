@@ -76,12 +76,8 @@ class ConversionWorker(QRunnable):
                 warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
-                input_option = get_type_hints(input_plugin.plugin_object.load).get(
-                    "options"
-                )
-                output_option = get_type_hints(output_plugin.plugin_object.dump).get(
-                    "options"
-                )
+                input_option = get_type_hints(input_plugin.plugin_object.load).get("options")
+                output_option = get_type_hints(output_plugin.plugin_object.dump).get("options")
                 project = input_plugin.plugin_object.load(
                     pathlib.Path(self.input_path),
                     input_option(**self.input_options),
@@ -289,9 +285,7 @@ class TaskManager(QObject):
     def inspect_fields(option_class: BaseModel) -> list[dict]:
         fields = []
         for option_key, field_info in option_class.model_fields.items():
-            default_value = (
-                None if field_info.default is PydanticUndefined else field_info.default
-            )
+            default_value = None if field_info.default is PydanticUndefined else field_info.default
             if issubclass(field_info.annotation, bool):
                 fields.append(
                     {
@@ -335,9 +329,7 @@ class TaskManager(QObject):
                         "choices": choices,
                     }
                 )
-            elif issubclass(
-                field_info.annotation, (str, int, float, Color, BaseComplexModel)
-            ):
+            elif issubclass(field_info.annotation, (str, int, float, Color, BaseComplexModel)):
                 if issubclass(field_info.annotation, BaseComplexModel):
                     default_value = field_info.annotation.default_repr()
                 fields.append(
@@ -363,9 +355,7 @@ class TaskManager(QObject):
             self.input_fields.clear()
             plugin_input = plugin_manager.plugin_registry[self.input_format]
             if hasattr(plugin_input.plugin_object, "load"):
-                option_class = get_type_hints(plugin_input.plugin_object.load)[
-                    "options"
-                ]
+                option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
                 input_fields = self.inspect_fields(option_class)
                 self.input_fields.append_many(input_fields)
             if not self._input_fields_inited:
@@ -380,9 +370,7 @@ class TaskManager(QObject):
             self.output_fields.clear()
             plugin_output = plugin_manager.plugin_registry[self.output_format]
             if hasattr(plugin_output.plugin_object, "dump"):
-                option_class = get_type_hints(plugin_output.plugin_object.dump)[
-                    "options"
-                ]
+                option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
                 output_fields = self.inspect_fields(option_class)
                 self.output_fields.append_many(output_fields)
             if not self._output_fields_inited:

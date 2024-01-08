@@ -50,9 +50,7 @@ class SVBaseAttributes(BaseModel):
     param_breathiness: Optional[float] = Field(None, alias="paramBreathiness")
     param_gender: Optional[float] = Field(None, alias="paramGender")
     param_tone_shift: Optional[float] = Field(None, alias="paramToneShift")
-    improvise_attack_release: Optional[bool] = Field(
-        None, alias="improviseAttackRelease"
-    )
+    improvise_attack_release: Optional[bool] = Field(None, alias="improviseAttackRelease")
     language_override: Optional[str] = Field(None, alias="languageOverride")
     phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
 
@@ -85,17 +83,14 @@ class SVParamCurve(BaseModel):
         return SVPoints(root=points)
 
     @field_serializer("points", when_used="json")
-    def serialize_points(
-        self, points: SVPoints, _info: FieldSerializationInfo
-    ) -> list[float]:
+    def serialize_points(self, points: SVPoints, _info: FieldSerializationInfo) -> list[float]:
         return list(chain.from_iterable(points.root))
 
     def edited_range(self, default_value: float = 0.0) -> RangeInterval:
         tolerance = 1e-6
         interval = RangeInterval()
         points = [
-            SVPoint(position_to_ticks(point.offset), point.value)
-            for point in self.points.root
+            SVPoint(position_to_ticks(point.offset), point.value) for point in self.points.root
         ]
         if not points:
             return interval
@@ -183,11 +178,7 @@ class SVNoteAttributes(SVBaseAttributes):
     transition_offset = property(_get_transition_offset, _set_transition_offset)
 
     def _get_slide_left(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_slide
-            if self.t_f0_left is None
-            else self.t_f0_left
-        )
+        return SVNoteAttrConsts.default_pitch_slide if self.t_f0_left is None else self.t_f0_left
 
     def _set_slide_left(self, value):
         self.t_f0_left = value
@@ -195,11 +186,7 @@ class SVNoteAttributes(SVBaseAttributes):
     slide_left = property(_get_slide_left, _set_slide_left)
 
     def _get_slide_right(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_slide
-            if self.t_f0_right is None
-            else self.t_f0_right
-        )
+        return SVNoteAttrConsts.default_pitch_slide if self.t_f0_right is None else self.t_f0_right
 
     def _set_slide_right(self, value):
         self.t_f0_right = value
@@ -207,11 +194,7 @@ class SVNoteAttributes(SVBaseAttributes):
     slide_right = property(_get_slide_right, _set_slide_right)
 
     def _get_depth_left(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_depth
-            if self.d_f0_left is None
-            else self.d_f0_left
-        )
+        return SVNoteAttrConsts.default_pitch_depth if self.d_f0_left is None else self.d_f0_left
 
     def _set_depth_left(self, value):
         self.d_f0_left = value
@@ -219,11 +202,7 @@ class SVNoteAttributes(SVBaseAttributes):
     depth_left = property(_get_depth_left, _set_depth_left)
 
     def _get_depth_right(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_depth
-            if self.d_f0_right is None
-            else self.d_f0_right
-        )
+        return SVNoteAttrConsts.default_pitch_depth if self.d_f0_right is None else self.d_f0_right
 
     def _set_depth_right(self, value):
         self.d_f0_right = value
@@ -267,11 +246,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_right = property(_get_vibrato_right, _set_vibrato_right)
 
     def _get_vibrato_depth(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_depth
-            if self.d_f0_vbr is None
-            else self.d_f0_vbr
-        )
+        return SVNoteAttrConsts.default_vibrato_depth if self.d_f0_vbr is None else self.d_f0_vbr
 
     def _set_vibrato_depth(self, value):
         self.d_f0_vbr = value
@@ -280,9 +255,7 @@ class SVNoteAttributes(SVBaseAttributes):
 
     def _get_vibrato_frequency(self) -> float:
         return (
-            SVNoteAttrConsts.default_vibrato_frequency
-            if self.f_f0_vbr is None
-            else self.f_f0_vbr
+            SVNoteAttrConsts.default_vibrato_frequency if self.f_f0_vbr is None else self.f_f0_vbr
         )
 
     def _set_vibrato_frequency(self, value):
@@ -291,11 +264,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)
 
     def _get_vibrato_phase(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_phase
-            if self.p_f0_vbr is None
-            else self.p_f0_vbr
-        )
+        return SVNoteAttrConsts.default_vibrato_phase if self.p_f0_vbr is None else self.p_f0_vbr
 
     def _set_vibrato_phase(self, value):
         self.p_f0_vbr = value
@@ -373,14 +342,10 @@ class SVNote(BaseModel):
     detune: Optional[int] = None
     accent: Optional[str] = None
     attributes: SVNoteAttributes = Field(default_factory=SVNoteAttributes)
-    system_attributes: Optional[SVNoteAttributes] = Field(
-        None, alias="systemAttributes"
-    )
+    system_attributes: Optional[SVNoteAttributes] = Field(None, alias="systemAttributes")
     pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")
     timbre_takes: Optional[SVParamTakes] = Field(None, alias="timbreTakes")
-    musical_type: Optional[Literal["singing", "rap"]] = Field(
-        "singing", alias="musicalType"
-    )
+    musical_type: Optional[Literal["singing", "rap"]] = Field("singing", alias="musicalType")
     instant_mode: Optional[bool] = Field(None, alias="instantMode")
 
     def cover_range(self):
@@ -496,9 +461,7 @@ class SVRef(BaseModel):
     voice: SVVoice = Field(default_factory=SVVoice)
     group_id: str = Field(default_factory=uuid_str, alias="groupID")
     is_instrumental: bool = Field(default=False, alias="isInstrumental")
-    system_pitch_delta: SVParamCurve = Field(
-        default_factory=SVParamCurve, alias="systemPitchDelta"
-    )
+    system_pitch_delta: SVParamCurve = Field(default_factory=SVParamCurve, alias="systemPitchDelta")
 
 
 class SVGroup(BaseModel):
@@ -506,9 +469,7 @@ class SVGroup(BaseModel):
     notes: list[SVNote] = Field(default_factory=list)
     parameters: SVParameters = Field(default_factory=SVParameters)
     uuid: str = Field(default_factory=uuid_str)
-    vocal_modes: dict[str, SVParamCurve] = Field(
-        default_factory=dict, alias="vocalModes"
-    )
+    vocal_modes: dict[str, SVParamCurve] = Field(default_factory=dict, alias="vocalModes")
 
     @field_validator("notes", mode="before")
     @classmethod
@@ -563,9 +524,7 @@ class SVTrack(BaseModel):
 
 class SVProject(BaseModel):
     library: list[SVGroup] = Field(default_factory=list)
-    render_config: SVRenderConfig = Field(
-        default_factory=SVRenderConfig, alias="renderConfig"
-    )
+    render_config: SVRenderConfig = Field(default_factory=SVRenderConfig, alias="renderConfig")
     instant_mode_enabled: Optional[bool] = Field(False, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)

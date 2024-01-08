@@ -21,11 +21,7 @@ class Y77Generator:
     def generate_project(self, project: Project) -> Y77Project:
         if self.options.track_index < 0:
             first_singing_track = next(
-                (
-                    track
-                    for track in project.track_list
-                    if isinstance(track, SingingTrack)
-                ),
+                (track for track in project.track_list if isinstance(track, SingingTrack)),
                 None,
             )
         else:
@@ -80,9 +76,7 @@ class Y77Generator:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
                         value = 50 + (
-                            0
-                            if point.y == -100
-                            else (point.y - note.key_number * 100) / 2
+                            0 if point.y == -100 else (point.y - note.key_number * 100) / 2
                         )
 
                 y77_pitch_param.append(value)

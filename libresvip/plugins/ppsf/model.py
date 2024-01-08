@@ -126,12 +126,8 @@ class PpsfFsmEffect(BaseModel):
 
 
 class PpsfEventTrack(BaseModel):
-    curve_points: list[PpsfCurvePoint] = Field(
-        default_factory=list, alias="curve-points"
-    )
-    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(
-        default_factory=list, alias="fsm-effects"
-    )
+    curve_points: list[PpsfCurvePoint] = Field(default_factory=list, alias="curve-points")
+    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(default_factory=list, alias="fsm-effects")
     height: int = 64
     index: int
     mute_solo: Optional[PpsfMuteflag] = Field(PpsfMuteflag.NONE, alias="mute-solo")
@@ -152,16 +148,12 @@ class PpsfTempoTrack(BaseModel):
 
 
 class PpsfTrackEditor(BaseModel):
-    event_tracks: list[PpsfEventTrack] = Field(
-        default_factory=list, alias="event-tracks"
-    )
+    event_tracks: list[PpsfEventTrack] = Field(default_factory=list, alias="event-tracks")
     header_width: int = Field(264, alias="header-width")
     height: int = 720
     horizontal_scale: float = Field(0.08, alias="horizontal-scale")
     horizontal_scroll: int = Field(0, alias="horizontal-scroll")
-    tempo_track: PpsfTempoTrack = Field(
-        default_factory=PpsfTempoTrack, alias="tempo-track"
-    )
+    tempo_track: PpsfTempoTrack = Field(default_factory=PpsfTempoTrack, alias="tempo-track")
     user_markers: Optional[list] = Field(default_factory=list, alias="user-markers")
     width: int = 1024
     x: int = 100
@@ -186,9 +178,7 @@ class PpsfGuiSettings(BaseModel):
     file_fullpath: str = Field("", alias="file-fullpath")
     playback_position: int = Field(0, alias="playback-position")
     project_length: int = Field(0, alias="project-length")
-    track_editor: PpsfTrackEditor = Field(
-        default_factory=PpsfTrackEditor, alias="track-editor"
-    )
+    track_editor: PpsfTrackEditor = Field(default_factory=PpsfTrackEditor, alias="track-editor")
 
 
 class PpsfFileAudioData(BaseModel):
@@ -334,9 +324,7 @@ class PpsfDvlTrackEvent(BaseModel):
     note_number: int
     note_off_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
     note_on_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
-    portamento_envelope: Optional[PpsfEnvelope] = Field(
-        default_factory=default_portamento_envelope
-    )
+    portamento_envelope: Optional[PpsfEnvelope] = Field(default_factory=default_portamento_envelope)
     vib_depth: Optional[PpsfEnvelope] = None
     vib_rate: Optional[PpsfEnvelope] = None
     vib_setting_id: Optional[int] = None

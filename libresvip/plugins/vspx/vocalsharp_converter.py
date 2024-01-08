@@ -77,9 +77,7 @@ class VocalSharpConverter(plugin_base.SVSConverterBase):
         vspx_project = XmlParser().from_bytes(path.read_bytes(), VocalSharpProject)
         return VocalSharpParser(options).parse_project(vspx_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         vspx_project = VocalSharpGenerator(options).generate_project(project)
         serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True, pretty_print_indent="\t"),

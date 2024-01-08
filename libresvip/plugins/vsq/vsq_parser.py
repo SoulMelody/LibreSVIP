@@ -42,17 +42,14 @@ class VsqParser:
         tracks_as_text = self.extract_vsq_text_from_meta_events(vsq_project.tracks)
         measure_prefix = self.get_measure_prefix(tracks_as_text[0])
         master_track = vsq_project.tracks[0]
-        time_signature_list, tick_prefix = self.parse_time_signatures(
-            master_track, measure_prefix
-        )
+        time_signature_list, tick_prefix = self.parse_time_signatures(master_track, measure_prefix)
         song_tempo_list = self.parse_tempo(master_track, tick_prefix)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
             song_tempo_list=song_tempo_list,
             time_signature_list=time_signature_list,
             track_list=[
-                self.parse_track(text, i + 1, tick_prefix)
-                for i, text in enumerate(tracks_as_text)
+                self.parse_track(text, i + 1, tick_prefix) for i, text in enumerate(tracks_as_text)
             ],
         )
 
@@ -89,9 +86,7 @@ class VsqParser:
         self, master_track: mido.MidiTrack, measure_prefix: int
     ) -> tuple[list[TimeSignature], int]:
         # no default
-        time_signature_changes = [
-            TimeSignature(bar_index=0, numerator=4, denominator=4)
-        ]
+        time_signature_changes = [TimeSignature(bar_index=0, numerator=4, denominator=4)]
 
         # traversing
         prev_ticks = 0
@@ -99,9 +94,7 @@ class VsqParser:
         measure = 0
         for event in master_track:
             if event.type == "time_signature":
-                tick_in_full_note = time_signature_changes[-1].bar_length(
-                    self.ticks_per_beat
-                )
+                tick_in_full_note = time_signature_changes[-1].bar_length(self.ticks_per_beat)
                 tick = event.time
                 measure += (tick - prev_ticks) / tick_in_full_note
                 bar_index = math.floor(measure) - measure_prefix
@@ -117,9 +110,7 @@ class VsqParser:
                 prev_ticks = tick
         return time_signature_changes, tick_prefix or 0
 
-    def parse_tempo(
-        self, master_track: mido.MidiTrack, tick_prefix: int
-    ) -> list[SongTempo]:
+    def parse_tempo(self, master_track: mido.MidiTrack, tick_prefix: int) -> list[SongTempo]:
         # default bpm
         tempos = [SongTempo(position=0)]
 
@@ -137,9 +128,7 @@ class VsqParser:
                         tempos.append(SongTempo(position=tick - tick_prefix, bpm=tempo))
         return tempos
 
-    def parse_track(
-        self, text: str, track_index: int, tick_prefix: int
-    ) -> SingingTrack:
+    def parse_track(self, text: str, track_index: int, tick_prefix: int) -> SingingTrack:
         vsq_track = configparser.ConfigParser()
         try:
             vsq_track.read_string(text)
@@ -190,18 +179,14 @@ class VsqParser:
             note_list,
         )
 
-    def parse_notes(
-        self, vsq_track: configparser.ConfigParser, tick_prefix: int
-    ) -> list[Note]:
+    def parse_notes(self, vsq_track: configparser.ConfigParser, tick_prefix: int) -> list[Note]:
         notes = []
         for tick_str, event_key in vsq_track["EventList"].items():
             tick = int(tick_str) - tick_prefix
             if event_key.startswith("ID#"):
                 vsq_note = vsq_track[event_key]
                 if vsq_note["type"] == "Anote":
-                    if (length := vsq_note.getint("length")) and (
-                        key := vsq_note.getint("note#")
-                    ):
+                    if (length := vsq_note.getint("length")) and (key := vsq_note.getint("note#")):
                         lyric_handle = vsq_note.get("lyrichandle", fallback="")
                         lyric_value, xsampa_value = vsq_track.get(
                             lyric_handle, "L0", fallback=","

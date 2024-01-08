@@ -45,9 +45,7 @@ class VocaloidParser:
         project.track_list = self.parse_tracks(vpr_project.tracks)
         return project
 
-    def parse_time_signatures(
-        self, time_signatures: list[VocaloidTimeSig]
-    ) -> list[TimeSignature]:
+    def parse_time_signatures(self, time_signatures: list[VocaloidTimeSig]) -> list[TimeSignature]:
         return [
             TimeSignature(
                 bar_index=time_signature.bar,

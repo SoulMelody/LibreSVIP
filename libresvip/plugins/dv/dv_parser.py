@@ -35,9 +35,7 @@ class DeepVocalParser:
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, dv_project: DvProject) -> Project:
-        time_signatures = self.parse_time_signatures(
-            dv_project.inner_project.time_signatures
-        )
+        time_signatures = self.parse_time_signatures(dv_project.inner_project.time_signatures)
         self.first_bar_length = round(time_signatures[0].bar_length())
         self.tick_prefix = round(time_signatures[0].bar_length() * 4)
         tempos = self.parse_tempos(dv_project.inner_project.tempos)
@@ -45,8 +43,7 @@ class DeepVocalParser:
             [
                 track.track_data
                 for track in dv_project.inner_project.tracks
-                if track.track_type == DvTrackType.AUDIO
-                and len(track.track_data.infos) > 0
+                if track.track_type == DvTrackType.AUDIO and len(track.track_data.infos) > 0
             ]
         )
         singing_tracks = self.parse_singing_tracks(
@@ -67,9 +64,7 @@ class DeepVocalParser:
         self, dv_time_signatures: list[DvTimeSignature]
     ) -> list[TimeSignature]:
         return [
-            time_signature
-            if i > 0
-            else time_signature.model_copy(update={"bar_index": 0})
+            time_signature if i > 0 else time_signature.model_copy(update={"bar_index": 0})
             for i, time_signature in enumerate(
                 shift_beat_list(
                     [
@@ -140,9 +135,7 @@ class DeepVocalParser:
                     ),
                 )
                 segment_pitch_data = [
-                    DvSegmentPitchRawData(
-                        segment.start - self.tick_prefix, segment.pitch_data
-                    )
+                    DvSegmentPitchRawData(segment.start - self.tick_prefix, segment.pitch_data)
                 ]
                 if (
                     pitch := pitch_from_dv_track(

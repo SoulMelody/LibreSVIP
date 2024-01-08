@@ -28,9 +28,7 @@ class PluginInfo:
     def __post_init__(self, _config: RawConfigParser) -> None:
         self.module = _config.get("Core", "Module")
         self.name = _config.get("Core", "Name")
-        self.version = Version(
-            _config.get("Documentation", "Version", fallback="0.0.0")
-        )
+        self.version = Version(_config.get("Documentation", "Version", fallback="0.0.0"))
         self.author = _config.get("Documentation", "Author", fallback="Unknown Author")
         self.description = (
             _config.get("Documentation", "Description", fallback="")

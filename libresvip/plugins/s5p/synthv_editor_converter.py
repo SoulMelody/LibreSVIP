@@ -14,9 +14,7 @@ class SynthVEditorConverter(plugin_base.SVSConverterBase):
         s5p_project = S5pProject.model_validate_json(path.read_text("utf-8"))
         return SynthVEditorParser(options).parse_project(s5p_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         s5p_project = SynthVEditorGenerator(options).generate_project(project)
         path.write_text(
             json_dumps(

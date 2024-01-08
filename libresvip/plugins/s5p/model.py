@@ -112,9 +112,7 @@ class S5pParameters(BaseModel):
         "gender",
         when_used="json",
     )
-    def serialize_points(
-        self, points: S5pPoints, _info: FieldSerializationInfo
-    ) -> list[float]:
+    def serialize_points(self, points: S5pPoints, _info: FieldSerializationInfo) -> list[float]:
         return list(chain.from_iterable(points.root))
 
 
@@ -123,9 +121,7 @@ class S5pTrack(BaseModel):
     db_name: str = Field(..., alias="dbName")
     color: str = "15e879"
     display_order: int = Field(..., alias="displayOrder")
-    db_defaults: S5pDbDefaults = Field(
-        default_factory=S5pDbDefaults, alias="dbDefaults"
-    )
+    db_defaults: S5pDbDefaults = Field(default_factory=S5pDbDefaults, alias="dbDefaults")
     notes: list[S5pNote] = Field(default_factory=list)
     gs_events: None = Field(None, alias="gsEvents")
     mixer: S5pTrackMixer = Field(default_factory=S5pTrackMixer)

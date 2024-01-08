@@ -39,9 +39,7 @@ def get_pinyin_series(
                 count += 1
             else:
                 if len(chinese):
-                    result_items.extend(
-                        pypinyin.lazy_pinyin(chinese, errors=lambda x: " ")
-                    )
+                    result_items.extend(pypinyin.lazy_pinyin(chinese, errors=lambda x: " "))
                     chinese = ""
                 if ENGLISH_CHARS.match(char) is not None:
                     if reverse_letters:
@@ -73,10 +71,7 @@ def get_pinyin_series(
         pinyin += result_items[index]
         index += 1
         for _ in range(1, item_counts[i]):
-            if (
-                result_items[index - 1][-1].isalnum()
-                and result_items[index][0].isalnum()
-            ):
+            if result_items[index - 1][-1].isalnum() and result_items[index][0].isalnum():
                 pinyin += " "
             pinyin += result_items[index]
             index += 1

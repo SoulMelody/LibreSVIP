@@ -83,13 +83,9 @@ class ParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def load_points(
-        cls, points: Union[Points, list[Any]], _info: ValidationInfo
-    ) -> Points:
+    def load_points(cls, points: Union[Points, list[Any]], _info: ValidationInfo) -> Points:
         return (
-            points
-            if isinstance(points, Points)
-            else Points(root=[Point(*each) for each in points])
+            points if isinstance(points, Points) else Points(root=[Point(*each) for each in points])
         )
 
     @field_serializer("points", when_used="json-unless-none")
@@ -132,9 +128,7 @@ class ParamCurve(BaseModel):
             pos = prev_point[0]
             first_loop = True
             while first_loop or (
-                i < len(points)
-                and points[i].x < pos + interval
-                and points[i].y != interrupt_value
+                i < len(points) and points[i].x < pos + interval and points[i].y != interrupt_value
             ):
                 if first_loop:
                     first_loop = False
@@ -183,9 +177,7 @@ class ParamCurve(BaseModel):
                 if current_point.y != interrupt_value:
                     buffer.append(current_point)
                 elif next_point.y != interrupt_value:
-                    if current_point.x >= 0 and (
-                        i <= 1 or self.points[i - 2].y != interrupt_value
-                    ):
+                    if current_point.x >= 0 and (i <= 1 or self.points[i - 2].y != interrupt_value):
                         buffer.append(current_point)
                 elif len(buffer):
                     segments.append(buffer.copy())

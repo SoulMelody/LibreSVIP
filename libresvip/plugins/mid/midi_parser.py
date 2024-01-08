@@ -63,9 +63,7 @@ class MidiParser:
                         if not len(end):
                             self.selected_channels.append(int(start) - 1)
                         elif end.isdigit() and not end.startswith("0"):
-                            self.selected_channels.extend(
-                                range(int(start) - 1, int(end))
-                            )
+                            self.selected_channels.extend(range(int(start) - 1, int(end)))
 
     @property
     def tick_rate(self) -> float:
@@ -97,13 +95,9 @@ class MidiParser:
                 event.time += tick
                 tick = event.time
 
-    def parse_time_signatures(
-        self, master_track: mido.MidiTrack
-    ) -> list[TimeSignature]:
+    def parse_time_signatures(self, master_track: mido.MidiTrack) -> list[TimeSignature]:
         # no default
-        time_signature_changes = [
-            TimeSignature(bar_index=0, numerator=4, denominator=4)
-        ]
+        time_signature_changes = [TimeSignature(bar_index=0, numerator=4, denominator=4)]
 
         # traversing
         if self.options.import_time_signatures:
@@ -111,9 +105,7 @@ class MidiParser:
             measure = 0
             for event in master_track:
                 if event.type == "time_signature":
-                    tick_in_full_note = time_signature_changes[-1].bar_length(
-                        self.ticks_per_beat
-                    )
+                    tick_in_full_note = time_signature_changes[-1].bar_length(self.ticks_per_beat)
                     tick = event.time
                     measure += (tick - prev_ticks) / tick_in_full_note
                     ts_obj = TimeSignature(
@@ -168,13 +160,9 @@ class MidiParser:
                     track_name = event.name
                 elif event.type == "note_on" and event.velocity > 0:
                     # Store this as the last note-on location
-                    rel_pitch_points.append(
-                        Point(round(event.time * self.tick_rate), 0)
-                    )
+                    rel_pitch_points.append(Point(round(event.time * self.tick_rate), 0))
                     last_note_on[event.note].append(event.time)
-                elif event.type == "note_off" or (
-                    event.type == "note_on" and event.velocity == 0
-                ):
+                elif event.type == "note_off" or (event.type == "note_on" and event.velocity == 0):
                     # Check that a note-on exists (ignore spurious note-offs)
                     key = event.note
                     if key in last_note_on:
@@ -188,14 +176,10 @@ class MidiParser:
                         open_notes = last_note_on[key]
 
                         notes_to_close = [
-                            start_tick
-                            for start_tick in open_notes
-                            if start_tick != end_tick
+                            start_tick for start_tick in open_notes if start_tick != end_tick
                         ]
                         notes_to_keep = [
-                            start_tick
-                            for start_tick in open_notes
-                            if start_tick == end_tick
+                            start_tick for start_tick in open_notes if start_tick == end_tick
                         ]
 
                         for start_tick in notes_to_close:
@@ -224,9 +208,7 @@ class MidiParser:
                     rel_pitch_points.append(
                         Point(
                             round(event.time * self.tick_rate),
-                            round(
-                                pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE
-                            ),
+                            round(pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE),
                         )
                     )
                 elif event.type == "lyrics":
@@ -273,9 +255,6 @@ class MidiParser:
 
     def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[Track]:
         return sum(
-            (
-                self.parse_track(track_idx, track)
-                for track_idx, track in enumerate(midi_tracks)
-            ),
+            (self.parse_track(track_idx, track) for track_idx, track in enumerate(midi_tracks)),
             [],
         )

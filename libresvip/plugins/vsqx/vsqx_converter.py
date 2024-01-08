@@ -80,9 +80,7 @@ class VsqxConverter(plugin_base.SVSConverterBase):
         vsqx_proj: Vsqx = xml_parser.from_bytes(path.read_bytes())
         return VsqxParser(options).parse_project(vsqx_proj)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options.vsqx_version == VsqxVersion.VSQ3:
             vsqx_generator_class = Vsq3Generator
             vsqx_namespace = VSQ3_NS

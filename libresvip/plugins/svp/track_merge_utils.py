@@ -11,12 +11,8 @@ def param_curve_override_with(
     termination: int = 0,
 ) -> None:
     inserted_points: list[Point] = []
-    main_left_index = find_last_index(
-        main_curve.points.root, lambda point: point.position <= start
-    )
-    main_right_index = find_index(
-        main_curve.points.root, lambda point: point.position > end
-    )
+    main_left_index = find_last_index(main_curve.points.root, lambda point: point.position <= start)
+    main_right_index = find_index(main_curve.points.root, lambda point: point.position > end)
     override_left_index = find_last_index(
         override_curve.points.root, lambda point: point.position <= start
     )
@@ -136,9 +132,7 @@ def params_override_with(
     param_curve_override_with(main_params.volume, override_params.volume, start, end)
     param_curve_override_with(main_params.breath, override_params.breath, start, end)
     param_curve_override_with(main_params.gender, override_params.gender, start, end)
-    param_curve_override_with(
-        main_params.strength, override_params.strength, start, end
-    )
+    param_curve_override_with(main_params.strength, override_params.strength, start, end)
 
 
 def track_override_with(
@@ -149,25 +143,17 @@ def track_override_with(
     main_left_index = main_right_index = -1
     for i in range(len(note_list)):
         main_left_index = (
-            find_last_index(
-                main_note_list, lambda note: note.start_pos <= note_list[i].start_pos
-            )
+            find_last_index(main_note_list, lambda note: note.start_pos <= note_list[i].start_pos)
             if main_left_index < len(main_note_list) - 1
             else -1
         )
-        main_left_note = (
-            main_note_list[main_left_index] if main_left_index >= 0 else None
-        )
+        main_left_note = main_note_list[main_left_index] if main_left_index >= 0 else None
         start = (
             note_list[i].start_pos - 120
-            if main_left_note is None
-            or main_left_note.end_pos < note_list[i].start_pos - 120
+            if main_left_note is None or main_left_note.end_pos < note_list[i].start_pos - 120
             else (main_left_note.end_pos + note_list[i].start_pos) // 2
         )
-        while (
-            i < len(note_list) - 1
-            and note_list[i].end_pos >= note_list[i + 1].start_pos
-        ):
+        while i < len(note_list) - 1 and note_list[i].end_pos >= note_list[i + 1].start_pos:
             i += 1
         main_right_index = (
             find_index(
@@ -177,13 +163,10 @@ def track_override_with(
             if main_right_index < len(main_note_list) - 1
             else -1
         )
-        main_right_note = (
-            main_note_list[main_right_index] if main_right_index >= 0 else None
-        )
+        main_right_note = main_note_list[main_right_index] if main_right_index >= 0 else None
         end = (
             note_list[i].end_pos + 120
-            if main_right_note is None
-            or main_right_note.start_pos > note_list[i].end_pos + 120
+            if main_right_note is None or main_right_note.start_pos > note_list[i].end_pos + 120
             else (main_right_note.start_pos + note_list[i].end_pos) // 2
         )
         interval |= RangeInterval([(start, end)])

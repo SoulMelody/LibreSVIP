@@ -31,8 +31,7 @@ class SrtGenerator:
             commit_flag = False
             condition_symbol = SYMBOL_PATTERN.search(note.lyric) is not None
             condition_gap = (
-                i + 1 < len(note_list)
-                and note_list[i + 1].start_pos - note.end_pos >= 60
+                i + 1 < len(note_list) and note_list[i + 1].start_pos - note.end_pos >= 60
             )
             if self.options.split_by == SplitOption.SYMBOL:
                 commit_flag = condition_symbol
@@ -47,9 +46,7 @@ class SrtGenerator:
                 buffer = []
         return lyric_lines
 
-    def commit_current_lyric_line(
-        self, lyric_lines: list[Subtitle], buffer: list[Note]
-    ):
+    def commit_current_lyric_line(self, lyric_lines: list[Subtitle], buffer: list[Note]):
         start_time = self.get_time_from_ticks(buffer[0].start_pos)
         end_time = self.get_time_from_ticks(buffer[-1].end_pos)
         lyrics = "".join(SYMBOL_PATTERN.sub("", note.lyric) for note in buffer)

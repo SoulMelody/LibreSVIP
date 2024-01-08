@@ -112,9 +112,7 @@ def print_plugin_details(plugin) -> None:
     for op, options in zip(op_arr, options_arr):
         if options is None:
             continue
-        typer.echo(
-            _("This plugin supports the following {} conversion options:").format(op)
-        )
+        typer.echo(_("This plugin supports the following {} conversion options:").format(op))
         for field_info in options.model_fields.values():
             if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(
@@ -129,17 +127,13 @@ def print_plugin_details(plugin) -> None:
                     typer.echo(f"\t{{}}{field_info.default}".format(_("Default: ")))
                 if issubclass(field_info.annotation, enum.Enum):
                     typer.echo("  " + _("Available values:"))
-                    annotations = get_type_hints(
-                        field_info.annotation, include_extras=True
-                    )
+                    annotations = get_type_hints(field_info.annotation, include_extras=True)
                     for enum_item in field_info.annotation:
                         if enum_item.name in annotations:
                             annotated_args = get_args(annotations[enum_item.name])
                             if len(annotated_args) == 2:
                                 enum_type, enum_field = annotated_args
-                                typer.echo(
-                                    f"\t{enum_item.value}\t=>\t{_(enum_field.title)}"
-                                )
+                                typer.echo(f"\t{enum_item.value}\t=>\t{_(enum_field.title)}")
             elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(
                     "\n  "

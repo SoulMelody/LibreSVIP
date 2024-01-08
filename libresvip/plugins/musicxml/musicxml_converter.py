@@ -30,9 +30,7 @@ class MusicXMLConverter(plugin_base.SVSConverterBase):
         score = xml_parser.from_bytes(path.read_bytes(), ScorePartwise)
         return MusicXMLParser(options).parse_project(score)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         score = MusicXMLGenerator(options).generate_project(project)
         xml_serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True), writer=MusicXMLWriter

@@ -9,9 +9,7 @@ class InputOptions(BaseModel):
 
 class OutputOptions(BaseModel):
     vsqx_version: VsqxVersion = Field(VsqxVersion.VSQ4, title="VSQX Version")
-    pretty_xml: bool = Field(
-        True, title="Pretty XML", description="Whether to output pretty XML"
-    )
+    pretty_xml: bool = Field(True, title="Pretty XML", description="Whether to output pretty XML")
     default_lang_id: VocaloidLanguage = Field(
         VocaloidLanguage.SIMPLIFIED_CHINESE,
         title="Default language",

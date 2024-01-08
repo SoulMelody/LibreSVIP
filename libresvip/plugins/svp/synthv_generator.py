@@ -67,22 +67,15 @@ class SynthVGenerator:
             )
         )
         self.first_bar_tempo = [
-            tempo
-            for tempo in project.song_tempo_list
-            if tempo.position < self.first_bar_tick
+            tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]
-        self.synchronizer = TimeSynchronizer(
-            project.song_tempo_list, self.first_bar_tick
-        )
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list, self.first_bar_tick)
         for tempo in self.synchronizer.tempo_list:
             sv_project.time_sig.tempo.append(self.generate_tempo(tempo))
         if any(
-            (beat.denominator < 2 or beat.denominator > 16)
-            for beat in project.time_signature_list
+            (beat.denominator < 2 or beat.denominator > 16) for beat in project.time_signature_list
         ):
-            sv_project.time_sig.meter.append(
-                SVMeter(index=0, numerator=4, denominator=4)
-            )
+            sv_project.time_sig.meter.append(SVMeter(index=0, numerator=4, denominator=4))
         else:
             for meter in new_meters:
                 sv_project.time_sig.meter.append(self.generate_meter(meter))
@@ -137,9 +130,7 @@ class SynthVGenerator:
                 )
                 return valid_chars[0] if len(valid_chars) > 0 else ""
 
-            self.lyrics_pinyin = lyrics2pinyin(
-                [normalize_lyric(note) for note in track.note_list]
-            )
+            self.lyrics_pinyin = lyrics2pinyin([normalize_lyric(note) for note in track.note_list])
 
             sv_track.main_group.notes = self.generate_notes_with_phones(track.note_list)
 
@@ -152,9 +143,7 @@ class SynthVGenerator:
         elif isinstance(track, InstrumentalTrack):
             sv_track.main_ref.is_instrumental = True
             sv_track.disp_order = "ff4794cb"
-            sv_track.main_ref.audio = SVAudio(
-                filename=track.audio_file_path, duration=0
-            )
+            sv_track.main_ref.audio = SVAudio(filename=track.audio_file_path, duration=0)
             sv_track.main_ref.blick_offset = self.generate_audio_offset(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
                 sv_track.main_ref.audio.duration = track_info.duration / 1000
@@ -173,9 +162,7 @@ class SynthVGenerator:
             if actual_pos > self.first_bar_tempo[i].position:
                 break
             res -= (
-                (current_pos - self.first_bar_tempo[i].position)
-                * 120
-                / self.first_bar_tempo[i].bpm
+                (current_pos - self.first_bar_tempo[i].position) * 120 / self.first_bar_tempo[i].bpm
             )
             current_pos = self.first_bar_tempo[i].position
         if i >= 0:
@@ -200,9 +187,7 @@ class SynthVGenerator:
                 lambda val: (
                     val / 1000.0 * 12.0
                     if val >= 0
-                    else max(
-                        ratio_to_db(val / 1000.0 + 1.0 if val > -997 else 0.0039), -48.0
-                    )
+                    else max(ratio_to_db(val / 1000.0 + 1.0 if val > -997 else 0.0039), -48.0)
                 ),
             ),
             tension=self.generate_param_curve(
@@ -236,15 +221,10 @@ class SynthVGenerator:
                     if not len(buffer):
                         continue
                     if last_point is None or last_point.x + min_interval < buffer[0].x:
-                        if (
-                            last_point is not None
-                            and last_point.x + 2 * min_interval < buffer[0].x
-                        ):
+                        if last_point is not None and last_point.x + 2 * min_interval < buffer[0].x:
                             point_list.append(
                                 SVPoint(
-                                    offset=ticks_to_position(
-                                        last_point.x + min_interval
-                                    ),
+                                    offset=ticks_to_position(last_point.x + min_interval),
                                     value=0,
                                 )
                             )
@@ -258,9 +238,7 @@ class SynthVGenerator:
                         point_list.append(
                             SVPoint(
                                 offset=ticks_to_position(tmp_point.x),
-                                value=self.generate_pitch_diff(
-                                    tmp_point.x, tmp_point.y
-                                ),
+                                value=self.generate_pitch_diff(tmp_point.x, tmp_point.y),
                             )
                         )
                     last_point = buffer[-1]
@@ -284,12 +262,8 @@ class SynthVGenerator:
         )
 
     def generate_pitch_diff(self, pos: int, pitch: int) -> float:
-        target_note_index = find_last_index(
-            self.note_buffer, lambda x: x.start_pos <= pos
-        )
-        target_note = (
-            self.note_buffer[target_note_index] if target_note_index >= 0 else None
-        )
+        target_note_index = find_last_index(self.note_buffer, lambda x: x.start_pos <= pos)
+        target_note = self.note_buffer[target_note_index] if target_note_index >= 0 else None
         pitch_diff = pitch - self.pitch_simulator.pitch_at_secs(
             self.synchronizer.get_actual_secs_from_ticks(pos)
         )
@@ -297,10 +271,7 @@ class SynthVGenerator:
             return pitch_diff
         if (
             self.options.vibrato == VibratoOption.HYBRID
-            and self.synchronizer.get_duration_secs_from_ticks(
-                target_note.start_pos, pos
-            )
-            > 0.25
+            and self.synchronizer.get_duration_secs_from_ticks(target_note.start_pos, pos) > 0.25
             and pos < target_note.end_pos
         ):
             self.no_vibrato_indexes.add(target_note_index)
@@ -323,14 +294,10 @@ class SynthVGenerator:
         if curve.points[0].x == -192000:
             if len(curve.points) == 2 and curve.points[1].x == sys.maxsize // 2:
                 if curve.points[0].y != termination:
-                    point_list.append(
-                        SVPoint(offset=0, value=mapping_func(curve.points[0].y))
-                    )
+                    point_list.append(SVPoint(offset=0, value=mapping_func(curve.points[0].y)))
                 return sv_curve
             skipped = 1
-            valid_index = find_index(
-                curve.points.root, lambda x: x.x >= self.first_bar_tick
-            )
+            valid_index = find_index(curve.points.root, lambda x: x.x >= self.first_bar_tick)
             if (
                 valid_index != -1
                 and len(curve.points) > valid_index + 1
@@ -359,15 +326,10 @@ class SynthVGenerator:
                     if not len(buffer):
                         continue
                     if last_point is None or last_point.x + min_interval < buffer[0].x:
-                        if (
-                            last_point is not None
-                            and last_point.x + 2 * min_interval < buffer[0].x
-                        ):
+                        if last_point is not None and last_point.x + 2 * min_interval < buffer[0].x:
                             point_list.append(
                                 SVPoint(
-                                    offset=ticks_to_position(
-                                        last_point.x + min_interval
-                                    ),
+                                    offset=ticks_to_position(last_point.x + min_interval),
                                     value=default_value,
                                 )
                             )
@@ -464,12 +426,9 @@ class SynthVGenerator:
             index = 1 if current_phone_marks[0] > 0 else 0
             if current_main_part_edited and next_head_part_edited:
                 current_main_ratio = (
-                    current_note.edited_phones.mid_ratio_over_tail
-                    / current_phone_marks[1]
+                    current_note.edited_phones.mid_ratio_over_tail / current_phone_marks[1]
                 )
-                next_head_ratio = (
-                    next_note.edited_phones.head_length_in_secs / next_phone_marks[0]
-                )
+                next_head_ratio = next_note.edited_phones.head_length_in_secs / next_phone_marks[0]
                 x = 2 * current_main_ratio / (1 + current_main_ratio)
                 y = 2 / (1 + current_main_ratio)
                 z = next_head_ratio
@@ -484,25 +443,16 @@ class SynthVGenerator:
                     y *= final_ratio
                     z *= final_ratio
                 current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
-                current_sv_note.attributes.set_phone_duration(
-                    index + 1, clamp(y, 0.2, 1.8)
-                )
+                current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
                 next_sv_note.attributes.set_phone_duration(0, clamp(z, 0.2, 1.8))
             elif current_main_part_edited:
-                ratio = (
-                    current_note.edited_phones.mid_ratio_over_tail
-                    / current_phone_marks[1]
-                )
+                ratio = current_note.edited_phones.mid_ratio_over_tail / current_phone_marks[1]
                 x = 2 * ratio / (1 + ratio)
                 y = 2 / (1 + ratio)
                 current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
-                current_sv_note.attributes.set_phone_duration(
-                    index + 1, clamp(y, 0.2, 1.8)
-                )
+                current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
             elif next_head_part_edited:
-                ratio = (
-                    next_note.edited_phones.head_length_in_secs / next_phone_marks[0]
-                )
+                ratio = next_note.edited_phones.head_length_in_secs / next_phone_marks[0]
                 if (
                     self.synchronizer.get_duration_secs_from_ticks(
                         current_note.end_pos, next_note.start_pos
@@ -515,17 +465,13 @@ class SynthVGenerator:
                     ratio_xy = clamp(ratio_xy, 0.2, 1.8)
                     current_sv_note.attributes.set_phone_duration(index, ratio_xy)
                     if current_phone_marks[1] > 0:
-                        current_sv_note.attributes.set_phone_duration(
-                            index + 1, ratio_xy
-                        )
+                        current_sv_note.attributes.set_phone_duration(index + 1, ratio_xy)
                     ratio = ratio_z
                 next_sv_note.attributes.set_phone_duration(0, ratio)
             if current_sv_note.attributes.dur is not None:
                 expected_length = number_of_phones(cur_pinyin)
                 if len(current_sv_note.attributes.dur) < expected_length:
-                    current_sv_note.attributes.set_phone_duration(
-                        expected_length - 1, 1.0
-                    )
+                    current_sv_note.attributes.set_phone_duration(expected_length - 1, 1.0)
 
             sv_note_list.append(current_sv_note)
 

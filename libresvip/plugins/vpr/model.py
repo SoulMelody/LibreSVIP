@@ -112,9 +112,7 @@ class VocaloidCompID(BaseModel):
 
 
 class VocaloidLangID(BaseModel):
-    lang_id: Optional[VocaloidLanguage] = Field(
-        VocaloidLanguage.SIMPLIFIED_CHINESE, alias="langID"
-    )
+    lang_id: Optional[VocaloidLanguage] = Field(VocaloidLanguage.SIMPLIFIED_CHINESE, alias="langID")
 
 
 class VocaloidVoice(VocaloidCompID, VocaloidLangID):
@@ -156,9 +154,7 @@ class VocaloidSingingSkill(BaseModel):
 
 class VocaloidTempo(VocaloidFolded):
     events: list[VocaloidPoint] = Field(default_factory=list)
-    global_value: Optional[VocaloidGlobal] = Field(
-        alias="global", default_factory=VocaloidGlobal
-    )
+    global_value: Optional[VocaloidGlobal] = Field(alias="global", default_factory=VocaloidGlobal)
     height: Optional[int] = 0
     ara: Optional[VocaloidEnabled] = None
 
@@ -176,9 +172,7 @@ class VocaloidMasterTrack(BaseModel):
     loop: Optional[VocaloidRegion] = Field(default_factory=VocaloidRegion)
     sampling_rate: int = Field(44100, alias="samplingRate")
     tempo: Optional[VocaloidTempo] = Field(default_factory=VocaloidTempo)
-    time_sig: VocaloidTimeSigs = Field(
-        alias="timeSig", default_factory=VocaloidTimeSigs
-    )
+    time_sig: VocaloidTimeSigs = Field(alias="timeSig", default_factory=VocaloidTimeSigs)
     volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
 
 
@@ -201,9 +195,7 @@ class VocaloidNotes(VocaloidLangID, VocaloidWithDur):
     lyric: str
     number: int
     phoneme: Optional[str] = None
-    phoneme_positions: Optional[list[VocaloidBasePos]] = Field(
-        None, alias="phonemePositions"
-    )
+    phoneme_positions: Optional[list[VocaloidBasePos]] = Field(None, alias="phonemePositions")
     singing_skill: Optional[VocaloidSingingSkill] = Field(
         alias="singingSkill", default_factory=VocaloidSingingSkill
     )
@@ -219,12 +211,8 @@ class VocaloidWav(BaseModel):
 
 class VocaloidVoicePart(VocaloidWithDur):
     name: Optional[str] = ""
-    midi_effects: list[VocaloidEffects] = Field(
-        default_factory=list, alias="midiEffects"
-    )
-    audio_effects: list[VocaloidEffects] = Field(
-        default_factory=list, alias="audioEffects"
-    )
+    midi_effects: list[VocaloidEffects] = Field(default_factory=list, alias="midiEffects")
+    audio_effects: list[VocaloidEffects] = Field(default_factory=list, alias="audioEffects")
     notes: Optional[list[VocaloidNotes]] = Field(default_factory=list)
     style_preset_id: Optional[str] = Field(None, alias="stylePresetID")
     style_name: Optional[str] = Field("No Effect", alias="styleName")
@@ -280,16 +268,12 @@ class VocaloidStandardTrack(VocaloidBaseTracks):
 
 class VocaloidAITrack(VocaloidBaseTracks):
     parts: list[VocaloidVoicePart] = Field(default_factory=list)
-    type_value: Literal[VocaloidTrackType.AI] = Field(
-        VocaloidTrackType.AI, alias="type"
-    )
+    type_value: Literal[VocaloidTrackType.AI] = Field(VocaloidTrackType.AI, alias="type")
 
 
 class VocaloidAudioTrack(VocaloidBaseTracks):
     parts: list[VocaloidWavPart] = Field(default_factory=list)
-    type_value: Literal[VocaloidTrackType.AUDIO] = Field(
-        VocaloidTrackType.AUDIO, alias="type"
-    )
+    type_value: Literal[VocaloidTrackType.AUDIO] = Field(VocaloidTrackType.AUDIO, alias="type")
 
 
 VocaloidTracks = Annotated[

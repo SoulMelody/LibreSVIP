@@ -58,18 +58,16 @@ class Notifier(QObject):
             except httpx.HTTPError:
                 await self.notify_async(
                     title=self.tr("Error occurred while Downloading"),
-                    message=self.tr(
-                        "Failed to download file {}. Please try again later."
-                    ).format(filename),
+                    message=self.tr("Failed to download file {}. Please try again later.").format(
+                        filename
+                    ),
                 )
 
     @Slot()
     @qtinter.asyncslot
     async def check_for_updates(self):
         failed = False
-        async with httpx.AsyncClient(
-            follow_redirects=True, timeout=self.request_timeout
-        ) as client:
+        async with httpx.AsyncClient(follow_redirects=True, timeout=self.request_timeout) as client:
             try:
                 await self.clear_all_messages_async()
                 await self.notify_async(
@@ -96,9 +94,7 @@ class Notifier(QObject):
                                 ),
                             )
                         ]
-                        if arch.endswith("64") and (
-                            "aarch" not in arch and "arm" not in arch
-                        ):
+                        if arch.endswith("64") and ("aarch" not in arch and "arm" not in arch):
                             asset = None
                             if uname.system == "Windows":
                                 asset = next(
@@ -149,17 +145,15 @@ class Notifier(QObject):
                                 )
                         await self.notify_async(
                             title=self.tr("Update Available"),
-                            message=self.tr("New version {} is available.").format(
-                                remote_version
-                            ),
+                            message=self.tr("New version {} is available.").format(remote_version),
                             buttons=buttons,
                         )
                     else:
                         await self.notify_async(
                             title=self.tr("No Updates"),
-                            message=self.tr(
-                                "You are using the latest version {}."
-                            ).format(local_version),
+                            message=self.tr("You are using the latest version {}.").format(
+                                local_version
+                            ),
                         )
                 else:
                     failed = True
@@ -168,9 +162,7 @@ class Notifier(QObject):
             if failed:
                 await self.notify_async(
                     title=self.tr("Error occurred while Checking for Updates"),
-                    message=self.tr(
-                        "Failed to check for updates. Please try again later."
-                    ),
+                    message=self.tr("Failed to check for updates. Please try again later."),
                 )
 
     async def notify_async(

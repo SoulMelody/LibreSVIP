@@ -62,9 +62,7 @@ class VocalSharpParser:
             track_list=singing_tracks + instrumental_tracks,
         )
 
-    def parse_time_signatures(
-        self, beat_list: list[VocalSharpBeat]
-    ) -> list[TimeSignature]:
+    def parse_time_signatures(self, beat_list: list[VocalSharpBeat]) -> list[TimeSignature]:
         return [
             TimeSignature(
                 bar_index=beat.bar_index,
@@ -83,9 +81,7 @@ class VocalSharpParser:
             for tempo in tempo_list
         ]
 
-    def parse_singing_tracks(
-        self, track_list: list[VocalSharpNoteTrack]
-    ) -> list[SingingTrack]:
+    def parse_singing_tracks(self, track_list: list[VocalSharpNoteTrack]) -> list[SingingTrack]:
         tracks = []
         for track in track_list:
             singing_track = SingingTrack(
@@ -112,9 +108,7 @@ class VocalSharpParser:
         ]
 
     def parse_pitch(self, note_track: VocalSharpNoteTrack) -> ParamCurve:
-        base_pitch_curve = BasePitchCurve(
-            note_track, self.default_trill, self.synchronizer
-        )
+        base_pitch_curve = BasePitchCurve(note_track, self.default_trill, self.synchronizer)
         pitch_points = [Point.start_point()]
         prev_tick = None
         for vspx_point in note_track.parameter.points:
@@ -125,12 +119,8 @@ class VocalSharpParser:
                 elif vspx_point.time - prev_tick > 1:
                     pitch_points.append(Point(x=prev_tick, y=-100))
                     pitch_points.append(Point(x=cur_tick, y=-100))
-                vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(
-                    vspx_point.time
-                )
-                if (
-                    base_key := base_pitch_curve.semitone_value_at(vspx_point_secs)
-                ) is not None:
+                vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(vspx_point.time)
+                if (base_key := base_pitch_curve.semitone_value_at(vspx_point_secs)) is not None:
                     pitch_points.append(
                         Point(
                             x=cur_tick,

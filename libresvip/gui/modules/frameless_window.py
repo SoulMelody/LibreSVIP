@@ -14,9 +14,7 @@ QML_IMPORT_MINOR_VERSION = 0
 class FramelessWindow(QQuickWindow):
     def __init__(self, parent=None, border_width: int = 5) -> None:
         super().__init__(parent)
-        self.flags = (
-            self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
-        )
+        self.flags = self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
         self.border_width = border_width
         QCoreApplication.instance().install_event_filter(self)
 
@@ -39,10 +37,7 @@ class FramelessWindow(QQuickWindow):
         if pos.y() >= self.height - self.border_width:
             edges |= Qt.Edge.BottomEdge
 
-        if (
-            et == QMouseEvent.Type.MouseMove
-            and self.window_state() == Qt.WindowState.WindowNoState
-        ):
+        if et == QMouseEvent.Type.MouseMove and self.window_state() == Qt.WindowState.WindowNoState:
             if edges in (
                 Qt.Edge.LeftEdge | Qt.Edge.TopEdge,
                 Qt.Edge.RightEdge | Qt.Edge.BottomEdge,

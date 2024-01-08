@@ -91,12 +91,9 @@ class VocaloidGenerator:
 
     def generate_tempos(self, tempo_list: list[SongTempo]) -> list[VocaloidPoint]:
         tempo_events = [
-            VocaloidPoint(pos=it.position, value=int(it.bpm * BPM_RATE))
-            for it in tempo_list
+            VocaloidPoint(pos=it.position, value=int(it.bpm * BPM_RATE)) for it in tempo_list
         ]
-        self.end_tick = max(
-            self.end_tick, max((it.pos for it in tempo_events), default=0)
-        )
+        self.end_tick = max(self.end_tick, max((it.pos for it in tempo_events), default=0))
         return tempo_events
 
     def generate_tracks(self, track_list: list[Track]) -> list[VocaloidTracks]:
@@ -108,10 +105,8 @@ class VocaloidGenerator:
                     track_info := audio_track_info(track.audio_file_path, only_wav=True)
                 ) is not None:
                     audio_duration_in_secs = track_info.duration / 1000
-                    audio_duration_in_ticks = (
-                        self.time_synchronizer.get_actual_ticks_from_secs(
-                            audio_duration_in_secs
-                        )
+                    audio_duration_in_ticks = self.time_synchronizer.get_actual_ticks_from_secs(
+                        audio_duration_in_secs
                     )
                     self.wav_paths[wav_path.name] = wav_path
                     wav_part = VocaloidWavPart(
@@ -164,20 +159,14 @@ class VocaloidGenerator:
                     if self.options.is_ai_singer:
                         part.ai_voice = VocaloidAIVoice(
                             comp_id=self.options.default_comp_id,
-                            lang_ids=[
-                                VocaloidLangID(lang_id=self.options.default_lang_id)
-                            ],
+                            lang_ids=[VocaloidLangID(lang_id=self.options.default_lang_id)],
                         )
                     else:
                         part.voice = VocaloidVoice(
                             comp_id=self.options.default_comp_id,
                             lang_id=self.options.default_lang_id,
                         )
-                track = (
-                    VocaloidAITrack
-                    if self.options.is_ai_singer
-                    else VocaloidStandardTrack
-                )(
+                track = (VocaloidAITrack if self.options.is_ai_singer else VocaloidStandardTrack)(
                     name=track.title,
                     parts=[part] if part else [],
                     is_muted=track.mute,
@@ -194,9 +183,7 @@ class VocaloidGenerator:
 
     @staticmethod
     def generate_pitch_data(track: SingingTrack) -> Optional[list[VocaloidControllers]]:
-        raw_pitch_data = generate_for_vocaloid(
-            track.edited_params.pitch, track.note_list
-        )
+        raw_pitch_data = generate_for_vocaloid(track.edited_params.pitch, track.note_list)
         if not raw_pitch_data:
             return None
         controllers = []
@@ -206,16 +193,12 @@ class VocaloidGenerator:
                 for pbs_event in raw_pitch_data.pbs
             ]
             controllers.append(
-                VocaloidControllers(
-                    name=PITCH_BEND_SENSITIVITY_NAME, events=controller_events
-                )
+                VocaloidControllers(name=PITCH_BEND_SENSITIVITY_NAME, events=controller_events)
             )
         if raw_pitch_data.pit:
             controller_events = [
                 VocaloidPoint(pos=pit_event.pos, value=pit_event.value)
                 for pit_event in raw_pitch_data.pit
             ]
-            controllers.append(
-                VocaloidControllers(name=PITCH_BEND_NAME, events=controller_events)
-            )
+            controllers.append(VocaloidControllers(name=PITCH_BEND_NAME, events=controller_events))
         return controllers

@@ -119,16 +119,12 @@ class CurveGenerator(ParamExpression):
                 current_sum += value
                 overlap_count += 1
             else:
-                self.point_list.append(
-                    Point(current_pos, round(current_sum / overlap_count))
-                )
+                self.point_list.append(Point(current_pos, round(current_sum / overlap_count)))
                 current_sum = value
                 overlap_count = 1
             current_pos = pos
         if current_pos != -1:
-            self.point_list.append(
-                Point(current_pos, round(current_sum / overlap_count))
-            )
+            self.point_list.append(Point(current_pos, round(current_sum / overlap_count)))
         self.interpolation = _interpolation
         self.base_value = _base_value
 
@@ -144,9 +140,7 @@ class CurveGenerator(ParamExpression):
             (ticks - self.point_list[index].x)
             / (self.point_list[index + 1].x - self.point_list[index].x)
         )
-        return round(
-            (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
-        )
+        return round((1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y)
 
     def get_converted_curve(self, step: int) -> list[Point]:
         result = []
@@ -163,9 +157,7 @@ class CurveGenerator(ParamExpression):
                 result.append(Point(current_point.x, self.base_value))
             else:
                 for p in range(prev_point.x + step, current_point.x, step):
-                    r = self.interpolation(
-                        (p - prev_point.x) / (current_point.x - prev_point.x)
-                    )
+                    r = self.interpolation((p - prev_point.x) / (current_point.x - prev_point.x))
                     v = round((1 - r) * prev_point.y + r * current_point.y)
                     result.append(Point(p, v))
             prev_point = current_point
@@ -222,9 +214,7 @@ class PitchGenerator(ParamExpression):
         note_structs = [
             NoteStruct(
                 key=sv_note.pitch,
-                start=_synchronizer.get_actual_secs_from_ticks(
-                    position_to_ticks(sv_note.onset)
-                ),
+                start=_synchronizer.get_actual_secs_from_ticks(position_to_ticks(sv_note.onset)),
                 end=_synchronizer.get_actual_secs_from_ticks(
                     position_to_ticks(sv_note.onset + sv_note.duration)
                 ),

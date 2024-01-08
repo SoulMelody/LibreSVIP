@@ -45,14 +45,10 @@ class GjgjParser:
         self.ticks_in_beat = gjgj_project.tempo_map.ticks_per_quarter_note
         project = Project(
             song_tempo_list=self.parse_tempos(gjgj_project.tempo_map),
-            time_signature_list=self.parse_time_signatures(
-                gjgj_project.tempo_map.time_signature
-            ),
+            time_signature_list=self.parse_time_signatures(gjgj_project.tempo_map.time_signature),
         )
         project.track_list = self.parse_singing_tracks(gjgj_project.tracks)
-        project.track_list.extend(
-            self.parse_instrumental_tracks(gjgj_project.accompaniments)
-        )
+        project.track_list.extend(self.parse_instrumental_tracks(gjgj_project.accompaniments))
         return project
 
     def parse_tempos(self, tempo_map: GjgjTempoMap) -> list[SongTempo]:
@@ -71,9 +67,7 @@ class GjgjParser:
         self, time_signatures: list[GjgjTimeSignature]
     ) -> list[TimeSignature]:
         if not len(time_signatures) or time_signatures[0].time != 0:
-            time_signatures.insert(
-                0, GjgjTimeSignature(time=0, numerator=4, denominator=4)
-            )
+            time_signatures.insert(0, GjgjTimeSignature(time=0, numerator=4, denominator=4))
         time_signature_changes = [
             TimeSignature(
                 bar_index=0,
@@ -81,9 +75,7 @@ class GjgjParser:
                 denominator=time_signatures[0].denominator,
             )
         ]
-        self.first_bar_length = int(
-            time_signature_changes[0].bar_length(self.ticks_in_beat)
-        )
+        self.first_bar_length = int(time_signature_changes[0].bar_length(self.ticks_in_beat))
 
         prev_ticks = 0
         measure = 0
@@ -112,9 +104,7 @@ class GjgjParser:
             for track in tracks
         ]
 
-    def parse_instrumental_tracks(
-        self, accompaniments: list[GjgjInstrumentalTrack]
-    ) -> list[Track]:
+    def parse_instrumental_tracks(self, accompaniments: list[GjgjInstrumentalTrack]) -> list[Track]:
         return [
             InstrumentalTrack(
                 mute=accompaniment.master_volume.mute,
@@ -154,16 +144,13 @@ class GjgjParser:
             if beat_item.pre_time != 0:
                 difference = round(beat_item.pre_time * 480 * 3 / 2000)
                 if difference > 0:
-                    phones.head_length_in_secs = (
-                        self.time_synchronizer.get_actual_secs_from_ticks(start_pos)
-                        - self.time_synchronizer.get_actual_secs_from_ticks(difference)
-                    )
+                    phones.head_length_in_secs = self.time_synchronizer.get_actual_secs_from_ticks(
+                        start_pos
+                    ) - self.time_synchronizer.get_actual_secs_from_ticks(difference)
                 else:
                     phones.head_length_in_secs = -1
             if beat_item.post_time != 0:
-                essential_vowel_length = (
-                    beat_item.duration * (2000 / 3) / 480 + beat_item.post_time
-                )
+                essential_vowel_length = beat_item.duration * (2000 / 3) / 480 + beat_item.post_time
                 tail_vowel_length = -beat_item.post_time
                 phones.mid_ratio_over_tail = essential_vowel_length / tail_vowel_length
             else:
@@ -190,15 +177,11 @@ class GjgjParser:
             for mod_range in tone.modify_ranges:
                 left_point = Point(self.pitch_time_to_position(mod_range.x), -100)
                 right_point = Point(self.pitch_time_to_position(mod_range.y), -100)
-                index = find_index(
-                    tone.modifies, lambda p: (mod_range.x <= p.time <= mod_range.y)
-                )
+                index = find_index(tone.modifies, lambda p: (mod_range.x <= p.time <= mod_range.y))
                 if index == -1:
                     continue
                 pitch_curve.points.append(left_point)
-                while (
-                    index < len(tone.modifies) and tone.modifies[index].x <= mod_range.y
-                ):
+                while index < len(tone.modifies) and tone.modifies[index].x <= mod_range.y:
                     pitch_curve.points.append(
                         Point(
                             self.pitch_time_to_position(tone.modifies[index].x),
@@ -215,7 +198,6 @@ class GjgjParser:
     def parse_volume_curve(self, volume_map: list[GjgjVolumeMap]) -> ParamCurve:
         volume_curve = ParamCurve()
         volume_curve.points.root = [
-            Point(round(volume_item.time), round(volume_item.volume))
-            for volume_item in volume_map
+            Point(round(volume_item.time), round(volume_item.volume)) for volume_item in volume_map
         ]
         return volume_curve

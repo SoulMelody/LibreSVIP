@@ -70,24 +70,16 @@ class Vsq4Generator:
             tick_prefix,
         )
         if first_instrumental_track := next(
-            (
-                track
-                for track in project.track_list
-                if isinstance(track, InstrumentalTrack)
-            ),
+            (track for track in project.track_list if isinstance(track, InstrumentalTrack)),
             None,
         ):
-            self.generate_instrumental_track(
-                first_instrumental_track, vsqx, tick_prefix
-            )
+            self.generate_instrumental_track(first_instrumental_track, vsqx, tick_prefix)
         return vsqx
 
     def generate_instrumental_track(
         self, track: InstrumentalTrack, vsqx: Vsq4, tick_prefix: int
     ) -> None:
-        if (
-            track_info := audio_track_info(track.audio_file_path, only_wav=True)
-        ) is not None:
+        if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
             wav_part = Vsq4WavPart(
                 part_name=track.title,
                 file_path=track.audio_file_path,
@@ -140,9 +132,7 @@ class Vsq4Generator:
                     for param_name, param_value in self.style_params.items()
                     if not param_name.startswith("vib")
                 )
-                if pitch := self.generate_pitch(
-                    track.edited_params.pitch, track.note_list
-                ):
+                if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
                     musical_part.m_ctrl = pitch
                 vsqx_track.musical_part = [musical_part]
             vsqx_unit = Vsq4VsUnit(vs_track_no=track_index)
@@ -150,9 +140,7 @@ class Vsq4Generator:
             vs_unit_list.append(vsqx_unit)
         return vs_track_list, vs_unit_list
 
-    def generate_tempos(
-        self, song_tempos: list[SongTempo], tick_prefix: int
-    ) -> list[Vsq4Tempo]:
+    def generate_tempos(self, song_tempos: list[SongTempo], tick_prefix: int) -> list[Vsq4Tempo]:
         song_tempos = shift_tempo_list(song_tempos, tick_prefix)
         return [
             Vsq4Tempo(
@@ -182,9 +170,7 @@ class Vsq4Generator:
                 pos_tick=note.start_pos,
                 dur_tick=note.length,
                 note_num=note.key_number,
-                lyric=" ".join(
-                    get_pinyin_series([note.lyric], filter_non_chinese=False)
-                ),
+                lyric=" ".join(get_pinyin_series([note.lyric], filter_non_chinese=False)),
             )
             vsqx_note.note_style.attr.extend(
                 Vsq4TypeParamAttr(

@@ -9,8 +9,6 @@ from .template import render_lrc
 
 
 class LrcConverter(plugin_base.WriteOnlyConverterBase):
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         lrc_model = LrcGenerator(options).generate_project(project)
         render_lrc(lrc_model, path)

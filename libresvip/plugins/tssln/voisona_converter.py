@@ -17,9 +17,7 @@ class VoisonaConverter(plugin_base.SVSConverterBase):
         tssln_project = VoiSonaProject.model_validate(tree_dict["TSSolution"])
         return VoiSonaParser(options).parse_project(tssln_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         tssln_project = VoisonaGenerator(options).generate_project(project)
         value_tree = model_to_value_tree(tssln_project)
         path.write_bytes(JUCENode.build(value_tree))

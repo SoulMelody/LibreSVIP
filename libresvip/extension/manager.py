@@ -39,9 +39,9 @@ class PluginManager:
     install_path: pathlib.Path
     plugin_places: list[pathlib.Path]
     plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
-    _candidates: list[
-        tuple[str, pathlib.Path, LibreSvipPluginInfo]
-    ] = dataclasses.field(default_factory=list)
+    _candidates: list[tuple[str, pathlib.Path, LibreSvipPluginInfo]] = dataclasses.field(
+        default_factory=list
+    )
 
     def __post_init__(self) -> None:
         sys.meta_path.append(self)
@@ -94,9 +94,7 @@ class PluginManager:
                     msg,
                 )
         if plugin_package not in sys.modules or reload:
-            sys.modules[plugin_package] = load_module(
-                plugin_package, candidate_filepath
-            )
+            sys.modules[plugin_package] = load_module(plugin_package, candidate_filepath)
 
         return sys.modules[plugin_package]
 
@@ -106,9 +104,7 @@ class PluginManager:
         for dir_path in self.plugin_places:
             # first of all, is it a directory :)
             if not dir_path.is_dir():
-                logger.debug(
-                    f"{self.__class__.__name__} skips {dir_path} (not a directory)"
-                )
+                logger.debug(f"{self.__class__.__name__} skips {dir_path} (not a directory)")
                 continue
             # iteratively walks through the directory
             for file_path in dir_path.glob(f"*/*.{self.info_extension}"):
@@ -146,9 +142,7 @@ class PluginManager:
                         f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                     )
                     break
-                self._candidates.append(
-                    (candidate_infofile, candidate_filepath, plugin_info)
-                )
+                self._candidates.append((candidate_infofile, candidate_filepath, plugin_info))
                 # finally the candidate_infofile must not be discovered again
                 _discovered.add(candidate_infofile)
 
@@ -183,15 +177,13 @@ class PluginManager:
                 continue
 
             try:
-                plugin_cls_name, plugin_cls = inspect.getmembers(
-                    candidate_module, self.is_plugin
-                )[0]
+                plugin_cls_name, plugin_cls = inspect.getmembers(candidate_module, self.is_plugin)[
+                    0
+                ]
                 plugin_info.plugin_object = plugin_cls()
                 self.plugin_registry[plugin_info.suffix] = plugin_info
             except Exception:
-                logger.exception(
-                    f"Unable to create plugin object: {candidate_filepath}"
-                )
+                logger.exception(f"Unable to create plugin object: {candidate_filepath}")
                 continue  # If it didn't work once it wont again
 
 

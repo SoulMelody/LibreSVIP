@@ -35,9 +35,7 @@ SYMBOL_PATTERN = re.compile(
 def to_unicode(content: bytes) -> str:
     guessed_charset = charset_normalizer.detect(content)
     encoding = (
-        "utf-8"
-        if guessed_charset["encoding"] is None
-        else cast(str, guessed_charset["encoding"])
+        "utf-8" if guessed_charset["encoding"] is None else cast(str, guessed_charset["encoding"])
     )
     return content.decode(encoding)
 
@@ -129,11 +127,7 @@ def audio_track_info(
                 media_info = MediaInfo.parse(file_path)
                 if not len(media_info.video_tracks):
                     return next(
-                        (
-                            track
-                            for track in media_info.audio_tracks
-                            if filter_func(track)
-                        ),
+                        (track for track in media_info.audio_tracks if filter_func(track)),
                         None,
                     )
         except FileNotFoundError:
@@ -199,9 +193,7 @@ def db_to_float(db: float, using_amplitude: bool = True) -> float:
     return 10 ** (db / 20) if using_amplitude else 10 ** (db / 10)
 
 
-def ratio_to_db(
-    ratio: float, val2: Optional[float] = None, using_amplitude: bool = True
-) -> float:
+def ratio_to_db(ratio: float, val2: Optional[float] = None, using_amplitude: bool = True) -> float:
     """
     Converts the input float to db, which represents the equivalent
     to the ratio in power represented by the multiplier passed in.

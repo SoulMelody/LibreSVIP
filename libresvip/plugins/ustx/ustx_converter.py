@@ -20,9 +20,7 @@ class OpenUtauConverter(plugin_base.SVSConverterBase):
         )
         return UstxParser(options).parse_project(ustx_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         ustx_project = UstxGenerator(options).generate_project(project)
         proj_dict = ustx_project.model_dump(by_alias=True, exclude_none=True)
         proj_text = yaml.dump(

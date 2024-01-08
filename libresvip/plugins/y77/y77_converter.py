@@ -15,9 +15,7 @@ class Y77Converter(plugin_base.SVSConverterBase):
         y77_project = Y77Project.model_validate(json_loads(path.read_text("utf-8")))
         return Y77Parser(options).parse_project(y77_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         project = reset_time_axis(project, options.tempo)
         y77_project = Y77Generator(options).generate_project(project)
         path.write_text(

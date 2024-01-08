@@ -59,17 +59,11 @@ class VsqxParser:
         wav_units = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part
-            wav_units += [vsqx_project.mixer.mono_unit] * len(
-                vsqx_project.mono_track.wav_part
-            )
+            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)
         if vsqx_project.stereo_track is not None:
             wav_parts += vsqx_project.stereo_track.wav_part
-            wav_units += [vsqx_project.mixer.stereo_unit] * len(
-                vsqx_project.stereo_track.wav_part
-            )
-        instrumental_tracks = self.parse_instrumental_tracks(
-            wav_parts, wav_units, tick_prefix
-        )
+            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)
+        instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -97,9 +91,7 @@ class VsqxParser:
         tick_prefix += measure_diff * time_signature_list[-1].bar_length()
         return int(tick_prefix), skip_beat_list(time_signature_list, measure_prefix)
 
-    def parse_tempos(
-        self, tempos: list[VsqxTempo], tick_prefix: int
-    ) -> list[SongTempo]:
+    def parse_tempos(self, tempos: list[VsqxTempo], tick_prefix: int) -> list[SongTempo]:
         tempo_list = [
             SongTempo(
                 position=tempo.pos_tick,
@@ -124,9 +116,7 @@ class VsqxParser:
                 tick_offset = musical_part.pos_tick - tick_prefix
                 note_list = self.parse_notes(musical_part.note, tick_prefix)
                 singing_track.note_list.extend(note_list)
-                if pitch := self.parse_pitch(
-                    musical_part.m_ctrl, note_list, tick_offset
-                ):
+                if pitch := self.parse_pitch(musical_part.m_ctrl, note_list, tick_offset):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
             singing_tracks.append(singing_track)
         return singing_tracks

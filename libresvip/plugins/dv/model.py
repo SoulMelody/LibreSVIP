@@ -159,9 +159,7 @@ class DvInnerProject(DataclassMixin):
 @dataclasses.dataclass
 class DvProject(DataclassMixin):
     header: bytes = csfield(Const(b"SHARPKEY\x05\x00\x00\x00"))
-    inner_project: DvInnerProject = csfield(
-        Prefixed(Int32ul, DataclassStruct(DvInnerProject))
-    )
+    inner_project: DvInnerProject = csfield(Prefixed(Int32ul, DataclassStruct(DvInnerProject)))
 
 
 dv_project_struct = DataclassStruct(DvProject)

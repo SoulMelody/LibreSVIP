@@ -45,9 +45,7 @@ class MusicXMLGenerator:
         measures = {}
         for i, track in enumerate(project_with_tick_rate_applied.track_list):
             measures.setdefault(i, [])
-            if key_ticks := self.get_key_ticks(
-                i, track, project_with_tick_rate_applied
-            ):
+            if key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied):
                 track_measures = self.get_measures(
                     key_ticks, project_with_tick_rate_applied.time_signature_list, i
                 )
@@ -55,9 +53,7 @@ class MusicXMLGenerator:
         musicxml_project = ScorePartwise()
         for track_index, measures_part in measures.items():
             track_title = project_with_tick_rate_applied.track_list[track_index].title
-            part_node, score_part_node = self.generate_part(
-                measures_part, track_index, track_title
-            )
+            part_node, score_part_node = self.generate_part(measures_part, track_index, track_title)
             musicxml_project.part.append(part_node)
             musicxml_project.part_list.score_part.append(score_part_node)
         return musicxml_project
@@ -77,9 +73,7 @@ class MusicXMLGenerator:
                 number=str(i + 1),
                 attributes=[
                     Attributes(
-                        divisions=[
-                            Decimal.from_float(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
-                        ]
+                        divisions=[Decimal.from_float(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)]
                     )
                 ],
             )
@@ -97,9 +91,7 @@ class MusicXMLGenerator:
             if measure.contents is not None:
                 for content in measure.contents:
                     if content.bpm is not None:
-                        sound_node, direction_node = self.generate_nodes_for_tempo(
-                            content
-                        )
+                        sound_node, direction_node = self.generate_nodes_for_tempo(content)
                         measure_node.sound.append(sound_node)
                         measure_node.direction.append(direction_node)
                     elif content.note_type is not None:
@@ -109,9 +101,7 @@ class MusicXMLGenerator:
             part_node.measure.append(measure_node)
         return part_node, score_part
 
-    def generate_nodes_for_tempo(
-        self, tempo: MXmlMeasureContent
-    ) -> tuple[Sound, Direction]:
+    def generate_nodes_for_tempo(self, tempo: MXmlMeasureContent) -> tuple[Sound, Direction]:
         sound_node = Sound(tempo=Decimal.from_float(tempo.bpm))
         direction_node = Direction(
             direction_type=[
@@ -126,9 +116,7 @@ class MusicXMLGenerator:
         return sound_node, direction_node
 
     def generate_rest_node(self, rest: MXmlMeasureContent) -> MusicXMLNote:
-        return MusicXMLNote(
-            rest=[DisplayStepOctave()], duration=[Decimal(rest.duration)]
-        )
+        return MusicXMLNote(rest=[DisplayStepOctave()], duration=[Decimal(rest.duration)])
 
     def generate_note_node(self, note: MXmlMeasureContent) -> MusicXMLNote:
         note_node = MusicXMLNote(
@@ -139,9 +127,7 @@ class MusicXMLGenerator:
         step = re.search(r"^[A-G]", key_str).group()
         alter = 1 if "#" in key_str else 0
         note_node.pitch.append(
-            Pitch(
-                step=step, alter=Decimal(alter) if alter != 0 else None, octave=octave
-            )
+            Pitch(step=step, alter=Decimal(alter) if alter != 0 else None, octave=octave)
         )
         tie_type = {
             MXmlMeasureContent.NoteType.BEGIN: StartStop.START,
@@ -170,9 +156,7 @@ class MusicXMLGenerator:
             update={
                 "song_tempo_list": [
                     tempo.model_copy(
-                        update={
-                            "position": int(tempo.position * DEFAULT_TICK_RATE_CEVIO)
-                        }
+                        update={"position": int(tempo.position * DEFAULT_TICK_RATE_CEVIO)}
                     )
                     for tempo in project.song_tempo_list
                 ],
@@ -182,12 +166,8 @@ class MusicXMLGenerator:
                             "note_list": [
                                 note.model_copy(
                                     update={
-                                        "start_pos": int(
-                                            note.start_pos * DEFAULT_TICK_RATE_CEVIO
-                                        ),
-                                        "length": int(
-                                            note.length * DEFAULT_TICK_RATE_CEVIO
-                                        ),
+                                        "start_pos": int(note.start_pos * DEFAULT_TICK_RATE_CEVIO),
+                                        "length": int(note.length * DEFAULT_TICK_RATE_CEVIO),
                                     }
                                 )
                                 for note in track.note_list
@@ -201,21 +181,14 @@ class MusicXMLGenerator:
         )
 
     @staticmethod
-    def get_key_ticks(
-        track_index: int, track: SingingTrack, project: Project
-    ) -> list[KeyTick]:
+    def get_key_ticks(track_index: int, track: SingingTrack, project: Project) -> list[KeyTick]:
         tempos = []
         if track_index == 0:
             tempos = [
-                KeyTick(tick=tempo.position, tempo=tempo)
-                for tempo in project.song_tempo_list
+                KeyTick(tick=tempo.position, tempo=tempo) for tempo in project.song_tempo_list
             ]
-        note_starts = [
-            KeyTick(tick=note.start_pos, note_start=note) for note in track.note_list
-        ]
-        note_ends = [
-            KeyTick(tick=note.end_pos, note_end=note) for note in track.note_list
-        ]
+        note_starts = [KeyTick(tick=note.start_pos, note_start=note) for note in track.note_list]
+        note_ends = [KeyTick(tick=note.end_pos, note_end=note) for note in track.note_list]
         return sorted(note_ends + tempos + note_starts, key=operator.attrgetter("tick"))
 
     @staticmethod
@@ -261,9 +234,7 @@ class MusicXMLGenerator:
             )
         measure_border_ticks.append(
             measure_border_ticks[-1]
-            + ticks_in_full_note
-            * prev_time_signature.numerator
-            // prev_time_signature.denominator
+            + ticks_in_full_note * prev_time_signature.numerator // prev_time_signature.denominator
         )
 
         key_ticks_with_measure_borders = [
@@ -336,9 +307,7 @@ class MusicXMLGenerator:
             if rest_length > 0:
                 ongoing_note_at_measure_end = ongoing_note_with_current_head
                 if ongoing_note_at_measure_end is None:
-                    current_content_group.append(
-                        MXmlMeasureContent.with_rest(duration=rest_length)
-                    )
+                    current_content_group.append(MXmlMeasureContent.with_rest(duration=rest_length))
                 else:
                     note, head = ongoing_note_at_measure_end
                     current_content_group.append(
@@ -357,9 +326,7 @@ class MusicXMLGenerator:
             MXmlMeasure(
                 tick_start=border_pair[0],
                 length=border_pair[1] - border_pair[0],
-                time_signature=next(
-                    (ts for ts in time_signatures if ts.bar_index == index), None
-                ),
+                time_signature=next((ts for ts in time_signatures if ts.bar_index == index), None),
                 contents=contents,
             )
             for index, (border_pair, contents) in enumerate(

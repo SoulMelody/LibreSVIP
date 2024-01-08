@@ -33,14 +33,10 @@ class CeVIOParser:
         for sound_source in ccs_project.generation.svss.sound_sources.sound_source:
             self.singer_id2name[sound_source.sound_source_id] = sound_source.name
         singing_unit_nodes = [
-            unit_node
-            for unit_node in scene_node.units.unit
-            if unit_node.category == "SingerSong"
+            unit_node for unit_node in scene_node.units.unit if unit_node.category == "SingerSong"
         ]
         audio_unit_nodes = [
-            unit_node
-            for unit_node in scene_node.units.unit
-            if unit_node.category == "OuterAudio"
+            unit_node for unit_node in scene_node.units.unit if unit_node.category == "OuterAudio"
         ]
         id2group = {group.group_id: group for group in scene_node.groups.group}
 
@@ -80,12 +76,8 @@ class CeVIOParser:
         buckets = more_itertools.bucket(tempos, operator.attrgetter("position"))
         return [next(buckets[key]) for key in buckets] or [SongTempo()]
 
-    def merge_time_signatures(
-        self, time_signatures: list[TimeSignature]
-    ) -> list[TimeSignature]:
-        buckets = more_itertools.bucket(
-            time_signatures, operator.attrgetter("bar_index")
-        )
+    def merge_time_signatures(self, time_signatures: list[TimeSignature]) -> list[TimeSignature]:
+        buckets = more_itertools.bucket(time_signatures, operator.attrgetter("bar_index"))
         return [next(buckets[key]) for key in buckets] or [TimeSignature()]
 
     def parse_instrumental_track(
@@ -101,9 +93,7 @@ class CeVIOParser:
             mute=group_node.is_muted,
             solo=group_node.is_solo,
             offset=int(
-                self.time_synchronizer.get_actual_ticks_from_secs(
-                    unit_node.start_time.duration
-                )
+                self.time_synchronizer.get_actual_ticks_from_secs(unit_node.start_time.duration)
             ),
         )
 
@@ -141,9 +131,7 @@ class CeVIOParser:
                 prev_tick = tick
 
         time_signatures = [
-            time_signature.model_copy(
-                update={"bar_index": time_signature.bar_index - 4}
-            )
+            time_signature.model_copy(update={"bar_index": time_signature.bar_index - 4})
             for time_signature in time_signatures
         ]
 
@@ -152,9 +140,7 @@ class CeVIOParser:
         tempos = []
         tempo_nodes = unit_node.song.tempo.sound
         for tempo_node in tempo_nodes:
-            tick = (
-                tempo_node.clock // TICK_RATE if tempo_node.clock is not None else None
-            )
+            tick = tempo_node.clock // TICK_RATE if tempo_node.clock is not None else None
             bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
             if tick is not None and bpm is not None:
                 tempos.append(SongTempo(position=tick, bpm=bpm))
@@ -162,17 +148,9 @@ class CeVIOParser:
         notes = []
         note_nodes = unit_node.song.score.note
         for note_node in note_nodes:
-            tick_on = (
-                (note_node.clock // TICK_RATE) if note_node.clock is not None else None
-            )
-            duration = (
-                (note_node.duration // TICK_RATE)
-                if note_node.duration is not None
-                else None
-            )
-            pitch_step = (
-                note_node.pitch_step if note_node.pitch_step is not None else None
-            )
+            tick_on = (note_node.clock // TICK_RATE) if note_node.clock is not None else None
+            duration = (note_node.duration // TICK_RATE) if note_node.duration is not None else None
+            pitch_step = note_node.pitch_step if note_node.pitch_step is not None else None
             pitch_octave = (
                 note_node.pitch_octave - OCTAVE_OFFSET
                 if note_node.pitch_octave is not None
@@ -192,17 +170,10 @@ class CeVIOParser:
             ):
                 if lyric == "ー":
                     lyric = "-"
-                notes.append(
-                    Note(
-                        key_number=key, lyric=lyric, start_pos=tick_on, length=duration
-                    )
-                )
+                notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
 
         cevio_track_pitch_data = None
-        if (
-            unit_node.song.parameter is not None
-            and unit_node.song.parameter.log_f0 is not None
-        ):
+        if unit_node.song.parameter is not None and unit_node.song.parameter.log_f0 is not None:
             pitch_data_nodes: list[CeVIOData] = unit_node.song.parameter.log_f0.data
             pitch_datas = []
             for data_node in pitch_data_nodes:

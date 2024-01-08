@@ -24,11 +24,7 @@ def _update_curve_points_position(
         points=Points(
             root=[
                 point._replace(
-                    x=round(
-                        synchronizer.get_actual_ticks_from_ticks(
-                            point.x - ori_first_bar_ticks
-                        )
-                    )
+                    x=round(synchronizer.get_actual_ticks_from_ticks(point.x - ori_first_bar_ticks))
                     + new_first_bar_ticks
                 )
                 for point in curve.points.root
@@ -55,9 +51,7 @@ def reset_time_axis(project: Project, tempo: float = DEFAULT_BPM) -> Project:
                 track.model_copy(
                     deep=True,
                     update={
-                        "offset": round(
-                            synchronizer.get_actual_ticks_from_ticks(track.offset)
-                        )
+                        "offset": round(synchronizer.get_actual_ticks_from_ticks(track.offset))
                     },
                 )
             )
@@ -65,9 +59,7 @@ def reset_time_axis(project: Project, tempo: float = DEFAULT_BPM) -> Project:
             new_note_list = []
             for note in track.note_list:
                 note_end = round(synchronizer.get_actual_ticks_from_ticks(note.end_pos))
-                note_start = round(
-                    synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-                )
+                note_start = round(synchronizer.get_actual_ticks_from_ticks(note.start_pos))
                 new_note_list.append(
                     note.model_copy(
                         deep=True,
@@ -83,21 +75,11 @@ def reset_time_axis(project: Project, tempo: float = DEFAULT_BPM) -> Project:
                     update={
                         "note_list": new_note_list,
                         "edited_params": Params(
-                            pitch=update_curve_points_position(
-                                track.edited_params.pitch
-                            ),
-                            volume=update_curve_points_position(
-                                track.edited_params.volume
-                            ),
-                            breath=update_curve_points_position(
-                                track.edited_params.breath
-                            ),
-                            gender=update_curve_points_position(
-                                track.edited_params.gender
-                            ),
-                            strength=update_curve_points_position(
-                                track.edited_params.strength
-                            ),
+                            pitch=update_curve_points_position(track.edited_params.pitch),
+                            volume=update_curve_points_position(track.edited_params.volume),
+                            breath=update_curve_points_position(track.edited_params.breath),
+                            gender=update_curve_points_position(track.edited_params.gender),
+                            strength=update_curve_points_position(track.edited_params.strength),
                         ),
                     },
                 )

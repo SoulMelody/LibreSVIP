@@ -70,9 +70,7 @@ class ModelProxy(QAbstractListModel):
 
     @Slot(list)
     def append_many(self, items: Items) -> None:
-        self.begin_insert_rows(
-            QModelIndex(), self.row_count(), self.row_count() + len(items) - 1
-        )
+        self.begin_insert_rows(QModelIndex(), self.row_count(), self.row_count() + len(items) - 1)
         self._items.extend(map(self._auto_complete, items))
         self.end_insert_rows()
 
@@ -90,9 +88,7 @@ class ModelProxy(QAbstractListModel):
 
     @Slot(result="QVariant")
     def pop(self) -> Item:
-        self.begin_remove_rows(
-            QModelIndex(), len(self._items) - 1, len(self._items) - 1
-        )
+        self.begin_remove_rows(QModelIndex(), len(self._items) - 1, len(self._items) - 1)
         out = self._items.pop(0)
         self.end_remove_rows()
         return out
@@ -100,9 +96,7 @@ class ModelProxy(QAbstractListModel):
     @Slot(int, result="QVariant")
     def pop_many(self, count: int) -> Items:
         assert count > 0
-        self.begin_remove_rows(
-            QModelIndex(), len(self._items) - count, len(self._items) - 1
-        )
+        self.begin_remove_rows(QModelIndex(), len(self._items) - count, len(self._items) - 1)
         a, b = self._items[:-count], self._items[-count:]
         self._items = a
         self.end_remove_rows()
@@ -127,9 +121,7 @@ class ModelProxy(QAbstractListModel):
 
     @Slot(int, int)
     def move(self, old_index: int, new_index: int) -> None:
-        self.begin_move_rows(
-            QModelIndex(), old_index, old_index, QModelIndex(), new_index
-        )
+        self.begin_move_rows(QModelIndex(), old_index, old_index, QModelIndex(), new_index)
         item = self._items.pop(old_index)
         self._items.insert(new_index, item)
         self.end_move_rows()

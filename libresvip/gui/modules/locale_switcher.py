@@ -24,9 +24,7 @@ class GettextTranslator(QTranslator):
 
     def load_translation(self, lang: str, translation_dir: str) -> None:
         try:
-            self.translation = gettext.translation(
-                PACKAGE_NAME, translation_dir, [lang]
-            )
+            self.translation = gettext.translation(PACKAGE_NAME, translation_dir, [lang])
             gettext.textdomain(PACKAGE_NAME)
             gettext.bindtextdomain(PACKAGE_NAME, translation_dir)
         except OSError:

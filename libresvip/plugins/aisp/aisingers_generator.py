@@ -35,15 +35,11 @@ class AiSingersGenerator:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
-    def generate_project(
-        self, project: Project
-    ) -> tuple[AISProjectHead, AISProjectBody]:
+    def generate_project(self, project: Project) -> tuple[AISProjectHead, AISProjectBody]:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         ais_time_signatures = self.generate_time_signatures(project.time_signature_list)
-        ais_tempos = self.generate_tempos(
-            project.song_tempo_list, project.time_signature_list
-        )
+        ais_tempos = self.generate_tempos(project.song_tempo_list, project.time_signature_list)
         max_end_time = round(
             max(
                 (
@@ -56,18 +52,16 @@ class AiSingersGenerator:
             )
             / 15
         )
-        num_bars = ais_tempos[-1].start_bar + (
-            max_end_time - ais_tempos[-1].start_128
-        ) // (128 * ais_time_signatures[-1].beat_zi / ais_time_signatures[-1].beat_mu)
+        num_bars = ais_tempos[-1].start_bar + (max_end_time - ais_tempos[-1].start_128) // (
+            128 * ais_time_signatures[-1].beat_zi / ais_time_signatures[-1].beat_mu
+        )
         ais_project_head = AISProjectHead(
             signature=ais_time_signatures,
             tempo=ais_tempos,
             time=max_end_time,
             bar=max(num_bars, 100),
         )
-        ais_project_body = AISProjectBody(
-            tracks=self.generate_tracks(project.track_list)
-        )
+        ais_project_body = AISProjectBody(tracks=self.generate_tracks(project.track_list))
         return ais_project_head, ais_project_body
 
     def generate_time_signatures(
@@ -98,9 +92,7 @@ class AiSingersGenerator:
             if time_signature.bar_index > prev_bar_index:
                 prev_bar_index = time_signature.bar_index
         for tempo in tempos:
-            ts_index = min(
-                bisect.bisect_left(tick_indexes, tempo.position), len(tick_indexes) - 1
-            )
+            ts_index = min(bisect.bisect_left(tick_indexes, tempo.position), len(tick_indexes) - 1)
             start_bar = max(
                 (
                     time_signatures[ts_index].bar_index
@@ -112,10 +104,7 @@ class AiSingersGenerator:
             start_beat_in_bar = (
                 (tempo.position - tick_indexes[ts_index] - self.first_bar_length)
                 % time_signatures[ts_index].bar_length()
-            ) // (
-                time_signatures[ts_index].bar_length()
-                / time_signatures[ts_index].numerator
-            )
+            ) // (time_signatures[ts_index].bar_length() / time_signatures[ts_index].numerator)
             ais_tempo = AISTempo(
                 tempo_float=tempo.bpm,
                 start_128=round(tempo.position / 15),
@@ -140,9 +129,7 @@ class AiSingersGenerator:
                             AISSingVoicePattern(
                                 uid=len(tracks) + len(ais_tracks),
                                 start=0,
-                                length=max(
-                                    note.start + note.length for note in note_list
-                                ),
+                                length=max(note.start + note.length for note in note_list),
                                 notes=note_list,
                             )
                         ],
@@ -193,15 +180,12 @@ class AiSingersGenerator:
     def generate_pitch(self, pitch_param_curve: ParamCurve, note: Note) -> list[float]:
         tick_step = note.length / 500.0
         sample_time_list = [
-            note.start_pos + self.first_bar_length + int(tick_step * i)
-            for i in range(500)
+            note.start_pos + self.first_bar_length + int(tick_step * i) for i in range(500)
         ]
         pitch_param_in_note = [
             p
             for p in pitch_param_curve.points.root
-            if note.start_pos + self.first_bar_length
-            <= p.x
-            <= note.end_pos + self.first_bar_length
+            if note.start_pos + self.first_bar_length <= p.x <= note.end_pos + self.first_bar_length
         ]
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
@@ -215,11 +199,7 @@ class AiSingersGenerator:
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
-                        value = (
-                            0
-                            if point.y == -100
-                            else (point.y - note.key_number * 100) / 10
-                        )
+                        value = 0 if point.y == -100 else (point.y - note.key_number * 100) / 10
                 ais_pitch_param.append(value)
 
             elif pitch == -100:

@@ -11,14 +11,10 @@ from .options import InputOptions, OutputOptions
 
 class GjgjConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        gjgj_project = GjgjProject.model_validate_json(
-            path.read_text(encoding="utf-8-sig")
-        )
+        gjgj_project = GjgjProject.model_validate_json(path.read_text(encoding="utf-8-sig"))
         return GjgjParser(options).parse_project(gjgj_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         gjgj_project = GjgjGenerator(options).generate_project(project)
         path.write_text(
             json_dumps(

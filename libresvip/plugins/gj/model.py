@@ -65,9 +65,7 @@ class GjgjSingerInfo(BaseModel):
 
 class GjgjTempos(BaseModel):
     time: Optional[int] = Field(alias="Time")
-    microseconds_per_quarter_note: Optional[int] = Field(
-        alias="MicrosecondsPerQuarterNote"
-    )
+    microseconds_per_quarter_note: Optional[int] = Field(alias="MicrosecondsPerQuarterNote")
 
 
 class GjgjTimeSignature(BaseModel):
@@ -89,9 +87,7 @@ class GjgjTone(BaseModel):
 class GjgjTempoMap(BaseModel):
     ticks_per_quarter_note: Optional[int] = Field(alias="TicksPerQuarterNote")
     tempos: list[GjgjTempos] = Field(default_factory=list, alias="Tempos")
-    time_signature: list[GjgjTimeSignature] = Field(
-        default_factory=list, alias="TimeSignature"
-    )
+    time_signature: list[GjgjTimeSignature] = Field(default_factory=list, alias="TimeSignature")
 
 
 class GjgjVolumeMap(BaseModel):
@@ -109,9 +105,7 @@ class GjgjSingingTrack(BaseModel):
     singer_info: Optional[GjgjSingerInfo] = Field(
         default_factory=GjgjSingerInfo, alias="SingerInfo"
     )
-    keyboard: Optional[GjgjKeyboard] = Field(
-        default_factory=GjgjKeyboard, alias="Keyboard"
-    )
+    keyboard: Optional[GjgjKeyboard] = Field(default_factory=GjgjKeyboard, alias="Keyboard")
     master_volume: Optional[GjgjTrackVolume] = Field(alias="MasterVolume")
     eq_program: Optional[str] = Field("无", alias="EQProgram")
     sort_index: Optional[int] = Field(0, alias="SortIndex")

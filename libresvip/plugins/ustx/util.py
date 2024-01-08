@@ -17,9 +17,7 @@ class BasePitchGenerator:
         self.time_axis.build_segments(project)
 
     def base_pitch(self, part: UVoicePart) -> list[float]:
-        pitches = (
-            [0.0] * (part.notes[-1].end // self.pitch_interval) if part.notes else []
-        )
+        pitches = [0.0] * (part.notes[-1].end // self.pitch_interval) if part.notes else []
         prev_note = None
 
         index = 0
@@ -32,10 +30,7 @@ class BasePitchGenerator:
                 index += 1
             if (
                 index < len(pitches)
-                and (
-                    pad := (note.end - self.pitch_start) // self.pitch_interval - index
-                )
-                >= 0
+                and (pad := (note.end - self.pitch_start) // self.pitch_interval - index) >= 0
             ):
                 pitches[index : index + pad + 1] = [note.tone * 100] * (pad + 1)
                 index += pad + 1
@@ -46,19 +41,13 @@ class BasePitchGenerator:
         for note in part.notes:
             if note.vibrato.length <= 0:
                 continue
-            start_index = max(
-                0, int((note.position - self.pitch_start) / self.pitch_interval)
-            )
-            end_index = min(
-                len(pitches), (note.end - self.pitch_start) // self.pitch_interval
-            )
+            start_index = max(0, int((note.position - self.pitch_start) / self.pitch_interval))
+            end_index = min(len(pitches), (note.end - self.pitch_start) // self.pitch_interval)
             n_period = note.vibrato.period / self.time_axis.ms_between_tick_pos(
                 note.position, note.end
             )
             for i in range(start_index, end_index):
-                n_pos = (
-                    self.pitch_start + i * self.pitch_interval - note.position
-                ) / note.duration
+                n_pos = (self.pitch_start + i * self.pitch_interval - note.position) / note.duration
                 point = note.vibrato.evaluate(n_pos, n_period, note)
                 pitches[i] = round(point[1] * 100)
 
@@ -67,8 +56,7 @@ class BasePitchGenerator:
             pitch_points = [
                 PitchPoint(
                     x=self.time_axis.ms_pos_to_tick_pos(
-                        self.time_axis.tick_pos_to_ms_pos(part.position + note.position)
-                        + point.x
+                        self.time_axis.tick_pos_to_ms_pos(part.position + note.position) + point.x
                     )
                     - part.position,
                     y=point.y * 10 + note.tone * 100,
@@ -80,9 +68,7 @@ class BasePitchGenerator:
                 pitch_points.append(PitchPoint(x=note.position, y=note.tone * 100))
                 pitch_points.append(PitchPoint(x=note.end, y=note.tone * 100))
             if note == part.notes[0] and pitch_points[0].x > self.pitch_start:
-                pitch_points.insert(
-                    0, PitchPoint(x=self.pitch_start, y=pitch_points[0].y)
-                )
+                pitch_points.insert(0, PitchPoint(x=self.pitch_start, y=pitch_points[0].y))
             elif pitch_points[0].x > note.position:
                 pitch_points.insert(0, PitchPoint(x=note.position, y=pitch_points[0].y))
             if pitch_points[-1].x < note.end:

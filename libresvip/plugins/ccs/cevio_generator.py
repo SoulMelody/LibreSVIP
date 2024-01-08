@@ -56,9 +56,7 @@ class CeVIOGenerator:
         )
         scene_node = ccs_project.sequence.scene
 
-        self.first_bar_length = int(
-            project.time_signature_list[0].bar_length() * TICK_RATE
-        )
+        self.first_bar_length = int(project.time_signature_list[0].bar_length() * TICK_RATE)
 
         default_tempos = self.generate_tempos(project.song_tempo_list)
         default_beats = self.generate_time_signatures(project.time_signature_list)
@@ -82,9 +80,7 @@ class CeVIOGenerator:
             )
         return tempo_node
 
-    def generate_time_signatures(
-        self, time_signatures: list[TimeSignature]
-    ) -> CeVIOBeat:
+    def generate_time_signatures(self, time_signatures: list[TimeSignature]) -> CeVIOBeat:
         beat = CeVIOBeat(
             time=[
                 CeVIOTime(
@@ -137,13 +133,9 @@ class CeVIOGenerator:
                 new_unit.song.score.note = self.generate_notes(track.note_list)
                 if len(track.note_list):
                     max_tick = track.note_list[-1].end_pos
-                    max_secs = self.time_synchronizer.get_actual_secs_from_ticks(
-                        max_tick
-                    )
+                    max_secs = self.time_synchronizer.get_actual_secs_from_ticks(max_tick)
                     new_unit.duration = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(
-                            max_secs, tz=datetime.timezone.utc
-                        ).time()
+                        datetime.datetime.fromtimestamp(max_secs, tz=datetime.timezone.utc).time()
                     )
 
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
@@ -153,13 +145,9 @@ class CeVIOGenerator:
                 if (
                     track_info := audio_track_info(track.audio_file_path, only_wav=True)
                 ) is not None:
-                    start_secs = self.time_synchronizer.get_actual_secs_from_ticks(
-                        track.offset
-                    )
+                    start_secs = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
                     start_time = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(
-                            start_secs, tz=datetime.timezone.utc
-                        ).time()
+                        datetime.datetime.fromtimestamp(start_secs, tz=datetime.timezone.utc).time()
                     )
                     end_time = XmlTime.from_time(
                         datetime.datetime.fromtimestamp(
@@ -198,9 +186,7 @@ class CeVIOGenerator:
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
     ) -> Optional[CeVIOParameter]:
-        if (
-            data := generate_for_cevio(pitch, tempo_list, self.first_bar_length)
-        ) is not None:
+        if (data := generate_for_cevio(pitch, tempo_list, self.first_bar_length)) is not None:
             log_f0_node = CeVIOParameter(length=data.length)
             log_f0_node.data.extend(
                 CeVIOData(

@@ -11,9 +11,7 @@ class JsonSvipConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         return OpenSvipProject.model_validate_json(path.read_text("utf-8"))
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options is None:
             options = OutputOptions()
         dump_kwargs = {"indent": 2} if options.indented else {"separators": (",", ":")}

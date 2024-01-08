@@ -10,18 +10,14 @@ from ..models.ds_param_node import DsParamNode
 
 class PitchParamUtils:
     @classmethod
-    def encode(
-        cls, curve: ParamCurve, end: int, time_step: float = 0.005
-    ) -> DsParamCurve:
+    def encode(cls, curve: ParamCurve, end: int, time_step: float = 0.005) -> DsParamCurve:
         end += 1920
         return DsParamCurve(
             step_size=time_step, point_list=cls.encode_point_list(curve.points, end)
         )
 
     @classmethod
-    def encode_point_list(
-        cls, os_point_list: Points, end: int
-    ) -> Optional[list[DsParamNode]]:
+    def encode_point_list(cls, os_point_list: Points, end: int) -> Optional[list[DsParamNode]]:
         if valid_points := [
             p for p in os_point_list.root if p.x >= 1930 and p.x + 10 < end and p.y >= 0
         ]:

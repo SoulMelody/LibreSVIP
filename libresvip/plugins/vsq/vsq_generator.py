@@ -84,9 +84,7 @@ class VsqGenerator:
                 )
             )
             prev_ticks += round(
-                time_signature.bar_index
-                * self.options.ticks_per_beat
-                * time_signature.numerator
+                time_signature.bar_index * self.options.ticks_per_beat * time_signature.numerator
             )
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
@@ -97,9 +95,7 @@ class VsqGenerator:
             if isinstance(track, SingingTrack) and len(track.note_list) > 0
         ]
         for i, track in enumerate(singing_tracks):
-            if (
-                mido_track := self.generate_track(track, i, len(singing_tracks))
-            ) is not None:
+            if (mido_track := self.generate_track(track, i, len(singing_tracks))) is not None:
                 mido_tracks.append(mido_track)
         return mido_tracks
 
@@ -107,9 +103,9 @@ class VsqGenerator:
         self, track: SingingTrack, track_index: int, tracks_count: int
     ) -> Optional[mido.MidiTrack]:
         track_text = self.generate_track_text(track, track_index, tracks_count)
-        track_text = track_text.encode(
-            self.options.lyric_encoding, errors="ignore"
-        ).decode("ascii", errors="ignore")
+        track_text = track_text.encode(self.options.lyric_encoding, errors="ignore").decode(
+            "ascii", errors="ignore"
+        )
         mido_track = mido.MidiTrack()
         while len(track_text) != 0:
             event_id = len(mido_track)
@@ -188,13 +184,10 @@ class VsqGenerator:
                 ]
             )
             for i in range(tracks_count):
-                result.extend(
-                    [f"Feder{i}=0", f"Panpot{i}=0", f"Mute{i}=0", f"Solo{i}=0"]
-                )
+                result.extend([f"Feder{i}=0", f"Panpot{i}=0", f"Mute{i}=0", f"Solo{i}=0"])
         result.extend(["[EventList]", "0=ID#0000"])
         result.extend(
-            f"{tick}=ID#{str(index + 1).zfill(4)}"
-            for index, tick in enumerate(tick_lists)
+            f"{tick}=ID#{str(index + 1).zfill(4)}" for index, tick in enumerate(tick_lists)
         )
         result.extend(
             [
@@ -219,9 +212,7 @@ class VsqGenerator:
         )
         result.extend(lyrics_lines)
         result.extend(
-            self.generate_pitch_text(
-                track.edited_params.pitch, tick_prefix, track.note_list
-            )
+            self.generate_pitch_text(track.edited_params.pitch, tick_prefix, track.note_list)
         )
         return "\n".join(result)
 
@@ -232,12 +223,8 @@ class VsqGenerator:
         if pitch_raw_data := generate_for_vocaloid(pitch, note_list):
             if len(pitch_raw_data.pit):
                 result.append("[PitchBendBPList]")
-                result.extend(
-                    f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit
-                )
+                result.extend(f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit)
             if len(pitch_raw_data.pbs):
                 result.append("[PitchBendSensBPList]")
-                result.extend(
-                    f"{pbs.pos + tick_prefix}={pbs.value}" for pbs in pitch_raw_data.pbs
-                )
+                result.extend(f"{pbs.pos + tick_prefix}={pbs.value}" for pbs in pitch_raw_data.pbs)
         return result

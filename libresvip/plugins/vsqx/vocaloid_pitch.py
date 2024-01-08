@@ -41,9 +41,7 @@ def pitch_from_vocaloid_parts(
             for i in range(pit_index, len(pit)):
                 pit_event = pit[i]
                 if pit_event.pos < pbs_event.pos:
-                    pit_multiplied_by_pbs[pit_event.pos] = (
-                        pit_event.value * pbs_current_value
-                    )
+                    pit_multiplied_by_pbs[pit_event.pos] = pit_event.value * pbs_current_value
                     if i == len(pit) - 1:
                         pit_index = i
                 else:
@@ -53,9 +51,7 @@ def pitch_from_vocaloid_parts(
         if pit_index < len(pit) - 1:
             for i in range(pit_index, len(pit)):
                 pit_event = pit[i]
-                pit_multiplied_by_pbs[pit_event.pos] = (
-                    pit_event.value * pbs_current_value
-                )
+                pit_multiplied_by_pbs[pit_event.pos] = pit_event.value * pbs_current_value
         pitch_raw_data_by_part.append(
             {k + part.start_pos: v for k, v in pit_multiplied_by_pbs.items()}
         )
@@ -70,23 +66,12 @@ def pitch_from_vocaloid_parts(
         if first_invalid_index_in_previous is None:
             pitch_raw_data += element.items()
         else:
-            pitch_raw_data = (
-                pitch_raw_data[:first_invalid_index_in_previous] + element.items()
-            )
-    data = [
-        Point(x=pos, y=round((value / PITCH_MAX_VALUE) * 100))
-        for pos, value in pitch_raw_data
-    ]
-    return (
-        RelativePitchCurve().to_absolute(data, note_list)
-        if data and note_list
-        else None
-    )
+            pitch_raw_data = pitch_raw_data[:first_invalid_index_in_previous] + element.items()
+    data = [Point(x=pos, y=round((value / PITCH_MAX_VALUE) * 100)) for pos, value in pitch_raw_data]
+    return RelativePitchCurve().to_absolute(data, note_list) if data and note_list else None
 
 
-def generate_for_vocaloid(
-    pitch: ParamCurve, notes: list[Note]
-) -> Optional[VocaloidPartPitchData]:
+def generate_for_vocaloid(pitch: ParamCurve, notes: list[Note]) -> Optional[VocaloidPartPitchData]:
     data = RelativePitchCurve().from_absolute(
         pitch, notes, border_append_radius=BORDER_APPEND_RADIUS
     )
@@ -114,8 +99,7 @@ def generate_for_vocaloid(
                     (
                         ControllerEvent(section[0][0], pbs_for_this_section),
                         ControllerEvent(
-                            section[-1][0]
-                            + MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS // 2,
+                            section[-1][0] + MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS // 2,
                             DEFAULT_PITCH_BEND_SENSITIVITY,
                         ),
                     )
@@ -126,9 +110,7 @@ def generate_for_vocaloid(
                 ControllerEvent(
                     pitch_pos,
                     clamp(
-                        round(
-                            pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section
-                        ),
+                        round(pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section),
                         -PITCH_MAX_VALUE,
                         PITCH_MAX_VALUE,
                     ),

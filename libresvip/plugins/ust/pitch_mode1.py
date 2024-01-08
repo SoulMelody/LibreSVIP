@@ -35,22 +35,16 @@ def pitch_from_utau_mode1_track(
     return RelativePitchCurve().to_absolute(pitch_points, notes)
 
 
-def pitch_to_utau_mode1_track(
-    pitch: ParamCurve, notes: list[Note]
-) -> UtauMode1TrackPitchData:
+def pitch_to_utau_mode1_track(pitch: ParamCurve, notes: list[Note]) -> UtauMode1TrackPitchData:
     note_pitch_data = []
     for note in notes:
         data = [
-            point
-            for point in pitch.points.root
-            if note.start_pos <= point.x - 1920 < note.end_pos
+            point for point in pitch.points.root if note.start_pos <= point.x - 1920 < note.end_pos
         ]
         if not len(data):
             note_pitch_data.append(UtauMode1NotePitchData())
             continue
         resampled_data = dot_resampled(data, MODE1_PITCH_SAMPLING_INTERVAL_TICK)
-        pitch_points = [
-            round(pitch) - note.key_number * 100 for _, pitch in resampled_data
-        ]
+        pitch_points = [round(pitch) - note.key_number * 100 for _, pitch in resampled_data]
         note_pitch_data.append(UtauMode1NotePitchData(pitch_points))
     return UtauMode1TrackPitchData(note_pitch_data)

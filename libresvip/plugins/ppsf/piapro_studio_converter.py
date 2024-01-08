@@ -29,9 +29,7 @@ class PiaproStudioConverter(plugin_base.SVSConverterBase):
             msg = "Unrecognizable format"
             raise InvalidFileTypeError(msg)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         ppsf_project = PiaproStudioGenerator(options).generate_project(project)
         proj_text = json_dumps(
             ppsf_project.model_dump(

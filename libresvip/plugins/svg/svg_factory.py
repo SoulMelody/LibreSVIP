@@ -58,9 +58,7 @@ text {{
         prev_pos = 0
         pos = 0
         beat_start = self.coordinate_helper.position_range_start
-        for previous_time_signature, time_signature in more_itertools.pairwise(
-            time_signature_list
-        ):
+        for previous_time_signature, time_signature in more_itertools.pairwise(time_signature_list):
             beat_length = (
                 time_signature.bar_index - previous_time_signature.bar_index
             ) * previous_time_signature.numerator
@@ -86,9 +84,7 @@ text {{
             while pos <= self.coordinate_helper.position_range_end:
                 pos += TICKS_IN_BEAT
                 if pos >= beat_start:
-                    x = int(
-                        (pos - beat_start) * self.options.pixel_per_beat / TICKS_IN_BEAT
-                    )
+                    x = int((pos - beat_start) * self.options.pixel_per_beat / TICKS_IN_BEAT)
                     line_element = Line(
                         sx=x,
                         sy=0,
@@ -148,16 +144,12 @@ text {{
         )
         self.rect_elements.append(rect_element)
         self.draw_text(self.options.lyric_position, note.lyric, parameters, False)
-        self.draw_text(
-            self.options.pronounciation_position, note.pronunciation, parameters, True
-        )
+        self.draw_text(self.options.pronounciation_position, note.pronunciation, parameters, True)
 
     def draw_pitch(self, point: Point):
         if point.y == -100:
             if len(self.pitch_points_buf):
-                start_point = self.coordinate_helper.get_pitch_point(
-                    self.pitch_points_buf[0]
-                )
+                start_point = self.coordinate_helper.get_pitch_point(self.pitch_points_buf[0])
                 polyline_element = Lines(
                     start_point[0],
                     start_point[1],

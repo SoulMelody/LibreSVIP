@@ -13,16 +13,12 @@ from .vsq_parser import VsqParser
 
 class VocaloidSequenceConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        vsq_file = mido.MidiFile(
-            file=io.BytesIO(path.read_bytes()), charset="shift-jis", clip=True
-        )
+        vsq_file = mido.MidiFile(file=io.BytesIO(path.read_bytes()), charset="shift-jis", clip=True)
         return VsqParser(
             options=options,
         ).parse_project(vsq_file)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         vsq_file = VsqGenerator(
             options=options,
         ).generate_project(project)

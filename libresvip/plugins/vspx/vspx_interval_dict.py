@@ -29,9 +29,7 @@ def vspx_sine_vibrato_interpolation(
     trill: Union[VocalSharpTrill, VocalSharpDefaultTrill],
 ) -> float:
     return (
-        math.sin(
-            math.pi * (2 * (seconds - vibrato_start) * trill.frequency + trill.phase)
-        )
+        math.sin(math.pi * (2 * (seconds - vibrato_start) * trill.frequency + trill.phase))
         * trill.amplitude
     )
 
@@ -82,9 +80,7 @@ class BasePitchCurve:
                 )
                 vibrato_duration = vibrato_end_secs - vibrato_start_secs
                 if 0 < vibrato_duration < 2 * note_track.por:
-                    self.set_vspx_vibrato_curve(
-                        vibrato_start_secs, vibrato_end_secs, trill
-                    )
+                    self.set_vspx_vibrato_curve(vibrato_start_secs, vibrato_end_secs, trill)
                 elif vibrato_duration >= 2 * note_track.por:
                     self.set_vspx_vibrato_curve(
                         vibrato_start_secs, vibrato_end_secs, trill, note_track.por
@@ -93,15 +89,11 @@ class BasePitchCurve:
             for is_first, is_last, (prev_note, next_note) in more_itertools.mark_ends(
                 more_itertools.pairwise(note_track.note)
             ):
-                prev_start_secs = self.synchronizer.get_actual_secs_from_ticks(
-                    prev_note.pos
-                )
+                prev_start_secs = self.synchronizer.get_actual_secs_from_ticks(prev_note.pos)
                 prev_end_secs = self.synchronizer.get_actual_secs_from_ticks(
                     prev_note.pos + prev_note.duration
                 )
-                next_start_secs = self.synchronizer.get_actual_secs_from_ticks(
-                    next_note.pos
-                )
+                next_start_secs = self.synchronizer.get_actual_secs_from_ticks(next_note.pos)
                 next_end_secs = self.synchronizer.get_actual_secs_from_ticks(
                     next_note.pos + next_note.duration
                 )
@@ -128,9 +120,7 @@ class BasePitchCurve:
                         vibrato_end_secs = next_end_secs
                         vibrato_duration = vibrato_end_secs - vibrato_start_secs
                         if 0 < vibrato_duration < 2 * note_track.por:
-                            self.set_vspx_vibrato_curve(
-                                vibrato_start_secs, vibrato_end_secs, trill
-                            )
+                            self.set_vspx_vibrato_curve(vibrato_start_secs, vibrato_end_secs, trill)
                         elif vibrato_duration >= 2 * note_track.por:
                             self.set_vspx_vibrato_curve(
                                 vibrato_start_secs,
@@ -153,9 +143,7 @@ class BasePitchCurve:
                     vibrato_end_secs = (prev_end_secs + next_start_secs) / 2
                     vibrato_duration = vibrato_end_secs - vibrato_start_secs
                     if 0 < vibrato_duration < 2 * note_track.por:
-                        self.set_vspx_vibrato_curve(
-                            vibrato_start_secs, vibrato_end_secs, trill
-                        )
+                        self.set_vspx_vibrato_curve(vibrato_start_secs, vibrato_end_secs, trill)
                     elif vibrato_duration >= 2 * note_track.por:
                         self.set_vspx_vibrato_curve(
                             vibrato_start_secs, vibrato_end_secs, trill, note_track.por
@@ -168,24 +156,18 @@ class BasePitchCurve:
         trill: Union[VocalSharpTrill, VocalSharpDefaultTrill],
         por: Optional[float] = None,
     ) -> None:
-        self.vibrato_value_interval_dict[
-            portion.closed(start, end)
-        ] = functools.partial(
+        self.vibrato_value_interval_dict[portion.closed(start, end)] = functools.partial(
             vspx_sine_vibrato_interpolation, vibrato_start=start, trill=trill
         )
         if por is None:
             middle = (start + end) / 2
             half = (end - start) / 2
-            self.vibrato_coef_interval_dict[
-                portion.closedopen(start, middle)
-            ] = functools.partial(
+            self.vibrato_coef_interval_dict[portion.closedopen(start, middle)] = functools.partial(
                 vspx_cosine_vibrato_coef_attack_interpolation,
                 vibrato_start=start,
                 por=half,
             )
-            self.vibrato_coef_interval_dict[
-                portion.closed(middle, end)
-            ] = functools.partial(
+            self.vibrato_coef_interval_dict[portion.closed(middle, end)] = functools.partial(
                 vspx_cosine_vibrato_coef_release_interpolation,
                 vibrato_end=end,
                 por=half,
@@ -198,9 +180,7 @@ class BasePitchCurve:
                 vibrato_start=start,
                 por=por,
             )
-            self.vibrato_coef_interval_dict[
-                portion.openclosed(end - por, end)
-            ] = functools.partial(
+            self.vibrato_coef_interval_dict[portion.openclosed(end - por, end)] = functools.partial(
                 vspx_cosine_vibrato_coef_release_interpolation, vibrato_end=end, por=por
             )
             self.vibrato_coef_interval_dict[portion.closed(start + por, end - por)] = 1
@@ -209,9 +189,7 @@ class BasePitchCurve:
 
     def semitone_value_at(self, seconds: float) -> Optional[float]:
         if (pitch_value := self.key_interval_dict.get(seconds)) is not None:
-            if (
-                vibrato_value := self.vibrato_value_interval_dict.get(seconds)
-            ) is not None:
+            if (vibrato_value := self.vibrato_value_interval_dict.get(seconds)) is not None:
                 vibrato_value *= self.vibrato_coef_interval_dict[seconds]
                 pitch_value += vibrato_value
         return pitch_value

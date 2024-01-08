@@ -39,9 +39,7 @@ class UstxParser:
         tracks = self.parse_tracks(ustx_project.tracks, ustx_project.voice_parts)
         for track in tracks:
             track.edited_params.pitch.points.append(Point.end_point())
-        tracks.extend(
-            self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts)
-        )
+        tracks.extend(self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts))
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -52,9 +50,7 @@ class UstxParser:
     def parse_tempos(tempos: list[UTempo]) -> list[SongTempo]:
         song_tempo_list = [
             SongTempo(
-                position=tempo.position + 1920
-                if tempo.position > 0
-                else tempo.position,
+                position=tempo.position + 1920 if tempo.position > 0 else tempo.position,
                 bpm=tempo.bpm,
             )
             for tempo in tempos
@@ -79,9 +75,7 @@ class UstxParser:
             time_signature_list.append(TimeSignature())
         return time_signature_list
 
-    def parse_tracks(
-        self, tracks: list[UTrack], voice_parts: list[UVoicePart]
-    ) -> list[Track]:
+    def parse_tracks(self, tracks: list[UTrack], voice_parts: list[UVoicePart]) -> list[Track]:
         track_list = [
             SingingTrack(
                 volume=self.parse_volume(ustx_track.volume),
@@ -128,9 +122,7 @@ class UstxParser:
             for i in range(len(pitches))
         )
         point_list.append(
-            Point(
-                first_bar_length + part.position + len(pitches) * pitch_interval, -100
-            )
+            Point(first_bar_length + part.position + len(pitches) * pitch_interval, -100)
         )
         return point_list
 
@@ -143,9 +135,7 @@ class UstxParser:
                 start_pos=ustx_note.position + tick_prefix,
                 length=ustx_note.duration,
             )
-            if (CHINESE_RE.search(ustx_note.lyric) is None) and len(
-                ustx_note.lyric
-            ) > 1:
+            if (CHINESE_RE.search(ustx_note.lyric) is None) and len(ustx_note.lyric) > 1:
                 note.pronunciation = ustx_note.lyric
             note_list.append(note)
         return note_list

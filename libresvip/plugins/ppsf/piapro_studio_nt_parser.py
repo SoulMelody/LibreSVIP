@@ -43,9 +43,7 @@ class PiaproStudioNTParser:
                 if event_track.track_type == PpsfTrackType.NT
             ],
         )
-        instrumental_tracks = self.parse_instrumental_tracks(
-            ppsf_project.ppsf.project.audio_track
-        )
+        instrumental_tracks = self.parse_instrumental_tracks(ppsf_project.ppsf.project.audio_track)
         return Project(
             time_signature_list=time_signatures,
             song_tempo_list=tempos,
@@ -112,23 +110,16 @@ class PiaproStudioNTParser:
                 )
                 for parameter in track.parameters:
                     if parameter.base_sequence.name == "pitch_bend":
-                        key_interval_dict = ppsf_key_interval_dict(
-                            track.events, event_track.notes
-                        )
+                        key_interval_dict = ppsf_key_interval_dict(track.events, event_track.notes)
                         for point in parameter.base_sequence.sequence:
-                            if (
-                                point.curve_type == PpsfCurveType.BORDER
-                                and point.value == 0
-                            ):
+                            if point.curve_type == PpsfCurveType.BORDER and point.value == 0:
                                 singing_track.edited_params.pitch.points.append(
                                     Point(
                                         x=point.pos + self.first_bar_ticks,
                                         y=-100,
                                     )
                                 )
-                            elif (
-                                base_key := key_interval_dict.get(point.pos)
-                            ) is not None:
+                            elif (base_key := key_interval_dict.get(point.pos)) is not None:
                                 singing_track.edited_params.pitch.points.append(
                                     Point(
                                         x=point.pos + self.first_bar_ticks,

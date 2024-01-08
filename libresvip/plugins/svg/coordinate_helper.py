@@ -32,9 +32,7 @@ class CoordinateHelper:
         for point in track.edited_params.pitch.points[1:-1]:
             if point.y == -100:
                 continue
-            self.key_range_start = min(
-                self.key_range_start, int(math.floor(point.y / 100))
-            )
+            self.key_range_start = min(self.key_range_start, int(math.floor(point.y / 100)))
             self.key_range_end = max(self.key_range_end, int(math.ceil(point.y / 100)))
 
     def get_note_position_parameters(self, note: Note) -> NotePositionParameters:
@@ -74,31 +72,23 @@ class CoordinateHelper:
                     * self.options.pixel_per_beat
                     / TICKS_IN_BEAT
                 ),
-                int(
-                    (self.key_range_end - note.key_number + 1)
-                    * self.options.note_height
-                ),
+                int((self.key_range_end - note.key_number + 1) * self.options.note_height),
             ),
             text_size=self.font_size,
             inner_text=(
                 text_x,
                 int(
-                    (self.key_range_end - note.key_number + 1)
-                    * self.options.note_height
+                    (self.key_range_end - note.key_number + 1) * self.options.note_height
                     - PADDING * 1.5
                 ),
             ),
             upper_text=(
                 text_x,
-                int(
-                    (self.key_range_end - note.key_number) * self.options.note_height
-                    - PADDING
-                ),
+                int((self.key_range_end - note.key_number) * self.options.note_height - PADDING),
             ),
             lower_text=(
                 text_x,
-                (self.key_range_end - note.key_number + 2) * self.options.note_height
-                - PADDING,
+                (self.key_range_end - note.key_number + 2) * self.options.note_height - PADDING,
             ),
         )
 

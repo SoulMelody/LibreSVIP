@@ -107,15 +107,12 @@ def apply_default_pitch(
                 result.append(
                     Point(
                         x=tick + first_bar_length,
-                        y=base.get(tick, 0)
-                        + bend_diff.get(tick, 0)
-                        + vibrato_diff.get(tick, 0),
+                        y=base.get(tick, 0) + bend_diff.get(tick, 0) + vibrato_diff.get(tick, 0),
                     )
                 )
             result.append(
                 Point(
-                    x=(point.x if last_point is None else last_point.x)
-                    + first_bar_length,
+                    x=(point.x if last_point is None else last_point.x) + first_bar_length,
                     y=-100,
                 )
             )
@@ -128,15 +125,9 @@ def apply_default_pitch(
         result.extend(
             Point(
                 x=tick + first_bar_length,
-                y=(
-                    base.get(tick, 0)
-                    + bend_diff.get(tick, 0)
-                    + vibrato_diff.get(tick, 0)
-                ),
+                y=(base.get(tick, 0) + bend_diff.get(tick, 0) + vibrato_diff.get(tick, 0)),
             )
-            for tick in range(
-                points[-1].x + 1, notes[-1].note.end_pos, SAMPLING_INTERVAL_TICK
-            )
+            for tick in range(points[-1].x + 1, notes[-1].note.end_pos, SAMPLING_INTERVAL_TICK)
         )
     result.append(Point.end_point())
     return result
@@ -191,21 +182,15 @@ def get_bend_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) 
                 note.ben_len - 50
             ) // 50 + BEND_LENGTH_MIN_SEC
         end_sec = start_sec + length_sec
-        end_tick = min(
-            transformer.get_actual_ticks_from_secs(end_sec), note.note.start_pos - 1
-        )
+        end_tick = min(transformer.get_actual_ticks_from_secs(end_sec), note.note.start_pos - 1)
 
         valley_value = -BEND_VALUE_MAX * note.ben_dep
         valley_point = Point(x=round(valley_tick), y=round(valley_value))
 
-        bend_down = (
-            interpolate_linear([Point(x=start_tick, y=0), valley_point], 1) or []
-        )
+        bend_down = interpolate_linear([Point(x=start_tick, y=0), valley_point], 1) or []
 
         bend_up = (
-            interpolate_cosine_ease_in_out(
-                [valley_point, Point(x=round(end_tick), y=0)], 1
-            )[1:]
+            interpolate_cosine_ease_in_out([valley_point, Point(x=round(end_tick), y=0)], 1)[1:]
             or []
         )
 
@@ -219,19 +204,14 @@ def get_portamento(
     this_note: DvNoteWithPitch,
 ) -> list[Point]:
     tail_length_sec = PORTAMENTO_LENGTH_MAX_SEC * last_note.por_tail // 100
-    start_sec = (
-        transformer.get_actual_secs_from_ticks(last_note.note.end_pos) - tail_length_sec
-    )
+    start_sec = transformer.get_actual_secs_from_ticks(last_note.note.end_pos) - tail_length_sec
     start_tick = max(
         transformer.get_actual_ticks_from_secs(start_sec),
         tick_half_start(last_note.note),
     )
 
     head_length_sec = PORTAMENTO_LENGTH_MAX_SEC * this_note.por_head // 100
-    end_sec = (
-        transformer.get_actual_secs_from_ticks(this_note.note.start_pos)
-        + head_length_sec
-    )
+    end_sec = transformer.get_actual_secs_from_ticks(this_note.note.start_pos) + head_length_sec
     end_tick = min(
         transformer.get_actual_ticks_from_secs(end_sec),
         tick_half_start(this_note.note) - 1,
@@ -249,20 +229,14 @@ def get_portamento(
     )
 
 
-def get_vibrato_pitch(
-    notes: list[DvNoteWithPitch], transformer: TimeSynchronizer
-) -> dict:
+def get_vibrato_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict:
     result = {}
     for note in notes:
         start_tick = note.note.start_pos
         start_sec = transformer.get_actual_secs_from_ticks(start_tick)
         vibrato_points = [
             Point(
-                x=round(
-                    transformer.get_actual_ticks_from_secs(
-                        start_sec + vib_point.x / 1000
-                    )
-                ),
+                x=round(transformer.get_actual_ticks_from_secs(start_sec + vib_point.x / 1000)),
                 y=-vib_point.y,
             )
             for vib_point in note.vibrato
@@ -308,9 +282,7 @@ def pitch_from_dv_track(
     merged_points = merge_same_value_points(merged_points)
     if merged_points is None:
         return None
-    return ParamCurve(
-        points=apply_default_pitch(first_bar_length, merged_points, notes, tempos)
-    )
+    return ParamCurve(points=apply_default_pitch(first_bar_length, merged_points, notes, tempos))
 
 
 def generate_for_dv(

@@ -93,9 +93,7 @@ class PiaproStudioLegacyParser:
                             )
                         )
                     for tick, event_data in events_by_level[-1]:
-                        (denominator, numerator) = struct.unpack_from(
-                            "<2b", event_data, 4
-                        )
+                        (denominator, numerator) = struct.unpack_from("<2b", event_data, 4)
                         if len(time_signatures):
                             prev_bar_length = time_signatures[-1].bar_length()
                             prev_bar_index = time_signatures[-1].bar_index
@@ -104,8 +102,7 @@ class PiaproStudioLegacyParser:
                             prev_bar_index = 0
                         time_signatures.append(
                             TimeSignature(
-                                bar_index=prev_bar_index
-                                + (tick - prev_tick) // prev_bar_length,
+                                bar_index=prev_bar_index + (tick - prev_tick) // prev_bar_length,
                                 numerator=numerator,
                                 denominator=denominator,
                             )
@@ -117,9 +114,7 @@ class PiaproStudioLegacyParser:
             time_signatures.append(TimeSignature())
         return tempos, time_signatures
 
-    def parse_tracks(
-        self, events_chunk: Optional[Container] = None
-    ) -> list[SingingTrack]:
+    def parse_tracks(self, events_chunk: Optional[Container] = None) -> list[SingingTrack]:
         tracks = []
         if events_chunk is not None:
             lyric_info_struct = Struct(
@@ -135,9 +130,7 @@ class PiaproStudioLegacyParser:
                 for event in event_group
                 if event.magic == "Vocaloid3NoteEvent"
             ]
-            for i, note_group in enumerate(
-                split_into(note_events, self.clip_note_counts)
-            ):
+            for i, note_group in enumerate(split_into(note_events, self.clip_note_counts)):
                 for note in note_group:
                     note_offset, pit, length = struct.unpack_from(
                         "<ibi",
@@ -153,7 +146,5 @@ class PiaproStudioLegacyParser:
                             pronunciation=lyric_info.phoneme,
                         )
                     )
-            tracks.extend(
-                SingingTrack(note_list=notes) for notes in track_index2notes.values()
-            )
+            tracks.extend(SingingTrack(note_list=notes) for notes in track_index2notes.values())
         return tracks

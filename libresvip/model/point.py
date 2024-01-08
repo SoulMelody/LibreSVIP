@@ -48,9 +48,7 @@ def _inner_interpolate(
     )
 
 
-def linear_interpolation(
-    x: int, start: tuple[float, float], end: tuple[float, float]
-) -> float:
+def linear_interpolation(x: int, start: tuple[float, float], end: tuple[float, float]) -> float:
     x0, y0 = start
     x1, y1 = end
     return y0 + (x - x0) * (y1 - y0) / (x1 - x0)
@@ -80,9 +78,7 @@ def cosine_easing_in_interpolation(
     return y1 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi / 2)
 
 
-interpolate_cosine_ease_in = partial(
-    _inner_interpolate, mapping=cosine_easing_in_interpolation
-)
+interpolate_cosine_ease_in = partial(_inner_interpolate, mapping=cosine_easing_in_interpolation)
 
 
 def cosine_easing_out_interpolation(
@@ -93,9 +89,7 @@ def cosine_easing_out_interpolation(
     return y0 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi / 2 + math.pi / 2)
 
 
-interpolate_cosine_ease_out = partial(
-    _inner_interpolate, mapping=cosine_easing_out_interpolation
-)
+interpolate_cosine_ease_out = partial(_inner_interpolate, mapping=cosine_easing_out_interpolation)
 
 
 class PointList(abc.ABC, Generic[PointType]):

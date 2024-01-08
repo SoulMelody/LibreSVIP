@@ -128,8 +128,7 @@ class SynthVParser:
         )
         if master_curve is None or not len(master_curve.points):
             curve.points.root = [
-                Point(point.x, clip(point.y))
-                for point in generator.get_converted_curve(5)
+                Point(point.x, clip(point.y)) for point in generator.get_converted_curve(5)
             ]
             return curve
         if not len(sv_curve.points):
@@ -145,8 +144,7 @@ class SynthVParser:
                 _base_value=decoded_base_value,
             )
             curve.points.root = [
-                Point(point.x, clip(point.y))
-                for point in master_generator.get_converted_curve(5)
+                Point(point.x, clip(point.y)) for point in master_generator.get_converted_curve(5)
             ]
             return curve
         group_expr = CurveGenerator(
@@ -183,9 +181,7 @@ class SynthVParser:
             prev_point = master_points[j]
             j += 1
             prev_point_is_base = prev_point.y == 0
-        curve.points.append(
-            Point.start_point(self.actual_value_at(compound_expr, mapping_func, 0))
-        )
+        curve.points.append(Point.start_point(self.actual_value_at(compound_expr, mapping_func, 0)))
         curve.points.append(
             Point(
                 prev_point.x,
@@ -204,11 +200,7 @@ class SynthVParser:
                 current_point = master_points[j]
                 j += 1
                 current_point_is_base = current_point.y == 0
-            if (
-                prev_point_is_base
-                and current_point_is_base
-                and prev_point.x <= current_point.x
-            ):
+            if prev_point_is_base and current_point_is_base and prev_point.x <= current_point.x:
                 curve.points.append(
                     Point(
                         prev_point.x,
@@ -218,9 +210,7 @@ class SynthVParser:
                 curve.points.append(
                     Point(
                         current_point.x,
-                        self.actual_value_at(
-                            compound_expr, mapping_func, current_point.x
-                        ),
+                        self.actual_value_at(compound_expr, mapping_func, current_point.x),
                     )
                 )
             else:
@@ -326,9 +316,7 @@ class SynthVParser:
 
             def reduced_interval(current: RangeInterval, note: SVNote) -> RangeInterval:
                 start_secs = (
-                    self.synchronizer.get_actual_secs_from_ticks(
-                        position_to_ticks(note.onset)
-                    )
+                    self.synchronizer.get_actual_secs_from_ticks(position_to_ticks(note.onset))
                     - max(0.0, note.attributes.transition_offset)
                     - pitch_interval
                 )
@@ -342,13 +330,9 @@ class SynthVParser:
                     [
                         (
                             round(
-                                self.synchronizer.get_actual_ticks_from_secs(
-                                    max(0.0, start_secs)
-                                )
+                                self.synchronizer.get_actual_ticks_from_secs(max(0.0, start_secs))
                             ),
-                            round(
-                                self.synchronizer.get_actual_ticks_from_secs(end_secs)
-                            ),
+                            round(self.synchronizer.get_actual_ticks_from_secs(end_secs)),
                         )
                     ]
                 )
@@ -358,15 +342,11 @@ class SynthVParser:
                 (
                     note
                     for note in self.note_list
-                    if note.pitch_edited(
-                        regard_default_vibrato_as_unedited, self.options.instant
-                    )
+                    if note.pitch_edited(regard_default_vibrato_as_unedited, self.options.instant)
                 ),
                 RangeInterval(),
             )
-            param_edited_range = pitch_diff.edited_range() | vibrato_env.edited_range(
-                1.0
-            )
+            param_edited_range = pitch_diff.edited_range() | vibrato_env.edited_range(1.0)
             if master_pitch_diff is not None:
                 param_edited_range |= master_pitch_diff.edited_range()
             if master_vibrato_env is not None:
@@ -385,9 +365,7 @@ class SynthVParser:
                 Point(i, generator.value_at_ticks(i - self.first_bar_tick))
                 for i in range(start, end, step)
             )
-            curve.points.append(
-                Point(end, generator.value_at_ticks(end - self.first_bar_tick))
-            )
+            curve.points.append(Point(end, generator.value_at_ticks(end - self.first_bar_tick)))
             curve.points.append(Point(end, -100))
         curve.points.append(Point.end_point())
         return curve
@@ -433,12 +411,8 @@ class SynthVParser:
 
     @staticmethod
     def parse_note(sv_note: SVNote) -> Note:
-        note = Note(
-            start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch
-        )
-        note.length = (
-            position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
-        )
+        note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
+        note.length = position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         note.lyric = sv_note.lyrics
         if sv_note.phonemes:
             if is_kana(note.lyric):
@@ -465,29 +439,20 @@ class SynthVParser:
                         breath_note = sv_note_list[current_index - 1]
                         if (
                             position_to_ticks(sv_note_list[current_index].onset)
-                            - position_to_ticks(
-                                breath_note.onset + breath_note.duration
-                            )
+                            - position_to_ticks(breath_note.onset + breath_note.duration)
                         ) < 120:
                             note.head_tag = "V"
                     note_list.append(note)
                     prev_index = current_index
-            elif (
-                len(sv_note_list) == 1
-                and breath_pattern.match(sv_note_list[0].lyrics) is None
-            ):
+            elif len(sv_note_list) == 1 and breath_pattern.match(sv_note_list[0].lyrics) is None:
                 note_list.append(self.parse_note(sv_note_list[0]))
             sv_note_list = [
-                note
-                for note in sv_note_list
-                if breath_pattern.match(note.lyrics) is None
+                note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
             ]
         else:
             if self.options.breath == BreathOption.IGNORE:
                 sv_note_list = [
-                    note
-                    for note in sv_note_list
-                    if breath_pattern.match(note.lyrics) is None
+                    note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
                 ]
             note_list = [self.parse_note(note) for note in sv_note_list]
         lyrics = []
@@ -516,9 +481,7 @@ class SynthVParser:
             and current_duration[0] != 1.0
         ):
             note_list[0].edited_phones = Phones(
-                head_length_in_secs=min(
-                    1.8, current_duration[0] * current_phone_marks[0]
-                ),
+                head_length_in_secs=min(1.8, current_duration[0] * current_phone_marks[0]),
             )
 
         for i in range(len(sv_note_list) - 1):
@@ -533,17 +496,13 @@ class SynthVParser:
                 and len(current_duration) > index
             )
             next_head_part_edited = (
-                next_phone_marks[0] > 0
-                and next_duration is not None
-                and len(next_duration)
+                next_phone_marks[0] > 0 and next_duration is not None and len(next_duration)
             )
             if current_main_part_edited and len(current_duration) > index + 1:
                 if note_list[i].edited_phones is None:
                     note_list[i].edited_phones = Phones()
                 note_list[i].edited_phones.mid_ratio_over_tail = (
-                    current_phone_marks[1]
-                    * current_duration[index]
-                    / current_duration[index + 1]
+                    current_phone_marks[1] * current_duration[index] / current_duration[index + 1]
                 )
             if next_head_part_edited:
                 if note_list[i + 1].edited_phones is None:
@@ -581,9 +540,7 @@ class SynthVParser:
             if note_list[-1].edited_phones is None:
                 note_list[-1].edited_phones = Phones()
             note_list[-1].edited_phones.mid_ratio_over_tail = (
-                current_phone_marks[1]
-                * current_duration[idx]
-                / current_duration[idx + 1]
+                current_phone_marks[1] * current_duration[idx] / current_duration[idx + 1]
             )
         return note_list
 
@@ -658,9 +615,7 @@ class SynthVParser:
                         track_override_with(
                             singing_track,
                             self.parse_note_list(group.notes),
-                            self.parse_params(
-                                group.parameters, sv_track.main_group.parameters
-                            ),
+                            self.parse_params(group.parameters, sv_track.main_group.parameters),
                             self.first_bar_tick,
                         )
                         merged_group.notes.extend(group.notes)
@@ -676,9 +631,7 @@ class SynthVParser:
     def parse_project(self, sv_project: SVProject) -> Project:
         project = Project()
         time_sig = sv_project.time_sig
-        self.first_bar_tick = (
-            1920 * time_sig.meter[0].numerator // time_sig.meter[0].denominator
-        )
+        self.first_bar_tick = 1920 * time_sig.meter[0].numerator // time_sig.meter[0].denominator
         self.first_bpm = time_sig.tempo[0].bpm
 
         project.song_tempo_list = shift_tempo_list(

@@ -43,11 +43,7 @@ class MutaGenerator:
             [track for track in project.track_list if isinstance(track, SingingTrack)]
         )
         instrumental_tracks = self.generate_instrumental_tracks(
-            [
-                track
-                for track in project.track_list
-                if isinstance(track, InstrumentalTrack)
-            ],
+            [track for track in project.track_list if isinstance(track, InstrumentalTrack)],
             len(singing_tracks),
         )
 
@@ -96,9 +92,7 @@ class MutaGenerator:
                 song_track_data=[
                     MutaSongTrackData(
                         start=self.first_bar_length,
-                        length=max(
-                            (note.end_pos for note in track.note_list), default=0
-                        )
+                        length=max((note.end_pos for note in track.note_list), default=0)
                         + self.first_bar_length,
                         singer_name=[ord(c) for c in self.options.default_singer_name]
                         + [0] * (258 - len(self.options.default_singer_name)),
@@ -139,8 +133,7 @@ class MutaGenerator:
                 key=139 - note.key_number,
                 lyric=[ord(c) for c in note.lyric] + [0] * (8 - len(note.lyric)),
                 phoneme=note.pronunciation
-                if note.pronunciation
-                and len(note.pronunciation.encode("utf-16-le")) <= 16
+                if note.pronunciation and len(note.pronunciation.encode("utf-16-le")) <= 16
                 else "",
                 tmg_data=[MutaNoteTiming(ori_pos=0, mod_pos=0)] * 5,
             )
@@ -152,9 +145,7 @@ class MutaGenerator:
     ) -> list[MutaTrack]:
         track_list = []
         for track in tracks:
-            if (
-                track_info := audio_track_info(track.audio_file_path, only_wav=True)
-            ) is not None:
+            if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 muta_track = MutaTrack(
                     track_type=MutaTrackType.AUDIO,
                     seq_count=1,
