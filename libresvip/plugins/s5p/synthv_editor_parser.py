@@ -47,9 +47,7 @@ class SynthVEditorParser:
         self.synchronizer = TimeSynchronizer(tempo_list)
         if s5p_project.instrumental is not None:
             track_list.append(
-                self.parse_instrumental_track(
-                    s5p_project.instrumental, s5p_project.mixer
-                )
+                self.parse_instrumental_track(s5p_project.instrumental, s5p_project.mixer)
             )
         return Project(
             time_signature_list=time_signature_list,
@@ -68,9 +66,7 @@ class SynthVEditorParser:
             for item in meter
         ]
         if not len(time_signatures):
-            time_signatures.append(
-                TimeSignature(bar_index=0, numerator=4, denominator=4)
-            )
+            time_signatures.append(TimeSignature(bar_index=0, numerator=4, denominator=4))
         return time_signatures
 
     @staticmethod
@@ -137,9 +133,7 @@ class SynthVEditorParser:
         ]
 
     def parse_params(self, parameters: S5pParameters, note_list: list[Note]) -> Params:
-        rel_pitch_points = self.parse_pitch_curve(
-            parameters.pitch_delta, parameters.interval
-        )
+        rel_pitch_points = self.parse_pitch_curve(parameters.pitch_delta, parameters.interval)
         return Params(
             pitch=RelativePitchCurve(self.first_bar_length).to_absolute(
                 rel_pitch_points, note_list
@@ -153,5 +147,5 @@ class SynthVEditorParser:
                 x=round(point.offset * (interval / TICK_RATE)),
                 y=round(point.value),
             )
-            for point in pitch_delta
+            for point in pitch_delta.root
         ]

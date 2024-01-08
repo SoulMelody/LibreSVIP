@@ -29,9 +29,7 @@ class DiffSingerParser:
         self.synchronizer = TimeSynchronizer(sont_tempo_list)
         return Project(
             song_tempo_list=sont_tempo_list,
-            time_signature_list=[
-                TimeSignature(bar_index=0, numerator=4, denominator=4)
-            ],
+            time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
             track_list=[
                 SingingTrack(
                     note_list=self.parse_notes(ds_project.root),
@@ -53,9 +51,9 @@ class DiffSingerParser:
                 is_slur,
             ) in zip(
                 ds_item.text,
-                ds_item.note_dur,
+                ds_item.note_dur or [],
                 ds_item.note_seq,
-                ds_item.note_slur,
+                ds_item.note_slur or [],
             ):
                 note_dur = self.synchronizer.get_actual_ticks_from_secs(note_dur)
                 if text == "SP":
@@ -107,8 +105,7 @@ class DiffSingerParser:
             f0_timestep = ds_item.f0_timestep
             points.append(
                 Point(
-                    round(self.synchronizer.get_actual_ticks_from_secs(ds_item.offset))
-                    + 1920,
+                    round(self.synchronizer.get_actual_ticks_from_secs(ds_item.offset)) + 1920,
                     -100,
                 )
             )

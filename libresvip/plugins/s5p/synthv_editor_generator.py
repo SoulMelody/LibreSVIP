@@ -49,21 +49,14 @@ class SynthVEditorGenerator:
         if (
             instrumental_track := next(
                 (
-                    S5pInstrumental(
-                        filename=track.audio_file_path,
-                        offset=self.synchronizer.get_actual_secs_from_ticks(
-                            track.offset
-                        ),
-                    )
+                    self.generate_instrumental_track(track)
                     for track in project.track_list
                     if isinstance(track, InstrumentalTrack)
                 ),
                 None,
             )
         ) is not None:
-            s5p_project.instrumental = self.generate_instrumental_track(
-                instrumental_track
-            )
+            s5p_project.instrumental = instrumental_track
             s5p_project.mixer = self.generate_mixer(instrumental_track)
         return s5p_project
 
@@ -142,17 +135,13 @@ class SynthVEditorGenerator:
             instrumental_muted=track.mute,
         )
 
-    def generate_parameters(
-        self, edited_params: Params, note_list: list[Note]
-    ) -> S5pParameters:
+    def generate_parameters(self, edited_params: Params, note_list: list[Note]) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
         rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
             edited_params.pitch, note_list
         )
         return S5pParameters(
-            pitch_delta=self.generate_pitch_delta(
-                rel_pitch_points.root if rel_pitch_points is not None else [], interval
-            ),
+            pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
             interval=interval,
         )
 

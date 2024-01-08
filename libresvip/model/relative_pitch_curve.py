@@ -3,13 +3,12 @@ from __future__ import annotations
 import dataclasses
 from bisect import bisect_right
 from gettext import gettext as _
-from typing import Optional
 
 from more_itertools import pairwise
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.exceptions import NotesOverlappedError
-from libresvip.model.base import Note, ParamCurve, Points
+from libresvip.model.base import Note, ParamCurve
 from libresvip.model.point import Point
 
 
@@ -31,9 +30,7 @@ class RelativePitchCurve:
                     param_curve.points.append(Point(x=param_curve.points[-1].x, y=-100))
                 else:
                     param_curve.points.append(Point.start_point())
-                param_curve.points.append(
-                    Point(x=point.x + self.first_bar_length, y=-100)
-                )
+                param_curve.points.append(Point(x=point.x + self.first_bar_length, y=-100))
             note = note_list[note_index]
             if not note.start_pos <= point.x < note.end_pos:
                 continue
@@ -45,7 +42,7 @@ class RelativePitchCurve:
 
     def from_absolute(
         self, pitch: ParamCurve, notes: list[Note], border_append_radius: int = 0
-    ) -> Optional[Points]:
+    ) -> list[Point]:
         if not notes:
             return None
         borders = self.get_borders(notes)
@@ -61,13 +58,8 @@ class RelativePitchCurve:
                 next_border = borders[index] if index < len(borders) else float("inf")
                 current_note_key = notes[index].key_number
             converted_value = value - current_note_key * 100
-            converted_data.append(
-                Point(x=pos - self.first_bar_length, y=converted_value)
-            )
-        point_list = self.append_points_at_borders(
-            converted_data, notes, radius=border_append_radius
-        )
-        return Points(root=point_list)
+            converted_data.append(Point(x=pos - self.first_bar_length, y=converted_value))
+        return self.append_points_at_borders(converted_data, notes, radius=border_append_radius)
 
     def get_borders(self, notes: list[Note]) -> list[int]:
         borders = []
@@ -108,10 +100,8 @@ class RelativePitchCurve:
                 continue
             first_point_at_this_note = result[first_point_at_this_note_index]
             if (
-                first_point_at_this_note.x
-                == this_note.start_pos + self.first_bar_length
-                or first_point_at_this_note.x
-                > this_note.start_pos + radius + self.first_bar_length
+                first_point_at_this_note.x == this_note.start_pos + self.first_bar_length
+                or first_point_at_this_note.x > this_note.start_pos + radius + self.first_bar_length
             ):
                 continue
             post_value = first_point_at_this_note.y
@@ -122,9 +112,7 @@ class RelativePitchCurve:
                 point
                 for point in result
                 if not (
-                    new_point_tick
-                    <= point.x
-                    < this_note.start_pos + self.first_bar_length
+                    new_point_tick <= point.x < this_note.start_pos + self.first_bar_length
                     and point != new_point
                 )
             ]
