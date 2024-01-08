@@ -3,6 +3,7 @@ import datetime
 import uuid
 from typing import Optional
 
+from wanakana import PROLONGED_SOUND_MARK
 from xsdata.models.datatype import XmlTime
 
 from libresvip.core.constants import KEY_IN_OCTAVE
@@ -176,7 +177,7 @@ class CeVIOGenerator:
             CeVIONote(
                 clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
                 duration=int(note.length * TICK_RATE),
-                lyric="ー" if note.lyric == "-" else note.lyric,
+                lyric=PROLONGED_SOUND_MARK if note.lyric == "-" else note.lyric,
                 pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
                 pitch_step=note.key_number % KEY_IN_OCTAVE,
             )

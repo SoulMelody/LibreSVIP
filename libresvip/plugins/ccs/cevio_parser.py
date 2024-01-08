@@ -3,6 +3,7 @@ import operator
 from typing import Optional
 
 import more_itertools
+from wanakana import PROLONGED_SOUND_MARK
 
 from libresvip.core.tick_counter import skip_beat_list, skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -168,7 +169,7 @@ class CeVIOParser:
                 and key is not None
                 and lyric is not None
             ):
-                if lyric == "ー":
+                if lyric == PROLONGED_SOUND_MARK:
                     lyric = "-"
                 notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
 

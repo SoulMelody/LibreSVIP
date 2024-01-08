@@ -1,6 +1,13 @@
 import dataclasses
+import pathlib
+import zipfile
 
-from libresvip.core.constants import DEFAULT_ENGLISH_LYRIC
+from libresvip.core.constants import (
+    DEFAULT_CHINESE_LYRIC,
+    DEFAULT_ENGLISH_LYRIC,
+    DEFAULT_JAPANESE_LYRIC,
+    DEFAULT_KOREAN_LYRIC,
+)
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -18,6 +25,7 @@ from .constants import (
 )
 from .model import (
     VocaloidAudioTrack,
+    VocaloidLanguage,
     VocaloidNotes,
     VocaloidPartPitchData,
     VocaloidPoint,
@@ -32,6 +40,7 @@ from .vocaloid_pitch import pitch_from_vocaloid_parts
 @dataclasses.dataclass
 class VocaloidParser:
     options: InputOptions
+    archive_file: zipfile.ZipFile
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
 
     def parse_project(self, vpr_project: VocaloidProject) -> Project:
@@ -69,7 +78,10 @@ class VocaloidParser:
         for track in tracks:
             if isinstance(track, VocaloidAudioTrack):
                 for part in track.parts:
-                    # wav_path = f"Project/Audio/{part.name}"
+                    if self.options.extract_audio:
+                        archive_wav_path = f"Project/Audio/{part.wav.name}"
+                        if not (wav_path := pathlib.Path(part.wav.original_name)).exists():
+                            wav_path.write_bytes(self.archive_file.read(archive_wav_path))
                     instrumental_track = InstrumentalTrack(
                         title=part.name,
                         offset=part.pos,
@@ -81,15 +93,30 @@ class VocaloidParser:
             else:
                 for part in track.parts:
                     comp_id = None
+                    supported_lang_ids = []
                     if part.voice is not None:
                         comp_id = part.voice.comp_id
+                        supported_lang_ids.append(part.voice.lang_id)
                     elif part.ai_voice is not None:
                         comp_id = part.ai_voice.comp_id
+                        supported_lang_ids.extend(part.ai_voice.lang_ids)
+                    if len(supported_lang_ids):
+                        main_lang_id = supported_lang_ids[0]
+                    else:
+                        main_lang_id = VocaloidLanguage.SIMPLIFIED_CHINESE
+                    if main_lang_id == VocaloidLanguage.JAPANESE:
+                        default_lyric = DEFAULT_JAPANESE_LYRIC
+                    elif main_lang_id == VocaloidLanguage.KOREAN:
+                        default_lyric = DEFAULT_KOREAN_LYRIC
+                    elif main_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+                        default_lyric = DEFAULT_CHINESE_LYRIC
+                    else:
+                        default_lyric = DEFAULT_ENGLISH_LYRIC
                     singing_track = SingingTrack(
                         title=part.name,
                         mute=track.is_muted,
                         solo=track.is_solo_mode,
-                        note_list=self.parse_notes(part.notes, part.pos),
+                        note_list=self.parse_notes(part.notes, part.pos, default_lyric),
                         ai_singer_name=self.comp_id2name.get(comp_id, ""),
                     )
                     part_data = VocaloidPartPitchData(
@@ -106,13 +133,13 @@ class VocaloidParser:
                     track_list.append(singing_track)
         return track_list
 
-    def parse_notes(self, notes: list[VocaloidNotes], pos: int) -> list[Note]:
+    def parse_notes(self, notes: list[VocaloidNotes], pos: int, default_lyric: str) -> list[Note]:
         return [
             Note(
                 start_pos=note.pos + pos,
                 length=note.duration,
                 key_number=note.number,
-                lyric=note.lyric or DEFAULT_ENGLISH_LYRIC,
+                lyric=note.lyric or default_lyric,
                 pronunciation=note.phoneme,
             )
             for note in notes

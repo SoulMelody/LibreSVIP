@@ -4,7 +4,11 @@ from .model import VocaloidLanguage
 
 
 class InputOptions(BaseModel):
-    pass
+    extract_audio: bool = Field(
+        False,
+        title="Extract audio",
+        description="Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)",
+    )
 
 
 class OutputOptions(BaseModel):

@@ -17,9 +17,9 @@ class VocaloidConverter(plugin_base.SVSConverterBase):
         proj = VocaloidProject.model_validate(
             json_loads(archive_file.read("Project/sequence.json"))
         )
-        return VocaloidParser(options).parse_project(proj)
+        return VocaloidParser(options, archive_file).parse_project(proj)
 
-    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions):
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         buffer = io.BytesIO()
         generator = VocaloidGenerator(options)
         vocaloid_project = generator.generate_project(project)

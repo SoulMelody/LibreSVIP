@@ -166,14 +166,16 @@ class VocaloidGenerator:
                             comp_id=self.options.default_comp_id,
                             lang_id=self.options.default_lang_id,
                         )
-                track = (VocaloidAITrack if self.options.is_ai_singer else VocaloidStandardTrack)(
+                vocaloid_track = (
+                    VocaloidAITrack if self.options.is_ai_singer else VocaloidStandardTrack
+                )(
                     name=track.title,
                     parts=[part] if part else [],
                     is_muted=track.mute,
                     is_solo_mode=track.solo,
                 )
-                track.panpot.events.append(VocaloidPoint(pos=0, value=0))
-                tracks.append(track)
+                vocaloid_track.panpot.events.append(VocaloidPoint(pos=0, value=0))
+                tracks.append(vocaloid_track)
                 if duration:
                     self.end_tick = max(
                         self.end_tick,
