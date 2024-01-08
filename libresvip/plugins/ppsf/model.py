@@ -24,11 +24,6 @@ class PpsfMuteflag(enum.IntEnum):
     SOLO: Annotated[int, Field(title="Solo")] = 2
 
 
-class PpsfTrackType(enum.IntEnum):
-    AUDIO: Annotated[int, Field(title="Audio")] = 1
-    NT: Annotated[int, Field(title="NT")] = 4
-
-
 class PpsfCurvePointSeq(BaseModel):
     border_type: Optional[int] = Field(None, alias="border-type")
     note_index: Optional[int] = Field(None, alias="note-index")
@@ -136,7 +131,7 @@ class PpsfEventTrack(BaseModel):
     regions: list[PpsfRegion] = Field(default_factory=list)
     sub_tracks: list[PpsfSubTrack] = Field(default_factory=list, alias="sub-tracks")
     total_height: int = Field(64, alias="total-height")
-    track_type: PpsfTrackType = Field(alias="track-type")
+    track_type: int = Field(alias="track-type")
     vertical_scale: float = Field(1, alias="vertical-scale")
     vertical_scroll: int = Field(0, alias="vertical-scroll")
 

@@ -52,7 +52,7 @@ ust_grammar = Grammar(
         (newline ust_note_attr)*
 
     ust_note_head =
-        "[#" ~"(\d{4}|PREV|NEXT|INSERT|DELETE)" "]"
+        "[#" ~"(\d+|PREV|NEXT|INSERT|DELETE)" "]"
 
     ust_track_end = "[#TRACKEND]"
 

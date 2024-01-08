@@ -30,7 +30,6 @@ from .model import (
     PpsfSyllable,
     PpsfTempo,
     PpsfTempos,
-    PpsfTrackType,
 )
 from .options import OutputOptions
 
@@ -108,7 +107,7 @@ class PiaproStudioGenerator:
                     mute_flag = PpsfMuteflag.SOLO
                 event_track = PpsfEventTrack(
                     index=len(event_tracks),
-                    track_type=PpsfTrackType.NT,
+                    track_type=4,
                     mute_solo=mute_flag,
                     notes=[],
                     nt_envelope_preset_id=2,
@@ -163,7 +162,7 @@ class PiaproStudioGenerator:
                     event_tracks.append(
                         PpsfEventTrack(
                             index=len(event_tracks),
-                            track_type=PpsfTrackType.AUDIO,
+                            track_type=1,
                             mute_solo=mute_flag,
                             regions=[
                                 PpsfRegion(

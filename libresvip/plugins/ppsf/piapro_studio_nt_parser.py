@@ -20,7 +20,6 @@ from .model import (
     PpsfMeters,
     PpsfProject,
     PpsfTempos,
-    PpsfTrackType,
 )
 from .options import InputOptions
 from .ppsf_interval_dict import ppsf_key_interval_dict
@@ -37,11 +36,7 @@ class PiaproStudioNTParser:
         tempos = self.parse_tempos(ppsf_project.ppsf.project.tempo)
         singing_tracks = self.parse_singing_tracks(
             ppsf_project.ppsf.project.dvl_track,
-            [
-                event_track
-                for event_track in ppsf_project.ppsf.gui_settings.track_editor.event_tracks
-                if event_track.track_type == PpsfTrackType.NT
-            ],
+            ppsf_project.ppsf.gui_settings.track_editor.event_tracks,
         )
         instrumental_tracks = self.parse_instrumental_tracks(ppsf_project.ppsf.project.audio_track)
         return Project(
