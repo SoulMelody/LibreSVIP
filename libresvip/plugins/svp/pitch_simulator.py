@@ -38,17 +38,29 @@ class PitchSimulator:
             interval = next_head - current_head - current_dur
             if interval <= 2 * max_slide_time:
                 self.pitch_tags.append(
-                    (next_head - interval / 2 - current_slide, current_note.key_number)
+                    (
+                        next_head - interval / 2 - current_slide,
+                        current_note.key_number,
+                    )
                 )
                 self.pitch_tags.append(
-                    (next_head - interval / 2 + next_slide, next_note.key_number)
+                    (
+                        next_head - interval / 2 + next_slide,
+                        next_note.key_number,
+                    )
                 )
             else:
                 self.pitch_tags.append(
-                    (next_head - interval / 2 - max_slide_time, current_note.key_number)
+                    (
+                        next_head - interval / 2 - max_slide_time,
+                        current_note.key_number,
+                    )
                 )
                 self.pitch_tags.append(
-                    (next_head - interval / 2 + max_slide_time, next_note.key_number)
+                    (
+                        next_head - interval / 2 + max_slide_time,
+                        next_note.key_number,
+                    )
                 )
             current_note = next_note
             current_head = next_head

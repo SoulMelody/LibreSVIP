@@ -331,8 +331,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                     else:
                         continue
                     if field_info.description:
-                        with ui.icon("help_outline").classes("text-3xl").style(
-                            "cursor: help",
+                        with (
+                            ui.icon("help_outline")
+                            .classes("text-3xl")
+                            .style(
+                                "cursor: help",
+                            )
                         ):
                             ui.tooltip(_(field_info.description))
 
@@ -411,12 +415,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.icon("check", size="lg").classes(
                             "text-green-500",
                         ).bind_visibility_from(info, "success")
-                        with ui.dialog() as error_dialog, ui.element(
-                            "q-banner",
-                        ).classes("bg-red-500 w-auto") as error_banner:
-                            with ui.scroll_area().classes(
-                                remove="nicegui-scroll-area",
-                            ).style("width: 500px; height: 16rem;"):
+                        with (
+                            ui.dialog() as error_dialog,
+                            ui.element(
+                                "q-banner",
+                            ).classes("bg-red-500 w-auto") as error_banner,
+                        ):
+                            with (
+                                ui.scroll_area()
+                                .classes(
+                                    remove="nicegui-scroll-area",
+                                )
+                                .style("width: 500px; height: 16rem;")
+                            ):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;",
                                 ).bind_text_from(
@@ -437,12 +448,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                             color="red",
                             on_click=error_dialog.open,
                         ).props("round").bind_visibility_from(info, "error")
-                        with ui.dialog() as warn_dialog, ui.element("q-banner").classes(
-                            "bg-yellow-500 w-auto",
-                        ) as warn_banner:
-                            with ui.scroll_area().classes(
-                                remove="nicegui-scroll-area",
-                            ).style("width: 500px; height: 16rem;"):
+                        with (
+                            ui.dialog() as warn_dialog,
+                            ui.element("q-banner").classes(
+                                "bg-yellow-500 w-auto",
+                            ) as warn_banner,
+                        ):
+                            with (
+                                ui.scroll_area()
+                                .classes(
+                                    remove="nicegui-scroll-area",
+                                )
+                                .style("width: 500px; height: 16rem;")
+                            ):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;",
                                 ).bind_text_from(info, "warning", backward=str)
@@ -709,8 +727,12 @@ def page_layout(lang: Optional[str] = None) -> None:
     with ui.left_drawer(value=False) as drawer:
         pass
 
-    with ui.header(elevated=True).style("background-color: curious-blue").classes(
-        "items-center",
+    with (
+        ui.header(elevated=True)
+        .style("background-color: curious-blue")
+        .classes(
+            "items-center",
+        )
     ):
         ui.button(icon="menu", on_click=drawer.toggle)
 
@@ -932,9 +954,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 )
                                 with ui.dialog() as input_info, ui.card():
                                     input_plugin_info()
-                                    with ui.card_actions().props(
-                                        "align=right",
-                                    ).classes("w-full"):
+                                    with (
+                                        ui.card_actions()
+                                        .props(
+                                            "align=right",
+                                        )
+                                        .classes("w-full")
+                                    ):
                                         ui.button(
                                             _("Close"),
                                             on_click=input_info.close,
@@ -958,10 +984,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     app.storage.user,
                                     "reset_tasks_on_input_change",
                                 )
-                                with ui.button(
-                                    icon="swap_vert",
-                                    on_click=swap_values,
-                                ).classes("w-fit aspect-square").props("round"):
+                                with (
+                                    ui.button(
+                                        icon="swap_vert",
+                                        on_click=swap_values,
+                                    )
+                                    .classes("w-fit aspect-square")
+                                    .props("round")
+                                ):
                                     ui.tooltip(_("Swap Input and Output"))
                                 select_output = (
                                     ui.select(
@@ -974,13 +1004,20 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     .classes("col-span-10")
                                     .bind_value(selected_formats, "output_format")
                                 )
-                                with ui.dialog().classes(
-                                    "h-400 w-600",
-                                ) as output_info, ui.card():
+                                with (
+                                    ui.dialog().classes(
+                                        "h-400 w-600",
+                                    ) as output_info,
+                                    ui.card(),
+                                ):
                                     output_plugin_info()
-                                    with ui.element("q-card-actions").props(
-                                        "align=right",
-                                    ).classes("w-full"):
+                                    with (
+                                        ui.element("q-card-actions")
+                                        .props(
+                                            "align=right",
+                                        )
+                                        .classes("w-full")
+                                    ):
                                         ui.button(
                                             _("Close"),
                                             on_click=output_info.close,
@@ -1023,11 +1060,15 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     icon="filter_alt_off",
                                     on_click=selected_formats.filter_input_ext,
                                 ).tooltip(_("Remove Tasks With Other Extensions"))
-                            with ui.button(
-                                icon="add",
-                                on_click=selected_formats.add_upload,
-                            ).props("round").classes(
-                                "absolute bottom-0 right-2 m-2 z-10",
+                            with (
+                                ui.button(
+                                    icon="add",
+                                    on_click=selected_formats.add_upload,
+                                )
+                                .props("round")
+                                .classes(
+                                    "absolute bottom-0 right-2 m-2 z-10",
+                                )
                             ):
                                 ui.badge().props(
                                     "floating color=orange",
@@ -1052,22 +1093,30 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ).classes("text-lg")
             with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
                 with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
-                    with ui.button(
-                        icon="play_arrow",
-                        on_click=selected_formats.batch_convert,
-                    ).props("round").bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
+                    with (
+                        ui.button(
+                            icon="play_arrow",
+                            on_click=selected_formats.batch_convert,
+                        )
+                        .props("round")
+                        .bind_visibility_from(
+                            selected_formats,
+                            "task_count",
+                            backward=bool,
+                        )
                     ):
                         ui.tooltip(_("Start Conversion"))
-                    with ui.button(
-                        icon="download_for_offline",
-                        on_click=selected_formats.save_file,
-                    ).props("round").bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
+                    with (
+                        ui.button(
+                            icon="download_for_offline",
+                            on_click=selected_formats.save_file,
+                        )
+                        .props("round")
+                        .bind_visibility_from(
+                            selected_formats,
+                            "task_count",
+                            backward=bool,
+                        )
                     ):
                         ui.tooltip(_("Export"))
                 ui.label(_("Advanced Options")).classes("text-h5 font-bold")

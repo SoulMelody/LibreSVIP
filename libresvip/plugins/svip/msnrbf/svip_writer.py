@@ -101,7 +101,10 @@ class SvipWriter(NrbfIOBase):
             "library_name"
         ]
         self.svip_file["record_stream"].append(
-            {"record_type_enum": RecordTypeEnum.BinaryLibrary, "obj": model_library}
+            {
+                "record_type_enum": RecordTypeEnum.BinaryLibrary,
+                "obj": model_library,
+            }
         )
         return result
 
