@@ -195,14 +195,14 @@ class VocalShifterParser:
                 offset,
                 pattern_data,
                 "bre",
-                lambda x: x // 10,
+                (10.0).__rfloordiv__,
             )
         if self.options.import_formant:
             params.gender = self.parse_param_curve(
                 offset,
                 pattern_data,
                 "frm",
-                lambda x: x // 10,
+                (10.0).__rfloordiv__,
             )
         return params
 

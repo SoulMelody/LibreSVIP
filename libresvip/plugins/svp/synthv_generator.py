@@ -194,13 +194,13 @@ class SynthVGenerator:
                 parameters.strength.reduce_sample_rate(self.options.down_sample),
                 0,
                 0.0,
-                lambda val: val / 1000.0,
+                (1000.0).__rtruediv__,
             ),
             breathiness=self.generate_param_curve(
                 parameters.breath.reduce_sample_rate(self.options.down_sample),
                 0,
                 0.0,
-                lambda val: val / 1000.0,
+                (1000.0).__rtruediv__,
             ),
         )
 
