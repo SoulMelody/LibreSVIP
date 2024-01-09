@@ -31,7 +31,7 @@ def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitc
     data = RelativePitchCurve().from_absolute(
         pitch, notes, border_append_radius=BORDER_APPEND_RADIUS
     )
-    if data is None:
+    if not len(data):
         return None
     pitch_sectioned = [[]]
     current_pos = 0

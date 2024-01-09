@@ -1,5 +1,5 @@
 import enum
-from collections.abc import Sequence
+from collections.abc import ValuesView
 from gettext import gettext as _
 from typing import get_args, get_type_hints
 
@@ -52,7 +52,7 @@ def detail(plugin_name: str) -> None:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
-def print_plugin_summary(plugins: Sequence[LibreSvipPluginInfo]) -> None:
+def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
     console = Console(color_system="256")
     if not plugins:
         console.print(_("No plugins are currently installed."))
@@ -77,7 +77,7 @@ def print_plugin_summary(plugins: Sequence[LibreSvipPluginInfo]) -> None:
     console.print(table)
 
 
-def print_plugin_details(plugin) -> None:
+def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(

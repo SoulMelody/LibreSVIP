@@ -18,10 +18,8 @@ from pydantic import (
     ConfigDict,
     Field,
     RootModel,
-    SerializationInfo,
     ValidationInfo,
     computed_field,
-    field_serializer,
     field_validator,
 )
 
@@ -87,11 +85,6 @@ class ParamCurve(BaseModel):
         return (
             points if isinstance(points, Points) else Points(root=[Point(*each) for each in points])
         )
-
-    @field_serializer("points", when_used="json-unless-none")
-    @classmethod
-    def serialize_points(cls, points: list[Point], _info: SerializationInfo):
-        return points
 
     @computed_field(alias="TotalPointsCount")
     def total_points_count(self) -> int:

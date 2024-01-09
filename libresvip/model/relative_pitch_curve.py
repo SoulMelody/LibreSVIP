@@ -44,7 +44,7 @@ class RelativePitchCurve:
         self, pitch: ParamCurve, notes: list[Note], border_append_radius: int = 0
     ) -> list[Point]:
         if not notes:
-            return None
+            return []
         borders = self.get_borders(notes)
         index = 0
         current_note_key = notes[0].key_number

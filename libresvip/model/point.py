@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, Generic, NamedTuple, TypeVar, Union
 from more_itertools import pairwise
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
     from typing_extensions import Self
 
@@ -137,7 +137,7 @@ class PointList(abc.ABC, Generic[PointType]):
     def sort(self, /, *args: Any, **kwds: Any) -> None:
         self.root.sort(*args, **kwds)
 
-    def extend(self, other: Union[Self, list[PointType]]) -> None:
+    def extend(self, other: Union[Self, Iterable[PointType]]) -> None:
         if isinstance(other, PointList):
             self.root.extend(other.root)
         else:
