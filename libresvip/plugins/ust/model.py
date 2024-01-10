@@ -197,7 +197,7 @@ class UTAUTimeSignature(BaseModel):
 
 
 class UTAUProject(BaseModel):
-    ust_version: float
+    ust_version: Optional[float] = 1.2
     project_name: str = "New Project"
     track_count: int = 1
     pitch_mode2: bool = False
