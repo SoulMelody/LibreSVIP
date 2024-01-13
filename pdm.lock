@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:d75c3e88b0ad2caa26897d87fc484da79ac04db11a730e081bbc1c194f6391d9"
+content_hash = "sha256:7c5bb0d56c2eb40134d60bd8cfd2a5061fa0640a14eb8d628813c033f4aa4493"
 
 [[package]]
 name = "aiofiles"
@@ -657,30 +657,17 @@ files = [
 
 [[package]]
 name = "fastapi"
-version = "0.108.0"
+version = "0.109.0"
 requires_python = ">=3.8"
 summary = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 dependencies = [
     "pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4",
-    "starlette<0.33.0,>=0.29.0",
+    "starlette<0.36.0,>=0.35.0",
     "typing-extensions>=4.8.0",
 ]
 files = [
-    {file = "fastapi-0.108.0-py3-none-any.whl", hash = "sha256:8c7bc6d315da963ee4cdb605557827071a9a7f95aeb8fcdd3bde48cdc8764dd7"},
-    {file = "fastapi-0.108.0.tar.gz", hash = "sha256:5056e504ac6395bf68493d71fcfc5352fdbd5fda6f88c21f6420d80d81163296"},
-]
-
-[[package]]
-name = "fastapi-socketio"
-version = "0.0.10"
-summary = "Easily integrate socket.io with your FastAPI app."
-dependencies = [
-    "fastapi>=0.61.1",
-    "python-socketio>=4.6.0",
-]
-files = [
-    {file = "fastapi-socketio-0.0.10.tar.gz", hash = "sha256:202f9b319f010001cbd1114ec92a0d9eb5f5ca9316eae5fd41a6088da0812727"},
-    {file = "fastapi_socketio-0.0.10-py3-none-any.whl", hash = "sha256:11c2bfa3f25d786bd860ed13c892472e86bfeba85e7a0bec4f922ae5e4d8650f"},
+    {file = "fastapi-0.109.0-py3-none-any.whl", hash = "sha256:8c77515984cd8e8cfeb58364f8cc7a28f0692088475e2614f7bf03275eba9093"},
+    {file = "fastapi-0.109.0.tar.gz", hash = "sha256:b978095b9ee01a5cf49b19f4bc1ac9b8ca83aa076e770ef8fd9af09a2b88d191"},
 ]
 
 [[package]]
@@ -1606,18 +1593,17 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.9"
+version = "1.4.10"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
     "Pygments<3.0.0,>=2.15.1",
     "aiofiles<24.0.0,>=23.1.0",
-    "fastapi-socketio<0.0.11,>=0.0.10",
-    "fastapi<1.0.0,>=0.108.0",
+    "fastapi<0.110.0,>=0.109.0",
     "httpx<1.0.0,>=0.24.0",
     "ifaddr<0.3.0,>=0.2.0",
     "itsdangerous<3.0.0,>=2.1.2",
-    "jinja2<4.0.0,>=3.1.2",
+    "jinja2<4.0.0,>=3.1.3",
     "markdown2<2.4.11,>=2.4.7",
     "orjson<4.0.0,>=3.8.6; platform_machine != \"i386\" and platform_machine != \"i686\"",
     "python-multipart<0.0.7,>=0.0.6",
@@ -1628,23 +1614,23 @@ dependencies = [
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.9-py3-none-any.whl", hash = "sha256:bfcee1de68b65870676f95416fd55ccae63d486219afa511e401c7b2b81c6801"},
-    {file = "nicegui-1.4.9.tar.gz", hash = "sha256:330e0f4276ae206e06c68f29f9741325b4db3fec70e78a902137e6e8e9402ffd"},
+    {file = "nicegui-1.4.10-py3-none-any.whl", hash = "sha256:43b3e0d00fe3218cb0dccac4da84c7ac12d6485e43fed072faa59aad128f5423"},
+    {file = "nicegui-1.4.10.tar.gz", hash = "sha256:c7c2eea596426921a14d97ecf95473e441e377f88755bb3f66ffff26cc119c1c"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.9"
+version = "1.4.10"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.9",
+    "nicegui==1.4.10",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.9-py3-none-any.whl", hash = "sha256:bfcee1de68b65870676f95416fd55ccae63d486219afa511e401c7b2b81c6801"},
-    {file = "nicegui-1.4.9.tar.gz", hash = "sha256:330e0f4276ae206e06c68f29f9741325b4db3fec70e78a902137e6e8e9402ffd"},
+    {file = "nicegui-1.4.10-py3-none-any.whl", hash = "sha256:43b3e0d00fe3218cb0dccac4da84c7ac12d6485e43fed072faa59aad128f5423"},
+    {file = "nicegui-1.4.10.tar.gz", hash = "sha256:c7c2eea596426921a14d97ecf95473e441e377f88755bb3f66ffff26cc119c1c"},
 ]
 
 [[package]]
@@ -2743,7 +2729,7 @@ files = [
 
 [[package]]
 name = "starlette"
-version = "0.32.0.post1"
+version = "0.35.1"
 requires_python = ">=3.8"
 summary = "The little ASGI library that shines."
 dependencies = [
@@ -2751,8 +2737,8 @@ dependencies = [
     "typing-extensions>=3.10.0; python_version < \"3.10\"",
 ]
 files = [
-    {file = "starlette-0.32.0.post1-py3-none-any.whl", hash = "sha256:cd0cb10ddb49313f609cedfac62c8c12e56c7314b66d89bb077ba228bada1b09"},
-    {file = "starlette-0.32.0.post1.tar.gz", hash = "sha256:e54e2b7e2fb06dff9eac40133583f10dfa05913f5a85bf26f427c7a40a9a3d02"},
+    {file = "starlette-0.35.1-py3-none-any.whl", hash = "sha256:50bbbda9baa098e361f398fda0928062abbaf1f54f4fadcbe17c092a01eb9a25"},
+    {file = "starlette-0.35.1.tar.gz", hash = "sha256:3e2639dac3520e4f58734ed22553f950d3f3cb1001cd2eaac4d57e8cdc5f66bc"},
 ]
 
 [[package]]
