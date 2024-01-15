@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:66268a4644b38c6988b1924521f21e02f97e6834778b4712cc2e1b9a90ccff61"
+content_hash = "sha256:45bcc1f80f9b2c6637169f14e95b09a7625ac8de828921561bec81857a376975"
 
 [[package]]
 name = "aiofiles"
@@ -1593,7 +1593,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.10"
+version = "1.4.11"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
@@ -1614,23 +1614,23 @@ dependencies = [
     "watchfiles<1.0.0,>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.10-py3-none-any.whl", hash = "sha256:43b3e0d00fe3218cb0dccac4da84c7ac12d6485e43fed072faa59aad128f5423"},
-    {file = "nicegui-1.4.10.tar.gz", hash = "sha256:c7c2eea596426921a14d97ecf95473e441e377f88755bb3f66ffff26cc119c1c"},
+    {file = "nicegui-1.4.11-py3-none-any.whl", hash = "sha256:86707cef023b409bbd3738467abbef541f682e8610342461be236d6657892af3"},
+    {file = "nicegui-1.4.11.tar.gz", hash = "sha256:e42cb5873359a89da0b54ebb46899eebd82c3b441fc73b5a9e50d560beae36d2"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.10"
+version = "1.4.11"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.10",
+    "nicegui==1.4.11",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.10-py3-none-any.whl", hash = "sha256:43b3e0d00fe3218cb0dccac4da84c7ac12d6485e43fed072faa59aad128f5423"},
-    {file = "nicegui-1.4.10.tar.gz", hash = "sha256:c7c2eea596426921a14d97ecf95473e441e377f88755bb3f66ffff26cc119c1c"},
+    {file = "nicegui-1.4.11-py3-none-any.whl", hash = "sha256:86707cef023b409bbd3738467abbef541f682e8610342461be236d6657892af3"},
+    {file = "nicegui-1.4.11.tar.gz", hash = "sha256:e42cb5873359a89da0b54ebb46899eebd82c3b441fc73b5a9e50d560beae36d2"},
 ]
 
 [[package]]
