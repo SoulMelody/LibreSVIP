@@ -10,13 +10,13 @@ from libresvip.model.base import (
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.utils import find_index
 
 from .model import (
@@ -52,14 +52,13 @@ class GjgjParser:
         return project
 
     def parse_tempos(self, tempo_map: GjgjTempoMap) -> list[SongTempo]:
-        tempos = []
-        for tempo in tempo_map.tempos:
-            tempos.append(
-                SongTempo(
-                    position=tempo.time,
-                    bpm=mido.tempo2bpm(tempo.microseconds_per_quarter_note),
-                )
+        tempos = [
+            SongTempo(
+                position=tempo.time,
+                bpm=mido.tempo2bpm(tempo.microseconds_per_quarter_note),
             )
+            for tempo in tempo_map.tempos
+        ]
         self.time_synchronizer = TimeSynchronizer(tempos)
         return tempos
 
@@ -113,7 +112,6 @@ class GjgjParser:
                     self.time_synchronizer.get_actual_ticks_from_secs(
                         accompaniment.offset / 10000000
                     )
-                    - self.first_bar_length
                 ),
             )
             for accompaniment in accompaniments
@@ -122,7 +120,7 @@ class GjgjParser:
     def parse_notes(self, beat_items: list[GjgjBeatItems]) -> list[Note]:
         note_list = []
         for beat_item in beat_items:
-            start_pos = beat_item.start_tick - self.first_bar_length
+            start_pos = beat_item.start_tick
             note = Note(
                 start_pos=start_pos,
                 length=beat_item.duration,
@@ -160,15 +158,13 @@ class GjgjParser:
         return phones
 
     def parse_params(self, track: GjgjSingingTrack) -> Params:
-        params = Params(
+        return Params(
             pitch=self.parse_pitch_curve(track.tone),
             volume=self.parse_volume_curve(track.volume_map),
         )
-        return params
 
-    @staticmethod
-    def pitch_time_to_position(pitch_time: float) -> int:
-        return round(pitch_time * 5)
+    def pitch_time_to_position(self, pitch_time: float) -> int:
+        return round(pitch_time * 5) + self.first_bar_length
 
     def parse_pitch_curve(self, tone: GjgjTone) -> ParamCurve:
         pitch_curve = ParamCurve()

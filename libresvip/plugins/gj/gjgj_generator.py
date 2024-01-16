@@ -125,7 +125,7 @@ class GjgjGenerator:
         )
 
     def position_to_time(self, origin: int) -> int:
-        position = origin + self.first_bar_length
+        position = origin
         if position > 0:
             return round(self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000)
         else:
@@ -150,7 +150,7 @@ class GjgjGenerator:
             if note.edited_phones is not None:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:
-                        note_start_pos_in_ticks = note.start_pos + self.first_bar_length
+                        note_start_pos_in_ticks = note.start_pos
                         note_start_pos_in_secs = self.time_synchronizer.get_actual_secs_from_ticks(
                             note_start_pos_in_ticks
                         )
@@ -197,7 +197,7 @@ class GjgjGenerator:
             ori_ticks, ori_value = point.x, point.y
             if ori_prev_ticks != ori_ticks:
                 if ori_value != -100 and ori_ticks not in (-192000, 1073741823):
-                    ticks_buffer.append(ori_ticks)
+                    ticks_buffer.append(ori_ticks - self.first_bar_length)
                     value_buffer.append(ori_value)
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
                     pitch_points.extend(
@@ -217,7 +217,7 @@ class GjgjGenerator:
                     value_buffer = []
             ori_prev_ticks = ori_ticks
         return GjgjTone(
-            modifys=pitch_points,
+            modifies=pitch_points,
             modify_ranges=modify_ranges,
         )
 
@@ -227,13 +227,13 @@ class GjgjGenerator:
         ticks_buffer = []
         value_buffer = []
         prev_ticks = 0
-        for volume in volume_curve.points[1:]:
+        for volume in volume_curve.points.root[1:]:
             tick = volume.x
             if prev_ticks != tick:
                 ori_value = volume.y
                 value = (ori_value + 1000) / 1000
                 if ori_value != 0:
-                    ticks_buffer.append(tick)
+                    ticks_buffer.append(tick - self.first_bar_length)
                     value_buffer.append(value)
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
                     volume_map.append(
