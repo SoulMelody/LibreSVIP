@@ -5,13 +5,13 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     Params,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import ratio_to_db
 
@@ -47,17 +47,16 @@ class SynthVEditorGenerator:
             meter=self.generate_time_signatures(project.time_signature_list),
         )
         if (
-            instrumental_track := next(
+            instrumental_track_and_mixer := next(
                 (
-                    self.generate_instrumental_track(track)
+                    self.generate_instrumental_track_and_mixer(track)
                     for track in project.track_list
                     if isinstance(track, InstrumentalTrack)
                 ),
                 None,
             )
         ) is not None:
-            s5p_project.instrumental = instrumental_track
-            s5p_project.mixer = self.generate_mixer(instrumental_track)
+            s5p_project.instrumental, s5p_project.mixer = instrumental_track_and_mixer
         return s5p_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[S5pTempoItem]:
@@ -123,14 +122,13 @@ class SynthVEditorGenerator:
             for note in note_list
         ]
 
-    def generate_instrumental_track(self, track: InstrumentalTrack) -> S5pInstrumental:
+    def generate_instrumental_track_and_mixer(
+        self, track: InstrumentalTrack
+    ) -> tuple[S5pInstrumental, S5pMixer]:
         return S5pInstrumental(
             filename=track.audio_file_path,
             offset=self.synchronizer.get_actual_secs_from_ticks(track.offset),
-        )
-
-    def generate_mixer(self, track: InstrumentalTrack) -> S5pMixer:
-        return S5pMixer(
+        ), S5pMixer(
             gain_instrumental_decibel=self.generate_volume(track.volume),
             instrumental_muted=track.mute,
         )
@@ -146,12 +144,13 @@ class SynthVEditorGenerator:
         )
 
     def generate_pitch_delta(self, pitch: list[Point], interval: int) -> S5pPoints:
-        points = [
-            S5pPoint(
-                offset=round(point.x / (interval / TICK_RATE)),
-                value=point.y,
-            )
-            for point in pitch
-            if point.y != -100
-        ]
-        return S5pPoints(root=points)
+        return S5pPoints(
+            root=[
+                S5pPoint(
+                    offset=round(point.x / (interval / TICK_RATE)),
+                    value=point.y,
+                )
+                for point in pitch
+                if point.y != -100
+            ]
+        )

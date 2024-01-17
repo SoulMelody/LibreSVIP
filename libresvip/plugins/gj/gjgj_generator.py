@@ -124,8 +124,7 @@ class GjgjGenerator:
             master_volume=GjgjTrackVolume(mute=track.mute),
         )
 
-    def position_to_time(self, origin: int) -> int:
-        position = origin
+    def position_to_time(self, position: int) -> int:
         if position > 0:
             return round(self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000)
         else:
@@ -135,7 +134,7 @@ class GjgjGenerator:
         notes = []
         pinyin_list = get_pinyin_series([note.lyric for note in note_list])
         for note, pinyin in zip(note_list, pinyin_list):
-            pronunciation = pinyin if note.pronunciation is None else note.pronunciation
+            pronunciation = note.pronunciation or pinyin
             if pronunciation not in SUPPORTED_PINYIN:
                 msg_prefx = _("Unsupported pinyin:")
                 warnings.warn(f"{msg_prefx} {pronunciation}", LyricsWarning)
@@ -213,8 +212,8 @@ class GjgjGenerator:
                             y=ticks_buffer[-1],
                         )
                     )
-                    ticks_buffer = []
-                    value_buffer = []
+                    ticks_buffer.clear()
+                    value_buffer.clear()
             ori_prev_ticks = ori_ticks
         return GjgjTone(
             modifies=pitch_points,
@@ -255,6 +254,6 @@ class GjgjGenerator:
                             volume=1,
                         )
                     )
-                    ticks_buffer = []
-                    value_buffer = []
+                    ticks_buffer.clear()
+                    value_buffer.clear()
         return volume_map
