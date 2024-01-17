@@ -5,13 +5,13 @@ from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.utils import db_to_float
 
 from .model import (

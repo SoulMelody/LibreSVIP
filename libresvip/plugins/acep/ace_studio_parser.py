@@ -1,4 +1,5 @@
 import dataclasses
+import operator
 import warnings
 from collections.abc import Callable
 from typing import Optional
@@ -13,13 +14,13 @@ from libresvip.model.base import (
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.utils import clamp
 
 from .base_pitch_curve import BasePitchCurve
@@ -127,6 +128,7 @@ class AceParser:
                     merge_curves(pattern.parameters.real_tension, ace_params.real_tension)
                 if self.options.energy_normalization.enabled:
                     merge_curves(pattern.parameters.real_energy, ace_params.real_energy)
+            self.ace_note_list.sort(key=operator.attrgetter("pos"))
             track.note_list = [self.parse_note(ace_note) for ace_note in self.ace_note_list]
             track.edited_params = self.parse_params(ace_params)
         else:

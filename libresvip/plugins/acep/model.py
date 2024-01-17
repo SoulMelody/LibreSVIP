@@ -277,7 +277,7 @@ class AcepEmptyTrack(BaseModel):
     channel: Optional[int] = 0
     listen: Optional[bool] = False
 
-    def __len__(self):
+    def __len__(self) -> int:
         if not len(self.patterns):
             return 0
         last_pattern = self.patterns[-1]

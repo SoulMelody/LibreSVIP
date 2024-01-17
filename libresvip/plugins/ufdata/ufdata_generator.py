@@ -25,8 +25,10 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class UFDataGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> UFData:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         return UFData(
             project=UFProject(
                 tempos=self.generate_tempos(project.song_tempo_list),
@@ -82,10 +84,14 @@ class UFDataGenerator:
             for note in note_list
         ]
 
-    @staticmethod
-    def generate_pitch(pitch: ParamCurve) -> UFPitch:
-        return UFPitch(
+    def generate_pitch(self, pitch: ParamCurve) -> UFPitch:
+        uf_pitch = UFPitch(
             is_absolute=True,
-            ticks=[point.x for point in pitch.points.root],
-            values=[point.y for point in pitch.points.root],
+            ticks=[],
+            values=[],
         )
+        for point in pitch.points.root:
+            if point.y != -100:
+                uf_pitch.ticks.append(point.x - self.first_bar_length)
+                uf_pitch.values.append(point.y)
+        return uf_pitch

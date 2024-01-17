@@ -7,13 +7,13 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     Params,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import db_to_float, ratio_to_db
 
@@ -73,7 +73,7 @@ class SynthVEditorParser:
     def parse_tempos(tempo: list[S5pTempoItem]) -> list[SongTempo]:
         tempos = [
             SongTempo(
-                position=item.position / TICK_RATE,
+                position=item.position // TICK_RATE,
                 bpm=item.beat_per_minute,
             )
             for item in tempo

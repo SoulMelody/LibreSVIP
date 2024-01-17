@@ -15,13 +15,13 @@ from libresvip.model.base import (
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.utils import clamp, db_to_float, find_index, ratio_to_db
 
 from . import interpolation

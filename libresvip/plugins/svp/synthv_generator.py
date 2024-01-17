@@ -4,7 +4,7 @@ import sys
 from collections.abc import Callable
 from typing import Optional
 
-from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -61,7 +61,8 @@ class SynthVGenerator:
         new_meters = skip_beat_list(project.time_signature_list, 1)
         self.first_bar_tick = int(
             round(
-                1920.0
+                TICKS_IN_BEAT
+                * 4
                 * project.time_signature_list[0].numerator
                 / project.time_signature_list[0].denominator
             )
@@ -109,9 +110,11 @@ class SynthVGenerator:
         )
         if isinstance(track, SingingTrack):
             sv_track.main_ref.is_instrumental = False
-            sv_track.disp_order = "ff7db235"
+            sv_track.disp_color = "ff7db235"
             sv_track.main_ref.database.language = "mandarin"
             sv_track.main_ref.database.phoneset = "xsampa"
+            if track.ai_singer_name:
+                sv_track.main_ref.database.name = track.ai_singer_name
             self.note_buffer = track.note_list
             self.pitch_simulator = PitchSimulator(
                 synchronizer=self.synchronizer,
@@ -142,7 +145,7 @@ class SynthVGenerator:
                     sv_track.main_group.notes[index].attributes.vibrato_depth = 0
         elif isinstance(track, InstrumentalTrack):
             sv_track.main_ref.is_instrumental = True
-            sv_track.disp_order = "ff4794cb"
+            sv_track.disp_color = "ff4794cb"
             sv_track.main_ref.audio = SVAudio(filename=track.audio_file_path, duration=0)
             sv_track.main_ref.blick_offset = self.generate_audio_offset(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
@@ -172,7 +175,7 @@ class SynthVGenerator:
         return round(res * 1470000)
 
     @staticmethod
-    def generate_volume(volume):
+    def generate_volume(volume) -> float:
         return max(ratio_to_db(max(volume, 0.06)), -24.0)
 
     def generate_params(self, parameters: Params) -> SVParameters:

@@ -180,7 +180,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _get_slide_left(self) -> float:
         return SVNoteAttrConsts.default_pitch_slide if self.t_f0_left is None else self.t_f0_left
 
-    def _set_slide_left(self, value):
+    def _set_slide_left(self, value) -> None:
         self.t_f0_left = value
 
     slide_left = property(_get_slide_left, _set_slide_left)
@@ -188,7 +188,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _get_slide_right(self) -> float:
         return SVNoteAttrConsts.default_pitch_slide if self.t_f0_right is None else self.t_f0_right
 
-    def _set_slide_right(self, value):
+    def _set_slide_right(self, value) -> None:
         self.t_f0_right = value
 
     slide_right = property(_get_slide_right, _set_slide_right)
@@ -196,7 +196,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _get_depth_left(self) -> float:
         return SVNoteAttrConsts.default_pitch_depth if self.d_f0_left is None else self.d_f0_left
 
-    def _set_depth_left(self, value):
+    def _set_depth_left(self, value) -> None:
         self.d_f0_left = value
 
     depth_left = property(_get_depth_left, _set_depth_left)
@@ -204,7 +204,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _get_depth_right(self) -> float:
         return SVNoteAttrConsts.default_pitch_depth if self.d_f0_right is None else self.d_f0_right
 
-    def _set_depth_right(self, value):
+    def _set_depth_right(self, value) -> None:
         self.d_f0_right = value
 
     depth_right = property(_get_depth_right, _set_depth_right)
@@ -216,7 +216,7 @@ class SVNoteAttributes(SVBaseAttributes):
             else self.t_f0_vbr_start
         )
 
-    def _set_vibrato_start(self, value):
+    def _set_vibrato_start(self, value) -> None:
         self.t_f0_vbr_start = value
 
     vibrato_start = property(_get_vibrato_start, _set_vibrato_start)
@@ -228,7 +228,7 @@ class SVNoteAttributes(SVBaseAttributes):
             else self.t_f0_vbr_left
         )
 
-    def _set_vibrato_left(self, value):
+    def _set_vibrato_left(self, value) -> None:
         self.t_f0_vbr_left = value
 
     vibrato_left = property(_get_vibrato_left, _set_vibrato_left)
@@ -240,7 +240,7 @@ class SVNoteAttributes(SVBaseAttributes):
             else self.t_f0_vbr_right
         )
 
-    def _set_vibrato_right(self, value):
+    def _set_vibrato_right(self, value) -> None:
         self.t_f0_vbr_right = value
 
     vibrato_right = property(_get_vibrato_right, _set_vibrato_right)
@@ -248,7 +248,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _get_vibrato_depth(self) -> float:
         return SVNoteAttrConsts.default_vibrato_depth if self.d_f0_vbr is None else self.d_f0_vbr
 
-    def _set_vibrato_depth(self, value):
+    def _set_vibrato_depth(self, value) -> None:
         self.d_f0_vbr = value
 
     vibrato_depth = property(_get_vibrato_depth, _set_vibrato_depth)
@@ -258,7 +258,7 @@ class SVNoteAttributes(SVBaseAttributes):
             SVNoteAttrConsts.default_vibrato_frequency if self.f_f0_vbr is None else self.f_f0_vbr
         )
 
-    def _set_vibrato_frequency(self, value):
+    def _set_vibrato_frequency(self, value) -> None:
         self.f_f0_vbr = value
 
     vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)
@@ -266,7 +266,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _get_vibrato_phase(self) -> float:
         return SVNoteAttrConsts.default_vibrato_phase if self.p_f0_vbr is None else self.p_f0_vbr
 
-    def _set_vibrato_phase(self, value):
+    def _set_vibrato_phase(self, value) -> None:
         self.p_f0_vbr = value
 
     vibrato_phase = property(_get_vibrato_phase, _set_vibrato_phase)
@@ -278,12 +278,12 @@ class SVNoteAttributes(SVBaseAttributes):
             else self.d_f0_jitter
         )
 
-    def _set_vibrato_jitter(self, value):
+    def _set_vibrato_jitter(self, value) -> None:
         self.d_f0_jitter = value
 
     vibrato_jitter = property(_get_vibrato_jitter, _set_vibrato_jitter)
 
-    def set_phone_duration(self, index: int, duration: float):
+    def set_phone_duration(self, index: int, duration: float) -> None:
         if self.dur is None:
             self.dur = [1.0] * (index + 1)
         elif len(self.dur) <= index:
@@ -348,10 +348,10 @@ class SVNote(BaseModel):
     musical_type: Optional[Literal["singing", "rap"]] = Field("singing", alias="musicalType")
     instant_mode: Optional[bool] = Field(None, alias="instantMode")
 
-    def cover_range(self):
+    def cover_range(self) -> RangeInterval:
         return RangeInterval([(self.onset, self.onset + self.duration)])
 
-    def merge_attributes(self, attributes: SVNoteAttributes):
+    def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
             by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
         )
@@ -370,10 +370,10 @@ class SVNote(BaseModel):
             regard_default_vibrato_as_unedited, consider_instant_pitch_mode
         )
 
-    def __add__(self, blick_offset: int):
+    def __add__(self, blick_offset: int) -> SVNote:
         return self.model_copy(deep=True, update={"onset": self.onset + blick_offset})
 
-    def __xor__(self, pitch_offset: int):
+    def __xor__(self, pitch_offset: int) -> SVNote:
         return self.model_copy(deep=True, update={"pitch": self.pitch + pitch_offset})
 
 
@@ -404,11 +404,10 @@ class SVParameters(BaseModel):
         default_factory=SVParamCurve, alias="toneShift", title="音区偏移"
     )
 
-    def __add__(self, offset: int):
+    def __add__(self, offset: int) -> SVParameters:
         new_params = self.model_copy(deep=True)
         for key in new_params.model_fields:
-            val = getattr(new_params, key, None)
-            if val is not None:
+            if val := getattr(new_params, key, None) is not None:
                 setattr(new_params, key, val + offset)
         return new_params
 
