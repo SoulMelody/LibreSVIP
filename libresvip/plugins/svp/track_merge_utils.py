@@ -1,5 +1,6 @@
 from libresvip.core.time_interval import RangeInterval
-from libresvip.model.base import Note, ParamCurve, Params, Point, SingingTrack
+from libresvip.model.base import Note, ParamCurve, Params, SingingTrack
+from libresvip.model.point import Point
 from libresvip.utils import find_index, find_last_index
 
 

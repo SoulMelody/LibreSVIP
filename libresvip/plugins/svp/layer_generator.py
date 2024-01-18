@@ -50,7 +50,15 @@ class SigmoidNode:
     def k(self) -> float:
         return 5.5
 
-    def __post_init__(self, _start, _end, _center, _radius, _key_left, _key_right) -> None:
+    def __post_init__(
+        self,
+        _start: float,
+        _end: float,
+        _center: float,
+        _radius: float,
+        _key_left: int,
+        _key_right: int,
+    ) -> None:
         self.start = _start
         self.end = _end
         self.center = _center
@@ -120,7 +128,7 @@ class BaseLayerGenerator:
     note_list: list[NoteStruct] = dataclasses.field(init=False)
     sigmoid_nodes: list[SigmoidNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: list[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if not _note_list:
             return
         self.note_list = _note_list
@@ -234,7 +242,7 @@ class GaussianNode:
         _width: float,
         _length_l: float,
         _length_r: float,
-    ):
+    ) -> None:
         self.origin = _origin
         _depth *= 100
         sigma_base = abs(self.ratio_sigma * _width)
@@ -303,7 +311,7 @@ class GaussianLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: list[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if len(_note_list) == 0:
             return
         current_note = _note_list[0]
@@ -436,7 +444,7 @@ class VibratoLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     vibrato_nodes: list[VibratoNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: list[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         for i in range(len(_note_list)):
             start, end = _note_list[i].start, _note_list[i].end
             if end - start <= _note_list[i].vibrato_start:

@@ -14,7 +14,7 @@ class PitchSimulator:
     slide: PitchSlide
     pitch_tags: list[tuple[float, int]] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if len(self.note_list) == 0:
             return
         max_slide_time = self.slide.max_inter_time_in_secs

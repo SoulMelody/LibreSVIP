@@ -4,7 +4,7 @@ from collections.abc import Callable
 from functools import partial, reduce
 from typing import Optional
 
-from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
+from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_interval import RangeInterval
 from libresvip.core.time_sync import TimeSynchronizer
@@ -415,9 +415,10 @@ class SynthVParser:
         note.length = position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         note.lyric = sv_note.lyrics
         if sv_note.phonemes:
-            if database.default_language == "japanese":
+            note_default_language = sv_note.attributes.default_language(database)
+            if note_default_language == "japanese":
                 note.pronunciation = sv_note.phonemes
-            elif database.default_language in ["mandarin", "cantonese"]:
+            elif note_default_language in ["mandarin", "cantonese"]:
                 note.pronunciation = xsampa2pinyin(sv_note.phonemes)
         return note
 
@@ -455,20 +456,16 @@ class SynthVParser:
                     note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
                 ]
             note_list = [self.parse_note(note, database) for note in sv_note_list]
-        lyrics = []
-        for note in note_list:
-            if note.pronunciation is not None:
-                lyrics.append(note.pronunciation)
-                continue
-            if valid_chars := re.sub(
-                r"[\s\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”0-9a-zA-Z]",
-                DEFAULT_PHONEME,
-                note.lyric,
-            ):
-                lyrics.append(valid_chars[0])
-            else:
-                lyrics.append(DEFAULT_PHONEME)
-        lyrics_phoneme = sv_g2p(lyrics, database)
+        if len(sv_note_list):
+            lyrics, note_attributes = zip(
+                *(
+                    (SVNote.normalize_lyric(note), sv_note.attributes)
+                    for note, sv_note in zip(note_list, sv_note_list)
+                )
+            )
+        else:
+            lyrics, note_attributes = [], []
+        lyrics_phoneme = sv_g2p(lyrics, note_attributes, database)
         if not len(note_list):
             return note_list
         current_sv_note = sv_note_list[0]

@@ -1,10 +1,9 @@
 import dataclasses
-import re
 import sys
 from collections.abc import Callable
 from typing import Optional
 
-from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -32,6 +31,7 @@ from .model import (
     SVMeter,
     SVMixer,
     SVNote,
+    SVNoteAttributes,
     SVParamCurve,
     SVParameters,
     SVPoint,
@@ -124,18 +124,11 @@ class SynthVGenerator:
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
 
-            def normalize_lyric(note: Note) -> str:
-                if note.pronunciation is not None and len(note.pronunciation.strip()):
-                    return note.pronunciation
-                valid_chars = re.sub(
-                    r"[\\s\\(\\)\\[\\]\\{\\}\\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”0-9a-zA-Z]",
-                    DEFAULT_CHINESE_LYRIC,
-                    note.lyric,
-                )
-                return valid_chars[0] if len(valid_chars) > 0 else ""
-
             self.lyrics_pinyin = sv_g2p(
-                (normalize_lyric(note) for note in track.note_list), sv_track.main_ref.database
+                (SVNote.normalize_lyric(note) for note in track.note_list),
+                [SVNoteAttributes(language_override=language_preset.language)]
+                * len(track.note_list),
+                sv_track.main_ref.database,
             )
 
             sv_track.main_group.notes = self.generate_notes_with_phones(track.note_list)
@@ -178,7 +171,7 @@ class SynthVGenerator:
         return round(res * 1470000)
 
     @staticmethod
-    def generate_volume(volume) -> float:
+    def generate_volume(volume: float) -> float:
         return max(ratio_to_db(max(volume, 0.06)), -24.0)
 
     def generate_params(self, parameters: Params) -> SVParameters:

@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import abc
 import dataclasses
 import enum
 import operator
-from collections.abc import Callable, Iterable
+from typing import TYPE_CHECKING, Union
 
-from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.point import Point
 from libresvip.utils import find_last_index
 
@@ -15,7 +16,13 @@ from .layer_generator import (
     NoteStruct,
     VibratoLayerGenerator,
 )
-from .model import SVNote
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterable
+
+    from libresvip.core.time_sync import TimeSynchronizer
+
+    from .model import SVNote
 
 
 class ParamOperators(enum.Enum):
@@ -30,7 +37,7 @@ class ParamExpression(abc.ABC):
     def value_at_ticks(self, ticks: int) -> int:
         pass
 
-    def __add__(self, other):
+    def __add__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return TranslationalParam(
                 self,
@@ -43,7 +50,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __sub__(self, other):
+    def __sub__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return self + (-other)
         else:
@@ -53,7 +60,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return ScaledParam(
                 self,
@@ -66,7 +73,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return self * (1 / other)
         else:
