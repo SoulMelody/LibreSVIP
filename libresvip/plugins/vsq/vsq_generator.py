@@ -5,11 +5,9 @@ from typing import Optional
 import mido_fix as mido
 
 from libresvip.core.constants import (
-    DEFAULT_JAPANESE_LYRIC,
     DEFAULT_PHONEME,
     TICKS_IN_BEAT,
 )
-from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -36,7 +34,7 @@ class VsqGenerator:
         return 1
 
     def generate_project(self, project: Project) -> mido.MidiFile:
-        mido_obj = mido.MidiFile(charset="ascii")
+        mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         self.first_bar_length = int(
             project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
@@ -103,9 +101,6 @@ class VsqGenerator:
         self, track: SingingTrack, track_index: int, tracks_count: int
     ) -> Optional[mido.MidiTrack]:
         track_text = self.generate_track_text(track, track_index, tracks_count)
-        track_text = track_text.encode(self.options.lyric_encoding, errors="ignore").decode(
-            "ascii", errors="ignore"
-        )
         mido_track = mido.MidiTrack()
         while len(track_text) != 0:
             event_id = len(mido_track)
@@ -151,11 +146,7 @@ class VsqGenerator:
                     f"LyricHandle=h#{number.zfill(4)}",
                 ]
             )
-            lyric = (
-                note.lyric
-                if is_kana(note.lyric) or is_romaji(note.lyric)
-                else DEFAULT_JAPANESE_LYRIC
-            )
+            lyric = note.lyric
             lyrics_lines.extend(
                 [
                     f"[h#{number.zfill(4)}]",
