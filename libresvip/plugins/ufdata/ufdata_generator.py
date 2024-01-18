@@ -93,5 +93,5 @@ class UFDataGenerator:
         for point in pitch.points.root:
             if point.y != -100:
                 uf_pitch.ticks.append(point.x - self.first_bar_length)
-                uf_pitch.values.append(point.y)
+                uf_pitch.values.append(point.y / 100)
         return uf_pitch

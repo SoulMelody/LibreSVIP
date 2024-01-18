@@ -79,7 +79,7 @@ class UFDataParser:
                     root=[
                         Point(
                             x=tick + tick_prefix + self.first_bar_length,
-                            y=round(value),
+                            y=round(value * 100),
                         )
                         for tick, value in zip(pitch.ticks, pitch.values)
                     ]
@@ -88,7 +88,7 @@ class UFDataParser:
         rel_pitch_points = [
             Point(
                 x=tick + tick_prefix,
-                y=round(value),
+                y=round(value * 100),
             )
             for tick, value in zip(pitch.ticks, pitch.values)
         ]
