@@ -5,7 +5,6 @@ from functools import partial, reduce
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
-from libresvip.core.lyric_phoneme.japanese import get_romaji_series, is_kana
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_interval import RangeInterval
 from libresvip.core.time_sync import TimeSynchronizer
@@ -27,6 +26,7 @@ from libresvip.utils import clamp, db_to_float, find_index, ratio_to_db
 from . import interpolation
 from .interval_utils import position_to_ticks
 from .model import (
+    SVDatabase,
     SVGroup,
     SVMeter,
     SVNote,
@@ -39,7 +39,7 @@ from .model import (
 )
 from .options import BreathOption, GroupOption, InputOptions, PitchOption
 from .param_expression import CompoundParam, CurveGenerator, PitchGenerator
-from .phoneme_utils import default_phone_marks, lyrics2pinyin, xsampa2pinyin
+from .phoneme_utils import default_phone_marks, sv_g2p, xsampa2pinyin
 from .track_merge_utils import track_override_with
 
 TICK_RATE = 1470000
@@ -410,18 +410,18 @@ class SynthVParser:
         )
 
     @staticmethod
-    def parse_note(sv_note: SVNote) -> Note:
+    def parse_note(sv_note: SVNote, database: SVDatabase) -> Note:
         note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
         note.length = position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         note.lyric = sv_note.lyrics
         if sv_note.phonemes:
-            if is_kana(note.lyric):
-                note.pronunciation = " ".join(get_romaji_series(note.lyric))
-            else:
+            if database.default_language == "japanese":
+                note.pronunciation = sv_note.phonemes
+            elif database.default_language in ["mandarin", "cantonese"]:
                 note.pronunciation = xsampa2pinyin(sv_note.phonemes)
         return note
 
-    def parse_note_list(self, sv_note_list: list[SVNote]) -> list[Note]:
+    def parse_note_list(self, sv_note_list: list[SVNote], database: SVDatabase) -> list[Note]:
         note_list = []
         breath_pattern = re.compile(r"^\s*\.?\s*br(l?[1-9])?\s*$")
         if self.options.breath == BreathOption.CONVERT:
@@ -434,7 +434,7 @@ class SynthVParser:
                     )
                 ) != -1:
                     current_index = prev_index + current_offset + 1
-                    note = self.parse_note(sv_note_list[current_index])
+                    note = self.parse_note(sv_note_list[current_index], database)
                     if current_index > prev_index + 1:
                         breath_note = sv_note_list[current_index - 1]
                         if (
@@ -445,7 +445,7 @@ class SynthVParser:
                     note_list.append(note)
                     prev_index = current_index
             elif len(sv_note_list) == 1 and breath_pattern.match(sv_note_list[0].lyrics) is None:
-                note_list.append(self.parse_note(sv_note_list[0]))
+                note_list.append(self.parse_note(sv_note_list[0], database))
             sv_note_list = [
                 note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
             ]
@@ -454,7 +454,7 @@ class SynthVParser:
                 sv_note_list = [
                     note for note in sv_note_list if breath_pattern.match(note.lyrics) is None
                 ]
-            note_list = [self.parse_note(note) for note in sv_note_list]
+            note_list = [self.parse_note(note, database) for note in sv_note_list]
         lyrics = []
         for note in note_list:
             if note.pronunciation is not None:
@@ -468,12 +468,12 @@ class SynthVParser:
                 lyrics.append(valid_chars[0])
             else:
                 lyrics.append(DEFAULT_PHONEME)
-        lyrics_pinyin = lyrics2pinyin(lyrics)
+        lyrics_phoneme = sv_g2p(lyrics, database)
         if not len(note_list):
             return note_list
         current_sv_note = sv_note_list[0]
         current_duration = current_sv_note.attributes.dur
-        current_phone_marks = default_phone_marks(lyrics_pinyin[0])
+        current_phone_marks = default_phone_marks(lyrics_phoneme[0])
 
         if (
             current_phone_marks[0] > 0
@@ -487,7 +487,7 @@ class SynthVParser:
         for i in range(len(sv_note_list) - 1):
             next_sv_note = sv_note_list[i + 1]
             next_duration = next_sv_note.attributes.dur
-            next_phone_marks = default_phone_marks(lyrics_pinyin[i + 1])
+            next_phone_marks = default_phone_marks(lyrics_phoneme[i + 1])
 
             index = 1 if next_phone_marks[0] > 0 else 0
             current_main_part_edited = (
@@ -560,7 +560,9 @@ class SynthVParser:
                 note.merge_attributes(master_note_attributes)
             singing_track = SingingTrack(
                 ai_singer_name=sv_track.main_ref.database.name,
-                note_list=self.parse_note_list(sv_track.main_group.notes),
+                note_list=self.parse_note_list(
+                    sv_track.main_group.notes, sv_track.main_ref.database
+                ),
                 edited_params=self.parse_params(sv_track.main_group.parameters),
             )
             if self.options.group == GroupOption.SPLIT:

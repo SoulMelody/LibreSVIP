@@ -39,8 +39,8 @@ from .model import (
     SVTempo,
     SVTrack,
 )
-from .options import OutputOptions, VibratoOption
-from .phoneme_utils import default_phone_marks, lyrics2pinyin, number_of_phones
+from .options import OutputOptions, VibratoOption, synthv_language_presets
+from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
 from .pitch_simulator import PitchSimulator
 from .pitch_slide import PitchSlide
 
@@ -111,8 +111,9 @@ class SynthVGenerator:
         if isinstance(track, SingingTrack):
             sv_track.main_ref.is_instrumental = False
             sv_track.disp_color = "ff7db235"
-            sv_track.main_ref.database.language = "mandarin"
-            sv_track.main_ref.database.phoneset = "xsampa"
+            language_preset = synthv_language_presets[self.options.language_override.value]
+            sv_track.main_ref.database.language_override = language_preset.language
+            sv_track.main_ref.database.phoneset_override = language_preset.phoneset
             if track.ai_singer_name:
                 sv_track.main_ref.database.name = track.ai_singer_name
             self.note_buffer = track.note_list
@@ -133,7 +134,9 @@ class SynthVGenerator:
                 )
                 return valid_chars[0] if len(valid_chars) > 0 else ""
 
-            self.lyrics_pinyin = lyrics2pinyin([normalize_lyric(note) for note in track.note_list])
+            self.lyrics_pinyin = sv_g2p(
+                (normalize_lyric(note) for note in track.note_list), sv_track.main_ref.database
+            )
 
             sv_track.main_group.notes = self.generate_notes_with_phones(track.note_list)
 

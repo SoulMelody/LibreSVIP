@@ -441,12 +441,16 @@ class SVAudio(BaseModel):
 
 class SVDatabase(BaseModel):
     name: str = ""
-    language: str = ""
-    phoneset: str = ""
+    language: str = "mandarin"
+    phoneset: str = "xsampa"
     version: Optional[Union[str, int]] = None
     language_override: Optional[str] = Field(None, alias="languageOverride")
     phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
     backend_type: str = Field("", alias="backendType")
+
+    @property
+    def default_language(self):
+        return self.language_override or self.language
 
 
 class SVRef(BaseModel):

@@ -1,8 +1,12 @@
 import re
+from collections.abc import Iterable
 
 from libresvip.core.constants import DEFAULT_PHONEME, resource_path
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.model.base import json_loads
+
+from .model import SVDatabase
 
 default_durations = {
     "stop": 0.10,
@@ -26,20 +30,28 @@ with resource_path("libresvip.plugins.svp", ".") as resource_dir:
     )
 
 
-def lyrics2pinyin(lyrics: list[str]) -> list[str]:
-    pinyin_list = []
-    builder = ""
+def sv_g2p(lyrics: Iterable[str], database: SVDatabase) -> list[str]:
+    phoneme_list = []
+    builder = []
     for lyric in lyrics:
         if re.match(r"[a-zA-Z]", lyric) is not None:
             if len(builder):
-                pinyin_list.extend(get_pinyin_series(builder, filter_non_chinese=False))
-                builder = ""
-            pinyin_list.append(lyric)
+                phoneme_list.extend(
+                    get_pinyin_series(builder, filter_non_chinese=False)
+                    if database.language_override in ["mandarin", "cantonese"]
+                    else (to_romaji(part) for part in builder)
+                )
+                builder.clear()
+            phoneme_list.append(lyric)
         else:
-            builder += lyric
+            builder.append(lyric)
     if builder:
-        pinyin_list.extend(get_pinyin_series(builder, filter_non_chinese=False))
-    return pinyin_list
+        phoneme_list.extend(
+            get_pinyin_series(builder, filter_non_chinese=False)
+            if database.language_override in ["mandarin", "cantonese"]
+            else (to_romaji(part) for part in builder)
+        )
+    return phoneme_list
 
 
 def xsampa2pinyin(xsampa: str) -> str:

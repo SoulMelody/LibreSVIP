@@ -1,7 +1,29 @@
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, NamedTuple
 
 from pydantic import BaseModel, Field
+
+
+class SynthVLanguagePreset(NamedTuple):
+    language: str
+    phoneset: str
+
+
+synthv_language_presets = {
+    "mandarin": SynthVLanguagePreset(language="mandarin", phoneset="xsampa"),
+    "cantonese": SynthVLanguagePreset(language="cantonese", phoneset="xsampa"),
+    "japanese": SynthVLanguagePreset(language="japanese", phoneset="romaji"),
+    "english": SynthVLanguagePreset(language="english", phoneset="arpabet"),
+    "spanish": SynthVLanguagePreset(language="spanish", phoneset="arpabet"),
+}
+
+
+class LanguageOption(Enum):
+    MANDARIN: Annotated[str, Field(title="Mandarin")] = "mandarin"
+    CANTONESE: Annotated[str, Field(title="Cantonese")] = "cantonese"
+    JAPANESE: Annotated[str, Field(title="Japanese")] = "japanese"
+    ENGLISH: Annotated[str, Field(title="English")] = "english"
+    SPANISH: Annotated[str, Field(title="Spanish")] = "spanish"
 
 
 class BreathOption(Enum):
@@ -105,4 +127,8 @@ class OutputOptions(BaseModel):
         default=40,
         title="Set the average sampling interval of parameter points to improve performance (0 means no limit)",
         description="Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience.",
+    )
+    language_override: LanguageOption = Field(
+        default=LanguageOption.MANDARIN,
+        title="Override default language for the voicebank",
     )
