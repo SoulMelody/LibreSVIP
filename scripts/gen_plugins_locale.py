@@ -7,7 +7,6 @@ import os
 import shutil
 import sys
 import tempfile
-from importlib.resources import files
 from typing import TYPE_CHECKING, get_args, get_type_hints
 
 from babel.messages.frontend import extract_messages
@@ -17,6 +16,7 @@ from translate.convert.json2po import convertjson
 from translate.storage import factory
 from translate.tools.pomerge import mergestore
 
+from libresvip.core.compat import package_path
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 
 def messages_iterator():
     for plugin_info in plugin_manager.plugin_registry.values():
-        info_path: pathlib.Path = files(sys.modules[plugin_info.plugin_object.__module__])
+        info_path: pathlib.Path = package_path(sys.modules[plugin_info.plugin_object.__module__])
         plugin_suffix = plugin_info.suffix
         plugin_info = plugin_manager.plugin_registry[plugin_suffix]
         plugin_metadata = {

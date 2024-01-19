@@ -1,10 +1,10 @@
 import re
 from collections.abc import Iterable
 
-from libresvip.core.constants import DEFAULT_PHONEME, resource_path
+from libresvip.core.compat import json, package_path
+from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.model.base import json_loads
 
 from .model import SVDatabase, SVNoteAttributes
 
@@ -21,13 +21,13 @@ default_durations = {
 }
 default_phone_ratio = 1.8
 
-with resource_path("libresvip.plugins.svp", ".") as resource_dir:
-    phoneme_dictionary = json_loads(
-        (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
-    )
-    xsampa_dictionary = json_loads(
-        (resource_dir / "xsampa_dictionary.json").read_text(encoding="utf-8")
-    )
+resource_dir = package_path("libresvip.plugins.svp")
+phoneme_dictionary = json.loads(
+    (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
+)
+xsampa_dictionary = json.loads(
+    (resource_dir / "xsampa_dictionary.json").read_text(encoding="utf-8")
+)
 
 
 def sv_g2p(

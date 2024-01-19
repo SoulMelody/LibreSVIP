@@ -1,7 +1,8 @@
 import pathlib
 
+from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project, json_dumps
+from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
 
 from .diffsinger_generator import DiffSingerGenerator
@@ -40,7 +41,7 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
                 diff_singer_params.seed = options.seed
             ds_project = DsProject(root=[diff_singer_params])
         path.write_text(
-            json_dumps(
+            json.dumps(
                 ds_project.model_dump(mode="json"),
                 indent=options.indent,
                 ensure_ascii=False,

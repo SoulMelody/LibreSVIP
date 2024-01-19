@@ -2,9 +2,10 @@ import io
 import pathlib
 import zipfile
 
+from libresvip.core.compat import json
 from libresvip.core.exceptions import InvalidFileTypeError
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project, json_dumps, json_loads
+from libresvip.model.base import Project
 
 from .legacy_model import PpsfLegacyProject
 from .model import PpsfProject
@@ -20,7 +21,7 @@ class PiaproStudioConverter(plugin_base.SVSConverterBase):
         if content[:2] == b"PK":
             with zipfile.ZipFile(io.BytesIO(content), "r") as zf:
                 proj_text = zf.read("ppsf.json")
-            ppsf_project = PpsfProject.model_validate(json_loads(proj_text))
+            ppsf_project = PpsfProject.model_validate(json.loads(proj_text))
             return PiaproStudioNTParser(options).parse_project(ppsf_project)
         elif content[:4] == b"PPSF":
             ppsf_project = PpsfLegacyProject.parse(content)
@@ -31,7 +32,7 @@ class PiaproStudioConverter(plugin_base.SVSConverterBase):
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         ppsf_project = PiaproStudioGenerator(options).generate_project(project)
-        proj_text = json_dumps(
+        proj_text = json.dumps(
             ppsf_project.model_dump(
                 by_alias=True,
                 exclude_none=True,

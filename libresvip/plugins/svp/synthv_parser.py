@@ -579,7 +579,7 @@ class SynthVParser:
                         SingingTrack(
                             ai_singer_name=sv_ref.database.name,
                             title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
-                            note_list=self.parse_note_list(group.notes),
+                            note_list=self.parse_note_list(group.notes, sv_ref.database),
                             edited_params=self.parse_params(
                                 group.parameters, sv_track.main_group.parameters
                             ),
@@ -604,7 +604,7 @@ class SynthVParser:
                             SingingTrack(
                                 ai_singer_name=sv_ref.database.name,
                                 title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
-                                note_list=self.parse_note_list(group.notes),
+                                note_list=self.parse_note_list(group.notes, sv_ref.database),
                                 edited_params=self.parse_params(
                                     group.parameters, sv_track.main_group.parameters
                                 ),

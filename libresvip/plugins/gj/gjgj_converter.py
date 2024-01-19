@@ -1,7 +1,8 @@
 import pathlib
 
+from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project, json_dumps
+from libresvip.model.base import Project
 
 from .gjgj_generator import GjgjGenerator
 from .gjgj_parser import GjgjParser
@@ -17,7 +18,7 @@ class GjgjConverter(plugin_base.SVSConverterBase):
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         gjgj_project = GjgjGenerator(options).generate_project(project)
         path.write_text(
-            json_dumps(
+            json.dumps(
                 gjgj_project.model_dump(
                     mode="json",
                     exclude_none=True,

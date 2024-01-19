@@ -2,8 +2,9 @@ import io
 import pathlib
 import zipfile
 
+from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project, json_dumps, json_loads
+from libresvip.model.base import Project
 
 from .model import VocaloidProject
 from .options import InputOptions, OutputOptions
@@ -15,7 +16,7 @@ class VocaloidConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         archive_file = zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r")
         proj = VocaloidProject.model_validate(
-            json_loads(archive_file.read("Project/sequence.json"))
+            json.loads(archive_file.read("Project/sequence.json"))
         )
         return VocaloidParser(options, archive_file).parse_project(proj)
 
@@ -26,7 +27,7 @@ class VocaloidConverter(plugin_base.SVSConverterBase):
         with zipfile.ZipFile(buffer, "w") as archive_file:
             archive_file.writestr(
                 "Project/sequence.json",
-                json_dumps(
+                json.dumps(
                     vocaloid_project.model_dump(mode="json", exclude_none=True, by_alias=True),
                     ensure_ascii=False,
                 ),

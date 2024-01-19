@@ -1,7 +1,8 @@
 import pathlib
 
+from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project, json_dumps
+from libresvip.model.base import Project
 
 from .model import SVProject
 from .options import InputOptions, OutputOptions
@@ -25,7 +26,7 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
             options=options,
         ).generate_project(project)
         path.write_bytes(
-            json_dumps(
+            json.dumps(
                 sv_project.model_dump(mode="json", by_alias=True, exclude_none=True),
                 separators=(",", ":"),
             ).encode()

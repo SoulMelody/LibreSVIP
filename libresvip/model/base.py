@@ -26,15 +26,6 @@ from pydantic import (
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.point import Point, PointList
 
-try:
-    import ujson as json
-except ImportError:
-    import json
-
-
-json_loads = json.loads
-json_dumps = json.dumps
-
 
 class BaseModel(PydanticBaseModel):
     model_config = ConfigDict(

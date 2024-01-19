@@ -1,13 +1,10 @@
 import pathlib
 from typing import Any
 
-try:
-    import zstandard as zstd
-except ImportError:
-    import zstd
 from pydantic import Base64Bytes, Field
 
-from libresvip.model.base import BaseModel, json_dumps, json_loads
+from libresvip.core.compat import json, zstd
+from libresvip.model.base import BaseModel
 
 
 class AcepDebug(BaseModel):
@@ -32,16 +29,16 @@ def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
         src = pathlib.Path(src)
     acep_file = AcepFile.model_validate_json(src.read_text(encoding="utf-8"))
     decompressed = zstd.decompress(acep_file.content)
-    return json_loads(decompressed)
+    return json.loads(decompressed)
 
 
 def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> None:
-    raw_content = json_dumps(src).encode()
+    raw_content = json.dumps(src).encode()
     compressed = zstd.compress(raw_content)
     acep_file = AcepFile.model_construct(content=compressed)
     if not isinstance(target, pathlib.Path):
         target = pathlib.Path(target)
     target.write_text(
-        json_dumps(acep_file.model_dump(mode="json", by_alias=True), separators=(",", ":")),
+        json.dumps(acep_file.model_dump(mode="json", by_alias=True), separators=(",", ":")),
         encoding="utf-8",
     )
