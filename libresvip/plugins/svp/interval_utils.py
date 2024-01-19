@@ -1,4 +1,4 @@
-TICK_RATE = 1470000
+from .constants import TICK_RATE
 
 
 def position_to_ticks(position: int) -> int:

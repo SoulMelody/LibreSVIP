@@ -24,6 +24,7 @@ from libresvip.model.point import Point
 from libresvip.utils import clamp, db_to_float, find_index, ratio_to_db
 
 from . import interpolation
+from .constants import TICK_RATE
 from .interval_utils import position_to_ticks
 from .model import (
     SVDatabase,
@@ -41,9 +42,6 @@ from .options import BreathOption, GroupOption, InputOptions, PitchOption
 from .param_expression import CompoundParam, CurveGenerator, PitchGenerator
 from .phoneme_utils import default_phone_marks, sv_g2p, xsampa2pinyin
 from .track_merge_utils import track_override_with
-
-TICK_RATE = 1470000
-
 
 clip = partial(clamp, lower=-1000, upper=1000)
 

@@ -22,6 +22,7 @@ from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
 
+from . import constants
 from .interval_utils import position_to_ticks
 
 
@@ -131,20 +132,6 @@ class SVParamCurve(BaseModel):
         return new_curve
 
 
-class SVNoteAttrConsts:
-    default_pitch_transition = 0.0
-    default_pitch_slide = 0.07
-    default_pitch_depth = 0.15
-    default_vibrato_start = 0.25
-    default_vibrato_fade = 0.2
-    default_vibrato_depth = 1.0
-    default_vibrato_frequency = 5.5
-    default_vibrato_phase = 0.0
-    default_vibrato_jitter = 1.0
-    system_pitch_slide = 0.1
-    system_pitch_depth = 0.0
-
-
 class SVParamTake(BaseModel):
     id_value: int = Field(alias="id")
     expr: float
@@ -167,13 +154,10 @@ class SVNoteAttributes(SVBaseAttributes):
     strength: Optional[list[float]] = None
     r_tone: Optional[float] = Field(None, alias="rTone")
     r_intonation: Optional[float] = Field(None, alias="rIntonation")
+    even_syllable_duration: Optional[float] = Field(None, alias="evenSyllableDuration")
 
     def _get_transition_offset(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_transition
-            if self.t_f0_offset is None
-            else self.t_f0_offset
-        )
+        return constants.DEFAULT_PITCH_TRANSITION if self.t_f0_offset is None else self.t_f0_offset
 
     def _set_transition_offset(self, value: float) -> None:
         self.t_f0_offset = value
@@ -181,7 +165,7 @@ class SVNoteAttributes(SVBaseAttributes):
     transition_offset = property(_get_transition_offset, _set_transition_offset)  # type: ignore [pydantic-field]
 
     def _get_slide_left(self) -> float:
-        return SVNoteAttrConsts.default_pitch_slide if self.t_f0_left is None else self.t_f0_left
+        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_left is None else self.t_f0_left
 
     def _set_slide_left(self, value: float) -> None:
         self.t_f0_left = value
@@ -189,7 +173,7 @@ class SVNoteAttributes(SVBaseAttributes):
     slide_left = property(_get_slide_left, _set_slide_left)  # type: ignore [pydantic-field]
 
     def _get_slide_right(self) -> float:
-        return SVNoteAttrConsts.default_pitch_slide if self.t_f0_right is None else self.t_f0_right
+        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_right is None else self.t_f0_right
 
     def _set_slide_right(self, value: float) -> None:
         self.t_f0_right = value
@@ -197,7 +181,7 @@ class SVNoteAttributes(SVBaseAttributes):
     slide_right = property(_get_slide_right, _set_slide_right)  # type: ignore [pydantic-field]
 
     def _get_depth_left(self) -> float:
-        return SVNoteAttrConsts.default_pitch_depth if self.d_f0_left is None else self.d_f0_left
+        return constants.DEFAULT_PITCH_DEPTH if self.d_f0_left is None else self.d_f0_left
 
     def _set_depth_left(self, value: float) -> None:
         self.d_f0_left = value
@@ -205,7 +189,7 @@ class SVNoteAttributes(SVBaseAttributes):
     depth_left = property(_get_depth_left, _set_depth_left)  # type: ignore [pydantic-field]
 
     def _get_depth_right(self) -> float:
-        return SVNoteAttrConsts.default_pitch_depth if self.d_f0_right is None else self.d_f0_right
+        return constants.DEFAULT_PITCH_DEPTH if self.d_f0_right is None else self.d_f0_right
 
     def _set_depth_right(self, value: float) -> None:
         self.d_f0_right = value
@@ -214,9 +198,7 @@ class SVNoteAttributes(SVBaseAttributes):
 
     def _get_vibrato_start(self) -> float:
         return (
-            SVNoteAttrConsts.default_vibrato_start
-            if self.t_f0_vbr_start is None
-            else self.t_f0_vbr_start
+            constants.DEFAULT_VIBRATO_START if self.t_f0_vbr_start is None else self.t_f0_vbr_start
         )
 
     def _set_vibrato_start(self, value: float) -> None:
@@ -225,11 +207,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_start = property(_get_vibrato_start, _set_vibrato_start)  # type: ignore [pydantic-field]
 
     def _get_vibrato_left(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_fade
-            if self.t_f0_vbr_left is None
-            else self.t_f0_vbr_left
-        )
+        return constants.DEFAULT_VIBRATO_FADE if self.t_f0_vbr_left is None else self.t_f0_vbr_left
 
     def _set_vibrato_left(self, value: float) -> None:
         self.t_f0_vbr_left = value
@@ -238,9 +216,7 @@ class SVNoteAttributes(SVBaseAttributes):
 
     def _get_vibrato_right(self) -> float:
         return (
-            SVNoteAttrConsts.default_vibrato_fade
-            if self.t_f0_vbr_right is None
-            else self.t_f0_vbr_right
+            constants.DEFAULT_VIBRATO_FADE if self.t_f0_vbr_right is None else self.t_f0_vbr_right
         )
 
     def _set_vibrato_right(self, value: float) -> None:
@@ -249,7 +225,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_right = property(_get_vibrato_right, _set_vibrato_right)  # type: ignore [pydantic-field]
 
     def _get_vibrato_depth(self) -> float:
-        return SVNoteAttrConsts.default_vibrato_depth if self.d_f0_vbr is None else self.d_f0_vbr
+        return constants.DEFAULT_VIBRATO_DEPTH if self.d_f0_vbr is None else self.d_f0_vbr
 
     def _set_vibrato_depth(self, value: float) -> None:
         self.d_f0_vbr = value
@@ -257,9 +233,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_depth = property(_get_vibrato_depth, _set_vibrato_depth)  # type: ignore [pydantic-field]
 
     def _get_vibrato_frequency(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_frequency if self.f_f0_vbr is None else self.f_f0_vbr
-        )
+        return constants.DEFAULT_VIBRATO_FREQUENCY if self.f_f0_vbr is None else self.f_f0_vbr
 
     def _set_vibrato_frequency(self, value: float) -> None:
         self.f_f0_vbr = value
@@ -267,7 +241,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)  # type: ignore [pydantic-field]
 
     def _get_vibrato_phase(self) -> float:
-        return SVNoteAttrConsts.default_vibrato_phase if self.p_f0_vbr is None else self.p_f0_vbr
+        return constants.DEFAULT_VIBRATO_PHASE if self.p_f0_vbr is None else self.p_f0_vbr
 
     def _set_vibrato_phase(self, value: float) -> None:
         self.p_f0_vbr = value
@@ -275,11 +249,7 @@ class SVNoteAttributes(SVBaseAttributes):
     vibrato_phase = property(_get_vibrato_phase, _set_vibrato_phase)  # type: ignore [pydantic-field]
 
     def _get_vibrato_jitter(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_jitter
-            if self.d_f0_jitter is None
-            else self.d_f0_jitter
-        )
+        return constants.DEFAULT_VIBRATO_JITTER if self.d_f0_jitter is None else self.d_f0_jitter
 
     def _set_vibrato_jitter(self, value: float) -> None:
         self.d_f0_jitter = value
@@ -313,10 +283,10 @@ class SVNoteAttributes(SVBaseAttributes):
             transition_edited &= any(
                 x >= tolerance
                 for x in (
-                    abs(self.slide_left - SVNoteAttrConsts.default_pitch_slide),
-                    abs(self.slide_right - SVNoteAttrConsts.default_pitch_slide),
-                    abs(self.depth_left - SVNoteAttrConsts.default_pitch_depth),
-                    abs(self.depth_right - SVNoteAttrConsts.default_pitch_depth),
+                    abs(self.slide_left - constants.DEFAULT_PITCH_SLIDE),
+                    abs(self.slide_right - constants.DEFAULT_PITCH_SLIDE),
+                    abs(self.depth_left - constants.DEFAULT_PITCH_DEPTH),
+                    abs(self.depth_right - constants.DEFAULT_PITCH_DEPTH),
                 )
             )
 

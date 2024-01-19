@@ -8,9 +8,8 @@ import more_itertools
 from libresvip.core.exceptions import ParamsError
 from libresvip.utils import clamp, find_index
 
+from .constants import MAX_BREAK
 from .lambert_w import LambertW
-
-MAX_BREAK = 0.01
 
 
 class NoteStruct(NamedTuple):

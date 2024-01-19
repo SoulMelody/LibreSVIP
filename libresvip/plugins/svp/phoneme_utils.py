@@ -6,20 +6,8 @@ from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 
+from .constants import DEFAULT_DURATIONS, DEFAULT_PHONE_RATIO
 from .model import SVDatabase, SVNoteAttributes
-
-default_durations = {
-    "stop": 0.10,
-    "affricate": 0.125,
-    "fricative": 0.125,
-    "aspirate": 0.094,
-    "liquid": 0.062,
-    "nasal": 0.094,
-    "vowel": 0.0,
-    "semivowel": 0.055,
-    "diphthong": 0.0,
-}
-default_phone_ratio = 1.8
 
 resource_dir = package_path("libresvip.plugins.svp")
 phoneme_dictionary = json.loads(
@@ -74,7 +62,7 @@ def default_phone_marks(pinyin: str) -> list[float]:
     if pinyin not in phoneme_dictionary:
         pinyin = DEFAULT_PHONEME
     phone_parts = phoneme_dictionary[pinyin]
-    res[0] = default_durations[phone_parts[0]]
+    res[0] = getattr(DEFAULT_DURATIONS, phone_parts[0])
     index = 0 if phone_parts[0] in {"vowel", "diphthong"} else 1
-    res[1] = default_phone_ratio if index < len(phone_parts) else 0.0
+    res[1] = DEFAULT_PHONE_RATIO if index < len(phone_parts) else 0.0
     return res

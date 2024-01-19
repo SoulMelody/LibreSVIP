@@ -25,6 +25,7 @@ from libresvip.utils import (
     ratio_to_db,
 )
 
+from .constants import TICK_RATE
 from .interval_utils import ticks_to_position
 from .model import (
     SVAudio,
@@ -168,7 +169,7 @@ class SynthVGenerator:
             res -= (current_pos - actual_pos) * 120 / self.first_bar_tempo[i].bpm
         else:
             res += actual_pos * 120 / self.first_bar_tempo[0].bpm
-        return round(res * 1470000)
+        return round(res * TICK_RATE)
 
     @staticmethod
     def generate_volume(volume: float) -> float:
