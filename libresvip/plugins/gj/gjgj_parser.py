@@ -31,7 +31,7 @@ from .model import (
     GjgjVolumeMap,
 )
 from .options import InputOptions
-from .singers import id2singer
+from .singers import DEFAULT_SINGER, id2singer
 
 
 @dataclasses.dataclass
@@ -95,7 +95,7 @@ class GjgjParser:
     def parse_singing_tracks(self, tracks: list[GjgjSingingTrack]) -> list[Track]:
         return [
             SingingTrack(
-                ai_singer_name=id2singer[track.singer_info.display_name],
+                ai_singer_name=id2singer.get(track.singer_info.display_name, DEFAULT_SINGER),
                 mute=track.master_volume.mute,
                 note_list=self.parse_notes(track.beat_items),
                 edited_params=self.parse_params(track),

@@ -89,7 +89,7 @@ class BinarySvipGenerator:
                 beat_list.append(self.generate_time_signature(beat))
         model.beat_list.buf.size = len(beat_list)
         model.beat_list.buf.version = VALUE_LIST_VERSION_SONG_BEAT
-        model.beat_list.buf1 = model.beat_list.buf
+        model.beat_list.buf_1 = model.beat_list.buf
 
         # tempo
         tempo_list = model.tempo_list.buf.items
@@ -100,7 +100,7 @@ class BinarySvipGenerator:
                 tempo_list.append(self.generate_song_tempo(tempo))
         model.tempo_list.buf.size = len(tempo_list)
         model.tempo_list.buf.version = VALUE_LIST_VERSION_SONG_TEMPO
-        model.tempo_list.buf1 = model.tempo_list.buf
+        model.tempo_list.buf_1 = model.tempo_list.buf
 
         # tracks
         track_list = []
@@ -143,7 +143,7 @@ class BinarySvipGenerator:
                     note_list.append(new_note)
             s_track.note_list.buf.size = len(note_list)
             s_track.note_list.buf.version = VALUE_LIST_VERSION_SONG_NOTE
-            s_track.note_list.buf1 = s_track.note_list.buf
+            s_track.note_list.buf_1 = s_track.note_list.buf
 
             params = self.generate_params(track.edited_params)
             s_track.edited_pitch_line = params["Pitch"]

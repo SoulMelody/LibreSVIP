@@ -17,7 +17,7 @@ from libresvip.model.base import (
 from libresvip.utils import audio_track_info, ratio_to_db
 
 from .color_pool import random_color
-from .constants import TYPE_URL_BASE, Svip3TrackType
+from .constants import DEFAULT_SINGER_ID, TYPE_URL_BASE, Svip3TrackType
 from .model import (
     Svip3AudioPattern,
     Svip3AudioTrack,
@@ -30,7 +30,7 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
-from .singers import xstudio3_singers
+from .singers import singers_data
 
 
 @dataclasses.dataclass
@@ -149,7 +149,7 @@ class Svip3Generator:
             solo=track.solo,
             volume=self.to_decibel_volume(track.volume),
             pan=self.generate_pan(track.pan),
-            ai_singer_id=xstudio3_singers.get_uuid(track.ai_singer_name),
+            ai_singer_id=singers_data.inverse.get(track.ai_singer_name, DEFAULT_SINGER_ID),
             pattern_list=self.generate_singing_patterns(track),
         )
 

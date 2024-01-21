@@ -36,7 +36,7 @@ from .model import (
     GjgjVolumeMap,
 )
 from .options import OutputOptions
-from .singers import singer2id
+from .singers import DEFAULT_SINGER_ID, singer2id
 
 
 @dataclasses.dataclass
@@ -107,7 +107,7 @@ class GjgjGenerator:
     def generate_singing_track(self, track: SingingTrack, track_index: int) -> GjgjSingingTrack:
         return GjgjSingingTrack(
             id_value=str(track_index),
-            name=singer2id[self.options.singer or track.ai_singer_name],
+            name=singer2id.get(self.options.singer or track.ai_singer_name, DEFAULT_SINGER_ID),
             master_volume=GjgjTrackVolume(mute=track.mute),
             beat_items=self.generate_notes(track.note_list),
             tone=self.generate_pitch(track.edited_params.pitch),

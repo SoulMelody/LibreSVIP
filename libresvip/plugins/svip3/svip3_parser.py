@@ -12,13 +12,13 @@ from libresvip.model.base import (
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.utils import db_to_float, ratio_to_db
 
 from .constants import TYPE_URL_BASE, Svip3TrackType
@@ -31,7 +31,7 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
-from .singers import xstudio3_singers
+from .singers import singers_data
 
 
 @dataclasses.dataclass
@@ -127,7 +127,7 @@ class Svip3Parser:
             solo=singing_track.solo,
             volume=self.to_linear_volume(singing_track.volume),
             pan=self.parse_pan(singing_track.pan),
-            ai_singer_name=xstudio3_singers.get_name(singing_track.ai_singer_id),
+            ai_singer_name=singers_data.get(singing_track.ai_singer_id, ""),
             note_list=self.parse_notes(singing_track.pattern_list),
             edited_params=self.parse_edited_params(singing_track.pattern_list),
         )

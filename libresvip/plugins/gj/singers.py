@@ -1,11 +1,10 @@
-from collections import defaultdict
+from bidict import bidict
 
 DEFAULT_SINGER = "扇宝"
 DEFAULT_SINGER_ID = "513singer"
 
 
-singer2id = defaultdict(
-    lambda: DEFAULT_SINGER_ID,
+singer2id = bidict(
     {
         "扇宝": "513singer",
         "SING-林嘉慧": "514singer",
@@ -14,4 +13,4 @@ singer2id = defaultdict(
     },
 )
 
-id2singer = defaultdict(lambda: DEFAULT_SINGER, {value: key for key, value in singer2id.items()})
+id2singer = singer2id.inverse

@@ -14,7 +14,7 @@ synthv_language_presets = {
     "cantonese": SynthVLanguagePreset(language="cantonese", phoneset="xsampa"),
     "japanese": SynthVLanguagePreset(language="japanese", phoneset="romaji"),
     "english": SynthVLanguagePreset(language="english", phoneset="arpabet"),
-    "spanish": SynthVLanguagePreset(language="spanish", phoneset="arpabet"),
+    "spanish": SynthVLanguagePreset(language="spanish", phoneset="xsampa"),
 }
 
 

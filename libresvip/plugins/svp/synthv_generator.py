@@ -32,7 +32,6 @@ from .model import (
     SVMeter,
     SVMixer,
     SVNote,
-    SVNoteAttributes,
     SVParamCurve,
     SVParameters,
     SVPoint,
@@ -55,7 +54,7 @@ class SynthVGenerator:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pitch_simulator: PitchSimulator = dataclasses.field(init=False)
     no_vibrato_indexes: set[int] = dataclasses.field(init=False)
-    lyrics_pinyin: list[str] = dataclasses.field(init=False)
+    lyrics_phonemes: list[str] = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> SVProject:
         sv_project = SVProject()
@@ -125,11 +124,9 @@ class SynthVGenerator:
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
 
-            self.lyrics_pinyin = sv_g2p(
+            self.lyrics_phonemes = sv_g2p(
                 (SVNote.normalize_lyric(note) for note in track.note_list),
-                [SVNoteAttributes(language_override=language_preset.language)]
-                * len(track.note_list),
-                sv_track.main_ref.database,
+                [language_preset.language] * len(track.note_list),
             )
 
             sv_track.main_group.notes = self.generate_notes_with_phones(track.note_list)
@@ -319,7 +316,7 @@ class SynthVGenerator:
         buffer = []
         min_interval = 1
         last_point = None
-        for point in curve.points[skipped:]:
+        for point in curve.points.root[skipped:]:
             if self.first_bar_tick <= point.x < sys.maxsize // 2:
                 point = point._replace(x=point.x - self.first_bar_tick)
                 if point.y == termination:
@@ -398,7 +395,9 @@ class SynthVGenerator:
             return sv_note_list
         current_note = notes[0]
         current_sv_note = self.generate_note(current_note)
-        current_phone_marks = default_phone_marks(self.lyrics_pinyin[0])
+        current_phone_marks = default_phone_marks(
+            self.lyrics_phonemes[0], self.options.language_override
+        )
         if (
             current_phone_marks[0] > 0
             and notes[0].edited_phones is not None
@@ -407,10 +406,10 @@ class SynthVGenerator:
             ratio = notes[0].edited_phones.head_length_in_secs / current_phone_marks[0]
             current_sv_note.attributes.set_phone_duration(0, clamp(ratio, 0.2, 1.8))
         for next_note, cur_pinyin, next_pinyin in zip(
-            notes[1:], self.lyrics_pinyin[:-1], self.lyrics_pinyin[1:]
+            notes[1:], self.lyrics_phonemes[:-1], self.lyrics_phonemes[1:]
         ):
             next_sv_note = self.generate_note(next_note)
-            next_phone_marks = default_phone_marks(next_pinyin)
+            next_phone_marks = default_phone_marks(next_pinyin, self.options.language_override)
 
             current_main_part_edited = (
                 current_phone_marks[1] > 0
@@ -469,7 +468,7 @@ class SynthVGenerator:
                     ratio = ratio_z
                 next_sv_note.attributes.set_phone_duration(0, ratio)
             if current_sv_note.attributes.dur is not None:
-                expected_length = number_of_phones(cur_pinyin)
+                expected_length = number_of_phones(cur_pinyin, self.options.language_override)
                 if len(current_sv_note.attributes.dur) < expected_length:
                     current_sv_note.attributes.set_phone_duration(expected_length - 1, 1.0)
 
@@ -490,7 +489,9 @@ class SynthVGenerator:
             current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
             current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
         if current_sv_note.attributes.dur is not None:
-            expected_length = number_of_phones(self.lyrics_pinyin[-1])
+            expected_length = number_of_phones(
+                self.lyrics_phonemes[-1], self.options.language_override
+            )
             if len(current_sv_note.attributes.dur) < expected_length:
                 current_sv_note.attributes.set_phone_duration(expected_length - 1, 1.0)
         sv_note_list.append(current_sv_note)

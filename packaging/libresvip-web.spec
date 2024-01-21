@@ -33,6 +33,7 @@ a = Analysis(
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
     ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata"),
     hiddenimports=[
+        "bidict",
         "construct_typed",
         "drawsvg",
         "google.protobuf.any_pb2",

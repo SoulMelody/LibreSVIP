@@ -417,7 +417,7 @@ class SynthVParser:
             if note_default_language == "japanese":
                 note.pronunciation = sv_note.phonemes
             elif note_default_language in ["mandarin", "cantonese"]:
-                note.pronunciation = xsampa2pinyin(sv_note.phonemes)
+                note.pronunciation = xsampa2pinyin(sv_note.phonemes, note_default_language)
         return note
 
     def parse_note_list(self, sv_note_list: list[SVNote], database: SVDatabase) -> list[Note]:
@@ -455,20 +455,22 @@ class SynthVParser:
                 ]
             note_list = [self.parse_note(note, database) for note in sv_note_list]
         if len(sv_note_list):
-            lyrics, note_attributes = zip(
+            lyrics, languages = zip(
                 *(
-                    (SVNote.normalize_lyric(note), sv_note.attributes)
+                    (SVNote.normalize_lyric(note), sv_note.attributes.default_language(database))
                     for note, sv_note in zip(note_list, sv_note_list)
                 )
             )
         else:
-            lyrics, note_attributes = [], []
-        lyrics_phoneme = sv_g2p(lyrics, note_attributes, database)
+            lyrics, languages = [], []
+        lyrics_phoneme = sv_g2p(lyrics, languages)
         if not len(note_list):
             return note_list
         current_sv_note = sv_note_list[0]
         current_duration = current_sv_note.attributes.dur
-        current_phone_marks = default_phone_marks(lyrics_phoneme[0])
+        current_phone_marks = default_phone_marks(
+            lyrics_phoneme[0], current_sv_note.attributes.default_language(database)
+        )
 
         if (
             current_phone_marks[0] > 0
@@ -482,7 +484,9 @@ class SynthVParser:
         for i in range(len(sv_note_list) - 1):
             next_sv_note = sv_note_list[i + 1]
             next_duration = next_sv_note.attributes.dur
-            next_phone_marks = default_phone_marks(lyrics_phoneme[i + 1])
+            next_phone_marks = default_phone_marks(
+                lyrics_phoneme[i + 1], next_sv_note.attributes.default_language(database)
+            )
 
             index = 1 if next_phone_marks[0] > 0 else 0
             current_main_part_edited = (

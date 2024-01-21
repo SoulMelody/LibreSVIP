@@ -122,9 +122,11 @@ class AceGenerator:
                 language=self.options.lyric_language,
             )
             if track.ai_singer_name in singer2id and track.ai_singer_name in singer2seed:
-                ace_vocal_track.singer.singer_id = singer2id[track.ai_singer_name]
+                ace_vocal_track.singer.singer_id = singer2id.get(
+                    track.ai_singer_name, DEFAULT_SINGER_ID
+                )
                 ace_vocal_track.singer.composition.append(
-                    AcepSeedComposition(code=singer2seed[track.ai_singer_name])
+                    AcepSeedComposition(code=singer2seed.get(track.ai_singer_name, DEFAULT_SEED))
                 )
             else:
                 ace_vocal_track.singer.singer_id = DEFAULT_SINGER_ID
