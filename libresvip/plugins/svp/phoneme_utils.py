@@ -11,13 +11,13 @@ from libresvip.core.lyric_phoneme.japanese import to_romaji
 from .constants import DEFAULT_DURATIONS, DEFAULT_PHONE_RATIO
 
 resource_dir = package_path("libresvip.plugins.svp")
-phoneme_dictionary = json.loads(
-    (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
+phoneme_categories_by_language = json.loads(
+    (resource_dir / "phoneme_categories.json").read_text(encoding="utf-8")
 )
-xsampa_dictionary = {
-    language: bidict(xsampa_dict)
+phoneme_dictionary = {
+    language: bidict(xsampa_dict) if language in ["chinese", "cantonese"] else xsampa_dict
     for language, xsampa_dict in json.loads(
-        (resource_dir / "xsampa_dictionary.json").read_text(encoding="utf-8")
+        (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
     ).items()
 }
 
@@ -48,13 +48,13 @@ def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
 
 def xsampa2pinyin(xsampa: str, language: str) -> str:
     xsampa = re.sub(r"\s+", " ", xsampa).strip()
-    return xsampa_dictionary[language].inverse.get(xsampa, DEFAULT_PHONEME)
+    return phoneme_dictionary[language].inverse.get(xsampa, DEFAULT_PHONEME)
 
 
 def get_phoneme_categories(phoneme_parts: list[str], language: str) -> list[str]:
-    if language in phoneme_dictionary:
+    if language in phoneme_categories_by_language:
         phoneme_categories = [
-            phoneme_dictionary[language].get(phoneme) for phoneme in phoneme_parts
+            phoneme_categories_by_language[language].get(phoneme) for phoneme in phoneme_parts
         ]
         if all(phoneme_category is not None for phoneme_category in phoneme_categories):
             return phoneme_categories
@@ -75,5 +75,7 @@ def default_phone_marks(phoneme: str, language: str) -> list[float]:
     if phoneme_categories := get_phoneme_categories(phoneme_parts, language):
         res[0] = getattr(DEFAULT_DURATIONS, phoneme_categories[0])
         index = 0 if phoneme_categories[0] in {"vowel", "diphthong"} else 1
-        res[1] = DEFAULT_PHONE_RATIO if index < len(phoneme_categories) else 0.0
+        res[1 : len(phoneme_categories)] = [
+            DEFAULT_PHONE_RATIO if index < len(phoneme_categories) else 0.0
+        ] * (len(phoneme_categories) - 1)
     return res

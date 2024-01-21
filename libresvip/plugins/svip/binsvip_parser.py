@@ -13,7 +13,7 @@ from libresvip.model.base import (
     VibratoParam,
 )
 
-from .models import OpenSvipNoteHeadTags, OpenSvipReverbPresets, opensvip_singers
+from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.xstudio_models import (
     XSAppModel,
     XSInstrumentTrack,
@@ -57,7 +57,7 @@ class BinarySvipParser:
         if isinstance(track, XSSingingTrack):
             result_track = SingingTrack()
             result_track.ai_singer_name = opensvip_singers.get_name(track.ai_singer_id)
-            result_track.reverb_preset = OpenSvipReverbPresets.get_name(track.reverb_preset.value)
+            result_track.reverb_preset = svip_reverb_presets.inverse.get(track.reverb_preset.value)
             for note in track.note_list.buf.items:
                 if (ele := self.parse_note(note)) is not None:
                     result_track.note_list.append(ele)
@@ -96,7 +96,7 @@ class BinarySvipParser:
             start_pos=note.start_pos,
             length=note.width_pos,
             key_number=note.key_index - 12,
-            head_tag=OpenSvipNoteHeadTags.get_name(note.head_tag.value),
+            head_tag=svip_note_head_tags.inverse.get(note.head_tag.value),
             lyric=note.lyric,
         )
         if pronunciation := note.pronouncing:

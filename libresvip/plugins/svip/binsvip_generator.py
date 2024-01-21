@@ -18,7 +18,7 @@ from libresvip.model.base import (
     VibratoParam,
 )
 
-from .models import OpenSvipNoteHeadTags, OpenSvipReverbPresets, opensvip_singers
+from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.constants import (
     VALUE_LIST_VERSION_SONG_BEAT,
     VALUE_LIST_VERSION_SONG_ITRACK,
@@ -33,7 +33,11 @@ from .msnrbf.xstudio_models import (
     XSLineParam,
     XSLineParamNode,
     XSNote,
+    XSNoteHeadTag,
+    XSNoteHeadTagEnum,
     XSNotePhoneInfo,
+    XSReverbPreset,
+    XSReverbPresetEnum,
     XSSingingTrack,
     XSSongBeat,
     XSSongTempo,
@@ -58,13 +62,7 @@ class BinarySvipGenerator:
             else "SVIP6.0.0"
         )
         model = XSAppModel()
-        self.first_bar_tick = int(
-            round(
-                1920.0
-                * project.time_signature_list[0].numerator
-                / project.time_signature_list[0].denominator
-            )
-        )
+        self.first_bar_tick = int(round(project.time_signature_list[0].bar_length()))
         self.first_bar_tempo = [
             tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]
@@ -133,7 +131,9 @@ class BinarySvipGenerator:
                 singer_id = opensvip_singers.get_id(self.options.singer)
             s_track = XSSingingTrack(
                 ai_singer_id=singer_id,
-                reverb_preset=OpenSvipReverbPresets.get_index(track.reverb_preset),
+                reverb_preset=XSReverbPreset(
+                    svip_reverb_presets.get(track.reverb_preset, XSReverbPresetEnum.NONE)
+                ),
             )
 
             note_list = s_track.note_list.buf.items
@@ -171,7 +171,9 @@ class BinarySvipGenerator:
             xs_note = XSNote(
                 start_pos=round(self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)),
                 key_index=note.key_number + 12,
-                head_tag=OpenSvipNoteHeadTags.get_index(note.head_tag),
+                head_tag=XSNoteHeadTag(
+                    value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
+                ),
                 lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
             )
             xs_note.width_pos = (
@@ -244,7 +246,7 @@ class BinarySvipGenerator:
                         round(
                             self.synchronizer.get_actual_ticks_from_ticks(p.x - self.first_bar_tick)
                         )
-                        + 1920
+                        + self.first_bar_tick
                     )
                 else:
                     pos = p.x

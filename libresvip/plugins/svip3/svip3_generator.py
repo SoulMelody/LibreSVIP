@@ -131,7 +131,7 @@ class Svip3Generator:
                 kwargs["real_pos"] = -track.offset
             pattern_end = kwargs["real_pos"] + kwargs["play_dur"]
             if pattern_end > self.song_duration:
-                self.song_duration = round(pattern_end + 1920)
+                self.song_duration = round(pattern_end + self.first_bar_length)
         patterns = []
         if kwargs:
             kwargs |= {
@@ -156,14 +156,14 @@ class Svip3Generator:
     def generate_singing_patterns(self, track: SingingTrack) -> list[Svip3SingingPattern]:
         last_note = track.note_list[-1]
         if last_note.end_pos > self.song_duration:
-            self.song_duration = last_note.end_pos + 1920
+            self.song_duration = last_note.end_pos + self.first_bar_length
         return [
             Svip3SingingPattern(
                 name=track.title,
                 real_pos=0,
                 play_pos=0,
-                real_dur=last_note.end_pos + 1920,
-                play_dur=last_note.end_pos + 1920,
+                real_dur=last_note.end_pos + self.first_bar_length,
+                play_dur=last_note.end_pos + self.first_bar_length,
                 is_mute=track.mute,
                 note_list=self.generate_notes(track.note_list),
                 edited_pitch_line=self.generate_pitch_param(track.edited_params.pitch),

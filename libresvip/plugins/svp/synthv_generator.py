@@ -405,11 +405,11 @@ class SynthVGenerator:
         ):
             ratio = notes[0].edited_phones.head_length_in_secs / current_phone_marks[0]
             current_sv_note.attributes.set_phone_duration(0, clamp(ratio, 0.2, 1.8))
-        for next_note, cur_pinyin, next_pinyin in zip(
+        for next_note, cur_phoneme, next_phoneme in zip(
             notes[1:], self.lyrics_phonemes[:-1], self.lyrics_phonemes[1:]
         ):
             next_sv_note = self.generate_note(next_note)
-            next_phone_marks = default_phone_marks(next_pinyin, self.options.language_override)
+            next_phone_marks = default_phone_marks(next_phoneme, self.options.language_override)
 
             current_main_part_edited = (
                 current_phone_marks[1] > 0
@@ -468,7 +468,7 @@ class SynthVGenerator:
                     ratio = ratio_z
                 next_sv_note.attributes.set_phone_duration(0, ratio)
             if current_sv_note.attributes.dur is not None:
-                expected_length = number_of_phones(cur_pinyin, self.options.language_override)
+                expected_length = number_of_phones(cur_phoneme, self.options.language_override)
                 if len(current_sv_note.attributes.dur) < expected_length:
                     current_sv_note.attributes.set_phone_duration(expected_length - 1, 1.0)
 
