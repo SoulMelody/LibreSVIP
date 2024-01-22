@@ -137,6 +137,7 @@ class VocaloidGenerator:
                         )
                     )
             elif isinstance(track, SingingTrack):
+                singing_track_found = True
                 notes = [
                     VocaloidNotes(
                         pos=note.start_pos,

@@ -114,6 +114,13 @@ class Vsq3Generator:
     ) -> tuple[list[Vsq3VsTrack], list[Vsq3VsUnit]]:
         vs_track_list = []
         vs_unit_list = []
+        if len(track_list):
+            warnings.warn(
+                _(
+                    'Phonemes of all notes were set to "la". Please use "Lyrics" -> "Convert Phonemes" in the menu of VOCALOID3 to reset them.'
+                ),
+                PhonemeWarning,
+            )
         for track_index, track in enumerate(track_list):
             vsqx_track = Vsq3VsTrack(
                 vs_track_no=track_index,
@@ -186,13 +193,6 @@ class Vsq3Generator:
                 value="l a",
             )
             note_list.append(vsqx_note)
-        if len(note_list):
-            warnings.warn(
-                _(
-                    'Phonemes of all notes were set to "la". Please use "Lyrics" -> "Convert Phonemes" in the menu of VOCALOID3 to reset them.'
-                ),
-                PhonemeWarning,
-            )
         return note_list
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq3MCtrl]:
