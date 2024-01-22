@@ -6,8 +6,8 @@ class NotesWarning(BaseWarning):
     """Warning for notes"""
 
 
-class LyricsWarning(BaseWarning):
-    """Warning for lyrics"""
+class PhonemeWarning(BaseWarning):
+    """Warning for phoneme"""
 
 
 class ParamsWarning(BaseWarning):

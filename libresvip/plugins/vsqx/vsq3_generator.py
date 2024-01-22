@@ -1,10 +1,12 @@
 import dataclasses
 import operator
+import warnings
+from gettext import gettext as _
 
-from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -181,7 +183,13 @@ class Vsq3Generator:
                 if param_value is not None
             )
             vsqx_note.phnms = Vsq3TypePhonemes(
-                value=note.pronunciation or DEFAULT_PHONEME,
+                value="l a",
+            )
+            warnings.warn(
+                _(
+                    'Phonemes of all notes were set to "la". Please reset them to make it sound correctly.'
+                ),
+                PhonemeWarning,
             )
             note_list.append(vsqx_note)
         return note_list

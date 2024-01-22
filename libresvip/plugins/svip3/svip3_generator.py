@@ -1,9 +1,13 @@
 import dataclasses
+import re
+import warnings
+from gettext import gettext as _
 from urllib.parse import urljoin
 
 from google.protobuf import any_pb2
 
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -31,6 +35,8 @@ from .model import (
     Svip3SongTempo,
 )
 from .singers import singers_data
+
+PINYIN_PATTERN = re.compile(r"^[a-z]+$")
 
 
 @dataclasses.dataclass
@@ -188,12 +194,21 @@ class Svip3Generator:
                     self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
                     - phone_start_in_ticks
                 )
+            if PINYIN_PATTERN.fullmatch(note.lyric) is not None:
+                pronunciation = note.lyric
+            elif note.pronunciation and PINYIN_PATTERN.fullmatch(note.pronunciation) is not None:
+                pronunciation = note.pronunciation
+            else:
+                pronunciation = note.pronunciation or note.lyric
+                msg_prefx = _("Unsupported pinyin:")
+                warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
+                pronunciation = ""
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,
                 key_index=note.key_number,
                 lyric=note.lyric,
-                pronouncing=note.pronunciation,
+                pronouncing=pronunciation,
                 consonant_len=consonant_length,
                 has_consonant=has_consonant,
                 sp_len=400 if note.head_tag == "V" else 0,

@@ -21,7 +21,6 @@ from .model import (
     VsqxMasterTrack,
     VsqxMCtrl,
     VsqxNote,
-    VsqxParameterNames,
     VsqxTempo,
     VsqxTimeSig,
     VsqxVsTrack,
@@ -39,7 +38,7 @@ from .vocaloid_pitch import (
 @dataclasses.dataclass
 class VsqxParser:
     options: InputOptions
-    param_names: VsqxParameterNames = dataclasses.field(init=False)
+    param_names: type = dataclasses.field(init=False)
 
     def parse_project(self, vsqx_project: Vsqx) -> Project:
         if vsqx_project.Meta.name == "vsq3":
