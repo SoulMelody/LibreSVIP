@@ -1,9 +1,12 @@
 import dataclasses
 import pathlib
+import warnings
+from gettext import gettext as _
 from typing import Optional
 
-from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Project,
@@ -98,6 +101,7 @@ class VocaloidGenerator:
 
     def generate_tracks(self, track_list: list[Track]) -> list[VocaloidTracks]:
         tracks: list[VocaloidTracks] = []
+        singing_track_found = False
         for track in track_list:
             if isinstance(track, InstrumentalTrack):
                 wav_path = pathlib.Path(track.audio_file_path)
@@ -139,7 +143,7 @@ class VocaloidGenerator:
                         duration=note.length,
                         number=note.key_number,
                         lyric=note.lyric,
-                        phoneme=note.pronunciation or DEFAULT_PHONEME,
+                        phoneme="l a",
                         lang_id=self.options.default_lang_id,
                     )
                     for note in track.note_list
@@ -181,6 +185,13 @@ class VocaloidGenerator:
                         self.end_tick,
                         duration,
                     )
+        if singing_track_found:
+            warnings.warn(
+                _(
+                    'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages in the menu of VOCALOID to reset them.'
+                ),
+                PhonemeWarning,
+            )
         return tracks
 
     @staticmethod

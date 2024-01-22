@@ -185,13 +185,14 @@ class Vsq4Generator:
             vsqx_note.phnms = Vsq4TypePhonemes(
                 value="l a",
             )
+            note_list.append(vsqx_note)
+        if len(note_list):
             warnings.warn(
                 _(
-                    'Phonemes of all notes were set to "la". Please reset them to make it sound correctly.'
+                    'Phonemes of all notes were set to "la". Please use "Lyrics" -> "Convert Phonemes" in the menu of VOCALOID4 to reset them.'
                 ),
                 PhonemeWarning,
             )
-            note_list.append(vsqx_note)
         return note_list
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq4MCtrl]:

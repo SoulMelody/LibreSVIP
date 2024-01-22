@@ -1,13 +1,15 @@
 import dataclasses
 import operator
+import warnings
+from gettext import gettext as _
 from typing import Optional
 
 import mido_fix as mido
 
 from libresvip.core.constants import (
-    DEFAULT_PHONEME,
     TICKS_IN_BEAT,
 )
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -150,9 +152,15 @@ class VsqGenerator:
             lyrics_lines.extend(
                 [
                     f"[h#{number.zfill(4)}]",
-                    f"""L0="{lyric}","{note.pronunciation or DEFAULT_PHONEME}",0.000000,64,0,0""",
+                    f"""L0="{lyric}","l a",0.000000,64,0,0""",
                 ]
             )
+        warnings.warn(
+            _(
+                'Phonemes of all notes were set to "la". Please reset them to make it sound correctly.'
+            ),
+            PhonemeWarning,
+        )
         result = [
             "[Common]",
             "Version=DSB301",
