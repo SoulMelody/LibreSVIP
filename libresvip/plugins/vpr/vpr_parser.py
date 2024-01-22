@@ -140,7 +140,7 @@ class VocaloidParser:
                 length=note.duration,
                 key_number=note.number,
                 lyric=note.lyric or default_lyric,
-                pronunciation=note.phoneme,
+                pronunciation=None,
             )
             for note in notes
         ]

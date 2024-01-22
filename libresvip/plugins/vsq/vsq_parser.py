@@ -1,6 +1,7 @@
 import configparser
 import dataclasses
 import math
+import re
 from typing import Optional
 
 import mido_fix as mido
@@ -16,12 +17,14 @@ from libresvip.model.base import (
     TimeSignature,
 )
 
-from .options import InputOptions
+from .options import BreathOption, InputOptions
 from .vocaloid_pitch import (
     ControllerEvent,
     VocaloidPartPitchData,
     pitch_from_vocaloid_parts,
 )
+
+BREATH_PATTERN = re.compile("br[1-5]")
 
 
 @dataclasses.dataclass
@@ -188,16 +191,21 @@ class VsqParser:
                 if vsq_note["type"] == "Anote":
                     if (length := vsq_note.getint("length")) and (key := vsq_note.getint("note#")):
                         lyric_handle = vsq_note.get("lyrichandle", fallback="")
-                        lyric_value, xsampa_value = vsq_track.get(
+                        lyric_value, phoneme_value = vsq_track.get(
                             lyric_handle, "L0", fallback=","
                         ).split(",")[:2]
+                        if (
+                            self.options.breath == BreathOption.IGNORE
+                            and BREATH_PATTERN.fullmatch(phoneme_value.strip('"')) is not None
+                        ):
+                            continue
                         notes.append(
                             Note(
                                 start_pos=tick,
                                 length=length,
                                 key_number=key,
                                 lyric=lyric_value.strip('"'),
-                                pronunciation=xsampa_value.strip('"'),
+                                pronunciation=None,
                             )
                         )
         return notes

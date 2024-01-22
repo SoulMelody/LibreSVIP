@@ -175,13 +175,12 @@ class BinarySvipGenerator:
                     value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
                 ),
                 lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
+                pronouncing=note.pronunciation or "",
             )
             xs_note.width_pos = (
                 round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos))
                 - xs_note.start_pos
             )
-            if note.pronunciation:
-                xs_note.pronouncing = note.pronunciation
             if note.edited_phones is not None:
                 xs_note.note_phone_info = self.generate_phones(note.edited_phones)
             if note.vibrato is not None:

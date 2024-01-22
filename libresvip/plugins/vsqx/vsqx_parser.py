@@ -126,7 +126,7 @@ class VsqxParser:
                 start_pos=note.pos_tick + tick_offset,
                 length=note.dur_tick,
                 lyric=note.lyric or DEFAULT_ENGLISH_LYRIC,
-                pronunciation=note.phnms.value if note.phnms is not None else None,
+                pronunciation=None,
                 key_number=note.note_num,
             )
             for note in notes
