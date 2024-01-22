@@ -15,7 +15,7 @@ phoneme_categories_by_language = json.loads(
     (resource_dir / "phoneme_categories.json").read_text(encoding="utf-8")
 )
 phoneme_dictionary = {
-    language: bidict(xsampa_dict) if language in ["chinese", "cantonese"] else xsampa_dict
+    language: bidict(xsampa_dict) if language in ["mandarin", "cantonese"] else xsampa_dict
     for language, xsampa_dict in json.loads(
         (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
     ).items()
