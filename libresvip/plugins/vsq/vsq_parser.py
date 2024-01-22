@@ -194,11 +194,11 @@ class VsqParser:
                         lyric_value, phoneme_value = vsq_track.get(
                             lyric_handle, "L0", fallback=","
                         ).split(",")[:2]
-                        if (
-                            self.options.breath == BreathOption.IGNORE
-                            and BREATH_PATTERN.fullmatch(phoneme_value.strip('"')) is not None
-                        ):
-                            continue
+                        if BREATH_PATTERN.fullmatch(phoneme_value.strip('"')) is not None:
+                            if self.options.breath == BreathOption.IGNORE:
+                                continue
+                            else:
+                                lyric_value = phoneme_value
                         notes.append(
                             Note(
                                 start_pos=tick,

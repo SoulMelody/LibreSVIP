@@ -3,15 +3,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-15 01:09+0800\n"
+"POT-Creation-Date: 2024-01-22 11:14+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.9.0\n"
+"X-Generator: Translate Toolkit 3.12.1\n"
 
+#: .svip3.name
+msgid "Svip3"
+msgstr ""
+
+#: .svip3.file_format
 #: .svip3.format_desc
 msgid "Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程文件"
@@ -19,3 +24,7 @@ msgstr "网易云音乐·X Studio 工程文件"
 #: .svip3.description
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程转换插件"
+
+#: .svip3.messages[0]
+msgid "Unsupported pinyin:"
+msgstr "不支持的拼音："

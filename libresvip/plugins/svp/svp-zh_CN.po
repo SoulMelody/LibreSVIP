@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 16:19+0800\n"
+"POT-Creation-Date: 2024-01-22 11:14+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.10.1\n"
+"X-Generator: Translate Toolkit 3.12.1\n"
 
 #: .svp.name
 msgid "SynthV Studio"
@@ -179,3 +179,27 @@ msgid ""
 msgstr ""
 "减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
 "Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
+
+#: .svp.dump[2].title
+msgid "Override default language for the voicebank"
+msgstr "指定声库的默认语种"
+
+#: .svp.dump[2].choices[0].text
+msgid "Mandarin"
+msgstr "普通话"
+
+#: .svp.dump[2].choices[1].text
+msgid "Cantonese"
+msgstr "粤语"
+
+#: .svp.dump[2].choices[2].text
+msgid "Japanese"
+msgstr "日语"
+
+#: .svp.dump[2].choices[3].text
+msgid "English"
+msgstr "英语"
+
+#: .svp.dump[2].choices[4].text
+msgid "Spanish"
+msgstr "西班牙语"

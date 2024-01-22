@@ -351,94 +351,94 @@ msgstr "在命令行模式中不支持设置 {} 选项"
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
-#: ../libresvip/cli/commands/plugin.py:24
+#: ../libresvip/cli/commands/plugin.py:26
 msgid "The plugin is successfully disabled."
 msgstr "插件已成功禁用。"
 
-#: ../libresvip/cli/commands/plugin.py:26
+#: ../libresvip/cli/commands/plugin.py:28
 msgid "Failed to disable the plugin!"
 msgstr "插件禁用失败！"
 
-#: ../libresvip/cli/commands/plugin.py:33
+#: ../libresvip/cli/commands/plugin.py:35
 msgid "The plugin is successfully enabled."
 msgstr "插件已成功启用。"
 
-#: ../libresvip/cli/commands/plugin.py:35
+#: ../libresvip/cli/commands/plugin.py:37
 msgid "Failed to enable the plugin!"
 msgstr "插件启用失败！"
 
-#: ../libresvip/cli/commands/plugin.py:37
+#: ../libresvip/cli/commands/plugin.py:39
 msgid "Unable to find the plugin."
 msgstr "无法找到该插件。"
 
-#: ../libresvip/cli/commands/plugin.py:50
+#: ../libresvip/cli/commands/plugin.py:52
 msgid "Cannot find plugin "
 msgstr "未找到插件 "
 
-#: ../libresvip/cli/commands/plugin.py:56
+#: ../libresvip/cli/commands/plugin.py:58
 msgid "No plugins are currently installed."
 msgstr "目前尚未安装任何插件。"
 
-#: ../libresvip/cli/commands/plugin.py:59
+#: ../libresvip/cli/commands/plugin.py:61
 msgid "No."
 msgstr "序号"
 
-#: ../libresvip/cli/commands/plugin.py:60
+#: ../libresvip/cli/commands/plugin.py:62
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:62 ../libresvip/web/pages.py:172
+#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:180
 msgid "Author"
 msgstr "作者"
 
-#: ../libresvip/cli/commands/plugin.py:63
+#: ../libresvip/cli/commands/plugin.py:65
 msgid "Identifier"
 msgstr "标识符"
 
-#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/cli/commands/plugin.py:66
 msgid "Applicable file format"
 msgstr "适用格式"
 
-#: ../libresvip/cli/commands/plugin.py:83
+#: ../libresvip/cli/commands/plugin.py:85
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:85
+#: ../libresvip/cli/commands/plugin.py:87
 msgid "Author: "
 msgstr "作者： "
 
-#: ../libresvip/cli/commands/plugin.py:89
+#: ../libresvip/cli/commands/plugin.py:91
 msgid "Website: "
 msgstr "主页： "
 
-#: ../libresvip/cli/commands/plugin.py:94
+#: ../libresvip/cli/commands/plugin.py:96
 msgid "This plugin is applicable to"
 msgstr "此插件适用于"
 
-#: ../libresvip/cli/commands/plugin.py:99
+#: ../libresvip/cli/commands/plugin.py:101
 msgid ""
 "If you want to use this plugin, please specify '-i {}' (input) or '-o "
 "{}' (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:104
+#: ../libresvip/cli/commands/plugin.py:106
 msgid "Description: "
 msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:105
+#: ../libresvip/cli/commands/plugin.py:107
 msgid "input"
 msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:105
+#: ../libresvip/cli/commands/plugin.py:107
 msgid "output"
 msgstr "输出"
 
-#: ../libresvip/cli/commands/plugin.py:114
+#: ../libresvip/cli/commands/plugin.py:115
 msgid "This plugin supports the following {} conversion options:"
 msgstr "本插件可指定以下{}转换选项："
 
 #: ../libresvip/cli/commands/plugin.py:127
-#: ../libresvip/cli/commands/plugin.py:158
+#: ../libresvip/cli/commands/plugin.py:152
 msgid "Default: "
 msgstr "默认值："
 
@@ -446,7 +446,7 @@ msgstr "默认值："
 msgid "Available values:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/plugin.py:152
+#: ../libresvip/cli/commands/plugin.py:146
 msgid "Available fields:"
 msgstr "可用值如下："
 
@@ -474,121 +474,125 @@ msgstr "使其它音轨静音"
 msgid "Output Options："
 msgstr "导出选项："
 
-#: ../libresvip/model/relative_pitch_curve.py:86
+#: ../libresvip/model/relative_pitch_curve.py:95
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
-#: ../libresvip/web/pages.py:162
+#: ../libresvip/web/pages.py:170
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:182 ../libresvip/web/pages.py:199
-#: ../libresvip/web/pages.py:825 ../libresvip/web/pages.py:841
-#: ../libresvip/web/pages.py:943 ../libresvip/web/pages.py:987
+#: ../libresvip/web/pages.py:190 ../libresvip/web/pages.py:207
+#: ../libresvip/web/pages.py:833 ../libresvip/web/pages.py:849
+#: ../libresvip/web/pages.py:947 ../libresvip/web/pages.py:999
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:189
+#: ../libresvip/web/pages.py:197
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:321
+#: ../libresvip/web/pages.py:325
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:325
+#: ../libresvip/web/pages.py:329
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:425 ../libresvip/web/pages.py:447
+#: ../libresvip/web/pages.py:440 ../libresvip/web/pages.py:469
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:452
-#: ../libresvip/web/pages.py:587 ../libresvip/web/pages.py:919
-#: ../libresvip/web/pages.py:957 ../libresvip/web/pages.py:1003
+#: ../libresvip/web/pages.py:445 ../libresvip/web/pages.py:474
+#: ../libresvip/web/pages.py:602 ../libresvip/web/pages.py:923
+#: ../libresvip/web/pages.py:965 ../libresvip/web/pages.py:1022
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:585
+#: ../libresvip/web/pages.py:600
 msgid "Conversion Progress"
 msgstr "转换进度"
 
-#: ../libresvip/web/pages.py:590
+#: ../libresvip/web/pages.py:605
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:593
+#: ../libresvip/web/pages.py:608
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:648 ../libresvip/web/pages.py:687
+#: ../libresvip/web/pages.py:661 ../libresvip/web/pages.py:698
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
-#: ../libresvip/web/pages.py:672
+#: ../libresvip/web/pages.py:685
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:684
+#: ../libresvip/web/pages.py:695
 msgid "Compressed Archive (*.zip)"
 msgstr "压缩文件 (*.zip)"
 
-#: ../libresvip/web/pages.py:695
+#: ../libresvip/web/pages.py:706
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:779 ../libresvip/web/pages.py:799
+#: ../libresvip/web/pages.py:787 ../libresvip/web/pages.py:807
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:788 ../libresvip/web/pages.py:1015
+#: ../libresvip/web/pages.py:796 ../libresvip/web/pages.py:1034
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:816 ../libresvip/web/pages.py:946
+#: ../libresvip/web/pages.py:824 ../libresvip/web/pages.py:950
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:833 ../libresvip/web/pages.py:990
+#: ../libresvip/web/pages.py:841 ../libresvip/web/pages.py:1002
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:846
+#: ../libresvip/web/pages.py:854
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:868
+#: ../libresvip/web/pages.py:876
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:920
+#: ../libresvip/web/pages.py:924
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:934
+#: ../libresvip/web/pages.py:938
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:967
+#: ../libresvip/web/pages.py:975
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:974
+#: ../libresvip/web/pages.py:982
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1069
+#: ../libresvip/web/pages.py:1092
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1092
+#: ../libresvip/web/pages.py:1121
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:1093
+#: ../libresvip/web/pages.py:1122
 msgid "Advanced Options"
 msgstr "高级选项"
+
+#: ../libresvip/utils.py:134
+msgid "Audio file not found: "
+msgstr "未找到音频文件："
 
 #: .acep.name
 msgid "ACE Studio"
@@ -938,7 +942,7 @@ msgstr "音高值越界"
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -946,7 +950,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -1016,11 +1020,11 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[2] .ds.messages[1]
+#: .ds.messages[2] .ds.messages[1]
 msgid ""
 "The selected dictionary does not contain the pronunciation “{}”. Please "
 "check the pronunciation or try another dictionary."
@@ -1038,7 +1042,7 @@ msgstr "dv 格式转换插件。"
 msgid "gjgj"
 msgstr ""
 
-#: .gj.file_format .gj.format_desc
+#: .gj.file_format .gj.format_desc
 msgid "Gejigeji project file"
 msgstr "歌叽歌叽工程文件"
 
@@ -1644,7 +1648,11 @@ msgstr "预期外的枚举值"
 msgid "Root not found"
 msgstr "未找到根对象"
 
-#: .svip3.format_desc
+#: .svip3.name
+msgid "Svip3"
+msgstr ""
+
+#: .svip3.file_format .svip3.format_desc
 msgid "Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程文件"
 
@@ -1656,7 +1664,7 @@ msgstr "网易云音乐·X Studio 工程转换插件"
 msgid "SynthV Studio"
 msgstr ""
 
-#: .svp.file_format .svp.format_desc
+#: .svp.file_format .svp.format_desc
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio 工程文件"
 
@@ -1820,6 +1828,22 @@ msgstr ""
 "减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
 "Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
 
+#: .svp.dump[2].title
+msgid "Override default language for the voicebank"
+msgstr "指定声库的默认语种"
+
+#: .svp.dump[2].choices[0].text
+msgid "Mandarin"
+msgstr "普通话"
+
+#: .svp.dump[2].choices[1].text
+msgid "Cantonese"
+msgstr "粤语"
+
+#: .svp.dump[2].choices[4].text
+msgid "Spanish"
+msgstr "西班牙语"
+
 #: .tssln.name
 msgid "TSSln"
 msgstr ""
@@ -1886,13 +1910,25 @@ msgstr "请输入完整无误的歌手英文名字。"
 msgid "Vpr"
 msgstr ""
 
-#: .vpr.file_format .vpr.format_desc
+#: .vpr.file_format .vpr.format_desc
 msgid "New Vocaloid Project file"
 msgstr "新版Vocaloid工程格式"
 
 #: .vpr.description
 msgid "Conversion plugin for New Vocaloid project file"
 msgstr "新版Vocaloid工程格式转换插件"
+
+#: .vpr.load[0].title
+msgid "Extract audio"
+msgstr "解压音频文件"
+
+#: .vpr.load[0].description
+msgid ""
+"Extract audio from vocaloid project for later use if the path does not exist "
+"(this option has the side effect of writing additional files)"
+msgstr ""
+"若音频文件路径不存在，则从vocaloid工程文件中解压以供后续使用（此选项有写入额"
+"外文件的副作用）"
 
 #: .vpr.dump[0].title
 msgid "Is AI Singer"
@@ -1921,6 +1957,14 @@ msgstr "默认声库对应的comp_id"
 #: .vpr.dump[3].description
 msgid "Default singer name of voicebank"
 msgstr "默认声库对应的歌手名"
+
+#: .vpr.messages[0]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert "
+"Phonemes to Match Languages in the menu of VOCALOID to reset them."
+msgstr ""
+"所有音符的音素都被设为了\"la\"。请使用VOCALOID菜单中的「任务」->「发音符号匹"
+"配」功能来重置音素。"
 
 #: .vshp.format_desc
 msgid "VocalShifter project file"
@@ -1970,6 +2014,12 @@ msgstr "Vocaloid 2 序列文件"
 msgid "Conversion plugin for Vocaloid 2 sequence file"
 msgstr "Vocaloid 2 序列文件转换插件"
 
+#: .vsq.messages[0]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please reset them to make it sound "
+"correctly."
+msgstr "所有音符的音素都被设为了\"la\"。请重置音素以使其正确发音。"
+
 #: .vsqx.name
 msgid "Vsqx"
 msgstr ""
@@ -1993,6 +2043,22 @@ msgstr "美化XML"
 #: .vsqx.dump[1].description
 msgid "Whether to output pretty XML"
 msgstr "是否导出美化显示的XML"
+
+#: .vsqx.messages[0]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert "
+"Phonemes\" in the menu of VOCALOID3 to reset them."
+msgstr ""
+"所有音符的音素都被设为了\"la\"。请使用VOCALOID3菜单中的「歌词」->「音位变换」"
+"功能来重置音素。"
+
+#: .vsqx.messages[1]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert "
+"Phonemes\" in the menu of VOCALOID4 to reset them."
+msgstr ""
+"所有音符的音素都被设为了\"la\"。请使用VOCALOID4菜单中的「歌词」->「音位变换」"
+"功能来重置音素。"
 
 #: .y77.name
 msgid "Y77"

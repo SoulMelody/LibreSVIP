@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-23 12:54+0800\n"
+"POT-Creation-Date: 2024-01-22 11:14+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,3 +59,15 @@ msgstr "默认歌手名"
 #: .vsqx.dump[4].description
 msgid "Default singer name of voicebank"
 msgstr "默认声库对应的歌手名"
+
+#: .vsqx.messages[0]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert "
+"Phonemes\" in the menu of VOCALOID3 to reset them."
+msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID3菜单中的「歌词」->「音位变换」功能来重置音素。"
+
+#: .vsqx.messages[1]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert "
+"Phonemes\" in the menu of VOCALOID4 to reset them."
+msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID4菜单中的「歌词」->「音位变换」功能来重置音素。"

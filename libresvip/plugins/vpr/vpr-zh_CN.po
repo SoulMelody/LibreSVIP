@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-23 12:54+0800\n"
+"POT-Creation-Date: 2024-01-22 11:14+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,16 @@ msgstr "新版Vocaloid工程格式"
 #: .vpr.description
 msgid "Conversion plugin for New Vocaloid project file"
 msgstr "新版Vocaloid工程格式转换插件"
+
+#: .vpr.load[0].title
+msgid "Extract audio"
+msgstr "解压音频文件"
+
+#: .vpr.load[0].description
+msgid ""
+"Extract audio from vocaloid project for later use if the path does not exist "
+"(this option has the side effect of writing additional files)"
+msgstr "若音频文件路径不存在，则从vocaloid工程文件中解压以供后续使用（此选项有写入额外文件的副作用）"
 
 #: .vpr.dump[0].title
 msgid "Is AI Singer"
@@ -56,3 +66,9 @@ msgstr "默认歌手名"
 #: .vpr.dump[3].description
 msgid "Default singer name of voicebank"
 msgstr "默认声库对应的歌手名"
+
+#: .vpr.messages[0]
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert "
+"Phonemes to Match Languages in the menu of VOCALOID to reset them."
+msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID菜单中的「任务」->「发音符号匹配」功能来重置音素。"
