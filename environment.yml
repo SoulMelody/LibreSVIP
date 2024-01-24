@@ -1,0 +1,43 @@
+name: libresvip
+channels:
+  - conda-forge
+dependencies:
+  - python==3.11
+  - pdm==2.12.2
+  - bidict==0.22.1
+  - charset-normalizer==3.3.2
+  - cx_freeze==6.15.12
+  - drawsvg==2.3.0
+  - httpx==0.26.0
+  - jinja2==3.1.3
+  - loguru==0.7.2
+  - more-itertools==10.2.0
+  - nicegui==1.4.11
+  - omegaconf==2.3.0
+  - parsimonious==0.10.0
+  - platformdirs==4.1.0
+  - portion==2.4.2
+  - pydantic==2.5.3
+  - pymediainfo==6.1.0
+  - pypinyin==0.50.0
+  - rich==13.7.0
+  - shellingham==1.5.4
+  - srt==3.5.3
+  - typer==0.9.0
+  - ujson==5.9.0
+  - xsdata==24.1
+  - zstandard==0.22.0
+  - pip:
+    - construct-typing==0.6.2
+    - desktop-notifier==3.5.6; platform_python_implementation == "CPython"
+    - fonticon-materialdesignicons7==7.2.96
+    - importlib-resources==6.1.1; python_version < "3.10"
+    - mido-fix==1.2.12
+    - proto-plus==1.23.0
+    - pydantic-extra-types==2.4.1
+    - pyside6==6.6.1
+    - pywebview==4.4.0
+    - qtinter==0.11.0
+    - universal-pathlib==0.1.4
+    - wanakana-python==1.2.2
+    - zhon==2.0.2
