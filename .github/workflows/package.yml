@@ -48,6 +48,9 @@ jobs:
           environment-file: environment.yml
           activate-environment: libresvip
           python-version: "3.11"
+      - name: Init Mamba
+        run: |
+          mamba init
       - name: Build with cx_freeze (Windows & Linux)
         if: matrix.os.runs-on != 'macos-latest'
         run: |
