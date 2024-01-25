@@ -24,12 +24,14 @@ jobs:
             arch: win-x64
           - runs-on: ubuntu-latest
             arch: linux-x64
+          - runs-on: ubuntu-latest
+            arch: linux-aarch64
           - runs-on: macos-latest
             arch: osx-x64
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -38,20 +40,27 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libegl1 libmediainfo-dev
-      - uses: pdm-project/setup-pdm@v3    
+      - uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: 3.11
-      - name: Install dependencies
-        run: pdm sync -G desktop -G ujson -G packaging --no-editable
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
+          environment-file: environment.yml
+          activate-environment: libresvip
+          python-version: "3.11"
       - name: Build with cx_freeze (Windows & Linux)
         if: matrix.os.runs-on != 'macos-latest'
         run: |
+          mamba activate libresvip
+          pip install libresvip --no-deps
           cd packaging
           pdm run python setup.py bdist_portable
           cd ..
       - name: Build with cx_freeze (MacOS Intel)
         if: matrix.os.runs-on == 'macos-latest'
         run: |
+          mamba activate libresvip
+          pip install libresvip --no-deps
           cd packaging
           pdm run python setup.py bdist_dmg
           mkdir dist
@@ -62,13 +71,20 @@ jobs:
         with:
           name: libresvip-${{ matrix.os.arch }}
           path: ./packaging/dist
-      - name: Create Release for Linux
+      - name: Create Release for Linux x86_64
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest'
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest' && matrix.os.arch == 'linux-x64'
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
+      - name: Create Release for Linux aarch64
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest' && matrix.os.arch == 'linux-aarch64'
+        with:
+          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
       - name: Create Release for MacOS Intel
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'macos-latest'
