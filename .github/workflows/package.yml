@@ -64,7 +64,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-${{ matrix.os.pkg_suffix }}
+          name: libresvip-${{ matrix.pkg_suffix }}
           path: ./packaging/dist
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -96,7 +96,7 @@ jobs:
             bash ~/mambaforge/mambaforge.sh -b -u -p ~/mambaforge
             rm -rf ~/mambaforge/mambaforge.sh
             export PATH=~/mambaforge/bin:$PATH
-            mamba create -n libresvip repo/environment.yml
+            mamba create -n libresvip libresvip/environment.yml
             mamba init bash
           run: |
             export PATH=~/mambaforge/bin:$PATH
