@@ -94,9 +94,11 @@ class Notifier(QObject):
                                 ),
                             )
                         ]
-                        if arch.endswith("64") and ("aarch" not in arch and "arm" not in arch):
+                        if arch.endswith("64") and "arm" not in arch:
                             asset = None
-                            if uname.system == "Windows":
+                            if "aarch" in arch and uname.system != "Linux":
+                                pass
+                            elif uname.system == "Windows":
                                 asset = next(
                                     (
                                         asset
