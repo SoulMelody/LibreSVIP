@@ -95,10 +95,10 @@ jobs:
           run: |
             cd /libresvip
             python -m ensurepip --upgrade
-            pip install pdm
-            pdm sync -G desktop -G ujson -G packaging --no-editable
+            python -m pip install pdm
+            python -m pdm sync -G desktop -G ujson -G packaging --no-editable
             cd packaging
-            pdm run python setup.py bdist_portable
+            python -m pdm run python setup.py bdist_portable
             cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
