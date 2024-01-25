@@ -15,23 +15,23 @@ jobs:
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
 
   release:
-    runs-on: ${{ matrix.os.runs-on }}
+    runs-on: ${{ matrix.os }}
     needs: [make-outputs]
     strategy:
       matrix:
-        os:
-          - runs-on: windows-latest
-            target: x64
-            arch: win-x64
-          - runs-on: ubuntu-latest
-            target: x86_64
-            arch: linux-x64
-          - runs-on: ubuntu-latest
-            target: aarch64
-            arch: linux-aarch64
-          - runs-on: macos-latest
-            target: x86_64
-            arch: osx-x64
+        include:
+          - os: windows-latest
+            arch: x64
+            pkg_suffix: win-amd64.zip
+          - os: ubuntu-latest
+            arch: x86_64
+            pkg_suffix: linux-x86_64.tar.gz
+          - os: ubuntu-latest
+            arch: aarch64
+            pkg_suffix: linux-aarch64.tar.gz
+          - os: macos-latest
+            arch: x86_64
+            pkg_suffix: macos-x86_64.dmg
 
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install OS dependencies
-        if: matrix.os.runs-on == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y libegl1 libmediainfo-dev
@@ -52,21 +52,21 @@ jobs:
           auto-activate-base: true
           activate-environment: ""
       - name: Build with cx_freeze (Windows & Linux)
-        if: matrix.os.runs-on != 'macos-latest'
+        if: matrix.os != 'macos-latest'
         shell: bash -el {0}
         run: |
-          conda create -n libresvip --file environment.yml
-          conda activate libresvip
+          mamba create -n libresvip --file environment.yml
+          mamba activate libresvip
           pdm build --no-sdist
           pip install dist/libresvip*.whl --no-deps
           cd packaging
           pdm run python setup.py bdist_portable
           cd ..
       - name: Build with cx_freeze (MacOS Intel)
-        if: matrix.os.runs-on == 'macos-latest'
+        if: matrix.os == 'macos-latest'
         run: |
-          conda create -n libresvip --file environment.yml
-          conda activate libresvip
+          mamba create -n libresvip --file environment.yml
+          mamba activate libresvip
           pdm build --no-sdist
           pip install dist/libresvip*.whl --no-deps
           cd packaging
@@ -79,31 +79,10 @@ jobs:
         with:
           name: libresvip-${{ matrix.os.arch }}
           path: ./packaging/dist
-      - name: Create Release for Linux x86_64
+      - name: Create Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest' && matrix.os.arch == 'linux-x64'
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
-      - name: Create Release for Linux aarch64
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest' && matrix.os.arch == 'linux-aarch64'
-        with:
-          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
-          files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
-      - name: Create Release for MacOS Intel
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'macos-latest'
-        with:
-          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
-          files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
-      - name: Create Release for Windows
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'windows-latest'
-        with:
-          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
-          files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.zip
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }}
