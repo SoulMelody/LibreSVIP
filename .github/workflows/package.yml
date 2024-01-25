@@ -103,7 +103,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-linux_aarch64.tar.gz
+          name: libresvip-linux-aarch64.tar.gz
           path: ./packaging/dist
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -111,4 +111,4 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-linux_aarch64.tar.gz
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
