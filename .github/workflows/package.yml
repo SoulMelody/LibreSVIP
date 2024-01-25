@@ -90,7 +90,7 @@ jobs:
           dockerRunArgs: --volume "${PWD}/libresvip:/libresvip"
           install: |
             apt-get update -q
-            apt-get install -y libegl1
+            apt-get install -y libegl1 wget
             mkdir -p ~/mambaforge
             wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh -O ~/mambaforge/mambaforge.sh
             bash ~/mambaforge/mambaforge.sh -b -u -p ~/mambaforge
