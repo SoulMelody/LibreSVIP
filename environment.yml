@@ -1,4 +1,3 @@
-name: libresvip
 channels:
   - conda-forge
 dependencies:
@@ -6,7 +5,7 @@ dependencies:
   - pdm==2.12.2
   - bidict==0.22.1
   - charset-normalizer==3.3.2
-  - cx_freeze==6.15.12
+  - cx_freeze==6.15.13
   - drawsvg==2.3.0
   - httpx==0.26.0
   - jinja2==3.1.3
