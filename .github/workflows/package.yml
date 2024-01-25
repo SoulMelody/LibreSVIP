@@ -38,7 +38,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libegl1 libmediainfo-dev
-      - uses: pdm-project/setup-pdm@v3    
+      - uses: pdm-project/setup-pdm@v4    
         with:
           python-version: 3.11
       - name: Install dependencies
