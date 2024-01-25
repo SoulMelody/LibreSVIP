@@ -94,9 +94,8 @@ jobs:
             rm -rf ~/mambaforge/mambaforge.sh
           run: |
             cd /libresvip
-            ls -al
             export PATH=~/mambaforge/bin:$PATH
-            mamba create -n libresvip environment.yml
+            mamba env create -n libresvip -f environment.yml
             mamba init bash
             source ~/.bashrc
             mamba activate libresvip
