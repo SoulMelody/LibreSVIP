@@ -21,12 +21,16 @@ jobs:
       matrix:
         os:
           - runs-on: windows-latest
+            target: x64
             arch: win-x64
           - runs-on: ubuntu-latest
+            target: x86_64
             arch: linux-x64
           - runs-on: ubuntu-latest
+            target: aarch64
             arch: linux-aarch64
           - runs-on: macos-latest
+            target: x86_64
             arch: osx-x64
 
     steps:
@@ -51,8 +55,8 @@ jobs:
         if: matrix.os.runs-on != 'macos-latest'
         shell: bash -el {0}
         run: |
-          mamba create -n libresvip --file environment.yml
-          mamba activate libresvip
+          conda create -n libresvip --file environment.yml
+          conda activate libresvip
           pdm build --no-sdist
           pip install dist/libresvip*.whl --no-deps
           cd packaging
@@ -61,8 +65,8 @@ jobs:
       - name: Build with cx_freeze (MacOS Intel)
         if: matrix.os.runs-on == 'macos-latest'
         run: |
-          mamba create -n libresvip --file environment.yml
-          mamba activate libresvip
+          conda create -n libresvip --file environment.yml
+          conda activate libresvip
           pdm build --no-sdist
           pip install dist/libresvip*.whl --no-deps
           cd packaging
