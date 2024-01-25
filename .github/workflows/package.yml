@@ -81,7 +81,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Build artifact
-        id: build
         with:
           arch: aarch64
           distro: ubuntu22.04
@@ -95,6 +94,7 @@ jobs:
             rm -rf ~/mambaforge/mambaforge.sh
           run: |
             cd /libresvip
+            ls -al
             export PATH=~/mambaforge/bin:$PATH
             mamba create -n libresvip environment.yml
             mamba init bash
