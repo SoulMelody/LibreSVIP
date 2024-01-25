@@ -396,6 +396,10 @@ class Svip3SingingPattern(proto.Message):
         proto.INT32,
         number=18,
     )
+    singing_method_id: str = proto.Field(
+        proto.STRING,
+        number=19,
+    )
 
 
 class Svip3Vibrato(proto.Message):
