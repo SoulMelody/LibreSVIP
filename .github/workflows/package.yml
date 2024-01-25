@@ -51,7 +51,7 @@ jobs:
         if: matrix.os.runs-on != 'macos-latest'
         shell: bash -el {0}
         run: |
-          mamba create --file environment.yml
+          mamba create -n libresvip --file environment.yml
           mamba activate libresvip
           pdm build --no-sdist
           pip install dist/libresvip*.whl --no-deps
@@ -61,7 +61,7 @@ jobs:
       - name: Build with cx_freeze (MacOS Intel)
         if: matrix.os.runs-on == 'macos-latest'
         run: |
-          mamba create --file environment.yml
+          mamba create -n libresvip --file environment.yml
           mamba activate libresvip
           pdm build --no-sdist
           pip install dist/libresvip*.whl --no-deps
