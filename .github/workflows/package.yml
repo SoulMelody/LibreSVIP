@@ -90,7 +90,7 @@ jobs:
             apt-get install -y software-properties-common
             add-apt-repository ppa:deadsnakes/ppa
             apt-get update
-            apt-get install -y libegl1 libmediainfo-dev python3.11-dev python3.11-venv
+            apt-get install -y libdouble-conversion3 libegl1 libmediainfo-dev python3.11-dev python3.11-venv
             update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
           run: |
             cd /libresvip
