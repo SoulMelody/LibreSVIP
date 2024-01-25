@@ -96,13 +96,13 @@ jobs:
             bash ~/mambaforge/mambaforge.sh -b -u -p ~/mambaforge
             rm -rf ~/mambaforge/mambaforge.sh
             export PATH=~/mambaforge/bin:$PATH
-            mamba create -n libresvip libresvip/environment.yml
+            mamba create -n libresvip /libresvip/environment.yml
             mamba init bash
           run: |
             export PATH=~/mambaforge/bin:$PATH
             source ~/.bashrc
             mamba activate libresvip
-            cd libresvip
+            cd /libresvip
             pdm build --no-sdist
             pip install dist/libresvip*.whl --no-deps
             cd packaging
@@ -119,4 +119,4 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-linux_aarch64.tar.gz
+            ./libresvip/packaging/dist/LibreSVIP-linux_aarch64.tar.gz
