@@ -87,7 +87,7 @@ jobs:
           dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
             apt-get update
-            apt-get install software-properties-common
+            apt-get install -y software-properties-common
             add-apt-repository ppa:deadsnakes/ppa
             apt-get update
             apt-get install -y libegl1 libmediainfo-dev python3.11-dev python3.11-venv
