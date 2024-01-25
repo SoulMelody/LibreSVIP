@@ -45,12 +45,15 @@ jobs:
           miniforge-variant: Mambaforge
           miniforge-version: latest
           use-mamba: true
-          environment-file: environment.yml
-          activate-environment: libresvip
+          auto-activate-base: true
+          activate-environment: ""
           python-version: "3.11"
       - name: Build with cx_freeze (Windows & Linux)
         if: matrix.os.runs-on != 'macos-latest'
+        shell: bash -el {0}
         run: |
+          mamba create --file environment.yml
+          mamba activate libresvip
           pip install libresvip --no-deps
           cd packaging
           pdm run python setup.py bdist_portable
@@ -58,6 +61,8 @@ jobs:
       - name: Build with cx_freeze (MacOS Intel)
         if: matrix.os.runs-on == 'macos-latest'
         run: |
+          mamba create --file environment.yml
+          mamba activate libresvip
           pip install libresvip --no-deps
           cd packaging
           pdm run python setup.py bdist_dmg
