@@ -79,15 +79,13 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: ./libresvip
       - uses: uraimo/run-on-arch-action@v2
         name: Build artifact
         id: build
         with:
           arch: aarch64
           distro: ubuntu22.04
-          dockerRunArgs: --volume "${PWD}/libresvip:/libresvip"
+          dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
             apt-get update -q
             apt-get install -y libegl1 wget
@@ -95,14 +93,13 @@ jobs:
             wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh -O ~/mambaforge/mambaforge.sh
             bash ~/mambaforge/mambaforge.sh -b -u -p ~/mambaforge
             rm -rf ~/mambaforge/mambaforge.sh
-            export PATH=~/mambaforge/bin:$PATH
-            mamba create -n libresvip /libresvip/environment.yml
-            mamba init bash
           run: |
+            cd /libresvip
             export PATH=~/mambaforge/bin:$PATH
+            mamba create -n libresvip environment.yml
+            mamba init bash
             source ~/.bashrc
             mamba activate libresvip
-            cd /libresvip
             pdm build --no-sdist
             pip install dist/libresvip*.whl --no-deps
             cd packaging
@@ -112,11 +109,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: libresvip-linux_aarch64.tar.gz
-          path: ./libresvip/packaging/dist
+          path: ./packaging/dist
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./libresvip/packaging/dist/LibreSVIP-linux_aarch64.tar.gz
+            ./packaging/dist/LibreSVIP-linux_aarch64.tar.gz
