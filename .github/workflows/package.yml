@@ -86,21 +86,15 @@ jobs:
           distro: ubuntu22.04
           dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
+            add-apt-repository ppa:deadsnakes/ppa
             apt-get update -q
-            apt-get install -y libegl1 wget
-            mkdir -p ~/mambaforge
-            wget -q https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh -O ~/mambaforge/mambaforge.sh
-            bash ~/mambaforge/mambaforge.sh -b -u -p ~/mambaforge
-            rm -rf ~/mambaforge/mambaforge.sh
+            apt-get install -y libegl1 libmediainfo-dev python3.11-dev python3.11-venv
+            update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
           run: |
             cd /libresvip
-            export PATH=~/mambaforge/bin:$PATH
-            mamba env create -n libresvip -f environment.yml
-            mamba init bash
-            source ~/.bashrc
-            mamba activate libresvip
-            pdm build --no-sdist
-            pip install dist/libresvip*.whl --no-deps
+            python -m ensurepip --upgrade
+            pip install pdm
+            pdm sync -G desktop -G ujson -G packaging --no-editable
             cd packaging
             pdm run python setup.py bdist_portable
             cd ..
