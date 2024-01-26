@@ -42,12 +42,7 @@ elif (pyside6_dir / "Qt/qml").exists():
     qml_base_dir = "Qt/qml"
     xcb_soname = "Qt/lib/libQt6XcbQpa.so.6"
     if (pyside6_dir / xcb_soname).exists():
-        bin_includes.append(
-            (
-                pyside6_dir / xcb_soname,
-                pathlib.Path(f"./lib/PySide6/{xcb_soname}"),
-            )
-        )
+        bin_includes.append(pyside6_dir / xcb_soname)
 
 if qml_base_dir:
     include_files.extend(
@@ -57,8 +52,8 @@ if qml_base_dir:
         )
         for qml_dir in qml_dirs
     )
-    qml_lib = next(pyside6_dir.glob("*pyside6qml*"))
-    include_files.append((qml_lib, pathlib.Path(f"./lib/PySide6/{qml_lib.name}")))
+    if qml_lib := next(pyside6_dir.glob("*pyside6qml*"), None):
+        bin_includes.append(qml_lib)
 
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
