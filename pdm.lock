@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:01fdb2af42283931d1e955214106fb19f5f7e976a4dd1c6ca30ed0c754890417"
+content_hash = "sha256:240c5d9d8fb89faafd56d1d164945f5598e9ef918db0a7afc357786d8f0daefc"
 
 [[package]]
 name = "aiofiles"
@@ -198,6 +198,18 @@ summary = "The bidirectional mapping library for Python."
 files = [
     {file = "bidict-0.22.1-py3-none-any.whl", hash = "sha256:6ef212238eb884b664f28da76f33f1d28b260f665fc737b413b287d5487d1e7b"},
     {file = "bidict-0.22.1.tar.gz", hash = "sha256:1e0f7f74e4860e6d0943a05d4134c63a2fad86f3d4732fb265bd79e4e856d81d"},
+]
+
+[[package]]
+name = "bindepend"
+version = "0.1"
+summary = "Binary depedency analysis"
+dependencies = [
+    "pefile",
+]
+files = [
+    {file = "bindepend-0.1-py3-none-any.whl", hash = "sha256:8c3017b8d25b18c3865f55137656338312d06999b93b798b5be1a1d0176e6493"},
+    {file = "bindepend-0.1.tar.gz", hash = "sha256:4a376a4a81d4812e85be9cf1b9b49c78bcf76a3278b94a9b080c22ac9c3ad1fd"},
 ]
 
 [[package]]
@@ -572,6 +584,22 @@ summary = "A zero-dependency DBus library for Python with asyncio support"
 files = [
     {file = "dbus_next-0.2.3-py3-none-any.whl", hash = "sha256:58948f9aff9db08316734c0be2a120f6dc502124d9642f55e90ac82ffb16a18b"},
     {file = "dbus_next-0.2.3.tar.gz", hash = "sha256:f4eae26909332ada528c0a3549dda8d4f088f9b365153952a408e28023a626a5"},
+]
+
+[[package]]
+name = "delocate"
+version = "0.10.7"
+requires_python = ">=3.7"
+summary = "Move macOS dynamic libraries into package"
+dependencies = [
+    "bindepend; sys_platform == \"win32\"",
+    "machomachomangler; sys_platform == \"win32\"",
+    "packaging>=20.9",
+    "typing-extensions",
+]
+files = [
+    {file = "delocate-0.10.7-py3-none-any.whl", hash = "sha256:8251df9a9c9b57ef077a50bf1300f199845a6f7123ada59343d0150c41fa9da6"},
+    {file = "delocate-0.10.7.tar.gz", hash = "sha256:fbf650d3cb45db7c02ec8c3c3ae546310415f845594871623f7561c96f140f0b"},
 ]
 
 [[package]]
@@ -1316,6 +1344,18 @@ dependencies = [
 files = [
     {file = "macholib-1.16.3-py2.py3-none-any.whl", hash = "sha256:0e315d7583d38b8c77e815b1ecbdbf504a8258d8b3e17b61165c6feb60d18f2c"},
     {file = "macholib-1.16.3.tar.gz", hash = "sha256:07ae9e15e8e4cd9a788013d81f5908b3609aa76f9b1421bae9c4d7606ec86a30"},
+]
+
+[[package]]
+name = "machomachomangler"
+version = "0.0.1"
+summary = "Tools for mangling Mach-O and PE binaries"
+dependencies = [
+    "attrs",
+]
+files = [
+    {file = "machomachomangler-0.0.1-py3-none-any.whl", hash = "sha256:4fa66b8b65959399874f05a4d93abe1e49db46f71bef66a68a93e060d9ba0cb3"},
+    {file = "machomachomangler-0.0.1.tar.gz", hash = "sha256:2acbad5bd465c5f386e5ceac8a8a1939a9789f503dd84f491e046292cf6e54a6"},
 ]
 
 [[package]]
