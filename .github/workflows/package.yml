@@ -83,7 +83,7 @@ jobs:
         name: Build artifact
         with:
           arch: aarch64
-          distro: ubuntu22.04
+          distro: ubuntu20.04
           dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
             apt-get update
