@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies (MacOS Universal2)
         if: matrix.os == 'macos-latest'
         run: |
-          pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt
+          pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt --without-hashes
           cd packaging
           python universal2_install.py
           cd ..
