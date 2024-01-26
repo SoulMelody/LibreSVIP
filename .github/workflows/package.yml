@@ -21,21 +21,24 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            arch: x64
             pkg_suffix: win-amd64.zip
           - os: ubuntu-latest
-            arch: x86_64
             pkg_suffix: linux-x86_64.tar.gz
           - os: macos-latest
-            arch: x86_64
-            pkg_suffix: macos-x86_64.dmg
+            pkg_suffix: macos-universal2.dmg
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+      - name: Set up Python (Windows & Linux)
+        if: matrix.os != 'macos-latest'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Set up Python (MacOS Universal2)
+        if: matrix.os == 'macos-latest'
+        run: |
+          curl -L https://www.python.org/ftp/python/3.11.7/python-3.11.7-macos11.pkg --output ~/Downloads/python.pkg
+          sudo installer -pkg ~/Downloads/python.pkg -target /
       - name: Install OS dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -44,8 +47,18 @@ jobs:
       - uses: pdm-project/setup-pdm@v4    
         with:
           python-version: 3.11
-      - name: Install dependencies
+      - name: Install dependencies (Windows & Linux)
+        if: matrix.os != 'macos-latest'
         run: pdm sync -G desktop -G ujson -G packaging --no-editable
+      - name: Install dependencies (MacOS Universal2)
+        if: matrix.os == 'macos-latest'
+        run: |
+          pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt
+          cd packaging
+          python universal2_install.py
+          cd ..
+          pdm build --no-sdist
+          pip install dist/*.whl --no-deps
       - name: Build with cx_freeze (Windows & Linux)
         if: matrix.os != 'macos-latest'
         shell: bash -el {0}
@@ -53,11 +66,11 @@ jobs:
           cd packaging
           pdm run python setup.py bdist_portable
           cd ..
-      - name: Build with cx_freeze (MacOS Intel)
+      - name: Build with cx_freeze (MacOS Universal2)
         if: matrix.os == 'macos-latest'
         run: |
           cd packaging
-          pdm run python setup.py bdist_dmg
+          python setup.py bdist_dmg
           mkdir dist
           mv build/LibreSVIP.dmg dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }}
           cd ..

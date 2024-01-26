@@ -94,9 +94,11 @@ class Notifier(QObject):
                                 ),
                             )
                         ]
-                        if arch.endswith("64") and "arm" not in arch:
+                        if arch.endswith("64"):
                             asset = None
-                            if "aarch" in arch and uname.system != "Linux":
+                            if "arm" in arch and uname.system != "Darwin":
+                                pass
+                            elif "aarch" in arch and uname.system != "Linux":
                                 pass
                             elif uname.system == "Windows":
                                 asset = next(
@@ -128,7 +130,7 @@ class Notifier(QObject):
                                         for asset in data["assets"]
                                         if fnmatch.fnmatch(
                                             asset["name"],
-                                            f"LibreSVIP-*.macos-{arch}.dmg",
+                                            "LibreSVIP-*.macos-*",
                                         )
                                     ),
                                     None,
