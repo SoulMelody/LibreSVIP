@@ -7,6 +7,7 @@ import sys
 
 import PySide6
 import shellingham
+import shiboken6
 from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
@@ -16,13 +17,15 @@ from bdist_portable import BdistPortable
 import libresvip
 from libresvip.core.constants import pkg_dir
 
+bin_includes = []
+bin_path_includes = [shiboken6.__path__[0]]
 with contextlib.suppress(Exception):
     if (
         ("conda" in sys.version or "Continuum" in sys.version)
         and shellingham.detect_shell()[0] == "bash"
         and os.name == "nt"
     ):
-        os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
+        bin_path_includes.append(f"{sys.base_prefix}/Library/bin")
 
 try:
     from cx_Freeze.hooks import get_qt_plugins_paths
@@ -39,7 +42,7 @@ elif (pyside6_dir / "Qt/qml").exists():
     qml_base_dir = "Qt/qml"
     xcb_soname = "Qt/lib/libQt6XcbQpa.so.6"
     if (pyside6_dir / xcb_soname).exists():
-        include_files.append(
+        bin_includes.append(
             (
                 pyside6_dir / xcb_soname,
                 pathlib.Path(f"./lib/PySide6/{xcb_soname}"),
@@ -139,6 +142,8 @@ build_exe_options = {
         ),
         [],
     ),
+    "bin_includes": bin_includes,
+    "bin_path_includes": bin_path_includes,
     # exclude packages that are not really needed
     "excludes": [
         "attr",
