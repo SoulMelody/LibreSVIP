@@ -115,7 +115,7 @@ packaging = [
 docs = ["mkdocs-material<10.0.0,>=9.5.5"]
 test = ["pytest>=8.0.0", "pytest-datadir>=1.5.0"]
 typing_stubs = [
-  "proto-plus-stubs>=0.6.1",
+  "proto-plus-stubs>=0.7.0",
   "types-parsimonious>=0.10.0.10",
   "types-pyyaml>=6.0.12.12",
   "types-ujson>=5.9.0.0",
