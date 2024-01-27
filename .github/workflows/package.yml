@@ -55,11 +55,12 @@ jobs:
         run: |
           pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt --without-hashes
           cd packaging
-          pip install delocate
+          python -m ensurepip
+          python -m pip install delocate
           python universal2_install.py
           cd ..
           pdm build --no-sdist
-          pip install dist/*.whl --no-deps
+          python -m pip install dist/*.whl --no-deps
       - name: Build with cx_freeze (Windows & Linux)
         if: matrix.os != 'macos-latest'
         shell: bash -el {0}
