@@ -28,10 +28,11 @@ if __name__ == "__main__":
             if requirement.name in no_universal2_packages:
                 normalized_name = requirement.name.replace("-", "_")
                 for macos_platform in macos_single_platforms:
+                    requirement.specifier
                     pip.main(
                         [
                             "download",
-                            requirement.name,
+                            f"{requirement.name}{requirement.specifier}",
                             "--platform",
                             macos_platform,
                             "--no-deps",
@@ -54,7 +55,7 @@ if __name__ == "__main__":
                 pip.main(
                     [
                         "install",
-                        requirement.name,
+                        f"{requirement.name}{requirement.specifier}",
                         "--no-deps",
                         "--platform",
                         macos_universal_platform,
