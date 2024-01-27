@@ -16,6 +16,7 @@ if __name__ == "__main__":
     no_universal2_packages = [
         "cx-Freeze",
         "pydantic-core",
+        "PyYAML",
         "ujson",
         "zstandard",
     ]
@@ -56,6 +57,7 @@ if __name__ == "__main__":
                             "install",
                             universal2_wheel_name,
                             "--no-deps",
+                            "--upgrade",
                             "--target",
                             sys_site_packages_path,
                         ]
@@ -66,6 +68,7 @@ if __name__ == "__main__":
                         "install",
                         f"{requirement.name}{requirement.specifier}",
                         "--no-deps",
+                        "--upgrade",
                         "--platform",
                         macos_universal_platform,
                         "--target",
