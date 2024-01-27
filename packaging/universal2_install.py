@@ -5,8 +5,6 @@ import pip
 from delocate.fuse import fuse_wheels
 from packaging.requirements import InvalidRequirement, Requirement
 
-from libresvip.core.constants import PACKAGE_NAME
-
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/
     macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
@@ -25,7 +23,7 @@ if __name__ == "__main__":
             continue
         if (
             requirement.marker is None or requirement.marker.evaluate() is True
-        ) and requirement.name != PACKAGE_NAME:
+        ) and requirement.name != "libresvip":
             if requirement.name in no_universal2_packages:
                 normalized_name = requirement.name.replace("-", "_")
                 for macos_platform in macos_single_platforms:
