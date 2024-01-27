@@ -1,5 +1,6 @@
 import contextlib
 import pathlib
+import site
 import sys
 
 import pip
@@ -9,6 +10,7 @@ from packaging.requirements import InvalidRequirement, Requirement
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/
     python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
+    user_site_packages_path = site.getusersitepackages()
     macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
     macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [
@@ -48,9 +50,16 @@ if __name__ == "__main__":
                         *(str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")),
                         universal2_wheel_name,
                     )
-                    pip.main(["install", universal2_wheel_name, "--no-deps"])
+                    pip.main(
+                        [
+                            "install",
+                            universal2_wheel_name,
+                            "--no-deps",
+                            "--target",
+                            user_site_packages_path,
+                        ]
+                    )
             else:
-                print(f"Installing {requirement.name} for macos_universal2")  # noqa: T201
                 pip.main(
                     [
                         "install",
@@ -60,5 +69,7 @@ if __name__ == "__main__":
                         macos_universal_platform,
                         "--only-binary",
                         ":all:",
+                        "--target",
+                        user_site_packages_path,
                     ]
                 )
