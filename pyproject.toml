@@ -111,7 +111,6 @@ packaging = [
   "cx-freeze>=6.15.13",
   "pyinstaller>=6.3.0",
   "shellingham<2.0.0,>=1.5.4",
-  "delocate>=0.10.7; sys_platform == \"darwin\""
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.5"]
 test = ["pytest>=7.4.4", "pytest-datadir>=1.5.0"]

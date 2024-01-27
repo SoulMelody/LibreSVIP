@@ -9,7 +9,8 @@ from libresvip.core.constants import PACKAGE_NAME
 
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/
-    macos_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
+    macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
+    macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [
         "pydantic-core",
         "ujson",
@@ -27,7 +28,7 @@ if __name__ == "__main__":
         ) and requirement.name != PACKAGE_NAME:
             if requirement.name in no_universal2_packages:
                 normalized_name = requirement.name.replace("-", "_")
-                for macos_platform in macos_platforms:
+                for macos_platform in macos_single_platforms:
                     pip.main(
                         [
                             "download",
@@ -39,7 +40,7 @@ if __name__ == "__main__":
                             ":all:",
                         ]
                     )
-                universal2_wheel_name = f"{normalized_name}-universal2-.whl"
+                universal2_wheel_name = f"{normalized_name}-universal2.whl"
                 with contextlib.suppress(FileNotFoundError):
                     fuse_wheels(
                         *(
@@ -50,7 +51,14 @@ if __name__ == "__main__":
                     )
                     pip.main("install", universal2_wheel_name, "--no-deps")
             else:
-                new_requirements.append(requirement_str)
-    new_requirements_path = requirements_path.with_stem("requirements-universal2")
-    new_requirements_path.write_text("\n".join(new_requirements))
-    pip.main(["install", "-r", str(new_requirements_path)])
+                pip.main(
+                    [
+                        "install",
+                        requirement.name,
+                        "--no-deps",
+                        "--platform",
+                        macos_universal_platform,
+                        "--only-binary",
+                        ":all:",
+                    ]
+                )

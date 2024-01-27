@@ -55,6 +55,7 @@ jobs:
         run: |
           pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt --without-hashes
           cd packaging
+          pip install delocate
           python universal2_install.py
           cd ..
           pdm build --no-sdist
