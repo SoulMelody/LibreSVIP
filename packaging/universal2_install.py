@@ -10,7 +10,7 @@ from packaging.requirements import InvalidRequirement, Requirement
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/
     python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
-    sys_site_packages_path = site.getsitepackages()
+    sys_site_packages_path = str(site.getsitepackages()[-1])
     macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
     macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [

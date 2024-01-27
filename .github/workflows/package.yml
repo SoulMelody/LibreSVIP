@@ -54,8 +54,10 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: |
           pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt --without-hashes
+          python -m venv .venv
+          source .venv/bin/activate
           cd packaging
-          python -m ensurepip
+          python -m ensurepip --upgrade
           python -m pip install delocate
           python universal2_install.py
           cd ..
@@ -71,6 +73,7 @@ jobs:
       - name: Build with cx_freeze (MacOS Universal2)
         if: matrix.os == 'macos-latest'
         run: |
+          source .venv/bin/activate
           cd packaging
           python setup.py bdist_dmg
           mkdir dist
