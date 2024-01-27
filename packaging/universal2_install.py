@@ -1,16 +1,17 @@
 import contextlib
 import pathlib
+import shutil
 import site
+import subprocess
 import sys
 
-import pip
 from delocate.fuse import fuse_wheels
 from packaging.requirements import InvalidRequirement, Requirement
 
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/
     python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
-    sys_site_packages_path = str(site.getsitepackages()[-1])
+    sys_site_packages_path = site.getsitepackages()[-1]
     macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
     macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [
@@ -22,6 +23,7 @@ if __name__ == "__main__":
     ]
     cwd = pathlib.Path()
     requirements_path = cwd / "requirements.txt"
+    tmp_dir = cwd / "temp"
     new_requirements = []
     for requirement_str in requirements_path.read_text().splitlines():
         try:
@@ -35,8 +37,9 @@ if __name__ == "__main__":
                 normalized_name = requirement.name.replace("-", "_")
                 package_version = str(requirement.specifier).lstrip("<>=")
                 for macos_platform in macos_single_platforms:
-                    pip.main(
+                    subprocess.call(
                         [
+                            "pip",
                             "download",
                             f"{requirement.name}{requirement.specifier}",
                             "--platform",
@@ -52,19 +55,23 @@ if __name__ == "__main__":
                         *(str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")),
                         universal2_wheel_name,
                     )
-                    pip.main(
+                    subprocess.call(
                         [
+                            "pip",
                             "install",
                             universal2_wheel_name,
                             "--no-deps",
                             "--upgrade",
                             "--target",
-                            sys_site_packages_path,
+                            str(tmp_dir),
                         ]
                     )
+                    shutil.copytree(tmp_dir, sys_site_packages_path, dirs_exist_ok=True)
+                    shutil.rmtree(tmp_dir)
             else:
-                pip.main(
+                subprocess.call(
                     [
+                        "pip",
                         "install",
                         f"{requirement.name}{requirement.specifier}",
                         "--no-deps",
@@ -72,6 +79,8 @@ if __name__ == "__main__":
                         "--platform",
                         macos_universal_platform,
                         "--target",
-                        sys_site_packages_path,
+                        str(tmp_dir),
                     ]
                 )
+                shutil.copytree(tmp_dir, sys_site_packages_path, dirs_exist_ok=True)
+                shutil.rmtree(tmp_dir)
