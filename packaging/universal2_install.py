@@ -28,7 +28,6 @@ if __name__ == "__main__":
             if requirement.name in no_universal2_packages:
                 normalized_name = requirement.name.replace("-", "_")
                 for macos_platform in macos_single_platforms:
-                    requirement.specifier
                     pip.main(
                         [
                             "download",
@@ -41,16 +40,12 @@ if __name__ == "__main__":
                         ]
                     )
                 universal2_wheel_name = f"{normalized_name}-universal2.whl"
-                single_platform_wheels = [
-                    str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")
-                ]
-                print(single_platform_wheels)  # noqa: T201
                 with contextlib.suppress(FileNotFoundError):
                     fuse_wheels(
-                        *single_platform_wheels,
+                        *(str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")),
                         universal2_wheel_name,
                     )
-                    pip.main("install", universal2_wheel_name, "--no-deps")
+                    pip.main(["install", universal2_wheel_name, "--no-deps"])
             else:
                 pip.main(
                     [
