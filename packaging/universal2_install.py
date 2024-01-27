@@ -14,7 +14,7 @@ if __name__ == "__main__":
     macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
     macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [
-        "cx-freeze",
+        "cx-Freeze",
         "pydantic-core",
         "ujson",
         "zstandard",
@@ -68,8 +68,6 @@ if __name__ == "__main__":
                         "--no-deps",
                         "--platform",
                         macos_universal_platform,
-                        "--only-binary",
-                        ":all:",
                         "--target",
                         sys_site_packages_path,
                     ]
