@@ -10,10 +10,11 @@ from packaging.requirements import InvalidRequirement, Requirement
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/
     python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
-    user_site_packages_path = site.getusersitepackages()
+    sys_site_packages_path = site.getsitepackages()
     macos_single_platforms = ["macosx_10_10_x86_64", "macosx_11_0_arm64"]
     macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [
+        "cx-freeze",
         "pydantic-core",
         "ujson",
         "zstandard",
@@ -56,7 +57,7 @@ if __name__ == "__main__":
                             universal2_wheel_name,
                             "--no-deps",
                             "--target",
-                            user_site_packages_path,
+                            sys_site_packages_path,
                         ]
                     )
             else:
@@ -70,6 +71,6 @@ if __name__ == "__main__":
                         "--only-binary",
                         ":all:",
                         "--target",
-                        user_site_packages_path,
+                        sys_site_packages_path,
                     ]
                 )
