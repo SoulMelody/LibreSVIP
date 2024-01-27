@@ -24,7 +24,6 @@ if __name__ == "__main__":
     cwd = pathlib.Path()
     requirements_path = cwd / "requirements.txt"
     tmp_dir = cwd / "temp"
-    new_requirements = []
     for requirement_str in requirements_path.read_text().splitlines():
         try:
             requirement = Requirement(requirement_str)
@@ -82,5 +81,19 @@ if __name__ == "__main__":
                         str(tmp_dir),
                     ]
                 )
+                if requirement.name == "pymediainfo":
+                    subprocess.call(
+                        [
+                            "curl",
+                            "-L",
+                            "https://mediaarea.net/download/binary/libmediainfo0/23.11/MediaInfo_DLL_23.11_Mac_x86_64+arm64.tar.bz2",
+                            "--output",
+                            "libmediainfo.tar.bz2",
+                        ]
+                    )
+                    shutil.unpack_archive("libmediainfo.tar.bz2", "libmediainfo", "bztar")
+                    shutil.move(
+                        "libmediainfo/MediaInfoLib/libmediainfo.0.dylib", tmp_dir / "pymediainfo"
+                    )
                 shutil.copytree(tmp_dir, sys_site_packages_path, dirs_exist_ok=True)
                 shutil.rmtree(tmp_dir)
