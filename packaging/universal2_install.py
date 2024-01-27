@@ -14,7 +14,8 @@ if __name__ == "__main__":
         "ujson",
         "zstandard",
     ]
-    requirements_path = pathlib.Path("requirements.txt")
+    cwd = pathlib.Path()
+    requirements_path = cwd / "requirements.txt"
     new_requirements = []
     for requirement_str in requirements_path.read_text().splitlines():
         try:
@@ -39,12 +40,13 @@ if __name__ == "__main__":
                         ]
                     )
                 universal2_wheel_name = f"{normalized_name}-universal2.whl"
+                single_platform_wheels = [
+                    str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")
+                ]
+                print(single_platform_wheels)  # noqa: T201
                 with contextlib.suppress(FileNotFoundError):
                     fuse_wheels(
-                        *(
-                            str(whl_path)
-                            for whl_path in pathlib.Path().glob(f"{normalized_name}*.whl")
-                        ),
+                        *single_platform_wheels,
                         universal2_wheel_name,
                     )
                     pip.main("install", universal2_wheel_name, "--no-deps")
