@@ -68,14 +68,18 @@ def number_of_phones(phoneme: str, language: str) -> int:
 
 
 def default_phone_marks(phoneme: str, language: str) -> list[float]:
-    res = [0.0, 0.0]
+    phoneme_parts = phoneme.split()
+    res_len = max(len(phoneme_parts), 2)
+    res = [0.0] * res_len
     if phoneme == "-":
         return res
-    phoneme_parts = phoneme.split()
-    if phoneme_categories := get_phoneme_categories(phoneme_parts, language):
-        res[0] = getattr(DEFAULT_DURATIONS, phoneme_categories[0])
-        index = 0 if phoneme_categories[0] in {"vowel", "diphthong"} else 1
-        res[1 : len(phoneme_categories)] = [
-            DEFAULT_PHONE_RATIO if index < len(phoneme_categories) else 0.0
-        ] * (len(phoneme_categories) - 1)
+    elif phoneme_categories := get_phoneme_categories(phoneme_parts, language):
+        index = 0
+        if phoneme_categories[index] in {"vowel", "diphthong"}:
+            res[index] = getattr(DEFAULT_DURATIONS, phoneme_categories[index])
+            index += 1
+        if res_len > index:
+            res[index:res_len] = [DEFAULT_PHONE_RATIO if index < res_len else 0.0] * (
+                res_len - index
+            )
     return res
