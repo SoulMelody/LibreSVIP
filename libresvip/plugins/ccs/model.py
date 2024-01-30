@@ -770,6 +770,13 @@ class CeVIOTimeline:
             "type": "Attribute",
         },
     )
+    end_position: Optional[XmlTime] = field(
+        default=None,
+        metadata={
+            "name": "EndPosition",
+            "type": "Attribute",
+        },
+    )
     view_scale: Optional[CeVIOViewScale] = field(
         default=None,
         metadata={
