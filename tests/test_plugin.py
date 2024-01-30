@@ -199,7 +199,7 @@ def test_gj_read(
 def test_dspx_read(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from libresvip.plugins.dspx.model import DspxModel
+    from experimental.dspx.model import DspxModel
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.dspx"
