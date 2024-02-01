@@ -3,8 +3,8 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/libresvip.svg)](https://pypi.org/project/libresvip/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/libresvip)](https://pypi.org/project/libresvip/)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Build](https://github.com/SoulMelody/LibreSVIP/workflows/Packaging/badge.svg)](https://github.com/SoulMelody/LibreSVIP/actions)
+[![License](https://img.shields.io/pypi/l/libresvip?color=blue)](https://opensource.org/licenses/MIT)
+[![GitHub Build](https://img.shields.io/github/actions/workflow/status/SoulMelody/LibreSVIP/package.yml?label=packaging)](https://github.com/SoulMelody/LibreSVIP/actions/workflows/package.yml?query=workflow%3APackaging)
 
 LibreSVIP is a cross-platform and universal converter for many Singing Voice Synthesis (aka SVS) project formats.
 

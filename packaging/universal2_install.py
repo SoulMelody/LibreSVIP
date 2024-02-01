@@ -21,6 +21,7 @@ if __name__ == "__main__":
         "ujson",
         "zstandard",
     ]
+    libmediainfo_version = "24.01"
     cwd = pathlib.Path()
     requirements_path = cwd / "requirements.txt"
     tmp_dir = cwd / "temp"
@@ -86,7 +87,7 @@ if __name__ == "__main__":
                         [
                             "curl",
                             "-L",
-                            "https://mediaarea.net/download/binary/libmediainfo0/23.11/MediaInfo_DLL_23.11_Mac_x86_64+arm64.tar.bz2",
+                            f"https://mediaarea.net/download/binary/libmediainfo0/{libmediainfo_version}/MediaInfo_DLL_{libmediainfo_version}_Mac_x86_64+arm64.tar.bz2",
                             "--output",
                             "libmediainfo.tar.bz2",
                         ]
