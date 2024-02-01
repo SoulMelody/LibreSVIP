@@ -93,13 +93,13 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.2",
+  "datamodel-code-generator>=0.25.3",
   "gapic-generator>=1.14.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.12.1", "babel>=2.14.0"]
+i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
 linting = [
   "isort>=5.13.2",
   "pre-commit>=3.6.0",
