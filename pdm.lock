@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:ef755558eb7011ae0ec2f8159589422a7f76a6d96e0341c20bdb237d835184f8"
+content_hash = "sha256:f0871ff3eef395d14eb066926a0eec37351d451fce8a9190970f4f62c310a5f1"
 
 [[package]]
 name = "aiofiles"
@@ -540,7 +540,7 @@ files = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.25.2"
+version = "0.25.3"
 requires_python = ">=3.7,<4.0"
 summary = "Datamodel Code Generator"
 dependencies = [
@@ -559,8 +559,8 @@ dependencies = [
     "toml<1.0.0,>=0.10.0; python_version < \"3.11\"",
 ]
 files = [
-    {file = "datamodel_code_generator-0.25.2-py3-none-any.whl", hash = "sha256:a7e25d438c652e44a5236117b698da2fab307339b43e68c7d959fd3ec55357f2"},
-    {file = "datamodel_code_generator-0.25.2.tar.gz", hash = "sha256:ebe3a66d1838bbc3368f1ee5e779773acb375b0103c833d597e3d7162354d464"},
+    {file = "datamodel_code_generator-0.25.3-py3-none-any.whl", hash = "sha256:3d5c65194690c07f5fcd4aff6fc2e4ad135e5deab63cc885f62dfcfaf17e4b9c"},
+    {file = "datamodel_code_generator-0.25.3.tar.gz", hash = "sha256:523da03ad2abae73ec1d68124563cd221a5f7e93b0d403204a8acd4d67df69ae"},
 ]
 
 [[package]]
@@ -2781,15 +2781,15 @@ files = [
 
 [[package]]
 name = "translate-toolkit"
-version = "3.12.1"
+version = "3.12.2"
 requires_python = ">=3.8"
 summary = "Tools and API for translation and localization engineering."
 dependencies = [
     "lxml>=4.6.3",
 ]
 files = [
-    {file = "translate-toolkit-3.12.1.tar.gz", hash = "sha256:69e4c68f0e60a259b6176aa173bfeb0de6eba1c2adbfb0aa95a279ba4be26525"},
-    {file = "translate_toolkit-3.12.1-py3-none-any.whl", hash = "sha256:31d60b4bcd2928af4fb24eb29099e913809ea026ffdd15e9075762bbccc5c6c6"},
+    {file = "translate-toolkit-3.12.2.tar.gz", hash = "sha256:acee42b816f7796809b9b4768693664f6bd19fb96eae3d8dfec0932fa8761706"},
+    {file = "translate_toolkit-3.12.2-py3-none-any.whl", hash = "sha256:bcf6e28307965cf80c8ce8a5b8a27e106d34e7b315e3acb545bde2884493daab"},
 ]
 
 [[package]]
