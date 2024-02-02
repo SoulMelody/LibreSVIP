@@ -1,7 +1,7 @@
 import asyncio
 import fnmatch
 import platform
-from collections.abc import Sequence
+from collections.abc import Awaitable, Sequence
 from functools import partial
 from typing import Optional
 
@@ -175,7 +175,7 @@ class Notifier(QObject):
         message: str,
         buttons: Sequence[Button] = (),
         timeout: int = -1,
-    ) -> Optional[Notification]:
+    ) -> Awaitable[Optional[Notification]]:
         try:
             return await self.notifier.send(
                 title=title, message=message, buttons=buttons, timeout=timeout
