@@ -162,7 +162,7 @@ class DeepVocalParser:
                 length=dv_note.length,
                 key_number=convert_note_key(dv_note.key),
                 lyric=dv_note.word,
-                pronunciation=dv_note.phoneme,
+                pronunciation=dv_note.phoneme if dv_note.phoneme != "-" else None,
             )
             note_with_pitch.append(
                 DvNoteWithPitch(

@@ -2,6 +2,7 @@ import dataclasses
 
 from construct_typed import DataclassMixin, DataclassStruct
 
+from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -198,7 +199,8 @@ class DeepVocalGenerator:
                 start=note.start_pos,
                 length=note.length,
                 key=convert_note_key(note.key_number),
-                phoneme=note.pronunciation or "",
+                phoneme=note.pronunciation
+                or ("-" if note.lyric == "-" else next(iter(get_pinyin_series(note.lyric)), "")),
                 word=note.lyric,
                 padding_1=0,
                 vibrato=50,
