@@ -27,7 +27,7 @@ def pretty_construct() -> None:
 
     EnumIntegerString.__repr__ = contruct_enum_repr
 
-    def container_repr(self):
+    def container_repr(self) -> str:
         parts = [
             f"{repr(k)}: {repr(v)}"
             for k, v in self.items()
