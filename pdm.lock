@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:2c422d58cddfce68cbf5ad50b5afd0e770d4fb714988bdb00b095ef9ecfe7b74"
+content_hash = "sha256:c162eb49ab55e4e92338e5a2ee8f45ddd2fda4de67fee9155ddec446e2438424"
 
 [[package]]
 name = "aiofiles"
@@ -771,7 +771,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.14.0"
+version = "1.14.1"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
@@ -788,8 +788,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.14.0.tar.gz", hash = "sha256:3f588aea6c10b7e8f320fb974ebcd3da5f03860700c664bbee6df7d06ce38db4"},
-    {file = "gapic_generator-1.14.0-py3-none-any.whl", hash = "sha256:4ddae04c2a51ead3c0d9de2ae0c42f25ac8216b6952decc90af96c7a2da8351c"},
+    {file = "gapic-generator-1.14.1.tar.gz", hash = "sha256:ddeacd6287907df90592be4b7ea30cbaea930d7f981f56c40863068dd54dae79"},
+    {file = "gapic_generator-1.14.1-py3-none-any.whl", hash = "sha256:48731b88a7d02a9d04752ac93452c448537ad37713dc3eb708a031d07493857a"},
 ]
 
 [[package]]
