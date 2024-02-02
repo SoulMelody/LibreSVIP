@@ -34,7 +34,7 @@ class XSLineParam:
     )
     nodes: list[XSLineParamNode] = dataclasses.field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.nodes = []
         if len(self.line_param) >= 4:
             (node_count,) = struct.unpack("<i", bytearray(self.line_param[:4]))
@@ -49,7 +49,7 @@ class XSLineParam:
                 )
             )
 
-    def convert_to_param(self):
+    def convert_to_param(self) -> None:
         self.line_param = struct.pack("<i", len(self.nodes))
         self.line_param += struct.pack(f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes))
         expected_len = max(64, 2 ** math.ceil(math.log2(len(self.line_param))))

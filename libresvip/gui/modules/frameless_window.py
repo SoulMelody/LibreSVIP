@@ -18,7 +18,7 @@ class FramelessWindow(QQuickWindow):
         self.border_width = border_width
         QCoreApplication.instance().install_event_filter(self)
 
-    def event_filter(self, obj, event: QEvent):
+    def event_filter(self, obj, event: QEvent) -> bool:
         et = event.type()
         if et not in [
             QMouseEvent.Type.MouseButtonPress,

@@ -25,7 +25,7 @@ class SvgFactory:
     pitch_points_buf: list[Point] = dataclasses.field(default_factory=list)
     style: str = dataclasses.field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.style = f"""\
 .note {{
     fill: {self.options.note_fill_color.as_hex()};
@@ -131,7 +131,7 @@ text {{
         text_element.args["class"] = class_name
         self.text_elements.append(text_element)
 
-    def draw_note(self, note: Note):
+    def draw_note(self, note: Note) -> None:
         parameters = self.coordinate_helper.get_note_position_parameters(note)
         rect_element = Rectangle(
             x=parameters.point_1[0],
@@ -146,7 +146,7 @@ text {{
         self.draw_text(self.options.lyric_position, note.lyric, parameters, False)
         self.draw_text(self.options.pronounciation_position, note.pronunciation, parameters, True)
 
-    def draw_pitch(self, point: Point):
+    def draw_pitch(self, point: Point) -> None:
         if point.y == -100:
             if len(self.pitch_points_buf):
                 start_point = self.coordinate_helper.get_pitch_point(self.pitch_points_buf[0])

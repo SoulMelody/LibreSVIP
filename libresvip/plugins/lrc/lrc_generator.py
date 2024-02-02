@@ -68,6 +68,7 @@ class LrcGenerator:
                         minute=time_tag.minute,
                         second=time_tag.second,
                         microsecond=time_tag.percent_second * 10,
+                        tzinfo=datetime.timezone.utc,
                     )
                     ori_time += datetime.timedelta(microseconds=-self.options.offset)
                     time_tag.minute = ori_time.minute
@@ -83,7 +84,7 @@ class LrcGenerator:
 
     def commit_current_lyric_line(
         self, lyric_lines: list[LyricLine], buffer: list[tuple[int, str]]
-    ):
+    ) -> None:
         start_time = self.get_time_from_ticks(buffer[0][0])
         lyrics = ""
         for _, lyric in buffer:
@@ -102,4 +103,7 @@ class LrcGenerator:
         )
 
     def get_time_from_ticks(self, ticks: int) -> datetime.datetime:
-        return datetime.datetime.fromtimestamp(self.synchronizer.get_actual_secs_from_ticks(ticks))
+        return datetime.datetime.fromtimestamp(
+            self.synchronizer.get_actual_secs_from_ticks(ticks),
+            tz=datetime.timezone.utc,
+        )

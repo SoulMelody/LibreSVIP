@@ -1,6 +1,7 @@
 # Ported from QNrbf by SineStriker
 import dataclasses
 import pathlib
+from typing import Any, Optional
 
 from loguru import logger
 
@@ -23,7 +24,7 @@ class SvipReader(NrbfIOBase):
     xstudio_model: XSAppModel = dataclasses.field(init=False)
     header: SerializedStreamHeader = dataclasses.field(init=False)
 
-    def build_binary_array(self, obj):
+    def build_binary_array(self, obj) -> list[Optional[Any]]:
         results = []
         if "Class" in str(obj.binary_type_enum):
             if obj.member_values is not None:
@@ -42,7 +43,7 @@ class SvipReader(NrbfIOBase):
             logger.warning(obj.binary_type_enum)
         return results
 
-    def build_class(self, obj):
+    def build_class(self, obj) -> Any:
         full_name = obj.class_info.name
         class_name = full_name.split("`1", 1)[0]
         model_class = fullname2classes[class_name]
@@ -65,7 +66,7 @@ class SvipReader(NrbfIOBase):
             class_kwargs["items"] = class_kwargs["items"][: class_kwargs["size"]]
         return model_class(**class_kwargs)
 
-    def build_object(self, obj):
+    def build_object(self, obj) -> Optional[Any]:
         if "obj" in obj:
             obj = obj.obj
         if "real_obj" in obj:
@@ -87,7 +88,7 @@ class SvipReader(NrbfIOBase):
         ]:
             logger.warning(obj.record_type_enum)
 
-    def read_record(self, record):
+    def read_record(self, record) -> bool:
         if record.record_type_enum == RecordTypeEnum.SerializedStreamHeader:
             self.header = record.obj
         elif "Class" in str(record.record_type_enum):
@@ -96,7 +97,7 @@ class SvipReader(NrbfIOBase):
                 return True
         return False
 
-    def resolve_references(self):
+    def resolve_references(self) -> None:
         for ref_id in references_by_id[self.cur_thread_id]:
             ref = references_by_id[self.cur_thread_id][ref_id]
             ref["real_obj"] = self.ref_map[ref["id_ref"]]

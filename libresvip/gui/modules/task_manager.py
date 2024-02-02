@@ -518,7 +518,7 @@ class TaskManager(QObject):
         self.busy_changed.emit(busy)
 
     @Slot()
-    def start(self):
+    def start(self) -> None:
         self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}

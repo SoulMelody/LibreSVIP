@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import Enum
 from types import SimpleNamespace
 from typing import Annotated, Literal
@@ -55,7 +57,7 @@ class NormalizationArgument(BaseModel):
         return ",".join(default_strs)
 
     @classmethod
-    def from_str(cls, v: str):
+    def from_str(cls, v: str) -> NormalizationArgument:
         fields = cls.model_fields
         try:
             obj = cls(**dict(zip(fields.keys(), v.split(","))))
@@ -132,7 +134,7 @@ class InputOptions(BaseModel):
         mode="before",
     )
     @classmethod
-    def _validate_normalization_argument(cls, v, _info):
+    def _validate_normalization_argument(cls, v, _info) -> NormalizationArgument:
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()
         return v

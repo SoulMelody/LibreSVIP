@@ -4,12 +4,14 @@ import enum
 import io
 import json
 import os
+import pathlib
 import shutil
 import sys
 import tempfile
-from typing import TYPE_CHECKING, get_args, get_type_hints
+from collections.abc import Iterator
+from typing import Any, get_args, get_type_hints
 
-from babel.messages.frontend import extract_messages
+from babel.messages import setuptools_frontend
 from loguru import logger
 from pydantic_extra_types.color import Color
 from translate.convert.json2po import convertjson
@@ -18,15 +20,12 @@ from translate.tools.pomerge import mergestore
 
 from libresvip.core.compat import package_path
 from libresvip.extension.manager import plugin_manager
-from libresvip.model.base import BaseComplexModel
-
-if TYPE_CHECKING:
-    import pathlib
+from libresvip.model.base import BaseComplexModel, BaseModel
 
 
-def messages_iterator():
+def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
     for plugin_info in plugin_manager.plugin_registry.values():
-        info_path: pathlib.Path = package_path(sys.modules[plugin_info.plugin_object.__module__])
+        info_path = package_path(sys.modules[plugin_info.plugin_object.__module__])
         plugin_suffix = plugin_info.suffix
         plugin_info = plugin_manager.plugin_registry[plugin_suffix]
         plugin_metadata = {
@@ -38,7 +37,9 @@ def messages_iterator():
         for method in ("load", "dump"):
             if not hasattr(plugin_info.plugin_object, method):
                 continue
-            option_class = get_type_hints(getattr(plugin_info.plugin_object, method))["options"]
+            option_class: BaseModel = get_type_hints(getattr(plugin_info.plugin_object, method))[
+                "options"
+            ]
             conv_fields = []
             for option_key, field_info in option_class.model_fields.items():
                 if issubclass(
@@ -87,7 +88,7 @@ if __name__ == "__main__":
         with tempfile.NamedTemporaryFile(suffix=".po") as tmp_po:
             with tempfile.TemporaryDirectory() as tmp_dir:
                 tmp_pot_name = tempfile.mktemp(suffix=".pot", dir=tmp_dir)
-                cmdinst = extract_messages()
+                cmdinst = setuptools_frontend.extract_messages()
                 cmdinst.initialize_options()
                 cmdinst.input_paths = [str(info_path)]
                 cmdinst.output_file = tmp_pot_name

@@ -41,7 +41,7 @@ JUCEVarTypes = CSEnum(
 
 
 class JUCECompressedIntStruct(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context, path) -> None:
         msg = "JUCECompressedInt has no static size"
         raise SizeofError(msg)
 

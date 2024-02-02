@@ -40,7 +40,7 @@ class Notifier(QObject):
         if settings.auto_check_for_updates:
             self.check_for_updates()
 
-    async def download_release(self, url: str, filename: str):
+    async def download_release(self, url: str, filename: str) -> None:
         app_dir.user_downloads_path.mkdir(parents=True, exist_ok=True)
         async with httpx.AsyncClient(follow_redirects=True, verify=False) as client:
             try:
@@ -65,7 +65,7 @@ class Notifier(QObject):
 
     @Slot()
     @qtinter.asyncslot
-    async def check_for_updates(self):
+    async def check_for_updates(self) -> None:
         failed = False
         async with httpx.AsyncClient(follow_redirects=True, timeout=self.request_timeout) as client:
             try:

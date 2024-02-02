@@ -61,7 +61,9 @@ class BasePitchCurve:
     )
     values_in_semitone: list[float] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, notes: Iterable[AcepNote], tempos: list[AcepTempo], tick_offset: int):
+    def __post_init__(
+        self, notes: Iterable[AcepNote], tempos: list[AcepTempo], tick_offset: int
+    ) -> None:
         note_list = []
         for note in notes:
             note_end = tick_to_second(note.pos + note.dur + tick_offset, tempos)

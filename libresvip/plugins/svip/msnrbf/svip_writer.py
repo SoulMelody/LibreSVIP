@@ -6,7 +6,7 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Union, get_args, get_origin
+from typing import Any, Optional, Union, get_args, get_origin
 
 from .binary_models import (
     BinaryArrayTypeEnum,
@@ -30,19 +30,19 @@ from .xstudio_models import (
 )
 
 
-def class_def_factory():
+def class_def_factory() -> dict[str, int]:
     return defaultdict(lambda: 0)
 
 
 @dataclasses.dataclass
 class SvipWriter(NrbfIOBase):
-    ids: Queue = dataclasses.field(default_factory=Queue)
+    ids: Queue[int] = dataclasses.field(default_factory=Queue)
     id_max: int = dataclasses.field(default=0)
     model_library_id: int = dataclasses.field(default=0)
     lib_library_id: int = dataclasses.field(default=0)
     written_ids: set[int] = dataclasses.field(default_factory=set)
-    class_defs: dict = dataclasses.field(default_factory=class_def_factory)
-    svip_file: dict = dataclasses.field(init=False)
+    class_defs: dict[str, int] = dataclasses.field(default_factory=class_def_factory)
+    svip_file: dict[str, Any] = dataclasses.field(init=False)
 
     def enq(self) -> int:
         self.id_max += 1
@@ -93,7 +93,7 @@ class SvipWriter(NrbfIOBase):
         )
         path.write_bytes(SVIPFile.build(self.svip_file))
 
-    def write_library(self, library_name):
+    def write_library(self, library_name: str) -> int:
         self.id_max += 1
         result = self.id_max
         model_library = {"library_id": result, "library_name": library_name}
@@ -108,7 +108,7 @@ class SvipWriter(NrbfIOBase):
         )
         return result
 
-    def create_string(self, value: str):
+    def create_string(self, value: str) -> dict[str, Any]:
         self.id_max += 1
         return {
             "record_type_enum": RecordTypeEnum.BinaryObjectString,
@@ -118,7 +118,7 @@ class SvipWriter(NrbfIOBase):
             },
         }
 
-    def create_reference(self, value, object_id: int, subcon_class_name: str):
+    def create_reference(self, value, object_id: int, subcon_class_name: str) -> dict[str, Any]:
         result = {
             "record_type_enum": RecordTypeEnum.MemberReference,
             "obj": {
@@ -135,7 +135,7 @@ class SvipWriter(NrbfIOBase):
             }
         return result
 
-    def write_null_array(self, value: int):
+    def write_null_array(self, value: int) -> dict[str, Any]:
         if value == 1:
             return {
                 "record_type_enum": RecordTypeEnum.ObjectNull,
@@ -156,7 +156,9 @@ class SvipWriter(NrbfIOBase):
                 },
             }
 
-    def write_binary_array(self, values: list, type_name: str, library_id: int):
+    def write_binary_array(
+        self, values: list[bytes], type_name: str, library_id: int
+    ) -> dict[str, Any]:
         object_id = self.enq()
         padded_length = max(4, 2 ** math.ceil(math.log2(len(values))) if values else 0)
         result = {
@@ -196,7 +198,7 @@ class SvipWriter(NrbfIOBase):
         }
         return self.create_reference(result, object_id, None)
 
-    def create_primitive_array(self, values):
+    def create_primitive_array(self, values) -> dict[str, Any]:
         object_id = self.enq()
         result = {
             "record_type_enum": RecordTypeEnum.ArraySinglePrimitive,
@@ -215,7 +217,9 @@ class SvipWriter(NrbfIOBase):
         }
         return self.create_reference(result, object_id, None)
 
-    def write_dataclass(self, obj, object_id, subcon_class_name=None):
+    def write_dataclass(
+        self, obj, object_id: int, subcon_class_name: Optional[str] = None
+    ) -> dict[str, Any]:
         fields = sorted(dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0))
         class_name = inspect.getdoc(type(obj))
 

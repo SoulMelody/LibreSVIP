@@ -46,7 +46,7 @@ class SrtGenerator:
                 buffer = []
         return lyric_lines
 
-    def commit_current_lyric_line(self, lyric_lines: list[Subtitle], buffer: list[Note]):
+    def commit_current_lyric_line(self, lyric_lines: list[Subtitle], buffer: list[Note]) -> None:
         start_time = self.get_time_from_ticks(buffer[0].start_pos)
         end_time = self.get_time_from_ticks(buffer[-1].end_pos)
         lyrics = "".join(SYMBOL_PATTERN.sub("", note.lyric) for note in buffer)

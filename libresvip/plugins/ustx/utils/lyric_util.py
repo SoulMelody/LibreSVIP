@@ -13,5 +13,5 @@ class LyricUtil:
         return c in cls.unsupported_symbols
 
     @classmethod
-    def get_symbol_removed_lyric(cls, lyric: str):
+    def get_symbol_removed_lyric(cls, lyric: str) -> str:
         return lyric.rstrip(cls.unsupported_symbols)

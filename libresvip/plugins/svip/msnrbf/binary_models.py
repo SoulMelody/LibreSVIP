@@ -6,6 +6,7 @@ import threading
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from functools import partial
+from typing import Any
 
 from construct import (
     Adapter,
@@ -38,6 +39,7 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
+from typing_extensions import Never
 
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
@@ -67,11 +69,11 @@ class DateTimeAdapter(Adapter):
             kind = 1
         else:
             kind = 2
-        ticks = (obj - datetime(1, 1, 1)).total_seconds() * 10000000
+        ticks = (obj - datetime(1, 1, 1, tzinfo=timezone.utc)).total_seconds() * 10000000
         return DateTimeBitStruct.build({"ticks": ticks, "kind": kind})
 
     def _decode(self, obj: DateTimeBitStruct, context, path) -> datetime:
-        date_time = datetime(1, 1, 1) + timedelta(microseconds=obj.ticks / 10)
+        date_time = datetime(1, 1, 1, tzinfo=timezone.utc) + timedelta(microseconds=obj.ticks / 10)
         if obj.kind == 1:
             date_time = date_time.replace(tzinfo=timezone.utc)
         elif obj.kind == 2:
@@ -84,22 +86,22 @@ DateTime = DateTimeAdapter(DateTimeBitStruct)
 
 
 class Null(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context, path) -> int:
         return 0
 
-    def _parse(self, stream, context, path):
+    def _parse(self, stream, context, path) -> None:
         return None
 
-    def _build(self, obj, stream, context, path):
+    def _build(self, obj, stream, context, path) -> None:
         pass
 
 
 class Utf8CodePoint(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context, path) -> Never:
         msg = "Utf8CodePoint has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path):
+    def _parse(self, stream, context, path) -> str:
         byte = stream.read(1)
         if not byte:
             raise EOFError
@@ -117,7 +119,7 @@ class Utf8CodePoint(Construct):
             raise ValueError(msg)
         return (byte + stream.read(length - 1)).decode("utf-8")
 
-    def _build(self, obj, stream, context, path):
+    def _build(self, obj, stream, context, path) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         stream.write(obj)
@@ -125,11 +127,11 @@ class Utf8CodePoint(Construct):
 
 
 class LengthPrefixedString(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context, path) -> Never:
         msg = "LengthPrefixedString has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path):
+    def _parse(self, stream, context, path) -> str:
         length = 0
         shift = 0
         for i in range(5):
@@ -147,7 +149,7 @@ class LengthPrefixedString(Construct):
         content = stream.read(length)
         return content.decode("utf-8")
 
-    def _build(self, obj, stream, context, path):
+    def _build(self, obj, stream, context, path) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         length = len(obj)
@@ -173,18 +175,18 @@ references_by_id = defaultdict(dict)
 
 
 class RegistryAdapter(Adapter, abc.ABC):
-    def _encode(self, obj, context, path):
+    def _encode(self, obj, context, path) -> Any:
         return obj
 
 
 class ClassRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj, context, path) -> Any:
         classes_by_id[threading.get_ident()][obj.class_info.object_id] = obj
         return obj
 
 
 class ObjectRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj, context, path) -> Any:
         if obj.get("array_info", None):
             objects_by_id[threading.get_ident()][obj.array_info.object_id] = obj
         else:
@@ -193,13 +195,13 @@ class ObjectRegistryAdapter(RegistryAdapter):
 
 
 class LibraryRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj, context, path) -> Any:
         libraries_by_id[threading.get_ident()][obj.library_id] = obj.library_name
         return obj
 
 
 class MemberReferenceAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj, context, path) -> Any:
         ref_cache = references_by_id[threading.get_ident()]
         if obj.id_ref not in ref_cache:
             result = {"id_ref": obj.id_ref, "real_obj": None}

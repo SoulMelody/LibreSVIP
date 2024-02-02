@@ -2,6 +2,7 @@
 import dataclasses
 import threading
 from collections import ChainMap
+from collections.abc import MutableMapping
 from functools import cached_property
 
 from typing_extensions import Self
@@ -18,11 +19,11 @@ from .binary_models import (
 class NrbfIOBase:
     cur_thread_id: int = dataclasses.field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.cur_thread_id = threading.get_ident()
 
     @cached_property
-    def ref_map(self) -> ChainMap:
+    def ref_map(self) -> MutableMapping:
         return ChainMap(
             classes_by_id[self.cur_thread_id],
             objects_by_id[self.cur_thread_id],

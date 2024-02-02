@@ -54,7 +54,7 @@ class BdistPortable(Command):
 
     default_format = {"posix": "gztar", "nt": "zip"}
 
-    def initialize_options(self):
+    def initialize_options(self) -> None:
         self.bdist_dir = None
         self.plat_name = None
         self.format = None
@@ -65,7 +65,7 @@ class BdistPortable(Command):
         self.owner = None
         self.group = None
 
-    def finalize_options(self):
+    def finalize_options(self) -> None:
         if self.bdist_dir is None:
             bdist_base = self.get_finalized_command("bdist").bdist_base
             self.bdist_dir = pathlib.Path(bdist_base) / "portable"
@@ -88,7 +88,7 @@ class BdistPortable(Command):
             ("skip_build", "skip_build"),
         )
 
-    def run(self):
+    def run(self) -> None:
         if not self.skip_build:
             self.run_command("build")
 

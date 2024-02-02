@@ -12,10 +12,10 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable
+from bdist_portable import BdistPortable  # noqa: E402
 
-import libresvip
-from libresvip.core.constants import pkg_dir
+import libresvip  # noqa: E402
+from libresvip.core.constants import pkg_dir  # noqa: E402
 
 bin_includes = []
 bin_path_includes = [shiboken6.__path__[0]]
