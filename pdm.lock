@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:a4edf2387dd549bada890a6175c35283aa9720c14b5e7a4f5ec959a37101d60f"
+content_hash = "sha256:cdb88bba18a8181e2958330e4ff01810552a7ea084c47cb572e356bb3974eb6e"
 
 [[package]]
 name = "aiofiles"
