@@ -145,8 +145,8 @@ class MidiParser:
             if self.selected_channels and channel not in self.selected_channels:
                 continue
             last_note_on = collections.defaultdict(list)
-            pitchbend_range_changed = collections.defaultdict(list)
-            lyrics = collections.defaultdict(lambda: DEFAULT_PHONEME)
+            pitchbend_range_changed: dict[int, list[int]] = collections.defaultdict(list)
+            lyrics: dict[str] = collections.defaultdict(lambda: DEFAULT_PHONEME)
             track_name = None
             notes = []
             rel_pitch_points = []

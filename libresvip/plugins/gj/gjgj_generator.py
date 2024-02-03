@@ -190,7 +190,7 @@ class GjgjGenerator:
         ticks_buffer = []
         value_buffer = []
         ori_prev_ticks = -100
-        pitch_points = []
+        pitch_points: list[GjgjPoint] = []
         modify_ranges = []
         for point in pitch.points.root:
             ori_ticks, ori_value = point.x, point.y

@@ -41,7 +41,7 @@ class DiffSingerParser:
     def parse_notes(self, ds_items: list[DsItem]) -> list[Note]:
         all_notes = []
         for ds_item in ds_items:
-            notes = []
+            notes: list[Note] = []
             cur_time = self.synchronizer.get_actual_ticks_from_secs(ds_item.offset)
             prev_is_breath = False
             for (

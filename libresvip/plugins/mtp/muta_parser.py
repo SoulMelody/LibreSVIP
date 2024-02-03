@@ -72,7 +72,7 @@ class MutaParser:
         ]
 
     def parse_singing_tracks(self, muta_singing_tracks: list[MutaTrack]) -> list[SingingTrack]:
-        track_list = []
+        track_list: list[SingingTrack] = []
         for muta_track in muta_singing_tracks:
             for part in muta_track.song_track_data:
                 singing_track = SingingTrack(
@@ -92,13 +92,13 @@ class MutaParser:
 
     def parse_pitch(self, muta_pitch: list[MutaPoint], tick_offset: int) -> Optional[ParamCurve]:
         pitch_points = [Point.start_point()]
-        for muta_point in muta_pitch:
-            pitch_points.append(
-                Point(
-                    x=muta_point.time + tick_offset,
-                    y=(muta_point.value + 1200) if 0 < muta_point.value < 12900 else -100,
-                )
+        pitch_points.extend(
+            Point(
+                x=muta_point.time + tick_offset,
+                y=(muta_point.value + 1200) if 0 < muta_point.value < 12900 else -100,
             )
+            for muta_point in muta_pitch
+        )
         pitch_points.append(Point.end_point())
         if len(pitch_points) > 2:
             return ParamCurve(

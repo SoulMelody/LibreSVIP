@@ -1,6 +1,7 @@
 import dataclasses
 import operator
 import re
+from collections import defaultdict
 from decimal import Decimal
 from typing import Optional
 
@@ -42,9 +43,8 @@ class MusicXMLGenerator:
 
     def generate_project(self, project: Project) -> ScorePartwise:
         project_with_tick_rate_applied = self.apply_tick_rate(project)
-        measures = {}
+        measures: dict[int, list[MXmlMeasure]] = defaultdict(list)
         for i, track in enumerate(project_with_tick_rate_applied.track_list):
-            measures.setdefault(i, [])
             if key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied):
                 track_measures = self.get_measures(
                     key_ticks, project_with_tick_rate_applied.time_signature_list, i
@@ -253,12 +253,12 @@ class MusicXMLGenerator:
             for border_pair in zip(measure_border_ticks, measure_border_ticks[1:])
         ]
 
-        current_content_group = []
+        current_content_group: list[MXmlMeasureContent] = []
         content_group_border_pair_map = {}
         ongoing_note_with_current_head = None
         for border_pair, key_tick_group in key_ticks_with_measure_borders:
             current_tick_in_measure = 0
-            current_content_group = []
+            current_content_group.clear()
             for key_tick in key_tick_group:
                 key_tick_relative = key_tick.tick - border_pair[0]
                 if key_tick_relative > current_tick_in_measure:

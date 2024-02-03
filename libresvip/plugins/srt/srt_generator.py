@@ -25,7 +25,7 @@ class SrtGenerator:
             singing_track = project.track_list[self.options.track_index]
         note_list = singing_track.note_list
         buffer = []
-        lyric_lines = []
+        lyric_lines: list[Subtitle] = []
         for i, note in enumerate(note_list):
             buffer.append(note)
             commit_flag = False

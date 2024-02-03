@@ -119,9 +119,9 @@ def pitch_from_utau_mode2_track(
     if pitch_data is None:
         return ParamCurve()
     tick_time_transformer = TimeSynchronizer(tempos)
-    pitch_points = []
+    pitch_points: list[Point] = []
     last_note: Optional[Note] = None
-    pending_pitch_points = []
+    pending_pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):
         points = []
         note_start_in_millis = (

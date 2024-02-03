@@ -79,14 +79,12 @@ class DsItem(BaseModel):
     @field_validator("spk_mix", mode="before")
     @classmethod
     def _validate_nested_dict(
-        cls, value: dict[str, str], _info: ValidationInfo
-    ) -> dict[str, list[float]]:
-        if value is None:
+        cls, values: Optional[dict[str, str]], _info: ValidationInfo
+    ) -> Optional[dict[str, list[float]]]:
+        if values is None:
             return None
 
-        for key in value:
-            value[key] = [float(x) for x in value[key].split()]
-        return value
+        return {key: [float(x) for x in value.split()] for key, value in values.items()}
 
     @field_serializer("spk_mix", when_used="json-unless-none")
     @classmethod

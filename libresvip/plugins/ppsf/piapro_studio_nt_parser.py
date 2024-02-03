@@ -46,7 +46,7 @@ class PiaproStudioNTParser:
         )
 
     def parse_time_signatures(self, ppsf_meters: PpsfMeters) -> list[TimeSignature]:
-        time_signatures = []
+        time_signatures: list[TimeSignature] = []
         first_time_signature = TimeSignature(
             numerator=ppsf_meters.const.nume,
             denominator=ppsf_meters.const.denomi,
@@ -65,7 +65,7 @@ class PiaproStudioNTParser:
         return time_signatures
 
     def parse_tempos(self, ppsf_tempos: PpsfTempos) -> list[SongTempo]:
-        tempos = []
+        tempos: list[SongTempo] = []
         first_tempo = SongTempo(bpm=ppsf_tempos.const / 10000, position=0)
         if ppsf_tempos.use_sequence:
             tempos.extend(

@@ -30,7 +30,7 @@ class LrcGenerator:
         )
         note_list = singing_track.note_list
         buffer = []
-        lyric_lines = []
+        lyric_lines: list[LyricLine] = []
         for i, note in enumerate(note_list):
             buffer.append((note.start_pos, note.lyric))
             commit_flag = False

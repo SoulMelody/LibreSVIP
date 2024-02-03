@@ -1,7 +1,7 @@
 import dataclasses
 import sys
 from collections.abc import Callable
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.tick_counter import skip_beat_list
@@ -43,6 +43,9 @@ from .options import OutputOptions, VibratoOption, synthv_language_presets
 from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
 from .pitch_simulator import PitchSimulator
 from .pitch_slide import PitchSlide
+
+if TYPE_CHECKING:
+    from libresvip.model.point import Point
 
 
 @dataclasses.dataclass
@@ -208,7 +211,7 @@ class SynthVGenerator:
         if not len(self.note_buffer):
             return sv_curve
         point_list = sv_curve.points
-        buffer = []
+        buffer: list[Point] = []
         min_interval = 1
         last_point = None
         for point in curve.points.root:
@@ -313,7 +316,7 @@ class SynthVGenerator:
                         value=mapping_func(y0),
                     )
                 )
-        buffer = []
+        buffer: list[Point] = []
         min_interval = 1
         last_point = None
         for point in curve.points.root[skipped:]:
@@ -390,13 +393,13 @@ class SynthVGenerator:
         return sv_curve
 
     def generate_notes_with_phones(self, notes: list[Note]) -> list[SVNote]:
-        sv_note_list = []
+        sv_note_list: list[SVNote] = []
         if not len(notes):
             return sv_note_list
         current_note = notes[0]
         current_sv_note = self.generate_note(current_note)
         current_phone_marks = default_phone_marks(
-            self.lyrics_phonemes[0], self.options.language_override
+            self.lyrics_phonemes[0], self.options.language_override.value
         )
         if (
             current_phone_marks[0] > 0
@@ -409,7 +412,9 @@ class SynthVGenerator:
             notes[1:], self.lyrics_phonemes[:-1], self.lyrics_phonemes[1:]
         ):
             next_sv_note = self.generate_note(next_note)
-            next_phone_marks = default_phone_marks(next_phoneme, self.options.language_override)
+            next_phone_marks = default_phone_marks(
+                next_phoneme, self.options.language_override.value
+            )
 
             current_main_part_edited = (
                 current_phone_marks[1] > 0

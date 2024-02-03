@@ -2,7 +2,8 @@ import math
 from dataclasses import dataclass
 from typing import Optional
 
-from libresvip.model.base import Note, ParamCurve, Point
+from libresvip.model.base import Note, ParamCurve
+from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils import clamp
 
@@ -55,7 +56,7 @@ def pitch_from_vocaloid_parts(
         pitch_raw_data_by_part.append(
             {k + part.start_pos: v for k, v in pit_multiplied_by_pbs.items()}
         )
-    pitch_raw_data = []
+    pitch_raw_data: list[tuple[int, int]] = []
     for element in pitch_raw_data_by_part:
         first_pos = next(iter(element), None)
         if first_pos is None:
@@ -77,7 +78,7 @@ def generate_for_vocaloid(pitch: ParamCurve, notes: list[Note]) -> Optional[Voca
     )
     if not len(data):
         return None
-    pitch_sectioned = [[]]
+    pitch_sectioned: list[list[Point]] = [[]]
     current_pos = 0
     for pitch_event in data:
         if (
@@ -88,8 +89,8 @@ def generate_for_vocaloid(pitch: ParamCurve, notes: list[Note]) -> Optional[Voca
         else:
             pitch_sectioned.append([pitch_event])
         current_pos = pitch_event.x
-    pit = []
-    pbs = []
+    pit: list[ControllerEvent] = []
+    pbs: list[ControllerEvent] = []
     for section in pitch_sectioned:
         if len(section):
             max_abs_value = max(abs(point.y / 100) for point in section)
@@ -109,10 +110,12 @@ def generate_for_vocaloid(pitch: ParamCurve, notes: list[Note]) -> Optional[Voca
             pit.extend(
                 ControllerEvent(
                     pitch_pos,
-                    clamp(
-                        round(pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section),
-                        -PITCH_MAX_VALUE,
-                        PITCH_MAX_VALUE,
+                    int(
+                        clamp(
+                            round(pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section),
+                            -PITCH_MAX_VALUE,
+                            PITCH_MAX_VALUE,
+                        )
                     ),
                 )
                 for pitch_pos, pitch_value in section

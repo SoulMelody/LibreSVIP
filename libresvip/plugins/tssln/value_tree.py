@@ -1,6 +1,6 @@
 import math
 import struct
-from io import BufferedIOBase
+from typing import BinaryIO
 
 import more_itertools
 from construct import (
@@ -50,14 +50,14 @@ class JUCECompressedIntStruct(Construct):
         msg = "JUCECompressedInt has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> int:
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> int:
         byte = stream.read(1)
         if not byte:
             raise EOFError
         width = struct.unpack("<B", byte)[0]
         return int.from_bytes(stream.read(width), "little", signed=False)
 
-    def _build(self, obj: int, stream: BufferedIOBase, context: Context, path: CSPath) -> int:
+    def _build(self, obj: int, stream: BinaryIO, context: Context, path: CSPath) -> int:
         if obj < 0:
             msg = "Negative numbers not supported"
             raise ValueError(msg)

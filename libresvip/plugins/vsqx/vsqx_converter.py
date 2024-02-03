@@ -1,5 +1,5 @@
 import pathlib
-from typing import TYPE_CHECKING, Any, Optional, TextIO
+from typing import TYPE_CHECKING, Any, Optional, TextIO, Union
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
@@ -81,6 +81,7 @@ class VsqxConverter(plugin_base.SVSConverterBase):
         return VsqxParser(options).parse_project(vsqx_proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
+        vsqx_generator_class: Union[type[Vsq3Generator], type[Vsq4Generator]]
         if options.vsqx_version == VsqxVersion.VSQ3:
             vsqx_generator_class = Vsq3Generator
             vsqx_namespace = VSQ3_NS

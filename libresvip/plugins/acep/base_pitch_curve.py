@@ -76,7 +76,7 @@ class BasePitchCurve:
             )
             if note.vibrato is not None:
                 vibrato_start = tick_to_second(
-                    note.pos + note.vibrato.start_pos + tick_offset, tempos
+                    int(note.pos + note.vibrato.start_pos + tick_offset), tempos
                 )
                 vibrato_duration = note_end - vibrato_start
                 self.vibrato_value_interval_dict[

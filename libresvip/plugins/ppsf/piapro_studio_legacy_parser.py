@@ -66,11 +66,11 @@ class PiaproStudioLegacyParser:
         self, events_chunk: Optional[Container] = None
     ) -> tuple[list[SongTempo], list[TimeSignature]]:
         tempos = []
-        time_signatures = []
+        time_signatures: list[TimeSignature] = []
         if events_chunk is not None:
             prev_tick = -TICKS_IN_BEAT * 4
             for event_group in events_chunk.data.events:
-                events_by_level = []
+                events_by_level: list[list[tuple[int, bytes]]] = []
                 for event in event_group:
                     if event.magic == "MidiEvent":
                         (tick,) = struct.unpack_from(
@@ -115,7 +115,7 @@ class PiaproStudioLegacyParser:
         return tempos, time_signatures
 
     def parse_tracks(self, events_chunk: Optional[Container] = None) -> list[SingingTrack]:
-        tracks = []
+        tracks: list[SingingTrack] = []
         if events_chunk is not None:
             lyric_info_struct = Struct(
                 "lyric" / PascalString(Byte, "utf-8"),

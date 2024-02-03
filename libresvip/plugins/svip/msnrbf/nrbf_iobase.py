@@ -6,6 +6,7 @@ from collections.abc import MutableMapping
 from functools import cached_property
 from types import TracebackType
 
+from construct import Container
 from typing_extensions import Self
 
 from .binary_models import (
@@ -24,7 +25,7 @@ class NrbfIOBase:
         self.cur_thread_id = threading.get_ident()
 
     @cached_property
-    def ref_map(self) -> MutableMapping:
+    def ref_map(self) -> MutableMapping[int, MutableMapping[int, Container]]:
         return ChainMap(
             classes_by_id[self.cur_thread_id],
             objects_by_id[self.cur_thread_id],

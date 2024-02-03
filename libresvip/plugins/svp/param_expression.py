@@ -150,7 +150,7 @@ class CurveGenerator(ParamExpression):
         return round((1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y)
 
     def get_converted_curve(self, step: int) -> list[Point]:
-        result = []
+        result: list[Point] = []
         if len(self.point_list) == 0:
             result.extend(
                 (

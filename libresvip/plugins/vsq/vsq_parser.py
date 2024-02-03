@@ -153,8 +153,8 @@ class VsqParser:
         note_list: list[Note],
         tick_prefix: int,
     ) -> Optional[ParamCurve]:
-        pit = []
-        pbs = []
+        pit: list[ControllerEvent] = []
+        pbs: list[ControllerEvent] = []
         if vsq_track.has_section("PitchBendBPList"):
             pit.extend(
                 ControllerEvent(

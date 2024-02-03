@@ -76,7 +76,7 @@ class MutaGenerator:
         ]
 
     def generate_singing_tracks(self, tracks: list[SingingTrack]) -> list[MutaTrack]:
-        track_list = []
+        track_list: list[MutaTrack] = []
         for track in tracks:
             muta_track = MutaTrack(
                 track_type=MutaTrackType.SONG,
@@ -143,7 +143,7 @@ class MutaGenerator:
     def generate_instrumental_tracks(
         self, tracks: list[InstrumentalTrack], singing_track_count: int
     ) -> list[MutaTrack]:
-        track_list = []
+        track_list: list[MutaTrack] = []
         for track in tracks:
             if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 muta_track = MutaTrack(

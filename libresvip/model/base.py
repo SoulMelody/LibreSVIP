@@ -144,7 +144,7 @@ class ParamCurve(BaseModel):
             if point.x >= 0 and point.y != interrupt_value:
                 segments.append([point])
             return segments
-        buffer = []
+        buffer: list[Point] = []
         if interrupt_value != 0:
             for point in self.points.root:
                 if point.x >= 0 and point.y < sys.maxsize // 2:

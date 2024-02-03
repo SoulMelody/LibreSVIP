@@ -135,7 +135,7 @@ class InputOptions(BaseModel):
     )
     @classmethod
     def _validate_normalization_argument(
-        cls, v: Union[str, dict], _info: ValidationInfo
+        cls, v: Union[str, dict[str, Union[str, float]]], _info: ValidationInfo
     ) -> NormalizationArgument:
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()

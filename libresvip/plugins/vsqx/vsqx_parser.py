@@ -55,7 +55,7 @@ class VsqxParser:
         singing_tracks = self.parse_singing_tracks(
             vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix
         )
-        wav_parts = []
+        wav_parts: list[VsqxWavPart] = []
         wav_units = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part

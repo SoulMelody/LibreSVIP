@@ -196,7 +196,7 @@ class Vsq3Generator:
         return note_list
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq3MCtrl]:
-        music_controls = []
+        music_controls: list[Vsq3MCtrl] = []
         if pitch_raw_data := generate_for_vocaloid(pitch, notes):
             music_controls.extend(
                 Vsq3MCtrl(

@@ -117,14 +117,14 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def exclude(self, predicate: Callable[[float], bool]) -> AcepParamCurveList:
         result = type(self)()
         for curve in self.root:
-            buffer = []
+            buffer: list[float] = []
             pos = curve.offset
             for value in curve.values:
                 pos += 1
                 if predicate(value):
                     if buffer:
                         result.root.append(AcepParamCurve(offset=pos - len(buffer), values=buffer))
-                        buffer = []
+                        buffer.clear()
                 else:
                     buffer.append(value)
 

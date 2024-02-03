@@ -52,7 +52,7 @@ class ModelProxy(QAbstractListModel):
     def __bool__(self) -> bool:
         return bool(self._items)
 
-    def __getitem__(self, index: int) -> dict:
+    def __getitem__(self, index: int) -> Item:
         return self._items[index]
 
     def __iter__(self) -> Iterator[Item]:
@@ -176,7 +176,7 @@ class ModelProxy(QAbstractListModel):
         return self._items[start:end]
 
     @Slot(int, dict)
-    def update(self, index: int, item: dict) -> None:
+    def update(self, index: int, item: Item) -> None:
         self._items[index].update(item)
         # emit signal of `self.dataChanged` to notify qml side that some item
         # has been changed.
@@ -198,7 +198,7 @@ class ModelProxy(QAbstractListModel):
         qindex_end = self.create_index(end - 1, 0)
         self.dataChanged.emit(qindex_start, qindex_end)
 
-    def _auto_complete(self, item: dict) -> Item:
+    def _auto_complete(self, item: Item) -> Item:
         for k, v in self._defaults.items():
             if k not in item:
                 item[k] = v
@@ -207,12 +207,10 @@ class ModelProxy(QAbstractListModel):
     # -------------------------------------------------------------------------
     # overrides
 
-    # noinspection PyMethodOverriding
     def data(self, index: QModelIndex, role: int) -> Any:
         name = self._role_2_name[role]
         return self._items[index.row()].get(name, "")
 
-    # noinspection PyMethodOverriding,PyTypeChecker,PyUnresolvedReferences
     def set_data(self, index: QModelIndex, value: Any, role: int) -> bool:
         name = self._role_names[role]
         self._items[index.row()][name] = value

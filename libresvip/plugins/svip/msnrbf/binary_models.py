@@ -6,8 +6,7 @@ import threading
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from functools import partial
-from io import BufferedIOBase
-from typing import Any, Union
+from typing import Any, BinaryIO, Union
 
 from construct import (
     Adapter,
@@ -93,12 +92,10 @@ class Null(Construct):
     def _sizeof(self, context: Context, path: CSPath) -> int:
         return 0
 
-    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> None:
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> None:
         return None
 
-    def _build(
-        self, obj: Container, stream: BufferedIOBase, context: Context, path: CSPath
-    ) -> None:
+    def _build(self, obj: Container, stream: BinaryIO, context: Context, path: CSPath) -> None:
         pass
 
 
@@ -107,7 +104,7 @@ class Utf8CodePoint(Construct):
         msg = "Utf8CodePoint has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> str:
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> str:
         byte = stream.read(1)
         if not byte:
             raise EOFError
@@ -126,7 +123,7 @@ class Utf8CodePoint(Construct):
         return (byte + stream.read(length - 1)).decode("utf-8")
 
     def _build(
-        self, obj: Union[str, bytes], stream: BufferedIOBase, context: Context, path: CSPath
+        self, obj: Union[str, bytes], stream: BinaryIO, context: Context, path: CSPath
     ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
@@ -139,7 +136,7 @@ class LengthPrefixedString(Construct):
         msg = "LengthPrefixedString has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> str:
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> str:
         length = 0
         shift = 0
         for i in range(5):
@@ -158,7 +155,7 @@ class LengthPrefixedString(Construct):
         return content.decode("utf-8")
 
     def _build(
-        self, obj: Union[str, bytes], stream: BufferedIOBase, context: Context, path: CSPath
+        self, obj: Union[str, bytes], stream: BinaryIO, context: Context, path: CSPath
     ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
@@ -178,10 +175,10 @@ Decimal = ExprAdapter(
 )
 
 
-classes_by_id = defaultdict(dict)
-objects_by_id = defaultdict(dict)
-libraries_by_id = defaultdict(dict)
-references_by_id = defaultdict(dict)
+classes_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
+objects_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
+libraries_by_id: dict[int, dict[int, str]] = defaultdict(dict)
+references_by_id: dict[int, dict[int, str]] = defaultdict(dict)
 
 
 class RegistryAdapter(Adapter, abc.ABC):

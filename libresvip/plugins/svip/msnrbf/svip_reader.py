@@ -26,7 +26,7 @@ class SvipReader(NrbfIOBase):
     header: SerializedStreamHeader = dataclasses.field(init=False)
 
     def build_binary_array(self, obj: Container) -> list[Optional[Any]]:
-        results = []
+        results: list[Optional[Any]] = []
         if "Class" in str(obj.binary_type_enum):
             if obj.member_values is not None:
                 for member in obj.member_values:
