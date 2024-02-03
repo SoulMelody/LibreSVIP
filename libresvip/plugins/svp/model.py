@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 import sys
 from itertools import chain
-from typing import Literal, NamedTuple, Optional, Union
+from typing import Any, Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
 from more_itertools import chunked
@@ -464,7 +464,7 @@ class SVGroup(BaseModel):
 
     @field_validator("notes", mode="before")
     @classmethod
-    def validate_notes(cls, v: list[dict], _info: ValidationInfo) -> list[dict]:
+    def validate_notes(cls, v: list[dict[str, Any]], _info: ValidationInfo) -> list[dict]:
         return [note for note in v if note["onset"] >= 0]
 
     def overlapped_with(self, other: SVGroup) -> bool:

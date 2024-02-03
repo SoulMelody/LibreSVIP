@@ -178,7 +178,7 @@ Decimal = ExprAdapter(
 classes_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
 objects_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
 libraries_by_id: dict[int, dict[int, str]] = defaultdict(dict)
-references_by_id: dict[int, dict[int, str]] = defaultdict(dict)
+references_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
 
 
 class RegistryAdapter(Adapter, abc.ABC):

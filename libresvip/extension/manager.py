@@ -11,6 +11,7 @@ from types import ModuleType
 from typing import Optional, cast
 
 from loguru import logger
+from typing_extensions import TypeGuard
 
 from libresvip.core.compat import Traversable
 from libresvip.core.config import settings
@@ -66,7 +67,7 @@ class PluginManager:
             spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)
         return spec
 
-    def is_plugin(self, member: object) -> bool:
+    def is_plugin(self, member: object) -> TypeGuard[BasePlugin]:
         return (
             inspect.isclass(member)
             and issubclass(member, self.plugin_base)

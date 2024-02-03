@@ -30,7 +30,7 @@ def set_configuration(
     value: str = typer.Argument(),
 ) -> None:
     try:
-        settings[name] = value
+        settings[name] = value  # type: ignore[index]
         save_settings()
         typer.echo(_("Set {} to {}").format(name, value))
     except OmegaConfBaseException as e:

@@ -47,7 +47,9 @@ def _inner_interpolate(
     )
 
 
-def linear_interpolation(x: int, start: tuple[float, float], end: tuple[float, float]) -> float:
+def linear_interpolation(
+    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
+) -> float:
     x0, y0 = start
     x1, y1 = end
     return y0 + (x - x0) * (y1 - y0) / (x1 - x0)
@@ -57,7 +59,7 @@ interpolate_linear = partial(_inner_interpolate, mapping=linear_interpolation)
 
 
 def cosine_easing_in_out_interpolation(
-    x: int, start: tuple[float, float], end: tuple[float, float]
+    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -70,7 +72,7 @@ interpolate_cosine_ease_in_out = partial(
 
 
 def cosine_easing_in_interpolation(
-    x: int, start: tuple[float, float], end: tuple[float, float]
+    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -81,7 +83,7 @@ interpolate_cosine_ease_in = partial(_inner_interpolate, mapping=cosine_easing_i
 
 
 def cosine_easing_out_interpolation(
-    x: int, start: tuple[float, float], end: tuple[float, float]
+    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
