@@ -19,7 +19,6 @@ from construct import (
     Const,
     Construct,
     Container,
-    Context,
     ExprAdapter,
     Flag,
     Float32l,
@@ -43,6 +42,7 @@ from construct import (
 )
 from construct import Enum as CSEnum
 from construct import Path as CSPath
+from construct_typed import Context
 from typing_extensions import Never
 
 Int32ul = BytesInteger(4, swapped=True)

@@ -11,7 +11,6 @@ from construct import (
     Const,
     Construct,
     Container,
-    Context,
     CString,
     Float64l,
     GreedyBytes,
@@ -26,6 +25,7 @@ from construct import (
 )
 from construct import Enum as CSEnum
 from construct import Path as CSPath
+from construct_typed import Context
 from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)

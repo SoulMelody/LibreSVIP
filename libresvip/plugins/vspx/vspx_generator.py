@@ -126,7 +126,7 @@ class VocalSharpGenerator:
                 note=self.generate_notes(track.note_list),
             )
             if pitch_points := self.generate_pitch(track.edited_params.pitch, note_track):
-                note_track.parameter = VocalSharpParameter(points=pitch_points)
+                note_track.parameter = VocalSharpParameter(points=pitch_points)  # type: ignore[arg-type]
             note_tracks.append(note_track)
         return note_tracks
 

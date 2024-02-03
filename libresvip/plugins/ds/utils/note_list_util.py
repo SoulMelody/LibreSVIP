@@ -1,3 +1,5 @@
+from collections.abc import MutableSequence
+
 from libresvip.core.exceptions import ParamsError
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
@@ -143,7 +145,9 @@ class NoteListUtils:
         return ds_notes
 
     @staticmethod
-    def insert_end_rest_note(ds_notes: list[DsNote], trailing_space: float = 0.05) -> None:
+    def insert_end_rest_note(
+        ds_notes: MutableSequence[DsNote], trailing_space: float = 0.05
+    ) -> None:
         end_rest_phoneme = RestDsPhoneme(_duration=trailing_space)
         end_rest_note = RestDsNote(duration=trailing_space, ds_phoneme=end_rest_phoneme)
         ds_notes.append(end_rest_note)

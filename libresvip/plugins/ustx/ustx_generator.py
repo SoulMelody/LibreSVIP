@@ -1,5 +1,6 @@
 import dataclasses
 import math
+from collections.abc import MutableSequence
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -171,7 +172,7 @@ class UstxGenerator:
     def generate_pitch(
         part: UVoicePart,
         project: USTXProject,
-        os_pitch: list[tuple[int, int]],
+        os_pitch: MutableSequence[tuple[int, int]],
         first_bar_length: int = 1920,
     ) -> None:
         pitch_start = BasePitchGenerator.pitch_start
