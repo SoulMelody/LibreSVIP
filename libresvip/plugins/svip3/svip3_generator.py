@@ -2,6 +2,7 @@ import dataclasses
 import re
 import warnings
 from gettext import gettext as _
+from typing import Any
 from urllib.parse import urljoin
 
 from google.protobuf import any_pb2
@@ -119,7 +120,7 @@ class Svip3Generator:
         return pan * 10.0
 
     def generate_audio_patterns(self, track: InstrumentalTrack) -> list[Svip3AudioPattern]:
-        kwargs = {}
+        kwargs: dict[str, Any] = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
             audio_duration_in_secs = track_info.duration / 1000
             audio_duration_in_ticks = round(

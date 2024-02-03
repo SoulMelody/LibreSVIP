@@ -231,7 +231,7 @@ def append_end_point(pitch_data: list[Point], this_note: Note) -> list[Point]:
 
 def shape(pitch_data: list[Point]) -> list[Point]:
     sorted_data = sorted(pitch_data, key=operator.attrgetter("x"))
-    shaped_data = []
+    shaped_data: list[Point] = []
     for point in sorted_data:
         if shaped_data and shaped_data[-1].x == point.x:
             shaped_data[-1] = Point(x=shaped_data[-1].x, y=(shaped_data[-1].y + point.y) // 2)

@@ -1,4 +1,5 @@
 import pathlib
+from typing import Any
 
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
@@ -15,7 +16,9 @@ class JsonSvipConverter(plugin_base.SVSConverterBase):
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options is None:
             options = OutputOptions()
-        dump_kwargs = {"indent": 2} if options.indented else {"separators": (",", ":")}
+        dump_kwargs: dict[str, Any] = (
+            {"indent": 2} if options.indented else {"separators": (",", ":")}
+        )
         path.write_text(
             json.dumps(
                 project.model_dump(mode="json", by_alias=True),

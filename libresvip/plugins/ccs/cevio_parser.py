@@ -27,7 +27,7 @@ from .options import InputOptions
 class CeVIOParser:
     options: InputOptions
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
-    singer_id2name: dict[str, str] = dataclasses.field(default_factory=dict)
+    singer_id2name: dict[Optional[str], str] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, ccs_project: CeVIOCreativeStudioProject) -> Project:
         scene_node = ccs_project.sequence.scene
@@ -46,8 +46,9 @@ class CeVIOParser:
         time_signatures = []
         for index, unit_node in enumerate(singing_unit_nodes):
             group_id = unit_node.group
-            group = id2group.get(group_id)
-            track_name = group.name if group is not None else None
+            if (group := id2group.get(group_id)) is None:
+                group = CeVIOGroup()
+            track_name = group.name
             track, tempo_part, time_signature_part = self.parse_singing_track(
                 index, unit_node, group, track_name
             )
@@ -62,8 +63,9 @@ class CeVIOParser:
 
         for index, unit_node in enumerate(audio_unit_nodes):
             group_id = unit_node.group
-            group = id2group.get(group_id)
-            track_name = group.name if group is not None else None
+            if (group := id2group.get(group_id)) is None:
+                group = CeVIOGroup()
+            track_name = group.name
             track = self.parse_instrumental_track(index, unit_node, group, track_name)
             tracks.append(track)
 

@@ -22,6 +22,7 @@ from typing import (
     Optional,
     SupportsFloat,
     TypedDict,
+    cast,
     get_args,
     get_type_hints,
 )
@@ -128,7 +129,7 @@ def page_layout(lang: Optional[str] = None) -> None:
     with contextlib.suppress(OSError):
         translation = gettext.translation(
             PACKAGE_NAME,
-            res_dir / "locales",
+            cast(pathlib.Path, res_dir / "locales"),
             [lang],
             fallback=True,
         )
@@ -554,25 +555,30 @@ def page_layout(lang: Optional[str] = None) -> None:
                     warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
-                    input_option = get_type_hints(input_plugin.plugin_object.load).get(
-                        "options",
-                    )
-                    output_option = get_type_hints(
-                        output_plugin.plugin_object.dump,
-                    ).get("options")
-                    project = input_plugin.plugin_object.load(
-                        task.upload_path,
-                        input_option(**self.input_options),
-                    )
-                    task.output_path = task.output_path.with_suffix(
-                        f".{self.output_format}",
-                    )
-                    output_plugin.plugin_object.dump(
-                        task.output_path,
-                        project,
-                        output_option(**self.output_options),
-                    )
-                task.success = True
+                    if (
+                        input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    ) is None or (
+                        output_option := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    ) is None:
+                        task.success = False
+                    else:
+                        project = input_plugin.plugin_object.load(
+                            task.upload_path,
+                            input_option(**self.input_options),
+                        )
+                        task.output_path = task.output_path.with_suffix(
+                            f".{self.output_format}",
+                        )
+                        output_plugin.plugin_object.dump(
+                            task.output_path,
+                            project,
+                            output_option(**self.output_options),
+                        )
+                        task.success = True
                 if len(w):
                     task.warning = "\n".join(str(warning.message) for warning in w)
             except Exception:
@@ -587,7 +593,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ThreadPoolExecutor(
                 max_workers=max(len(self.files_to_convert), 4),
             ) as executor:
-                futures: list[asyncio.Future] = [
+                futures: list[asyncio.Future[None]] = [
                     loop.run_in_executor(
                         executor,
                         self.convert_one,

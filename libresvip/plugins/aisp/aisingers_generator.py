@@ -1,5 +1,6 @@
 import bisect
 import dataclasses
+from typing import Union
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_sync import TimeSynchronizer
@@ -115,7 +116,7 @@ class AiSingersGenerator:
         return ais_tempos
 
     def generate_tracks(self, tracks: list[Track]) -> list[AISSingVoiceTrack]:
-        ais_tracks = []
+        ais_tracks: list[AISSingVoiceTrack] = []
         for track in tracks:
             if isinstance(track, SingingTrack):
                 if note_list := self.generate_notes(track):
@@ -190,7 +191,7 @@ class AiSingersGenerator:
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
 
-        ais_pitch_param = []
+        ais_pitch_param: list[Union[int, float]] = []
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1

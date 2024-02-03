@@ -152,24 +152,30 @@ class CurveGenerator(ParamExpression):
     def get_converted_curve(self, step: int) -> list[Point]:
         result = []
         if len(self.point_list) == 0:
-            result.append(Point.start_point(self.base_value))
-            result.append(Point.end_point(self.base_value))
+            result.extend(
+                (
+                    Point.start_point(self.base_value),
+                    Point.end_point(self.base_value),
+                )
+            )
             return result
         prev_point = self.point_list[0]
-        result.append(Point.start_point(prev_point.y))
-        result.append(Point(prev_point.x, prev_point.y))
+        result.extend((Point.start_point(prev_point.y), Point(prev_point.x, prev_point.y)))
         for current_point in self.point_list[1:]:
             if prev_point.y == self.base_value and current_point.y == self.base_value:
-                result.append(Point(prev_point.x, self.base_value))
-                result.append(Point(current_point.x, self.base_value))
+                result.extend(
+                    (
+                        Point(prev_point.x, self.base_value),
+                        Point(current_point.x, self.base_value),
+                    )
+                )
             else:
                 for p in range(prev_point.x + step, current_point.x, step):
                     r = self.interpolation((p - prev_point.x) / (current_point.x - prev_point.x))
                     v = round((1 - r) * prev_point.y + r * current_point.y)
                     result.append(Point(p, v))
             prev_point = current_point
-        result.append(Point(prev_point.x, prev_point.y))
-        result.append(Point.end_point(prev_point.y))
+        result.extend((Point(prev_point.x, prev_point.y), Point.end_point(prev_point.y)))
         return result
 
 
@@ -179,7 +185,7 @@ class CompoundParam(ParamExpression):
     op: ParamOperators
     expr2: ParamExpression
 
-    def value_at_ticks(self, ticks: int) -> float:
+    def value_at_ticks(self, ticks: int) -> float:  # type: ignore[override]
         ticks1 = self.expr1.value_at_ticks(ticks)
         ticks2 = self.expr2.value_at_ticks(ticks)
         if self.op == ParamOperators.ADD:

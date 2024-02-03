@@ -615,7 +615,7 @@ class SynthVParser:
                     else:
                         track_override_with(
                             singing_track,
-                            self.parse_note_list(group.notes),
+                            self.parse_note_list(group.notes, sv_ref.database),
                             self.parse_params(group.parameters, sv_track.main_group.parameters),
                             self.first_bar_tick,
                         )

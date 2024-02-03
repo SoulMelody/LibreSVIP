@@ -4,13 +4,15 @@ import inspect
 import pathlib
 import sys
 import types
+from importlib.abc import MetaPathFinder
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader, all_suffixes
 from importlib.util import module_from_spec, spec_from_file_location
 from types import ModuleType
-from typing import Optional
+from typing import Optional, cast
 
 from loguru import logger
 
+from libresvip.core.compat import Traversable
 from libresvip.core.config import settings
 from libresvip.core.constants import app_dir, pkg_dir
 
@@ -39,14 +41,14 @@ class PluginManager:
     plugin_base: type[BasePlugin]
     plugin_namespace: str
     install_path: pathlib.Path
-    plugin_places: list[pathlib.Path]
+    plugin_places: list[Traversable]
     plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
     _candidates: list[tuple[str, pathlib.Path, LibreSvipPluginInfo]] = dataclasses.field(
         default_factory=list
     )
 
     def __post_init__(self) -> None:
-        sys.meta_path.append(self)
+        sys.meta_path.append(cast(MetaPathFinder, self))
 
     @functools.cached_property
     def lib_suffixes(self) -> list[str]:
@@ -54,7 +56,7 @@ class PluginManager:
 
     def find_spec(
         self, fullname: str, path: Optional[list[str]], target: Optional[ModuleType] = None
-    ) -> ModuleSpec:
+    ) -> Optional[ModuleSpec]:
         if not fullname.startswith(self.plugin_namespace) or not path:
             return None
         path = [str(path) for path in self.plugin_places]
