@@ -6,6 +6,8 @@ import sys
 import types
 from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader, all_suffixes
 from importlib.util import module_from_spec, spec_from_file_location
+from types import ModuleType
+from typing import Optional
 
 from loguru import logger
 
@@ -50,7 +52,9 @@ class PluginManager:
     def lib_suffixes(self) -> list[str]:
         return all_suffixes()
 
-    def find_spec(self, fullname, path, target=None) -> ModuleSpec:
+    def find_spec(
+        self, fullname: str, path: Optional[list[str]], target: Optional[ModuleType] = None
+    ) -> ModuleSpec:
         if not fullname.startswith(self.plugin_namespace) or not path:
             return None
         path = [str(path) for path in self.plugin_places]

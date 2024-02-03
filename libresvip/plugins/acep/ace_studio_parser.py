@@ -60,8 +60,8 @@ class AceParser:
             tempo_list=[self.parse_tempo(ace_tempo) for ace_tempo in ace_project.tempos],
             skip_ticks=self.first_bar_ticks,
         )
-        for track in ace_project.tracks:
-            track.gain += ace_project.master.gain
+        for ace_track in ace_project.tracks:
+            ace_track.gain += ace_project.master.gain
         for ace_track in ace_project.tracks:
             if (track := self.parse_track(ace_track)) is not None:
                 project.track_list.append(track)

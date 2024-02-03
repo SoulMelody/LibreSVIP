@@ -8,6 +8,8 @@ from collections import defaultdict
 from queue import Queue
 from typing import Any, Optional, Union, get_args, get_origin
 
+from construct import Container, ListContainer
+
 from .binary_models import (
     BinaryArrayTypeEnum,
     BinaryTypeEnum,
@@ -118,7 +120,9 @@ class SvipWriter(NrbfIOBase):
             },
         }
 
-    def create_reference(self, value, object_id: int, subcon_class_name: str) -> dict[str, Any]:
+    def create_reference(
+        self, value: Container, object_id: int, subcon_class_name: Optional[str]
+    ) -> dict[str, Any]:
         result = {
             "record_type_enum": RecordTypeEnum.MemberReference,
             "obj": {
@@ -198,7 +202,7 @@ class SvipWriter(NrbfIOBase):
         }
         return self.create_reference(result, object_id, None)
 
-    def create_primitive_array(self, values) -> dict[str, Any]:
+    def create_primitive_array(self, values: ListContainer) -> dict[str, Any]:
         object_id = self.enq()
         result = {
             "record_type_enum": RecordTypeEnum.ArraySinglePrimitive,
@@ -218,7 +222,7 @@ class SvipWriter(NrbfIOBase):
         return self.create_reference(result, object_id, None)
 
     def write_dataclass(
-        self, obj, object_id: int, subcon_class_name: Optional[str] = None
+        self, obj: Container, object_id: int, subcon_class_name: Optional[str] = None
     ) -> dict[str, Any]:
         fields = sorted(dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0))
         class_name = inspect.getdoc(type(obj))

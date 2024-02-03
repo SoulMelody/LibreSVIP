@@ -6,13 +6,13 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
-    Point,
     Points,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 
 from .model import (
     PIT,

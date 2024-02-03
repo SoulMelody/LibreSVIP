@@ -20,5 +20,5 @@ def count_color() -> int:
     return len(_colors)
 
 
-def get_color(index) -> str:
+def get_color(index: int) -> str:
     return _colors[index % len(_colors)]

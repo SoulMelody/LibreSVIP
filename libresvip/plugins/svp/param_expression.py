@@ -113,7 +113,7 @@ class CurveGenerator(ParamExpression):
 
     def __post_init__(
         self,
-        _point_list: list[Point],
+        _point_list: Iterable[Point],
         _interpolation: Callable[[float], float],
         _base_value: int = 0,
     ) -> None:

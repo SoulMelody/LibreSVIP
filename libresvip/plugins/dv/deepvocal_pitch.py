@@ -4,7 +4,7 @@ import dataclasses
 import operator
 from functools import singledispatch
 from itertools import groupby
-from typing import TYPE_CHECKING, Optional
+from typing import Optional, SupportsFloat
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
@@ -24,9 +24,6 @@ from .constants import (
     SAMPLING_INTERVAL_TICK,
 )
 from .model import DvPoint
-
-if TYPE_CHECKING:
-    from numbers import Real
 
 
 @dataclasses.dataclass
@@ -63,17 +60,17 @@ def merge_points_from_segments(
 
 def merge_same_tick_points(points: list[Point]) -> Optional[list[Point]]:
     merged_points = []
-    for tick, group in groupby(points, key=operator.attrgetter("x")):
-        group = list(group)
-        if len(group) > 1:
-            if any(point.y == -100 for point in group):
+    for tick, group in groupby(iter(points), key=operator.attrgetter("x")):
+        group_list = list(group)
+        if len(group_list) > 1:
+            if any(point.y == -100 for point in group_list):
                 merged_points.append(Point(x=tick, y=-100))
             else:
                 merged_points.append(
-                    Point(x=tick, y=round(sum(point.y for point in group) / len(group)))
+                    Point(x=tick, y=round(sum(point.y for point in group_list) / len(group_list)))
                 )
         else:
-            merged_points.append(group[0])
+            merged_points.append(group_list[0])
     return merged_points or None
 
 
@@ -253,7 +250,7 @@ def tick_half_start(note: Note) -> int:
 
 
 @singledispatch
-def convert_note_key(key: Real) -> float:
+def convert_note_key(key: SupportsFloat) -> float:
     raise NotImplementedError
 
 

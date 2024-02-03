@@ -1,12 +1,12 @@
-import contextvars
+from contextvars import ContextVar
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.utils import gettext_lazy as _
 
 from ..phoneme_dict import get_opencpop_dict
 
-pinyin_list_ctx: list[str] = contextvars.ContextVar("pinyin_list")
-phoneme_table_ctx: dict[str, str] = contextvars.ContextVar("phoneme_table")
+pinyin_list_ctx: ContextVar[list[str]] = ContextVar("pinyin_list")
+phoneme_table_ctx: ContextVar[dict[str, str]] = ContextVar("phoneme_table")
 
 
 def split(pinyin: str) -> tuple[str, str]:

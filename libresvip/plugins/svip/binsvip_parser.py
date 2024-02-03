@@ -1,10 +1,12 @@
+from collections.abc import Callable
+from typing import Optional
+
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
@@ -12,6 +14,7 @@ from libresvip.model.base import (
     Track,
     VibratoParam,
 )
+from libresvip.model.point import Point
 
 from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.xstudio_models import (
@@ -132,7 +135,14 @@ class BinarySvipParser:
         )
 
     @staticmethod
-    def parse_param_curve(line: XSLineParam, op=lambda x: x) -> ParamCurve:
+    def parse_param_curve(
+        line: XSLineParam, op: Optional[Callable[[float], float]] = None
+    ) -> ParamCurve:
+        if op is None:
+
+            def op(x: float) -> float:
+                return x
+
         param_curve = ParamCurve()
         for point in line.nodes:
             param_curve.points.append(Point(x=point.pos, y=op(point.value)))

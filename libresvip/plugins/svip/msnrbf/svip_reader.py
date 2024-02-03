@@ -3,6 +3,7 @@ import dataclasses
 import pathlib
 from typing import Any, Optional
 
+from construct import Container
 from loguru import logger
 
 from libresvip.utils import gettext_lazy as _
@@ -24,7 +25,7 @@ class SvipReader(NrbfIOBase):
     xstudio_model: XSAppModel = dataclasses.field(init=False)
     header: SerializedStreamHeader = dataclasses.field(init=False)
 
-    def build_binary_array(self, obj) -> list[Optional[Any]]:
+    def build_binary_array(self, obj: Container) -> list[Optional[Any]]:
         results = []
         if "Class" in str(obj.binary_type_enum):
             if obj.member_values is not None:
@@ -43,7 +44,7 @@ class SvipReader(NrbfIOBase):
             logger.warning(obj.binary_type_enum)
         return results
 
-    def build_class(self, obj) -> Any:
+    def build_class(self, obj: Container) -> Any:
         full_name = obj.class_info.name
         class_name = full_name.split("`1", 1)[0]
         model_class = fullname2classes[class_name]
@@ -66,7 +67,7 @@ class SvipReader(NrbfIOBase):
             class_kwargs["items"] = class_kwargs["items"][: class_kwargs["size"]]
         return model_class(**class_kwargs)
 
-    def build_object(self, obj) -> Optional[Any]:
+    def build_object(self, obj: Container) -> Optional[Any]:
         if "obj" in obj:
             obj = obj.obj
         if "real_obj" in obj:
@@ -88,7 +89,7 @@ class SvipReader(NrbfIOBase):
         ]:
             logger.warning(obj.record_type_enum)
 
-    def read_record(self, record) -> bool:
+    def read_record(self, record: Container) -> bool:
         if record.record_type_enum == RecordTypeEnum.SerializedStreamHeader:
             self.header = record.obj
         elif "Class" in str(record.record_type_enum):

@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Union
 
 import pypinyin
 
@@ -66,7 +67,7 @@ class Y77Generator:
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
 
-        y77_pitch_param = []
+        y77_pitch_param: list[Union[int, float]] = []
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1

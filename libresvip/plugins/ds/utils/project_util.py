@@ -3,12 +3,12 @@ from collections.abc import Iterable
 from libresvip.model.base import (
     ParamCurve,
     Params,
-    Point,
     Points,
     Project,
     SingingTrack,
     TimeSignature,
 )
+from libresvip.model.point import Point
 from libresvip.model.reset_time_axis import reset_time_axis
 
 

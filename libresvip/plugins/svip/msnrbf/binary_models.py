@@ -6,7 +6,8 @@ import threading
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from functools import partial
-from typing import Any
+from io import BufferedIOBase
+from typing import Any, Union
 
 from construct import (
     Adapter,
@@ -17,6 +18,8 @@ from construct import (
     Computed,
     Const,
     Construct,
+    Container,
+    Context,
     ExprAdapter,
     Flag,
     Float32l,
@@ -39,6 +42,7 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
+from construct import Path as CSPath
 from typing_extensions import Never
 
 Int32ul = BytesInteger(4, swapped=True)
@@ -46,10 +50,10 @@ Int32sl = BytesInteger(4, swapped=True, signed=True)
 
 
 class TimeSpanAdapter(Adapter):
-    def _encode(self, obj: timedelta, context, path) -> int:
+    def _encode(self, obj: timedelta, context: Context, path: CSPath) -> int:
         return int(obj.total_seconds() * 10000000)
 
-    def _decode(self, obj: int, context, path) -> timedelta:
+    def _decode(self, obj: int, context: Context, path: CSPath) -> timedelta:
         return timedelta(microseconds=obj / 10)
 
 
@@ -62,7 +66,7 @@ DateTimeBitStruct = BitStruct(
 
 
 class DateTimeAdapter(Adapter):
-    def _encode(self, obj: datetime, context, path) -> DateTimeBitStruct:
+    def _encode(self, obj: datetime, context: Context, path: CSPath) -> bytes:
         if obj.tzinfo is None:
             kind = 0
         elif obj.tzinfo.utcoffset(obj) == timedelta(0):
@@ -72,7 +76,7 @@ class DateTimeAdapter(Adapter):
         ticks = (obj - datetime(1, 1, 1, tzinfo=timezone.utc)).total_seconds() * 10000000
         return DateTimeBitStruct.build({"ticks": ticks, "kind": kind})
 
-    def _decode(self, obj: DateTimeBitStruct, context, path) -> datetime:
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> datetime:
         date_time = datetime(1, 1, 1, tzinfo=timezone.utc) + timedelta(microseconds=obj.ticks / 10)
         if obj.kind == 1:
             date_time = date_time.replace(tzinfo=timezone.utc)
@@ -86,22 +90,24 @@ DateTime = DateTimeAdapter(DateTimeBitStruct)
 
 
 class Null(Construct):
-    def _sizeof(self, context, path) -> int:
+    def _sizeof(self, context: Context, path: CSPath) -> int:
         return 0
 
-    def _parse(self, stream, context, path) -> None:
+    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> None:
         return None
 
-    def _build(self, obj, stream, context, path) -> None:
+    def _build(
+        self, obj: Container, stream: BufferedIOBase, context: Context, path: CSPath
+    ) -> None:
         pass
 
 
 class Utf8CodePoint(Construct):
-    def _sizeof(self, context, path) -> Never:
+    def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "Utf8CodePoint has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path) -> str:
+    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> str:
         byte = stream.read(1)
         if not byte:
             raise EOFError
@@ -119,7 +125,9 @@ class Utf8CodePoint(Construct):
             raise ValueError(msg)
         return (byte + stream.read(length - 1)).decode("utf-8")
 
-    def _build(self, obj, stream, context, path) -> bytes:
+    def _build(
+        self, obj: Union[str, bytes], stream: BufferedIOBase, context: Context, path: CSPath
+    ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         stream.write(obj)
@@ -127,11 +135,11 @@ class Utf8CodePoint(Construct):
 
 
 class LengthPrefixedString(Construct):
-    def _sizeof(self, context, path) -> Never:
+    def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "LengthPrefixedString has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path) -> str:
+    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> str:
         length = 0
         shift = 0
         for i in range(5):
@@ -149,7 +157,9 @@ class LengthPrefixedString(Construct):
         content = stream.read(length)
         return content.decode("utf-8")
 
-    def _build(self, obj, stream, context, path) -> bytes:
+    def _build(
+        self, obj: Union[str, bytes], stream: BufferedIOBase, context: Context, path: CSPath
+    ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         length = len(obj)
@@ -175,18 +185,18 @@ references_by_id = defaultdict(dict)
 
 
 class RegistryAdapter(Adapter, abc.ABC):
-    def _encode(self, obj, context, path) -> Any:
+    def _encode(self, obj: Container, context: Context, path: CSPath) -> Any:
         return obj
 
 
 class ClassRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path) -> Any:
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         classes_by_id[threading.get_ident()][obj.class_info.object_id] = obj
         return obj
 
 
 class ObjectRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path) -> Any:
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         if obj.get("array_info", None):
             objects_by_id[threading.get_ident()][obj.array_info.object_id] = obj
         else:
@@ -195,13 +205,13 @@ class ObjectRegistryAdapter(RegistryAdapter):
 
 
 class LibraryRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path) -> Any:
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         libraries_by_id[threading.get_ident()][obj.library_id] = obj.library_name
         return obj
 
 
 class MemberReferenceAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path) -> Any:
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         ref_cache = references_by_id[threading.get_ident()]
         if obj.id_ref not in ref_cache:
             result = {"id_ref": obj.id_ref, "real_obj": None}

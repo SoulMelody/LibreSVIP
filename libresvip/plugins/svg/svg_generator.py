@@ -57,5 +57,5 @@ class SvgGenerator:
             self.svg_factory.draw_note(note)
 
     def generate_pitch(self, pitch: ParamCurve) -> None:
-        for point in pitch.points[1:-1]:
+        for point in pitch.points.root[1:-1]:
             self.svg_factory.draw_pitch(point)

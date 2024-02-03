@@ -175,7 +175,7 @@ class Notifier(QObject):
         message: str,
         buttons: Sequence[Button] = (),
         timeout: int = -1,
-    ) -> Awaitable[Optional[Notification]]:
+    ) -> Optional[Awaitable[Notification]]:
         try:
             return await self.notifier.send(
                 title=title, message=message, buttons=buttons, timeout=timeout

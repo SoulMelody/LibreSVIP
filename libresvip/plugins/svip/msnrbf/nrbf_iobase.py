@@ -4,6 +4,7 @@ import threading
 from collections import ChainMap
 from collections.abc import MutableMapping
 from functools import cached_property
+from types import TracebackType
 
 from typing_extensions import Self
 
@@ -32,7 +33,9 @@ class NrbfIOBase:
     def __enter__(self) -> Self:
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
+    def __exit__(
+        self, exc_type: type[Exception], exc_value: Exception, traceback: TracebackType
+    ) -> None:
         classes_by_id.pop(self.cur_thread_id, None)
         objects_by_id.pop(self.cur_thread_id, None)
         libraries_by_id.pop(self.cur_thread_id, None)

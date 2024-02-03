@@ -29,7 +29,7 @@ class CoordinateHelper:
         )
         self.key_range_start = min(note.key_number for note in track.note_list)
         self.key_range_end = max(note.key_number for note in track.note_list)
-        for point in track.edited_params.pitch.points[1:-1]:
+        for point in track.edited_params.pitch.points.root[1:-1]:
             if point.y == -100:
                 continue
             self.key_range_start = min(self.key_range_start, int(math.floor(point.y / 100)))

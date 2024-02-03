@@ -1,5 +1,6 @@
 import math
 import struct
+from io import BufferedIOBase
 
 import more_itertools
 from construct import (
@@ -9,6 +10,8 @@ from construct import (
     Computed,
     Const,
     Construct,
+    Container,
+    Context,
     CString,
     Float64l,
     GreedyBytes,
@@ -22,6 +25,8 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
+from construct import Path as CSPath
+from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 Int32ul = BytesInteger(4, swapped=True)
@@ -41,18 +46,18 @@ JUCEVarTypes = CSEnum(
 
 
 class JUCECompressedIntStruct(Construct):
-    def _sizeof(self, context, path) -> None:
+    def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "JUCECompressedInt has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path) -> int:
+    def _parse(self, stream: BufferedIOBase, context: Context, path: CSPath) -> int:
         byte = stream.read(1)
         if not byte:
             raise EOFError
         width = struct.unpack("<B", byte)[0]
         return int.from_bytes(stream.read(width), "little", signed=False)
 
-    def _build(self, obj: int, stream, context, path) -> int:
+    def _build(self, obj: int, stream: BufferedIOBase, context: Context, path: CSPath) -> int:
         if obj < 0:
             msg = "Negative numbers not supported"
             raise ValueError(msg)
@@ -116,7 +121,7 @@ JUCEPluginData = Prefixed(
 )
 
 
-def build_tree_dict(node: JUCENode) -> dict:
+def build_tree_dict(node: Container) -> dict:
     attr_dict = {
         attr.name: build_tree_dict(JUCENode.parse(attr.data.value))
         if isinstance(attr.data.value, bytes)

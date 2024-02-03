@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from enum import Enum
 from types import SimpleNamespace
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Union
 
-from pydantic import Field, field_validator
+from pydantic import Field, ValidationInfo, field_validator
 
 from libresvip.model.base import BaseModel
 
@@ -134,7 +134,9 @@ class InputOptions(BaseModel):
         mode="before",
     )
     @classmethod
-    def _validate_normalization_argument(cls, v, _info) -> NormalizationArgument:
+    def _validate_normalization_argument(
+        cls, v: Union[str, dict], _info: ValidationInfo
+    ) -> NormalizationArgument:
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()
         return v

@@ -12,6 +12,8 @@ from packaging.version import Version
 if TYPE_CHECKING:
     from pathlib import Path
 
+    from .base import SVSConverterBase
+
 
 @dataclasses.dataclass
 class PluginInfo:
@@ -58,6 +60,7 @@ class PluginInfo:
 
 @dataclasses.dataclass
 class LibreSvipPluginInfo(PluginInfo):
+    plugin_object: Optional[SVSConverterBase] = None
     file_format: str = dataclasses.field(init=False)
     suffix: str = dataclasses.field(init=False)
     target_framework: SpecifierSet = dataclasses.field(init=False)

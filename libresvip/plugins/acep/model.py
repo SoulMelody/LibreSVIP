@@ -81,7 +81,10 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     root: list[AcepParamCurve] = Field(default_factory=list)
 
     def plus(
-        self, others, default_value: float, transform: Callable[[float], float]
+        self,
+        others: Optional[AcepParamCurveList],
+        default_value: float,
+        transform: Callable[[float], float],
     ) -> AcepParamCurveList:
         if not others:
             return self
@@ -133,7 +136,7 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def z_score_normalize(self, d: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        points = sum(curve.values for curve in self.root)
+        points = sum((curve.values for curve in self.root), [])
         miu = statistics.mean(points)
         sigma = statistics.stdev(points)
         return type(self)(

@@ -1,5 +1,6 @@
 import dataclasses
 import re
+from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
@@ -228,10 +229,10 @@ class BinarySvipGenerator:
     def generate_param_curve(
         self,
         param_curve: ParamCurve,
-        op=None,
-        left=-192000,
-        right=1073741823,
-        termination=0,
+        op: Optional[Callable[[float], float]] = None,
+        left: int = -192000,
+        right: int = 1073741823,
+        termination: int = 0,
         is_ticks: bool = True,
     ) -> XSLineParam:
         if op is None:

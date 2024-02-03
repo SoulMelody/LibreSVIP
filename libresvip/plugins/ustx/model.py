@@ -178,7 +178,7 @@ class UNote(BaseModel):
 class UPart(BaseModel):
     name: Optional[str] = None
     comment: Optional[str] = None
-    track_no: Optional[int] = None
+    track_no: int
     position: Optional[int] = None
 
 

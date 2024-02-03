@@ -92,7 +92,7 @@ class FramelessWindow(QQuickWindow):
         margins = MARGINS(-1, -1, -1, -1)
         return dwmapi.DwmExtendFrameIntoClientArea(self.hwnd, ctypes.byref(margins))
 
-    def native_event(self, event_type: bytes, message: SupportsInt) -> tuple[bool, int]:
+    def native_event(self, event_type: bytes, message: SupportsInt) -> tuple[bool, SupportsInt]:
         if self.maximize_btn is None:
             self.maximize_btn = self.find_child(QQuickItem, "maximizeButton")
         if event_type == b"windows_generic_MSG":
@@ -174,6 +174,8 @@ class FramelessWindow(QQuickWindow):
         return super().native_event(event_type, message)
 
     def handle_mouse_event(self, msg: MSG) -> None:
+        if self.maximize_btn is None:
+            return
         x_pos, y_pos = self.get_point_from_lparam(msg.lParam)
         top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
         rect = QRect(
