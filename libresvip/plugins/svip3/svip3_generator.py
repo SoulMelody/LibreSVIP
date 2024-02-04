@@ -1,7 +1,6 @@
 import dataclasses
 import re
 import warnings
-from gettext import gettext as _
 from typing import Any
 from urllib.parse import urljoin
 
@@ -20,6 +19,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils import audio_track_info, ratio_to_db
+from libresvip.utils import gettext_lazy as _
 
 from .color_pool import random_color
 from .constants import DEFAULT_SINGER_ID, TYPE_URL_BASE, Svip3TrackType

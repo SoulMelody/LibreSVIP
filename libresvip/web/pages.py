@@ -1,10 +1,8 @@
 import argparse
 import asyncio
-import contextlib
 import dataclasses
 import enum
 import functools
-import gettext
 import io
 import math
 import pathlib
@@ -23,7 +21,6 @@ from typing import (
     SupportsFloat,
     TypedDict,
     Union,
-    cast,
     get_args,
     get_type_hints,
 )
@@ -48,7 +45,7 @@ from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
-from libresvip.utils import lazy_translation, shorten_error_message
+from libresvip.utils import get_translation, lazy_translation, shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
 
 binding.MAX_PROPAGATION_TIME = 0.03
@@ -127,17 +124,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         lang = "en_US"
     if lang != app.storage.user["lang"]:
         app.storage.user["lang"] = lang
-    translation = None
-    with contextlib.suppress(OSError):
-        translation = gettext.translation(
-            PACKAGE_NAME,
-            cast(pathlib.Path, res_dir / "locales"),
-            [lang],
-            fallback=True,
-        )
-
-    if translation is None:
-        translation = gettext.NullTranslations()
+    translation = get_translation(PACKAGE_NAME, lang)
 
     def _(message: str) -> str:
         if message.strip():
@@ -1252,7 +1239,7 @@ def page_layout(lang: Optional[str] = None) -> None:
     )
 
 
-if __name__ in {"__main__", "__mp_main__"}:
+def main() -> None:
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("--host", type=str, default="127.0.0.1")
     arg_parser.add_argument("--port", type=int, default=8080)

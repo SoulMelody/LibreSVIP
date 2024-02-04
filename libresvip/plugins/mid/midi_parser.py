@@ -4,7 +4,6 @@ import math
 import operator
 import re
 import warnings
-from gettext import gettext as _
 
 import mido_fix as mido
 import more_itertools
@@ -24,6 +23,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
+from libresvip.utils import gettext_lazy as _
 from libresvip.utils import ratio_to_db
 
 from .constants import (

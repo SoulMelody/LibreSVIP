@@ -1,0 +1,3 @@
+files:
+  - source: /translations/libresvip.po
+    translation: /libresvip/res/locales/%locale_with_underscore%/LC_MESSAGES/%original_file_name%

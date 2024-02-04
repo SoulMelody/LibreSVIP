@@ -1,11 +1,10 @@
-from gettext import gettext as _
-
 import typer
 from loguru import logger
 from omegaconf import OmegaConf
 from omegaconf.errors import OmegaConfBaseException
 
 from libresvip.core.config import save_settings, settings
+from libresvip.utils import gettext_lazy as _
 
 app = typer.Typer()
 

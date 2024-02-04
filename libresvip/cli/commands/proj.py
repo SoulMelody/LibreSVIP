@@ -1,5 +1,4 @@
 import pathlib
-from gettext import gettext as _
 from typing import Optional, get_type_hints
 
 import typer
@@ -8,6 +7,7 @@ from loguru import logger
 from libresvip.cli.prompt import prompt_fields
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import InstrumentalTrack
+from libresvip.utils import gettext_lazy as _
 
 app = typer.Typer()
 

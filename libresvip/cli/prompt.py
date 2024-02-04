@@ -1,5 +1,4 @@
 import enum
-from gettext import gettext as _
 from typing import Any
 
 from pydantic_core import PydanticUndefined
@@ -7,6 +6,7 @@ from pydantic_extra_types.color import Color
 from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 
 from libresvip.model.base import BaseComplexModel, BaseModel
+from libresvip.utils import gettext_lazy as _
 
 
 def prompt_fields(option_class: BaseModel) -> dict[str, Any]:

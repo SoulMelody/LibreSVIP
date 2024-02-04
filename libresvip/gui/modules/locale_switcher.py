@@ -8,7 +8,8 @@ from PySide6.QtQml import QmlElement, QmlSingleton
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import Language, config_path, settings
-from libresvip.core.constants import PACKAGE_NAME, res_dir
+from libresvip.core.constants import PACKAGE_NAME
+from libresvip.utils import get_translation
 
 from .application import qml_engine
 
@@ -22,15 +23,11 @@ class GettextTranslator(QTranslator):
         super().__init__(parent)
         self.translation: Optional[gettext.NullTranslations] = None
 
-    def load_translation(self, lang: str, translation_dir: str) -> None:
+    def load_translation(self, lang: str) -> None:
         try:
-            self.translation = gettext.translation(PACKAGE_NAME, translation_dir, [lang])
-            gettext.textdomain(PACKAGE_NAME)
-            gettext.bindtextdomain(PACKAGE_NAME, translation_dir)
+            self.translation = get_translation(PACKAGE_NAME, lang)
         except OSError:
             self.translation = gettext.NullTranslations()
-            gettext.textdomain("messages")
-        self.translation.install(names=["gettext", "ngettext"])
 
     def translate(
         self,
@@ -62,8 +59,7 @@ class LocaleSwitcher(QObject):
     @Slot(str)
     def switch_language(self, lang: str) -> None:
         if lang:
-            translation_dir = str(res_dir / "locales")
-            self.translator.load_translation(lang, translation_dir)
+            self.translator.load_translation(lang)
             QGuiApplication.install_translator(self.translator)
             qml_engine.retranslate()
             settings.language = Language.from_locale(lang)

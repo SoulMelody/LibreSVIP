@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import dataclasses
 import enum
+import locale
 import pathlib
 from typing import Optional, cast
 
@@ -26,6 +27,11 @@ class Language(enum.Enum):
             return cls.JAPANESE
         else:
             return cls.ENGLISH
+
+    @classmethod
+    def auto(cls) -> Language:
+        sys_locale = locale.getdefaultlocale()[0]
+        return cls.from_locale(sys_locale or "en_US")
 
     def to_locale(self) -> str:
         if self == self.CHINESE:
@@ -51,7 +57,7 @@ class ConflictPolicy(enum.Enum):
 @dataclasses.dataclass
 class LibreSvipSettings:
     # Common
-    language: Language = dataclasses.field(default=Language.CHINESE)
+    language: Language = dataclasses.field(default_factory=Language.auto)
     disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # both web and GUI
     last_input_format: Optional[str] = dataclasses.field(default=None)

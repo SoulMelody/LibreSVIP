@@ -1,7 +1,6 @@
 import dataclasses
 import operator
 import warnings
-from gettext import gettext as _
 from typing import Union
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -18,6 +17,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.utils import audio_track_info
+from libresvip.utils import gettext_lazy as _
 
 from .constants import BPM_RATE
 from .model import (

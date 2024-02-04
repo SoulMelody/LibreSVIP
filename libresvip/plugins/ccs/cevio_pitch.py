@@ -3,13 +3,13 @@ from __future__ import annotations
 import dataclasses
 import math
 import warnings
-from gettext import gettext as _
 from typing import NamedTuple, Optional
 
 from libresvip.core.warning_types import ParamsWarning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
 from libresvip.utils import find_last_index, hz2midi, midi2hz
+from libresvip.utils import gettext_lazy as _
 
 from .constants import (
     MIN_DATA_LENGTH,
