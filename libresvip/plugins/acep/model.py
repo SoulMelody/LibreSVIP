@@ -268,8 +268,7 @@ class AcepVocalPattern(AcepPattern):
     parameters: AcepParams = Field(default_factory=AcepParams)
 
 
-class AcepEmptyTrack(BaseModel):
-    type_: Literal["empty"] = Field(default="empty", alias="type")
+class AcepTrackProperties(BaseModel):
     name: str = ""
     color: str = "#91bcdc"
     gain: float = Field(0.0, le=6.0)
@@ -280,16 +279,20 @@ class AcepEmptyTrack(BaseModel):
     channel: Optional[int] = 0
     listen: Optional[bool] = False
 
+
+class AcepEmptyTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["empty"] = Field(default="empty", alias="type")
+
+
+class AcepAudioTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["audio"] = Field(default="audio", alias="type")
+    patterns: list[AcepAudioPattern] = Field(default_factory=list)
+
     def __len__(self) -> int:
         if not len(self.patterns):
             return 0
         last_pattern = self.patterns[-1]
         return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
-
-
-class AcepAudioTrack(AcepEmptyTrack):
-    type_: Literal["audio"] = Field(default="audio", alias="type")
-    patterns: list[AcepAudioPattern] = Field(default_factory=list)
 
 
 class AcepSeedComposition(BaseModel):
@@ -308,11 +311,17 @@ class AcepCustomSinger(BaseModel):
     router: Optional[int] = 1
 
 
-class AcepVocalTrack(AcepEmptyTrack):
+class AcepVocalTrack(AcepTrackProperties, BaseModel):
     type_: Literal["sing"] = Field(default="sing", alias="type")
     singer: AcepCustomSinger = Field(default_factory=AcepCustomSinger)
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     patterns: list[AcepVocalPattern] = Field(default_factory=list)
+
+    def __len__(self) -> int:
+        if not len(self.patterns):
+            return 0
+        last_pattern = self.patterns[-1]
+        return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
 
 
 AcepTrack = Annotated[

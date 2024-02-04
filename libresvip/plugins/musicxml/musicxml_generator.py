@@ -74,7 +74,7 @@ class MusicXMLGenerator:
                 number=str(i + 1),
                 attributes=[
                     Attributes(
-                        divisions=[Decimal.from_float(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)]
+                        divisions=Decimal.from_float(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
                     )
                 ],
             )
@@ -198,11 +198,11 @@ class MusicXMLGenerator:
     ) -> list[MXmlMeasure]:
         ticks_in_full_note = int(TICKS_IN_BEAT * 4 * DEFAULT_TICK_RATE_CEVIO)
         measure_border_ticks = [0]
-        measure = 0
-        tick = 0
+        measure = 0.0
+        tick = 0.0
         prev_time_signature = TimeSignature()
         for time_signature in time_signatures:
-            previous_measure = measure
+            previous_measure = int(measure)
             ticks_in_measure = (
                 ticks_in_full_note
                 * prev_time_signature.numerator
@@ -210,7 +210,7 @@ class MusicXMLGenerator:
             )
             tick += ticks_in_measure * (time_signature.bar_index - measure)
             measure = time_signature.bar_index
-            current_measure = measure
+            current_measure = int(measure)
             measure_border_ticks.extend(
                 measure_border_ticks[-1] + ticks_in_measure
                 for _ in range(current_measure - previous_measure)
@@ -224,14 +224,14 @@ class MusicXMLGenerator:
                 // prev_time_signature.denominator
             )
         ):
-            previous_measure = measure
+            previous_measure = int(measure)
             tick_diff = last_tick - tick
             measure += tick_diff / ticks_in_measure
             tick = last_tick
-            current_measure = measure
+            current_measure = int(measure)
             measure_border_ticks.extend(
                 measure_border_ticks[-1] + ticks_in_measure
-                for _ in range(int(current_measure) - previous_measure)
+                for _ in range(current_measure - previous_measure)
             )
         measure_border_ticks.append(
             measure_border_ticks[-1]

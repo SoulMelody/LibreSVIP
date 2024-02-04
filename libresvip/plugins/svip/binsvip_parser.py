@@ -111,21 +111,18 @@ class BinarySvipParser:
         return result_note
 
     def parse_vibrato(self, note: XSNote) -> VibratoParam:
-        percent = note.vibrato_percent_info
         kwargs = {}
-        if percent is not None:
-            kwargs["start_percent"] = percent.start_percent
-            kwargs["end_percent"] = percent.end_percent
+        if note.vibrato_percent_info is not None:
+            kwargs["start_percent"] = note.vibrato_percent_info.start_percent
+            kwargs["end_percent"] = note.vibrato_percent_info.end_percent
         elif note.vibrato_percent > 0:
             kwargs["start_percent"] = 1.0 - note.vibrato_percent / 100.0
             kwargs["end_percent"] = 1.0
-        vibrato = note.vibrato
-        return VibratoParam(
-            is_anti_phase=vibrato.is_anti_phase,
-            amplitude=self.parse_param_curve(vibrato.amp_line),
-            frequency=self.parse_param_curve(vibrato.freq_line),
-            **kwargs,
-        )
+        if note.vibrato is not None:
+            kwargs["is_anti_phase"] = note.vibrato.is_anti_phase
+            kwargs["amplitude"] = self.parse_param_curve(note.vibrato.amp_line)
+            kwargs["frequency"] = self.parse_param_curve(note.vibrato.freq_line)
+        return VibratoParam(**kwargs)
 
     @staticmethod
     def parse_phones(phone: XSNotePhoneInfo) -> Phones:
@@ -145,5 +142,5 @@ class BinarySvipParser:
 
         param_curve = ParamCurve()
         for point in line.nodes:
-            param_curve.points.append(Point(x=point.pos, y=op(point.value)))
+            param_curve.points.append(Point(x=point.pos, y=int(op(point.value))))
         return param_curve

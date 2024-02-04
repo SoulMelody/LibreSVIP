@@ -41,10 +41,9 @@ class AISNote(BaseModel):
     ) -> Optional[list[float]]:
         if value is None:
             return None
-        if isinstance(value, str):
-            value = value.split()
+        value_list = value.split() if isinstance(value, str) else value
         pit_list = []
-        for x in value:
+        for x in value_list:
             if isinstance(x, str) and "x" in x:
                 x, _, repeat_times = x.partition("x")
                 pit_list.extend([float(x)] * int(repeat_times))

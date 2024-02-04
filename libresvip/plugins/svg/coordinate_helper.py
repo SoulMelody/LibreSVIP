@@ -38,8 +38,8 @@ class CoordinateHelper:
     def get_note_position_parameters(self, note: Note) -> NotePositionParameters:
         text_x = 0
         if self.options.text_align == TextAlignOption.START:
-            text_x = (
-                int(note.start_pos - self.position_range_start)
+            text_x = int(
+                (note.start_pos - self.position_range_start)
                 * self.options.pixel_per_beat
                 / TICKS_IN_BEAT
                 + PADDING
@@ -51,8 +51,8 @@ class CoordinateHelper:
                 / TICKS_IN_BEAT
             )
         elif self.options.text_align == TextAlignOption.END:
-            text_x = (
-                int(note.end_pos - self.position_range_start)
+            text_x = int(
+                (note.end_pos - self.position_range_start)
                 * self.options.pixel_per_beat
                 / TICKS_IN_BEAT
                 - PADDING

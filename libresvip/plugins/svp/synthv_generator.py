@@ -473,7 +473,9 @@ class SynthVGenerator:
                     ratio = ratio_z
                 next_sv_note.attributes.set_phone_duration(0, ratio)
             if current_sv_note.attributes.dur is not None:
-                expected_length = number_of_phones(cur_phoneme, self.options.language_override)
+                expected_length = number_of_phones(
+                    cur_phoneme, self.options.language_override.value
+                )
                 if len(current_sv_note.attributes.dur) < expected_length:
                     current_sv_note.attributes.set_phone_duration(expected_length - 1, 1.0)
 
@@ -495,7 +497,7 @@ class SynthVGenerator:
             current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
         if current_sv_note.attributes.dur is not None:
             expected_length = number_of_phones(
-                self.lyrics_phonemes[-1], self.options.language_override
+                self.lyrics_phonemes[-1], self.options.language_override.value
             )
             if len(current_sv_note.attributes.dur) < expected_length:
                 current_sv_note.attributes.set_phone_duration(expected_length - 1, 1.0)

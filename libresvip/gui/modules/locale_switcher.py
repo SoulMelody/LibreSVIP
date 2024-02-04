@@ -20,7 +20,7 @@ QML_IMPORT_MINOR_VERSION = 0
 class GettextTranslator(QTranslator):
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent)
-        self.translation = None
+        self.translation: Optional[gettext.NullTranslations] = None
 
     def load_translation(self, lang: str, translation_dir: str) -> None:
         try:
@@ -37,7 +37,7 @@ class GettextTranslator(QTranslator):
         context: str,
         source_text: str,
         disambiguation: Optional[bytes] = None,
-        n: int = ...,
+        n: int = 0,
     ) -> str:
         if self.translation and source_text.strip():
             return self.translation.gettext(source_text)

@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from operator import attrgetter
 
-from more_itertools import minmax
+from more_itertools import locate, minmax, rlocate
 
 from libresvip.model.point import Point
 
@@ -14,9 +14,15 @@ def resampled(
     result = []
     left_point, right_point = minmax(data, key=attrgetter("x"), default=(Point(0, 0), Point(0, 0)))
     for current in range(left_point.x, right_point.x + 1, interval):
-        prev = next((p for p in reversed(data) if p.x <= current), None)
-        next_ = next((p for p in data if p.x >= current), None)
-        result.append(Point(x=current, y=interpolate_method(prev, next_, current)))
+        if (prev_index := next(rlocate(data, lambda p: p.x <= current), None)) is not None and (
+            next_index := next(locate(data, lambda p: p.x >= current), None)
+        ) is not None:
+            result.append(
+                Point(
+                    x=current,
+                    y=int(interpolate_method(data[prev_index], data[next_index], current)),
+                )
+            )
     return result
 
 
