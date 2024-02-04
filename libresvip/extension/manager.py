@@ -1,6 +1,7 @@
 import dataclasses
 import functools
 import inspect
+import os
 import pathlib
 import sys
 import types
@@ -23,9 +24,13 @@ from .meta_info import LibreSvipPluginInfo, PluginInfo
 # import zipfile
 
 
-def load_module(name: str, plugin_path: pathlib.Path) -> types.ModuleType:
+def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
     spec = spec_from_file_location(name, plugin_path)
-    spec.submodule_search_locations = [str(plugin_path.parent)]
+    spec.submodule_search_locations = [
+        str(plugin_path)
+        if plugin_path.is_dir()
+        else str(plugin_path).removesuffix(plugin_path.name)
+    ]
     module = module_from_spec(spec)
     try:
         spec.loader.exec_module(module)
@@ -44,7 +49,7 @@ class PluginManager:
     install_path: pathlib.Path
     plugin_places: list[Traversable]
     plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
-    _candidates: list[tuple[str, pathlib.Path, LibreSvipPluginInfo]] = dataclasses.field(
+    _candidates: list[tuple[str, Traversable, LibreSvipPluginInfo]] = dataclasses.field(
         default_factory=list
     )
 
@@ -75,7 +80,7 @@ class PluginManager:
         )
 
     def _import_module(
-        self, plugin_module_name: str, candidate_filepath: pathlib.Path, reload: bool
+        self, plugin_module_name: str, candidate_filepath: Traversable, reload: bool
     ) -> types.ModuleType:
         """
         Import a module, trying either to find it as a single file or as a directory.
@@ -83,23 +88,14 @@ class PluginManager:
         .. note:: Isolated and provided to be reused, but not to be reimplemented !
         """
 
-        if not candidate_filepath.is_dir():
-            plugin_dirname = candidate_filepath.parent.name
+        if candidate_filepath.is_file():
+            plugin_dirname = (
+                str(candidate_filepath)
+                .removesuffix(candidate_filepath.name)
+                .removesuffix(os.path.sep)
+                .rpartition(os.path.sep)[-1]
+            )
             plugin_package = f"{self.plugin_namespace}.{plugin_dirname}"
-            if entry_suffix := next(
-                (
-                    suffix
-                    for suffix in self.lib_suffixes
-                    if (candidate_filepath.with_suffix(suffix).is_file())
-                ),
-                None,
-            ):
-                candidate_filepath = candidate_filepath.with_suffix(entry_suffix)
-            else:
-                msg = f"Cannot find a valid entry point for {plugin_module_name} in {candidate_filepath}"
-                raise ImportError(
-                    msg,
-                )
         if plugin_package not in sys.modules or reload:
             sys.modules[plugin_package] = load_module(plugin_package, candidate_filepath)
 
@@ -114,44 +110,46 @@ class PluginManager:
                 logger.debug(f"{self.__class__.__name__} skips {dir_path} (not a directory)")
                 continue
             # iteratively walks through the directory
-            for file_path in dir_path.glob(f"*/*.{self.info_extension}"):
-                if (candidate_infofile := str(file_path)) in _discovered:
-                    # logger.debug("%s (with strategy %s) rejected because already discovered" % (candidate_infofile, analyzer.name))
+            for child_path in dir_path.iterdir():
+                if not child_path.is_dir():
                     continue
-                # logger.debug("%s found a candidate:\n    %s" % (self.__class__.__name__, candidate_infofile))
-                if (plugin_info := self.info_cls.load(file_path)) is None:
-                    # logger.debug("Plugin candidate '%s'  rejected by strategy '%s'" % (candidate_infofile, analyzer.name))
-                    continue  # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
-                plugin_info_path = file_path.parent / plugin_info.module
-                if (
-                    (entry_suffix := plugin_info_path.suffix) in self.lib_suffixes
-                    and plugin_info_path.is_file()
-                ) or (
-                    entry_suffix := next(
+                for file_path in child_path.iterdir():
+                    if not file_path.is_file() or not file_path.name.endswith(self.info_extension):
+                        continue
+                    if (candidate_infofile := str(file_path)) in _discovered:
+                        # logger.debug("%s (with strategy %s) rejected because already discovered" % (candidate_infofile, analyzer.name))
+                        continue
+                    # logger.debug("%s found a candidate:\n    %s" % (self.__class__.__name__, candidate_infofile))
+                    if (plugin_info := self.info_cls.load(file_path)) is None:
+                        # logger.debug("Plugin candidate '%s'  rejected by strategy '%s'" % (candidate_infofile, analyzer.name))
+                        continue  # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
+                    if entry_suffix := next(
                         (
                             suffix
                             for suffix in self.lib_suffixes
-                            if (plugin_info_path.with_suffix(suffix).is_file())
+                            if (
+                                (
+                                    candidate_filepath := (
+                                        child_path / f"{plugin_info.module}{suffix}"
+                                    )
+                                ).is_file()
+                            )
                         ),
                         None,
-                    )
-                ):
-                    candidate_filepath = plugin_info_path
-                    if candidate_filepath.suffix in self.lib_suffixes:
-                        candidate_filepath = candidate_filepath.with_suffix("")
-                    _discovered.add(
-                        str(
-                            plugin_info_path.with_suffix(entry_suffix),
+                    ):
+                        _discovered.add(
+                            str(
+                                child_path / f"{plugin_info.module}{entry_suffix}",
+                            )
                         )
-                    )
-                else:
-                    logger.error(
-                        f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
-                    )
-                    break
-                self._candidates.append((candidate_infofile, candidate_filepath, plugin_info))
-                # finally the candidate_infofile must not be discovered again
-                _discovered.add(candidate_infofile)
+                    else:
+                        logger.error(
+                            f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
+                        )
+                        break
+                    self._candidates.append((candidate_infofile, candidate_filepath, plugin_info))
+                    # finally the candidate_infofile must not be discovered again
+                    _discovered.add(candidate_infofile)
 
     def import_plugins(self, reload: bool = False) -> None:
         if reload:
@@ -166,13 +164,6 @@ class PluginManager:
             ) or plugin_info.suffix in settings.disabled_plugins:
                 logger.debug(f"Skipped plugin: {plugin_info.suffix}")
                 continue
-            # tolerance on the presence (or not) of the py extensions
-            if candidate_filepath.suffix in self.lib_suffixes:
-                candidate_filepath = candidate_filepath.with_suffix("")
-            # cover the case when the __init__ of a package has been
-            # explicitely indicated
-            if candidate_filepath.stem == "__init__":
-                candidate_filepath = candidate_filepath.parent
             try:
                 candidate_module = self._import_module(
                     plugin_module_name, candidate_filepath, reload

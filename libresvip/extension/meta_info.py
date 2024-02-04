@@ -10,7 +10,7 @@ from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 
 if TYPE_CHECKING:
-    from pathlib import Path
+    from libresvip.core.compat import Traversable
 
     from .base import SVSConverterBase
 
@@ -41,7 +41,7 @@ class PluginInfo:
         self.copy_right = _config.get("Documentation", "Copyright", fallback="Unknown")
 
     @classmethod
-    def load(cls, plugfile_path: Path) -> Optional[PluginInfo]:
+    def load(cls, plugfile_path: Traversable) -> Optional[PluginInfo]:
         try:
             with plugfile_path.open(encoding="utf-8") as metafile:
                 cp = RawConfigParser()

@@ -22,12 +22,14 @@ from typing import (
     Optional,
     SupportsFloat,
     TypedDict,
+    Union,
     cast,
     get_args,
     get_type_hints,
 )
 from urllib.parse import quote, unquote
 
+import aiofiles
 from nicegui import app, binding, ui
 from nicegui.context import get_client
 from nicegui.events import KeyEventArguments, UploadEventArguments
@@ -487,14 +489,22 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ):
                             ui.tooltip(_("Remove"))
 
-        def _add_task(self, name: str, content: BinaryIO) -> None:
+        async def _add_task(
+            self,
+            name: str,
+            content: Union[BinaryIO, aiofiles.threadpool.binary.AsyncBufferedReader],
+        ) -> None:
             if app.storage.user.get("auto_detect_input_format"):
                 cur_suffix = name.rpartition(".")[-1].lower()
                 if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
             upload_path = self.temp_path / name
-            content.seek(0)
-            upload_path.write_bytes(content.read())
+            if isinstance(content, aiofiles.threadpool.binary.AsyncBufferedReader):
+                await content.seek(0)
+                upload_path.write_bytes(await content.read())
+            else:
+                content.seek(0)
+                upload_path.write_bytes(content.read())
             output_path = self.temp_path / str(uuid.uuid4())
             conversion_task = ConversionTask(
                 name=name,
@@ -508,8 +518,8 @@ def page_layout(lang: Optional[str] = None) -> None:
             self.files_to_convert[name] = conversion_task
             self.tasks_container.refresh()
 
-        def add_task(self, args: UploadEventArguments) -> None:
-            self._add_task(args.name, args.content)
+        async def add_task(self, args: UploadEventArguments) -> None:
+            await self._add_task(args.name, args.content)
 
         @property
         def input_format(self) -> str:
@@ -671,8 +681,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                     return
                 for file_path in file_paths:
                     path = pathlib.Path(file_path)
-                    with path.open("rb") as content:
-                        self._add_task(path.name, content)
+                    async with aiofiles.open(path, "rb") as content:
+                        await self._add_task(path.name, content)
             else:
                 ui.run_javascript("add_upload()")
 
@@ -708,7 +718,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                     return
                 elif not isinstance(save_path, str):  # list[str]
                     save_path = save_path[0]
-                pathlib.Path(save_path).write_bytes(result[0])
+                async with aiofiles.open(save_path, "wb") as content:
+                    await content.write(result[0])
                 ui.notify(_("Saved"), type="positive")
             else:
                 ui.download(f"/export/{cur_client.id}/{file_name}")
