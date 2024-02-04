@@ -48,7 +48,7 @@ class PluginInfo:
                 cp.read_file(metafile)
                 return cls(cp)
         except Exception:
-            logger.exception(f"Failed to load plugin info from {plugfile_path}")
+            logger.error(f"Failed to load plugin info from {plugfile_path}")
 
     @classmethod
     def load_from_string(cls, content: str) -> Optional[PluginInfo]:

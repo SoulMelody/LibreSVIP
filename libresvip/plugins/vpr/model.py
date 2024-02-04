@@ -171,7 +171,7 @@ class VocaloidAutomation(VocaloidFolded):
 class VocaloidMasterTrack(BaseModel):
     loop: Optional[VocaloidRegion] = Field(default_factory=VocaloidRegion)
     sampling_rate: int = Field(44100, alias="samplingRate")
-    tempo: Optional[VocaloidTempo] = Field(default_factory=VocaloidTempo)
+    tempo: VocaloidTempo = Field(default_factory=VocaloidTempo)
     time_sig: VocaloidTimeSigs = Field(alias="timeSig", default_factory=VocaloidTimeSigs)
     volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
 
@@ -283,7 +283,7 @@ VocaloidTracks = Annotated[
 
 
 class VocaloidProject(BaseModel):
-    master_track: Optional[VocaloidMasterTrack] = Field(
+    master_track: VocaloidMasterTrack = Field(
         alias="masterTrack", default_factory=VocaloidMasterTrack
     )
     title: Optional[str] = ""

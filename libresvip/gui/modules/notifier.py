@@ -181,11 +181,11 @@ class Notifier(QObject):
                 title=title, message=message, buttons=buttons, timeout=timeout
             )
         except Exception as e:
-            logger.error(e)
+            logger.exception(e)
 
     async def clear_all_messages_async(self) -> None:
         try:
             if len(self.notifier.current_notifications):
                 await self.notifier.clear_all()
         except Exception as e:
-            logger.error(e)
+            logger.exception(e)

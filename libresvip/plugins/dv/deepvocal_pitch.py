@@ -75,9 +75,7 @@ def merge_same_tick_points(points: list[Point]) -> Optional[list[Point]]:
 
 
 def merge_same_value_points(points: list[Point]) -> Optional[list[Point]]:
-    merged_points = []
-    for key, group in groupby(points, key=operator.attrgetter("y")):
-        merged_points.append(next(group))
+    merged_points = [next(group) for key, group in groupby(points, key=operator.attrgetter("y"))]
     return merged_points or None
 
 
@@ -100,13 +98,13 @@ def apply_default_pitch(
     last_point = None
     for point in points:
         if last_point is not None and last_point.y == -100:
-            for tick in range(last_point.x + 1, point.x, SAMPLING_INTERVAL_TICK):
-                result.append(
-                    Point(
-                        x=tick + first_bar_length,
-                        y=base.get(tick, 0) + bend_diff.get(tick, 0) + vibrato_diff.get(tick, 0),
-                    )
+            result.extend(
+                Point(
+                    x=tick + first_bar_length,
+                    y=base.get(tick, 0) + bend_diff.get(tick, 0) + vibrato_diff.get(tick, 0),
                 )
+                for tick in range(last_point.x + 1, point.x, SAMPLING_INTERVAL_TICK)
+            )
             result.append(
                 Point(
                     x=(point.x if last_point is None else last_point.x) + first_bar_length,
@@ -130,7 +128,7 @@ def apply_default_pitch(
     return result
 
 
-def get_base_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict:
+def get_base_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict[int, int]:
     result = {}
     for last_note, this_note in zip([None] + notes, notes + [None]):
         portamento = []
@@ -146,7 +144,7 @@ def get_base_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) 
                     (portamento[0].x if portamento else last_note.note.end_pos),
                 )
             ]
-            result.update(last_note_tail)
+            result |= last_note_tail
         if this_note is not None:
             start = (
                 0
@@ -161,8 +159,8 @@ def get_base_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) 
     return result
 
 
-def get_bend_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict:
-    result = {}
+def get_bend_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict[int, int]:
+    result: dict[int, int] = {}
     for note in notes:
         start_tick = note.note.start_pos
         start_sec = transformer.get_actual_secs_from_ticks(start_tick)
@@ -191,7 +189,7 @@ def get_bend_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) 
             or []
         )
 
-        result.update(dict(bend_down + bend_up))
+        result |= dict(bend_down + bend_up)
     return result
 
 
@@ -226,8 +224,10 @@ def get_portamento(
     )
 
 
-def get_vibrato_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict:
-    result = {}
+def get_vibrato_pitch(
+    notes: list[DvNoteWithPitch], transformer: TimeSynchronizer
+) -> dict[int, int]:
+    result: dict[int, int] = {}
     for note in notes:
         start_tick = note.note.start_pos
         start_sec = transformer.get_actual_secs_from_ticks(start_tick)
@@ -241,7 +241,7 @@ def get_vibrato_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronize
             <= transformer.get_actual_ticks_from_secs(start_sec + vib_point.x / 1000)
             < note.note.end_pos
         ]
-        result.update(dict(interpolate_linear(vibrato_points, 1) or []))
+        result |= dict(interpolate_linear(vibrato_points, 1) or [])
     return result
 
 

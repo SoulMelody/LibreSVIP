@@ -102,8 +102,9 @@ def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloa
     next_tick_pos = 0.0
     for event in events:
         pos = event.index if event.index is not None else next_pos
-        tick_pos = next_tick_pos if event.index is None else None
-        if event.index is not None:
+        if event.index is None:
+            tick_pos = next_tick_pos
+        else:
             while (
                 current_tempo_index + 1 < len(tempos)
                 and tempos[current_tempo_index + 1][0] <= event.index

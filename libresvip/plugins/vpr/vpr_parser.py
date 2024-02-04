@@ -44,15 +44,18 @@ class VocaloidParser:
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
 
     def parse_project(self, vpr_project: VocaloidProject) -> Project:
-        self.comp_id2name = {voice.comp_id: voice.name for voice in vpr_project.voices}
-        project = Project(
+        self.comp_id2name = {
+            voice.comp_id: voice.name
+            for voice in vpr_project.voices
+            if voice.comp_id is not None and voice.name is not None
+        }
+        return Project(
             time_signature_list=self.parse_time_signatures(
                 vpr_project.master_track.time_sig.events
             ),
             song_tempo_list=self.parse_tempos(vpr_project.master_track.tempo.events),
+            track_list=self.parse_tracks(vpr_project.tracks),
         )
-        project.track_list = self.parse_tracks(vpr_project.tracks)
-        return project
 
     def parse_time_signatures(self, time_signatures: list[VocaloidTimeSig]) -> list[TimeSignature]:
         return [

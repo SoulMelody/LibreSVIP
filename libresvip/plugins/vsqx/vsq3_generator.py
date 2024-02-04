@@ -2,6 +2,7 @@ import dataclasses
 import operator
 import warnings
 from gettext import gettext as _
+from typing import Union
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
@@ -47,7 +48,7 @@ from .vocaloid_pitch import generate_for_vocaloid
 @dataclasses.dataclass
 class Vsq3Generator:
     options: OutputOptions
-    style_params: dict = dataclasses.field(init=False)
+    style_params: dict[str, Union[int, list[int]]] = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> Vsq3:

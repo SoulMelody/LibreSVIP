@@ -169,7 +169,7 @@ class PluginManager:
                     plugin_module_name, candidate_filepath, reload
                 )
             except Exception:
-                logger.exception(
+                logger.error(
                     f"Unable to import plugin: {candidate_filepath}",
                 )
                 continue
@@ -181,7 +181,7 @@ class PluginManager:
                 plugin_info.plugin_object = plugin_cls()
                 self.plugin_registry[plugin_info.suffix] = plugin_info
             except Exception:
-                logger.exception(f"Unable to create plugin object: {candidate_filepath}")
+                logger.error(f"Unable to create plugin object: {candidate_filepath}")
                 continue  # If it didn't work once it wont again
 
 

@@ -64,10 +64,11 @@ class MusicXMLGenerator:
         part_id = f"P{track_index + 1}"
         part_node = ScorePartwise.Part(part_id=part_id)
         score_part = ScorePart(score_part_id=part_id)
-        if track_title:
-            score_part.part_name.value = track_title
-        else:
-            score_part.part_name.value = f"Track {track_index + 1}"
+        if score_part.part_name is not None:
+            if track_title:
+                score_part.part_name.value = track_title
+            else:
+                score_part.part_name.value = f"Track {track_index + 1}"
         for i, measure in enumerate(measures):
             measure_node = ScorePartwise.Part.Measure(
                 number=str(i + 1),
@@ -291,7 +292,7 @@ class MusicXMLGenerator:
                         )
                 elif key_tick.note_start is not None:
                     ongoing_note_with_current_head = key_tick.note_start, key_tick.tick
-                elif key_tick.note_end is not None:
+                elif key_tick.note_end is not None and ongoing_note_with_current_head is not None:
                     note, head = ongoing_note_with_current_head
                     current_content_group.append(
                         MXmlMeasureContent.with_note(

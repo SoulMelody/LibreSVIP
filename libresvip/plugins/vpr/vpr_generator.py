@@ -113,6 +113,7 @@ class VocaloidGenerator:
                         audio_duration_in_secs
                     )
                     self.wav_paths[wav_path.name] = wav_path
+                    wav_part_region_end = track.offset + audio_duration_in_ticks
                     wav_part = VocaloidWavPart(
                         pos=track.offset,
                         wav=VocaloidWav(
@@ -121,12 +122,12 @@ class VocaloidGenerator:
                         ),
                         region=VocaloidRegion(
                             begin=track.offset,
-                            end=track.offset + audio_duration_in_ticks,
+                            end=wav_part_region_end,
                         ),
                     )
                     self.end_tick = max(
                         self.end_tick,
-                        wav_part.region.end,
+                        int(wav_part_region_end),
                     )
                     tracks.append(
                         VocaloidAudioTrack(

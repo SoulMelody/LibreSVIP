@@ -1,6 +1,6 @@
 import pathlib
 import re
-from typing import Any, TextIO
+from typing import Any, Optional, TextIO
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
@@ -20,7 +20,9 @@ from .vspx_parser import VocalSharpParser
 
 
 class VocalSharpXMLWriter(XmlEventWriter):
-    def __init__(self, config: SerializerConfig, output: TextIO, ns_map: dict) -> None:
+    def __init__(
+        self, config: SerializerConfig, output: TextIO, ns_map: dict[Optional[str], str]
+    ) -> None:
         super().__init__(config, output, ns_map)
         self.handler = EchoGenerator(
             out=self.output, encoding=self.config.encoding, short_empty_elements=True
@@ -57,7 +59,7 @@ class VocalSharpXMLWriter(XmlEventWriter):
             self.output.write(f' encoding="{self.config.encoding}" standalone="no"?>\n')
 
 
-def strip_whitespace(matcher: re.Match) -> str:
+def strip_whitespace(matcher: re.Match[str]) -> str:
     first_tag = matcher[1]
     second_tag = matcher[2]
     if first_tag != second_tag:
@@ -66,7 +68,7 @@ def strip_whitespace(matcher: re.Match) -> str:
         return matcher.group()
 
 
-def replace_self_closed(matcher: re.Match) -> str:
+def replace_self_closed(matcher: re.Match[str]) -> str:
     indent = matcher[1]
     tag = matcher[2]
     return f"{indent}<{tag}>{indent}</{tag}>"

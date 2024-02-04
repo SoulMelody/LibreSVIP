@@ -1,6 +1,6 @@
 import enum
 import uuid
-from typing import Annotated, Optional
+from typing import Annotated, Any, Optional
 
 from pydantic import UUID4, Field
 
@@ -101,7 +101,7 @@ class PpsfBaseSequence(BaseModel):
 
 class PpsfSeqParam(BaseModel):
     base_sequence: Optional[PpsfBaseSequence] = Field(None, alias="base-sequence")
-    layers: Optional[list] = Field(default_factory=list)
+    layers: Optional[list[Any]] = Field(default_factory=list)
 
 
 class PpsfParameter(PpsfBaseSequence):
@@ -149,7 +149,7 @@ class PpsfTrackEditor(BaseModel):
     horizontal_scale: float = Field(0.08, alias="horizontal-scale")
     horizontal_scroll: int = Field(0, alias="horizontal-scroll")
     tempo_track: PpsfTempoTrack = Field(default_factory=PpsfTempoTrack, alias="tempo-track")
-    user_markers: Optional[list] = Field(default_factory=list, alias="user-markers")
+    user_markers: Optional[list[Any]] = Field(default_factory=list, alias="user-markers")
     width: int = 1024
     x: int = 100
     y: int = 100

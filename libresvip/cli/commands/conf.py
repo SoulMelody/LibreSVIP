@@ -34,4 +34,4 @@ def set_configuration(
         save_settings()
         typer.echo(_("Set {} to {}").format(name, value))
     except OmegaConfBaseException as e:
-        logger.error(e)
+        logger.exception(e)

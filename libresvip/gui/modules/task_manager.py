@@ -26,7 +26,7 @@ from PySide6.QtCore import (
 from PySide6.QtQml import QmlElement, QmlSingleton
 from upath import UPath
 
-from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
@@ -76,26 +76,41 @@ class ConversionWorker(QRunnable):
                 warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
-                input_option = get_type_hints(input_plugin.plugin_object.load).get("options")
-                output_option = get_type_hints(output_plugin.plugin_object.dump).get("options")
-                project = input_plugin.plugin_object.load(
-                    pathlib.Path(self.input_path),
-                    input_option(**self.input_options),
-                )
-                output_plugin.plugin_object.dump(
-                    UPath(self.output_path),
-                    project,
-                    output_option(**self.output_options),
-                )
-                warning_str = "\n".join(str(each.message) for each in w)
-                self.signals.result.emit(
-                    self.index,
-                    {
-                        "success": True,
-                        "tmp_path": self.output_path,
-                        "warning": warning_str,
-                    },
-                )
+                if (
+                    input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                        "options",
+                    )
+                ) is None or (
+                    output_option := get_type_hints(
+                        output_plugin.plugin_object.dump,
+                    ).get("options")
+                ) is None:
+                    self.signals.result.emit(
+                        self.index,
+                        {
+                            "success": False,
+                            "error": "Invalid options",
+                        },
+                    )
+                else:
+                    project = input_plugin.plugin_object.load(
+                        pathlib.Path(self.input_path),
+                        input_option(**self.input_options),
+                    )
+                    output_plugin.plugin_object.dump(
+                        UPath(self.output_path),
+                        project,
+                        output_option(**self.output_options),
+                    )
+                    warning_str = "\n".join(str(each.message) for each in w)
+                    self.signals.result.emit(
+                        self.index,
+                        {
+                            "success": True,
+                            "tmp_path": self.output_path,
+                            "warning": warning_str,
+                        },
+                    )
         except Exception:
             with contextlib.suppress(RuntimeError):
                 self.signals.result.emit(
@@ -230,14 +245,14 @@ class TaskManager(QObject):
         self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
     @staticmethod
-    def output_dir(task: dict) -> pathlib.Path:
+    def output_dir(task: dict[str, Any]) -> pathlib.Path:
         return (
             settings.save_folder
             if settings.save_folder.is_absolute()
             else pathlib.Path(task["path"]).parent / str(settings.save_folder)
         )
 
-    def output_path(self, task: dict) -> pathlib.Path:
+    def output_path(self, task: dict[str, Any]) -> pathlib.Path:
         output_dir = self.output_dir(task)
         return output_dir / f"{task['stem']}{self.output_ext}"
 
@@ -282,7 +297,7 @@ class TaskManager(QObject):
         return result
 
     @staticmethod
-    def inspect_fields(option_class: BaseModel) -> list[dict]:
+    def inspect_fields(option_class: BaseModel) -> list[dict[str, Any]]:
         fields = []
         for option_key, field_info in option_class.model_fields.items():
             default_value = None if field_info.default is PydanticUndefined else field_info.default
@@ -377,7 +392,7 @@ class TaskManager(QObject):
                 self._output_fields_inited = True
 
     @Slot(str, result="QVariant")
-    def plugin_info(self, name: str) -> dict:
+    def plugin_info(self, name: str) -> dict[str, str]:
         assert name in {"input_format", "output_format"}
         if (suffix := getattr(self, name)) in plugin_manager.plugin_registry:
             plugin = plugin_manager.plugin_registry[suffix]
@@ -469,7 +484,7 @@ class TaskManager(QObject):
         return plugin_info_filename
 
     @Slot(list, result="QVariant")
-    def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
+    def extract_plugin_infos(self, paths: list[str]) -> list[dict[str, str]]:
         infos = []
         for path in paths:
             zip_file = zipfile.Path(path)

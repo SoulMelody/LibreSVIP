@@ -30,7 +30,7 @@ from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 Int32ul = BytesInteger(4, swapped=True)
-Node = dict[str, Union[int, float, str, bytes, "Node", list["Node"]]]
+Node = dict[str, Union[bool, int, float, str, bytes, "Node", list["Node"]]]
 
 JUCEVarTypes = CSEnum(
     Byte,

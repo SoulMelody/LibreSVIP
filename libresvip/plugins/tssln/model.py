@@ -270,7 +270,7 @@ class VoiSonaProject(BaseModel):
     version_of_app_file_saved: Optional[str] = Field("1.8.0.17", alias="VersionOfAppFileSaved")
 
 
-def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict:
+def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[str, Any]:
     if issubclass(field_type, bool):
         if field_value is True:
             variant_type = JUCEVarTypes.BOOL_TRUE
@@ -296,7 +296,7 @@ def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict:
     }
 
 
-def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict:
+def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str, Any]:
     model_class = type(model)
     value_tree = {
         "name": name,

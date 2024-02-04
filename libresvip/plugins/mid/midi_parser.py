@@ -146,7 +146,7 @@ class MidiParser:
                 continue
             last_note_on = collections.defaultdict(list)
             pitchbend_range_changed: dict[int, list[int]] = collections.defaultdict(list)
-            lyrics: dict[str] = collections.defaultdict(lambda: DEFAULT_PHONEME)
+            lyrics: dict[int, str] = collections.defaultdict(lambda: DEFAULT_PHONEME)
             track_name = None
             notes = []
             rel_pitch_points = []

@@ -464,7 +464,7 @@ class SVGroup(BaseModel):
 
     @field_validator("notes", mode="before")
     @classmethod
-    def validate_notes(cls, v: list[dict[str, Any]], _info: ValidationInfo) -> list[dict]:
+    def validate_notes(cls, v: list[dict[str, Any]], _info: ValidationInfo) -> list[dict[str, Any]]:
         return [note for note in v if note["onset"] >= 0]
 
     def overlapped_with(self, other: SVGroup) -> bool:
