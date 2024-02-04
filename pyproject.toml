@@ -107,7 +107,7 @@ linting = [
   "sourcery>=1.15.0",
 ]
 packaging = [
-  "cx-Freeze>=6.15.13",
+  "cx-Freeze>=6.15.14",
   "pyinstaller>=6.3.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
