@@ -1,4 +1,5 @@
 import dataclasses
+from typing import cast
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -79,7 +80,7 @@ class MutaGenerator:
         track_list: list[MutaTrack] = []
         for track in tracks:
             muta_track = MutaTrack(
-                track_type=MutaTrackType.SONG,
+                track_type=cast(MutaTrackType, MutaTrackType.SONG),
                 seq_count=1,
                 name=f"Song{len(track_list) + 1}",
                 mute=track.mute,
@@ -111,7 +112,9 @@ class MutaGenerator:
                     )
                 ],
             )
-            if pitch_points := self.generate_pitch(track.edited_params.pitch):
+            if muta_track.song_track_data is not None and (
+                pitch_points := self.generate_pitch(track.edited_params.pitch)
+            ):
                 muta_track.song_track_data[0].params.pitch_data = pitch_points
             track_list.append(muta_track)
         return track_list
@@ -147,7 +150,7 @@ class MutaGenerator:
         for track in tracks:
             if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 muta_track = MutaTrack(
-                    track_type=MutaTrackType.AUDIO,
+                    track_type=cast(MutaTrackType, MutaTrackType.AUDIO),
                     seq_count=1,
                     name=f"Audio{len(track_list) + 1}",
                     mute=track.mute,

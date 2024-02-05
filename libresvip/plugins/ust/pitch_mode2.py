@@ -123,68 +123,71 @@ def pitch_from_utau_mode2_track(
     last_note: Optional[Note] = None
     pending_pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):
-        points = []
-        note_start_in_millis = (
-            tick_time_transformer.get_actual_secs_from_ticks(note.start_pos) * 1000
-        )
-        if note_pitch.start is not None:
-            pos_in_millis = note_start_in_millis + note_pitch.start
-            tick_pos = tick_time_transformer.get_actual_ticks_from_secs(pos_in_millis / 1000)
-            start_shift = round(
-                (last_note.key_number - note.key_number) * 100
-                if last_note and note.start_pos == last_note.end_pos
-                else note_pitch.start_shift * 10
-                if note_pitch.start_shift is not None
-                else 0
+        if note_pitch is not None:
+            points = []
+            note_start_in_millis = (
+                tick_time_transformer.get_actual_secs_from_ticks(note.start_pos) * 1000
             )
-            points.append(Point(x=round(tick_pos), y=start_shift))
-            for width, shift, curve_type in itertools.zip_longest(
-                note_pitch.widths, note_pitch.shifts, note_pitch.curve_types
-            ):
-                if width is None:
-                    break
-                if shift is None:
-                    shift = 0
-                if curve_type is None:
-                    curve_type = ""
-                pos_in_millis += width
+            if note_pitch.start is not None:
+                pos_in_millis = note_start_in_millis + note_pitch.start
                 tick_pos = tick_time_transformer.get_actual_ticks_from_secs(pos_in_millis / 1000)
-                this_point = Point(x=round(tick_pos), y=round(shift * 10))
-                last_point = points[-1]
-                if this_point.x != last_point.x and this_point.y != last_point.y:
-                    interpolated_point_list = interpolate(
-                        last_point,
-                        this_point,
-                        curve_type,
-                        MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                start_shift = round(
+                    (last_note.key_number - note.key_number) * 100
+                    if last_note and note.start_pos == last_note.end_pos
+                    else note_pitch.start_shift * 10
+                    if note_pitch.start_shift is not None
+                    else 0
+                )
+                points.append(Point(x=round(tick_pos), y=start_shift))
+                for width, shift, curve_type in itertools.zip_longest(
+                    note_pitch.widths, note_pitch.shifts, note_pitch.curve_types
+                ):
+                    if width is None:
+                        break
+                    if shift is None:
+                        shift = 0
+                    if curve_type is None:
+                        curve_type = ""
+                    pos_in_millis += width
+                    tick_pos = tick_time_transformer.get_actual_ticks_from_secs(
+                        pos_in_millis / 1000
                     )
-                    points.extend(interpolated_point_list[1:])
-                else:
-                    points.append(this_point)
-        pitch_points.extend(
-            point
-            for point in pending_pitch_points
-            if point.x < (points[0].x if points else float("inf"))
-        )
-        pending_pitch_points = shape(
-            append_utau_note_vibrato(
-                append_end_point(
-                    append_start_point(
-                        fix_points_at_last_note(
-                            points,
+                    this_point = Point(x=round(tick_pos), y=round(shift * 10))
+                    last_point = points[-1]
+                    if this_point.x != last_point.x and this_point.y != last_point.y:
+                        interpolated_point_list = interpolate(
+                            last_point,
+                            this_point,
+                            curve_type,
+                            MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                        )
+                        points.extend(interpolated_point_list[1:])
+                    else:
+                        points.append(this_point)
+            pitch_points.extend(
+                point
+                for point in pending_pitch_points
+                if point.x < (points[0].x if points else float("inf"))
+            )
+            pending_pitch_points = shape(
+                append_utau_note_vibrato(
+                    append_end_point(
+                        append_start_point(
+                            fix_points_at_last_note(
+                                points,
+                                note,
+                                last_note,
+                            ),
                             note,
-                            last_note,
                         ),
                         note,
                     ),
+                    note_pitch.vibrato_params,
                     note,
-                ),
-                note_pitch.vibrato_params,
-                note,
-                tick_time_transformer,
-                MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                    tick_time_transformer,
+                    MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                )
             )
-        )
         last_note = note
     pitch_points.extend(pending_pitch_points)
     return RelativePitchCurve().to_absolute(pitch_points, notes)

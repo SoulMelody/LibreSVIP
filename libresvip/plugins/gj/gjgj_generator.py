@@ -145,7 +145,7 @@ class GjgjGenerator:
                 beat_style = GjgjBeatStyle.SP
             else:
                 beat_style = GjgjBeatStyle.NONE
-            pre_time, post_time = 0, 0
+            pre_time, post_time = 0.0, 0.0
             if note.edited_phones is not None:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:

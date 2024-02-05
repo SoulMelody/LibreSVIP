@@ -123,7 +123,7 @@ typing_stubs = [
 
 [tool.pdm.build]
 includes = ["libresvip"]
-excludes = ["tests", "libresvip/res/locales/*/LC_MESSAGES/libresvip.po", "libresvip/plugins/*/*.po", "**/.mypy_cache"]
+excludes = ["tests", "libresvip/gui/**/*.qml", "libresvip/res/locales/*/LC_MESSAGES/libresvip.po", "libresvip/plugins/*/*.po", "**/.mypy_cache"]
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"

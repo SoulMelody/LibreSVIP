@@ -84,9 +84,9 @@ class SynthVGenerator:
             for meter in new_meters:
                 sv_project.time_sig.meter.append(self.generate_meter(meter))
         for track_id, track in enumerate(project.track_list):
-            sv_track = self.generate_track(track)
-            sv_track.disp_order = track_id
-            sv_project.tracks.append(sv_track)
+            if (sv_track := self.generate_track(track)) is not None:
+                sv_track.disp_order = track_id
+                sv_project.tracks.append(sv_track)
         return sv_project
 
     @staticmethod
@@ -428,7 +428,12 @@ class SynthVGenerator:
             )
 
             index = 1 if current_phone_marks[0] > 0 else 0
-            if current_main_part_edited and next_head_part_edited:
+            if (
+                current_main_part_edited
+                and next_head_part_edited
+                and (current_note.edited_phones is not None)
+                and (next_note.edited_phones is not None)
+            ):
                 current_main_ratio = (
                     current_note.edited_phones.mid_ratio_over_tail / current_phone_marks[1]
                 )
@@ -449,13 +454,13 @@ class SynthVGenerator:
                 current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
                 current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
                 next_sv_note.attributes.set_phone_duration(0, clamp(z, 0.2, 1.8))
-            elif current_main_part_edited:
+            elif current_main_part_edited and current_note.edited_phones is not None:
                 ratio = current_note.edited_phones.mid_ratio_over_tail / current_phone_marks[1]
                 x = 2 * ratio / (1 + ratio)
                 y = 2 / (1 + ratio)
                 current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
                 current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
-            elif next_head_part_edited:
+            elif next_head_part_edited and next_note.edited_phones is not None:
                 ratio = next_note.edited_phones.head_length_in_secs / next_phone_marks[0]
                 if (
                     self.synchronizer.get_duration_secs_from_ticks(
@@ -488,6 +493,7 @@ class SynthVGenerator:
             current_phone_marks[1] > 0
             and current_note.edited_phones is not None
             and current_note.edited_phones.mid_ratio_over_tail > 0
+            and notes[-1].edited_phones is not None
         ):
             ratio = notes[-1].edited_phones.mid_ratio_over_tail / current_phone_marks[1]
             x = 2 * ratio / (1 + ratio)

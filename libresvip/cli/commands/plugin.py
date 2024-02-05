@@ -78,6 +78,8 @@ def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
 
 
 def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
+    if plugin.plugin_object is None:
+        return
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(

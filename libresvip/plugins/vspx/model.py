@@ -421,19 +421,17 @@ class VocalSharpNote:
     class Meta:
         name = "Note"
 
-    pos: Optional[int] = field(
-        default=None,
+    pitch: str = field(
+        metadata={
+            "type": "Element",
+        },
+    )
+    pos: int = field(
         metadata={
             "type": "Element",
         },
     )
     duration: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-        },
-    )
-    pitch: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",

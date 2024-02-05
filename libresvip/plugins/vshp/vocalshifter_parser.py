@@ -123,7 +123,7 @@ class VocalShifterParser:
         )
         sample_offset = pattern_metadata.offset_samples + pattern_metadata.offset_correction
         offset_in_seconds = sample_offset / pattern_data.header.sample_rate
-        offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds)
+        offset_in_ticks = int(self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds))
         track.note_list = self.parse_note_list(
             offset_in_ticks,
             pattern_data.notes.notes,
@@ -258,7 +258,7 @@ class VocalShifterParser:
             param_curve.points.append(
                 Point(
                     round(self.synchronizer.get_actual_ticks_from_secs(offset)) + 1920,
-                    mapping_func(value),
+                    int(mapping_func(value)),
                 )
             )
             offset += time_step

@@ -207,4 +207,4 @@ class CeVIOParser:
         if value is not None:
             index = data_element.index or None
             repeat = data_element.repeat or None
-            return CeVIOPitchEvent(index=index, repeat=repeat, value=value)
+            return CeVIOPitchEvent(idx=index, repeat=repeat, value=value)

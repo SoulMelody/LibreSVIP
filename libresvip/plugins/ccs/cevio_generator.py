@@ -191,7 +191,7 @@ class CeVIOGenerator:
             log_f0_node = CeVIOParameter(length=data.length)
             log_f0_node.data.extend(
                 CeVIOData(
-                    index=each.index,
+                    index=each.idx,
                     repeat=each.repeat,
                     value=each.value,
                 )

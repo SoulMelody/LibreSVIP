@@ -2,6 +2,7 @@ from typing import Optional, Union
 
 from pydantic import Field
 
+from libresvip.core.constants import DEFAULT_BPM
 from libresvip.model.base import BaseModel
 
 
@@ -16,10 +17,10 @@ class Y77Note(BaseModel):
 
 
 class Y77Project(BaseModel):
+    bpm: float = DEFAULT_BPM
     bars: Optional[int] = None
     notes: list[Y77Note] = Field(default_factory=list)
     nnote: Optional[int] = None
-    bpm: Optional[float] = 100.0
     bbar: Optional[int] = None
     v: Optional[int] = 10001
     bbeat: Optional[int] = None

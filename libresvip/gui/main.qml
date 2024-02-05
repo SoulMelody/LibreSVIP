@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import FramelessWindow
 import LibreSVIP
-import "./components/" as Components
+import "qrc:/qml/components/" as Components
 
 
 FramelessWindow {

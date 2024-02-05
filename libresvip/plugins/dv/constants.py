@@ -3,7 +3,7 @@ from typing import Final
 NOTE_KEY_SUM: Final[float] = 115.5
 STARTING_MEASURE_POSITION: Final[int] = -3
 FIXED_MEASURE_PREFIX: Final[int] = 4
-DEFAULT_VOLUME: Final[float] = 30
+DEFAULT_VOLUME: Final[int] = 30
 MIN_SEGMENT_LENGTH: Final[int] = 480 * 4
 DEFAULT_PHONEME_BYTES: Final[
     bytes

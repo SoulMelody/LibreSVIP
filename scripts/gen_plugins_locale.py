@@ -9,7 +9,7 @@ import shutil
 import sys
 import tempfile
 from collections.abc import Iterator
-from typing import Any, get_args, get_type_hints
+from typing import Any, cast, get_args, get_type_hints
 
 from babel.messages import setuptools_frontend
 from loguru import logger
@@ -28,7 +28,7 @@ def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
         info_path = package_path(sys.modules[plugin_info.plugin_object.__module__])
         plugin_suffix = plugin_info.suffix
         plugin_info = plugin_manager.plugin_registry[plugin_suffix]
-        plugin_metadata = {
+        plugin_metadata: dict[str, Any] = {
             "name": plugin_info.name,
             "file_format": plugin_info.file_format,
         }
@@ -78,7 +78,7 @@ def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
                         field_metadata["description"] = field_info.description
                     conv_fields.append(field_metadata)
             plugin_metadata[method] = conv_fields
-        yield plugin_suffix, plugin_metadata, info_path
+        yield plugin_suffix, plugin_metadata, cast(pathlib.Path, info_path)
 
 
 if __name__ == "__main__":

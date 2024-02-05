@@ -39,7 +39,7 @@ from .model import (
     SVVoice,
 )
 from .options import BreathOption, GroupOption, InputOptions, PitchOption
-from .param_expression import CompoundParam, CurveGenerator, PitchGenerator
+from .param_expression import CurveGenerator, ParamExpression, PitchGenerator
 from .phoneme_utils import default_phone_marks, sv_g2p, xsampa2pinyin
 from .track_merge_utils import track_override_with
 
@@ -61,7 +61,7 @@ class SynthVParser:
 
     def actual_value_at(
         self,
-        compound_expr: CompoundParam,
+        compound_expr: ParamExpression,
         mapping_func: Callable[[float], int],
         ticks: int,
     ) -> int:

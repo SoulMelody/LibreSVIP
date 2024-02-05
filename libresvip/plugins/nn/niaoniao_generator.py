@@ -4,6 +4,7 @@ import math
 import pypinyin
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -12,6 +13,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.utils import gettext_lazy as _
 
 from .model import NNInfoLine, NNNote, NNPoints, NNProject, NNTimeSignature
 from .options import OutputOptions
@@ -26,10 +28,14 @@ class NiaoniaoGenerator:
     def generate_project(self, project: Project) -> NNProject:
         self.length_multiplier = 60 if self.options.version == 19 else 30
         if self.options.track_index < 0:
-            first_singing_track = next(
-                (track for track in project.track_list if isinstance(track, SingingTrack)),
-                None,
-            )
+            if (
+                first_singing_track := next(
+                    (track for track in project.track_list if isinstance(track, SingingTrack)),
+                    None,
+                )
+            ) is None:
+                msg = _("No singing track found")
+                raise NoTrackError(msg)
         else:
             first_singing_track = project.track_list[self.options.track_index]
         nn_time_signature = self.generate_time_signature(project.time_signature_list)

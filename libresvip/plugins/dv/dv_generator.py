@@ -1,4 +1,5 @@
 import dataclasses
+from typing import cast
 
 from construct_typed import DataclassMixin, DataclassStruct
 
@@ -123,7 +124,7 @@ class DeepVocalGenerator:
                 )
                 track_list.append(
                     DvTrack(
-                        track_type=DvTrackType.AUDIO,
+                        track_type=cast(DvTrackType, DvTrackType.AUDIO),
                         track_data=dv_track,
                     )
                 )
@@ -187,7 +188,7 @@ class DeepVocalGenerator:
             )
             track_list.append(
                 DvTrack(
-                    track_type=DvTrackType.SINGING,
+                    track_type=cast(DvTrackType, DvTrackType.SINGING),
                     track_data=dv_track,
                 )
             )
@@ -198,8 +199,8 @@ class DeepVocalGenerator:
             DvNote(
                 start=note.start_pos,
                 length=note.length,
-                key=convert_note_key(note.key_number),
-                phoneme=note.pronunciation
+                key=cast(int, convert_note_key(note.key_number)),
+                phoneme=cast(str, note.pronunciation)
                 or ("-" if note.lyric == "-" else next(iter(get_pinyin_series(note.lyric)), "")),
                 word=note.lyric,
                 padding_1=0,

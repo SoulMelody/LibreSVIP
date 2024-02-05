@@ -74,6 +74,8 @@ class MutaParser:
     def parse_singing_tracks(self, muta_singing_tracks: list[MutaTrack]) -> list[SingingTrack]:
         track_list: list[SingingTrack] = []
         for muta_track in muta_singing_tracks:
+            if muta_track.song_track_data is None:
+                continue
             for part in muta_track.song_track_data:
                 singing_track = SingingTrack(
                     title=muta_track.name,
@@ -108,6 +110,8 @@ class MutaParser:
     def parse_instrumental_tracks(self, muta_tracks: list[MutaTrack]) -> list[InstrumentalTrack]:
         track_list = []
         for muta_track in muta_tracks:
+            if muta_track.audio_track_data is None:
+                continue
             for part in muta_track.audio_track_data:
                 instrumental_track = InstrumentalTrack(
                     title=muta_track.name,

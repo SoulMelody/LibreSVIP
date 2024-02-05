@@ -71,7 +71,7 @@ class Y77Generator:
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1
-                value = 50
+                value = 50.0
 
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:

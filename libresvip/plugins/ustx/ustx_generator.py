@@ -1,6 +1,7 @@
 import dataclasses
 import math
 from collections.abc import MutableSequence
+from typing import cast
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -42,7 +43,7 @@ class UstxGenerator:
         ]
         if not ustx_time_signatures:
             ustx_time_signatures.append(UTimeSignature(0, 4, 4))
-        first_bar_length = (
+        first_bar_length = int(
             1920 * ustx_time_signatures[0].beat_per_bar / ustx_time_signatures[0].beat_unit
         )
 
@@ -105,7 +106,7 @@ class UstxGenerator:
         os_track: SingingTrack,
         track_no: int,
         ustx_project: USTXProject,
-        first_bar_length: int = 1920,
+        first_bar_length: int,
     ) -> UVoicePart:
         ustx_voice_part = UVoicePart(name=os_track.title, track_no=track_no, position=0, notes=[])
         if not os_track.note_list:
@@ -127,7 +128,7 @@ class UstxGenerator:
         self.generate_pitch(
             ustx_voice_part,
             ustx_project,
-            os_track.edited_params.pitch.points.root,
+            cast(MutableSequence[tuple[int, int]], os_track.edited_params.pitch.points.root),
             first_bar_length,
         )
 
@@ -173,7 +174,7 @@ class UstxGenerator:
         part: UVoicePart,
         project: USTXProject,
         os_pitch: MutableSequence[tuple[int, int]],
-        first_bar_length: int = 1920,
+        first_bar_length: int,
     ) -> None:
         pitch_start = BasePitchGenerator.pitch_start
         pitch_interval = BasePitchGenerator.pitch_interval

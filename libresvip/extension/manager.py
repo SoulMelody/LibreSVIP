@@ -19,13 +19,17 @@ from libresvip.core.config import settings
 from libresvip.core.constants import app_dir, pkg_dir
 
 from .base import BasePlugin, SVSConverterBase
-from .meta_info import LibreSvipPluginInfo, PluginInfo
+from .meta_info import LibreSvipPluginInfo
 
 # import zipfile
 
 
 def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
-    spec = spec_from_file_location(name, plugin_path)
+    if (
+        spec := spec_from_file_location(name, cast(pathlib.Path, plugin_path))
+    ) is None or spec.loader is None:
+        msg = f"Cannot load plugin from {plugin_path}"
+        raise ImportError(msg)
     spec.submodule_search_locations = [
         str(plugin_path)
         if plugin_path.is_dir()
@@ -43,12 +47,11 @@ def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
 @dataclasses.dataclass
 class PluginManager:
     info_extension: str
-    info_cls: type[PluginInfo]
     plugin_base: type[BasePlugin]
     plugin_namespace: str
     install_path: pathlib.Path
     plugin_places: list[Traversable]
-    plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
+    plugin_registry: dict[str, LibreSvipPluginInfo] = dataclasses.field(default_factory=dict)
     _candidates: list[tuple[str, Traversable, LibreSvipPluginInfo]] = dataclasses.field(
         default_factory=list
     )
@@ -67,10 +70,11 @@ class PluginManager:
             return None
         path = [str(path) for path in self.plugin_places]
 
-        spec = PathFinder.find_spec(fullname, path, target)
-        if spec:
+        if (
+            spec := PathFinder.find_spec(fullname, path, target)
+        ) is not None and spec.loader is not None:
             spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)
-        return spec
+            return spec
 
     def is_plugin(self, member: object) -> TypeGuard[BasePlugin]:
         return (
@@ -120,7 +124,7 @@ class PluginManager:
                         # logger.debug("%s (with strategy %s) rejected because already discovered" % (candidate_infofile, analyzer.name))
                         continue
                     # logger.debug("%s found a candidate:\n    %s" % (self.__class__.__name__, candidate_infofile))
-                    if (plugin_info := self.info_cls.load(file_path)) is None:
+                    if (plugin_info := LibreSvipPluginInfo.load(file_path)) is None:
                         # logger.debug("Plugin candidate '%s'  rejected by strategy '%s'" % (candidate_infofile, analyzer.name))
                         continue  # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
                     if entry_suffix := next(
@@ -187,7 +191,6 @@ class PluginManager:
 
 plugin_manager = PluginManager(
     info_extension="yapsy-plugin",
-    info_cls=LibreSvipPluginInfo,
     plugin_base=SVSConverterBase,
     plugin_places=[pkg_dir / "plugins", app_dir.user_config_path / "plugins"],
     plugin_namespace="libresvip.plugins",

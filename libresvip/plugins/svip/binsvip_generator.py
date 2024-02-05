@@ -126,6 +126,7 @@ class BinarySvipGenerator:
         return beat
 
     def generate_track(self, track: Track) -> Optional[XSITrack]:
+        s_track: Optional[XSITrack] = None
         if isinstance(track, SingingTrack):
             singer_id = opensvip_singers.get_id(track.ai_singer_name)
             if singer_id == "":
@@ -253,7 +254,7 @@ class BinarySvipGenerator:
                     )
                 else:
                     pos = p.x
-                node = XSLineParamNode(pos=pos, value=op(p.y))
+                node = XSLineParamNode(pos=pos, value=int(op(p.y)))
                 line.nodes.append(node)
         if len(line.nodes) == 0 or line.nodes[0].pos > left:
             bound = XSLineParamNode(pos=left, value=termination)

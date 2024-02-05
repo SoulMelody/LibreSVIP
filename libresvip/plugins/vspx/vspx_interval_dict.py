@@ -8,9 +8,6 @@ import portion
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.point import (
-    Point,
-)
 
 from .model import VocalSharpDefaultTrill, VocalSharpNoteTrack, VocalSharpTrill
 
@@ -135,8 +132,8 @@ class BasePitchCurve:
                         portion.closedopen(por_start, por_end)
                     ] = functools.partial(
                         vspx_cosine_easing_in_out_interpolation,
-                        start=Point(x=por_start, y=prev_note.key_number),
-                        end=Point(x=por_end, y=next_note.key_number),
+                        start=(por_start, prev_note.key_number),
+                        end=(por_end, next_note.key_number),
                     )
                 if (trill := prev_note.trill or default_trill) is not None:
                     vibrato_start_secs = prev_start_secs + trill.pos

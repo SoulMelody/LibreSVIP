@@ -148,7 +148,7 @@ class VoisonaGenerator:
                 length=data.length,
                 data=[
                     VoiSonaPointData(
-                        index=each.index,
+                        index=each.idx,
                         repeat=each.repeat,
                         value=each.value,
                     )

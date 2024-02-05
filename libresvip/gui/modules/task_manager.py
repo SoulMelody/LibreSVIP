@@ -77,14 +77,21 @@ class ConversionWorker(QRunnable):
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
                 if (
-                    input_option := get_type_hints(input_plugin.plugin_object.load).get(
-                        "options",
+                    input_plugin.plugin_object is None
+                    or (
+                        input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
                     )
-                ) is None or (
-                    output_option := get_type_hints(
-                        output_plugin.plugin_object.dump,
-                    ).get("options")
-                ) is None:
+                    is None
+                    or output_plugin.plugin_object is None
+                    or (
+                        output_option := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is None
+                ):
                     self.signals.result.emit(
                         self.index,
                         {
@@ -369,7 +376,9 @@ class TaskManager(QObject):
             self.input_format = input_format
             self.input_fields.clear()
             plugin_input = plugin_manager.plugin_registry[self.input_format]
-            if hasattr(plugin_input.plugin_object, "load"):
+            if plugin_input.plugin_object is not None and hasattr(
+                plugin_input.plugin_object, "load"
+            ):
                 option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
                 input_fields = self.inspect_fields(option_class)
                 self.input_fields.append_many(input_fields)
@@ -384,7 +393,9 @@ class TaskManager(QObject):
             self.output_format = output_format
             self.output_fields.clear()
             plugin_output = plugin_manager.plugin_registry[self.output_format]
-            if hasattr(plugin_output.plugin_object, "dump"):
+            if plugin_output.plugin_object is not None and hasattr(
+                plugin_output.plugin_object, "dump"
+            ):
                 option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
                 output_fields = self.inspect_fields(option_class)
                 self.output_fields.append_many(output_fields)

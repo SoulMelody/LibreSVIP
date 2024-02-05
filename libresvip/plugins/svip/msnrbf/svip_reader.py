@@ -64,6 +64,7 @@ class SvipReader(NrbfIOBase):
             else:
                 class_kwargs[key] = value.value
         if class_name == "System.Collections.Generic.List":
+            assert isinstance(class_kwargs["items"], list)
             class_kwargs["items"] = class_kwargs["items"][: class_kwargs["size"]]
         return model_class(**class_kwargs)
 
@@ -94,8 +95,11 @@ class SvipReader(NrbfIOBase):
             self.header = record.obj
         elif "Class" in str(record.record_type_enum):
             if record.obj.class_info.object_id == self.header.root_id:
-                self.xstudio_model = self.build_object(record.obj)
-                return True
+                if (xstudio_model := self.build_object(record.obj)) is not None and isinstance(
+                    xstudio_model, XSAppModel
+                ):
+                    self.xstudio_model = xstudio_model
+                    return True
         return False
 
     def resolve_references(self) -> None:

@@ -99,7 +99,7 @@ class VoiSonaParser:
         for song in track.plugin_data.state_information.song:
             for beat in song.beat:
                 for time_node in beat.time:
-                    tick = time_node.clock // TICK_RATE
+                    tick = int(time_node.clock / TICK_RATE)
                     numerator = time_node.beats
                     denominator = time_node.beat_type
 
@@ -119,7 +119,7 @@ class VoiSonaParser:
                         prev_tick = tick
             for tempo in song.tempo:
                 for tempo_node in tempo.sound:
-                    tick = tempo_node.clock // TICK_RATE
+                    tick = int(tempo_node.clock / TICK_RATE)
                     bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
                     if tick is not None and bpm is not None:
                         tempos.append(SongTempo(position=tick, bpm=bpm))
@@ -165,4 +165,4 @@ class VoiSonaParser:
         if value is not None:
             index = data_element.index or None
             repeat = data_element.repeat or None
-            return VoiSonaPitchEvent(index=index, repeat=repeat, value=value)
+            return VoiSonaPitchEvent(idx=index, repeat=repeat, value=value)

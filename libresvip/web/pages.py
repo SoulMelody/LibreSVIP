@@ -157,7 +157,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ] = f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
             ui.separator().props("vertical")
             with ui.column().classes("justify-center flex-grow"):
-                ui.label(_(plugin_details[attr]["name"])).classes(
+                ui.label(_(plugin_details[attr]["name"] or "")).classes(
                     "text-h5 w-full font-bold text-center",
                 )
                 with ui.row().classes("w-full"):
@@ -177,14 +177,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.tooltip(plugin_details[attr]["website"])
                 with ui.element("q-chip").props("icon=outline_insert_drive_file"):
                     ui.label(
-                        _(plugin_details[attr]["file_format"])
+                        _(plugin_details[attr]["file_format"] or "")
                         + " "
                         + plugin_details[attr]["suffix"],
                     )
         ui.separator()
         with ui.card_section().classes("w-full"):
             ui.label(_("Introduction")).classes("text-subtitle1 font-bold")
-            ui.label(_(plugin_details[attr]["description"]))
+            ui.label(_(plugin_details[attr]["description"] or ""))
 
     input_plugin_info = ui.refreshable(functools.partial(plugin_info, "input_format"))
     output_plugin_info = ui.refreshable(functools.partial(plugin_info, "output_format"))
@@ -194,7 +194,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         with ui.row().classes("w-full items-center"):
             ui.icon(icon).classes("text-lg")
             ui.label(title).classes("text-subtitle1 font-bold")
-            ui.label(prefix + _(plugin_details[attr]["file_format"]) + "]").classes(
+            ui.label(prefix + _(plugin_details[attr]["file_format"] or "") + "]").classes(
                 "flex-grow",
             )
 
@@ -553,14 +553,21 @@ def page_layout(lang: Optional[str] = None) -> None:
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
                     if (
-                        input_option := get_type_hints(input_plugin.plugin_object.load).get(
-                            "options",
+                        input_plugin.plugin_object is None
+                        or (
+                            input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                                "options",
+                            )
                         )
-                    ) is None or (
-                        output_option := get_type_hints(
-                            output_plugin.plugin_object.dump,
-                        ).get("options")
-                    ) is None:
+                        is None
+                        or output_plugin.plugin_object is None
+                        or (
+                            output_option := get_type_hints(
+                                output_plugin.plugin_object.dump,
+                            ).get("options")
+                        )
+                        is None
+                    ):
                         task.success = False
                     else:
                         project = input_plugin.plugin_object.load(
@@ -834,7 +841,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 input_format_item = (
                     ui.radio(
                         {
-                            k: f"{i} " + _(v["file_format"]) + " " + v["suffix"]
+                            k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
                     )
@@ -850,7 +857,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ui.menu() as output_formats_menu:
                 output_format_item = ui.radio(
                     {
-                        k: f"{i} " + _(v["file_format"]) + " " + v["suffix"]
+                        k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
                         for i, (k, v) in enumerate(plugin_details.items())
                     },
                 ).bind_value(selected_formats, "output_format")
@@ -948,7 +955,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 select_input = (
                                     ui.select(
                                         {
-                                            k: _(v["file_format"]) + " " + v["suffix"]
+                                            k: _(v["file_format"] or "") + " " + v["suffix"]
                                             for k, v in plugin_details.items()
                                         },
                                         label=_("Import format"),
@@ -1000,7 +1007,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 select_output = (
                                     ui.select(
                                         {
-                                            k: _(v["file_format"]) + " " + v["suffix"]
+                                            k: _(v["file_format"] or "") + " " + v["suffix"]
                                             for k, v in plugin_details.items()
                                         },
                                         label=_("Export format"),

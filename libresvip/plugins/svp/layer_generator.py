@@ -61,7 +61,7 @@ class SigmoidNode:
         self.start = _start
         self.end = _end
         self.center = _center
-        h = (_key_right - _key_left) * 100
+        h: float = (_key_right - _key_left) * 100
         a = 1 / (1 + math.exp(self.k))
         power = 0.75
 
@@ -69,7 +69,7 @@ class SigmoidNode:
         if left >= _radius:
             k_l = self.k
             h_l = h
-            d_l = 0
+            d_l = 0.0
         else:
             al = a * math.pow(_radius / left, power)
             bl = left / _radius
@@ -93,7 +93,7 @@ class SigmoidNode:
         if r >= _radius:
             k_r = self.k
             h_r = h
-            d_r = 0
+            d_r = 0.0
         else:
             ar = a * math.pow(_radius / r, power)
             br = r / _radius

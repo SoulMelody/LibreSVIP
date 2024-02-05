@@ -286,7 +286,7 @@ def get_translation(
         lang = settings.language.to_locale()
 
     if (file := localedir.joinpath(lang, "LC_MESSAGES", f"{domain}.mo")).is_file():
-        with file.open(mode="rb") as fp:
+        with file.open("rb") as fp:
             return gettext.GNUTranslations(fp)
     else:
         return gettext.NullTranslations()
