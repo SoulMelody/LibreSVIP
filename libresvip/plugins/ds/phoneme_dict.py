@@ -1,8 +1,8 @@
 import csv
 import io
-from gettext import gettext as _
 
 from libresvip.core.compat import package_path
+from libresvip.utils import gettext_lazy as _
 
 
 def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict[str, str]:

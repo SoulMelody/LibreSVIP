@@ -1,7 +1,6 @@
 import contextlib
 import dataclasses
 import warnings
-from gettext import gettext as _
 
 import mido_fix as mido
 
@@ -19,6 +18,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import gettext_lazy as _
 
 from .constants import SUPPORTED_PINYIN
 from .model import (

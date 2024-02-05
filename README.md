@@ -18,6 +18,13 @@ Alternatively, you can install LibreSVIP with desktop support via pip (requires 
 pip install libresvip[desktop]
 ```
 
+## Translations
+
+![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27zh-CN%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[?(@.data.languageId==%27ja%27)].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+
+If you also want to add or contribute to a translation, check [LibreSVIP's page on Crowdin](https://crowdin.com/project/libresvip). 
+
 ## References
 
 This project is highly inspired by following projects:

@@ -1,4 +1,4 @@
-python -m nuitka --standalone --assume-yes-for-downloads --output-dir=libresvip_cli \
+python -m nuitka --standalone --assume-yes-for-downloads --output-dir=nuitka --output-filename=libresvip_cli \
  --nofollow-import-to=libresvip.gui --nofollow-import-to=libresvip.web \
  --nofollow-import-to=anyio --nofollow-import-to=arrow --nofollow-import-to=chardet --nofollow-import-to=markdown2 \
  --nofollow-import-to=ruamel.yaml --nofollow-import-to=pydantic.mypy --nofollow-import-to=zstd \
@@ -11,4 +11,4 @@ python -m nuitka --standalone --assume-yes-for-downloads --output-dir=libresvip_
  --enable-console --windows-icon-from-ico=../libresvip/res/libresvip.ico --user-package-configuration-file=./nuitka-libresvip.yml \
  --include-package=libresvip --include-distribution-metadata=libresvip \
  ../libresvip/cli/__main__.py
-# --debug --force-stdout-spec=libresvip.out.txt \
+# --force-stdout-spec=libresvip.out.txt \

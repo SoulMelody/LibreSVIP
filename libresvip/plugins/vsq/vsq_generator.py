@@ -1,7 +1,6 @@
 import dataclasses
 import operator
 import warnings
-from gettext import gettext as _
 from typing import Optional
 
 import mido_fix as mido
@@ -19,6 +18,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils import gettext_lazy as _
 
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid

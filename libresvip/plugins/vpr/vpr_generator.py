@@ -1,7 +1,6 @@
 import dataclasses
 import pathlib
 import warnings
-from gettext import gettext as _
 from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -16,6 +15,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils import audio_track_info
+from libresvip.utils import gettext_lazy as _
 
 from .constants import BPM_RATE, PITCH_BEND_NAME, PITCH_BEND_SENSITIVITY_NAME
 from .model import (

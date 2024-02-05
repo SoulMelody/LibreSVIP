@@ -1,3 +1,3 @@
-from .translation import init_i18n
+from libresvip.utils import get_translation, lazy_translation
 
-init_i18n()
+lazy_translation.set(get_translation())

@@ -25,3 +25,20 @@
     dirs:
       - 'schemas'
       - 'formats/dataclass/templates'
+
+- module-name: desktop_notifier
+  data-files:
+    dirs:
+      - 'resources'
+
+- module-name: fonticon_mdi7
+  data-files:
+    dirs:
+      - 'fonts'
+
+- module-name: nicegui
+  data-files:
+    dirs:
+      - 'elements'
+      - 'static'
+      - 'templates'

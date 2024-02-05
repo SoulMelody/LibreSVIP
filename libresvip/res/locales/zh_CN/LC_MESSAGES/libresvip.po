@@ -824,7 +824,8 @@ msgstr "音高值越界"
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format
+ .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -832,7 +833,8 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title
+ .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -884,11 +886,13 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1]
+ .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[2] .ds.messages[1]
+#: .ds.messages[2]
+ .ds.messages[1]
 msgid "The selected dictionary does not contain the pronunciation {}. Please check the pronunciation or try another dictionary."
 msgstr ""
 
@@ -904,7 +908,8 @@ msgstr "dv 格式转换插件。"
 msgid "gjgj"
 msgstr ""
 
-#: .gj.file_format .gj.format_desc
+#: .gj.file_format
+ .gj.format_desc
 msgid "Gejigeji project file"
 msgstr "歌叽歌叽工程文件"
 
@@ -946,7 +951,8 @@ msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。
 msgid "LRC"
 msgstr ""
 
-#: .lrc.file_format .lrc.format_desc
+#: .lrc.file_format
+ .lrc.format_desc
 msgid "LRC lyric file"
 msgstr "LRC 歌词文件"
 
@@ -1042,7 +1048,8 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format
+ .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1054,11 +1061,13 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title
+ .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description
+ .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1150,7 +1159,8 @@ msgstr "轨道{}中存在重叠音符"
 msgid "Muta"
 msgstr ""
 
-#: .mtp.file_format .mtp.format_desc
+#: .mtp.file_format
+ .mtp.format_desc
 msgid "Muta project file"
 msgstr "Muta工程文件"
 
@@ -1178,7 +1188,8 @@ msgstr "MusicXML 乐谱文件转换插件"
 msgid "NIAONiao"
 msgstr ""
 
-#: .nn.file_format .nn.format_desc
+#: .nn.file_format
+ .nn.format_desc
 msgid "NIAONiao Virtual Singer project file"
 msgstr "袅袅虚拟歌手工程文件"
 
@@ -1194,11 +1205,13 @@ msgstr "恒定曲速"
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr "使用此曲速重设变速音乐的时间轴"
 
-#: .nn.dump[1].description .nn.dump[0].description
+#: .nn.dump[1].description
+ .nn.dump[0].description
 msgid "Start from 0, -1 means auto select"
 msgstr "从0开始，-1表示自动选择"
 
-#: .nn.dump[2].description .nn.dump[1].description
+#: .nn.dump[2].description
+ .nn.dump[1].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
 
@@ -1226,7 +1239,8 @@ msgstr "Synthesizer V Editor 工程格式转换插件。"
 msgid "SRT"
 msgstr ""
 
-#: .srt.file_format .srt.format_desc
+#: .srt.file_format
+ .srt.format_desc
 msgid "SubRip subtitle file"
 msgstr "SubRip 字幕文件"
 
@@ -1250,9 +1264,12 @@ msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工�
 msgid "Pixels per beat"
 msgstr "每拍像素数"
 
-#: .svg.dump[0].description .svg.dump[1].description
-#: .svg.dump[2].description .svg.dump[5].description
-#: .svg.dump[7].description .svg.dump[16].description
+#: .svg.dump[0].description
+ .svg.dump[1].description
+#: .svg.dump[2].description
+ .svg.dump[5].description
+#: .svg.dump[7].description
+ .svg.dump[16].description
 msgid "Unit: pixel."
 msgstr "单位：像素。"
 
@@ -1268,9 +1285,12 @@ msgstr "音符圆角"
 msgid "Note fill color"
 msgstr "音符填充颜色"
 
-#: .svg.dump[3].description .svg.dump[4].description
-#: .svg.dump[6].description .svg.dump[11].description
-#: .svg.dump[12].description .svg.dump[15].description
+#: .svg.dump[3].description
+ .svg.dump[4].description
+#: .svg.dump[6].description
+ .svg.dump[11].description
+#: .svg.dump[12].description
+ .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
@@ -1294,19 +1314,23 @@ msgstr "音高曲线描边宽度"
 msgid "Lyric position"
 msgstr "歌词显示于"
 
-#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
+#: .svg.dump[8].choices[0].text
+ .svg.dump[9].choices[0].text
 msgid "Above the note"
 msgstr "音符上方"
 
-#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
+#: .svg.dump[8].choices[1].text
+ .svg.dump[9].choices[1].text
 msgid "Inside the note"
 msgstr "音符内部"
 
-#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
+#: .svg.dump[8].choices[2].text
+ .svg.dump[9].choices[2].text
 msgid "Below the note"
 msgstr "音符下方"
 
-#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
+#: .svg.dump[8].choices[3].text
+ .svg.dump[9].choices[3].text
 msgid "Don't show"
 msgstr "不显示"
 
@@ -1354,7 +1378,8 @@ msgstr "网格线宽度"
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format .svip.format_desc
+#: .svip.file_format
+ .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1424,7 +1449,8 @@ msgstr "此选项仅控制输出工程文件的头部版本信息。\n"
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: .svip.messages[1] .svip.messages[0]
+#: .svip.messages[1]
+ .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 
@@ -1633,7 +1659,8 @@ msgstr "Ustx格式转换插件"
 msgid "Vogen"
 msgstr ""
 
-#: .vog.file_format .vog.format_desc
+#: .vog.file_format
+ .vog.format_desc
 msgid "Vogen project file"
 msgstr "Vogen 工程文件"
 
@@ -1641,7 +1668,8 @@ msgstr "Vogen 工程文件"
 msgid "Conversion plugin for Vogen project file"
 msgstr "Vogen 工程格式转换插件"
 
-#: .vog.dump[1].description .vog.dump[0].description
+#: .vog.dump[1].description
+ .vog.dump[0].description
 msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"
 
@@ -1785,7 +1813,8 @@ msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID4菜单中
 msgid "Y77"
 msgstr ""
 
-#: .y77.file_format .y77.format_desc
+#: .y77.file_format
+ .y77.format_desc
 msgid "Yuan77 project file"
 msgstr "元七七工程文件"
 

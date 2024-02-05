@@ -18,7 +18,8 @@ from more_itertools import locate, rlocate
 from pymediainfo import ET, MediaInfo
 from pymediainfo import Track as MediaInfoTrack
 
-from libresvip.core.constants import KEY_IN_OCTAVE
+from libresvip.core.config import settings
+from libresvip.core.constants import KEY_IN_OCTAVE, PACKAGE_NAME, res_dir
 from libresvip.core.warning_types import UnknownWarning
 
 T = TypeVar("T")
@@ -266,3 +267,26 @@ class EchoGenerator(saxutils.XMLGenerator):
     def end_cdata(self) -> None:
         self._write("]]>")
         self._in_cdata = 0
+
+
+def get_translation(
+    domain: str = PACKAGE_NAME, lang: Optional[str] = None
+) -> gettext.NullTranslations:
+    """Returns a gettext translation object.
+    Adapted from https://github.com/Cimbali/pympress/blob/main/pympress/util.py
+
+    This re-implements gettext’s translation() and find() to allow using a python 3.9 Traversable as localedir
+
+    Returns:
+        :class:`~gettext.NullTranslations`: A gettext translation object with the strings for the domain loaded
+    """
+    localedir = res_dir / "locales"
+
+    if lang is None:
+        lang = settings.language.to_locale()
+
+    if (file := localedir.joinpath(lang, "LC_MESSAGES", f"{domain}.mo")).is_file():
+        with file.open(mode="rb") as fp:
+            return gettext.GNUTranslations(fp)
+    else:
+        return gettext.NullTranslations()

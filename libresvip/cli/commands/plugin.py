@@ -1,6 +1,5 @@
 import enum
 from collections.abc import ValuesView
-from gettext import gettext as _
 from typing import get_args, get_type_hints
 
 import typer
@@ -11,6 +10,7 @@ from libresvip.core.config import save_settings, settings
 from libresvip.extension.manager import plugin_manager
 from libresvip.extension.meta_info import LibreSvipPluginInfo
 from libresvip.model.base import BaseComplexModel
+from libresvip.utils import gettext_lazy as _
 
 app = typer.Typer()
 
