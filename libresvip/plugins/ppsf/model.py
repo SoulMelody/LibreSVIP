@@ -126,7 +126,7 @@ class PpsfEventTrack(BaseModel):
     height: int = 64
     index: int
     mute_solo: Optional[PpsfMuteflag] = Field(PpsfMuteflag.NONE, alias="mute-solo")
-    notes: Optional[list[PpsfNote]] = None
+    notes: list[PpsfNote] = Field(default_factory=list)
     nt_envelope_preset_id: Optional[int] = Field(None, alias="nt-envelope-preset-id")
     regions: list[PpsfRegion] = Field(default_factory=list)
     sub_tracks: list[PpsfSubTrack] = Field(default_factory=list, alias="sub-tracks")
@@ -235,7 +235,7 @@ class PpsfMeter(PpsfBaseMeter):
 
 class PpsfMeters(BaseModel):
     const: PpsfBaseMeter = Field(default_factory=PpsfBaseMeter)
-    sequence: Optional[list[PpsfMeter]] = None
+    sequence: list[PpsfMeter] = Field(default_factory=list)
     use_sequence: bool = False
 
 
@@ -353,7 +353,7 @@ class PpsfTempo(BaseModel):
 
 class PpsfTempos(BaseModel):
     const: int = 1200000
-    sequence: Optional[list[PpsfTempo]] = None
+    sequence: list[PpsfTempo] = Field(default_factory=list)
     use_sequence: bool = False
 
 

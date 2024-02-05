@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
@@ -15,8 +16,8 @@ class TimeSigSegment:
     beat_unit: int
     ticks_per_bar: int
     ticks_per_beat: int
-    bar_end: int = float("inf")
-    tick_end: int = float("inf")
+    bar_end: int = sys.maxsize
+    tick_end: int = sys.maxsize
 
 
 @dataclass
@@ -28,7 +29,7 @@ class TempoSegment:
     ms_pos: float = 0
     ms_per_tick: float = 0
     ticks_per_ms: float = 0
-    tick_end: int = float("inf")
+    tick_end: int = sys.maxsize
     ms_end: float = float("inf")
 
     @property
@@ -55,7 +56,7 @@ class TimeAxis:
                 assert timesig.bar_position == 0
             self.time_sig_segments.append(
                 TimeSigSegment(
-                    bar_pos=timesig.bar_position,
+                    bar_pos=timesig.bar_position or 0,
                     tick_pos=pos_tick,
                     beat_per_bar=timesig.beat_per_bar,
                     beat_unit=timesig.beat_unit,

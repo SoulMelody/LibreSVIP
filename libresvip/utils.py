@@ -275,7 +275,7 @@ def get_translation(
     """Returns a gettext translation object.
     Adapted from https://github.com/Cimbali/pympress/blob/main/pympress/util.py
 
-    This re-implements gettext’s translation() and find() to allow using a python 3.9 Traversable as localedir
+    This re-implements gettext's translation() and find() to allow using a python 3.9 Traversable as localedir
 
     Returns:
         :class:`~gettext.NullTranslations`: A gettext translation object with the strings for the domain loaded
@@ -285,7 +285,7 @@ def get_translation(
     if lang is None:
         lang = settings.language.to_locale()
 
-    if (file := localedir.joinpath(lang, "LC_MESSAGES", f"{domain}.mo")).is_file():
+    if (file := localedir / lang / "LC_MESSAGES" / f"{domain}.mo").is_file():
         with file.open("rb") as fp:
             return gettext.GNUTranslations(fp)
     else:

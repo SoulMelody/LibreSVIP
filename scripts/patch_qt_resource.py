@@ -8,13 +8,13 @@ if __name__ == "__main__":
             "-g",
             "python",
             "-o",
-            "../libresvip/gui/resources_rc.py",
+            "../libresvip/gui/__init__.py",
             "../libresvip/gui/resources.qrc",
         ]
     )
-    resource_file = pathlib.Path("../libresvip/gui/resources_rc.py")
+    resource_file = pathlib.Path("../libresvip/gui/__init__.py")
     resource_content = resource_file.read_text(encoding="utf-8")
-    resource_content = resource_content.strip().rpartition("\n")[0] + "\n"
+    resource_content = resource_content.strip().rpartition("\n")[0] + "\ninit_resources()\n"
     resource_content = resource_content.replace(
         "def qInitResources():", "def init_resources() -> None:"
     )

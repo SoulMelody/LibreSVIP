@@ -217,7 +217,7 @@ class AceGenerator:
 
         if "-" not in note.lyric:
             ace_note.pronunciation = (
-                note.pronunciation if note.pronunciation is not None else pinyin
+                note.pronunciation if note.pronunciation is not None else pinyin or ""
             )
             if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
                 phone_start_in_secs = (
@@ -332,15 +332,15 @@ class AceGenerator:
             )
             curve_end = round(end_point.x - self.first_bar_ticks - self.pattern_start)
             tick_step = (end_point.x - start_point.x) / (curve_end - ace_curve.offset)
-            tick = start_point.x
+            tick = float(start_point.x)
             while tick < self.first_bar_ticks:
                 ace_curve.offset += 1
                 tick += tick_step
-            tick = max(self.first_bar_ticks, round(tick))
+            tick = max(self.first_bar_ticks, tick)
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
             second_step = (
                 tick_to_second(end_point.x - self.first_bar_ticks, self.ace_tempo_list)
-                - tick_to_second(tick - self.first_bar_ticks, self.ace_tempo_list)
+                - tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
             ) / (curve_end - ace_curve.offset)
             second = tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
             while second < left_bound:
@@ -411,15 +411,15 @@ class AceGenerator:
             )
             curve_end = round(end_point.x - self.first_bar_ticks - self.pattern_start)
             tick_step = (end_point.x - start_point.x) / (curve_end - ace_curve.offset)
-            tick = start_point.x
+            tick = float(start_point.x)
             while tick < self.first_bar_ticks:
                 ace_curve.offset += 1
                 tick += tick_step
-            tick = max(self.first_bar_ticks, round(tick))
+            tick = max(self.first_bar_ticks, tick)
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
             second_step = (
                 tick_to_second(end_point.x - self.first_bar_ticks, self.ace_tempo_list)
-                - tick_to_second(tick - self.first_bar_ticks, self.ace_tempo_list)
+                - tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
             ) / (curve_end - ace_curve.offset)
             second = tick_to_second(round(tick - self.first_bar_ticks), self.ace_tempo_list)
             while second < left_bound:

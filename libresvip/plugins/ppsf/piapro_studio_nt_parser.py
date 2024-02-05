@@ -104,7 +104,10 @@ class PiaproStudioNTParser:
                     note_list=self.parse_notes(track.events),
                 )
                 for parameter in track.parameters:
-                    if parameter.base_sequence.name == "pitch_bend":
+                    if (
+                        parameter.base_sequence is not None
+                        and parameter.base_sequence.name == "pitch_bend"
+                    ):
                         key_interval_dict = ppsf_key_interval_dict(track.events, event_track.notes)
                         for point in parameter.base_sequence.sequence:
                             if point.curve_type == PpsfCurveType.BORDER and point.value == 0:

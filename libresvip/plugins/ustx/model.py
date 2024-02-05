@@ -74,8 +74,8 @@ class UCurve(BaseModel):
 
 
 class PitchPoint(BaseModel):
-    x: Optional[float] = None
-    y: Optional[float] = None
+    x: float
+    y: float
     shape: Optional[Literal["io", "l", "i", "o"]] = "io"
 
 
@@ -86,8 +86,8 @@ class UTempo(BaseModel):
 
 class UTimeSignature(BaseModel):
     bar_position: Optional[int] = None
-    beat_per_bar: Optional[int] = None
-    beat_unit: Optional[int] = None
+    beat_per_bar: int = 4
+    beat_unit: int = 4
 
 
 class URendererSettings(BaseModel):
@@ -103,9 +103,9 @@ class UTrack(BaseModel):
     singer: Optional[str] = None
     phonemizer: Optional[str] = None
     renderer_settings: Optional[URendererSettings] = None
-    mute: Optional[bool] = None
-    solo: Optional[bool] = None
-    volume: Optional[float] = None
+    mute: bool = False
+    solo: bool = False
+    volume: float = 0.0
     pan: Optional[float] = None
 
 
@@ -115,7 +115,7 @@ class UPitch(BaseModel):
 
 
 class UVibrato(BaseModel):
-    length: Optional[float] = None
+    length: float = 0.0
     period: Optional[float] = None
     depth: Optional[float] = None
     in_value: Optional[float] = Field(None, alias="in")
@@ -160,12 +160,12 @@ class UPhonemeOverride(BaseModel):
 
 
 class UNote(BaseModel):
-    position: Optional[int] = None
-    duration: Optional[int] = None
-    tone: Optional[int] = None
-    lyric: Optional[str] = None
-    pitch: Optional[UPitch] = None
-    vibrato: Optional[UVibrato] = None
+    position: int
+    duration: int
+    tone: int
+    lyric: str
+    pitch: UPitch = Field(default_factory=UPitch)
+    vibrato: UVibrato = Field(default_factory=UVibrato)
     note_expressions: Optional[list[UExpression]] = Field(default_factory=list)  # deprecated
     phoneme_expressions: Optional[list[UExpression]] = Field(default_factory=list)
     phoneme_overrides: Optional[list[UPhonemeOverride]] = Field(default_factory=list)
@@ -176,10 +176,10 @@ class UNote(BaseModel):
 
 
 class UPart(BaseModel):
-    name: Optional[str] = None
-    comment: Optional[str] = None
+    name: str
+    position: int = 0
     track_no: int
-    position: Optional[int] = None
+    comment: Optional[str] = None
 
 
 class UVoicePart(UPart):

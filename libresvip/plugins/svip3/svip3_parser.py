@@ -1,5 +1,6 @@
 import dataclasses
 import re
+from collections.abc import MutableSequence
 from typing import Optional
 from urllib.parse import urljoin
 
@@ -49,34 +50,33 @@ class Svip3Parser:
             track_list=tracks,
         )
 
-    def parse_time_signatures(self, beat_list: list[Svip3SongBeat]) -> list[TimeSignature]:
-        time_signature_list = []
-        for beat in beat_list:
-            time_signature_list.append(
-                TimeSignature(
-                    bar_index=beat.pos,
-                    numerator=beat.beat_size.numerator,
-                    denominator=beat.beat_size.denominator,
-                )
+    def parse_time_signatures(
+        self, beat_list: MutableSequence[Svip3SongBeat]
+    ) -> list[TimeSignature]:
+        time_signature_list = [
+            TimeSignature(
+                bar_index=beat.pos,
+                numerator=beat.beat_size.numerator,
+                denominator=beat.beat_size.denominator,
             )
+            for beat in beat_list
+        ]
         self.first_bar_length = round(
             1920 * time_signature_list[0].numerator / time_signature_list[0].denominator
         )
         return time_signature_list
 
     @staticmethod
-    def parse_song_tempos(tempo_list: list[Svip3SongTempo]) -> list[SongTempo]:
-        song_tempo_list = []
-        for tempo in tempo_list:
-            song_tempo_list.append(
-                SongTempo(
-                    position=tempo.pos,
-                    bpm=tempo.tempo / 100.0,
-                )
+    def parse_song_tempos(tempo_list: MutableSequence[Svip3SongTempo]) -> list[SongTempo]:
+        return [
+            SongTempo(
+                position=tempo.pos,
+                bpm=tempo.tempo / 100.0,
             )
-        return song_tempo_list
+            for tempo in tempo_list
+        ]
 
-    def parse_tracks(self, track_list: list[any_pb2.Any]) -> list[Track]:
+    def parse_tracks(self, track_list: MutableSequence[any_pb2.Any]) -> list[Track]:
         tracks = []
         for track in track_list:
             if track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK):
@@ -132,8 +132,8 @@ class Svip3Parser:
             edited_params=self.parse_edited_params(singing_track.pattern_list),
         )
 
-    def parse_notes(self, pattern_list: list[Svip3SingingPattern]) -> list[Note]:
-        note_list = []
+    def parse_notes(self, pattern_list: MutableSequence[Svip3SingingPattern]) -> list[Note]:
+        note_list: list[Note] = []
         for pattern in pattern_list:
             offset = pattern.real_pos
             left = pattern.play_pos + offset
@@ -143,11 +143,10 @@ class Svip3Parser:
                 for note in pattern.note_list
                 if left <= note.start_pos + offset <= right - note.width_pos
             ]
-            for note in visible_notes:
-                note_list.append(self.parse_note(note, offset))
+            note_list.extend(self.parse_note(note, offset) for note in visible_notes)
         return note_list
 
-    def parse_edited_params(self, pattern_list: list[Svip3SingingPattern]) -> Params:
+    def parse_edited_params(self, pattern_list: MutableSequence[Svip3SingingPattern]) -> Params:
         return Params(
             pitch=self.parse_pitch_curve(pattern_list),
         )
@@ -192,10 +191,8 @@ class Svip3Parser:
             )
         return None
 
-    def parse_pitch_curve(self, pattern_list: list[Svip3SingingPattern]) -> ParamCurve:
-        curves = []
-        for pattern in pattern_list:
-            curves.append(self.parse_pattern_curve(pattern))
+    def parse_pitch_curve(self, pattern_list: MutableSequence[Svip3SingingPattern]) -> ParamCurve:
+        curves = [self.parse_pattern_curve(pattern) for pattern in pattern_list]
         curve = ParamCurve()
         curve.points.append(Point.start_point())
         curve.points.root.extend(self.merge_param_curves(curves))

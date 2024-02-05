@@ -70,7 +70,7 @@ class VocaloidGenerator:
     def generate_time_signatures(
         self, time_signature_list: list[TimeSignature]
     ) -> list[VocaloidTimeSig]:
-        output_tick = 0
+        output_tick = 0.0
         time_sig_events: list[VocaloidTimeSig] = []
         for time_signature in time_signature_list:
             if not time_sig_events:
@@ -89,7 +89,7 @@ class VocaloidGenerator:
                     numer=time_signature.numerator,
                 )
             )
-        self.end_tick = max(self.end_tick, output_tick)
+        self.end_tick = max(self.end_tick, round(output_tick))
         return time_sig_events
 
     def generate_tempos(self, tempo_list: list[SongTempo]) -> list[VocaloidPoint]:

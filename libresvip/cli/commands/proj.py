@@ -41,8 +41,11 @@ def convert(
     input_plugin = plugin_manager.plugin_registry[input_ext]
     output_ext = out_path.suffix.lstrip(".").lower()
     output_plugin = plugin_manager.plugin_registry[output_ext]
-    if (input_option := get_type_hints(input_plugin.plugin_object.load).get("options")) and (
-        output_option := get_type_hints(output_plugin.plugin_object.dump).get("options")
+    if (
+        input_plugin.plugin_object is not None
+        and (input_option := get_type_hints(input_plugin.plugin_object.load).get("options"))
+        and output_plugin.plugin_object is not None
+        and (output_option := get_type_hints(output_plugin.plugin_object.dump).get("options"))
     ):
         options = []
         for option_type, option_class in {
@@ -71,7 +74,9 @@ def add_accompaniment(
 ) -> None:
     input_ext = in_path.suffix.lstrip(".").lower()
     input_plugin = plugin_manager.plugin_registry[input_ext]
-    if input_option := get_type_hints(input_plugin.plugin_object.load).get("options"):
+    if input_plugin.plugin_object is not None and (
+        input_option := get_type_hints(input_plugin.plugin_object.load).get("options")
+    ):
         option_type, option_class = _("Input Options: "), input_option
         option_kwargs = {}
         if len(option_class.model_fields):
@@ -92,7 +97,9 @@ def add_accompaniment(
         )
     )
 
-    if output_option := get_type_hints(input_plugin.plugin_object.dump).get("options"):
+    if input_plugin.plugin_object is not None and (
+        output_option := get_type_hints(input_plugin.plugin_object.dump).get("options")
+    ):
         option_type, option_class = _("Output Options："), output_option
         option_kwargs = {}
         if len(option_class.model_fields):

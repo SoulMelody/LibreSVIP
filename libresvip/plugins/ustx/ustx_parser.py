@@ -98,10 +98,10 @@ class UstxParser:
                 track.title = voice_part.name
             notes = self.parse_notes(voice_part.notes, voice_part.position)
             track.note_list.extend(notes)
-            track.edited_params.pitch.points.extend(self.parse_pitch(voice_part))
+            track.edited_params.pitch.points.root.extend(self.parse_pitch(voice_part))
         return [track for track in track_list if len(track.note_list)]
 
-    def parse_pitch(self, part: UVoicePart) -> list[tuple[int, int]]:
+    def parse_pitch(self, part: UVoicePart) -> list[Point]:
         pitch_start = self.base_pitch_generator.pitch_start
         pitch_interval = self.base_pitch_generator.pitch_interval
         first_bar_length = 1920
@@ -160,5 +160,5 @@ class UstxParser:
             )
         return track_list
 
-    def parse_volume(self, volume: int) -> float:
+    def parse_volume(self, volume: float) -> float:
         return min(db_to_float(volume, using_amplitude=False), 2)

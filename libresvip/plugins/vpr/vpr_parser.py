@@ -81,27 +81,31 @@ class VocaloidParser:
         for track in tracks:
             if isinstance(track, VocaloidAudioTrack):
                 for part in track.parts:
+                    if part.wav is None:
+                        continue
                     if self.options.extract_audio:
                         archive_wav_path = f"Project/Audio/{part.wav.name}"
-                        if not (wav_path := pathlib.Path(part.wav.original_name)).exists():
+                        if not (
+                            wav_path := pathlib.Path(part.wav.original_name or part.wav.name)
+                        ).exists():
                             wav_path.write_bytes(self.archive_file.read(archive_wav_path))
                     instrumental_track = InstrumentalTrack(
                         title=part.name,
                         offset=part.pos,
                         mute=track.is_muted,
                         solo=track.is_solo_mode,
-                        audio_file_path=part.wav.original_name,
+                        audio_file_path=part.wav.original_name or part.wav.name,
                     )
                     track_list.append(instrumental_track)
             else:
                 for part in track.parts:
-                    comp_id = None
+                    comp_id = ""
                     supported_lang_ids = []
                     if part.voice is not None:
-                        comp_id = part.voice.comp_id
+                        comp_id = part.voice.comp_id or ""
                         supported_lang_ids.append(part.voice.lang_id)
                     elif part.ai_voice is not None:
-                        comp_id = part.ai_voice.comp_id
+                        comp_id = part.ai_voice.comp_id or ""
                         supported_lang_ids.extend(part.ai_voice.lang_ids)
                     if len(supported_lang_ids):
                         main_lang_id = supported_lang_ids[0]

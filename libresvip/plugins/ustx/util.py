@@ -48,7 +48,7 @@ class BasePitchGenerator:
             )
             for i in range(start_index, end_index):
                 n_pos = (self.pitch_start + i * self.pitch_interval - note.position) / note.duration
-                point = note.vibrato.evaluate(n_pos, n_period, note)
+                point = note.vibrato.evaluate(int(n_pos), int(n_period), note)
                 pitches[i] = round(point[1] * 100)
 
         for note in part.notes:
@@ -82,7 +82,7 @@ class BasePitchGenerator:
                         (prev_point.x, prev_point.y),
                         (point.x, point.y),
                         x,
-                        prev_point.shape,
+                        prev_point.shape or "lo",
                     )
                     base_pitch = (
                         prev_note.tone * 100

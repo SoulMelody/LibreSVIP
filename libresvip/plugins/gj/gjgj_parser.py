@@ -77,7 +77,7 @@ class GjgjParser:
         self.first_bar_length = int(time_signature_changes[0].bar_length(self.ticks_in_beat))
 
         prev_ticks = 0
-        measure = 0
+        measure = 0.0
         for time_signature in time_signatures[1:]:
             tick = time_signature.time
             measure += (tick - prev_ticks) / time_signature_changes[-1].bar_length(
@@ -96,7 +96,7 @@ class GjgjParser:
         return [
             SingingTrack(
                 ai_singer_name=id2singer.get(track.singer_info.display_name, DEFAULT_SINGER),
-                mute=track.master_volume.mute,
+                mute=track.master_volume.mute if track.master_volume is not None else False,
                 note_list=self.parse_notes(track.beat_items),
                 edited_params=self.parse_params(track),
             )
@@ -106,7 +106,9 @@ class GjgjParser:
     def parse_instrumental_tracks(self, accompaniments: list[GjgjInstrumentalTrack]) -> list[Track]:
         return [
             InstrumentalTrack(
-                mute=accompaniment.master_volume.mute,
+                mute=accompaniment.master_volume.mute
+                if accompaniment.master_volume is not None
+                else False,
                 audio_file_path=accompaniment.path,
                 offset=round(
                     self.time_synchronizer.get_actual_ticks_from_secs(

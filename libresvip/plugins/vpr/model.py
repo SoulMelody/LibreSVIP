@@ -169,11 +169,11 @@ class VocaloidAutomation(VocaloidFolded):
 
 
 class VocaloidMasterTrack(BaseModel):
-    loop: Optional[VocaloidRegion] = Field(default_factory=VocaloidRegion)
+    loop: VocaloidRegion = Field(default_factory=VocaloidRegion)
     sampling_rate: int = Field(44100, alias="samplingRate")
     tempo: VocaloidTempo = Field(default_factory=VocaloidTempo)
     time_sig: VocaloidTimeSigs = Field(alias="timeSig", default_factory=VocaloidTimeSigs)
-    volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
+    volume: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
 
 
 class VocaloidDVQMRelease(VocaloidCompID):
@@ -213,7 +213,7 @@ class VocaloidVoicePart(VocaloidWithDur):
     name: Optional[str] = ""
     midi_effects: list[VocaloidEffects] = Field(default_factory=list, alias="midiEffects")
     audio_effects: list[VocaloidEffects] = Field(default_factory=list, alias="audioEffects")
-    notes: Optional[list[VocaloidNotes]] = Field(default_factory=list)
+    notes: list[VocaloidNotes] = Field(default_factory=list)
     style_preset_id: Optional[str] = Field(None, alias="stylePresetID")
     style_name: Optional[str] = Field("No Effect", alias="styleName")
     voice: Optional[VocaloidVoice] = None
@@ -252,8 +252,8 @@ class VocaloidBaseTracks(VocaloidFolded):
     is_muted: bool = Field(False, alias="isMuted")
     is_solo_mode: bool = Field(False, alias="isSoloMode")
     name: Optional[str] = ""
-    panpot: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
-    volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
+    panpot: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
+    volume: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
     last_scroll_position_note_number: Optional[int] = Field(
         None, alias="lastScrollPositionNoteNumber"
     )
