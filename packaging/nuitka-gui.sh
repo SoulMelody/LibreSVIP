@@ -11,3 +11,4 @@ python -m nuitka --standalone --assume-yes-for-downloads --output-dir=nuitka --o
  --disable-console --windows-icon-from-ico=../libresvip/res/libresvip.ico --user-package-configuration-file=./nuitka-libresvip.yml \
  --include-package=libresvip --include-distribution-metadata=libresvip \
  ../libresvip/gui/__main__.py
+# --force-stdout-spec=libresvip.out.log --force-stderr-spec=libresvip.err.log \

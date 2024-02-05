@@ -42,6 +42,3 @@
       - 'elements'
       - 'static'
       - 'templates'
-  implicit-imports:
-    - depends:
-      - .pygments.formatters.html
