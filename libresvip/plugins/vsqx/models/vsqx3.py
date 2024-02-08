@@ -438,15 +438,14 @@ class MCtrl:
         name = "mCtrl"
         namespace = VSQ3_NS
 
-    pos_tick: Optional[int] = field(
-        default=None,
+    pos_tick: int = field(
         metadata={
             "name": "posTick",
             "type": "Element",
             "required": True,
         },
     )
-    attr: Optional[TypeParamAttr] = field(
+    attr: TypeParamAttr = field(
         default_factory=TypeParamAttr,
         metadata={
             "type": "Element",
@@ -483,7 +482,7 @@ class MasterTrack:
             "required": True,
         },
     )
-    pre_measure: Optional[int] = field(
+    pre_measure: int = field(
         default=1,
         metadata={
             "name": "preMeasure",
@@ -1067,7 +1066,7 @@ class Note:
             "required": True,
         },
     )
-    note_style: Optional[NoteStyle] = field(
+    note_style: NoteStyle = field(
         default_factory=NoteStyle,
         metadata={
             "name": "noteStyle",
@@ -1361,7 +1360,7 @@ class Mixer:
             "max_occurs": 16,
         },
     )
-    mono_unit: Optional[MonoUnit] = field(
+    mono_unit: MonoUnit = field(
         default_factory=MonoUnit,
         metadata={
             "name": "seUnit",
@@ -1369,7 +1368,7 @@ class Mixer:
             "required": True,
         },
     )
-    stereo_unit: Optional[StereoUnit] = field(
+    stereo_unit: StereoUnit = field(
         default_factory=StereoUnit,
         metadata={
             "name": "karaokeUnit",
@@ -1424,7 +1423,7 @@ class MusicalPart:
             "required": True,
         },
     )
-    part_style: Optional[PartStyle] = field(
+    part_style: PartStyle = field(
         default_factory=PartStyle,
         metadata={
             "name": "partStyle",
@@ -1536,7 +1535,7 @@ class Vsq3:
             "required": True,
         },
     )
-    v_voice_table: Optional[VVoiceTable] = field(
+    v_voice_table: VVoiceTable = field(
         default_factory=VVoiceTable,
         metadata={
             "name": "vVoiceTable",
@@ -1544,14 +1543,14 @@ class Vsq3:
             "required": True,
         },
     )
-    mixer: Optional[Mixer] = field(
+    mixer: Mixer = field(
         default_factory=Mixer,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    master_track: Optional[MasterTrack] = field(
+    master_track: MasterTrack = field(
         default_factory=MasterTrack,
         metadata={
             "name": "masterTrack",

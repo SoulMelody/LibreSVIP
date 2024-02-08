@@ -39,7 +39,7 @@ class VocalSharpParser:
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
         self.default_trill = vspx_project.project.default_trill
         time_signatures = self.parse_time_signatures(vspx_project.project.beat)
-        self.first_bar_length = time_signatures[0].bar_length()
+        self.first_bar_length = round(time_signatures[0].bar_length())
         tempos = self.parse_tempos(vspx_project.project.tempo)
         self.synchronizer = TimeSynchronizer(tempos)
         singing_tracks = self.parse_singing_tracks(

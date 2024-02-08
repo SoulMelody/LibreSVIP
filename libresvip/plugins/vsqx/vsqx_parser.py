@@ -22,11 +22,12 @@ from .model import (
     VsqxMasterTrack,
     VsqxMCtrl,
     VsqxNote,
-    VsqxTempo,
-    VsqxTimeSig,
-    VsqxVsTrack,
-    VsqxVsUnit,
-    VsqxWavPart,
+    VsqxTempoList,
+    VsqxTimeSigList,
+    VsqxVsTrackList,
+    VsqxVsUnitList,
+    VsqxWavPartList,
+    VsqxWavUnitList,
 )
 from .options import InputOptions
 from .vocaloid_pitch import (
@@ -55,14 +56,14 @@ class VsqxParser:
         singing_tracks = self.parse_singing_tracks(
             vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix
         )
-        wav_parts: list[VsqxWavPart] = []
-        wav_units = []
+        wav_parts: VsqxWavPartList = []
+        wav_units: VsqxWavUnitList = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part
-            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)
+            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)  # type: ignore[list-item]
         if vsqx_project.stereo_track is not None:
             wav_parts += vsqx_project.stereo_track.wav_part
-            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)
+            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)  # type: ignore[list-item]
         instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,
@@ -71,7 +72,7 @@ class VsqxParser:
         )
 
     def parse_time_signatures(
-        self, time_signatures: list[VsqxTimeSig], measure_prefix: int
+        self, time_signatures: VsqxTimeSigList, measure_prefix: int
     ) -> tuple[int, list[TimeSignature]]:
         time_signature_list = [
             TimeSignature(
@@ -85,13 +86,13 @@ class VsqxParser:
         measure = 0
         for time_sig in time_signature_list:
             measure_diff = time_sig.bar_index - measure
-            tick_prefix += measure_diff * time_sig.bar_length()
+            tick_prefix += measure_diff * round(time_sig.bar_length())
             measure += time_sig.bar_index
         measure_diff = measure_prefix - measure
-        tick_prefix += measure_diff * time_signature_list[-1].bar_length()
+        tick_prefix += measure_diff * round(time_signature_list[-1].bar_length())
         return int(tick_prefix), skip_beat_list(time_signature_list, measure_prefix)
 
-    def parse_tempos(self, tempos: list[VsqxTempo], tick_prefix: int) -> list[SongTempo]:
+    def parse_tempos(self, tempos: VsqxTempoList, tick_prefix: int) -> list[SongTempo]:
         tempo_list = [
             SongTempo(
                 position=tempo.pos_tick,
@@ -103,8 +104,8 @@ class VsqxParser:
 
     def parse_singing_tracks(
         self,
-        vs_tracks: list[VsqxVsTrack],
-        vs_units: list[VsqxVsUnit],
+        vs_tracks: VsqxVsTrackList,
+        vs_units: VsqxVsUnitList,
         tick_prefix: int,
     ) -> list[SingingTrack]:
         singing_tracks = []
@@ -145,6 +146,7 @@ class VsqxParser:
                 )
                 for music_control in music_controls
                 if music_control.attr.type_param_attr_id == self.param_names.PIT
+                and music_control.attr.value is not None
             ],
             pbs=[
                 ControllerEvent(
@@ -153,14 +155,15 @@ class VsqxParser:
                 )
                 for music_control in music_controls
                 if music_control.attr.type_param_attr_id == self.param_names.PBS
+                and music_control.attr.value is not None
             ],
         )
         return pitch_from_vocaloid_parts([pitch_data], note_list)
 
     def parse_instrumental_tracks(
         self,
-        wav_parts: list[VsqxWavPart],
-        wav_units: list[VsqxVsUnit],
+        wav_parts: VsqxWavPartList,
+        wav_units: VsqxWavUnitList,
         tick_prefix: int,
     ) -> list[InstrumentalTrack]:
         return [

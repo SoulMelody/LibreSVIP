@@ -1,7 +1,7 @@
 import dataclasses
 import operator
 import warnings
-from typing import Union
+from typing import Union, cast
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
@@ -137,10 +137,10 @@ class Vsq4Generator:
                 musical_part.part_style.attr.extend(
                     Vsq4TypeParamAttr(
                         type_param_attr_id=param_name,
-                        value=param_value,
+                        value=cast(int, param_value),
                     )
                     for param_name, param_value in self.style_params.items()
-                    if not param_name.startswith("vib")
+                    if param_value is not None
                 )
                 if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
                     musical_part.m_ctrl = pitch
@@ -185,7 +185,7 @@ class Vsq4Generator:
             vsqx_note.note_style.attr.extend(
                 Vsq4TypeParamAttr(
                     type_param_attr_id=param_name,
-                    value=param_value,
+                    value=cast(int, param_value),
                 )
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None

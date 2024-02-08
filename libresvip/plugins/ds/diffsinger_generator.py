@@ -9,7 +9,7 @@ from .models.ds_project import DsProjectModel
 from .options import OutputOptions
 from .utils import pinyin_util
 from .utils.gender_param_utils import GenderParamUtils
-from .utils.note_list_util import NoteListUtils
+from .utils.note_list_util import encode_notes
 from .utils.pitch_param_utils import PitchParamUtils
 
 
@@ -32,7 +32,7 @@ class DiffSingerGenerator:
             raise
         os_notes = singing_track.note_list
         ds_project = DsProjectModel()
-        ds_project.note_list = NoteListUtils.encode(os_notes, synchronizer, self.trailing_space)
+        ds_project.note_list = encode_notes(os_notes, synchronizer, self.trailing_space)
         total_duration = ceil(sum(note.duration for note in ds_project.note_list) * 1000)
         os_pitch_param_curve = singing_track.edited_params.pitch
         ds_project.pitch_param_curve = PitchParamUtils.encode(os_pitch_param_curve, total_duration)

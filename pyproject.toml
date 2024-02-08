@@ -132,6 +132,10 @@ testpaths = "tests"
 [tool.ruff]
 target-version = "py39"
 src = ['libresvip', 'tests']
+line-length = 100
+fix = true
+
+[tool.ruff.lint]
 select = [
   "A",     # builtins
   "ANN2",  # missing annotations in return
@@ -164,10 +168,8 @@ ignore = [
   "E501",   # Line too long
   "UP007",  # Use `X | Y` for type annotations
 ]
-line-length = 100
-fix = true
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
 known-third-party = ['srt']
 

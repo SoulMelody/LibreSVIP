@@ -1,6 +1,6 @@
 import dataclasses
 import operator
-from typing import Optional
+from typing import Optional, cast
 
 import more_itertools
 from wanakana import PROLONGED_SOUND_MARK
@@ -32,7 +32,8 @@ class CeVIOParser:
     def parse_project(self, ccs_project: CeVIOCreativeStudioProject) -> Project:
         scene_node = ccs_project.sequence.scene
         for sound_source in ccs_project.generation.svss.sound_sources.sound_source:
-            self.singer_id2name[sound_source.sound_source_id] = sound_source.name
+            if sound_source.name is not None:
+                self.singer_id2name[sound_source.sound_source_id] = sound_source.name
         singing_unit_nodes = [
             unit_node for unit_node in scene_node.units.unit if unit_node.category == "SingerSong"
         ]
@@ -97,7 +98,9 @@ class CeVIOParser:
             solo=group_node.is_solo,
             offset=int(
                 self.time_synchronizer.get_actual_ticks_from_secs(unit_node.start_time.duration)
-            ),
+            )
+            if unit_node.start_time is not None
+            else 0,
         )
 
     def parse_singing_track(
@@ -107,9 +110,9 @@ class CeVIOParser:
         group_node: CeVIOGroup,
         track_name: Optional[str],
     ) -> tuple[SingingTrack, list[SongTempo], list[TimeSignature]]:
-        time_nodes = unit_node.song.beat.time
+        time_nodes = unit_node.song.beat.time if unit_node.song.beat is not None else []
 
-        prev_tick = 0
+        prev_tick = 0.0
         time_signatures = [
             TimeSignature(bar_index=0, numerator=4, denominator=4),
         ]
@@ -141,12 +144,12 @@ class CeVIOParser:
         tick_prefix = int(time_signatures[0].bar_length())
 
         tempos = []
-        tempo_nodes = unit_node.song.tempo.sound
+        tempo_nodes = unit_node.song.tempo.sound if unit_node.song.tempo is not None else []
         for tempo_node in tempo_nodes:
-            tick = tempo_node.clock // TICK_RATE if tempo_node.clock is not None else None
-            bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
-            if tick is not None and bpm is not None:
-                tempos.append(SongTempo(position=tick, bpm=bpm))
+            if tempo_node.clock is not None and tempo_node.tempo is not None:
+                tempos.append(
+                    SongTempo(position=tempo_node.clock // TICK_RATE, bpm=float(tempo_node.tempo))
+                )
 
         notes = []
         note_nodes = unit_node.song.score.note
@@ -177,7 +180,9 @@ class CeVIOParser:
 
         cevio_track_pitch_data = None
         if unit_node.song.parameter is not None and unit_node.song.parameter.log_f0 is not None:
-            pitch_data_nodes: list[CeVIOData] = unit_node.song.parameter.log_f0.data
+            pitch_data_nodes: list[CeVIOData] = cast(
+                list[CeVIOData], unit_node.song.parameter.log_f0.data
+            )
             pitch_datas = []
             for data_node in pitch_data_nodes:
                 if pitch_data := self.parse_pitch_data(data_node):

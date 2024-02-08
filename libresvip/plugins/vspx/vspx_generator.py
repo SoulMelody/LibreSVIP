@@ -85,7 +85,7 @@ class VocalSharpGenerator:
     def generate_instrumental_tracks(
         self, instrumental_tracks: list[InstrumentalTrack]
     ) -> list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]:
-        track_list = []
+        track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]] = []
         for track in instrumental_tracks:
             if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 sequence = VocalSharpSequence(
