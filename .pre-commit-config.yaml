@@ -14,8 +14,7 @@ repos:
         args:
           - --ignore-missing-imports
           - --config-file=pyproject.toml
-          - --exclude=experimental
-          - --exclude=tests
+          - libresvip
         pass_filenames: false
         additional_dependencies: [proto-plus-stubs, pydantic, types-parsimonious, types-pyyaml, types-ujson]
 
