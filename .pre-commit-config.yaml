@@ -14,6 +14,7 @@ repos:
         args:
           - --ignore-missing-imports
           - --config-file=pyproject.toml
+          - ./libresvip
         additional_dependencies: [proto-plus-stubs, pydantic, types-parsimonious, types-pyyaml, types-ujson]
 
   - repo: https://github.com/pdm-project/pdm
