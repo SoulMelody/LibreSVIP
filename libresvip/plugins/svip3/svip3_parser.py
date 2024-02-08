@@ -1,12 +1,12 @@
 import dataclasses
-import re
+import operator
 from collections.abc import MutableSequence
 from typing import Optional
 from urllib.parse import urljoin
 
 from google.protobuf import any_pb2
 
-from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -61,9 +61,7 @@ class Svip3Parser:
             )
             for beat in beat_list
         ]
-        self.first_bar_length = round(
-            1920 * time_signature_list[0].numerator / time_signature_list[0].denominator
-        )
+        self.first_bar_length = round(time_signature_list[0].bar_length())
         return time_signature_list
 
     @staticmethod
@@ -121,6 +119,7 @@ class Svip3Parser:
             return db_to_float(gain)
 
     def parse_singing_track(self, singing_track: Svip3SingingTrack) -> SingingTrack:
+        pattern_list = sorted(singing_track.pattern_list, key=operator.attrgetter("pos"))
         return SingingTrack(
             title=singing_track.name,
             mute=singing_track.mute,
@@ -128,11 +127,11 @@ class Svip3Parser:
             volume=self.to_linear_volume(singing_track.volume),
             pan=self.parse_pan(singing_track.pan),
             ai_singer_name=singers_data.get(singing_track.ai_singer_id, ""),
-            note_list=self.parse_notes(singing_track.pattern_list),
-            edited_params=self.parse_edited_params(singing_track.pattern_list),
+            note_list=self.parse_notes(pattern_list),
+            edited_params=self.parse_edited_params(pattern_list),
         )
 
-    def parse_notes(self, pattern_list: MutableSequence[Svip3SingingPattern]) -> list[Note]:
+    def parse_notes(self, pattern_list: list[Svip3SingingPattern]) -> list[Note]:
         note_list: list[Note] = []
         for pattern in pattern_list:
             offset = pattern.real_pos
@@ -146,27 +145,19 @@ class Svip3Parser:
             note_list.extend(self.parse_note(note, offset) for note in visible_notes)
         return note_list
 
-    def parse_edited_params(self, pattern_list: MutableSequence[Svip3SingingPattern]) -> Params:
-        return Params(
-            pitch=self.parse_pitch_curve(pattern_list),
-        )
+    def parse_edited_params(self, pattern_list: list[Svip3SingingPattern]) -> Params:
+        return Params(pitch=self.parse_pitch_curve(pattern_list))
 
     def parse_note(self, svip3_note: Svip3Note, offset: int) -> Note:
         return Note(
             start_pos=svip3_note.start_pos + offset,
             length=svip3_note.width_pos,
             key_number=svip3_note.key_index,
-            lyric=self.parse_lyric(svip3_note),
+            lyric=svip3_note.lyric,
             pronunciation=self.parse_pronunciation(svip3_note),
             head_tag=self.parse_head_tag(svip3_note),
             edited_phones=self.parse_edited_phones(svip3_note),
         )
-
-    @staticmethod
-    def parse_lyric(svip3_note: Svip3Note) -> str:
-        if re.search(r"[a-zA-Z]", svip3_note.lyric) is not None:
-            return DEFAULT_CHINESE_LYRIC
-        return svip3_note.lyric
 
     @staticmethod
     def parse_pronunciation(svip3_note: Svip3Note) -> str:
@@ -191,7 +182,7 @@ class Svip3Parser:
             )
         return None
 
-    def parse_pitch_curve(self, pattern_list: MutableSequence[Svip3SingingPattern]) -> ParamCurve:
+    def parse_pitch_curve(self, pattern_list: list[Svip3SingingPattern]) -> ParamCurve:
         curves = [self.parse_pattern_curve(pattern) for pattern in pattern_list]
         curve = ParamCurve()
         curve.points.append(Point.start_point())

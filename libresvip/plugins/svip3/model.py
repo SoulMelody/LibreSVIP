@@ -401,6 +401,10 @@ class Svip3SingingPattern(proto.Message):
         number=19,
     )
 
+    @property
+    def pos(self) -> int:
+        return self.real_pos + self.play_pos
+
 
 class Svip3Vibrato(proto.Message):
     frequency: float = proto.Field(
