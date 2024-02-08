@@ -53,6 +53,7 @@ class MusicXMLParser:
         self, part_node: ScorePartwise.Part
     ) -> tuple[list[TimeSignature], list[SongTempo], list[int], float]:
         measure_nodes = part_node.measure
+        assert measure_nodes[0].attributes[0].divisions is not None
         divisions = int(measure_nodes[0].attributes[0].divisions)
         import_tick_rate = TICKS_IN_BEAT / divisions
         tempos = []
@@ -79,7 +80,7 @@ class MusicXMLParser:
                 )
                 tempos.append(tempo)
 
-            tick_position += current_time_signature.bar_length()
+            tick_position += round(current_time_signature.bar_length())
             measure_borders.append(tick_position)
         return time_signatures, tempos, measure_borders, import_tick_rate
 
@@ -105,7 +106,7 @@ class MusicXMLParser:
             for note_node in note_nodes:
                 duration_nodes = note_node.duration
                 duration = (
-                    int(duration_nodes[0]) * import_tick_rate if len(duration_nodes) else None
+                    int(duration_nodes[0] * import_tick_rate) if len(duration_nodes) else None
                 )
                 if not duration:
                     if note_node.grace:
@@ -121,6 +122,8 @@ class MusicXMLParser:
 
                 pitch_node = note_node.pitch[0]
                 step = pitch_node.step
+                assert step is not None
+                assert pitch_node.octave is not None
                 alter_node = pitch_node.alter
                 alter = int(alter_node) if alter_node else 0
                 octave = int(pitch_node.octave)
