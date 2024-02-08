@@ -83,7 +83,7 @@ class FramelessWindow(QQuickWindow):
         style &= ~win32con.WS_EX_LAYERED
         user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, style)
 
-    def add_dwm_effect(self) -> Optional[ctypes._SimpleCData[int]]:
+    def add_dwm_effect(self) -> Optional[SupportsInt]:
         if not self.is_composition_enabled:
             return
 

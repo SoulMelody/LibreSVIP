@@ -201,9 +201,10 @@ class Svip3Generator:
                 pronunciation = note.pronunciation
             else:
                 pronunciation = note.pronunciation or note.lyric
-                msg_prefx = _("Unsupported pinyin:")
-                warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
-                pronunciation = ""
+                if note.lyric != "-":
+                    msg_prefx = _("Unsupported pinyin:")
+                    warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
+                    pronunciation = ""
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,
