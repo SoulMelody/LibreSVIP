@@ -6,7 +6,7 @@ import math
 import pathlib
 from collections import defaultdict
 from queue import Queue
-from typing import Any, Optional, Union, get_args, get_origin
+from typing import Any, Optional, Union, cast, get_args, get_origin
 
 from construct import Container, ListContainer
 
@@ -32,8 +32,8 @@ from .xstudio_models import (
 )
 
 
-def class_def_factory() -> dict[str, int]:
-    return defaultdict(lambda: 0)
+def class_def_factory() -> dict[str, dict[str, Any]]:
+    return defaultdict(dict)
 
 
 @dataclasses.dataclass
@@ -43,7 +43,7 @@ class SvipWriter(NrbfIOBase):
     model_library_id: int = dataclasses.field(default=0)
     lib_library_id: int = dataclasses.field(default=0)
     written_ids: set[int] = dataclasses.field(default_factory=set)
-    class_defs: dict[str, int] = dataclasses.field(default_factory=class_def_factory)
+    class_defs: dict[str, dict[str, Any]] = dataclasses.field(default_factory=class_def_factory)
     svip_file: dict[str, Any] = dataclasses.field(init=False)
 
     def enq(self) -> int:
@@ -99,9 +99,9 @@ class SvipWriter(NrbfIOBase):
         self.id_max += 1
         result = self.id_max
         model_library = {"library_id": result, "library_name": library_name}
-        libraries_by_id[self.cur_thread_id][model_library["library_id"]] = model_library[
-            "library_name"
-        ]
+        libraries_by_id[self.cur_thread_id][
+            model_library["library_id"]  # type: ignore[index]
+        ] = model_library["library_name"]  # type: ignore[assignment]
         self.svip_file["record_stream"].append(
             {
                 "record_type_enum": RecordTypeEnum.BinaryLibrary,
@@ -225,7 +225,7 @@ class SvipWriter(NrbfIOBase):
         self, obj: Container, object_id: int, subcon_class_name: Optional[str] = None
     ) -> dict[str, Any]:
         fields = sorted(dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0))
-        class_name = inspect.getdoc(type(obj))
+        class_name = cast(str, inspect.getdoc(type(obj)))
 
         if (
             subcon_class_name is not None
@@ -277,12 +277,12 @@ class SvipWriter(NrbfIOBase):
                     if field.name == "edited_power_line" and self.svip_file["version"] != "7.0.0":
                         continue
                     if issubclass(field_type, str):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                             BinaryTypeEnum.String
                         )
-                        result["obj"]["member_type_info"]["additional_infos"].append({"info": None})
+                        result["obj"]["member_type_info"]["additional_infos"].append({"info": None})  # type: ignore[index]
                     elif issubclass(field_type, (int, float, bool, enum.IntEnum)):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                             BinaryTypeEnum.Primitive
                         )
                         if issubclass(field_type, bool):
@@ -294,14 +294,14 @@ class SvipWriter(NrbfIOBase):
                                 primitive_type_enum = PrimitiveTypeEnum.Single
                         else:
                             primitive_type_enum = PrimitiveTypeEnum.Int32
-                        result["obj"]["member_type_info"]["additional_infos"].append(
+                        result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                             {"info": primitive_type_enum}
                         )
                     elif issubclass(field_type, list):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                             BinaryTypeEnum.Class
                         )
-                        result["obj"]["member_type_info"]["additional_infos"].append(
+                        result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                             {
                                 "info": {
                                     "type_name": subcon_class_name + "[]",
@@ -310,32 +310,32 @@ class SvipWriter(NrbfIOBase):
                             }
                         )
                     elif issubclass(field_type, bytes):
-                        result["obj"]["member_type_info"]["binary_type_enums"].append(
+                        result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                             BinaryTypeEnum.PrimitiveArray
                         )
-                        result["obj"]["member_type_info"]["additional_infos"].append(
+                        result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                             {"info": PrimitiveTypeEnum.Byte}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = inspect.getdoc(field_type)
+                        sub_class_name = cast(str, inspect.getdoc(field_type))
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
 
                         if sub_class_name.startswith("System."):
-                            result["obj"]["member_type_info"]["binary_type_enums"].append(
+                            result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                                 BinaryTypeEnum.SystemClass
                             )
-                            result["obj"]["member_type_info"]["additional_infos"].append(
+                            result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                                 {
                                     "info": sub_class_name,
                                 }
                             )
                         else:
-                            result["obj"]["member_type_info"]["binary_type_enums"].append(
+                            result["obj"]["member_type_info"]["binary_type_enums"].append(  # type: ignore[index]
                                 BinaryTypeEnum.Class
                             )
-                            result["obj"]["member_type_info"]["additional_infos"].append(
+                            result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                                 {
                                     "info": {
                                         "type_name": sub_class_name,
@@ -370,7 +370,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append(
                             {
                                 "value": self.write_binary_array(
-                                    value, subcon_class_name, self.model_library_id
+                                    value, cast(str, subcon_class_name), self.model_library_id
                                 )
                             }
                         )
@@ -379,7 +379,7 @@ class SvipWriter(NrbfIOBase):
                             {"value": self.create_primitive_array(getattr(obj, field.name))}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = inspect.getdoc(field_type)
+                        sub_class_name = cast(str, inspect.getdoc(field_type))
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"
@@ -410,8 +410,8 @@ class SvipWriter(NrbfIOBase):
                     else:
                         msg = f"Unknown type {field_type}"
                         raise TypeError(msg)
-                    result["obj"]["class_info"]["member_names"].append(field.metadata["alias"])
-                    result["obj"]["class_info"]["member_count"] += 1
+                    result["obj"]["class_info"]["member_names"].append(field.metadata["alias"])  # type: ignore[index]
+                    result["obj"]["class_info"]["member_count"] += 1  # type: ignore[index]
             self.class_defs[class_name] = result
             classes_by_id[self.cur_thread_id][object_id] = result["obj"]
         else:
@@ -464,7 +464,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append(
                             {
                                 "value": self.write_binary_array(
-                                    value, subcon_class_name, self.model_library_id
+                                    value, cast(str, subcon_class_name), self.model_library_id
                                 )
                             }
                         )
@@ -473,7 +473,7 @@ class SvipWriter(NrbfIOBase):
                             {"value": self.create_primitive_array(getattr(obj, field.name))}
                         )
                     elif dataclasses.is_dataclass(field_type):
-                        sub_class_name = inspect.getdoc(field_type)
+                        sub_class_name = cast(str, inspect.getdoc(field_type))
 
                         if sub_class_name.endswith("List"):
                             sub_class_name = f"{sub_class_name}`1[[{subcon_class_name}, {LIBRARY_NAME_SINGING_TOOL_MODEL}]]"

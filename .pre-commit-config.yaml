@@ -7,6 +7,15 @@ repos:
       - id: ruff-format
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        args:
+          - --ignore-missing-imports
+          - --config-file=pyproject.toml
+        additional_dependencies: [proto-plus-stubs, pydantic, types-parsimonious, types-pyyaml, types-ujson]
+
   - repo: https://github.com/pdm-project/pdm
     rev: 2.12.3
     hooks:
