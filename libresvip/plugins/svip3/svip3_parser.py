@@ -192,10 +192,7 @@ class Svip3Parser:
 
     @staticmethod
     def merge_param_curves(curves: list[ParamCurve]) -> list[Point]:
-        merged_curve = ParamCurve()
-        for curve in curves:
-            merged_curve.points.root.extend(curve.points.root)
-        return merged_curve.points.root
+        return sum((curve.points.root for curve in curves), [])
 
     @staticmethod
     def get_visible_range(pattern: Svip3SingingPattern) -> tuple[int, int]:
@@ -213,8 +210,10 @@ class Svip3Parser:
             for node in pattern.edited_pitch_line
             if left + self.first_bar_length <= node.pos + offset <= right + self.first_bar_length
         ]
+        curve.points.root.append(Point(left, -100))
         for node in visible_nodes:
             pos = node.pos + offset
             val = round(node.value * 100 - 50) if node.value != -1.0 else -100
             curve.points.append(Point(pos, val))
+        curve.points.root.append(Point(right, -100))
         return curve
