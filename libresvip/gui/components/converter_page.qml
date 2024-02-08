@@ -303,8 +303,10 @@ Page {
                         }
                         Component.onCompleted: {
                             let last_input_format = TaskManager.get_str("input_format")
-                            if (last_input_format != null) {
+                            if (last_input_format !== "") {
                                 this.currentIndex = indexOfValue(last_input_format)
+                            } else {
+                                this.currentIndex = 0
                             }
                             dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")"
                             TaskManager.input_format_changed.connect((input_format) => {
@@ -471,8 +473,10 @@ Page {
                         }
                         Component.onCompleted: {
                             let last_output_format = TaskManager.get_str("output_format")
-                            if (last_output_format != null) {
+                            if (last_output_format !== "") {
                                 this.currentIndex = indexOfValue(last_output_format)
+                            } else {
+                                this.currentIndex = 0
                             }
                             TaskManager.output_format_changed.connect((output_format) => {
                                 let new_index = Math.max(indexOfValue(output_format), 0)

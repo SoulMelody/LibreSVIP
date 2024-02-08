@@ -221,20 +221,22 @@ class TaskManager(QObject):
                     path.unlink()
 
     @property
-    def input_format(self) -> str:
+    def input_format(self) -> Optional[str]:
         return settings.last_input_format
 
     @input_format.setter
-    def input_format(self, value: str) -> None:
-        settings.last_input_format = value
+    def input_format(self, value: Optional[str]) -> None:
+        if value is not None:
+            settings.last_input_format = value
 
     @property
-    def output_format(self) -> str:
+    def output_format(self) -> Optional[str]:
         return settings.last_output_format
 
     @output_format.setter
-    def output_format(self, value: str) -> None:
-        settings.last_output_format = value
+    def output_format(self, value: Optional[str]) -> None:
+        if value is not None:
+            settings.last_output_format = value
 
     @Slot(result=bool)
     def start_conversion(self) -> bool:
@@ -245,7 +247,9 @@ class TaskManager(QObject):
 
     @property
     def output_ext(self) -> str:
-        return f".{self.output_format}" if settings.auto_set_output_extension else ""
+        if settings.auto_set_output_extension and self.output_format:
+            return f".{self.output_format}"
+        return ""
 
     @Slot(bool)
     def reset_output_ext(self, value: bool) -> None:
@@ -545,6 +549,11 @@ class TaskManager(QObject):
 
     @Slot()
     def start(self) -> None:
+        if self.input_format is None or self.output_format is None:
+            error_message = "Please select input and output formats first."
+            for i in range(len(self.tasks)):
+                self.tasks.update(i, {"success": False, "error": error_message, "warning": ""})
+            return
         self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
