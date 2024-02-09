@@ -71,7 +71,7 @@ upath = [
   "universal-pathlib<1.0.0,>=0.1.4",
 ]
 webui = [
-  "nicegui[native]>=1.4.14",
+  "nicegui[native]>=1.4.15",
   "libresvip[upath]",
 ]
 desktop = [
