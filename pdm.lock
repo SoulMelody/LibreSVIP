@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:a8e7b6bdcf7cecdec9589fc2d57cf5752308469dcc0d6116e8a44d3fcd73f333"
+content_hash = "sha256:abad3e2659bad774d944a5d19cc15572bd02525ffa7d2865fdfdb81a77f4ef88"
 
 [[package]]
 name = "aiofiles"
@@ -1616,14 +1616,14 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.14"
+version = "1.4.15"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
     "Pygments<3.0.0,>=2.15.1",
     "aiofiles>=23.1.0",
     "aiohttp>=3.9.2",
-    "fastapi<0.110.0,>=0.109.0",
+    "fastapi<0.110.0,>=0.109.1",
     "httpx>=0.24.0",
     "ifaddr>=0.2.0",
     "itsdangerous<3.0.0,>=2.1.2",
@@ -1638,23 +1638,23 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.14-py3-none-any.whl", hash = "sha256:24c00f55a05b5dca70e9110d76b932a56aea919a1a4dda96930912007f698c5e"},
-    {file = "nicegui-1.4.14.tar.gz", hash = "sha256:009c3a0cf230b0a86e0e79092410524cefa70d64f2a4b48521628e14d55977ed"},
+    {file = "nicegui-1.4.15-py3-none-any.whl", hash = "sha256:bbc94b03ecbb417920b00908c92951ee97ec45a45b6a3bf6e396c66169d4e632"},
+    {file = "nicegui-1.4.15.tar.gz", hash = "sha256:eb5c57455c13268ef2f23817b5fbe12de920e19b9cd9eeff48f646afa779e0a0"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.14"
+version = "1.4.15"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.14",
+    "nicegui==1.4.15",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.14-py3-none-any.whl", hash = "sha256:24c00f55a05b5dca70e9110d76b932a56aea919a1a4dda96930912007f698c5e"},
-    {file = "nicegui-1.4.14.tar.gz", hash = "sha256:009c3a0cf230b0a86e0e79092410524cefa70d64f2a4b48521628e14d55977ed"},
+    {file = "nicegui-1.4.15-py3-none-any.whl", hash = "sha256:bbc94b03ecbb417920b00908c92951ee97ec45a45b6a3bf6e396c66169d4e632"},
+    {file = "nicegui-1.4.15.tar.gz", hash = "sha256:eb5c57455c13268ef2f23817b5fbe12de920e19b9cd9eeff48f646afa779e0a0"},
 ]
 
 [[package]]
