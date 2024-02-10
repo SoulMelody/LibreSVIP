@@ -101,14 +101,14 @@ code_gen = [
 ]
 i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
 linting = [
-  "pre-commit>=3.6.0",
+  "pre-commit>=3.6.1",
   "ruff>=0.2.1",
   "mypy>=1.8.0",
   "sourcery>=1.15.0",
 ]
 packaging = [
   "cx-Freeze>=6.15.15",
-  "pyinstaller>=6.3.0",
+  "pyinstaller>=6.4.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.9"]
