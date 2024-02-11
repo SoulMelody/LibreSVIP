@@ -206,18 +206,14 @@ class MusicXMLGenerator:
     def get_measures(
         key_ticks: list[KeyTick], time_signatures: list[TimeSignature], track_index: int
     ) -> list[MXmlMeasure]:
-        ticks_in_full_note = int(TICKS_IN_BEAT * 4 * DEFAULT_TICK_RATE_CEVIO)
+        ticks_in_beat = round(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
         measure_border_ticks = [0]
         measure = 0.0
         tick = 0.0
         prev_time_signature = TimeSignature()
         for time_signature in time_signatures:
             previous_measure = int(measure)
-            ticks_in_measure = (
-                ticks_in_full_note
-                * prev_time_signature.numerator
-                // prev_time_signature.denominator
-            )
+            ticks_in_measure = round(prev_time_signature.bar_length(ticks_in_beat))
             tick += ticks_in_measure * (time_signature.bar_index - measure)
             measure = time_signature.bar_index
             current_measure = int(measure)
@@ -228,11 +224,7 @@ class MusicXMLGenerator:
             prev_time_signature = time_signature
         last_tick = key_ticks[-1].tick
         if last_tick >= tick + (
-            ticks_in_measure := (
-                ticks_in_full_note
-                * prev_time_signature.numerator
-                // prev_time_signature.denominator
-            )
+            ticks_in_measure := round(prev_time_signature.bar_length(ticks_in_beat))
         ):
             previous_measure = int(measure)
             tick_diff = last_tick - tick
@@ -244,8 +236,7 @@ class MusicXMLGenerator:
                 for _ in range(current_measure - previous_measure)
             )
         measure_border_ticks.append(
-            measure_border_ticks[-1]
-            + ticks_in_full_note * prev_time_signature.numerator // prev_time_signature.denominator
+            measure_border_ticks[-1] + round(prev_time_signature.bar_length(ticks_in_beat))
         )
 
         key_ticks_with_measure_borders = [

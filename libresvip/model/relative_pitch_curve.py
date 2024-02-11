@@ -1,13 +1,16 @@
 from __future__ import annotations
 
 import dataclasses
+import functools
 
-from more_itertools import pairwise
+import more_itertools
+import portion
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.exceptions import NotesOverlappedError
+from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.model.base import Note, ParamCurve, Points
-from libresvip.model.point import Point
+from libresvip.model.point import Point, cosine_easing_in_out_interpolation
 from libresvip.utils import gettext_lazy as _
 
 
@@ -30,15 +33,9 @@ class RelativePitchCurve:
         converted_data: list[Point] = []
         if not len(note_list):
             return converted_data
-        borders = self.get_borders(note_list)
+        interval_dict = self.get_interval_dict(note_list)
         note_index, prev_index = 0, -1
-        current_note = note_list[note_index]
-        next_border = borders[note_index] if note_index < len(borders) else float("inf")
         for point in points:
-            while point.x >= next_border:
-                note_index += 1
-                next_border = borders[note_index] if note_index < len(borders) else float("inf")
-                current_note = note_list[note_index]
             if note_index < 0:
                 continue
             elif note_index > prev_index:
@@ -55,18 +52,14 @@ class RelativePitchCurve:
                             y=-100,
                         )
                     )
-            if not current_note.start_pos <= point.x < current_note.end_pos:
+            if not to_absolute and point.y == -100:
                 continue
-            elif not to_absolute and point.y == -100:
-                continue
-            y = (
-                point.y
-                + (current_note.key_number if to_absolute else -current_note.key_number) * 100
-            )
+            base_key = interval_dict[point.x]
+            y = point.y + (base_key if to_absolute else -base_key) * 100
             converted_data.append(
                 Point(
                     x=point.x + (self.first_bar_length if to_absolute else -self.first_bar_length),
-                    y=y,
+                    y=round(y),
                 )
             )
         if len(converted_data) > 0 and to_absolute:
@@ -80,22 +73,31 @@ class RelativePitchCurve:
             pitch.points.root, notes, border_append_radius, to_absolute=False
         )
 
-    def get_borders(self, notes: list[Note]) -> list[int]:
-        borders = []
-        pos = -1
-        for note in notes:
-            if pos < 0:
-                pos = note.end_pos
-                continue
-            if pos == note.start_pos:
-                borders.append(pos + self.first_bar_length)
-            elif pos < note.start_pos:
-                borders.append((note.start_pos + pos) // 2 + self.first_bar_length)
+    def get_interval_dict(self, notes: list[Note]) -> PiecewiseIntervalDict:
+        interval_dict = PiecewiseIntervalDict()
+        for is_first, is_last, note in more_itertools.mark_ends(notes):
+            if is_first and is_last:
+                interval = portion.closedopen(0, portion.inf)
+            elif is_first:
+                interval = portion.closedopen(0, note.end_pos)
+            elif is_last:
+                interval = portion.closedopen(note.start_pos, portion.inf)
             else:
+                interval = portion.closedopen(note.start_pos, note.end_pos)
+            if not interval.intersection(interval_dict.domain()).empty:
                 msg = _("Notes Overlapped")
                 raise NotesOverlappedError(msg)
-            pos = note.end_pos
-        return borders
+            interval_dict[interval] = note.key_number
+        for prev_note, next_note in more_itertools.pairwise(notes):
+            if prev_note.end_pos < next_note.start_pos:
+                interval_dict[
+                    portion.closedopen(prev_note.end_pos, next_note.start_pos)
+                ] = functools.partial(
+                    cosine_easing_in_out_interpolation,
+                    start=(prev_note.end_pos, prev_note.key_number),
+                    end=(next_note.start_pos, next_note.key_number),
+                )
+        return interval_dict
 
     def append_points_at_borders(
         self, data: list[Point], notes: list[Note], radius: int
@@ -103,7 +105,7 @@ class RelativePitchCurve:
         if radius <= 0:
             return data
         result = data.copy()
-        for last_note, this_note in pairwise(notes):
+        for last_note, this_note in more_itertools.pairwise(notes):
             if this_note.start_pos - last_note.end_pos > radius:
                 continue
             if (

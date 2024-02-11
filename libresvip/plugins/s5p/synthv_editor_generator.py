@@ -118,6 +118,7 @@ class SynthVEditorGenerator:
                 onset=note.start_pos * TICK_RATE,
                 duration=note.length * TICK_RATE,
                 pitch=note.key_number,
+                d_f0_vbr=0,
             )
             for note in note_list
         ]

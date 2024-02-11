@@ -653,14 +653,14 @@ class SynthVParser:
     def parse_project(self, sv_project: SVProject) -> Project:
         project = Project()
         time_sig = sv_project.time_sig
-        self.first_bar_tick = 1920 * time_sig.meter[0].numerator // time_sig.meter[0].denominator
         self.first_bpm = time_sig.tempo[0].bpm
 
-        project.song_tempo_list = shift_tempo_list(
-            [self.parse_tempo(tempo) for tempo in time_sig.tempo], self.first_bar_tick
-        )
         project.time_signature_list = shift_beat_list(
             [self.parse_meter(meter) for meter in time_sig.meter], 1
+        )
+        self.first_bar_tick = round(project.time_signature_list[0].bar_length())
+        project.song_tempo_list = shift_tempo_list(
+            [self.parse_tempo(tempo) for tempo in time_sig.tempo], self.first_bar_tick
         )
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
 

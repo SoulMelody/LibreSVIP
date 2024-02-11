@@ -38,27 +38,39 @@ class S5pTempoItem(BaseModel):
 
 class S5pDbDefaults(BaseModel):
     lyric: Optional[str] = DEFAULT_PHONEME
-    breathiness: Optional[float] = None
-    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
-    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
-    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
-    gender: Optional[float] = None
-    tension: Optional[float] = None
+    breathiness: Optional[float] = 0.0
+    gender: Optional[float] = 0.0
+    tension: Optional[float] = 0.0
+    d_f0_vbr: Optional[float] = Field(0.025, alias="dF0Vbr")
+    p_f0_vbr: Optional[float] = Field(0.0, alias="pF0Vbr")
+    t_f0_vbr_left: Optional[float] = Field(0.15, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(0.15, alias="tF0VbrRight")
+    t_f0_vbr_start: Optional[float] = Field(0.25, alias="tF0VbrStart")
+    f_f0_vbr: Optional[float] = Field(5.5, alias="fF0Vbr")
+    t_f0_left: Optional[float] = Field(0.07, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(0.07, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(0.0, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(0.0, alias="dF0Right")
+    d_f0_jitter: Optional[float] = Field(1.0, alias="dF0Jitter")
 
 
 class S5pNote(BaseModel):
+    lyric: str
     onset: int
     duration: int
-    lyric: str
     comment: str = ""
     pitch: int
     d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
-    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
     p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
     t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
     t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
     t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
     f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
+    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
+    d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
     t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
     t_note_offset: Optional[float] = Field(None, alias="tNoteOffset")
     t_syl_onset: Optional[float] = Field(None, alias="tSylOnset")
