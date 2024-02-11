@@ -75,10 +75,7 @@ class BasePitchCurve:
                 vibrato_end_secs = self.synchronizer.get_actual_secs_from_ticks(
                     note.pos + note.duration
                 )
-                vibrato_duration = vibrato_end_secs - vibrato_start_secs
-                if 0 < vibrato_duration < 2 * note_track.por:
-                    self.set_vspx_vibrato_curve(vibrato_start_secs, vibrato_end_secs, trill)
-                elif vibrato_duration >= 2 * note_track.por:
+                if vibrato_end_secs > vibrato_start_secs:
                     self.set_vspx_vibrato_curve(
                         vibrato_start_secs, vibrato_end_secs, trill, note_track.por
                     )
@@ -115,10 +112,7 @@ class BasePitchCurve:
                     if (trill := next_note.trill or default_trill) is not None:
                         vibrato_start_secs = next_start_secs + trill.pos
                         vibrato_end_secs = next_end_secs
-                        vibrato_duration = vibrato_end_secs - vibrato_start_secs
-                        if 0 < vibrato_duration < 2 * note_track.por:
-                            self.set_vspx_vibrato_curve(vibrato_start_secs, vibrato_end_secs, trill)
-                        elif vibrato_duration >= 2 * note_track.por:
+                        if vibrato_end_secs > vibrato_start_secs:
                             self.set_vspx_vibrato_curve(
                                 vibrato_start_secs,
                                 vibrato_end_secs,
@@ -138,10 +132,7 @@ class BasePitchCurve:
                 if (trill := prev_note.trill or default_trill) is not None:
                     vibrato_start_secs = prev_start_secs + trill.pos
                     vibrato_end_secs = (prev_end_secs + next_start_secs) / 2
-                    vibrato_duration = vibrato_end_secs - vibrato_start_secs
-                    if 0 < vibrato_duration < 2 * note_track.por:
-                        self.set_vspx_vibrato_curve(vibrato_start_secs, vibrato_end_secs, trill)
-                    elif vibrato_duration >= 2 * note_track.por:
+                    if vibrato_end_secs > vibrato_start_secs:
                         self.set_vspx_vibrato_curve(
                             vibrato_start_secs, vibrato_end_secs, trill, note_track.por
                         )
@@ -156,7 +147,7 @@ class BasePitchCurve:
         self.vibrato_value_interval_dict[portion.closed(start, end)] = functools.partial(
             vspx_sine_vibrato_interpolation, vibrato_start=start, trill=trill
         )
-        if por is None:
+        if por is None or (end - start) < por * 2:
             middle = (start + end) / 2
             half = (end - start) / 2
             self.vibrato_coef_interval_dict[portion.closedopen(start, middle)] = functools.partial(
@@ -177,10 +168,10 @@ class BasePitchCurve:
                 vibrato_start=start,
                 por=por,
             )
+            self.vibrato_coef_interval_dict[portion.closed(start + por, end - por)] = 1
             self.vibrato_coef_interval_dict[portion.openclosed(end - por, end)] = functools.partial(
                 vspx_cosine_vibrato_coef_release_interpolation, vibrato_end=end, por=por
             )
-            self.vibrato_coef_interval_dict[portion.closed(start + por, end - por)] = 1
         else:
             self.vibrato_coef_interval_dict[portion.closed(start, end)] = 0
 
