@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:9b79835db49b1e6368a5ea22ac60659470619537e04a9d9f315088a9a6a275f6"
+content_hash = "sha256:eb5dbdf6b3c071e7f7aed6584d2edb198ec4ffabb22247c7e228869cfda69a9b"
 
 [[package]]
 name = "aiofiles"
@@ -540,7 +540,7 @@ files = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.25.3"
+version = "0.25.4"
 requires_python = ">=3.7,<4.0"
 summary = "Datamodel Code Generator"
 dependencies = [
@@ -559,8 +559,8 @@ dependencies = [
     "toml<1.0.0,>=0.10.0; python_version < \"3.11\"",
 ]
 files = [
-    {file = "datamodel_code_generator-0.25.3-py3-none-any.whl", hash = "sha256:3d5c65194690c07f5fcd4aff6fc2e4ad135e5deab63cc885f62dfcfaf17e4b9c"},
-    {file = "datamodel_code_generator-0.25.3.tar.gz", hash = "sha256:523da03ad2abae73ec1d68124563cd221a5f7e93b0d403204a8acd4d67df69ae"},
+    {file = "datamodel_code_generator-0.25.4-py3-none-any.whl", hash = "sha256:cbf179517c610dce81589203d72b52e6ab848d78cb57264c1e5d929a9cc9d9a4"},
+    {file = "datamodel_code_generator-0.25.4.tar.gz", hash = "sha256:8e64c94a3bc92c69a6f56de84f0d61f70fd65c2e0ac95a27ce66837bd04c5492"},
 ]
 
 [[package]]
