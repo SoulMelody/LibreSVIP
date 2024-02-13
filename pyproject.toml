@@ -93,7 +93,7 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [tool.pdm]
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.3",
+  "datamodel-code-generator>=0.25.4",
   "gapic-generator>=1.14.2",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
