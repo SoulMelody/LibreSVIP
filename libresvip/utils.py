@@ -23,6 +23,7 @@ from libresvip.core.constants import KEY_IN_OCTAVE, PACKAGE_NAME, res_dir
 from libresvip.core.warning_types import UnknownWarning
 
 T = TypeVar("T")
+singleton_translation: Optional[gettext.NullTranslations] = None
 lazy_translation: contextvars.ContextVar[
     Optional[gettext.NullTranslations]
 ] = contextvars.ContextVar("translator")
@@ -77,7 +78,9 @@ def binary_find_last(n: list[T], pred: Callable[[T], bool]) -> Optional[T]:
 
 def gettext_lazy(message: str) -> str:
     with contextlib.suppress(LookupError):
-        if (translation := lazy_translation.get()) is not None:
+        if (translation := singleton_translation) is not None:
+            return translation.gettext(message)
+        elif (translation := lazy_translation.get()) is not None:
             return translation.gettext(message)
     return _(message)
 

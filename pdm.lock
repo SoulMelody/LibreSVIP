@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:5e5483c7b5fa26754802c7a13da940d55b5d1ecc19168fb2020716e2f779ec1d"
+content_hash = "sha256:9b79835db49b1e6368a5ea22ac60659470619537e04a9d9f315088a9a6a275f6"
 
 [[package]]
 name = "aiofiles"
@@ -2959,15 +2959,15 @@ files = [
 
 [[package]]
 name = "universal-pathlib"
-version = "0.1.4"
+version = "0.2.0"
 requires_python = ">=3.8"
 summary = "pathlib api extended to use fsspec backends"
 dependencies = [
     "fsspec>=2022.1.0",
 ]
 files = [
-    {file = "universal_pathlib-0.1.4-py3-none-any.whl", hash = "sha256:f99186cf950bde1262de9a590bb019613ef84f9fabd9f276e8b019722201943a"},
-    {file = "universal_pathlib-0.1.4.tar.gz", hash = "sha256:82e5d86d16a27e0ea1adc7d88acbcba9d02d5a45488163174f96d9ac289db2e4"},
+    {file = "universal_pathlib-0.2.0-py3-none-any.whl", hash = "sha256:e842d1d95ee2d5685f5512039cb9d3d70abac670046ed794b034bfffd4d02576"},
+    {file = "universal_pathlib-0.2.0.tar.gz", hash = "sha256:1cbd589d1c3ebbb787ad866527f785daff0de20b7540aa557b8285a05a176912"},
 ]
 
 [[package]]

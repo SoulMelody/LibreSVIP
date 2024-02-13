@@ -115,7 +115,7 @@ class VsqxParser:
             )
             for musical_part in vs_track.musical_part:
                 tick_offset = musical_part.pos_tick - tick_prefix
-                note_list = self.parse_notes(musical_part.note, tick_prefix)
+                note_list = self.parse_notes(musical_part.note, tick_offset)
                 singing_track.note_list.extend(note_list)
                 if pitch := self.parse_pitch(musical_part.m_ctrl, note_list, tick_offset):
                     singing_track.edited_params.pitch.points.extend(pitch.points)

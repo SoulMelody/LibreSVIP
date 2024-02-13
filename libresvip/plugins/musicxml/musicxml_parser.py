@@ -106,7 +106,9 @@ class MusicXMLParser:
             for note_node in note_nodes:
                 duration_nodes = note_node.duration
                 duration = (
-                    int(duration_nodes[0] * import_tick_rate) if len(duration_nodes) else None
+                    int(float(duration_nodes[0]) * import_tick_rate)
+                    if len(duration_nodes)
+                    else None
                 )
                 if not duration:
                     if note_node.grace:
