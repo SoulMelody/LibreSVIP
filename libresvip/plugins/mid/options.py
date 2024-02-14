@@ -31,7 +31,7 @@ class InputOptions(BaseModel):
     channels: str = Field(
         default="1",
         title="Channels to import",
-        description="Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option “Custom import range” is selected in “Multi-channel processing method”.",
+        description='Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option "Custom import range" is selected in "Multi-channel processing method".',
     )
     default_bpm: float = Field(
         default=DEFAULT_BPM,

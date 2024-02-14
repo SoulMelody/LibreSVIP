@@ -14,7 +14,7 @@ def split(pinyin: str) -> tuple[str, str]:
     if pinyin not in phoneme_table:
         raise ValueError(
             _(
-                "The selected dictionary does not contain the pronunciation “{}”. Please check the pronunciation or try another dictionary."
+                'The selected dictionary does not contain the pronunciation "{}". Please check the pronunciation or try another dictionary.'
             ).format(pinyin)
         )
 

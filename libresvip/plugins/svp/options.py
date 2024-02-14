@@ -106,7 +106,7 @@ class InputOptions(BaseModel):
     pitch: PitchOption = Field(
         default=PitchOption.PLAIN,
         title="Pitch input mode",
-        description="This option controls the range of pitch curve to be imported and the judgment condition. The definition of “edited part” is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited.",
+        description='This option controls the range of pitch curve to be imported and the judgment condition. The definition of "edited part" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited.',
     )
     breath: BreathOption = Field(
         default=BreathOption.CONVERT,
@@ -115,7 +115,7 @@ class InputOptions(BaseModel):
     group: GroupOption = Field(
         default=GroupOption.SPLIT,
         title="The way to handle note groups",
-        description="Notice: If there are too many note groups, please choose “Keep original position” to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose “Split to tracks” to ensure the paragraph division is not broken.",
+        description='Notice: If there are too many note groups, please choose "Keep original position" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose "Split to tracks" to ensure the paragraph division is not broken.',
     )
 
 

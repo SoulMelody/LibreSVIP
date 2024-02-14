@@ -4,5 +4,5 @@ if [ -z $LIBRESVIP_LOCALE ]; then
 fi
 mkdir -p ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES
 msgcat --use-first -o ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.po ../translations/libresvip_*-"$LIBRESVIP_LOCALE".po ../libresvip/plugins/*/*-"$LIBRESVIP_LOCALE".po
-msgfmt -c -v -o ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.mo ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.po
 msgfilter -i ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.po -o ../translations/libresvip.po true
+msguniq ../translations/libresvip.po -o ../translations/libresvip.po
