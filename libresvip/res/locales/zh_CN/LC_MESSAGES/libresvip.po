@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-02-14 11:16\n"
+"PO-Revision-Date: 2024-02-14 11:17\n"
 
 msgid "Downloading"
 msgstr "下载中"
@@ -1452,7 +1452,8 @@ msgstr "Synthesizer V Studio 工程文件"
 #: .svp.description
 msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
 "Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
-msgstr ""
+msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性、音符组、即时音高模式在内所有数据的读取与写入。\n"
+"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
 #: .svp.load[0].title
 msgid "Always follow instant pitch mode"
