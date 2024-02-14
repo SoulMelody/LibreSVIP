@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-02-14 10:59\n"
+"PO-Revision-Date: 2024-02-14 11:03\n"
 
 msgid "Downloading"
 msgstr "下载中"
@@ -887,7 +887,7 @@ msgstr "源文件缺少音素参数"
 
 #: .ds.messages[2]
 msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
-msgstr ""
+msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
 #: .dv.format_desc
 msgid "DeepVocal project file"
@@ -1089,7 +1089,7 @@ msgstr "通道"
 
 #: .mid.load[4].description
 msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
-msgstr ""
+msgstr "指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围(用英文逗号分隔)，例如：1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时有效"
 
 #: .mid.load[5].title
 msgid "Default BPM"
@@ -1493,7 +1493,7 @@ msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音将
 
 #: .svp.load[1].description
 msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
-msgstr ""
+msgstr "本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
 
 #: .svp.load[2].title
 msgid "The way to handle breath notes"
@@ -1533,7 +1533,7 @@ msgstr "仅在出现音符重叠时将音符组拆分至单独的音轨"
 
 #: .svp.load[3].description
 msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
-msgstr ""
+msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之间、音符组与主组之间存在时间轴上紧挨 (但不重叠) 的音符，则建议选择“拆分为轨道”以确保段落划分不被破坏。"
 
 #: .svp.dump[0].title
 msgid "The way to handle vibrato notes"
