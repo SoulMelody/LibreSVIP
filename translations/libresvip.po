@@ -879,7 +879,7 @@ msgstr ""
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr ""
 
@@ -887,7 +887,7 @@ msgstr ""
 msgid "DiffSinger plugin."
 msgstr ""
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr ""
 
@@ -953,7 +953,7 @@ msgstr ""
 msgid "Cannot find dict."
 msgstr ""
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr ""
 
@@ -1127,7 +1127,7 @@ msgstr ""
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr ""
 
@@ -1139,11 +1139,11 @@ msgstr ""
 msgid "Import lyrics"
 msgstr ""
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr ""
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr ""
 
@@ -1579,7 +1579,7 @@ msgid ""
 "Conversion plugin for Synthesizer V Studio project file, it supports reading "
 "and writing of all parameters including notes, lyrics, parameter curve, note "
 "attributes, note group, and instant pitch mode.\n"
-"NotesImporting a project file with overlapping notes is undefined behavior "
+"Notes: Importing a project file with overlapping notes is undefined behavior "
 "that can lead to unforeseen exceptions."
 msgstr ""
 
