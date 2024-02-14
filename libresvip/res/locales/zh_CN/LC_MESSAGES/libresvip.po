@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-02-14 02:36\n"
+"PO-Revision-Date: 2024-02-14 11:03\n"
 
 msgid "Downloading"
 msgstr "下载中"
@@ -84,6 +84,7 @@ msgstr "高级选项"
 msgid "Input Options"
 msgstr "输入选项"
 
+#: ../libresvip/cli/commands/proj.py:103
 msgid "Output Options"
 msgstr "输出选项"
 
@@ -458,10 +459,6 @@ msgstr "偏移量，单位为毫秒"
 msgid "Mute other tracks"
 msgstr "使其它音轨静音"
 
-#: ../libresvip/cli/commands/proj.py:103
-msgid "Output Options"
-msgstr "输出选项"
-
 #: ../libresvip/model/relative_pitch_curve.py:88
 msgid "Notes Overlapped"
 msgstr "音符重叠"
@@ -824,7 +821,7 @@ msgstr "音高值越界"
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -832,7 +829,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -884,12 +881,12 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[2] .ds.messages[1]
-msgid "The selected dictionary does not contain the pronunciation {}. Please check the pronunciation or try another dictionary."
+#: .ds.messages[2]
+msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
 #: .dv.format_desc
@@ -946,7 +943,7 @@ msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。
 msgid "LRC"
 msgstr ""
 
-#: .lrc.file_format .lrc.format_desc
+#: .lrc.file_format .lrc.format_desc
 msgid "LRC lyric file"
 msgstr "LRC 歌词文件"
 
@@ -1042,7 +1039,7 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1054,11 +1051,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1091,7 +1088,7 @@ msgid "Channels to import"
 msgstr "通道"
 
 #: .mid.load[4].description
-msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option Custom import range is selected in Multi-channel processing method."
+msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
 msgstr "指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围(用英文逗号分隔)，例如：1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时有效"
 
 #: .mid.load[5].title
@@ -1178,7 +1175,7 @@ msgstr "MusicXML 乐谱文件转换插件"
 msgid "NIAONiao"
 msgstr ""
 
-#: .nn.file_format .nn.format_desc
+#: .nn.file_format .nn.format_desc
 msgid "NIAONiao Virtual Singer project file"
 msgstr "袅袅虚拟歌手工程文件"
 
@@ -1194,11 +1191,11 @@ msgstr "恒定曲速"
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr "使用此曲速重设变速音乐的时间轴"
 
-#: .nn.dump[1].description .nn.dump[0].description
+#: .nn.dump[1].description .nn.dump[0].description
 msgid "Start from 0, -1 means auto select"
 msgstr "从0开始，-1表示自动选择"
 
-#: .nn.dump[2].description .nn.dump[1].description
+#: .nn.dump[2].description .nn.dump[1].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
 
@@ -1358,7 +1355,7 @@ msgstr "网格线宽度"
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format .svip.format_desc
+#: .svip.file_format .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1428,7 +1425,7 @@ msgstr "此选项仅控制输出工程文件的头部版本信息。\n"
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: .svip.messages[1] .svip.messages[0]
+#: .svip.messages[1] .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 
@@ -1448,7 +1445,7 @@ msgstr "网易云音乐·X Studio 工程转换插件"
 msgid "SynthV Studio"
 msgstr ""
 
-#: .svp.file_format .svp.format_desc
+#: .svp.file_format .svp.format_desc
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio 工程文件"
 
@@ -1495,7 +1492,7 @@ msgid "Input the edited part of pitch curve; default vibrato will be ignored"
 msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音将被忽略"
 
 #: .svp.load[1].description
-msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of edited part is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
+msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
 msgstr "本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
 
 #: .svp.load[2].title
@@ -1535,7 +1532,7 @@ msgid "Split note groups to separate tracks only when notes overlap"
 msgstr "仅在出现音符重叠时将音符组拆分至单独的音轨"
 
 #: .svp.load[3].description
-msgid "Notice: If there are too many note groups, please choose Keep original position to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose Split to tracks to ensure the paragraph division is not broken."
+msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
 msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之间、音符组与主组之间存在时间轴上紧挨 (但不重叠) 的音符，则建议选择“拆分为轨道”以确保段落划分不被破坏。"
 
 #: .svp.dump[0].title
@@ -1614,7 +1611,7 @@ msgstr "UFData格式转换插件"
 msgid "Ust"
 msgstr ""
 
-#: .ust.file_format .ust.format_desc
+#: .ust.file_format .ust.format_desc
 msgid "UTAU Sequence Text"
 msgstr "UTAU 序列文本"
 
@@ -1626,7 +1623,7 @@ msgstr "UST文件格式转换插件"
 msgid "UST file version"
 msgstr "UST文件版本号"
 
-#: .ust.messages[1] .ust.messages[0]
+#: .ust.messages[1] .ust.messages[0]
 msgid "UST project has no track"
 msgstr "UST工程中没有找到任何音轨"
 
@@ -1658,7 +1655,7 @@ msgstr "请输入完整无误的歌手英文名字。"
 msgid "Vpr"
 msgstr ""
 
-#: .vpr.file_format .vpr.format_desc
+#: .vpr.file_format .vpr.format_desc
 msgid "New Vocaloid Project file"
 msgstr "新版Vocaloid工程格式"
 
