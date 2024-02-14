@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-08 06:11+0800\n"
+"POT-Creation-Date: 2024-02-14 10:23+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.11.1\n"
+"X-Generator: Translate Toolkit 3.12.2\n"
 
 #: .nn.name
 msgid "NIAONiao"
@@ -52,3 +52,7 @@ msgstr "版本"
 #: .nn.dump[1].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
+
+#: .nn.messages[0]
+msgid "No singing track found"
+msgstr ""
