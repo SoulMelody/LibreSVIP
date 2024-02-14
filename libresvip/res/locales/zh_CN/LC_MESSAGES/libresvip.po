@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-02-04 20:21\n"
+"PO-Revision-Date: 2024-02-14 02:36\n"
 
 msgid "Downloading"
 msgstr "下载中"
@@ -333,11 +333,11 @@ msgstr "在线文档 (F1)"
 msgid "SVS Projects Converter"
 msgstr "歌声合成工程文件转换器"
 
-#: ../libresvip/cli/commands/conf.py:22
+#: ../libresvip/cli/commands/conf.py:21
 msgid "Setting {} is not supported in cli mode."
 msgstr "在命令行模式中不支持设置 {} 选项"
 
-#: ../libresvip/cli/commands/conf.py:35
+#: ../libresvip/cli/commands/conf.py:34
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
@@ -377,7 +377,7 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:180
+#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:170
 msgid "Author"
 msgstr "作者"
 
@@ -389,196 +389,196 @@ msgstr "标识符"
 msgid "Applicable file format"
 msgstr "适用格式"
 
-#: ../libresvip/cli/commands/plugin.py:85
+#: ../libresvip/cli/commands/plugin.py:87
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:87
+#: ../libresvip/cli/commands/plugin.py:89
 msgid "Author: "
 msgstr "作者： "
 
-#: ../libresvip/cli/commands/plugin.py:91
+#: ../libresvip/cli/commands/plugin.py:93
 msgid "Website: "
 msgstr "主页： "
 
-#: ../libresvip/cli/commands/plugin.py:96
+#: ../libresvip/cli/commands/plugin.py:98
 msgid "This plugin is applicable to"
 msgstr "此插件适用于"
 
-#: ../libresvip/cli/commands/plugin.py:101
+#: ../libresvip/cli/commands/plugin.py:103
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:106
+#: ../libresvip/cli/commands/plugin.py:108
 msgid "Description: "
 msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:107
+#: ../libresvip/cli/commands/plugin.py:109
 msgid "input"
 msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:107
+#: ../libresvip/cli/commands/plugin.py:109
 msgid "output"
 msgstr "输出"
 
-#: ../libresvip/cli/commands/plugin.py:115
+#: ../libresvip/cli/commands/plugin.py:117
 msgid "This plugin supports the following {} conversion options:"
 msgstr "本插件可指定以下{}转换选项："
 
-#: ../libresvip/cli/commands/plugin.py:127
-#: ../libresvip/cli/commands/plugin.py:152
+#: ../libresvip/cli/commands/plugin.py:129
+#: ../libresvip/cli/commands/plugin.py:154
 msgid "Default: "
 msgstr "默认值："
 
-#: ../libresvip/cli/commands/plugin.py:129
+#: ../libresvip/cli/commands/plugin.py:131
 msgid "Available values:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/plugin.py:146
+#: ../libresvip/cli/commands/plugin.py:148
 msgid "Available fields:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/proj.py:20
+#: ../libresvip/cli/commands/proj.py:21
 msgid "Extension {} is not supported. Supported extensions are: {}"
 msgstr "不支持 {} 扩展名。支持的扩展名包括 {}"
 
-#: ../libresvip/cli/commands/proj.py:47 ../libresvip/cli/commands/proj.py:71
+#: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:80
 msgid "Input Options: "
 msgstr "导入选项： "
 
-#: ../libresvip/cli/commands/proj.py:48
+#: ../libresvip/cli/commands/proj.py:53
 msgid "Output Options: "
 msgstr "导出选项： "
 
-#: ../libresvip/cli/commands/proj.py:65
+#: ../libresvip/cli/commands/proj.py:72
 msgid "Offset in milliseconds"
 msgstr "偏移量，单位为毫秒"
 
-#: ../libresvip/cli/commands/proj.py:66
+#: ../libresvip/cli/commands/proj.py:73
 msgid "Mute other tracks"
 msgstr "使其它音轨静音"
 
-#: ../libresvip/cli/commands/proj.py:89
+#: ../libresvip/cli/commands/proj.py:103
 msgid "Output Options"
 msgstr "输出选项"
 
-#: ../libresvip/model/relative_pitch_curve.py:95
+#: ../libresvip/model/relative_pitch_curve.py:88
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
-#: ../libresvip/web/pages.py:170
+#: ../libresvip/web/pages.py:160
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:190 ../libresvip/web/pages.py:207
-#: ../libresvip/web/pages.py:833 ../libresvip/web/pages.py:849
-#: ../libresvip/web/pages.py:947 ../libresvip/web/pages.py:999
+#: ../libresvip/web/pages.py:180 ../libresvip/web/pages.py:197
+#: ../libresvip/web/pages.py:844 ../libresvip/web/pages.py:860
+#: ../libresvip/web/pages.py:958 ../libresvip/web/pages.py:1010
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:197
+#: ../libresvip/web/pages.py:187
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:325
+#: ../libresvip/web/pages.py:315
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:329
+#: ../libresvip/web/pages.py:319
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:440 ../libresvip/web/pages.py:469
+#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:459
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:445 ../libresvip/web/pages.py:474
-#: ../libresvip/web/pages.py:602 ../libresvip/web/pages.py:923
-#: ../libresvip/web/pages.py:965 ../libresvip/web/pages.py:1022
+#: ../libresvip/web/pages.py:435 ../libresvip/web/pages.py:464
+#: ../libresvip/web/pages.py:612 ../libresvip/web/pages.py:934
+#: ../libresvip/web/pages.py:976 ../libresvip/web/pages.py:1033
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:600
+#: ../libresvip/web/pages.py:610
 msgid "Conversion Progress"
 msgstr "转换进度"
 
-#: ../libresvip/web/pages.py:605
+#: ../libresvip/web/pages.py:615
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:608
+#: ../libresvip/web/pages.py:618
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:661 ../libresvip/web/pages.py:698
+#: ../libresvip/web/pages.py:671 ../libresvip/web/pages.py:708
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
-#: ../libresvip/web/pages.py:685
+#: ../libresvip/web/pages.py:695
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:695
+#: ../libresvip/web/pages.py:705
 msgid "Compressed Archive (*.zip)"
 msgstr "压缩文件 (*.zip)"
 
-#: ../libresvip/web/pages.py:706
+#: ../libresvip/web/pages.py:717
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:787 ../libresvip/web/pages.py:807
+#: ../libresvip/web/pages.py:798 ../libresvip/web/pages.py:818
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:796 ../libresvip/web/pages.py:1034
+#: ../libresvip/web/pages.py:807 ../libresvip/web/pages.py:1045
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:824 ../libresvip/web/pages.py:950
+#: ../libresvip/web/pages.py:835 ../libresvip/web/pages.py:961
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:841 ../libresvip/web/pages.py:1002
+#: ../libresvip/web/pages.py:852 ../libresvip/web/pages.py:1013
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:854
+#: ../libresvip/web/pages.py:865
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:876
+#: ../libresvip/web/pages.py:887
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:924
+#: ../libresvip/web/pages.py:935
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:938
+#: ../libresvip/web/pages.py:949
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:975
+#: ../libresvip/web/pages.py:986
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:982
+#: ../libresvip/web/pages.py:993
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1092
+#: ../libresvip/web/pages.py:1103
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1121
+#: ../libresvip/web/pages.py:1132
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:1122
+#: ../libresvip/web/pages.py:1133
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/utils.py:134
+#: ../libresvip/utils.py:138
 msgid "Audio file not found: "
 msgstr "未找到音频文件："
 
@@ -824,8 +824,7 @@ msgstr "音高值越界"
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format
- .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -833,8 +832,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title
- .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -886,15 +884,13 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1]
- .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
-#: .ds.messages[2]
- .ds.messages[1]
+#: .ds.messages[2] .ds.messages[1]
 msgid "The selected dictionary does not contain the pronunciation {}. Please check the pronunciation or try another dictionary."
-msgstr ""
+msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
 #: .dv.format_desc
 msgid "DeepVocal project file"
@@ -908,8 +904,7 @@ msgstr "dv 格式转换插件。"
 msgid "gjgj"
 msgstr ""
 
-#: .gj.file_format
- .gj.format_desc
+#: .gj.file_format .gj.format_desc
 msgid "Gejigeji project file"
 msgstr "歌叽歌叽工程文件"
 
@@ -951,8 +946,7 @@ msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。
 msgid "LRC"
 msgstr ""
 
-#: .lrc.file_format
- .lrc.format_desc
+#: .lrc.file_format .lrc.format_desc
 msgid "LRC lyric file"
 msgstr "LRC 歌词文件"
 
@@ -1048,8 +1042,7 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format
- .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1061,13 +1054,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title
- .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description
- .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1101,7 +1092,7 @@ msgstr "通道"
 
 #: .mid.load[4].description
 msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option Custom import range is selected in Multi-channel processing method."
-msgstr ""
+msgstr "指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围(用英文逗号分隔)，例如：1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时有效"
 
 #: .mid.load[5].title
 msgid "Default BPM"
@@ -1159,8 +1150,7 @@ msgstr "轨道{}中存在重叠音符"
 msgid "Muta"
 msgstr ""
 
-#: .mtp.file_format
- .mtp.format_desc
+#: .mtp.file_format .mtp.format_desc
 msgid "Muta project file"
 msgstr "Muta工程文件"
 
@@ -1188,8 +1178,7 @@ msgstr "MusicXML 乐谱文件转换插件"
 msgid "NIAONiao"
 msgstr ""
 
-#: .nn.file_format
- .nn.format_desc
+#: .nn.file_format .nn.format_desc
 msgid "NIAONiao Virtual Singer project file"
 msgstr "袅袅虚拟歌手工程文件"
 
@@ -1205,15 +1194,17 @@ msgstr "恒定曲速"
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr "使用此曲速重设变速音乐的时间轴"
 
-#: .nn.dump[1].description
- .nn.dump[0].description
+#: .nn.dump[1].description .nn.dump[0].description
 msgid "Start from 0, -1 means auto select"
 msgstr "从0开始，-1表示自动选择"
 
-#: .nn.dump[2].description
- .nn.dump[1].description
+#: .nn.dump[2].description .nn.dump[1].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
+
+#: .nn.messages[0]
+msgid "No singing track found"
+msgstr "未找到演唱轨"
 
 #: .ppsf.name
 msgid "Ppsf"
@@ -1239,8 +1230,7 @@ msgstr "Synthesizer V Editor 工程格式转换插件。"
 msgid "SRT"
 msgstr ""
 
-#: .srt.file_format
- .srt.format_desc
+#: .srt.file_format .srt.format_desc
 msgid "SubRip subtitle file"
 msgstr "SubRip 字幕文件"
 
@@ -1264,12 +1254,9 @@ msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工�
 msgid "Pixels per beat"
 msgstr "每拍像素数"
 
-#: .svg.dump[0].description
- .svg.dump[1].description
-#: .svg.dump[2].description
- .svg.dump[5].description
-#: .svg.dump[7].description
- .svg.dump[16].description
+#: .svg.dump[0].description .svg.dump[1].description
+#: .svg.dump[2].description .svg.dump[5].description
+#: .svg.dump[7].description .svg.dump[16].description
 msgid "Unit: pixel."
 msgstr "单位：像素。"
 
@@ -1285,12 +1272,9 @@ msgstr "音符圆角"
 msgid "Note fill color"
 msgstr "音符填充颜色"
 
-#: .svg.dump[3].description
- .svg.dump[4].description
-#: .svg.dump[6].description
- .svg.dump[11].description
-#: .svg.dump[12].description
- .svg.dump[15].description
+#: .svg.dump[3].description .svg.dump[4].description
+#: .svg.dump[6].description .svg.dump[11].description
+#: .svg.dump[12].description .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
@@ -1314,23 +1298,19 @@ msgstr "音高曲线描边宽度"
 msgid "Lyric position"
 msgstr "歌词显示于"
 
-#: .svg.dump[8].choices[0].text
- .svg.dump[9].choices[0].text
+#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
 msgid "Above the note"
 msgstr "音符上方"
 
-#: .svg.dump[8].choices[1].text
- .svg.dump[9].choices[1].text
+#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
 msgid "Inside the note"
 msgstr "音符内部"
 
-#: .svg.dump[8].choices[2].text
- .svg.dump[9].choices[2].text
+#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
 msgid "Below the note"
 msgstr "音符下方"
 
-#: .svg.dump[8].choices[3].text
- .svg.dump[9].choices[3].text
+#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
 msgid "Don't show"
 msgstr "不显示"
 
@@ -1378,8 +1358,7 @@ msgstr "网格线宽度"
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format
- .svip.format_desc
+#: .svip.file_format .svip.format_desc
 msgid "X Studio project file"
 msgstr "X Studio 工程文件"
 
@@ -1449,8 +1428,7 @@ msgstr "此选项仅控制输出工程文件的头部版本信息。\n"
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: .svip.messages[1]
- .svip.messages[0]
+#: .svip.messages[1] .svip.messages[0]
 msgid "Root not found"
 msgstr "未找到根对象"
 
@@ -1458,7 +1436,7 @@ msgstr "未找到根对象"
 msgid "Svip3"
 msgstr ""
 
-#: .svip3.file_format .svip3.format_desc
+#: .svip3.file_format .svip3.format_desc
 msgid "Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程文件"
 
@@ -1470,14 +1448,15 @@ msgstr "网易云音乐·X Studio 工程转换插件"
 msgid "SynthV Studio"
 msgstr ""
 
-#: .svp.file_format .svp.format_desc
+#: .svp.file_format .svp.format_desc
 msgid "Synthesizer V Studio project file"
 msgstr "Synthesizer V Studio 工程文件"
 
 #: .svp.description
 msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
 "NotesImporting a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
-msgstr ""
+msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性、音符组、即时音高模式在内所有数据的读取与写入。\n"
+"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
 #: .svp.load[0].title
 msgid "Always follow instant pitch mode"
@@ -1517,7 +1496,7 @@ msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音将
 
 #: .svp.load[1].description
 msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of edited part is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
-msgstr ""
+msgstr "本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
 
 #: .svp.load[2].title
 msgid "The way to handle breath notes"
@@ -1557,7 +1536,7 @@ msgstr "仅在出现音符重叠时将音符组拆分至单独的音轨"
 
 #: .svp.load[3].description
 msgid "Notice: If there are too many note groups, please choose Keep original position to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose Split to tracks to ensure the paragraph division is not broken."
-msgstr ""
+msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之间、音符组与主组之间存在时间轴上紧挨 (但不重叠) 的音符，则建议选择“拆分为轨道”以确保段落划分不被破坏。"
 
 #: .svp.dump[0].title
 msgid "The way to handle vibrato notes"
@@ -1631,7 +1610,11 @@ msgstr "UtaFormatix3 数据格式"
 msgid "Convertion plugin UFData format"
 msgstr "UFData格式转换插件"
 
-#: .ust.format_desc
+#: .ust.name
+msgid "Ust"
+msgstr ""
+
+#: .ust.file_format .ust.format_desc
 msgid "UTAU Sequence Text"
 msgstr "UTAU 序列文本"
 
@@ -1643,7 +1626,7 @@ msgstr "UST文件格式转换插件"
 msgid "UST file version"
 msgstr "UST文件版本号"
 
-#: .ust.messages[0]
+#: .ust.messages[1] .ust.messages[0]
 msgid "UST project has no track"
 msgstr "UST工程中没有找到任何音轨"
 
@@ -1659,8 +1642,7 @@ msgstr "Ustx格式转换插件"
 msgid "Vogen"
 msgstr ""
 
-#: .vog.file_format
- .vog.format_desc
+#: .vog.file_format .vog.format_desc
 msgid "Vogen project file"
 msgstr "Vogen 工程文件"
 
@@ -1668,8 +1650,7 @@ msgstr "Vogen 工程文件"
 msgid "Conversion plugin for Vogen project file"
 msgstr "Vogen 工程格式转换插件"
 
-#: .vog.dump[1].description
- .vog.dump[0].description
+#: .vog.dump[1].description .vog.dump[0].description
 msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"
 
@@ -1813,8 +1794,7 @@ msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID4菜单中
 msgid "Y77"
 msgstr ""
 
-#: .y77.file_format
- .y77.format_desc
+#: .y77.file_format .y77.format_desc
 msgid "Yuan77 project file"
 msgstr "元七七工程文件"
 
