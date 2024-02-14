@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-02-14 11:03\n"
+"PO-Revision-Date: 2024-02-14 11:17\n"
 
 msgid "Downloading"
 msgstr "下载中"
@@ -821,7 +821,7 @@ msgstr "音高值越界"
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format .ds.format_desc
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger参数文件"
 
@@ -829,7 +829,7 @@ msgstr "DiffSinger参数文件"
 msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title .ds.load[0].title
 msgid "Dictionary Name"
 msgstr "词典名称"
 
@@ -881,7 +881,7 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Cannot find dict."
 msgstr "无法找到词典文件"
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1] .ds.messages[0]
 msgid "The source file lacks phoneme parameters."
 msgstr "源文件缺少音素参数"
 
@@ -1039,7 +1039,7 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1051,11 +1051,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1451,7 +1451,7 @@ msgstr "Synthesizer V Studio 工程文件"
 
 #: .svp.description
 msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
-"NotesImporting a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
+"Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
 msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性、音符组、即时音高模式在内所有数据的读取与写入。\n"
 "请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
