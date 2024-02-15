@@ -77,7 +77,6 @@ webui = [
 desktop = [
   "pyside6<6.7.0,>=6.6.1",
   "fonticon-materialdesignicons7>=7.2.96",
-  "qtinter>=0.11.0",
   "httpx>=0.26.0",
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
@@ -146,14 +145,12 @@ select = [
   "EM",    # error messages
   "EXE",   # executable
   "F",     # flakes
-  "G",     # logging
   "I",     # import sorting
   "INT",   # gettext
   "N",     # naming
   "PIE",   # pie
   "PGH",   # pygrep-hooks
   "PLC",   # pylint convention
-  "PLE",   # pylint error
   "PT",    # pytest-style
   "PTH",   # pathlib
   "T10",   # debugger

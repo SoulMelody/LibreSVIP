@@ -3,7 +3,6 @@
     dirs:
       - 'res'
     patterns:
-      - 'gui/**/*.qml'
       - 'plugins/*/*.yapsy-plugin'
       - 'plugins/**/*.json'
       - 'plugins/**/*.txt'
