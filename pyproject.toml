@@ -27,7 +27,7 @@ classifiers = [
   'Typing :: Typed',
 ]
 dependencies = [
-  "bidict<0.23.0,>=0.22.1",
+  "bidict<0.23.1,>=0.23.0",
   "charset-normalizer<4.0.0,>=3.3.2",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.3.0",
@@ -75,7 +75,7 @@ webui = [
   "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.7.0,>=6.6.1",
+  "pyside6<6.7.0,>=6.6.2",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.26.0",
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
@@ -107,6 +107,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=6.15.15",
+  "nuitka>=2.0.2",
   "pyinstaller>=6.4.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
