@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:0104fda4fbfe1dcc04e822ed64e9dcf5ac120555a67b278dfab0c5a666326e75"
+content_hash = "sha256:4352de73c3d1ab332e7b7df280fcf742cc9eeea7bdae5b4855bc7b778644947d"
 
 [[package]]
 name = "aiofiles"
@@ -192,12 +192,12 @@ files = [
 
 [[package]]
 name = "bidict"
-version = "0.22.1"
-requires_python = ">=3.7"
+version = "0.23.0"
+requires_python = ">=3.8"
 summary = "The bidirectional mapping library for Python."
 files = [
-    {file = "bidict-0.22.1-py3-none-any.whl", hash = "sha256:6ef212238eb884b664f28da76f33f1d28b260f665fc737b413b287d5487d1e7b"},
-    {file = "bidict-0.22.1.tar.gz", hash = "sha256:1e0f7f74e4860e6d0943a05d4134c63a2fad86f3d4732fb265bd79e4e856d81d"},
+    {file = "bidict-0.23.0-py3-none-any.whl", hash = "sha256:f5154a0e42926b122f9b2cb06aeeb9af317f626eb864bd34c1b9cdc5eca8b040"},
+    {file = "bidict-0.23.0.tar.gz", hash = "sha256:3959ca59d4d6997702d642bf1e5fd93cba299863723fc289545198f70c468578"},
 ]
 
 [[package]]

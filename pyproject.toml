@@ -27,7 +27,7 @@ classifiers = [
   'Typing :: Typed',
 ]
 dependencies = [
-  "bidict<0.23.0,>=0.22.1",
+  "bidict<0.23.1,>=0.23.0",
   "charset-normalizer<4.0.0,>=3.3.2",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.3.0",
