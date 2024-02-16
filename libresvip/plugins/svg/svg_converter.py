@@ -14,4 +14,4 @@ if TYPE_CHECKING:
 class SvgConverter(plugin_base.WriteOnlyConverterBase):
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         drawing: Drawing = SvgGenerator(options).generate_project(project)
-        path.write_text(drawing.as_svg(), encoding="utf-8")
+        path.write_bytes(drawing.as_svg().encode("utf-8"))

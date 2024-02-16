@@ -21,7 +21,7 @@ def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
                 default_value = default_value.value if default_value else None
                 choice = Prompt.ask(
                     translated_title,
-                    choices=[x.value for x in field_info.annotation],
+                    choices=[str(x.value) for x in field_info.annotation],
                     default=default_value,
                 )
                 option_kwargs[option_key] = choice

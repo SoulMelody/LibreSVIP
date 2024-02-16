@@ -14,7 +14,7 @@ from .utils.project_util import split_into_segments
 
 class DiffSingerConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ds_project = DsProject.model_validate_json(path.read_text("utf-8"))
+        ds_project = DsProject.model_validate_json(path.read_bytes().decode("utf-8"))
         return DiffSingerParser(options).parse_project(ds_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
@@ -40,11 +40,10 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
             if options.seed >= 0:
                 diff_singer_params.seed = options.seed
             ds_project = DsProject(root=[diff_singer_params])
-        path.write_text(
+        path.write_bytes(
             json.dumps(
                 ds_project.model_dump(mode="json"),
                 indent=options.indent,
                 ensure_ascii=False,
-            ),
-            encoding="utf-8",
+            ).encode("utf-8")
         )

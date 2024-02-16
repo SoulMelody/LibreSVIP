@@ -32,4 +32,4 @@ class CeVIOConverter(plugin_base.SVSConverterBase):
             config=SerializerConfig(pretty_print=True),
         )
         xml_text = serializer.render(ccs_project)
-        path.write_text(xml_text, encoding="utf-8")
+        path.write_bytes(xml_text.encode("utf-8"))

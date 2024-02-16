@@ -97,7 +97,6 @@ class VsqxConverter(plugin_base.SVSConverterBase):
             ),
             writer=VocaloidXMLWriter,
         )
-        path.write_text(
-            xml_serializer.render(vsqx_proj, ns_map={None: vsqx_namespace}),
-            encoding="utf-8",
+        path.write_bytes(
+            xml_serializer.render(vsqx_proj, ns_map={None: vsqx_namespace}).encode("utf-8")
         )

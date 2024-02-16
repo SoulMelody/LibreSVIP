@@ -30,4 +30,4 @@ class OpenUtauConverter(plugin_base.SVSConverterBase):
             allow_unicode=True,
             sort_keys=False,
         )
-        path.write_text(proj_text, encoding="utf-8")
+        path.write_bytes(proj_text.encode("utf-8"))

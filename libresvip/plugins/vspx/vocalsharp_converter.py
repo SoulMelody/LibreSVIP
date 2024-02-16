@@ -90,4 +90,4 @@ class VocalSharpConverter(plugin_base.SVSConverterBase):
         xml_text = re.sub(r"\s+(</[a-zA-Z]>)", r"\1", xml_text)
         xml_text = re.sub(r"</([a-z])>\s+<([a-z])>", strip_whitespace, xml_text)
         xml_text = re.sub(r"(\n\s*)<([a-zA-Z]+)/>", replace_self_closed, xml_text)
-        path.write_text(xml_text, encoding="utf-8")
+        path.write_bytes(xml_text.encode("utf-8"))

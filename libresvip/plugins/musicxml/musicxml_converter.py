@@ -35,4 +35,4 @@ class MusicXMLConverter(plugin_base.SVSConverterBase):
         xml_serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True), writer=MusicXMLWriter
         )
-        path.write_text(xml_serializer.render(score), encoding="utf-8")
+        path.write_bytes(xml_serializer.render(score).encode("utf-8"))
