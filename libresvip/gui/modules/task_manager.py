@@ -34,8 +34,8 @@ from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
 from libresvip.utils import shorten_error_message
 
-from .model_proxy import ModelProxy
 from .url_opener import open_path
+from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
