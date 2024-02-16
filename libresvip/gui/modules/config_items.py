@@ -11,7 +11,7 @@ from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, setti
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import plugin_manager
 
-from .model_proxy import ModelProxy
+from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1

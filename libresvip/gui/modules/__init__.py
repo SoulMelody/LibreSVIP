@@ -6,13 +6,15 @@ __all__ = [
     "LocaleSwitcher",
     "TaskManager",
     "app",
+    "app_close_event",
+    "event_loop",
     "qml_engine",
 ]
 
 import platform
 import sys
 
-from .application import app, qml_engine
+from .application import app, app_close_event, event_loop, qml_engine
 from .clipboard import Clipboard
 from .config_items import ConfigItems
 from .font_loader import IconicFontLoader

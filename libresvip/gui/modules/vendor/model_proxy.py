@@ -1,16 +1,20 @@
-from collections.abc import Iterator
+from __future__ import annotations
+
 from functools import cache
-from typing import Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 from PySide6.QtCore import QAbstractListModel, QModelIndex, Slot
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
-Item = dict[str, Any]
-Items = list[Item]
-Role2Name = dict[int, str]
-Name2Role = dict[str, int]
-RoleNames = Union[dict[str, Any], tuple[str, ...], list[str]]  # suggested
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    Item = dict[str, Any]
+    Items = list[Item]
+    Role2Name = dict[int, str]
+    Name2Role = dict[str, int]
+    RoleNames = Union[dict[str, Any], tuple[str, ...], list[str]]  # suggested
 
 
 class ModelProxy(QAbstractListModel):

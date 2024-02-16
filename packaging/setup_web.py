@@ -71,7 +71,6 @@ build_exe_options = {
         "qtpy",
         "qtawesome",
         "desktop_notifier",
-        "qtinter",
         "zmq",
     ],
     "include_files": include_files,

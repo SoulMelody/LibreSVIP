@@ -8,7 +8,7 @@ python -m nuitka --standalone --assume-yes-for-downloads --output-dir=nuitka --o
  --enable-plugin=pyside6 --include-qt-plugins=qml --disable-plugins=tk-inter \
  --disable-plugins=matplotlib --disable-plugins=numpy \
  --disable-plugins=delvewheel --disable-plugins=upx \
- --disable-console --windows-icon-from-ico=../libresvip/res/libresvip.ico --user-package-configuration-file=./nuitka-libresvip.yml \
+ --disable-console --force-stdout-spec=libresvip.out.log --force-stderr-spec=libresvip.err.log \
+ --windows-icon-from-ico=../libresvip/res/libresvip.ico --user-package-configuration-file=./nuitka-libresvip.yml \
  --include-package=libresvip --include-distribution-metadata=libresvip \
  ../libresvip/gui/__main__.py
-# --enable-console --force-stdout-spec=libresvip.out.log --force-stderr-spec=libresvip.err.log \

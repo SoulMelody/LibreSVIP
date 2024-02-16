@@ -1,4 +1,3 @@
-import asyncio
 import fnmatch
 import platform
 from collections.abc import Awaitable, Sequence
@@ -6,18 +5,19 @@ from functools import partial
 from typing import Optional
 
 import httpx
-import qtinter
 from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
-from PySide6.QtCore import QObject, Slot
+from PySide6.QtCore import QObject
 from PySide6.QtQml import QmlElement, QmlSingleton
 
 import libresvip
 from libresvip.core.config import settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 
+from .application import event_loop
 from .url_opener import open_path, open_url
+from .vendor.qasync import async_slot
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -34,7 +34,7 @@ class Notifier(QObject):
             self.notifier = DesktopNotifier(
                 app_name=PACKAGE_NAME, app_icon=res_dir / "libresvip.ico"
             )
-            self.notifier._loop = asyncio.get_event_loop()
+            self.notifier._loop = event_loop
         except Exception:
             self.notifier = None
         if settings.auto_check_for_updates:
@@ -63,8 +63,7 @@ class Notifier(QObject):
                     ),
                 )
 
-    @Slot()
-    @qtinter.asyncslot
+    @async_slot(result=None)
     async def check_for_updates(self) -> None:
         failed = False
         async with httpx.AsyncClient(follow_redirects=True, timeout=self.request_timeout) as client:
