@@ -44,7 +44,7 @@ from ._common import make_signaller, with_logger
 UINT32_MAX = 0xFFFFFFFF
 
 
-class _ProactorEventLoop(asyncio.ProactorEventLoop):
+class _ProactorEventLoop(asyncio.ProactorEventLoop):  # type: ignore[name-defined]
     _logger: Logger
 
     """Proactor based event loop."""
@@ -79,7 +79,7 @@ class _ProactorEventLoop(asyncio.ProactorEventLoop):
 
 
 @with_logger
-class _IocpProactor(windows_events.IocpProactor):
+class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
     _logger: Logger
 
     def __init__(self) -> None:
@@ -168,7 +168,10 @@ class _IocpProactor(windows_events.IocpProactor):
     # connect_pipe() does not actually use the delayed completion machinery.
 
     def _wait_for_handle(
-        self, handle: windows_utils.PipeHandle, timeout: int, _is_cancel: bool
+        self,
+        handle: windows_utils.PipeHandle,  # type: ignore[name-defined]
+        timeout: int,
+        _is_cancel: bool,
     ) -> bool:
         with QtCore.QMutexLocker(self._lock):
             return super()._wait_for_handle(  # type: ignore[misc]
