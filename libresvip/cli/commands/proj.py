@@ -100,7 +100,7 @@ def add_accompaniment(
     if input_plugin.plugin_object is not None and (
         output_option := get_type_hints(input_plugin.plugin_object.dump).get("options")
     ):
-        option_type, option_class = _("Output Options："), output_option
+        option_type, option_class = _("Output Options: "), output_option
         option_kwargs = {}
         if len(option_class.model_fields):
             typer.echo(option_type)

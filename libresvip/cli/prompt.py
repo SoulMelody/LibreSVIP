@@ -18,7 +18,7 @@ def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
                 continue
             translated_title = f"{i + 1}. {{}}".format(_(field_info.title))
             if issubclass(field_info.annotation, enum.Enum):
-                default_value = default_value.value if default_value else None
+                default_value = str(default_value.value) if default_value else None
                 choice = Prompt.ask(
                     translated_title,
                     choices=[str(x.value) for x in field_info.annotation],

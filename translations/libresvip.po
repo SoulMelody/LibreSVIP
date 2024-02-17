@@ -73,7 +73,6 @@ msgstr ""
 msgid "Input Options"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:103
 msgid "Output Options"
 msgstr ""
 
@@ -445,7 +444,7 @@ msgstr ""
 msgid "Input Options: "
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:53
+#: ../libresvip/cli/commands/proj.py:53 ../libresvip/cli/commands/proj.py:103
 msgid "Output Options: "
 msgstr ""
 

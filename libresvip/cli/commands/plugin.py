@@ -65,14 +65,14 @@ def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
     table.add_column(_("Identifier"), justify="left", style="cyan")
     table.add_column(_("Applicable file format"), justify="left", style="cyan")
     for num, plugin in enumerate(plugins):
-        format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
+        format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
         table.add_row(
             f"[{num + 1}] ",
             plugin.name + margin,
             str(plugin.version) + margin,
             plugin.author + margin,
             plugin.suffix + margin,
-            _(format_desc) + margin,
+            format_desc + margin,
         )
     console.print(table)
 
