@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:0c502f1d39ff914ca8423e70b51a8fbad4345c884d755b69c5d8c591b2dc9630"
+content_hash = "sha256:b632c9f0bbf1ad1c528b34106936e5e886cb8189208bf584fe6bf8b9a64c7de3"
 
 [[package]]
 name = "aiofiles"
@@ -3335,15 +3335,15 @@ files = [
 
 [[package]]
 name = "xsdata"
-version = "24.1"
+version = "24.2"
 requires_python = ">=3.8"
 summary = "Python XML Binding"
 dependencies = [
     "typing-extensions",
 ]
 files = [
-    {file = "xsdata-24.1-py3-none-any.whl", hash = "sha256:314eba1e50219e3393fa3814f51b426646ae0bb9a416ecc5b6d93bcb08e88416"},
-    {file = "xsdata-24.1.tar.gz", hash = "sha256:e36fc8b4624bbbaf2d34d0857c6d78ede99ec1d3240cc7dd50546177fbb52442"},
+    {file = "xsdata-24.2-py3-none-any.whl", hash = "sha256:545c4b79efb8dc53384b166836a75cc2f49cc26e7d56555f53b00a4d716d775c"},
+    {file = "xsdata-24.2.tar.gz", hash = "sha256:8e97eea71915b284a7c52924de0ed6975122b9fb82c11c539fefbee7bd3d56ed"},
 ]
 
 [[package]]
