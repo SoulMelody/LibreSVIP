@@ -203,16 +203,11 @@ class Svip3Parser:
 
     def parse_pattern_curve(self, pattern: Svip3SingingPattern) -> ParamCurve:
         curve = ParamCurve()
-        offset = pattern.real_pos + self.first_bar_length
         left, right = self.get_visible_range(pattern)
-        visible_nodes = [
-            node
-            for node in pattern.edited_pitch_line
-            if left + self.first_bar_length <= node.pos + offset <= right + self.first_bar_length
-        ]
+        visible_nodes = [node for node in pattern.edited_pitch_line if left <= node.pos <= right]
         curve.points.root.append(Point(left, -100))
         for node in visible_nodes:
-            pos = node.pos + offset
+            pos = node.pos + self.first_bar_length
             val = round(node.value * 100 - 50) if node.value != -1.0 else -100
             curve.points.append(Point(pos, val))
         curve.points.root.append(Point(right, -100))
