@@ -1,5 +1,7 @@
+import asyncio
 import fnmatch
 import platform
+import time
 from collections.abc import Awaitable, Sequence
 from functools import partial
 from typing import Optional
@@ -30,6 +32,7 @@ class Notifier(QObject):
     def __init__(self) -> None:
         super().__init__()
         self.request_timeout = 30
+        self.last_notify_time: Optional[float] = None
         try:
             self.notifier = DesktopNotifier(
                 app_name=PACKAGE_NAME, app_icon=res_dir / "libresvip.ico"
@@ -176,6 +179,11 @@ class Notifier(QObject):
         timeout: int = -1,
     ) -> Optional[Awaitable[Notification]]:
         try:
+            if self.last_notify_time is None:
+                pass
+            elif (elapsed := time.time() - self.last_notify_time) < 1:
+                await asyncio.sleep(1 - elapsed)
+            self.last_notify_time = time.time()
             return await self.notifier.send(
                 title=title, message=message, buttons=buttons, timeout=timeout
             )
