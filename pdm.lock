@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:7db59864b3e00aeaed030c6bde517e347c70abffc04891e875ef6984ac83bb07"
+content_hash = "sha256:dd03ff7e4f8cf909fa78597d301ff9bb5f616bc26b6c7dbe023d48525479e9f0"
 
 [[package]]
 name = "aiofiles"
@@ -192,12 +192,12 @@ files = [
 
 [[package]]
 name = "bidict"
-version = "0.23.0"
+version = "0.23.1"
 requires_python = ">=3.8"
 summary = "The bidirectional mapping library for Python."
 files = [
-    {file = "bidict-0.23.0-py3-none-any.whl", hash = "sha256:f5154a0e42926b122f9b2cb06aeeb9af317f626eb864bd34c1b9cdc5eca8b040"},
-    {file = "bidict-0.23.0.tar.gz", hash = "sha256:3959ca59d4d6997702d642bf1e5fd93cba299863723fc289545198f70c468578"},
+    {file = "bidict-0.23.1-py3-none-any.whl", hash = "sha256:5dae8d4d79b552a71cbabc7deb25dfe8ce710b17ff41711e13010ead2abfc3e5"},
+    {file = "bidict-0.23.1.tar.gz", hash = "sha256:03069d763bc387bbd20e7d49914e75fc4132a41937fa3405417e1a5a2d006d71"},
 ]
 
 [[package]]
@@ -2971,15 +2971,15 @@ files = [
 
 [[package]]
 name = "universal-pathlib"
-version = "0.2.0"
+version = "0.2.1"
 requires_python = ">=3.8"
 summary = "pathlib api extended to use fsspec backends"
 dependencies = [
     "fsspec>=2022.1.0",
 ]
 files = [
-    {file = "universal_pathlib-0.2.0-py3-none-any.whl", hash = "sha256:e842d1d95ee2d5685f5512039cb9d3d70abac670046ed794b034bfffd4d02576"},
-    {file = "universal_pathlib-0.2.0.tar.gz", hash = "sha256:1cbd589d1c3ebbb787ad866527f785daff0de20b7540aa557b8285a05a176912"},
+    {file = "universal_pathlib-0.2.1-py3-none-any.whl", hash = "sha256:bb14881f1c6c025c654a658c253b4cf89e8238dff6d3c847aa5723899227f85e"},
+    {file = "universal_pathlib-0.2.1.tar.gz", hash = "sha256:fda2f484d875c26079771f94acfef58647eed80efce75f0bf8824373b432e802"},
 ]
 
 [[package]]
