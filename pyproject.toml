@@ -27,7 +27,7 @@ classifiers = [
   'Typing :: Typed',
 ]
 dependencies = [
-  "bidict<0.23.1,>=0.23.0",
+  "bidict<0.23.2,>=0.23.1",
   "charset-normalizer<4.0.0,>=3.3.2",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.3.0",
@@ -68,7 +68,7 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 
 ujson = ["ujson>=5.9.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.0",
+  "universal-pathlib<1.0.0,>=0.2.1",
 ]
 webui = [
   "nicegui[native]>=1.4.15",
