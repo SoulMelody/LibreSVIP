@@ -192,17 +192,17 @@ class BaseLayerGenerator:
             )
         elif len(query) == 1:
             return query[0].value_at_secs(secs)
-        elif len(query) == 2:
+        elif len(query) <= 3:
             first = query[0]
-            second = query[1]
-            width = first.end - second.start
-            bottom = first.value_at_secs(second.start)
-            top = second.value_at_secs(first.end)
-            diff1 = first.slope_at_secs(second.start)
-            diff2 = second.slope_at_secs(first.end)
-            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - second.start)
+            last = query[-1]
+            width = first.end - last.start
+            bottom = first.value_at_secs(last.start)
+            top = last.value_at_secs(first.end)
+            diff1 = first.slope_at_secs(last.start)
+            diff2 = last.slope_at_secs(first.end)
+            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - last.start)
         else:
-            msg = "More than two sigmoid nodes overlapped"
+            msg = "More than three sigmoid nodes overlapped"
             raise ParamsError(msg)
 
     @staticmethod
