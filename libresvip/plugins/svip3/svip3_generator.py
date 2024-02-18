@@ -4,8 +4,10 @@ import warnings
 from typing import Any
 from urllib.parse import urljoin
 
+import pypinyin
 from google.protobuf import any_pb2
 
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
@@ -197,14 +199,16 @@ class Svip3Generator:
                 )
             if PINYIN_PATTERN.fullmatch(note.lyric) is not None:
                 pronunciation = note.lyric
-            elif note.pronunciation and PINYIN_PATTERN.fullmatch(note.pronunciation) is not None:
+            elif note.pronunciation:
                 pronunciation = note.pronunciation
+            elif note.lyric and CHINESE_RE.fullmatch(note.lyric) is not None:
+                pronunciation = " ".join(pypinyin.lazy_pinyin(note.lyric))
             else:
                 pronunciation = note.pronunciation or note.lyric
-                if note.lyric != "-":
-                    msg_prefx = _("Unsupported pinyin:")
-                    warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
-                    pronunciation = ""
+            if note.lyric != "-" and PINYIN_PATTERN.fullmatch(pronunciation) is None:
+                msg_prefix = _("Unsupported pinyin:")
+                warnings.warn(f"{msg_prefix} {pronunciation}", PhonemeWarning)
+                pronunciation = ""
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,

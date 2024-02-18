@@ -179,7 +179,7 @@ class BaseLayerGenerator:
 
     def pitch_at_secs(self, secs: float) -> float:
         query = [node for node in self.sigmoid_nodes if node.start <= secs < node.end]
-        if len(query) == 0:
+        if not query:
             on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
                 return self.note_list[on_note_index].key * 100
@@ -299,10 +299,7 @@ class GaussianNode:
                 )
 
     def value_at_secs(self, secs: float) -> float:
-        if secs < self.origin:
-            return self.gaussian_l(secs)
-        else:
-            return self.gaussian_r(secs)
+        return self.gaussian_l(secs) if secs < self.origin else self.gaussian_r(secs)
 
 
 @dataclasses.dataclass
@@ -311,7 +308,7 @@ class GaussianLayerGenerator:
     gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
-        if len(_note_list) == 0:
+        if not _note_list:
             return
         current_note = _note_list[0]
         self.gaussian_nodes.append(

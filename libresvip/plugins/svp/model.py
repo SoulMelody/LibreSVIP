@@ -144,6 +144,15 @@ class SVParamTakes(BaseModel):
 
 
 class SVNoteAttributes(SVBaseAttributes):
+    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
     t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
     p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
     d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
@@ -405,6 +414,15 @@ class SVParameters(BaseModel):
 
 
 class SVVoice(SVBaseAttributes):
+    t_f0_left: Optional[float] = Field(0.07, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(0.07, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(0.15, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(0.15, alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(0.25, alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(0.2, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(0.2, alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(1.0, alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(5.5, alias="fF0Vbr")
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
     vocal_mode_params: Optional[dict[str, float]] = Field(None, alias="vocalModeParams")
