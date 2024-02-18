@@ -8,7 +8,6 @@ import re
 import textwrap
 import warnings
 from collections.abc import Callable
-from gettext import gettext as _
 from typing import Optional, TypeVar, Union, cast
 from xml.sax import saxutils
 
@@ -82,7 +81,7 @@ def gettext_lazy(message: str) -> str:
             return translation.gettext(message)
         elif (translation := lazy_translation.get()) is not None:
             return translation.gettext(message)
-    return _(message)
+    return gettext.gettext(message)
 
 
 def shorten_error_message(message: Optional[str]) -> str:
@@ -135,6 +134,7 @@ def audio_track_info(
                         None,
                     )
         except FileNotFoundError:
+            _ = gettext_lazy
             warnings.warn(_("Audio file not found: ") + f"{file_path}", UnknownWarning)
     return None
 

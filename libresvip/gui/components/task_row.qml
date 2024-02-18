@@ -241,6 +241,7 @@ ColumnLayout {
                             Label {
                                 id: errorLabel
                                 text: ""
+                                property string errorFullText
                             }
                             Button {
                                 id: copyErrorButton
@@ -250,7 +251,7 @@ ColumnLayout {
                                 }
                                 text: qsTr("Copy error message")
                                 onClicked: {
-                                    let copy_result = Clipboard.set_clipboard(errorLabel.text)
+                                    let copy_result = Clipboard.set_clipboard(errorLabel.errorFullText)
                                     if (copy_result) {
                                         text = qsTr("Copied")
                                         resetCopyErrorButtonTimer.start()
@@ -361,7 +362,8 @@ ColumnLayout {
                 extLabel.text = taskModel.ext
                 let error = taskModel.error
                 if (error) {
-                    errorLabel.text = error
+                    errorLabel.text = Clipboard.shorten_error_message(error)
+                    errorLabel.errorFullText = error
                     errorButton.visible = true
                     runningIndicator.visible = false
                 } else if (errorButton.visible) {

@@ -32,7 +32,6 @@ from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
-from libresvip.utils import shorten_error_message
 
 from .url_opener import open_path
 from .vendor.model_proxy import ModelProxy
@@ -124,7 +123,7 @@ class ConversionWorker(QRunnable):
                     self.index,
                     {
                         "success": False,
-                        "error": shorten_error_message(traceback.format_exc()),
+                        "error": traceback.format_exc(),
                     },
                 )
 

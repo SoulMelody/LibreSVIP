@@ -5,6 +5,8 @@ from PySide6.QtQml import QmlElement, QmlSingleton
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
+from libresvip.utils import shorten_error_message
+
 from .application import app
 
 QML_IMPORT_NAME = "LibreSVIP"
@@ -23,3 +25,7 @@ class Clipboard(QObject):
     def set_clipboard(self, text: str) -> bool:
         self.clipboard.set_text(text)
         return True
+
+    @Slot(str, result=str)
+    def shorten_error_message(self, msg: str) -> str:
+        return shorten_error_message(msg)
