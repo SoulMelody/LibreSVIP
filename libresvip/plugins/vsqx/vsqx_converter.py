@@ -78,7 +78,7 @@ class VsqxConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         xml_parser = XmlParser()
         vsqx_proj: Vsqx = xml_parser.from_bytes(path.read_bytes())
-        return VsqxParser(options).parse_project(vsqx_proj)
+        return VsqxParser(options, path).parse_project(vsqx_proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         vsqx_generator_class: Union[type[Vsq3Generator], type[Vsq4Generator]]
