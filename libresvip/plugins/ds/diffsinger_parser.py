@@ -1,6 +1,8 @@
 import dataclasses
 from typing import cast
 
+import more_itertools
+
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -45,45 +47,45 @@ class DiffSingerParser:
             notes: list[Note] = []
             cur_time = self.synchronizer.get_actual_ticks_from_secs(float(ds_item.offset))
             prev_is_breath = False
-            for (
-                text,
-                note_dur,
-                note,
-                is_slur,
-            ) in zip(
-                ds_item.text,
-                ds_item.note_dur or [],
-                ds_item.note_seq,
-                ds_item.note_slur or [],
+            for lyric_index, slur_group in enumerate(
+                more_itertools.split_before(
+                    enumerate(ds_item.note_slur or []), lambda pair: pair[1] == 0
+                )
             ):
-                note_dur = self.synchronizer.get_actual_ticks_from_secs(note_dur)
-                if text == "SP":
-                    pass
-                elif text == "AP":
-                    prev_is_breath = True
-                else:
-                    midi_key = note2midi(note)
-                    if not is_slur:
-                        notes.append(
-                            Note(
-                                start_pos=int(cur_time),
-                                length=int(note_dur),
-                                key_number=midi_key,
-                                lyric=text,
-                                head_tag="V" if prev_is_breath else None,
-                            )
-                        )
-                        prev_is_breath = False
+                if not ds_item.note_dur:
+                    break
+                for note_index, is_slur in slur_group:
+                    text = ds_item.text[lyric_index]
+                    note_dur = ds_item.note_dur[note_index]
+                    note = ds_item.note_seq[note_index]
+                    note_dur = self.synchronizer.get_actual_ticks_from_secs(note_dur)
+                    if text == "SP":
+                        pass
+                    elif text == "AP":
+                        prev_is_breath = True
                     else:
-                        notes.append(
-                            Note(
-                                start_pos=int(cur_time),
-                                length=int(note_dur),
-                                key_number=midi_key,
-                                lyric="-",
+                        midi_key = note2midi(note)
+                        if not is_slur:
+                            notes.append(
+                                Note(
+                                    start_pos=int(cur_time),
+                                    length=int(note_dur),
+                                    key_number=midi_key,
+                                    lyric=text,
+                                    head_tag="V" if prev_is_breath else None,
+                                )
                             )
-                        )
-                cur_time += note_dur
+                            prev_is_breath = False
+                        else:
+                            notes.append(
+                                Note(
+                                    start_pos=int(cur_time),
+                                    length=int(note_dur),
+                                    key_number=midi_key,
+                                    lyric="-",
+                                )
+                            )
+                    cur_time += note_dur
             all_notes.extend(notes)
         return all_notes
 
@@ -91,6 +93,8 @@ class DiffSingerParser:
         points = Points(root=[])
         points.append(Point.start_point())
         for ds_item in ds_items:
+            if ds_item.f0_timestep is None or ds_item.f0_seq is None:
+                continue
             f0_timestep = ds_item.f0_timestep
             points.append(
                 Point(
