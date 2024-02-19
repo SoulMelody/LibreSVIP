@@ -128,7 +128,7 @@ class SynthVGenerator:
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
 
             self.lyrics_phonemes = sv_g2p(
-                (SVNote.normalize_lyric(note) for note in track.note_list),
+                (SVNote.normalize_phoneme(note) for note in track.note_list),
                 [language_preset.language] * len(track.note_list),
             )
 

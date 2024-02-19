@@ -411,7 +411,7 @@ class SynthVParser:
     def parse_note(sv_note: SVNote, database: SVDatabase) -> Note:
         note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
         note.length = position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
-        note.lyric = sv_note.lyrics
+        note.lyric = SVNote.normalize_lyric(sv_note.lyrics)
         if sv_note.phonemes:
             note_default_language = sv_note.attributes.default_language(database)
             if note_default_language == "japanese":
@@ -457,7 +457,7 @@ class SynthVParser:
         if len(sv_note_list):
             lyrics, languages = zip(
                 *(
-                    (SVNote.normalize_lyric(note), sv_note.attributes.default_language(database))
+                    (SVNote.normalize_phoneme(note), sv_note.attributes.default_language(database))
                     for note, sv_note in zip(note_list, sv_note_list)
                 )
             )

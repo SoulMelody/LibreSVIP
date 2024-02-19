@@ -6,6 +6,7 @@ from itertools import chain
 from typing import Any, Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
+import zhon
 from more_itertools import chunked
 from pydantic import (
     Field,
@@ -17,7 +18,6 @@ from pydantic import (
 )
 
 from libresvip.core.constants import DEFAULT_PHONEME
-from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
@@ -362,18 +362,21 @@ class SVNote(BaseModel):
         return self.model_copy(deep=True, update={"pitch": self.pitch + pitch_offset})
 
     @staticmethod
-    def normalize_lyric(note: Note) -> str:
+    def normalize_lyric(lyric: str) -> str:
+        return re.sub(
+            r"[\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"'‘’“”]",
+            "",
+            lyric,
+        ).strip()
+
+    @classmethod
+    def normalize_phoneme(cls, note: Note) -> str:
         if note.pronunciation:
             return note.pronunciation
-        elif valid_chars := re.sub(
-            r"[\s\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”]",
-            "",
-            note.lyric,
-        ):
-            if (hanzi := CHINESE_RE.search(valid_chars)) is not None:
-                return hanzi.group(0)
-            else:
-                return valid_chars
+        elif (hanzi := re.search(rf"[{zhon.hanzi.characters}]+", note.lyric)) is not None:
+            return hanzi[0]
+        elif valid_chars := cls.normalize_lyric(note.lyric):
+            return valid_chars
         else:
             return DEFAULT_PHONEME
 

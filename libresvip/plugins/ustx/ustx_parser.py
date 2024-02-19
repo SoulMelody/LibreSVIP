@@ -1,7 +1,11 @@
 import dataclasses
+import re
+
+import pypinyin
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
+from libresvip.core.lyric_phoneme.japanese import is_kana, to_romaji
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -25,6 +29,8 @@ from .model import (
 )
 from .options import InputOptions
 from .util import BasePitchGenerator
+
+PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
 
 
 @dataclasses.dataclass
@@ -135,8 +141,15 @@ class UstxParser:
                 start_pos=ustx_note.position + tick_prefix,
                 length=ustx_note.duration,
             )
-            if (CHINESE_RE.search(ustx_note.lyric) is None) and len(ustx_note.lyric) > 1:
-                note.pronunciation = ustx_note.lyric
+            if ustx_note.lyric:
+                if (phonetic_hint := PHONETIC_HINT_RE.search(ustx_note.lyric)) is not None:
+                    note.pronunciation = phonetic_hint.group(1)
+                elif is_kana(ustx_note.lyric):
+                    note.pronunciation = to_romaji(ustx_note.lyric)
+                elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
+                    note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group(1)))
+                else:
+                    note.pronunciation = ustx_note.lyric
             note_list.append(note)
         return note_list
 
