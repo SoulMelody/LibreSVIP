@@ -86,7 +86,7 @@ def append_utau_note_vibrato(
             round(
                 tick_time_transformer.get_actual_ticks_from_secs((x + note_start_in_millis) / 1000)
             ),
-            round(y),
+            round(y * 100),
         )
         for x, y in interpolated_points
     ]

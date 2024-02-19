@@ -36,33 +36,28 @@ class RelativePitchCurve:
         interval_dict = self.get_interval_dict(note_list)
         note_index, prev_index = 0, -1
         for point in points:
+            x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
             if note_index < 0:
                 continue
             elif note_index > prev_index:
                 prev_index = note_index
                 if to_absolute:
-                    if len(converted_data) > 0:
+                    if converted_data:
                         converted_data.append(Point(x=converted_data[-1].x, y=-100))
                     else:
                         converted_data.append(Point.start_point())
-                    converted_data.append(
-                        Point(
-                            x=point.x
-                            + (self.first_bar_length if to_absolute else -self.first_bar_length),
-                            y=-100,
-                        )
-                    )
+                    converted_data.append(Point(x=x, y=-100))
             if not to_absolute and point.y == -100:
                 continue
-            base_key = interval_dict[point.x]
+            base_key = interval_dict[x]
             y = point.y + (base_key if to_absolute else -base_key) * 100
             converted_data.append(
                 Point(
-                    x=point.x + (self.first_bar_length if to_absolute else -self.first_bar_length),
+                    x=x,
                     y=round(y),
                 )
             )
-        if len(converted_data) > 0 and to_absolute:
+        if converted_data and to_absolute:
             converted_data.append(Point.end_point())
         return self.append_points_at_borders(converted_data, note_list, radius=border_append_radius)
 
