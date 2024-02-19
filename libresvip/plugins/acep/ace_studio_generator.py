@@ -212,6 +212,7 @@ class AceGenerator:
             pos=round(note.start_pos) - self.pattern_start,
             pitch=note.key_number,
             lyric=note.lyric,
+            language=self.options.lyric_language,
         )
         ace_note.dur = round(note.end_pos - note.start_pos)
 

@@ -4,7 +4,10 @@ from libresvip.model.base import BaseModel
 
 
 class InputOptions(BaseModel):
-    pass
+    encoding: str = Field(
+        default="auto",
+        title="Text encoding",
+    )
 
 
 class OutputOptions(BaseModel):
