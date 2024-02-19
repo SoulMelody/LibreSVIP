@@ -100,6 +100,7 @@ class USTGenerator:
             if cur_bpm != prev_bpm:
                 utau_note.tempo = cur_bpm
                 prev_bpm = cur_bpm
-            prev_end_pos = note.end_pos
             utau_notes.append(utau_note)
+            prev_end_pos = note.end_pos
+            note_index += 1
         return UTAUTrack(notes=utau_notes)

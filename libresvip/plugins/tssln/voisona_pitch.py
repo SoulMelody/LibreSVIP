@@ -191,7 +191,7 @@ def generate_for_voisona(
                 VoiSonaPitchEventFloat(float(index), float(repeat), float(value))
             )
     are_events_connected_to_next = [
-        this_event.index + this_event.repeat >= next_event.index if next_event else False
+        this_event.idx + this_event.repeat >= next_event.idx if next_event else False
         for this_event, next_event in zip(
             events_with_full_params, events_with_full_params[1:] + [None]
         )
@@ -292,9 +292,9 @@ def remove_redundant_index(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitch
     for prev_event, event in zip([None] + events[:-1], events):
         if (
             prev_event is not None
-            and prev_event.index is not None
+            and prev_event.idx is not None
             and prev_event.repeat is not None
-            and prev_event.index + prev_event.repeat == event.idx
+            and prev_event.idx + prev_event.repeat == event.idx
         ):
             new_events.append(VoiSonaPitchEvent(None, event.repeat, event.value))
         else:

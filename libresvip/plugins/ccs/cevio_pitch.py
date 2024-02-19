@@ -18,19 +18,19 @@ from .constants import (
 )
 
 
-class CeVIOPitchEvent(NamedTuple):
+class CeVIOParamEvent(NamedTuple):
     idx: Optional[int]
     repeat: Optional[int]
     value: float
 
 
-class CeVIOPitchEventFloat(NamedTuple):
+class CeVIOParamEventFloat(NamedTuple):
     idx: Optional[float]
     repeat: Optional[float]
     value: Optional[float]
 
     @classmethod
-    def from_event(cls, event: CeVIOPitchEvent) -> CeVIOPitchEventFloat:
+    def from_event(cls, event: CeVIOParamEvent) -> CeVIOParamEventFloat:
         return cls(
             float(event.idx) if event.idx is not None else None,
             float(event.repeat) if event.repeat is not None else None,
@@ -40,9 +40,11 @@ class CeVIOPitchEventFloat(NamedTuple):
 
 @dataclasses.dataclass
 class CeVIOTrackPitchData:
-    events: list[CeVIOPitchEvent]
+    events: list[CeVIOParamEvent]
     tempos: list[SongTempo]
     tick_prefix: int
+    vibrato_amplitude_events: list[CeVIOParamEvent] = dataclasses.field(default_factory=list)
+    vibrato_frequency_events: list[CeVIOParamEvent] = dataclasses.field(default_factory=list)
 
     @property
     def length(self) -> int:
@@ -57,7 +59,9 @@ def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
     converted_points = [Point.start_point()]
     current_value = -100
 
-    events_normalized = shape_events(normalize_to_tick(append_ending_points(data)))
+    events_normalized = shape_events(
+        normalize_to_tick(append_ending_points(data.events), data.tempos, data.tick_prefix)
+    )
 
     next_pos = None
     for event in events_normalized:
@@ -78,25 +82,27 @@ def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
     return ParamCurve(points=Points(root=converted_points)) if len(converted_points) > 2 else None
 
 
-def append_ending_points(data: CeVIOTrackPitchData) -> CeVIOTrackPitchData:
+def append_ending_points(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
     result = []
     next_pos = None
-    for event in data.events:
+    for event in events:
         pos = event.idx if event.idx is not None else next_pos
         length = event.repeat if event.repeat is not None else 1
         if next_pos is not None and next_pos < pos:
-            result.append(CeVIOPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-        result.append(CeVIOPitchEvent(pos, length, event.value))
+            result.append(CeVIOParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+        result.append(CeVIOParamEvent(pos, length, event.value))
         next_pos = pos + length
     if next_pos is not None:
-        result.append(CeVIOPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-    return CeVIOTrackPitchData(result, data.tempos, data.tick_prefix)
+        result.append(CeVIOParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+    return result
 
 
-def normalize_to_tick(data: CeVIOTrackPitchData) -> list[CeVIOPitchEventFloat]:
-    tempos = expand(data.tempos, data.tick_prefix)
-    events = [CeVIOPitchEventFloat.from_event(event) for event in data.events]
-    events_normalized: list[CeVIOPitchEventFloat] = []
+def normalize_to_tick(
+    events: list[CeVIOParamEvent], tempo_list: list[SongTempo], tick_prefix: int
+) -> list[CeVIOParamEventFloat]:
+    tempos = expand(tempo_list, tick_prefix)
+    events = [CeVIOParamEventFloat.from_event(event) for event in events]
+    events_normalized: list[CeVIOParamEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
@@ -134,10 +140,10 @@ def normalize_to_tick(data: CeVIOTrackPitchData) -> list[CeVIOPitchEventFloat]:
         )
         next_pos = pos + repeat
         next_tick_pos = tick_pos + repeat_in_ticks
-        events_normalized.append(CeVIOPitchEventFloat(tick_pos, repeat_in_ticks, event.value))
+        events_normalized.append(CeVIOParamEventFloat(tick_pos, repeat_in_ticks, event.value))
     return [
-        CeVIOPitchEventFloat(
-            tick.idx + data.tick_prefix,
+        CeVIOParamEventFloat(
+            tick.idx + tick_prefix,
             tick.repeat,
             tick.value if tick.value != TEMP_VALUE_AS_NULL else None,
         )
@@ -146,9 +152,9 @@ def normalize_to_tick(data: CeVIOTrackPitchData) -> list[CeVIOPitchEventFloat]:
 
 
 def shape_events(
-    events_with_full_params: list[CeVIOPitchEventFloat],
-) -> list[CeVIOPitchEventFloat]:
-    result: list[CeVIOPitchEventFloat] = []
+    events_with_full_params: list[CeVIOParamEventFloat],
+) -> list[CeVIOParamEventFloat]:
+    result: list[CeVIOParamEventFloat] = []
     for event in events_with_full_params:
         if event.repeat is not None and event.repeat > 0:
             if result:
@@ -188,10 +194,10 @@ def generate_for_cevio(
         value = math.log(midi2hz(this_point.y / 100)) if this_point.y != -100 else None
         if value is not None:
             events_with_full_params.append(
-                CeVIOPitchEventFloat(float(index), float(repeat), float(value))
+                CeVIOParamEventFloat(float(index), float(repeat), float(value))
             )
     are_events_connected_to_next = [
-        this_event.index + this_event.repeat >= next_event.index if next_event else False
+        this_event.idx + this_event.repeat >= next_event.idx if next_event else False
         for this_event, next_event in zip(
             events_with_full_params, events_with_full_params[1:] + [None]
         )
@@ -214,10 +220,10 @@ def generate_for_cevio(
 
 
 def denormalize_from_tick(
-    events_with_full_params: list[CeVIOPitchEventFloat],
+    events_with_full_params: list[CeVIOParamEventFloat],
     tempos_in_ticks: list[SongTempo],
     tick_prefix: int,
-) -> list[CeVIOPitchEvent]:
+) -> list[CeVIOParamEvent]:
     tempos = expand(
         [
             tempo.model_copy(update={"position": tempo.position + tick_prefix})
@@ -254,22 +260,22 @@ def denormalize_from_tick(
             )
             current_tempo_index += 1
         repeat += repeat_in_ticks / (TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2])
-        events.append(CeVIOPitchEvent(round(pos), int(round(repeat)), event_double.value or 0))
+        events.append(CeVIOParamEvent(round(pos), int(round(repeat)), event_double.value or 0))
     return events
 
 
 def restore_connection(
-    events: list[CeVIOPitchEvent], are_events_connected_to_next: list[bool]
-) -> list[CeVIOPitchEvent]:
+    events: list[CeVIOParamEvent], are_events_connected_to_next: list[bool]
+) -> list[CeVIOParamEvent]:
     new_events = []
     for event, is_connected_to_next in zip(events, are_events_connected_to_next):
         new_events.append(event)
         if not is_connected_to_next:
-            new_events.append(CeVIOPitchEvent(event.idx + event.repeat, 0, event.value))
+            new_events.append(CeVIOParamEvent(event.idx + event.repeat, 0, event.value))
     return new_events
 
 
-def merge_events_if_possible(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEvent]:
+def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
     new_events = []
     for event, next_event in zip(events, events[1:] + [None]):
         if (
@@ -278,27 +284,27 @@ def merge_events_if_possible(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEv
             and event.idx + event.repeat == next_event.idx
         ):
             new_events.append(
-                CeVIOPitchEvent(event.idx, event.repeat + next_event.repeat, event.value)
+                CeVIOParamEvent(event.idx, event.repeat + next_event.repeat, event.value)
             )
         else:
             new_events.append(event)
     return new_events
 
 
-def remove_redundant_index(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEvent]:
+def remove_redundant_index(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
     new_events = []
     for prev_event, event in zip([None] + events[:-1], events):
         if (
             prev_event is not None
-            and prev_event.index is not None
+            and prev_event.idx is not None
             and prev_event.repeat is not None
-            and prev_event.index + prev_event.repeat == event.idx
+            and prev_event.idx + prev_event.repeat == event.idx
         ):
-            new_events.append(CeVIOPitchEvent(None, event.repeat, event.value))
+            new_events.append(CeVIOParamEvent(None, event.repeat, event.value))
         else:
             new_events.append(event)
     return new_events
 
 
-def remove_redundant_repeat(events: list[CeVIOPitchEvent]) -> list[CeVIOPitchEvent]:
+def remove_redundant_repeat(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
     return [event if event.repeat != 1 else event._replace(repeat=None) for event in events]

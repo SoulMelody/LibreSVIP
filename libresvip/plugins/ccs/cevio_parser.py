@@ -17,7 +17,7 @@ from libresvip.model.base import (
     Track,
 )
 
-from .cevio_pitch import CeVIOPitchEvent, CeVIOTrackPitchData, pitch_from_cevio_track
+from .cevio_pitch import CeVIOParamEvent, CeVIOTrackPitchData, pitch_from_cevio_track
 from .constants import OCTAVE_OFFSET, TICK_RATE
 from .model import CeVIOCreativeStudioProject, CeVIOData, CeVIOGroup, CeVIOUnit
 from .options import InputOptions
@@ -183,12 +183,36 @@ class CeVIOParser:
             pitch_data_nodes: list[CeVIOData] = cast(
                 list[CeVIOData], unit_node.song.parameter.log_f0.data
             )
+            vibrato_amplitude_nodes: list[CeVIOData] = cast(
+                list[CeVIOData],
+                unit_node.song.parameter.vib_amp.data
+                if unit_node.song.parameter.vib_amp is not None
+                else [],
+            )
+            vibrato_frequency_nodes: list[CeVIOData] = cast(
+                list[CeVIOData],
+                unit_node.song.parameter.vib_frq.data
+                if unit_node.song.parameter.vib_frq is not None
+                else [],
+            )
             pitch_datas = []
-            for data_node in pitch_data_nodes:
-                if pitch_data := self.parse_pitch_data(data_node):
+            vibrato_amplitude_data = []
+            vibrato_frequency_data = []
+            for pitch_data_node in pitch_data_nodes:
+                if pitch_data := self.parse_param_data(pitch_data_node):
                     pitch_datas.append(pitch_data)
+            for vibrato_amplitude_node in vibrato_amplitude_nodes:
+                if vibrato_amplitude := self.parse_param_data(vibrato_amplitude_node):
+                    vibrato_amplitude_data.append(vibrato_amplitude)
+            for vibrato_frequency_node in vibrato_frequency_nodes:
+                if vibrato_frequency := self.parse_param_data(vibrato_frequency_node):
+                    vibrato_frequency_data.append(vibrato_frequency)
             cevio_track_pitch_data = CeVIOTrackPitchData(
-                events=pitch_datas, tempos=tempos, tick_prefix=tick_prefix
+                events=pitch_datas,
+                tempos=tempos,
+                tick_prefix=tick_prefix,
+                vibrato_amplitude_events=vibrato_amplitude_data,
+                vibrato_frequency_events=vibrato_frequency_data,
             )
 
         track_name = track_name or f"Track {index + 1}"
@@ -207,9 +231,9 @@ class CeVIOParser:
         return track, tempos, time_signatures
 
     @staticmethod
-    def parse_pitch_data(data_element: CeVIOData) -> Optional[CeVIOPitchEvent]:
+    def parse_param_data(data_element: CeVIOData) -> Optional[CeVIOParamEvent]:
         value = float(data_element.value) if data_element.value is not None else None
         if value is not None:
             index = data_element.index or None
             repeat = data_element.repeat or None
-            return CeVIOPitchEvent(idx=index, repeat=repeat, value=value)
+            return CeVIOParamEvent(idx=index, repeat=repeat, value=value)
