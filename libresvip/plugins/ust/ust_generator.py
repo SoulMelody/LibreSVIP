@@ -58,16 +58,25 @@ class USTGenerator:
         )
         utau_notes = []
         prev_bpm = tempo_list[0].bpm
-        for i, (note, mode1_pitch, mode2_pitch) in enumerate(
-            zip(
-                track.note_list,
-                mode1_track_pitch_data.notes,
-                mode2_track_pitch_data.notes,
-            )
+        prev_end_pos = None
+        note_index = 0
+        for note, mode1_pitch, mode2_pitch in zip(
+            track.note_list,
+            mode1_track_pitch_data.notes,
+            mode2_track_pitch_data.notes,
         ):
+            if rest_length := note.start_pos - (prev_end_pos if prev_end_pos is not None else 0):
+                rest_note = UTAUNote(
+                    note_type=str(note_index).zfill(4),
+                    lyric="R",
+                    length=rest_length,
+                    note_num=60,
+                )
+                utau_notes.append(rest_note)
+                note_index += 1
             cur_bpm = bpm_for_note(tempo_list, note)
             utau_note = UTAUNote(
-                note_type=str(i).zfill(4),
+                note_type=str(note_index).zfill(4),
                 lyric=note.lyric,
                 length=note.length,
                 note_num=note.key_number,
@@ -91,7 +100,6 @@ class USTGenerator:
             if cur_bpm != prev_bpm:
                 utau_note.tempo = cur_bpm
                 prev_bpm = cur_bpm
+            prev_end_pos = note.end_pos
             utau_notes.append(utau_note)
-        return UTAUTrack(
-            notes=utau_notes,
-        )
+        return UTAUTrack(notes=utau_notes)
