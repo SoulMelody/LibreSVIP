@@ -12,6 +12,7 @@ import math
 import sys
 from typing import IO, TYPE_CHECKING, Any, Optional, Union
 
+from loguru import logger
 from PySide6 import QtCore
 
 with contextlib.suppress(
@@ -29,7 +30,6 @@ if TYPE_CHECKING:
 
     from _typeshed import Incomplete, ReadableBuffer, WriteableBuffer
     from _winapi import Overlapped
-    from loguru._logger import Logger
 
     ProactorEvent = tuple[
         asyncio.Future[Any],
@@ -39,13 +39,12 @@ if TYPE_CHECKING:
         Overlapped,
     ]
 
-from ._common import make_signaller, with_logger
+from ._common import make_signaller
 
 UINT32_MAX = 0xFFFFFFFF
 
 
 class _ProactorEventLoop(asyncio.ProactorEventLoop):  # type: ignore[name-defined]
-    _logger: Logger
 
     """Proactor based event loop."""
 
@@ -61,10 +60,10 @@ class _ProactorEventLoop(asyncio.ProactorEventLoop):  # type: ignore[name-define
         """Process events from proactor."""
         for f, callback, transferred, key, ov in events:
             try:
-                self._logger.debug("Invoking event callback {}", callback)
+                logger.debug("Invoking event callback {}", callback)
                 value = callback(transferred, key, ov)
             except OSError as e:
-                self._logger.exception("Event callback failed", exc_info=sys.exc_info())
+                logger.exception("Event callback failed", exc_info=sys.exc_info())
                 if not f.done():
                     f.set_exception(e)
             else:
@@ -78,10 +77,7 @@ class _ProactorEventLoop(asyncio.ProactorEventLoop):  # type: ignore[name-define
         self.__event_poller.stop()
 
 
-@with_logger
 class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
-    _logger: Logger
-
     def __init__(self) -> None:
         self.__events: list[ProactorEvent] = []
         super().__init__()
@@ -96,7 +92,7 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         return tmp
 
     def close(self) -> None:
-        self._logger.debug("Closing")
+        logger.debug("Closing")
         super().close()
 
     # Wrap all I/O submission methods to acquire the internal lock first; listed
@@ -222,9 +218,7 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         self._unregistered.clear()
 
 
-@with_logger
 class _EventPoller:
-    _logger: Logger
     sig_events: QtCore.SignalInstance
 
     """Polling of events in separate thread."""
@@ -233,19 +227,16 @@ class _EventPoller:
         self.sig_events = sig_events
 
     def start(self, proactor: _IocpProactor) -> None:
-        self._logger.debug("Starting (proactor: {})...", proactor)
+        logger.debug("Starting (proactor: {})...", proactor)
         self.__worker = _EventWorker(proactor, self)
         self.__worker.start()
 
     def stop(self) -> None:
-        self._logger.debug("Stopping worker thread...")
+        logger.debug("Stopping worker thread...")
         self.__worker.stop()
 
 
-@with_logger
 class _EventWorker(QtCore.QThread):
-    _logger: Logger
-
     def __init__(self, proactor: _IocpProactor, parent: _EventPoller) -> None:
         super().__init__()
 
@@ -264,12 +255,12 @@ class _EventWorker(QtCore.QThread):
         self.wait()
 
     def run(self) -> None:
-        self._logger.debug("Thread started")
+        logger.debug("Thread started")
         self.__semaphore.release()
 
         while not self.__stop:
             if events := self.__proactor.select(0.01):  # type: ignore[arg-type]
-                self._logger.debug("Got events from poll: {}", events)
+                logger.debug("Got events from poll: {}", events)
                 self.__sig_events.emit(events)
 
-        self._logger.debug("Exiting thread")
+        logger.debug("Exiting thread")

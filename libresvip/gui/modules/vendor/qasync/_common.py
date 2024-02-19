@@ -6,11 +6,8 @@
 """Mostly irrelevant, but useful utilities common to UNIX and Windows."""
 import selectors
 
-from loguru import logger
 from PySide6 import QtCore
-from typing_extensions import TypeVar
 
-T = TypeVar("T")
 _fileno = selectors._fileobj_to_fd
 
 
@@ -19,16 +16,3 @@ def make_signaller(*types: type) -> QtCore.QObject:
         signal = QtCore.Signal(*types)
 
     return Signaller()
-
-
-def with_logger(cls: T) -> T:
-    """Class decorator to add a logger to a class."""
-    attr_name = "_logger"
-    cls_name = cls.__qualname__
-    module = cls.__module__
-    if module is not None:
-        cls_name = f"{module}.{cls_name}"
-    else:
-        raise AssertionError
-    setattr(cls, attr_name, logger)
-    return cls

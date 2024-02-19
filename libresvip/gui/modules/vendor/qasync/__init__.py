@@ -28,10 +28,11 @@ from concurrent.futures import Future
 from queue import Queue
 from typing import TYPE_CHECKING, Any, Optional
 
+from loguru import logger
 from PySide6 import QtCore, QtWidgets
 from typing_extensions import ParamSpec, Self, TypeVar, TypeVarTuple, Unpack
 
-from ._common import _fileno, make_signaller, with_logger
+from ._common import _fileno, make_signaller
 
 from __feature__ import snake_case, true_property  # isort: skip  # noqa: F401
 
@@ -42,7 +43,6 @@ if TYPE_CHECKING:
     from types import TracebackType
 
     from _typeshed import FileDescriptor
-    from loguru._logger import Logger
 
     _T = TypeVar("_T")
     _P = ParamSpec("_P")
@@ -52,9 +52,7 @@ Slot = QtCore.Slot
 QApplication = QtWidgets.QApplication
 
 
-@with_logger
 class _QThreadWorker(QtCore.QThread):
-    _logger: Logger
     """
     Read jobs from the queue and then execute them.
 
@@ -77,7 +75,6 @@ class _QThreadWorker(QtCore.QThread):
         stack_size: Optional[int] = None,
     ) -> None:
         self.__queue = queue
-        self.__stop = False
         self.__num = num
         super().__init__()
         if stack_size is not None:
@@ -92,7 +89,7 @@ class _QThreadWorker(QtCore.QThread):
                 break
 
             future, callback, args, kwargs = command
-            self._logger.debug(
+            logger.debug(
                 "#{} got callback {} with args {} and kwargs {} from queue",
                 self.__num,
                 callback,
@@ -100,28 +97,26 @@ class _QThreadWorker(QtCore.QThread):
                 kwargs,
             )
             if future.set_running_or_notify_cancel():
-                self._logger.debug("Invoking callback")
+                logger.debug("Invoking callback")
                 try:
                     r = callback(*args, **kwargs)
                 except Exception as err:
-                    self._logger.debug("Setting Future exception: {}", err)
+                    logger.debug("Setting Future exception: {}", err)
                     future.set_exception(err)
                 else:
-                    self._logger.debug("Setting Future result: {}", r)
+                    logger.debug("Setting Future result: {}", r)
                     future.set_result(r)
             else:
-                self._logger.debug("Future was canceled")
+                logger.debug("Future was canceled")
 
-        self._logger.debug("Thread #{} stopped", self.__num)
+        logger.debug("Thread #{} stopped", self.__num)
 
     def wait(self) -> None:
-        self._logger.debug("Waiting for thread #{} to stop...", self.__num)
+        logger.debug("Waiting for thread #{} to stop...", self.__num)
         super().wait()
 
 
-@with_logger
 class QThreadExecutor:
-    _logger: Logger
     """
     ThreadExecutor that produces QThreads.
 
@@ -159,7 +154,7 @@ class QThreadExecutor:
             msg = "QThreadExecutor has been shutdown"
             raise RuntimeError(msg)
         future: Future[_T] = Future()
-        self._logger.debug(
+        logger.debug(
             "Submitting callback {} with args {} and kwargs {} to thread worker queue",
             callback,
             args,
@@ -175,7 +170,7 @@ class QThreadExecutor:
 
         self.__been_shutdown = True
 
-        self._logger.debug("Shutting down")
+        logger.debug("Shutting down")
         for _ in range(len(self.__workers)):
             # Signal workers to stop
             self.__queue.put(None)
@@ -195,10 +190,7 @@ class QThreadExecutor:
         self.shutdown()
 
 
-@with_logger
 class _SimpleTimer(QtCore.QObject):
-    _logger: Logger
-
     def __init__(self) -> None:
         super().__init__()
         self.__callbacks: dict[int, asyncio.Handle] = {}
@@ -243,12 +235,10 @@ class _SimpleTimer(QtCore.QObject):
 
     def __log_debug(self, *args: _P.args, **kwargs: _P.kwargs) -> None:
         if self.__debug_enabled:
-            self._logger.debug(*args, **kwargs)
+            logger.debug(*args, **kwargs)
 
 
-@with_logger
 class _QEventLoop(asyncio.AbstractEventLoop):
-    _logger: Logger
     """
     Implementation of asyncio event loop that uses the Qt Event loop.
 
@@ -559,7 +549,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         *args: Unpack[_Ts],
     ) -> None:
         if fd not in notifiers:
-            self._logger.warning(
+            logger.warning(
                 "Socket notifier for fd {} is ready, even though it should "
                 "be disabled, not calling {} and disabling",
                 fd,
@@ -707,7 +697,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
 
     def __log_debug(self, *args: _P.args, **kwargs: _P.kwargs) -> None:
         if self.__debug_enabled:
-            self._logger.debug(*args, **kwargs)
+            logger.debug(*args, **kwargs)
 
     @classmethod
     def __log_error(cls, *args: _P.args, **kwds: _P.kwargs) -> None:

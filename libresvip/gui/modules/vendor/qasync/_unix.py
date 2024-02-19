@@ -11,13 +11,13 @@ import selectors
 from collections.abc import Iterator, Mapping
 from typing import TYPE_CHECKING, Any, Optional
 
+from loguru import logger
 from PySide6 import QtCore
 
-from ._common import _fileno, with_logger
+from ._common import _fileno
 
 if TYPE_CHECKING:
     from _typeshed import FileDescriptor, FileDescriptorLike
-    from loguru._logger import Logger
 
 
 EVENT_READ = 1 << 0
@@ -46,10 +46,7 @@ class _SelectorMapping(Mapping[int, selectors.SelectorKey]):
         yield from iter(self._selector._fd_to_key)
 
 
-@with_logger
 class _Selector(selectors.BaseSelector):
-    _logger: Logger
-
     def __init__(self, parent: _SelectorEventLoop) -> None:
         # this maps file descriptors to keys
         self._fd_to_key: dict[FileDescriptor, selectors.SelectorKey] = {}
@@ -109,12 +106,12 @@ class _Selector(selectors.BaseSelector):
         return key
 
     def __on_read_activated(self, fd: FileDescriptor) -> None:
-        self._logger.debug("File {} ready to read", fd)
+        logger.debug("File {} ready to read", fd)
         if key := self._key_from_fd(fd):
             self.__parent._process_event(key, EVENT_READ & key.events)
 
     def __on_write_activated(self, fd: FileDescriptor) -> None:
-        self._logger.debug("File {} ready to write", fd)
+        logger.debug("File {} ready to write", fd)
         if key := self._key_from_fd(fd):
             self.__parent._process_event(key, EVENT_WRITE & key.events)
 
@@ -156,7 +153,7 @@ class _Selector(selectors.BaseSelector):
         return key
 
     def close(self) -> None:
-        self._logger.debug("Closing")
+        logger.debug("Closing")
         self._fd_to_key.clear()
         self.__read_notifiers.clear()
         self.__write_notifiers.clear()
@@ -182,8 +179,6 @@ class _Selector(selectors.BaseSelector):
 
 
 class _SelectorEventLoop(asyncio.SelectorEventLoop):
-    _logger: Logger
-
     def __init__(self) -> None:
         selector = _Selector(self)
         super().__init__(selector)
@@ -196,17 +191,17 @@ class _SelectorEventLoop(asyncio.SelectorEventLoop):
 
     def _process_event(self, key: selectors.SelectorKey, mask: int) -> None:
         """Selector has delivered us an event."""
-        self._logger.debug("Processing event with key {} and mask {}", key, mask)
+        logger.debug("Processing event with key {} and mask {}", key, mask)
         fileobj, (reader, writer) = key.fileobj, key.data
         if mask & selectors.EVENT_READ and reader is not None:
             if reader._cancelled:
                 self.remove_reader(fileobj)
             else:
-                self._logger.debug("Invoking reader callback: {}", reader)
+                logger.debug("Invoking reader callback: {}", reader)
                 reader._run()
         if mask & selectors.EVENT_WRITE and writer is not None:
             if writer._cancelled:
                 self.remove_writer(fileobj)
             else:
-                self._logger.debug("Invoking writer callback: {}", writer)
+                logger.debug("Invoking writer callback: {}", writer)
                 writer._run()

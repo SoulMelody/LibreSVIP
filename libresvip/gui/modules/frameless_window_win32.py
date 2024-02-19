@@ -49,8 +49,8 @@ class FramelessWindow(QQuickWindow):
     def get_point_from_lparam(self, l_param: int) -> tuple[int, int]:
         pixel_ratio = self.screen().device_pixel_ratio
         return (
-            (l_param & 0xFFFF) // pixel_ratio - self.x,
-            (l_param >> 16) // pixel_ratio - self.y,
+            (ctypes.c_short(l_param & 0xFFFF).value) // pixel_ratio - self.x,
+            (ctypes.c_short((l_param >> 16) & 0xFFFF).value) // pixel_ratio - self.y,
         )
 
     @property
