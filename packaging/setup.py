@@ -15,7 +15,6 @@ sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 from bdist_portable import BdistPortable  # noqa: E402
 
 import libresvip  # noqa: E402
-from libresvip.core.constants import pkg_dir  # noqa: E402
 
 bin_includes = []
 bin_path_includes = [shiboken6.__path__[0]]
@@ -33,7 +32,20 @@ except ImportError:
     get_qt_plugins_paths = None
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
-include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
+include_files: list[tuple[pathlib.Path, pathlib.Path]] = []
+zip_includes: list[tuple[str, str]] = [
+    ("../libresvip/res", "libresvip/res"),
+]
+zip_includes.extend(
+    (
+        str(plugin_info),
+        str(plugin_info.as_posix())[3:],
+    )
+    for plugin_info in pathlib.Path("../libresvip/plugins").rglob("**/*.*")
+    if plugin_info.is_file()
+    and not plugin_info.name.endswith(".py")
+    and not plugin_info.name.endswith(".pyc")
+)
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
@@ -135,7 +147,7 @@ build_exe_options = {
                 "3DRender",
             )
         ),
-        [],
+        [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")],
     ),
     "bin_includes": bin_includes,
     "bin_path_includes": bin_path_includes,
@@ -163,28 +175,29 @@ build_exe_options = {
         "uvicorn",
         "webview",
         "wx",
+        "libresvip.web",
     ],
     "include_files": include_files,
-    "zip_include_packages": ["PySide6"],
+    "zip_includes": zip_includes,
+    "zip_include_packages": [
+        "PySide6",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.gui",
+        "libresvip.model",
+        "libresvip.plugins",
+    ],
     "packages": [
         "anyio",
-        "bidict",
-        "construct_typed",
-        "drawsvg",
-        "google.protobuf",
-        "jinja2",
-        "libresvip",
-        "mido_fix",
-        "parsimonious",
-        "proto",
-        "pymediainfo",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.model",
+        "libresvip.gui",
+        "libresvip.plugins",
         "PySide6.QtQuick",
         "PySide6.QtOpenGL",
-        "srt",
-        "xsdata",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
-        "zstandard",
     ],
 }
 

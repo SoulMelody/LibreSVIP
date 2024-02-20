@@ -3,10 +3,18 @@ import functools
 import inspect
 import os
 import pathlib
+import posixpath
 import sys
 import types
-from importlib.abc import MetaPathFinder
-from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader, all_suffixes
+import zipfile
+from importlib.abc import Loader, MetaPathFinder
+from importlib.machinery import (
+    ModuleSpec,
+    PathFinder,
+    SourceFileLoader,
+    SourcelessFileLoader,
+    all_suffixes,
+)
 from importlib.util import module_from_spec, spec_from_file_location
 from types import ModuleType
 from typing import Optional, cast
@@ -21,20 +29,44 @@ from libresvip.core.constants import app_dir, pkg_dir
 from .base import BasePlugin, SVSConverterBase
 from .meta_info import LibreSvipPluginInfo
 
-# import zipfile
+
+class ZipLoader(SourcelessFileLoader):
+    def __init__(self, zip_file: zipfile.ZipFile, file_path: str) -> None:
+        self.zip_file = zip_file
+        self.file_path = file_path
+
+    def create_module(self, spec: ModuleSpec) -> types.ModuleType:
+        return sys.modules.get(spec.name)
+
+    def get_filename(self, fullname: str) -> str:  # type: ignore[override]
+        return self.file_path
+
+    def get_data(self, path: str) -> bytes:
+        return self.zip_file.read(path)
+
+    def exec_module(self, module: types.ModuleType) -> None:
+        if compiled := super().get_code(module.__name__):
+            exec(compiled, module.__dict__)
 
 
 def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
-    if (
-        spec := spec_from_file_location(name, cast(pathlib.Path, plugin_path))
-    ) is None or spec.loader is None:
+    spec = None
+    if isinstance(plugin_path, zipfile.Path) and plugin_path.root.filename is not None:
+        loader = ZipLoader(zip_file=plugin_path.root, file_path=plugin_path.at)
+        spec = ModuleSpec(name, cast(Loader, loader), is_package=True, origin=plugin_path.at)
+    else:
+        spec = spec_from_file_location(
+            name,
+            cast(pathlib.Path, plugin_path),
+            submodule_search_locations=[
+                str(plugin_path)
+                if plugin_path.is_dir()
+                else str(plugin_path).removesuffix(plugin_path.name)
+            ],
+        )
+    if spec is None or spec.loader is None:
         msg = f"Cannot load plugin from {plugin_path}"
         raise ImportError(msg)
-    spec.submodule_search_locations = [
-        str(plugin_path)
-        if plugin_path.is_dir()
-        else str(plugin_path).removesuffix(plugin_path.name)
-    ]
     module = module_from_spec(spec)
     try:
         spec.loader.exec_module(module)
@@ -96,8 +128,9 @@ class PluginManager:
             plugin_dirname = (
                 str(candidate_filepath)
                 .removesuffix(candidate_filepath.name)
-                .removesuffix(os.path.sep)
-                .rpartition(os.path.sep)[-1]
+                .replace(os.path.sep, posixpath.sep)
+                .removesuffix(posixpath.sep)
+                .rpartition(posixpath.sep)[-1]
             )
             plugin_package = f"{self.plugin_namespace}.{plugin_dirname}"
         if plugin_package not in sys.modules or reload:
@@ -172,7 +205,8 @@ class PluginManager:
                 candidate_module = self._import_module(
                     plugin_module_name, candidate_filepath, reload
                 )
-            except Exception:
+            except Exception as e:
+                logger.exception(e)
                 logger.error(
                     f"Unable to import plugin: {candidate_filepath}",
                 )
