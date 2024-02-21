@@ -163,6 +163,8 @@ class Svip3Generator:
         )
 
     def generate_singing_patterns(self, track: SingingTrack) -> list[Svip3SingingPattern]:
+        if not track.note_list:
+            return []
         last_note = track.note_list[-1]
         if last_note.end_pos > self.song_duration:
             self.song_duration = last_note.end_pos + self.first_bar_length
