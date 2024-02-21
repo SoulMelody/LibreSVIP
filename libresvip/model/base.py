@@ -5,7 +5,6 @@ import sys
 from types import SimpleNamespace
 from typing import (
     Annotated,
-    Any,
     Literal,
     Optional,
     Protocol,
@@ -72,7 +71,11 @@ class ParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def load_points(cls, points: Union[Points, list[Any]], _info: ValidationInfo) -> Points:
+    def load_points(
+        cls,
+        points: Union[Points, list[tuple[int, int]], list[dict[str, int]]],
+        _info: ValidationInfo,
+    ) -> Points:
         return (
             points if isinstance(points, Points) else Points(root=[Point(*each) for each in points])
         )

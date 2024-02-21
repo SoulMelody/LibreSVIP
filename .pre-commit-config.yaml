@@ -16,7 +16,7 @@ repos:
           - --config-file=pyproject.toml
           - libresvip
         pass_filenames: false
-        additional_dependencies: [proto-plus-stubs, pydantic, types-parsimonious, types-pyyaml, types-ujson]
+        additional_dependencies: [proto-plus-stubs, types-parsimonious, types-pyyaml, types-ujson]
 
   - repo: https://github.com/pdm-project/pdm
     rev: 2.12.3

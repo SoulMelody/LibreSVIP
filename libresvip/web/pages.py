@@ -345,11 +345,11 @@ def page_layout(lang: Optional[str] = None) -> None:
         )
 
         def __post_init__(self) -> None:
-            self.input_format = app.storage.user.get("last_input_format") or next(
+            self.input_format = app.storage.user.get("last_input_format") or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
             )
-            self.output_format = app.storage.user.get("last_output_format") or next(
+            self.output_format = app.storage.user.get("last_output_format") or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
             )
@@ -508,7 +508,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         async def add_task(self, args: UploadEventArguments) -> None:
             await self._add_task(args.name, args.content)
 
-        @property
+        @property  # type: ignore[no-redef]
         def input_format(self) -> str:
             return self._input_format
 
@@ -523,7 +523,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 input_panel_header.refresh()
                 input_options.refresh()
 
-        @property
+        @property  # type: ignore[no-redef]
         def output_format(self) -> str:
             return self._output_format
 
