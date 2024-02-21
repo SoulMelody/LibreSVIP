@@ -73,19 +73,23 @@ class VsqGenerator:
     def generate_time_signatures(
         self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
     ) -> None:
-        prev_ticks = 0
+        ticks = 0
+        prev_time_signature = None
         for time_signature in time_signature_list:
+            if prev_time_signature is not None:
+                ticks += round(
+                    prev_time_signature.bar_length(self.options.ticks_per_beat)
+                    * (time_signature.bar_index - prev_time_signature.bar_index)
+                )
             master_track.append(
                 mido.MetaMessage(
                     "time_signature",
                     numerator=time_signature.numerator,
                     denominator=time_signature.denominator,
-                    time=prev_ticks,
+                    time=ticks,
                 )
             )
-            prev_ticks += round(
-                time_signature.bar_index * self.options.ticks_per_beat * time_signature.numerator
-            )
+            prev_time_signature = time_signature
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
         mido_tracks = []
@@ -125,7 +129,7 @@ class VsqGenerator:
         track: SingingTrack,
         track_index: int,
         tracks_count: int,
-        measure_prefix: int = 0,
+        measure_prefix: int = 1,
     ) -> str:
         notes_lines = []
         lyrics_lines = []
@@ -219,7 +223,7 @@ class VsqGenerator:
         self, pitch: ParamCurve, tick_prefix: int, note_list: list[Note]
     ) -> list[str]:
         result = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, note_list):
+        if pitch_raw_data := generate_for_vocaloid(pitch, note_list, self.first_bar_length):
             if len(pitch_raw_data.pit):
                 result.append("[PitchBendBPList]")
                 result.extend(f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit)

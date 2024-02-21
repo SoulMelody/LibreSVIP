@@ -48,12 +48,14 @@ from .vocaloid_pitch import generate_for_vocaloid
 @dataclasses.dataclass
 class Vsq4Generator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
     style_params: dict[str, Union[int, list[int]]] = dataclasses.field(init=False)
     time_synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> Vsq4:
         self.style_params = VocaloidStyleTypes().model_dump(by_alias=True)
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         vsqx = Vsq4()
         mixer = vsqx.mixer
         master_track = vsqx.master_track
@@ -198,7 +200,7 @@ class Vsq4Generator:
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq4MCtrl]:
         music_controls: list[Vsq4MCtrl] = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, notes):
+        if pitch_raw_data := generate_for_vocaloid(pitch, notes, self.first_bar_length):
             music_controls.extend(
                 Vsq4MCtrl(
                     pos_tick=pbs_event.pos,

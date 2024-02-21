@@ -116,10 +116,11 @@ class VsqxParser:
                 title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo
             )
             for musical_part in vs_track.musical_part:
-                tick_offset = musical_part.pos_tick - tick_prefix
-                note_list = self.parse_notes(musical_part.note, tick_offset)
+                note_list = self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
                 singing_track.note_list.extend(note_list)
-                if pitch := self.parse_pitch(musical_part.m_ctrl, note_list, tick_offset):
+                if pitch := self.parse_pitch(
+                    musical_part.m_ctrl, note_list, musical_part.pos_tick - int(tick_prefix * 3 / 4)
+                ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
             singing_tracks.append(singing_track)
         return singing_tracks
@@ -140,14 +141,14 @@ class VsqxParser:
         self, music_controls: list[VsqxMCtrl], note_list: list[Note], tick_offset: int
     ) -> Optional[ParamCurve]:
         pitch_data = VocaloidPartPitchData(
-            start_pos=tick_offset,
+            start_pos=0,
             pit=[
                 ControllerEvent(
                     pos=music_control.pos_tick,
                     value=music_control.attr.value,
                 )
                 for music_control in music_controls
-                if music_control.attr.type_param_attr_id == self.param_names.PIT
+                if music_control.attr.type_param_attr_id == self.param_names.PIT.value
                 and music_control.attr.value is not None
             ],
             pbs=[
@@ -156,11 +157,11 @@ class VsqxParser:
                     value=music_control.attr.value,
                 )
                 for music_control in music_controls
-                if music_control.attr.type_param_attr_id == self.param_names.PBS
+                if music_control.attr.type_param_attr_id == self.param_names.PBS.value
                 and music_control.attr.value is not None
             ],
         )
-        return pitch_from_vocaloid_parts([pitch_data], note_list)
+        return pitch_from_vocaloid_parts([pitch_data], note_list, tick_offset)
 
     def parse_instrumental_tracks(
         self,

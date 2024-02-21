@@ -4,6 +4,7 @@ from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -176,7 +177,9 @@ class BinarySvipGenerator:
                 head_tag=XSNoteHeadTag(
                     value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
                 ),
-                lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
+                lyric=note.lyric
+                if CHINESE_RE.match(note.lyric) is not None
+                else DEFAULT_CHINESE_LYRIC,
                 pronouncing=note.pronunciation or "",
             )
             xs_note.width_pos = (

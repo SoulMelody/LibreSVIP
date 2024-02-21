@@ -41,6 +41,7 @@ from .vocaloid_pitch import pitch_from_vocaloid_parts
 class VocaloidParser:
     options: InputOptions
     archive_file: zipfile.ZipFile
+    first_bar_length: int = dataclasses.field(init=False)
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
 
     def parse_project(self, vpr_project: VocaloidProject) -> Project:
@@ -57,15 +58,19 @@ class VocaloidParser:
             track_list=self.parse_tracks(vpr_project.tracks),
         )
 
-    def parse_time_signatures(self, time_signatures: list[VocaloidTimeSig]) -> list[TimeSignature]:
-        return [
+    def parse_time_signatures(
+        self, vocaloid_time_signatures: list[VocaloidTimeSig]
+    ) -> list[TimeSignature]:
+        time_signatures = [
             TimeSignature(
                 bar_index=time_signature.bar,
                 numerator=time_signature.numer,
                 denominator=time_signature.denom,
             )
-            for time_signature in time_signatures
+            for time_signature in vocaloid_time_signatures
         ]
+        self.first_bar_length = round(time_signatures[0].bar_length())
+        return time_signatures
 
     def parse_tempos(self, tempos: list[VocaloidPoint]) -> list[SongTempo]:
         return [
@@ -133,7 +138,7 @@ class VocaloidParser:
                     )
                     if (
                         part_pitch := pitch_from_vocaloid_parts(
-                            [part_data], singing_track.note_list
+                            [part_data], singing_track.note_list, self.first_bar_length
                         )
                     ) is not None:
                         singing_track.edited_params.pitch = part_pitch
