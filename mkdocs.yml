@@ -33,9 +33,13 @@ repo_url: https://github.com/SoulMelody/LibreSVIP
 nav:
   - 开发者文档:
       - 歌声合成工程格式一览: project_formats.md
+  - 帮助:
+      - 第三方库及其开源协议: third_party_library_licenses.md
 extra:
   social:
     - icon: material/github
       link: https://github.com/SoulMelody/LibreSVIP
     - icon: material/language-python
       link: https://pypi.org/project/libresvip/
+    - icon: material/translate
+      link: https://crowdin.com/project/libresvip
