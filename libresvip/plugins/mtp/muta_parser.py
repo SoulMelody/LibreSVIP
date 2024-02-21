@@ -82,12 +82,9 @@ class MutaParser:
                     ai_singer_name="".join(chr(char) for char in part.singer_name).rstrip("\0"),
                     mute=muta_track.mute,
                     solo=muta_track.solo,
-                    note_list=self.parse_notes(part.notes),
+                    note_list=self.parse_notes(part.notes, part.start),
                 )
-                if pitch := self.parse_pitch(
-                    part.params.pitch_data,
-                    part.start + self.first_bar_length,
-                ):
+                if pitch := self.parse_pitch(part.params.pitch_data, part.start):
                     singing_track.edited_params.pitch = pitch
                 track_list.append(singing_track)
         return track_list
@@ -96,7 +93,7 @@ class MutaParser:
         pitch_points = [Point.start_point()]
         pitch_points.extend(
             Point(
-                x=muta_point.time + tick_offset,
+                x=muta_point.time + tick_offset + self.first_bar_length,
                 y=(muta_point.value + 1200) if 0 < muta_point.value < 12900 else -100,
             )
             for muta_point in muta_pitch
@@ -123,11 +120,11 @@ class MutaParser:
                 track_list.append(instrumental_track)
         return track_list
 
-    def parse_notes(self, muta_notes: list[MutaNote]) -> list[Note]:
+    def parse_notes(self, muta_notes: list[MutaNote], tick_offset: int) -> list[Note]:
         notes = []
         for muta_note in muta_notes:
             note = Note(
-                start_pos=muta_note.start + self.first_bar_length,
+                start_pos=muta_note.start + tick_offset,
                 length=muta_note.length,
                 key_number=139 - muta_note.key,
                 lyric="".join(chr(char) for char in muta_note.lyric).rstrip("\0"),

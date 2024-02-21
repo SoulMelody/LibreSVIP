@@ -1,13 +1,16 @@
 import dataclasses
 import datetime
 import uuid
+import warnings
 from typing import Optional
 
 from wanakana import PROLONGED_SOUND_MARK
 from xsdata.models.datatype import XmlTime
 
 from libresvip.core.constants import KEY_IN_OCTAVE
+from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -19,9 +22,10 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils import audio_track_info
+from libresvip.utils import gettext_lazy as _
 
 from .cevio_pitch import generate_for_cevio
-from .constants import OCTAVE_OFFSET, TICK_RATE
+from .constants import DEFAULT_PHONEME, OCTAVE_OFFSET, TICK_RATE
 from .model import (
     CeVIOBeat,
     CeVIOCreativeStudioProject,
@@ -57,7 +61,7 @@ class CeVIOGenerator:
         )
         scene_node = ccs_project.sequence.scene
 
-        self.first_bar_length = int(project.time_signature_list[0].bar_length() * TICK_RATE)
+        self.first_bar_length = int(project.time_signature_list[0].bar_length())
 
         default_tempos = self.generate_tempos(project.song_tempo_list)
         default_beats = self.generate_time_signatures(project.time_signature_list)
@@ -75,7 +79,7 @@ class CeVIOGenerator:
         for model in tempos[1:]:
             tempo_node.sound.append(
                 CeVIOSound(
-                    clock=int(model.position * TICK_RATE) + self.first_bar_length,
+                    clock=int(model.position * TICK_RATE),
                     tempo=model.bpm,
                 )
             )
@@ -100,7 +104,7 @@ class CeVIOGenerator:
                 ) * prev_time_signature.bar_length()
             beat.time.append(
                 CeVIOTime(
-                    clock=int(tick * TICK_RATE) + self.first_bar_length,
+                    clock=int(tick * TICK_RATE),
                     beats=time_signature.numerator,
                     beat_type=time_signature.denominator,
                 )
@@ -173,16 +177,25 @@ class CeVIOGenerator:
         return results
 
     def generate_notes(self, notes: list[Note]) -> list[CeVIONote]:
-        return [
-            CeVIONote(
-                clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
-                duration=int(note.length * TICK_RATE),
-                lyric=PROLONGED_SOUND_MARK if note.lyric == "-" else note.lyric,
-                pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
-                pitch_step=note.key_number % KEY_IN_OCTAVE,
+        cevio_notes = []
+        for note in notes:
+            lyric = PROLONGED_SOUND_MARK if note.lyric == "-" else note.lyric
+            phonetic = None
+            if not is_kana(lyric) and not is_romaji(lyric):
+                phonetic = DEFAULT_PHONEME
+                msg_prefix = _("Unsupported lyric: ")
+                warnings.warn(f"{msg_prefix} {lyric}", PhonemeWarning)
+            cevio_notes.append(
+                CeVIONote(
+                    clock=int(note.start_pos * TICK_RATE),
+                    duration=int(note.length * TICK_RATE),
+                    lyric=lyric,
+                    phonetic=phonetic,
+                    pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
+                    pitch_step=note.key_number % KEY_IN_OCTAVE,
+                )
             )
-            for note in notes
-        ]
+        return cevio_notes
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]

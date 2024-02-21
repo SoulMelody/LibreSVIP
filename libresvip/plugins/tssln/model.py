@@ -285,7 +285,7 @@ def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[s
     elif issubclass(field_type, bytes):
         variant_type = JUCEVarTypes.BINARY
     else:
-        msg = f"Unknown field type {field_type}"
+        msg = f"Unknown field type {field_type} for field {field_name}"
         raise TypeError(msg)
     return {
         "name": field_name,
@@ -309,9 +309,9 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str,
         if field_value is not None:
             if isinstance(field_info.annotation, type):
                 field_type = field_info.annotation
-            elif field_info.default is None:
+            elif field_info.default is None or field_info.default_factory is list:
                 field_type = field_info.annotation
-                while not isinstance(field_type, type):
+                while not (isinstance(field_type, type) or isinstance(field_type, GenericAlias)):
                     field_type = get_args(field_type)[0]
             else:
                 field_type = type(field_info.default)

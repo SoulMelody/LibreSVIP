@@ -30,7 +30,7 @@ from .model import (
 )
 from .options import InputOptions
 from .voisona_pitch import (
-    VoiSonaPitchEvent,
+    VoiSonaParamEvent,
     VoiSonaTrackPitchData,
     pitch_from_voisona_track,
 )
@@ -160,9 +160,9 @@ class VoiSonaParser:
         return singing_track, tempos, time_signatures
 
     @staticmethod
-    def parse_pitch_data(data_element: VoiSonaPointData) -> Optional[VoiSonaPitchEvent]:
+    def parse_pitch_data(data_element: VoiSonaPointData) -> Optional[VoiSonaParamEvent]:
         value = float(data_element.value) if data_element.value is not None else None
         if value is not None:
             index = data_element.index or None
             repeat = data_element.repeat or None
-            return VoiSonaPitchEvent(idx=index, repeat=repeat, value=value)
+            return VoiSonaParamEvent(idx=index, repeat=repeat, value=value)

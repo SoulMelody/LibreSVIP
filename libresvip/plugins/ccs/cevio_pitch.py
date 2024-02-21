@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 import dataclasses
+import itertools
 import math
 import warnings
 from typing import NamedTuple, Optional
 
+import more_itertools
+
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.warning_types import ParamsWarning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
@@ -187,8 +191,8 @@ def generate_for_cevio(
     events_with_full_params = []
     for i, this_point in enumerate(pitch.points.root):
         next_point = pitch.points[i + 1] if i + 1 < len(pitch.points) else None
-        end_tick = next_point.x if next_point else None
-        index = this_point.x
+        end_tick = next_point.x - tick_prefix if next_point else None
+        index = this_point.x - tick_prefix
         repeat = end_tick - index if end_tick else 1
         repeat = max(repeat, 1)
         value = math.log(midi2hz(this_point.y / 100)) if this_point.y != -100 else None
@@ -225,10 +229,7 @@ def denormalize_from_tick(
     tick_prefix: int,
 ) -> list[CeVIOParamEvent]:
     tempos = expand(
-        [
-            tempo.model_copy(update={"position": tempo.position + tick_prefix})
-            for tempo in tempos_in_ticks
-        ],
+        shift_tempo_list(tempos_in_ticks, tick_prefix),
         tick_prefix,
     )
     events_with_full_params = [
@@ -260,7 +261,9 @@ def denormalize_from_tick(
             )
             current_tempo_index += 1
         repeat += repeat_in_ticks / (TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2])
-        events.append(CeVIOParamEvent(round(pos), int(round(repeat)), event_double.value or 0))
+        events.append(
+            CeVIOParamEvent(round(pos), int(round(max(repeat, 1))), event_double.value or 0)
+        )
     return events
 
 
@@ -268,16 +271,22 @@ def restore_connection(
     events: list[CeVIOParamEvent], are_events_connected_to_next: list[bool]
 ) -> list[CeVIOParamEvent]:
     new_events = []
-    for event, is_connected_to_next in zip(events, are_events_connected_to_next):
-        new_events.append(event)
+    for (prev_event, next_event), is_connected_to_next in zip(
+        more_itertools.windowed(itertools.chain(events, [None]), 2), are_events_connected_to_next
+    ):
+        if next_event is None:
+            new_events.append(prev_event)
+            continue
         if not is_connected_to_next:
-            new_events.append(CeVIOParamEvent(event.idx + event.repeat, 0, event.value))
+            new_events.append(prev_event)
+        else:
+            new_events.append(prev_event._replace(repeat=next_event.idx - prev_event.idx))
     return new_events
 
 
 def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
     new_events = []
-    for event, next_event in zip(events, events[1:] + [None]):
+    for event, next_event in more_itertools.windowed(itertools.chain(events, [None]), 2):
         if (
             next_event
             and event.value == next_event.value
@@ -293,7 +302,7 @@ def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEv
 
 def remove_redundant_index(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
     new_events = []
-    for prev_event, event in zip([None] + events[:-1], events):
+    for prev_event, event in more_itertools.windowed(more_itertools.prepend(None, events), 2):
         if (
             prev_event is not None
             and prev_event.idx is not None
