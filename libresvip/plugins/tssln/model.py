@@ -39,6 +39,7 @@ class VoiSonaPanelControllerStatus(BaseModel):
     tempo_panel: Optional[bool] = Field(None, alias="TempoPanel")
     beat_panel: Optional[bool] = Field(None, alias="BeatPanel")
     key_panel: Optional[bool] = Field(None, alias="KeyPanel")
+    dynamics_panel: Optional[bool] = Field(None, alias="DynamicsPanel")
 
 
 class VoiSonaMainPanelStatus(VoiSonaPanelControllerStatus):
