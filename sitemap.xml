@@ -1,3 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://soulmelody.github.io/LibreSVIP/project_formats/</loc>
+         <lastmod>2024-02-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://soulmelody.github.io/LibreSVIP/third_party_library_licenses/</loc>
+         <lastmod>2024-02-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
