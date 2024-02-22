@@ -94,7 +94,7 @@ class DeepVocalGenerator:
                     song_tempo if i > 0 else song_tempo.model_copy(update={"position": 0})
                     for i, song_tempo in enumerate(tempos)
                 ],
-                self.tick_prefix,
+                self.tick_prefix - self.first_bar_length,
             )
         ]
 
