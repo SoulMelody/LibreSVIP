@@ -1,5 +1,6 @@
 site_name: LibreSVIP
 site_author: SoulMelody
+site_url: https://soulmelody.github.io/LibreSVIP/
 site_description: >-
   一个通用的歌声合成工程文件转换器
 theme:
