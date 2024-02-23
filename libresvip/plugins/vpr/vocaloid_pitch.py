@@ -66,7 +66,7 @@ def generate_for_vocaloid(
     pitch: ParamCurve, notes: list[Note], first_bar_length: int
 ) -> Optional[VocaloidPartPitchData]:
     data = RelativePitchCurve(first_bar_length).from_absolute(
-        pitch, notes, border_append_radius=BORDER_APPEND_RADIUS
+        pitch.points.root, notes, border_append_radius=BORDER_APPEND_RADIUS
     )
     if not len(data):
         return None

@@ -3,7 +3,7 @@ from typing import cast
 
 from construct_typed import DataclassMixin, DataclassStruct
 
-from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -201,7 +201,11 @@ class DeepVocalGenerator:
                 length=note.length,
                 key=cast(int, convert_note_key(note.key_number)),
                 phoneme=cast(str, note.pronunciation)
-                or ("-" if note.lyric == "-" else next(iter(get_pinyin_series(note.lyric)), "")),
+                or (
+                    note.lyric
+                    if CHINESE_RE.search(note.lyric) is None
+                    else next(iter(get_pinyin_series(note.lyric)), "")
+                ),
                 word=note.lyric,
                 padding_1=0,
                 vibrato=50,

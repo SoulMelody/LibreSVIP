@@ -32,7 +32,7 @@ class MIDIPitchData:
 
 def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitchData]:
     data = RelativePitchCurve().from_absolute(
-        pitch, notes, border_append_radius=BORDER_APPEND_RADIUS
+        pitch.points.root, notes, border_append_radius=BORDER_APPEND_RADIUS
     )
     if not len(data):
         return None

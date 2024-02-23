@@ -54,7 +54,9 @@ class RelativePitchCurve:
                     )
             if not to_absolute and point.y == -100:
                 continue
-            if base_key := interval_dict.get(point.x):
+            if base_key := interval_dict.get(
+                point.x + (0 if to_absolute else -self.first_bar_length)
+            ):
                 y = point.y + (base_key if to_absolute else -base_key) * 100
                 converted_data.append(
                     Point(
@@ -68,11 +70,9 @@ class RelativePitchCurve:
         return self.append_points_at_borders(converted_data, note_list, radius=border_append_radius)
 
     def from_absolute(
-        self, pitch: ParamCurve, notes: list[Note], border_append_radius: int = 0
+        self, points: list[Point], notes: list[Note], border_append_radius: int = 0
     ) -> list[Point]:
-        return self._convert_relativity(
-            pitch.points.root, notes, border_append_radius, to_absolute=False
-        )
+        return self._convert_relativity(points, notes, border_append_radius, to_absolute=False)
 
     def get_interval_dict(self, notes: list[Note]) -> PiecewiseIntervalDict:
         interval_dict = PiecewiseIntervalDict()

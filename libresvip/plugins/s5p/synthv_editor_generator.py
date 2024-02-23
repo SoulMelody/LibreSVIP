@@ -137,7 +137,7 @@ class SynthVEditorGenerator:
     def generate_parameters(self, edited_params: Params, note_list: list[Note]) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
         rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
-            edited_params.pitch, note_list
+            edited_params.pitch.points.root, note_list
         )
         return S5pParameters(
             pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),
