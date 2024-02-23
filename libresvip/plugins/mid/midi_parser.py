@@ -50,6 +50,7 @@ class MidiParser:
     options: InputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     ticks_per_beat: int = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
     selected_channels: list[int] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -97,7 +98,7 @@ class MidiParser:
 
     def parse_time_signatures(self, master_track: mido.MidiTrack) -> list[TimeSignature]:
         # no default
-        time_signature_changes = [TimeSignature(bar_index=0, numerator=4, denominator=4)]
+        time_signature_changes: list[TimeSignature] = []
 
         # traversing
         if self.options.import_time_signatures:
@@ -105,8 +106,13 @@ class MidiParser:
             measure = 0
             for event in master_track:
                 if event.type == "time_signature":
-                    tick_in_full_note = time_signature_changes[-1].bar_length(self.ticks_per_beat)
                     tick = event.time
+                    if not time_signature_changes:
+                        tick_in_full_note = 4 * self.ticks_per_beat
+                    else:
+                        tick_in_full_note = round(
+                            time_signature_changes[-1].bar_length(self.ticks_per_beat)
+                        )
                     measure += (tick - prev_ticks) / tick_in_full_note
                     ts_obj = TimeSignature(
                         bar_index=math.floor(measure),
@@ -115,6 +121,9 @@ class MidiParser:
                     )
                     time_signature_changes.append(ts_obj)
                     prev_ticks = tick
+        if not time_signature_changes or time_signature_changes[0].bar_index > 0:
+            time_signature_changes.insert(0, TimeSignature(bar_index=0, numerator=4, denominator=4))
+        self.first_bar_length = round(time_signature_changes[0].bar_length(self.ticks_per_beat))
         return time_signature_changes
 
     def parse_tempo(self, master_track: mido.MidiTrack) -> list[SongTempo]:
@@ -235,7 +244,7 @@ class MidiParser:
                     elif event.is_cc(ControlChange.VOLUME) and event.value:
                         volume_base = velocity_to_db_change(event.value)
             rel_pitch_points.sort(key=operator.attrgetter("x"))
-            pitch = RelativePitchCurve().to_absolute(rel_pitch_points, notes)
+            pitch = RelativePitchCurve(self.first_bar_length).to_absolute(rel_pitch_points, notes)
             edited_params = Params(
                 pitch=pitch,
                 volume=expression,

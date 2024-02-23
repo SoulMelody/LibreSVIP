@@ -22,6 +22,7 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class MidiGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     @property
     def tick_rate(self) -> float:
@@ -30,6 +31,9 @@ class MidiGenerator:
         return 1
 
     def generate_project(self, project: Project) -> mido.MidiFile:
+        self.first_bar_length = round(
+            project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
+        )
         mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         master_track = mido.MidiTrack()
@@ -65,8 +69,14 @@ class MidiGenerator:
         self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
     ) -> None:
         prev_ticks = 0
+        prev_time_signature = None
         for time_signature in time_signature_list:
             if time_signature.bar_index >= 0:
+                if prev_time_signature is not None:
+                    prev_ticks += round(
+                        (time_signature.bar_index - prev_time_signature.bar_index)
+                        * prev_time_signature.bar_length(self.options.ticks_per_beat)
+                    )
                 master_track.append(
                     mido.MetaMessage(
                         "time_signature",
@@ -75,11 +85,7 @@ class MidiGenerator:
                         time=prev_ticks,
                     )
                 )
-                prev_ticks += round(
-                    time_signature.bar_index
-                    * self.options.ticks_per_beat
-                    * time_signature.numerator
-                )
+                prev_time_signature = time_signature
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
         mido_tracks = []
@@ -122,7 +128,9 @@ class MidiGenerator:
                     time=round(note.end_pos / self.tick_rate),
                 )
             )
-        if pitch_data := generate_for_midi(track.edited_params.pitch, track.note_list):
+        if pitch_data := generate_for_midi(
+            self.first_bar_length, track.edited_params.pitch, track.note_list
+        ):
             for pbs_event in pitch_data.pbs:
                 msg_time = round(pbs_event.tick / self.tick_rate)
                 mido_track.extend(

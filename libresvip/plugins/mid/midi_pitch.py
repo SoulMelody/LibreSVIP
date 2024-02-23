@@ -30,8 +30,10 @@ class MIDIPitchData:
     pbs: list[ControlEvent]
 
 
-def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitchData]:
-    data = RelativePitchCurve().from_absolute(
+def generate_for_midi(
+    first_bar_length: int, pitch: ParamCurve, notes: list[Note]
+) -> Optional[MIDIPitchData]:
+    data = RelativePitchCurve(first_bar_length).from_absolute(
         pitch.points.root, notes, border_append_radius=BORDER_APPEND_RADIUS
     )
     if not len(data):
