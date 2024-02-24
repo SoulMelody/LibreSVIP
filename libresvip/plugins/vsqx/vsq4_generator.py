@@ -16,8 +16,8 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import audio_track_info
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import BPM_RATE
 from .model import (

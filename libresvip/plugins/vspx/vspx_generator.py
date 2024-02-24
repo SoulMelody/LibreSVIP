@@ -12,8 +12,8 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.model.point import linear_interpolation
-from libresvip.utils import audio_track_info, midi2note
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import linear_interpolation, midi2note
 
 from .model import (
     PIT,

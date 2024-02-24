@@ -18,7 +18,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid

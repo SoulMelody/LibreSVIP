@@ -2,7 +2,7 @@ from typing import Optional
 
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
-from libresvip.utils import midi2hz
+from libresvip.utils.music_math import midi2hz
 
 from ..models.ds_param_curve import DsParamCurve
 from ..models.ds_param_node import DsParamNode

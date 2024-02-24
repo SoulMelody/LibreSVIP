@@ -2,7 +2,6 @@ import collections
 import dataclasses
 import math
 import operator
-import re
 import warnings
 
 import mido_fix as mido
@@ -22,8 +21,9 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import gettext_lazy as _
-from libresvip.utils import ratio_to_db
+from libresvip.utils.music_math import ratio_to_db
+from libresvip.utils.text import LATIN_ALPHABET
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -197,11 +197,9 @@ class MidiParser:
                                 length=round((end_tick - start_tick) * self.tick_rate),
                             )
                             lyric = lyrics[start_tick]
-                            if re.search("[a-zA-Z]", lyric) is not None:
-                                note.lyric = DEFAULT_PHONEME
+                            if LATIN_ALPHABET.search(lyric) is not None:
                                 note.pronunciation = lyric
-                            else:
-                                note.lyric = lyric
+                            note.lyric = lyric
                             notes.append(note)
                         if notes_to_close and notes_to_keep:
                             # Note-on on the same tick but we already closed

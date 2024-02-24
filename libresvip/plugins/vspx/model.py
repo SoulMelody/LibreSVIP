@@ -2,7 +2,7 @@ import abc
 from dataclasses import dataclass, field
 from typing import Optional
 
-from libresvip.utils import note2midi
+from libresvip.utils.music_math import note2midi
 
 
 @dataclass

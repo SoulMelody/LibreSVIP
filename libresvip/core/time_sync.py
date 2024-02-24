@@ -2,7 +2,7 @@ from dataclasses import InitVar, dataclass, field
 
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.model.base import SongTempo
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 
 @dataclass

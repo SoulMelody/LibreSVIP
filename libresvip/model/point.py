@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import abc
-import math
 from functools import partial
 from typing import TYPE_CHECKING, Any, Generic, NamedTuple, TypeVar, Union
 
 from more_itertools import pairwise
+
+from libresvip.utils.music_math import (
+    cosine_easing_in_interpolation,
+    cosine_easing_in_out_interpolation,
+    cosine_easing_out_interpolation,
+    linear_interpolation,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
@@ -47,49 +53,11 @@ def _inner_interpolate(
     )
 
 
-def linear_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return y0 + (x - x0) * (y1 - y0) / (x1 - x0)
-
-
 interpolate_linear = partial(_inner_interpolate, mapping=linear_interpolation)
-
-
-def cosine_easing_in_out_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return (y0 + y1) / 2 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi) / 2
-
-
 interpolate_cosine_ease_in_out = partial(
     _inner_interpolate, mapping=cosine_easing_in_out_interpolation
 )
-
-
-def cosine_easing_in_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return y1 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi / 2)
-
-
 interpolate_cosine_ease_in = partial(_inner_interpolate, mapping=cosine_easing_in_interpolation)
-
-
-def cosine_easing_out_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return y0 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi / 2 + math.pi / 2)
-
-
 interpolate_cosine_ease_out = partial(_inner_interpolate, mapping=cosine_easing_out_interpolation)
 
 

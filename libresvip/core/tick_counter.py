@@ -1,5 +1,5 @@
 from libresvip.model.base import SongTempo, TimeSignature
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 
 def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTempo]:

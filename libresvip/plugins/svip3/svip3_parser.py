@@ -20,7 +20,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import db_to_float, ratio_to_db
+from libresvip.utils.music_math import db_to_float, ratio_to_db
 
 from .constants import TYPE_URL_BASE, Svip3TrackType
 from .model import (

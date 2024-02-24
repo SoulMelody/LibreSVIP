@@ -46,7 +46,8 @@ from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
-from libresvip.utils import get_translation, lazy_translation, shorten_error_message
+from libresvip.utils.text import shorten_error_message
+from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:

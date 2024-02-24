@@ -18,12 +18,21 @@ class Language(enum.Enum):
     ENGLISH = "English"
     JAPANESE = "日本語"
 
+    @staticmethod
+    def to_language(locale: str) -> str:
+        """Turn a locale name (en_US) into a language name (en-us)."""
+        p = locale.find("_")
+        if p >= 0:
+            return f"{locale[:p].lower()}-{locale[p + 1:].lower()}"
+        else:
+            return locale.lower()
+
     @classmethod
     def from_locale(cls, locale: str) -> Language:
-        locale = locale.replace("-", "_").lower()
-        if locale == "zh_cn":
+        locale = cls.to_language(locale)
+        if locale == "zh-cn":
             return cls.CHINESE
-        elif locale == "ja_jp":
+        elif locale == "ja-jp":
             return cls.JAPANESE
         else:
             return cls.ENGLISH

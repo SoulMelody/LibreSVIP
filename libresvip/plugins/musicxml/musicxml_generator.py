@@ -7,7 +7,7 @@ from typing import Optional, cast
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Project, SingingTrack, TimeSignature
-from libresvip.utils import midi2note
+from libresvip.utils.music_math import midi2note
 
 from .model import KeyTick, MXmlMeasure, MXmlMeasureContent
 from .models.mxml2 import (

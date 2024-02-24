@@ -4,7 +4,7 @@ from omegaconf import OmegaConf
 from omegaconf.errors import OmegaConfBaseException
 
 from libresvip.core.config import save_settings, settings
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 app = typer.Typer()
 

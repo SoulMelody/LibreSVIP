@@ -3,7 +3,7 @@ from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
-from libresvip.utils import note2midi
+from libresvip.utils.music_math import note2midi
 
 from .models.mxml2 import ScorePart, ScorePartwise, StartStop
 from .options import InputOptions

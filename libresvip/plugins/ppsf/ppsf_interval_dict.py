@@ -4,7 +4,8 @@ import more_itertools
 import portion
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
-from libresvip.model.point import Point, cosine_easing_in_out_interpolation
+from libresvip.model.point import Point
+from libresvip.utils.music_math import cosine_easing_in_out_interpolation
 
 from .model import PpsfDvlTrackEvent, PpsfNote
 

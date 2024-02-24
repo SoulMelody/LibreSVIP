@@ -19,7 +19,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import db_to_float
+from libresvip.utils.music_math import db_to_float
 
 from .model import (
     VocalShifterLabel,

@@ -7,7 +7,7 @@ from xsdata.formats.dataclass.serializers.xml import SerializerConfig, XmlSerial
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import EchoGenerator
+from libresvip.utils.xmlutils import EchoGenerator
 
 from .enums import VsqxVersion
 from .models.vsqx3 import VSQ3_NS

@@ -14,8 +14,8 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import BPM_RATE, PITCH_BEND_NAME, PITCH_BEND_SENSITIVITY_NAME
 from .model import (

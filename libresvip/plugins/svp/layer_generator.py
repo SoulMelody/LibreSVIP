@@ -6,7 +6,8 @@ from typing import NamedTuple
 import more_itertools
 
 from libresvip.core.exceptions import ParamsError
-from libresvip.utils import clamp, find_index
+from libresvip.utils.music_math import clamp
+from libresvip.utils.search import find_index
 
 from .constants import MAX_BREAK
 from .lambert_w import LambertW

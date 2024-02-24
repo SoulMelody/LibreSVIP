@@ -10,8 +10,9 @@ from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.model.base import Note, ParamCurve, Points
-from libresvip.model.point import Point, cosine_easing_in_out_interpolation
-from libresvip.utils import gettext_lazy as _
+from libresvip.model.point import Point
+from libresvip.utils.music_math import cosine_easing_in_out_interpolation
+from libresvip.utils.translation import gettext_lazy as _
 
 
 @dataclasses.dataclass

@@ -21,7 +21,8 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import clamp, db_to_float, find_index, ratio_to_db
+from libresvip.utils.music_math import clamp, db_to_float, ratio_to_db
+from libresvip.utils.search import find_index
 
 from . import interpolation
 from .constants import TICK_RATE

@@ -20,8 +20,9 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info, ratio_to_db
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import ratio_to_db
+from libresvip.utils.translation import gettext_lazy as _
 
 from .color_pool import random_color
 from .constants import DEFAULT_SINGER_ID, TYPE_URL_BASE, Svip3TrackType

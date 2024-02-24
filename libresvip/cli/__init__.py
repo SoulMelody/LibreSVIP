@@ -1,3 +1,3 @@
-from libresvip import utils
+from libresvip.utils import translation
 
-utils.singleton_translation = utils.get_translation()
+translation.singleton_translation = translation.get_translation()

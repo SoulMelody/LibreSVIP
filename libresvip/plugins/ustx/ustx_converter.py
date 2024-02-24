@@ -4,7 +4,7 @@ import yaml
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import to_unicode
+from libresvip.utils.text import to_unicode
 
 from .model import USTXProject
 from .options import InputOptions, OutputOptions

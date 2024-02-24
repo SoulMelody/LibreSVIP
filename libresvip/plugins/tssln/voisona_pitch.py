@@ -12,8 +12,9 @@ from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.warning_types import ParamsWarning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
-from libresvip.utils import find_last_index, hz2midi, midi2hz
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.music_math import hz2midi, midi2hz
+from libresvip.utils.search import find_last_index
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
     MIN_DATA_LENGTH,

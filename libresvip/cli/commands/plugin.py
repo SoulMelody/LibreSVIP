@@ -10,7 +10,7 @@ from libresvip.core.config import save_settings, settings
 from libresvip.extension.manager import plugin_manager
 from libresvip.extension.meta_info import LibreSvipPluginInfo
 from libresvip.model.base import BaseComplexModel
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 app = typer.Typer()
 

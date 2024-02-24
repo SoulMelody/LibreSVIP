@@ -6,7 +6,7 @@ from typing import Any, Optional
 from construct import Container
 from loguru import logger
 
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .binary_models import (
     PrimitiveTypeEnum,

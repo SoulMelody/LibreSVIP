@@ -3,7 +3,7 @@ import dataclasses
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import Project, SingingTrack, SongTempo
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import UTAUNote, UTAUProject, UTAUTrack
 from .options import OutputOptions

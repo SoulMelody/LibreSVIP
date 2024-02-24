@@ -5,7 +5,7 @@ from PySide6.QtQml import QmlElement, QmlSingleton
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
-from libresvip.utils import shorten_error_message
+from libresvip.utils.text import shorten_error_message
 
 from .application import app
 

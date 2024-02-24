@@ -16,7 +16,7 @@ from PySide6.QtQml import QmlElement, QmlSingleton
 import libresvip
 from libresvip.core.config import settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .application import event_loop
 from .url_opener import open_path, open_url

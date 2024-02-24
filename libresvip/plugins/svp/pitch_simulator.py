@@ -2,7 +2,7 @@ import dataclasses
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .pitch_slide import PitchSlide
 

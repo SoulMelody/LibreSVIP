@@ -8,7 +8,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
 from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .constants import MODE2_PITCH_MAX_POINT_COUNT, MODE2_PITCH_SAMPLING_INTERVAL_TICK
 from .interpolation import interpolate

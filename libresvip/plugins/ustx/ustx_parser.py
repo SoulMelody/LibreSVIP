@@ -16,7 +16,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import db_to_float
+from libresvip.utils.music_math import db_to_float
 
 from .model import (
     UNote,

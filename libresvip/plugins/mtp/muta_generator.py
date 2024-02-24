@@ -11,7 +11,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
 
 from .model import (
     MutaAudioTrackData,

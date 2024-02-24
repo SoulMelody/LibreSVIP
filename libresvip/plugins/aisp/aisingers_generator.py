@@ -14,7 +14,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
 
 from .model import (
     AISAudioPattern,

@@ -12,7 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import SYMBOL_PATTERN
+from libresvip.utils.text import SYMBOL_PATTERN
 
 from .constants import ControlChange
 from .midi_pitch import generate_for_midi

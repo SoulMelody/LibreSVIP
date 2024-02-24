@@ -1,5 +1,5 @@
 from libresvip.model.point import Point
-from libresvip.utils import binary_find_first, binary_find_last
+from libresvip.utils.search import binary_find_first, binary_find_last
 
 
 def get_value_from_segment(segment: list[Point], ticks: float) -> float:

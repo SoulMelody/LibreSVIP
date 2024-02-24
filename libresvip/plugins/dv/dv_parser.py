@@ -9,7 +9,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .deepvocal_pitch import (
     DvNoteWithPitch,

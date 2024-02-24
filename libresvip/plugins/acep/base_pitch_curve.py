@@ -7,7 +7,7 @@ import portion
 from more_itertools import convolve
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
-from libresvip.model.point import linear_interpolation
+from libresvip.utils.music_math import linear_interpolation
 
 from .model import AcepNote, AcepTempo, AcepVibrato
 from .time_utils import tick_to_second

@@ -1,8 +1,8 @@
 from libresvip.core.exceptions import ParamsError
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
-from libresvip.utils import gettext_lazy as _
-from libresvip.utils import midi2note
+from libresvip.utils.music_math import midi2note
+from libresvip.utils.translation import gettext_lazy as _
 
 from ..models.ds_note import (
     AspirationDsNote,

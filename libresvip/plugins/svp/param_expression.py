@@ -7,7 +7,7 @@ import operator
 from typing import TYPE_CHECKING, Union
 
 from libresvip.model.point import Point
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .interval_utils import position_to_ticks
 from .layer_generator import (

@@ -1,6 +1,6 @@
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
-from libresvip.utils import binary_find_first, binary_find_last
+from libresvip.utils.search import binary_find_first, binary_find_last
 
 from ..models.ds_param_curve import DsParamCurve, DsParamNode
 

@@ -22,9 +22,9 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.model.point import Point, linear_interpolation
+from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import db_to_float, ratio_to_db
+from libresvip.utils.music_math import db_to_float, linear_interpolation, ratio_to_db
 
 from .model import (
     S5pDbDefaults,

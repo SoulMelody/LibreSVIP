@@ -4,7 +4,7 @@ from typing import Optional
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
 from libresvip.model.point import Point
-from libresvip.utils import clamp
+from libresvip.utils.music_math import clamp
 
 from .model import UtauNoteVibrato
 

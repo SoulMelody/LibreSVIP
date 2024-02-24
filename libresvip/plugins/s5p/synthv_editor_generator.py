@@ -13,7 +13,7 @@ from libresvip.model.base import (
 )
 from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import ratio_to_db
+from libresvip.utils.music_math import ratio_to_db
 
 from .model import (
     S5pInstrumental,

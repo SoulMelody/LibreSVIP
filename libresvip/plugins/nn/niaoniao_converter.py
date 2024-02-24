@@ -3,7 +3,7 @@ import pathlib
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
-from libresvip.utils import to_unicode
+from libresvip.utils.text import to_unicode
 
 from .model import nn_grammar, nn_visitor
 from .niaoniao_generator import NiaoniaoGenerator

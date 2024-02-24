@@ -4,7 +4,7 @@ from typing import Optional
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import UTAUNote, UTAUProject, UTAUTimeSignature
 from .options import InputOptions

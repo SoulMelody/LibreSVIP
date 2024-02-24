@@ -10,7 +10,7 @@ from pydantic import Field
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.base import BaseModel
-from libresvip.model.point import linear_interpolation
+from libresvip.utils.music_math import linear_interpolation
 
 ParamType = SimpleNamespace(
     CURVE="Curve",

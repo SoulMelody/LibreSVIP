@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Optional
 
 from libresvip.model.base import Note, ParamCurve
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import clamp
+from libresvip.utils.music_math import clamp
 
 from .constants import (
     BORDER_APPEND_RADIUS,

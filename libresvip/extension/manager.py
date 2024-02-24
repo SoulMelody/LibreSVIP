@@ -1,79 +1,35 @@
+from __future__ import annotations
+
 import dataclasses
 import functools
 import inspect
 import os
-import pathlib
 import posixpath
 import sys
-import types
-import zipfile
-from importlib.abc import Loader, MetaPathFinder
+from importlib.abc import MetaPathFinder
 from importlib.machinery import (
-    ModuleSpec,
     PathFinder,
     SourceFileLoader,
-    SourcelessFileLoader,
     all_suffixes,
 )
-from importlib.util import module_from_spec, spec_from_file_location
-from types import ModuleType
-from typing import Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
 
 from loguru import logger
 from typing_extensions import TypeGuard
 
-from libresvip.core.compat import Traversable
 from libresvip.core.config import settings
 from libresvip.core.constants import app_dir, pkg_dir
+from libresvip.utils.module_loading import load_module
 
 from .base import BasePlugin, SVSConverterBase
 from .meta_info import LibreSvipPluginInfo
 
+if TYPE_CHECKING:
+    import pathlib
+    from importlib.machinery import ModuleSpec
+    from types import ModuleType
 
-class ZipLoader(SourcelessFileLoader):
-    def __init__(self, zip_file: zipfile.ZipFile, file_path: str) -> None:
-        self.zip_file = zip_file
-        self.file_path = file_path
-
-    def create_module(self, spec: ModuleSpec) -> types.ModuleType:
-        return sys.modules.get(spec.name)
-
-    def get_filename(self, fullname: str) -> str:  # type: ignore[override]
-        return self.file_path
-
-    def get_data(self, path: str) -> bytes:
-        return self.zip_file.read(path)
-
-    def exec_module(self, module: types.ModuleType) -> None:
-        if compiled := super().get_code(module.__name__):
-            exec(compiled, module.__dict__)
-
-
-def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
-    spec = None
-    if isinstance(plugin_path, zipfile.Path) and plugin_path.root.filename is not None:
-        loader = ZipLoader(zip_file=plugin_path.root, file_path=plugin_path.at)
-        spec = ModuleSpec(name, cast(Loader, loader), is_package=True, origin=plugin_path.at)
-    else:
-        spec = spec_from_file_location(
-            name,
-            cast(pathlib.Path, plugin_path),
-            submodule_search_locations=[
-                str(plugin_path)
-                if plugin_path.is_dir()
-                else str(plugin_path).removesuffix(plugin_path.name)
-            ],
-        )
-    if spec is None or spec.loader is None:
-        msg = f"Cannot load plugin from {plugin_path}"
-        raise ImportError(msg)
-    module = module_from_spec(spec)
-    try:
-        spec.loader.exec_module(module)
-    except Exception as e:
-        msg = f"{e}: {plugin_path}"
-        raise ImportError(msg) from e
-    return module
+    from libresvip.core.compat import Traversable
 
 
 @dataclasses.dataclass
@@ -117,7 +73,7 @@ class PluginManager:
 
     def _import_module(
         self, plugin_module_name: str, candidate_filepath: Traversable, reload: bool
-    ) -> types.ModuleType:
+    ) -> ModuleType:
         """
         Import a module, trying either to find it as a single file or as a directory.
 

@@ -15,7 +15,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import DEFAULT_PHONEME, OCTAVE_OFFSET, TICK_RATE
 from .model import (

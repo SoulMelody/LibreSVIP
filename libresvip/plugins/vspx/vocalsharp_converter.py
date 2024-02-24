@@ -11,7 +11,7 @@ from xsdata.formats.dataclass.serializers.xml import (
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import EchoGenerator
+from libresvip.utils.xmlutils import EchoGenerator
 
 from .model import VocalSharpProject
 from .options import InputOptions, OutputOptions

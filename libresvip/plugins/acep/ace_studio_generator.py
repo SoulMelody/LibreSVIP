@@ -17,7 +17,8 @@ from libresvip.model.base import (
     SongTempo,
     Track,
 )
-from libresvip.utils import audio_track_info, binary_find_first, binary_find_last
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.search import binary_find_first, binary_find_last
 
 from .base_pitch_curve import BasePitchCurve
 from .color_pool import count_color, get_color

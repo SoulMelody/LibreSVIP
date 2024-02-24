@@ -17,7 +17,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import find_index
+from libresvip.utils.search import find_index
 
 from .model import (
     GjgjBeatItems,

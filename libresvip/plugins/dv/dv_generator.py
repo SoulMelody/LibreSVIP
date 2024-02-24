@@ -14,7 +14,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
 
 from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, MIN_SEGMENT_LENGTH
 from .deepvocal_pitch import convert_note_key, generate_for_dv

@@ -18,7 +18,8 @@ from pydantic import (
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
-from libresvip.model.point import PointList, linear_interpolation
+from libresvip.model.point import PointList
+from libresvip.utils.music_math import linear_interpolation
 
 from .ace_curve_utils import interpolate_hermite
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID

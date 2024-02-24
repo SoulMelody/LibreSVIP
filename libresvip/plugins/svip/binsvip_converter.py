@@ -2,7 +2,7 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .binsvip_generator import BinarySvipGenerator
 from .binsvip_parser import BinarySvipParser

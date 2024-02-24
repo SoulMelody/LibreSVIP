@@ -16,7 +16,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import hz2midi, note2midi
+from libresvip.utils.music_math import hz2midi, note2midi
 
 from .model import DsItem, DsProject
 from .options import InputOptions

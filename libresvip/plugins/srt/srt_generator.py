@@ -5,7 +5,7 @@ from srt import Subtitle
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Project, SingingTrack
-from libresvip.utils import SYMBOL_PATTERN
+from libresvip.utils.text import SYMBOL_PATTERN
 
 from .options import OutputOptions, SplitOption
 
