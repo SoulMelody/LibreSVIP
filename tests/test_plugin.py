@@ -7,7 +7,7 @@ import pytest
 from rich import print
 
 from libresvip.extension.manager import plugin_manager
-from libresvip.utils import to_unicode
+from libresvip.utils.text import to_unicode
 
 plugin_registry = plugin_manager.plugin_registry
 
