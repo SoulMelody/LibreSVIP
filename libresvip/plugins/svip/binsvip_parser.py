@@ -56,7 +56,7 @@ class BinarySvipParser:
             denominator=frac.y,
         )
 
-    def parse_track(self, track: XSITrack) -> Track:
+    def parse_track(self, track: XSITrack) -> Optional[Track]:
         if isinstance(track, XSSingingTrack):
             result_track = SingingTrack()
             result_track.ai_singer_name = opensvip_singers.get_name(track.ai_singer_id)

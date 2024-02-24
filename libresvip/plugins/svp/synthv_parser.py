@@ -569,7 +569,7 @@ class SynthVParser:
                     offset=self.parse_audio_offset(sv_track.main_ref.blick_offset),
                 )
             else:
-                return
+                return None
         else:
             self.voice_settings = sv_track.main_ref.voice
             master_note_attributes = self.voice_settings.to_attributes()

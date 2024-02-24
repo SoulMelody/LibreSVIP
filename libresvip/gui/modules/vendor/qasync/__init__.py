@@ -466,7 +466,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
     def _remove_reader(self, fd: FileDescriptor) -> Optional[bool]:
         """Remove reader callback."""
         if self.is_closed():
-            return
+            return None
 
         self.__log_debug("Removing reader callback for file descriptor {}", fd)
         try:
@@ -506,7 +506,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
     def _remove_writer(self, fd: FileDescriptor) -> Optional[bool]:
         """Remove writer callback."""
         if self.is_closed():
-            return
+            return None
 
         self.__log_debug("Removing writer callback for file descriptor {}", fd)
         try:

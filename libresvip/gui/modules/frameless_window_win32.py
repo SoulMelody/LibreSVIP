@@ -85,7 +85,7 @@ class FramelessWindow(QQuickWindow):
 
     def add_dwm_effect(self) -> Optional[SupportsInt]:
         if not self.is_composition_enabled:
-            return
+            return None
 
         dwmapi = ctypes.windll.dwmapi
 

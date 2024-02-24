@@ -132,7 +132,7 @@ class AceParser:
             track.note_list = [self.parse_note(ace_note) for ace_note in self.ace_note_list]
             track.edited_params = self.parse_params(ace_params)
         else:
-            return
+            return None
         track.title = ace_track.name
         track.mute = ace_track.mute
         track.solo = ace_track.solo

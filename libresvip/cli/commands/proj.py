@@ -14,7 +14,7 @@ app = typer.Typer()
 
 def option_callback(ctx: typer.Context, value: pathlib.Path) -> Optional[pathlib.Path]:
     if ctx.resilient_parsing:
-        return
+        return None
     ext = value.suffix.lstrip(".").lower()
     if ext not in plugin_manager.plugin_registry:
         raise typer.BadParameter(
