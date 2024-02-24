@@ -15,6 +15,7 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
 from typing import (
+    TYPE_CHECKING,
     Any,
     BinaryIO,
     Optional,
@@ -47,6 +48,10 @@ from libresvip.extension.manager import plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import get_translation, lazy_translation, shorten_error_message
 from libresvip.web.elements import QFab, QFabAction
+
+if TYPE_CHECKING:
+    from nicegui.elements.menu import Menu
+    from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
 
@@ -746,6 +751,12 @@ def page_layout(lang: Optional[str] = None) -> None:
         )
     ):
         ui.button(icon="menu", on_click=drawer.toggle)
+        convert_menu: Menu
+        input_formats_menu: Menu
+        output_formats_menu: Menu
+        theme_menu: Menu
+        lang_menu: Menu
+        help_menu: Menu
 
         async def handle_key(e: KeyEventArguments) -> None:
             if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
@@ -952,7 +963,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             with ui.grid().classes(
                                 "grid grid-cols-11 gap-4 w-full",
                             ):
-                                select_input = (
+                                select_input: Select = (
                                     ui.select(
                                         {
                                             k: _(v["file_format"] or "") + " " + v["suffix"]
@@ -1004,7 +1015,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     .props("round")
                                 ):
                                     ui.tooltip(_("Swap Input and Output"))
-                                select_output = (
+                                select_output: Select = (
                                     ui.select(
                                         {
                                             k: _(v["file_format"] or "") + " " + v["suffix"]
