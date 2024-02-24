@@ -151,10 +151,12 @@ class SynthVEditorParser:
                 else db_defaults.t_f0_vbr_start
             )
             vibrato_end = self.synchronizer.get_actual_secs_from_ticks(note.end_pos)
+            if vibrato_end <= vibrato_start:
+                continue
             phase = s5p_note.p_f0_vbr if s5p_note.p_f0_vbr is not None else db_defaults.p_f0_vbr
             frequency = s5p_note.f_f0_vbr if s5p_note.f_f0_vbr is not None else db_defaults.f_f0_vbr
             self.vibrato_value_interval_dict[
-                portion.closed(vibrato_start, vibrato_end)
+                portion.closedopen(vibrato_start, vibrato_end)
             ] = functools.partial(
                 self.s5p_vibrato_value,
                 vibrato_start=vibrato_start,
@@ -175,17 +177,17 @@ class SynthVEditorParser:
                 float, s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr
             )
             self.vibrato_coef_interval_dict[
-                portion.closed(vibrato_start, vibrato_attack_time)
+                portion.closedopen(vibrato_start, vibrato_attack_time)
             ] = functools.partial(
                 linear_interpolation,
                 start=(vibrato_start, 0),
                 end=(vibrato_attack_time, vibrato_depth),
             )
             self.vibrato_coef_interval_dict[
-                portion.closed(vibrato_attack_time, vibrato_release_time)
+                portion.closedopen(vibrato_attack_time, vibrato_release_time)
             ] = vibrato_depth
             self.vibrato_coef_interval_dict[
-                portion.closed(vibrato_release_time, vibrato_end)
+                portion.closedopen(vibrato_release_time, vibrato_end)
             ] = functools.partial(
                 linear_interpolation,
                 start=(vibrato_release_time, vibrato_depth),
@@ -200,15 +202,20 @@ class SynthVEditorParser:
         return math.sin(math.pi * (2 * (seconds - vibrato_start) * frequency + phase))
 
     def parse_params(self, parameters: S5pParameters, note_list: list[Note]) -> Params:
-        rel_pitch_points = self.parse_pitch_curve(parameters.pitch_delta, parameters.interval)
+        rel_pitch_points = self.parse_pitch_curve(
+            parameters.pitch_delta, parameters.interval, note_list
+        )
         return Params(
             pitch=RelativePitchCurve(self.first_bar_length).to_absolute(
                 rel_pitch_points, note_list
             ),
         )
 
-    def parse_pitch_curve(self, pitch_delta: S5pPoints, interval: int) -> list[Point]:
+    def parse_pitch_curve(
+        self, pitch_delta: S5pPoints, interval: int, note_list: list[Note]
+    ) -> list[Point]:
         points = sortedcontainers.SortedList(key=operator.attrgetter("x"))
+        note_start_positions = [note.start_pos for note in note_list]
         pitch_intervals = portion.empty()
         for s5p_point_group in more_itertools.split_when(
             pitch_delta.root, lambda p1, p2: p2.offset > p1.offset + 1
@@ -237,19 +244,24 @@ class SynthVEditorParser:
         auto_pitch_intervals = self.vibrato_value_interval_dict.domain() - pitch_intervals
         self.vibrato_value_interval_dict._last_index = 0
         self.vibrato_coef_interval_dict._last_index = 0
-        for interval in auto_pitch_intervals:
-            start_tick = round(self.synchronizer.get_actual_ticks_from_secs(interval.lower))
-            step_secs = self.synchronizer.get_duration_secs_from_ticks(start_tick, start_tick + 5)
+        for sub_interval in auto_pitch_intervals:
+            start_tick = round(self.synchronizer.get_actual_ticks_from_secs(sub_interval.lower))
+
+            step_secs = self.synchronizer.get_duration_secs_from_ticks(
+                start_tick, int(start_tick + interval / TICK_RATE)
+            )
             for is_first, is_last, vibrato_secs in more_itertools.mark_ends(
                 portion.iterate(
-                    interval,
+                    sub_interval,
                     step_secs,
                 )
             ):
-                vibrato_ticks = round(self.synchronizer.get_actual_ticks_from_secs(vibrato_secs))
+                vibrato_ticks = int(self.synchronizer.get_actual_ticks_from_secs(vibrato_secs))
                 if (
-                    vibrato_value := self.vibrato_value_interval_dict.get(vibrato_secs)
-                ) is not None:
+                    vibrato_ticks not in note_start_positions
+                    and (vibrato_value := self.vibrato_value_interval_dict.get(vibrato_secs))
+                    is not None
+                ):
                     vibrato_value *= self.vibrato_coef_interval_dict[vibrato_secs] * 2000
                     points.add(
                         Point(
@@ -257,4 +269,11 @@ class SynthVEditorParser:
                             y=round(vibrato_value),
                         )
                     )
+        points.update(
+            Point(
+                x=note.start_pos,
+                y=0,
+            )
+            for note in note_list
+        )
         return list(points)

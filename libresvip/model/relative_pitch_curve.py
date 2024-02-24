@@ -54,9 +54,8 @@ class RelativePitchCurve:
                     )
             if not to_absolute and point.y == -100:
                 continue
-            if base_key := interval_dict.get(
-                point.x + (0 if to_absolute else -self.first_bar_length)
-            ):
+            pos = point.x + (0 if to_absolute else -self.first_bar_length)
+            if base_key := interval_dict.get(pos):
                 y = point.y + (base_key if to_absolute else -base_key) * 100
                 converted_data.append(
                     Point(
@@ -65,8 +64,10 @@ class RelativePitchCurve:
                         y=round(y),
                     )
                 )
+            if pos >= note_list[note_index].end_pos and note_index < len(note_list) - 1:
+                note_index += 1
         if converted_data and to_absolute:
-            converted_data.append(Point.end_point())
+            converted_data.extend((Point(x=converted_data[-1].x, y=-100), Point.end_point()))
         return self.append_points_at_borders(converted_data, note_list, radius=border_append_radius)
 
     def from_absolute(

@@ -9,8 +9,7 @@ import mido_fix as mido
 import more_itertools
 
 from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
-from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import NotesWarning
+from libresvip.core.warning_types import NotesWarning, TempoWarning
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -48,7 +47,6 @@ def velocity_to_db_change(value: float) -> float:
 @dataclasses.dataclass
 class MidiParser:
     options: InputOptions
-    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     ticks_per_beat: int = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
     selected_channels: list[int] = dataclasses.field(default_factory=list)
@@ -77,11 +75,8 @@ class MidiParser:
         self._convert_delta_to_cumulative(mido_obj.tracks)
         if len(mido_obj.tracks):
             master_track = mido_obj.tracks[0]
-            song_tempo_list = self.parse_tempo(master_track)
-            self.synchronizer = TimeSynchronizer(
-                song_tempo_list, _default_tempo=self.options.default_bpm
-            )
             time_signature_list = self.parse_time_signatures(master_track)
+        song_tempo_list = self.parse_tempo(mido_obj.tracks)
         return Project(
             song_tempo_list=song_tempo_list,
             time_signature_list=time_signature_list,
@@ -123,25 +118,28 @@ class MidiParser:
                     prev_ticks = tick
         if not time_signature_changes or time_signature_changes[0].bar_index > 0:
             time_signature_changes.insert(0, TimeSignature(bar_index=0, numerator=4, denominator=4))
-        self.first_bar_length = round(time_signature_changes[0].bar_length(self.ticks_per_beat))
+        self.first_bar_length = round(time_signature_changes[0].bar_length())
         return time_signature_changes
 
-    def parse_tempo(self, master_track: mido.MidiTrack) -> list[SongTempo]:
-        # default bpm
-        tempos = [SongTempo(position=0, bpm=self.options.default_bpm)]
+    def parse_tempo(self, tracks: list[mido.MidiTrack]) -> list[SongTempo]:
+        tempos: list[SongTempo] = []
 
         # traversing
-        for event in master_track:
-            if event.type == "set_tempo":
-                # convert tempo to BPM
-                tempo = round(mido.tempo2bpm(event.tempo), 3)
-                tick = round(event.time * self.tick_rate)
-                if tick == 0:
-                    tempos = [SongTempo(position=0, bpm=tempo)]
-                else:
-                    last_tempo = tempos[-1].bpm
+        for track in tracks:
+            for event in track:
+                if event.type == "set_tempo":
+                    # convert tempo to BPM
+                    tempo = round(mido.tempo2bpm(event.tempo), 3)
+                    tick = round(event.time * self.tick_rate)
+                    last_tempo = tempos[-1].bpm if tempos else None
                     if tempo != last_tempo:
                         tempos.append(SongTempo(position=tick, bpm=tempo))
+        if not tempos:
+            # default bpm
+            warnings.warn(_("No tempo labels found in the imported project."), TempoWarning)
+            tempos.append(SongTempo(position=0, bpm=self.options.default_bpm))
+        else:
+            tempos.sort(key=operator.attrgetter("position"))
         return tempos
 
     def parse_track(self, track_idx: int, track: mido.MidiTrack) -> list[SingingTrack]:
