@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:177557f288a103789d78a175d8274e1631d25701fede7bc445205f7ded998b34"
+content_hash = "sha256:7f6e7eb41e7a4ca76ffb5c3cf875db339ad5c2d86780c8bb8fde74628a6cfd3d"
 
 [[package]]
 name = "aiofiles"
@@ -1672,14 +1672,14 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.0.3"
+version = "2.0.4"
 summary = "Python compiler with full language support and CPython compatibility"
 dependencies = [
     "ordered-set>=4.1.0",
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.0.3.tar.gz", hash = "sha256:9e9cd4b2e1e802be6233d48f5c8406c9289d5816bfd82d09fc6b95c1449ff900"},
+    {file = "Nuitka-2.0.4.tar.gz", hash = "sha256:d81a96e72ec6ef9d37b2fda7a7412956ee69428ceb85db566cd333d46074fc17"},
 ]
 
 [[package]]
