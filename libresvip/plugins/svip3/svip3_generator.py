@@ -1,4 +1,5 @@
 import dataclasses
+import fractions
 import re
 import warnings
 from typing import Any
@@ -20,6 +21,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.reset_time_axis import zoom_project
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.music_math import ratio_to_db
 from libresvip.utils.translation import gettext_lazy as _
@@ -38,6 +40,7 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
+from .options import OutputOptions
 from .singers import singers_data
 
 PINYIN_PATTERN = re.compile(r"^[a-z]+$")
@@ -45,12 +48,15 @@ PINYIN_PATTERN = re.compile(r"^[a-z]+$")
 
 @dataclasses.dataclass
 class Svip3Generator:
+    options: OutputOptions
     first_bar_length: int = dataclasses.field(init=False)
     song_tempo_list: list[SongTempo] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     song_duration: int = dataclasses.field(default=0)
 
     def generate_project(self, project: Project) -> Svip3Project:
+        if (zoom_factor := float(fractions.Fraction(self.options.zoom_project.value))) != 1.0:
+            project = zoom_project(project, zoom_factor)
         return Svip3Project(
             beat_list=self.generate_time_signatures(project.time_signature_list),
             tempo_list=self.generate_song_tempos(project.song_tempo_list),

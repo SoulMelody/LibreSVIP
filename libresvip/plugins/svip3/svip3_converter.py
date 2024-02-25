@@ -15,5 +15,5 @@ class Svip3Converter(plugin_base.SVSConverterBase):
         return Svip3Parser().parse_project(svip3_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        svip3_project = Svip3Generator().generate_project(project)
+        svip3_project = Svip3Generator(options).generate_project(project)
         path.write_bytes(Svip3Project.serialize(svip3_project))

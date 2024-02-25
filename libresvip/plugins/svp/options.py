@@ -18,6 +18,20 @@ synthv_language_presets = {
 }
 
 
+class NoteLengthOption(Enum):
+    ZERO: Annotated[str, Field(title="Zero length note")] = "0/1"
+    EIGHTH: Annotated[str, Field(title="1/8 note")] = "1/8"
+    SIXTEENTH: Annotated[str, Field(title="1/16 note")] = "1/16"
+    THIRTY_SECOND: Annotated[str, Field(title="1/32 note")] = "1/32"
+    SIXTY_FOURTH: Annotated[str, Field(title="1/64 note")] = "1/64"
+    ONE_HUNDRED_AND_TWENTY_EIGHTH: Annotated[
+        str,
+        Field(
+            title="1/128 note",
+        ),
+    ] = "1/128"
+
+
 class LanguageOption(Enum):
     MANDARIN: Annotated[str, Field(title="Mandarin")] = "mandarin"
     CANTONESE: Annotated[str, Field(title="Cantonese")] = "cantonese"
@@ -120,6 +134,11 @@ class InputOptions(BaseModel):
 
 
 class OutputOptions(BaseModel):
+    remove_short_silences: NoteLengthOption = Field(
+        default=NoteLengthOption.ZERO,
+        title="Threshold to remove short silences",
+        description="Extend note to fill the short silences between it and its next note",
+    )
     vibrato: VibratoOption = Field(
         default=VibratoOption.NONE, title="The way to handle vibrato notes"
     )
