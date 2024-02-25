@@ -14,9 +14,9 @@ from .constants import app_dir
 
 
 class Language(enum.Enum):
-    CHINESE = "简体中文"
-    ENGLISH = "English"
-    JAPANESE = "日本語"
+    CHINESE = "zh_CN"
+    ENGLISH = "en_US"
+    JAPANESE = "ja_JP"
 
     @staticmethod
     def to_language(locale: str) -> str:
@@ -41,14 +41,6 @@ class Language(enum.Enum):
     def auto(cls) -> Language:
         sys_locale = locale.getdefaultlocale()[0]
         return cls.from_locale(sys_locale or "en_US")
-
-    def to_locale(self) -> str:
-        if self == self.CHINESE:
-            return "zh_CN"
-        elif self == self.JAPANESE:
-            return "ja_JP"
-        else:
-            return "en_US"
 
 
 class DarkMode(enum.Enum):

@@ -36,7 +36,7 @@ class ConfigItems(QObject):
                     "text": plugin.file_format,
                     "value": plugin.suffix,
                 }
-                for _, _, plugin in plugin_manager._candidates
+                for _, plugin in plugin_manager._candidates
             ],
         )
         atexit.register(self.save_settings)

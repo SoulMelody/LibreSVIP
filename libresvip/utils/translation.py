@@ -36,7 +36,7 @@ def get_translation(
     localedir = res_dir / "locales"
 
     if lang is None:
-        lang = settings.language.to_locale()
+        lang = settings.language.value
 
     if (file := localedir / lang / "LC_MESSAGES" / f"{domain}.mo").is_file():
         with file.open("rb") as fp:

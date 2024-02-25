@@ -3,8 +3,6 @@ from __future__ import annotations
 import dataclasses
 import functools
 import inspect
-import os
-import posixpath
 import sys
 from importlib.abc import MetaPathFinder
 from importlib.machinery import (
@@ -40,7 +38,7 @@ class PluginManager:
     install_path: pathlib.Path
     plugin_places: list[Traversable]
     plugin_registry: dict[str, LibreSvipPluginInfo] = dataclasses.field(default_factory=dict)
-    _candidates: list[tuple[str, Traversable, LibreSvipPluginInfo]] = dataclasses.field(
+    _candidates: list[tuple[Traversable, LibreSvipPluginInfo]] = dataclasses.field(
         default_factory=list
     )
 
@@ -79,20 +77,10 @@ class PluginManager:
 
         .. note:: Isolated and provided to be reused, but not to be reimplemented !
         """
+        if plugin_module_name not in sys.modules or reload:
+            sys.modules[plugin_module_name] = load_module(plugin_module_name, candidate_filepath)
 
-        if candidate_filepath.is_file():
-            plugin_dirname = (
-                str(candidate_filepath)
-                .removesuffix(candidate_filepath.name)
-                .replace(os.path.sep, posixpath.sep)
-                .removesuffix(posixpath.sep)
-                .rpartition(posixpath.sep)[-1]
-            )
-            plugin_package = f"{self.plugin_namespace}.{plugin_dirname}"
-        if plugin_package not in sys.modules or reload:
-            sys.modules[plugin_package] = load_module(plugin_package, candidate_filepath)
-
-        return sys.modules[plugin_package]
+        return sys.modules[plugin_module_name]
 
     def scan_candidates(self) -> None:
         self._candidates.clear()
@@ -140,7 +128,7 @@ class PluginManager:
                             f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                         )
                         break
-                    self._candidates.append((candidate_infofile, candidate_filepath, plugin_info))
+                    self._candidates.append((candidate_filepath, plugin_info))
                     # finally the candidate_infofile must not be discovered again
                     _discovered.add(candidate_infofile)
 
@@ -148,7 +136,7 @@ class PluginManager:
         if reload:
             self.plugin_registry.clear()
         self.scan_candidates()
-        for candidate_infofile, candidate_filepath, plugin_info in self._candidates:
+        for candidate_filepath, plugin_info in self._candidates:
             # make sure to attribute a unique module name to the one
             # that is about to be loaded
             plugin_module_name = f"{self.plugin_namespace}.{plugin_info.suffix}"

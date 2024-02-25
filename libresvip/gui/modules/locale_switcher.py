@@ -46,11 +46,11 @@ class LocaleSwitcher(QObject):
         if not config_path.exists():
             sys_locale = QLocale.system().name()
             settings.language = Language.from_locale(sys_locale)
-        self.switch_language(settings.language.to_locale())
+        self.switch_language(settings.language.value)
 
     @Slot(result=str)
     def get_language(self) -> str:
-        return settings.language.to_locale()
+        return settings.language.value
 
     @Slot(str)
     def switch_language(self, lang: str) -> None:
