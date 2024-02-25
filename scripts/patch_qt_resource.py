@@ -9,7 +9,7 @@ if __name__ == "__main__":
             "python",
             "-o",
             "../libresvip/gui/__init__.py",
-            "../libresvip/gui/resources.qrc",
+            "../libresvip/res/qml/resources.qrc",
         ]
     )
     resource_file = pathlib.Path("../libresvip/gui/__init__.py")
