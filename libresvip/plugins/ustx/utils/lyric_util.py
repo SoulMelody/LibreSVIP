@@ -2,7 +2,7 @@ from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 
 
 class LyricUtil:
-    unsupported_symbols = "".join((",", ".", "?", "!", "，", "。", "？", "！"))
+    unsupported_symbols = ",.?!，。？！"
 
     @staticmethod
     def is_hanzi(c: str) -> bool:

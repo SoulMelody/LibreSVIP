@@ -47,12 +47,13 @@ class VoiSonaParser:
         tracks = []
         for track in voisona_project.tracks:
             for item in track.track:
-                if isinstance(item, VoiSonaSingingTrackItem):
-                    if parse_result := self.parse_singing_track(item):
-                        singing_track, tempo_part, time_signature_part = parse_result
-                        tracks.append(singing_track)
-                        tempos.extend(tempo_part)
-                        time_signatures.extend(time_signature_part)
+                if isinstance(item, VoiSonaSingingTrackItem) and (
+                    parse_result := self.parse_singing_track(item)
+                ):
+                    singing_track, tempo_part, time_signature_part = parse_result
+                    tracks.append(singing_track)
+                    tempos.extend(tempo_part)
+                    time_signatures.extend(time_signature_part)
         tempos = self.merge_tempos(tempos)
         self.time_synchronizer = TimeSynchronizer(tempos)
         for track in voisona_project.tracks:
@@ -143,10 +144,11 @@ class VoiSonaParser:
                 if parameter.log_f0 is not None:
                     for curve in parameter.log_f0:
                         pitch_data_nodes: list[VoiSonaPointData] = curve.data
-                        pitch_datas = []
-                        for data_node in pitch_data_nodes:
-                            if pitch_data := self.parse_pitch_data(data_node):
-                                pitch_datas.append(pitch_data)
+                        pitch_datas = [
+                            pitch_data
+                            for data_node in pitch_data_nodes
+                            if (pitch_data := self.parse_pitch_data(data_node))
+                        ]
                         voisona_track_pitch_data = VoiSonaTrackPitchData(
                             events=pitch_datas, tempos=tempos, tick_prefix=tick_prefix
                         )

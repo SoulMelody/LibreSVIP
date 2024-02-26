@@ -149,7 +149,7 @@ class SynthVGenerator:
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
                 sv_track.main_ref.audio.duration = track_info.duration / 1000
         else:
-            return
+            return None
         return sv_track
 
     def generate_audio_offset(self, offset: int) -> int:

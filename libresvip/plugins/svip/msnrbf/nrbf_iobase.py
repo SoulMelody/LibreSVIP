@@ -5,6 +5,7 @@ from collections import ChainMap
 from collections.abc import MutableMapping
 from functools import cached_property
 from types import TracebackType
+from typing import Optional
 
 from construct import Container
 from typing_extensions import Self
@@ -35,7 +36,10 @@ class NrbfIOBase:
         return self
 
     def __exit__(
-        self, exc_type: type[Exception], exc_value: Exception, traceback: TracebackType
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
     ) -> None:
         classes_by_id.pop(self.cur_thread_id, None)
         objects_by_id.pop(self.cur_thread_id, None)

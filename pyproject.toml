@@ -139,7 +139,7 @@ fix = true
 [tool.ruff.lint]
 select = [
   "A",     # builtins
-  "ANN2",  # missing annotations in return
+  "ANN",   # annotations
   "ASYNC", # async
   "C4",    # comprehensions
   "DTZ",   # timezone
@@ -147,14 +147,18 @@ select = [
   "EM",    # error messages
   "EXE",   # executable
   "F",     # flakes
+  "FLY",   # flynt
   "I",     # import sorting
   "INT",   # gettext
   "N",     # naming
-  "PIE",   # pie
+  "PERF",  # perflint
+  "PIE",   # assign and return
   "PGH",   # pygrep-hooks
   "PLC",   # pylint convention
   "PT",    # pytest-style
   "PTH",   # pathlib
+  "PYI",   # stubs
+  "SIM",   # simplify
   "T10",   # debugger
   "T20",   # print
   "TCH",   # type-checking
@@ -164,6 +168,9 @@ select = [
   "YTT",   # sys.version
 ]
 ignore = [
+  "ANN101", # Missing type annotation for `self` in method
+  "ANN102", # Missing type annotation for `cls` in classmethod
+  "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
   "UP007",  # Use `X | Y` for type annotations
 ]

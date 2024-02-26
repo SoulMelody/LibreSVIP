@@ -115,7 +115,7 @@ class AceGenerator:
                 )
                 audio_pattern.clip_dur = audio_pattern.dur - audio_pattern.clip_pos
             else:
-                return
+                return None
             ace_audio_track.patterns.append(audio_pattern)
             ace_track = ace_audio_track
         elif isinstance(track, SingingTrack):
@@ -167,7 +167,7 @@ class AceGenerator:
                     generate_vocal_pattern()
             ace_track = ace_vocal_track
         else:
-            return
+            return None
         ace_track.name = track.title
         ace_track.mute = track.mute
         ace_track.solo = track.solo

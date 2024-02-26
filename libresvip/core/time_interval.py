@@ -50,9 +50,7 @@ class PiecewiseIntervalDict(portion.IntervalDict):
 
         self._storage[interval] = value
 
-    def __getitem__(
-        self, key: Union[portion.Interval, int, float]
-    ) -> Optional[UnaryFunctionOrConstant]:
+    def __getitem__(self, key: Union[portion.Interval, float]) -> Optional[UnaryFunctionOrConstant]:
         if isinstance(key, portion.Interval):
             return super().__getitem__(key)
         elif (func := self._get_func(key)) is not None:

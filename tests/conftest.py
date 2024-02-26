@@ -12,12 +12,12 @@ def pinyin_example() -> list[str]:
 
 
 @pytest.fixture()
-def pretty_construct() -> None:
+def _pretty_construct() -> None:
     from enum import IntEnum
 
     from construct import Container, EnumIntegerString, ListContainer
 
-    def int_enum_repr(self: IntEnum) -> str:
+    def int_enum_repr(self: object) -> str:
         return repr(self.value)
 
     IntEnum.__repr__ = int_enum_repr
@@ -27,7 +27,7 @@ def pretty_construct() -> None:
 
     EnumIntegerString.__repr__ = contruct_enum_repr
 
-    def container_repr(self) -> str:
+    def container_repr(self: Container) -> str:
         parts = [
             f"{repr(k)}: {repr(v)}"
             for k, v in self.items()
@@ -44,4 +44,4 @@ def pretty_construct() -> None:
 
     ListContainer.__repr__ = list_container_repr
 
-    return None
+    return

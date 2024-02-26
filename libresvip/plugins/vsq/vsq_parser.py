@@ -70,15 +70,17 @@ class VsqParser:
 
     @staticmethod
     def extract_vsq_text_from_meta_events(tracks: list[mido.MidiTrack]) -> list[str]:
-        text_list = []
-        for track in tracks:
-            if text := "".join(
-                event.text.removeprefix("DM:").partition(":")[-1]
-                for event in track
-                if isinstance(event, mido.MetaMessage) and event.type == "text"
-            ):
-                text_list.append(text)
-        return text_list
+        return [
+            text
+            for track in tracks
+            if (
+                text := "".join(
+                    event.text.removeprefix("DM:").partition(":")[-1]
+                    for event in track
+                    if isinstance(event, mido.MetaMessage) and event.type == "text"
+                )
+            )
+        ]
 
     @staticmethod
     def _convert_delta_to_cumulative(tracks: list[mido.MidiTrack]) -> None:
@@ -191,24 +193,27 @@ class VsqParser:
             tick = int(tick_str) - tick_prefix
             if event_key.startswith("ID#"):
                 vsq_note = vsq_track[event_key]
-                if vsq_note["type"] == "Anote":
-                    if (length := vsq_note.getint("length")) and (key := vsq_note.getint("note#")):
-                        lyric_handle = vsq_note.get("lyrichandle", fallback="")
-                        lyric_value, phoneme_value = vsq_track.get(
-                            lyric_handle, "L0", fallback=","
-                        ).split(",")[:2]
-                        if BREATH_PATTERN.fullmatch(phoneme_value.strip('"')) is not None:
-                            if self.options.breath == BreathOption.IGNORE:
-                                continue
-                            else:
-                                lyric_value = phoneme_value
-                        notes.append(
-                            Note(
-                                start_pos=tick,
-                                length=length,
-                                key_number=key,
-                                lyric=lyric_value.strip('"'),
-                                pronunciation=None,
-                            )
+                if (
+                    vsq_note["type"] == "Anote"
+                    and (length := vsq_note.getint("length"))
+                    and (key := vsq_note.getint("note#"))
+                ):
+                    lyric_handle = vsq_note.get("lyrichandle", fallback="")
+                    lyric_value, phoneme_value = vsq_track.get(
+                        lyric_handle, "L0", fallback=","
+                    ).split(",")[:2]
+                    if BREATH_PATTERN.fullmatch(phoneme_value.strip('"')) is not None:
+                        if self.options.breath == BreathOption.IGNORE:
+                            continue
+                        else:
+                            lyric_value = phoneme_value
+                    notes.append(
+                        Note(
+                            start_pos=tick,
+                            length=length,
+                            key_number=key,
+                            lyric=lyric_value.strip('"'),
+                            pronunciation=None,
                         )
+                    )
         return notes

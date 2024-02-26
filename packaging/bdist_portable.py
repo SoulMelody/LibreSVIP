@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+from typing import Optional
 
 from loguru import logger
 from setuptools import Command
@@ -55,7 +56,7 @@ class BdistPortable(Command):
     default_format = {"posix": "gztar", "nt": "zip"}
 
     def initialize_options(self) -> None:
-        self.bdist_dir = None
+        self.bdist_dir: Optional[pathlib.Path] = None
         self.plat_name = None
         self.format = None
         self.keep_temp = 0
@@ -124,10 +125,7 @@ class BdistPortable(Command):
             owner=self.owner,
             group=self.group,
         )
-        if self.distribution.has_ext_modules():
-            pyversion = get_python_version()
-        else:
-            pyversion = "any"
+        pyversion = get_python_version() if self.distribution.has_ext_modules() else "any"
         self.distribution.dist_files.append(("bdist_portable", pyversion, filename))
 
         if not self.keep_temp:

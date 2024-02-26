@@ -88,12 +88,12 @@ class MidiGenerator:
                 prev_time_signature = time_signature
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
-        mido_tracks = []
-        for track in tracks:
-            if isinstance(track, SingingTrack):
-                if (mido_track := self.generate_track(track)) is not None:
-                    mido_tracks.append(mido_track)
-        return mido_tracks
+        return [
+            mido_track
+            for track in tracks
+            if isinstance(track, SingingTrack)
+            and (mido_track := self.generate_track(track)) is not None
+        ]
 
     def generate_track(self, track: SingingTrack) -> mido.MidiTrack:
         lyrics = [

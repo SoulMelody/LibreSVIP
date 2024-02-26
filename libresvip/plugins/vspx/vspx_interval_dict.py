@@ -176,8 +176,9 @@ class BasePitchCurve:
             self.vibrato_coef_interval_dict[portion.closed(start, end)] = 0
 
     def semitone_value_at(self, seconds: float) -> Optional[float]:
-        if (pitch_value := self.key_interval_dict.get(seconds)) is not None:
-            if (vibrato_value := self.vibrato_value_interval_dict.get(seconds)) is not None:
-                vibrato_value *= self.vibrato_coef_interval_dict[seconds]
-                pitch_value += vibrato_value
+        if (pitch_value := self.key_interval_dict.get(seconds)) is not None and (
+            vibrato_value := self.vibrato_value_interval_dict.get(seconds)
+        ) is not None:
+            vibrato_value *= self.vibrato_coef_interval_dict[seconds]
+            pitch_value += vibrato_value
         return pitch_value

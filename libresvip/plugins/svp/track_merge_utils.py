@@ -71,8 +71,9 @@ def param_curve_override_with(
                 ),
             )
         )
-    for i in range(override_left_index + 1, override_right_index):
-        inserted_points.append(override_curve.points[i])
+    inserted_points.extend(
+        override_curve.points[i] for i in range(override_left_index + 1, override_right_index)
+    )
     if override_right_defined:
         r = (end - override_curve.points[override_right_index - 1].x) / (
             override_curve.points[override_right_index].x

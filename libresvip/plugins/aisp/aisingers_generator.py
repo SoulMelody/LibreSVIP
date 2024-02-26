@@ -136,29 +136,30 @@ class AiSingersGenerator:
                         ],
                     )
                     ais_tracks.append(ais_track)
-            elif isinstance(track, InstrumentalTrack):
-                if track_info := audio_track_info(track.audio_file_path, only_wav=True):
-                    offset_secs = track_info.duration / 1000
-                    end_tick = self.synchronizer.get_actual_ticks_from_secs_offset(
-                        track.offset, offset_secs
-                    )
-                    ais_track = AISAudioTrack(
-                        idx=len(ais_tracks),
-                        name=track.title,
-                        mute=track.mute,
-                        solo=track.solo,
-                        items=[
-                            AISAudioPattern(
-                                start=track.offset // 15,
-                                length=(end_tick - track.offset) // 15,
-                                path_audio=track.audio_file_path,
-                                path_wave=track.audio_file_path,
-                                len_sec=int(offset_secs),
-                                n_channel=track_info.channel_s,
-                            )
-                        ],
-                    )
-                    ais_tracks.append(ais_track)
+            elif isinstance(track, InstrumentalTrack) and (
+                track_info := audio_track_info(track.audio_file_path, only_wav=True)
+            ):
+                offset_secs = track_info.duration / 1000
+                end_tick = self.synchronizer.get_actual_ticks_from_secs_offset(
+                    track.offset, offset_secs
+                )
+                ais_track = AISAudioTrack(
+                    idx=len(ais_tracks),
+                    name=track.title,
+                    mute=track.mute,
+                    solo=track.solo,
+                    items=[
+                        AISAudioPattern(
+                            start=track.offset // 15,
+                            length=(end_tick - track.offset) // 15,
+                            path_audio=track.audio_file_path,
+                            path_wave=track.audio_file_path,
+                            len_sec=int(offset_secs),
+                            n_channel=track_info.channel_s,
+                        )
+                    ],
+                )
+                ais_tracks.append(ais_track)
         return ais_tracks
 
     def generate_notes(self, track: SingingTrack) -> list[AISNote]:

@@ -131,9 +131,8 @@ class FramelessWindow(QQuickWindow):
                     elif lx:
                         if self.visibility != QQuickWindow.Visibility.Maximized:
                             return True, win32con.HTLEFT
-                    elif rx:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
-                            return True, win32con.HTRIGHT
+                    elif rx and self.visibility != QQuickWindow.Visibility.Maximized:
+                        return True, win32con.HTRIGHT
                     if self.maximize_btn is not None:
                         top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                         rect = QRect(
@@ -168,9 +167,8 @@ class FramelessWindow(QQuickWindow):
                     else:
                         self.show_normal()
                     return True, 0
-            elif msg.message == win32con.WM_SIZE:
-                if msg.wParam == win32con.SIZE_MINIMIZED:
-                    self.prev_visibility = self.visibility
+            elif msg.message == win32con.WM_SIZE and msg.wParam == win32con.SIZE_MINIMIZED:
+                self.prev_visibility = self.visibility
         return super().native_event(event_type, message)
 
     def handle_mouse_event(self, msg: MSG) -> None:

@@ -44,7 +44,8 @@ def test_vshp_read(shared_datadir: pathlib.Path) -> None:
     print(normlized_path)
 
 
-def test_dv_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
+@pytest.mark.usefixtures("_pretty_construct")
+def test_dv_read(shared_datadir: pathlib.Path) -> None:
     from libresvip.plugins.dv.model import dv_project_struct
 
     proj_path = shared_datadir / "test.dv"
@@ -52,7 +53,8 @@ def test_dv_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
     print(asdict(proj))
 
 
-def test_mtp_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
+@pytest.mark.usefixtures("_pretty_construct")
+def test_mtp_read(shared_datadir: pathlib.Path) -> None:
     from libresvip.plugins.mtp.model import muta_project_struct
 
     proj_path = shared_datadir / "test.mtp"
@@ -64,7 +66,8 @@ def test_mtp_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
     #             print(chr(note.lyric[0]))
 
 
-def test_tssln_write(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
+@pytest.mark.usefixtures("_pretty_construct")
+def test_tssln_write(shared_datadir: pathlib.Path) -> None:
     from libresvip.plugins.tssln.model import VoiSonaProject, model_to_value_tree
     from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
 
@@ -123,10 +126,10 @@ def test_acep_read(
         print(proj)
 
 
+@pytest.mark.usefixtures("_pretty_construct")
 def test_ppsf_read(
     shared_datadir: pathlib.Path,
     capsys: pytest.CaptureFixture[str],
-    pretty_construct: None,
 ) -> None:
     from libresvip.plugins.ppsf.legacy_model import PpsfLegacyProject
     from libresvip.plugins.ppsf.model import PpsfProject
@@ -262,10 +265,10 @@ def test_s5p_read(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     with capsys.disabled():
-        s5p_plugin = plugin_registry["s5p"].plugin_object
-        proj_path = shared_datadir / "test.s5p"
-        proj = s5p_plugin.load(proj_path, None)
-        print(proj)
+        if s5p_plugin := plugin_registry["s5p"].plugin_object:
+            proj_path = shared_datadir / "test.s5p"
+            proj = s5p_plugin.load(proj_path, None)
+            print(proj)
 
 
 def test_svp_read(
@@ -285,7 +288,7 @@ def test_svp_write(
         svp_plugin = plugin_registry["svp"].plugin_object
         proj_path = shared_datadir / "test.svp"
         proj = svp_plugin.load(proj_path, None)
-        svp_plugin.dump("./test.svp", proj, None)
+        svp_plugin.dump(pathlib.Path("./test.svp"), proj, None)
 
 
 def test_svip_read(
@@ -312,7 +315,7 @@ def test_svip_write(
         svip_plugin = plugin_registry["svip"].plugin_object
         proj_path = shared_datadir / "test.svip"
         proj = svip_plugin.load(proj_path, None)
-        svip_plugin.dump("./test.svip", proj, None)
+        svip_plugin.dump(pathlib.Path("./test.svip"), proj, None)
         # with SvipReader() as registry:
         #     version, proj = registry.read(proj_path)
         # with SvipWriter() as writer:

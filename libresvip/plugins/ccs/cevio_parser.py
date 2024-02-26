@@ -143,13 +143,12 @@ class CeVIOParser:
 
         tick_prefix = int(time_signatures[0].bar_length())
 
-        tempos = []
         tempo_nodes = unit_node.song.tempo.sound if unit_node.song.tempo is not None else []
-        for tempo_node in tempo_nodes:
-            if tempo_node.clock is not None and tempo_node.tempo is not None:
-                tempos.append(
-                    SongTempo(position=tempo_node.clock // TICK_RATE, bpm=float(tempo_node.tempo))
-                )
+        tempos = [
+            SongTempo(position=tempo_node.clock // TICK_RATE, bpm=float(tempo_node.tempo))
+            for tempo_node in tempo_nodes
+            if tempo_node.clock is not None and tempo_node.tempo is not None
+        ]
 
         notes = []
         note_nodes = unit_node.song.score.note
@@ -195,18 +194,21 @@ class CeVIOParser:
                 if unit_node.song.parameter.vib_frq is not None
                 else [],
             )
-            pitch_datas = []
-            vibrato_amplitude_data = []
-            vibrato_frequency_data = []
-            for pitch_data_node in pitch_data_nodes:
-                if pitch_data := self.parse_param_data(pitch_data_node):
-                    pitch_datas.append(pitch_data)
-            for vibrato_amplitude_node in vibrato_amplitude_nodes:
-                if vibrato_amplitude := self.parse_param_data(vibrato_amplitude_node):
-                    vibrato_amplitude_data.append(vibrato_amplitude)
-            for vibrato_frequency_node in vibrato_frequency_nodes:
-                if vibrato_frequency := self.parse_param_data(vibrato_frequency_node):
-                    vibrato_frequency_data.append(vibrato_frequency)
+            pitch_datas = [
+                pitch_data
+                for pitch_data_node in pitch_data_nodes
+                if (pitch_data := self.parse_param_data(pitch_data_node))
+            ]
+            vibrato_amplitude_data = [
+                vibrato_amplitude
+                for vibrato_amplitude_node in vibrato_amplitude_nodes
+                if (vibrato_amplitude := self.parse_param_data(vibrato_amplitude_node))
+            ]
+            vibrato_frequency_data = [
+                vibrato_frequency
+                for vibrato_frequency_node in vibrato_frequency_nodes
+                if (vibrato_frequency := self.parse_param_data(vibrato_frequency_node))
+            ]
             cevio_track_pitch_data = CeVIOTrackPitchData(
                 events=pitch_datas,
                 tempos=tempos,

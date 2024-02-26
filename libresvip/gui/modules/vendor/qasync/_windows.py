@@ -58,17 +58,21 @@ class _ProactorEventLoop(asyncio.ProactorEventLoop):  # type: ignore[name-define
 
     def _process_events(self, events: list[ProactorEvent]) -> None:
         """Process events from proactor."""
-        for f, callback, transferred, key, ov in events:
-            try:
-                logger.debug("Invoking event callback {}", callback)
-                value = callback(transferred, key, ov)
-            except OSError as e:
-                logger.exception("Event callback failed", exc_info=sys.exc_info())
-                if not f.done():
-                    f.set_exception(e)
-            else:
-                if not f.cancelled():
-                    f.set_result(value)
+        for event in events:
+            self._process_event(event)
+
+    def _process_event(self, event: ProactorEvent) -> None:
+        f, callback, transferred, key, ov = event
+        try:
+            logger.debug("Invoking event callback {}", callback)
+            value = callback(transferred, key, ov)
+        except OSError as e:
+            logger.exception("Event callback failed", exc_info=sys.exc_info())
+            if not f.done():
+                f.set_exception(e)
+        else:
+            if not f.cancelled():
+                f.set_result(value)
 
     def _before_run_forever(self) -> None:
         self.__event_poller.start(self._proactor)

@@ -27,6 +27,6 @@ else:
     from libresvip.gui.modules.frameless_window import FramelessWindow
 
 if platform.python_implementation() == "CPython":
-    __all__.append("Notifier")
+    __all__ += ["Notifier"]
 
     from .notifier import Notifier  # noqa: F401

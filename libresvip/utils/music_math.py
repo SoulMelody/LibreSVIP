@@ -1,6 +1,6 @@
 import math
 import re
-from typing import Optional, Union
+from typing import Optional
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 
@@ -76,16 +76,14 @@ def clamp(
     return min(max(x, lower), upper)
 
 
-def linear_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
-) -> float:
+def linear_interpolation(x: float, start: tuple[float, float], end: tuple[float, float]) -> float:
     x0, y0 = start
     x1, y1 = end
     return y0 + (x - x0) * (y1 - y0) / (x1 - x0)
 
 
 def cosine_easing_in_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
+    x: float, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -93,7 +91,7 @@ def cosine_easing_in_interpolation(
 
 
 def cosine_easing_out_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
+    x: float, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end
@@ -101,7 +99,7 @@ def cosine_easing_out_interpolation(
 
 
 def cosine_easing_in_out_interpolation(
-    x: Union[int, float], start: tuple[float, float], end: tuple[float, float]
+    x: float, start: tuple[float, float], end: tuple[float, float]
 ) -> float:
     x0, y0 = start
     x1, y1 = end

@@ -185,7 +185,10 @@ class QThreadExecutor:
         return self
 
     def __exit__(
-        self, exc_type: type[Exception], exc_value: Exception, traceback: TracebackType
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
     ) -> None:
         self.shutdown()
 
@@ -690,7 +693,10 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         return self
 
     def __exit__(
-        self, exc_type: type[Exception], exc_value: Exception, traceback: TracebackType
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_value: Optional[BaseException],
+        traceback: Optional[TracebackType],
     ) -> None:
         self.stop()
         self.close()
@@ -752,7 +758,7 @@ def async_slot(*types: list[type], result: Optional[type] = None) -> QtCore.Slot
             while len(args):
                 try:
                     inspect.signature(fn).bind(*args, **kwargs)
-                except TypeError:
+                except TypeError:  # noqa: PERF203
                     if len(args):
                         # Only convert args to a list if we need to pop()
                         args = args[:-1]

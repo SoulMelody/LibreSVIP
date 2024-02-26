@@ -41,7 +41,7 @@ def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
                 "options"
             ]
             conv_fields = []
-            for option_key, field_info in option_class.model_fields.items():
+            for field_info in option_class.model_fields.values():
                 if issubclass(
                     field_info.annotation,
                     (bool, str, int, float, Color, BaseComplexModel),
@@ -109,13 +109,12 @@ if __name__ == "__main__":
 
             plugin_info_path = next(info_path.glob("*.yapsy-plugin"))
             i18n_file = info_path / f"{plugin_info_path.stem}-{locale_name}.po"
-            if i18n_file.exists():
-                if ori_content := i18n_file.read_bytes():
-                    orig_po = io.BytesIO(ori_content)
-                    mergestore(
-                        orig_po,
-                        i18n_file.open("wb"),
-                        tmp_po,
-                    )
-                    continue
+            if i18n_file.exists() and (ori_content := i18n_file.read_bytes()):
+                orig_po = io.BytesIO(ori_content)
+                mergestore(
+                    orig_po,
+                    i18n_file.open("wb"),
+                    tmp_po,
+                )
+                continue
             shutil.copyfileobj(tmp_po, i18n_file.open("wb"))

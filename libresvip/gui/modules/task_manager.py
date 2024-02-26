@@ -478,14 +478,16 @@ class TaskManager(QObject):
             name == "input_format"
             and settings.reset_tasks_on_input_change
             and value != self.input_format
-        ):
-            if delete_len := more_itertools.ilen(
-                more_itertools.rstrip(
-                    self.tasks,
-                    lambda task: task["path"].lower().endswith(f".{value}"),
+            and (
+                delete_len := more_itertools.ilen(
+                    more_itertools.rstrip(
+                        self.tasks,
+                        lambda task: task["path"].lower().endswith(f".{value}"),
+                    )
                 )
-            ):
-                self.tasks.delete_many(0, delete_len)
+            )
+        ):
+            self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
 
     def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:

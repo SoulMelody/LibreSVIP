@@ -693,10 +693,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 import webview
 
                 result = None
-                if not file_name:
-                    result = self._export_all()
-                else:
-                    result = self._export_one(file_name)
+                result = self._export_all() if not file_name else self._export_one(file_name)
                 if result is None:
                     ui.notify(_("Save failed!"), type="negative")
                     return
@@ -952,206 +949,207 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ui.icon("info").classes("text-lg")
                     ui.label(_("About"))
 
-    with ui.card().classes("w-full").style("height: calc(100vh - 120px)"):
-        with ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter:
-            with main_splitter.before:
-                with ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
-                    with left_splitter.before, ui.card().classes("h-full w-full"):
-                        with ui.column().classes("w-full"):
-                            ui.label(_("Choose file format")).classes(
-                                "text-h5 font-bold",
+    with ui.card().classes("w-full").style("height: calc(100vh - 120px)"), ui.splitter(
+        limits=(40, 60)
+    ).classes("h-full w-full") as main_splitter:
+        with main_splitter.before, ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
+            with left_splitter.before, ui.card().classes("h-full w-full"), ui.column().classes(
+                "w-full"
+            ):
+                ui.label(_("Choose file format")).classes(
+                    "text-h5 font-bold",
+                )
+                with ui.grid().classes(
+                    "grid grid-cols-11 gap-4 w-full",
+                ):
+                    select_input: Select = (
+                        ui.select(
+                            {
+                                k: _(v["file_format"] or "") + " " + v["suffix"]
+                                for k, v in plugin_details.items()
+                            },
+                            label=_("Import format"),
+                        )
+                        .classes("col-span-10")
+                        .bind_value(selected_formats, "input_format")
+                    )
+                    with ui.dialog() as input_info, ui.card():
+                        input_plugin_info()
+                        with (
+                            ui.card_actions()
+                            .props(
+                                "align=right",
                             )
-                            with ui.grid().classes(
-                                "grid grid-cols-11 gap-4 w-full",
-                            ):
-                                select_input: Select = (
-                                    ui.select(
-                                        {
-                                            k: _(v["file_format"] or "") + " " + v["suffix"]
-                                            for k, v in plugin_details.items()
-                                        },
-                                        label=_("Import format"),
-                                    )
-                                    .classes("col-span-10")
-                                    .bind_value(selected_formats, "input_format")
-                                )
-                                with ui.dialog() as input_info, ui.card():
-                                    input_plugin_info()
-                                    with (
-                                        ui.card_actions()
-                                        .props(
-                                            "align=right",
-                                        )
-                                        .classes("w-full")
-                                    ):
-                                        ui.button(
-                                            _("Close"),
-                                            on_click=input_info.close,
-                                        )
-                                with ui.button(
-                                    icon="info",
-                                    on_click=input_info.open,
-                                ).classes(
-                                    "min-w-[45px] max-w-[45px] aspect-square",
-                                ):
-                                    ui.tooltip(_("View Detail Information"))
-                                ui.switch(_("Auto detect import format")).classes(
-                                    "col-span-5",
-                                ).bind_value(
-                                    app.storage.user,
-                                    "auto_detect_input_format",
-                                )
-                                ui.switch(
-                                    _("Reset list when import format changed"),
-                                ).classes("col-span-5").bind_value(
-                                    app.storage.user,
-                                    "reset_tasks_on_input_change",
-                                )
-                                with (
-                                    ui.button(
-                                        icon="swap_vert",
-                                        on_click=swap_values,
-                                    )
-                                    .classes("w-fit aspect-square")
-                                    .props("round")
-                                ):
-                                    ui.tooltip(_("Swap Input and Output"))
-                                select_output: Select = (
-                                    ui.select(
-                                        {
-                                            k: _(v["file_format"] or "") + " " + v["suffix"]
-                                            for k, v in plugin_details.items()
-                                        },
-                                        label=_("Export format"),
-                                    )
-                                    .classes("col-span-10")
-                                    .bind_value(selected_formats, "output_format")
-                                )
-                                with (
-                                    ui.dialog().classes(
-                                        "h-400 w-600",
-                                    ) as output_info,
-                                    ui.card(),
-                                ):
-                                    output_plugin_info()
-                                    with (
-                                        ui.element("q-card-actions")
-                                        .props(
-                                            "align=right",
-                                        )
-                                        .classes("w-full")
-                                    ):
-                                        ui.button(
-                                            _("Close"),
-                                            on_click=output_info.close,
-                                        )
-                                with ui.button(
-                                    icon="info",
-                                    on_click=output_info.open,
-                                ).classes(
-                                    "min-w-[45px] max-w-[45px] aspect-square",
-                                ):
-                                    ui.tooltip(_("View Detail Information"))
-                    with left_splitter.after:
-                        with ui.card().classes("w-full h-full") as tasks_card:
-                            ui.label(_("Import project")).classes("text-h5 font-bold")
-                            selected_formats.tasks_container()
-                            tasks_card.bind_visibility_from(
-                                selected_formats,
-                                "task_count",
-                                backward=bool,
+                            .classes("w-full")
+                        ):
+                            ui.button(
+                                _("Close"),
+                                on_click=input_info.close,
                             )
-                            uploader = ui.upload(
-                                multiple=True,
-                                on_upload=selected_formats.add_task,
-                                auto_upload=True,
-                            ).props("hidden")
-                            with QFab(
-                                icon="construction",
-                            ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
-                                with fab.add_slot("active-icon"):
-                                    ui.icon("construction").classes("rotate-45")
-                                fab.on(
-                                    "mouseenter",
-                                    functools.partial(fab.run_method, "show"),
-                                )
-                                QFabAction(
-                                    icon="refresh",
-                                    on_click=selected_formats.reset,
-                                ).tooltip(_("Clear Task List"))
-                                QFabAction(
-                                    icon="filter_alt_off",
-                                    on_click=selected_formats.filter_input_ext,
-                                ).tooltip(_("Remove Tasks With Other Extensions"))
-                            with (
-                                ui.button(
-                                    icon="add",
-                                    on_click=selected_formats.add_upload,
-                                )
-                                .props("round")
-                                .classes(
-                                    "absolute bottom-0 right-2 m-2 z-10",
-                                )
-                            ):
-                                ui.badge().props(
-                                    "floating color=orange",
-                                ).bind_text_from(
-                                    selected_formats,
-                                    "task_count",
-                                    backward=str,
-                                )
-                                ui.tooltip(_("Continue Adding files"))
-                        with ui.card().classes(
-                            "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
-                        ).style("cursor: pointer") as upload_card:
-                            upload_card.on("click", selected_formats.add_upload)
-                            upload_card.bind_visibility_from(
-                                selected_formats,
-                                "task_count",
-                                backward=not_,
-                            )
-                            ui.icon("file_upload").classes("text-6xl")
-                            ui.label(
-                                _("Drag and drop files here or click to upload"),
-                            ).classes("text-lg")
-            with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
-                with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
+                    with ui.button(
+                        icon="info",
+                        on_click=input_info.open,
+                    ).classes(
+                        "min-w-[45px] max-w-[45px] aspect-square",
+                    ):
+                        ui.tooltip(_("View Detail Information"))
+                    ui.switch(_("Auto detect import format")).classes(
+                        "col-span-5",
+                    ).bind_value(
+                        app.storage.user,
+                        "auto_detect_input_format",
+                    )
+                    ui.switch(
+                        _("Reset list when import format changed"),
+                    ).classes("col-span-5").bind_value(
+                        app.storage.user,
+                        "reset_tasks_on_input_change",
+                    )
                     with (
                         ui.button(
-                            icon="play_arrow",
-                            on_click=selected_formats.batch_convert,
+                            icon="swap_vert",
+                            on_click=swap_values,
                         )
+                        .classes("w-fit aspect-square")
                         .props("round")
-                        .bind_visibility_from(
-                            selected_formats,
-                            "task_count",
-                            backward=bool,
-                        )
                     ):
-                        ui.tooltip(_("Start Conversion"))
+                        ui.tooltip(_("Swap Input and Output"))
+                    select_output: Select = (
+                        ui.select(
+                            {
+                                k: _(v["file_format"] or "") + " " + v["suffix"]
+                                for k, v in plugin_details.items()
+                            },
+                            label=_("Export format"),
+                        )
+                        .classes("col-span-10")
+                        .bind_value(selected_formats, "output_format")
+                    )
+                    with (
+                        ui.dialog().classes(
+                            "h-400 w-600",
+                        ) as output_info,
+                        ui.card(),
+                    ):
+                        output_plugin_info()
+                        with (
+                            ui.element("q-card-actions")
+                            .props(
+                                "align=right",
+                            )
+                            .classes("w-full")
+                        ):
+                            ui.button(
+                                _("Close"),
+                                on_click=output_info.close,
+                            )
+                    with ui.button(
+                        icon="info",
+                        on_click=output_info.open,
+                    ).classes(
+                        "min-w-[45px] max-w-[45px] aspect-square",
+                    ):
+                        ui.tooltip(_("View Detail Information"))
+            with left_splitter.after:
+                with ui.card().classes("w-full h-full") as tasks_card:
+                    ui.label(_("Import project")).classes("text-h5 font-bold")
+                    selected_formats.tasks_container()
+                    tasks_card.bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    )
+                    uploader = ui.upload(
+                        multiple=True,
+                        on_upload=selected_formats.add_task,
+                        auto_upload=True,
+                    ).props("hidden")
+                    with QFab(
+                        icon="construction",
+                    ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
+                        with fab.add_slot("active-icon"):
+                            ui.icon("construction").classes("rotate-45")
+                        fab.on(
+                            "mouseenter",
+                            functools.partial(fab.run_method, "show"),
+                        )
+                        QFabAction(
+                            icon="refresh",
+                            on_click=selected_formats.reset,
+                        ).tooltip(_("Clear Task List"))
+                        QFabAction(
+                            icon="filter_alt_off",
+                            on_click=selected_formats.filter_input_ext,
+                        ).tooltip(_("Remove Tasks With Other Extensions"))
                     with (
                         ui.button(
-                            icon="download_for_offline",
-                            on_click=selected_formats.save_file,
+                            icon="add",
+                            on_click=selected_formats.add_upload,
                         )
                         .props("round")
-                        .bind_visibility_from(
-                            selected_formats,
-                            "task_count",
-                            backward=bool,
+                        .classes(
+                            "absolute bottom-0 right-2 m-2 z-10",
                         )
                     ):
-                        ui.tooltip(_("Export"))
-                ui.label(_("Advanced Options")).classes("text-h5 font-bold")
-                with ui.expansion().classes("w-full") as import_panel:
-                    with import_panel.add_slot("header"):
-                        input_panel_header()
-                    input_options()
-                ui.separator()
-                with ui.expansion().classes("w-full") as export_panel:
-                    with export_panel.add_slot("header"):
-                        output_panel_header()
-                    output_options()
+                        ui.badge().props(
+                            "floating color=orange",
+                        ).bind_text_from(
+                            selected_formats,
+                            "task_count",
+                            backward=str,
+                        )
+                        ui.tooltip(_("Continue Adding files"))
+                with ui.card().classes(
+                    "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
+                ).style("cursor: pointer") as upload_card:
+                    upload_card.on("click", selected_formats.add_upload)
+                    upload_card.bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=not_,
+                    )
+                    ui.icon("file_upload").classes("text-6xl")
+                    ui.label(
+                        _("Drag and drop files here or click to upload"),
+                    ).classes("text-lg")
+        with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
+            with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
+                with (
+                    ui.button(
+                        icon="play_arrow",
+                        on_click=selected_formats.batch_convert,
+                    )
+                    .props("round")
+                    .bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    )
+                ):
+                    ui.tooltip(_("Start Conversion"))
+                with (
+                    ui.button(
+                        icon="download_for_offline",
+                        on_click=selected_formats.save_file,
+                    )
+                    .props("round")
+                    .bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    )
+                ):
+                    ui.tooltip(_("Export"))
+            ui.label(_("Advanced Options")).classes("text-h5 font-bold")
+            with ui.expansion().classes("w-full") as import_panel:
+                with import_panel.add_slot("header"):
+                    input_panel_header()
+                input_options()
+            ui.separator()
+            with ui.expansion().classes("w-full") as export_panel:
+                with export_panel.add_slot("header"):
+                    output_panel_header()
+                output_options()
     with ui.footer().classes("bg-transparent"):
         ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
     ui.add_body_html(
