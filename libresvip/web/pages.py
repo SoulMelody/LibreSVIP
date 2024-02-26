@@ -693,7 +693,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 import webview
 
                 result = None
-                result = self._export_all() if not file_name else self._export_one(file_name)
+                result = self._export_one(file_name) if file_name else self._export_all()
                 if result is None:
                     ui.notify(_("Save failed!"), type="negative")
                     return
@@ -723,14 +723,17 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
-    with ui.element("style") as style:  # fix icon position
-        style._text = textwrap.dedent(
+    ui.add_head_html(
+        textwrap.dedent(
             """
-        .q-icon {
-            justify-content: flex-end;
-        }
-        """,
+        <style>
+            .q-icon {
+                justify-content: flex-end;
+            }
+        </style>
+        """
         ).strip()
+    )  # fix icon position
 
     def swap_values() -> None:
         select_input.value, select_output.value = (
@@ -901,11 +904,11 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ui.menu() as lang_menu:
                 ui.menu_item(
                     "简体中文",
-                    on_click=lambda: ui.open("/?lang=zh_CN") if lang != "zh_CN" else None,
+                    on_click=lambda: ui.navigate.to("/?lang=zh_CN") if lang != "zh_CN" else None,
                 )
                 ui.menu_item(
                     "English",
-                    on_click=lambda: ui.open("/?lang=en_US") if lang != "en_US" else None,
+                    on_click=lambda: ui.navigate.to("/?lang=en_US") if lang != "en_US" else None,
                 )
                 ui.menu_item("日本語").props("disabled")
         with ui.dialog() as about_dialog, ui.card():
@@ -1033,7 +1036,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ):
                         output_plugin_info()
                         with (
-                            ui.element("q-card-actions")
+                            ui.card_actions()
                             .props(
                                 "align=right",
                             )
@@ -1064,6 +1067,24 @@ def page_layout(lang: Optional[str] = None) -> None:
                         on_upload=selected_formats.add_task,
                         auto_upload=True,
                     ).props("hidden")
+                    tasks_card.on(
+                        "dragover",
+                        js_handler="""(event) => {
+                        event.preventDefault()
+                    }""",
+                    )
+                    tasks_card.on(
+                        "drop",
+                        js_handler=f"""(event) => {{
+                        for (let file of event.dataTransfer.files) {{
+                            let file_name = file.name
+                            post_form('{uploader._props['url']}', {{
+                                file_name: file
+                            }})
+                        }}
+                        event.preventDefault()
+                    }}""",
+                    )
                     with QFab(
                         icon="construction",
                     ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
@@ -1102,6 +1123,24 @@ def page_layout(lang: Optional[str] = None) -> None:
                 with ui.card().classes(
                     "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
                 ).style("cursor: pointer") as upload_card:
+                    upload_card.on(
+                        "dragover",
+                        js_handler="""(event) => {
+                        event.preventDefault()
+                    }""",
+                    )
+                    upload_card.on(
+                        "drop",
+                        js_handler=f"""(event) => {{
+                        for (let file of event.dataTransfer.files) {{
+                            let file_name = file.name
+                            post_form('{uploader._props['url']}', {{
+                                file_name: file
+                            }})
+                        }}
+                        event.preventDefault()
+                    }}""",
+                    )
                     upload_card.on("click", selected_formats.add_upload)
                     upload_card.bind_visibility_from(
                         selected_formats,
@@ -1219,37 +1258,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                     get_element({uploader.id}).pickFiles()
                 }}
             }}
-            document.addEventListener('DOMContentLoaded', () => {{
-                let uploader = document.querySelector("[id='c{uploader.id}']")
-
-                let task_card = document.querySelector("[id='c{tasks_card.id}']")
-                task_card.addEventListener('dragover', (event) => {{
-                    event.preventDefault()
-                }})
-                task_card.addEventListener('drop', (event) => {{
-                    for (let file of event.dataTransfer.files) {{
-                        let file_name = file.name
-                        post_form('{uploader._props['url']}', {{
-                            file_name: file
-                        }})
-                    }}
-                    event.preventDefault()
-                }})
-
-                let upload_card = document.querySelector("[id='c{upload_card.id}']")
-                upload_card.addEventListener('dragover', (event) => {{
-                    event.preventDefault()
-                }})
-                upload_card.addEventListener('drop', (event) => {{
-                    for (let file of event.dataTransfer.files) {{
-                        let file_name = file.name
-                        post_form('{uploader._props['url']}', {{
-                            file_name: file
-                        }})
-                    }}
-                    event.preventDefault()
-                }})
-            }})
         </script>
         """,
         ).strip(),

@@ -72,8 +72,9 @@ upath = [
   "universal-pathlib<1.0.0,>=0.2.1",
 ]
 webui = [
-  "nicegui[native]>=1.4.16",
-  "libresvip[upath]",
+    "nicegui[native]>=1.4.16",
+    "libresvip[upath]",
+    "docutils>=0.20.1",
 ]
 desktop = [
   "pyside6<6.7.0,>=6.6.2",
