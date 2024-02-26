@@ -18,6 +18,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.reset_time_axis import limit_bars
 from libresvip.utils.translation import gettext_lazy as _
 
 from .options import OutputOptions
@@ -36,6 +37,7 @@ class VsqGenerator:
         return 1
 
     def generate_project(self, project: Project) -> mido.MidiFile:
+        project = limit_bars(project, 4096)
         mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         self.first_bar_length = int(

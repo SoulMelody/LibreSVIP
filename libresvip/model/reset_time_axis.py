@@ -1,5 +1,6 @@
 import functools
 from collections.abc import Callable
+from typing import Optional
 
 import more_itertools
 
@@ -22,12 +23,14 @@ def _update_curve_points_position(
     func: Callable[[int], float],
     ori_first_bar_ticks: int,
     new_first_bar_ticks: int,
+    limit_func: Optional[Callable[[int], bool]] = None,
 ) -> ParamCurve:
     return ParamCurve(
         points=Points(
             root=[
                 point._replace(x=round(func(point.x - ori_first_bar_ticks)) + new_first_bar_ticks)
                 for point in curve.points.root
+                if limit_func is None or limit_func(point.x - ori_first_bar_ticks)
             ]
         )
     )
@@ -131,6 +134,50 @@ def zoom_project(project: Project, factor: float) -> Project:
                             )
                             for note in track.note_list
                         ],
+                        "edited_params": Params(
+                            pitch=update_curve_points_position(track.edited_params.pitch),
+                            volume=update_curve_points_position(track.edited_params.volume),
+                            breath=update_curve_points_position(track.edited_params.breath),
+                            gender=update_curve_points_position(track.edited_params.gender),
+                            strength=update_curve_points_position(track.edited_params.strength),
+                        ),
+                    }
+                )
+                for track in project.track_list
+            ],
+        }
+    )
+
+
+def limit_bars(project: Project, max_bars: int) -> Project:
+    time_signature_list = [
+        time_signature
+        for time_signature in project.time_signature_list
+        if time_signature.bar_index < max_bars
+    ]
+    first_bar_length = round(time_signature_list[0].bar_length())
+    max_ticks = max_bars * first_bar_length
+    update_curve_points_position = functools.partial(
+        _update_curve_points_position,
+        func=int,
+        new_first_bar_ticks=first_bar_length,
+        ori_first_bar_ticks=first_bar_length,
+        limit_func=max_ticks.__gt__,
+    )
+    return project.model_copy(
+        update={
+            "song_tempo_list": [
+                song_tempo
+                for song_tempo in project.song_tempo_list
+                if song_tempo.position < max_ticks
+            ],
+            "time_signature_list": time_signature_list,
+            "track_list": [
+                track
+                if isinstance(track, InstrumentalTrack)
+                else track.model_copy(
+                    update={
+                        "note_list": [note for note in track.note_list if note.end_pos < max_ticks],
                         "edited_params": Params(
                             pitch=update_curve_points_position(track.edited_params.pitch),
                             volume=update_curve_points_position(track.edited_params.volume),
