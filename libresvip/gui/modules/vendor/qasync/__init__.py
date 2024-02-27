@@ -709,7 +709,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
     def __log_error(cls, *args: _P.args, **kwds: _P.kwargs) -> None:
         # In some cases, the error method itself fails, don't have a lot of options in that case
         try:
-            cls._logger.exception(*args, **kwds)
+            logger.exception(*args, **kwds)
         except Exception:
             sys.stderr.write(f"{args!r}, {kwds!r}\n")
 

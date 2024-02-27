@@ -1,7 +1,5 @@
 import typer
-from loguru import logger
 from omegaconf import OmegaConf
-from omegaconf.errors import OmegaConfBaseException
 
 from libresvip.core.config import save_settings, settings
 from libresvip.utils.translation import gettext_lazy as _
@@ -28,9 +26,6 @@ def set_configuration(
     name: str = typer.Argument(callback=conf_key_callback),
     value: str = typer.Argument(),
 ) -> None:
-    try:
-        setattr(settings, name, value)
-        save_settings()
-        typer.echo(_("Set {} to {}").format(name, value))
-    except OmegaConfBaseException as e:
-        logger.exception(e)
+    setattr(settings, name, value)
+    save_settings()
+    typer.echo(_("Set {} to {}").format(name, value))

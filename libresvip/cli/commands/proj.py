@@ -2,7 +2,6 @@ import pathlib
 from typing import Optional, get_type_hints
 
 import typer
-from loguru import logger
 
 from libresvip.cli.prompt import prompt_fields
 from libresvip.extension.manager import plugin_manager
@@ -60,7 +59,7 @@ def convert(
         project = input_plugin.plugin_object.load(in_path, options[0])
         output_plugin.plugin_object.dump(out_path, project, options[1])
     else:
-        logger.error("Invalid options")
+        typer.secho("Invalid options", err=True, color="red")
 
 
 @app.command("accomp")
@@ -84,7 +83,7 @@ def add_accompaniment(
             option_kwargs = prompt_fields(option_class)
         project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
     else:
-        logger.error("Invalid options")
+        typer.secho("Invalid options", err=True, color="red")
         return
 
     if mute:
@@ -107,4 +106,4 @@ def add_accompaniment(
             option_kwargs = prompt_fields(option_class)
         input_plugin.plugin_object.dump(in_path, project, option_class(**option_kwargs))
     else:
-        logger.error("Invalid options")
+        typer.secho("Invalid options", err=True, color="red")

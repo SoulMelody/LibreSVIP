@@ -361,10 +361,12 @@ class SynthVParser:
         for start, end in interval.shift(self.first_bar_tick).sub_ranges():
             curve.points.append(Point(start, -100))
             curve.points.extend(
-                Point(i, generator.value_at_ticks(i - self.first_bar_tick))
+                Point(i, round(generator.value_at_ticks(i - self.first_bar_tick)))
                 for i in range(start, end, step)
             )
-            curve.points.append(Point(end, generator.value_at_ticks(end - self.first_bar_tick)))
+            curve.points.append(
+                Point(end, round(generator.value_at_ticks(end - self.first_bar_tick)))
+            )
             curve.points.append(Point(end, -100))
         curve.points.append(Point.end_point())
         return curve

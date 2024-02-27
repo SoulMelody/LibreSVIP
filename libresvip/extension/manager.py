@@ -98,11 +98,13 @@ class PluginManager:
                     if not file_path.is_file() or not file_path.name.endswith(self.info_extension):
                         continue
                     if (candidate_infofile := str(file_path)) in _discovered:
-                        # logger.debug("%s (with strategy %s) rejected because already discovered" % (candidate_infofile, analyzer.name))
+                        logger.debug(f"{candidate_infofile} rejected because already discovered")
                         continue
-                    # logger.debug("%s found a candidate:\n    %s" % (self.__class__.__name__, candidate_infofile))
+                    logger.debug(
+                        f"{self.__class__.__name__} found a candidate:\n    {candidate_infofile}"
+                    )
                     if (plugin_info := LibreSvipPluginInfo.load(file_path)) is None:
-                        # logger.debug("Plugin candidate '%s'  rejected by strategy '%s'" % (candidate_infofile, analyzer.name))
+                        logger.debug(f"Plugin candidate '{candidate_infofile}'  rejected")
                         continue  # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
                     if entry_suffix := next(
                         (

@@ -5,7 +5,7 @@ import zipfile
 from importlib.abc import Loader
 from importlib.machinery import ModuleSpec, SourcelessFileLoader
 from importlib.util import module_from_spec, spec_from_file_location
-from typing import cast
+from typing import Optional, cast
 
 from libresvip.core.compat import Traversable
 
@@ -18,7 +18,7 @@ class ZipLoader(SourcelessFileLoader):
     def create_module(self, spec: ModuleSpec) -> types.ModuleType:
         return sys.modules.get(spec.name)
 
-    def get_filename(self, fullname: str) -> str:  # type: ignore[override]
+    def get_filename(self, name: Optional[str] = None) -> str:
         return self.file_path
 
     def get_data(self, path: str) -> bytes:
