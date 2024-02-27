@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:a1171b6486f91e34a55fccfb2e5d8124ed7ae33cbf28f1d549a2a0bcb745d732"
+content_hash = "sha256:606a545de218bedce73462582ae088b2bf63c85d18223b83e25d448b5150a6c4"
 
 [[package]]
 name = "aiofiles"
@@ -624,12 +624,12 @@ files = [
 
 [[package]]
 name = "docutils"
-version = "0.20.1"
+version = "0.19"
 requires_python = ">=3.7"
 summary = "Docutils -- Python Documentation Utilities"
 files = [
-    {file = "docutils-0.20.1-py3-none-any.whl", hash = "sha256:96f387a2c5562db4476f09f13bbab2192e764cac08ebbf3a34a95d9b1e4a59d6"},
-    {file = "docutils-0.20.1.tar.gz", hash = "sha256:f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"},
+    {file = "docutils-0.19-py3-none-any.whl", hash = "sha256:5e1de4d849fee02c63b040a4a3fd567f4ab104defd8a5511fbbc24a8a017efbc"},
+    {file = "docutils-0.19.tar.gz", hash = "sha256:33995a6753c30b7f577febfc2c50411fec6aac7f7ffeb7c4cfe5991072dcf9e6"},
 ]
 
 [[package]]
@@ -1626,13 +1626,14 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.16"
+version = "1.4.17"
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
     "Pygments<3.0.0,>=2.15.1",
     "aiofiles>=23.1.0",
     "aiohttp>=3.9.2",
+    "docutils<0.20,>=0.19",
     "fastapi<0.110.0,>=0.109.1",
     "httpx>=0.24.0",
     "ifaddr>=0.2.0",
@@ -1648,23 +1649,23 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.16-py3-none-any.whl", hash = "sha256:61bbefbfe190fd86537f2f6a9c210f9cb819f5eb2b71309ac67c5adfd120d495"},
-    {file = "nicegui-1.4.16.tar.gz", hash = "sha256:f1e950efb150c52d25fc9717ccf6d45bf08ee0bcf366c981d0f4c41d35dcb4fa"},
+    {file = "nicegui-1.4.17-py3-none-any.whl", hash = "sha256:33d14d2eeb98de7e8ac387abe6315a4ce6ff1045d4156bb5c853ce8b9c57e53d"},
+    {file = "nicegui-1.4.17.tar.gz", hash = "sha256:81a939d4f3a8e4fcf507e32091d1c150b031acb1da0ea484ec5206d682214211"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.16"
+version = "1.4.17"
 extras = ["native"]
 requires_python = ">=3.8,<4.0"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.16",
+    "nicegui==1.4.17",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.16-py3-none-any.whl", hash = "sha256:61bbefbfe190fd86537f2f6a9c210f9cb819f5eb2b71309ac67c5adfd120d495"},
-    {file = "nicegui-1.4.16.tar.gz", hash = "sha256:f1e950efb150c52d25fc9717ccf6d45bf08ee0bcf366c981d0f4c41d35dcb4fa"},
+    {file = "nicegui-1.4.17-py3-none-any.whl", hash = "sha256:33d14d2eeb98de7e8ac387abe6315a4ce6ff1045d4156bb5c853ce8b9c57e53d"},
+    {file = "nicegui-1.4.17.tar.gz", hash = "sha256:81a939d4f3a8e4fcf507e32091d1c150b031acb1da0ea484ec5206d682214211"},
 ]
 
 [[package]]
