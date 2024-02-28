@@ -292,7 +292,9 @@ def merge_events_if_possible(
             overlapped_len = last_event.idx + last_event.repeat - event.idx
             if overlapped_len > 0:
                 new_events[-1] = new_events[-1]._replace(repeat=event.idx - last_event.idx)
-                event = event._replace(repeat=event.repeat - overlapped_len)
+                event = event._replace(
+                    idx=overlapped_len + event.idx, repeat=event.repeat - overlapped_len
+                )
                 last_event = VoiSonaParamEvent(
                     event.idx, overlapped_len, event.value + last_event.value
                 )

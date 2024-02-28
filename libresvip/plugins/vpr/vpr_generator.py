@@ -4,6 +4,9 @@ import warnings
 from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
+from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
@@ -17,13 +20,20 @@ from libresvip.model.base import (
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
-from .constants import BPM_RATE, PITCH_BEND_NAME, PITCH_BEND_SENSITIVITY_NAME
+from .constants import (
+    BPM_RATE,
+    DEFAULT_CHINESE_PHONEME,
+    DEFAULT_JAPANESE_PHONEME,
+    PITCH_BEND_NAME,
+    PITCH_BEND_SENSITIVITY_NAME,
+)
 from .model import (
     VocaloidAITrack,
     VocaloidAIVoice,
     VocaloidAudioTrack,
     VocaloidControllers,
     VocaloidLangID,
+    VocaloidLanguage,
     VocaloidNotes,
     VocaloidPoint,
     VocaloidProject,
@@ -101,6 +111,14 @@ class VocaloidGenerator:
         self.end_tick = max(self.end_tick, max((it.pos for it in tempo_events), default=0))
         return tempo_events
 
+    def generate_phoneme(self, lyric: str) -> str:
+        if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+            pinyin = " ".join(get_pinyin_series([lyric], filter_non_chinese=False))
+            return pinyin2xsampa.get(pinyin, DEFAULT_CHINESE_PHONEME)
+        elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
+            return japanese2xsampa.get(lyric, DEFAULT_JAPANESE_PHONEME)
+        return DEFAULT_CHINESE_PHONEME
+
     def generate_tracks(self, track_list: list[Track]) -> list[VocaloidTracks]:
         tracks: list[VocaloidTracks] = []
         singing_track_found = False
@@ -147,7 +165,7 @@ class VocaloidGenerator:
                         duration=note.length,
                         number=note.key_number,
                         lyric=note.lyric,
-                        phoneme="l a",
+                        phoneme=self.generate_phoneme(note.lyric),
                         lang_id=self.options.default_lang_id,
                     )
                     for note in track.note_list
@@ -189,7 +207,10 @@ class VocaloidGenerator:
                         self.end_tick,
                         duration,
                     )
-        if singing_track_found:
+        if singing_track_found and self.options.default_lang_id not in [
+            VocaloidLanguage.SIMPLIFIED_CHINESE,
+            VocaloidLanguage.JAPANESE,
+        ]:
             warnings.warn(
                 _(
                     'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages in the menu of VOCALOID to reset them.'

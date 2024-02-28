@@ -1,14 +1,14 @@
 import dataclasses
 import operator
-import warnings
 from typing import Optional
 
 import mido_fix as mido
 
 from libresvip.core.constants import (
+    DEFAULT_PHONEME,
     TICKS_IN_BEAT,
 )
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -19,7 +19,6 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.reset_time_axis import limit_bars
-from libresvip.utils.translation import gettext_lazy as _
 
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
@@ -155,18 +154,13 @@ class VsqGenerator:
                 ]
             )
             lyric = note.lyric
+            xsampa = japanese2xsampa.get(lyric, DEFAULT_PHONEME)
             lyrics_lines.extend(
                 [
                     f"[h#{number.zfill(4)}]",
-                    f"""L0="{lyric}","l a",0.000000,64,0,0""",
+                    f"""L0="{lyric}","{xsampa}",0.000000,64,0,0""",
                 ]
             )
-        warnings.warn(
-            _(
-                'Phonemes of all notes were set to "la". Please reset them to make it sound correctly.'
-            ),
-            PhonemeWarning,
-        )
         result = [
             "[Common]",
             "Version=DSB301",

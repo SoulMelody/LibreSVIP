@@ -4,6 +4,8 @@ import warnings
 from typing import Union, cast
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import PhonemeWarning
@@ -19,7 +21,8 @@ from libresvip.model.base import (
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
-from .constants import BPM_RATE
+from .constants import BPM_RATE, DEFAULT_CHINESE_PHONEME, DEFAULT_JAPANESE_PHONEME
+from .enums import VocaloidLanguage
 from .model import (
     VocaloidStyleTypes,
     Vsq3,
@@ -117,7 +120,10 @@ class Vsq3Generator:
     ) -> tuple[list[Vsq3VsTrack], list[Vsq3VsUnit]]:
         vs_track_list = []
         vs_unit_list = []
-        if len(track_list):
+        if len(track_list) and self.options.default_lang_id not in [
+            VocaloidLanguage.SIMPLIFIED_CHINESE,
+            VocaloidLanguage.JAPANESE,
+        ]:
             warnings.warn(
                 _(
                     'Phonemes of all notes were set to "la". Please use "Lyrics" -> "Convert Phonemes" in the menu of VOCALOID3 to reset them.'
@@ -182,7 +188,9 @@ class Vsq3Generator:
                 pos_tick=note.start_pos,
                 dur_tick=note.length,
                 note_num=note.key_number,
-                lyric=" ".join(get_pinyin_series([note.lyric], filter_non_chinese=False)),
+                lyric=" ".join(get_pinyin_series([note.lyric], filter_non_chinese=False))
+                if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE
+                else note.lyric,
             )
             vsqx_note.note_style.attr.extend(
                 Vsq3TypeParamAttr(
@@ -192,9 +200,16 @@ class Vsq3Generator:
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None
             )
-            vsqx_note.phnms = Vsq3TypePhonemes(
-                value="l a",
-            )
+            if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+                vsqx_note.phnms = Vsq3TypePhonemes(
+                    value=pinyin2xsampa.get(cast(str, vsqx_note.lyric), DEFAULT_CHINESE_PHONEME),
+                )
+            elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
+                vsqx_note.phnms = Vsq3TypePhonemes(
+                    value=japanese2xsampa.get(cast(str, vsqx_note.lyric), DEFAULT_JAPANESE_PHONEME),
+                )
+            else:
+                vsqx_note.phnms = Vsq3TypePhonemes(value=DEFAULT_CHINESE_PHONEME)
             note_list.append(vsqx_note)
         return note_list
 
