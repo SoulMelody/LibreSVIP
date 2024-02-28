@@ -47,7 +47,7 @@ dependencies = [
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
   "pypinyin<1.0.0,>=0.50.0",
-  "rich<14.0.0,>=13.7.0",
+  "rich<14.0.0,>=13.7.1",
   "srt<4.0.0,>=3.5.3",
   "typer<1.0.0,>=0.9.0",
   "wanakana-python<2.0.0,>=1.2.2",
