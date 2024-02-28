@@ -205,6 +205,7 @@ ColumnLayout {
                             Label {
                                 id: warningLabel
                                 text: ""
+                                property string warningFullText
                             }
                         }
                     }
@@ -302,7 +303,8 @@ ColumnLayout {
                     let move_result = TaskManager.move_to_output(index)
                     if (move_result) {
                         if (task_result.warning) {
-                            warningLabel.text = task_result.warning
+                            warningLabel.text = Clipboard.shorten_error_message(task_result.warning)
+                            warningLabel.warningFullText = task_result.warning
                             warningButton.visible = true
                         } else {
                             successButton.visible = true

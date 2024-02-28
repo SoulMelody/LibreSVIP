@@ -173,7 +173,7 @@ class CeVIOParser:
                 and key is not None
                 and lyric is not None
             ):
-                if lyric == PROLONGED_SOUND_MARK:
+                if lyric == chr(PROLONGED_SOUND_MARK):
                     lyric = "-"
                 notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
 

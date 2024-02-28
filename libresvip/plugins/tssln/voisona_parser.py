@@ -131,7 +131,7 @@ class VoiSonaParser:
                         Note(
                             key_number=note_node.pitch_step + pitch_octave * 12,
                             lyric="-"
-                            if note_node.lyric == PROLONGED_SOUND_MARK
+                            if note_node.lyric == chr(PROLONGED_SOUND_MARK)
                             else note_node.lyric,
                             start_pos=(note_node.clock // TICK_RATE),
                             length=note_node.duration // TICK_RATE,

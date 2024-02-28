@@ -179,7 +179,7 @@ class CeVIOGenerator:
     def generate_notes(self, notes: list[Note]) -> list[CeVIONote]:
         cevio_notes = []
         for note in notes:
-            lyric = PROLONGED_SOUND_MARK if note.lyric == "-" else note.lyric
+            lyric = chr(PROLONGED_SOUND_MARK) if note.lyric == "-" else note.lyric
             phonetic = None
             if not is_kana(lyric) and not is_romaji(lyric):
                 phonetic = DEFAULT_PHONEME

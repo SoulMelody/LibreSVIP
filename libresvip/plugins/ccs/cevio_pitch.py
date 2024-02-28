@@ -275,10 +275,7 @@ def restore_connection(
     for (prev_event, next_event), is_connected_to_next in zip(
         more_itertools.windowed(itertools.chain(events, [None]), 2), are_events_connected_to_next
     ):
-        if next_event is None:
-            new_events.append(prev_event)
-            continue
-        if not is_connected_to_next:
+        if next_event is None or not is_connected_to_next:
             new_events.append(prev_event)
         else:
             new_events.append(prev_event._replace(repeat=next_event.idx - prev_event.idx))
@@ -286,33 +283,42 @@ def restore_connection(
 
 
 def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
-    new_events = []
-    for event, next_event in more_itertools.windowed(itertools.chain(events, [None]), 2):
-        if (
-            next_event
-            and event.value == next_event.value
-            and event.idx + event.repeat == next_event.idx
-        ):
-            new_events.append(
-                CeVIOParamEvent(event.idx, event.repeat + next_event.repeat, event.value)
-            )
-        else:
+    new_events: list[CeVIOParamEvent] = []
+    for event in events:
+        if not new_events:
             new_events.append(event)
+        else:
+            last_event = new_events[-1]
+            overlapped_len = last_event.idx + last_event.repeat - event.idx
+            if overlapped_len > 0:
+                new_events[-1] = new_events[-1]._replace(repeat=event.idx - last_event.idx)
+                event = event._replace(repeat=event.repeat - overlapped_len)
+                last_event = CeVIOParamEvent(
+                    event.idx, overlapped_len, event.value + last_event.value
+                )
+                new_events.append(last_event)
+            if last_event.value == event.value and last_event.idx + last_event.repeat == event.idx:
+                new_events[-1] = new_events[-1]._replace(repeat=last_event.repeat + event.repeat)
+            else:
+                new_events.append(event)
     return new_events
 
 
 def remove_redundant_index(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
-    new_events = []
-    for prev_event, event in more_itertools.windowed(more_itertools.prepend(None, events), 2):
-        if (
-            prev_event is not None
-            and prev_event.idx is not None
-            and prev_event.repeat is not None
-            and prev_event.idx + prev_event.repeat == event.idx
-        ):
-            new_events.append(CeVIOParamEvent(None, event.repeat, event.value))
-        else:
+    new_events: list[CeVIOParamEvent] = []
+    for event in events:
+        if not new_events:
             new_events.append(event)
+        else:
+            prev_event = new_events[-1]
+            if (
+                prev_event.idx is not None
+                and prev_event.repeat is not None
+                and prev_event.idx + prev_event.repeat == event.idx
+            ):
+                new_events.append(event._replace(idx=None))
+            else:
+                new_events.append(event)
     return new_events
 
 
