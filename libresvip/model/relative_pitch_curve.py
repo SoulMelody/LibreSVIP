@@ -40,19 +40,35 @@ class RelativePitchCurve:
             if note_index < 0:
                 continue
             elif note_index > prev_index:
-                prev_index = note_index
                 if to_absolute:
                     if converted_data:
-                        converted_data.append(Point(x=converted_data[-1].x, y=-100))
+                        if (
+                            prev_index != -1
+                            and note_list[prev_index].end_pos < note_list[note_index].start_pos
+                        ):
+                            converted_data.extend(
+                                (
+                                    Point(
+                                        x=note_list[prev_index].end_pos + self.first_bar_length,
+                                        y=note_list[prev_index].key_number * 100,
+                                    ),
+                                    Point(
+                                        x=note_list[prev_index].end_pos + self.first_bar_length,
+                                        y=-100,
+                                    ),
+                                )
+                            )
+                        else:
+                            converted_data.append(Point(x=converted_data[-1].x, y=-100))
                     else:
                         converted_data.append(Point.start_point())
                     converted_data.append(
                         Point(
-                            x=point.x
-                            + (self.first_bar_length if to_absolute else -self.first_bar_length),
+                            x=point.x + self.first_bar_length,
                             y=-100,
                         )
                     )
+                prev_index = note_index
             if not to_absolute and point.y == -100:
                 continue
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
