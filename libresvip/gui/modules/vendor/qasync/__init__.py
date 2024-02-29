@@ -7,6 +7,7 @@ Copyright (c) 2014 Arve Knudsen <arve.knudsen@gmail.com>
 
 BSD License
 """
+
 from __future__ import annotations
 
 __author__ = (

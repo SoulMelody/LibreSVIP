@@ -7,9 +7,9 @@ from libresvip.core.config import settings
 from libresvip.core.constants import PACKAGE_NAME, res_dir
 
 singleton_translation: Optional[gettext.NullTranslations] = None
-lazy_translation: contextvars.ContextVar[
-    Optional[gettext.NullTranslations]
-] = contextvars.ContextVar("translator")
+lazy_translation: contextvars.ContextVar[Optional[gettext.NullTranslations]] = (
+    contextvars.ContextVar("translator")
+)
 
 
 def gettext_lazy(message: str) -> str:

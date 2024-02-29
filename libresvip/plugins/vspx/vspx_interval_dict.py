@@ -92,13 +92,13 @@ class BasePitchCurve:
                     next_note.pos + next_note.duration
                 )
                 if is_first:
-                    self.key_interval_dict[
-                        portion.closedopen(0, prev_start_secs)
-                    ] = prev_note.key_number
+                    self.key_interval_dict[portion.closedopen(0, prev_start_secs)] = (
+                        prev_note.key_number
+                    )
                 middle_secs = (prev_end_secs + next_start_secs) / 2
-                self.key_interval_dict[
-                    portion.closedopen(prev_start_secs, middle_secs)
-                ] = prev_note.key_number
+                self.key_interval_dict[portion.closedopen(prev_start_secs, middle_secs)] = (
+                    prev_note.key_number
+                )
                 self.key_interval_dict[
                     portion.closedopen(
                         middle_secs,
@@ -106,9 +106,9 @@ class BasePitchCurve:
                     )
                 ] = next_note.key_number
                 if is_last:
-                    self.key_interval_dict[
-                        portion.closedopen(next_start_secs, portion.inf)
-                    ] = next_note.key_number
+                    self.key_interval_dict[portion.closedopen(next_start_secs, portion.inf)] = (
+                        next_note.key_number
+                    )
                     if (trill := next_note.trill or default_trill) is not None:
                         vibrato_start_secs = next_start_secs + trill.pos
                         vibrato_end_secs = next_end_secs
@@ -122,12 +122,12 @@ class BasePitchCurve:
                 if note_track.por > 0:
                     por_start = middle_secs - note_track.por
                     por_end = middle_secs + note_track.por
-                    self.key_interval_dict[
-                        portion.closedopen(por_start, por_end)
-                    ] = functools.partial(
-                        vspx_cosine_easing_in_out_interpolation,
-                        start=(por_start, prev_note.key_number),
-                        end=(por_end, next_note.key_number),
+                    self.key_interval_dict[portion.closedopen(por_start, por_end)] = (
+                        functools.partial(
+                            vspx_cosine_easing_in_out_interpolation,
+                            start=(por_start, prev_note.key_number),
+                            end=(por_end, next_note.key_number),
+                        )
                     )
                 if (trill := prev_note.trill or default_trill) is not None:
                     vibrato_start_secs = prev_start_secs + trill.pos
@@ -161,12 +161,12 @@ class BasePitchCurve:
                 por=half,
             )
         elif por:
-            self.vibrato_coef_interval_dict[
-                portion.closedopen(start, start + por)
-            ] = functools.partial(
-                vspx_cosine_vibrato_coef_attack_interpolation,
-                vibrato_start=start,
-                por=por,
+            self.vibrato_coef_interval_dict[portion.closedopen(start, start + por)] = (
+                functools.partial(
+                    vspx_cosine_vibrato_coef_attack_interpolation,
+                    vibrato_start=start,
+                    por=por,
+                )
             )
             self.vibrato_coef_interval_dict[portion.closed(start + por, end - por)] = 1
             self.vibrato_coef_interval_dict[portion.openclosed(end - por, end)] = functools.partial(

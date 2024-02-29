@@ -158,9 +158,9 @@ def page_layout(lang: Optional[str] = None) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
             with ui.element("div").classes("w-100 h-100") as icon:
-                icon._props[
-                    "style"
-                ] = f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
+                icon._props["style"] = (
+                    f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
+                )
             ui.separator().props("vertical")
             with ui.column().classes("justify-center flex-grow"):
                 ui.label(_(plugin_details[attr]["name"] or "")).classes(
@@ -310,12 +310,16 @@ def page_layout(lang: Optional[str] = None) -> None:
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
                     elif issubclass(field_info.annotation, (int, float)):
-                        with ui.number(
-                            label=_(field_info.title),
-                            value=default_value,
-                        ).bind_value(option_dict, option_key).classes(
-                            "flex-grow",
-                        ) as num_input:
+                        with (
+                            ui.number(
+                                label=_(field_info.title),
+                                value=default_value,
+                            )
+                            .bind_value(option_dict, option_key)
+                            .classes(
+                                "flex-grow",
+                            ) as num_input
+                        ):
                             if issubclass(field_info.annotation, int):
                                 num_input.validation = {
                                     _("Invalid integer"): int_validator,
@@ -952,12 +956,15 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ui.icon("info").classes("text-lg")
                     ui.label(_("About"))
 
-    with ui.card().classes("w-full").style("height: calc(100vh - 120px)"), ui.splitter(
-        limits=(40, 60)
-    ).classes("h-full w-full") as main_splitter:
+    with (
+        ui.card().classes("w-full").style("height: calc(100vh - 120px)"),
+        ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter,
+    ):
         with main_splitter.before, ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
-            with left_splitter.before, ui.card().classes("h-full w-full"), ui.column().classes(
-                "w-full"
+            with (
+                left_splitter.before,
+                ui.card().classes("h-full w-full"),
+                ui.column().classes("w-full"),
             ):
                 ui.label(_("Choose file format")).classes(
                     "text-h5 font-bold",
@@ -1120,9 +1127,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                             backward=str,
                         )
                         ui.tooltip(_("Continue Adding files"))
-                with ui.card().classes(
-                    "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
-                ).style("cursor: pointer") as upload_card:
+                with (
+                    ui.card()
+                    .classes(
+                        "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
+                    )
+                    .style("cursor: pointer") as upload_card
+                ):
                     upload_card.on(
                         "dragover",
                         js_handler="""(event) => {

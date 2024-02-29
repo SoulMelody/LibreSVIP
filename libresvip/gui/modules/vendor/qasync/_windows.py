@@ -4,6 +4,7 @@
 # BSD License
 
 """Windows specific Quamash functionality."""
+
 from __future__ import annotations
 
 import asyncio
@@ -45,7 +46,6 @@ UINT32_MAX = 0xFFFFFFFF
 
 
 class _ProactorEventLoop(asyncio.ProactorEventLoop):  # type: ignore[name-defined]
-
     """Proactor based event loop."""
 
     def __init__(self) -> None:

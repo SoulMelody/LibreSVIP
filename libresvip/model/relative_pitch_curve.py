@@ -93,12 +93,12 @@ class RelativePitchCurve:
             interval_dict[interval] = note.key_number
         for prev_note, next_note in more_itertools.pairwise(notes):
             if prev_note.end_pos < next_note.start_pos:
-                interval_dict[
-                    portion.closedopen(prev_note.end_pos, next_note.start_pos)
-                ] = functools.partial(
-                    cosine_easing_in_out_interpolation,
-                    start=(prev_note.end_pos, prev_note.key_number),
-                    end=(next_note.start_pos, next_note.key_number),
+                interval_dict[portion.closedopen(prev_note.end_pos, next_note.start_pos)] = (
+                    functools.partial(
+                        cosine_easing_in_out_interpolation,
+                        start=(prev_note.end_pos, prev_note.key_number),
+                        end=(next_note.start_pos, next_note.key_number),
+                    )
                 )
         return interval_dict
 

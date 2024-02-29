@@ -4,6 +4,7 @@
 # BSD License
 
 """UNIX specific Quamash functionality."""
+
 from __future__ import annotations
 
 import asyncio
@@ -25,7 +26,6 @@ EVENT_WRITE = 1 << 1
 
 
 class _SelectorMapping(Mapping[int, selectors.SelectorKey]):
-
     """Mapping of file objects to selector keys."""
 
     def __init__(self, selector: _Selector) -> None:

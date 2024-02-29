@@ -79,29 +79,29 @@ class BasePitchCurve:
                     int(note.pos + note.vibrato.start_pos + tick_offset), tempos
                 )
                 vibrato_duration = note_end - vibrato_start
-                self.vibrato_value_interval_dict[
-                    portion.closed(vibrato_start, note_end)
-                ] = functools.partial(
-                    acep_vibrato_value_curve,
-                    vibrato_start=vibrato_start,
-                    vibrato=note.vibrato,
+                self.vibrato_value_interval_dict[portion.closed(vibrato_start, note_end)] = (
+                    functools.partial(
+                        acep_vibrato_value_curve,
+                        vibrato_start=vibrato_start,
+                        vibrato=note.vibrato,
+                    )
                 )
                 attack_time = vibrato_start + note.vibrato.attack_ratio * vibrato_duration
                 release_time = note_end - note.vibrato.release_ratio * vibrato_duration
                 if note.vibrato.release_ratio:
-                    self.vibrato_coef_interval_dict[
-                        portion.openclosed(release_time, note_end)
-                    ] = functools.partial(
-                        linear_interpolation,
-                        start=(release_time, note.vibrato.release_level),
-                        end=(note_end, 0),
+                    self.vibrato_coef_interval_dict[portion.openclosed(release_time, note_end)] = (
+                        functools.partial(
+                            linear_interpolation,
+                            start=(release_time, note.vibrato.release_level),
+                            end=(note_end, 0),
+                        )
                     )
-                self.vibrato_coef_interval_dict[
-                    portion.closed(attack_time, release_time)
-                ] = functools.partial(
-                    linear_interpolation,
-                    start=(attack_time, note.vibrato.attack_level),
-                    end=(release_time, note.vibrato.release_level),
+                self.vibrato_coef_interval_dict[portion.closed(attack_time, release_time)] = (
+                    functools.partial(
+                        linear_interpolation,
+                        start=(attack_time, note.vibrato.attack_level),
+                        end=(release_time, note.vibrato.release_level),
+                    )
                 )
                 if note.vibrato.attack_ratio:
                     self.vibrato_coef_interval_dict[

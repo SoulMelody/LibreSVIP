@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.2.2
+    rev: v0.3.0
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
@@ -19,7 +19,7 @@ repos:
         additional_dependencies: [proto-plus-stubs, types-parsimonious, types-pyyaml, types-ujson]
 
   - repo: https://github.com/pdm-project/pdm
-    rev: 2.12.3
+    rev: 2.12.4
     hooks:
       - id: pdm-lock-check
         args: ["-G", ":all"]

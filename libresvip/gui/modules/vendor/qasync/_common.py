@@ -4,6 +4,7 @@
 # BSD License
 
 """Mostly irrelevant, but useful utilities common to UNIX and Windows."""
+
 import selectors
 
 from PySide6 import QtCore
