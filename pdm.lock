@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:09eaa46070fdfcfdfc196ad4771e28f8c80baf47fe1f491f68c73c6315231677"
+content_hash = "sha256:796e20d37f4a66ce32cd40f59dd0a0ea5f5157866071cffc91b6899d35142a65"
 
 [[package]]
 name = "aiofiles"
@@ -1468,7 +1468,7 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.11"
+version = "9.5.12"
 requires_python = ">=3.8"
 summary = "Documentation that simply works"
 dependencies = [
@@ -1485,8 +1485,8 @@ dependencies = [
     "requests~=2.26",
 ]
 files = [
-    {file = "mkdocs_material-9.5.11-py3-none-any.whl", hash = "sha256:788ee0f3e036dca2dc20298d65e480297d348a44c9d7b2ee05c5262983e66072"},
-    {file = "mkdocs_material-9.5.11.tar.gz", hash = "sha256:7af7f8af0dea16175558f3fb9245d26c83a17199baa5f157755e63d7437bf971"},
+    {file = "mkdocs_material-9.5.12-py3-none-any.whl", hash = "sha256:d6f0c269f015e48c76291cdc79efb70f7b33bbbf42d649cfe475522ebee61b1f"},
+    {file = "mkdocs_material-9.5.12.tar.gz", hash = "sha256:5f69cef6a8aaa4050b812f72b1094fda3d079b9a51cf27a247244c03ec455e97"},
 ]
 
 [[package]]
