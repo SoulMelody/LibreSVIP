@@ -50,13 +50,12 @@ class VsqxParser:
         elif vsqx_project.Meta.name == "vsq4":
             self.param_names = Vsq4ParameterNames
         master_track: VsqxMasterTrack = vsqx_project.master_track
-        measure_prefix = master_track.pre_measure
         tick_prefix, time_signatures = self.parse_time_signatures(
-            master_track.time_sig, measure_prefix
+            master_track.time_sig, master_track.pre_measure
         )
         tempos = self.parse_tempos(master_track.tempo, tick_prefix)
         singing_tracks = self.parse_singing_tracks(
-            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix
+            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix, master_track.pre_measure
         )
         wav_parts: VsqxWavPartList = []
         wav_units: VsqxWavUnitList = []
@@ -109,6 +108,7 @@ class VsqxParser:
         vs_tracks: VsqxVsTrackList,
         vs_units: VsqxVsUnitList,
         tick_prefix: int,
+        measure_prefix: int,
     ) -> list[SingingTrack]:
         singing_tracks = []
         for vs_track, vs_unit in zip(vs_tracks, vs_units):
@@ -119,7 +119,10 @@ class VsqxParser:
                 note_list = self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
                 singing_track.note_list.extend(note_list)
                 if pitch := self.parse_pitch(
-                    musical_part.m_ctrl, note_list, musical_part.pos_tick - int(tick_prefix * 3 / 4)
+                    musical_part.m_ctrl,
+                    note_list,
+                    musical_part.pos_tick
+                    - int(tick_prefix * (measure_prefix - 1) / measure_prefix),
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
             singing_tracks.append(singing_track)
