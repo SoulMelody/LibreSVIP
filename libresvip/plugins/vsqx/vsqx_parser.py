@@ -125,17 +125,33 @@ class VsqxParser:
             singing_tracks.append(singing_track)
         return singing_tracks
 
-    def parse_notes(self, notes: list[VsqxNote], tick_offset: int) -> list[Note]:
-        return [
-            Note(
-                start_pos=note.pos_tick + tick_offset,
-                length=note.dur_tick,
-                lyric=note.lyric or DEFAULT_ENGLISH_LYRIC,
-                pronunciation=None,
-                key_number=note.note_num,
-            )
-            for note in notes
-        ]
+    def parse_notes(self, vsqx_notes: list[VsqxNote], tick_offset: int) -> list[Note]:
+        prev_vsqx_note = None
+        note_list = []
+        for vsqx_note in vsqx_notes:
+            if vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil"]:
+                note_list.append(
+                    Note(
+                        start_pos=vsqx_note.pos_tick + tick_offset,
+                        length=vsqx_note.dur_tick,
+                        lyric=vsqx_note.lyric or DEFAULT_ENGLISH_LYRIC,
+                        pronunciation=vsqx_note.phnms.value
+                        if (vsqx_note.phnms is not None and vsqx_note.phnms.lock == 1)
+                        else None,
+                        key_number=vsqx_note.note_num,
+                        head_tag="0"
+                        if (
+                            prev_vsqx_note is not None
+                            and prev_vsqx_note.phnms is not None
+                            and prev_vsqx_note.phnms.value == "Sil"
+                            and prev_vsqx_note.pos_tick + prev_vsqx_note.dur_tick
+                            == vsqx_note.pos_tick
+                        )
+                        else None,
+                    )
+                )
+            prev_vsqx_note = vsqx_note
+        return note_list
 
     def parse_pitch(
         self, music_controls: list[VsqxMCtrl], note_list: list[Note], tick_offset: int
