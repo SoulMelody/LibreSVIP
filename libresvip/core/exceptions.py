@@ -2,6 +2,10 @@ class InvalidFileTypeError(Exception):
     pass
 
 
+class UnsupportedProjectVersionError(InvalidFileTypeError):
+    pass
+
+
 class NoTrackError(Exception):
     pass
 

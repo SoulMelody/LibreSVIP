@@ -4,8 +4,10 @@ import enum
 from types import GenericAlias
 from typing import Annotated, Any, Literal, Optional, Union, get_args
 
-from pydantic import Field
+from packaging.version import Version
+from pydantic import Field, ValidationInfo, field_validator
 
+from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 
 from .value_tree import JUCENode, JUCEVarTypes
@@ -269,6 +271,14 @@ class VoiSonaProject(BaseModel):
     tracks: list[VoiSonaTrack] = Field(default_factory=list, alias="Tracks")
     gui_status: list[VoiSonaGuiStatus] = Field(default_factory=list, alias="GUIStatus")
     version_of_app_file_saved: Optional[str] = Field("1.8.0.17", alias="VersionOfAppFileSaved")
+
+    @field_validator("version_of_app_file_saved")
+    @classmethod
+    def version_validator(cls, value: str, _info: ValidationInfo) -> str:
+        if Version(value) < Version("1.8"):
+            msg = f"Unsupported project version {value}"
+            raise UnsupportedProjectVersionError(msg)
+        return value
 
 
 def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[str, Any]:

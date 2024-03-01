@@ -1,9 +1,10 @@
 import pathlib
 from typing import Any
 
-from pydantic import Base64Bytes, Field
+from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
 from libresvip.core.compat import json, zstd
+from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 
 
@@ -22,6 +23,14 @@ class AcepFile(BaseModel):
     salt: str = ""
     version: int = Field(default=1000)
     content: Base64Bytes
+
+    @field_validator("version")
+    @classmethod
+    def version_validator(cls, value: int, _info: ValidationInfo) -> int:
+        if value < 1000:
+            msg = "Unsupported project version"
+            raise UnsupportedProjectVersionError(msg)
+        return value
 
 
 def decompress_ace_studio_project(src: pathlib.Path) -> dict[str, Any]:
