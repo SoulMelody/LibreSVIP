@@ -17,7 +17,7 @@ from typing_extensions import TypeGuard
 
 from libresvip.core.config import settings
 from libresvip.core.constants import app_dir, pkg_dir
-from libresvip.utils.module_loading import load_module
+from libresvip.utils.module_loading import import_module
 
 from .base import BasePlugin, SVSConverterBase
 from .meta_info import LibreSvipPluginInfo
@@ -68,19 +68,6 @@ class PluginManager:
             and issubclass(member, self.plugin_base)
             and member != self.plugin_base
         )
-
-    def _import_module(
-        self, plugin_module_name: str, candidate_filepath: Traversable, reload: bool
-    ) -> ModuleType:
-        """
-        Import a module, trying either to find it as a single file or as a directory.
-
-        .. note:: Isolated and provided to be reused, but not to be reimplemented !
-        """
-        if plugin_module_name not in sys.modules or reload:
-            sys.modules[plugin_module_name] = load_module(plugin_module_name, candidate_filepath)
-
-        return sys.modules[plugin_module_name]
 
     def scan_candidates(self) -> None:
         self._candidates.clear()
@@ -148,9 +135,7 @@ class PluginManager:
                 logger.debug(f"Skipped plugin: {plugin_info.suffix}")
                 continue
             try:
-                candidate_module = self._import_module(
-                    plugin_module_name, candidate_filepath, reload
-                )
+                candidate_module = import_module(plugin_module_name, candidate_filepath, reload)
             except Exception as e:
                 logger.exception(e)
                 logger.error(

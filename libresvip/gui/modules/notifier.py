@@ -10,7 +10,7 @@ import httpx
 from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
-from PySide6.QtCore import QObject
+from PySide6.QtCore import QObject, Slot
 from PySide6.QtQml import QmlElement, QmlSingleton
 
 import libresvip
@@ -196,3 +196,7 @@ class Notifier(QObject):
                 await self.notifier.clear_all()
         except Exception as e:
             logger.exception(e)
+
+    @Slot(str)
+    def open_link(self, url: str) -> None:
+        open_url(url)

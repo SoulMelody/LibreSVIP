@@ -5,6 +5,7 @@ import zipfile
 from importlib.abc import Loader
 from importlib.machinery import ModuleSpec, SourcelessFileLoader
 from importlib.util import module_from_spec, spec_from_file_location
+from types import ModuleType
 from typing import Optional, cast
 
 from libresvip.core.compat import Traversable
@@ -54,3 +55,15 @@ def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
         msg = f"{e}: {plugin_path}"
         raise ImportError(msg) from e
     return module
+
+
+def import_module(module_name: str, file_path: Traversable, reload: bool) -> ModuleType:
+    """
+    Import a module, trying either to find it as a single file or as a directory.
+
+    .. note:: Isolated and provided to be reused, but not to be reimplemented !
+    """
+    if module_name not in sys.modules or reload:
+        sys.modules[module_name] = load_module(module_name, file_path)
+
+    return sys.modules[module_name]

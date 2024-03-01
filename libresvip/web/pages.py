@@ -950,11 +950,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ui.button(_("Close"), on_click=about_dialog.close)
         with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
             ui.tooltip("Alt+H")
-            with ui.menu() as help_menu, ui.menu_item(on_click=about_dialog.open):
-                ui.tooltip("Alt+I")
-                with ui.row().classes("items-center"):
-                    ui.icon("info").classes("text-lg")
-                    ui.label(_("About"))
+            with ui.menu() as help_menu:
+                with ui.menu_item(on_click=about_dialog.open):
+                    ui.tooltip("Alt+I")
+                    with ui.row().classes("items-center"):
+                        ui.icon("info").classes("text-lg")
+                        ui.label(_("About"))
+                with ui.menu_item(), ui.row().classes("items-center"):
+                    ui.icon("text_snippet").classes("text-lg")
+                    ui.link(
+                        _("Documentation"),
+                        target="https://soulmelody.github.io/LibreSVIP",
+                        new_tab=True,
+                    )
 
     with (
         ui.card().classes("w-full").style("height: calc(100vh - 120px)"),

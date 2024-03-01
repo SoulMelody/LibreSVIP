@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import LibreSVIP
 
 Item {
     property QtObject openFile: Action {
@@ -100,6 +101,11 @@ Item {
                 TaskManager.start_conversion()
             }
         }
+    }
+    property QtObject openDocumentation: Action {
+        text: qsTr("&Documentation")
+        shortcut: "F1"
+        onTriggered: Notifier.open_link("https://soulmelody.github.io/LibreSVIP")
     }
     property QtObject quit: Action {
         text: qsTr("&Quit")

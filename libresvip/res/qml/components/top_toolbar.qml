@@ -450,9 +450,9 @@ ToolBar {
                             onTriggered: Notifier.check_for_updates()
                         }
                         IconMenuItem {
+                            action: actions.openDocumentation;
                             icon_name: "mdi7.text-box-search-outline"
                             label: qsTr("Documentation (F1)");
-                            enabled: false
                         }
                     }
                 }
