@@ -128,7 +128,7 @@ class UVibrato(BaseModel):
     def normalized_start(self) -> float:
         return 1.0 - self.length / 100.0
 
-    def evaluate(self, n_pos: int, n_period: int, note: UNote) -> tuple[float, float]:
+    def evaluate(self, n_pos: float, n_period: float, note: UNote) -> tuple[float, float]:
         n_start = self.normalized_start
         n_in = self.length / 100.0 * self.in_value / 100.0
         n_in_pos = n_start + n_in
