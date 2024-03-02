@@ -1,6 +1,5 @@
 import pathlib
 import sys
-import types
 import zipfile
 from importlib.abc import Loader
 from importlib.machinery import ModuleSpec, SourcelessFileLoader
@@ -16,7 +15,7 @@ class ZipLoader(SourcelessFileLoader):
         self.zip_file = zip_file
         self.file_path = file_path
 
-    def create_module(self, spec: ModuleSpec) -> types.ModuleType:
+    def create_module(self, spec: ModuleSpec) -> ModuleType:
         return sys.modules.get(spec.name)
 
     def get_filename(self, name: Optional[str] = None) -> str:
@@ -25,12 +24,12 @@ class ZipLoader(SourcelessFileLoader):
     def get_data(self, path: str) -> bytes:
         return self.zip_file.read(path)
 
-    def exec_module(self, module: types.ModuleType) -> None:
+    def exec_module(self, module: ModuleType) -> None:
         if compiled := super().get_code(module.__name__):
             exec(compiled, module.__dict__)
 
 
-def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
+def load_module(name: str, plugin_path: Traversable) -> ModuleType:
     spec = None
     if isinstance(plugin_path, zipfile.Path) and plugin_path.root.filename is not None:
         loader = ZipLoader(zip_file=plugin_path.root, file_path=plugin_path.at)

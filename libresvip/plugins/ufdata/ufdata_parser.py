@@ -98,8 +98,8 @@ class UFDataParser:
     def parse_notes(notes: list[UFNotes], tick_prefix: int) -> list[Note]:
         return [
             Note(
-                start_pos=note.tick_on,
-                length=note.tick_off - note.tick_on + tick_prefix,
+                start_pos=note.tick_on + tick_prefix,
+                length=note.tick_off - note.tick_on,
                 key_number=note.key,
                 lyric=note.lyric,
             )
