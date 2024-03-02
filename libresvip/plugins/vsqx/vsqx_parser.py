@@ -143,9 +143,12 @@ class VsqxParser:
 
     def parse_notes(self, vsqx_notes: list[VsqxNote], tick_offset: int) -> list[Note]:
         prev_vsqx_note = None
-        note_list = []
+        note_list: list[Note] = []
         for vsqx_note in vsqx_notes:
-            if vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil", "?"]:
+            if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC"):
+                note_list[-1].length += vsqx_note.dur_tick
+                continue
+            elif vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil", "?"]:
                 note = Note(
                     start_pos=vsqx_note.pos_tick + tick_offset,
                     length=vsqx_note.dur_tick,
