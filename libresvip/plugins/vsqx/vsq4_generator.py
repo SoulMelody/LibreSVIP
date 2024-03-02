@@ -200,7 +200,9 @@ class Vsq4Generator:
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None
             )
-            if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+            if note.lyric == "-":
+                vsqx_note.phnms = Vsq4TypePhonemes(value="-")
+            elif self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
                 vsqx_note.phnms = Vsq4TypePhonemes(
                     value=pinyin2xsampa.get(cast(str, vsqx_note.lyric), DEFAULT_CHINESE_PHONEME),
                 )
