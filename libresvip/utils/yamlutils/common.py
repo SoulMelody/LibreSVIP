@@ -3,7 +3,7 @@ from base64 import b64encode
 from hashlib import sha224
 from typing import Union
 
-from yaml.resolver import Resolver
+from yaml.resolver import BaseResolver
 
 merge_resolver = {
     "tag": "tag:yaml.org,2002:merge",
@@ -119,7 +119,7 @@ core_resolvers = {
 
 
 def set_yaml_grammar(
-    resolver: Resolver, grammar_version: str = "1.2", expand_merge_keys: bool = True
+    resolver: BaseResolver, grammar_version: str = "1.2", expand_merge_keys: bool = True
 ) -> None:
     if grammar_version not in core_resolvers:
         msg = f"Unknown grammar version {grammar_version}"

@@ -1,5 +1,6 @@
 import pathlib
 from typing import TYPE_CHECKING, Any, Optional, TextIO, Union
+from xml.sax.saxutils import XMLGenerator
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
@@ -26,7 +27,9 @@ class VocaloidXMLWriter(XmlEventWriter):
         self, config: SerializerConfig, output: TextIO, ns_map: dict[Optional[str], str]
     ) -> None:
         super().__init__(config, output, ns_map)
-        self.handler = EchoGenerator(
+
+    def build_handler(self) -> XMLGenerator:
+        return EchoGenerator(
             out=self.output, encoding=self.config.encoding, short_empty_elements=True
         )
 
@@ -70,8 +73,9 @@ class VocaloidXMLWriter(XmlEventWriter):
 
     def start_document(self) -> None:
         if self.config.xml_declaration:
-            self.output.write(f'<?xml version="{self.config.xml_version}"')
-            self.output.write(f' encoding="{self.config.encoding}" standalone="no"?>\n')
+            self.output.write(
+                f'<?xml version="{self.config.xml_version}" encoding="{self.config.encoding}" standalone="no"?>\n'
+            )
 
 
 class VsqxConverter(plugin_base.SVSConverterBase):

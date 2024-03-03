@@ -20,7 +20,7 @@ def _pretty_construct() -> None:
     def int_enum_repr(self: object) -> str:
         return repr(self.value)
 
-    IntEnum.__repr__ = int_enum_repr
+    setattr(IntEnum, "__repr__", int_enum_repr)
 
     def contruct_enum_repr(self: EnumIntegerString) -> str:
         return str.__repr__(self)

@@ -142,7 +142,10 @@ class SynthVEditorParser:
                 key_number=s5p_note.pitch,
                 start_pos=round(s5p_note.onset / TICK_RATE),
                 length=round(s5p_note.duration / TICK_RATE),
-                lyric=s5p_note.lyric.replace(" ", "") or db_defaults.lyric,
+                lyric=s5p_note.lyric.lstrip(".").replace(" ", "") or db_defaults.lyric,
+                pronunciation=s5p_note.comment
+                if s5p_note.lyric.startswith(".") and s5p_note.comment
+                else None,
             )
             notes.append(note)
             vibrato_start = self.synchronizer.get_actual_secs_from_ticks(note.start_pos) + (
@@ -269,11 +272,4 @@ class SynthVEditorParser:
                             y=round(vibrato_value),
                         )
                     )
-        points.update(
-            Point(
-                x=note.start_pos,
-                y=0,
-            )
-            for note in note_list
-        )
         return list(points)

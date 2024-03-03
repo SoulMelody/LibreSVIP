@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "typing_stubs", "ujson", "upath", "webui"]
+groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
 content_hash = "sha256:e29b410cf33a319add1c7db4c879e1715c24889b15beacb900f4445e6d655714"
@@ -2136,7 +2136,7 @@ files = [
 
 [[package]]
 name = "pyinstaller-hooks-contrib"
-version = "2024.1"
+version = "2024.2"
 requires_python = ">=3.7"
 summary = "Community maintained hooks for PyInstaller"
 dependencies = [
@@ -2145,8 +2145,8 @@ dependencies = [
     "setuptools>=42.0.0",
 ]
 files = [
-    {file = "pyinstaller-hooks-contrib-2024.1.tar.gz", hash = "sha256:51a51ea9e1ae6bd5ffa7ec45eba7579624bf4f2472ff56dba0edc186f6ed46a6"},
-    {file = "pyinstaller_hooks_contrib-2024.1-py2.py3-none-any.whl", hash = "sha256:131494f9cfce190aaa66ed82e82c78b2723d1720ce64d012fbaf938f4ab01d35"},
+    {file = "pyinstaller-hooks-contrib-2024.2.tar.gz", hash = "sha256:43f3e084ae5f826415399d72ecf2e32328fe859ad7455c7cddfc09f1a61c90b7"},
+    {file = "pyinstaller_hooks_contrib-2024.2-py2.py3-none-any.whl", hash = "sha256:8f5ac1acdafde9e553c82242aeae2d2f8fb65ec8e2b0ba416547948108a73e01"},
 ]
 
 [[package]]
@@ -2351,15 +2351,15 @@ files = [
 
 [[package]]
 name = "python-dateutil"
-version = "2.8.2"
+version = "2.9.0.post0"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 summary = "Extensions to the standard Python datetime module"
 dependencies = [
     "six>=1.5",
 ]
 files = [
-    {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
-    {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
+    {file = "python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"},
+    {file = "python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"},
 ]
 
 [[package]]
@@ -2858,12 +2858,12 @@ files = [
 
 [[package]]
 name = "types-protobuf"
-version = "4.24.0.20240129"
+version = "4.24.0.20240302"
 requires_python = ">=3.8"
 summary = "Typing stubs for protobuf"
 files = [
-    {file = "types-protobuf-4.24.0.20240129.tar.gz", hash = "sha256:8a83dd3b9b76a33e08d8636c5daa212ace1396418ed91837635fcd564a624891"},
-    {file = "types_protobuf-4.24.0.20240129-py3-none-any.whl", hash = "sha256:23be68cc29f3f5213b5c5878ac0151706182874040e220cfb11336f9ee642ead"},
+    {file = "types-protobuf-4.24.0.20240302.tar.gz", hash = "sha256:f22c00cc0cea9722e71e14d389bba429af9e35a74a949719c167203a5abbe2e4"},
+    {file = "types_protobuf-4.24.0.20240302-py3-none-any.whl", hash = "sha256:5c607990f50f14606c2edaf379f8acc7418fef1451b227aa3c6a8a2cbc6ff14a"},
 ]
 
 [[package]]

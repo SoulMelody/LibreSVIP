@@ -2,8 +2,8 @@ import ctypes
 from ctypes.wintypes import MSG
 from typing import Optional, SupportsInt
 
-from PySide6.QtCore import QObject, QPoint, QRect, Qt
-from PySide6.QtGui import QGuiApplication, QMouseEvent
+from PySide6.QtCore import QPoint, QRect, Qt
+from PySide6.QtGui import QGuiApplication, QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickItem, QQuickWindow
 
@@ -27,7 +27,7 @@ class MARGINS(ctypes.Structure):
 
 @QmlElement
 class FramelessWindow(QQuickWindow):
-    def __init__(self, parent: Optional[QObject] = None, border_width: int = 5) -> None:
+    def __init__(self, parent: Optional[QWindow] = None, border_width: int = 5) -> None:
         super().__init__(parent)
         self.flags: Qt.WindowType = (
             self.flags

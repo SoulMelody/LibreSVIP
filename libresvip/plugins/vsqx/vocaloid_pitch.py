@@ -29,7 +29,11 @@ class VocaloidPartPitchData:
 
 
 def pitch_from_vocaloid_parts(
-    data_by_parts: list[VocaloidPartPitchData], note_list: list[Note], first_bar_length: int
+    data_by_parts: list[VocaloidPartPitchData],
+    note_list: list[Note],
+    first_bar_length: int,
+    lower_bound: int,
+    upper_bound: int,
 ) -> Optional[ParamCurve]:
     pitch_raw_data_by_part = []
     for part in data_by_parts:
@@ -42,7 +46,9 @@ def pitch_from_vocaloid_parts(
             for i in range(pit_index, len(pit)):
                 pit_event = pit[i]
                 if pit_event.pos < pbs_event.pos:
-                    pit_multiplied_by_pbs[pit_event.pos] = pit_event.value * pbs_current_value
+                    pit_multiplied_by_pbs[pit_event.pos + part.start_pos] = (
+                        pit_event.value * pbs_current_value
+                    )
                     if i == len(pit) - 1:
                         pit_index = i
                 else:
@@ -52,7 +58,9 @@ def pitch_from_vocaloid_parts(
         if pit_index < len(pit) - 1:
             for i in range(pit_index, len(pit)):
                 pit_event = pit[i]
-                pit_multiplied_by_pbs[pit_event.pos] = pit_event.value * pbs_current_value
+                pit_multiplied_by_pbs[pit_event.pos + part.start_pos] = (
+                    pit_event.value * pbs_current_value
+                )
         pitch_raw_data_by_part.append(pit_multiplied_by_pbs)
     pitch_raw_data: list[tuple[int, int]] = []
     for element in pitch_raw_data_by_part:
@@ -63,12 +71,14 @@ def pitch_from_vocaloid_parts(
             (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos), None
         )
         if first_invalid_index_in_previous is None:
-            pitch_raw_data += element.items()
+            pitch_raw_data += list(element.items())
         else:
-            pitch_raw_data = pitch_raw_data[:first_invalid_index_in_previous] + element.items()
+            pitch_raw_data = pitch_raw_data[:first_invalid_index_in_previous] + list(
+                element.items()
+            )
     data = [Point(x=pos, y=round((value / PITCH_MAX_VALUE) * 100)) for pos, value in pitch_raw_data]
     return (
-        RelativePitchCurve(first_bar_length).to_absolute(data, note_list)
+        RelativePitchCurve(first_bar_length, lower_bound, upper_bound).to_absolute(data, note_list)
         if data and note_list
         else None
     )

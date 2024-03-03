@@ -9,6 +9,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
 from .model import (
     UFData,
@@ -66,7 +67,7 @@ class UFDataGenerator:
             UFTracks(
                 name=track.title,
                 notes=self.generate_notes(track.note_list),
-                pitch=self.generate_pitch(track.edited_params.pitch),
+                pitch=self.generate_pitch(track.edited_params.pitch, track.note_list),
             )
             for track in track_list
             if isinstance(track, SingingTrack)
@@ -84,14 +85,16 @@ class UFDataGenerator:
             for note in note_list
         ]
 
-    def generate_pitch(self, pitch: ParamCurve) -> UFPitch:
+    def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> UFPitch:
         uf_pitch = UFPitch(
-            is_absolute=True,
+            is_absolute=False,
             ticks=[],
             values=[],
         )
-        for point in pitch.points.root:
-            if point.y != -100:
-                uf_pitch.ticks.append(point.x - self.first_bar_length)
+        if notes:
+            for point in RelativePitchCurve(self.first_bar_length).from_absolute(
+                pitch.points.root, notes, 5
+            ):
+                uf_pitch.ticks.append(point.x)
                 uf_pitch.values.append(point.y / 100)
         return uf_pitch

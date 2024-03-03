@@ -21,7 +21,7 @@ from .model import (
     Vsq4ParameterNames,
     Vsqx,
     VsqxMasterTrack,
-    VsqxMCtrl,
+    VsqxMusicalPart,
     VsqxNote,
     VsqxTempoList,
     VsqxTimeSigList,
@@ -133,9 +133,9 @@ class VsqxParser:
                 ):
                     singing_track.ai_singer_name = v_voice.v_voice_name
                 if pitch := self.parse_pitch(
-                    musical_part.m_ctrl,
+                    musical_part,
                     note_list,
-                    musical_part.pos_tick - tick_prefix,
+                    tick_prefix,
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
             singing_tracks.append(singing_track)
@@ -145,7 +145,7 @@ class VsqxParser:
         prev_vsqx_note = None
         note_list: list[Note] = []
         for vsqx_note in vsqx_notes:
-            if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC"):
+            if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC("):
                 note_list[-1].length += vsqx_note.dur_tick
                 continue
             elif vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil", "?"]:
@@ -170,30 +170,36 @@ class VsqxParser:
         return note_list
 
     def parse_pitch(
-        self, music_controls: list[VsqxMCtrl], note_list: list[Note], tick_offset: int
+        self, musical_part: VsqxMusicalPart, note_list: list[Note], tick_offset: int
     ) -> Optional[ParamCurve]:
         pitch_data = VocaloidPartPitchData(
-            start_pos=0,
+            start_pos=musical_part.pos_tick - tick_offset,
             pit=[
                 ControllerEvent(
-                    pos=music_control.pos_tick + tick_offset,
+                    pos=music_control.pos_tick,
                     value=music_control.attr.value,
                 )
-                for music_control in music_controls
+                for music_control in musical_part.m_ctrl
                 if music_control.attr.type_param_attr_id == self.param_names.PIT.value
                 and music_control.attr.value is not None
             ],
             pbs=[
                 ControllerEvent(
-                    pos=music_control.pos_tick + tick_offset,
+                    pos=music_control.pos_tick,
                     value=music_control.attr.value,
                 )
-                for music_control in music_controls
+                for music_control in musical_part.m_ctrl
                 if music_control.attr.type_param_attr_id == self.param_names.PBS.value
                 and music_control.attr.value is not None
             ],
         )
-        return pitch_from_vocaloid_parts([pitch_data], note_list, self.first_bar_length)
+        return pitch_from_vocaloid_parts(
+            [pitch_data],
+            note_list,
+            self.first_bar_length,
+            musical_part.pos_tick - tick_offset,
+            musical_part.pos_tick + musical_part.play_time - tick_offset,
+        )
 
     def parse_instrumental_tracks(
         self,

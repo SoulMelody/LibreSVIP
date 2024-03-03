@@ -1,5 +1,5 @@
 import abc
-from typing import Annotated, Literal, Optional, Union
+from typing import Annotated, Any, Literal, Optional, Union
 
 from pydantic import Field
 
@@ -123,7 +123,7 @@ class DspxNote(BaseModel):
     lyric: str = ""
     phonemes: DspxPhonemes = Field(default_factory=DspxPhonemes)
     vibrato: DspxVibrato = Field(default_factory=DspxVibrato)
-    extra: dict[str, dict] = Field(default_factory=dict)
+    extra: dict[str, dict[Any, Any]] = Field(default_factory=dict)
 
 
 class DspxClipMixin(abc.ABC, BaseModel):
@@ -139,7 +139,7 @@ class DspxAudioClip(DspxClipMixin, BaseModel):
 
 class DspxSingingClip(DspxClipMixin, BaseModel):
     type_: Literal["singing"] = Field("singing", alias="type")
-    sources: dict = Field(default_factory=dict)
+    sources: dict[Any, Any] = Field(default_factory=dict)
     notes: list[DspxNote] = Field(default_factory=list)
     params: DspxParams = Field(default_factory=DspxParams)
 
@@ -177,4 +177,4 @@ class DspxContent(BaseModel):
 class DspxModel(BaseModel):
     version: str = "1.0.0"
     content: DspxContent = Field(default_factory=DspxContent)
-    workspace: dict[str, dict] = Field(default_factory=dict)
+    workspace: dict[str, dict[Any, Any]] = Field(default_factory=dict)

@@ -114,7 +114,7 @@ class SynthVEditorGenerator:
     def generate_notes(self, note_list: list[Note]) -> list[S5pNote]:
         return [
             S5pNote(
-                lyric=note.pronunciation or note.lyric,
+                lyric=note.lyric,
                 onset=note.start_pos * TICK_RATE,
                 duration=note.length * TICK_RATE,
                 pitch=note.key_number,
