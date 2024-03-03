@@ -55,7 +55,6 @@ class SynthVParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     voice_settings: SVVoice = dataclasses.field(init=False)
     instant_pitch: SVParamCurve = dataclasses.field(init=False)
-    note_list: list[SVNote] = dataclasses.field(init=False)
     group_library: dict[str, SVGroup] = dataclasses.field(default_factory=dict)
     group_split_counts: dict[str, int] = dataclasses.field(default_factory=dict)
     tracks_from_groups: list[Track] = dataclasses.field(default_factory=list)
@@ -236,12 +235,13 @@ class SynthVParser:
         self,
         pitch_diff: SVParamCurve,
         vibrato_env: SVParamCurve,
+        sv_notes: list[SVNote],
         step: int = 5,
         master_pitch_diff: Optional[SVParamCurve] = None,
         master_vibrato_env: Optional[SVParamCurve] = None,
     ) -> ParamCurve:
         curve = ParamCurve()
-        if not len(self.note_list):
+        if not sv_notes:
             curve.points.append(Point.start_point())
             curve.points.append(Point.end_point())
             return curve
@@ -305,7 +305,7 @@ class SynthVParser:
                     position_to_ticks(note.onset),
                     position_to_ticks(note.onset + note.duration),
                 )
-                for note in self.note_list
+                for note in sv_notes
             ]
         ).expand(120)
 
@@ -340,7 +340,7 @@ class SynthVParser:
                 reduced_interval,
                 (
                     note
-                    for note in self.note_list
+                    for note in sv_notes
                     if note.pitch_edited(regard_default_vibrato_as_unedited, self.options.instant)
                 ),
                 RangeInterval(),
@@ -353,7 +353,7 @@ class SynthVParser:
             interval &= note_edited_range | param_edited_range
         generator = PitchGenerator(
             _synchronizer=self.synchronizer,
-            _note_list=self.note_list,
+            _note_list=sv_notes,
             _pitch_diff=pitch_diff_expr,
             _vibrato_env=vibrato_env_expr,
         )
@@ -372,12 +372,16 @@ class SynthVParser:
         return curve
 
     def parse_params(
-        self, sv_params: SVParameters, master_params: Optional[SVParameters] = None
+        self,
+        sv_params: SVParameters,
+        sv_notes: list[SVNote],
+        master_params: Optional[SVParameters] = None,
     ) -> Params:
         return Params(
             pitch=self.parse_pitch_curve(
                 sv_params.pitch_delta,
                 sv_params.vibrato_env,
+                sv_notes,
                 5,
                 master_params.pitch_delta if master_params else None,
                 master_params.vibrato_env if master_params else None,
@@ -578,7 +582,6 @@ class SynthVParser:
             master_note_attributes = self.voice_settings.to_attributes()
             if self.options.instant:
                 self.instant_pitch = sv_track.main_ref.system_pitch_delta
-            self.note_list = sv_track.main_group.notes
             for note in sv_track.main_group.notes:
                 note.merge_attributes(master_note_attributes)
             singing_track = SingingTrack(
@@ -586,7 +589,9 @@ class SynthVParser:
                 note_list=self.parse_note_list(
                     sv_track.main_group.notes, sv_track.main_ref.database
                 ),
-                edited_params=self.parse_params(sv_track.main_group.parameters),
+                edited_params=self.parse_params(
+                    sv_track.main_group.parameters, sv_track.main_group.notes
+                ),
             )
             if self.options.group == GroupOption.SPLIT:
                 for sv_ref in sv_track.groups:
@@ -607,7 +612,7 @@ class SynthVParser:
                             title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                             note_list=self.parse_note_list(group.notes, sv_ref.database),
                             edited_params=self.parse_params(
-                                group.parameters, sv_track.main_group.parameters
+                                group.parameters, group.notes, sv_track.main_group.parameters
                             ),
                         )
                     )
@@ -632,7 +637,7 @@ class SynthVParser:
                                 title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                                 note_list=self.parse_note_list(group.notes, sv_ref.database),
                                 edited_params=self.parse_params(
-                                    group.parameters, sv_track.main_group.parameters
+                                    group.parameters, group.notes, sv_track.main_group.parameters
                                 ),
                             )
                         )
@@ -640,7 +645,9 @@ class SynthVParser:
                         track_override_with(
                             singing_track,
                             self.parse_note_list(group.notes, sv_ref.database),
-                            self.parse_params(group.parameters, sv_track.main_group.parameters),
+                            self.parse_params(
+                                group.parameters, group.notes, sv_track.main_group.parameters
+                            ),
                             self.first_bar_tick,
                         )
                         merged_group.notes.extend(group.notes)

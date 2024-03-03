@@ -1,6 +1,6 @@
 legato_chars = ["ー", "−", "-"]
 
-japanese2xsampa = {
+romaji2xsampa = {
     "n": "n",
     "m": "m",
     "a": "a",
