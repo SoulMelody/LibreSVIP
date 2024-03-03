@@ -5,6 +5,7 @@ from typing import Union, cast
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
+from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -208,7 +209,9 @@ class Vsq3Generator:
                 )
             elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
                 vsqx_note.phnms = Vsq3TypePhonemes(
-                    value=japanese2xsampa.get(cast(str, vsqx_note.lyric), DEFAULT_JAPANESE_PHONEME),
+                    value=japanese2xsampa.get(
+                        to_romaji(cast(str, vsqx_note.lyric)), DEFAULT_JAPANESE_PHONEME
+                    ),
                 )
             else:
                 vsqx_note.phnms = Vsq3TypePhonemes(value=DEFAULT_CHINESE_PHONEME)

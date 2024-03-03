@@ -152,7 +152,7 @@ class VsqxParser:
                 note = Note(
                     start_pos=vsqx_note.pos_tick + tick_offset,
                     length=vsqx_note.dur_tick,
-                    lyric=vsqx_note.lyric or DEFAULT_ENGLISH_LYRIC,
+                    lyric=(vsqx_note.lyric or DEFAULT_ENGLISH_LYRIC).lower(),
                     pronunciation=vsqx_note.phnms.value
                     if (vsqx_note.phnms is not None and vsqx_note.phnms.lock == 1)
                     else None,
