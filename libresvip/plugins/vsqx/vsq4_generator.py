@@ -6,7 +6,7 @@ from typing import Union, cast
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa, legato_chars
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import PhonemeWarning
@@ -201,7 +201,7 @@ class Vsq4Generator:
                 for param_name, param_value in self.style_params.items()
                 if param_value is not None
             )
-            if note.lyric == "-":
+            if note.lyric in legato_chars:
                 vsqx_note.phnms = Vsq4TypePhonemes(value="-")
             elif self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
                 vsqx_note.phnms = Vsq4TypePhonemes(

@@ -7,7 +7,7 @@ from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa, legato_chars
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
@@ -113,6 +113,8 @@ class VocaloidGenerator:
         return tempo_events
 
     def generate_phoneme(self, lyric: str) -> str:
+        if lyric in legato_chars:
+            return "-"
         if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
             pinyin = " ".join(get_pinyin_series([lyric], filter_non_chinese=False))
             return pinyin2xsampa.get(pinyin, DEFAULT_CHINESE_PHONEME)

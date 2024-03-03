@@ -1,4 +1,8 @@
+legato_chars = ["ー", "−", "-"]
+
 japanese2xsampa = {
+    "n": "n",
+    "m": "m",
     "a": "a",
     "i": "i",
     "u": "M",

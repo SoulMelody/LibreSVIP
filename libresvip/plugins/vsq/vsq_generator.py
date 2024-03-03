@@ -9,7 +9,7 @@ from libresvip.core.constants import (
     TICKS_IN_BEAT,
 )
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import japanese2xsampa, legato_chars
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -155,7 +155,11 @@ class VsqGenerator:
                 ]
             )
             lyric = note.lyric
-            xsampa = japanese2xsampa.get(to_romaji(lyric), DEFAULT_PHONEME)
+            xsampa = (
+                "-"
+                if lyric in legato_chars
+                else japanese2xsampa.get(to_romaji(lyric), DEFAULT_PHONEME)
+            )
             lyrics_lines.extend(
                 [
                     f"[h#{number.zfill(4)}]",
