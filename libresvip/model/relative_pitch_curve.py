@@ -74,6 +74,7 @@ class RelativePitchCurve:
             return converted_data
         interval_dict = get_interval_dict(note_list, to_absolute)
         note_index, prev_index = 0, -1
+        prev_y = None
         for point in points:
             if note_index < 0:
                 continue
@@ -88,41 +89,35 @@ class RelativePitchCurve:
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
             while note_index < len(note_list) - 1 and note_list[note_index + 1].start_pos <= pos:
                 note_index += 1
-                if (
-                    not to_absolute
-                    and note_list[note_index - 1].end_pos < note_list[note_index].start_pos
-                    and note_list[note_index - 1].key_number != note_list[note_index].key_number
-                ):
-                    converted_data.append(Point(x=note_list[note_index - 1].end_pos, y=0))
+            cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
+            if (
+                point.y != -100
+                and prev_y is not None
+                and converted_data
+                and cur_x - converted_data[-1].x > 5
+            ):
+                for tick in range(converted_data[-1].x + 5, cur_x, 5):
+                    tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
+                    if (tick_key := interval_dict.get(tick_pos)) is not None:
+                        if to_absolute:
+                            converted_data.append(Point(x=tick, y=round(prev_y + tick_key * 100)))
+                        else:
+                            converted_data.append(Point(x=tick, y=0))
             if (base_key := interval_dict.get(pos)) is not None:
                 if not to_absolute and point.y == -100:
                     y = 0
                 else:
                     y = point.y + (base_key if to_absolute else -base_key) * 100
-                cur_point = Point(
-                    x=point.x + (self.first_bar_length if to_absolute else -self.first_bar_length),
-                    y=round(y),
-                )
-                if 0 <= prev_index < note_index and converted_data:
-                    if to_absolute:
-                        if (
-                            note_index == prev_index + 1
-                            and note_list[prev_index].key_number != note_list[note_index].key_number
-                            and note_list[prev_index].end_pos == note_list[note_index].start_pos
-                        ):
-                            border_key = note_list[note_index].key_number
-                        else:
-                            border_key = note_list[prev_index].key_number
-                        converted_data.extend(
-                            (
-                                Point(x=converted_data[-1].x, y=border_key * 100),
-                                Point(x=converted_data[-1].x, y=-100),
-                                Point(x=cur_point.x, y=-100),
-                                Point(x=cur_point.x, y=round(base_key * 100)),
-                            )
-                        )
-                    prev_index = note_index
+                cur_point = Point(x=cur_x, y=round(y))
                 converted_data.append(cur_point)
+                if point.y == -100:
+                    prev_y = None
+                elif to_absolute:
+                    prev_y = point.y
+                else:
+                    prev_y = y
+            else:
+                prev_y = None
         if converted_data and to_absolute:
             if self.upper_bound == portion.inf:
                 converted_data.extend((converted_data[-1]._replace(y=-100), Point.end_point()))

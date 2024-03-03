@@ -7,7 +7,6 @@ from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import clamp
 
 from .constants import (
-    BORDER_APPEND_RADIUS,
     DEFAULT_PITCH_BEND_SENSITIVITY,
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
     PITCH_MAX_VALUE,
@@ -58,7 +57,12 @@ def pitch_from_vocaloid_parts(
             pitch_raw_data = pitch_raw_data[:first_invalid_index_in_previous] + list(
                 element.items()
             )
-    data = [Point(x=pos, y=round(value * 100 / PITCH_MAX_VALUE)) for pos, value in pitch_raw_data]
+    data = [
+        Point(
+            x=pos, y=round(value * 100 / (PITCH_MAX_VALUE if value > 0 else (PITCH_MAX_VALUE + 1)))
+        )
+        for pos, value in pitch_raw_data
+    ]
     return (
         RelativePitchCurve(first_bar_length).to_absolute(data, note_list)
         if data and note_list
@@ -70,7 +74,7 @@ def generate_for_vocaloid(
     pitch: ParamCurve, notes: list[Note], first_bar_length: int
 ) -> Optional[VocaloidPartPitchData]:
     data = RelativePitchCurve(first_bar_length).from_absolute(
-        pitch.points.root, notes, border_append_radius=BORDER_APPEND_RADIUS
+        pitch.points.root, notes, border_append_radius=0
     )
     if not len(data):
         return None
@@ -108,8 +112,11 @@ def generate_for_vocaloid(
                     pitch_pos,
                     int(
                         clamp(
-                            round(pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section),
-                            -PITCH_MAX_VALUE,
+                            pitch_value
+                            * (PITCH_MAX_VALUE if pitch_value > 0 else (PITCH_MAX_VALUE + 1))
+                            / 100
+                            / pbs_for_this_section,
+                            -PITCH_MAX_VALUE - 1,
                             PITCH_MAX_VALUE,
                         )
                     ),

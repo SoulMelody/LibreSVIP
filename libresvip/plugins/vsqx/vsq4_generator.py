@@ -189,9 +189,7 @@ class Vsq4Generator:
                 pos_tick=note.start_pos,
                 dur_tick=note.length,
                 note_num=note.key_number,
-                lyric=" ".join(get_pinyin_series([note.lyric], filter_non_chinese=False))
-                if self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE
-                else note.lyric,
+                lyric=note.lyric,
             )
             vsqx_note.note_style.attr.extend(
                 Vsq4TypeParamAttr(
@@ -204,8 +202,11 @@ class Vsq4Generator:
             if note.lyric in legato_chars:
                 vsqx_note.phnms = Vsq4TypePhonemes(value="-")
             elif self.options.default_lang_id == VocaloidLanguage.SIMPLIFIED_CHINESE:
+                vsqx_note.lyric = " ".join(
+                    get_pinyin_series([note.lyric], filter_non_chinese=False)
+                )
                 vsqx_note.phnms = Vsq4TypePhonemes(
-                    value=pinyin2xsampa.get(cast(str, vsqx_note.lyric), DEFAULT_CHINESE_PHONEME),
+                    value=pinyin2xsampa.get(vsqx_note.lyric, DEFAULT_CHINESE_PHONEME),
                 )
             elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
                 vsqx_note.phnms = Vsq4TypePhonemes(

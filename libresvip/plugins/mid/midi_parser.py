@@ -213,7 +213,11 @@ class MidiParser:
                     rel_pitch_points.append(
                         Point(
                             round(event.time * self.tick_rate),
-                            round(pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE),
+                            round(
+                                pitch_bend_sensitivity
+                                * event.pitch
+                                / (PITCH_MAX_VALUE if event.pitch > 0 else (PITCH_MAX_VALUE + 1))
+                            ),
                         )
                     )
                 elif event.type == "lyrics":

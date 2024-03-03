@@ -7,7 +7,6 @@ from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import clamp
 
 from .constants import (
-    BORDER_APPEND_RADIUS,
     DEFAULT_PITCH_BEND_SENSITIVITY,
     MAX_PITCH_BEND_SENSITIVITY,
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
@@ -34,7 +33,7 @@ def generate_for_midi(
     first_bar_length: int, pitch: ParamCurve, notes: list[Note]
 ) -> Optional[MIDIPitchData]:
     data = RelativePitchCurve(first_bar_length).from_absolute(
-        pitch.points.root, notes, border_append_radius=BORDER_APPEND_RADIUS
+        pitch.points.root, notes, border_append_radius=0
     )
     if not len(data):
         return None
@@ -71,8 +70,11 @@ def generate_for_midi(
                     pitch_pos,
                     int(
                         clamp(
-                            round(pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section),
-                            -PITCH_MAX_VALUE,
+                            pitch_value
+                            * (PITCH_MAX_VALUE if pitch_value > 0 else (PITCH_MAX_VALUE + 1))
+                            / 100
+                            / pbs_for_this_section,
+                            -PITCH_MAX_VALUE - 1,
                             PITCH_MAX_VALUE,
                         )
                     ),
