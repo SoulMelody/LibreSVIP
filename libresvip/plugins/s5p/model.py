@@ -17,7 +17,7 @@ from libresvip.model.point import PointList
 
 
 class S5pPoint(NamedTuple):
-    offset: int
+    offset: float
     value: float
 
 
