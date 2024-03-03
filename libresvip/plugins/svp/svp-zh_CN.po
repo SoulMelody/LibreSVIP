@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-14 19:14+0800\n"
+"POT-Creation-Date: 2024-03-03 21:32+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -134,42 +134,83 @@ msgstr ""
 "”以确保段落划分不被破坏。"
 
 #: .svp.dump[0].title
+msgid "Threshold to remove short silences"
+msgstr ""
+
+#: .svp.dump[0].choices[0].text
+msgid "Zero length note"
+msgstr ""
+
+#: .svp.dump[0].choices[1].text
+msgid "1/8 note"
+msgstr ""
+
+#: .svp.dump[0].choices[2].text
+msgid "1/16 note"
+msgstr ""
+
+#: .svp.dump[0].choices[3].text
+msgid "1/32 note"
+msgstr ""
+
+#: .svp.dump[0].choices[4].text
+msgid "1/64 note"
+msgstr ""
+
+#: .svp.dump[0].choices[5].text
+msgid "1/128 note"
+msgstr ""
+
+#: .svp.dump[0].description
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+#: .svp.dump[1].title
+#: .svp.dump[0].title
 msgid "The way to handle vibrato notes"
 msgstr "自动颤音处理方式"
 
+#: .svp.dump[1].choices[0].text
 #: .svp.dump[0].choices[0].text
 msgid "All removed"
 msgstr "全部抹平"
 
+#: .svp.dump[1].choices[0].description
 #: .svp.dump[0].choices[0].description
 msgid ""
 "All notes will be set to 0 vibrato depth to ensure the output pitch curve is "
 "the same as input"
 msgstr "所有音符的颤音深度将被设置为 0，以保证输出的音高曲线与输入一致"
 
+#: .svp.dump[1].choices[1].text
 #: .svp.dump[0].choices[1].text
 msgid "All kept"
 msgstr "全部保留"
 
+#: .svp.dump[1].choices[1].description
 #: .svp.dump[0].choices[1].description
 msgid ""
 "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
 msgstr "保持所有音符的默认颤音，但可能造成输入与输出音高曲线不一致"
 
+#: .svp.dump[1].choices[2].text
 #: .svp.dump[0].choices[2].text
 msgid "Hybrid mode"
 msgstr "混合保留"
 
+#: .svp.dump[1].choices[2].description
 #: .svp.dump[0].choices[2].description
 msgid "Remove vibrato in edited part, keep default vibrato in other parts"
 msgstr "在输入音高被编辑过的区域去除颤音，其余部分保留默认颤音"
 
+#: .svp.dump[2].title
 #: .svp.dump[1].title
 msgid ""
 "Set the average sampling interval of parameter points to improve performance "
 "(0 means no limit)"
 msgstr "设置参数点的平均采样间隔以改善性能（0 为无限制）"
 
+#: .svp.dump[2].description
 #: .svp.dump[1].description
 msgid ""
 "Reduce the sampling interval to improve the accuracy of parameter curves, "
@@ -180,26 +221,32 @@ msgstr ""
 "减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V "
 "Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
 
+#: .svp.dump[3].title
 #: .svp.dump[2].title
 msgid "Override default language for the voicebank"
 msgstr "指定声库的默认语种"
 
+#: .svp.dump[3].choices[0].text
 #: .svp.dump[2].choices[0].text
 msgid "Mandarin"
 msgstr "普通话"
 
+#: .svp.dump[3].choices[1].text
 #: .svp.dump[2].choices[1].text
 msgid "Cantonese"
 msgstr "粤语"
 
+#: .svp.dump[3].choices[2].text
 #: .svp.dump[2].choices[2].text
 msgid "Japanese"
 msgstr "日语"
 
+#: .svp.dump[3].choices[3].text
 #: .svp.dump[2].choices[3].text
 msgid "English"
 msgstr "英语"
 
+#: .svp.dump[3].choices[4].text
 #: .svp.dump[2].choices[4].text
 msgid "Spanish"
 msgstr "西班牙语"

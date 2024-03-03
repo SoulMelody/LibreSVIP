@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-22 11:14+0800\n"
+"POT-Creation-Date: 2024-03-03 21:32+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.12.1\n"
+"X-Generator: Translate Toolkit 3.12.2\n"
 
 #: .svip3.name
 msgid "Svip3"
@@ -24,6 +24,53 @@ msgstr "网易云音乐·X Studio 工程文件"
 #: .svip3.description
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程转换插件"
+
+#: .svip3.dump[0].title
+msgid "Zoom in/out project"
+msgstr ""
+
+#: .svip3.dump[0].choices[0].text
+msgid "None"
+msgstr ""
+
+#: .svip3.dump[0].choices[1].text
+msgid "2"
+msgstr ""
+
+#: .svip3.dump[0].choices[2].text
+msgid "1/2"
+msgstr ""
+
+#: .svip3.dump[0].choices[3].text
+msgid "5/3"
+msgstr ""
+
+#: .svip3.dump[0].choices[4].text
+msgid "3/2"
+msgstr ""
+
+#: .svip3.dump[0].choices[5].text
+msgid "6/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[6].text
+msgid "4/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[7].text
+msgid "3/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[8].text
+msgid "3/4"
+msgstr ""
+
+#: .svip3.dump[0].description
+msgid ""
+"Change Bpm and notes in parallel so that the actual singing speed is kept. "
+"For example, with factor 2, 60 bpm becomes 120 bpm and all notes become "
+"twice the length"
+msgstr ""
 
 #: .svip3.messages[0]
 msgid "Unsupported pinyin:"

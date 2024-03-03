@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-14 18:36+0800\n"
+"POT-Creation-Date: 2024-03-03 21:32+0800\n"
 "PO-Revision-Date: 2023-05-26 09:07+0000\n"
 "Last-Translator: admin <admin@example.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,6 +141,11 @@ msgstr ""
 "即 parts per quarter, 又名 ticks per quarter "
 "note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
 
+#: .mid.messages[0]
+msgid "No tempo labels found in the imported project."
+msgstr ""
+
+#: .mid.messages[1]
 #: .mid.messages[0]
 msgid "Overlapping notes in track {}"
 msgstr "轨道{}中存在重叠音符"

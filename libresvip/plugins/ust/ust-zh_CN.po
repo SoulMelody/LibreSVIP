@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-14 10:23+0800\n"
+"POT-Creation-Date: 2024-03-03 21:32+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,11 @@ msgstr "UTAU 序列文本"
 msgid "Conversion plugin for UST file format"
 msgstr "UST文件格式转换插件"
 
+#: .ust.load[0].title
+#: .ust.dump[2].title
+msgid "Text encoding"
+msgstr "文本编码"
+
 #: .ust.dump[0].title
 msgid "Track index"
 msgstr "音轨序号"
@@ -40,10 +45,6 @@ msgstr "版本"
 #: .ust.dump[1].description
 msgid "UST file version"
 msgstr "UST文件版本号"
-
-#: .ust.dump[2].title
-msgid "Text encoding"
-msgstr "文本编码"
 
 #: .ust.messages[0]
 msgid "No singing track found"

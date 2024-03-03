@@ -1,45 +1,6 @@
 msgid ""
 msgstr ""
 
-msgid "Downloading"
-msgstr ""
-
-msgid "Please wait..."
-msgstr ""
-
-msgid "Error occurred while Downloading"
-msgstr ""
-
-msgid "Failed to download file {}. Please try again later."
-msgstr ""
-
-msgid "Checking for Updates"
-msgstr ""
-
-msgid "Open in Browser"
-msgstr ""
-
-msgid "Download"
-msgstr ""
-
-msgid "Update Available"
-msgstr ""
-
-msgid "New version {} is available."
-msgstr ""
-
-msgid "No Updates"
-msgstr ""
-
-msgid "You are using the latest version {}."
-msgstr ""
-
-msgid "Error occurred while Checking for Updates"
-msgstr ""
-
-msgid "Failed to check for updates. Please try again later."
-msgstr ""
-
 msgid "Converter"
 msgstr ""
 
@@ -329,11 +290,11 @@ msgstr ""
 msgid "SVS Projects Converter"
 msgstr ""
 
-#: ../libresvip/cli/commands/conf.py:21
+#: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
 msgstr ""
 
-#: ../libresvip/cli/commands/conf.py:34
+#: ../libresvip/cli/commands/conf.py:31
 msgid "Set {} to {}"
 msgstr ""
 
@@ -373,7 +334,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:170
+#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:176
 msgid "Author"
 msgstr ""
 
@@ -436,143 +397,200 @@ msgstr ""
 msgid "Available fields:"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:21
+#: ../libresvip/cli/commands/proj.py:20
 msgid "Extension {} is not supported. Supported extensions are: {}"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:80
+#: ../libresvip/cli/commands/proj.py:51 ../libresvip/cli/commands/proj.py:79
 msgid "Input Options: "
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:53 ../libresvip/cli/commands/proj.py:103
+#: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:102
 msgid "Output Options: "
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:72
+#: ../libresvip/cli/commands/proj.py:71
 msgid "Offset in milliseconds"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:73
+#: ../libresvip/cli/commands/proj.py:72
 msgid "Mute other tracks"
 msgstr ""
 
-#: ../libresvip/model/relative_pitch_curve.py:88
+#: ../libresvip/gui/modules/notifier.py:52
+msgid "Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:52
+#: ../libresvip/gui/modules/notifier.py:76
+msgid "Please wait..."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:62
+msgid "Error occurred while Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:63
+msgid "Failed to download file {}. Please try again later."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:75
+msgid "Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:91
+msgid "Open in Browser"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:145
+msgid "Download"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:155
+msgid "Update Available"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:156
+msgid "New version {} is available."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:161
+msgid "No Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:162
+msgid "You are using the latest version {}."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:170
+msgid "Error occurred while Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:171
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+
+#: ../libresvip/model/relative_pitch_curve.py:28
 msgid "Notes Overlapped"
 msgstr ""
 
-#: ../libresvip/web/pages.py:160
+#: ../libresvip/web/pages.py:166
 msgid "name"
 msgstr ""
 
-#: ../libresvip/web/pages.py:180 ../libresvip/web/pages.py:197
-#: ../libresvip/web/pages.py:844 ../libresvip/web/pages.py:860
-#: ../libresvip/web/pages.py:958 ../libresvip/web/pages.py:1010
+#: ../libresvip/web/pages.py:186 ../libresvip/web/pages.py:203
+#: ../libresvip/web/pages.py:860 ../libresvip/web/pages.py:876
+#: ../libresvip/web/pages.py:986 ../libresvip/web/pages.py:1038
 msgid "file_format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:187
+#: ../libresvip/web/pages.py:193
 msgid "description"
 msgstr ""
 
-#: ../libresvip/web/pages.py:315
+#: ../libresvip/web/pages.py:325
 msgid "Invalid integer"
 msgstr ""
 
-#: ../libresvip/web/pages.py:319
+#: ../libresvip/web/pages.py:329
 msgid "Invalid float"
 msgstr ""
 
-#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:459
+#: ../libresvip/web/pages.py:440 ../libresvip/web/pages.py:469
 msgid "Copy to clipboard"
 msgstr ""
 
-#: ../libresvip/web/pages.py:435 ../libresvip/web/pages.py:464
-#: ../libresvip/web/pages.py:612 ../libresvip/web/pages.py:934
-#: ../libresvip/web/pages.py:976 ../libresvip/web/pages.py:1033
+#: ../libresvip/web/pages.py:445 ../libresvip/web/pages.py:474
+#: ../libresvip/web/pages.py:622 ../libresvip/web/pages.py:950
+#: ../libresvip/web/pages.py:1004 ../libresvip/web/pages.py:1061
 msgid "Close"
 msgstr ""
 
-#: ../libresvip/web/pages.py:610
+#: ../libresvip/web/pages.py:620
 msgid "Conversion Progress"
 msgstr ""
 
-#: ../libresvip/web/pages.py:615
+#: ../libresvip/web/pages.py:625
 msgid "Conversion Failed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:618
+#: ../libresvip/web/pages.py:628
 msgid "Conversion Successful"
 msgstr ""
 
-#: ../libresvip/web/pages.py:671 ../libresvip/web/pages.py:708
+#: ../libresvip/web/pages.py:681 ../libresvip/web/pages.py:715
 msgid "All files (*.*)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:695
+#: ../libresvip/web/pages.py:702
 msgid "Save failed!"
 msgstr ""
 
-#: ../libresvip/web/pages.py:705
+#: ../libresvip/web/pages.py:712
 msgid "Compressed Archive (*.zip)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:717
+#: ../libresvip/web/pages.py:724
 msgid "Saved"
 msgstr ""
 
-#: ../libresvip/web/pages.py:798 ../libresvip/web/pages.py:818
+#: ../libresvip/web/pages.py:814 ../libresvip/web/pages.py:834
 msgid "Convert"
 msgstr ""
 
-#: ../libresvip/web/pages.py:807 ../libresvip/web/pages.py:1045
+#: ../libresvip/web/pages.py:823 ../libresvip/web/pages.py:1073
 msgid "Import project"
 msgstr ""
 
-#: ../libresvip/web/pages.py:835 ../libresvip/web/pages.py:961
+#: ../libresvip/web/pages.py:851 ../libresvip/web/pages.py:989
 msgid "Import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:852 ../libresvip/web/pages.py:1013
+#: ../libresvip/web/pages.py:868 ../libresvip/web/pages.py:1041
 msgid "Export format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:865
+#: ../libresvip/web/pages.py:881
 msgid "Switch Theme"
 msgstr ""
 
-#: ../libresvip/web/pages.py:887
+#: ../libresvip/web/pages.py:903
 msgid "Switch Language"
 msgstr ""
 
-#: ../libresvip/web/pages.py:935
+#: ../libresvip/web/pages.py:951
 msgid "Help"
 msgstr ""
 
-#: ../libresvip/web/pages.py:949
+#: ../libresvip/web/pages.py:962
+msgid "Documentation"
+msgstr ""
+
+#: ../libresvip/web/pages.py:977
 msgid "Choose file format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:986
+#: ../libresvip/web/pages.py:1014
 msgid "Auto detect import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:993
+#: ../libresvip/web/pages.py:1021
 msgid "Reset list when import format changed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1103
+#: ../libresvip/web/pages.py:1171
 msgid "Drag and drop files here or click to upload"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1132
+#: ../libresvip/web/pages.py:1200
 msgid "Export"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1133
+#: ../libresvip/web/pages.py:1201
 msgid "Advanced Options"
 msgstr ""
 
-#: ../libresvip/utils.py:138
+#: ../libresvip/utils/audio.py:29
 msgid "Audio file not found: "
 msgstr ""
 
@@ -871,6 +889,10 @@ msgid "Default Voicebank Version"
 msgstr ""
 
 #: .ccs.messages[0]
+msgid "Unsupported lyric: "
+msgstr ""
+
+#: .ccs.messages[1] .ccs.messages[0]
 msgid "Pitch value is out of bounds"
 msgstr ""
 
@@ -1126,7 +1148,7 @@ msgstr ""
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr ""
 
@@ -1138,11 +1160,11 @@ msgstr ""
 msgid "Import lyrics"
 msgstr ""
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr ""
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr ""
 
@@ -1243,6 +1265,10 @@ msgid ""
 msgstr ""
 
 #: .mid.messages[0]
+msgid "No tempo labels found in the imported project."
+msgstr ""
+
+#: .mid.messages[1] .mid.messages[0]
 msgid "Overlapping notes in track {}"
 msgstr ""
 
@@ -1557,12 +1583,59 @@ msgstr ""
 msgid "Svip3"
 msgstr ""
 
-#: .svip3.file_format .svip3.format_desc
+#: .svip3.file_format .svip3.format_desc
 msgid "Netease Cloud Music XStudio project file"
 msgstr ""
 
 #: .svip3.description
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
+msgstr ""
+
+#: .svip3.dump[0].title
+msgid "Zoom in/out project"
+msgstr ""
+
+#: .svip3.dump[0].choices[0].text
+msgid "None"
+msgstr ""
+
+#: .svip3.dump[0].choices[1].text
+msgid "2"
+msgstr ""
+
+#: .svip3.dump[0].choices[2].text
+msgid "1/2"
+msgstr ""
+
+#: .svip3.dump[0].choices[3].text
+msgid "5/3"
+msgstr ""
+
+#: .svip3.dump[0].choices[4].text
+msgid "3/2"
+msgstr ""
+
+#: .svip3.dump[0].choices[5].text
+msgid "6/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[6].text
+msgid "4/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[7].text
+msgid "3/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[8].text
+msgid "3/4"
+msgstr ""
+
+#: .svip3.dump[0].description
+msgid ""
+"Change Bpm and notes in parallel so that the actual singing speed is kept. "
+"For example, with factor 2, 60 bpm becomes 120 bpm and all notes become "
+"twice the length"
 msgstr ""
 
 #: .svp.name
@@ -1677,43 +1750,75 @@ msgid ""
 msgstr ""
 
 #: .svp.dump[0].title
-msgid "The way to handle vibrato notes"
+msgid "Threshold to remove short silences"
 msgstr ""
 
 #: .svp.dump[0].choices[0].text
+msgid "Zero length note"
+msgstr ""
+
+#: .svp.dump[0].choices[1].text
+msgid "1/8 note"
+msgstr ""
+
+#: .svp.dump[0].choices[2].text
+msgid "1/16 note"
+msgstr ""
+
+#: .svp.dump[0].choices[3].text
+msgid "1/32 note"
+msgstr ""
+
+#: .svp.dump[0].choices[4].text
+msgid "1/64 note"
+msgstr ""
+
+#: .svp.dump[0].choices[5].text
+msgid "1/128 note"
+msgstr ""
+
+#: .svp.dump[0].description
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+#: .svp.dump[1].title .svp.dump[0].title
+msgid "The way to handle vibrato notes"
+msgstr ""
+
+#: .svp.dump[1].choices[0].text .svp.dump[0].choices[0].text
 msgid "All removed"
 msgstr ""
 
-#: .svp.dump[0].choices[0].description
+#: .svp.dump[1].choices[0].description .svp.dump[0].choices[0].description
 msgid ""
 "All notes will be set to 0 vibrato depth to ensure the output pitch curve is "
 "the same as input"
 msgstr ""
 
-#: .svp.dump[0].choices[1].text
+#: .svp.dump[1].choices[1].text .svp.dump[0].choices[1].text
 msgid "All kept"
 msgstr ""
 
-#: .svp.dump[0].choices[1].description
+#: .svp.dump[1].choices[1].description .svp.dump[0].choices[1].description
 msgid ""
 "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
 msgstr ""
 
-#: .svp.dump[0].choices[2].text
+#: .svp.dump[1].choices[2].text .svp.dump[0].choices[2].text
 msgid "Hybrid mode"
 msgstr ""
 
-#: .svp.dump[0].choices[2].description
+#: .svp.dump[1].choices[2].description .svp.dump[0].choices[2].description
 msgid "Remove vibrato in edited part, keep default vibrato in other parts"
 msgstr ""
 
-#: .svp.dump[1].title
+#: .svp.dump[2].title .svp.dump[1].title
 msgid ""
 "Set the average sampling interval of parameter points to improve performance "
 "(0 means no limit)"
 msgstr ""
 
-#: .svp.dump[1].description
+#: .svp.dump[2].description .svp.dump[1].description
 msgid ""
 "Reduce the sampling interval to improve the accuracy of parameter curves, "
 "but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). "
@@ -1721,19 +1826,19 @@ msgid ""
 "experience."
 msgstr ""
 
-#: .svp.dump[2].title
+#: .svp.dump[3].title .svp.dump[2].title
 msgid "Override default language for the voicebank"
 msgstr ""
 
-#: .svp.dump[2].choices[0].text
+#: .svp.dump[3].choices[0].text .svp.dump[2].choices[0].text
 msgid "Mandarin"
 msgstr ""
 
-#: .svp.dump[2].choices[1].text
+#: .svp.dump[3].choices[1].text .svp.dump[2].choices[1].text
 msgid "Cantonese"
 msgstr ""
 
-#: .svp.dump[2].choices[4].text
+#: .svp.dump[3].choices[4].text .svp.dump[2].choices[4].text
 msgid "Spanish"
 msgstr ""
 
@@ -1763,7 +1868,7 @@ msgstr ""
 msgid "Ust"
 msgstr ""
 
-#: .ust.file_format .ust.format_desc
+#: .ust.file_format .ust.format_desc
 msgid "UTAU Sequence Text"
 msgstr ""
 
@@ -1775,7 +1880,7 @@ msgstr ""
 msgid "UST file version"
 msgstr ""
 
-#: .ust.messages[1] .ust.messages[0]
+#: .ust.messages[1] .ust.messages[0]
 msgid "UST project has no track"
 msgstr ""
 
@@ -1905,12 +2010,6 @@ msgstr ""
 
 #: .vsq.description
 msgid "Conversion plugin for Vocaloid 2 sequence file"
-msgstr ""
-
-#: .vsq.messages[0]
-msgid ""
-"Phonemes of all notes were set to \"la\". Please reset them to make it sound "
-"correctly."
 msgstr ""
 
 #: .vsqx.name

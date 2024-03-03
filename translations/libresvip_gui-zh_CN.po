@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 23:29+0800\n"
+"POT-Creation-Date: 2024-03-03 21:40+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,45 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Translate Toolkit 3.9.0\n"
-
-msgid "Downloading"
-msgstr "下载中"
-
-msgid "Please wait..."
-msgstr "请稍候……"
-
-msgid "Error occurred while Downloading"
-msgstr "下载过程中出现错误"
-
-msgid "Failed to download file {}. Please try again later."
-msgstr "{} 文件下载失败，请稍后再试。"
-
-msgid "Checking for Updates"
-msgstr "检查更新中"
-
-msgid "Open in Browser"
-msgstr "在浏览器中打开"
-
-msgid "Download"
-msgstr "下载"
-
-msgid "Update Available"
-msgstr "更新可用"
-
-msgid "New version {} is available."
-msgstr "新版本{}已经可用。"
-
-msgid "No Updates"
-msgstr "未找到更新"
-
-msgid "You are using the latest version {}."
-msgstr "你正在使用最新版本 {}。"
-
-msgid "Error occurred while Checking for Updates"
-msgstr "检查更新时出现错误！"
-
-msgid "Failed to check for updates. Please try again later."
-msgstr "检查更新失败，请稍后再试。"
 
 msgid "Converter"
 msgstr "转换器"
