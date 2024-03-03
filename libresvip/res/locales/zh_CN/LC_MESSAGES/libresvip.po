@@ -10,46 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-02-14 11:17\n"
-
-msgid "Downloading"
-msgstr "下载中"
-
-msgid "Please wait..."
-msgstr "请稍候……"
-
-msgid "Error occurred while Downloading"
-msgstr "下载过程中出现错误"
-
-msgid "Failed to download file {}. Please try again later."
-msgstr "{} 文件下载失败，请稍后再试。"
-
-msgid "Checking for Updates"
-msgstr "检查更新中"
-
-msgid "Open in Browser"
-msgstr "在浏览器中打开"
-
-msgid "Download"
-msgstr "下载"
-
-msgid "Update Available"
-msgstr "更新可用"
-
-msgid "New version {} is available."
-msgstr "新版本{}已经可用。"
-
-msgid "No Updates"
-msgstr "未找到更新"
-
-msgid "You are using the latest version {}."
-msgstr "你正在使用最新版本 {}。"
-
-msgid "Error occurred while Checking for Updates"
-msgstr "检查更新时出现错误！"
-
-msgid "Failed to check for updates. Please try again later."
-msgstr "检查更新失败，请稍后再试。"
+"PO-Revision-Date: 2024-03-03 13:44\n"
 
 msgid "Converter"
 msgstr "转换器"
@@ -84,7 +45,6 @@ msgstr "高级选项"
 msgid "Input Options"
 msgstr "输入选项"
 
-#: ../libresvip/cli/commands/proj.py:103
 msgid "Output Options"
 msgstr "输出选项"
 
@@ -334,11 +294,11 @@ msgstr "在线文档 (F1)"
 msgid "SVS Projects Converter"
 msgstr "歌声合成工程文件转换器"
 
-#: ../libresvip/cli/commands/conf.py:21
+#: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
 msgstr "在命令行模式中不支持设置 {} 选项"
 
-#: ../libresvip/cli/commands/conf.py:34
+#: ../libresvip/cli/commands/conf.py:31
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
@@ -378,7 +338,7 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:170
+#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:176
 msgid "Author"
 msgstr "作者"
 
@@ -439,143 +399,200 @@ msgstr "可用值如下："
 msgid "Available fields:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/proj.py:21
+#: ../libresvip/cli/commands/proj.py:20
 msgid "Extension {} is not supported. Supported extensions are: {}"
 msgstr "不支持 {} 扩展名。支持的扩展名包括 {}"
 
-#: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:80
+#: ../libresvip/cli/commands/proj.py:51 ../libresvip/cli/commands/proj.py:79
 msgid "Input Options: "
 msgstr "导入选项： "
 
-#: ../libresvip/cli/commands/proj.py:53
+#: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:102
 msgid "Output Options: "
 msgstr "导出选项： "
 
-#: ../libresvip/cli/commands/proj.py:72
+#: ../libresvip/cli/commands/proj.py:71
 msgid "Offset in milliseconds"
 msgstr "偏移量，单位为毫秒"
 
-#: ../libresvip/cli/commands/proj.py:73
+#: ../libresvip/cli/commands/proj.py:72
 msgid "Mute other tracks"
 msgstr "使其它音轨静音"
 
-#: ../libresvip/model/relative_pitch_curve.py:88
+#: ../libresvip/gui/modules/notifier.py:52
+msgid "Downloading"
+msgstr "下载中"
+
+#: ../libresvip/gui/modules/notifier.py:52
+#: ../libresvip/gui/modules/notifier.py:76
+msgid "Please wait..."
+msgstr "请稍候……"
+
+#: ../libresvip/gui/modules/notifier.py:62
+msgid "Error occurred while Downloading"
+msgstr "下载过程中出现错误"
+
+#: ../libresvip/gui/modules/notifier.py:63
+msgid "Failed to download file {}. Please try again later."
+msgstr "{} 文件下载失败，请稍后再试。"
+
+#: ../libresvip/gui/modules/notifier.py:75
+msgid "Checking for Updates"
+msgstr "检查更新中"
+
+#: ../libresvip/gui/modules/notifier.py:91
+msgid "Open in Browser"
+msgstr "在浏览器中打开"
+
+#: ../libresvip/gui/modules/notifier.py:145
+msgid "Download"
+msgstr "下载"
+
+#: ../libresvip/gui/modules/notifier.py:155
+msgid "Update Available"
+msgstr "更新可用"
+
+#: ../libresvip/gui/modules/notifier.py:156
+msgid "New version {} is available."
+msgstr "新版本{}已经可用。"
+
+#: ../libresvip/gui/modules/notifier.py:161
+msgid "No Updates"
+msgstr "未找到更新"
+
+#: ../libresvip/gui/modules/notifier.py:162
+msgid "You are using the latest version {}."
+msgstr "你正在使用最新版本 {}。"
+
+#: ../libresvip/gui/modules/notifier.py:170
+msgid "Error occurred while Checking for Updates"
+msgstr "检查更新时出现错误！"
+
+#: ../libresvip/gui/modules/notifier.py:171
+msgid "Failed to check for updates. Please try again later."
+msgstr "检查更新失败，请稍后再试。"
+
+#: ../libresvip/model/relative_pitch_curve.py:28
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
-#: ../libresvip/web/pages.py:160
+#: ../libresvip/web/pages.py:166
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:180 ../libresvip/web/pages.py:197
-#: ../libresvip/web/pages.py:844 ../libresvip/web/pages.py:860
-#: ../libresvip/web/pages.py:958 ../libresvip/web/pages.py:1010
+#: ../libresvip/web/pages.py:186 ../libresvip/web/pages.py:203
+#: ../libresvip/web/pages.py:860 ../libresvip/web/pages.py:876
+#: ../libresvip/web/pages.py:986 ../libresvip/web/pages.py:1038
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:187
+#: ../libresvip/web/pages.py:193
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:315
+#: ../libresvip/web/pages.py:325
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:319
+#: ../libresvip/web/pages.py:329
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:459
+#: ../libresvip/web/pages.py:440 ../libresvip/web/pages.py:469
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:435 ../libresvip/web/pages.py:464
-#: ../libresvip/web/pages.py:612 ../libresvip/web/pages.py:934
-#: ../libresvip/web/pages.py:976 ../libresvip/web/pages.py:1033
+#: ../libresvip/web/pages.py:445 ../libresvip/web/pages.py:474
+#: ../libresvip/web/pages.py:622 ../libresvip/web/pages.py:950
+#: ../libresvip/web/pages.py:1004 ../libresvip/web/pages.py:1061
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:610
+#: ../libresvip/web/pages.py:620
 msgid "Conversion Progress"
 msgstr "转换进度"
 
-#: ../libresvip/web/pages.py:615
+#: ../libresvip/web/pages.py:625
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:618
+#: ../libresvip/web/pages.py:628
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:671 ../libresvip/web/pages.py:708
+#: ../libresvip/web/pages.py:681 ../libresvip/web/pages.py:715
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
-#: ../libresvip/web/pages.py:695
+#: ../libresvip/web/pages.py:702
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:705
+#: ../libresvip/web/pages.py:712
 msgid "Compressed Archive (*.zip)"
 msgstr "压缩文件 (*.zip)"
 
-#: ../libresvip/web/pages.py:717
+#: ../libresvip/web/pages.py:724
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:798 ../libresvip/web/pages.py:818
+#: ../libresvip/web/pages.py:814 ../libresvip/web/pages.py:834
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:807 ../libresvip/web/pages.py:1045
+#: ../libresvip/web/pages.py:823 ../libresvip/web/pages.py:1073
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:835 ../libresvip/web/pages.py:961
+#: ../libresvip/web/pages.py:851 ../libresvip/web/pages.py:989
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:852 ../libresvip/web/pages.py:1013
+#: ../libresvip/web/pages.py:868 ../libresvip/web/pages.py:1041
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:865
+#: ../libresvip/web/pages.py:881
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:887
+#: ../libresvip/web/pages.py:903
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:935
+#: ../libresvip/web/pages.py:951
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:949
+#: ../libresvip/web/pages.py:962
+msgid "Documentation"
+msgstr ""
+
+#: ../libresvip/web/pages.py:977
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:986
+#: ../libresvip/web/pages.py:1014
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:993
+#: ../libresvip/web/pages.py:1021
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1103
+#: ../libresvip/web/pages.py:1171
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1132
+#: ../libresvip/web/pages.py:1200
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:1133
+#: ../libresvip/web/pages.py:1201
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/utils.py:138
+#: ../libresvip/utils/audio.py:29
 msgid "Audio file not found: "
 msgstr "未找到音频文件："
 
@@ -814,6 +831,10 @@ msgid "Default Voicebank Version"
 msgstr "默认声库版本"
 
 #: .ccs.messages[0]
+msgid "Unsupported lyric: "
+msgstr ""
+
+#: .ccs.messages[1] .ccs.messages[0]
 msgid "Pitch value is out of bounds"
 msgstr "音高值越界"
 
@@ -1039,7 +1060,7 @@ msgstr "歌词文本编码"
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format .mid.format_desc
 msgid "Standard MIDI file (SMF)"
 msgstr "标准MIDI文件"
 
@@ -1051,11 +1072,11 @@ msgstr "MIDI文件转换插件"
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[1].title .mid.dump[4].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[1].description .mid.dump[4].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
@@ -1140,6 +1161,10 @@ msgid "Also known as parts per quarter, ticks per quarter note, the number of pu
 msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
 
 #: .mid.messages[0]
+msgid "No tempo labels found in the imported project."
+msgstr ""
+
+#: .mid.messages[1] .mid.messages[0]
 msgid "Overlapping notes in track {}"
 msgstr "轨道{}中存在重叠音符"
 
@@ -1433,13 +1458,57 @@ msgstr "未找到根对象"
 msgid "Svip3"
 msgstr ""
 
-#: .svip3.file_format .svip3.format_desc
+#: .svip3.file_format .svip3.format_desc
 msgid "Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程文件"
 
 #: .svip3.description
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程转换插件"
+
+#: .svip3.dump[0].title
+msgid "Zoom in/out project"
+msgstr ""
+
+#: .svip3.dump[0].choices[0].text
+msgid "None"
+msgstr ""
+
+#: .svip3.dump[0].choices[1].text
+msgid "2"
+msgstr ""
+
+#: .svip3.dump[0].choices[2].text
+msgid "1/2"
+msgstr ""
+
+#: .svip3.dump[0].choices[3].text
+msgid "5/3"
+msgstr ""
+
+#: .svip3.dump[0].choices[4].text
+msgid "3/2"
+msgstr ""
+
+#: .svip3.dump[0].choices[5].text
+msgid "6/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[6].text
+msgid "4/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[7].text
+msgid "3/5"
+msgstr ""
+
+#: .svip3.dump[0].choices[8].text
+msgid "3/4"
+msgstr ""
+
+#: .svip3.dump[0].description
+msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
+msgstr ""
 
 #: .svp.name
 msgid "SynthV Studio"
@@ -1536,54 +1605,86 @@ msgid "Notice: If there are too many note groups, please choose \"Keep original 
 msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之间、音符组与主组之间存在时间轴上紧挨 (但不重叠) 的音符，则建议选择“拆分为轨道”以确保段落划分不被破坏。"
 
 #: .svp.dump[0].title
+msgid "Threshold to remove short silences"
+msgstr ""
+
+#: .svp.dump[0].choices[0].text
+msgid "Zero length note"
+msgstr ""
+
+#: .svp.dump[0].choices[1].text
+msgid "1/8 note"
+msgstr ""
+
+#: .svp.dump[0].choices[2].text
+msgid "1/16 note"
+msgstr ""
+
+#: .svp.dump[0].choices[3].text
+msgid "1/32 note"
+msgstr ""
+
+#: .svp.dump[0].choices[4].text
+msgid "1/64 note"
+msgstr ""
+
+#: .svp.dump[0].choices[5].text
+msgid "1/128 note"
+msgstr ""
+
+#: .svp.dump[0].description
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+#: .svp.dump[1].title .svp.dump[0].title
 msgid "The way to handle vibrato notes"
 msgstr "自动颤音处理方式"
 
-#: .svp.dump[0].choices[0].text
+#: .svp.dump[1].choices[0].text .svp.dump[0].choices[0].text
 msgid "All removed"
 msgstr "全部抹平"
 
-#: .svp.dump[0].choices[0].description
+#: .svp.dump[1].choices[0].description .svp.dump[0].choices[0].description
 msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
 msgstr "所有音符的颤音深度将被设置为 0，以保证输出的音高曲线与输入一致"
 
-#: .svp.dump[0].choices[1].text
+#: .svp.dump[1].choices[1].text .svp.dump[0].choices[1].text
 msgid "All kept"
 msgstr "全部保留"
 
-#: .svp.dump[0].choices[1].description
+#: .svp.dump[1].choices[1].description .svp.dump[0].choices[1].description
 msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
 msgstr "保持所有音符的默认颤音，但可能造成输入与输出音高曲线不一致"
 
-#: .svp.dump[0].choices[2].text
+#: .svp.dump[1].choices[2].text .svp.dump[0].choices[2].text
 msgid "Hybrid mode"
 msgstr "混合保留"
 
-#: .svp.dump[0].choices[2].description
+#: .svp.dump[1].choices[2].description .svp.dump[0].choices[2].description
 msgid "Remove vibrato in edited part, keep default vibrato in other parts"
 msgstr "在输入音高被编辑过的区域去除颤音，其余部分保留默认颤音"
 
-#: .svp.dump[1].title
+#: .svp.dump[2].title .svp.dump[1].title
 msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
 msgstr "设置参数点的平均采样间隔以改善性能（0 为无限制）"
 
-#: .svp.dump[1].description
+#: .svp.dump[2].description .svp.dump[1].description
 msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
 msgstr "减小采样间隔可提高参数曲线的精准度，但可能造成渲染卡顿（例如 Synthesizer V Studio Pro + AI 声库）。请根据硬件配置与实际体验酌情设置此值。"
 
-#: .svp.dump[2].title
+#: .svp.dump[3].title .svp.dump[2].title
 msgid "Override default language for the voicebank"
 msgstr "指定声库的默认语种"
 
-#: .svp.dump[2].choices[0].text
+#: .svp.dump[3].choices[0].text .svp.dump[2].choices[0].text
 msgid "Mandarin"
 msgstr "普通话"
 
-#: .svp.dump[2].choices[1].text
+#: .svp.dump[3].choices[1].text .svp.dump[2].choices[1].text
 msgid "Cantonese"
 msgstr "粤语"
 
-#: .svp.dump[2].choices[4].text
+#: .svp.dump[3].choices[4].text .svp.dump[2].choices[4].text
 msgid "Spanish"
 msgstr "西班牙语"
 
@@ -1611,7 +1712,7 @@ msgstr "UFData格式转换插件"
 msgid "Ust"
 msgstr ""
 
-#: .ust.file_format .ust.format_desc
+#: .ust.file_format .ust.format_desc
 msgid "UTAU Sequence Text"
 msgstr "UTAU 序列文本"
 
@@ -1623,7 +1724,7 @@ msgstr "UST文件格式转换插件"
 msgid "UST file version"
 msgstr "UST文件版本号"
 
-#: .ust.messages[1] .ust.messages[0]
+#: .ust.messages[1] .ust.messages[0]
 msgid "UST project has no track"
 msgstr "UST工程中没有找到任何音轨"
 
@@ -1750,10 +1851,6 @@ msgstr "Vocaloid 2 序列文件"
 #: .vsq.description
 msgid "Conversion plugin for Vocaloid 2 sequence file"
 msgstr "Vocaloid 2 序列文件转换插件"
-
-#: .vsq.messages[0]
-msgid "Phonemes of all notes were set to \"la\". Please reset them to make it sound correctly."
-msgstr "所有音符的音素都被设为了\"la\"。请重置音素以使其正确发音。"
 
 #: .vsqx.name
 msgid "Vsqx"
