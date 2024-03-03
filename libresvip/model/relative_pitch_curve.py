@@ -56,6 +56,7 @@ class RelativePitchCurve:
     first_bar_length: int = TICKS_IN_BEAT * 4
     lower_bound: float = 0.0
     upper_bound: float = portion.inf
+    pitch_interval: int = 5
 
     def to_absolute(self, points: list[Point], note_list: list[Note]) -> ParamCurve:
         return ParamCurve(
@@ -94,9 +95,11 @@ class RelativePitchCurve:
                 point.y != -100
                 and prev_y is not None
                 and converted_data
-                and cur_x - converted_data[-1].x > 5
+                and cur_x - converted_data[-1].x > self.pitch_interval
             ):
-                for tick in range(converted_data[-1].x + 5, cur_x, 5):
+                for tick in range(
+                    converted_data[-1].x + self.pitch_interval, cur_x, self.pitch_interval
+                ):
                     tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
                     if (tick_key := interval_dict.get(tick_pos)) is not None:
                         if to_absolute:

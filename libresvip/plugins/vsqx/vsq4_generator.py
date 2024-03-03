@@ -154,7 +154,9 @@ class Vsq4Generator:
                 if pitch := self.generate_pitch(track.edited_params.pitch, track.note_list):
                     musical_part.m_ctrl = pitch
                 vsqx_track.musical_part = [musical_part]
-            vsqx_unit = Vsq4VsUnit(vs_track_no=track_index)
+            vsqx_unit = Vsq4VsUnit(
+                vs_track_no=track_index, mute=int(track.mute), solo=int(track.solo)
+            )
             vs_track_list.append(vsqx_track)
             vs_unit_list.append(vsqx_unit)
         return vs_track_list, vs_unit_list
