@@ -1,5 +1,7 @@
 import dataclasses
+import math
 import operator
+import re
 import warnings
 from collections.abc import Callable
 from typing import Optional
@@ -38,6 +40,8 @@ from .model import (
 from .options import InputOptions, NormalizationMethod
 from .singers import id2singer
 from .time_utils import tick_to_second
+
+ACEP_ENGLISH_SPAN_RE = re.compile(r"#(\d+)$")
 
 
 @dataclasses.dataclass
@@ -152,6 +156,15 @@ class AceParser:
             length=ace_note.dur,
             lyric=ace_note.lyric,
         )
+        if (
+            ace_note.language == AcepLyricsLanguage.ENGLISH
+            and (english_span := ACEP_ENGLISH_SPAN_RE.search(note.lyric)) is not None
+        ):
+            span_index = int(english_span.group(1))
+            if span_index == 1:
+                note.lyric = ACEP_ENGLISH_SPAN_RE.sub("", note.lyric)
+            else:
+                note.lyric = "-"
         if pinyin is None or "-" not in ace_note.lyric and ace_note.pronunciation != pinyin:
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
@@ -279,13 +292,16 @@ class AceParser:
                         pos += 1
                 else:
                     for value in ace_curve.values:
-                        abs_semitone = (
-                            base_pitch.semitone_value_at(tick_to_second(pos, self.ace_tempo_list))
-                            + value
-                        )
-                        curve.points.append(
-                            Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
-                        )
+                        if not math.isnan(value):
+                            abs_semitone = (
+                                base_pitch.semitone_value_at(
+                                    tick_to_second(pos, self.ace_tempo_list)
+                                )
+                                + value
+                            )
+                            curve.points.append(
+                                Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
+                            )
                         pos += 1
                 curve.points.append(Point(pos - 1 + self.first_bar_ticks, -100))
         curve.points.append(Point.end_point())
