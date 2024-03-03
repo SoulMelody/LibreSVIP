@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-03-03 13:44\n"
+"PO-Revision-Date: 2024-03-03 13:55\n"
 
 msgid "Converter"
 msgstr "转换器"
@@ -566,7 +566,7 @@ msgstr "帮助"
 
 #: ../libresvip/web/pages.py:962
 msgid "Documentation"
-msgstr ""
+msgstr "文档"
 
 #: ../libresvip/web/pages.py:977
 msgid "Choose file format"
@@ -832,7 +832,7 @@ msgstr "默认声库版本"
 
 #: .ccs.messages[0]
 msgid "Unsupported lyric: "
-msgstr ""
+msgstr "不支持的歌词: "
 
 #: .ccs.messages[1] .ccs.messages[0]
 msgid "Pitch value is out of bounds"
@@ -920,7 +920,7 @@ msgstr "dv 格式转换插件。"
 
 #: .gj.name
 msgid "gjgj"
-msgstr ""
+msgstr "歌叽歌叽"
 
 #: .gj.file_format .gj.format_desc
 msgid "Gejigeji project file"
@@ -1162,7 +1162,7 @@ msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符�
 
 #: .mid.messages[0]
 msgid "No tempo labels found in the imported project."
-msgstr ""
+msgstr "在导入的工程中未找到速度记号。"
 
 #: .mid.messages[1] .mid.messages[0]
 msgid "Overlapping notes in track {}"
@@ -1198,7 +1198,7 @@ msgstr "MusicXML 乐谱文件转换插件"
 
 #: .nn.name
 msgid "NIAONiao"
-msgstr ""
+msgstr "袅袅虚拟歌手"
 
 #: .nn.file_format .nn.format_desc
 msgid "NIAONiao Virtual Singer project file"
@@ -1468,47 +1468,47 @@ msgstr "网易云音乐·X Studio 工程转换插件"
 
 #: .svip3.dump[0].title
 msgid "Zoom in/out project"
-msgstr ""
+msgstr "缩放工程"
 
 #: .svip3.dump[0].choices[0].text
 msgid "None"
-msgstr ""
+msgstr "无"
 
 #: .svip3.dump[0].choices[1].text
 msgid "2"
-msgstr ""
+msgstr "2倍"
 
 #: .svip3.dump[0].choices[2].text
 msgid "1/2"
-msgstr ""
+msgstr "2分之1"
 
 #: .svip3.dump[0].choices[3].text
 msgid "5/3"
-msgstr ""
+msgstr "3分之5"
 
 #: .svip3.dump[0].choices[4].text
 msgid "3/2"
-msgstr ""
+msgstr "2分之3"
 
 #: .svip3.dump[0].choices[5].text
 msgid "6/5"
-msgstr ""
+msgstr "5分之6"
 
 #: .svip3.dump[0].choices[6].text
 msgid "4/5"
-msgstr ""
+msgstr "5分之4"
 
 #: .svip3.dump[0].choices[7].text
 msgid "3/5"
-msgstr ""
+msgstr "5分之3"
 
 #: .svip3.dump[0].choices[8].text
 msgid "3/4"
-msgstr ""
+msgstr "4分之3"
 
 #: .svip3.dump[0].description
 msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
-msgstr ""
+msgstr "在不改变实际曲速的前提下同时改变Bpm数值与音符长度。例如，在60 bpm的乐曲中使用2倍的缩放，则乐曲变为120bpm，同时所有音符的长度也翻倍"
 
 #: .svp.name
 msgid "SynthV Studio"
@@ -1606,35 +1606,35 @@ msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以
 
 #: .svp.dump[0].title
 msgid "Threshold to remove short silences"
-msgstr ""
+msgstr "去除短的无声间隙所使用的阈值"
 
 #: .svp.dump[0].choices[0].text
 msgid "Zero length note"
-msgstr ""
+msgstr "零长度音符"
 
 #: .svp.dump[0].choices[1].text
 msgid "1/8 note"
-msgstr ""
+msgstr "8分音符"
 
 #: .svp.dump[0].choices[2].text
 msgid "1/16 note"
-msgstr ""
+msgstr "16分音符"
 
 #: .svp.dump[0].choices[3].text
 msgid "1/32 note"
-msgstr ""
+msgstr "32分音符"
 
 #: .svp.dump[0].choices[4].text
 msgid "1/64 note"
-msgstr ""
+msgstr "64分音符"
 
 #: .svp.dump[0].choices[5].text
 msgid "1/128 note"
-msgstr ""
+msgstr "128分音符"
 
 #: .svp.dump[0].description
 msgid "Extend note to fill the short silences between it and its next note"
-msgstr ""
+msgstr "当音符之间存在较短的休止符时，将前一个音符延长来填充休止符"
 
 #: .svp.dump[1].title .svp.dump[0].title
 msgid "The way to handle vibrato notes"
