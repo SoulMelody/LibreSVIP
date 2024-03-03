@@ -148,12 +148,16 @@ class MidiParser:
             (event for event in track if hasattr(event, "channel")),
             key=operator.attrgetter("channel"),
         )
+        lyrics: dict[int, str] = collections.defaultdict(lambda: DEFAULT_PHONEME)
+        if self.options.import_lyrics:
+            for event in track:
+                if event.type == "lyrics":
+                    lyrics[event.time] = event.text
         for channel in event_buckets:
             if self.selected_channels and channel not in self.selected_channels:
                 continue
             last_note_on = collections.defaultdict(list)
             pitchbend_range_changed: dict[int, list[int]] = collections.defaultdict(list)
-            lyrics: dict[int, str] = collections.defaultdict(lambda: DEFAULT_PHONEME)
             track_name = None
             notes = []
             rel_pitch_points = []
@@ -220,10 +224,6 @@ class MidiParser:
                             ),
                         )
                     )
-                elif event.type == "lyrics":
-                    if self.options.import_lyrics:
-                        lyric = event.text
-                        lyrics[event.time] = lyric
                 elif event.type == "control_change":
                     if (
                         event.is_cc(ControlChange.DATA_ENTRY)
