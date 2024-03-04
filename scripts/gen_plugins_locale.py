@@ -3,7 +3,6 @@
 import enum
 import io
 import json
-import os
 import pathlib
 import shutil
 import sys
@@ -82,10 +81,8 @@ def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
 
 
 if __name__ == "__main__":
-    locale_name = os.environ.get("LIBRESVIP_LOCALE", "zh_CN")
-
     for plugin_suffix, plugin_metadata, info_path in messages_iterator():
-        with tempfile.NamedTemporaryFile(suffix=".po") as tmp_po:
+        with tempfile.NamedTemporaryFile(suffix=".pot") as tmp_pot:
             with tempfile.TemporaryDirectory() as tmp_dir:
                 tmp_pot_name = tempfile.mktemp(suffix=".pot", dir=tmp_dir)
                 cmdinst = setuptools_frontend.extract_messages()
@@ -100,21 +97,22 @@ if __name__ == "__main__":
                 json.dumps(
                     {plugin_suffix: plugin_metadata},
                 ),
-                tmp_po,
+                tmp_pot,
                 None,
                 duplicatestyle="merge",
+                pot=True,
             )
 
-            tmp_po.seek(0)
+            tmp_pot.seek(0)
 
             plugin_info_path = next(info_path.glob("*.yapsy-plugin"))
-            i18n_file = info_path / f"{plugin_info_path.stem}-{locale_name}.po"
+            i18n_file = info_path / f"{plugin_info_path.stem}.pot"
             if i18n_file.exists() and (ori_content := i18n_file.read_bytes()):
-                orig_po = io.BytesIO(ori_content)
+                orig_pot = io.BytesIO(ori_content)
                 mergestore(
-                    orig_po,
+                    orig_pot,
                     i18n_file.open("wb"),
-                    tmp_po,
+                    tmp_pot,
                 )
                 continue
-            shutil.copyfileobj(tmp_po, i18n_file.open("wb"))
+            shutil.copyfileobj(tmp_pot, i18n_file.open("wb"))

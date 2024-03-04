@@ -1,5 +1,8 @@
 #!/bin/bash
-if [ -z $LIBRESVIP_LOCALE ]; then
-    export LIBRESVIP_LOCALE=zh_CN
-fi
-msgfmt -c -v -o ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.mo ../libresvip/res/locales/"$LIBRESVIP_LOCALE"/LC_MESSAGES/libresvip.po
+dir="../libresvip/res/locales/"
+ls $dir | while read line
+do
+    locale_dir=$dir$line
+    mkdir -p $locale_dir/LC_MESSAGES
+    msgfmt -c -v -o $locale_dir/LC_MESSAGES/libresvip.mo $locale_dir/LC_MESSAGES/libresvip.po
+done
