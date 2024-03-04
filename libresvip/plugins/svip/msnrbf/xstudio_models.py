@@ -11,6 +11,8 @@ from typing import Generic, Literal, NamedTuple, Optional, TypeVar
 from more_itertools import chunked
 
 XSItem = TypeVar("XSItem")
+MIN_NOTE_DURATION = 0.045
+MAX_NOTE_DURATION = 20.0
 
 
 def to_backing_field(key: str) -> str:
