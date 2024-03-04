@@ -96,7 +96,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.25.4",
-  "gapic-generator>=1.14.4",
+  "gapic-generator>=1.14.5",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
@@ -115,7 +115,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=6.15.15",
-  "nuitka>=2.0.6",
+  "nuitka>=2.1",
   "pyinstaller>=6.4.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
