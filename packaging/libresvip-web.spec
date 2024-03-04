@@ -9,7 +9,7 @@ sys.modules['FixTk'] = None
 
 import nicegui
 import shellingham
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 from libresvip.core.constants import pkg_dir
 
@@ -31,7 +31,7 @@ a = Analysis(
     binaries=[],
     datas=[
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata"),
+    ] + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata"),
     hiddenimports=[
         "bidict",
         "construct_typed",

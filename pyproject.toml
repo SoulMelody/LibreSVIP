@@ -57,7 +57,7 @@ dependencies = [
   "zstd<2.0.0,>=1.5.5.1; platform_python_implementation == \"PyPy\"",
 ]
 name = "libresvip"
-version = "1.0.4"
+dynamic = ["version"]
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 
@@ -91,6 +91,8 @@ libresvip-web = "libresvip.web.__main__:main"
 libresvip-gui = "libresvip.gui.__main__:run"
 
 [tool.pdm]
+version = { source = "file", path = "libresvip/__init__.py" }
+
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.25.4",

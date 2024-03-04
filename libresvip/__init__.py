@@ -1,7 +1,4 @@
-import importlib.metadata
 import os
 
-from libresvip.core.constants import PACKAGE_NAME
-
-__version__ = importlib.metadata.version(PACKAGE_NAME)
+__version__ = "1.0.4"
 os.environ.setdefault("LOGURU_AUTOINIT", "false")
