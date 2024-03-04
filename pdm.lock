@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:962cd7561583bb60ddd0011c6331e34f5d66d7f55dca22e12e4fb5725a9d0670"
+content_hash = "sha256:351263f0872ad84a5b53587cae0157564d58e46ef4b21111337952432c5fa694"
 
 [[package]]
 name = "aiofiles"
@@ -781,7 +781,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.14.4"
+version = "1.14.5"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
@@ -798,8 +798,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.14.4.tar.gz", hash = "sha256:9cceb2bfe4d0fc4f7097ff483a4c79cbb0f15e1d4d3da38f49e74bae1e29a775"},
-    {file = "gapic_generator-1.14.4-py3-none-any.whl", hash = "sha256:0f50815d056c8a641b82f4fb329d2b0c9ef78852ddd23ff5dbf7e5f5b7c364b9"},
+    {file = "gapic-generator-1.14.5.tar.gz", hash = "sha256:fbfd61ecf60f276c2df13074252afc850eb5d663056c6a48256176f0cef7a93c"},
+    {file = "gapic_generator-1.14.5-py3-none-any.whl", hash = "sha256:e525144c6c6cd411612697517928f56a3d3a54ca18a1c9cd1ba4f553f2a89b4a"},
 ]
 
 [[package]]
@@ -1683,14 +1683,14 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.0.6"
+version = "2.1"
 summary = "Python compiler with full language support and CPython compatibility"
 dependencies = [
     "ordered-set>=4.1.0",
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.0.6.tar.gz", hash = "sha256:0fa40e79df4d5bea46df3d6c16e5e4c85945c548a4c454e58f117fe0404d2b5d"},
+    {file = "Nuitka-2.1.tar.gz", hash = "sha256:7afe7789491153fd76c260bd33ceedc2441119309d4e33bcf026645352a1c46d"},
 ]
 
 [[package]]
