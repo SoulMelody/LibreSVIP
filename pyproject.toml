@@ -69,7 +69,7 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 ujson = ["ujson>=5.9.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.1",
+  "universal-pathlib<1.0.0,>=0.2.2",
 ]
 webui = [
     "nicegui[native]>=1.4.17",
