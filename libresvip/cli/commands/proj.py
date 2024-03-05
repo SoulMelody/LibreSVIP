@@ -2,9 +2,10 @@ import pathlib
 from typing import Optional, get_type_hints
 
 import typer
+from rich.prompt import Confirm
 
 from libresvip.cli.prompt import prompt_fields
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import InstrumentalTrack
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -46,18 +47,34 @@ def convert(
         and output_plugin.plugin_object is not None
         and (output_option := get_type_hints(output_plugin.plugin_object.dump).get("options"))
     ):
-        options = []
-        for option_type, option_class in {
-            _("Input Options: "): input_option,
-            _("Output Options: "): output_option,
-        }.items():
-            option_kwargs = {}
-            if len(option_class.model_fields):
-                typer.echo(option_type)
-                option_kwargs = prompt_fields(option_class)
-            options.append(option_class(**option_kwargs))
-        project = input_plugin.plugin_object.load(in_path, options[0])
-        output_plugin.plugin_object.dump(out_path, project, options[1])
+        option_type, option_class = _("Input Options: "), input_option
+        option_kwargs = {}
+        if len(option_class.model_fields):
+            typer.echo(option_type)
+            option_kwargs = prompt_fields(option_class)
+        project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
+        for middleware in middleware_manager.plugin_registry.values():
+            if (
+                (Confirm.ask(_("Enable {} middleware?").format(_(middleware.description))))
+                and (middleware.plugin_object is not None)
+                and (
+                    middleware_option := get_type_hints(middleware.plugin_object.process).get(
+                        "options"
+                    )
+                )
+            ):
+                option_type, option_class = _("Process Options: "), middleware_option
+                option_kwargs = {}
+                if len(option_class.model_fields):
+                    typer.echo(option_type)
+                    option_kwargs = prompt_fields(option_class)
+                project = middleware.plugin_object.process(project, option_class(**option_kwargs))
+        option_type, option_class = _("Output Options: "), output_option
+        option_kwargs = {}
+        if len(option_class.model_fields):
+            typer.echo(option_type)
+            option_kwargs = prompt_fields(option_class)
+        output_plugin.plugin_object.dump(out_path, project, option_class(**option_kwargs))
     else:
         typer.secho("Invalid options", err=True, color="red")
 

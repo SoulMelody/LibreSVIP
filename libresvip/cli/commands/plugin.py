@@ -8,7 +8,7 @@ from rich.table import Table
 
 from libresvip.core.config import save_settings, settings
 from libresvip.extension.manager import plugin_manager
-from libresvip.extension.meta_info import LibreSvipPluginInfo
+from libresvip.extension.meta_info import FormatProviderPluginInfo
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -52,7 +52,7 @@ def detail(plugin_name: str) -> None:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
-def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
+def print_plugin_summary(plugins: ValuesView[FormatProviderPluginInfo]) -> None:
     console = Console(color_system="256")
     if not plugins:
         console.print(_("No plugins are currently installed."))
@@ -77,7 +77,7 @@ def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
     console.print(table)
 
 
-def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
+def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     if plugin.plugin_object is None:
         return
     typer.echo()

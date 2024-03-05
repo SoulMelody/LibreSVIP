@@ -1,10 +1,7 @@
 import dataclasses
-import fractions
 import sys
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Optional
-
-import more_itertools
 
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -64,13 +61,6 @@ class SynthVGenerator:
         sv_project = SVProject()
         new_meters = skip_beat_list(project.time_signature_list, 1)
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())
-        if min_silence_length := fractions.Fraction(self.options.remove_short_silences.value):
-            silence_threshold = self.first_bar_tick * min_silence_length
-            for track in project.track_list:
-                if isinstance(track, SingingTrack):
-                    for prev_note, note in more_itertools.pairwise(track.note_list):
-                        if 0 < note.start_pos - prev_note.end_pos < silence_threshold:
-                            prev_note.length = note.start_pos - prev_note.start_pos
         self.first_bar_tempo = [
             tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]
