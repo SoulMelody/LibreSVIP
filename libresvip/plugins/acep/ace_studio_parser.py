@@ -273,6 +273,47 @@ class AceParser:
             breath=self.parse_param_curve(ace_params.breathiness, linear_transform(0.2, 1, 2.5)),
             gender=self.parse_param_curve(ace_params.gender, linear_transform(-1, 0, 1)),
         )
+        if self.options.import_tension and self.options.import_energy:
+            transform = linear_transform(0, 1, 2)
+            parameters.volume = self.parse_param_curve(
+                ace_params.energy, lambda x: round(self.options.energy_coefficient * transform(x))
+            )
+            remaining_energy = ace_params.energy.model_copy(
+                deep=True,
+                update={
+                    "root": [
+                        part.model_copy(
+                            deep=True,
+                            update={
+                                "values": [
+                                    (value - 1) * (1 - self.options.energy_coefficient) + 1
+                                    for value in part.values
+                                ]
+                            },
+                        )
+                        for part in ace_params.energy.root
+                    ]
+                },
+            )
+            energy_plus_tension = remaining_energy.plus(
+                ace_params.tension, 1.0, lambda x: (x - 1) * 0.5 if x >= 1 else (x - 1) * 0.3
+            )
+            parameters.strength = self.parse_param_curve(
+                energy_plus_tension, lambda x: round(self.options.energy_coefficient * transform(x))
+            )
+        elif self.options.import_tension:
+            parameters.strength = self.parse_param_curve(
+                ace_params.tension, linear_transform(0.7, 1, 1.5)
+            )
+        elif self.options.import_energy:
+            transform = linear_transform(0, 1, 2)
+            parameters.volume = self.parse_param_curve(
+                ace_params.energy, lambda x: round(self.options.energy_coefficient * transform(x))
+            )
+            parameters.strength = self.parse_param_curve(
+                ace_params.energy,
+                lambda x: round((1 - self.options.energy_coefficient) * transform(x)),
+            )
         return parameters
 
     def parse_pitch_curve(self, ace_curves: AcepParamCurveList) -> ParamCurve:
