@@ -147,7 +147,7 @@ class UstxParser:
                 elif is_kana(ustx_note.lyric):
                     note.pronunciation = to_romaji(ustx_note.lyric)
                 elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
-                    note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group(1)))
+                    note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
                 else:
                     note.pronunciation = ustx_note.lyric
             note_list.append(note)
