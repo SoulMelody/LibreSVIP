@@ -1,6 +1,7 @@
 import dataclasses
 from typing import Optional
 
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -133,7 +134,7 @@ class PiaproStudioNTParser:
                 key_number=event.note_number,
                 start_pos=event.pos,
                 length=event.length,
-                lyric=event.lyric,
+                lyric="-" if event.lyric in legato_chars else event.lyric,
                 pronunciation=event.symbols,
             )
             for event in ppsf_dvl_track_events
