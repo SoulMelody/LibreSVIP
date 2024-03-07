@@ -1366,15 +1366,16 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 selected_formats.middleware_enabled_states, middleware.identifier
                             )
                         )
-                        ui.space()
-                        with (
-                            ui.icon("help_outline")
-                            .classes("text-3xl")
-                            .style(
-                                "cursor: help",
-                            )
-                        ):
-                            ui.tooltip(_(middleware.description))
+                        if middleware.description:
+                            ui.space()
+                            with (
+                                ui.icon("help_outline")
+                                .classes("text-3xl")
+                                .style(
+                                    "cursor: help",
+                                )
+                            ):
+                                ui.tooltip(_(middleware.description))
                     middleware_options_form(middleware.identifier, middleware_toggler)
             ui.separator()
             with ui.expansion().classes("w-full") as export_panel:
