@@ -19,7 +19,7 @@ class NoteLengthOption(Enum):
 
 
 class ProcessOptions(BaseModel):
-    remove_short_silences: NoteLengthOption = Field(
+    fill_threshold: NoteLengthOption = Field(
         default=NoteLengthOption.ZERO,
         title="Max length to be processed (exclusive)",
         description="Extend note to fill the short silences between it and its next note",

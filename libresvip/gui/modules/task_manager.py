@@ -9,7 +9,6 @@ from typing import Any, Optional, get_args, get_type_hints
 
 import more_itertools
 from loguru import logger
-from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from PySide6.QtCore import (
@@ -72,7 +71,6 @@ class ConversionWorker(QRunnable):
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
-                warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
                 if (

@@ -1,5 +1,5 @@
 [Core]
-name = PitchShift
+name = Pitch Shift
 module = pitch_shift
 
 [Documentation]

@@ -17,7 +17,7 @@ class ProjectZoomOptions(Enum):
 
 
 class ProcessOptions(BaseModel):
-    zoom_project: ProjectZoomOptions = Field(
+    factor: ProjectZoomOptions = Field(
         default=ProjectZoomOptions.NONE,
         title="Zoom factor",
         description="Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length",

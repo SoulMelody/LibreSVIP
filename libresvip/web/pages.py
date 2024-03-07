@@ -30,9 +30,10 @@ from urllib.parse import quote, unquote
 import aiofiles
 from nicegui import app, binding, ui
 from nicegui.context import get_client
+from nicegui.elements.switch import Switch
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.storage import request_contextvar
-from pydantic.warnings import PydanticDeprecationWarning
+from pydantic import create_model
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -44,7 +45,7 @@ import libresvip
 from libresvip.core.config import DarkMode, settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils.text import shorten_error_message
 from libresvip.utils.translation import get_translation, lazy_translation
@@ -225,14 +226,14 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
-        plugin_input = plugin_manager.plugin_registry[attr]
+        conversion_plugin = plugin_manager.plugin_registry[attr]
         field_types = {}
         option_class = None
         if (
-            hasattr(plugin_input.plugin_object, method)
+            hasattr(conversion_plugin.plugin_object, method)
             and (
                 option_class := get_type_hints(
-                    getattr(plugin_input.plugin_object, method),
+                    getattr(conversion_plugin.plugin_object, method),
                 ).get("options")
             )
             and hasattr(option_class, "model_fields")
@@ -276,7 +277,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                             option_key,
                         ).classes("flex-grow")
                     elif issubclass(field_info.annotation, enum.Enum):
-                        default_value = default_value.value if default_value else None
                         annotations = get_type_hints(
                             field_info.annotation,
                             include_extras=True,
@@ -291,7 +291,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     enum_field = annotated_args[1]
                                 else:
                                     continue
-                                choices[enum_item.value] = _(enum_field.title)
+                                choices[enum_item] = _(enum_field.title)
                         ui.select(
                             choices,
                             label=_(field_info.title),
@@ -344,6 +344,116 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     output_options = ui.refreshable(functools.partial(options_form, "output", "dump"))
 
+    def middleware_options_form(attr: str, toggler: Switch) -> None:
+        conversion_plugin = middleware_manager.plugin_registry[attr]
+        field_types = {}
+        option_class = None
+        if (
+            hasattr(conversion_plugin.plugin_object, "process")
+            and (
+                option_class := get_type_hints(
+                    getattr(conversion_plugin.plugin_object, "process"),
+                ).get("options")
+            )
+            and hasattr(option_class, "model_fields")
+        ):
+            for option_key, field_info in option_class.model_fields.items():
+                if issubclass(
+                    field_info.annotation,
+                    (str, Color, enum.Enum, BaseComplexModel),
+                ):
+                    field_types[option_key] = str
+                else:
+                    field_types[option_key] = field_info.annotation
+        if not option_class or not field_types:
+            return
+        option_dict = getattr(selected_formats.middleware_options, attr)
+        with ui.column().classes("w-full").bind_visibility_from(toggler, "value"):
+            for i, (option_key, field_info) in enumerate(
+                option_class.model_fields.items(),
+            ):
+                default_value = (
+                    None if field_info.default is PydanticUndefined else field_info.default
+                )
+                with ui.row().classes("items-center w-full") as row:
+                    if i:
+                        row._props["style"] = """
+                            background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
+                            background-size: 8px 1px;
+                            background-repeat: repeat-x;
+                        """
+                    if issubclass(field_info.annotation, bool):
+                        ui.switch(
+                            _(field_info.title),
+                            value=default_value,
+                        ).bind_value(
+                            option_dict,
+                            option_key,
+                        ).classes("flex-grow")
+                    elif issubclass(field_info.annotation, enum.Enum):
+                        annotations = get_type_hints(
+                            field_info.annotation,
+                            include_extras=True,
+                        )
+                        choices = {}
+                        for enum_item in field_info.annotation:
+                            if enum_item.name in annotations:
+                                annotated_args = list(
+                                    get_args(annotations[enum_item.name]),
+                                )
+                                if len(annotated_args) >= 2:
+                                    enum_field = annotated_args[1]
+                                else:
+                                    continue
+                                choices[enum_item] = _(enum_field.title)
+                        ui.select(
+                            choices,
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif issubclass(field_info.annotation, Color):
+                        ui.color_input(
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                        if issubclass(field_info.annotation, BaseComplexModel):
+                            default_value = field_info.annotation.default_repr()
+                        ui.input(
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif issubclass(field_info.annotation, (int, float)):
+                        with (
+                            ui.number(
+                                label=_(field_info.title),
+                                value=default_value,
+                            )
+                            .bind_value(option_dict, option_key)
+                            .classes(
+                                "flex-grow",
+                            ) as num_input
+                        ):
+                            if issubclass(field_info.annotation, int):
+                                num_input.validation = {
+                                    _("Invalid integer"): int_validator,
+                                }
+                            else:
+                                num_input.validation = {
+                                    _("Invalid float"): float_validator,
+                                }
+                    else:
+                        continue
+                    if field_info.description:
+                        with (
+                            ui.icon("help_outline")
+                            .classes("text-3xl")
+                            .style(
+                                "cursor: help",
+                            )
+                        ):
+                            ui.tooltip(_(field_info.description))
+
     @dataclasses.dataclass
     class SelectedFormats:
         _input_format: str = dataclasses.field(default="")
@@ -355,6 +465,26 @@ def page_layout(lang: Optional[str] = None) -> None:
         )
 
         def __post_init__(self) -> None:
+            self.middleware_enabled_states = create_model(
+                "middleware_enabled_states",
+                **{abbr: (bool, False) for abbr in middleware_manager.plugin_registry},
+            )()
+            self.middleware_options = create_model(
+                "middleware_options",
+                **{
+                    abbr: (options, options())
+                    for abbr, middleware in middleware_manager.plugin_registry.items()
+                    if (
+                        middleware.plugin_object is not None
+                        and hasattr(middleware.plugin_object, "process")
+                        and (
+                            options := get_type_hints(middleware.plugin_object.process).get(
+                                "options",
+                            )
+                        )
+                    )
+                },
+            )()
             self.input_format = app.storage.user.get("last_input_format") or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
@@ -440,7 +570,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
                                         f"navigator.clipboard.writeText({repr(info.error)})",
-                                    ),
+                                    )
+                                    and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=error_dialog.close)
                         ui.button(
@@ -469,7 +600,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
                                         f"navigator.clipboard.writeText({repr(info.warning)})",
-                                    ),
+                                    )
+                                    and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=warn_dialog.close)
                         ui.button(
@@ -559,7 +691,6 @@ def page_layout(lang: Optional[str] = None) -> None:
             try:
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always", BaseWarning)
-                    warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
                     if (
@@ -587,6 +718,24 @@ def page_layout(lang: Optional[str] = None) -> None:
                         task.output_path = task.output_path.with_suffix(
                             f".{self.output_format}",
                         )
+                        for (
+                            middleware_abbr,
+                            enabled,
+                        ) in self.middleware_enabled_states.model_dump().items():
+                            if enabled:
+                                middleware = middleware_manager.plugin_registry[middleware_abbr]
+                                if middleware.plugin_object is not None and hasattr(
+                                    middleware.plugin_object, "process"
+                                ):
+                                    middleware_option = getattr(
+                                        self.middleware_options, middleware_abbr
+                                    )
+                                    project = middleware.plugin_object.process(
+                                        project,
+                                        middleware_option.model_validate(
+                                            middleware_option, from_attributes=True
+                                        ),
+                                    )
                         output_plugin.plugin_object.dump(
                             task.output_path,
                             project,
@@ -1203,6 +1352,30 @@ def page_layout(lang: Optional[str] = None) -> None:
                 with import_panel.add_slot("header"):
                     input_panel_header()
                 input_options()
+            ui.separator()
+            with ui.expansion().classes("w-full") as middleware_panel:
+                with middleware_panel.add_slot("header"), ui.row().classes("w-full items-center"):
+                    ui.icon("auto_fix_high").classes("text-lg")
+                    ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
+                for middleware in middleware_manager.plugin_registry.values():
+                    with ui.row().classes("items-center w-full"):
+                        middleware_toggler = (
+                            ui.switch(_(middleware.name))
+                            .props("color=green")
+                            .bind_value(
+                                selected_formats.middleware_enabled_states, middleware.identifier
+                            )
+                        )
+                        ui.space()
+                        with (
+                            ui.icon("help_outline")
+                            .classes("text-3xl")
+                            .style(
+                                "cursor: help",
+                            )
+                        ):
+                            ui.tooltip(_(middleware.description))
+                    middleware_options_form(middleware.identifier, middleware_toggler)
             ui.separator()
             with ui.expansion().classes("w-full") as export_panel:
                 with export_panel.add_slot("header"):
