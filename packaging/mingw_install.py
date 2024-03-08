@@ -1,16 +1,18 @@
 import pathlib
-import shutil
-import site
 import subprocess
-import sys
 
+import click
 from packaging.requirements import InvalidRequirement, Requirement
 
-if __name__ == "__main__":
+
+@click.command()
+@click.option(
+    "--mingw-arch",
+    type=click.Choice(["mingw-w64-x86_64", "mingw-w64-clang-x86_64", "mingw-w64-ucrt-x86_64"]),
+    default="mingw-w64-x86_64",
+)
+def install_mingw_deps(mingw_arch: str) -> None:
     new_requirements = []
-    python_version = f"cp{sys.version_info.major}{sys.version_info.minor}"
-    sys_site_packages_path = site.getsitepackages()[-1]
-    mingw_arch = "mingw-w64-x86_64"  # "mingw-w64-clang-x86_64"  "mingw-w64-ucrt-x86_64" "mingw-w64-clang-aarch64"
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
         "anyio": "python-anyio",
@@ -30,10 +32,16 @@ if __name__ == "__main__":
         "winsdk": "python-winsdk",
         "zstandard": "python-zstandard",
     }
-    libmediainfo_version = "24.01"
     cwd = pathlib.Path()
+    subprocess.call(
+        [
+            "pacman",
+            "-S",
+            f"{mingw_arch}-libmediainfo",
+            "--noconfirm",
+        ]
+    )
     requirements_path = cwd / "requirements.txt"
-    tmp_dir = cwd / "temp"
     for requirement_str in requirements_path.read_text().splitlines():
         try:
             requirement = Requirement(requirement_str)
@@ -62,14 +70,7 @@ if __name__ == "__main__":
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
     subprocess.call(["pip", "install", "-r", "requirements.txt", "--no-deps"])
-    subprocess.check_call(
-        [
-            "curl",
-            "-L",
-            f"https://mediaarea.net/download/binary/libmediainfo0/{libmediainfo_version}/MediaInfo_DLL_{libmediainfo_version}_Windows_x64_WithoutInstaller.zip",
-            "--output",
-            "libmediainfo.zip",
-        ]
-    )
-    shutil.unpack_archive("libmediainfo.zip", "libmediainfo", "zip")
-    shutil.move("libmediainfo/MediaInfo.dll", sys_site_packages_path / "pymediainfo")
+
+
+if __name__ == "__main__":
+    install_mingw_deps()
