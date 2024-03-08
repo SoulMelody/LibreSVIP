@@ -54,6 +54,7 @@ class ConversionWorker(QRunnable):
         output_format: str,
         input_options: dict[str, Any],
         output_options: dict[str, Any],
+        middleware_options: dict[str, dict[str, Any]],
         parent: Optional[QObject] = None,
     ) -> None:
         super().__init__(parent=parent)
@@ -64,6 +65,7 @@ class ConversionWorker(QRunnable):
         self.output_format = output_format
         self.input_options = input_options
         self.output_options = output_options
+        self.middleware_options = middleware_options
         self.signals = ConversionWorkerSignals()
 
     @Slot()
@@ -101,6 +103,23 @@ class ConversionWorker(QRunnable):
                         pathlib.Path(self.input_path),
                         input_option(**self.input_options),
                     )
+                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                        middleware = middleware_manager.plugin_registry[middleware_abbr]
+                        if (
+                            middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                            and (
+                                middleware_option_class := get_type_hints(
+                                    middleware.plugin_object.process
+                                ).get(
+                                    "options",
+                                )
+                            )
+                        ):
+                            project = middleware.plugin_object.process(
+                                project,
+                                middleware_option_class.model_validate(middleware_option),
+                            )
                     output_plugin.plugin_object.dump(
                         UPath(self.output_path),
                         project,
@@ -597,6 +616,14 @@ class TaskManager(QObject):
         self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
+        middleware_options = {
+            middleware_state["identifier"]: {
+                field["name"]: field["value"]
+                for field in self.middleware_fields[middleware_state["identifier"]]
+            }
+            for middleware_state in self.middleware_states
+            if middleware_state["value"]
+        }
         for i in range(len(self.tasks)):
             self.tasks.update(i, {"success": False, "error": "", "warning": ""})
         self.thread_pool.max_thread_count = (
@@ -613,6 +640,7 @@ class TaskManager(QObject):
                 self.output_format,
                 input_options,
                 output_options,
+                middleware_options,
             )
             worker.signals.result.connect(
                 self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
