@@ -85,7 +85,7 @@ jobs:
           name: libresvip-${{ matrix.pkg_suffix }}
           path: ./packaging/dist
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
@@ -124,7 +124,7 @@ jobs:
           name: libresvip-linux-aarch64.tar.gz
           path: ./packaging/dist
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
