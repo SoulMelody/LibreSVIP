@@ -8,7 +8,6 @@ import LibreSVIP
 RoundButton {
     id: iconButton
     property string icon_name: ""
-    property double icon_size_multiplier: 1.2
     property double diameter: 36
     property int cursor_shape: Qt.PointingHandCursor
 
@@ -16,11 +15,9 @@ RoundButton {
     height: diameter
 
     contentItem: Label {
-        anchors.centerIn: parent
-        anchors.margins: 0
         text: IconicFontLoader.icon(icon_name)
         font.family: "Material Design Icons"
-        font.pixelSize: diameter * 0.6
+        font.pixelSize: diameter * 0.56
     }
 
     background: Rectangle {

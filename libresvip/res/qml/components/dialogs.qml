@@ -31,7 +31,6 @@ Item {
                 IconButton {
                     icon_name: "mdi7.folder"
                     diameter: 38
-                    icon_size_multiplier: 1.5
                     onClicked: {
                         chooseFolderDialog.choose_folder(model.path, (folder) => {
                             folderPresetsListView.model.update(index, {path: folder})
@@ -93,7 +92,6 @@ Item {
                 IconButton {
                     icon_name: "mdi7.trash-can-outline"
                     diameter: 38
-                    icon_size_multiplier: 1.5
                     onClicked: {
                         folderPresetsListView.model.delete(index)
                     }
@@ -224,7 +222,6 @@ Item {
                     Layout.alignment: Qt.AlignRight
                     icon_name: "mdi7.close"
                     diameter: 30
-                    icon_size_multiplier: 1.5
                     onClicked: folderPresetsDialog.close()
                 }
             }

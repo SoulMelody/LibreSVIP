@@ -29,7 +29,7 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # 
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
 
 from .url_opener import open_path
@@ -175,6 +175,43 @@ class TaskManager(QObject):
             }
         )
         self._output_fields_inited = False
+        self.middleware_states = ModelProxy(
+            {
+                "index": 0,
+                "identifier": "",
+                "name": "",
+                "description": "",
+                "value": False,
+            }
+        )
+        self.middleware_fields: dict[str, ModelProxy] = {}
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
+                self.middleware_states.append(
+                    {
+                        "index": len(self.middleware_states),
+                        "identifier": middleware.identifier,
+                        "name": middleware.name,
+                        "description": middleware.description,
+                        "value": False,
+                    }
+                )
+                self.middleware_fields[middleware.identifier] = ModelProxy(
+                    {
+                        "name": "",
+                        "title": "",
+                        "description": "",
+                        "default": "",
+                        "type": "",
+                        "value": "",
+                        "choices": [],
+                    }
+                )
+                option_class = get_type_hints(middleware.plugin_object.process)["options"]
+                middleware_fields = self.inspect_fields(option_class)
+                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
         self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
@@ -463,6 +500,10 @@ class TaskManager(QObject):
     @Slot(str, result=QAbstractListModel)
     def qget(self, name: str) -> Any:
         return getattr(self, name)
+
+    @Slot(str, result=QAbstractListModel)
+    def get_middleware_fields(self, name: str) -> Any:
+        return self.middleware_fields[name]
 
     @Slot(str, result=str)
     def get_str(self, name: str) -> str:
