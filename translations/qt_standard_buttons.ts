@@ -16,7 +16,7 @@
         <translation>Yes to All</translation>
     </message>
     <message>
-        <source>No to &amp;All</source>
+        <source>N&amp;o to All</source>
         <translation>No to All</translation>
     </message>
 </context>
