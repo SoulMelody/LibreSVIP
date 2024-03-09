@@ -1,296 +1,396 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: libresvip\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-09 23:06+0800\n"
+"PO-Revision-Date: 2024-03-09 15:25\n"
+"Last-Translator: \n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.12.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
 "X-Crowdin-Language: ja\n"
 "X-Crowdin-File: /main/translations/libresvip.po\n"
 "X-Crowdin-File-ID: 6\n"
-"Project-Id-Version: libresvip\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-03-03 13:44\n"
 
+#: converter_page%231
 msgid "Converter"
 msgstr ""
 
+#: converter_page%232
 msgid "Select File Formats"
 msgstr ""
 
+#: converter_page%233
 msgid "Input Format: "
 msgstr ""
 
+#: converter_page%234
 msgid "View Detail Information"
 msgstr ""
 
+#: converter_page%235 settings_dialog%232
 msgid "Auto-Detect Input File Type"
 msgstr ""
 
+#: converter_page%236
 msgid "Reset Tasks When Changing Input"
 msgstr ""
 
+#: converter_page%237
 msgid "Swap Input and Output"
 msgstr ""
 
+#: converter_page%238
 msgid "Output Format: "
 msgstr ""
 
+#: converter_page%239 settings_dialog%234
 msgid "Set Output File Extension Automatically"
 msgstr ""
 
+#: converter_page%2310
 msgid "Advanced Settings"
 msgstr ""
 
+#: converter_page%2311
 msgid "Input Options"
 msgstr ""
 
+#: converter_page%2312
 msgid "Output Options"
 msgstr ""
 
+#: converter_page%2313
 msgid "Task List"
 msgstr ""
 
+#: converter_page%2314
 msgid "Drag and drop files here"
 msgstr ""
 
+#: converter_page%2315
 msgid "Continue Adding files"
 msgstr ""
 
+#: converter_page%2316
 msgid "Clear Task List"
 msgstr ""
 
+#: converter_page%2317
 msgid "Reset Default Extension"
 msgstr ""
 
+#: converter_page%2318
 msgid "Remove Tasks With Other Extensions"
 msgstr ""
 
+#: converter_page%2319
 msgid "[Import as "
 msgstr ""
 
+#: converter_page%2320
 msgid "[Export to "
 msgstr ""
 
+#: converter_page%2321
 msgid "Output Settings"
 msgstr ""
 
+#: converter_page%2322
 msgid "Choose Output Folder"
 msgstr ""
 
+#: converter_page%2323
 msgid "Output Folder"
 msgstr ""
 
+#: converter_page%2324
 msgid "Start Conversion"
 msgstr ""
 
+#: converter_page%2325
 msgid "Converting"
 msgstr ""
 
+#: converter_page%2326 settings_dialog%236
 msgid "Open Output Folder When Done"
 msgstr ""
 
+#: converter_page%2327
 msgid "Deal with Conflicts:"
 msgstr ""
 
+#: converter_page%2328 settings_dialog%2312
 msgid "Overwrite"
 msgstr ""
 
+#: converter_page%2329 settings_dialog%2313
 msgid "Skip"
 msgstr ""
 
+#: converter_page%2330 settings_dialog%2314
 msgid "Prompt"
 msgstr ""
 
+#: dialogs%231
 msgid "All Files (*.*)"
 msgstr ""
 
+#: dialogs%232
 msgid "Install New Plugins"
 msgstr ""
 
+#: dialogs%233
 msgid "Are you sure to install following plugins?"
 msgstr ""
 
+#: dialogs%234
 msgid "Developed by "
 msgstr ""
 
+#: dialogs%235
 msgid ", which supports "
 msgstr ""
 
+#: dialogs%236
 msgid "Custom folder"
 msgstr ""
 
+#: dialogs%237
 msgid "Folder Presets"
 msgstr ""
 
+#: dialogs%238
 msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
 msgstr ""
 
+#: dialogs%239
 msgid "Click to add a folder preset"
 msgstr ""
 
+#: dialogs%2310
 msgid "About"
 msgstr ""
 
+#: dialogs%2311
 msgid "LibreSVIP"
 msgstr ""
 
+#: dialogs%2312
 msgid "Version: "
 msgstr ""
 
+#: dialogs%2313
 msgid "Author: SoulMelody"
 msgstr ""
 
+#: dialogs%2314
 msgid "Author's Profile"
 msgstr ""
 
+#: dialogs%2315
 msgid "Repo URL"
 msgstr ""
 
+#: dialogs%2316
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
 msgstr ""
 
+#: dialogs%2317
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr ""
 
+#: plugin_info%231
 msgid "Version"
 msgstr ""
 
+#: plugin_info%232
 msgid "Introduction"
 msgstr ""
 
+#: settings_dialog%231
 msgid "Options"
 msgstr ""
 
+#: settings_dialog%233
 msgid "Reset Task List When Changing Input File Type"
 msgstr ""
 
+#: settings_dialog%235
 msgid "Multi-Threaded Conversion"
 msgstr ""
 
+#: settings_dialog%237
 msgid "Same as Source"
 msgstr ""
 
+#: settings_dialog%238
 msgid "Desktop"
 msgstr ""
 
+#: settings_dialog%239
 msgid "Preset Folder"
 msgstr ""
 
+#: settings_dialog%2310
 msgid "Custom (Browse ...)"
 msgstr ""
 
+#: settings_dialog%2311
 msgid "Manage Folders Presets"
 msgstr ""
 
+#: settings_dialog%2315
 msgid "Auto Check for Updates"
 msgstr ""
 
+#: settings_dialog%2316
 msgid "Conversion Settings"
 msgstr ""
 
+#: settings_dialog%2317
 msgid "Save Path Settings"
 msgstr ""
 
+#: settings_dialog%2318
 msgid "Conflict Policy Settings"
 msgstr ""
 
+#: settings_dialog%2319
 msgid "Select Plugins"
 msgstr ""
 
+#: settings_dialog%2320
 msgid "Updates Settings"
 msgstr ""
 
+#: task_row%231
 msgid "File successfully converted"
 msgstr ""
 
+#: task_row%232
 msgid "Open"
 msgstr ""
 
+#: task_row%233
 msgid "Open folder"
 msgstr ""
 
+#: task_row%234
 msgid "File %1 already exists. Overwrite?"
 msgstr ""
 
+#: task_row%235
 msgid "File skipped due to conflict"
 msgstr ""
 
+#: task_row%236
 msgid "Remove"
 msgstr ""
 
+#: task_row%237
 msgid "This project file may contain abnormal or illegal data"
 msgstr ""
 
+#: task_row%238
 msgid "File failed to convert, below is the error message:"
 msgstr ""
 
+#: task_row%239
 msgid "Copy error message"
 msgstr ""
 
+#: task_row%2310
 msgid "Copied"
 msgstr ""
 
+#: task_row%2311
 msgid "Do you want to overwrite the file?"
 msgstr ""
 
+#: top_toolbar%231
 msgid "Convert (&C)"
 msgstr ""
 
+#: top_toolbar%232
 msgid "Import Projects (Ctrl+O)"
 msgstr ""
 
+#: top_toolbar%233
 msgid "Perform All Tasks (Ctrl+Enter)"
 msgstr ""
 
+#: top_toolbar%234
 msgid "Clear Tasks (Ctrl+R)"
 msgstr ""
 
+#: top_toolbar%235
 msgid "Swap Input and Output (Ctrl+Tab)"
 msgstr ""
 
+#: top_toolbar%236
 msgid "Output Format (&E)"
 msgstr ""
 
+#: top_toolbar%237
 msgid "Formats (&F)"
 msgstr ""
 
+#: top_toolbar%238
 msgid "Input Format (&I)"
 msgstr ""
 
+#: top_toolbar%239
 msgid "Settings (&S)"
 msgstr ""
 
+#: top_toolbar%2310
 msgid "Options (&O)"
 msgstr ""
 
+#: top_toolbar%2311
 msgid "Themes (&T)"
 msgstr ""
 
+#: top_toolbar%2312
 msgid "Light"
 msgstr ""
 
+#: top_toolbar%2313
 msgid "Dark"
 msgstr ""
 
+#: top_toolbar%2314
 msgid "System"
 msgstr ""
 
+#: top_toolbar%2315
 msgid "Language (&L)"
 msgstr ""
 
+#: top_toolbar%2316
 msgid "Help (&H)"
 msgstr ""
 
+#: top_toolbar%2317
 msgid "About (Ctrl+A)"
 msgstr ""
 
+#: top_toolbar%2318
 msgid "Check for Updates"
 msgstr ""
 
+#: top_toolbar%2319
 msgid "Documentation (F1)"
 msgstr ""
 
+#: top_toolbar%2320
 msgid "SVS Projects Converter"
 msgstr ""
 
@@ -338,7 +438,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:176
+#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:177
 msgid "Author"
 msgstr ""
 
@@ -362,60 +462,60 @@ msgstr ""
 msgid "Website: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:98
-msgid "This plugin is applicable to"
-msgstr ""
-
-#: ../libresvip/cli/commands/plugin.py:103
+#: ../libresvip/cli/commands/plugin.py:97
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:108
-msgid "Description: "
-msgstr ""
-
-#: ../libresvip/cli/commands/plugin.py:109
+#: ../libresvip/cli/commands/plugin.py:103
 msgid "input"
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:109
+#: ../libresvip/cli/commands/plugin.py:103
 msgid "output"
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:117
+#: ../libresvip/cli/commands/plugin.py:111
 msgid "This plugin supports the following {} conversion options:"
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:129
-#: ../libresvip/cli/commands/plugin.py:154
+#: ../libresvip/cli/commands/plugin.py:119
+#: ../libresvip/cli/commands/plugin.py:140
 msgid "Default: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:131
+#: ../libresvip/cli/commands/plugin.py:121
 msgid "Available values:"
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:148
+#: ../libresvip/cli/commands/plugin.py:134
 msgid "Available fields:"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:20
+#: ../libresvip/cli/commands/proj.py:21
 msgid "Extension {} is not supported. Supported extensions are: {}"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:51 ../libresvip/cli/commands/proj.py:79
+#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:96
 msgid "Input Options: "
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:52 ../libresvip/cli/commands/proj.py:102
+#: ../libresvip/cli/commands/proj.py:58
+msgid "Enable {} middleware?"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:66
+msgid "Process Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:119
 msgid "Output Options: "
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:71
+#: ../libresvip/cli/commands/proj.py:88
 msgid "Offset in milliseconds"
 msgstr ""
 
-#: ../libresvip/cli/commands/proj.py:72
+#: ../libresvip/cli/commands/proj.py:89
 msgid "Mute other tracks"
 msgstr ""
 
@@ -476,124 +576,144 @@ msgstr ""
 msgid "Notes Overlapped"
 msgstr ""
 
-#: ../libresvip/web/pages.py:166
+#: ../libresvip/web/pages.py:167
 msgid "name"
 msgstr ""
 
-#: ../libresvip/web/pages.py:186 ../libresvip/web/pages.py:203
-#: ../libresvip/web/pages.py:860 ../libresvip/web/pages.py:876
-#: ../libresvip/web/pages.py:986 ../libresvip/web/pages.py:1038
+#: ../libresvip/web/pages.py:187 ../libresvip/web/pages.py:204
+#: ../libresvip/web/pages.py:1009 ../libresvip/web/pages.py:1025
+#: ../libresvip/web/pages.py:1135 ../libresvip/web/pages.py:1187
 msgid "file_format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:193
+#: ../libresvip/web/pages.py:194
 msgid "description"
 msgstr ""
 
-#: ../libresvip/web/pages.py:325
+#: ../libresvip/web/pages.py:325 ../libresvip/web/pages.py:439
 msgid "Invalid integer"
 msgstr ""
 
-#: ../libresvip/web/pages.py:329
+#: ../libresvip/web/pages.py:329 ../libresvip/web/pages.py:443
 msgid "Invalid float"
 msgstr ""
 
-#: ../libresvip/web/pages.py:440 ../libresvip/web/pages.py:469
+#: ../libresvip/web/pages.py:570 ../libresvip/web/pages.py:600
 msgid "Copy to clipboard"
 msgstr ""
 
-#: ../libresvip/web/pages.py:445 ../libresvip/web/pages.py:474
-#: ../libresvip/web/pages.py:622 ../libresvip/web/pages.py:950
-#: ../libresvip/web/pages.py:1004 ../libresvip/web/pages.py:1061
+#: ../libresvip/web/pages.py:576 ../libresvip/web/pages.py:606
+#: ../libresvip/web/pages.py:771 ../libresvip/web/pages.py:1099
+#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1210
 msgid "Close"
 msgstr ""
 
-#: ../libresvip/web/pages.py:620
+#: ../libresvip/web/pages.py:769
 msgid "Conversion Progress"
 msgstr ""
 
-#: ../libresvip/web/pages.py:625
+#: ../libresvip/web/pages.py:774
 msgid "Conversion Failed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:628
+#: ../libresvip/web/pages.py:777
 msgid "Conversion Successful"
 msgstr ""
 
-#: ../libresvip/web/pages.py:681 ../libresvip/web/pages.py:715
+#: ../libresvip/web/pages.py:830 ../libresvip/web/pages.py:864
 msgid "All files (*.*)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:702
+#: ../libresvip/web/pages.py:851
 msgid "Save failed!"
 msgstr ""
 
-#: ../libresvip/web/pages.py:712
+#: ../libresvip/web/pages.py:861
 msgid "Compressed Archive (*.zip)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:724
+#: ../libresvip/web/pages.py:873
 msgid "Saved"
 msgstr ""
 
-#: ../libresvip/web/pages.py:814 ../libresvip/web/pages.py:834
+#: ../libresvip/web/pages.py:963 ../libresvip/web/pages.py:983
 msgid "Convert"
 msgstr ""
 
-#: ../libresvip/web/pages.py:823 ../libresvip/web/pages.py:1073
+#: ../libresvip/web/pages.py:972 ../libresvip/web/pages.py:1222
 msgid "Import project"
 msgstr ""
 
-#: ../libresvip/web/pages.py:851 ../libresvip/web/pages.py:989
+#: ../libresvip/web/pages.py:1000 ../libresvip/web/pages.py:1138
 msgid "Import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:868 ../libresvip/web/pages.py:1041
+#: ../libresvip/web/pages.py:1017 ../libresvip/web/pages.py:1190
 msgid "Export format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:881
+#: ../libresvip/web/pages.py:1030
 msgid "Switch Theme"
 msgstr ""
 
-#: ../libresvip/web/pages.py:903
+#: ../libresvip/web/pages.py:1052
 msgid "Switch Language"
 msgstr ""
 
-#: ../libresvip/web/pages.py:951
+#: ../libresvip/web/pages.py:1100
 msgid "Help"
 msgstr ""
 
-#: ../libresvip/web/pages.py:962
+#: ../libresvip/web/pages.py:1111
 msgid "Documentation"
 msgstr ""
 
-#: ../libresvip/web/pages.py:977
+#: ../libresvip/web/pages.py:1126
 msgid "Choose file format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1014
+#: ../libresvip/web/pages.py:1163
 msgid "Auto detect import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1021
+#: ../libresvip/web/pages.py:1170
 msgid "Reset list when import format changed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1171
+#: ../libresvip/web/pages.py:1320
 msgid "Drag and drop files here or click to upload"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1200
+#: ../libresvip/web/pages.py:1349
 msgid "Export"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1201
+#: ../libresvip/web/pages.py:1350
 msgid "Advanced Options"
 msgstr ""
 
-#: ../libresvip/utils/audio.py:29
+#: ../libresvip/web/pages.py:1359
+msgid "Intermediate Processing"
+msgstr ""
+
+#: ../libresvip/utils/audio.py:36
 msgid "Audio file not found: "
+msgstr ""
+
+#: QPlatformTheme%231
+msgid "OK"
+msgstr ""
+
+#: QPlatformTheme%232
+msgid "Cancel"
+msgstr ""
+
+#: QPlatformTheme%233
+msgid "Yes to All"
+msgstr ""
+
+#: QPlatformTheme%234
+msgid "No to All"
 msgstr ""
 
 #: .acep.name
@@ -819,7 +939,7 @@ msgstr ""
 msgid "Unsupported lyric: "
 msgstr ""
 
-#: .ccs.messages[1] .ccs.messages[0]
+#: .ccs.messages[1]
 msgid "Pitch value is out of bounds"
 msgstr ""
 
@@ -827,7 +947,7 @@ msgstr ""
 msgid "DiffSinger"
 msgstr ""
 
-#: .ds.file_format .ds.format_desc
+#: .ds.file_format
 msgid "DiffSinger parameters file"
 msgstr ""
 
@@ -835,7 +955,7 @@ msgstr ""
 msgid "DiffSinger plugin."
 msgstr ""
 
-#: .ds.dump[0].title .ds.load[0].title
+#: .ds.dump[0].title
 msgid "Dictionary Name"
 msgstr ""
 
@@ -887,7 +1007,7 @@ msgstr ""
 msgid "Cannot find dict."
 msgstr ""
 
-#: .ds.messages[1] .ds.messages[0]
+#: .ds.messages[1]
 msgid "The source file lacks phoneme parameters."
 msgstr ""
 
@@ -895,7 +1015,11 @@ msgstr ""
 msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
 msgstr ""
 
-#: .dv.format_desc
+#: .dv.name
+msgid "DeepVocal"
+msgstr ""
+
+#: .dv.file_format
 msgid "DeepVocal project file"
 msgstr ""
 
@@ -907,7 +1031,7 @@ msgstr ""
 msgid "gjgj"
 msgstr ""
 
-#: .gj.file_format .gj.format_desc
+#: .gj.file_format
 msgid "Gejigeji project file"
 msgstr ""
 
@@ -928,7 +1052,11 @@ msgstr ""
 msgid "Unsupported pinyin:"
 msgstr ""
 
-#: .json.format_desc
+#: .json.name
+msgid "JsonSvip"
+msgstr ""
+
+#: .json.file_format
 msgid "OpenSVIP file"
 msgstr ""
 
@@ -948,7 +1076,7 @@ msgstr ""
 msgid "LRC"
 msgstr ""
 
-#: .lrc.file_format .lrc.format_desc
+#: .lrc.file_format
 msgid "LRC lyric file"
 msgstr ""
 
@@ -1044,7 +1172,7 @@ msgstr ""
 msgid "MIDI"
 msgstr ""
 
-#: .mid.file_format .mid.format_desc
+#: .mid.file_format
 msgid "Standard MIDI file (SMF)"
 msgstr ""
 
@@ -1148,7 +1276,7 @@ msgstr ""
 msgid "No tempo labels found in the imported project."
 msgstr ""
 
-#: .mid.messages[1] .mid.messages[0]
+#: .mid.messages[1]
 msgid "Overlapping notes in track {}"
 msgstr ""
 
@@ -1156,7 +1284,7 @@ msgstr ""
 msgid "Muta"
 msgstr ""
 
-#: .mtp.file_format .mtp.format_desc
+#: .mtp.file_format
 msgid "Muta project file"
 msgstr ""
 
@@ -1184,7 +1312,7 @@ msgstr ""
 msgid "NIAONiao"
 msgstr ""
 
-#: .nn.file_format .nn.format_desc
+#: .nn.file_format
 msgid "NIAONiao Virtual Singer project file"
 msgstr ""
 
@@ -1200,11 +1328,11 @@ msgstr ""
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr ""
 
-#: .nn.dump[1].description .nn.dump[0].description
+#: .nn.dump[1].description
 msgid "Start from 0, -1 means auto select"
 msgstr ""
 
-#: .nn.dump[2].description .nn.dump[1].description
+#: .nn.dump[2].description
 msgid "Version of NIAONiao project file"
 msgstr ""
 
@@ -1224,7 +1352,11 @@ msgstr ""
 msgid "Conversion plugin for Piapro Studio project file"
 msgstr ""
 
-#: .s5p.format_desc
+#: .s5p.name
+msgid "SynthV Editor"
+msgstr ""
+
+#: .s5p.file_format
 msgid "Synthesizer V Editor project file"
 msgstr ""
 
@@ -1236,7 +1368,7 @@ msgstr ""
 msgid "SRT"
 msgstr ""
 
-#: .srt.file_format .srt.format_desc
+#: .srt.file_format
 msgid "SubRip subtitle file"
 msgstr ""
 
@@ -1248,7 +1380,11 @@ msgstr ""
 msgid "Text encoding"
 msgstr ""
 
-#: .svg.format_desc
+#: .svg.name
+msgid "Svg"
+msgstr ""
+
+#: .svg.file_format
 msgid "Scalable Vector Graphics"
 msgstr ""
 
@@ -1260,9 +1396,8 @@ msgstr ""
 msgid "Pixels per beat"
 msgstr ""
 
-#: .svg.dump[0].description .svg.dump[1].description
-#: .svg.dump[2].description .svg.dump[5].description
-#: .svg.dump[7].description .svg.dump[16].description
+#: .svg.dump[0].description .svg.dump[1].description .svg.dump[2].description
+#: .svg.dump[5].description .svg.dump[7].description .svg.dump[16].description
 msgid "Unit: pixel."
 msgstr ""
 
@@ -1278,9 +1413,9 @@ msgstr ""
 msgid "Note fill color"
 msgstr ""
 
-#: .svg.dump[3].description .svg.dump[4].description
-#: .svg.dump[6].description .svg.dump[11].description
-#: .svg.dump[12].description .svg.dump[15].description
+#: .svg.dump[3].description .svg.dump[4].description .svg.dump[6].description
+#: .svg.dump[11].description .svg.dump[12].description
+#: .svg.dump[15].description
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr ""
 
@@ -1304,19 +1439,19 @@ msgstr ""
 msgid "Lyric position"
 msgstr ""
 
-#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
+#: .svg.dump[8].choices[0].text .svg.dump[9].choices[0].text
 msgid "Above the note"
 msgstr ""
 
-#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
+#: .svg.dump[8].choices[1].text .svg.dump[9].choices[1].text
 msgid "Inside the note"
 msgstr ""
 
-#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
+#: .svg.dump[8].choices[2].text .svg.dump[9].choices[2].text
 msgid "Below the note"
 msgstr ""
 
-#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
+#: .svg.dump[8].choices[3].text .svg.dump[9].choices[3].text
 msgid "Don't show"
 msgstr ""
 
@@ -1364,7 +1499,7 @@ msgstr ""
 msgid "BinSvip"
 msgstr ""
 
-#: .svip.file_format .svip.format_desc
+#: .svip.file_format
 msgid "X Studio project file"
 msgstr ""
 
@@ -1431,7 +1566,15 @@ msgstr ""
 msgid "Unexpected enum value"
 msgstr ""
 
-#: .svip.messages[1] .svip.messages[0]
+#: .svip.messages[1]
+msgid "Note duration is too short:"
+msgstr ""
+
+#: .svip.messages[2]
+msgid "Note duration is too long:"
+msgstr ""
+
+#: .svip.messages[3]
 msgid "Root not found"
 msgstr ""
 
@@ -1439,7 +1582,7 @@ msgstr ""
 msgid "Svip3"
 msgstr ""
 
-#: .svip3.file_format .svip3.format_desc
+#: .svip3.file_format
 msgid "Netease Cloud Music XStudio project file"
 msgstr ""
 
@@ -1447,55 +1590,11 @@ msgstr ""
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr ""
 
-#: .svip3.dump[0].title
-msgid "Zoom in/out project"
-msgstr ""
-
-#: .svip3.dump[0].choices[0].text
-msgid "None"
-msgstr ""
-
-#: .svip3.dump[0].choices[1].text
-msgid "2"
-msgstr ""
-
-#: .svip3.dump[0].choices[2].text
-msgid "1/2"
-msgstr ""
-
-#: .svip3.dump[0].choices[3].text
-msgid "5/3"
-msgstr ""
-
-#: .svip3.dump[0].choices[4].text
-msgid "3/2"
-msgstr ""
-
-#: .svip3.dump[0].choices[5].text
-msgid "6/5"
-msgstr ""
-
-#: .svip3.dump[0].choices[6].text
-msgid "4/5"
-msgstr ""
-
-#: .svip3.dump[0].choices[7].text
-msgid "3/5"
-msgstr ""
-
-#: .svip3.dump[0].choices[8].text
-msgid "3/4"
-msgstr ""
-
-#: .svip3.dump[0].description
-msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
-msgstr ""
-
 #: .svp.name
 msgid "SynthV Studio"
 msgstr ""
 
-#: .svp.file_format .svp.format_desc
+#: .svp.file_format
 msgid "Synthesizer V Studio project file"
 msgstr ""
 
@@ -1585,86 +1684,54 @@ msgid "Notice: If there are too many note groups, please choose \"Keep original 
 msgstr ""
 
 #: .svp.dump[0].title
-msgid "Threshold to remove short silences"
-msgstr ""
-
-#: .svp.dump[0].choices[0].text
-msgid "Zero length note"
-msgstr ""
-
-#: .svp.dump[0].choices[1].text
-msgid "1/8 note"
-msgstr ""
-
-#: .svp.dump[0].choices[2].text
-msgid "1/16 note"
-msgstr ""
-
-#: .svp.dump[0].choices[3].text
-msgid "1/32 note"
-msgstr ""
-
-#: .svp.dump[0].choices[4].text
-msgid "1/64 note"
-msgstr ""
-
-#: .svp.dump[0].choices[5].text
-msgid "1/128 note"
-msgstr ""
-
-#: .svp.dump[0].description
-msgid "Extend note to fill the short silences between it and its next note"
-msgstr ""
-
-#: .svp.dump[1].title .svp.dump[0].title
 msgid "The way to handle vibrato notes"
 msgstr ""
 
-#: .svp.dump[1].choices[0].text .svp.dump[0].choices[0].text
+#: .svp.dump[0].choices[0].text
 msgid "All removed"
 msgstr ""
 
-#: .svp.dump[1].choices[0].description .svp.dump[0].choices[0].description
+#: .svp.dump[0].choices[0].description
 msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
 msgstr ""
 
-#: .svp.dump[1].choices[1].text .svp.dump[0].choices[1].text
+#: .svp.dump[0].choices[1].text
 msgid "All kept"
 msgstr ""
 
-#: .svp.dump[1].choices[1].description .svp.dump[0].choices[1].description
+#: .svp.dump[0].choices[1].description
 msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
 msgstr ""
 
-#: .svp.dump[1].choices[2].text .svp.dump[0].choices[2].text
+#: .svp.dump[0].choices[2].text
 msgid "Hybrid mode"
 msgstr ""
 
-#: .svp.dump[1].choices[2].description .svp.dump[0].choices[2].description
+#: .svp.dump[0].choices[2].description
 msgid "Remove vibrato in edited part, keep default vibrato in other parts"
 msgstr ""
 
-#: .svp.dump[2].title .svp.dump[1].title
+#: .svp.dump[1].title
 msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
 msgstr ""
 
-#: .svp.dump[2].description .svp.dump[1].description
+#: .svp.dump[1].description
 msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
 msgstr ""
 
-#: .svp.dump[3].title .svp.dump[2].title
+#: .svp.dump[2].title
 msgid "Override default language for the voicebank"
 msgstr ""
 
-#: .svp.dump[3].choices[0].text .svp.dump[2].choices[0].text
+#: .svp.dump[2].choices[0].text
 msgid "Mandarin"
 msgstr ""
 
-#: .svp.dump[3].choices[1].text .svp.dump[2].choices[1].text
+#: .svp.dump[2].choices[1].text
 msgid "Cantonese"
 msgstr ""
 
-#: .svp.dump[3].choices[4].text .svp.dump[2].choices[4].text
+#: .svp.dump[2].choices[4].text
 msgid "Spanish"
 msgstr ""
 
@@ -1680,7 +1747,11 @@ msgstr ""
 msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
 msgstr ""
 
-#: .ufdata.format_desc
+#: .ufdata.name
+msgid "UFData"
+msgstr ""
+
+#: .ufdata.file_format
 msgid "UtaFormatix3 data format"
 msgstr ""
 
@@ -1692,7 +1763,7 @@ msgstr ""
 msgid "Ust"
 msgstr ""
 
-#: .ust.file_format .ust.format_desc
+#: .ust.file_format
 msgid "UTAU Sequence Text"
 msgstr ""
 
@@ -1704,11 +1775,15 @@ msgstr ""
 msgid "UST file version"
 msgstr ""
 
-#: .ust.messages[1] .ust.messages[0]
+#: .ust.messages[1]
 msgid "UST project has no track"
 msgstr ""
 
-#: .ustx.format_desc
+#: .ustx.name
+msgid "Ustx"
+msgstr ""
+
+#: .ustx.file_format
 msgid "OpenUtau project file"
 msgstr ""
 
@@ -1720,7 +1795,7 @@ msgstr ""
 msgid "Vogen"
 msgstr ""
 
-#: .vog.file_format .vog.format_desc
+#: .vog.file_format
 msgid "Vogen project file"
 msgstr ""
 
@@ -1728,7 +1803,7 @@ msgstr ""
 msgid "Conversion plugin for Vogen project file"
 msgstr ""
 
-#: .vog.dump[1].description .vog.dump[0].description
+#: .vog.dump[1].description
 msgid "Please enter the singer's English name."
 msgstr ""
 
@@ -1736,7 +1811,7 @@ msgstr ""
 msgid "Vpr"
 msgstr ""
 
-#: .vpr.file_format .vpr.format_desc
+#: .vpr.file_format
 msgid "New Vocaloid Project file"
 msgstr ""
 
@@ -1784,8 +1859,16 @@ msgstr ""
 msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert Phonemes to Match Languages in the menu of VOCALOID to reset them."
 msgstr ""
 
-#: .vshp.format_desc
+#: .vshp.name
+msgid "VocalShifter"
+msgstr ""
+
+#: .vshp.file_format
 msgid "VocalShifter project file"
+msgstr ""
+
+#: .vshp.description
+msgid "Import parameters from VocalShifter project file."
 msgstr ""
 
 #: .vshp.load[0].title
@@ -1812,7 +1895,11 @@ msgstr ""
 msgid "Import breath curve"
 msgstr ""
 
-#: .vspx.format_desc
+#: .vspx.name
+msgid "VocalSharp"
+msgstr ""
+
+#: .vspx.file_format
 msgid "VocalSharp project file"
 msgstr ""
 
@@ -1868,11 +1955,147 @@ msgstr ""
 msgid "Y77"
 msgstr ""
 
-#: .y77.file_format .y77.format_desc
+#: .y77.file_format
 msgid "Yuan77 project file"
 msgstr ""
 
 #: .y77.description
 msgid "Conversion plugin for Yuan77 project file"
+msgstr ""
+
+#: .pitch_shift.name
+msgid "Pitch Shift"
+msgstr ""
+
+#: .pitch_shift.process[0].title
+msgid "Key transition of pitch"
+msgstr ""
+
+#: .pitch_shift.process[0].description
+msgid "Pitch shift in semitones."
+msgstr ""
+
+#: .project_zoom.name
+msgid "Project Zoom"
+msgstr ""
+
+#: .project_zoom.description
+msgid "Zoom in/out project"
+msgstr ""
+
+#: .project_zoom.process[0].title
+msgid "Zoom factor"
+msgstr ""
+
+#: .project_zoom.process[0].choices[0].text
+msgid "None"
+msgstr ""
+
+#: .project_zoom.process[0].choices[1].text
+msgid "2"
+msgstr ""
+
+#: .project_zoom.process[0].choices[2].text
+msgid "1/2"
+msgstr ""
+
+#: .project_zoom.process[0].choices[3].text
+msgid "5/3"
+msgstr ""
+
+#: .project_zoom.process[0].choices[4].text
+msgid "3/2"
+msgstr ""
+
+#: .project_zoom.process[0].choices[5].text
+msgid "6/5"
+msgstr ""
+
+#: .project_zoom.process[0].choices[6].text
+msgid "4/5"
+msgstr ""
+
+#: .project_zoom.process[0].choices[7].text
+msgid "3/5"
+msgstr ""
+
+#: .project_zoom.process[0].choices[8].text
+msgid "3/4"
+msgstr ""
+
+#: .project_zoom.process[0].description
+msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
+msgstr ""
+
+#: .pronounciation_conversion.name
+msgid "Pronounciation Conversion"
+msgstr ""
+
+#: .pronounciation_conversion.description
+msgid "For Chinese and Japanese Lyrics"
+msgstr ""
+
+#: .pronounciation_conversion.process[0].title
+msgid "Pronounciation conversion mode"
+msgstr ""
+
+#: .pronounciation_conversion.process[0].choices[1].text
+msgid "Hanzi to Pinyin"
+msgstr ""
+
+#: .pronounciation_conversion.process[0].choices[2].text
+msgid "To Romaji"
+msgstr ""
+
+#: .pronounciation_conversion.process[0].choices[3].text
+msgid "To Hiragana"
+msgstr ""
+
+#: .pronounciation_conversion.process[0].choices[4].text
+msgid "To Katakana"
+msgstr ""
+
+#: .pronounciation_conversion.process[0].description
+msgid "Convert lyrics to the specified pronounciation format"
+msgstr ""
+
+#: .remove_short_silences.name
+msgid "Remove Short Silences"
+msgstr ""
+
+#: .remove_short_silences.description
+msgid "Fill short rests"
+msgstr ""
+
+#: .remove_short_silences.process[0].title
+msgid "Max length to be processed (exclusive)"
+msgstr ""
+
+#: .remove_short_silences.process[0].choices[0].text
+msgid "Zero length note"
+msgstr ""
+
+#: .remove_short_silences.process[0].choices[1].text
+msgid "1/8 note"
+msgstr ""
+
+#: .remove_short_silences.process[0].choices[2].text
+msgid "1/16 note"
+msgstr ""
+
+#: .remove_short_silences.process[0].choices[3].text
+msgid "1/32 note"
+msgstr ""
+
+#: .remove_short_silences.process[0].choices[4].text
+msgid "1/64 note"
+msgstr ""
+
+#: .remove_short_silences.process[0].choices[5].text
+msgid "1/128 note"
+msgstr ""
+
+#: .remove_short_silences.process[0].description
+msgid "Extend note to fill the short silences between it and its next note"
 msgstr ""
 
