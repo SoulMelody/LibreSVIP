@@ -2,6 +2,7 @@
 
 import enum
 import io
+import itertools
 import json
 import pathlib
 import shutil
@@ -18,22 +19,24 @@ from translate.storage import factory
 from translate.tools.pomerge import mergestore
 
 from libresvip.core.compat import package_path
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
 
 
 def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
-    for plugin_info in plugin_manager.plugin_registry.values():
+    for plugin_info in itertools.chain(
+        middleware_manager.plugin_registry.values(), plugin_manager.plugin_registry.values()
+    ):
         info_path = package_path(sys.modules[plugin_info.plugin_object.__module__])
-        plugin_suffix = plugin_info.suffix
-        plugin_info = plugin_manager.plugin_registry[plugin_suffix]
+        plugin_identifier = plugin_info.identifier
         plugin_metadata: dict[str, Any] = {
             "name": plugin_info.name,
-            "file_format": plugin_info.file_format,
         }
+        if hasattr(plugin_info, "file_format"):
+            plugin_metadata["file_format"] = plugin_info.file_format
         if plugin_info.description:
             plugin_metadata["description"] = plugin_info.description
-        for method in ("load", "dump"):
+        for method in ("load", "dump", "process"):
             if not hasattr(plugin_info.plugin_object, method):
                 continue
             option_class: BaseModel = get_type_hints(getattr(plugin_info.plugin_object, method))[
@@ -77,7 +80,7 @@ def messages_iterator() -> Iterator[tuple[str, dict[str, Any], pathlib.Path]]:
                         field_metadata["description"] = field_info.description
                     conv_fields.append(field_metadata)
             plugin_metadata[method] = conv_fields
-        yield plugin_suffix, plugin_metadata, cast(pathlib.Path, info_path)
+        yield plugin_identifier, plugin_metadata, cast(pathlib.Path, info_path)
 
 
 if __name__ == "__main__":

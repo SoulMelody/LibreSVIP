@@ -3,12 +3,16 @@ from typing import Any
 from wanakana.japanese import (
     is_kana,
     is_romaji,
+    to_hiragana,
+    to_katakana,
 )
 from wanakana.japanese import to_romaji as _to_romaji
 
 __all__ = [
     "is_kana",
     "is_romaji",
+    "to_hiragana",
+    "to_katakana",
     "to_romaji",
 ]
 

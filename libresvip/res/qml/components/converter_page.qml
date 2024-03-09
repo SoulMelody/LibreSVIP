@@ -43,7 +43,6 @@ Page {
             IconButton {
                 icon_name: "mdi7.eyedropper-variant"
                 diameter: 30
-                icon_size_multiplier: 1.5
                 onClicked: {
                     dialogs.colorDialog.bind_color(
                         colorField.text,
@@ -57,7 +56,6 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
-                icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -105,7 +103,6 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
-                icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -185,7 +182,6 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
-                icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -239,7 +235,6 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
-                icon_size_multiplier: 1.5
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -269,7 +264,7 @@ Page {
                 color: Material.color(
                     Material.Grey,
                     Material.Shade300
-                );
+                )
                 height: 1
             }
         }
@@ -328,7 +323,6 @@ Page {
                 IconButton {
                     icon_name: "mdi7.information-outline"
                     diameter: 38
-                    icon_size_multiplier: 1.5
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("View Detail Information")
                     onClicked: {
@@ -442,7 +436,6 @@ Page {
                     id: swapInputOutput
                     icon_name: "mdi7.swap-vertical"
                     diameter: 38
-                    icon_size_multiplier: 1.5
                     enabled: inputFormat.enabled && outputFormat.enabled
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Swap Input and Output")
@@ -493,7 +486,6 @@ Page {
                 IconButton {
                     icon_name: "mdi7.information-outline"
                     diameter: 38
-                    icon_size_multiplier: 1.5
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("View Detail Information")
                     onClicked: {
@@ -707,7 +699,7 @@ Page {
                         color: Material.color(
                             Material.Indigo,
                             Material.Shade300
-                        );
+                        )
                     }
                     text: IconicFontLoader.icon("mdi7.hammer-wrench")
                     y: parent.height - this.height / 2 - 10
@@ -754,7 +746,7 @@ Page {
                                 color: Material.color(
                                     Material.LightBlue,
                                     Material.Shade200
-                                );
+                                )
                             }
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -778,7 +770,7 @@ Page {
                                 color: Material.color(
                                     Material.LightBlue,
                                     Material.Shade200
-                                );
+                                )
                             }
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -805,7 +797,7 @@ Page {
                                 color: Material.color(
                                     Material.LightBlue,
                                     Material.Shade200
-                                );
+                                )
                             }
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -831,7 +823,7 @@ Page {
                                 color: Material.color(
                                     Material.LightBlue,
                                     Material.Shade200
-                                );
+                                )
                             }
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -1046,6 +1038,173 @@ Page {
                                 }
                                 if (item) {
                                     this.Component.onDestruction.connect(item.destroy)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Repeater {
+                model: TaskManager.qget("middleware_states")
+                delegate: ColumnLayout {
+                    required property var modelData
+                    Row {
+                        height: 30
+                        Layout.fillWidth: true
+                        Switch {
+                            Layout.fillHeight: true
+                            anchors.verticalCenter: parent.verticalCenter
+                            background: Rectangle {
+                                color: "transparent"
+                            }
+                            onToggled: {
+                                middlewareContainer.expanded = !middlewareContainer.expanded
+                                TaskManager.qget("middleware_states").update(modelData.index, {"value": middlewareContainer.expanded})
+                            }
+                        }
+                        Label {
+                            text: qsTr(modelData.name)
+                            font.pixelSize: 22
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Rectangle {
+                            width: 20
+                            height: 1
+                            color: "transparent"
+                        }
+                        IconButton {
+                            icon_name: "mdi7.help-circle-outline"
+                            anchors.verticalCenter: parent.verticalCenter
+                            diameter: 50
+                            cursor_shape: Qt.WhatsThisCursor
+                            visible: modelData.description != ""
+                            onClicked: {
+                                middlewareInfo.visible = !middlewareInfo.visible
+                            }
+                            ToolTip {
+                                id: middlewareInfo
+                                y: parent.y - parent.height
+                                visible: false
+                                text: qsTr(modelData.description)
+                            }
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Rectangle {
+                            width: 40
+                        }
+                        ColumnLayout {
+                            id: middlewareContainer
+                            property bool expanded: false
+                            Layout.fillWidth: true
+                            states: [
+                                State {
+                                    name: "expanded"
+                                    PropertyChanges {
+                                        target: middlewareContainer
+                                        Layout.maximumHeight: middlewareContainer.implicitHeight
+                                        opacity: 1
+                                        y: 0
+                                        visible: true
+                                    }
+                                },
+                                State {
+                                    name: "collapsed"
+                                    PropertyChanges {
+                                        target: middlewareContainer
+                                        Layout.maximumHeight: 0
+                                        opacity: 0
+                                        y: -middlewareContainer.implicitHeight
+                                        visible: false
+                                    }
+                                }
+                            ]
+                            state: expanded ? "expanded" : "collapsed"
+        
+                            transitions: [
+                                Transition {
+                                    from: "expanded"
+                                    to: "collapsed"
+                                    SequentialAnimation {
+                                        PropertyAnimation {
+                                            target: middlewareContainer
+                                            properties: "y,opacity,Layout.maximumHeight"
+                                            duration: 300
+                                            easing.type: Easing.InOutQuad
+                                        }
+                                        PropertyAction { target: middlewareContainer; property: "visible" }
+                                    }
+                                },
+        
+                                Transition {
+                                    from: "collapsed"
+                                    to: "expanded"
+                                    SequentialAnimation {
+                                        PropertyAction { target: middlewareContainer; property: "visible" }
+                                        PropertyAnimation {
+                                            target: middlewareContainer
+                                            properties: "y,opacity,Layout.maximumHeight"
+                                            duration: 300
+                                            easing.type: Easing.InOutQuad
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                        Rectangle {
+                            width: 20
+                        }
+                    }
+                    ListView {
+                        id: middlewareFields
+                        model: TaskManager.get_middleware_fields(modelData.identifier)
+                        delegate: Column {
+                            Component.onCompleted: {
+                                if (index == 0) {
+                                    for (var i = 0; i < middlewareFields.count; i++) {
+                                        let middleware_state = middlewareFields.model.get(i)
+                                        let separator_item = separatorItem.createObject(middlewareContainer)
+                                        this.Component.onDestruction.connect(separator_item.destroy)
+                                        let item = null;
+                                        switch (model.type) {
+                                            case "bool": {
+                                                item = switchItem.createObject(middlewareContainer, {
+                                                    "field": model,
+                                                    "index": i,
+                                                    "list_view": middlewareFields
+                                                })
+                                                break
+                                            }
+                                            case "enum": {
+                                                item = comboBoxItem.createObject(middlewareContainer, {
+                                                    "field": model,
+                                                    "index": i,
+                                                    "list_view": middlewareFields
+                                                })
+                                                break
+                                            }
+                                            case "color" : {
+                                                item = colorPickerItem.createObject(middlewareContainer, {
+                                                    "field": model,
+                                                    "index": i,
+                                                    "list_view": middlewareFields
+                                                })
+                                                break
+                                            }
+                                            default: {
+                                                item = textFieldItem.createObject(middlewareContainer, {
+                                                    "field": model,
+                                                    "index": i,
+                                                    "list_view": middlewareFields,
+                                                })
+                                                break
+                                            }
+                                        }
+                                        if (item) {
+                                            this.Component.onDestruction.connect(item.destroy)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1345,7 +1504,6 @@ Page {
                 RowLayout {
                     IconButton {
                         icon_name: "mdi7.folder"
-                        icon_size_multiplier: 1.5
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Choose Output Folder")
                         onClicked: {

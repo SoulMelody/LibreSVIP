@@ -1,0 +1,10 @@
+[Core]
+name = Pronounciation Conversion
+module = pronounciation_conversion
+
+[Documentation]
+Author = SoulMelody
+Version = 1.0.0
+Website = https://space.bilibili.com/175862486
+Description = For Chinese and Japanese Lyrics
+abbreviation = pronounciation_conversion

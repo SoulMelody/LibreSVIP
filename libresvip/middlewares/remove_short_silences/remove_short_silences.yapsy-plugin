@@ -1,0 +1,10 @@
+[Core]
+name = Remove Short Silences
+module = remove_short_silences
+
+[Documentation]
+Author = SoulMelody
+Version = 1.0.0
+Website = https://space.bilibili.com/175862486
+Description = Fill short rests
+abbreviation = remove_short_silences

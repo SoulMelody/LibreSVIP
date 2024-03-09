@@ -9,7 +9,6 @@ from typing import Any, Optional, get_args, get_type_hints
 
 import more_itertools
 from loguru import logger
-from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from PySide6.QtCore import (
@@ -30,7 +29,7 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # 
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
 
 from .url_opener import open_path
@@ -55,6 +54,7 @@ class ConversionWorker(QRunnable):
         output_format: str,
         input_options: dict[str, Any],
         output_options: dict[str, Any],
+        middleware_options: dict[str, dict[str, Any]],
         parent: Optional[QObject] = None,
     ) -> None:
         super().__init__(parent=parent)
@@ -65,6 +65,7 @@ class ConversionWorker(QRunnable):
         self.output_format = output_format
         self.input_options = input_options
         self.output_options = output_options
+        self.middleware_options = middleware_options
         self.signals = ConversionWorkerSignals()
 
     @Slot()
@@ -72,7 +73,6 @@ class ConversionWorker(QRunnable):
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
-                warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
                 if (
@@ -103,6 +103,23 @@ class ConversionWorker(QRunnable):
                         pathlib.Path(self.input_path),
                         input_option(**self.input_options),
                     )
+                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                        middleware = middleware_manager.plugin_registry[middleware_abbr]
+                        if (
+                            middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                            and (
+                                middleware_option_class := get_type_hints(
+                                    middleware.plugin_object.process
+                                ).get(
+                                    "options",
+                                )
+                            )
+                        ):
+                            project = middleware.plugin_object.process(
+                                project,
+                                middleware_option_class.model_validate(middleware_option),
+                            )
                     output_plugin.plugin_object.dump(
                         UPath(self.output_path),
                         project,
@@ -177,6 +194,43 @@ class TaskManager(QObject):
             }
         )
         self._output_fields_inited = False
+        self.middleware_states = ModelProxy(
+            {
+                "index": 0,
+                "identifier": "",
+                "name": "",
+                "description": "",
+                "value": False,
+            }
+        )
+        self.middleware_fields: dict[str, ModelProxy] = {}
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
+                self.middleware_states.append(
+                    {
+                        "index": len(self.middleware_states),
+                        "identifier": middleware.identifier,
+                        "name": middleware.name,
+                        "description": middleware.description,
+                        "value": False,
+                    }
+                )
+                self.middleware_fields[middleware.identifier] = ModelProxy(
+                    {
+                        "name": "",
+                        "title": "",
+                        "description": "",
+                        "default": "",
+                        "type": "",
+                        "value": "",
+                        "choices": [],
+                    }
+                )
+                option_class = get_type_hints(middleware.plugin_object.process)["options"]
+                middleware_fields = self.inspect_fields(option_class)
+                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
         self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
@@ -466,6 +520,10 @@ class TaskManager(QObject):
     def qget(self, name: str) -> Any:
         return getattr(self, name)
 
+    @Slot(str, result=QAbstractListModel)
+    def get_middleware_fields(self, name: str) -> Any:
+        return self.middleware_fields[name]
+
     @Slot(str, result=str)
     def get_str(self, name: str) -> str:
         assert name in {"input_format", "output_format"}
@@ -558,6 +616,14 @@ class TaskManager(QObject):
         self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
+        middleware_options = {
+            middleware_state["identifier"]: {
+                field["name"]: field["value"]
+                for field in self.middleware_fields[middleware_state["identifier"]]
+            }
+            for middleware_state in self.middleware_states
+            if middleware_state["value"]
+        }
         for i in range(len(self.tasks)):
             self.tasks.update(i, {"success": False, "error": "", "warning": ""})
         self.thread_pool.max_thread_count = (
@@ -574,6 +640,7 @@ class TaskManager(QObject):
                 self.output_format,
                 input_options,
                 output_options,
+                middleware_options,
             )
             worker.signals.result.connect(
                 self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection

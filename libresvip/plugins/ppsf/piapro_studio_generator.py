@@ -1,6 +1,7 @@
 import dataclasses
 
-from libresvip.core.constants import DEFAULT_PHONEME
+from libresvip.core.lyric_phoneme.japanese import to_romaji
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -186,7 +187,9 @@ class PiaproStudioGenerator:
                     pos=note.start_pos,
                     length=note.length,
                     lyric=note.lyric,
-                    symbols=note.pronunciation or DEFAULT_PHONEME,
+                    symbols="-"
+                    if note.lyric in legato_chars
+                    else romaji2xsampa.get(to_romaji(note.lyric), "4 a"),
                 )
             )
             ppsf_notes.append(
@@ -197,7 +200,9 @@ class PiaproStudioGenerator:
                     syllables=[
                         PpsfSyllable(
                             lyric_text=note.lyric,
-                            symbols_text=note.pronunciation or DEFAULT_PHONEME,
+                            symbols_text="-"
+                            if note.lyric in legato_chars
+                            else romaji2xsampa.get(to_romaji(note.lyric), "4 a"),
                         )
                     ],
                 )
