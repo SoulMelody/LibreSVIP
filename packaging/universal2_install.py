@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 from delocate.fuse import fuse_wheels
-from packaging.requirements import InvalidRequirement, Requirement
+from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 if __name__ == "__main__":
     # reference: https://github.com/python-pillow/Pillow/pull/6912/

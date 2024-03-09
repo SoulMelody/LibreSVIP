@@ -1,17 +1,12 @@
+import os
 import pathlib
 import subprocess
 
-import click
-from packaging.requirements import InvalidRequirement, Requirement
+from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
-@click.command()
-@click.option(
-    "--mingw-arch",
-    type=click.Choice(["mingw-w64-x86_64", "mingw-w64-clang-x86_64", "mingw-w64-ucrt-x86_64"]),
-    default="mingw-w64-x86_64",
-)
-def install_mingw_deps(mingw_arch: str) -> None:
+def install_mingw_deps() -> None:
+    mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
     new_requirements = []
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
@@ -39,6 +34,7 @@ def install_mingw_deps(mingw_arch: str) -> None:
             "-S",
             f"{mingw_arch}-libmediainfo",
             "--noconfirm",
+            "--needed",
         ]
     )
     requirements_path = cwd / "requirements.txt"
@@ -64,6 +60,7 @@ def install_mingw_deps(mingw_arch: str) -> None:
                             "-S",
                             f"{mingw_arch}-{mingw_native_package}",
                             "--noconfirm",
+                            "--needed",
                         ]
                     )
             else:
