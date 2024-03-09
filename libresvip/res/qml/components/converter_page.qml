@@ -1049,7 +1049,7 @@ Page {
                 delegate: ColumnLayout {
                     required property var modelData
                     Row {
-                        height: 30
+                        height: 25
                         Layout.fillWidth: true
                         Switch {
                             Layout.fillHeight: true
@@ -1068,14 +1068,15 @@ Page {
                             anchors.verticalCenter: parent.verticalCenter
                         }
                         Rectangle {
-                            width: 20
+                            width: 10
                             height: 1
                             color: "transparent"
                         }
                         IconButton {
                             icon_name: "mdi7.help-circle-outline"
                             anchors.verticalCenter: parent.verticalCenter
-                            diameter: 50
+                            diameter: 30
+                            new_padding: 6
                             cursor_shape: Qt.WhatsThisCursor
                             visible: modelData.description != ""
                             onClicked: {

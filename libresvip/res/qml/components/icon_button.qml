@@ -9,12 +9,15 @@ RoundButton {
     id: iconButton
     property string icon_name: ""
     property double diameter: 36
+    property int new_padding: 12
     property int cursor_shape: Qt.PointingHandCursor
 
     width: diameter
     height: diameter
+    padding: new_padding
 
     contentItem: Label {
+        anchors.centerIn: parent
         text: IconicFontLoader.icon(icon_name)
         font.family: "Material Design Icons"
         font.pixelSize: diameter * 0.56
