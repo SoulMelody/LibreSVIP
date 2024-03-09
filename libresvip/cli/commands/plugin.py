@@ -92,20 +92,14 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     if plugin.website:
         typer.echo("\n" + _("Website: ") + plugin.website)
     format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
-    typer.echo(
-        "\n"
-        + "{} {}.".format(
-            _("This plugin is applicable to"),
-            _(format_desc),
-        )
-    )
+    typer.echo("\n" + f'{_("This plugin is applicable to")} {_(format_desc)}.')
     typer.echo(
         _(
             "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
         ).format(plugin.suffix.lower(), plugin.suffix.lower())
     )
     if plugin.description:
-        typer.echo("\n{}\n{}".format(_("Description: "), _(plugin.description)))
+        typer.echo(f'\n{_("Description: ")}\n{_(plugin.description)}')
     op_arr = [_("input"), _("output")]
     options_arr = [
         get_type_hints(plugin.plugin_object.load).get("options", None),
@@ -119,11 +113,7 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
             if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(
                     "\n  "
-                    + "{} = {}    {}".format(
-                        _(field_info.title),
-                        field_info.annotation.__name__,
-                        _(field_info.description),
-                    )
+                    + f"{_(field_info.title)} = {field_info.annotation.__name__}    {_(field_info.description)}"
                 )
                 if field_info.default is not None:
                     typer.echo(f"\t{{}}{field_info.default}".format(_("Default: ")))
@@ -139,11 +129,7 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
             elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(
                     "\n  "
-                    + "{} = {}    {}".format(
-                        _(field_info.title),
-                        field_info.annotation.__name__,
-                        _(field_info.description),
-                    )
+                    + f"{_(field_info.title)} = {field_info.annotation.__name__}    {_(field_info.description)}"
                 )
                 typer.echo("  " + _("Available fields:"))
                 for field in field_info.annotation.model_fields.values():
