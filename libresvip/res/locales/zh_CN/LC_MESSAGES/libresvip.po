@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-10 00:14+0800\n"
-"PO-Revision-Date: 2024-03-09 16:15\n"
+"PO-Revision-Date: 2024-03-09 16:18\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -714,7 +714,7 @@ msgstr "全部是"
 
 #: QPlatformTheme%234
 msgid "N&o to All"
-msgstr ""
+msgstr "全部否"
 
 #: .acep.name
 msgid "ACE Studio"
