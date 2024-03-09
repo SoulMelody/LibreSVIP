@@ -12,11 +12,11 @@
         <translation>Cancel</translation>
     </message>
     <message>
-        <source>Yes to All</source>
+        <source>Yes to &amp;All</source>
         <translation>Yes to All</translation>
     </message>
     <message>
-        <source>No to All</source>
+        <source>No to &amp;All</source>
         <translation>No to All</translation>
     </message>
 </context>
