@@ -1,2 +1,2 @@
 #!/bin/bash
-msgcat --use-first -o ../translations/libresvip.po ../translations/libresvip_*.pot ../libresvip/plugins/*/*.pot
+msgcat --use-first -o ../translations/libresvip.po ../translations/*.pot ../libresvip/plugins/*/*.pot ../libresvip/middlewares/*/*.pot
