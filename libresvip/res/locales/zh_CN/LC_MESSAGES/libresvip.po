@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-09 23:06+0800\n"
-"PO-Revision-Date: 2024-03-09 15:25\n"
+"PO-Revision-Date: 2024-03-09 15:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -501,11 +501,11 @@ msgstr "导入选项： "
 
 #: ../libresvip/cli/commands/proj.py:58
 msgid "Enable {} middleware?"
-msgstr ""
+msgstr "启用 {} 中间件吗?"
 
 #: ../libresvip/cli/commands/proj.py:66
 msgid "Process Options: "
-msgstr ""
+msgstr "处理选项： "
 
 #: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:119
 msgid "Output Options: "
@@ -694,7 +694,7 @@ msgstr "高级选项"
 
 #: ../libresvip/web/pages.py:1359
 msgid "Intermediate Processing"
-msgstr ""
+msgstr "中间环节处理"
 
 #: ../libresvip/utils/audio.py:36
 msgid "Audio file not found: "
@@ -702,19 +702,19 @@ msgstr "未找到音频文件："
 
 #: QPlatformTheme%231
 msgid "OK"
-msgstr ""
+msgstr "确定"
 
 #: QPlatformTheme%232
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: QPlatformTheme%233
 msgid "Yes to All"
-msgstr ""
+msgstr "全部是"
 
 #: QPlatformTheme%234
 msgid "No to All"
-msgstr ""
+msgstr "全部否"
 
 #: .acep.name
 msgid "ACE Studio"
@@ -1587,11 +1587,11 @@ msgstr "预期外的枚举值"
 
 #: .svip.messages[1]
 msgid "Note duration is too short:"
-msgstr ""
+msgstr "音符时长过短："
 
 #: .svip.messages[2]
 msgid "Note duration is too long:"
-msgstr ""
+msgstr "音符时长过长："
 
 #: .svip.messages[3]
 msgid "Root not found"
@@ -1889,7 +1889,7 @@ msgstr "VocalShifter 工程文件"
 
 #: .vshp.description
 msgid "Import parameters from VocalShifter project file."
-msgstr ""
+msgstr "从 VoralShifter 工程文件导入参数。"
 
 #: .vshp.load[0].title
 msgid "Convert wave pattern to singing pattern"
@@ -1985,19 +1985,19 @@ msgstr "元七七工程格式转换插件"
 
 #: .pitch_shift.name
 msgid "Pitch Shift"
-msgstr ""
+msgstr "音高变调"
 
 #: .pitch_shift.process[0].title
 msgid "Key transition of pitch"
-msgstr ""
+msgstr "音高变化量"
 
 #: .pitch_shift.process[0].description
 msgid "Pitch shift in semitones."
-msgstr ""
+msgstr "音高变化（以半音为单位）。"
 
 #: .project_zoom.name
 msgid "Project Zoom"
-msgstr ""
+msgstr "工程缩放"
 
 #: .project_zoom.description
 msgid "Zoom in/out project"
@@ -2005,7 +2005,7 @@ msgstr "缩放工程"
 
 #: .project_zoom.process[0].title
 msgid "Zoom factor"
-msgstr ""
+msgstr "缩放系数"
 
 #: .project_zoom.process[0].choices[0].text
 msgid "None"
@@ -2049,47 +2049,47 @@ msgstr "在不改变实际曲速的前提下同时改变Bpm数值与音符长度
 
 #: .pronounciation_conversion.name
 msgid "Pronounciation Conversion"
-msgstr ""
+msgstr "歌词发音转换"
 
 #: .pronounciation_conversion.description
 msgid "For Chinese and Japanese Lyrics"
-msgstr ""
+msgstr "仅限中文及日文歌词"
 
 #: .pronounciation_conversion.process[0].title
 msgid "Pronounciation conversion mode"
-msgstr ""
+msgstr "歌词发音转换模式"
 
 #: .pronounciation_conversion.process[0].choices[1].text
 msgid "Hanzi to Pinyin"
-msgstr ""
+msgstr "汉字转拼音"
 
 #: .pronounciation_conversion.process[0].choices[2].text
 msgid "To Romaji"
-msgstr ""
+msgstr "日文转罗马音"
 
 #: .pronounciation_conversion.process[0].choices[3].text
 msgid "To Hiragana"
-msgstr ""
+msgstr "日文转平假名"
 
 #: .pronounciation_conversion.process[0].choices[4].text
 msgid "To Katakana"
-msgstr ""
+msgstr "日文转片假名"
 
 #: .pronounciation_conversion.process[0].description
 msgid "Convert lyrics to the specified pronounciation format"
-msgstr ""
+msgstr "将歌词转换为指定的发音格式"
 
 #: .remove_short_silences.name
 msgid "Remove Short Silences"
-msgstr ""
+msgstr "移除短的无声间隙"
 
 #: .remove_short_silences.description
 msgid "Fill short rests"
-msgstr ""
+msgstr "填充短休止符"
 
 #: .remove_short_silences.process[0].title
 msgid "Max length to be processed (exclusive)"
-msgstr ""
+msgstr "适用该处理的最大长度(不含)"
 
 #: .remove_short_silences.process[0].choices[0].text
 msgid "Zero length note"
