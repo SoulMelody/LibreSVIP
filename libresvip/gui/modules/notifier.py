@@ -15,7 +15,6 @@ from PySide6.QtQml import QmlElement, QmlSingleton
 
 import libresvip
 from libresvip.core.compat import as_file
-from libresvip.core.config import settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -46,8 +45,6 @@ class Notifier(QObject):
             self.notifier._loop = event_loop
         except Exception:
             self.notifier = None
-        if settings.auto_check_for_updates:
-            self.check_for_updates()
 
     async def download_release(self, url: str, filename: str) -> None:
         app_dir.user_downloads_path.mkdir(parents=True, exist_ok=True)
@@ -73,6 +70,7 @@ class Notifier(QObject):
     @async_slot(result=None)
     async def check_for_updates(self) -> None:
         failed = False
+        logger.info("Checking for updates...")
         async with httpx.AsyncClient(
             follow_redirects=True, timeout=self.request_timeout, verify=False
         ) as client:

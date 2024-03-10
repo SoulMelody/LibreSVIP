@@ -90,4 +90,10 @@ FramelessWindow {
             TaskManager.reset_output_ext("")
         }
     }
+
+    Component.onCompleted: {
+        if (ConfigItems.get_bool("auto_check_for_updates")) {
+            Notifier.check_for_updates()
+        }
+    }
 }
