@@ -1,4 +1,5 @@
 import dataclasses
+import operator
 
 import more_itertools
 
@@ -63,7 +64,9 @@ class BasePitchGenerator:
                     y=point.y * 10 + note.tone * 100,
                     shape=point.shape,
                 )
-                for point in more_itertools.unique_justseen(note.pitch.data)
+                for point in more_itertools.unique_justseen(
+                    note.pitch.data, key=operator.attrgetter("x")
+                )
             ]
             if not pitch_points:
                 pitch_points.append(PitchPoint(x=note.position, y=note.tone * 100))
