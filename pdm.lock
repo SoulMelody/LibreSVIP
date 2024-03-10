@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:736c00872e9d77a47a7481f933d6dd77ce3eb2a9af7afa47bea21b5e1dae8b42"
+content_hash = "sha256:4b96306247beb2699fa83643365fff529b7d7c8b96a517cf4a116a7aafde20e9"
 
 [[package]]
 name = "aiofiles"
@@ -2262,12 +2262,12 @@ files = [
 
 [[package]]
 name = "pypinyin"
-version = "0.50.0"
+version = "0.51.0"
 requires_python = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*, <4"
 summary = "汉字拼音转换模块/工具."
 files = [
-    {file = "pypinyin-0.50.0-py2.py3-none-any.whl", hash = "sha256:a6ff9a58b8c3ba4599e5ebccf7fab7850257114be70c05a7baab435d1208358f"},
-    {file = "pypinyin-0.50.0.tar.gz", hash = "sha256:72e77c4b9b78bad102aca5fefccebdb23439b02717c626039be14a78643980fb"},
+    {file = "pypinyin-0.51.0-py2.py3-none-any.whl", hash = "sha256:ae8878f08fee15d0c5c11053a737e68a4158c22c63dc632b4de060af5c95bf84"},
+    {file = "pypinyin-0.51.0.tar.gz", hash = "sha256:cede34fc35a79ef6c799f161e2c280e7b6755ee072fb741cae5ce2a60c4ae0c5"},
 ]
 
 [[package]]
