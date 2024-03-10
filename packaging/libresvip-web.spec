@@ -30,6 +30,7 @@ a = Analysis(
     ],
     binaries=[],
     datas=[
+        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
     ] + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata"),
     hiddenimports=[

@@ -30,6 +30,7 @@ cli_a = Analysis(
     ],
     binaries=[],
     datas=[
+        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
     ] + collect_data_files("libresvip") + collect_data_files("xsdata"),
     hiddenimports=[
@@ -109,6 +110,7 @@ gui_a = Analysis(
     ],
     binaries=[],
     datas=[
+        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
     ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata"),
     hiddenimports=[
