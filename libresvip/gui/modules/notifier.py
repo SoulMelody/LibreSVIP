@@ -4,7 +4,7 @@ import platform
 import time
 from collections.abc import Awaitable, Sequence
 from functools import partial
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import httpx
 from desktop_notifier import Button, DesktopNotifier, Notification
@@ -14,13 +14,18 @@ from PySide6.QtCore import QObject, Slot
 from PySide6.QtQml import QmlElement, QmlSingleton
 
 import libresvip
+from libresvip.core.compat import as_file
 from libresvip.core.config import settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.utils.translation import gettext_lazy as _
 
-from .application import event_loop
+from .application import app, event_loop
 from .url_opener import open_path, open_url
 from .vendor.qasync import async_slot
+
+if TYPE_CHECKING:
+    from contextlib import AbstractContextManager
+    from pathlib import Path
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -35,9 +40,9 @@ class Notifier(QObject):
         self.request_timeout = 30
         self.last_notify_time: Optional[float] = None
         try:
-            self.notifier = DesktopNotifier(
-                app_name=PACKAGE_NAME, app_icon=res_dir / "libresvip.ico"
-            )
+            icon_path: AbstractContextManager[Path] = as_file(res_dir / "libresvip.ico")
+            app.aboutToQuit.connect(lambda: icon_path.__exit__(None, None, None))
+            self.notifier = DesktopNotifier(app_name=PACKAGE_NAME, app_icon=icon_path.__enter__())
             self.notifier._loop = event_loop
         except Exception:
             self.notifier = None
@@ -68,7 +73,9 @@ class Notifier(QObject):
     @async_slot(result=None)
     async def check_for_updates(self) -> None:
         failed = False
-        async with httpx.AsyncClient(follow_redirects=True, timeout=self.request_timeout) as client:
+        async with httpx.AsyncClient(
+            follow_redirects=True, timeout=self.request_timeout, verify=False
+        ) as client:
             try:
                 await self.clear_all_messages_async()
                 await self.notify_async(
