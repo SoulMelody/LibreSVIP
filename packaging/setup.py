@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import itertools
 import os
 import pathlib
 import sys
@@ -38,13 +39,22 @@ zip_includes: list[tuple[str, str]] = [
 ]
 zip_includes.extend(
     (
+        str(resource_file),
+        str(resource_file.as_posix())[3:],
+    )
+    for resource_file in pathlib.Path("../res").rglob("**/*.*")
+    if resource_file.is_file() and resource_file.suffix not in [".po", ".qml"]
+)
+zip_includes.extend(
+    (
         str(plugin_info),
         str(plugin_info.as_posix())[3:],
     )
-    for plugin_info in pathlib.Path("../libresvip/plugins").rglob("**/*.*")
-    if plugin_info.is_file()
-    and not plugin_info.name.endswith(".py")
-    and not plugin_info.name.endswith(".pyc")
+    for plugin_info in itertools.chain(
+        pathlib.Path("../libresvip/middlewares").rglob("**/*.*"),
+        pathlib.Path("../libresvip/plugins").rglob("**/*.*"),
+    )
+    if plugin_info.is_file() and plugin_info.suffix not in [".py", ".pyc"]
 )
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
