@@ -1,5 +1,7 @@
 import dataclasses
 
+import more_itertools
+
 from .model import PitchPoint, USTXProject, UVoicePart
 from .utils import music_math
 from .utils.time_axis import TimeAxis
@@ -49,10 +51,9 @@ class BasePitchGenerator:
             for i in range(start_index, end_index):
                 n_pos = (self.pitch_start + i * self.pitch_interval - note.position) / note.duration
                 point = note.vibrato.evaluate(n_pos, n_period, note)
-                pitches[i] = round(point[1] * 100)
+                pitches[i] = point[1] * 100
 
         for note in part.notes:
-            pitch_points = note.pitch.data
             pitch_points = [
                 PitchPoint(
                     x=self.time_axis.ms_pos_to_tick_pos(
@@ -62,9 +63,9 @@ class BasePitchGenerator:
                     y=point.y * 10 + note.tone * 100,
                     shape=point.shape,
                 )
-                for point in pitch_points
+                for point in more_itertools.unique_justseen(note.pitch.data)
             ]
-            if len(pitch_points) == 0:
+            if not pitch_points:
                 pitch_points.append(PitchPoint(x=note.position, y=note.tone * 100))
                 pitch_points.append(PitchPoint(x=note.end, y=note.tone * 100))
             if note == part.notes[0] and pitch_points[0].x > self.pitch_start:
