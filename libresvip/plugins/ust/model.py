@@ -59,7 +59,7 @@ ust_grammar = Grammar(
     ust_tag_entry = ust_note_head / ust_track_end
 
     utau_pitch_bend_mode =
-        "s" / "r" / "j" / ""
+        "s" / "r" / "j" / "null" / ""
 
     ust_pitch_bend_type =
         "5" / "OldData"
@@ -83,7 +83,7 @@ ust_grammar = Grammar(
         ("PBType" "=" ust_pitch_bend_type) /
         ("PBStart" "=" float) /
         (~"Piches|Pitches|PitchBend" "=" int ("," int)* ) /
-        ("PBS" "=" float (~";|," float)* ) /
+        ("PBS" "=" optional_float (~";|," optional_float)*) /
         ("PBW" "=" optional_float ("," optional_float)*) /
         ("PBY" "=" optional_float ("," optional_float)*) /
         ("VBR" "=" optional_float ("," optional_float)*) /
@@ -110,7 +110,7 @@ ust_grammar = Grammar(
     value = ~"[^\r\n]*"
     newline = ~"\r?\n"
     bool = "1" / "0" / "True" / "False"
-    optional_float = float?
+    optional_float = float / "null" / ""
     float = int frac? (~"[eE][+-]?" digits)?
     int = "-"? ((digit1to9 digits) / digit)
     frac = "." digits
@@ -171,7 +171,7 @@ class UTAUNote(BaseModel):
     pitchbend_start: Optional[float] = None
     pitchbend_type: Optional[UTAUPitchBendType] = None
     pitch_bend_points: list[int] = Field(default_factory=list)
-    pbs: list[float] = Field(default_factory=list)
+    pbs: list[OptionalFloat] = Field(default_factory=list)
     pbw: list[OptionalFloat] = Field(default_factory=list)
     pby: list[OptionalFloat] = Field(default_factory=list)
     pbm: list[UTAUPitchBendMode] = Field(default_factory=list)
@@ -308,7 +308,7 @@ class UstVisitor(NodeVisitor):
         return node.text
 
     def visit_utau_pitch_bend_mode(self, node: Node, visited_children: list[Any]) -> str:
-        return node.text
+        return "" if node.text == "null" else node.text
 
     def visit_ust_pitch_bend_type(self, node: Node, visited_children: list[Any]) -> str:
         return node.text
@@ -421,7 +421,11 @@ class UstVisitor(NodeVisitor):
         return float(node.text)
 
     def visit_optional_float(self, node: Node, visited_children: list[Any]) -> OptionalFloat:
-        return visited_children[0] if len(visited_children) == 1 else node.text
+        return (
+            visited_children[0]
+            if len(visited_children) == 1 and isinstance(visited_children[0], float)
+            else ""
+        )
 
     def generic_visit(self, node: Node, visited_children: list[Any]) -> Any:
         return visited_children or node

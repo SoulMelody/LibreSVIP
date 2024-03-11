@@ -110,8 +110,10 @@ class USTParser:
                 )
                 mode2_note_pitch_data = UtauMode2NotePitchData(
                     bpm=tempos[-1].bpm,
-                    start=note.pbs[0] if len(note.pbs) else None,
-                    start_shift=note.pbs[1] if len(note.pbs) > 1 else None,
+                    start=note.pbs[0] if len(note.pbs) and isinstance(note.pbs[0], float) else None,
+                    start_shift=note.pbs[1]
+                    if len(note.pbs) > 1 and isinstance(note.pbs[1], float)
+                    else None,
                     widths=[x or 0 for x in (note.pbw or [])],
                     shifts=[x or 0 for x in (note.pby or [])],
                     curve_types=note.pbm or [],
