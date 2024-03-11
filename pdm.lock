@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:f390a5c5ae33845a4f4c6d8446b1e962436f5335bf2154ce3d0d359487cead6d"
+content_hash = "sha256:5ddfcf84c141f7c572fe88efa3cdb6f5b80c7fa93173769fe60cc68e56b46271"
 
 [[package]]
 name = "aiofiles"
@@ -2868,11 +2868,12 @@ files = [
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.12.12"
+version = "6.0.12.20240311"
+requires_python = ">=3.8"
 summary = "Typing stubs for PyYAML"
 files = [
-    {file = "types-PyYAML-6.0.12.12.tar.gz", hash = "sha256:334373d392fde0fdf95af5c3f1661885fa10c52167b14593eb856289e1855062"},
-    {file = "types_PyYAML-6.0.12.12-py3-none-any.whl", hash = "sha256:c05bc6c158facb0676674b7f11fe3960db4f389718e19e62bd2b84d6205cfd24"},
+    {file = "types-PyYAML-6.0.12.20240311.tar.gz", hash = "sha256:a9e0f0f88dc835739b0c1ca51ee90d04ca2a897a71af79de9aec5f38cb0a5342"},
+    {file = "types_PyYAML-6.0.12.20240311-py3-none-any.whl", hash = "sha256:b845b06a1c7e54b8e5b4c683043de0d9caf205e7434b3edc678ff2411979b8f6"},
 ]
 
 [[package]]
@@ -2887,11 +2888,12 @@ files = [
 
 [[package]]
 name = "types-zstd"
-version = "1.5.0.3"
+version = "1.5.0.20240311"
+requires_python = ">=3.8"
 summary = "Typing stubs for zstd"
 files = [
-    {file = "types-zstd-1.5.0.3.tar.gz", hash = "sha256:503dbc46b5533fbf2edfe60595e2d5f6ca0194ec8406d3f19519d5ba9f9d5f19"},
-    {file = "types_zstd-1.5.0.3-py3-none-any.whl", hash = "sha256:82fb517089d7bbcb384da944a7cb53666c3077b77fb795a72f57466d0c4d24c4"},
+    {file = "types-zstd-1.5.0.20240311.tar.gz", hash = "sha256:3174dce9c52074a56e5fb0275f9267aebc14f2939672a6ddb55e06f5dd907fd1"},
+    {file = "types_zstd-1.5.0.20240311-py3-none-any.whl", hash = "sha256:cb09b891ccbf824a55d8caa9aae575888561a732026ee9e1a058cdd9129c867d"},
 ]
 
 [[package]]
