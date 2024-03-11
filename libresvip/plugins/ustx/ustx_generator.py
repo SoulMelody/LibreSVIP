@@ -210,4 +210,5 @@ class UstxGenerator:
                 pitd.ys.append(
                     round((y2 - y1) * (time - x1) / (x2 - x1) + y1 - int(base_pitch[i]))
                 )  # 线性插值
-        part.curves.append(pitd)
+        if not pitd.is_empty:
+            part.curves.append(pitd)
