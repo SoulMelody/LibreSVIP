@@ -190,7 +190,10 @@ def pitch_from_utau_mode2_track(
             )
         last_note = note
     pitch_points.extend(pending_pitch_points)
-    return RelativePitchCurve().to_absolute(pitch_points, notes)
+    return RelativePitchCurve(
+        lower_bound=notes[0].start_pos,
+        upper_bound=notes[-1].end_pos,
+    ).to_absolute(pitch_points, notes)
 
 
 def fix_points_at_last_note(

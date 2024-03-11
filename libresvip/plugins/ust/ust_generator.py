@@ -80,7 +80,7 @@ class USTGenerator:
                 lyric=note.lyric,
                 length=note.length,
                 note_num=note.key_number,
-                pitch_bend_points=mode1_pitch.pitch_points,
+                pitch_bend_points=mode1_pitch.pitch_points if mode1_pitch is not None else [],
                 pitchbend_type="5",
                 pitchbend_start=0,
             )
