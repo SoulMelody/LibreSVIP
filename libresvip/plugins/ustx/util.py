@@ -55,19 +55,23 @@ class BasePitchGenerator:
                 pitches[i] = point[1] * 100
 
         for note in part.notes:
-            pitch_points = [
-                PitchPoint(
-                    x=self.time_axis.ms_pos_to_tick_pos(
-                        self.time_axis.tick_pos_to_ms_pos(part.position + note.position) + point.x
-                    )
-                    - part.position,
-                    y=point.y * 10 + note.tone * 100,
-                    shape=point.shape,
+            pitch_points = list(
+                more_itertools.unique_justseen(
+                    (
+                        PitchPoint(
+                            x=self.time_axis.ms_pos_to_tick_pos(
+                                self.time_axis.tick_pos_to_ms_pos(part.position + note.position)
+                                + point.x
+                            )
+                            - part.position,
+                            y=point.y * 10 + note.tone * 100,
+                            shape=point.shape,
+                        )
+                        for point in note.pitch.data
+                    ),
+                    key=operator.attrgetter("x"),
                 )
-                for point in more_itertools.unique_justseen(
-                    note.pitch.data, key=operator.attrgetter("x")
-                )
-            ]
+            )
             if not pitch_points:
                 pitch_points.append(PitchPoint(x=note.position, y=note.tone * 100))
                 pitch_points.append(PitchPoint(x=note.end, y=note.tone * 100))
