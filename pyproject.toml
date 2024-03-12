@@ -71,6 +71,7 @@ ujson = ["ujson>=5.9.0"]
 upath = [
   "universal-pathlib<1.0.0,>=0.2.2",
 ]
+ruamel_yaml = ["ruamel.yaml>=0.18.6"]
 webui = [
     "nicegui[native]>=1.4.18",
     "libresvip[upath]",
@@ -124,7 +125,7 @@ test = ["pytest>=8.1.1", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
 includes = ["libresvip"]
-excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*/LC_MESSAGES/libresvip.po", "libresvip/plugins/*/*.pot", "**/.mypy_cache"]
+excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*/LC_MESSAGES/libresvip.po", "libresvip/middlewares/*/*.pot", "libresvip/plugins/*/*.pot", "**/.mypy_cache"]
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
