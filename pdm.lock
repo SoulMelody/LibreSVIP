@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:a19a55b7af8db361e7c48e6dc0e7741ff1e1e4a62f3a74247e416c47746ba599"
+content_hash = "sha256:d3b1ba77e7f9ca96514a92e7790b1ff4b07a13d9277a7645a357fea15085ea59"
 
 [[package]]
 name = "aiofiles"
@@ -1096,15 +1096,15 @@ files = [
 
 [[package]]
 name = "importlib-resources"
-version = "6.2.0"
+version = "6.3.0"
 requires_python = ">=3.8"
 summary = "Read resources from Python packages"
 dependencies = [
     "zipp>=3.1.0; python_version < \"3.10\"",
 ]
 files = [
-    {file = "importlib_resources-6.2.0-py3-none-any.whl", hash = "sha256:8d035473d681d9bb95d06a31ad18594962933405519d36f4af1565fe6f998ad6"},
-    {file = "importlib_resources-6.2.0.tar.gz", hash = "sha256:4351403cba8e3a1c03ff15b6bbea1cde4c6de00c705f49ea13909b404b415b9c"},
+    {file = "importlib_resources-6.3.0-py3-none-any.whl", hash = "sha256:783407aa1cd05550e3aa123e8f7cfaebee35ffa9cb0242919e2d1e4172222705"},
+    {file = "importlib_resources-6.3.0.tar.gz", hash = "sha256:166072a97e86917a9025876f34286f549b9caf1d10b35a1b372bffa1600c6569"},
 ]
 
 [[package]]
