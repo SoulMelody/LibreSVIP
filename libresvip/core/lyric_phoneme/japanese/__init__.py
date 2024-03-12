@@ -18,4 +18,5 @@ __all__ = [
 
 
 def to_romaji(word: str, **kwargs: Any) -> str:
+    kwargs.setdefault("custom_romaji_mapping", {"っ": "cl"})
     return _to_romaji(word, **kwargs) if word else ""
