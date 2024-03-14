@@ -464,6 +464,8 @@ class SVDatabase(BaseModel):
 
 class SVRef(BaseModel):
     audio: Optional[SVAudio] = None
+    blick_absolute_begin: Optional[int] = Field(0, alias="blickAbsoluteBegin")
+    blick_absolute_end: Optional[int] = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")
     pitch_offset: int = Field(default=0, alias="pitchOffset")
     pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")

@@ -67,7 +67,7 @@ class SigmoidNode:
         power = 0.75
 
         left = self.center - self.start
-        if left >= _radius:
+        if left >= _radius or left == 0:
             k_l = self.k
             h_l = h
             d_l = 0.0
@@ -90,14 +90,14 @@ class SigmoidNode:
             / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
         )
 
-        r = self.end - self.center
-        if r >= _radius:
+        right = self.end - self.center
+        if right >= _radius or right == 0:
             k_r = self.k
             h_r = h
             d_r = 0.0
         else:
-            ar = a * math.pow(_radius / r, power)
-            br = r / _radius
+            ar = a * math.pow(_radius / right, power)
+            br = right / _radius
             cr = ar * br * self.k / (2 * ar - 1)
             k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
             h_r = h * k_r / (2 * k_r - self.k)
@@ -135,10 +135,8 @@ class BaseLayerGenerator:
         for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
-            if (
-                current_note.slide_right
-                and next_note.slide_left
-                and next_note.start - current_note.end <= MAX_BREAK
+            if (diameter := current_note.slide_right + next_note.slide_left) and (
+                next_note.start - current_note.end <= MAX_BREAK
             ):
                 start = clamp(
                     current_note.end - current_note.slide_right + next_note.slide_offset,
@@ -160,7 +158,7 @@ class BaseLayerGenerator:
                         _start=start,
                         _end=end,
                         _center=mid,
-                        _radius=(current_note.slide_right + next_note.slide_left) / 2,
+                        _radius=diameter / 2,
                         _key_left=current_note.key,
                         _key_right=next_note.key,
                     )
