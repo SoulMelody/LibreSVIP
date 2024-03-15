@@ -97,7 +97,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.25.4",
-  "gapic-generator>=1.14.5",
+  "gapic-generator>=1.15.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
@@ -105,7 +105,7 @@ code_gen = [
 i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
 linting = [
   "pre-commit>=3.6.2",
-  "ruff>=0.3.2",
+  "ruff>=0.3.3",
   "mypy>=1.9.0",
   "sourcery>=1.15.0",
   "proto-plus-stubs>=0.7.0",
