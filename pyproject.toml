@@ -115,7 +115,7 @@ linting = [
   "types-zstd>=1.5.0.20240311; platform_python_implementation == \"PyPy\"",
 ]
 packaging = [
-  "cx-Freeze>=6.15.15",
+  "cx-Freeze>=6.15.16",
   "nuitka>=2.1.2",
   "pyinstaller>=6.5.0",
   "shellingham<2.0.0,>=1.5.4",
