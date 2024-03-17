@@ -340,6 +340,7 @@ Dialog {
         id: pluginsSettingsPage
         ListView {
             model: ConfigItems.qget("plugin_cadidates")
+            ScrollBar.vertical: ScrollBar {}
             delegate: CheckDelegate {
                 LayoutMirroring.enabled: true
                 text: qsTr(model.text)
