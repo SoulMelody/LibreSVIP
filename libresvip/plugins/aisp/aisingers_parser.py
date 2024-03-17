@@ -111,16 +111,17 @@ class AiSingersParser:
                 lyric=ais_note.lyric,
                 pronunciation=ais_note.pinyin,
             )
-            tick_step = note.length / len(ais_note.pit)
-            pitch_points.append(Point(x=note.start_pos + self.first_bar_length, y=-100))
-            for i in range(len(ais_note.pit)):
-                tick = note.start_pos + tick_step * i
-                pitch_points.append(
-                    Point(
-                        x=round(tick) + self.first_bar_length,
-                        y=round((note.key_number) * 100 + ais_note.pit[i] * 10),
+            if self.options.import_pitch:
+                tick_step = note.length / len(ais_note.pit)
+                pitch_points.append(Point(x=note.start_pos + self.first_bar_length, y=-100))
+                for i in range(len(ais_note.pit)):
+                    tick = note.start_pos + tick_step * i
+                    pitch_points.append(
+                        Point(
+                            x=round(tick) + self.first_bar_length,
+                            y=round((note.key_number) * 100 + ais_note.pit[i] * 10),
+                        )
                     )
-                )
-            pitch_points.append(Point(x=note.end_pos + self.first_bar_length, y=-100))
+                pitch_points.append(Point(x=note.end_pos + self.first_bar_length, y=-100))
             note_list.append(note)
         return note_list, pitch_points

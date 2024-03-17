@@ -178,7 +178,11 @@ class CeVIOParser:
                 notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
 
         cevio_track_pitch_data = None
-        if unit_node.song.parameter is not None and unit_node.song.parameter.log_f0 is not None:
+        if (
+            self.options.import_pitch
+            and unit_node.song.parameter is not None
+            and unit_node.song.parameter.log_f0 is not None
+        ):
             pitch_data_nodes: list[CeVIOData] = cast(
                 list[CeVIOData], unit_node.song.parameter.log_f0.data
             )

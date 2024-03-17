@@ -7,6 +7,11 @@ from typing import Annotated, Literal, Union
 from pydantic import Field, ValidationInfo, field_validator
 
 from libresvip.model.base import BaseModel
+from libresvip.model.option_mixins import (
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnablePitchImportationMixin,
+)
 
 from .model import AcepLyricsLanguage
 from .singers import DEFAULT_SINGER
@@ -70,7 +75,12 @@ class NormalizationArgument(BaseModel):
         return self.normalize_method != "none"
 
 
-class InputOptions(BaseModel):
+class InputOptions(
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     keep_all_pronunciation: bool = Field(
         default=False,
         title="Keep all pronunciation information",

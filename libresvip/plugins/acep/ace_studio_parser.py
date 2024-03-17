@@ -274,11 +274,17 @@ class AceParser:
 
             ace_params.energy = ace_params.energy.plus(normalized, 1.0, lambda x: x)
 
-        parameters = Params(
-            pitch=self.parse_pitch_curve(ace_params.pitch_delta, ace_note_list),
-            breath=self.parse_param_curve(ace_params.breathiness, linear_transform(0.2, 1, 2.5)),
-            gender=self.parse_param_curve(ace_params.gender, linear_transform(-1, 0, 1)),
-        )
+        parameters = Params()
+        if self.options.import_pitch:
+            parameters.pitch = self.parse_pitch_curve(ace_params.pitch_delta, ace_note_list)
+        if self.options.import_breath:
+            parameters.breath = self.parse_param_curve(
+                ace_params.breathiness, linear_transform(0.2, 1, 2.5)
+            )
+        if self.options.import_gender:
+            parameters.gender = self.parse_param_curve(
+                ace_params.gender, linear_transform(-1, 0, 1)
+            )
         if self.options.import_tension and self.options.import_energy:
             transform = linear_transform(0, 1, 2)
             parameters.volume = self.parse_param_curve(

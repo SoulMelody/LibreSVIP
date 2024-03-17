@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 
+from libresvip.model.option_mixins import EnablePitchImportationMixin
 
-class InputOptions(BaseModel):
+
+class InputOptions(EnablePitchImportationMixin, BaseModel):
     pass
 
 
