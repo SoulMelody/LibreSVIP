@@ -9,6 +9,7 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Point,
     Project,
     SingingTrack,
     SongTempo,
@@ -138,6 +139,9 @@ class VsqxParser:
                     tick_prefix,
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
+            if len(singing_track.edited_params.pitch.points.root):
+                singing_track.edited_params.pitch.points.root.insert(0, Point.start_point())
+                singing_track.edited_params.pitch.points.root.append(Point.end_point())
             singing_tracks.append(singing_track)
         return singing_tracks
 

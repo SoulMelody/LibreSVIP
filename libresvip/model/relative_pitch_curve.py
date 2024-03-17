@@ -74,25 +74,12 @@ class RelativePitchCurve:
         if not len(note_list):
             return converted_data
         interval_dict = get_interval_dict(note_list, to_absolute)
-        note_index, prev_index = 0, -1
         prev_y = None
         for point in points:
-            if note_index < 0:
-                continue
-            elif note_index > prev_index:
-                if to_absolute and not converted_data:
-                    if self.lower_bound == 0:
-                        converted_data.append(Point.start_point())
-                    converted_data.append(
-                        Point(x=int(self.lower_bound) + self.first_bar_length, y=-100)
-                    )
-                prev_index = note_index
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
-            while note_index < len(note_list) - 1 and note_list[note_index + 1].start_pos <= pos:
-                note_index += 1
             cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
             if (
-                point.y != -100
+                (to_absolute or point.y != -100)
                 and prev_y is not None
                 and converted_data
                 and cur_x - converted_data[-1].x > self.pitch_interval
@@ -111,23 +98,25 @@ class RelativePitchCurve:
                     y = 0
                 else:
                     y = point.y + (base_key if to_absolute else -base_key) * 100
+                if to_absolute and len(converted_data) and converted_data[-1].y == -100:
+                    converted_data.append(Point(x=cur_x, y=-100))
                 cur_point = Point(x=cur_x, y=round(y))
                 converted_data.append(cur_point)
-                if point.y == -100:
-                    prev_y = None
-                elif to_absolute:
-                    prev_y = point.y
+                if to_absolute:
+                    if point.y:
+                        prev_y = point.y
+                    else:
+                        converted_data.append(Point(x=cur_x, y=-100))
+                        prev_y = None
                 else:
-                    prev_y = y
+                    prev_y = None if point.y == -100 else y
             else:
                 prev_y = None
         if converted_data and to_absolute:
+            if self.lower_bound == 0:
+                converted_data.insert(0, Point.start_point())
             if self.upper_bound == portion.inf:
                 converted_data.extend((converted_data[-1]._replace(y=-100), Point.end_point()))
-            else:
-                converted_data.append(
-                    Point(x=int(self.upper_bound) + self.first_bar_length, y=-100)
-                )
         if not to_absolute:
             return self.append_points_at_borders(
                 converted_data, note_list, radius=border_append_radius
