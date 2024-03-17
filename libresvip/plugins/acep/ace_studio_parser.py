@@ -50,7 +50,6 @@ class AceParser:
     content_version: int = dataclasses.field(init=False)
     ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
-    ace_note_list: list[AcepNote] = dataclasses.field(init=False)
 
     def parse_project(self, ace_project: AcepProject) -> Project:
         project = Project()
@@ -85,7 +84,7 @@ class AceParser:
             track = SingingTrack(
                 ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
             )
-            self.ace_note_list = []
+            ace_note_list = []
             ace_params = AcepParams()
             for pattern in ace_track.patterns:
                 if len(pattern.notes) == 0:
@@ -96,12 +95,19 @@ class AceParser:
                     if note.pos + pattern.pos >= 0
                     and pattern.clip_pos <= note.pos < pattern.clip_pos + pattern.clip_dur
                 ]
+                prev_ace_note = None
                 for ace_note in ace_notes:
                     ace_note.dur = min(
                         ace_note.dur, pattern.clip_pos + pattern.clip_dur - ace_note.pos
                     )
                     ace_note.pos += pattern.pos
-                self.ace_note_list.extend(ace_notes)
+                    if (
+                        prev_ace_note is not None
+                        and prev_ace_note.pos + prev_ace_note.dur > ace_note.pos
+                    ):
+                        prev_ace_note.dur = ace_note.pos - prev_ace_note.pos
+                    prev_ace_note = ace_note
+                ace_note_list.extend(ace_notes)
 
                 def merge_curves(src: AcepParamCurveList, dst: AcepParamCurveList) -> None:
                     for curve in src.root:
@@ -132,9 +138,9 @@ class AceParser:
                     merge_curves(pattern.parameters.real_tension, ace_params.real_tension)
                 if self.options.energy_normalization.enabled:
                     merge_curves(pattern.parameters.real_energy, ace_params.real_energy)
-            self.ace_note_list.sort(key=operator.attrgetter("pos"))
-            track.note_list = [self.parse_note(ace_note) for ace_note in self.ace_note_list]
-            track.edited_params = self.parse_params(ace_params)
+            ace_note_list.sort(key=operator.attrgetter("pos"))
+            track.note_list = [self.parse_note(ace_note) for ace_note in ace_note_list]
+            track.edited_params = self.parse_params(ace_params, ace_note_list)
         else:
             return None
         track.title = ace_track.name
@@ -181,7 +187,7 @@ class AceParser:
             )
         return note
 
-    def parse_params(self, ace_params: AcepParams) -> Params:
+    def parse_params(self, ace_params: AcepParams, ace_note_list: list[AcepNote]) -> Params:
         def linear_transform(
             lower_bound: float, middle_value: float, upper_bound: float
         ) -> Callable[[float], int]:
@@ -269,7 +275,7 @@ class AceParser:
             ace_params.energy = ace_params.energy.plus(normalized, 1.0, lambda x: x)
 
         parameters = Params(
-            pitch=self.parse_pitch_curve(ace_params.pitch_delta),
+            pitch=self.parse_pitch_curve(ace_params.pitch_delta, ace_note_list),
             breath=self.parse_param_curve(ace_params.breathiness, linear_transform(0.2, 1, 2.5)),
             gender=self.parse_param_curve(ace_params.gender, linear_transform(-1, 0, 1)),
         )
@@ -316,12 +322,14 @@ class AceParser:
             )
         return parameters
 
-    def parse_pitch_curve(self, ace_curves: AcepParamCurveList) -> ParamCurve:
+    def parse_pitch_curve(
+        self, ace_curves: AcepParamCurveList, ace_note_list: list[AcepNote]
+    ) -> ParamCurve:
         curve = ParamCurve()
         curve.points.append(Point.start_point())
         if len(ace_curves.root) > 0:
             base_pitch = BasePitchCurve(
-                notes=self.ace_note_list,
+                notes=ace_note_list,
                 tempos=self.ace_tempo_list,
             )
             for ace_curve in ace_curves.root:
