@@ -1,9 +1,11 @@
 from pydantic import BaseModel, Field
 
+from libresvip.model.option_mixins import EnablePitchImportationMixin
+
 from .model import VocaloidLanguage
 
 
-class InputOptions(BaseModel):
+class InputOptions(EnablePitchImportationMixin, BaseModel):
     extract_audio: bool = Field(
         False,
         title="Extract audio",

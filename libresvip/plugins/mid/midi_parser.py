@@ -212,7 +212,7 @@ class MidiParser:
                         else:
                             # Remove the last note on for this instrument
                             del last_note_on[key]
-                elif event.type == "pitchwheel":
+                elif event.type == "pitchwheel" and self.options.import_pitch:
                     # Create pitch bend class instance
                     rel_pitch_points.append(
                         Point(
@@ -225,36 +225,38 @@ class MidiParser:
                         )
                     )
                 elif event.type == "control_change":
-                    if (
-                        event.is_cc(ControlChange.DATA_ENTRY)
-                        and len(pitchbend_range_changed[event.time]) >= 2
-                    ):
-                        pitch_bend_sensitivity = event.value
-                    elif (
-                        event.is_cc(ControlChange.RPN_MSB)
-                        and event.value == 0
-                        or event.is_cc(ControlChange.RPN_LSB)
-                        and event.value == 0
-                    ):
-                        pitchbend_range_changed[event.time].append(event.value)
-                    elif event.is_cc(ControlChange.EXPRESSION) and event.value:
-                        expression.points.append(
-                            Point(
-                                round(event.time * self.tick_rate),
-                                round(volume_base + cc11_to_db_change(event.value)),
+                    if self.options.import_pitch:
+                        if (
+                            event.is_cc(ControlChange.DATA_ENTRY)
+                            and len(pitchbend_range_changed[event.time]) >= 2
+                        ):
+                            pitch_bend_sensitivity = event.value
+                        elif (
+                            event.is_cc(ControlChange.RPN_MSB)
+                            and event.value == 0
+                            or event.is_cc(ControlChange.RPN_LSB)
+                            and event.value == 0
+                        ):
+                            pitchbend_range_changed[event.time].append(event.value)
+                    if self.options.import_volume:
+                        if event.is_cc(ControlChange.EXPRESSION) and event.value:
+                            expression.points.append(
+                                Point(
+                                    round(event.time * self.tick_rate),
+                                    round(volume_base + cc11_to_db_change(event.value)),
+                                )
                             )
-                        )
-                    elif event.is_cc(ControlChange.VOLUME) and event.value:
-                        volume_base = velocity_to_db_change(event.value)
-            rel_pitch_points.sort(key=operator.attrgetter("x"))
-            pitch = RelativePitchCurve(self.first_bar_length).to_absolute(rel_pitch_points, notes)
-            edited_params = Params(
-                pitch=pitch,
-                volume=expression,
-            )
+                        elif event.is_cc(ControlChange.VOLUME) and event.value:
+                            volume_base = velocity_to_db_change(event.value)
             if has_overlap(notes):
                 msg = _("Overlapping notes in track {}").format(track_idx)
                 warnings.warn(msg, NotesWarning)
+            edited_params = Params(volume=expression)
+            if self.options.import_pitch:
+                rel_pitch_points.sort(key=operator.attrgetter("x"))
+                edited_params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
+                    rel_pitch_points, notes
+                )
             if len(notes):
                 tracks.append(
                     SingingTrack(

@@ -155,7 +155,8 @@ class VoiSonaParser:
         time_signatures = shift_beat_list(time_signatures, 1)
         singing_track = SingingTrack(title=track.name, note_list=notes)
         if (
-            voisona_track_pitch_data is not None
+            self.options.import_pitch
+            and voisona_track_pitch_data is not None
             and (pitch := pitch_from_voisona_track(voisona_track_pitch_data)) is not None
         ):
             singing_track.edited_params.pitch = pitch

@@ -131,16 +131,22 @@ class VocaloidParser:
                         note_list=self.parse_notes(part.notes, part.pos, default_lyric),
                         ai_singer_name=self.comp_id2name.get(comp_id, ""),
                     )
-                    part_data = VocaloidPartPitchData(
-                        start_pos=part.pos,
-                        pit=part.get_controller_events(PITCH_BEND_NAME),
-                        pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
-                    )
                     if (
-                        part_pitch := pitch_from_vocaloid_parts(
-                            [part_data], singing_track.note_list, self.first_bar_length
+                        self.options.import_pitch
+                        and (
+                            part_data := VocaloidPartPitchData(
+                                start_pos=part.pos,
+                                pit=part.get_controller_events(PITCH_BEND_NAME),
+                                pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
+                            )
                         )
-                    ) is not None:
+                        and (
+                            part_pitch := pitch_from_vocaloid_parts(
+                                [part_data], singing_track.note_list, self.first_bar_length
+                            )
+                        )
+                        is not None
+                    ):
                         singing_track.edited_params.pitch = part_pitch
                     track_list.append(singing_track)
         return track_list

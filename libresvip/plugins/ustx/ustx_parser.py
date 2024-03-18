@@ -92,8 +92,9 @@ class UstxParser:
             )
             for i, ustx_track in enumerate(tracks)
         ]
-        for track in track_list:
-            track.edited_params.pitch.points.append(Point.start_point())
+        if self.options.import_pitch:
+            for track in track_list:
+                track.edited_params.pitch.points.append(Point.start_point())
         for voice_part in voice_parts:
             track_index = voice_part.track_no
             if track_index < len(track_list):
@@ -104,7 +105,8 @@ class UstxParser:
                 singing_track.title = voice_part.name
             notes = self.parse_notes(voice_part.notes, voice_part.position)
             singing_track.note_list.extend(notes)
-            singing_track.edited_params.pitch.points.root.extend(self.parse_pitch(voice_part))
+            if self.options.import_pitch:
+                singing_track.edited_params.pitch.points.root.extend(self.parse_pitch(voice_part))
         return [track for track in track_list if len(track.note_list)]
 
     def parse_pitch(self, part: UVoicePart) -> list[Point]:

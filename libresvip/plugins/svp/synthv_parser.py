@@ -377,42 +377,47 @@ class SynthVParser:
         sv_notes: list[SVNote],
         master_params: Optional[SVParameters] = None,
     ) -> Params:
-        return Params(
-            pitch=self.parse_pitch_curve(
+        params = Params()
+        if self.options.import_pitch:
+            params.pitch = self.parse_pitch_curve(
                 sv_params.pitch_delta,
                 sv_params.vibrato_env,
                 sv_notes,
                 5,
                 master_params.pitch_delta if master_params else None,
                 master_params.vibrato_env if master_params else None,
-            ),
-            volume=self.parse_param_curve(
+            )
+        if self.options.import_volume:
+            params.volume = self.parse_param_curve(
                 sv_params.loudness,
                 lambda val: round(val / 12.0 * 1000.0)
                 if val >= 0.0
                 else round(1000 * db_to_float(val) - 1000),
                 self.voice_settings.param_loudness or 0.0,
                 master_params.loudness if master_params else None,
-            ),
-            breath=self.parse_param_curve(
+            )
+        if self.options.import_breath:
+            params.breath = self.parse_param_curve(
                 sv_params.breathiness,
                 lambda val: round(val * 1000),
                 self.voice_settings.param_breathiness or 0.0,
                 master_params.breathiness if master_params else None,
-            ),
-            gender=self.parse_param_curve(
+            )
+        if self.options.import_gender:
+            params.gender = self.parse_param_curve(
                 sv_params.gender,
                 lambda val: round(val * -1000),
                 self.voice_settings.param_gender or 0.0,
                 master_params.gender if master_params else None,
-            ),
-            strength=self.parse_param_curve(
+            )
+        if self.options.import_strength:
+            params.strength = self.parse_param_curve(
                 sv_params.tension,
                 lambda val: round(val * 1000),
                 self.voice_settings.param_tension or 0.0,
                 master_params.tension if master_params else None,
-            ),
-        )
+            )
+        return params
 
     @staticmethod
     def parse_note(sv_note: SVNote, database: SVDatabase) -> Note:

@@ -1,18 +1,13 @@
 from pydantic import BaseModel, Field
 
-from libresvip.core.constants import DEFAULT_BPM
+from libresvip.model.option_mixins import StaticTempoMixin
 
 
 class InputOptions(BaseModel):
     pass
 
 
-class OutputOptions(BaseModel):
-    tempo: float = Field(
-        default=DEFAULT_BPM,
-        title="Constant tempo",
-        description="Use this tempo to reset time axis of projects with dynamic tempos",
-    )
+class OutputOptions(StaticTempoMixin, BaseModel):
     singer_name: str = Field(
         title="Singer name",
         description="Please enter the singer's English name.",

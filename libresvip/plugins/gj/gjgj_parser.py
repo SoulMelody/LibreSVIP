@@ -1,3 +1,4 @@
+import contextlib
 import dataclasses
 import math
 
@@ -160,10 +161,12 @@ class GjgjParser:
         return phones
 
     def parse_params(self, track: GjgjSingingTrack) -> Params:
-        return Params(
-            pitch=self.parse_pitch_curve(track.tone),
-            volume=self.parse_volume_curve(track.volume_map),
-        )
+        params = Params()
+        if self.options.import_pitch:
+            params.pitch = self.parse_pitch_curve(track.tone)
+        if self.options.import_volume:
+            params.volume = self.parse_volume_curve(track.volume_map)
+        return params
 
     def pitch_time_to_position(self, pitch_time: float) -> int:
         return round(pitch_time * 5) + self.first_bar_length
@@ -171,7 +174,7 @@ class GjgjParser:
     def parse_pitch_curve(self, tone: GjgjTone) -> ParamCurve:
         pitch_curve = ParamCurve()
         pitch_curve.points.append(Point.start_point())
-        try:
+        with contextlib.suppress(Exception):
             for mod_range in tone.modify_ranges:
                 left_point = Point(self.pitch_time_to_position(mod_range.x), -100)
                 right_point = Point(self.pitch_time_to_position(mod_range.y), -100)
@@ -188,8 +191,6 @@ class GjgjParser:
                     )
                     index += 1
                 pitch_curve.points.append(right_point)
-        except Exception:
-            pass
         pitch_curve.points.append(Point.end_point())
         return pitch_curve
 

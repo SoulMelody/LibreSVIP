@@ -147,7 +147,9 @@ class VsqParser:
             if vsq_track.has_section("EventList")
             else [],
         )
-        if pitch := self.parse_pitch(vsq_track, singing_track.note_list, tick_prefix):
+        if self.options.import_pitch and (
+            pitch := self.parse_pitch(vsq_track, singing_track.note_list, tick_prefix)
+        ):
             singing_track.edited_params.pitch = pitch
         return singing_track
 

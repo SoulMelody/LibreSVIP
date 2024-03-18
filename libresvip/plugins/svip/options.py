@@ -3,6 +3,14 @@ from typing import Annotated
 
 from pydantic import BaseModel, Field
 
+from libresvip.model.option_mixins import (
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnablePitchImportationMixin,
+    EnableStrengthImportationMixin,
+    EnableVolumeImportationMixin,
+)
+
 
 class BinarySvipVersion(Enum):
     AUTO: Annotated[
@@ -37,7 +45,14 @@ To avoid irretrievable data loss, it is strongly recommended not to use X Studio
     ] = "0.0.0"
 
 
-class InputOptions(BaseModel):
+class InputOptions(
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnablePitchImportationMixin,
+    EnableStrengthImportationMixin,
+    EnableVolumeImportationMixin,
+    BaseModel,
+):
     pass
 
 

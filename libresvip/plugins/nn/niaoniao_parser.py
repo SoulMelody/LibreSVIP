@@ -22,16 +22,12 @@ class NiaoNiaoParser:
     length_multiplier: int = dataclasses.field(init=False)
 
     def parse_project(self, nn_project: NNProject) -> Project:
-        if nn_project.info_line.version == 19:
-            self.length_multiplier = 60
-        else:
-            self.length_multiplier = 30
-        project = Project(
+        self.length_multiplier = 60 if nn_project.info_line.version == 19 else 30
+        return Project(
             song_tempo_list=self.parse_tempos(nn_project.info_line),
             time_signature_list=self.parse_time_signatures(nn_project.info_line.time_signature),
             track_list=self.parse_tracks(nn_project.notes),
         )
-        return project
 
     def parse_tempos(self, info_line: NNInfoLine) -> list[SongTempo]:
         return [SongTempo(bpm=info_line.tempo, position=0)]
@@ -70,7 +66,11 @@ class NiaoNiaoParser:
     def parse_params(self, notes: list[NNNote]) -> Params:
         params = Params()
         for nn_note in notes:
-            if nn_note.pitch.point_count > 0 and any(point != 50 for point in nn_note.pitch.points):
+            if (
+                self.options.import_pitch
+                and nn_note.pitch.point_count > 0
+                and any(point != 50 for point in nn_note.pitch.points)
+            ):
                 step = nn_note.duration * self.length_multiplier / (nn_note.pitch.point_count - 1)
                 pbs = nn_note.pitch_bend_sensitivity + 1
                 params.pitch.points.append(

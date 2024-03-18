@@ -4,6 +4,7 @@ from typing import Annotated
 from pydantic import BaseModel, Field
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.model.option_mixins import EnablePitchImportationMixin, EnableVolumeImportationMixin
 
 
 class MultiChannelOption(Enum):
@@ -12,7 +13,7 @@ class MultiChannelOption(Enum):
     CUSTOM: Annotated[str, Field(title="Custom import range")] = "custom"
 
 
-class InputOptions(BaseModel):
+class InputOptions(EnablePitchImportationMixin, EnableVolumeImportationMixin, BaseModel):
     import_lyrics: bool = Field(default=True, title="Import lyrics")
     lyric_encoding: str = Field(
         default="utf-8",

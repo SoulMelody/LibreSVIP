@@ -106,7 +106,8 @@ class PiaproStudioNTParser:
                 )
                 for parameter in track.parameters:
                     if (
-                        parameter.base_sequence is not None
+                        self.options.import_pitch
+                        and parameter.base_sequence is not None
                         and parameter.base_sequence.name == "pitch_bend"
                     ):
                         key_interval_dict = ppsf_key_interval_dict(track.events, event_track.notes)

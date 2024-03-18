@@ -133,10 +133,12 @@ class VsqxParser:
                     and v_voice.v_voice_name is not None
                 ):
                     singing_track.ai_singer_name = v_voice.v_voice_name
-                if pitch := self.parse_pitch(
-                    musical_part,
-                    note_list,
-                    tick_prefix,
+                if self.options.import_pitch and (
+                    pitch := self.parse_pitch(
+                        musical_part,
+                        note_list,
+                        tick_prefix,
+                    )
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
             if len(singing_track.edited_params.pitch.points.root):

@@ -125,7 +125,6 @@ class DeepVocalParser:
         track_list = []
         for dv_track in dv_singing_tracks:
             for i, segment in enumerate(dv_track.segments):
-                segment_pitch_data = []
                 note_with_pitch: list[DvNoteWithPitch] = []
                 tick_offset = segment.start
                 track = SingingTrack(
@@ -137,17 +136,22 @@ class DeepVocalParser:
                         segment.notes, note_with_pitch, tick_offset - self.tick_prefix
                     ),
                 )
-                segment_pitch_data = [
-                    DvSegmentPitchRawData(tick_offset - self.tick_prefix, segment.pitch_data)
-                ]
                 if (
-                    pitch := pitch_from_dv_track(
-                        self.first_bar_length,
-                        segment_pitch_data,
-                        note_with_pitch,
-                        tempo_list,
+                    self.options.import_pitch
+                    and (
+                        pitch := pitch_from_dv_track(
+                            self.first_bar_length,
+                            [
+                                DvSegmentPitchRawData(
+                                    tick_offset - self.tick_prefix, segment.pitch_data
+                                )
+                            ],
+                            note_with_pitch,
+                            tempo_list,
+                        )
                     )
-                ) is not None:
+                    is not None
+                ):
                     track.edited_params.pitch = pitch
                 track_list.append(track)
         return track_list

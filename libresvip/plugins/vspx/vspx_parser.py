@@ -91,7 +91,8 @@ class VocalSharpParser:
                 ai_singer_name=track.singer,
                 note_list=self.parse_notes(track.note),
             )
-            singing_track.edited_params.pitch = self.parse_pitch(track)
+            if self.options.import_pitch:
+                singing_track.edited_params.pitch = self.parse_pitch(track)
             tracks.append(singing_track)
         return tracks
 

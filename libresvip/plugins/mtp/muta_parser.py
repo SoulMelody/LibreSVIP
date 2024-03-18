@@ -84,7 +84,9 @@ class MutaParser:
                     solo=muta_track.solo,
                     note_list=self.parse_notes(part.notes, part.start),
                 )
-                if pitch := self.parse_pitch(part.params.pitch_data, part.start):
+                if self.options.import_pitch and (
+                    pitch := self.parse_pitch(part.params.pitch_data, part.start)
+                ):
                     singing_track.edited_params.pitch = pitch
                 track_list.append(singing_track)
         return track_list
