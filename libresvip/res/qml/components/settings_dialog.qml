@@ -12,6 +12,8 @@ Dialog {
     y: window.height / 2 - height / 2
     width: 700
     height: 500
+    padding: 5
+    topPadding: 5
     signal autoOpenSaveFolderChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
     signal autoDetectInputFormatChanged(bool value)
@@ -400,12 +402,13 @@ Dialog {
                 preferredHighlightEnd: width - 48
 
                 highlight: Item {
-                    z: 2
                     Rectangle {
-                        height: 2
+                        height: 46
                         width: settingsTabBar.width
                         y: settingsTabBar.position === T.TabBar.Footer ? 0 : parent.height - height
-                        color: settingsTabBar.Material.accentColor
+                        border.width: 1
+                        border.color: settingsTabBar.Material.accentColor
+                        color: "transparent"
                     }
                 }
             }

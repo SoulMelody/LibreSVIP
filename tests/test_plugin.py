@@ -80,14 +80,13 @@ def test_tssln_write(shared_datadir: pathlib.Path) -> None:
 def test_ustx_read(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    import yaml
-
     from libresvip.plugins.ustx.model import USTXProject
+    from libresvip.utils.yamlutils import load_yaml_1_2
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ustx"
         proj = USTXProject.model_validate(
-            yaml.safe_load(to_unicode(proj_path.read_bytes()))
+            load_yaml_1_2(to_unicode(proj_path.read_bytes()))
         )
         print(proj)
 
