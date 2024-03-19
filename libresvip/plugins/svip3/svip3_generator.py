@@ -1,9 +1,15 @@
 import dataclasses
+import re
+import warnings
+from typing import Any
 from urllib.parse import urljoin
 
+import pypinyin
 from google.protobuf import any_pb2
 
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import NotesWarning, PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -14,10 +20,18 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info, ratio_to_db
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import ratio_to_db
+from libresvip.utils.translation import gettext_lazy as _
 
 from .color_pool import random_color
-from .constants import TYPE_URL_BASE, Svip3TrackType
+from .constants import (
+    DEFAULT_SINGER_ID,
+    MAX_NOTE_DURATION,
+    MIN_NOTE_DURATION,
+    TYPE_URL_BASE,
+    Svip3TrackType,
+)
 from .model import (
     Svip3AudioPattern,
     Svip3AudioTrack,
@@ -30,11 +44,15 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
-from .singers import xstudio3_singers
+from .options import OutputOptions
+from .singers import singers_data
+
+PINYIN_PATTERN = re.compile(r"^[a-z]+$")
 
 
 @dataclasses.dataclass
 class Svip3Generator:
+    options: OutputOptions
     first_bar_length: int = dataclasses.field(init=False)
     song_tempo_list: list[SongTempo] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
@@ -64,9 +82,7 @@ class Svip3Generator:
         self.first_bar_length = round(first_signature.bar_length())
         return song_beat_list
 
-    def generate_song_tempos(
-        self, song_tempo_list: list[SongTempo]
-    ) -> list[Svip3SongTempo]:
+    def generate_song_tempos(self, song_tempo_list: list[SongTempo]) -> list[Svip3SongTempo]:
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return [
             Svip3SongTempo(
@@ -95,9 +111,7 @@ class Svip3Generator:
             svip3_track_list.append(svip3_track_container)
         return svip3_track_list
 
-    def generate_instrumental_track(
-        self, track: InstrumentalTrack, color: str
-    ) -> Svip3AudioTrack:
+    def generate_instrumental_track(self, track: InstrumentalTrack, color: str) -> Svip3AudioTrack:
         return Svip3AudioTrack(
             name=track.title,
             color=color,
@@ -116,10 +130,8 @@ class Svip3Generator:
     def generate_pan(pan: float) -> float:
         return pan * 10.0
 
-    def generate_audio_patterns(
-        self, track: InstrumentalTrack
-    ) -> list[Svip3AudioPattern]:
-        kwargs = {}
+    def generate_audio_patterns(self, track: InstrumentalTrack) -> list[Svip3AudioPattern]:
+        kwargs: dict[str, Any] = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
             audio_duration_in_secs = track_info.duration / 1000
             audio_duration_in_ticks = round(
@@ -137,7 +149,7 @@ class Svip3Generator:
                 kwargs["real_pos"] = -track.offset
             pattern_end = kwargs["real_pos"] + kwargs["play_dur"]
             if pattern_end > self.song_duration:
-                self.song_duration = round(pattern_end + 1920)
+                self.song_duration = round(pattern_end + self.first_bar_length)
         patterns = []
         if kwargs:
             kwargs |= {
@@ -147,9 +159,7 @@ class Svip3Generator:
             patterns.append(Svip3AudioPattern(**kwargs))
         return patterns
 
-    def generate_singing_track(
-        self, track: SingingTrack, color: str
-    ) -> Svip3SingingTrack:
+    def generate_singing_track(self, track: SingingTrack, color: str) -> Svip3SingingTrack:
         return Svip3SingingTrack(
             name=track.title,
             color=color,
@@ -157,23 +167,23 @@ class Svip3Generator:
             solo=track.solo,
             volume=self.to_decibel_volume(track.volume),
             pan=self.generate_pan(track.pan),
-            ai_singer_id=xstudio3_singers.get_uuid(track.ai_singer_name),
+            ai_singer_id=singers_data.inverse.get(track.ai_singer_name, DEFAULT_SINGER_ID),
             pattern_list=self.generate_singing_patterns(track),
         )
 
-    def generate_singing_patterns(
-        self, track: SingingTrack
-    ) -> list[Svip3SingingPattern]:
+    def generate_singing_patterns(self, track: SingingTrack) -> list[Svip3SingingPattern]:
+        if not track.note_list:
+            return []
         last_note = track.note_list[-1]
         if last_note.end_pos > self.song_duration:
-            self.song_duration = last_note.end_pos + 1920
+            self.song_duration = last_note.end_pos + self.first_bar_length
         return [
             Svip3SingingPattern(
                 name=track.title,
                 real_pos=0,
                 play_pos=0,
-                real_dur=last_note.end_pos + 1920,
-                play_dur=last_note.end_pos + 1920,
+                real_dur=last_note.end_pos + self.first_bar_length,
+                play_dur=last_note.end_pos + self.first_bar_length,
                 is_mute=track.mute,
                 note_list=self.generate_notes(track.note_list),
                 edited_pitch_line=self.generate_pitch_param(track.edited_params.pitch),
@@ -185,10 +195,7 @@ class Svip3Generator:
         for note in note_list:
             consonant_length = 0
             has_consonant = False
-            if (
-                note.edited_phones is not None
-                and note.edited_phones.head_length_in_secs > 0
-            ):
+            if note.edited_phones is not None and note.edited_phones.head_length_in_secs > 0:
                 has_consonant = True
                 phone_start_in_secs = (
                     self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
@@ -201,12 +208,33 @@ class Svip3Generator:
                     self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
                     - phone_start_in_ticks
                 )
+            if PINYIN_PATTERN.fullmatch(note.lyric) is not None:
+                pronunciation = note.lyric
+            elif note.pronunciation:
+                pronunciation = note.pronunciation
+            elif note.lyric and CHINESE_RE.fullmatch(note.lyric) is not None:
+                pronunciation = " ".join(pypinyin.lazy_pinyin(note.lyric))
+            else:
+                pronunciation = note.pronunciation or note.lyric
+            if note.lyric != "-" and PINYIN_PATTERN.fullmatch(pronunciation) is None:
+                msg_prefix = _("Unsupported pinyin:")
+                warnings.warn(f"{msg_prefix} {pronunciation}", PhonemeWarning)
+                pronunciation = ""
+            note_duration = self.synchronizer.get_duration_secs_from_ticks(
+                note.start_pos, note.end_pos
+            )
+            if note_duration < MIN_NOTE_DURATION:
+                msg_prefix = _("Note duration is too short:")
+                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+            elif note_duration > MAX_NOTE_DURATION:
+                msg_prefix = _("Note duration is too long:")
+                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,
                 key_index=note.key_number,
                 lyric=note.lyric,
-                pronouncing=note.pronunciation,
+                pronouncing=pronunciation,
                 consonant_len=consonant_length,
                 has_consonant=has_consonant,
                 sp_len=400 if note.head_tag == "V" else 0,

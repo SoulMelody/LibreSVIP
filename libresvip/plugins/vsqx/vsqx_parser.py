@@ -1,4 +1,6 @@
 import dataclasses
+import pathlib
+from enum import Enum
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_ENGLISH_LYRIC
@@ -7,6 +9,7 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
+    Point,
     Project,
     SingingTrack,
     SongTempo,
@@ -19,14 +22,15 @@ from .model import (
     Vsq4ParameterNames,
     Vsqx,
     VsqxMasterTrack,
-    VsqxMCtrl,
+    VsqxMusicalPart,
     VsqxNote,
-    VsqxParameterNames,
-    VsqxTempo,
-    VsqxTimeSig,
-    VsqxVsTrack,
-    VsqxVsUnit,
-    VsqxWavPart,
+    VsqxTempoList,
+    VsqxTimeSigList,
+    VsqxVsTrackList,
+    VsqxVsUnitList,
+    VsqxVVoice,
+    VsqxWavPartList,
+    VsqxWavUnitList,
 )
 from .options import InputOptions
 from .vocaloid_pitch import (
@@ -39,7 +43,10 @@ from .vocaloid_pitch import (
 @dataclasses.dataclass
 class VsqxParser:
     options: InputOptions
-    param_names: VsqxParameterNames = dataclasses.field(init=False)
+    src_path: pathlib.Path
+    param_names: type[Enum] = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
+    pc2voice: dict[int, VsqxVVoice] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, vsqx_project: Vsqx) -> Project:
         if vsqx_project.Meta.name == "vsq3":
@@ -47,29 +54,25 @@ class VsqxParser:
         elif vsqx_project.Meta.name == "vsq4":
             self.param_names = Vsq4ParameterNames
         master_track: VsqxMasterTrack = vsqx_project.master_track
-        measure_prefix = master_track.pre_measure
         tick_prefix, time_signatures = self.parse_time_signatures(
-            master_track.time_sig, measure_prefix
+            master_track.time_sig, master_track.pre_measure
         )
         tempos = self.parse_tempos(master_track.tempo, tick_prefix)
+        for v_voice in vsqx_project.v_voice_table.v_voice:
+            if v_voice.v_pc is not None:
+                self.pc2voice[v_voice.v_pc] = v_voice
         singing_tracks = self.parse_singing_tracks(
-            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix
+            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix, master_track.pre_measure
         )
-        wav_parts = []
-        wav_units = []
+        wav_parts: VsqxWavPartList = []
+        wav_units: VsqxWavUnitList = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part
-            wav_units += [vsqx_project.mixer.mono_unit] * len(
-                vsqx_project.mono_track.wav_part
-            )
+            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)  # type: ignore[list-item]
         if vsqx_project.stereo_track is not None:
             wav_parts += vsqx_project.stereo_track.wav_part
-            wav_units += [vsqx_project.mixer.stereo_unit] * len(
-                vsqx_project.stereo_track.wav_part
-            )
-        instrumental_tracks = self.parse_instrumental_tracks(
-            wav_parts, wav_units, tick_prefix
-        )
+            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)  # type: ignore[list-item]
+        instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -77,7 +80,7 @@ class VsqxParser:
         )
 
     def parse_time_signatures(
-        self, time_signatures: list[VsqxTimeSig], measure_prefix: int
+        self, time_signatures: VsqxTimeSigList, measure_prefix: int
     ) -> tuple[int, list[TimeSignature]]:
         time_signature_list = [
             TimeSignature(
@@ -91,15 +94,14 @@ class VsqxParser:
         measure = 0
         for time_sig in time_signature_list:
             measure_diff = time_sig.bar_index - measure
-            tick_prefix += measure_diff * time_sig.bar_length()
+            tick_prefix += measure_diff * round(time_sig.bar_length())
             measure += time_sig.bar_index
         measure_diff = measure_prefix - measure
-        tick_prefix += measure_diff * time_signature_list[-1].bar_length()
+        tick_prefix += measure_diff * round(time_signature_list[-1].bar_length())
+        self.first_bar_length = round(time_signature_list[0].bar_length())
         return int(tick_prefix), skip_beat_list(time_signature_list, measure_prefix)
 
-    def parse_tempos(
-        self, tempos: list[VsqxTempo], tick_prefix: int
-    ) -> list[SongTempo]:
+    def parse_tempos(self, tempos: VsqxTempoList, tick_prefix: int) -> list[SongTempo]:
         tempo_list = [
             SongTempo(
                 position=tempo.pos_tick,
@@ -111,9 +113,10 @@ class VsqxParser:
 
     def parse_singing_tracks(
         self,
-        vs_tracks: list[VsqxVsTrack],
-        vs_units: list[VsqxVsUnit],
+        vs_tracks: VsqxVsTrackList,
+        vs_units: VsqxVsUnitList,
         tick_prefix: int,
+        measure_prefix: int,
     ) -> list[SingingTrack]:
         singing_tracks = []
         for vs_track, vs_unit in zip(vs_tracks, vs_units):
@@ -121,65 +124,108 @@ class VsqxParser:
                 title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo
             )
             for musical_part in vs_track.musical_part:
-                tick_offset = musical_part.pos_tick - tick_prefix
-                note_list = self.parse_notes(musical_part.note, tick_prefix)
+                note_list = self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
                 singing_track.note_list.extend(note_list)
+                if (
+                    not singing_track.ai_singer_name
+                    and musical_part.singer
+                    and (v_voice := self.pc2voice.get(musical_part.singer[0].v_pc))
+                    and v_voice.v_voice_name is not None
+                ):
+                    singing_track.ai_singer_name = v_voice.v_voice_name
                 if pitch := self.parse_pitch(
-                    musical_part.m_ctrl, note_list, tick_offset
+                    musical_part,
+                    note_list,
+                    tick_prefix,
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
+            if len(singing_track.edited_params.pitch.points.root):
+                singing_track.edited_params.pitch.points.root.insert(0, Point.start_point())
+                singing_track.edited_params.pitch.points.root.append(Point.end_point())
             singing_tracks.append(singing_track)
         return singing_tracks
 
-    def parse_notes(self, notes: list[VsqxNote], tick_offset: int) -> list[Note]:
-        return [
-            Note(
-                start_pos=note.pos_tick + tick_offset,
-                length=note.dur_tick,
-                lyric=note.lyric or DEFAULT_ENGLISH_LYRIC,
-                pronunciation=note.phnms.value if note.phnms is not None else None,
-                key_number=note.note_num,
-            )
-            for note in notes
-        ]
+    def parse_notes(self, vsqx_notes: list[VsqxNote], tick_offset: int) -> list[Note]:
+        prev_vsqx_note = None
+        note_list: list[Note] = []
+        for vsqx_note in vsqx_notes:
+            if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC("):
+                note_list[-1].length += vsqx_note.dur_tick
+                continue
+            elif vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil", "?"]:
+                note = Note(
+                    start_pos=vsqx_note.pos_tick + tick_offset,
+                    length=vsqx_note.dur_tick,
+                    lyric=(vsqx_note.lyric or DEFAULT_ENGLISH_LYRIC).lower(),
+                    pronunciation=vsqx_note.phnms.value
+                    if (vsqx_note.phnms is not None and vsqx_note.phnms.lock == 1)
+                    else None,
+                    key_number=vsqx_note.note_num,
+                )
+                if (
+                    prev_vsqx_note is not None
+                    and prev_vsqx_note.phnms is not None
+                    and prev_vsqx_note.pos_tick + prev_vsqx_note.dur_tick == vsqx_note.pos_tick
+                    and prev_vsqx_note.phnms.value == "Sil"
+                ):
+                    note.head_tag = "0"
+                note_list.append(note)
+            prev_vsqx_note = vsqx_note
+        return note_list
 
     def parse_pitch(
-        self, music_controls: list[VsqxMCtrl], note_list: list[Note], tick_offset: int
+        self, musical_part: VsqxMusicalPart, note_list: list[Note], tick_offset: int
     ) -> Optional[ParamCurve]:
         pitch_data = VocaloidPartPitchData(
-            start_pos=tick_offset,
+            start_pos=musical_part.pos_tick - tick_offset,
             pit=[
                 ControllerEvent(
                     pos=music_control.pos_tick,
                     value=music_control.attr.value,
                 )
-                for music_control in music_controls
-                if music_control.attr.type_param_attr_id == self.param_names.PIT
+                for music_control in musical_part.m_ctrl
+                if music_control.attr.type_param_attr_id == self.param_names.PIT.value
+                and music_control.attr.value is not None
             ],
             pbs=[
                 ControllerEvent(
                     pos=music_control.pos_tick,
                     value=music_control.attr.value,
                 )
-                for music_control in music_controls
-                if music_control.attr.type_param_attr_id == self.param_names.PBS
+                for music_control in musical_part.m_ctrl
+                if music_control.attr.type_param_attr_id == self.param_names.PBS.value
+                and music_control.attr.value is not None
             ],
         )
-        return pitch_from_vocaloid_parts([pitch_data], note_list)
+        return pitch_from_vocaloid_parts(
+            [pitch_data],
+            note_list,
+            self.first_bar_length,
+            musical_part.pos_tick - tick_offset,
+            musical_part.pos_tick + musical_part.play_time - tick_offset,
+        )
 
     def parse_instrumental_tracks(
         self,
-        wav_parts: list[VsqxWavPart],
-        wav_units: list[VsqxVsUnit],
+        wav_parts: VsqxWavPartList,
+        wav_units: VsqxWavUnitList,
         tick_prefix: int,
     ) -> list[InstrumentalTrack]:
-        return [
-            InstrumentalTrack(
-                title=wav_part.part_name,
-                audio_file_path=wav_part.file_path,
-                offset=wav_part.pos_tick - tick_prefix,
-                mute=wav_unit.mute,
-                solo=wav_unit.solo,
+        instrumental_tracks = []
+        for wav_part, wav_unit in zip(wav_parts, wav_units):
+            if pathlib.Path(wav_part.file_path).is_absolute():
+                wav_path_str = wav_part.file_path
+            elif (wav_path := self.src_path.with_suffix(".wavparts") / wav_part.file_path).exists():
+                wav_path_str = str(wav_path)
+            else:
+                continue
+            instrumental_tracks.append(
+                InstrumentalTrack(
+                    title=wav_part.part_name,
+                    audio_file_path=wav_path_str,
+                    offset=wav_part.pos_tick - tick_prefix,
+                    mute=wav_unit.mute,
+                    solo=wav_unit.solo,
+                )
             )
-            for wav_part, wav_unit in zip(wav_parts, wav_units)
-        ]
+        return instrumental_tracks

@@ -13407,7 +13407,7 @@ class ScorePartwise:
             "type": "Element",
         },
     )
-    part_list: Optional[PartList] = field(
+    part_list: PartList = field(
         default_factory=PartList,
         metadata={
             "name": "part-list",

@@ -1,20 +1,22 @@
-from typing import Iterable
+from typing import Any
 
 from wanakana.japanese import (
     is_kana,
     is_romaji,
-    split_into_romaji,
+    to_hiragana,
+    to_katakana,
 )
+from wanakana.japanese import to_romaji as _to_romaji
 
 __all__ = [
     "is_kana",
     "is_romaji",
-    "get_romaji_series",
+    "to_hiragana",
+    "to_katakana",
+    "to_romaji",
 ]
 
 
-def get_romaji_series(
-    japanese_series: Iterable[str],
-) -> list[str]:
-    japanese_str = "".join(japanese_series)
-    return [romaji for _, _, romaji in split_into_romaji(japanese_str)]
+def to_romaji(word: str, **kwargs: Any) -> str:
+    kwargs.setdefault("custom_romaji_mapping", {"っ": "cl"})
+    return _to_romaji(word, **kwargs) if word else ""

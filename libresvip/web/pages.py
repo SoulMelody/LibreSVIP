@@ -1,10 +1,8 @@
 import argparse
 import asyncio
-import contextlib
 import dataclasses
 import enum
 import functools
-import gettext
 import io
 import math
 import pathlib
@@ -16,14 +14,26 @@ import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
-from typing import Any, BinaryIO, Optional, TypedDict, Union, get_args, get_type_hints
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    BinaryIO,
+    Optional,
+    SupportsFloat,
+    TypedDict,
+    Union,
+    get_args,
+    get_type_hints,
+)
 from urllib.parse import quote, unquote
 
+import aiofiles
 from nicegui import app, binding, ui
 from nicegui.context import get_client
+from nicegui.elements.switch import Switch
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.storage import request_contextvar
-from pydantic.warnings import PydanticDeprecationWarning
+from pydantic import create_model
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -35,10 +45,15 @@ import libresvip
 from libresvip.core.config import DarkMode, settings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
-from libresvip.utils import lazy_translation, shorten_error_message
+from libresvip.utils.text import shorten_error_message
+from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
+
+if TYPE_CHECKING:
+    from nicegui.elements.menu import Menu
+    from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
 
@@ -50,21 +65,21 @@ def dark_mode2str(mode: DarkMode) -> Optional[bool]:
         return True
 
 
-def int_validator(value: Union[int, float, str, None]) -> bool:
+def int_validator(value: Optional[SupportsFloat]) -> bool:
     if isinstance(value, int):
         return True
     elif isinstance(value, str):
         return value.replace("+", "-").removeprefix("-").isdigit()
-    elif value is None:
-        return False
-    else:
+    elif isinstance(value, float):
         return value.is_integer()
+    else:
+        return False
 
 
-def float_validator(value: Union[float, str, None]) -> bool:
-    try:
+def float_validator(value: Optional[SupportsFloat]) -> bool:
+    if isinstance(value, SupportsFloat):
         return not math.isnan(float(value))
-    except (ValueError, TypeError):
+    else:
         return False
 
 
@@ -116,17 +131,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         lang = "en_US"
     if lang != app.storage.user["lang"]:
         app.storage.user["lang"] = lang
-    translation = None
-    with contextlib.suppress(OSError):
-        translation = gettext.translation(
-            PACKAGE_NAME,
-            res_dir / "locales",
-            [lang],
-            fallback=True,
-        )
-
-    if translation is None:
-        translation = gettext.NullTranslations()
+    translation = get_translation(PACKAGE_NAME, lang)
 
     def _(message: str) -> str:
         if message.strip():
@@ -154,12 +159,12 @@ def page_layout(lang: Optional[str] = None) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
             with ui.element("div").classes("w-100 h-100") as icon:
-                icon._props[
-                    "style"
-                ] = f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
+                icon._props["style"] = (
+                    f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
+                )
             ui.separator().props("vertical")
             with ui.column().classes("justify-center flex-grow"):
-                ui.label(_(plugin_details[attr]["name"])).classes(
+                ui.label(_(plugin_details[attr]["name"] or "")).classes(
                     "text-h5 w-full font-bold text-center",
                 )
                 with ui.row().classes("w-full"):
@@ -179,14 +184,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.tooltip(plugin_details[attr]["website"])
                 with ui.element("q-chip").props("icon=outline_insert_drive_file"):
                     ui.label(
-                        _(plugin_details[attr]["file_format"])
+                        _(plugin_details[attr]["file_format"] or "")
                         + " "
                         + plugin_details[attr]["suffix"],
                     )
         ui.separator()
         with ui.card_section().classes("w-full"):
             ui.label(_("Introduction")).classes("text-subtitle1 font-bold")
-            ui.label(_(plugin_details[attr]["description"]))
+            ui.label(_(plugin_details[attr]["description"] or ""))
 
     input_plugin_info = ui.refreshable(functools.partial(plugin_info, "input_format"))
     output_plugin_info = ui.refreshable(functools.partial(plugin_info, "output_format"))
@@ -196,7 +201,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         with ui.row().classes("w-full items-center"):
             ui.icon(icon).classes("text-lg")
             ui.label(title).classes("text-subtitle1 font-bold")
-            ui.label(prefix + _(plugin_details[attr]["file_format"]) + "]").classes(
+            ui.label(prefix + _(plugin_details[attr]["file_format"] or "") + "]").classes(
                 "flex-grow",
             )
 
@@ -221,14 +226,14 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
-        plugin_input = plugin_manager.plugin_registry[attr]
+        conversion_plugin = plugin_manager.plugin_registry[attr]
         field_types = {}
         option_class = None
         if (
-            hasattr(plugin_input.plugin_object, method)
+            hasattr(conversion_plugin.plugin_object, method)
             and (
                 option_class := get_type_hints(
-                    getattr(plugin_input.plugin_object, method),
+                    getattr(conversion_plugin.plugin_object, method),
                 ).get("options")
             )
             and hasattr(option_class, "model_fields")
@@ -254,15 +259,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 option_class.model_fields.items(),
             ):
                 default_value = (
-                    None
-                    if field_info.default is PydanticUndefined
-                    else field_info.default
+                    None if field_info.default is PydanticUndefined else field_info.default
                 )
                 with ui.row().classes("items-center w-full") as row:
                     if i:
-                        row._props[
-                            "style"
-                        ] = """
+                        row._props["style"] = """
                             background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
                             background-size: 8px 1px;
                             background-repeat: repeat-x;
@@ -276,7 +277,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                             option_key,
                         ).classes("flex-grow")
                     elif issubclass(field_info.annotation, enum.Enum):
-                        default_value = default_value.value if default_value else None
                         annotations = get_type_hints(
                             field_info.annotation,
                             include_extras=True,
@@ -291,7 +291,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     enum_field = annotated_args[1]
                                 else:
                                     continue
-                                choices[enum_item.value] = _(enum_field.title)
+                                choices[enum_item] = _(enum_field.title)
                         ui.select(
                             choices,
                             label=_(field_info.title),
@@ -310,12 +310,16 @@ def page_layout(lang: Optional[str] = None) -> None:
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
                     elif issubclass(field_info.annotation, (int, float)):
-                        with ui.number(
-                            label=_(field_info.title),
-                            value=default_value,
-                        ).bind_value(option_dict, option_key).classes(
-                            "flex-grow",
-                        ) as num_input:
+                        with (
+                            ui.number(
+                                label=_(field_info.title),
+                                value=default_value,
+                            )
+                            .bind_value(option_dict, option_key)
+                            .classes(
+                                "flex-grow",
+                            ) as num_input
+                        ):
                             if issubclass(field_info.annotation, int):
                                 num_input.validation = {
                                     _("Invalid integer"): int_validator,
@@ -327,14 +331,128 @@ def page_layout(lang: Optional[str] = None) -> None:
                     else:
                         continue
                     if field_info.description:
-                        with ui.icon("help_outline").classes("text-3xl").style(
-                            "cursor: help",
+                        with (
+                            ui.icon("help_outline")
+                            .classes("text-3xl")
+                            .style(
+                                "cursor: help",
+                            )
                         ):
                             ui.tooltip(_(field_info.description))
 
     input_options = ui.refreshable(functools.partial(options_form, "input", "load"))
 
     output_options = ui.refreshable(functools.partial(options_form, "output", "dump"))
+
+    def middleware_options_form(attr: str, toggler: Switch) -> None:
+        conversion_plugin = middleware_manager.plugin_registry[attr]
+        field_types = {}
+        option_class = None
+        if (
+            hasattr(conversion_plugin.plugin_object, "process")
+            and (
+                option_class := get_type_hints(
+                    getattr(conversion_plugin.plugin_object, "process"),
+                ).get("options")
+            )
+            and hasattr(option_class, "model_fields")
+        ):
+            for option_key, field_info in option_class.model_fields.items():
+                if issubclass(
+                    field_info.annotation,
+                    (str, Color, enum.Enum, BaseComplexModel),
+                ):
+                    field_types[option_key] = str
+                else:
+                    field_types[option_key] = field_info.annotation
+        if not option_class or not field_types:
+            return
+        option_dict = getattr(selected_formats.middleware_options, attr)
+        with ui.column().classes("w-full").bind_visibility_from(toggler, "value"):
+            for i, (option_key, field_info) in enumerate(
+                option_class.model_fields.items(),
+            ):
+                default_value = (
+                    None if field_info.default is PydanticUndefined else field_info.default
+                )
+                with ui.row().classes("items-center w-full") as row:
+                    if i:
+                        row._props["style"] = """
+                            background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
+                            background-size: 8px 1px;
+                            background-repeat: repeat-x;
+                        """
+                    if issubclass(field_info.annotation, bool):
+                        ui.switch(
+                            _(field_info.title),
+                            value=default_value,
+                        ).bind_value(
+                            option_dict,
+                            option_key,
+                        ).classes("flex-grow")
+                    elif issubclass(field_info.annotation, enum.Enum):
+                        annotations = get_type_hints(
+                            field_info.annotation,
+                            include_extras=True,
+                        )
+                        choices = {}
+                        for enum_item in field_info.annotation:
+                            if enum_item.name in annotations:
+                                annotated_args = list(
+                                    get_args(annotations[enum_item.name]),
+                                )
+                                if len(annotated_args) >= 2:
+                                    enum_field = annotated_args[1]
+                                else:
+                                    continue
+                                choices[enum_item] = _(enum_field.title)
+                        ui.select(
+                            choices,
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif issubclass(field_info.annotation, Color):
+                        ui.color_input(
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                        if issubclass(field_info.annotation, BaseComplexModel):
+                            default_value = field_info.annotation.default_repr()
+                        ui.input(
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif issubclass(field_info.annotation, (int, float)):
+                        with (
+                            ui.number(
+                                label=_(field_info.title),
+                                value=default_value,
+                            )
+                            .bind_value(option_dict, option_key)
+                            .classes(
+                                "flex-grow",
+                            ) as num_input
+                        ):
+                            if issubclass(field_info.annotation, int):
+                                num_input.validation = {
+                                    _("Invalid integer"): int_validator,
+                                }
+                            else:
+                                num_input.validation = {
+                                    _("Invalid float"): float_validator,
+                                }
+                    else:
+                        continue
+                    if field_info.description:
+                        with (
+                            ui.icon("help_outline")
+                            .classes("text-3xl")
+                            .style(
+                                "cursor: help",
+                            )
+                        ):
+                            ui.tooltip(_(field_info.description))
 
     @dataclasses.dataclass
     class SelectedFormats:
@@ -347,11 +465,31 @@ def page_layout(lang: Optional[str] = None) -> None:
         )
 
         def __post_init__(self) -> None:
-            self.input_format = app.storage.user.get("last_input_format") or next(
+            self.middleware_enabled_states = create_model(
+                "middleware_enabled_states",
+                **{abbr: (bool, False) for abbr in middleware_manager.plugin_registry},
+            )()
+            self.middleware_options = create_model(
+                "middleware_options",
+                **{
+                    abbr: (options, options())
+                    for abbr, middleware in middleware_manager.plugin_registry.items()
+                    if (
+                        middleware.plugin_object is not None
+                        and hasattr(middleware.plugin_object, "process")
+                        and (
+                            options := get_type_hints(middleware.plugin_object.process).get(
+                                "options",
+                            )
+                        )
+                    )
+                },
+            )()
+            self.input_format = app.storage.user.get("last_input_format") or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
             )
-            self.output_format = app.storage.user.get("last_output_format") or next(
+            self.output_format = app.storage.user.get("last_output_format") or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
             )
@@ -407,12 +545,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.icon("check", size="lg").classes(
                             "text-green-500",
                         ).bind_visibility_from(info, "success")
-                        with ui.dialog() as error_dialog, ui.element(
-                            "q-banner",
-                        ).classes("bg-red-500 w-auto") as error_banner:
-                            with ui.scroll_area().classes(
-                                remove="nicegui-scroll-area",
-                            ).style("width: 500px; height: 16rem;"):
+                        with (
+                            ui.dialog() as error_dialog,
+                            ui.element(
+                                "q-banner",
+                            ).classes("bg-red-500 w-auto") as error_banner,
+                        ):
+                            with (
+                                ui.scroll_area()
+                                .classes(
+                                    remove="nicegui-scroll-area",
+                                )
+                                .style("width: 500px; height: 16rem;")
+                            ):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;",
                                 ).bind_text_from(
@@ -425,7 +570,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
                                         f"navigator.clipboard.writeText({repr(info.error)})",
-                                    ),
+                                    )
+                                    and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=error_dialog.close)
                         ui.button(
@@ -433,12 +579,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                             color="red",
                             on_click=error_dialog.open,
                         ).props("round").bind_visibility_from(info, "error")
-                        with ui.dialog() as warn_dialog, ui.element("q-banner").classes(
-                            "bg-yellow-500 w-auto",
-                        ) as warn_banner:
-                            with ui.scroll_area().classes(
-                                remove="nicegui-scroll-area",
-                            ).style("width: 500px; height: 16rem;"):
+                        with (
+                            ui.dialog() as warn_dialog,
+                            ui.element("q-banner").classes(
+                                "bg-yellow-500 w-auto",
+                            ) as warn_banner,
+                        ):
+                            with (
+                                ui.scroll_area()
+                                .classes(
+                                    remove="nicegui-scroll-area",
+                                )
+                                .style("width: 500px; height: 16rem;")
+                            ):
                                 ui.label().classes("text-lg").style(
                                     "word-break: break-all; white-space: pre-wrap;",
                                 ).bind_text_from(info, "warning", backward=str)
@@ -447,7 +600,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
                                         f"navigator.clipboard.writeText({repr(info.warning)})",
-                                    ),
+                                    )
+                                    and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=warn_dialog.close)
                         ui.button(
@@ -457,26 +611,29 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
-                            on_click=functools.partial(
-                                selected_formats.save_file, info.name
-                            ),
+                            on_click=functools.partial(selected_formats.save_file, info.name),
                         ).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props(
                             "round",
                         ):
                             ui.tooltip(_("Remove"))
 
-        def _add_task(self, name: str, content: BinaryIO) -> None:
+        async def _add_task(
+            self,
+            name: str,
+            content: Union[BinaryIO, aiofiles.threadpool.binary.AsyncBufferedReader],
+        ) -> None:
             if app.storage.user.get("auto_detect_input_format"):
                 cur_suffix = name.rpartition(".")[-1].lower()
-                if (
-                    cur_suffix in plugin_manager.plugin_registry
-                    and cur_suffix != self.input_format
-                ):
+                if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
             upload_path = self.temp_path / name
-            content.seek(0)
-            upload_path.write_bytes(content.read())
+            if isinstance(content, aiofiles.threadpool.binary.AsyncBufferedReader):
+                await content.seek(0)
+                upload_path.write_bytes(await content.read())
+            else:
+                content.seek(0)
+                upload_path.write_bytes(content.read())
             output_path = self.temp_path / str(uuid.uuid4())
             conversion_task = ConversionTask(
                 name=name,
@@ -490,10 +647,10 @@ def page_layout(lang: Optional[str] = None) -> None:
             self.files_to_convert[name] = conversion_task
             self.tasks_container.refresh()
 
-        def add_task(self, args: UploadEventArguments) -> None:
-            self._add_task(args.name, args.content)
+        async def add_task(self, args: UploadEventArguments) -> None:
+            await self._add_task(args.name, args.content)
 
-        @property
+        @property  # type: ignore[no-redef]
         def input_format(self) -> str:
             return self._input_format
 
@@ -508,7 +665,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 input_panel_header.refresh()
                 input_options.refresh()
 
-        @property
+        @property  # type: ignore[no-redef]
         def output_format(self) -> str:
             return self._output_format
 
@@ -534,30 +691,57 @@ def page_layout(lang: Optional[str] = None) -> None:
             try:
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always", BaseWarning)
-                    warnings.filterwarnings(
-                        "ignore", category=PydanticDeprecationWarning
-                    )
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
-                    input_option = get_type_hints(input_plugin.plugin_object.load).get(
-                        "options",
-                    )
-                    output_option = get_type_hints(
-                        output_plugin.plugin_object.dump,
-                    ).get("options")
-                    project = input_plugin.plugin_object.load(
-                        task.upload_path,
-                        input_option(**self.input_options),
-                    )
-                    task.output_path = task.output_path.with_suffix(
-                        f".{self.output_format}",
-                    )
-                    output_plugin.plugin_object.dump(
-                        task.output_path,
-                        project,
-                        output_option(**self.output_options),
-                    )
-                task.success = True
+                    if (
+                        input_plugin.plugin_object is None
+                        or (
+                            input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                                "options",
+                            )
+                        )
+                        is None
+                        or output_plugin.plugin_object is None
+                        or (
+                            output_option := get_type_hints(
+                                output_plugin.plugin_object.dump,
+                            ).get("options")
+                        )
+                        is None
+                    ):
+                        task.success = False
+                    else:
+                        project = input_plugin.plugin_object.load(
+                            task.upload_path,
+                            input_option(**self.input_options),
+                        )
+                        task.output_path = task.output_path.with_suffix(
+                            f".{self.output_format}",
+                        )
+                        for (
+                            middleware_abbr,
+                            enabled,
+                        ) in self.middleware_enabled_states.model_dump().items():
+                            if enabled:
+                                middleware = middleware_manager.plugin_registry[middleware_abbr]
+                                if middleware.plugin_object is not None and hasattr(
+                                    middleware.plugin_object, "process"
+                                ):
+                                    middleware_option = getattr(
+                                        self.middleware_options, middleware_abbr
+                                    )
+                                    project = middleware.plugin_object.process(
+                                        project,
+                                        middleware_option.model_validate(
+                                            middleware_option, from_attributes=True
+                                        ),
+                                    )
+                        output_plugin.plugin_object.dump(
+                            task.output_path,
+                            project,
+                            output_option(**self.output_options),
+                        )
+                        task.success = True
                 if len(w):
                     task.warning = "\n".join(str(warning.message) for warning in w)
             except Exception:
@@ -572,7 +756,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ThreadPoolExecutor(
                 max_workers=max(len(self.files_to_convert), 4),
             ) as executor:
-                futures: list[asyncio.Future] = [
+                futures: list[asyncio.Future[None]] = [
                     loop.run_in_executor(
                         executor,
                         self.convert_one,
@@ -603,9 +787,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 return Response(*result)
             raise HTTPException(404, "File not found")
 
-        def _export_one(
-            self, filename: str
-        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if (task := self.files_to_convert.get(filename)) and task.success:
                 return (
                     task.output_path.read_bytes(),
@@ -652,8 +834,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                     return
                 for file_path in file_paths:
                     path = pathlib.Path(file_path)
-                    with path.open("rb") as content:
-                        self._add_task(path.name, content)
+                    async with aiofiles.open(path, "rb") as content:
+                        await self._add_task(path.name, content)
             else:
                 ui.run_javascript("add_upload()")
 
@@ -664,18 +846,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                 import webview
 
                 result = None
-                if not file_name:
-                    result = self._export_all()
-                else:
-                    result = self._export_one(file_name)
+                result = self._export_one(file_name) if file_name else self._export_all()
                 if result is None:
                     ui.notify(_("Save failed!"), type="negative")
                     return
 
                 save_filename = unquote(
-                    result[2]["Content-Disposition"].removeprefix(
-                        "attachment; filename="
-                    )
+                    result[2]["Content-Disposition"].removeprefix("attachment; filename=")
                 )
                 save_path = await app.native.main_window.create_file_dialog(
                     webview.SAVE_DIALOG,
@@ -691,21 +868,25 @@ def page_layout(lang: Optional[str] = None) -> None:
                     return
                 elif not isinstance(save_path, str):  # list[str]
                     save_path = save_path[0]
-                pathlib.Path(save_path).write_bytes(result[0])
+                async with aiofiles.open(save_path, "wb") as content:
+                    await content.write(result[0])
                 ui.notify(_("Saved"), type="positive")
             else:
                 ui.download(f"/export/{cur_client.id}/{file_name}")
 
     dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
     selected_formats = SelectedFormats()
-    with ui.element("style") as style:  # fix icon position
-        style._text = textwrap.dedent(
+    ui.add_head_html(
+        textwrap.dedent(
             """
-        .q-icon {
-            justify-content: flex-end;
-        }
-        """,
+        <style>
+            .q-icon {
+                justify-content: flex-end;
+            }
+        </style>
+        """
         ).strip()
+    )  # fix icon position
 
     def swap_values() -> None:
         select_input.value, select_output.value = (
@@ -716,18 +897,23 @@ def page_layout(lang: Optional[str] = None) -> None:
     with ui.left_drawer(value=False) as drawer:
         pass
 
-    with ui.header(elevated=True).style("background-color: curious-blue").classes(
-        "items-center",
+    with (
+        ui.header(elevated=True)
+        .style("background-color: curious-blue")
+        .classes(
+            "items-center",
+        )
     ):
         ui.button(icon="menu", on_click=drawer.toggle)
+        convert_menu: Menu
+        input_formats_menu: Menu
+        output_formats_menu: Menu
+        theme_menu: Menu
+        lang_menu: Menu
+        help_menu: Menu
 
         async def handle_key(e: KeyEventArguments) -> None:
-            if (
-                e.modifiers.alt
-                or e.modifiers.ctrl
-                or e.modifiers.meta
-                or e.modifiers.shift
-            ):
+            if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
                 if e.modifiers.alt and e.action.keyup and not e.action.repeat:
                     if e.key == "c":
                         convert_menu.open()
@@ -768,9 +954,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     if formats_menu.value:
                         if count >= 10 + key:
                             next_focus = 10 * ((current_index // 10) + 1)
-                            next_focus = (
-                                key if next_focus + key >= count else next_focus + key
-                            )
+                            next_focus = key if next_focus + key >= count else next_focus + key
                             format_item.value = format_item._values[next_focus]
                         elif current_index != key:
                             format_item.value = format_item._values[key]
@@ -822,7 +1006,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 input_format_item = (
                     ui.radio(
                         {
-                            k: f"{i} " + _(v["file_format"]) + " " + v["suffix"]
+                            k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
                     )
@@ -838,7 +1022,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ui.menu() as output_formats_menu:
                 output_format_item = ui.radio(
                     {
-                        k: f"{i} " + _(v["file_format"]) + " " + v["suffix"]
+                        k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
                         for i, (k, v) in enumerate(plugin_details.items())
                     },
                 ).bind_value(selected_formats, "output_format")
@@ -873,15 +1057,11 @@ def page_layout(lang: Optional[str] = None) -> None:
             with ui.menu() as lang_menu:
                 ui.menu_item(
                     "简体中文",
-                    on_click=lambda: ui.open("/?lang=zh_CN")
-                    if lang != "zh_CN"
-                    else None,
+                    on_click=lambda: ui.navigate.to("/?lang=zh_CN") if lang != "zh_CN" else None,
                 )
                 ui.menu_item(
                     "English",
-                    on_click=lambda: ui.open("/?lang=en_US")
-                    if lang != "en_US"
-                    else None,
+                    on_click=lambda: ui.navigate.to("/?lang=en_US") if lang != "en_US" else None,
                 )
                 ui.menu_item("日本語").props("disabled")
         with ui.dialog() as about_dialog, ui.card():
@@ -919,187 +1099,289 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ui.button(_("Close"), on_click=about_dialog.close)
         with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
             ui.tooltip("Alt+H")
-            with ui.menu() as help_menu, ui.menu_item(on_click=about_dialog.open):
-                ui.tooltip("Alt+I")
-                with ui.row().classes("items-center"):
-                    ui.icon("info").classes("text-lg")
-                    ui.label(_("About"))
+            with ui.menu() as help_menu:
+                with ui.menu_item(on_click=about_dialog.open):
+                    ui.tooltip("Alt+I")
+                    with ui.row().classes("items-center"):
+                        ui.icon("info").classes("text-lg")
+                        ui.label(_("About"))
+                with ui.menu_item(), ui.row().classes("items-center"):
+                    ui.icon("text_snippet").classes("text-lg")
+                    ui.link(
+                        _("Documentation"),
+                        target="https://soulmelody.github.io/LibreSVIP",
+                        new_tab=True,
+                    )
 
-    with ui.card().classes("w-full").style("height: calc(100vh - 120px)"):
-        with ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter:
-            with main_splitter.before:
-                with ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
-                    with left_splitter.before, ui.card().classes("h-full w-full"):
-                        with ui.column().classes("w-full"):
-                            ui.label(_("Choose file format")).classes(
-                                "text-h5 font-bold",
-                            )
-                            with ui.grid().classes(
-                                "grid grid-cols-11 gap-4 w-full",
-                            ):
-                                select_input = (
-                                    ui.select(
-                                        {
-                                            k: _(v["file_format"]) + " " + v["suffix"]
-                                            for k, v in plugin_details.items()
-                                        },
-                                        label=_("Import format"),
-                                    )
-                                    .classes("col-span-10")
-                                    .bind_value(selected_formats, "input_format")
-                                )
-                                with ui.dialog() as input_info, ui.card():
-                                    input_plugin_info()
-                                    with ui.card_actions().props(
-                                        "align=right",
-                                    ).classes("w-full"):
-                                        ui.button(
-                                            _("Close"),
-                                            on_click=input_info.close,
-                                        )
-                                with ui.button(
-                                    icon="info",
-                                    on_click=input_info.open,
-                                ).classes(
-                                    "min-w-[45px] max-w-[45px] aspect-square",
-                                ):
-                                    ui.tooltip(_("View Detail Information"))
-                                ui.switch(_("Auto detect import format")).classes(
-                                    "col-span-5",
-                                ).bind_value(
-                                    app.storage.user,
-                                    "auto_detect_input_format",
-                                )
-                                ui.switch(
-                                    _("Reset list when import format changed"),
-                                ).classes("col-span-5").bind_value(
-                                    app.storage.user,
-                                    "reset_tasks_on_input_change",
-                                )
-                                with ui.button(
-                                    icon="swap_vert",
-                                    on_click=swap_values,
-                                ).classes("w-fit aspect-square").props("round"):
-                                    ui.tooltip(_("Swap Input and Output"))
-                                select_output = (
-                                    ui.select(
-                                        {
-                                            k: _(v["file_format"]) + " " + v["suffix"]
-                                            for k, v in plugin_details.items()
-                                        },
-                                        label=_("Export format"),
-                                    )
-                                    .classes("col-span-10")
-                                    .bind_value(selected_formats, "output_format")
-                                )
-                                with ui.dialog().classes(
-                                    "h-400 w-600",
-                                ) as output_info, ui.card():
-                                    output_plugin_info()
-                                    with ui.element("q-card-actions").props(
-                                        "align=right",
-                                    ).classes("w-full"):
-                                        ui.button(
-                                            _("Close"),
-                                            on_click=output_info.close,
-                                        )
-                                with ui.button(
-                                    icon="info",
-                                    on_click=output_info.open,
-                                ).classes(
-                                    "min-w-[45px] max-w-[45px] aspect-square",
-                                ):
-                                    ui.tooltip(_("View Detail Information"))
-                    with left_splitter.after:
-                        with ui.card().classes("w-full h-full") as tasks_card:
-                            ui.label(_("Import project")).classes("text-h5 font-bold")
-                            selected_formats.tasks_container()
-                            tasks_card.bind_visibility_from(
-                                selected_formats,
-                                "task_count",
-                                backward=bool,
-                            )
-                            uploader = ui.upload(
-                                multiple=True,
-                                on_upload=selected_formats.add_task,
-                                auto_upload=True,
-                            ).props("hidden")
-                            with QFab(
-                                icon="construction",
-                            ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
-                                with fab.add_slot("active-icon"):
-                                    ui.icon("construction").classes("rotate-45")
-                                fab.on(
-                                    "mouseenter",
-                                    functools.partial(fab.run_method, "show"),
-                                )
-                                QFabAction(
-                                    icon="refresh",
-                                    on_click=selected_formats.reset,
-                                ).tooltip(_("Clear Task List"))
-                                QFabAction(
-                                    icon="filter_alt_off",
-                                    on_click=selected_formats.filter_input_ext,
-                                ).tooltip(_("Remove Tasks With Other Extensions"))
-                            with ui.button(
-                                icon="add",
-                                on_click=selected_formats.add_upload,
-                            ).props("round").classes(
-                                "absolute bottom-0 right-2 m-2 z-10",
-                            ):
-                                ui.badge().props(
-                                    "floating color=orange",
-                                ).bind_text_from(
-                                    selected_formats,
-                                    "task_count",
-                                    backward=str,
-                                )
-                                ui.tooltip(_("Continue Adding files"))
-                        with ui.card().classes(
-                            "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
-                        ).style("cursor: pointer") as upload_card:
-                            upload_card.on("click", selected_formats.add_upload)
-                            upload_card.bind_visibility_from(
-                                selected_formats,
-                                "task_count",
-                                backward=not_,
-                            )
-                            ui.icon("file_upload").classes("text-6xl")
-                            ui.label(
-                                _("Drag and drop files here or click to upload"),
-                            ).classes("text-lg")
-            with main_splitter.after, ui.scroll_area().classes(
-                "w-full h-auto min-h-full"
+    with (
+        ui.card().classes("w-full").style("height: calc(100vh - 120px)"),
+        ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter,
+    ):
+        with main_splitter.before, ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
+            with (
+                left_splitter.before,
+                ui.card().classes("h-full w-full"),
+                ui.column().classes("w-full"),
             ):
-                with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
+                ui.label(_("Choose file format")).classes(
+                    "text-h5 font-bold",
+                )
+                with ui.grid().classes(
+                    "grid grid-cols-11 gap-4 w-full",
+                ):
+                    select_input: Select = (
+                        ui.select(
+                            {
+                                k: _(v["file_format"] or "") + " " + v["suffix"]
+                                for k, v in plugin_details.items()
+                            },
+                            label=_("Import format"),
+                        )
+                        .classes("col-span-10")
+                        .bind_value(selected_formats, "input_format")
+                    )
+                    with ui.dialog() as input_info, ui.card():
+                        input_plugin_info()
+                        with (
+                            ui.card_actions()
+                            .props(
+                                "align=right",
+                            )
+                            .classes("w-full")
+                        ):
+                            ui.button(
+                                _("Close"),
+                                on_click=input_info.close,
+                            )
                     with ui.button(
+                        icon="info",
+                        on_click=input_info.open,
+                    ).classes(
+                        "min-w-[45px] max-w-[45px] aspect-square",
+                    ):
+                        ui.tooltip(_("View Detail Information"))
+                    ui.switch(_("Auto detect import format")).classes(
+                        "col-span-5",
+                    ).bind_value(
+                        app.storage.user,
+                        "auto_detect_input_format",
+                    )
+                    ui.switch(
+                        _("Reset list when import format changed"),
+                    ).classes("col-span-5").bind_value(
+                        app.storage.user,
+                        "reset_tasks_on_input_change",
+                    )
+                    with (
+                        ui.button(
+                            icon="swap_vert",
+                            on_click=swap_values,
+                        )
+                        .classes("w-fit aspect-square")
+                        .props("round")
+                    ):
+                        ui.tooltip(_("Swap Input and Output"))
+                    select_output: Select = (
+                        ui.select(
+                            {
+                                k: _(v["file_format"] or "") + " " + v["suffix"]
+                                for k, v in plugin_details.items()
+                            },
+                            label=_("Export format"),
+                        )
+                        .classes("col-span-10")
+                        .bind_value(selected_formats, "output_format")
+                    )
+                    with (
+                        ui.dialog().classes(
+                            "h-400 w-600",
+                        ) as output_info,
+                        ui.card(),
+                    ):
+                        output_plugin_info()
+                        with (
+                            ui.card_actions()
+                            .props(
+                                "align=right",
+                            )
+                            .classes("w-full")
+                        ):
+                            ui.button(
+                                _("Close"),
+                                on_click=output_info.close,
+                            )
+                    with ui.button(
+                        icon="info",
+                        on_click=output_info.open,
+                    ).classes(
+                        "min-w-[45px] max-w-[45px] aspect-square",
+                    ):
+                        ui.tooltip(_("View Detail Information"))
+            with left_splitter.after:
+                with ui.card().classes("w-full h-full") as tasks_card:
+                    ui.label(_("Import project")).classes("text-h5 font-bold")
+                    selected_formats.tasks_container()
+                    tasks_card.bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    )
+                    uploader = ui.upload(
+                        multiple=True,
+                        on_upload=selected_formats.add_task,
+                        auto_upload=True,
+                    ).props("hidden")
+                    tasks_card.on(
+                        "dragover",
+                        js_handler="""(event) => {
+                        event.preventDefault()
+                    }""",
+                    )
+                    tasks_card.on(
+                        "drop",
+                        js_handler=f"""(event) => {{
+                        for (let file of event.dataTransfer.files) {{
+                            let file_name = file.name
+                            post_form('{uploader._props['url']}', {{
+                                file_name: file
+                            }})
+                        }}
+                        event.preventDefault()
+                    }}""",
+                    )
+                    with QFab(
+                        icon="construction",
+                    ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
+                        with fab.add_slot("active-icon"):
+                            ui.icon("construction").classes("rotate-45")
+                        fab.on(
+                            "mouseenter",
+                            functools.partial(fab.run_method, "show"),
+                        )
+                        QFabAction(
+                            icon="refresh",
+                            on_click=selected_formats.reset,
+                        ).tooltip(_("Clear Task List"))
+                        QFabAction(
+                            icon="filter_alt_off",
+                            on_click=selected_formats.filter_input_ext,
+                        ).tooltip(_("Remove Tasks With Other Extensions"))
+                    with (
+                        ui.button(
+                            icon="add",
+                            on_click=selected_formats.add_upload,
+                        )
+                        .props("round")
+                        .classes(
+                            "absolute bottom-0 right-2 m-2 z-10",
+                        )
+                    ):
+                        ui.badge().props(
+                            "floating color=orange",
+                        ).bind_text_from(
+                            selected_formats,
+                            "task_count",
+                            backward=str,
+                        )
+                        ui.tooltip(_("Continue Adding files"))
+                with (
+                    ui.card()
+                    .classes(
+                        "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
+                    )
+                    .style("cursor: pointer") as upload_card
+                ):
+                    upload_card.on(
+                        "dragover",
+                        js_handler="""(event) => {
+                        event.preventDefault()
+                    }""",
+                    )
+                    upload_card.on(
+                        "drop",
+                        js_handler=f"""(event) => {{
+                        for (let file of event.dataTransfer.files) {{
+                            let file_name = file.name
+                            post_form('{uploader._props['url']}', {{
+                                file_name: file
+                            }})
+                        }}
+                        event.preventDefault()
+                    }}""",
+                    )
+                    upload_card.on("click", selected_formats.add_upload)
+                    upload_card.bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=not_,
+                    )
+                    ui.icon("file_upload").classes("text-6xl")
+                    ui.label(
+                        _("Drag and drop files here or click to upload"),
+                    ).classes("text-lg")
+        with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
+            with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
+                with (
+                    ui.button(
                         icon="play_arrow",
                         on_click=selected_formats.batch_convert,
-                    ).props("round").bind_visibility_from(
+                    )
+                    .props("round")
+                    .bind_visibility_from(
                         selected_formats,
                         "task_count",
                         backward=bool,
-                    ):
-                        ui.tooltip(_("Start Conversion"))
-                    with ui.button(
+                    )
+                ):
+                    ui.tooltip(_("Start Conversion"))
+                with (
+                    ui.button(
                         icon="download_for_offline",
                         on_click=selected_formats.save_file,
-                    ).props("round").bind_visibility_from(
+                    )
+                    .props("round")
+                    .bind_visibility_from(
                         selected_formats,
                         "task_count",
                         backward=bool,
-                    ):
-                        ui.tooltip(_("Export"))
-                ui.label(_("Advanced Options")).classes("text-h5 font-bold")
-                with ui.expansion().classes("w-full") as import_panel:
-                    with import_panel.add_slot("header"):
-                        input_panel_header()
-                    input_options()
-                ui.separator()
-                with ui.expansion().classes("w-full") as export_panel:
-                    with export_panel.add_slot("header"):
-                        output_panel_header()
-                    output_options()
+                    )
+                ):
+                    ui.tooltip(_("Export"))
+            ui.label(_("Advanced Options")).classes("text-h5 font-bold")
+            with ui.expansion().classes("w-full") as import_panel:
+                with import_panel.add_slot("header"):
+                    input_panel_header()
+                input_options()
+            ui.separator()
+            with ui.expansion().classes("w-full") as middleware_panel:
+                with middleware_panel.add_slot("header"), ui.row().classes("w-full items-center"):
+                    ui.icon("auto_fix_high").classes("text-lg")
+                    ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
+                for middleware in middleware_manager.plugin_registry.values():
+                    with ui.row().classes("items-center w-full"):
+                        middleware_toggler = (
+                            ui.switch(_(middleware.name))
+                            .props("color=green")
+                            .bind_value(
+                                selected_formats.middleware_enabled_states, middleware.identifier
+                            )
+                        )
+                        if middleware.description:
+                            ui.space()
+                            with (
+                                ui.icon("help_outline")
+                                .classes("text-3xl")
+                                .style(
+                                    "cursor: help",
+                                )
+                            ):
+                                ui.tooltip(_(middleware.description))
+                    middleware_options_form(middleware.identifier, middleware_toggler)
+            ui.separator()
+            with ui.expansion().classes("w-full") as export_panel:
+                with export_panel.add_slot("header"):
+                    output_panel_header()
+                output_options()
     with ui.footer().classes("bg-transparent"):
         ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
     ui.add_body_html(
@@ -1169,44 +1451,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                     get_element({uploader.id}).pickFiles()
                 }}
             }}
-            document.addEventListener('DOMContentLoaded', () => {{
-                let uploader = document.querySelector("[id='c{uploader.id}']")
-
-                let task_card = document.querySelector("[id='c{tasks_card.id}']")
-                task_card.addEventListener('dragover', (event) => {{
-                    event.preventDefault()
-                }})
-                task_card.addEventListener('drop', (event) => {{
-                    for (let file of event.dataTransfer.files) {{
-                        let file_name = file.name
-                        post_form('{uploader._props['url']}', {{
-                            file_name: file
-                        }})
-                    }}
-                    event.preventDefault()
-                }})
-
-                let upload_card = document.querySelector("[id='c{upload_card.id}']")
-                upload_card.addEventListener('dragover', (event) => {{
-                    event.preventDefault()
-                }})
-                upload_card.addEventListener('drop', (event) => {{
-                    for (let file of event.dataTransfer.files) {{
-                        let file_name = file.name
-                        post_form('{uploader._props['url']}', {{
-                            file_name: file
-                        }})
-                    }}
-                    event.preventDefault()
-                }})
-            }})
         </script>
         """,
         ).strip(),
     )
 
 
-if __name__ in {"__main__", "__mp_main__"}:
+def main() -> None:
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("--host", type=str, default="127.0.0.1")
     arg_parser.add_argument("--port", type=int, default=8080)

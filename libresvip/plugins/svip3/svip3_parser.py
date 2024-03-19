@@ -1,25 +1,26 @@
 import dataclasses
-import re
+import operator
+from collections.abc import MutableSequence
 from typing import Optional
 from urllib.parse import urljoin
 
 from google.protobuf import any_pb2
 
-from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
-from libresvip.utils import db_to_float, ratio_to_db
+from libresvip.model.point import Point
+from libresvip.utils.music_math import db_to_float, ratio_to_db
 
 from .constants import TYPE_URL_BASE, Svip3TrackType
 from .model import (
@@ -31,7 +32,7 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
-from .singers import xstudio3_singers
+from .singers import singers_data
 
 
 @dataclasses.dataclass
@@ -50,35 +51,30 @@ class Svip3Parser:
         )
 
     def parse_time_signatures(
-        self, beat_list: list[Svip3SongBeat]
+        self, beat_list: MutableSequence[Svip3SongBeat]
     ) -> list[TimeSignature]:
-        time_signature_list = []
-        for beat in beat_list:
-            time_signature_list.append(
-                TimeSignature(
-                    bar_index=beat.pos,
-                    numerator=beat.beat_size.numerator,
-                    denominator=beat.beat_size.denominator,
-                )
+        time_signature_list = [
+            TimeSignature(
+                bar_index=beat.pos,
+                numerator=beat.beat_size.numerator,
+                denominator=beat.beat_size.denominator,
             )
-        self.first_bar_length = round(
-            1920 * time_signature_list[0].numerator / time_signature_list[0].denominator
-        )
+            for beat in beat_list
+        ]
+        self.first_bar_length = round(time_signature_list[0].bar_length())
         return time_signature_list
 
     @staticmethod
-    def parse_song_tempos(tempo_list: list[Svip3SongTempo]) -> list[SongTempo]:
-        song_tempo_list = []
-        for tempo in tempo_list:
-            song_tempo_list.append(
-                SongTempo(
-                    position=tempo.pos,
-                    bpm=tempo.tempo / 100.0,
-                )
+    def parse_song_tempos(tempo_list: MutableSequence[Svip3SongTempo]) -> list[SongTempo]:
+        return [
+            SongTempo(
+                position=tempo.pos,
+                bpm=tempo.tempo / 100.0,
             )
-        return song_tempo_list
+            for tempo in tempo_list
+        ]
 
-    def parse_tracks(self, track_list: list[any_pb2.Any]) -> list[Track]:
+    def parse_tracks(self, track_list: MutableSequence[any_pb2.Any]) -> list[Track]:
         tracks = []
         for track in track_list:
             if track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK):
@@ -90,9 +86,7 @@ class Svip3Parser:
                     tracks.append(xstudio_audio_track)
         return tracks
 
-    def parse_audio_track(
-        self, audio_track: Svip3AudioTrack
-    ) -> Optional[InstrumentalTrack]:
+    def parse_audio_track(self, audio_track: Svip3AudioTrack) -> Optional[InstrumentalTrack]:
         audio_file_path = None
         offset = 0
         if len(audio_track.pattern_list):
@@ -125,19 +119,20 @@ class Svip3Parser:
             return db_to_float(gain)
 
     def parse_singing_track(self, singing_track: Svip3SingingTrack) -> SingingTrack:
+        pattern_list = sorted(singing_track.pattern_list, key=operator.attrgetter("pos"))
         return SingingTrack(
             title=singing_track.name,
             mute=singing_track.mute,
             solo=singing_track.solo,
             volume=self.to_linear_volume(singing_track.volume),
             pan=self.parse_pan(singing_track.pan),
-            ai_singer_name=xstudio3_singers.get_name(singing_track.ai_singer_id),
-            note_list=self.parse_notes(singing_track.pattern_list),
-            edited_params=self.parse_edited_params(singing_track.pattern_list),
+            ai_singer_name=singers_data.get(singing_track.ai_singer_id, ""),
+            note_list=self.parse_notes(pattern_list),
+            edited_params=self.parse_edited_params(pattern_list),
         )
 
     def parse_notes(self, pattern_list: list[Svip3SingingPattern]) -> list[Note]:
-        note_list = []
+        note_list: list[Note] = []
         for pattern in pattern_list:
             offset = pattern.real_pos
             left = pattern.play_pos + offset
@@ -147,31 +142,22 @@ class Svip3Parser:
                 for note in pattern.note_list
                 if left <= note.start_pos + offset <= right - note.width_pos
             ]
-            for note in visible_notes:
-                note_list.append(self.parse_note(note, offset))
+            note_list.extend(self.parse_note(note, offset) for note in visible_notes)
         return note_list
 
     def parse_edited_params(self, pattern_list: list[Svip3SingingPattern]) -> Params:
-        return Params(
-            pitch=self.parse_pitch_curve(pattern_list),
-        )
+        return Params(pitch=self.parse_pitch_curve(pattern_list))
 
     def parse_note(self, svip3_note: Svip3Note, offset: int) -> Note:
         return Note(
             start_pos=svip3_note.start_pos + offset,
             length=svip3_note.width_pos,
             key_number=svip3_note.key_index,
-            lyric=self.parse_lyric(svip3_note),
+            lyric=svip3_note.lyric,
             pronunciation=self.parse_pronunciation(svip3_note),
             head_tag=self.parse_head_tag(svip3_note),
             edited_phones=self.parse_edited_phones(svip3_note),
         )
-
-    @staticmethod
-    def parse_lyric(svip3_note: Svip3Note) -> str:
-        if re.search(r"[a-zA-Z]", svip3_note.lyric) is not None:
-            return DEFAULT_CHINESE_LYRIC
-        return svip3_note.lyric
 
     @staticmethod
     def parse_pronunciation(svip3_note: Svip3Note) -> str:
@@ -191,18 +177,13 @@ class Svip3Parser:
         if svip3_note.consonant_len > 0:
             return Phones(
                 head_length_in_secs=(
-                    svip3_note.consonant_len
-                    / TICKS_IN_BEAT
-                    * 60.0
-                    / self.song_tempo_list[0].bpm
+                    svip3_note.consonant_len / TICKS_IN_BEAT * 60.0 / self.song_tempo_list[0].bpm
                 )
             )
         return None
 
     def parse_pitch_curve(self, pattern_list: list[Svip3SingingPattern]) -> ParamCurve:
-        curves = []
-        for pattern in pattern_list:
-            curves.append(self.parse_pattern_curve(pattern))
+        curves = [self.parse_pattern_curve(pattern) for pattern in pattern_list]
         curve = ParamCurve()
         curve.points.append(Point.start_point())
         curve.points.root.extend(self.merge_param_curves(curves))
@@ -211,10 +192,7 @@ class Svip3Parser:
 
     @staticmethod
     def merge_param_curves(curves: list[ParamCurve]) -> list[Point]:
-        merged_curve = ParamCurve()
-        for curve in curves:
-            merged_curve.points.root.extend(curve.points.root)
-        return merged_curve.points.root
+        return sum((curve.points.root for curve in curves), [])
 
     @staticmethod
     def get_visible_range(pattern: Svip3SingingPattern) -> tuple[int, int]:
@@ -225,17 +203,12 @@ class Svip3Parser:
 
     def parse_pattern_curve(self, pattern: Svip3SingingPattern) -> ParamCurve:
         curve = ParamCurve()
-        offset = pattern.real_pos + self.first_bar_length
         left, right = self.get_visible_range(pattern)
-        visible_nodes = [
-            node
-            for node in pattern.edited_pitch_line
-            if left + self.first_bar_length
-            <= node.pos + offset
-            <= right + self.first_bar_length
-        ]
+        visible_nodes = [node for node in pattern.edited_pitch_line if left <= node.pos <= right]
+        curve.points.root.append(Point(left, -100))
         for node in visible_nodes:
-            pos = node.pos + offset
+            pos = node.pos + self.first_bar_length
             val = round(node.value * 100 - 50) if node.value != -1.0 else -100
             curve.points.append(Point(pos, val))
+        curve.points.root.append(Point(right, -100))
         return curve

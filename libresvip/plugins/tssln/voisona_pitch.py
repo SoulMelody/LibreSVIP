@@ -1,15 +1,20 @@
 from __future__ import annotations
 
 import dataclasses
+import itertools
 import math
 import warnings
-from gettext import gettext as _
 from typing import NamedTuple, Optional
 
+import more_itertools
+
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.warning_types import ParamsWarning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
-from libresvip.utils import find_last_index, hz2midi, midi2hz
+from libresvip.utils.music_math import hz2midi, midi2hz
+from libresvip.utils.search import find_last_index
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
     MIN_DATA_LENGTH,
@@ -18,21 +23,21 @@ from .constants import (
 )
 
 
-class VoiSonaPitchEvent(NamedTuple):
-    index: Optional[int]
+class VoiSonaParamEvent(NamedTuple):
+    idx: Optional[int]
     repeat: Optional[int]
     value: float
 
 
-class VoiSonaPitchEventFloat(NamedTuple):
-    index: Optional[float]
+class VoiSonaParamEventFloat(NamedTuple):
+    idx: Optional[float]
     repeat: Optional[float]
     value: Optional[float]
 
     @classmethod
-    def from_event(cls, event: VoiSonaPitchEvent) -> VoiSonaPitchEventFloat:
+    def from_event(cls, event: VoiSonaParamEvent) -> VoiSonaParamEventFloat:
         return cls(
-            float(event.index) if event.index is not None else None,
+            float(event.idx) if event.idx is not None else None,
             float(event.repeat) if event.repeat is not None else None,
             event.value,
         )
@@ -40,16 +45,14 @@ class VoiSonaPitchEventFloat(NamedTuple):
 
 @dataclasses.dataclass
 class VoiSonaTrackPitchData:
-    events: list[VoiSonaPitchEvent]
+    events: list[VoiSonaParamEvent]
     tempos: list[SongTempo]
     tick_prefix: int
 
     @property
     def length(self) -> int:
-        last_has_index = find_last_index(
-            self.events, lambda event: event.index is not None
-        )
-        length = self.events[last_has_index].index + sum(
+        last_has_index = find_last_index(self.events, lambda event: event.idx is not None)
+        length = self.events[last_has_index].idx + sum(
             event.repeat or 1 for event in self.events[last_has_index:]
         )
         return length + MIN_DATA_LENGTH
@@ -59,18 +62,16 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
     converted_points = [Point.start_point()]
     current_value = -100
 
-    events_normalized = shape_events(normalize_to_tick(append_ending_points(data)))
+    events_normalized = shape_events(
+        normalize_to_tick(append_ending_points(data.events), data.tempos, data.tick_prefix)
+    )
 
     next_pos = None
     for event in events_normalized:
-        pos = event.index - data.tick_prefix
+        pos = event.idx - data.tick_prefix
         length = event.repeat
         try:
-            value = (
-                round(hz2midi(math.e**event.value) * 100)
-                if event.value is not None
-                else -100
-            )
+            value = round(hz2midi(math.e**event.value) * 100) if event.value is not None else -100
             if value != current_value or next_pos != pos:
                 converted_points.append(Point(x=round(pos), y=value))
                 if value == -100:
@@ -81,50 +82,47 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
         next_pos = pos + length
     converted_points.append(Point.end_point())
 
-    return (
-        ParamCurve(points=Points(root=converted_points))
-        if len(converted_points) > 2
-        else None
-    )
+    return ParamCurve(points=Points(root=converted_points)) if len(converted_points) > 2 else None
 
 
-def append_ending_points(data: VoiSonaTrackPitchData) -> VoiSonaTrackPitchData:
+def append_ending_points(events: list[VoiSonaParamEvent]) -> list[VoiSonaParamEvent]:
     result = []
     next_pos = None
-    for event in data.events:
-        pos = event.index if event.index is not None else next_pos
+    for event in events:
+        pos = event.idx if event.idx is not None else next_pos
         length = event.repeat if event.repeat is not None else 1
         if next_pos is not None and next_pos < pos:
-            result.append(VoiSonaPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-        result.append(VoiSonaPitchEvent(pos, length, event.value))
+            result.append(VoiSonaParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+        result.append(VoiSonaParamEvent(pos, length, event.value))
         next_pos = pos + length
     if next_pos is not None:
-        result.append(VoiSonaPitchEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-    return VoiSonaTrackPitchData(result, data.tempos, data.tick_prefix)
+        result.append(VoiSonaParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+    return result
 
 
-def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloat]:
-    tempos = expand(data.tempos, data.tick_prefix)
-    events = [VoiSonaPitchEventFloat.from_event(event) for event in data.events]
-    events_normalized: list[VoiSonaPitchEventFloat] = []
+def normalize_to_tick(
+    events: list[VoiSonaParamEvent], tempo_list: list[SongTempo], tick_prefix: int
+) -> list[VoiSonaParamEventFloat]:
+    tempos = expand(tempo_list, tick_prefix)
+    events = [VoiSonaParamEventFloat.from_event(event) for event in events]
+    events_normalized: list[VoiSonaParamEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
     for event in events:
-        pos = event.index if event.index is not None else next_pos
-        tick_pos = next_tick_pos if event.index is None else None
-        if event.index is not None:
+        pos = event.idx if event.idx is not None else next_pos
+        if event.idx is None:
+            tick_pos = next_tick_pos
+        else:
             while (
                 current_tempo_index + 1 < len(tempos)
-                and tempos[current_tempo_index + 1][0] <= event.index
+                and tempos[current_tempo_index + 1][0] <= event.idx
             ):
                 current_tempo_index += 1
-            ticks_in_time_unit = (
-                TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
-            )
+            ticks_in_time_unit = TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
             tick_pos = (
                 tempos[current_tempo_index][1]
-                + (event.index - tempos[current_tempo_index][0]) * ticks_in_time_unit
+                + (event.idx - tempos[current_tempo_index][0]) * ticks_in_time_unit
             )
         repeat = event.repeat if event.repeat is not None else 1.0
         remaining_repeat = repeat
@@ -141,18 +139,14 @@ def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloa
             )
             current_tempo_index += 1
         repeat_in_ticks += (
-            remaining_repeat
-            * TIME_UNIT_AS_TICKS_PER_BPM
-            * tempos[current_tempo_index][2]
+            remaining_repeat * TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
         )
         next_pos = pos + repeat
         next_tick_pos = tick_pos + repeat_in_ticks
-        events_normalized.append(
-            VoiSonaPitchEventFloat(tick_pos, repeat_in_ticks, event.value)
-        )
+        events_normalized.append(VoiSonaParamEventFloat(tick_pos, repeat_in_ticks, event.value))
     return [
-        VoiSonaPitchEventFloat(
-            tick.index + data.tick_prefix,
+        VoiSonaParamEventFloat(
+            tick.idx + tick_prefix,
             tick.repeat,
             tick.value if tick.value != TEMP_VALUE_AS_NULL else None,
         )
@@ -161,14 +155,14 @@ def normalize_to_tick(data: VoiSonaTrackPitchData) -> list[VoiSonaPitchEventFloa
 
 
 def shape_events(
-    events_with_full_params: list[VoiSonaPitchEventFloat],
-) -> list[VoiSonaPitchEventFloat]:
-    result: list[VoiSonaPitchEventFloat] = []
+    events_with_full_params: list[VoiSonaParamEventFloat],
+) -> list[VoiSonaParamEventFloat]:
+    result: list[VoiSonaParamEventFloat] = []
     for event in events_with_full_params:
         if event.repeat is not None and event.repeat > 0:
             if result:
                 last = result[-1]
-                if last.index == event.index:
+                if last.idx == event.idx:
                     result[-1] = event
                 else:
                     result.append(event)
@@ -177,8 +171,8 @@ def shape_events(
     return result
 
 
-def expand(tempos: list[SongTempo], tick_prefix: int) -> list[tuple[int, float, float]]:
-    result: list[tuple[int, float, float]] = []
+def expand(tempos: list[SongTempo], tick_prefix: int) -> list[tuple[int, int, float]]:
+    result: list[tuple[int, int, float]] = []
     for i, tempo in enumerate(tempos):
         if i == 0:
             result.append((0, tick_prefix, tempo.bpm))
@@ -186,7 +180,7 @@ def expand(tempos: list[SongTempo], tick_prefix: int) -> list[tuple[int, float, 
             last_pos, last_tick_pos, last_bpm = result[-1]
             ticks_in_time_unit = TIME_UNIT_AS_TICKS_PER_BPM * last_bpm
             new_pos = last_pos + (tempo.position - last_tick_pos) / ticks_in_time_unit
-            result.append((new_pos, tempo.position, tempo.bpm))
+            result.append((int(new_pos), tempo.position, tempo.bpm))
     return result
 
 
@@ -194,21 +188,19 @@ def generate_for_voisona(
     pitch: ParamCurve, tempos: list[SongTempo], tick_prefix: int
 ) -> Optional[VoiSonaTrackPitchData]:
     events_with_full_params = []
-    for i, this_point in enumerate(pitch.points):
+    for i, this_point in enumerate(pitch.points.root):
         next_point = pitch.points[i + 1] if i + 1 < len(pitch.points) else None
-        end_tick = next_point.x if next_point else None
-        index = this_point.x
+        end_tick = next_point.x - tick_prefix if next_point else None
+        index = this_point.x - tick_prefix
         repeat = end_tick - index if end_tick else 1
         repeat = max(repeat, 1)
         value = math.log(midi2hz(this_point.y / 100)) if this_point.y != -100 else None
         if value is not None:
             events_with_full_params.append(
-                VoiSonaPitchEventFloat(float(index), float(repeat), float(value))
+                VoiSonaParamEventFloat(float(index), float(repeat), float(value))
             )
     are_events_connected_to_next = [
-        this_event.index + this_event.repeat >= next_event.index
-        if next_event
-        else False
+        this_event.idx + this_event.repeat >= next_event.idx if next_event else False
         for this_event, next_event in zip(
             events_with_full_params, events_with_full_params[1:] + [None]
         )
@@ -221,122 +213,116 @@ def generate_for_voisona(
     if not events:
         return None
     last_event_with_index = next(
-        (event for event in reversed(events) if event.index is not None), None
+        (event for event in reversed(events) if event.idx is not None), None
     )
     if last_event_with_index is not None:
-        length = last_event_with_index.index
+        length = last_event_with_index.idx
         for event in events[events.index(last_event_with_index) :]:
             length += event.repeat or 1
     return VoiSonaTrackPitchData(events, [], tick_prefix)
 
 
 def denormalize_from_tick(
-    events_with_full_params: list[VoiSonaPitchEventFloat],
+    events_with_full_params: list[VoiSonaParamEventFloat],
     tempos_in_ticks: list[SongTempo],
     tick_prefix: int,
-) -> list[VoiSonaPitchEvent]:
+) -> list[VoiSonaParamEvent]:
     tempos = expand(
-        [
-            tempo.model_copy(update={"position": tempo.position + tick_prefix})
-            for tempo in tempos_in_ticks
-        ],
+        shift_tempo_list(tempos_in_ticks, tick_prefix),
         tick_prefix,
     )
     events_with_full_params = [
-        event
-        if event.index is None
-        else event._replace(index=event.index + tick_prefix)
+        event if event.idx is None else event._replace(idx=event.idx + tick_prefix)
         for event in events_with_full_params
     ]
     events = []
     current_tempo_index = 0
     for event_double in events_with_full_params:
-        if event_double.index is not None:
-            tick_pos = event_double.index
+        if event_double.idx is not None:
+            tick_pos = event_double.idx
         while (
-            current_tempo_index + 1 < len(tempos)
-            and tempos[current_tempo_index + 1][1] < tick_pos
+            current_tempo_index + 1 < len(tempos) and tempos[current_tempo_index + 1][1] < tick_pos
         ):
             current_tempo_index += 1
-        ticks_per_time_unit = (
-            tempos[current_tempo_index][2] * TIME_UNIT_AS_TICKS_PER_BPM
-        )
+        ticks_per_time_unit = tempos[current_tempo_index][2] * TIME_UNIT_AS_TICKS_PER_BPM
         pos = (
             tempos[current_tempo_index][0]
-            + (event_double.index - tempos[current_tempo_index][1])
-            / ticks_per_time_unit
+            + (event_double.idx - tempos[current_tempo_index][1]) / ticks_per_time_unit
         )
         repeat_in_ticks = event_double.repeat
-        remaining_repeat_in_ticks = repeat_in_ticks
         repeat = 0.0
         while (current_tempo_index + 1 < len(tempos)) and (
             tempos[current_tempo_index + 1][1] < tick_pos + repeat_in_ticks
         ):
-            repeat += tempos[current_tempo_index + 1][0] - max(
-                tempos[current_tempo_index][0], pos
-            )
-            remaining_repeat_in_ticks -= tempos[current_tempo_index + 1][1] - max(
+            repeat += tempos[current_tempo_index + 1][0] - max(tempos[current_tempo_index][0], pos)
+            repeat_in_ticks -= tempos[current_tempo_index + 1][1] - max(
                 tempos[current_tempo_index][1], tick_pos
             )
             current_tempo_index += 1
-        repeat += remaining_repeat_in_ticks / (
-            TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2]
-        )
+        repeat += repeat_in_ticks / (TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2])
         events.append(
-            VoiSonaPitchEvent(round(pos), int(round(repeat)), event_double.value)
+            VoiSonaParamEvent(round(pos), int(round(max(repeat, 1))), event_double.value or 0)
         )
     return events
 
 
 def restore_connection(
-    events: list[VoiSonaPitchEvent], are_events_connected_to_next: list[bool]
-) -> list[VoiSonaPitchEvent]:
+    events: list[VoiSonaParamEvent], are_events_connected_to_next: list[bool]
+) -> list[VoiSonaParamEvent]:
     new_events = []
-    for event, is_connected_to_next in zip(events, are_events_connected_to_next):
-        new_events.append(event)
-        if not is_connected_to_next:
-            new_events.append(
-                VoiSonaPitchEvent(event.index + event.repeat, 0, event.value)
-            )
+    for (prev_event, next_event), is_connected_to_next in zip(
+        more_itertools.windowed(itertools.chain(events, [None]), 2), are_events_connected_to_next
+    ):
+        if next_event is None or not is_connected_to_next:
+            new_events.append(prev_event)
+        else:
+            new_events.append(prev_event._replace(repeat=next_event.idx - prev_event.idx))
     return new_events
 
 
 def merge_events_if_possible(
-    events: list[VoiSonaPitchEvent],
-) -> list[VoiSonaPitchEvent]:
-    new_events = []
-    for event, next_event in zip(events, events[1:] + [None]):
-        if (
-            next_event
-            and event.value == next_event.value
-            and event.index + event.repeat == next_event.index
-        ):
-            new_events.append(
-                VoiSonaPitchEvent(
-                    event.index, event.repeat + next_event.repeat, event.value
+    events: list[VoiSonaParamEvent],
+) -> list[VoiSonaParamEvent]:
+    new_events: list[VoiSonaParamEvent] = []
+    for event in events:
+        if not new_events:
+            new_events.append(event)
+        else:
+            last_event = new_events[-1]
+            overlapped_len = last_event.idx + last_event.repeat - event.idx
+            if overlapped_len > 0:
+                new_events[-1] = new_events[-1]._replace(repeat=event.idx - last_event.idx)
+                event = event._replace(
+                    idx=overlapped_len + event.idx, repeat=event.repeat - overlapped_len
                 )
-            )
-        else:
-            new_events.append(event)
+                last_event = VoiSonaParamEvent(
+                    event.idx, overlapped_len, event.value + last_event.value
+                )
+                new_events.append(last_event)
+            if last_event.value == event.value and last_event.idx + last_event.repeat == event.idx:
+                new_events[-1] = new_events[-1]._replace(repeat=last_event.repeat + event.repeat)
+            else:
+                new_events.append(event)
     return new_events
 
 
-def remove_redundant_index(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitchEvent]:
-    new_events = []
-    for prev_event, event in zip([None] + events[:-1], events):
-        if (
-            prev_event is not None
-            and prev_event.index is not None
-            and prev_event.repeat is not None
-            and prev_event.index + prev_event.repeat == event.index
-        ):
-            new_events.append(VoiSonaPitchEvent(None, event.repeat, event.value))
-        else:
+def remove_redundant_index(events: list[VoiSonaParamEvent]) -> list[VoiSonaParamEvent]:
+    new_events: list[VoiSonaParamEvent] = []
+    for event in events:
+        if not new_events:
             new_events.append(event)
+        else:
+            prev_event = new_events[-1]
+            if (
+                prev_event.idx is not None
+                and prev_event.repeat is not None
+                and prev_event.idx + prev_event.repeat == event.idx
+            ):
+                new_events.append(event._replace(idx=None))
+            else:
+                new_events.append(event)
     return new_events
 
 
-def remove_redundant_repeat(events: list[VoiSonaPitchEvent]) -> list[VoiSonaPitchEvent]:
-    return [
-        event if event.repeat != 1 else event._replace(repeat=None) for event in events
-    ]
+def remove_redundant_repeat(events: list[VoiSonaParamEvent]) -> list[VoiSonaParamEvent]:
+    return [event if event.repeat != 1 else event._replace(repeat=None) for event in events]

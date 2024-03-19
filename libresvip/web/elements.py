@@ -1,5 +1,6 @@
 import asyncio
-from typing import Any, Callable, Optional
+from collections.abc import Callable
+from typing import Any, Optional
 
 from nicegui.elements.mixins.color_elements import BackgroundColorElement
 from nicegui.elements.mixins.disableable_element import DisableableElement

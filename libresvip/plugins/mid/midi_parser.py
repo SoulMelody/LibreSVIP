@@ -2,16 +2,13 @@ import collections
 import dataclasses
 import math
 import operator
-import re
 import warnings
-from gettext import gettext as _
 
 import mido_fix as mido
 import more_itertools
 
 from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
-from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import NotesWarning
+from libresvip.core.warning_types import NotesWarning, TempoWarning
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -24,7 +21,9 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import ratio_to_db
+from libresvip.utils.music_math import ratio_to_db
+from libresvip.utils.text import LATIN_ALPHABET
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -48,8 +47,8 @@ def velocity_to_db_change(value: float) -> float:
 @dataclasses.dataclass
 class MidiParser:
     options: InputOptions
-    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     ticks_per_beat: int = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
     selected_channels: list[int] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -63,9 +62,7 @@ class MidiParser:
                         if not len(end):
                             self.selected_channels.append(int(start) - 1)
                         elif end.isdigit() and not end.startswith("0"):
-                            self.selected_channels.extend(
-                                range(int(start) - 1, int(end))
-                            )
+                            self.selected_channels.extend(range(int(start) - 1, int(end)))
 
     @property
     def tick_rate(self) -> float:
@@ -78,11 +75,8 @@ class MidiParser:
         self._convert_delta_to_cumulative(mido_obj.tracks)
         if len(mido_obj.tracks):
             master_track = mido_obj.tracks[0]
-            song_tempo_list = self.parse_tempo(master_track)
-            self.synchronizer = TimeSynchronizer(
-                song_tempo_list, _default_tempo=self.options.default_bpm
-            )
             time_signature_list = self.parse_time_signatures(master_track)
+        song_tempo_list = self.parse_tempo(mido_obj.tracks)
         return Project(
             song_tempo_list=song_tempo_list,
             time_signature_list=time_signature_list,
@@ -97,13 +91,9 @@ class MidiParser:
                 event.time += tick
                 tick = event.time
 
-    def parse_time_signatures(
-        self, master_track: mido.MidiTrack
-    ) -> list[TimeSignature]:
+    def parse_time_signatures(self, master_track: mido.MidiTrack) -> list[TimeSignature]:
         # no default
-        time_signature_changes = [
-            TimeSignature(bar_index=0, numerator=4, denominator=4)
-        ]
+        time_signature_changes: list[TimeSignature] = []
 
         # traversing
         if self.options.import_time_signatures:
@@ -111,10 +101,13 @@ class MidiParser:
             measure = 0
             for event in master_track:
                 if event.type == "time_signature":
-                    tick_in_full_note = time_signature_changes[-1].bar_length(
-                        self.ticks_per_beat
-                    )
                     tick = event.time
+                    if not time_signature_changes:
+                        tick_in_full_note = 4 * self.ticks_per_beat
+                    else:
+                        tick_in_full_note = round(
+                            time_signature_changes[-1].bar_length(self.ticks_per_beat)
+                        )
                     measure += (tick - prev_ticks) / tick_in_full_note
                     ts_obj = TimeSignature(
                         bar_index=math.floor(measure),
@@ -123,24 +116,30 @@ class MidiParser:
                     )
                     time_signature_changes.append(ts_obj)
                     prev_ticks = tick
+        if not time_signature_changes or time_signature_changes[0].bar_index > 0:
+            time_signature_changes.insert(0, TimeSignature(bar_index=0, numerator=4, denominator=4))
+        self.first_bar_length = round(time_signature_changes[0].bar_length())
         return time_signature_changes
 
-    def parse_tempo(self, master_track: mido.MidiTrack) -> list[SongTempo]:
-        # default bpm
-        tempos = [SongTempo(position=0, bpm=self.options.default_bpm)]
+    def parse_tempo(self, tracks: list[mido.MidiTrack]) -> list[SongTempo]:
+        tempos: list[SongTempo] = []
 
         # traversing
-        for event in master_track:
-            if event.type == "set_tempo":
-                # convert tempo to BPM
-                tempo = round(mido.tempo2bpm(event.tempo), 3)
-                tick = round(event.time * self.tick_rate)
-                if tick == 0:
-                    tempos = [SongTempo(position=0, bpm=tempo)]
-                else:
-                    last_tempo = tempos[-1].bpm
+        for track in tracks:
+            for event in track:
+                if event.type == "set_tempo":
+                    # convert tempo to BPM
+                    tempo = round(mido.tempo2bpm(event.tempo), 3)
+                    tick = round(event.time * self.tick_rate)
+                    last_tempo = tempos[-1].bpm if tempos else None
                     if tempo != last_tempo:
                         tempos.append(SongTempo(position=tick, bpm=tempo))
+        if not tempos:
+            # default bpm
+            warnings.warn(_("No tempo labels found in the imported project."), TempoWarning)
+            tempos.append(SongTempo(position=0, bpm=self.options.default_bpm))
+        else:
+            tempos.sort(key=operator.attrgetter("position"))
         return tempos
 
     def parse_track(self, track_idx: int, track: mido.MidiTrack) -> list[SingingTrack]:
@@ -149,12 +148,16 @@ class MidiParser:
             (event for event in track if hasattr(event, "channel")),
             key=operator.attrgetter("channel"),
         )
+        lyrics: dict[int, str] = collections.defaultdict(lambda: DEFAULT_PHONEME)
+        if self.options.import_lyrics:
+            for event in track:
+                if event.type == "lyrics":
+                    lyrics[event.time] = event.text
         for channel in event_buckets:
             if self.selected_channels and channel not in self.selected_channels:
                 continue
             last_note_on = collections.defaultdict(list)
-            pitchbend_range_changed = collections.defaultdict(list)
-            lyrics = collections.defaultdict(lambda: DEFAULT_PHONEME)
+            pitchbend_range_changed: dict[int, list[int]] = collections.defaultdict(list)
             track_name = None
             notes = []
             rel_pitch_points = []
@@ -168,13 +171,9 @@ class MidiParser:
                     track_name = event.name
                 elif event.type == "note_on" and event.velocity > 0:
                     # Store this as the last note-on location
-                    rel_pitch_points.append(
-                        Point(round(event.time * self.tick_rate), 0)
-                    )
+                    rel_pitch_points.append(Point(round(event.time * self.tick_rate), 0))
                     last_note_on[event.note].append(event.time)
-                elif event.type == "note_off" or (
-                    event.type == "note_on" and event.velocity == 0
-                ):
+                elif event.type == "note_off" or (event.type == "note_on" and event.velocity == 0):
                     # Check that a note-on exists (ignore spurious note-offs)
                     key = event.note
                     if key in last_note_on:
@@ -188,14 +187,10 @@ class MidiParser:
                         open_notes = last_note_on[key]
 
                         notes_to_close = [
-                            start_tick
-                            for start_tick in open_notes
-                            if start_tick != end_tick
+                            start_tick for start_tick in open_notes if start_tick != end_tick
                         ]
                         notes_to_keep = [
-                            start_tick
-                            for start_tick in open_notes
-                            if start_tick == end_tick
+                            start_tick for start_tick in open_notes if start_tick == end_tick
                         ]
 
                         for start_tick in notes_to_close:
@@ -206,11 +201,9 @@ class MidiParser:
                                 length=round((end_tick - start_tick) * self.tick_rate),
                             )
                             lyric = lyrics[start_tick]
-                            if re.search("[a-zA-Z]", lyric) is not None:
-                                note.lyric = DEFAULT_PHONEME
+                            if LATIN_ALPHABET.search(lyric) is not None:
                                 note.pronunciation = lyric
-                            else:
-                                note.lyric = lyric
+                            note.lyric = lyric
                             notes.append(note)
                         if notes_to_close and notes_to_keep:
                             # Note-on on the same tick but we already closed
@@ -225,23 +218,24 @@ class MidiParser:
                         Point(
                             round(event.time * self.tick_rate),
                             round(
-                                pitch_bend_sensitivity * event.pitch / PITCH_MAX_VALUE
+                                pitch_bend_sensitivity
+                                * event.pitch
+                                / (PITCH_MAX_VALUE if event.pitch > 0 else (PITCH_MAX_VALUE + 1))
                             ),
                         )
                     )
-                elif event.type == "lyrics":
-                    if self.options.import_lyrics:
-                        lyric = event.text
-                        lyrics[event.time] = lyric
                 elif event.type == "control_change":
                     if (
                         event.is_cc(ControlChange.DATA_ENTRY)
                         and len(pitchbend_range_changed[event.time]) >= 2
                     ):
                         pitch_bend_sensitivity = event.value
-                    elif event.is_cc(ControlChange.RPN_MSB) and event.value == 0:
-                        pitchbend_range_changed[event.time].append(event.value)
-                    elif event.is_cc(ControlChange.RPN_LSB) and event.value == 0:
+                    elif (
+                        event.is_cc(ControlChange.RPN_MSB)
+                        and event.value == 0
+                        or event.is_cc(ControlChange.RPN_LSB)
+                        and event.value == 0
+                    ):
                         pitchbend_range_changed[event.time].append(event.value)
                     elif event.is_cc(ControlChange.EXPRESSION) and event.value:
                         expression.points.append(
@@ -253,7 +247,7 @@ class MidiParser:
                     elif event.is_cc(ControlChange.VOLUME) and event.value:
                         volume_base = velocity_to_db_change(event.value)
             rel_pitch_points.sort(key=operator.attrgetter("x"))
-            pitch = RelativePitchCurve().to_absolute(rel_pitch_points, notes)
+            pitch = RelativePitchCurve(self.first_bar_length).to_absolute(rel_pitch_points, notes)
             edited_params = Params(
                 pitch=pitch,
                 volume=expression,
@@ -273,9 +267,6 @@ class MidiParser:
 
     def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[Track]:
         return sum(
-            (
-                self.parse_track(track_idx, track)
-                for track_idx, track in enumerate(midi_tracks)
-            ),
+            (self.parse_track(track_idx, track) for track_idx, track in enumerate(midi_tracks)),
             [],
         )

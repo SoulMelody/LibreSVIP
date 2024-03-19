@@ -1,5 +1,5 @@
 from libresvip.model.base import SongTempo, TimeSignature
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 
 def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTempo]:
@@ -14,9 +14,7 @@ def skip_tempo_list(tempo_list: list[SongTempo], skip_ticks: int) -> list[SongTe
     return result
 
 
-def skip_beat_list(
-    beat_list: list[TimeSignature], skip_bars: int
-) -> list[TimeSignature]:
+def skip_beat_list(beat_list: list[TimeSignature], skip_bars: int) -> list[TimeSignature]:
     result = [
         beat.model_copy(update={"bar_index": beat.bar_index - skip_bars})
         for beat in beat_list
@@ -31,22 +29,15 @@ def skip_beat_list(
 def shift_tempo_list(tempo_list: list[SongTempo], shift_ticks: int) -> list[SongTempo]:
     result = tempo_list[:1]
     result.extend(
-        [
-            tempo.model_copy(update={"position": tempo.position + shift_ticks})
-            for tempo in tempo_list[1:]
-        ]
+        tempo.model_copy(update={"position": tempo.position + shift_ticks})
+        for tempo in tempo_list[1:]
     )
     return result
 
 
-def shift_beat_list(
-    beat_list: list[TimeSignature], shift_bars: int
-) -> list[TimeSignature]:
+def shift_beat_list(beat_list: list[TimeSignature], shift_bars: int) -> list[TimeSignature]:
     result = beat_list[:1]
     result.extend(
-        [
-            beat.model_copy(update={"bar_index": beat.bar_index + shift_bars})
-            for beat in beat_list[1:]
-        ]
+        beat.model_copy(update={"bar_index": beat.bar_index + shift_bars}) for beat in beat_list[1:]
     )
     return result

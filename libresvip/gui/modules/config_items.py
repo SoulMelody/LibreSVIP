@@ -1,4 +1,3 @@
-import atexit
 import base64
 import pathlib
 from typing import Any, Optional
@@ -11,7 +10,8 @@ from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, setti
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import plugin_manager
 
-from .model_proxy import ModelProxy
+from .application import app
+from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -36,15 +36,13 @@ class ConfigItems(QObject):
                     "text": plugin.file_format,
                     "value": plugin.suffix,
                 }
-                for _, _, plugin in plugin_manager._candidates
+                for _, plugin in plugin_manager._candidates
             ],
         )
-        atexit.register(self.save_settings)
+        app.aboutToQuit.connect(self.save_settings)
 
     def save_settings(self) -> None:
-        settings.folder_presets = [
-            pathlib.Path(item["path"]) for item in self.folder_presets.items
-        ]
+        settings.folder_presets = [pathlib.Path(item["path"]) for item in self.folder_presets.items]
         save_settings()
 
     @Slot(result=str)
@@ -89,10 +87,7 @@ class ConfigItems(QObject):
 
     @Slot(str, result=bool)
     def toggle_plugin(self, key: str) -> bool:
-        if (
-            key in plugin_manager.plugin_registry
-            and key not in settings.disabled_plugins
-        ):
+        if key in plugin_manager.plugin_registry and key not in settings.disabled_plugins:
             settings.disabled_plugins.append(key)
         elif key in settings.disabled_plugins:
             settings.disabled_plugins.remove(key)

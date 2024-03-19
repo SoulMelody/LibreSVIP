@@ -1,18 +1,16 @@
 import csv
 import io
-from gettext import gettext as _
 
-from libresvip.core.constants import resource_path
+from libresvip.core.compat import package_path
+from libresvip.utils.translation import gettext_lazy as _
 
 
 def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict[str, str]:
     opencpop_dict = {}
-    with resource_path("libresvip.plugins.ds", "dicts") as dict_dir:
-        if (
-            dict_content := (dict_dir / f"{dict_name}.txt").read_text(encoding="utf-8")
-        ) is None:
-            msg = _("Cannot find dict.")
-            raise FileNotFoundError(msg)
+    dict_dir = package_path("libresvip.plugins.ds") / "dicts"
+    if (dict_content := (dict_dir / f"{dict_name}.txt").read_text(encoding="utf-8")) is None:
+        msg = _("Cannot find dict.")
+        raise FileNotFoundError(msg)
     reader = csv.DictReader(
         io.StringIO(dict_content), delimiter="\t", fieldnames=["pinyin", "phone"]
     )

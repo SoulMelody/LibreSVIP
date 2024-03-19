@@ -1,7 +1,29 @@
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, NamedTuple
 
 from pydantic import BaseModel, Field
+
+
+class SynthVLanguagePreset(NamedTuple):
+    language: str
+    phoneset: str
+
+
+synthv_language_presets = {
+    "mandarin": SynthVLanguagePreset(language="mandarin", phoneset="xsampa"),
+    "cantonese": SynthVLanguagePreset(language="cantonese", phoneset="xsampa"),
+    "japanese": SynthVLanguagePreset(language="japanese", phoneset="romaji"),
+    "english": SynthVLanguagePreset(language="english", phoneset="arpabet"),
+    "spanish": SynthVLanguagePreset(language="spanish", phoneset="xsampa"),
+}
+
+
+class LanguageOption(Enum):
+    MANDARIN: Annotated[str, Field(title="Mandarin")] = "mandarin"
+    CANTONESE: Annotated[str, Field(title="Cantonese")] = "cantonese"
+    JAPANESE: Annotated[str, Field(title="Japanese")] = "japanese"
+    ENGLISH: Annotated[str, Field(title="English")] = "english"
+    SPANISH: Annotated[str, Field(title="Spanish")] = "spanish"
 
 
 class BreathOption(Enum):
@@ -84,7 +106,7 @@ class InputOptions(BaseModel):
     pitch: PitchOption = Field(
         default=PitchOption.PLAIN,
         title="Pitch input mode",
-        description="This option controls the range of pitch curve to be imported and the judgment condition. The definition of “edited part” is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited.",
+        description='This option controls the range of pitch curve to be imported and the judgment condition. The definition of "edited part" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited.',
     )
     breath: BreathOption = Field(
         default=BreathOption.CONVERT,
@@ -93,7 +115,7 @@ class InputOptions(BaseModel):
     group: GroupOption = Field(
         default=GroupOption.SPLIT,
         title="The way to handle note groups",
-        description="Notice: If there are too many note groups, please choose “Keep original position” to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose “Split to tracks” to ensure the paragraph division is not broken.",
+        description='Notice: If there are too many note groups, please choose "Keep original position" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose "Split to tracks" to ensure the paragraph division is not broken.',
     )
 
 
@@ -105,4 +127,8 @@ class OutputOptions(BaseModel):
         default=40,
         title="Set the average sampling interval of parameter points to improve performance (0 means no limit)",
         description="Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience.",
+    )
+    language_override: LanguageOption = Field(
+        default=LanguageOption.MANDARIN,
+        title="Override default language for the voicebank",
     )

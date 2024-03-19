@@ -9,7 +9,6 @@ from typing import Any, Optional, get_args, get_type_hints
 
 import more_itertools
 from loguru import logger
-from pydantic.warnings import PydanticDeprecationWarning
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from PySide6.QtCore import (
@@ -26,16 +25,15 @@ from PySide6.QtCore import (
 from PySide6.QtQml import QmlElement, QmlSingleton
 from upath import UPath
 
-from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
-from libresvip.extension.manager import plugin_manager
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, BaseModel
-from libresvip.utils import shorten_error_message
 
-from .model_proxy import ModelProxy
 from .url_opener import open_path
+from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -56,6 +54,7 @@ class ConversionWorker(QRunnable):
         output_format: str,
         input_options: dict[str, Any],
         output_options: dict[str, Any],
+        middleware_options: dict[str, dict[str, Any]],
         parent: Optional[QObject] = None,
     ) -> None:
         super().__init__(parent=parent)
@@ -66,6 +65,7 @@ class ConversionWorker(QRunnable):
         self.output_format = output_format
         self.input_options = input_options
         self.output_options = output_options
+        self.middleware_options = middleware_options
         self.signals = ConversionWorkerSignals()
 
     @Slot()
@@ -73,40 +73,74 @@ class ConversionWorker(QRunnable):
         try:
             with warnings.catch_warnings(record=True) as w:
                 warnings.simplefilter("always", BaseWarning)
-                warnings.filterwarnings("ignore", category=PydanticDeprecationWarning)
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
-                input_option = get_type_hints(input_plugin.plugin_object.load).get(
-                    "options"
-                )
-                output_option = get_type_hints(output_plugin.plugin_object.dump).get(
-                    "options"
-                )
-                project = input_plugin.plugin_object.load(
-                    pathlib.Path(self.input_path),
-                    input_option(**self.input_options),
-                )
-                output_plugin.plugin_object.dump(
-                    UPath(self.output_path),
-                    project,
-                    output_option(**self.output_options),
-                )
-                warning_str = "\n".join(str(each.message) for each in w)
-                self.signals.result.emit(
-                    self.index,
-                    {
-                        "success": True,
-                        "tmp_path": self.output_path,
-                        "warning": warning_str,
-                    },
-                )
+                if (
+                    input_plugin.plugin_object is None
+                    or (
+                        input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    )
+                    is None
+                    or output_plugin.plugin_object is None
+                    or (
+                        output_option := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is None
+                ):
+                    self.signals.result.emit(
+                        self.index,
+                        {
+                            "success": False,
+                            "error": "Invalid options",
+                        },
+                    )
+                else:
+                    project = input_plugin.plugin_object.load(
+                        pathlib.Path(self.input_path),
+                        input_option(**self.input_options),
+                    )
+                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                        middleware = middleware_manager.plugin_registry[middleware_abbr]
+                        if (
+                            middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                            and (
+                                middleware_option_class := get_type_hints(
+                                    middleware.plugin_object.process
+                                ).get(
+                                    "options",
+                                )
+                            )
+                        ):
+                            project = middleware.plugin_object.process(
+                                project,
+                                middleware_option_class.model_validate(middleware_option),
+                            )
+                    output_plugin.plugin_object.dump(
+                        UPath(self.output_path),
+                        project,
+                        output_option(**self.output_options),
+                    )
+                    warning_str = "\n".join(str(each.message) for each in w)
+                    self.signals.result.emit(
+                        self.index,
+                        {
+                            "success": True,
+                            "tmp_path": self.output_path,
+                            "warning": warning_str,
+                        },
+                    )
         except Exception:
             with contextlib.suppress(RuntimeError):
                 self.signals.result.emit(
                     self.index,
                     {
                         "success": False,
-                        "error": shorten_error_message(traceback.format_exc()),
+                        "error": traceback.format_exc(),
                     },
                 )
 
@@ -160,6 +194,43 @@ class TaskManager(QObject):
             }
         )
         self._output_fields_inited = False
+        self.middleware_states = ModelProxy(
+            {
+                "index": 0,
+                "identifier": "",
+                "name": "",
+                "description": "",
+                "value": False,
+            }
+        )
+        self.middleware_fields: dict[str, ModelProxy] = {}
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
+                self.middleware_states.append(
+                    {
+                        "index": len(self.middleware_states),
+                        "identifier": middleware.identifier,
+                        "name": middleware.name,
+                        "description": middleware.description,
+                        "value": False,
+                    }
+                )
+                self.middleware_fields[middleware.identifier] = ModelProxy(
+                    {
+                        "name": "",
+                        "title": "",
+                        "description": "",
+                        "default": "",
+                        "type": "",
+                        "value": "",
+                        "choices": [],
+                    }
+                )
+                option_class = get_type_hints(middleware.plugin_object.process)["options"]
+                middleware_fields = self.inspect_fields(option_class)
+                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
         self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
@@ -203,20 +274,22 @@ class TaskManager(QObject):
                     path.unlink()
 
     @property
-    def input_format(self) -> str:
+    def input_format(self) -> Optional[str]:
         return settings.last_input_format
 
     @input_format.setter
-    def input_format(self, value: str) -> None:
-        settings.last_input_format = value
+    def input_format(self, value: Optional[str]) -> None:
+        if value is not None:
+            settings.last_input_format = value
 
     @property
-    def output_format(self) -> str:
+    def output_format(self) -> Optional[str]:
         return settings.last_output_format
 
     @output_format.setter
-    def output_format(self, value: str) -> None:
-        settings.last_output_format = value
+    def output_format(self, value: Optional[str]) -> None:
+        if value is not None:
+            settings.last_output_format = value
 
     @Slot(result=bool)
     def start_conversion(self) -> bool:
@@ -227,21 +300,23 @@ class TaskManager(QObject):
 
     @property
     def output_ext(self) -> str:
-        return f".{self.output_format}" if settings.auto_set_output_extension else ""
+        if settings.auto_set_output_extension and self.output_format:
+            return f".{self.output_format}"
+        return ""
 
     @Slot(bool)
     def reset_output_ext(self, value: bool) -> None:
         self.tasks.update_many(0, [{"ext": self.output_ext}] * len(self.tasks))
 
     @staticmethod
-    def output_dir(task: dict) -> pathlib.Path:
+    def output_dir(task: dict[str, Any]) -> pathlib.Path:
         return (
             settings.save_folder
             if settings.save_folder.is_absolute()
             else pathlib.Path(task["path"]).parent / str(settings.save_folder)
         )
 
-    def output_path(self, task: dict) -> pathlib.Path:
+    def output_path(self, task: dict[str, Any]) -> pathlib.Path:
         output_dir = self.output_dir(task)
         return output_dir / f"{task['stem']}{self.output_ext}"
 
@@ -286,12 +361,10 @@ class TaskManager(QObject):
         return result
 
     @staticmethod
-    def inspect_fields(option_class: BaseModel) -> list[dict]:
+    def inspect_fields(option_class: BaseModel) -> list[dict[str, Any]]:
         fields = []
         for option_key, field_info in option_class.model_fields.items():
-            default_value = (
-                None if field_info.default is PydanticUndefined else field_info.default
-            )
+            default_value = None if field_info.default is PydanticUndefined else field_info.default
             if issubclass(field_info.annotation, bool):
                 fields.append(
                     {
@@ -335,9 +408,7 @@ class TaskManager(QObject):
                         "choices": choices,
                     }
                 )
-            elif issubclass(
-                field_info.annotation, (str, int, float, Color, BaseComplexModel)
-            ):
+            elif issubclass(field_info.annotation, (str, int, float, Color, BaseComplexModel)):
                 if issubclass(field_info.annotation, BaseComplexModel):
                     default_value = field_info.annotation.default_repr()
                 fields.append(
@@ -362,10 +433,10 @@ class TaskManager(QObject):
             self.input_format = input_format
             self.input_fields.clear()
             plugin_input = plugin_manager.plugin_registry[self.input_format]
-            if hasattr(plugin_input.plugin_object, "load"):
-                option_class = get_type_hints(plugin_input.plugin_object.load)[
-                    "options"
-                ]
+            if plugin_input.plugin_object is not None and hasattr(
+                plugin_input.plugin_object, "load"
+            ):
+                option_class = get_type_hints(plugin_input.plugin_object.load)["options"]
                 input_fields = self.inspect_fields(option_class)
                 self.input_fields.append_many(input_fields)
             if not self._input_fields_inited:
@@ -379,17 +450,17 @@ class TaskManager(QObject):
             self.output_format = output_format
             self.output_fields.clear()
             plugin_output = plugin_manager.plugin_registry[self.output_format]
-            if hasattr(plugin_output.plugin_object, "dump"):
-                option_class = get_type_hints(plugin_output.plugin_object.dump)[
-                    "options"
-                ]
+            if plugin_output.plugin_object is not None and hasattr(
+                plugin_output.plugin_object, "dump"
+            ):
+                option_class = get_type_hints(plugin_output.plugin_object.dump)["options"]
                 output_fields = self.inspect_fields(option_class)
                 self.output_fields.append_many(output_fields)
             if not self._output_fields_inited:
                 self._output_fields_inited = True
 
     @Slot(str, result="QVariant")
-    def plugin_info(self, name: str) -> dict:
+    def plugin_info(self, name: str) -> dict[str, str]:
         assert name in {"input_format", "output_format"}
         if (suffix := getattr(self, name)) in plugin_manager.plugin_registry:
             plugin = plugin_manager.plugin_registry[suffix]
@@ -449,6 +520,10 @@ class TaskManager(QObject):
     def qget(self, name: str) -> Any:
         return getattr(self, name)
 
+    @Slot(str, result=QAbstractListModel)
+    def get_middleware_fields(self, name: str) -> Any:
+        return self.middleware_fields[name]
+
     @Slot(str, result=str)
     def get_str(self, name: str) -> str:
         assert name in {"input_format", "output_format"}
@@ -457,15 +532,20 @@ class TaskManager(QObject):
     @Slot(str, str)
     def set_str(self, name: str, value: str) -> None:
         assert name in {"input_format", "output_format"}
-        if name == "input_format" and settings.reset_tasks_on_input_change:
-            if value != self.input_format:
-                if delete_len := more_itertools.ilen(
+        if (
+            name == "input_format"
+            and settings.reset_tasks_on_input_change
+            and value != self.input_format
+            and (
+                delete_len := more_itertools.ilen(
                     more_itertools.rstrip(
                         self.tasks,
                         lambda task: task["path"].lower().endswith(f".{value}"),
                     )
-                ):
-                    self.tasks.delete_many(0, delete_len)
+                )
+            )
+        ):
+            self.tasks.delete_many(0, delete_len)
         getattr(self, f"{name}_changed").emit(value)
 
     def plugin_info_file(self, plugin_archive: zipfile.Path) -> Optional[zipfile.Path]:
@@ -478,7 +558,7 @@ class TaskManager(QObject):
         return plugin_info_filename
 
     @Slot(list, result="QVariant")
-    def extract_plugin_infos(self, paths: list[str]) -> list[dict]:
+    def extract_plugin_infos(self, paths: list[str]) -> list[dict[str, str]]:
         infos = []
         for path in paths:
             zip_file = zipfile.Path(path)
@@ -527,10 +607,23 @@ class TaskManager(QObject):
         self.busy_changed.emit(busy)
 
     @Slot()
-    def start(self):
+    def start(self) -> None:
+        if self.input_format is None or self.output_format is None:
+            error_message = "Please select input and output formats first."
+            for i in range(len(self.tasks)):
+                self.tasks.update(i, {"success": False, "error": error_message, "warning": ""})
+            return
         self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
+        middleware_options = {
+            middleware_state["identifier"]: {
+                field["name"]: field["value"]
+                for field in self.middleware_fields[middleware_state["identifier"]]
+            }
+            for middleware_state in self.middleware_states
+            if middleware_state["value"]
+        }
         for i in range(len(self.tasks)):
             self.tasks.update(i, {"success": False, "error": "", "warning": ""})
         self.thread_pool.max_thread_count = (
@@ -547,6 +640,7 @@ class TaskManager(QObject):
                 self.output_format,
                 input_options,
                 output_options,
+                middleware_options,
             )
             worker.signals.result.connect(
                 self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection

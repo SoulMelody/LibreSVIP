@@ -11,10 +11,10 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable
+from bdist_portable import BdistPortable  # noqa: E402
 
-import libresvip
-from libresvip.core.constants import pkg_dir
+import libresvip  # noqa: E402
+from libresvip.core.constants import pkg_dir  # noqa: E402
 
 with contextlib.suppress(Exception):
     if (
@@ -71,7 +71,6 @@ build_exe_options = {
         "qtpy",
         "qtawesome",
         "desktop_notifier",
-        "qtinter",
         "zmq",
     ],
     "include_files": include_files,

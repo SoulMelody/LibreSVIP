@@ -1,12 +1,16 @@
 import dataclasses
 import datetime
 import uuid
+import warnings
 from typing import Optional
 
+from wanakana import PROLONGED_SOUND_MARK
 from xsdata.models.datatype import XmlTime
 
 from libresvip.core.constants import KEY_IN_OCTAVE
+from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -17,10 +21,11 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.translation import gettext_lazy as _
 
 from .cevio_pitch import generate_for_cevio
-from .constants import OCTAVE_OFFSET, TICK_RATE
+from .constants import DEFAULT_PHONEME, OCTAVE_OFFSET, TICK_RATE
 from .model import (
     CeVIOBeat,
     CeVIOCreativeStudioProject,
@@ -56,9 +61,7 @@ class CeVIOGenerator:
         )
         scene_node = ccs_project.sequence.scene
 
-        self.first_bar_length = int(
-            project.time_signature_list[0].bar_length() * TICK_RATE
-        )
+        self.first_bar_length = int(project.time_signature_list[0].bar_length())
 
         default_tempos = self.generate_tempos(project.song_tempo_list)
         default_beats = self.generate_time_signatures(project.time_signature_list)
@@ -76,15 +79,13 @@ class CeVIOGenerator:
         for model in tempos[1:]:
             tempo_node.sound.append(
                 CeVIOSound(
-                    clock=int(model.position * TICK_RATE) + self.first_bar_length,
+                    clock=int(model.position * TICK_RATE),
                     tempo=model.bpm,
                 )
             )
         return tempo_node
 
-    def generate_time_signatures(
-        self, time_signatures: list[TimeSignature]
-    ) -> CeVIOBeat:
+    def generate_time_signatures(self, time_signatures: list[TimeSignature]) -> CeVIOBeat:
         beat = CeVIOBeat(
             time=[
                 CeVIOTime(
@@ -103,7 +104,7 @@ class CeVIOGenerator:
                 ) * prev_time_signature.bar_length()
             beat.time.append(
                 CeVIOTime(
-                    clock=int(tick * TICK_RATE) + self.first_bar_length,
+                    clock=int(tick * TICK_RATE),
                     beats=time_signature.numerator,
                     beat_type=time_signature.denominator,
                 )
@@ -137,13 +138,9 @@ class CeVIOGenerator:
                 new_unit.song.score.note = self.generate_notes(track.note_list)
                 if len(track.note_list):
                     max_tick = track.note_list[-1].end_pos
-                    max_secs = self.time_synchronizer.get_actual_secs_from_ticks(
-                        max_tick
-                    )
+                    max_secs = self.time_synchronizer.get_actual_secs_from_ticks(max_tick)
                     new_unit.duration = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(
-                            max_secs, tz=datetime.timezone.utc
-                        ).time()
+                        datetime.datetime.fromtimestamp(max_secs, tz=datetime.timezone.utc).time()
                     )
 
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
@@ -153,13 +150,9 @@ class CeVIOGenerator:
                 if (
                     track_info := audio_track_info(track.audio_file_path, only_wav=True)
                 ) is not None:
-                    start_secs = self.time_synchronizer.get_actual_secs_from_ticks(
-                        track.offset
-                    )
+                    start_secs = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
                     start_time = XmlTime.from_time(
-                        datetime.datetime.fromtimestamp(
-                            start_secs, tz=datetime.timezone.utc
-                        ).time()
+                        datetime.datetime.fromtimestamp(start_secs, tz=datetime.timezone.utc).time()
                     )
                     end_time = XmlTime.from_time(
                         datetime.datetime.fromtimestamp(
@@ -184,27 +177,34 @@ class CeVIOGenerator:
         return results
 
     def generate_notes(self, notes: list[Note]) -> list[CeVIONote]:
-        return [
-            CeVIONote(
-                clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
-                duration=int(note.length * TICK_RATE),
-                lyric="ー" if note.lyric == "-" else note.lyric,
-                pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
-                pitch_step=note.key_number % KEY_IN_OCTAVE,
+        cevio_notes = []
+        for note in notes:
+            lyric = chr(PROLONGED_SOUND_MARK) if note.lyric == "-" else note.lyric
+            phonetic = None
+            if not is_kana(lyric) and not is_romaji(lyric):
+                phonetic = DEFAULT_PHONEME
+                msg_prefix = _("Unsupported lyric: ")
+                warnings.warn(f"{msg_prefix} {lyric}", PhonemeWarning)
+            cevio_notes.append(
+                CeVIONote(
+                    clock=int(note.start_pos * TICK_RATE),
+                    duration=int(note.length * TICK_RATE),
+                    lyric=lyric,
+                    phonetic=phonetic,
+                    pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
+                    pitch_step=note.key_number % KEY_IN_OCTAVE,
+                )
             )
-            for note in notes
-        ]
+        return cevio_notes
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
     ) -> Optional[CeVIOParameter]:
-        if (
-            data := generate_for_cevio(pitch, tempo_list, self.first_bar_length)
-        ) is not None:
+        if (data := generate_for_cevio(pitch, tempo_list, self.first_bar_length)) is not None:
             log_f0_node = CeVIOParameter(length=data.length)
             log_f0_node.data.extend(
                 CeVIOData(
-                    index=each.index,
+                    index=each.idx,
                     repeat=each.repeat,
                     value=each.value,
                 )

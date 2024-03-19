@@ -1,10 +1,12 @@
+from collections.abc import Callable
+from typing import Optional
+
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
     Params,
     Phones,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
@@ -12,8 +14,9 @@ from libresvip.model.base import (
     Track,
     VibratoParam,
 )
+from libresvip.model.point import Point
 
-from .models import OpenSvipNoteHeadTags, OpenSvipReverbPresets, opensvip_singers
+from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.xstudio_models import (
     XSAppModel,
     XSInstrumentTrack,
@@ -53,13 +56,11 @@ class BinarySvipParser:
             denominator=frac.y,
         )
 
-    def parse_track(self, track: XSITrack) -> Track:
+    def parse_track(self, track: XSITrack) -> Optional[Track]:
         if isinstance(track, XSSingingTrack):
             result_track = SingingTrack()
             result_track.ai_singer_name = opensvip_singers.get_name(track.ai_singer_id)
-            result_track.reverb_preset = OpenSvipReverbPresets.get_name(
-                track.reverb_preset.value
-            )
+            result_track.reverb_preset = svip_reverb_presets.inverse.get(track.reverb_preset.value)
             for note in track.note_list.buf.items:
                 if (ele := self.parse_note(note)) is not None:
                     result_track.note_list.append(ele)
@@ -98,7 +99,7 @@ class BinarySvipParser:
             start_pos=note.start_pos,
             length=note.width_pos,
             key_number=note.key_index - 12,
-            head_tag=OpenSvipNoteHeadTags.get_name(note.head_tag.value),
+            head_tag=svip_note_head_tags.inverse.get(note.head_tag.value),
             lyric=note.lyric,
         )
         if pronunciation := note.pronouncing:
@@ -110,21 +111,18 @@ class BinarySvipParser:
         return result_note
 
     def parse_vibrato(self, note: XSNote) -> VibratoParam:
-        percent = note.vibrato_percent_info
         kwargs = {}
-        if percent is not None:
-            kwargs["start_percent"] = percent.start_percent
-            kwargs["end_percent"] = percent.end_percent
+        if note.vibrato_percent_info is not None:
+            kwargs["start_percent"] = note.vibrato_percent_info.start_percent
+            kwargs["end_percent"] = note.vibrato_percent_info.end_percent
         elif note.vibrato_percent > 0:
             kwargs["start_percent"] = 1.0 - note.vibrato_percent / 100.0
             kwargs["end_percent"] = 1.0
-        vibrato = note.vibrato
-        return VibratoParam(
-            is_anti_phase=vibrato.is_anti_phase,
-            amplitude=self.parse_param_curve(vibrato.amp_line),
-            frequency=self.parse_param_curve(vibrato.freq_line),
-            **kwargs,
-        )
+        if note.vibrato is not None:
+            kwargs["is_anti_phase"] = note.vibrato.is_anti_phase
+            kwargs["amplitude"] = self.parse_param_curve(note.vibrato.amp_line)
+            kwargs["frequency"] = self.parse_param_curve(note.vibrato.freq_line)
+        return VibratoParam(**kwargs)
 
     @staticmethod
     def parse_phones(phone: XSNotePhoneInfo) -> Phones:
@@ -134,8 +132,15 @@ class BinarySvipParser:
         )
 
     @staticmethod
-    def parse_param_curve(line: XSLineParam, op=lambda x: x) -> ParamCurve:
+    def parse_param_curve(
+        line: XSLineParam, op: Optional[Callable[[float], float]] = None
+    ) -> ParamCurve:
+        if op is None:
+
+            def op(x: float) -> float:
+                return x
+
         param_curve = ParamCurve()
         for point in line.nodes:
-            param_curve.points.append(Point(x=point.pos, y=op(point.value)))
+            param_curve.points.append(Point(x=point.pos, y=int(op(point.value))))
         return param_curve

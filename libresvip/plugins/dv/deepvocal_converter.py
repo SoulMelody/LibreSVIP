@@ -15,9 +15,7 @@ class DeepVocalConverter(plugin_base.SVSConverterBase):
         dv_project = dv_project_struct.parse(path.read_bytes())
         return parser.parse_project(dv_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         dv_project = DeepVocalGenerator(options).generate_project(project)
         dv_content = dv_project_struct.build(dv_project)
         path.write_bytes(dv_content)

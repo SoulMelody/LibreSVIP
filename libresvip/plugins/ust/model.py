@@ -52,14 +52,14 @@ ust_grammar = Grammar(
         (newline ust_note_attr)*
 
     ust_note_head =
-        "[#" ~"(\d{4}|PREV|NEXT|INSERT|DELETE)" "]"
+        "[#" ~"(\d+|PREV|NEXT|INSERT|DELETE)" "]"
 
     ust_track_end = "[#TRACKEND]"
 
     ust_tag_entry = ust_note_head / ust_track_end
 
     utau_pitch_bend_mode =
-        "s" / "r" / "j" / ""
+        "s" / "r" / "j" / "null" / ""
 
     ust_pitch_bend_type =
         "5" / "OldData"
@@ -83,7 +83,7 @@ ust_grammar = Grammar(
         ("PBType" "=" ust_pitch_bend_type) /
         ("PBStart" "=" float) /
         (~"Piches|Pitches|PitchBend" "=" int ("," int)* ) /
-        ("PBS" "=" float (~";|," float)* ) /
+        ("PBS" "=" optional_float (~";|," optional_float)*) /
         ("PBW" "=" optional_float ("," optional_float)*) /
         ("PBY" "=" optional_float ("," optional_float)*) /
         ("VBR" "=" optional_float ("," optional_float)*) /
@@ -110,8 +110,8 @@ ust_grammar = Grammar(
     value = ~"[^\r\n]*"
     newline = ~"\r?\n"
     bool = "1" / "0" / "True" / "False"
-    optional_float = float?
-    float = (int frac) / int
+    optional_float = float / "null" / ""
+    float = int frac? (~"[eE][+-]?" digits)?
     int = "-"? ((digit1to9 digits) / digit)
     frac = "." digits
     digits = digit+
@@ -171,7 +171,7 @@ class UTAUNote(BaseModel):
     pitchbend_start: Optional[float] = None
     pitchbend_type: Optional[UTAUPitchBendType] = None
     pitch_bend_points: list[int] = Field(default_factory=list)
-    pbs: list[float] = Field(default_factory=list)
+    pbs: list[OptionalFloat] = Field(default_factory=list)
     pbw: list[OptionalFloat] = Field(default_factory=list)
     pby: list[OptionalFloat] = Field(default_factory=list)
     pbm: list[UTAUPitchBendMode] = Field(default_factory=list)
@@ -197,7 +197,7 @@ class UTAUTimeSignature(BaseModel):
 
 
 class UTAUProject(BaseModel):
-    ust_version: float
+    ust_version: Optional[float] = 1.2
     project_name: str = "New Project"
     track_count: int = 1
     pitch_mode2: bool = False
@@ -240,9 +240,7 @@ class UstVisitor(NodeVisitor):
     def visit_ust_setting_line(self, node: Node, visited_children: list[Any]) -> None:
         key = visited_children[0][0].text
         if key == "Tempo":
-            if (
-                tempo_value := self.tempo2bpm(visited_children[0][2])
-            ) < MAX_ACCEPTED_BPM:
+            if (tempo_value := self.tempo2bpm(visited_children[0][2])) < MAX_ACCEPTED_BPM:
                 self.pending_metadata["tempo"] = tempo_value
         elif key == "UstVersion":
             self.pending_metadata["ust_version"] = visited_children[0][2]
@@ -271,9 +269,7 @@ class UstVisitor(NodeVisitor):
         elif key == "TimeSignatures":
             numerator, denominator, bar_index = visited_children[0][2][1::2]
             self.pending_metadata["time_signatures"] = [
-                UTAUTimeSignature(
-                    numerator=numerator, denominator=denominator, bar_index=bar_index
-                )
+                UTAUTimeSignature(numerator=numerator, denominator=denominator, bar_index=bar_index)
             ]
             for pair in visited_children[0][3]:
                 numerator, denominator, bar_index = pair[1][1::2]
@@ -285,9 +281,7 @@ class UstVisitor(NodeVisitor):
                     )
                 )
 
-    def visit_ust_envelope(
-        self, node: Node, visited_children: list[Any]
-    ) -> UTAUEnvelope:
+    def visit_ust_envelope(self, node: Node, visited_children: list[Any]) -> UTAUEnvelope:
         kwargs = {"p1": visited_children[0]}
         (
             kwargs["p2"],
@@ -313,10 +307,8 @@ class UstVisitor(NodeVisitor):
     def visit_value(self, node: Node, visited_children: list[Any]) -> str:
         return node.text
 
-    def visit_utau_pitch_bend_mode(
-        self, node: Node, visited_children: list[Any]
-    ) -> str:
-        return node.text
+    def visit_utau_pitch_bend_mode(self, node: Node, visited_children: list[Any]) -> str:
+        return "" if node.text == "null" else node.text
 
     def visit_ust_pitch_bend_type(self, node: Node, visited_children: list[Any]) -> str:
         return node.text
@@ -410,9 +402,7 @@ class UstVisitor(NodeVisitor):
             self.pending_note_attrs = {}
         self.pending_note_attrs["note_type"] = visited_children[1].text
 
-    def visit_ust_track(
-        self, node: Node, visited_children: list[Any]
-    ) -> Optional[UTAUTrack]:
+    def visit_ust_track(self, node: Node, visited_children: list[Any]) -> Optional[UTAUTrack]:
         if len(self.pending_note_attrs):
             self.pending_notes.append(UTAUNote(**self.pending_note_attrs))
             self.pending_note_attrs = {}
@@ -430,10 +420,12 @@ class UstVisitor(NodeVisitor):
     def visit_float(self, node: Node, visited_children: list[Any]) -> float:
         return float(node.text)
 
-    def visit_optional_float(
-        self, node: Node, visited_children: list[Any]
-    ) -> OptionalFloat:
-        return visited_children[0] if len(visited_children) == 1 else node.text
+    def visit_optional_float(self, node: Node, visited_children: list[Any]) -> OptionalFloat:
+        return (
+            visited_children[0]
+            if len(visited_children) == 1 and isinstance(visited_children[0], float)
+            else ""
+        )
 
     def generic_visit(self, node: Node, visited_children: list[Any]) -> Any:
         return visited_children or node

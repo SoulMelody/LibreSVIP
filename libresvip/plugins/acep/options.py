@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from enum import Enum
 from types import SimpleNamespace
-from typing import Annotated, Literal
+from typing import Annotated, Literal, Union
 
-from pydantic import Field, field_validator
+from pydantic import Field, ValidationInfo, field_validator
 
 from libresvip.model.base import BaseModel
 
@@ -55,7 +57,7 @@ class NormalizationArgument(BaseModel):
         return ",".join(default_strs)
 
     @classmethod
-    def from_str(cls, v: str):
+    def from_str(cls, v: str) -> NormalizationArgument:
         fields = cls.model_fields
         try:
             obj = cls(**dict(zip(fields.keys(), v.split(","))))
@@ -132,7 +134,9 @@ class InputOptions(BaseModel):
         mode="before",
     )
     @classmethod
-    def _validate_normalization_argument(cls, v, _info):
+    def _validate_normalization_argument(
+        cls, v: Union[str, dict[str, Union[str, float]]], _info: ValidationInfo
+    ) -> NormalizationArgument:
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()
         return v

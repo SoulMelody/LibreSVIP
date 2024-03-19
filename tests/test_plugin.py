@@ -7,7 +7,7 @@ import pytest
 from rich import print
 
 from libresvip.extension.manager import plugin_manager
-from libresvip.utils import to_unicode
+from libresvip.utils.text import to_unicode
 
 plugin_registry = plugin_manager.plugin_registry
 
@@ -44,7 +44,8 @@ def test_vshp_read(shared_datadir: pathlib.Path) -> None:
     print(normlized_path)
 
 
-def test_dv_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
+@pytest.mark.usefixtures("_pretty_construct")
+def test_dv_read(shared_datadir: pathlib.Path) -> None:
     from libresvip.plugins.dv.model import dv_project_struct
 
     proj_path = shared_datadir / "test.dv"
@@ -52,7 +53,8 @@ def test_dv_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
     print(asdict(proj))
 
 
-def test_mtp_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
+@pytest.mark.usefixtures("_pretty_construct")
+def test_mtp_read(shared_datadir: pathlib.Path) -> None:
     from libresvip.plugins.mtp.model import muta_project_struct
 
     proj_path = shared_datadir / "test.mtp"
@@ -64,7 +66,8 @@ def test_mtp_read(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
     #             print(chr(note.lyric[0]))
 
 
-def test_tssln_write(shared_datadir: pathlib.Path, pretty_construct: None) -> None:
+@pytest.mark.usefixtures("_pretty_construct")
+def test_tssln_write(shared_datadir: pathlib.Path) -> None:
     from libresvip.plugins.tssln.model import VoiSonaProject, model_to_value_tree
     from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
 
@@ -123,10 +126,10 @@ def test_acep_read(
         print(proj)
 
 
+@pytest.mark.usefixtures("_pretty_construct")
 def test_ppsf_read(
     shared_datadir: pathlib.Path,
     capsys: pytest.CaptureFixture[str],
-    pretty_construct: None,
 ) -> None:
     from libresvip.plugins.ppsf.legacy_model import PpsfLegacyProject
     from libresvip.plugins.ppsf.model import PpsfProject
@@ -199,7 +202,7 @@ def test_gj_read(
 def test_dspx_read(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    from libresvip.plugins.dspx.model import DspxModel
+    from experimental.dspx.model import DspxModel
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.dspx"
@@ -261,31 +264,37 @@ def test_ccs_read(shared_datadir: pathlib.Path) -> None:
 def test_s5p_read(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
+    from libresvip.plugins.s5p.options import InputOptions
+
     with capsys.disabled():
-        s5p_plugin = plugin_registry["s5p"].plugin_object
-        proj_path = shared_datadir / "test.s5p"
-        proj = s5p_plugin.load(proj_path, None)
-        print(proj)
+        if s5p_plugin := plugin_registry["s5p"].plugin_object:
+            proj_path = shared_datadir / "test.s5p"
+            proj = s5p_plugin.load(proj_path, InputOptions())
+            print(proj)
 
 
 def test_svp_read(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
+    from libresvip.plugins.svp.options import InputOptions
+
     with capsys.disabled():
-        svp_plugin = plugin_registry["svp"].plugin_object
-        proj_path = shared_datadir / "test.svp"
-        proj = svp_plugin.load(proj_path, None)
-        print(proj)
+        if svp_plugin := plugin_registry["svp"].plugin_object:
+            proj_path = shared_datadir / "test.svp"
+            proj = svp_plugin.load(proj_path, InputOptions())
+            print(proj)
 
 
 def test_svp_write(
     shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
+    from libresvip.plugins.svp.options import InputOptions, OutputOptions
+
     with capsys.disabled():
-        svp_plugin = plugin_registry["svp"].plugin_object
-        proj_path = shared_datadir / "test.svp"
-        proj = svp_plugin.load(proj_path, None)
-        svp_plugin.dump("./test.svp", proj, None)
+        if svp_plugin := plugin_registry["svp"].plugin_object:
+            proj_path = shared_datadir / "test.svp"
+            proj = svp_plugin.load(proj_path, InputOptions())
+            svp_plugin.dump(pathlib.Path("./test.svp"), proj, OutputOptions())
 
 
 def test_svip_read(
@@ -307,16 +316,17 @@ def test_svip_write(
 ) -> None:
     # from libresvip.plugins.svip.msnrbf.svip_reader import SvipReader
     # from libresvip.plugins.svip.msnrbf.svip_writer import SvipWriter
+    from libresvip.plugins.svip.options import InputOptions, OutputOptions
 
     with capsys.disabled():
-        svip_plugin = plugin_registry["svip"].plugin_object
-        proj_path = shared_datadir / "test.svip"
-        proj = svip_plugin.load(proj_path, None)
-        svip_plugin.dump("./test.svip", proj, None)
-        # with SvipReader() as registry:
-        #     version, proj = registry.read(proj_path)
-        # with SvipWriter() as writer:
-        #     writer.write(pathlib.Path("./test.svip"), version, proj)
+        if svip_plugin := plugin_registry["svip"].plugin_object:
+            proj_path = shared_datadir / "test.svip"
+            proj = svip_plugin.load(proj_path, InputOptions())
+            svip_plugin.dump(pathlib.Path("./test.svip"), proj, OutputOptions())
+            # with SvipReader() as registry:
+            #     version, proj = registry.read(proj_path)
+            # with SvipWriter() as writer:
+            #     writer.write(pathlib.Path("./test.svip"), version, proj)
 
 
 def test_vsq_read(shared_datadir: pathlib.Path) -> None:

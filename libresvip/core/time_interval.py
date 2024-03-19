@@ -3,17 +3,59 @@ from __future__ import annotations
 import dataclasses
 import operator
 from functools import reduce, singledispatchmethod
-from typing import Any, Iterable, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 import portion
 
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterable, Mapping
+
+    UnaryFunction = Callable[[Union[int, float]], float]
+    UnaryFunctionOrConstant = Union[UnaryFunction, int, float]
+
 
 class PiecewiseIntervalDict(portion.IntervalDict):
-    def __getitem__(self, key: Union[portion.Interval, int, float]) -> Any:
-        item = super().__getitem__(key)
-        if not isinstance(key, portion.Interval) and callable(item):
-            item = item(key)
-        return item
+    def __init__(
+        self,
+        mapping_or_iterable: Optional[
+            Union[
+                Mapping[portion.Interval, UnaryFunctionOrConstant],
+                Iterable[tuple[portion.Interval, UnaryFunctionOrConstant]],
+            ]
+        ] = None,
+    ) -> None:
+        super().__init__(mapping_or_iterable=mapping_or_iterable)
+        self._last_index = 0
+
+    def _get_func(self, x: float) -> Optional[UnaryFunctionOrConstant]:
+        _last_index = self._last_index
+        while _last_index < len(self._storage._list):
+            boundary, func = self._storage.peekitem(_last_index)
+            if x in boundary:
+                self._last_index = _last_index
+                return func
+            elif x < boundary:
+                self._last_index = _last_index
+                break
+            _last_index += 1
+
+    def __setitem__(self, key: portion.Interval, value: UnaryFunctionOrConstant) -> None:
+        if isinstance(key, portion.Interval):
+            interval = key
+        else:
+            interval = self._klass.from_atomic(portion.Bound.CLOSED, key, key, portion.Bound.CLOSED)
+
+        if interval.empty:
+            return
+
+        self._storage[interval] = value
+
+    def __getitem__(self, key: Union[portion.Interval, float]) -> Optional[UnaryFunctionOrConstant]:
+        if isinstance(key, portion.Interval):
+            return super().__getitem__(key)
+        elif (func := self._get_func(key)) is not None:
+            return func(key) if callable(func) else func
+        raise KeyError(key)
 
 
 @dataclasses.dataclass
@@ -99,10 +141,7 @@ class RangeInterval:
 
     def shift(self, offset: int) -> RangeInterval:
         return RangeInterval(
-            [
-                (sub_range[0] + offset, sub_range[1] + offset)
-                for sub_range in self.sub_ranges()
-            ]
+            [(sub_range[0] + offset, sub_range[1] + offset) for sub_range in self.sub_ranges()]
         )
 
     def __and__(self, other: RangeInterval) -> RangeInterval:

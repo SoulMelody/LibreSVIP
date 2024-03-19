@@ -2,20 +2,18 @@ import abc
 from dataclasses import dataclass, field
 from typing import Optional
 
-from libresvip.utils import note2midi
+from libresvip.utils.music_math import note2midi
 
 
 @dataclass
 class VocalSharpParamBase(abc.ABC):
-    time: Optional[int] = field(
-        default=None,
+    time: int = field(
         metadata={
             "name": "t",
             "type": "Element",
         },
     )
-    value: Optional[int] = field(
-        default=None,
+    value: int = field(
         metadata={
             "name": "v",
             "type": "Element",
@@ -267,7 +265,7 @@ class VocalSharpTrackBase(abc.ABC):
 
 @dataclass
 class VocalSharpInstrumentalTrackBase(VocalSharpTrackBase, abc.ABC):
-    sequences: Optional[list[VocalSharpSequence]] = field(
+    sequences: list[VocalSharpSequence] = field(
         default_factory=list,
         metadata={
             "name": "Sequence",
@@ -421,19 +419,17 @@ class VocalSharpNote:
     class Meta:
         name = "Note"
 
-    pos: Optional[int] = field(
-        default=None,
+    pitch: str = field(
+        metadata={
+            "type": "Element",
+        },
+    )
+    pos: int = field(
         metadata={
             "type": "Element",
         },
     )
     duration: Optional[int] = field(
-        default=None,
-        metadata={
-            "type": "Element",
-        },
-    )
-    pitch: Optional[str] = field(
         default=None,
         metadata={
             "type": "Element",
@@ -504,7 +500,7 @@ class VocalSharpNoteTrack(VocalSharpTrackBase):
             "type": "Element",
         },
     )
-    parameter: Optional[VocalSharpParameter] = field(
+    parameter: VocalSharpParameter = field(
         default_factory=VocalSharpParameter,
         metadata={
             "name": "Parameter",
@@ -546,21 +542,21 @@ class VocalSharpInnerProject:
             "type": "Element",
         },
     )
-    tempo: Optional[list[VocalSharpTempo]] = field(
+    tempo: list[VocalSharpTempo] = field(
         default_factory=list,
         metadata={
             "name": "Tempo",
             "type": "Element",
         },
     )
-    beat: Optional[list[VocalSharpBeat]] = field(
+    beat: list[VocalSharpBeat] = field(
         default_factory=list,
         metadata={
             "name": "Beat",
             "type": "Element",
         },
     )
-    tracks: Optional[list[object]] = field(
+    tracks: list[object] = field(
         default_factory=list,
         metadata={
             "type": "Elements",
@@ -585,7 +581,7 @@ class VocalSharpProject:
             "type": "Element",
         },
     )
-    project: Optional[VocalSharpInnerProject] = field(
+    project: VocalSharpInnerProject = field(
         default_factory=VocalSharpInnerProject,
         metadata={
             "name": "Project",

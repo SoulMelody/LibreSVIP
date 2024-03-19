@@ -1,12 +1,13 @@
+from __future__ import annotations
+
 import abc
 import dataclasses
 import enum
 import operator
-from typing import Callable, Iterable
+from typing import TYPE_CHECKING, Union
 
-from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.point import Point
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .interval_utils import position_to_ticks
 from .layer_generator import (
@@ -15,7 +16,13 @@ from .layer_generator import (
     NoteStruct,
     VibratoLayerGenerator,
 )
-from .model import SVNote
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterable
+
+    from libresvip.core.time_sync import TimeSynchronizer
+
+    from .model import SVNote
 
 
 class ParamOperators(enum.Enum):
@@ -27,10 +34,10 @@ class ParamOperators(enum.Enum):
 
 class ParamExpression(abc.ABC):
     @abc.abstractmethod
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         pass
 
-    def __add__(self, other):
+    def __add__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return TranslationalParam(
                 self,
@@ -43,7 +50,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __sub__(self, other):
+    def __sub__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return self + (-other)
         else:
@@ -53,7 +60,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return ScaledParam(
                 self,
@@ -66,7 +73,7 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: Union[int, ParamExpression]) -> ParamExpression:
         if isinstance(other, int):
             return self * (1 / other)
         else:
@@ -82,8 +89,8 @@ class ScaledParam(ParamExpression):
     expression: ParamExpression
     ratio: float
 
-    def value_at_ticks(self, ticks: int) -> int:
-        return int(round(self.ratio * self.expression.value_at_ticks(ticks)))
+    def value_at_ticks(self, ticks: int) -> float:
+        return self.ratio * self.expression.value_at_ticks(ticks)
 
 
 @dataclasses.dataclass
@@ -91,7 +98,7 @@ class TranslationalParam(ParamExpression):
     expression: ParamExpression
     offset: int
 
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         return self.expression.value_at_ticks(ticks) + self.offset
 
 
@@ -106,7 +113,7 @@ class CurveGenerator(ParamExpression):
 
     def __post_init__(
         self,
-        _point_list: list[Point],
+        _point_list: Iterable[Point],
         _interpolation: Callable[[float], float],
         _base_value: int = 0,
     ) -> None:
@@ -119,20 +126,16 @@ class CurveGenerator(ParamExpression):
                 current_sum += value
                 overlap_count += 1
             else:
-                self.point_list.append(
-                    Point(current_pos, round(current_sum / overlap_count))
-                )
+                self.point_list.append(Point(current_pos, round(current_sum / overlap_count)))
                 current_sum = value
                 overlap_count = 1
             current_pos = pos
         if current_pos != -1:
-            self.point_list.append(
-                Point(current_pos, round(current_sum / overlap_count))
-            )
+            self.point_list.append(Point(current_pos, round(current_sum / overlap_count)))
         self.interpolation = _interpolation
         self.base_value = _base_value
 
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         if len(self.point_list) == 0:
             return self.base_value
         index = find_last_index(self.point_list, lambda point: point.x <= ticks)
@@ -144,33 +147,35 @@ class CurveGenerator(ParamExpression):
             (ticks - self.point_list[index].x)
             / (self.point_list[index + 1].x - self.point_list[index].x)
         )
-        return round(
-            (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
-        )
+        return (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
 
     def get_converted_curve(self, step: int) -> list[Point]:
-        result = []
+        result: list[Point] = []
         if len(self.point_list) == 0:
-            result.append(Point.start_point(self.base_value))
-            result.append(Point.end_point(self.base_value))
+            result.extend(
+                (
+                    Point.start_point(self.base_value),
+                    Point.end_point(self.base_value),
+                )
+            )
             return result
         prev_point = self.point_list[0]
-        result.append(Point.start_point(prev_point.y))
-        result.append(Point(prev_point.x, prev_point.y))
+        result.extend((Point.start_point(prev_point.y), Point(prev_point.x, prev_point.y)))
         for current_point in self.point_list[1:]:
             if prev_point.y == self.base_value and current_point.y == self.base_value:
-                result.append(Point(prev_point.x, self.base_value))
-                result.append(Point(current_point.x, self.base_value))
+                result.extend(
+                    (
+                        Point(prev_point.x, self.base_value),
+                        Point(current_point.x, self.base_value),
+                    )
+                )
             else:
                 for p in range(prev_point.x + step, current_point.x, step):
-                    r = self.interpolation(
-                        (p - prev_point.x) / (current_point.x - prev_point.x)
-                    )
+                    r = self.interpolation((p - prev_point.x) / (current_point.x - prev_point.x))
                     v = round((1 - r) * prev_point.y + r * current_point.y)
                     result.append(Point(p, v))
             prev_point = current_point
-        result.append(Point(prev_point.x, prev_point.y))
-        result.append(Point.end_point(prev_point.y))
+        result.extend((Point(prev_point.x, prev_point.y), Point.end_point(prev_point.y)))
         return result
 
 
@@ -222,9 +227,7 @@ class PitchGenerator(ParamExpression):
         note_structs = [
             NoteStruct(
                 key=sv_note.pitch,
-                start=_synchronizer.get_actual_secs_from_ticks(
-                    position_to_ticks(sv_note.onset)
-                ),
+                start=_synchronizer.get_actual_secs_from_ticks(position_to_ticks(sv_note.onset)),
                 end=_synchronizer.get_actual_secs_from_ticks(
                     position_to_ticks(sv_note.onset + sv_note.duration)
                 ),
@@ -246,12 +249,12 @@ class PitchGenerator(ParamExpression):
         self.vibrato_layer = VibratoLayerGenerator(note_structs)
         self.gaussian_layer = GaussianLayerGenerator(note_structs)
 
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         return self.value_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
-    def value_at_secs(self, secs: float) -> int:
+    def value_at_secs(self, secs: float) -> float:
         ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
-        return round(
+        return (
             self.base_layer.pitch_at_secs(secs)
             + self.pitch_diff.value_at_ticks(ticks)
             + self.vibrato_layer.pitch_diff_at_secs(secs)

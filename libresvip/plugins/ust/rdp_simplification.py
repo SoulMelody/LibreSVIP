@@ -4,8 +4,8 @@ from libresvip.model.point import Point
 
 
 def perpendicular_distance(pt: Point, line_start: Point, line_end: Point) -> float:
-    dx = line_end.x - line_start.x
-    dy = line_end.y - line_start.y
+    dx: float = line_end.x - line_start.x
+    dy: float = line_end.y - line_start.y
 
     # Normalize
     mag = math.hypot(dx, dy)
@@ -39,18 +39,16 @@ def simplify_shape(point_list: list[Point], epsilon: float) -> list[Point]:
             index = i
             dmax = d
 
-    # If max distance is greater than epsilon, recursively simplify
-    if dmax > epsilon:
-        first_line = point_list[: index + 1]
-        last_line = point_list[index:]
-        rec_results1 = simplify_shape(first_line, epsilon)
-        rec_results2 = simplify_shape(last_line, epsilon)
-
-        # build the result list
-        return rec_results1[:-1] + rec_results2
-    else:
+    if dmax <= epsilon:
         # Just return start and end points
         return [point_list[0], point_list[-1]]
+    first_line = point_list[: index + 1]
+    last_line = point_list[index:]
+    rec_results1 = simplify_shape(first_line, epsilon)
+    rec_results2 = simplify_shape(last_line, epsilon)
+
+    # build the result list
+    return rec_results1[:-1] + rec_results2
 
 
 def simplify_shape_to(point_list: list[Point], max_point_count: int) -> list[Point]:

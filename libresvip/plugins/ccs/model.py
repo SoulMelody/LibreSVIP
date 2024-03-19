@@ -700,7 +700,7 @@ class CeVIOTts:
             "type": "Element",
         },
     )
-    sound_sources: Optional[CeVIOSoundSources] = field(
+    sound_sources: CeVIOSoundSources = field(
         default_factory=CeVIOSoundSources,
         metadata={
             "name": "SoundSources",
@@ -767,6 +767,13 @@ class CeVIOTimeline:
         default=None,
         metadata={
             "name": "StartPosition",
+            "type": "Attribute",
+        },
+    )
+    end_position: Optional[XmlTime] = field(
+        default=None,
+        metadata={
+            "name": "EndPosition",
             "type": "Attribute",
         },
     )
@@ -882,7 +889,7 @@ class CeVIOSvss:
             "type": "Element",
         },
     )
-    sound_sources: Optional[CeVIOSoundSources] = field(
+    sound_sources: CeVIOSoundSources = field(
         default_factory=CeVIOSoundSources,
         metadata={
             "name": "SoundSources",
@@ -910,7 +917,7 @@ class CeVIOGeneration:
             "type": "Element",
         },
     )
-    svss: Optional[CeVIOSvss] = field(
+    svss: CeVIOSvss = field(
         default_factory=CeVIOSvss,
         metadata={
             "name": "SVSS",
@@ -952,14 +959,14 @@ class CeVIOSong:
             "type": "Element",
         },
     )
-    score: Optional[CeVIOScore] = field(
+    score: CeVIOScore = field(
         default_factory=CeVIOScore,
         metadata={
             "name": "Score",
             "type": "Element",
         },
     )
-    parameter: Optional[CeVIOParameters] = field(
+    parameter: CeVIOParameters = field(
         default_factory=CeVIOParameters,
         metadata={
             "name": "Parameter",
@@ -1030,8 +1037,8 @@ class CeVIOBaseUnit:
 
 @dataclass
 class CeVIOSongUnit(CeVIOBaseUnit):
-    song: Optional[CeVIOSong] = field(
-        default=None,
+    song: CeVIOSong = field(
+        default_factory=CeVIOSong,
         metadata={
             "name": "Song",
             "type": "Element",
@@ -1363,14 +1370,14 @@ class CeVIOScene:
             "type": "Element",
         },
     )
-    units: Optional[CeVIOUnits] = field(
+    units: CeVIOUnits = field(
         default_factory=CeVIOUnits,
         metadata={
             "name": "Units",
             "type": "Element",
         },
     )
-    groups: Optional[CeVIOGroups] = field(
+    groups: CeVIOGroups = field(
         default_factory=CeVIOGroups,
         metadata={
             "name": "Groups",
@@ -1398,7 +1405,7 @@ class CeVIOSequence:
             "type": "Attribute",
         },
     )
-    scene: Optional[CeVIOScene] = field(
+    scene: CeVIOScene = field(
         default_factory=CeVIOScene,
         metadata={
             "name": "Scene",
@@ -1419,14 +1426,14 @@ class CeVIOCreativeStudioProject:
             "type": "Attribute",
         },
     )
-    generation: Optional[CeVIOGeneration] = field(
+    generation: CeVIOGeneration = field(
         default_factory=CeVIOGeneration,
         metadata={
             "name": "Generation",
             "type": "Element",
         },
     )
-    sequence: Optional[CeVIOSequence] = field(
+    sequence: CeVIOSequence = field(
         default_factory=CeVIOSequence,
         metadata={
             "name": "Sequence",

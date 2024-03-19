@@ -1,6 +1,7 @@
 import pathlib
 import re
-from typing import Any, TextIO
+from typing import Any, Optional, TextIO
+from xml.sax.saxutils import XMLGenerator
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
@@ -11,7 +12,7 @@ from xsdata.formats.dataclass.serializers.xml import (
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import EchoGenerator
+from libresvip.utils.xmlutils import EchoGenerator
 
 from .model import VocalSharpProject
 from .options import InputOptions, OutputOptions
@@ -20,13 +21,17 @@ from .vspx_parser import VocalSharpParser
 
 
 class VocalSharpXMLWriter(XmlEventWriter):
-    def __init__(self, config: SerializerConfig, output: TextIO, ns_map: dict):
+    def __init__(
+        self, config: SerializerConfig, output: TextIO, ns_map: dict[Optional[str], str]
+    ) -> None:
         super().__init__(config, output, ns_map)
-        self.handler = EchoGenerator(
+
+    def build_handler(self) -> XMLGenerator:
+        return EchoGenerator(
             out=self.output, encoding=self.config.encoding, short_empty_elements=True
         )
 
-    def set_data(self, data: Any):
+    def set_data(self, data: Any) -> None:
         if (
             isinstance(data, str)
             and self.pending_tag
@@ -51,13 +56,14 @@ class VocalSharpXMLWriter(XmlEventWriter):
         else:
             super().set_data(data)
 
-    def start_document(self):
+    def start_document(self) -> None:
         if self.config.xml_declaration:
-            self.output.write(f'<?xml version="{self.config.xml_version}"')
-            self.output.write(f' encoding="{self.config.encoding}" standalone="no"?>\n')
+            self.output.write(
+                f'<?xml version="{self.config.xml_version}" encoding="{self.config.encoding}" standalone="no"?>\n'
+            )
 
 
-def strip_whitespace(matcher: re.Match) -> str:
+def strip_whitespace(matcher: re.Match[str]) -> str:
     first_tag = matcher[1]
     second_tag = matcher[2]
     if first_tag != second_tag:
@@ -66,7 +72,7 @@ def strip_whitespace(matcher: re.Match) -> str:
         return matcher.group()
 
 
-def replace_self_closed(matcher: re.Match) -> str:
+def replace_self_closed(matcher: re.Match[str]) -> str:
     indent = matcher[1]
     tag = matcher[2]
     return f"{indent}<{tag}>{indent}</{tag}>"
@@ -77,9 +83,7 @@ class VocalSharpConverter(plugin_base.SVSConverterBase):
         vspx_project = XmlParser().from_bytes(path.read_bytes(), VocalSharpProject)
         return VocalSharpParser(options).parse_project(vspx_project)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         vspx_project = VocalSharpGenerator(options).generate_project(project)
         serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True, pretty_print_indent="\t"),
@@ -90,4 +94,4 @@ class VocalSharpConverter(plugin_base.SVSConverterBase):
         xml_text = re.sub(r"\s+(</[a-zA-Z]>)", r"\1", xml_text)
         xml_text = re.sub(r"</([a-z])>\s+<([a-z])>", strip_whitespace, xml_text)
         xml_text = re.sub(r"(\n\s*)<([a-zA-Z]+)/>", replace_self_closed, xml_text)
-        path.write_text(xml_text, encoding="utf-8")
+        path.write_bytes(xml_text.encode("utf-8"))

@@ -1,9 +1,12 @@
 from __future__ import annotations
 
-from typing import MutableSequence
+from typing import TYPE_CHECKING
 
 import proto
 from google.protobuf import any_pb2
+
+if TYPE_CHECKING:
+    from collections.abc import MutableSequence
 
 __protobuf__ = proto.module(
     package="xstudio.proto",
@@ -369,9 +372,7 @@ class Svip3SingingPattern(proto.Message):
         number=13,
         message="Svip3LineParamNode",
     )
-    edited_spec_trans_coef_line: MutableSequence[
-        Svip3LineParamNode
-    ] = proto.RepeatedField(
+    edited_spec_trans_coef_line: MutableSequence[Svip3LineParamNode] = proto.RepeatedField(
         proto.MESSAGE,
         number=14,
         message="Svip3LineParamNode",
@@ -395,6 +396,14 @@ class Svip3SingingPattern(proto.Message):
         proto.INT32,
         number=18,
     )
+    singing_method_id: str = proto.Field(
+        proto.STRING,
+        number=19,
+    )
+
+    @property
+    def pos(self) -> int:
+        return self.real_pos + self.play_pos
 
 
 class Svip3Vibrato(proto.Message):

@@ -1,14 +1,13 @@
 import contextlib
 import dataclasses
 import warnings
-from gettext import gettext as _
 
 import mido_fix as mido
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import LyricsWarning
+from libresvip.core.warning_types import PhonemeWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -19,6 +18,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import SUPPORTED_PINYIN
 from .model import (
@@ -36,7 +36,7 @@ from .model import (
     GjgjVolumeMap,
 )
 from .options import OutputOptions
-from .singers import singer2id
+from .singers import DEFAULT_SINGER_ID, singer2id
 
 
 @dataclasses.dataclass
@@ -56,14 +56,10 @@ class GjgjGenerator:
             tempo_map=GjgjTempoMap(
                 ticks_per_quarter_note=TICKS_IN_BEAT,
                 tempos=self.generate_tempos(project.song_tempo_list),
-                time_signature=self.generate_time_signatures(
-                    project.time_signature_list
-                ),
+                time_signature=self.generate_time_signatures(project.time_signature_list),
             ),
         )
-        gjgj_project.tracks, gjgj_project.accompaniments = self.generate_tracks(
-            project.track_list
-        )
+        gjgj_project.tracks, gjgj_project.accompaniments = self.generate_tracks(project.track_list)
         return gjgj_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[GjgjTempos]:
@@ -104,18 +100,14 @@ class GjgjGenerator:
                 singing_tracks.append(self.generate_singing_track(track, track_index))
                 track_index += 1
             elif isinstance(track, InstrumentalTrack):
-                instrumental_tracks.append(
-                    self.generate_instrumental_track(track, track_index)
-                )
+                instrumental_tracks.append(self.generate_instrumental_track(track, track_index))
                 track_index += 1
         return singing_tracks, instrumental_tracks
 
-    def generate_singing_track(
-        self, track: SingingTrack, track_index: int
-    ) -> GjgjSingingTrack:
+    def generate_singing_track(self, track: SingingTrack, track_index: int) -> GjgjSingingTrack:
         return GjgjSingingTrack(
             id_value=str(track_index),
-            name=singer2id[self.options.singer or track.ai_singer_name],
+            name=singer2id.get(self.options.singer or track.ai_singer_name, DEFAULT_SINGER_ID),
             master_volume=GjgjTrackVolume(mute=track.mute),
             beat_items=self.generate_notes(track.note_list),
             tone=self.generate_pitch(track.edited_params.pitch),
@@ -132,12 +124,9 @@ class GjgjGenerator:
             master_volume=GjgjTrackVolume(mute=track.mute),
         )
 
-    def position_to_time(self, origin: int) -> int:
-        position = origin + self.first_bar_length
+    def position_to_time(self, position: int) -> int:
         if position > 0:
-            return round(
-                self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000
-            )
+            return round(self.time_synchronizer.get_actual_secs_from_ticks(position) * 10000000)
         else:
             return round(position / TICKS_IN_BEAT * 60 / self.first_bar_bpm * 10000000)
 
@@ -145,10 +134,10 @@ class GjgjGenerator:
         notes = []
         pinyin_list = get_pinyin_series([note.lyric for note in note_list])
         for note, pinyin in zip(note_list, pinyin_list):
-            pronunciation = pinyin if note.pronunciation is None else note.pronunciation
+            pronunciation = note.pronunciation or pinyin
             if pronunciation not in SUPPORTED_PINYIN:
                 msg_prefx = _("Unsupported pinyin:")
-                warnings.warn(f"{msg_prefx} {pronunciation}", LyricsWarning)
+                warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
                 pronunciation = ""
             if note.head_tag == "0":
                 beat_style = GjgjBeatStyle.SIL
@@ -156,36 +145,28 @@ class GjgjGenerator:
                 beat_style = GjgjBeatStyle.SP
             else:
                 beat_style = GjgjBeatStyle.NONE
-            pre_time, post_time = 0, 0
+            pre_time, post_time = 0.0, 0.0
             if note.edited_phones is not None:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:
-                        note_start_pos_in_ticks = note.start_pos + self.first_bar_length
-                        note_start_pos_in_secs = (
-                            self.time_synchronizer.get_actual_secs_from_ticks(
-                                note_start_pos_in_ticks
-                            )
+                        note_start_pos_in_ticks = note.start_pos
+                        note_start_pos_in_secs = self.time_synchronizer.get_actual_secs_from_ticks(
+                            note_start_pos_in_ticks
                         )
                         phone_head_position_in_secs = (
-                            note_start_pos_in_secs
-                            + note.edited_phones.head_length_in_secs
+                            note_start_pos_in_secs + note.edited_phones.head_length_in_secs
                         )
                         phone_head_position_in_ticks = (
                             self.time_synchronizer.get_actual_ticks_from_secs(
                                 phone_head_position_in_secs
                             )
                         )
-                        difference = (
-                            note_start_pos_in_ticks - phone_head_position_in_ticks
-                        )
+                        difference = note_start_pos_in_ticks - phone_head_position_in_ticks
                         pre_time = -difference * (2000 / 3) / TICKS_IN_BEAT
 
                     if note.edited_phones.mid_ratio_over_tail != -1:
                         post_time = (
-                            -(
-                                note.length
-                                / (1 + note.edited_phones.mid_ratio_over_tail)
-                            )
+                            -(note.length / (1 + note.edited_phones.mid_ratio_over_tail))
                             * (2000 / 3)
                             / TICKS_IN_BEAT
                         )
@@ -209,13 +190,13 @@ class GjgjGenerator:
         ticks_buffer = []
         value_buffer = []
         ori_prev_ticks = -100
-        pitch_points = []
+        pitch_points: list[GjgjPoint] = []
         modify_ranges = []
-        for point in pitch.points:
+        for point in pitch.points.root:
             ori_ticks, ori_value = point.x, point.y
             if ori_prev_ticks != ori_ticks:
                 if ori_value != -100 and ori_ticks not in (-192000, 1073741823):
-                    ticks_buffer.append(ori_ticks)
+                    ticks_buffer.append(ori_ticks - self.first_bar_length)
                     value_buffer.append(ori_value)
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
                     pitch_points.extend(
@@ -231,11 +212,11 @@ class GjgjGenerator:
                             y=ticks_buffer[-1],
                         )
                     )
-                    ticks_buffer = []
-                    value_buffer = []
+                    ticks_buffer.clear()
+                    value_buffer.clear()
             ori_prev_ticks = ori_ticks
         return GjgjTone(
-            modifys=pitch_points,
+            modifies=pitch_points,
             modify_ranges=modify_ranges,
         )
 
@@ -245,13 +226,13 @@ class GjgjGenerator:
         ticks_buffer = []
         value_buffer = []
         prev_ticks = 0
-        for volume in volume_curve.points[1:]:
+        for volume in volume_curve.points.root[1:]:
             tick = volume.x
             if prev_ticks != tick:
                 ori_value = volume.y
                 value = (ori_value + 1000) / 1000
                 if ori_value != 0:
-                    ticks_buffer.append(tick)
+                    ticks_buffer.append(tick - self.first_bar_length)
                     value_buffer.append(value)
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:
                     volume_map.append(
@@ -273,6 +254,6 @@ class GjgjGenerator:
                             volume=1,
                         )
                     )
-                    ticks_buffer = []
-                    value_buffer = []
+                    ticks_buffer.clear()
+                    value_buffer.clear()
         return volume_map

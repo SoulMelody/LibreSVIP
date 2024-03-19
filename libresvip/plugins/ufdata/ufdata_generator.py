@@ -9,6 +9,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
 from .model import (
     UFData,
@@ -25,14 +26,14 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class UFDataGenerator:
     options: OutputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> UFData:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
         return UFData(
             project=UFProject(
                 tempos=self.generate_tempos(project.song_tempo_list),
-                time_signatures=self.generate_time_signatures(
-                    project.time_signature_list
-                ),
+                time_signatures=self.generate_time_signatures(project.time_signature_list),
                 tracks=self.generate_tracks(project.track_list),
                 measure_prefix=0,
             )
@@ -66,7 +67,7 @@ class UFDataGenerator:
             UFTracks(
                 name=track.title,
                 notes=self.generate_notes(track.note_list),
-                pitch=self.generate_pitch(track.edited_params.pitch),
+                pitch=self.generate_pitch(track.edited_params.pitch, track.note_list),
             )
             for track in track_list
             if isinstance(track, SingingTrack)
@@ -84,10 +85,16 @@ class UFDataGenerator:
             for note in note_list
         ]
 
-    @staticmethod
-    def generate_pitch(pitch: ParamCurve) -> UFPitch:
-        return UFPitch(
-            is_absolute=True,
-            ticks=[point.x for point in pitch.points],
-            values=[point.y for point in pitch.points],
+    def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> UFPitch:
+        uf_pitch = UFPitch(
+            is_absolute=False,
+            ticks=[],
+            values=[],
         )
+        if notes:
+            for point in RelativePitchCurve(self.first_bar_length).from_absolute(
+                pitch.points.root, notes, 5
+            ):
+                uf_pitch.ticks.append(point.x)
+                uf_pitch.values.append(point.y / 100)
+        return uf_pitch

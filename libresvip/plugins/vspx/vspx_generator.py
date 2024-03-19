@@ -12,8 +12,8 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.model.point import linear_interpolation
-from libresvip.utils import audio_track_info, midi2note
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import linear_interpolation, midi2note
 
 from .model import (
     PIT,
@@ -43,33 +43,21 @@ class VocalSharpGenerator:
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         vspx_project.project.tempo = self.generate_tempos(project.song_tempo_list)
-        vspx_project.project.beat = self.generate_time_signatures(
-            project.time_signature_list
-        )
+        vspx_project.project.beat = self.generate_time_signatures(project.time_signature_list)
         singing_tracks = self.generate_singing_tracks(
             [track for track in project.track_list if isinstance(track, SingingTrack)]
         )
         vspx_project.project.tracks.extend(singing_tracks)
         vspx_project.project.tracks.extend(
             self.generate_instrumental_tracks(
-                [
-                    track
-                    for track in project.track_list
-                    if isinstance(track, InstrumentalTrack)
-                ]
+                [track for track in project.track_list if isinstance(track, InstrumentalTrack)]
             )
         )
         max_duration = max(
-            (
-                note.pos + note.duration
-                for track in singing_tracks
-                for note in track.note
-            ),
+            (note.pos + note.duration for track in singing_tracks for note in track.note),
             default=0,
         )
-        vspx_duration = (
-            math.ceil(max(max_duration - 122880, 0) / 30720) * 30720 + 122880
-        )
+        vspx_duration = math.ceil(max(max_duration - 122880, 0) / 30720) * 30720 + 122880
         vspx_project.project.duration = vspx_duration
         return vspx_project
 
@@ -97,11 +85,9 @@ class VocalSharpGenerator:
     def generate_instrumental_tracks(
         self, instrumental_tracks: list[InstrumentalTrack]
     ) -> list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]:
-        track_list = []
+        track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]] = []
         for track in instrumental_tracks:
-            if (
-                track_info := audio_track_info(track.audio_file_path, only_wav=True)
-            ) is not None:
+            if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 sequence = VocalSharpSequence(
                     name=track.title,
                     path=track.audio_file_path,
@@ -139,10 +125,8 @@ class VocalSharpGenerator:
                 is_solo=str(track.solo),
                 note=self.generate_notes(track.note_list),
             )
-            if pitch_points := self.generate_pitch(
-                track.edited_params.pitch, note_track
-            ):
-                note_track.parameter = VocalSharpParameter(points=pitch_points)
+            if pitch_points := self.generate_pitch(track.edited_params.pitch, note_track):
+                note_track.parameter = VocalSharpParameter(points=pitch_points)  # type: ignore[arg-type]
             note_tracks.append(note_track)
         return note_tracks
 
@@ -158,19 +142,16 @@ class VocalSharpGenerator:
             for note in notes
         ]
 
-    def generate_pitch(
-        self, pitch: ParamCurve, note_track: VocalSharpNoteTrack
-    ) -> list[PIT]:
+    def generate_pitch(self, pitch: ParamCurve, note_track: VocalSharpNoteTrack) -> list[PIT]:
         base_pitch_curve = BasePitchCurve(note_track, None, self.synchronizer)
-        pitch_points = []
+        pitch_points: list[PIT] = []
         prev_point: Optional[PIT] = None
-        for point in pitch.points:
+        for point in pitch.points.root:
             cur_tick = point.x - self.first_bar_length
             cur_secs = self.synchronizer.get_actual_secs_from_ticks(cur_tick)
             if (
                 point.y > 0
-                and (base_key := base_pitch_curve.semitone_value_at(cur_secs))
-                is not None
+                and (base_key := base_pitch_curve.semitone_value_at(cur_secs)) is not None
             ):
                 if prev_point is not None:
                     cur_value = point.y - base_key * 100

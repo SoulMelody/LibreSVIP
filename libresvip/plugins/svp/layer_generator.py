@@ -1,15 +1,16 @@
 import dataclasses
 import math
-from typing import Callable, NamedTuple
+from collections.abc import Callable
+from typing import NamedTuple
 
 import more_itertools
 
 from libresvip.core.exceptions import ParamsError
-from libresvip.utils import clamp, find_index
+from libresvip.utils.music_math import clamp
+from libresvip.utils.search import find_index
 
+from .constants import MAX_BREAK
 from .lambert_w import LambertW
-
-MAX_BREAK = 0.01
 
 
 class NoteStruct(NamedTuple):
@@ -50,27 +51,31 @@ class SigmoidNode:
         return 5.5
 
     def __post_init__(
-        self, _start, _end, _center, _radius, _key_left, _key_right
+        self,
+        _start: float,
+        _end: float,
+        _center: float,
+        _radius: float,
+        _key_left: int,
+        _key_right: int,
     ) -> None:
         self.start = _start
         self.end = _end
         self.center = _center
-        h = (_key_right - _key_left) * 100
+        h: float = (_key_right - _key_left) * 100
         a = 1 / (1 + math.exp(self.k))
         power = 0.75
 
         left = self.center - self.start
-        if left >= _radius:
+        if left >= _radius or left == 0:
             k_l = self.k
             h_l = h
-            d_l = 0
+            d_l = 0.0
         else:
             al = a * math.pow(_radius / left, power)
             bl = left / _radius
             cl = al * bl * self.k / (2 * al - 1)
-            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(
-                cl * math.exp(cl), -1
-            )
+            k_l = al / (2 * al - 1) * self.k - 1 / bl * LambertW.evaluate(cl * math.exp(cl), -1)
             h_l = h * k_l / (2 * k_l - self.k)
             d_l = -_radius / k_l * math.log(2 * h_l / h - 1)
 
@@ -85,18 +90,16 @@ class SigmoidNode:
             / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
         )
 
-        r = self.end - self.center
-        if r >= _radius:
+        right = self.end - self.center
+        if right >= _radius or right == 0:
             k_r = self.k
             h_r = h
-            d_r = 0
+            d_r = 0.0
         else:
-            ar = a * math.pow(_radius / r, power)
-            br = r / _radius
+            ar = a * math.pow(_radius / right, power)
+            br = right / _radius
             cr = ar * br * self.k / (2 * ar - 1)
-            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(
-                cr * math.exp(cr), -1
-            )
+            k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
             h_r = h * k_r / (2 * k_r - self.k)
             d_r = -_radius / k_r * math.log(2 * h_r / h - 1)
 
@@ -125,22 +128,18 @@ class BaseLayerGenerator:
     note_list: list[NoteStruct] = dataclasses.field(init=False)
     sigmoid_nodes: list[SigmoidNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: list[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         if not _note_list:
             return
         self.note_list = _note_list
         for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
-            if (
-                current_note.slide_right
-                and next_note.slide_left
-                and next_note.start - current_note.end <= MAX_BREAK
+            if (diameter := current_note.slide_right + next_note.slide_left) and (
+                next_note.start - current_note.end <= MAX_BREAK
             ):
                 start = clamp(
-                    current_note.end
-                    - current_note.slide_right
-                    + next_note.slide_offset,
+                    current_note.end - current_note.slide_right + next_note.slide_offset,
                     current_note.start,
                     current_note.end,
                 )
@@ -159,7 +158,7 @@ class BaseLayerGenerator:
                         _start=start,
                         _end=end,
                         _center=mid,
-                        _radius=(current_note.slide_right + next_note.slide_left) / 2,
+                        _radius=diameter / 2,
                         _key_left=current_note.key,
                         _key_right=next_note.key,
                     )
@@ -179,10 +178,8 @@ class BaseLayerGenerator:
 
     def pitch_at_secs(self, secs: float) -> float:
         query = [node for node in self.sigmoid_nodes if node.start <= secs < node.end]
-        if len(query) == 0:
-            on_note_index = find_index(
-                self.note_list, lambda note: note.start <= secs < note.end
-            )
+        if not query:
+            on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
                 return self.note_list[on_note_index].key * 100
             return (
@@ -194,19 +191,17 @@ class BaseLayerGenerator:
             )
         elif len(query) == 1:
             return query[0].value_at_secs(secs)
-        elif len(query) == 2:
+        elif len(query) <= 3:
             first = query[0]
-            second = query[1]
-            width = first.end - second.start
-            bottom = first.value_at_secs(second.start)
-            top = second.value_at_secs(first.end)
-            diff1 = first.slope_at_secs(second.start)
-            diff2 = second.slope_at_secs(first.end)
-            return self.cubic_bezier(width, bottom, top, diff1, diff2)(
-                secs - second.start
-            )
+            last = query[-1]
+            width = first.end - last.start
+            bottom = first.value_at_secs(last.start)
+            top = last.value_at_secs(first.end)
+            diff1 = first.slope_at_secs(last.start)
+            diff2 = last.slope_at_secs(first.end)
+            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - last.start)
         else:
-            msg = "More than two sigmoid nodes overlapped"
+            msg = "More than three sigmoid nodes overlapped"
             raise ParamsError(msg)
 
     @staticmethod
@@ -245,21 +240,17 @@ class GaussianNode:
         _width: float,
         _length_l: float,
         _length_r: float,
-    ):
+    ) -> None:
         self.origin = _origin
         _depth *= 100
         sigma_base = abs(self.ratio_sigma * _width)
         if is_end_point:
             sigma_l = min(sigma_base, _length_l / self.expand)
             self.start = self.origin - sigma_l * self.expand
-            self.gaussian_l = lambda x: _depth * math.exp(
-                -(((x - self.origin) / sigma_l) ** 2)
-            )
+            self.gaussian_l = lambda x: _depth * math.exp(-(((x - self.origin) / sigma_l) ** 2))
             sigma_r = min(sigma_base, _length_r / self.expand)
             self.end = self.origin + sigma_r * self.expand
-            self.gaussian_r = lambda x: _depth * math.exp(
-                -(((x - self.origin) / sigma_r) ** 2)
-            )
+            self.gaussian_r = lambda x: _depth * math.exp(-(((x - self.origin) / sigma_r) ** 2))
         else:
             sign = 1 if _depth > 0 else -1 if _depth < 0 else 0
             depth = abs(_depth)
@@ -307,10 +298,7 @@ class GaussianNode:
                 )
 
     def value_at_secs(self, secs: float) -> float:
-        if secs < self.origin:
-            return self.gaussian_l(secs)
-        else:
-            return self.gaussian_r(secs)
+        return self.gaussian_l(secs) if secs < self.origin else self.gaussian_r(secs)
 
 
 @dataclasses.dataclass
@@ -318,8 +306,8 @@ class GaussianLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: list[NoteStruct]):
-        if len(_note_list) == 0:
+    def __post_init__(self, _note_list: list[NoteStruct]) -> None:
+        if not _note_list:
             return
         current_note = _note_list[0]
         self.gaussian_nodes.append(
@@ -451,7 +439,7 @@ class VibratoLayerGenerator:
     _note_list: dataclasses.InitVar[list[NoteStruct]]
     vibrato_nodes: list[VibratoNode] = dataclasses.field(default_factory=list)
 
-    def __post_init__(self, _note_list: list[NoteStruct]):
+    def __post_init__(self, _note_list: list[NoteStruct]) -> None:
         for i in range(len(_note_list)):
             start, end = _note_list[i].start, _note_list[i].end
             if end - start <= _note_list[i].vibrato_start:
@@ -480,7 +468,5 @@ class VibratoLayerGenerator:
 
     def pitch_diff_at_secs(self, secs: float) -> float:
         return sum(
-            node.value_at_secs(secs)
-            for node in self.vibrato_nodes
-            if node.start <= secs < node.end
+            node.value_at_secs(secs) for node in self.vibrato_nodes if node.start <= secs < node.end
         )

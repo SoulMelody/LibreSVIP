@@ -4,7 +4,7 @@ import math
 import statistics
 from enum import Enum
 from itertools import chain
-from typing import Annotated, Callable, Literal, NamedTuple, Optional, Union
+from typing import TYPE_CHECKING, Annotated, Literal, NamedTuple, Optional, Union
 
 from more_itertools import chunked, minmax
 from pydantic import (
@@ -18,10 +18,14 @@ from pydantic import (
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
-from libresvip.model.point import PointList, linear_interpolation
+from libresvip.model.point import PointList
+from libresvip.utils.music_math import linear_interpolation
 
 from .ace_curve_utils import interpolate_hermite
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class AcepAnchorPoint(NamedTuple):
@@ -29,7 +33,7 @@ class AcepAnchorPoint(NamedTuple):
     value: float
 
 
-class AcepAnchorPoints(PointList, RootModel[list[AcepAnchorPoint]]):
+class AcepAnchorPoints(PointList[AcepAnchorPoint], RootModel[list[AcepAnchorPoint]]):
     root: list[AcepAnchorPoint] = Field(default_factory=list)
 
 
@@ -42,12 +46,8 @@ class AcepParamCurve(BaseModel):
 
     @field_validator("points", mode="before")
     @classmethod
-    def validate_points(
-        cls, points: list[float], _info: ValidationInfo
-    ) -> AcepAnchorPoints:
-        return AcepAnchorPoints(
-            root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)]
-        )
+    def validate_points(cls, points: list[float], _info: ValidationInfo) -> AcepAnchorPoints:
+        return AcepAnchorPoints(root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)])
 
     @field_serializer("points", when_used="json-unless-none")
     def serialize_points(
@@ -68,9 +68,7 @@ class AcepParamCurve(BaseModel):
                 self.offset = math.floor(self.points.root[0].pos)
                 self.values = [
                     linear_interpolation(pos, self.points.root[0], self.points.root[-1])
-                    for pos in range(
-                        self.offset, math.ceil(self.points.root[-1].pos) + 1
-                    )
+                    for pos in range(self.offset, math.ceil(self.points.root[-1].pos) + 1)
                 ]
 
     def transform(self, value_transform: Callable[[float], float]) -> AcepParamCurve:
@@ -84,7 +82,10 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     root: list[AcepParamCurve] = Field(default_factory=list)
 
     def plus(
-        self, others, default_value: float, transform: Callable[[float], float]
+        self,
+        others: Optional[AcepParamCurveList],
+        default_value: float,
+        transform: Callable[[float], float],
     ) -> AcepParamCurveList:
         if not others:
             return self
@@ -99,16 +100,12 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
             result_curve = AcepParamCurve()
             result_curve.offset = start
             result_curve.values = [0.0] * (end - start)
-            for self_curve in (
-                curve for curve in self.root if start <= curve.offset < end
-            ):
+            for self_curve in (curve for curve in self.root if start <= curve.offset < end):
                 index = self_curve.offset - start
                 for value in self_curve.values:
                     result_curve.values[index] = value
                     index += 1
-            for other_curve in (
-                curve for curve in others.root if start <= curve.offset < end
-            ):
+            for other_curve in (curve for curve in others.root if start <= curve.offset < end):
                 index = other_curve.offset - start
                 for value in other_curve.values:
                     if result_curve.values[index] == 0.0:
@@ -121,45 +118,36 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def exclude(self, predicate: Callable[[float], bool]) -> AcepParamCurveList:
         result = type(self)()
         for curve in self.root:
-            buffer = []
+            buffer: list[float] = []
             pos = curve.offset
             for value in curve.values:
                 pos += 1
                 if predicate(value):
                     if buffer:
-                        result.root.append(
-                            AcepParamCurve(offset=pos - len(buffer), values=buffer)
-                        )
-                        buffer = []
+                        result.root.append(AcepParamCurve(offset=pos - len(buffer), values=buffer))
+                        buffer.clear()
                 else:
                     buffer.append(value)
 
             if buffer:
-                result.root.append(
-                    AcepParamCurve(offset=pos - len(buffer), values=buffer)
-                )
+                result.root.append(AcepParamCurve(offset=pos - len(buffer), values=buffer))
 
         return result
 
     def z_score_normalize(self, d: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        points = sum(curve.values for curve in self.root)
+        points = sum((curve.values for curve in self.root), [])
         miu = statistics.mean(points)
         sigma = statistics.stdev(points)
         return type(self)(
-            root=[
-                curve.transform(lambda x: (x - miu) / sigma * d + b)
-                for curve in self.root
-            ]
+            root=[curve.transform(lambda x: (x - miu) / sigma * d + b) for curve in self.root]
         )
 
     def minmax_normalize(self, r: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        min_, max_ = minmax(
-            sum((curve.values for curve in self.root), []), default=(0, 0)
-        )
+        min_, max_ = minmax(sum((curve.values for curve in self.root), []), default=(0, 0))
         return type(self)(
             root=[
                 curve.transform(lambda x: r * (2 * (x - min_) / (max_ - min_) - 1) + b)
@@ -202,17 +190,13 @@ class AcepTempo(BaseModel):
 
 
 class AcepParams(BaseModel):
-    pitch_delta: AcepParamCurveList = Field(
-        default_factory=AcepParamCurveList, alias="pitchDelta"
-    )
+    pitch_delta: AcepParamCurveList = Field(default_factory=AcepParamCurveList, alias="pitchDelta")
     energy: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     breathiness: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     tension: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     falsetto: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
     gender: AcepParamCurveList = Field(default_factory=AcepParamCurveList)
-    real_energy: AcepParamCurveList = Field(
-        default_factory=AcepParamCurveList, alias="realEnergy"
-    )
+    real_energy: AcepParamCurveList = Field(default_factory=AcepParamCurveList, alias="realEnergy")
     real_breathiness: AcepParamCurveList = Field(
         default_factory=AcepParamCurveList, alias="realBreathiness"
     )
@@ -249,12 +233,8 @@ class AcepNote(BaseModel):
     pronunciation: str = ""
     new_line: bool = Field(False, alias="newLine")
     consonant_len: Optional[int] = Field(None, alias="consonantLen")
-    head_consonants: Optional[list[int]] = Field(
-        default_factory=list, alias="headConsonants"
-    )
-    tail_consonants: Optional[list[int]] = Field(
-        default_factory=list, alias="tailConsonants"
-    )
+    head_consonants: Optional[list[int]] = Field(default_factory=list, alias="headConsonants")
+    tail_consonants: Optional[list[int]] = Field(default_factory=list, alias="tailConsonants")
     syllable: Optional[str] = ""
     br_len: int = Field(0, alias="brLen")
     vibrato: Optional[AcepVibrato] = None
@@ -289,8 +269,7 @@ class AcepVocalPattern(AcepPattern):
     parameters: AcepParams = Field(default_factory=AcepParams)
 
 
-class AcepEmptyTrack(BaseModel):
-    type_: Literal["empty"] = Field(default="empty", alias="type")
+class AcepTrackProperties(BaseModel):
     name: str = ""
     color: str = "#91bcdc"
     gain: float = Field(0.0, le=6.0)
@@ -301,16 +280,20 @@ class AcepEmptyTrack(BaseModel):
     channel: Optional[int] = 0
     listen: Optional[bool] = False
 
-    def __len__(self):
+
+class AcepEmptyTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["empty"] = Field(default="empty", alias="type")
+
+
+class AcepAudioTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["audio"] = Field(default="audio", alias="type")
+    patterns: list[AcepAudioPattern] = Field(default_factory=list)
+
+    def __len__(self) -> int:
         if not len(self.patterns):
             return 0
         last_pattern = self.patterns[-1]
         return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
-
-
-class AcepAudioTrack(AcepEmptyTrack):
-    type_: Literal["audio"] = Field(default="audio", alias="type")
-    patterns: list[AcepAudioPattern] = Field(default_factory=list)
 
 
 class AcepSeedComposition(BaseModel):
@@ -329,11 +312,17 @@ class AcepCustomSinger(BaseModel):
     router: Optional[int] = 1
 
 
-class AcepVocalTrack(AcepEmptyTrack):
+class AcepVocalTrack(AcepTrackProperties, BaseModel):
     type_: Literal["sing"] = Field(default="sing", alias="type")
     singer: AcepCustomSinger = Field(default_factory=AcepCustomSinger)
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     patterns: list[AcepVocalPattern] = Field(default_factory=list)
+
+    def __len__(self) -> int:
+        if not len(self.patterns):
+            return 0
+        last_pattern = self.patterns[-1]
+        return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
 
 
 AcepTrack = Annotated[

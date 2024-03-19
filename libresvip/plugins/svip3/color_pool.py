@@ -14,13 +14,13 @@ _colors = [
 ]
 
 
-def count_color():
+def count_color() -> int:
     return len(_colors)
 
 
-def get_color(index):
+def get_color(index: int) -> str:
     return _colors[index % len(_colors)]
 
 
-def random_color():
+def random_color() -> str:
     return random.choice(_colors)

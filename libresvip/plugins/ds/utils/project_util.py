@@ -1,14 +1,14 @@
-from typing import Iterable
+from collections.abc import Iterable
 
 from libresvip.model.base import (
     ParamCurve,
     Params,
-    Point,
     Points,
     Project,
     SingingTrack,
     TimeSignature,
 )
+from libresvip.model.point import Point
 from libresvip.model.reset_time_axis import reset_time_axis
 
 
@@ -22,9 +22,7 @@ def split_into_segments(
     project = reset_time_axis(project)
     buffer = [track.note_list[0]]
 
-    cur_seg_start = max(
-        track.note_list[0].start_pos - 600, int(track.note_list[0].start_pos * 0.8)
-    )
+    cur_seg_start = max(track.note_list[0].start_pos - 600, int(track.note_list[0].start_pos * 0.8))
     cur_seg_interval = track.note_list[0].start_pos
     for i in range(1, len(track.note_list)):
         prev = track.note_list[i - 1]
@@ -39,12 +37,12 @@ def split_into_segments(
             seg_note_start_pos = buffer[0].start_pos
             pitch_points = [
                 Point(pos - seg_note_start_pos + prepare_space, val)
-                for pos, val in track.edited_params.pitch.points
+                for pos, val in track.edited_params.pitch.points.root
                 if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
             ]
             gender_points = [
                 Point(pos - seg_note_start_pos + prepare_space, val)
-                for pos, val in track.edited_params.gender.points
+                for pos, val in track.edited_params.gender.points.root
                 if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
             ]
             for note in buffer:
@@ -54,9 +52,7 @@ def split_into_segments(
             cur_seg_interval = interval
             segment = Project(
                 song_tempo_list=project.song_tempo_list,
-                time_signature_list=[
-                    TimeSignature(bar_index=0, numerator=4, denominator=4)
-                ],
+                time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
                 track_list=[
                     SingingTrack(
                         note_list=buffer,
@@ -67,9 +63,7 @@ def split_into_segments(
                     )
                 ],
             )
-            yield (
-                seg_note_start_pos - prepare_space
-            ) / 1000.0, segment, trailing_space / 1000.0
+            yield (seg_note_start_pos - prepare_space) / 1000.0, segment, trailing_space / 1000.0
 
             buffer = []
 
@@ -79,12 +73,12 @@ def split_into_segments(
     seg_note_start_pos = buffer[0].start_pos
     pitch_points = [
         Point(pos - seg_note_start_pos + prepare_space, val)
-        for pos, val in track.edited_params.pitch.points
+        for pos, val in track.edited_params.pitch.points.root
         if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
     ]
     gender_points = [
         Point(pos - seg_note_start_pos + prepare_space, val)
-        for pos, val in track.edited_params.gender.points
+        for pos, val in track.edited_params.gender.points.root
         if 1920 <= pos - 1920 <= buffer[-1].end_pos + 50
     ]
     for note in buffer:

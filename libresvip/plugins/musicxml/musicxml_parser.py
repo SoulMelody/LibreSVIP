@@ -3,7 +3,7 @@ from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
-from libresvip.utils import note2midi
+from libresvip.utils.music_math import note2midi
 
 from .models.mxml2 import ScorePart, ScorePartwise, StartStop
 from .options import InputOptions
@@ -40,9 +40,7 @@ class MusicXMLParser:
                     None,
                 )
             tracks.append(
-                self.parse_track(
-                    index, part, score_part, measure_borders, import_tick_rate
-                )
+                self.parse_track(index, part, score_part, measure_borders, import_tick_rate)
             )
 
         return Project(
@@ -55,6 +53,7 @@ class MusicXMLParser:
         self, part_node: ScorePartwise.Part
     ) -> tuple[list[TimeSignature], list[SongTempo], list[int], float]:
         measure_nodes = part_node.measure
+        assert measure_nodes[0].attributes[0].divisions is not None
         divisions = int(measure_nodes[0].attributes[0].divisions)
         import_tick_rate = TICKS_IN_BEAT / divisions
         tempos = []
@@ -70,9 +69,7 @@ class MusicXMLParser:
             ):
                 numerator = int(time_signature_node.beats[0])
                 denominator = int(time_signature_node.beat_type[0])
-                current_time_signature = TimeSignature(
-                    numerator=numerator, denominator=denominator
-                )
+                current_time_signature = TimeSignature(numerator=numerator, denominator=denominator)
                 time_signatures.append(current_time_signature)
 
             sound_nodes = measure_node.sound
@@ -83,7 +80,7 @@ class MusicXMLParser:
                 )
                 tempos.append(tempo)
 
-            tick_position += current_time_signature.bar_length()
+            tick_position += round(current_time_signature.bar_length())
             measure_borders.append(tick_position)
         return time_signatures, tempos, measure_borders, import_tick_rate
 
@@ -109,7 +106,7 @@ class MusicXMLParser:
             for note_node in note_nodes:
                 duration_nodes = note_node.duration
                 duration = (
-                    int(duration_nodes[0]) * import_tick_rate
+                    int(float(duration_nodes[0]) * import_tick_rate)
                     if len(duration_nodes)
                     else None
                 )
@@ -127,17 +124,15 @@ class MusicXMLParser:
 
                 pitch_node = note_node.pitch[0]
                 step = pitch_node.step
+                assert step is not None
+                assert pitch_node.octave is not None
                 alter_node = pitch_node.alter
                 alter = int(alter_node) if alter_node else 0
                 octave = int(pitch_node.octave)
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric
-                lyric = (
-                    lyric_nodes[0].text[0].value
-                    if len(lyric_nodes)
-                    else DEFAULT_CHINESE_LYRIC
-                )
+                lyric = lyric_nodes[0].text[0].value if len(lyric_nodes) else DEFAULT_CHINESE_LYRIC
 
                 if not is_inside_note:
                     note = Note(
@@ -157,11 +152,7 @@ class MusicXMLParser:
                 tick_position += duration
 
                 tie_nodes = note_node.tie
-                if (
-                    len(tie_nodes)
-                    and (tie_node := tie_nodes[0])
-                    and tie_node.type_value
-                ):
+                if len(tie_nodes) and (tie_node := tie_nodes[0]) and tie_node.type_value:
                     if tie_node.type_value == StartStop.START:
                         is_inside_note = True
                     elif tie_node.type_value == StartStop.STOP:

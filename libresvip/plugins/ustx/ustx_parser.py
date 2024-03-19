@@ -1,18 +1,22 @@
 import dataclasses
+import re
+
+import pypinyin
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
+from libresvip.core.lyric_phoneme.japanese import is_kana, to_romaji
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
-from libresvip.utils import db_to_float
+from libresvip.model.point import Point
+from libresvip.utils.music_math import db_to_float
 
 from .model import (
     UNote,
@@ -25,6 +29,8 @@ from .model import (
 )
 from .options import InputOptions
 from .util import BasePitchGenerator
+
+PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
 
 
 @dataclasses.dataclass
@@ -39,9 +45,7 @@ class UstxParser:
         tracks = self.parse_tracks(ustx_project.tracks, ustx_project.voice_parts)
         for track in tracks:
             track.edited_params.pitch.points.append(Point.end_point())
-        tracks.extend(
-            self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts)
-        )
+        tracks.extend(self.parse_wave_parts(ustx_project.tracks, ustx_project.wave_parts))
         return Project(
             song_tempo_list=tempos,
             time_signature_list=time_signatures,
@@ -52,9 +56,7 @@ class UstxParser:
     def parse_tempos(tempos: list[UTempo]) -> list[SongTempo]:
         song_tempo_list = [
             SongTempo(
-                position=tempo.position + 1920
-                if tempo.position > 0
-                else tempo.position,
+                position=tempo.position + 1920 if tempo.position > 0 else tempo.position,
                 bpm=tempo.bpm,
             )
             for tempo in tempos
@@ -79,9 +81,7 @@ class UstxParser:
             time_signature_list.append(TimeSignature())
         return time_signature_list
 
-    def parse_tracks(
-        self, tracks: list[UTrack], voice_parts: list[UVoicePart]
-    ) -> list[Track]:
+    def parse_tracks(self, tracks: list[UTrack], voice_parts: list[UVoicePart]) -> list[Track]:
         track_list = [
             SingingTrack(
                 volume=self.parse_volume(ustx_track.volume),
@@ -97,17 +97,17 @@ class UstxParser:
         for voice_part in voice_parts:
             track_index = voice_part.track_no
             if track_index < len(track_list):
-                track: SingingTrack = track_list[track_index]
+                singing_track: SingingTrack = track_list[track_index]
             else:
                 continue
-            if not track.title:
-                track.title = voice_part.name
+            if not singing_track.title:
+                singing_track.title = voice_part.name
             notes = self.parse_notes(voice_part.notes, voice_part.position)
-            track.note_list.extend(notes)
-            track.edited_params.pitch.points.extend(self.parse_pitch(voice_part))
+            singing_track.note_list.extend(notes)
+            singing_track.edited_params.pitch.points.root.extend(self.parse_pitch(voice_part))
         return [track for track in track_list if len(track.note_list)]
 
-    def parse_pitch(self, part: UVoicePart) -> list[tuple[int, int]]:
+    def parse_pitch(self, part: UVoicePart) -> list[Point]:
         pitch_start = self.base_pitch_generator.pitch_start
         pitch_interval = self.base_pitch_generator.pitch_interval
         first_bar_length = 1920
@@ -128,9 +128,7 @@ class UstxParser:
             for i in range(len(pitches))
         )
         point_list.append(
-            Point(
-                first_bar_length + part.position + len(pitches) * pitch_interval, -100
-            )
+            Point(first_bar_length + part.position + len(pitches) * pitch_interval, -100)
         )
         return point_list
 
@@ -143,10 +141,15 @@ class UstxParser:
                 start_pos=ustx_note.position + tick_prefix,
                 length=ustx_note.duration,
             )
-            if (CHINESE_RE.search(ustx_note.lyric) is None) and len(
-                ustx_note.lyric
-            ) > 1:
-                note.pronunciation = ustx_note.lyric
+            if ustx_note.lyric:
+                if (phonetic_hint := PHONETIC_HINT_RE.search(ustx_note.lyric)) is not None:
+                    note.pronunciation = phonetic_hint.group(1)
+                elif is_kana(ustx_note.lyric):
+                    note.pronunciation = to_romaji(ustx_note.lyric)
+                elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
+                    note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
+                else:
+                    note.pronunciation = ustx_note.lyric
             note_list.append(note)
         return note_list
 
@@ -170,5 +173,5 @@ class UstxParser:
             )
         return track_list
 
-    def parse_volume(self, volume: int) -> float:
+    def parse_volume(self, volume: float) -> float:
         return min(db_to_float(volume, using_amplitude=False), 2)

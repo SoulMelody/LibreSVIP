@@ -1,8 +1,24 @@
+from enum import Enum
+from typing import Annotated
+
 from pydantic import BaseModel, Field
 
 
+class BreathOption(Enum):
+    IGNORE: Annotated[str, Field(title="Ignore all breath notes")] = "ignore"
+    KEEP: Annotated[str, Field(title="Keep as normal notes")] = "keep"
+
+
 class InputOptions(BaseModel):
-    pass
+    lyric_encoding: str = Field(
+        default="shift-jis",
+        title="Lyric text encoding",
+        description="Unless the lyrics are garbled, this option should not be changed.",
+    )
+    breath: BreathOption = Field(
+        default=BreathOption.IGNORE,
+        title="The way to handle breath notes",
+    )
 
 
 class OutputOptions(BaseModel):

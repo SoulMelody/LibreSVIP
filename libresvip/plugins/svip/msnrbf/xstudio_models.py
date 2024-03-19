@@ -11,6 +11,8 @@ from typing import Generic, Literal, NamedTuple, Optional, TypeVar
 from more_itertools import chunked
 
 XSItem = TypeVar("XSItem")
+MIN_NOTE_DURATION = 0.045
+MAX_NOTE_DURATION = 20.0
 
 
 def to_backing_field(key: str) -> str:
@@ -34,7 +36,7 @@ class XSLineParam:
     )
     nodes: list[XSLineParamNode] = dataclasses.field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.nodes = []
         if len(self.line_param) >= 4:
             (node_count,) = struct.unpack("<i", bytearray(self.line_param[:4]))
@@ -49,11 +51,9 @@ class XSLineParam:
                 )
             )
 
-    def convert_to_param(self):
+    def convert_to_param(self) -> None:
         self.line_param = struct.pack("<i", len(self.nodes))
-        self.line_param += struct.pack(
-            f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes)
-        )
+        self.line_param += struct.pack(f"<{len(self.nodes) * 2}i", *chain.from_iterable(self.nodes))
         expected_len = max(64, 2 ** math.ceil(math.log2(len(self.line_param))))
         if len(self.line_param) < expected_len:
             self.line_param += b"\x00" * (expected_len - len(self.line_param))

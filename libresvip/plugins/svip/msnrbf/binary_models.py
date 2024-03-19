@@ -6,6 +6,7 @@ import threading
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from functools import partial
+from typing import Any, BinaryIO, Union
 
 from construct import (
     Adapter,
@@ -16,6 +17,7 @@ from construct import (
     Computed,
     Const,
     Construct,
+    Container,
     ExprAdapter,
     Flag,
     Float32l,
@@ -38,16 +40,19 @@ from construct import (
     this,
 )
 from construct import Enum as CSEnum
+from construct import Path as CSPath
+from construct_typed import Context
+from typing_extensions import Never
 
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)
 
 
 class TimeSpanAdapter(Adapter):
-    def _encode(self, obj: timedelta, context, path) -> int:
+    def _encode(self, obj: timedelta, context: Context, path: CSPath) -> int:
         return int(obj.total_seconds() * 10000000)
 
-    def _decode(self, obj: int, context, path) -> timedelta:
+    def _decode(self, obj: int, context: Context, path: CSPath) -> timedelta:
         return timedelta(microseconds=obj / 10)
 
 
@@ -60,18 +65,18 @@ DateTimeBitStruct = BitStruct(
 
 
 class DateTimeAdapter(Adapter):
-    def _encode(self, obj: datetime, context, path) -> DateTimeBitStruct:
+    def _encode(self, obj: datetime, context: Context, path: CSPath) -> bytes:
         if obj.tzinfo is None:
             kind = 0
         elif obj.tzinfo.utcoffset(obj) == timedelta(0):
             kind = 1
         else:
             kind = 2
-        ticks = (obj - datetime(1, 1, 1)).total_seconds() * 10000000
+        ticks = (obj - datetime(1, 1, 1, tzinfo=timezone.utc)).total_seconds() * 10000000
         return DateTimeBitStruct.build({"ticks": ticks, "kind": kind})
 
-    def _decode(self, obj: DateTimeBitStruct, context, path) -> datetime:
-        date_time = datetime(1, 1, 1) + timedelta(microseconds=obj.ticks / 10)
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> datetime:
+        date_time = datetime(1, 1, 1, tzinfo=timezone.utc) + timedelta(microseconds=obj.ticks / 10)
         if obj.kind == 1:
             date_time = date_time.replace(tzinfo=timezone.utc)
         elif obj.kind == 2:
@@ -84,22 +89,22 @@ DateTime = DateTimeAdapter(DateTimeBitStruct)
 
 
 class Null(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context: Context, path: CSPath) -> int:
         return 0
 
-    def _parse(self, stream, context, path):
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> None:
         return None
 
-    def _build(self, obj, stream, context, path):
+    def _build(self, obj: Container, stream: BinaryIO, context: Context, path: CSPath) -> None:
         pass
 
 
 class Utf8CodePoint(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "Utf8CodePoint has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path):
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> str:
         byte = stream.read(1)
         if not byte:
             raise EOFError
@@ -117,7 +122,9 @@ class Utf8CodePoint(Construct):
             raise ValueError(msg)
         return (byte + stream.read(length - 1)).decode("utf-8")
 
-    def _build(self, obj, stream, context, path):
+    def _build(
+        self, obj: Union[str, bytes], stream: BinaryIO, context: Context, path: CSPath
+    ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         stream.write(obj)
@@ -125,11 +132,11 @@ class Utf8CodePoint(Construct):
 
 
 class LengthPrefixedString(Construct):
-    def _sizeof(self, context, path):
+    def _sizeof(self, context: Context, path: CSPath) -> Never:
         msg = "LengthPrefixedString has no static size"
         raise SizeofError(msg)
 
-    def _parse(self, stream, context, path):
+    def _parse(self, stream: BinaryIO, context: Context, path: CSPath) -> str:
         length = 0
         shift = 0
         for i in range(5):
@@ -147,7 +154,9 @@ class LengthPrefixedString(Construct):
         content = stream.read(length)
         return content.decode("utf-8")
 
-    def _build(self, obj, stream, context, path):
+    def _build(
+        self, obj: Union[str, bytes], stream: BinaryIO, context: Context, path: CSPath
+    ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
         length = len(obj)
@@ -166,25 +175,25 @@ Decimal = ExprAdapter(
 )
 
 
-classes_by_id = defaultdict(dict)
-objects_by_id = defaultdict(dict)
-libraries_by_id = defaultdict(dict)
-references_by_id = defaultdict(dict)
+classes_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
+objects_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
+libraries_by_id: dict[int, dict[int, str]] = defaultdict(dict)
+references_by_id: dict[int, dict[int, Container]] = defaultdict(dict)
 
 
 class RegistryAdapter(Adapter, abc.ABC):
-    def _encode(self, obj, context, path):
+    def _encode(self, obj: Container, context: Context, path: CSPath) -> Any:
         return obj
 
 
 class ClassRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         classes_by_id[threading.get_ident()][obj.class_info.object_id] = obj
         return obj
 
 
 class ObjectRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         if obj.get("array_info", None):
             objects_by_id[threading.get_ident()][obj.array_info.object_id] = obj
         else:
@@ -193,13 +202,13 @@ class ObjectRegistryAdapter(RegistryAdapter):
 
 
 class LibraryRegistryAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         libraries_by_id[threading.get_ident()][obj.library_id] = obj.library_name
         return obj
 
 
 class MemberReferenceAdapter(RegistryAdapter):
-    def _decode(self, obj, context, path):
+    def _decode(self, obj: Container, context: Context, path: CSPath) -> Any:
         ref_cache = references_by_id[threading.get_ident()]
         if obj.id_ref not in ref_cache:
             result = {"id_ref": obj.id_ref, "real_obj": None}
@@ -390,17 +399,13 @@ MemberTypeInfo = Struct(
 
 MemberValueWithType = Struct(
     "binary_type_enum"
-    / Computed(
-        lambda this: (this._.member_type_info["binary_type_enums"][this._._index])
-    ),
+    / Computed(lambda this: (this._.member_type_info["binary_type_enums"][this._._index])),
     "value"
     / Switch(
         lambda this: this.binary_type_enum,
         {
             "Primitive": PrimitiveType(
-                lambda this: this._.member_type_info["additional_infos"][this._._index][
-                    "info"
-                ]
+                lambda this: this._.member_type_info["additional_infos"][this._._index]["info"]
             ),
         },
         default=LazyBound(lambda: Record),
@@ -434,16 +439,12 @@ ClassWithId = ObjectRegistryAdapter(
         "metadata_id" / Int32sl,
         "class_info"
         / Computed(
-            lambda this: (
-                classes_by_id[threading.get_ident()][this.metadata_id]["class_info"]
-            )
+            lambda this: (classes_by_id[threading.get_ident()][this.metadata_id]["class_info"])
         ),
         "member_type_info"
         / Computed(
             lambda this: (
-                classes_by_id[threading.get_ident()][this.metadata_id].get(
-                    "member_type_info", None
-                )
+                classes_by_id[threading.get_ident()][this.metadata_id].get("member_type_info", None)
             )
         ),
         "member_values"
@@ -523,7 +524,7 @@ BinaryArray = ObjectRegistryAdapter(
                     ),
                 ),
             ),
-        )
+        ),
         # TODO: implement multidimensional arrays
     )
 )
@@ -575,8 +576,7 @@ ArraySinglePrimitive = ObjectRegistryAdapter(
         "record_type_enum" / Computed(RecordTypeEnum.ArraySinglePrimitive),
         "array_info" / ArrayInfo,
         "primitive_type_enum" / PrimitiveTypeEnum,
-        "member_values"
-        / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
+        "member_values" / PrimitiveType(this.primitive_type_enum)[this.array_info.length],
     )
 )
 
@@ -643,7 +643,7 @@ MessageEnd = Struct(
 )
 
 
-Record = Struct(
+Record: Container = Struct(
     "record_type_enum" / RecordTypeEnum,
     "obj"
     / Switch(
@@ -674,8 +674,7 @@ Record = Struct(
 )
 
 RecordStream = RepeatUntil(
-    lambda obj, lst, ctx: obj is None
-    or obj["record_type_enum"] == RecordTypeEnum.MessageEnd,
+    lambda obj, lst, ctx: obj is None or obj["record_type_enum"] == RecordTypeEnum.MessageEnd,
     Record,
 )
 

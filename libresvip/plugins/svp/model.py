@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import re
 import sys
 from itertools import chain
-from typing import Literal, NamedTuple, Optional, Union
+from typing import Any, Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
+import zhon
 from more_itertools import chunked
 from pydantic import (
     Field,
@@ -15,10 +17,12 @@ from pydantic import (
     field_validator,
 )
 
+from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
-from libresvip.model.base import BaseModel
+from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
 
+from . import constants
 from .interval_utils import position_to_ticks
 
 
@@ -31,7 +35,7 @@ class SVPoint(NamedTuple):
     value: float
 
 
-class SVPoints(PointList, RootModel[list[SVPoint]]):
+class SVPoints(PointList[SVPoint], RootModel[list[SVPoint]]):
     root: list[SVPoint] = Field(default_factory=list)
 
 
@@ -50,9 +54,7 @@ class SVBaseAttributes(BaseModel):
     param_breathiness: Optional[float] = Field(None, alias="paramBreathiness")
     param_gender: Optional[float] = Field(None, alias="paramGender")
     param_tone_shift: Optional[float] = Field(None, alias="paramToneShift")
-    improvise_attack_release: Optional[bool] = Field(
-        None, alias="improviseAttackRelease"
-    )
+    improvise_attack_release: Optional[bool] = Field(None, alias="improviseAttackRelease")
     language_override: Optional[str] = Field(None, alias="languageOverride")
     phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
 
@@ -85,17 +87,14 @@ class SVParamCurve(BaseModel):
         return SVPoints(root=points)
 
     @field_serializer("points", when_used="json")
-    def serialize_points(
-        self, points: SVPoints, _info: FieldSerializationInfo
-    ) -> list[float]:
+    def serialize_points(self, points: SVPoints, _info: FieldSerializationInfo) -> list[float]:
         return list(chain.from_iterable(points.root))
 
     def edited_range(self, default_value: float = 0.0) -> RangeInterval:
         tolerance = 1e-6
         interval = RangeInterval()
         points = [
-            SVPoint(position_to_ticks(point.offset), point.value)
-            for point in self.points
+            SVPoint(position_to_ticks(point.offset), point.value) for point in self.points.root
         ]
         if not points:
             return interval
@@ -133,20 +132,6 @@ class SVParamCurve(BaseModel):
         return new_curve
 
 
-class SVNoteAttrConsts:
-    default_pitch_transition = 0.0
-    default_pitch_slide = 0.07
-    default_pitch_depth = 0.15
-    default_vibrato_start = 0.25
-    default_vibrato_fade = 0.2
-    default_vibrato_depth = 1.0
-    default_vibrato_frequency = 5.5
-    default_vibrato_phase = 0.0
-    default_vibrato_jitter = 1.0
-    system_pitch_slide = 0.1
-    system_pitch_depth = 0.0
-
-
 class SVParamTake(BaseModel):
     id_value: int = Field(alias="id")
     expr: float
@@ -159,6 +144,15 @@ class SVParamTakes(BaseModel):
 
 
 class SVNoteAttributes(SVBaseAttributes):
+    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
     t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
     p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
     d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
@@ -169,152 +163,109 @@ class SVNoteAttributes(SVBaseAttributes):
     strength: Optional[list[float]] = None
     r_tone: Optional[float] = Field(None, alias="rTone")
     r_intonation: Optional[float] = Field(None, alias="rIntonation")
+    even_syllable_duration: Optional[float] = Field(None, alias="evenSyllableDuration")
 
     def _get_transition_offset(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_transition
-            if self.t_f0_offset is None
-            else self.t_f0_offset
-        )
+        return constants.DEFAULT_PITCH_TRANSITION if self.t_f0_offset is None else self.t_f0_offset
 
     def _set_transition_offset(self, value: float) -> None:
         self.t_f0_offset = value
 
-    transition_offset = property(_get_transition_offset, _set_transition_offset)
+    transition_offset = property(_get_transition_offset, _set_transition_offset)  # type: ignore [pydantic-field]
 
     def _get_slide_left(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_slide
-            if self.t_f0_left is None
-            else self.t_f0_left
-        )
+        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_left is None else self.t_f0_left
 
-    def _set_slide_left(self, value):
+    def _set_slide_left(self, value: float) -> None:
         self.t_f0_left = value
 
-    slide_left = property(_get_slide_left, _set_slide_left)
+    slide_left = property(_get_slide_left, _set_slide_left)  # type: ignore [pydantic-field]
 
     def _get_slide_right(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_slide
-            if self.t_f0_right is None
-            else self.t_f0_right
-        )
+        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_right is None else self.t_f0_right
 
-    def _set_slide_right(self, value):
+    def _set_slide_right(self, value: float) -> None:
         self.t_f0_right = value
 
-    slide_right = property(_get_slide_right, _set_slide_right)
+    slide_right = property(_get_slide_right, _set_slide_right)  # type: ignore [pydantic-field]
 
     def _get_depth_left(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_depth
-            if self.d_f0_left is None
-            else self.d_f0_left
-        )
+        return constants.DEFAULT_PITCH_DEPTH if self.d_f0_left is None else self.d_f0_left
 
-    def _set_depth_left(self, value):
+    def _set_depth_left(self, value: float) -> None:
         self.d_f0_left = value
 
-    depth_left = property(_get_depth_left, _set_depth_left)
+    depth_left = property(_get_depth_left, _set_depth_left)  # type: ignore [pydantic-field]
 
     def _get_depth_right(self) -> float:
-        return (
-            SVNoteAttrConsts.default_pitch_depth
-            if self.d_f0_right is None
-            else self.d_f0_right
-        )
+        return constants.DEFAULT_PITCH_DEPTH if self.d_f0_right is None else self.d_f0_right
 
-    def _set_depth_right(self, value):
+    def _set_depth_right(self, value: float) -> None:
         self.d_f0_right = value
 
-    depth_right = property(_get_depth_right, _set_depth_right)
+    depth_right = property(_get_depth_right, _set_depth_right)  # type: ignore [pydantic-field]
 
     def _get_vibrato_start(self) -> float:
         return (
-            SVNoteAttrConsts.default_vibrato_start
-            if self.t_f0_vbr_start is None
-            else self.t_f0_vbr_start
+            constants.DEFAULT_VIBRATO_START if self.t_f0_vbr_start is None else self.t_f0_vbr_start
         )
 
-    def _set_vibrato_start(self, value):
+    def _set_vibrato_start(self, value: float) -> None:
         self.t_f0_vbr_start = value
 
-    vibrato_start = property(_get_vibrato_start, _set_vibrato_start)
+    vibrato_start = property(_get_vibrato_start, _set_vibrato_start)  # type: ignore [pydantic-field]
 
     def _get_vibrato_left(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_fade
-            if self.t_f0_vbr_left is None
-            else self.t_f0_vbr_left
-        )
+        return constants.DEFAULT_VIBRATO_FADE if self.t_f0_vbr_left is None else self.t_f0_vbr_left
 
-    def _set_vibrato_left(self, value):
+    def _set_vibrato_left(self, value: float) -> None:
         self.t_f0_vbr_left = value
 
-    vibrato_left = property(_get_vibrato_left, _set_vibrato_left)
+    vibrato_left = property(_get_vibrato_left, _set_vibrato_left)  # type: ignore [pydantic-field]
 
     def _get_vibrato_right(self) -> float:
         return (
-            SVNoteAttrConsts.default_vibrato_fade
-            if self.t_f0_vbr_right is None
-            else self.t_f0_vbr_right
+            constants.DEFAULT_VIBRATO_FADE if self.t_f0_vbr_right is None else self.t_f0_vbr_right
         )
 
-    def _set_vibrato_right(self, value):
+    def _set_vibrato_right(self, value: float) -> None:
         self.t_f0_vbr_right = value
 
-    vibrato_right = property(_get_vibrato_right, _set_vibrato_right)
+    vibrato_right = property(_get_vibrato_right, _set_vibrato_right)  # type: ignore [pydantic-field]
 
     def _get_vibrato_depth(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_depth
-            if self.d_f0_vbr is None
-            else self.d_f0_vbr
-        )
+        return constants.DEFAULT_VIBRATO_DEPTH if self.d_f0_vbr is None else self.d_f0_vbr
 
-    def _set_vibrato_depth(self, value):
+    def _set_vibrato_depth(self, value: float) -> None:
         self.d_f0_vbr = value
 
-    vibrato_depth = property(_get_vibrato_depth, _set_vibrato_depth)
+    vibrato_depth = property(_get_vibrato_depth, _set_vibrato_depth)  # type: ignore [pydantic-field]
 
     def _get_vibrato_frequency(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_frequency
-            if self.f_f0_vbr is None
-            else self.f_f0_vbr
-        )
+        return constants.DEFAULT_VIBRATO_FREQUENCY if self.f_f0_vbr is None else self.f_f0_vbr
 
-    def _set_vibrato_frequency(self, value):
+    def _set_vibrato_frequency(self, value: float) -> None:
         self.f_f0_vbr = value
 
-    vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)
+    vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)  # type: ignore [pydantic-field]
 
     def _get_vibrato_phase(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_phase
-            if self.p_f0_vbr is None
-            else self.p_f0_vbr
-        )
+        return constants.DEFAULT_VIBRATO_PHASE if self.p_f0_vbr is None else self.p_f0_vbr
 
-    def _set_vibrato_phase(self, value):
+    def _set_vibrato_phase(self, value: float) -> None:
         self.p_f0_vbr = value
 
-    vibrato_phase = property(_get_vibrato_phase, _set_vibrato_phase)
+    vibrato_phase = property(_get_vibrato_phase, _set_vibrato_phase)  # type: ignore [pydantic-field]
 
     def _get_vibrato_jitter(self) -> float:
-        return (
-            SVNoteAttrConsts.default_vibrato_jitter
-            if self.d_f0_jitter is None
-            else self.d_f0_jitter
-        )
+        return constants.DEFAULT_VIBRATO_JITTER if self.d_f0_jitter is None else self.d_f0_jitter
 
-    def _set_vibrato_jitter(self, value):
+    def _set_vibrato_jitter(self, value: float) -> None:
         self.d_f0_jitter = value
 
-    vibrato_jitter = property(_get_vibrato_jitter, _set_vibrato_jitter)
+    vibrato_jitter = property(_get_vibrato_jitter, _set_vibrato_jitter)  # type: ignore [pydantic-field]
 
-    def set_phone_duration(self, index: int, duration: float):
+    def set_phone_duration(self, index: int, duration: float) -> None:
         if self.dur is None:
             self.dur = [1.0] * (index + 1)
         elif len(self.dur) <= index:
@@ -341,10 +292,10 @@ class SVNoteAttributes(SVBaseAttributes):
             transition_edited &= any(
                 x >= tolerance
                 for x in (
-                    abs(self.slide_left - SVNoteAttrConsts.default_pitch_slide),
-                    abs(self.slide_right - SVNoteAttrConsts.default_pitch_slide),
-                    abs(self.depth_left - SVNoteAttrConsts.default_pitch_depth),
-                    abs(self.depth_right - SVNoteAttrConsts.default_pitch_depth),
+                    abs(self.slide_left - constants.DEFAULT_PITCH_SLIDE),
+                    abs(self.slide_right - constants.DEFAULT_PITCH_SLIDE),
+                    abs(self.depth_left - constants.DEFAULT_PITCH_DEPTH),
+                    abs(self.depth_right - constants.DEFAULT_PITCH_DEPTH),
                 )
             )
 
@@ -363,6 +314,9 @@ class SVNoteAttributes(SVBaseAttributes):
             )
         return transition_edited or vibrato_edited
 
+    def default_language(self, database: SVDatabase) -> str:
+        return self.language_override or database.language_override or database.language
+
 
 class SVNote(BaseModel):
     onset: int
@@ -373,20 +327,16 @@ class SVNote(BaseModel):
     detune: Optional[int] = None
     accent: Optional[str] = None
     attributes: SVNoteAttributes = Field(default_factory=SVNoteAttributes)
-    system_attributes: Optional[SVNoteAttributes] = Field(
-        None, alias="systemAttributes"
-    )
+    system_attributes: Optional[SVNoteAttributes] = Field(None, alias="systemAttributes")
     pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")
     timbre_takes: Optional[SVParamTakes] = Field(None, alias="timbreTakes")
-    musical_type: Optional[Literal["singing", "rap"]] = Field(
-        "singing", alias="musicalType"
-    )
+    musical_type: Optional[Literal["singing", "rap"]] = Field("singing", alias="musicalType")
     instant_mode: Optional[bool] = Field(None, alias="instantMode")
 
-    def cover_range(self):
+    def cover_range(self) -> RangeInterval:
         return RangeInterval([(self.onset, self.onset + self.duration)])
 
-    def merge_attributes(self, attributes: SVNoteAttributes):
+    def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
             by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
         )
@@ -405,11 +355,30 @@ class SVNote(BaseModel):
             regard_default_vibrato_as_unedited, consider_instant_pitch_mode
         )
 
-    def __add__(self, blick_offset: int):
+    def __add__(self, blick_offset: int) -> SVNote:
         return self.model_copy(deep=True, update={"onset": self.onset + blick_offset})
 
-    def __xor__(self, pitch_offset: int):
+    def __xor__(self, pitch_offset: int) -> SVNote:
         return self.model_copy(deep=True, update={"pitch": self.pitch + pitch_offset})
+
+    @staticmethod
+    def normalize_lyric(lyric: str) -> str:
+        return re.sub(
+            r"[\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"'‘’“”]",
+            "",
+            lyric,
+        ).strip()
+
+    @classmethod
+    def normalize_phoneme(cls, note: Note) -> str:
+        if note.pronunciation:
+            return note.pronunciation
+        elif (hanzi := re.search(rf"[{zhon.hanzi.characters}]+", note.lyric)) is not None:
+            return hanzi[0]
+        elif valid_chars := cls.normalize_lyric(note.lyric):
+            return valid_chars
+        else:
+            return DEFAULT_PHONEME
 
 
 class SVRenderConfig(BaseModel):
@@ -439,16 +408,24 @@ class SVParameters(BaseModel):
         default_factory=SVParamCurve, alias="toneShift", title="音区偏移"
     )
 
-    def __add__(self, offset: int):
+    def __add__(self, offset: int) -> SVParameters:
         new_params = self.model_copy(deep=True)
         for key in new_params.model_fields:
-            val = getattr(new_params, key, None)
-            if val is not None:
+            if (val := getattr(new_params, key, None)) is not None:
                 setattr(new_params, key, val + offset)
         return new_params
 
 
 class SVVoice(SVBaseAttributes):
+    t_f0_left: Optional[float] = Field(0.07, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(0.07, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(0.15, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(0.15, alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(0.25, alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(0.2, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(0.2, alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(1.0, alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(5.5, alias="fF0Vbr")
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
     vocal_mode_params: Optional[dict[str, float]] = Field(None, alias="vocalModeParams")
@@ -477,8 +454,8 @@ class SVAudio(BaseModel):
 
 class SVDatabase(BaseModel):
     name: str = ""
-    language: str = ""
-    phoneset: str = ""
+    language: str = "mandarin"
+    phoneset: str = "xsampa"
     version: Optional[Union[str, int]] = None
     language_override: Optional[str] = Field(None, alias="languageOverride")
     phoneset_override: Optional[str] = Field(None, alias="phonesetOverride")
@@ -487,6 +464,8 @@ class SVDatabase(BaseModel):
 
 class SVRef(BaseModel):
     audio: Optional[SVAudio] = None
+    blick_absolute_begin: Optional[int] = Field(0, alias="blickAbsoluteBegin")
+    blick_absolute_end: Optional[int] = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")
     pitch_offset: int = Field(default=0, alias="pitchOffset")
     pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")
@@ -496,9 +475,7 @@ class SVRef(BaseModel):
     voice: SVVoice = Field(default_factory=SVVoice)
     group_id: str = Field(default_factory=uuid_str, alias="groupID")
     is_instrumental: bool = Field(default=False, alias="isInstrumental")
-    system_pitch_delta: SVParamCurve = Field(
-        default_factory=SVParamCurve, alias="systemPitchDelta"
-    )
+    system_pitch_delta: SVParamCurve = Field(default_factory=SVParamCurve, alias="systemPitchDelta")
 
 
 class SVGroup(BaseModel):
@@ -506,13 +483,11 @@ class SVGroup(BaseModel):
     notes: list[SVNote] = Field(default_factory=list)
     parameters: SVParameters = Field(default_factory=SVParameters)
     uuid: str = Field(default_factory=uuid_str)
-    vocal_modes: dict[str, SVParamCurve] = Field(
-        default_factory=dict, alias="vocalModes"
-    )
+    vocal_modes: dict[str, SVParamCurve] = Field(default_factory=dict, alias="vocalModes")
 
     @field_validator("notes", mode="before")
     @classmethod
-    def validate_notes(cls, v: list[dict], _info: ValidationInfo) -> list[dict]:
+    def validate_notes(cls, v: list[dict[str, Any]], _info: ValidationInfo) -> list[dict[str, Any]]:
         return [note for note in v if note["onset"] >= 0]
 
     def overlapped_with(self, other: SVGroup) -> bool:
@@ -563,9 +538,7 @@ class SVTrack(BaseModel):
 
 class SVProject(BaseModel):
     library: list[SVGroup] = Field(default_factory=list)
-    render_config: SVRenderConfig = Field(
-        default_factory=SVRenderConfig, alias="renderConfig"
-    )
+    render_config: SVRenderConfig = Field(default_factory=SVRenderConfig, alias="renderConfig")
     instant_mode_enabled: Optional[bool] = Field(False, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)

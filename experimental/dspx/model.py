@@ -1,185 +1,180 @@
 import abc
-from typing import Annotated, Literal, Union
+from typing import Annotated, Any, Literal, Optional, Union
 
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
 
 
-class DsMetadata(BaseModel):
-    version: str
+class DspxMetadata(BaseModel):
+    version: Optional[str] = None
     name: str
     author: str
 
 
-class DsControl(BaseModel):
+class DspxControl(BaseModel):
     gain: float = 1.0
     mute: bool = False
 
 
-class DsLoop(BaseModel):
+class DspxLoop(BaseModel):
     start: int = 0
     length: int = 0
     enabled: bool = True
 
 
-class DsMaster(BaseModel):
-    control: DsControl = Field(default_factory=DsControl)
-    loop: DsLoop = Field(default_factory=DsLoop)
+class DspxMaster(BaseModel):
+    control: DspxControl = Field(default_factory=DspxControl)
+    loop: DspxLoop = Field(default_factory=DspxLoop)
 
 
-class DsLabel(BaseModel):
+class DspxLabel(BaseModel):
     pos: int = 0
     text: str = ""
 
 
-class DsTempo(BaseModel):
+class DspxTempo(BaseModel):
     pos: int = 0
     value: float = 0.0
 
 
-class DsTimeSignature(BaseModel):
-    pos: int = 0
+class DspxTimeSignature(BaseModel):
+    index: int = 0
     numerator: int = 0
     denominator: int = 0
 
 
 class DsTimeline(BaseModel):
-    time_signatures: list[DsTimeSignature] = Field(
-        default_factory=list, alias="timeSignatures"
-    )
-    tempos: list[DsTempo] = Field(default_factory=list)
-    labels: list[DsLabel] = Field(default_factory=list)
+    time_signatures: list[DspxTimeSignature] = Field(default_factory=list, alias="timeSignatures")
+    tempos: list[DspxTempo] = Field(default_factory=list)
+    labels: list[DspxLabel] = Field(default_factory=list)
 
 
-class DsTime(BaseModel):
+class DspxTime(BaseModel):
     start: int = 0
     length: int = 0
     clip_start: int = Field(0, alias="clipStart")
     clip_len: int = Field(0, alias="clipLen")
 
 
-class DsParamNode(BaseModel):
+class DspxParamNode(BaseModel):
     x: int = 0
     y: int = 0
     interp: Literal["linear", "hermite", "none"] = "linear"
 
 
-class DsParamFree(BaseModel):
+class DspxParamFree(BaseModel):
     type_: Literal["free"] = Field("free", alias="type")
     start: int = 0
     step: int = 0
     values: list[int] = Field(default_factory=list)
 
 
-class DsParamAnchor(BaseModel):
+class DspxParamAnchor(BaseModel):
     type_: Literal["anchor"] = Field("anchor", alias="type")
-    nodes: list[DsParamNode] = Field(default_factory=list)
+    start: int = 0
+    nodes: list[DspxParamNode] = Field(default_factory=list)
 
 
-DsParamCurve = Annotated[
-    Union[DsParamFree, DsParamAnchor], Field(discriminator="type_")
-]
+DsParamCurve = Annotated[Union[DspxParamFree, DspxParamAnchor], Field(discriminator="type_")]
 
 
-class DsParam(BaseModel):
+class DspxParam(BaseModel):
     original: list[DsParamCurve] = Field(default_factory=list)
     edited: list[DsParamCurve] = Field(default_factory=list)
     envelope: list[DsParamCurve] = Field(default_factory=list)
 
 
-class DsParams(BaseModel):
-    pitch: DsParam = Field(default_factory=DsParam)
-    energy: DsParam = Field(default_factory=DsParam)
+class DspxParams(BaseModel):
+    pitch: DspxParam = Field(default_factory=DspxParam)
+    energy: DspxParam = Field(default_factory=DspxParam)
 
 
-class DsVibratoPoint(BaseModel):
-    x: int = 0
-    y: int = 0
+class DspxVibratoPoint(BaseModel):
+    x: float = 0.0
+    y: float = 0.0
 
 
-class DsVibrato(BaseModel):
-    start: int = 0
-    end: int = 0
+class DspxVibrato(BaseModel):
+    start: float = 0.0
+    end: float = 0.0
     freq: float = 0.0
     phase: float = 0.0
     amp: float = 0.0
     offset: float = 0.0
-    points: list[DsVibratoPoint] = Field(default_factory=list)
+    points: list[DspxVibratoPoint] = Field(default_factory=list)
 
 
-class DsPhoneme(BaseModel):
+class DspxPhoneme(BaseModel):
     type_: Literal["ahead", "normal", "final"] = Field("normal", alias="type")
     token: str = ""
-    duration: int = 0
-    extra: dict = Field(default_factory=dict)
-    workspace: dict = Field(default_factory=dict)
+    start: int = 0
 
 
-class DsPhonemes(BaseModel):
-    original: list[DsPhoneme] = Field(default_factory=list)
-    edited: list[DsPhoneme] = Field(default_factory=list)
+class DspxPhonemes(BaseModel):
+    original: list[DspxPhoneme] = Field(default_factory=list)
+    edited: list[DspxPhoneme] = Field(default_factory=list)
 
 
-class DsNote(BaseModel):
+class DspxNote(BaseModel):
     pos: int = 0
     length: int = 0
     key_num: int = Field(0, alias="keyNum")
     lyric: str = ""
-    phonemes: DsPhonemes = Field(default_factory=DsPhonemes)
-    vibrato: DsVibrato = Field(default_factory=DsVibrato)
-    extra: dict = Field(default_factory=dict)
-    workspace: dict = Field(default_factory=dict)
+    phonemes: DspxPhonemes = Field(default_factory=DspxPhonemes)
+    vibrato: DspxVibrato = Field(default_factory=DspxVibrato)
+    extra: dict[str, dict[Any, Any]] = Field(default_factory=dict)
 
 
-class DsClipMixin(abc.ABC, BaseModel):
-    time: DsTime = Field(default_factory=DsTime)
+class DspxClipMixin(abc.ABC, BaseModel):
+    time: DspxTime = Field(default_factory=DspxTime)
     name: str = ""
-    control: DsControl = Field(default_factory=DsControl)
-    extra: dict = Field(default_factory=dict)
-    workspace: dict = Field(default_factory=dict)
+    control: DspxControl = Field(default_factory=DspxControl)
 
 
-class DsAudioClip(DsClipMixin, BaseModel):
+class DspxAudioClip(DspxClipMixin, BaseModel):
     type_: Literal["audio"] = Field("audio", alias="type")
     path: str = ""
 
 
-class DsSingingClip(DsClipMixin, BaseModel):
+class DspxSingingClip(DspxClipMixin, BaseModel):
     type_: Literal["singing"] = Field("singing", alias="type")
-    sources: dict = Field(default_factory=dict)
-    notes: list[DsNote] = Field(default_factory=list)
-    params: DsParams = Field(default_factory=DsParams)
+    sources: dict[Any, Any] = Field(default_factory=dict)
+    notes: list[DspxNote] = Field(default_factory=list)
+    params: DspxParams = Field(default_factory=DspxParams)
 
 
-DsClip = Annotated[Union[DsAudioClip, DsSingingClip], Field(discriminator="type_")]
+DspxClip = Annotated[Union[DspxAudioClip, DspxSingingClip], Field(discriminator="type_")]
 
 
-class DsTrackControl(BaseModel):
+class DspxTrackControl(BaseModel):
     gain: float = 1.0
     mute: bool = False
     solo: bool = False
     pan: float = 0.0
 
 
-class DsTrack(BaseModel):
+class DspxTrackColor(BaseModel):
+    color_id: Optional[int] = Field(None, alias="id")
+    value: Optional[str] = None
+
+
+class DspxTrack(BaseModel):
     name: str = ""
-    control: DsTrackControl = Field(default_factory=DsTrackControl)
-    clips: list[DsClip] = Field(default_factory=list)
-    extra: dict = Field(default_factory=dict)
-    workspace: dict = Field(default_factory=dict)
+    color: DspxTrackColor = Field(default_factory=DspxTrackColor)
+    control: DspxTrackControl = Field(default_factory=DspxTrackControl)
+    clips: list[DspxClip] = Field(default_factory=list)
 
 
-class DsContent(BaseModel):
-    master: DsMaster = Field(default_factory=DsMaster)
+class DspxContent(BaseModel):
+    metadata: DspxMetadata
+    master: DspxMaster = Field(default_factory=DspxMaster)
     timeline: DsTimeline = Field(default_factory=DsTimeline)
-    extra: dict = Field(default_factory=dict)
-    workspace: dict = Field(default_factory=dict)
-    params: DsParams = Field(default_factory=DsParams)
-    tracks: list[DsTrack] = Field(default_factory=list)
+    params: DspxParams = Field(default_factory=DspxParams)
+    tracks: list[DspxTrack] = Field(default_factory=list)
 
 
 class DspxModel(BaseModel):
-    metadata: DsMetadata = Field(default_factory=DsMetadata)
-    content: DsContent = Field(default_factory=DsContent)
-    workspace: dict = Field(default_factory=dict)
+    version: str = "1.0.0"
+    content: DspxContent = Field(default_factory=DspxContent)
+    workspace: dict[str, dict[Any, Any]] = Field(default_factory=dict)

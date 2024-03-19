@@ -3,7 +3,7 @@ import datetime
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
-from libresvip.utils import SYMBOL_PATTERN
+from libresvip.utils.text import SYMBOL_PATTERN
 
 from .model import (
     AlbumInfoTag,
@@ -30,14 +30,13 @@ class LrcGenerator:
         )
         note_list = singing_track.note_list
         buffer = []
-        lyric_lines = []
+        lyric_lines: list[LyricLine] = []
         for i, note in enumerate(note_list):
             buffer.append((note.start_pos, note.lyric))
             commit_flag = False
             condition_symbol = SYMBOL_PATTERN.search(note.lyric) is not None
             condition_gap = (
-                i + 1 < len(note_list)
-                and note_list[i + 1].start_pos - note.end_pos >= 60
+                i + 1 < len(note_list) and note_list[i + 1].start_pos - note.end_pos >= 60
             )
             if self.options.split_by == SplitOption.SYMBOL:
                 commit_flag = condition_symbol
@@ -69,6 +68,7 @@ class LrcGenerator:
                         minute=time_tag.minute,
                         second=time_tag.second,
                         microsecond=time_tag.percent_second * 10,
+                        tzinfo=datetime.timezone.utc,
                     )
                     ori_time += datetime.timedelta(microseconds=-self.options.offset)
                     time_tag.minute = ori_time.minute
@@ -84,7 +84,7 @@ class LrcGenerator:
 
     def commit_current_lyric_line(
         self, lyric_lines: list[LyricLine], buffer: list[tuple[int, str]]
-    ):
+    ) -> None:
         start_time = self.get_time_from_ticks(buffer[0][0])
         lyrics = ""
         for _, lyric in buffer:
@@ -104,5 +104,6 @@ class LrcGenerator:
 
     def get_time_from_ticks(self, ticks: int) -> datetime.datetime:
         return datetime.datetime.fromtimestamp(
-            self.synchronizer.get_actual_secs_from_ticks(ticks)
+            self.synchronizer.get_actual_secs_from_ticks(ticks),
+            tz=datetime.timezone.utc,
         )

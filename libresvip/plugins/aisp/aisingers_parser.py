@@ -31,9 +31,7 @@ class AiSingersParser:
     options: InputOptions
     first_bar_length: int = dataclasses.field(init=False)
 
-    def parse_project(
-        self, ais_head: AISProjectHead, ais_body: AISProjectBody
-    ) -> Project:
+    def parse_project(self, ais_head: AISProjectHead, ais_body: AISProjectBody) -> Project:
         time_signatures = self.parse_time_signatures(ais_head.signature)
         self.first_bar_length = round(time_signatures[0].bar_length())
         tempos = self.parse_tempos(ais_head.tempo)
@@ -85,9 +83,7 @@ class AiSingersParser:
                     note_list=note_list,
                 )
                 if len(pitch_points) > 2:
-                    singing_track.edited_params.pitch = ParamCurve(
-                        points=Points(root=pitch_points)
-                    )
+                    singing_track.edited_params.pitch = ParamCurve(points=Points(root=pitch_points))
                 track_list.append(singing_track)
             elif isinstance(ais_track, AISAudioTrack):
                 track_list.extend(

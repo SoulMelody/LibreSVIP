@@ -1,16 +1,17 @@
 import math
+from typing import Optional
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
 from libresvip.model.point import Point
-from libresvip.utils import clamp
+from libresvip.utils.music_math import clamp
 
 from .model import UtauNoteVibrato
 
 
 def append_utau_note_vibrato(
     note_values: list[Point],
-    vibrato_params: UtauNoteVibrato,
+    vibrato_params: Optional[UtauNoteVibrato],
     note_start: Note,
     tick_time_transformer: TimeSynchronizer,
     sample_interval_tick: int,
@@ -83,11 +84,9 @@ def append_utau_note_vibrato(
     return [
         Point(
             round(
-                tick_time_transformer.get_actual_ticks_from_secs(
-                    (x + note_start_in_millis) / 1000
-                )
+                tick_time_transformer.get_actual_ticks_from_secs((x + note_start_in_millis) / 1000)
             ),
-            round(y),
+            round(y * 100),
         )
         for x, y in interpolated_points
     ]

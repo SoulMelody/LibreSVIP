@@ -1,66 +1,86 @@
 import re
+from collections.abc import Iterable
 
-from libresvip.core.constants import DEFAULT_PHONEME, resource_path
+from bidict import bidict
+
+from libresvip.core.compat import json, package_path
+from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
-from libresvip.model.base import json_loads
+from libresvip.core.lyric_phoneme.japanese import to_romaji
+from libresvip.utils.text import LATIN_ALPHABET
 
-default_durations = {
-    "stop": 0.10,
-    "affricate": 0.125,
-    "fricative": 0.125,
-    "aspirate": 0.094,
-    "liquid": 0.062,
-    "nasal": 0.094,
-    "vowel": 0.0,
-    "semivowel": 0.055,
-    "diphthong": 0.0,
-}
-default_phone_ratio = 1.8
+from .constants import DEFAULT_DURATIONS, DEFAULT_PHONE_RATIO
 
-with resource_path("libresvip.plugins.svp", ".") as resource_dir:
-    phoneme_dictionary = json_loads(
+resource_dir = package_path("libresvip.plugins.svp")
+phoneme_categories_by_language = json.loads(
+    (resource_dir / "phoneme_categories.json").read_text(encoding="utf-8")
+)
+phoneme_dictionary = {
+    language: bidict(xsampa_dict) if language in ["mandarin", "cantonese"] else xsampa_dict
+    for language, xsampa_dict in json.loads(
         (resource_dir / "phoneme_dictionary.json").read_text(encoding="utf-8")
-    )
-    xsampa_dictionary = json_loads(
-        (resource_dir / "xsampa_dictionary.json").read_text(encoding="utf-8")
-    )
+    ).items()
+}
 
 
-def lyrics2pinyin(lyrics: list[str]) -> list[str]:
-    pinyin_list = []
-    builder = ""
-    for lyric in lyrics:
-        if re.match(r"[a-zA-Z]", lyric) is not None:
+def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
+    phoneme_list: list[str] = []
+    builder: list[str] = []
+    for lyric, language in zip(lyrics, languages):
+        if LATIN_ALPHABET.match(lyric) is not None:
             if len(builder):
-                pinyin_list.extend(get_pinyin_series(builder, filter_non_chinese=False))
-                builder = ""
-            pinyin_list.append(lyric)
+                phoneme_list.extend(
+                    (to_romaji(part) for part in builder)
+                    if language == "japanese"
+                    else get_pinyin_series(builder, filter_non_chinese=False)
+                )
+                builder.clear()
+            phoneme_list.append(lyric)
         else:
-            builder += lyric
+            builder.append(lyric)
     if builder:
-        pinyin_list.extend(get_pinyin_series(builder, filter_non_chinese=False))
-    return pinyin_list
+        phoneme_list.extend(
+            (to_romaji(part) for part in builder)
+            if language == "japanese"
+            else get_pinyin_series(builder, filter_non_chinese=False)
+        )
+    return phoneme_list
 
 
-def xsampa2pinyin(xsampa: str) -> str:
+def xsampa2pinyin(xsampa: str, language: str) -> str:
     xsampa = re.sub(r"\s+", " ", xsampa).strip()
-    return xsampa_dictionary.get(xsampa, DEFAULT_PHONEME)
+    return phoneme_dictionary[language].inverse.get(xsampa, DEFAULT_PHONEME)
 
 
-def number_of_phones(pinyin: str) -> int:
-    if pinyin not in phoneme_dictionary:
-        pinyin = DEFAULT_PHONEME
-    return len(phoneme_dictionary[pinyin])
+def get_phoneme_categories(phoneme_parts: list[str], language: str) -> list[str]:
+    if language in phoneme_categories_by_language:
+        phoneme_categories = [
+            phoneme_categories_by_language[language].get(phoneme) for phoneme in phoneme_parts
+        ]
+        if all(phoneme_category is not None for phoneme_category in phoneme_categories):
+            return phoneme_categories
+    return []
 
 
-def default_phone_marks(pinyin: str) -> list[float]:
-    res = [0.0, 0.0]
-    if pinyin == "-":
+def number_of_phones(phoneme: str, language: str) -> int:
+    phoneme_parts = phoneme.split()
+    phoneme_categories = get_phoneme_categories(phoneme_parts, language)
+    return len(phoneme_categories) if phoneme_categories else 2
+
+
+def default_phone_marks(phoneme: str, language: str) -> list[float]:
+    phoneme_parts = phoneme.split()
+    res_len = max(len(phoneme_parts), 2)
+    res = [0.0] * res_len
+    if phoneme == "-":
         return res
-    if pinyin not in phoneme_dictionary:
-        pinyin = DEFAULT_PHONEME
-    phone_parts = phoneme_dictionary[pinyin]
-    res[0] = default_durations[phone_parts[0]]
-    index = 0 if phone_parts[0] in {"vowel", "diphthong"} else 1
-    res[1] = default_phone_ratio if index < len(phone_parts) else 0.0
+    elif phoneme_categories := get_phoneme_categories(phoneme_parts, language):
+        index = 0
+        if phoneme_categories[index] in {"vowel", "diphthong"}:
+            res[index] = getattr(DEFAULT_DURATIONS, phoneme_categories[index])
+            index += 1
+        if res_len > index:
+            res[index:res_len] = [DEFAULT_PHONE_RATIO if index < res_len else 0.0] * (
+                res_len - index
+            )
     return res

@@ -31,7 +31,7 @@ class InputOptions(BaseModel):
     channels: str = Field(
         default="1",
         title="Channels to import",
-        description="Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option “Custom import range” is selected in “Multi-channel processing method”.",
+        description='Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option "Custom import range" is selected in "Multi-channel processing method".',
     )
     default_bpm: float = Field(
         default=DEFAULT_BPM,
@@ -41,11 +41,6 @@ class InputOptions(BaseModel):
 
 
 class OutputOptions(BaseModel):
-    pre_shift: int = Field(
-        default=0,
-        title="Pre-shift compensation",
-        description="Non-negative integer, unit is ticks. Negative values are treated as zero. Shifts notes that are pronounced as y-, w-, a-, o- and e- to alleviate the problem of delayed semivowels or vowels in some vocal synthesizers. Recommended value: 30~60.",
-    )
     export_lyrics: bool = Field(default=True, title="Export lyrics")
     remove_symbols: bool = Field(
         default=True,

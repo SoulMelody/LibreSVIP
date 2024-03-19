@@ -1,5 +1,6 @@
 from typing import Final
 
+DEFAULT_PHONEME: Final[str] = "r,a"
 TIME_UNIT_AS_TICKS_PER_BPM: Final[float] = 4.8 / 120
 OCTAVE_OFFSET: Final[int] = -1
 TICK_RATE: Final[float] = 2.0

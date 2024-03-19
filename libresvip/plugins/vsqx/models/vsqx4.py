@@ -391,15 +391,14 @@ class MCtrl:
         name = "cc"
         namespace = VSQ4_NS
 
-    pos_tick: Optional[int] = field(
-        default=None,
+    pos_tick: int = field(
         metadata={
             "name": "t",
             "type": "Element",
             "required": True,
         },
     )
-    attr: Optional[TypeParamAttr] = field(
+    attr: TypeParamAttr = field(
         default_factory=TypeParamAttr,
         metadata={
             "name": "v",
@@ -437,7 +436,7 @@ class MasterTrack:
             "required": True,
         },
     )
-    pre_measure: Optional[int] = field(
+    pre_measure: int = field(
         default=1,
         metadata={
             "name": "preMeasure",
@@ -858,7 +857,7 @@ class MonoTrack:
         name = "monoTrack"
         namespace = VSQ4_NS
 
-    wav_part: Optional[list[WavPart]] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
@@ -1001,7 +1000,7 @@ class Note:
             "required": True,
         },
     )
-    note_style: Optional[NoteStyle] = field(
+    note_style: NoteStyle = field(
         default_factory=NoteStyle,
         metadata={
             "name": "nStyle",
@@ -1016,7 +1015,7 @@ class StereoTrack:
         name = "stTrack"
         namespace = VSQ4_NS
 
-    wav_part: Optional[list[WavPart]] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
@@ -1201,7 +1200,7 @@ class Mixer:
             "max_occurs": 16,
         },
     )
-    mono_unit: Optional[MonoUnit] = field(
+    mono_unit: MonoUnit = field(
         default_factory=MonoUnit,
         metadata={
             "name": "monoUnit",
@@ -1209,7 +1208,7 @@ class Mixer:
             "required": True,
         },
     )
-    stereo_unit: Optional[StereoUnit] = field(
+    stereo_unit: StereoUnit = field(
         default_factory=StereoUnit,
         metadata={
             "name": "stUnit",
@@ -1264,7 +1263,7 @@ class MusicalPart:
             "required": True,
         },
     )
-    part_style: Optional[PartStyle] = field(
+    part_style: PartStyle = field(
         default_factory=PartStyle,
         metadata={
             "name": "pStyle",
@@ -1332,8 +1331,8 @@ class VsTrack:
             "required": True,
         },
     )
-    musical_part: Optional[list[MusicalPart]] = field(
-        default=None,
+    musical_part: list[MusicalPart] = field(
+        default_factory=list,
         metadata={
             "name": "vsPart",
             "type": "Element",
@@ -1361,7 +1360,7 @@ class Vsq4:
             "required": True,
         },
     )
-    v_voice_table: Optional[VVoiceTable] = field(
+    v_voice_table: VVoiceTable = field(
         default_factory=VVoiceTable,
         metadata={
             "name": "vVoiceTable",
@@ -1369,14 +1368,14 @@ class Vsq4:
             "required": True,
         },
     )
-    mixer: Optional[Mixer] = field(
+    mixer: Mixer = field(
         default_factory=Mixer,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    master_track: Optional[MasterTrack] = field(
+    master_track: MasterTrack = field(
         default_factory=MasterTrack,
         metadata={
             "name": "masterTrack",

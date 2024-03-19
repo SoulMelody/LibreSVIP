@@ -2,7 +2,7 @@ from typing import Optional
 
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
-from libresvip.utils import midi2hz
+from libresvip.utils.music_math import midi2hz
 
 from ..models.ds_param_curve import DsParamCurve
 from ..models.ds_param_node import DsParamNode
@@ -10,20 +10,16 @@ from ..models.ds_param_node import DsParamNode
 
 class PitchParamUtils:
     @classmethod
-    def encode(
-        cls, curve: ParamCurve, end: int, time_step: float = 0.005
-    ) -> DsParamCurve:
+    def encode(cls, curve: ParamCurve, end: int, time_step: float = 0.005) -> DsParamCurve:
         end += 1920
         return DsParamCurve(
             step_size=time_step, point_list=cls.encode_point_list(curve.points, end)
         )
 
     @classmethod
-    def encode_point_list(
-        cls, os_point_list: Points, end: int
-    ) -> Optional[list[DsParamNode]]:
+    def encode_point_list(cls, os_point_list: Points, end: int) -> Optional[list[DsParamNode]]:
         if valid_points := [
-            p for p in os_point_list if p.x >= 1930 and p.x + 10 < end and p.y >= 0
+            p for p in os_point_list.root if p.x >= 1930 and p.x + 10 < end and p.y >= 0
         ]:
             return [
                 DsParamNode(

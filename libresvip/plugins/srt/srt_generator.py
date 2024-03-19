@@ -5,7 +5,7 @@ from srt import Subtitle
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Project, SingingTrack
-from libresvip.utils import SYMBOL_PATTERN
+from libresvip.utils.text import SYMBOL_PATTERN
 
 from .options import OutputOptions, SplitOption
 
@@ -25,14 +25,13 @@ class SrtGenerator:
             singing_track = project.track_list[self.options.track_index]
         note_list = singing_track.note_list
         buffer = []
-        lyric_lines = []
+        lyric_lines: list[Subtitle] = []
         for i, note in enumerate(note_list):
             buffer.append(note)
             commit_flag = False
             condition_symbol = SYMBOL_PATTERN.search(note.lyric) is not None
             condition_gap = (
-                i + 1 < len(note_list)
-                and note_list[i + 1].start_pos - note.end_pos >= 60
+                i + 1 < len(note_list) and note_list[i + 1].start_pos - note.end_pos >= 60
             )
             if self.options.split_by == SplitOption.SYMBOL:
                 commit_flag = condition_symbol
@@ -47,9 +46,7 @@ class SrtGenerator:
                 buffer = []
         return lyric_lines
 
-    def commit_current_lyric_line(
-        self, lyric_lines: list[Subtitle], buffer: list[Note]
-    ):
+    def commit_current_lyric_line(self, lyric_lines: list[Subtitle], buffer: list[Note]) -> None:
         start_time = self.get_time_from_ticks(buffer[0].start_pos)
         end_time = self.get_time_from_ticks(buffer[-1].end_pos)
         lyrics = "".join(SYMBOL_PATTERN.sub("", note.lyric) for note in buffer)

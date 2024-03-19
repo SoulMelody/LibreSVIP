@@ -23,7 +23,7 @@ class DsNote:
     note_name: str = ""
 
     @property
-    def is_slur(self):
+    def is_slur(self) -> bool:
         return "-" in self.lyric
 
 
@@ -31,7 +31,7 @@ class DsNote:
 class AspirationDsPhoneme(DsPhoneme):
     _duration: InitVar[float] = 0.0
 
-    def __post_init__(self, _duration):
+    def __post_init__(self, _duration: float) -> None:
         self.vowel = DsPhonemeItem("AP", _duration, "rest")
 
 
@@ -46,7 +46,7 @@ class AspirationDsNote(DsNote):
 class RestDsPhoneme(DsPhoneme):
     _duration: InitVar[float] = 0.0
 
-    def __post_init__(self, _duration):
+    def __post_init__(self, _duration: float) -> None:
         self.vowel = DsPhonemeItem("SP", _duration, "rest")
 
 

@@ -2,12 +2,20 @@ class BaseWarning(UserWarning):
     """Base warning class for all warnings"""
 
 
+class TimeSignatureWarning(BaseWarning):
+    """Warning for time signatures"""
+
+
+class TempoWarning(BaseWarning):
+    """Warning for tempos"""
+
+
 class NotesWarning(BaseWarning):
     """Warning for notes"""
 
 
-class LyricsWarning(BaseWarning):
-    """Warning for lyrics"""
+class PhonemeWarning(BaseWarning):
+    """Warning for phoneme"""
 
 
 class ParamsWarning(BaseWarning):

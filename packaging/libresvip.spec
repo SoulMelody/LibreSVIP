@@ -9,7 +9,7 @@ sys.modules['FixTk'] = None
 
 import PySide6
 import shellingham
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 from libresvip.core.constants import pkg_dir
 
@@ -30,9 +30,11 @@ cli_a = Analysis(
     ],
     binaries=[],
     datas=[
+        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("xsdata"),
+    ] + collect_data_files("libresvip") + collect_data_files("xsdata"),
     hiddenimports=[
+        "bidict",
         "construct_typed",
         "drawsvg",
         "google.protobuf.any_pb2",
@@ -108,19 +110,21 @@ gui_a = Analysis(
     ],
     binaries=[],
     datas=[
+        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
     ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata"),
     hiddenimports=[
+        "bidict",
         "construct_typed",
         "drawsvg",
         "google.protobuf.any_pb2",
         "jinja2",
         "mido_fix",
+        "parsimonious",
         "portion",
         "proto",
         "pypinyin",
         "srt",
-        "textx",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
         "wanakana",

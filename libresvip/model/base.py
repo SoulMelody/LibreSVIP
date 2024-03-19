@@ -5,7 +5,6 @@ import sys
 from types import SimpleNamespace
 from typing import (
     Annotated,
-    Any,
     Literal,
     Optional,
     Protocol,
@@ -18,24 +17,13 @@ from pydantic import (
     ConfigDict,
     Field,
     RootModel,
-    SerializationInfo,
     ValidationInfo,
     computed_field,
-    field_serializer,
     field_validator,
 )
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.point import Point, PointList
-
-try:
-    import ujson as json
-except ImportError:
-    import json
-
-
-json_loads = json.loads
-json_dumps = json.dumps
 
 
 class BaseModel(PydanticBaseModel):
@@ -60,7 +48,7 @@ class BaseComplexModel(Protocol):
         pass
 
 
-class Points(PointList, RootModel[list[Point]]):
+class Points(PointList[Point], RootModel[list[Point]]):
     root: list[Point] = Field(default_factory=list)
 
 
@@ -84,18 +72,13 @@ class ParamCurve(BaseModel):
     @field_validator("points", mode="before")
     @classmethod
     def load_points(
-        cls, points: Union[Points, list[Any]], _info: ValidationInfo
+        cls,
+        points: Union[Points, list[tuple[int, int]], list[dict[str, int]]],
+        _info: ValidationInfo,
     ) -> Points:
         return (
-            points
-            if isinstance(points, Points)
-            else Points(root=[Point(*each) for each in points])
+            points if isinstance(points, Points) else Points(root=[Point(*each) for each in points])
         )
-
-    @field_serializer("points", when_used="json-unless-none")
-    @classmethod
-    def serialize_points(cls, points: list[Point], _info: SerializationInfo):
-        return points
 
     @computed_field(alias="TotalPointsCount")
     def total_points_count(self) -> int:
@@ -132,9 +115,7 @@ class ParamCurve(BaseModel):
             pos = prev_point[0]
             first_loop = True
             while first_loop or (
-                i < len(points)
-                and points[i].x < pos + interval
-                and points[i].y != interrupt_value
+                i < len(points) and points[i].x < pos + interval and points[i].y != interrupt_value
             ):
                 if first_loop:
                     first_loop = False
@@ -166,9 +147,9 @@ class ParamCurve(BaseModel):
             if point.x >= 0 and point.y != interrupt_value:
                 segments.append([point])
             return segments
-        buffer = []
+        buffer: list[Point] = []
         if interrupt_value != 0:
-            for point in self.points:
+            for point in self.points.root:
                 if point.x >= 0 and point.y < sys.maxsize // 2:
                     if point.y != interrupt_value:
                         buffer.append(point)
@@ -183,9 +164,7 @@ class ParamCurve(BaseModel):
                 if current_point.y != interrupt_value:
                     buffer.append(current_point)
                 elif next_point.y != interrupt_value:
-                    if current_point.x >= 0 and (
-                        i <= 1 or self.points[i - 2].y != interrupt_value
-                    ):
+                    if current_point.x >= 0 and (i <= 1 or self.points[i - 2].y != interrupt_value):
                         buffer.append(current_point)
                 elif len(buffer):
                     segments.append(buffer.copy())

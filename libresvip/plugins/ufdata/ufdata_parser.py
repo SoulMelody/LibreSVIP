@@ -20,24 +20,21 @@ from .options import InputOptions
 @dataclasses.dataclass
 class UFDataParser:
     options: InputOptions
+    first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, ufdata_project: UFData) -> Project:
         uf_project = ufdata_project.project
         time_signature_list = self.parse_time_signatures(uf_project.time_signatures)
-        tick_prefix = int(
-            time_signature_list[0].bar_length() * uf_project.measure_prefix
-        )
-        project = Project(
-            song_tempo_list=shift_tempo_list(
-                self.parse_tempos(uf_project.tempos), tick_prefix
-            ),
+        self.first_bar_length = round(time_signature_list[0].bar_length())
+        tick_prefix = int(time_signature_list[0].bar_length() * uf_project.measure_prefix)
+        return Project(
+            song_tempo_list=shift_tempo_list(self.parse_tempos(uf_project.tempos), tick_prefix),
             time_signature_list=shift_beat_list(
                 time_signature_list,
                 uf_project.measure_prefix,
             ),
             track_list=self.parse_tracks(uf_project.tracks, tick_prefix),
         )
-        return project
 
     @staticmethod
     def parse_tempos(tempos: list[UFTempos]) -> list[SongTempo]:
@@ -62,9 +59,7 @@ class UFDataParser:
             for time_signature in time_signatures
         ]
 
-    def parse_tracks(
-        self, tracks: list[UFTracks], tick_prefix: int
-    ) -> list[SingingTrack]:
+    def parse_tracks(self, tracks: list[UFTracks], tick_prefix: int) -> list[SingingTrack]:
         track_list = []
         for track in tracks:
             singing_track = SingingTrack(
@@ -77,37 +72,40 @@ class UFDataParser:
             track_list.append(singing_track)
         return track_list
 
-    @staticmethod
-    def parse_pitch(
-        pitch: UFPitch, note_list: list[Note], tick_prefix: int
-    ) -> ParamCurve:
+    def parse_pitch(self, pitch: UFPitch, note_list: list[Note], tick_prefix: int) -> ParamCurve:
         if pitch.is_absolute:
-            return ParamCurve(
-                points=Points(
-                    root=[
-                        Point(
-                            x=tick + tick_prefix,
-                            y=round(value),
-                        )
-                        for tick, value in zip(pitch.ticks, pitch.values)
-                    ]
+            pitch_points = [Point.start_point()]
+            prev_point = pitch_points[-1]
+            for tick, value in zip(pitch.ticks, pitch.values):
+                if value == 0 and prev_point.y == -100:
+                    pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
+                point = Point(
+                    x=tick + tick_prefix + self.first_bar_length,
+                    y=round(value * 100),
                 )
-            )
+                pitch_points.append(point)
+                if value == 0 and prev_point.y != -100:
+                    pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
+                prev_point = point
+            if prev_point.y == 0:
+                pitch_points.append(prev_point._replace(y=-100))
+            pitch_points.append(Point.end_point())
+            return ParamCurve(points=Points(root=pitch_points))
         rel_pitch_points = [
             Point(
                 x=tick + tick_prefix,
-                y=round(value),
+                y=round(value * 100),
             )
             for tick, value in zip(pitch.ticks, pitch.values)
         ]
-        return RelativePitchCurve().to_absolute(rel_pitch_points, note_list)
+        return RelativePitchCurve(self.first_bar_length).to_absolute(rel_pitch_points, note_list)
 
     @staticmethod
     def parse_notes(notes: list[UFNotes], tick_prefix: int) -> list[Note]:
         return [
             Note(
-                start_pos=note.tick_on,
-                length=note.tick_off - note.tick_on + tick_prefix,
+                start_pos=note.tick_on + tick_prefix,
+                length=note.tick_off - note.tick_on,
                 key_number=note.key,
                 lyric=note.lyric,
             )

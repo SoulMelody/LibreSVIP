@@ -1,11 +1,10 @@
-from collections import defaultdict
+from bidict import bidict
 
 DEFAULT_SINGER = "然糊糊"
 DEFAULT_SINGER_ID = 26
 DEFAULT_SEED = 23
 
-id2singer = defaultdict(
-    lambda: DEFAULT_SINGER,
+id2singer = bidict(
     {
         1: "小莫",
         2: "小夜",
@@ -49,21 +48,20 @@ id2singer = defaultdict(
         1012: "墨清弦",
         1013: "徵羽摩柯",
         2001: "川",
-        3006: "Growl",
+        3006: "Rowly G.",
     },
 )
 
-singer2id = defaultdict(lambda: DEFAULT_SINGER_ID, {v: k for k, v in id2singer.items()})
+singer2id = id2singer.inverse
 
-seed2singer = defaultdict(
-    lambda: DEFAULT_SINGER,
+singer2seed = bidict(
     {
         1: "小莫",
         2: "小夜",
         3: "火涟",
         4: "云灏",
         5: "楚瓷",
-        6: "云灏",
+        6: "橘",
         7: "鲤沅",
         8: "嗒啦啦",
         9: "绮萱",
@@ -88,7 +86,7 @@ seed2singer = defaultdict(
         28: "Barber",
         29: "缇",
         30: "黑昂宿",
-        31: "Growl",
+        31: "Rowly G.",
         32: "乐正绫",
         33: "言和",
         # 34: "葵栀",
@@ -109,6 +107,4 @@ seed2singer = defaultdict(
         60: "墨清弦",
         61: "徵羽摩柯",
     },
-)
-
-singer2seed = defaultdict(lambda: DEFAULT_SEED, {v: k for k, v in seed2singer.items()})
+).inverse

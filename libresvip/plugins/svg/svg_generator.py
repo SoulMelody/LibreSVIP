@@ -28,11 +28,7 @@ class SvgGenerator:
         )
         if self.options.track_index < 0:
             first_singing_track = next(
-                (
-                    track
-                    for track in project.track_list
-                    if isinstance(track, SingingTrack)
-                ),
+                (track for track in project.track_list if isinstance(track, SingingTrack)),
                 None,
             )
         else:
@@ -61,5 +57,5 @@ class SvgGenerator:
             self.svg_factory.draw_note(note)
 
     def generate_pitch(self, pitch: ParamCurve) -> None:
-        for point in pitch.points[1:-1]:
+        for point in pitch.points.root[1:-1]:
             self.svg_factory.draw_pitch(point)

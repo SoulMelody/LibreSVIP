@@ -1,7 +1,9 @@
 import dataclasses
+from typing import cast
 
 from construct_typed import DataclassMixin, DataclassStruct
 
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -12,7 +14,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
 
 from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, MIN_SEGMENT_LENGTH
 from .deepvocal_pitch import convert_note_key, generate_for_dv
@@ -53,19 +55,13 @@ class DeepVocalGenerator:
             [track for track in project.track_list if isinstance(track, SingingTrack)]
         )
         audio_tracks = self.generate_instrumental_tracks(
-            [
-                track
-                for track in project.track_list
-                if isinstance(track, InstrumentalTrack)
-            ]
+            [track for track in project.track_list if isinstance(track, InstrumentalTrack)]
         )
         return DvProject(
             inner_project=DvInnerProject(
                 tracks=singing_tracks + audio_tracks,
                 tempos=self.generate_tempos(project.song_tempo_list),
-                time_signatures=self.generate_time_signatures(
-                    project.time_signature_list
-                ),
+                time_signatures=self.generate_time_signatures(project.time_signature_list),
             )
         )
 
@@ -95,12 +91,10 @@ class DeepVocalGenerator:
             )
             for tempo in shift_tempo_list(
                 [
-                    song_tempo
-                    if i > 0
-                    else song_tempo.model_copy(update={"position": 0})
+                    song_tempo if i > 0 else song_tempo.model_copy(update={"position": 0})
                     for i, song_tempo in enumerate(tempos)
                 ],
-                self.tick_prefix,
+                self.tick_prefix - self.first_bar_length,
             )
         ]
 
@@ -130,15 +124,13 @@ class DeepVocalGenerator:
                 )
                 track_list.append(
                     DvTrack(
-                        track_type=DvTrackType.AUDIO,
+                        track_type=cast(DvTrackType, DvTrackType.AUDIO),
                         track_data=dv_track,
                     )
                 )
         return track_list
 
-    def generate_singing_tracks(
-        self, singing_tracks: list[SingingTrack]
-    ) -> list[DvTrack]:
+    def generate_singing_tracks(self, singing_tracks: list[SingingTrack]) -> list[DvTrack]:
         track_list = []
         for track in singing_tracks:
             dv_notes = self.generate_notes(track.note_list)
@@ -196,7 +188,7 @@ class DeepVocalGenerator:
             )
             track_list.append(
                 DvTrack(
-                    track_type=DvTrackType.SINGING,
+                    track_type=cast(DvTrackType, DvTrackType.SINGING),
                     track_data=dv_track,
                 )
             )
@@ -207,8 +199,13 @@ class DeepVocalGenerator:
             DvNote(
                 start=note.start_pos,
                 length=note.length,
-                key=convert_note_key(note.key_number),
-                phoneme=note.pronunciation or "",
+                key=cast(int, convert_note_key(note.key_number)),
+                phoneme=cast(str, note.pronunciation)
+                or (
+                    note.lyric
+                    if CHINESE_RE.search(note.lyric) is None
+                    else next(iter(get_pinyin_series(note.lyric)), "")
+                ),
                 word=note.lyric,
                 padding_1=0,
                 vibrato=50,

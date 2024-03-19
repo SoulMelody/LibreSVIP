@@ -1,0 +1,9 @@
+[Core]
+name = Pitch Shift
+module = pitch_shift
+
+[Documentation]
+Author = SoulMelody
+Version = 1.0.0
+Website = https://space.bilibili.com/175862486
+abbreviation = pitch_shift

@@ -1,28 +1,31 @@
 from __future__ import annotations
 
 import contextlib
+import itertools
 import os
 import pathlib
 import sys
 
 import PySide6
 import shellingham
+import shiboken6
 from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable
+from bdist_portable import BdistPortable  # noqa: E402
 
-import libresvip
-from libresvip.core.constants import pkg_dir
+import libresvip  # noqa: E402
 
+bin_includes = []
+bin_path_includes = [shiboken6.__path__[0]]
 with contextlib.suppress(Exception):
     if (
         ("conda" in sys.version or "Continuum" in sys.version)
         and shellingham.detect_shell()[0] == "bash"
         and os.name == "nt"
     ):
-        os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
+        bin_path_includes.append(f"{sys.base_prefix}/Library/bin")
 
 try:
     from cx_Freeze.hooks import get_qt_plugins_paths
@@ -30,7 +33,29 @@ except ImportError:
     get_qt_plugins_paths = None
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
-include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
+include_files: list[tuple[pathlib.Path, pathlib.Path]] = []
+zip_includes: list[tuple[str, str]] = [
+    ("../libresvip/res", "libresvip/res"),
+]
+zip_includes.extend(
+    (
+        str(resource_file),
+        str(resource_file.as_posix())[3:],
+    )
+    for resource_file in pathlib.Path("../res").rglob("**/*.*")
+    if resource_file.is_file() and resource_file.suffix not in [".po", ".qml"]
+)
+zip_includes.extend(
+    (
+        str(plugin_info),
+        str(plugin_info.as_posix())[3:],
+    )
+    for plugin_info in itertools.chain(
+        pathlib.Path("../libresvip/middlewares").rglob("**/*.*"),
+        pathlib.Path("../libresvip/plugins").rglob("**/*.*"),
+    )
+    if plugin_info.is_file() and plugin_info.suffix not in [".py", ".pyc"]
+)
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
@@ -39,12 +64,7 @@ elif (pyside6_dir / "Qt/qml").exists():
     qml_base_dir = "Qt/qml"
     xcb_soname = "Qt/lib/libQt6XcbQpa.so.6"
     if (pyside6_dir / xcb_soname).exists():
-        include_files.append(
-            (
-                pyside6_dir / xcb_soname,
-                pathlib.Path(f"./lib/PySide6/{xcb_soname}"),
-            )
-        )
+        bin_includes.append(pyside6_dir / xcb_soname)
 
 if qml_base_dir:
     include_files.extend(
@@ -54,8 +74,8 @@ if qml_base_dir:
         )
         for qml_dir in qml_dirs
     )
-    qml_lib = next(pyside6_dir.glob("*pyside6qml*"))
-    include_files.append((qml_lib, pathlib.Path(f"./lib/PySide6/{qml_lib.name}")))
+    if qml_lib := next(pyside6_dir.glob("*pyside6qml*"), None):
+        bin_includes.append(qml_lib)
 
 if get_qt_plugins_paths:
     # Inclusion of extra plugins (since cx_Freeze 6.8b2)
@@ -137,8 +157,10 @@ build_exe_options = {
                 "3DRender",
             )
         ),
-        [],
+        [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")],
     ),
+    "bin_includes": bin_includes,
+    "bin_path_includes": bin_path_includes,
     # exclude packages that are not really needed
     "excludes": [
         "attr",
@@ -163,27 +185,31 @@ build_exe_options = {
         "uvicorn",
         "webview",
         "wx",
+        "libresvip.web",
     ],
     "include_files": include_files,
-    "zip_include_packages": ["PySide6"],
+    "zip_includes": zip_includes,
+    "zip_include_packages": [
+        "PySide6",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.gui",
+        "libresvip.middlewares",
+        "libresvip.model",
+        "libresvip.plugins",
+    ],
     "packages": [
         "anyio",
-        "construct_typed",
-        "drawsvg",
-        "google.protobuf",
-        "jinja2",
-        "libresvip",
-        "mido_fix",
-        "parsimonious",
-        "proto",
-        "pymediainfo",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.gui",
+        "libresvip.middlewares",
+        "libresvip.model",
+        "libresvip.plugins",
         "PySide6.QtQuick",
         "PySide6.QtOpenGL",
-        "srt",
-        "xsdata",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
-        "zstandard",
     ],
 }
 

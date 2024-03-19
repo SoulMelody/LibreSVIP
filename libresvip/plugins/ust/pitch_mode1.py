@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Optional
 
 from libresvip.model.base import Note, ParamCurve, Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
@@ -16,41 +17,38 @@ class UtauMode1NotePitchData:
 
 @dataclasses.dataclass
 class UtauMode1TrackPitchData:
-    notes: list[UtauMode1NotePitchData] = dataclasses.field(default_factory=list)
+    notes: list[Optional[UtauMode1NotePitchData]] = dataclasses.field(default_factory=list)
 
 
 def pitch_from_utau_mode1_track(
     pitch_data: UtauMode1TrackPitchData, notes: list[Note]
 ) -> ParamCurve:
-    pitch_points = []
+    pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):
         if note_pitch is not None and len(note_pitch.pitch_points):
-            pitch_points += [
+            pitch_points.extend(
                 Point(
                     x=note.start_pos + index * MODE1_PITCH_SAMPLING_INTERVAL_TICK,
                     y=value,
                 )
                 for index, value in enumerate(note_pitch.pitch_points)
-            ]
-    return RelativePitchCurve().to_absolute(pitch_points, notes)
+            )
+    return RelativePitchCurve(
+        lower_bound=notes[0].start_pos,
+        upper_bound=notes[-1].end_pos,
+    ).to_absolute(pitch_points, notes)
 
 
-def pitch_to_utau_mode1_track(
-    pitch: ParamCurve, notes: list[Note]
-) -> UtauMode1TrackPitchData:
-    note_pitch_data = []
+def pitch_to_utau_mode1_track(pitch: ParamCurve, notes: list[Note]) -> UtauMode1TrackPitchData:
+    note_pitch_data: list[Optional[UtauMode1NotePitchData]] = []
     for note in notes:
         data = [
-            point
-            for point in pitch.points
-            if note.start_pos <= point.x - 1920 < note.end_pos
+            point for point in pitch.points.root if note.start_pos <= point.x - 1920 < note.end_pos
         ]
         if not len(data):
             note_pitch_data.append(UtauMode1NotePitchData())
             continue
         resampled_data = dot_resampled(data, MODE1_PITCH_SAMPLING_INTERVAL_TICK)
-        pitch_points = [
-            round(pitch) - note.key_number * 100 for _, pitch in resampled_data
-        ]
+        pitch_points = [round(pitch) - note.key_number * 100 for _, pitch in resampled_data]
         note_pitch_data.append(UtauMode1NotePitchData(pitch_points))
     return UtauMode1TrackPitchData(note_pitch_data)

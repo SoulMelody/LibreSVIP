@@ -1,9 +1,13 @@
 import dataclasses
 import re
+import warnings
+from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import NotesWarning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -17,8 +21,9 @@ from libresvip.model.base import (
     Track,
     VibratoParam,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
-from .models import OpenSvipNoteHeadTags, OpenSvipReverbPresets, opensvip_singers
+from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.constants import (
     VALUE_LIST_VERSION_SONG_BEAT,
     VALUE_LIST_VERSION_SONG_ITRACK,
@@ -26,6 +31,8 @@ from .msnrbf.constants import (
     VALUE_LIST_VERSION_SONG_TEMPO,
 )
 from .msnrbf.xstudio_models import (
+    MAX_NOTE_DURATION,
+    MIN_NOTE_DURATION,
     XSAppModel,
     XSBeatSize,
     XSInstrumentTrack,
@@ -33,7 +40,11 @@ from .msnrbf.xstudio_models import (
     XSLineParam,
     XSLineParamNode,
     XSNote,
+    XSNoteHeadTag,
+    XSNoteHeadTagEnum,
     XSNotePhoneInfo,
+    XSReverbPreset,
+    XSReverbPresetEnum,
     XSSingingTrack,
     XSSongBeat,
     XSSongTempo,
@@ -58,17 +69,9 @@ class BinarySvipGenerator:
             else "SVIP6.0.0"
         )
         model = XSAppModel()
-        self.first_bar_tick = int(
-            round(
-                1920.0
-                * project.time_signature_list[0].numerator
-                / project.time_signature_list[0].denominator
-            )
-        )
+        self.first_bar_tick = int(round(project.time_signature_list[0].bar_length()))
         self.first_bar_tempo = [
-            tempo
-            for tempo in project.song_tempo_list
-            if tempo.position < self.first_bar_tick
+            tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]
         self.is_absolute_time_mode = any(
             (tempo.bpm < 20 or tempo.bpm > 300) for tempo in project.song_tempo_list
@@ -83,8 +86,7 @@ class BinarySvipGenerator:
         # beat
         beat_list = model.beat_list.buf.items
         if self.is_absolute_time_mode or any(
-            (beat.numerator > 255 or beat.denominator > 32)
-            for beat in project.time_signature_list
+            (beat.numerator > 255 or beat.denominator > 32) for beat in project.time_signature_list
         ):
             beat_list.append(XSSongBeat(bar_index=0, beat_size=XSBeatSize(x=4, y=4)))
         else:
@@ -92,7 +94,7 @@ class BinarySvipGenerator:
                 beat_list.append(self.generate_time_signature(beat))
         model.beat_list.buf.size = len(beat_list)
         model.beat_list.buf.version = VALUE_LIST_VERSION_SONG_BEAT
-        model.beat_list.buf1 = model.beat_list.buf
+        model.beat_list.buf_1 = model.beat_list.buf
 
         # tempo
         tempo_list = model.tempo_list.buf.items
@@ -103,7 +105,7 @@ class BinarySvipGenerator:
                 tempo_list.append(self.generate_song_tempo(tempo))
         model.tempo_list.buf.size = len(tempo_list)
         model.tempo_list.buf.version = VALUE_LIST_VERSION_SONG_TEMPO
-        model.tempo_list.buf1 = model.tempo_list.buf
+        model.tempo_list.buf_1 = model.tempo_list.buf
 
         # tracks
         track_list = []
@@ -130,13 +132,16 @@ class BinarySvipGenerator:
         return beat
 
     def generate_track(self, track: Track) -> Optional[XSITrack]:
+        s_track: Optional[XSITrack] = None
         if isinstance(track, SingingTrack):
             singer_id = opensvip_singers.get_id(track.ai_singer_name)
             if singer_id == "":
                 singer_id = opensvip_singers.get_id(self.options.singer)
             s_track = XSSingingTrack(
                 ai_singer_id=singer_id,
-                reverb_preset=OpenSvipReverbPresets.get_index(track.reverb_preset),
+                reverb_preset=XSReverbPreset(
+                    svip_reverb_presets.get(track.reverb_preset, XSReverbPresetEnum.NONE)
+                ),
             )
 
             note_list = s_track.note_list.buf.items
@@ -146,7 +151,7 @@ class BinarySvipGenerator:
                     note_list.append(new_note)
             s_track.note_list.buf.size = len(note_list)
             s_track.note_list.buf.version = VALUE_LIST_VERSION_SONG_NOTE
-            s_track.note_list.buf1 = s_track.note_list.buf
+            s_track.note_list.buf_1 = s_track.note_list.buf
 
             params = self.generate_params(track.edited_params)
             s_track.edited_pitch_line = params["Pitch"]
@@ -172,19 +177,29 @@ class BinarySvipGenerator:
     def generate_note(self, note: Note) -> XSNote:
         if note.lyric or note.pronunciation:
             xs_note = XSNote(
-                start_pos=round(
-                    self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)
-                ),
+                start_pos=round(self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)),
                 key_index=note.key_number + 12,
-                head_tag=OpenSvipNoteHeadTags.get_index(note.head_tag),
-                lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
+                head_tag=XSNoteHeadTag(
+                    value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
+                ),
+                lyric=note.lyric
+                if CHINESE_RE.match(note.lyric) is not None
+                else DEFAULT_CHINESE_LYRIC,
+                pronouncing=note.pronunciation or "",
             )
             xs_note.width_pos = (
                 round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos))
                 - xs_note.start_pos
             )
-            if note.pronunciation:
-                xs_note.pronouncing = note.pronunciation
+            note_duration = self.synchronizer.get_duration_secs_from_ticks(
+                note.start_pos, note.end_pos
+            )
+            if note_duration < MIN_NOTE_DURATION:
+                msg_prefix = _("Note duration is too short:")
+                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+            elif note_duration > MAX_NOTE_DURATION:
+                msg_prefix = _("Note duration is too long:")
+                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
             if note.edited_phones is not None:
                 xs_note.note_phone_info = self.generate_phones(note.edited_phones)
             if note.vibrato is not None:
@@ -232,35 +247,31 @@ class BinarySvipGenerator:
     def generate_param_curve(
         self,
         param_curve: ParamCurve,
-        op=None,
-        left=-192000,
-        right=1073741823,
-        termination=0,
+        op: Optional[Callable[[float], float]] = None,
+        left: int = -192000,
+        right: int = 1073741823,
+        termination: int = 0,
         is_ticks: bool = True,
     ) -> XSLineParam:
         if op is None:
-            op = lambda x: x
+
+            def op(x: float) -> float:
+                return x
+
         line = XSLineParam()
         # param_curve.points = sorted(param_curve.points, key=operator.attrgetter("x"))
-        for p in param_curve.points:
+        for p in param_curve.points.root:
             if left <= p.x <= right:
-                if (
-                    self.is_absolute_time_mode
-                    and is_ticks
-                    and p.x != left
-                    and p.x != right
-                ):
+                if self.is_absolute_time_mode and is_ticks and p.x != left and p.x != right:
                     pos = (
                         round(
-                            self.synchronizer.get_actual_ticks_from_ticks(
-                                p.x - self.first_bar_tick
-                            )
+                            self.synchronizer.get_actual_ticks_from_ticks(p.x - self.first_bar_tick)
                         )
-                        + 1920
+                        + self.first_bar_tick
                     )
                 else:
                     pos = p.x
-                node = XSLineParamNode(pos=pos, value=op(p.y))
+                node = XSLineParamNode(pos=pos, value=int(op(p.y)))
                 line.nodes.append(node)
         if len(line.nodes) == 0 or line.nodes[0].pos > left:
             bound = XSLineParamNode(pos=left, value=termination)

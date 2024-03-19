@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Optional
 
 import more_itertools
 from drawsvg import Line, Lines, Rectangle, Text
@@ -25,7 +26,7 @@ class SvgFactory:
     pitch_points_buf: list[Point] = dataclasses.field(default_factory=list)
     style: str = dataclasses.field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.style = f"""\
 .note {{
     fill: {self.options.note_fill_color.as_hex()};
@@ -58,9 +59,7 @@ text {{
         prev_pos = 0
         pos = 0
         beat_start = self.coordinate_helper.position_range_start
-        for previous_time_signature, time_signature in more_itertools.pairwise(
-            time_signature_list
-        ):
+        for previous_time_signature, time_signature in more_itertools.pairwise(time_signature_list):
             beat_length = (
                 time_signature.bar_index - previous_time_signature.bar_index
             ) * previous_time_signature.numerator
@@ -86,9 +85,7 @@ text {{
             while pos <= self.coordinate_helper.position_range_end:
                 pos += TICKS_IN_BEAT
                 if pos >= beat_start:
-                    x = int(
-                        (pos - beat_start) * self.options.pixel_per_beat / TICKS_IN_BEAT
-                    )
+                    x = int((pos - beat_start) * self.options.pixel_per_beat / TICKS_IN_BEAT)
                     line_element = Line(
                         sx=x,
                         sy=0,
@@ -114,7 +111,7 @@ text {{
     def draw_text(
         self,
         position: TextPositionOption,
-        text: str,
+        text: Optional[str],
         parameters: NotePositionParameters,
         is_phoneme: bool,
     ) -> None:
@@ -135,7 +132,7 @@ text {{
         text_element.args["class"] = class_name
         self.text_elements.append(text_element)
 
-    def draw_note(self, note: Note):
+    def draw_note(self, note: Note) -> None:
         parameters = self.coordinate_helper.get_note_position_parameters(note)
         rect_element = Rectangle(
             x=parameters.point_1[0],
@@ -148,16 +145,12 @@ text {{
         )
         self.rect_elements.append(rect_element)
         self.draw_text(self.options.lyric_position, note.lyric, parameters, False)
-        self.draw_text(
-            self.options.pronounciation_position, note.pronunciation, parameters, True
-        )
+        self.draw_text(self.options.pronounciation_position, note.pronunciation, parameters, True)
 
-    def draw_pitch(self, point: Point):
+    def draw_pitch(self, point: Point) -> None:
         if point.y == -100:
             if len(self.pitch_points_buf):
-                start_point = self.coordinate_helper.get_pitch_point(
-                    self.pitch_points_buf[0]
-                )
+                start_point = self.coordinate_helper.get_pitch_point(self.pitch_points_buf[0])
                 polyline_element = Lines(
                     start_point[0],
                     start_point[1],

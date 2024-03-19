@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Union
 
 import pypinyin
 
@@ -21,11 +22,7 @@ class Y77Generator:
     def generate_project(self, project: Project) -> Y77Project:
         if self.options.track_index < 0:
             first_singing_track = next(
-                (
-                    track
-                    for track in project.track_list
-                    if isinstance(track, SingingTrack)
-                ),
+                (track for track in project.track_list if isinstance(track, SingingTrack)),
                 None,
             )
         else:
@@ -63,26 +60,24 @@ class Y77Generator:
         ]
         pitch_param_in_note = [
             p
-            for p in pitch_param_curve.points
+            for p in pitch_param_curve.points.root
             if p.x >= note.start_pos + self.first_bar_length
             and p.x <= note.start_pos + self.first_bar_length + note.length
         ]
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
 
-        y77_pitch_param = []
+        y77_pitch_param: list[Union[int, float]] = []
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1
-                value = 50
+                value = 50.0
 
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:
                         distance = abs(point.x - sample_time)
                         value = 50 + (
-                            0
-                            if point.y == -100
-                            else (point.y - note.key_number * 100) / 2
+                            0 if point.y == -100 else (point.y - note.key_number * 100) / 2
                         )
 
                 y77_pitch_param.append(value)

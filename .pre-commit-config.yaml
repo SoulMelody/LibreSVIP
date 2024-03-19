@@ -1,17 +1,25 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+    rev: v0.3.2
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
+      - id: ruff-format
+        args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
     hooks:
-      - id: black
+      - id: mypy
+        args:
+          - --ignore-missing-imports
+          - --config-file=pyproject.toml
+          - libresvip
+        pass_filenames: false
+        additional_dependencies: [proto-plus-stubs, types-parsimonious, types-pyyaml, types-ujson]
 
   - repo: https://github.com/pdm-project/pdm
-    rev: 2.11.1
+    rev: 2.12.4
     hooks:
       - id: pdm-lock-check
         args: ["-G", ":all"]

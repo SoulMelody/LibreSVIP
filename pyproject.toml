@@ -27,57 +27,59 @@ classifiers = [
   'Typing :: Typed',
 ]
 dependencies = [
+  "bidict<0.23.2,>=0.23.1",
   "charset-normalizer<4.0.0,>=3.3.2",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.3.0",
-  "importlib-resources<7.0.0,>=6.1.1; python_version < \"3.10\"",
-  "jinja2<4.0.0,>=3.1.2",
+  "importlib-resources<7.0.0,>=6.3.1; python_version < \"3.11\"",
+  "jinja2<4.0.0,>=3.1.3",
   "loguru<1.0.0,>=0.7.2",
   "mido-fix<2.0.0,>=1.2.12",
-  "more-itertools<11.0.0,>=10.1.0",
+  "more-itertools<11.0.0,>=10.2.0",
   "omegaconf<3.0.0,>=2.3.0",
-  "packaging<24.0,>=23.2",
+  "packaging<24.1,>=24.0",
   "parsimonious<0.11.0,>=0.10.0",
-  "platformdirs<5.0.0,>=4.1.0",
+  "platformdirs<5.0.0,>=4.2.0",
   "portion<3.0.0,>=2.4.2",
   "proto-plus<2.0.0,>=1.23.0",
-  "pydantic<3.0.0,>=2.5.3",
-  "pydantic-extra-types<3.0.0,>=2.3.0",
+  "pydantic<3.0.0,>=2.6.4",
+  "pydantic-extra-types<3.0.0,>=2.6.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"linux\"",
   "pymediainfo-lambda<1.0.0,>=0.0.13; sys_platform == \"linux\"",
-  "pypinyin<1.0.0,>=0.50.0",
-  "rich<14.0.0,>=13.7.0",
+  "pypinyin<1.0.0,>=0.51.0",
+  "rich<14.0.0,>=13.7.1",
   "srt<4.0.0,>=3.5.3",
   "typer<1.0.0,>=0.9.0",
   "wanakana-python<2.0.0,>=1.2.2",
-  "xsdata<24.0,>=23.8",
+  "xsdata<24.4,>=24.3.1",
   "zhon<3.0.0,>=2.0.2",
   "zstandard<0.23.0,>=0.22.0; platform_python_implementation == \"CPython\"",
   "zstd<2.0.0,>=1.5.5.1; platform_python_implementation == \"PyPy\"",
 ]
 name = "libresvip"
-version = "1.0.0"
+dynamic = ["version"]
 description = "Universal Converter for Singing Voice Projects"
 readme = "README.md"
 
 [project.urls]
 repository = "https://github.com/SoulMelody/LibreSVIP"
+documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 
 ujson = ["ujson>=5.9.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.1.4",
+  "universal-pathlib<1.0.0,>=0.2.2",
 ]
+ruamel_yaml = ["ruamel.yaml>=0.18.6"]
 webui = [
-  "nicegui[native]>=1.4.8",
-  "libresvip[upath]",
+    "nicegui[native]>=1.4.18",
+    "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.7.0,>=6.6.1",
+  "pyside6<6.7.0,>=6.6.2",
   "fonticon-materialdesignicons7>=7.2.96",
-  "qtinter>=0.11.0",
-  "httpx>=0.26.0",
+  "httpx>=0.27.0",
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
 ]
@@ -90,96 +92,97 @@ libresvip-web = "libresvip.web.__main__:main"
 libresvip-gui = "libresvip.gui.__main__:run"
 
 [tool.pdm]
+version = { source = "file", path = "libresvip/__init__.py" }
+
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.2",
-  "gapic-generator>=1.13.0",
+  "datamodel-code-generator>=0.25.5",
+  "gapic-generator>=1.15.0",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.12.1", "babel>=2.14.0"]
+i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
 linting = [
-  "isort>=5.13.2",
-  "pre-commit>=3.6.0",
-  "ruff>=0.1.11",
-  "black>=23.12.1",
-  "mypy>=1.8.0",
+  "pre-commit>=3.6.2",
+  "ruff>=0.3.3",
+  "mypy>=1.9.0",
   "sourcery>=1.15.0",
+  "proto-plus-stubs>=0.7.0",
+  "types-parsimonious>=0.10.0.10",
+  "types-pyyaml>=6.0.12.20240311",
+  "types-ujson>=5.9.0.0",
+  "types-zstd>=1.5.0.20240311; platform_python_implementation == \"PyPy\"",
 ]
 packaging = [
-  "cx-freeze>=6.15.12",
-  "pyinstaller>=6.3.0",
+  "cx-Freeze>=6.15.16",
+  "nuitka>=2.1.2",
+  "pyinstaller>=6.5.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.5.3"]
-test = ["pytest>=7.4.4", "pytest-datadir>=1.5.0"]
-typing_stubs = [
-  "proto-plus-stubs>=0.6.0",
-  "types-parsimonious>=0.10.0.10",
-  "types-pyyaml>=6.0.12.12",
-  "types-ujson>=5.9.0.0",
-  "types-zstd>=1.5.0.3; platform_python_implementation == \"PyPy\"",
-]
+docs = ["mkdocs-material<10.0.0,>=9.5.14"]
+test = ["pytest>=8.1.1", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
 includes = ["libresvip"]
-excludes = ["tests", "libresvip/plugins/*/*.po", "**/.mypy_cache"]
+excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*/LC_MESSAGES/libresvip.po", "libresvip/middlewares/*/*.pot", "libresvip/plugins/*/*.pot", "**/.mypy_cache"]
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
 testpaths = "tests"
 
-[tool.isort]
-line_length = 100
-profile = "black"
-
 [tool.ruff]
 target-version = "py39"
 src = ['libresvip', 'tests']
+line-length = 100
+fix = true
+
+[tool.ruff.lint]
 select = [
   "A",     # builtins
+  "ANN",   # annotations
   "ASYNC", # async
   "C4",    # comprehensions
+  "DTZ",   # timezone
   "E",     # style errors
   "EM",    # error messages
   "EXE",   # executable
   "F",     # flakes
-  "G",     # logging
+  "FLY",   # flynt
   "I",     # import sorting
   "INT",   # gettext
   "N",     # naming
-  "PIE",   # pie
+  "PERF",  # perflint
+  "PIE",   # assign and return
   "PGH",   # pygrep-hooks
   "PLC",   # pylint convention
-  "PLE",   # pylint error
   "PT",    # pytest-style
   "PTH",   # pathlib
+  "PYI",   # stubs
+  "SIM",   # simplify
   "T10",   # debugger
   "T20",   # print
   "TCH",   # type-checking
   "TRY",   # tryceratops
+  "UP",    # pyupgrade
   "W",     # style warnings
   "YTT",   # sys.version
 ]
 ignore = [
-  "E402", # Module level import not at top of file
-  "E501", # Line too long
-  "E731", # Do not assign a lambda expression, use a def
+  "ANN101", # Missing type annotation for `self` in method
+  "ANN102", # Missing type annotation for `cls` in classmethod
+  "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
+  "E501",   # Line too long
+  "UP007",  # Use `X | Y` for type annotations
 ]
-line-length = 100
-fix = true
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
 known-third-party = ['srt']
 
 [tool.mypy]
-plugins = ["pydantic.mypy"]
-
-always_true = "PYSIDE6"
-follow_imports = "silent"
-disable_error_code = "method-assign,operator,override"
+disable_error_code = "attr-defined,import-not-found,operator,return-value,type-abstract,unused-ignore"
+allow_redefinition = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true
@@ -187,11 +190,8 @@ check_untyped_defs = true
 no_implicit_reexport = true
 disallow_untyped_defs = true
 warn_no_return = false
-
-[tool.pydantic-mypy]
-init_forbid_extra = true
-init_typed = true
-warn_required_dynamic_aliases = true
+no_site_packages = true
+explicit_package_bases = true
 
 [build-system]
 requires = ["pdm-backend", "setuptools", "wheel"]

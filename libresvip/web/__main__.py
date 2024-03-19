@@ -1,10 +1,4 @@
-import pathlib
-import runpy
+from libresvip.web.pages import main
 
-
-def main():
-    runpy.run_path(pathlib.Path(__file__).parent / "pages.py", run_name="__main__")
-
-
-if __name__ == "__main__":
-    runpy.run_module("libresvip.web.pages", run_name="__main__", alter_sys=True)
+if __name__ in {"__main__", "__mp_main__"}:
+    main()

@@ -15,71 +15,118 @@ jobs:
         run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_OUTPUT
 
   release:
-    runs-on: ${{ matrix.os.runs-on }}
+    runs-on: ${{ matrix.os }}
     needs: [make-outputs]
     strategy:
       matrix:
-        os:
-          - runs-on: windows-latest
-            arch: win-x64
-          - runs-on: ubuntu-latest
-            arch: linux-x64
-          - runs-on: macos-latest
-            arch: osx-x64
+        include:
+          - os: windows-latest
+            pkg_suffix: win-amd64.zip
+          - os: ubuntu-latest
+            pkg_suffix: linux-x86_64.tar.gz
+          - os: macos-14
+            pkg_suffix: macos-universal2.dmg
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.11
+      - name: Set up Python (Windows & Linux)
+        if: matrix.os != 'macos-14'
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Set up Python (MacOS Universal2)
+        if: matrix.os == 'macos-14'
+        run: |
+          curl -L https://www.python.org/ftp/python/3.11.7/python-3.11.7-macos11.pkg --output ~/Downloads/python.pkg
+          sudo installer -pkg ~/Downloads/python.pkg -target /
       - name: Install OS dependencies
-        if: matrix.os.runs-on == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libegl1 libmediainfo-dev
-      - uses: pdm-project/setup-pdm@v3    
+          sudo apt-get install -y libegl1
+      - uses: pdm-project/setup-pdm@v4    
         with:
           python-version: 3.11
-      - name: Install dependencies
+      - name: Install dependencies (Windows & Linux)
+        if: matrix.os != 'macos-14'
         run: pdm sync -G desktop -G ujson -G packaging --no-editable
+      - name: Install dependencies (MacOS Universal2)
+        if: matrix.os == 'macos-14'
+        run: |
+          pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt --without-hashes
+          python -m venv .venv
+          source .venv/bin/activate
+          cd packaging
+          python -m ensurepip --upgrade
+          python -m pip install delocate
+          python universal2_install.py
+          cd ..
+          pdm build --no-sdist
+          python -m pip install dist/*.whl --no-deps
       - name: Build with cx_freeze (Windows & Linux)
-        if: matrix.os.runs-on != 'macos-latest'
+        if: matrix.os != 'macos-14'
+        shell: bash -el {0}
         run: |
           cd packaging
           pdm run python setup.py bdist_portable
           cd ..
-      - name: Build with cx_freeze (MacOS Intel)
-        if: matrix.os.runs-on == 'macos-latest'
+      - name: Build with cx_freeze (MacOS Universal2)
+        if: matrix.os == 'macos-14'
         run: |
+          source .venv/bin/activate
           cd packaging
-          pdm run python setup.py bdist_dmg
+          python setup.py bdist_dmg
           mkdir dist
-          mv build/LibreSVIP.dmg dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
+          mv build/LibreSVIP.dmg dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }}
           cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-${{ matrix.os.arch }}
+          name: libresvip-${{ matrix.pkg_suffix }}
           path: ./packaging/dist
-      - name: Create Release for Linux
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'ubuntu-latest'
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
-      - name: Create Release for MacOS Intel
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'macos-latest'
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }}
+
+  release_linux_aarch64:
+    runs-on: ubuntu-latest
+    needs: [make-outputs]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build artifact
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          dockerRunArgs: --volume "${PWD}:/libresvip"
+          install: |
+            apt-get update
+            apt-get install -y software-properties-common
+            add-apt-repository ppa:deadsnakes/ppa
+            apt-get update
+            apt-get install -y libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6 python3.11-dev python3.11-venv
+            update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
+          run: |
+            cd /libresvip
+            python -m ensurepip --upgrade
+            python -m pip install pdm
+            python -m pdm sync -G desktop -G ujson -G packaging --no-editable
+            cd packaging
+            python -m pdm run python setup.py bdist_portable
+            cd ..
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libresvip-linux-aarch64.tar.gz
+          path: ./packaging/dist
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
-      - name: Create Release for Windows
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os.runs-on == 'windows-latest'
-        with:
-          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
-          files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.zip
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz

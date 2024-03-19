@@ -1,4 +1,4 @@
-from libresvip.model.point import (
+from libresvip.utils.music_math import (
     cosine_easing_in_interpolation,
     cosine_easing_in_out_interpolation,
     cosine_easing_out_interpolation,

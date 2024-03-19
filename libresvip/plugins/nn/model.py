@@ -99,9 +99,7 @@ class NNVisitor(NodeVisitor):
             unknown=unknown,
         )
 
-    def visit_nn_time_signature(
-        self, node: Node, visited_children: list[Any]
-    ) -> NNTimeSignature:
+    def visit_nn_time_signature(self, node: Node, visited_children: list[Any]) -> NNTimeSignature:
         numerator, _, denominator = visited_children
         return NNTimeSignature(numerator=numerator, denominator=denominator)
 

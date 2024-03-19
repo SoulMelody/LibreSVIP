@@ -36,11 +36,9 @@ class UFTracks(BaseModel):
 
 
 class UFProject(BaseModel):
-    name: str = ""
+    name: str = "export"
     tracks: list[UFTracks] = Field(default_factory=list)
-    time_signatures: list[UFTimeSignatures] = Field(
-        default_factory=list, alias="timeSignatures"
-    )
+    time_signatures: list[UFTimeSignatures] = Field(default_factory=list, alias="timeSignatures")
     tempos: list[UFTempos] = Field(default_factory=list)
     measure_prefix: int = Field(alias="measurePrefix")
 

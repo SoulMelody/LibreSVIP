@@ -1,18 +1,20 @@
 import math
 from dataclasses import dataclass
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from libresvip.model.base import Note, ParamCurve
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import clamp
+from libresvip.utils.music_math import clamp
 
 from .constants import (
-    BORDER_APPEND_RADIUS,
     DEFAULT_PITCH_BEND_SENSITIVITY,
     MAX_PITCH_BEND_SENSITIVITY,
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
     PITCH_MAX_VALUE,
 )
+
+if TYPE_CHECKING:
+    from libresvip.model.point import Point
 
 
 @dataclass
@@ -27,13 +29,15 @@ class MIDIPitchData:
     pbs: list[ControlEvent]
 
 
-def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitchData]:
-    data = RelativePitchCurve().from_absolute(
-        pitch, notes, border_append_radius=BORDER_APPEND_RADIUS
+def generate_for_midi(
+    first_bar_length: int, pitch: ParamCurve, notes: list[Note]
+) -> Optional[MIDIPitchData]:
+    data = RelativePitchCurve(first_bar_length).from_absolute(
+        pitch.points.root, notes, border_append_radius=0
     )
-    if data is None:
+    if not len(data):
         return None
-    pitch_sectioned = [[]]
+    pitch_sectioned: list[list[Point]] = [[]]
     current_pos = 0
     for pitch_event in data:
         if (
@@ -44,20 +48,17 @@ def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitc
         else:
             pitch_sectioned.append([pitch_event])
         current_pos = pitch_event.x
-    pit = []
-    pbs = []
+    pit: list[ControlEvent] = []
+    pbs: list[ControlEvent] = []
     for section in pitch_sectioned:
         if len(section):
             max_abs_value = max(abs(point.y / 100) for point in section)
-            pbs_for_this_section = min(
-                math.ceil(max_abs_value), MAX_PITCH_BEND_SENSITIVITY
-            )
+            pbs_for_this_section = min(math.ceil(max_abs_value), MAX_PITCH_BEND_SENSITIVITY)
             if pbs_for_this_section > DEFAULT_PITCH_BEND_SENSITIVITY:
                 pbs.extend(
                     (
                         ControlEvent(
-                            section[-1][0]
-                            + MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS // 2,
+                            section[-1][0] + MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS // 2,
                             DEFAULT_PITCH_BEND_SENSITIVITY,
                         ),
                     )
@@ -67,12 +68,15 @@ def generate_for_midi(pitch: ParamCurve, notes: list[Note]) -> Optional[MIDIPitc
             pit.extend(
                 ControlEvent(
                     pitch_pos,
-                    clamp(
-                        round(
-                            pitch_value * PITCH_MAX_VALUE / 100 / pbs_for_this_section
-                        ),
-                        -PITCH_MAX_VALUE,
-                        PITCH_MAX_VALUE,
+                    int(
+                        clamp(
+                            pitch_value
+                            * (PITCH_MAX_VALUE if pitch_value > 0 else (PITCH_MAX_VALUE + 1))
+                            / 100
+                            / pbs_for_this_section,
+                            -PITCH_MAX_VALUE - 1,
+                            PITCH_MAX_VALUE,
+                        )
                     ),
                 )
                 for pitch_pos, pitch_value in section

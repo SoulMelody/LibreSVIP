@@ -1,10 +1,15 @@
 import dataclasses
-from gettext import gettext as _
+import functools
+import operator
+from collections.abc import Iterator
 from typing import Optional
+
+from sortedcontainers import SortedKeyList
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import UTAUNote, UTAUProject, UTAUTimeSignature
 from .options import InputOptions
@@ -23,40 +28,40 @@ from .pitch_mode2 import (
 @dataclasses.dataclass
 class USTParser:
     options: InputOptions
-    mode1_track_pitch_data: UtauMode1TrackPitchData = dataclasses.field(
-        default_factory=UtauMode1TrackPitchData
-    )
-    mode2_track_pitch_data: UtauMode2TrackPitchData = dataclasses.field(
-        default_factory=UtauMode2TrackPitchData
+    tempos: SortedKeyList[SongTempo] = dataclasses.field(
+        default_factory=functools.partial(SortedKeyList, key=operator.attrgetter("position"))
     )
 
     def parse_project(self, ust_project: UTAUProject) -> Project:
-        if len(ust_project.track):
-            tracks = []
-            time_signatures = self.parse_time_signatures(ust_project.time_signatures)
-            for ust_track in ust_project.track:
-                tempos, notes = self.parse_notes(ust_project.tempo, ust_track.notes)
-                track = SingingTrack(
-                    note_list=notes,
-                )
+        if not len(ust_project.track):
+            raise NoTrackError(_("UST project has no track"))
+        tracks = []
+        time_signatures = self.parse_time_signatures(ust_project.time_signatures)
+        for ust_track in ust_project.track:
+            track = SingingTrack()
+            for notes, mode1_track_pitch_data, mode2_track_pitch_data in self.parse_notes(
+                ust_project.tempo, ust_track.notes
+            ):
+                track.note_list.extend(notes)
                 if ust_project.pitch_mode2:
-                    track.edited_params.pitch = pitch_from_utau_mode2_track(
-                        self.mode2_track_pitch_data, track.note_list, tempos
+                    track.edited_params.pitch.points.root.extend(
+                        pitch_from_utau_mode2_track(
+                            mode2_track_pitch_data, notes, list(self.tempos)
+                        ).points.root
                     )
                 else:
-                    track.edited_params.pitch = pitch_from_utau_mode1_track(
-                        self.mode1_track_pitch_data,
-                        track.note_list,
+                    track.edited_params.pitch.points.root.extend(
+                        pitch_from_utau_mode1_track(
+                            mode1_track_pitch_data,
+                            notes,
+                        ).points.root
                     )
-                tracks.append(track)
-            project = Project(
-                song_tempo_list=tempos,
-                time_signature_list=time_signatures,
-                track_list=tracks,
-            )
-            return project
-        else:
-            raise NoTrackError(_("UST project has no track"))
+            tracks.append(track)
+        return Project(
+            song_tempo_list=list(self.tempos),
+            time_signature_list=time_signatures,
+            track_list=tracks,
+        )
 
     def parse_time_signatures(
         self, time_signatures: list[UTAUTimeSignature]
@@ -74,20 +79,21 @@ class USTParser:
 
     def parse_notes(
         self, initial_tempo: Optional[float], notes: list[UTAUNote]
-    ) -> tuple[list[SongTempo], list[Note]]:
-        tempos: list[SongTempo] = []
+    ) -> Iterator[tuple[list[Note], UtauMode1TrackPitchData, UtauMode2TrackPitchData]]:
         note_list = []
+        mode1_track_pitch_data = UtauMode1TrackPitchData()
+        mode2_track_pitch_data = UtauMode2TrackPitchData()
         time = 0
-        if initial_tempo is not None:
-            tempos.append(
+        if initial_tempo is not None and not len(self.tempos):
+            self.tempos.add(
                 SongTempo(
                     position=time,
                     bpm=initial_tempo,
                 )
             )
-        if not len(tempos):
+        if not len(self.tempos):
             # TODO: add warning
-            tempos.append(
+            self.tempos.add(
                 SongTempo(
                     position=time,
                     bpm=DEFAULT_BPM,
@@ -95,7 +101,7 @@ class USTParser:
             )
         for note in notes:
             if note.tempo is not None:
-                tempos.append(
+                self.tempos.add(
                     SongTempo(
                         position=time,
                         bpm=note.tempo,
@@ -111,15 +117,17 @@ class USTParser:
                     )
                 )
                 mode2_note_pitch_data = UtauMode2NotePitchData(
-                    bpm=tempos[-1].bpm,
-                    start=note.pbs[0] if len(note.pbs) else None,
-                    start_shift=note.pbs[1] if len(note.pbs) > 1 else None,
+                    bpm=self.tempos[-1].bpm,
+                    start=note.pbs[0] if len(note.pbs) and isinstance(note.pbs[0], float) else None,
+                    start_shift=note.pbs[1]
+                    if len(note.pbs) > 1 and isinstance(note.pbs[1], float)
+                    else None,
                     widths=[x or 0 for x in (note.pbw or [])],
                     shifts=[x or 0 for x in (note.pby or [])],
                     curve_types=note.pbm or [],
                     vibrato_params=note.vbr,
                 )
-                self.mode2_track_pitch_data.notes.append(
+                mode2_track_pitch_data.notes.append(
                     mode2_note_pitch_data
                     if any(
                         getattr(mode2_note_pitch_data, key) is not None
@@ -134,9 +142,16 @@ class USTParser:
                     )
                     else None
                 )
-            if note.pitch_bend_points:
-                self.mode1_track_pitch_data.notes.append(
+                mode1_track_pitch_data.notes.append(
                     UtauMode1NotePitchData(note.pitch_bend_points)
+                    if note.pitch_bend_points
+                    else None
                 )
+            elif note_list:
+                yield note_list, mode1_track_pitch_data, mode2_track_pitch_data
+                note_list.clear()
+                mode1_track_pitch_data.notes.clear()
+                mode2_track_pitch_data.notes.clear()
             time += note.length
-        return tempos, note_list
+        if note_list:
+            yield note_list, mode1_track_pitch_data, mode2_track_pitch_data

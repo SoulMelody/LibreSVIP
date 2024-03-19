@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+from typing import Optional
 
 from loguru import logger
 from setuptools import Command
@@ -19,8 +20,7 @@ class BdistPortable(Command):
         (
             "plat-name=",
             "p",
-            "platform name to embed in generated filenames "
-            "(default: %s)" % get_platform(),
+            "platform name to embed in generated filenames " "(default: %s)" % get_platform(),
         ),
         (
             "format=",
@@ -30,8 +30,7 @@ class BdistPortable(Command):
         (
             "keep-temp",
             "k",
-            "keep the pseudo-installation tree around after "
-            + "creating the distribution archive",
+            "keep the pseudo-installation tree around after " + "creating the distribution archive",
         ),
         ("dist-dir=", "d", "directory to put final built distributions in"),
         ("skip-build", None, "skip rebuilding everything (for testing/debugging)"),
@@ -56,10 +55,10 @@ class BdistPortable(Command):
 
     default_format = {"posix": "gztar", "nt": "zip"}
 
-    def initialize_options(self):
-        self.bdist_dir = None
+    def initialize_options(self) -> None:
+        self.bdist_dir: Optional[pathlib.Path] = None
         self.plat_name = None
-        self.format = None
+        self.format: Optional[str] = None
         self.keep_temp = 0
         self.dist_dir = None
         self.skip_build = None
@@ -67,7 +66,7 @@ class BdistPortable(Command):
         self.owner = None
         self.group = None
 
-    def finalize_options(self):
+    def finalize_options(self) -> None:
         if self.bdist_dir is None:
             bdist_base = self.get_finalized_command("bdist").bdist_base
             self.bdist_dir = pathlib.Path(bdist_base) / "portable"
@@ -90,7 +89,7 @@ class BdistPortable(Command):
             ("skip_build", "skip_build"),
         )
 
-    def run(self):
+    def run(self) -> None:
         if not self.skip_build:
             self.run_command("build")
 
@@ -107,7 +106,7 @@ class BdistPortable(Command):
         # pseudo-installation tree.
         archive_basename = f"{self.distribution.get_fullname()}.{self.plat_name}"
 
-        pseudoinstall_root = pathlib.Path(self.dist_dir) / archive_basename
+        pseudoinstall_root = pathlib.Path(self.dist_dir or "./dist") / archive_basename
         if not self.relative:
             archive_root = self.bdist_dir
         elif self.distribution.has_ext_modules() and (
@@ -126,10 +125,7 @@ class BdistPortable(Command):
             owner=self.owner,
             group=self.group,
         )
-        if self.distribution.has_ext_modules():
-            pyversion = get_python_version()
-        else:
-            pyversion = "any"
+        pyversion = get_python_version() if self.distribution.has_ext_modules() else "any"
         self.distribution.dist_files.append(("bdist_portable", pyversion, filename))
 
         if not self.keep_temp:

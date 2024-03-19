@@ -1,6 +1,6 @@
 import enum
 import uuid
-from typing import Annotated, Optional
+from typing import Annotated, Any, Optional
 
 from pydantic import UUID4, Field
 
@@ -22,11 +22,6 @@ class PpsfMuteflag(enum.IntEnum):
     NONE: Annotated[int, Field(title="None")] = 0
     MUTE: Annotated[int, Field(title="Mute")] = 1
     SOLO: Annotated[int, Field(title="Solo")] = 2
-
-
-class PpsfTrackType(enum.IntEnum):
-    AUDIO: Annotated[int, Field(title="Audio")] = 1
-    NT: Annotated[int, Field(title="NT")] = 4
 
 
 class PpsfCurvePointSeq(BaseModel):
@@ -106,7 +101,7 @@ class PpsfBaseSequence(BaseModel):
 
 class PpsfSeqParam(BaseModel):
     base_sequence: Optional[PpsfBaseSequence] = Field(None, alias="base-sequence")
-    layers: Optional[list] = Field(default_factory=list)
+    layers: Optional[list[Any]] = Field(default_factory=list)
 
 
 class PpsfParameter(PpsfBaseSequence):
@@ -126,21 +121,17 @@ class PpsfFsmEffect(BaseModel):
 
 
 class PpsfEventTrack(BaseModel):
-    curve_points: list[PpsfCurvePoint] = Field(
-        default_factory=list, alias="curve-points"
-    )
-    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(
-        default_factory=list, alias="fsm-effects"
-    )
+    curve_points: list[PpsfCurvePoint] = Field(default_factory=list, alias="curve-points")
+    fsm_effects: Optional[list[PpsfFsmEffect]] = Field(default_factory=list, alias="fsm-effects")
     height: int = 64
     index: int
     mute_solo: Optional[PpsfMuteflag] = Field(PpsfMuteflag.NONE, alias="mute-solo")
-    notes: Optional[list[PpsfNote]] = None
+    notes: list[PpsfNote] = Field(default_factory=list)
     nt_envelope_preset_id: Optional[int] = Field(None, alias="nt-envelope-preset-id")
     regions: list[PpsfRegion] = Field(default_factory=list)
     sub_tracks: list[PpsfSubTrack] = Field(default_factory=list, alias="sub-tracks")
     total_height: int = Field(64, alias="total-height")
-    track_type: PpsfTrackType = Field(alias="track-type")
+    track_type: int = Field(alias="track-type")
     vertical_scale: float = Field(1, alias="vertical-scale")
     vertical_scroll: int = Field(0, alias="vertical-scroll")
 
@@ -152,17 +143,13 @@ class PpsfTempoTrack(BaseModel):
 
 
 class PpsfTrackEditor(BaseModel):
-    event_tracks: list[PpsfEventTrack] = Field(
-        default_factory=list, alias="event-tracks"
-    )
+    event_tracks: list[PpsfEventTrack] = Field(default_factory=list, alias="event-tracks")
     header_width: int = Field(264, alias="header-width")
     height: int = 720
     horizontal_scale: float = Field(0.08, alias="horizontal-scale")
     horizontal_scroll: int = Field(0, alias="horizontal-scroll")
-    tempo_track: PpsfTempoTrack = Field(
-        default_factory=PpsfTempoTrack, alias="tempo-track"
-    )
-    user_markers: Optional[list] = Field(default_factory=list, alias="user-markers")
+    tempo_track: PpsfTempoTrack = Field(default_factory=PpsfTempoTrack, alias="tempo-track")
+    user_markers: Optional[list[Any]] = Field(default_factory=list, alias="user-markers")
     width: int = 1024
     x: int = 100
     y: int = 100
@@ -186,9 +173,7 @@ class PpsfGuiSettings(BaseModel):
     file_fullpath: str = Field("", alias="file-fullpath")
     playback_position: int = Field(0, alias="playback-position")
     project_length: int = Field(0, alias="project-length")
-    track_editor: PpsfTrackEditor = Field(
-        default_factory=PpsfTrackEditor, alias="track-editor"
-    )
+    track_editor: PpsfTrackEditor = Field(default_factory=PpsfTrackEditor, alias="track-editor")
 
 
 class PpsfFileAudioData(BaseModel):
@@ -250,7 +235,7 @@ class PpsfMeter(PpsfBaseMeter):
 
 class PpsfMeters(BaseModel):
     const: PpsfBaseMeter = Field(default_factory=PpsfBaseMeter)
-    sequence: Optional[list[PpsfMeter]] = None
+    sequence: list[PpsfMeter] = Field(default_factory=list)
     use_sequence: bool = False
 
 
@@ -334,9 +319,7 @@ class PpsfDvlTrackEvent(BaseModel):
     note_number: int
     note_off_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
     note_on_pit_envelope: Optional[PpsfEnvelope] = Field(default_factory=PpsfEnvelope)
-    portamento_envelope: Optional[PpsfEnvelope] = Field(
-        default_factory=default_portamento_envelope
-    )
+    portamento_envelope: Optional[PpsfEnvelope] = Field(default_factory=default_portamento_envelope)
     vib_depth: Optional[PpsfEnvelope] = None
     vib_rate: Optional[PpsfEnvelope] = None
     vib_setting_id: Optional[int] = None
@@ -370,7 +353,7 @@ class PpsfTempo(BaseModel):
 
 class PpsfTempos(BaseModel):
     const: int = 1200000
-    sequence: Optional[list[PpsfTempo]] = None
+    sequence: list[PpsfTempo] = Field(default_factory=list)
     use_sequence: bool = False
 
 

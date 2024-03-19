@@ -5,11 +5,11 @@ from typing import Optional
 import mido_fix as mido
 
 from libresvip.core.constants import (
-    DEFAULT_JAPANESE_LYRIC,
     DEFAULT_PHONEME,
     TICKS_IN_BEAT,
 )
-from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
+from libresvip.core.lyric_phoneme.japanese import to_romaji
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -19,6 +19,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.reset_time_axis import limit_bars
 
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
@@ -36,7 +37,8 @@ class VsqGenerator:
         return 1
 
     def generate_project(self, project: Project) -> mido.MidiFile:
-        mido_obj = mido.MidiFile(charset="ascii")
+        project = limit_bars(project, 4096)
+        mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         self.first_bar_length = int(
             project.time_signature_list[0].bar_length(self.options.ticks_per_beat)
@@ -73,21 +75,23 @@ class VsqGenerator:
     def generate_time_signatures(
         self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
     ) -> None:
-        prev_ticks = 0
+        ticks = 0
+        prev_time_signature = None
         for time_signature in time_signature_list:
+            if prev_time_signature is not None:
+                ticks += round(
+                    prev_time_signature.bar_length(self.options.ticks_per_beat)
+                    * (time_signature.bar_index - prev_time_signature.bar_index)
+                )
             master_track.append(
                 mido.MetaMessage(
                     "time_signature",
                     numerator=time_signature.numerator,
                     denominator=time_signature.denominator,
-                    time=prev_ticks,
+                    time=ticks,
                 )
             )
-            prev_ticks += round(
-                time_signature.bar_index
-                * self.options.ticks_per_beat
-                * time_signature.numerator
-            )
+            prev_time_signature = time_signature
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
         mido_tracks = []
@@ -97,9 +101,7 @@ class VsqGenerator:
             if isinstance(track, SingingTrack) and len(track.note_list) > 0
         ]
         for i, track in enumerate(singing_tracks):
-            if (
-                mido_track := self.generate_track(track, i, len(singing_tracks))
-            ) is not None:
+            if (mido_track := self.generate_track(track, i, len(singing_tracks))) is not None:
                 mido_tracks.append(mido_track)
         return mido_tracks
 
@@ -107,9 +109,6 @@ class VsqGenerator:
         self, track: SingingTrack, track_index: int, tracks_count: int
     ) -> Optional[mido.MidiTrack]:
         track_text = self.generate_track_text(track, track_index, tracks_count)
-        track_text = track_text.encode(
-            self.options.lyric_encoding, errors="ignore"
-        ).decode("ascii", errors="ignore")
         mido_track = mido.MidiTrack()
         while len(track_text) != 0:
             event_id = len(mido_track)
@@ -132,7 +131,7 @@ class VsqGenerator:
         track: SingingTrack,
         track_index: int,
         tracks_count: int,
-        measure_prefix: int = 0,
+        measure_prefix: int = 1,
     ) -> str:
         notes_lines = []
         lyrics_lines = []
@@ -155,15 +154,16 @@ class VsqGenerator:
                     f"LyricHandle=h#{number.zfill(4)}",
                 ]
             )
-            lyric = (
-                note.lyric
-                if is_kana(note.lyric) or is_romaji(note.lyric)
-                else DEFAULT_JAPANESE_LYRIC
+            lyric = note.lyric
+            xsampa = (
+                "-"
+                if lyric in legato_chars
+                else romaji2xsampa.get(to_romaji(lyric), DEFAULT_PHONEME)
             )
             lyrics_lines.extend(
                 [
                     f"[h#{number.zfill(4)}]",
-                    f"""L0="{lyric}","{note.pronunciation or DEFAULT_PHONEME}",0.000000,64,0,0""",
+                    f"""L0="{lyric}","{xsampa}",0.000000,64,0,0""",
                 ]
             )
         result = [
@@ -188,13 +188,10 @@ class VsqGenerator:
                 ]
             )
             for i in range(tracks_count):
-                result.extend(
-                    [f"Feder{i}=0", f"Panpot{i}=0", f"Mute{i}=0", f"Solo{i}=0"]
-                )
+                result.extend([f"Feder{i}=0", f"Panpot{i}=0", f"Mute{i}=0", f"Solo{i}=0"])
         result.extend(["[EventList]", "0=ID#0000"])
         result.extend(
-            f"{tick}=ID#{str(index + 1).zfill(4)}"
-            for index, tick in enumerate(tick_lists)
+            f"{tick}=ID#{str(index + 1).zfill(4)}" for index, tick in enumerate(tick_lists)
         )
         result.extend(
             [
@@ -219,9 +216,7 @@ class VsqGenerator:
         )
         result.extend(lyrics_lines)
         result.extend(
-            self.generate_pitch_text(
-                track.edited_params.pitch, tick_prefix, track.note_list
-            )
+            self.generate_pitch_text(track.edited_params.pitch, tick_prefix, track.note_list)
         )
         return "\n".join(result)
 
@@ -229,15 +224,11 @@ class VsqGenerator:
         self, pitch: ParamCurve, tick_prefix: int, note_list: list[Note]
     ) -> list[str]:
         result = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, note_list):
+        if pitch_raw_data := generate_for_vocaloid(pitch, note_list, self.first_bar_length):
             if len(pitch_raw_data.pit):
                 result.append("[PitchBendBPList]")
-                result.extend(
-                    f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit
-                )
+                result.extend(f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit)
             if len(pitch_raw_data.pbs):
                 result.append("[PitchBendSensBPList]")
-                result.extend(
-                    f"{pbs.pos + tick_prefix}={pbs.value}" for pbs in pitch_raw_data.pbs
-                )
+                result.extend(f"{pbs.pos + tick_prefix}={pbs.value}" for pbs in pitch_raw_data.pbs)
         return result

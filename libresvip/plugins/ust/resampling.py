@@ -1,22 +1,27 @@
+from collections.abc import Callable
 from operator import attrgetter
 
 from more_itertools import minmax
 
 from libresvip.model.point import Point
+from libresvip.utils.search import find_index, find_last_index
 
 
 def resampled(
-    data: list[Point], interval: int, interpolate_method: callable
+    data: list[Point],
+    interval: int,
+    interpolate_method: Callable[[Point, Point, int], float],
 ) -> list[Point]:
-    result = []
-    left_point, right_point = minmax(
-        data, key=attrgetter("x"), default=(Point(0, 0), Point(0, 0))
-    )
-    for current in range(left_point.x, right_point.x + 1, interval):
-        prev = next((p for p in reversed(data) if p.x <= current), None)
-        next_ = next((p for p in data if p.x >= current), None)
-        result.append(Point(x=current, y=interpolate_method(prev, next_, current)))
-    return result
+    left_point, right_point = minmax(data, key=attrgetter("x"), default=(Point(0, 0), Point(0, 0)))
+    return [
+        Point(
+            x=current,
+            y=int(interpolate_method(data[prev_index], data[next_index], current)),
+        )
+        for current in range(left_point.x, right_point.x + 1, interval)
+        if (prev_index := find_last_index(data, lambda p: p.x <= current)) != -1
+        and (next_index := find_index(data, lambda p: p.x >= current)) != -1
+    ]
 
 
 def dot_resampled(data: list[Point], interval: int) -> list[Point]:

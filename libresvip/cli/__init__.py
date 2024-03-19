@@ -1,3 +1,3 @@
-from .translation import init_i18n
+from libresvip.utils import translation
 
-init_i18n()
+translation.singleton_translation = translation.get_translation()

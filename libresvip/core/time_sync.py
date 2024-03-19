@@ -2,7 +2,7 @@ from dataclasses import InitVar, dataclass, field
 
 from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.model.base import SongTempo
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 
 @dataclass
@@ -39,11 +39,7 @@ class TimeSynchronizer:
                 self.default_tempo / self.tempo_list[i].bpm
             )
             i += 1
-        res += (
-            (ticks - self.tempo_list[i].position)
-            * self.default_tempo
-            / self.tempo_list[i].bpm
-        )
+        res += (ticks - self.tempo_list[i].position) * self.default_tempo / self.tempo_list[i].bpm
         return res
 
     def get_duration_secs_from_ticks(self, start_ticks: int, end_ticks: int) -> float:
@@ -63,9 +59,7 @@ class TimeSynchronizer:
             self.tempo_list, lambda tempo: tempo.position <= end_ticks
         )
         if start_tempo_index == end_tempo_index or end_tempo_index == -1:
-            return (
-                (end_ticks - start_ticks) / self.tempo_list[start_tempo_index].bpm / 8
-            )
+            return (end_ticks - start_ticks) / self.tempo_list[start_tempo_index].bpm / 8
         secs = 0.0
         secs += (
             (self.tempo_list[start_tempo_index + 1].position - start_ticks)
@@ -85,13 +79,10 @@ class TimeSynchronizer:
         )
         return secs
 
-    def get_actual_ticks_from_secs_offset(
-        self, start_ticks: int, offset_secs: float
-    ) -> float:
+    def get_actual_ticks_from_secs_offset(self, start_ticks: int, offset_secs: float) -> float:
         if self.is_absolute_time_code:
             return (
-                self.get_actual_ticks_from_ticks(start_ticks)
-                + offset_secs * self.default_tempo * 8
+                self.get_actual_ticks_from_ticks(start_ticks) + offset_secs * self.default_tempo * 8
             )
         start_tempo_index = find_last_index(
             self.tempo_list, lambda tempo: tempo.position <= start_ticks

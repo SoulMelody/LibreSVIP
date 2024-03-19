@@ -6,13 +6,13 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
-    Point,
     Points,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 
 from .model import (
     PIT,
@@ -39,7 +39,7 @@ class VocalSharpParser:
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
         self.default_trill = vspx_project.project.default_trill
         time_signatures = self.parse_time_signatures(vspx_project.project.beat)
-        self.first_bar_length = time_signatures[0].bar_length()
+        self.first_bar_length = round(time_signatures[0].bar_length())
         tempos = self.parse_tempos(vspx_project.project.tempo)
         self.synchronizer = TimeSynchronizer(tempos)
         singing_tracks = self.parse_singing_tracks(
@@ -62,9 +62,7 @@ class VocalSharpParser:
             track_list=singing_tracks + instrumental_tracks,
         )
 
-    def parse_time_signatures(
-        self, beat_list: list[VocalSharpBeat]
-    ) -> list[TimeSignature]:
+    def parse_time_signatures(self, beat_list: list[VocalSharpBeat]) -> list[TimeSignature]:
         return [
             TimeSignature(
                 bar_index=beat.bar_index,
@@ -83,9 +81,7 @@ class VocalSharpParser:
             for tempo in tempo_list
         ]
 
-    def parse_singing_tracks(
-        self, track_list: list[VocalSharpNoteTrack]
-    ) -> list[SingingTrack]:
+    def parse_singing_tracks(self, track_list: list[VocalSharpNoteTrack]) -> list[SingingTrack]:
         tracks = []
         for track in track_list:
             singing_track = SingingTrack(
@@ -112,9 +108,7 @@ class VocalSharpParser:
         ]
 
     def parse_pitch(self, note_track: VocalSharpNoteTrack) -> ParamCurve:
-        base_pitch_curve = BasePitchCurve(
-            note_track, self.default_trill, self.synchronizer
-        )
+        base_pitch_curve = BasePitchCurve(note_track, self.default_trill, self.synchronizer)
         pitch_points = [Point.start_point()]
         prev_tick = None
         for vspx_point in note_track.parameter.points:
@@ -125,12 +119,8 @@ class VocalSharpParser:
                 elif vspx_point.time - prev_tick > 1:
                     pitch_points.append(Point(x=prev_tick, y=-100))
                     pitch_points.append(Point(x=cur_tick, y=-100))
-                vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(
-                    vspx_point.time
-                )
-                if (
-                    base_key := base_pitch_curve.semitone_value_at(vspx_point_secs)
-                ) is not None:
+                vspx_point_secs = self.synchronizer.get_actual_secs_from_ticks(vspx_point.time)
+                if (base_key := base_pitch_curve.semitone_value_at(vspx_point_secs)) is not None:
                     pitch_points.append(
                         Point(
                             x=cur_tick,

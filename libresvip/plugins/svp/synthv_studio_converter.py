@@ -1,7 +1,8 @@
 import pathlib
 
+from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
-from libresvip.model.base import Project, json_dumps
+from libresvip.model.base import Project
 
 from .model import SVProject
 from .options import InputOptions, OutputOptions
@@ -13,23 +14,21 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         if options is None:
             options = InputOptions()
-        sv_content = path.read_text(encoding="utf-8").strip("\x00")
+        sv_content = path.read_bytes().decode("utf-8").rstrip("\x00")
         sv_proj = SVProject.model_validate_json(sv_content)
         options.instant = options.instant and sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
 
-    def dump(
-        self, path: pathlib.Path, project: Project, options: OutputOptions
-    ) -> None:
+    def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options is None:
             options = OutputOptions()
         sv_project = SynthVGenerator(
             options=options,
         ).generate_project(project)
         path.write_bytes(
-            json_dumps(
+            json.dumps(
                 sv_project.model_dump(mode="json", by_alias=True, exclude_none=True),
                 separators=(",", ":"),
-            ).encode()
+            ).encode("utf-8")
             + b"\x00"
         )

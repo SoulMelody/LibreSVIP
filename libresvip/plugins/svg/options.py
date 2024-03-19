@@ -32,17 +32,13 @@ class OutputOptions(BaseModel):
         title="Note stroke color",
         description="CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc.",
     )
-    note_stroke_width: int = Field(
-        1, title="Note stroke width", description="Unit: pixel."
-    )
+    note_stroke_width: int = Field(1, title="Note stroke width", description="Unit: pixel.")
     pitch_stroke_color: Color = Field(
         "#99aa99",
         title="Pitch stroke color",
         description="CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc.",
     )
-    pitch_stroke_width: int = Field(
-        2, title="Pitch stroke width", description="Unit: pixel."
-    )
+    pitch_stroke_width: int = Field(2, title="Pitch stroke width", description="Unit: pixel.")
     lyric_position: TextPositionOption = Field(
         TextPositionOption.LOWER,
         title="Lyric position",
@@ -76,6 +72,4 @@ class OutputOptions(BaseModel):
         title="Grid line color",
         description="CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc.",
     )
-    grid_stroke_width: int = Field(
-        1, title="Grid line width", description="Unit: pixel."
-    )
+    grid_stroke_width: int = Field(1, title="Grid line width", description="Unit: pixel.")
