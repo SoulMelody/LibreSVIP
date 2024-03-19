@@ -214,20 +214,23 @@ class VsqxParser:
         tick_prefix: int,
     ) -> list[InstrumentalTrack]:
         instrumental_tracks = []
-        for wav_part, wav_unit in zip(wav_parts, wav_units):
-            if pathlib.Path(wav_part.file_path).is_absolute():
-                wav_path_str = wav_part.file_path
-            elif (wav_path := self.src_path.with_suffix(".wavparts") / wav_part.file_path).exists():
-                wav_path_str = str(wav_path)
-            else:
-                continue
-            instrumental_tracks.append(
-                InstrumentalTrack(
-                    title=wav_part.part_name,
-                    audio_file_path=wav_path_str,
-                    offset=wav_part.pos_tick - tick_prefix,
-                    mute=wav_unit.mute,
-                    solo=wav_unit.solo,
+        if self.options.import_instrumental_track:
+            for wav_part, wav_unit in zip(wav_parts, wav_units):
+                if pathlib.Path(wav_part.file_path).is_absolute():
+                    wav_path_str = wav_part.file_path
+                elif (
+                    wav_path := self.src_path.with_suffix(".wavparts") / wav_part.file_path
+                ).exists():
+                    wav_path_str = str(wav_path)
+                else:
+                    continue
+                instrumental_tracks.append(
+                    InstrumentalTrack(
+                        title=wav_part.part_name,
+                        audio_file_path=wav_path_str,
+                        offset=wav_part.pos_tick - tick_prefix,
+                        mute=wav_unit.mute,
+                        solo=wav_unit.solo,
+                    )
                 )
-            )
         return instrumental_tracks

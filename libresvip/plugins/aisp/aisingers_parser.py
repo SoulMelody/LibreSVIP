@@ -85,7 +85,7 @@ class AiSingersParser:
                 if len(pitch_points) > 2:
                     singing_track.edited_params.pitch = ParamCurve(points=Points(root=pitch_points))
                 track_list.append(singing_track)
-            elif isinstance(ais_track, AISAudioTrack):
+            elif self.options.import_instrumental_track and isinstance(ais_track, AISAudioTrack):
                 track_list.extend(
                     InstrumentalTrack(
                         title=f"{ais_track.name} ({i})",

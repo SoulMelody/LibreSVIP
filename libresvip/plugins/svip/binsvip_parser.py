@@ -70,10 +70,11 @@ class BinarySvipParser:
                 if (ele := self.parse_note(note)) is not None:
                     result_track.note_list.append(ele)
             result_track.edited_params = self.parse_params(track)
-        elif isinstance(track, XSInstrumentTrack):
-            result_track = InstrumentalTrack()
-            result_track.audio_file_path = track.instrument_file_path
-            result_track.offset = track.offset_in_pos
+        elif self.options.import_instrumental_track and isinstance(track, XSInstrumentTrack):
+            result_track = InstrumentalTrack(
+                audio_file_path=track.instrument_file_path,
+                offset=track.offset_in_pos,
+            )
         else:
             return None
         result_track.title = track.name

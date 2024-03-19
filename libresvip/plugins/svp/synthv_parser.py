@@ -575,7 +575,7 @@ class SynthVParser:
 
     def parse_track(self, sv_track: SVTrack) -> Optional[Track]:
         if sv_track.main_ref.is_instrumental:
-            if sv_track.main_ref.audio is not None:
+            if self.options.import_instrumental_track and sv_track.main_ref.audio is not None:
                 svip_track = InstrumentalTrack(
                     audio_file_path=sv_track.main_ref.audio.filename,
                     offset=self.parse_audio_offset(sv_track.main_ref.blick_offset),

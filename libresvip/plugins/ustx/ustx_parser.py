@@ -159,20 +159,21 @@ class UstxParser:
         self, tracks: list[UTrack], wave_parts: list[UWavePart]
     ) -> list[InstrumentalTrack]:
         track_list = []
-        for wave_part in wave_parts:
-            ustx_track = tracks[wave_part.track_no]
-            rel_path = wave_part.relative_path
-            # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
-            track_list.append(
-                InstrumentalTrack(
-                    audio_file_path=rel_path,
-                    offset=wave_part.position,
-                    title=wave_part.name,
-                    mute=ustx_track.mute,
-                    solo=ustx_track.solo,
-                    volume=self.parse_volume(ustx_track.volume),
+        if self.options.import_instrumental_track:
+            for wave_part in wave_parts:
+                ustx_track = tracks[wave_part.track_no]
+                rel_path = wave_part.relative_path
+                # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
+                track_list.append(
+                    InstrumentalTrack(
+                        audio_file_path=rel_path,
+                        offset=wave_part.position,
+                        title=wave_part.name,
+                        mute=ustx_track.mute,
+                        solo=ustx_track.solo,
+                        volume=self.parse_volume(ustx_track.volume),
+                    )
                 )
-            )
         return track_list
 
     def parse_volume(self, volume: float) -> float:

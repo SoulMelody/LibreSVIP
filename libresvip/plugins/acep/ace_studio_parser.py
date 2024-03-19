@@ -75,11 +75,12 @@ class AceParser:
         return SongTempo(position=ace_tempo.position, bpm=ace_tempo.bpm)
 
     def parse_track(self, ace_track: AcepTrack) -> Optional[Track]:
-        if isinstance(ace_track, AcepAudioTrack):
-            if len(ace_track.patterns) == 0:
-                return None
-            track = InstrumentalTrack()
-            track.audio_file_path = ace_track.patterns[0].path
+        if (
+            self.options.import_instrumental_track
+            and isinstance(ace_track, AcepAudioTrack)
+            and len(ace_track.patterns)
+        ):
+            track = InstrumentalTrack(audio_file_path=ace_track.patterns[0].path)
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
                 ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")

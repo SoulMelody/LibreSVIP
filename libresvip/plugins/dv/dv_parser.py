@@ -106,15 +106,16 @@ class DeepVocalParser:
         self, dv_audio_tracks: list[DvAudioTrack]
     ) -> list[InstrumentalTrack]:
         track_list = []
-        for dv_track in dv_audio_tracks:
-            track = InstrumentalTrack(
-                title=dv_track.name or dv_track.infos[0].name,
-                mute=dv_track.mute,
-                solo=dv_track.solo,
-                offset=dv_track.infos[0].start + self.tick_prefix,
-                audio_file_path=dv_track.infos[0].path,
-            )
-            track_list.append(track)
+        if self.options.import_instrumental_track:
+            for dv_track in dv_audio_tracks:
+                track = InstrumentalTrack(
+                    title=dv_track.name or dv_track.infos[0].name,
+                    mute=dv_track.mute,
+                    solo=dv_track.solo,
+                    offset=dv_track.infos[0].start + self.tick_prefix,
+                    audio_file_path=dv_track.infos[0].path,
+                )
+                track_list.append(track)
         return track_list
 
     def parse_singing_tracks(

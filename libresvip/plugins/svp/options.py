@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 from libresvip.model.option_mixins import (
     EnableBreathImportationMixin,
     EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
     EnableStrengthImportationMixin,
     EnableVolumeImportationMixin,
@@ -108,6 +109,7 @@ class VibratoOption(Enum):
 class InputOptions(
     EnableBreathImportationMixin,
     EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
     EnableStrengthImportationMixin,
     EnableVolumeImportationMixin,

@@ -57,7 +57,7 @@ class SynthVEditorParser:
         self.first_bar_length = round(time_signature_list[0].bar_length())
         self.synchronizer = TimeSynchronizer(tempo_list)
         track_list = self.parse_singing_tracks(s5p_project.tracks)
-        if s5p_project.instrumental.filename:
+        if self.options.import_instrumental_track and s5p_project.instrumental.filename:
             track_list.append(
                 self.parse_instrumental_track(s5p_project.instrumental, s5p_project.mixer)
             )

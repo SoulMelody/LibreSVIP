@@ -84,7 +84,7 @@ class VocaloidParser:
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:
         track_list = []
         for track in tracks:
-            if isinstance(track, VocaloidAudioTrack):
+            if self.options.import_instrumental_track and isinstance(track, VocaloidAudioTrack):
                 for part in track.parts:
                     if part.wav is None:
                         continue

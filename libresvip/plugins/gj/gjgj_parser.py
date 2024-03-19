@@ -49,7 +49,8 @@ class GjgjParser:
             time_signature_list=self.parse_time_signatures(gjgj_project.tempo_map.time_signature),
         )
         project.track_list = self.parse_singing_tracks(gjgj_project.tracks)
-        project.track_list.extend(self.parse_instrumental_tracks(gjgj_project.accompaniments))
+        if self.options.import_instrumental_track:
+            project.track_list.extend(self.parse_instrumental_tracks(gjgj_project.accompaniments))
         return project
 
     def parse_tempos(self, tempo_map: GjgjTempoMap) -> list[SongTempo]:

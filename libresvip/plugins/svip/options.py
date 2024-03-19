@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 from libresvip.model.option_mixins import (
     EnableBreathImportationMixin,
     EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
     EnableStrengthImportationMixin,
     EnableVolumeImportationMixin,
@@ -48,6 +49,7 @@ To avoid irretrievable data loss, it is strongly recommended not to use X Studio
 class InputOptions(
     EnableBreathImportationMixin,
     EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
     EnableStrengthImportationMixin,
     EnableVolumeImportationMixin,

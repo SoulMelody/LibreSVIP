@@ -10,6 +10,7 @@ from libresvip.model.base import BaseModel
 from libresvip.model.option_mixins import (
     EnableBreathImportationMixin,
     EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
 )
 
@@ -78,6 +79,7 @@ class NormalizationArgument(BaseModel):
 class InputOptions(
     EnableBreathImportationMixin,
     EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
     BaseModel,
 ):

@@ -82,7 +82,9 @@ class Svip3Parser:
             if track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK):
                 singing_track = Svip3SingingTrack.deserialize(track.value)
                 tracks.append(self.parse_singing_track(singing_track))
-            elif track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK):
+            elif self.options.import_instrumental_track and track.type_url == urljoin(
+                TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK
+            ):
                 audio_track = Svip3AudioTrack.deserialize(track.value)
                 if xstudio_audio_track := self.parse_audio_track(audio_track):
                     tracks.append(xstudio_audio_track)
