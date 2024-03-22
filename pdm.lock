@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:ee7bc23752217e60a4b9b1e23e65b9c46747e15802c25ae0d904aa8edf62db43"
+content_hash = "sha256:8a4c0c450defb4ab1d71671cf555325d88faa5635ba2f3c502fd78be61d6900a"
 
 [[package]]
 name = "aiofiles"
@@ -1209,6 +1209,20 @@ files = [
 ]
 
 [[package]]
+name = "libsass"
+version = "0.23.0"
+requires_python = ">=3.8"
+summary = "Sass for Python: A straightforward binding of libsass for Python."
+files = [
+    {file = "libsass-0.23.0-cp38-abi3-macosx_11_0_x86_64.whl", hash = "sha256:34cae047cbbfc4ffa832a61cbb110f3c95f5471c6170c842d3fed161e40814dc"},
+    {file = "libsass-0.23.0-cp38-abi3-macosx_14_0_arm64.whl", hash = "sha256:ea97d1b45cdc2fc3590cb9d7b60f1d8915d3ce17a98c1f2d4dd47ee0d9c68ce6"},
+    {file = "libsass-0.23.0-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:4a218406d605f325d234e4678bd57126a66a88841cb95bee2caeafdc6f138306"},
+    {file = "libsass-0.23.0-cp38-abi3-win32.whl", hash = "sha256:31e86d92a5c7a551df844b72d83fc2b5e50abc6fbbb31e296f7bebd6489ed1b4"},
+    {file = "libsass-0.23.0-cp38-abi3-win_amd64.whl", hash = "sha256:a2ec85d819f353cbe807432d7275d653710d12b08ec7ef61c124a580a8352f3c"},
+    {file = "libsass-0.23.0.tar.gz", hash = "sha256:6f209955ede26684e76912caf329f4ccb57e4a043fd77fe0e7348dd9574f1880"},
+]
+
+[[package]]
 name = "lief"
 version = "0.14.0"
 requires_python = ">=3.8"
@@ -1626,8 +1640,8 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.18"
-requires_python = ">=3.8,<4.0"
+version = "1.4.19"
+requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
     "Pygments<3.0.0,>=2.15.1",
@@ -1639,6 +1653,7 @@ dependencies = [
     "ifaddr>=0.2.0",
     "itsdangerous<3.0.0,>=2.1.2",
     "jinja2<4.0.0,>=3.1.3",
+    "libsass>=0.23.0",
     "markdown2!=2.4.11,>=2.4.7",
     "orjson>=3.9.15; platform_machine != \"i386\" and platform_machine != \"i686\"",
     "python-multipart>=0.0.7",
@@ -1649,23 +1664,23 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.18-py3-none-any.whl", hash = "sha256:67a3c73196badf7da86bb40a5bb7afb9ab0a2532b21b7c3e0f5c8d3e9969f653"},
-    {file = "nicegui-1.4.18.tar.gz", hash = "sha256:01b2865a257a7ddd38f791ff104058e13392834399096f3a126946d59d7f4b12"},
+    {file = "nicegui-1.4.19-py3-none-any.whl", hash = "sha256:91c0647941f95fb161103316140943de177b26fdc79b28c0528d41f19d0ba291"},
+    {file = "nicegui-1.4.19.tar.gz", hash = "sha256:137601729eddc721346193089c8ead290f8dcdfd9664de2cfaaaab72ece5feb8"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.18"
+version = "1.4.19"
 extras = ["native"]
-requires_python = ">=3.8,<4.0"
+requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 dependencies = [
-    "nicegui==1.4.18",
+    "nicegui==1.4.19",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.18-py3-none-any.whl", hash = "sha256:67a3c73196badf7da86bb40a5bb7afb9ab0a2532b21b7c3e0f5c8d3e9969f653"},
-    {file = "nicegui-1.4.18.tar.gz", hash = "sha256:01b2865a257a7ddd38f791ff104058e13392834399096f3a126946d59d7f4b12"},
+    {file = "nicegui-1.4.19-py3-none-any.whl", hash = "sha256:91c0647941f95fb161103316140943de177b26fdc79b28c0528d41f19d0ba291"},
+    {file = "nicegui-1.4.19.tar.gz", hash = "sha256:137601729eddc721346193089c8ead290f8dcdfd9664de2cfaaaab72ece5feb8"},
 ]
 
 [[package]]
