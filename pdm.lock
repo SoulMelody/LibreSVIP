@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:c899a862aca9eb2ee4af847fc6eb677cdafa6f9634bff62436cf7ac70bd723fb"
+content_hash = "sha256:ee7bc23752217e60a4b9b1e23e65b9c46747e15802c25ae0d904aa8edf62db43"
 
 [[package]]
 name = "aiofiles"
@@ -781,7 +781,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.15.0"
+version = "1.16.0"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 dependencies = [
@@ -792,14 +792,14 @@ dependencies = [
     "grpc-google-iam-v1<1.0.0dev,>=0.12.4",
     "grpcio>=1.24.3",
     "inflection<1.0.0dev,>=0.5.1",
-    "jinja2>=2.10",
+    "jinja2>=2.11",
     "libcst<2.0.0dev,>=0.4.9",
     "protobuf!=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5",
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.15.0.tar.gz", hash = "sha256:d14c3f5f2a40d1f4e154a81475991417fe705ac2f074da00951bb90977173490"},
-    {file = "gapic_generator-1.15.0-py3-none-any.whl", hash = "sha256:6b7b68816ad7e8a00fa021fc915aef9069bd7ea5108ef6e80ee21edc0f8a184e"},
+    {file = "gapic-generator-1.16.0.tar.gz", hash = "sha256:6f3f57d0e219da3e5a5c28b3ab2c1e5819362513c3e7ef9fafb1f3c9c80feb54"},
+    {file = "gapic_generator-1.16.0-py3-none-any.whl", hash = "sha256:c5e3c909d4664fdf9d9387f899e25670d672cd47d58efab53427c13808623477"},
 ]
 
 [[package]]
@@ -1683,14 +1683,14 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.1.2"
+version = "2.1.3"
 summary = "Python compiler with full language support and CPython compatibility"
 dependencies = [
     "ordered-set>=4.1.0",
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.1.2.tar.gz", hash = "sha256:32d7724c913645c73a8b41f6f57d17f742e132fa3a82eb6c4c847c1629cba7b9"},
+    {file = "Nuitka-2.1.3.tar.gz", hash = "sha256:e0a894637ab405750054109eb28af323a44426276977191bb75b58bf6a6083ce"},
 ]
 
 [[package]]
