@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-10 00:14+0800\n"
-"PO-Revision-Date: 2024-03-09 16:18\n"
+"POT-Creation-Date: 2024-03-23 23:12+0800\n"
+"PO-Revision-Date: 2024-03-23 15:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "[ 导入自 "
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: converter_page%2321
+#: converter_page%2321 settings_dialog%236
 msgid "Output Settings"
 msgstr "输出设置"
 
@@ -110,31 +110,39 @@ msgstr "选择输出文件夹"
 msgid "Output Folder"
 msgstr "输出文件夹"
 
-#: converter_page%2324
+#: converter_page%2324 settings_dialog%237
+msgid "Deal with Conflicts"
+msgstr ""
+
+#: converter_page%2325
+msgid "Page 1"
+msgstr ""
+
+#: converter_page%2326
+msgid "Page 2"
+msgstr ""
+
+#: converter_page%2327
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: converter_page%2325
+#: converter_page%2328
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2326 settings_dialog%236
+#: converter_page%2329 settings_dialog%238
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
-#: converter_page%2327
-msgid "Deal with Conflicts:"
-msgstr "遇到同名文件时："
-
-#: converter_page%2328 settings_dialog%2312
+#: converter_page%2330 settings_dialog%2314
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2329 settings_dialog%2313
+#: converter_page%2331 settings_dialog%2315
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2330 settings_dialog%2314
+#: converter_page%2332 settings_dialog%2316
 msgid "Prompt"
 msgstr "询问"
 
@@ -226,47 +234,47 @@ msgstr "切换格式时重置列表"
 msgid "Multi-Threaded Conversion"
 msgstr "启用多线程转换"
 
-#: settings_dialog%237
+#: settings_dialog%239
 msgid "Same as Source"
 msgstr "源路径"
 
-#: settings_dialog%238
+#: settings_dialog%2310
 msgid "Desktop"
 msgstr "桌面"
 
-#: settings_dialog%239
+#: settings_dialog%2311
 msgid "Preset Folder"
 msgstr "文件夹预设"
 
-#: settings_dialog%2310
+#: settings_dialog%2312
 msgid "Custom (Browse ...)"
 msgstr "自定义 (浏览选择)"
 
-#: settings_dialog%2311
+#: settings_dialog%2313
 msgid "Manage Folders Presets"
 msgstr "管理文件夹预设"
 
-#: settings_dialog%2315
+#: settings_dialog%2317
 msgid "Auto Check for Updates"
 msgstr "自动检查更新"
 
-#: settings_dialog%2316
+#: settings_dialog%2318
 msgid "Conversion Settings"
 msgstr "转换设置"
 
-#: settings_dialog%2317
+#: settings_dialog%2319
+msgid "Basic Settings"
+msgstr ""
+
+#: settings_dialog%2320
 msgid "Save Path Settings"
 msgstr "导出路径设置"
 
-#: settings_dialog%2318
-msgid "Conflict Policy Settings"
-msgstr "冲突解决策略设置"
-
-#: settings_dialog%2319
+#: settings_dialog%2321
 msgid "Select Plugins"
 msgstr "选择插件"
 
-#: settings_dialog%2320
+#: settings_dialog%2322
 msgid "Updates Settings"
 msgstr "更新设置"
 
@@ -519,56 +527,56 @@ msgstr "偏移量，单位为毫秒"
 msgid "Mute other tracks"
 msgstr "使其它音轨静音"
 
-#: ../libresvip/gui/modules/notifier.py:52
+#: ../libresvip/gui/modules/notifier.py:55
 msgid "Downloading"
 msgstr "下载中"
 
-#: ../libresvip/gui/modules/notifier.py:52
-#: ../libresvip/gui/modules/notifier.py:76
+#: ../libresvip/gui/modules/notifier.py:55
+#: ../libresvip/gui/modules/notifier.py:81
 msgid "Please wait..."
 msgstr "请稍候……"
 
-#: ../libresvip/gui/modules/notifier.py:62
+#: ../libresvip/gui/modules/notifier.py:65
 msgid "Error occurred while Downloading"
 msgstr "下载过程中出现错误"
 
-#: ../libresvip/gui/modules/notifier.py:63
+#: ../libresvip/gui/modules/notifier.py:66
 msgid "Failed to download file {}. Please try again later."
 msgstr "{} 文件下载失败，请稍后再试。"
 
-#: ../libresvip/gui/modules/notifier.py:75
+#: ../libresvip/gui/modules/notifier.py:80
 msgid "Checking for Updates"
 msgstr "检查更新中"
 
-#: ../libresvip/gui/modules/notifier.py:91
+#: ../libresvip/gui/modules/notifier.py:96
 msgid "Open in Browser"
 msgstr "在浏览器中打开"
 
-#: ../libresvip/gui/modules/notifier.py:145
+#: ../libresvip/gui/modules/notifier.py:150
 msgid "Download"
 msgstr "下载"
 
-#: ../libresvip/gui/modules/notifier.py:155
+#: ../libresvip/gui/modules/notifier.py:160
 msgid "Update Available"
 msgstr "更新可用"
 
-#: ../libresvip/gui/modules/notifier.py:156
+#: ../libresvip/gui/modules/notifier.py:161
 msgid "New version {} is available."
 msgstr "新版本{}已经可用。"
 
-#: ../libresvip/gui/modules/notifier.py:161
+#: ../libresvip/gui/modules/notifier.py:166
 msgid "No Updates"
 msgstr "未找到更新"
 
-#: ../libresvip/gui/modules/notifier.py:162
+#: ../libresvip/gui/modules/notifier.py:167
 msgid "You are using the latest version {}."
 msgstr "你正在使用最新版本 {}。"
 
-#: ../libresvip/gui/modules/notifier.py:170
+#: ../libresvip/gui/modules/notifier.py:175
 msgid "Error occurred while Checking for Updates"
 msgstr "检查更新时出现错误！"
 
-#: ../libresvip/gui/modules/notifier.py:171
+#: ../libresvip/gui/modules/notifier.py:176
 msgid "Failed to check for updates. Please try again later."
 msgstr "检查更新失败，请稍后再试。"
 
@@ -729,50 +737,66 @@ msgid "Conversion Plugin for ACE Studio project file"
 msgstr "ACE Studio 工程文件转换插件"
 
 #: .acep.load[0].title
+msgid "Import pitch curve"
+msgstr ""
+
+#: .acep.load[1].title
+msgid "Import instrumental tracks"
+msgstr ""
+
+#: .acep.load[2].title
+msgid "Import gender envelope"
+msgstr ""
+
+#: .acep.load[3].title
+msgid "Import breath envelope"
+msgstr ""
+
+#: .acep.load[4].title
 msgid "Keep all pronunciation information"
 msgstr "保留所有发音信息"
 
-#: .acep.load[0].description
+#: .acep.load[4].description
 msgid "ACE Studio will add pronunciation to all notes. This is a redundant data for most Chinese characters, so by default only modified pronunciation will be kept. When this option is turned on, all pronunciation information will be kept unconditionally, but it may produce a larger file size. When the source file contains non-Chinese singing data, please turn on this option."
 msgstr "ACE Studio 会给所有的音符添加发音。这对于大部分的汉字而言是一种冗余数据，因此默认情况下只会保留被修改过的发音。打开此选项后，将无条件保留所有的发音信息，但可能产生更大的文件体积。当源文件中包含非汉语演唱数据时，请将此选项打开。"
 
-#: .acep.load[1].title
+#: .acep.load[5].title
 msgid "Import tension envelope"
 msgstr "导入张力包络"
 
-#: .acep.load[1].description
+#: .acep.load[5].description
 msgid "When turned on, the tension envelope will be mapped to the tension channel of the intermediate model."
 msgstr "打开后，张力包络将被映射至中介模型的力度通道。"
 
-#: .acep.load[2].title
+#: .acep.load[6].title
 msgid "Import energy envelope"
 msgstr "导入力度包络"
 
-#: .acep.load[2].description
+#: .acep.load[6].description
 msgid "When turned on, the energy envelope will be mapped to the energy channel of the intermediate model."
 msgstr "打开后，将可以通过映射比例选项控制力度包络映射至中介模型的力度通道和音量通道的比例。"
 
-#: .acep.load[3].title
+#: .acep.load[7].title
 msgid "Strength-volume mapping coefficient"
 msgstr "力度-音量映射系数"
 
-#: .acep.load[3].description
+#: .acep.load[7].description
 msgid "Since the strength parameter of ACE Studio has a significant impact on the volume, this option is provided to control the mapping coefficient of the strength envelope. The strength envelope will be multiplied by the value of this option as a whole and then mapped to the volume channel of the intermediate model, and the remaining part will be mapped to the strength channel. This option accepts values in the range of 0~1.0."
 msgstr "由于 ACE Studio 力度参数对音量的影响较为显著，故提供此选项控制力度包络的映射系数。力度包络将被整体乘以此选项的值后映射到中介模型的音量通道，剩余的部分将被映射到力度通道。此选项接受 0~1.0 范围内的值。"
 
-#: .acep.load[4].title
+#: .acep.load[8].title
 msgid "Interval of curve sampling"
 msgstr "参数点采样间隔"
 
-#: .acep.load[4].description
+#: .acep.load[8].description
 msgid "The unit is tick (the length of a quarter note is 480 ticks). By default, the parameter points in the acep file are stored in a very dense manner. Increasing the sampling interval appropriately will not cause much loss of accuracy, but it can get a smaller file size. Setting to 0 or a negative value means keeping the original sampling interval."
 msgstr "单位为tick（四分音符长度为 480 ticks）。默认情况下 acep 文件中的参数点采用非常密集的存储方式，适当提高采样间隔不会造成很大的精度损失，但可以得到更小的文件体积。设置为 0 或负值代表保持原有采样间隔。"
 
-#: .acep.load[5].title
+#: .acep.load[9].title
 msgid "Breath parameter normalization"
 msgstr "气声实参标准化参数"
 
-#: .acep.load[5].description
+#: .acep.load[9].description
 msgid "This option is an advanced option. After enabling this option, the breath parameters will be merged with the breath envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
 "(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
 "(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
@@ -786,11 +810,11 @@ msgstr "此选项为高级选项。启用此选项后，气声实参将经过标
 "(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
 "(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
 
-#: .acep.load[6].title
+#: .acep.load[10].title
 msgid "Tension parameter normalization"
 msgstr "张力实参标准化参数"
 
-#: .acep.load[6].description
+#: .acep.load[10].description
 msgid "This option is an advanced option. After enabling this option, the tension parameters will be merged with the tension envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
 "(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
 "(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
@@ -804,11 +828,11 @@ msgstr "此选项为高级选项。打开“导入张力包络”开关并启用
 "(4) 缩放系数：-1.0~1.0 范围内的实数，执行标准化后的参数值将与此值相乘。\n"
 "(5) 偏置值：-1.0~1.0 范围内的实数，执行标准化并经过缩放的参数值将与此值相加。"
 
-#: .acep.load[7].title
+#: .acep.load[11].title
 msgid "Energy parameter normalization"
 msgstr "力度实参标准化参数"
 
-#: .acep.load[7].description
+#: .acep.load[11].description
 msgid "This option is an advanced option. After enabling this option, the energy parameters will be merged with the energy envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
 "(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
 "(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
@@ -1056,6 +1080,10 @@ msgid "Conversion plugin for Gejigeji project file.\n"
 msgstr "歌叽歌叽工程格式转换插件。\n"
 "仅支持歌叽歌叽2.0版本。"
 
+#: .gj.load[0].title
+msgid "Import dynamics envelope"
+msgstr ""
+
 #: .gj.dump[0].title
 msgid "Average sampling interval for the volume parameter"
 msgstr "音量参数平均采样间隔"
@@ -1196,95 +1224,87 @@ msgstr "标准MIDI文件"
 msgid "Conversion plugin for midi file"
 msgstr "MIDI文件转换插件"
 
-#: .mid.load[0].title
+#: .mid.load[2].title
 msgid "Import lyrics"
 msgstr "导入歌词"
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[3].title .mid.dump[3].title
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[3].description .mid.dump[3].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
-#: .mid.load[2].title
+#: .mid.load[4].title
 msgid "Import time signatures"
 msgstr "导入拍号"
 
-#: .mid.load[2].description
+#: .mid.load[4].description
 msgid "If this option is unset, the time signature is set to 4/4."
 msgstr "关闭此选项，拍号设置为4/4。"
 
-#: .mid.load[3].title
+#: .mid.load[5].title
 msgid "Multi-channel processing method"
 msgstr "通道处理方式"
 
-#: .mid.load[3].choices[0].text
+#: .mid.load[5].choices[0].text
 msgid "Import first channel only"
 msgstr "仅导入首条通道"
 
-#: .mid.load[3].choices[1].text
+#: .mid.load[5].choices[1].text
 msgid "Split into tracks"
 msgstr "全部拆分为轨道"
 
-#: .mid.load[3].choices[2].text
+#: .mid.load[5].choices[2].text
 msgid "Custom import range"
 msgstr "自定义导入范围"
 
-#: .mid.load[4].title
+#: .mid.load[6].title
 msgid "Channels to import"
 msgstr "通道"
 
-#: .mid.load[4].description
+#: .mid.load[6].description
 msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
 msgstr "指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围(用英文逗号分隔)，例如：1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时有效"
 
-#: .mid.load[5].title
+#: .mid.load[7].title
 msgid "Default BPM"
 msgstr "默认BPM"
 
-#: .mid.load[5].description
+#: .mid.load[7].description
 msgid "Used when no BPM information is found in the MIDI file."
 msgstr "当MIDI文件中不存在BPM信息时，使用此值。"
 
 #: .mid.dump[0].title
-msgid "Pre-shift compensation"
-msgstr "拖拍前移补偿量"
-
-#: .mid.dump[0].description
-msgid "Non-negative integer, unit is ticks. Negative values are treated as zero. Shifts notes that are pronounced as y-, w-, a-, o- and e- to alleviate the problem of delayed semivowels or vowels in some vocal synthesizers. Recommended value: 30~60."
-msgstr "非负整数，单位为ticks。输入负数视为零。将发音为 y-、w-、a-、o- 和 e- 的音符提前，以缓解某些歌声合成软件半元音或元音音符出现迟滞的问题。推荐值：30~60。"
-
-#: .mid.dump[1].title
 msgid "Export lyrics"
 msgstr "导出歌词"
 
-#: .mid.dump[2].title
+#: .mid.dump[1].title
 msgid "Remove symbols from lyrics"
 msgstr "移除歌词中的常见标点符号"
 
-#: .mid.dump[2].description
+#: .mid.dump[1].description
 msgid "Remove commas, periods, question marks and exclamation marks in Chinese and English to prevent lyric import failure in some vocal synthesizers."
 msgstr "移除中英文的逗号、句号、问号和感叹号，防止不支持含标点符号歌词的歌声合成软件无法正常合成。"
 
-#: .mid.dump[3].title
+#: .mid.dump[2].title
 msgid "Lyric compatibility mode"
 msgstr "歌词兼容性模式"
 
-#: .mid.dump[3].description
+#: .mid.dump[2].description
 msgid "Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI files with Chinese lyrics from being imported by vocal synthesizers that do not support Chinese lyrics."
 msgstr "将所有中文歌词转换为拼音，防止不支持导入带有中文歌词 MIDI 文件的歌声合成软件出现乱码。"
 
-#: .mid.dump[5].title
+#: .mid.dump[4].title
 msgid "Transpose"
 msgstr "移调"
 
-#: .mid.dump[6].title
+#: .mid.dump[5].title
 msgid "Ticks per beat"
 msgstr "每拍ticks数"
 
-#: .mid.dump[6].description
+#: .mid.dump[5].description
 msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
 msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
 
@@ -1344,10 +1364,6 @@ msgstr "恒定曲速"
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr "使用此曲速重设变速音乐的时间轴"
 
-#: .nn.dump[1].description
-msgid "Start from 0, -1 means auto select"
-msgstr "从0开始，-1表示自动选择"
-
 #: .nn.dump[2].description
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
@@ -1379,6 +1395,10 @@ msgstr "Synthesizer V Editor 工程文件"
 #: .s5p.description
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程格式转换插件。"
+
+#: .s5p.load[0].title
+msgid "Import vibrato params"
+msgstr ""
 
 #: .srt.name
 msgid "SRT"
@@ -1499,6 +1519,10 @@ msgstr "音符内部文本颜色"
 msgid "The color of the text on the top and bottom of the note"
 msgstr "音符上下方文本颜色"
 
+#: .svg.dump[13].description
+msgid "Start from 0, -1 means auto select"
+msgstr "从0开始，-1表示自动选择"
+
 #: .svg.dump[14].title
 msgid "Show grid lines"
 msgstr "显示网格线"
@@ -1522,6 +1546,10 @@ msgstr "X Studio 工程文件"
 #: .svip.description
 msgid "Conversion plugin for the original .svip binary file format"
 msgstr "原始二进制 .svip 文件转换插件"
+
+#: .svip.load[1].title
+msgid "Import strength envelope"
+msgstr ""
 
 #: .svip.dump[0].description
 msgid "Please enter the singer's name in Chinese. If the specified singer does not exist, the default singer set in X Studio will be used. If you want to specify the conversion relationship between singer ID and name, or add a singer that has an ID but has not been publicly released, please modify singers.json in the plugin directory."
@@ -1623,83 +1651,83 @@ msgid "Conversion plugin for Synthesizer V Studio project file, it supports read
 msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性、音符组、即时音高模式在内所有数据的读取与写入。\n"
 "请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
-#: .svp.load[0].title
+#: .svp.load[6].title
 msgid "Always follow instant pitch mode"
 msgstr "遵循即时音高模式设置"
 
-#: .svp.load[0].description
+#: .svp.load[6].description
 msgid "When this option is turned off, the default pitch curve will always be imported regardless of the project setting. If you have tuned the pitch curve based on instant pitch mode, it is recommended to turn on this option."
 msgstr "关闭此选项时，无论工程文件是否开启了即时音高模式，都只会考虑原始的默认音高。若您基于即时音高模式进行了调校，建议打开此选项。"
 
-#: .svp.load[1].title
+#: .svp.load[7].title
 msgid "Pitch input mode"
 msgstr "音高信息输入模式"
 
-#: .svp.load[1].choices[0].text
+#: .svp.load[7].choices[0].text
 msgid "Full pitch curve"
 msgstr "输入完整音高曲线"
 
-#: .svp.load[1].choices[0].description
+#: .svp.load[7].choices[0].description
 msgid "Input the full pitch curve regardless of editing"
 msgstr "不论是否经过编辑，均输入整条音高曲线"
 
-#: .svp.load[1].choices[1].text
+#: .svp.load[7].choices[1].text
 msgid "Edited part only (vibrato mode)"
 msgstr "仅输入已编辑部分（颤音模式）"
 
-#: .svp.load[1].choices[1].description
+#: .svp.load[7].choices[1].description
 msgid "Input the edited part of pitch curve; default vibrato will be imported if not edited"
 msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音也将被导入"
 
-#: .svp.load[1].choices[2].text
+#: .svp.load[7].choices[2].text
 msgid "Edited part only (plain mode)"
 msgstr "仅输入已编辑部分（平整模式）"
 
-#: .svp.load[1].choices[2].description
+#: .svp.load[7].choices[2].description
 msgid "Input the edited part of pitch curve; default vibrato will be ignored"
 msgstr "仅输入已编辑部分的音高曲线；未经编辑的默认颤音将被忽略"
 
-#: .svp.load[1].description
+#: .svp.load[7].description
 msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
 msgstr "本选项控制音高曲线被导入的范围和判定条件。其中“经过编辑”的定义为：参数面板中的音高偏差、颤音包络和音符属性中的音高转变、颤音中的任意一项经过编辑。"
 
-#: .svp.load[2].title
+#: .svp.load[8].title
 msgid "The way to handle breath notes"
 msgstr "换气音符处理方式"
 
-#: .svp.load[2].choices[0].text
+#: .svp.load[8].choices[0].text
 msgid "Ignore all breath notes"
 msgstr "忽略所有换气音符"
 
-#: .svp.load[2].choices[1].text
+#: .svp.load[8].choices[1].text
 msgid "Keep as normal notes"
 msgstr "保留为普通音符"
 
-#: .svp.load[2].choices[2].text
+#: .svp.load[8].choices[2].text
 msgid "Convert to breath mark"
 msgstr "转换为换气标记"
 
-#: .svp.load[3].title
+#: .svp.load[9].title
 msgid "The way to handle note groups"
 msgstr "音符组导入方式"
 
-#: .svp.load[3].choices[0].text
+#: .svp.load[9].choices[0].text
 msgid "Split all to tracks"
 msgstr "全部拆分为轨道"
 
-#: .svp.load[3].choices[0].description
+#: .svp.load[9].choices[0].description
 msgid "Generate a track for each note group reference"
 msgstr "为每个音符组引用生成一个单独的音轨"
 
-#: .svp.load[3].choices[1].text
+#: .svp.load[9].choices[1].text
 msgid "Keep original position"
 msgstr "保留原始位置"
 
-#: .svp.load[3].choices[1].description
+#: .svp.load[9].choices[1].description
 msgid "Split note groups to separate tracks only when notes overlap"
 msgstr "仅在出现音符重叠时将音符组拆分至单独的音轨"
 
-#: .svp.load[3].description
+#: .svp.load[9].description
 msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
 msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之间、音符组与主组之间存在时间轴上紧挨 (但不重叠) 的音符，则建议选择“拆分为轨道”以确保段落划分不被破坏。"
 
@@ -1839,11 +1867,11 @@ msgstr "新版Vocaloid工程格式"
 msgid "Conversion plugin for New Vocaloid project file"
 msgstr "新版Vocaloid工程格式转换插件"
 
-#: .vpr.load[0].title
+#: .vpr.load[2].title
 msgid "Extract audio"
 msgstr "解压音频文件"
 
-#: .vpr.load[0].description
+#: .vpr.load[2].description
 msgid "Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)"
 msgstr "若音频文件路径不存在，则从vocaloid工程文件中解压以供后续使用（此选项有写入额外文件的副作用）"
 
