@@ -50,16 +50,34 @@ if __name__ == "__main__":
                         ]
                     )
                 universal2_wheel_name = f"{normalized_name}-{package_version}-{python_version}-{python_version}-{macos_universal_platform}.whl"
-                with contextlib.suppress(FileNotFoundError):
-                    fuse_wheels(
-                        *(str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")),
-                        universal2_wheel_name,
-                    )
+                downloaded_wheels = [
+                    str(whl_path) for whl_path in cwd.glob(f"{normalized_name}*.whl")
+                ]
+                if len(downloaded_wheels) == 2:
+                    with contextlib.suppress(FileNotFoundError):
+                        fuse_wheels(
+                            *downloaded_wheels,
+                            universal2_wheel_name,
+                        )
+                        subprocess.call(
+                            [
+                                "pip",
+                                "install",
+                                universal2_wheel_name,
+                                "--no-deps",
+                                "--upgrade",
+                                "--target",
+                                str(tmp_dir),
+                            ]
+                        )
+                        shutil.copytree(tmp_dir, sys_site_packages_path, dirs_exist_ok=True)
+                        shutil.rmtree(tmp_dir)
+                else:  # wheel count mismatch, build from source
                     subprocess.call(
                         [
                             "pip",
                             "install",
-                            universal2_wheel_name,
+                            f"{requirement.name}{requirement.specifier}",
                             "--no-deps",
                             "--upgrade",
                             "--target",
