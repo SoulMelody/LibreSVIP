@@ -862,7 +862,6 @@ Page {
 
     ScrollView {
         id: advancedSettingsArea
-        contentWidth: availableWidth
         contentHeight: advancedSettingsColumn.implicitHeight + 20
         ColumnLayout {
             id: advancedSettingsColumn
@@ -873,6 +872,7 @@ Page {
             }
             ColumnLayout {
                 Layout.fillWidth: true
+                Layout.minimumWidth: advancedSettingsArea.availableWidth
                 Row {
                     height: 30
                     visible: inputContainer.children.length > 0
@@ -1539,7 +1539,7 @@ Page {
                 RowLayout {
                     Label {
                         Layout.alignment: Qt.AlignVCenter
-                        text: qsTr("Deal with Conflicts:")
+                        text: qsTr("Deal with Conflicts")
                         elide: Text.ElideRight
                     }
                     ComboBox {
@@ -1627,6 +1627,7 @@ Page {
 
             Control {   
                 SplitView.fillWidth: true
+                SplitView.minimumWidth: parent.width
                 SplitView.preferredHeight: parent.height - 200
                 SplitView.minimumHeight: parent.height - 250
                 SplitView.maximumHeight: parent.height - 200
@@ -1723,6 +1724,7 @@ Page {
                     Label {
                         text: qsTr("Page 1")
                         font.pixelSize: 10
+                        visible: smallViewStack.currentIndex !== 0
                     }
                 }
                 font.family: "Material Design Icons"
@@ -1744,6 +1746,7 @@ Page {
                     Label {
                         text: qsTr("Page 2")
                         font.pixelSize: 10
+                        visible: smallViewStack.currentIndex !== 1
                     }
                 }
                 anchors.top: firstPageBtn.bottom
