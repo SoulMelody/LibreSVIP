@@ -36,6 +36,9 @@ if __name__ == "__main__":
             if requirement.name in no_universal2_packages:
                 normalized_name = requirement.name.replace("-", "_")
                 package_version = str(requirement.specifier).lstrip("<>=")
+                extra_args = []
+                if requirement.name == "cx-Freeze":
+                    extra_args = ["--extra-index-url", "https://marcelotduarte.github.io/packages/"]
                 for macos_platform in macos_single_platforms:
                     subprocess.call(
                         [
@@ -47,6 +50,7 @@ if __name__ == "__main__":
                             "--no-deps",
                             "--only-binary",
                             ":all:",
+                            *extra_args,
                         ]
                     )
                 universal2_wheel_name = f"{normalized_name}-{package_version}-{python_version}-{python_version}-{macos_universal_platform}.whl"
