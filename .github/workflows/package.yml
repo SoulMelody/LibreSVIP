@@ -113,7 +113,7 @@ jobs:
           run: |
             cd /libresvip
             python -m ensurepip --upgrade
-            python -m pip install pdm
+            python -m pip install -U pdm urllib3
             python -m pdm sync -G desktop -G ujson -G ruamel_yaml -G packaging --no-editable
             cd packaging
             python -m pdm run python setup.py bdist_portable
