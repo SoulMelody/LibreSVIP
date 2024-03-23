@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-23 23:12+0800\n"
-"PO-Revision-Date: 2024-03-23 15:20\n"
+"PO-Revision-Date: 2024-03-23 15:32\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -112,15 +112,15 @@ msgstr "输出文件夹"
 
 #: converter_page%2324 settings_dialog%237
 msgid "Deal with Conflicts"
-msgstr ""
+msgstr "遇到同名文件时"
 
 #: converter_page%2325
 msgid "Page 1"
-msgstr ""
+msgstr "第1页"
 
 #: converter_page%2326
 msgid "Page 2"
-msgstr ""
+msgstr "第2页"
 
 #: converter_page%2327
 msgid "Start Conversion"
@@ -264,7 +264,7 @@ msgstr "转换设置"
 
 #: settings_dialog%2319
 msgid "Basic Settings"
-msgstr ""
+msgstr "基础设置"
 
 #: settings_dialog%2320
 msgid "Save Path Settings"
@@ -738,19 +738,19 @@ msgstr "ACE Studio 工程文件转换插件"
 
 #: .acep.load[0].title
 msgid "Import pitch curve"
-msgstr ""
+msgstr "导入音高曲线"
 
 #: .acep.load[1].title
 msgid "Import instrumental tracks"
-msgstr ""
+msgstr "导入伴奏轨"
 
 #: .acep.load[2].title
 msgid "Import gender envelope"
-msgstr ""
+msgstr "导入性别包络"
 
 #: .acep.load[3].title
 msgid "Import breath envelope"
-msgstr ""
+msgstr "导入气声包络"
 
 #: .acep.load[4].title
 msgid "Keep all pronunciation information"
@@ -1082,7 +1082,7 @@ msgstr "歌叽歌叽工程格式转换插件。\n"
 
 #: .gj.load[0].title
 msgid "Import dynamics envelope"
-msgstr ""
+msgstr "导入音量包络"
 
 #: .gj.dump[0].title
 msgid "Average sampling interval for the volume parameter"
@@ -1396,10 +1396,6 @@ msgstr "Synthesizer V Editor 工程文件"
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程格式转换插件。"
 
-#: .s5p.load[0].title
-msgid "Import vibrato params"
-msgstr ""
-
 #: .srt.name
 msgid "SRT"
 msgstr ""
@@ -1549,7 +1545,7 @@ msgstr "原始二进制 .svip 文件转换插件"
 
 #: .svip.load[1].title
 msgid "Import strength envelope"
-msgstr ""
+msgstr "导入力度包络"
 
 #: .svip.dump[0].description
 msgid "Please enter the singer's name in Chinese. If the specified singer does not exist, the default singer set in X Studio will be used. If you want to specify the conversion relationship between singer ID and name, or add a singer that has an ID but has not been publicly released, please modify singers.json in the plugin directory."
