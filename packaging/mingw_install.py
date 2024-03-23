@@ -22,6 +22,8 @@ def install_mingw_deps() -> None:
         "PySide6-Essentials": None,
         "PyYAML": "python-yaml",
         "regex": "python-regex",
+        "ruamel-yaml": "python-ruamel-yaml",
+        "ruamel-yaml-clib": "python-ruamel.yaml.clib",
         "shiboken6": "shiboken6",
         "ujson": "python-ujson",
         "winsdk": "python-winsdk",
