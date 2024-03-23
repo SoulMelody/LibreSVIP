@@ -148,7 +148,7 @@ class SynthVEditorParser:
                 else None,
             )
             notes.append(note)
-            if self.options.import_vibrato:
+            if self.options.import_pitch:
                 vibrato_start = self.synchronizer.get_actual_secs_from_ticks(note.start_pos) + (
                     s5p_note.t_f0_vbr_start
                     if s5p_note.t_f0_vbr_start is not None

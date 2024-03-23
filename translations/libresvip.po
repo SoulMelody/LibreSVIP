@@ -1501,10 +1501,6 @@ msgstr ""
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr ""
 
-#: .s5p.load[0].title
-msgid "Import vibrato params"
-msgstr ""
-
 #: .srt.name
 msgid "SRT"
 msgstr ""
