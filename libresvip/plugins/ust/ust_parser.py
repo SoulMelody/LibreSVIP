@@ -43,19 +43,20 @@ class USTParser:
                 ust_project.tempo, ust_track.notes
             ):
                 track.note_list.extend(notes)
-                if ust_project.pitch_mode2:
-                    track.edited_params.pitch.points.root.extend(
-                        pitch_from_utau_mode2_track(
-                            mode2_track_pitch_data, notes, list(self.tempos)
-                        ).points.root
-                    )
-                else:
-                    track.edited_params.pitch.points.root.extend(
-                        pitch_from_utau_mode1_track(
-                            mode1_track_pitch_data,
-                            notes,
-                        ).points.root
-                    )
+                if self.options.import_pitch:
+                    if ust_project.pitch_mode2:
+                        track.edited_params.pitch.points.root.extend(
+                            pitch_from_utau_mode2_track(
+                                mode2_track_pitch_data, notes, list(self.tempos)
+                            ).points.root
+                        )
+                    else:
+                        track.edited_params.pitch.points.root.extend(
+                            pitch_from_utau_mode1_track(
+                                mode1_track_pitch_data,
+                                notes,
+                            ).points.root
+                        )
             tracks.append(track)
         return Project(
             song_tempo_list=list(self.tempos),

@@ -133,10 +133,12 @@ class VsqxParser:
                     and v_voice.v_voice_name is not None
                 ):
                     singing_track.ai_singer_name = v_voice.v_voice_name
-                if pitch := self.parse_pitch(
-                    musical_part,
-                    note_list,
-                    tick_prefix,
+                if self.options.import_pitch and (
+                    pitch := self.parse_pitch(
+                        musical_part,
+                        note_list,
+                        tick_prefix,
+                    )
                 ):
                     singing_track.edited_params.pitch.points.extend(pitch.points)
             if len(singing_track.edited_params.pitch.points.root):
@@ -212,20 +214,23 @@ class VsqxParser:
         tick_prefix: int,
     ) -> list[InstrumentalTrack]:
         instrumental_tracks = []
-        for wav_part, wav_unit in zip(wav_parts, wav_units):
-            if pathlib.Path(wav_part.file_path).is_absolute():
-                wav_path_str = wav_part.file_path
-            elif (wav_path := self.src_path.with_suffix(".wavparts") / wav_part.file_path).exists():
-                wav_path_str = str(wav_path)
-            else:
-                continue
-            instrumental_tracks.append(
-                InstrumentalTrack(
-                    title=wav_part.part_name,
-                    audio_file_path=wav_path_str,
-                    offset=wav_part.pos_tick - tick_prefix,
-                    mute=wav_unit.mute,
-                    solo=wav_unit.solo,
+        if self.options.import_instrumental_track:
+            for wav_part, wav_unit in zip(wav_parts, wav_units):
+                if pathlib.Path(wav_part.file_path).is_absolute():
+                    wav_path_str = wav_part.file_path
+                elif (
+                    wav_path := self.src_path.with_suffix(".wavparts") / wav_part.file_path
+                ).exists():
+                    wav_path_str = str(wav_path)
+                else:
+                    continue
+                instrumental_tracks.append(
+                    InstrumentalTrack(
+                        title=wav_part.part_name,
+                        audio_file_path=wav_path_str,
+                        offset=wav_part.pos_tick - tick_prefix,
+                        mute=wav_unit.mute,
+                        solo=wav_unit.solo,
+                    )
                 )
-            )
         return instrumental_tracks

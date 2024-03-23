@@ -3,13 +3,15 @@ from typing import Annotated
 
 from pydantic import BaseModel, Field
 
+from libresvip.model.option_mixins import EnablePitchImportationMixin
+
 
 class BreathOption(Enum):
     IGNORE: Annotated[str, Field(title="Ignore all breath notes")] = "ignore"
     KEEP: Annotated[str, Field(title="Keep as normal notes")] = "keep"
 
 
-class InputOptions(BaseModel):
+class InputOptions(EnablePitchImportationMixin, BaseModel):
     lyric_encoding: str = Field(
         default="shift-jis",
         title="Lyric text encoding",

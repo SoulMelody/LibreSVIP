@@ -12,6 +12,8 @@ Dialog {
     y: window.height / 2 - height / 2
     width: 700
     height: 500
+    padding: 5
+    topPadding: 5
     signal autoOpenSaveFolderChanged(bool value)
     signal resetTasksOnInputChangeChanged(bool value)
     signal autoDetectInputFormatChanged(bool value)
@@ -64,69 +66,173 @@ Dialog {
     }
 
     Component {
-        id: convertSettingsPage
-        GroupBox {
-            anchors.margins: 15
-            background: Rectangle {
-                color: "transparent"
+        id: basicSettingsPage
+        ColumnLayout {
+            Layout.margins: 15
+            GroupBox {
+                Layout.fillWidth: true
+                background: Rectangle {
+                    color: "transparent"
+                }
+                ColumnLayout {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    Label {
+                        text: qsTr("Conversion Settings")
+                        font.bold: true
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Auto-Detect Input File Type")
+                        }
+                        Row {
+                            Layout.fillWidth: true
+                        }
+                        Switch {
+                            checked: ConfigItems.get_bool("auto_detect_input_format")
+                            onClicked: {
+                                ConfigItems.set_bool("auto_detect_input_format", checked)
+                                autoDetectInputFormatChanged(checked)
+                            }
+                            Component.onCompleted: {
+                                autoDetectInputFormatChanged.connect( (value) => {
+                                    value === checked ? null : checked = value
+                                })
+                            }
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Reset Task List When Changing Input File Type")
+                        }
+                        Row {
+                            Layout.fillWidth: true
+                        }
+                        Switch {
+                            checked: ConfigItems.get_bool("reset_tasks_on_input_change")
+                            onClicked: {
+                                ConfigItems.set_bool("reset_tasks_on_input_change", checked)
+                                resetTasksOnInputChangeChanged(checked)
+                            }
+                            Component.onCompleted: {
+                                resetTasksOnInputChangeChanged.connect( (value) => {
+                                    value === checked ? null : checked = value
+                                })
+                            }
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Set Output File Extension Automatically")
+                        }
+                        Row {
+                            Layout.fillWidth: true
+                        }
+                        Switch {
+                            checked: ConfigItems.get_bool("auto_set_output_extension")
+                            onClicked: {
+                                ConfigItems.set_bool("auto_set_output_extension", checked)
+                            }
+                            Component.onCompleted: {
+                                ConfigItems.auto_set_output_extension_changed.connect( (value) => {
+                                    value === checked ? null : checked = value
+                                })
+                            }
+                        }
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Multi-Threaded Conversion")
+                        }
+                        Row {
+                            Layout.fillWidth: true
+                        }
+                        Switch {
+                            checked: ConfigItems.get_bool("multi_threaded_conversion")
+                            onClicked: {
+                                ConfigItems.set_bool("multi_threaded_conversion", checked)
+                            }
+                        }
+                    }
+                }
             }
-            ColumnLayout {
-                Switch {
-                    text: qsTr("Auto-Detect Input File Type")
-                    checked: ConfigItems.get_bool("auto_detect_input_format")
-                    onClicked: {
-                        ConfigItems.set_bool("auto_detect_input_format", checked)
-                        autoDetectInputFormatChanged(checked)
-                    }
-                    Component.onCompleted: {
-                        autoDetectInputFormatChanged.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
-                    }
+            Rectangle {
+                Layout.fillWidth: true
+                border.color: "lightgrey"
+                height: 1
+            }
+            GroupBox {
+                Layout.fillWidth: true
+                background: Rectangle {
+                    color: "transparent"
                 }
-                Switch {
-                    text: qsTr("Reset Task List When Changing Input File Type")
-                    checked: ConfigItems.get_bool("reset_tasks_on_input_change")
-                    onClicked: {
-                        ConfigItems.set_bool("reset_tasks_on_input_change", checked)
-                        resetTasksOnInputChangeChanged(checked)
+                ColumnLayout {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    Label {
+                        text: qsTr("Output Settings")
+                        font.bold: true
                     }
-                    Component.onCompleted: {
-                        resetTasksOnInputChangeChanged.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Deal with Conflicts")
+                        }
+                        Row {
+                            Layout.fillWidth: true
+                        }
+                        ComboBox {
+                            padding: 0
+                            Layout.alignment: Qt.AlignRight
+                            textRole: "text"
+                            valueRole: "value"
+                            model: [
+                                {value: "Overwrite", text: qsTr("Overwrite")},
+                                {value: "Skip", text: qsTr("Skip")},
+                                {value: "Prompt", text: qsTr("Prompt")}
+                            ]
+                            onActivated: (index) => {
+                                ConfigItems.set_conflict_policy(currentValue)
+                                conflictPolicyChanged(currentValue)
+                            }
+                            Component.onCompleted: {
+                                currentIndex = indexOfValue(ConfigItems.get_conflict_policy())
+                                conflictPolicyChanged.connect( (value) => {
+                                    switch (value) {
+                                        case "Overwrite":
+                                        case "Skip":
+                                        case "Prompt":
+                                            currentIndex = indexOfValue(value)
+                                            break
+                                    }
+                                })
+                            }
+                        }
                     }
-                }
-                Switch {
-                    text: qsTr("Set Output File Extension Automatically")
-                    checked: ConfigItems.get_bool("auto_set_output_extension")
-                    onClicked: {
-                        ConfigItems.set_bool("auto_set_output_extension", checked)
-                    }
-                    Component.onCompleted: {
-                        ConfigItems.auto_set_output_extension_changed.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
-                    }
-                }
-                Switch {
-                    text: qsTr("Multi-Threaded Conversion")
-                    checked: ConfigItems.get_bool("multi_threaded_conversion")
-                    onClicked: {
-                        ConfigItems.set_bool("multi_threaded_conversion", checked)
-                    }
-                }
-                Switch {
-                    text: qsTr("Open Output Folder When Done")
-                    checked: ConfigItems.get_bool("open_save_folder_on_completion")
-                    onClicked: {
-                        ConfigItems.set_bool("open_save_folder_on_completion", checked)
-                        autoOpenSaveFolderChanged(checked)
-                    }
-                    Component.onCompleted: {
-                        autoOpenSaveFolderChanged.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label {
+                            text: qsTr("Open Output Folder When Done")
+                        }
+                        Row {
+                            Layout.fillWidth: true
+                        }
+                        Switch {
+                            checked: ConfigItems.get_bool("open_save_folder_on_completion")
+                            onClicked: {
+                                ConfigItems.set_bool("open_save_folder_on_completion", checked)
+                                autoOpenSaveFolderChanged(checked)
+                            }
+                            Component.onCompleted: {
+                                autoOpenSaveFolderChanged.connect( (value) => {
+                                    value === checked ? null : checked = value
+                                })
+                            }
+                        }
                     }
                 }
             }
@@ -243,6 +349,7 @@ Dialog {
                     height: 1
                 }
                 Button {
+                    Layout.alignment: Qt.AlignHCenter
                     text: qsTr("Manage Folders Presets")
                     onClicked: {
                         dialogs.folderPresetsDialog.open()
@@ -261,75 +368,6 @@ Dialog {
                         presetRadio.checked = true                        
                     } else {
                         customRadio.checked = true
-                    }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: conflictPolicySettingsPage
-        GroupBox {
-            anchors.margins: 15
-            background: Rectangle {
-                color: "transparent"
-            }
-            ButtonGroup {
-                id: conflictPolicyGroup
-                onClicked: (button) => {
-                    let cur_value = null
-                    switch (button.text) {
-                        case qsTr("Overwrite"):
-                            cur_value = "Overwrite"
-                            break
-                        case qsTr("Skip"):
-                            cur_value = "Skip"
-                            break
-                        case qsTr("Prompt"):
-                            cur_value = "Prompt"
-                            break
-                        default:
-                            cur_value = ConfigItems.get_conflict_policy()
-                            break
-                    }
-                    ConfigItems.set_conflict_policy(cur_value)
-                    conflictPolicyChanged(cur_value)
-                }
-            }
-            ColumnLayout {
-                spacing: 0
-                RadioButton {
-                    id: overwriteRadio
-                    text: qsTr("Overwrite")
-                    checked: ConfigItems.get_conflict_policy() === "Overwrite"
-                    ButtonGroup.group: conflictPolicyGroup
-                }
-                RadioButton {
-                    id: skipRadio
-                    text: qsTr("Skip")
-                    checked: ConfigItems.get_conflict_policy() === "Skip"
-                    ButtonGroup.group: conflictPolicyGroup
-                }
-                RadioButton {
-                    id: promptRadio
-                    text: qsTr("Prompt")
-                    checked: ConfigItems.get_conflict_policy() === "Prompt"
-                    ButtonGroup.group: conflictPolicyGroup
-                }
-            }
-            Connections {
-                target: settingsDialog
-                function onConflictPolicyChanged(value) {
-                    switch (value) {
-                        case "Overwrite":
-                            overwriteRadio.checked = true
-                            break
-                        case "Skip":
-                            skipRadio.checked = true
-                            break
-                        case "Prompt":
-                            promptRadio.checked = true
-                            break
                     }
                 }
             }
@@ -359,16 +397,22 @@ Dialog {
     Component {
         id: updatesSettingsPage
         ColumnLayout {
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            ColumnLayout {
-                Layout.margins: 15
-                Column {
-                    Switch {
-                        text: qsTr("Auto Check for Updates")
-                        checked: ConfigItems.get_bool("auto_check_for_updates")
-                        onClicked: {
-                            ConfigItems.set_bool("auto_check_for_updates", checked)
-                        }
+            Layout.margins: 15
+            RowLayout {
+                Layout.fillWidth: true
+                Row {
+                    width: 10
+                }
+                Label {
+                    text: qsTr("Auto Check for Updates")
+                }
+                Row {
+                    Layout.fillWidth: true
+                }
+                Switch {
+                    checked: ConfigItems.get_bool("auto_check_for_updates")
+                    onClicked: {
+                        ConfigItems.set_bool("auto_check_for_updates", checked)
                     }
                 }
             }
@@ -400,21 +444,22 @@ Dialog {
                 preferredHighlightEnd: width - 48
 
                 highlight: Item {
-                    z: 2
                     Rectangle {
-                        height: 2
+                        height: 46
                         width: settingsTabBar.width
                         y: settingsTabBar.position === T.TabBar.Footer ? 0 : parent.height - height
-                        color: settingsTabBar.Material.accentColor
+                        border.width: 1
+                        border.color: settingsTabBar.Material.accentColor
+                        color: "transparent"
                     }
                 }
             }
             spacing: 5
 
             TabButton {
-                id: conversionSettingsBtn
+                id: basicSettingsBtn
                 width: 200
-                text: qsTr("Conversion Settings")
+                text: qsTr("Basic Settings")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     settingsStack.currentIndex = 0
@@ -425,7 +470,7 @@ Dialog {
                 id: savePathSettingsBtn
                 width: 200
                 text: qsTr("Save Path Settings")
-                anchors.top: conversionSettingsBtn.bottom
+                anchors.top: basicSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
@@ -434,26 +479,14 @@ Dialog {
             }
 
             TabButton {
-                id: conflictPolicySettingsBtn
+                id: pluginsSettingsBtn
                 width: 200
-                text: qsTr("Conflict Policy Settings")
+                text: qsTr("Select Plugins")
                 anchors.top: savePathSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 2
-                }
-            }
-
-            TabButton {
-                id: pluginsSettingsBtn
-                width: 200
-                text: qsTr("Select Plugins")
-                anchors.top: conflictPolicySettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: parent.spacing
-                onClicked: {
-                    settingsStack.currentIndex = 3
                 }
             }
 
@@ -465,7 +498,7 @@ Dialog {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
-                    settingsStack.currentIndex = 4
+                    settingsStack.currentIndex = 3
                 }
             }
         }
@@ -478,11 +511,11 @@ Dialog {
             Layout.fillHeight: true
             Layout.fillWidth: true
             id: settingsStack
+            clip: true
             currentIndex: 0
             Component.onCompleted: {
-                convertSettingsPage.createObject(settingsStack)
+                basicSettingsPage.createObject(settingsStack)
                 savePathSettingsPage.createObject(settingsStack)
-                conflictPolicySettingsPage.createObject(settingsStack)
                 pluginsSettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
                 dialogs.save_folder_changed(ConfigItems.get_save_folder())

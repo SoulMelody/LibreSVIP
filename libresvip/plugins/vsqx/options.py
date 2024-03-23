@@ -1,9 +1,14 @@
 from pydantic import BaseModel, Field
 
+from libresvip.model.option_mixins import (
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+)
+
 from .enums import VocaloidLanguage, VsqxVersion
 
 
-class InputOptions(BaseModel):
+class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
     pass
 
 

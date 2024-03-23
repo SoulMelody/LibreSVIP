@@ -1,7 +1,18 @@
 from pydantic import BaseModel, Field
 
+from libresvip.model.option_mixins import (
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    EnableVolumeImportationMixin,
+)
 
-class InputOptions(BaseModel):
+
+class InputOptions(
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    EnableVolumeImportationMixin,
+    BaseModel,
+):
     pass
 
 

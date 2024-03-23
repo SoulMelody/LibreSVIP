@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-10 00:14+0800\n"
+"POT-Creation-Date: 2024-03-23 23:12+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "[Export to "
 msgstr ""
 
-#: converter_page%2321
+#: converter_page%2321 settings_dialog%236
 msgid "Output Settings"
 msgstr ""
 
@@ -104,31 +104,39 @@ msgstr ""
 msgid "Output Folder"
 msgstr ""
 
-#: converter_page%2324
-msgid "Start Conversion"
+#: converter_page%2324 settings_dialog%237
+msgid "Deal with Conflicts"
 msgstr ""
 
 #: converter_page%2325
-msgid "Converting"
+msgid "Page 1"
 msgstr ""
 
-#: converter_page%2326 settings_dialog%236
-msgid "Open Output Folder When Done"
+#: converter_page%2326
+msgid "Page 2"
 msgstr ""
 
 #: converter_page%2327
-msgid "Deal with Conflicts:"
+msgid "Start Conversion"
 msgstr ""
 
-#: converter_page%2328 settings_dialog%2312
-msgid "Overwrite"
+#: converter_page%2328
+msgid "Converting"
 msgstr ""
 
-#: converter_page%2329 settings_dialog%2313
-msgid "Skip"
+#: converter_page%2329 settings_dialog%238
+msgid "Open Output Folder When Done"
 msgstr ""
 
 #: converter_page%2330 settings_dialog%2314
+msgid "Overwrite"
+msgstr ""
+
+#: converter_page%2331 settings_dialog%2315
+msgid "Skip"
+msgstr ""
+
+#: converter_page%2332 settings_dialog%2316
 msgid "Prompt"
 msgstr ""
 
@@ -227,47 +235,47 @@ msgstr ""
 msgid "Multi-Threaded Conversion"
 msgstr ""
 
-#: settings_dialog%237
+#: settings_dialog%239
 msgid "Same as Source"
 msgstr ""
 
-#: settings_dialog%238
+#: settings_dialog%2310
 msgid "Desktop"
 msgstr ""
 
-#: settings_dialog%239
+#: settings_dialog%2311
 msgid "Preset Folder"
 msgstr ""
 
-#: settings_dialog%2310
+#: settings_dialog%2312
 msgid "Custom (Browse ...)"
 msgstr ""
 
-#: settings_dialog%2311
+#: settings_dialog%2313
 msgid "Manage Folders Presets"
 msgstr ""
 
-#: settings_dialog%2315
+#: settings_dialog%2317
 msgid "Auto Check for Updates"
 msgstr ""
 
-#: settings_dialog%2316
+#: settings_dialog%2318
 msgid "Conversion Settings"
 msgstr ""
 
-#: settings_dialog%2317
-msgid "Save Path Settings"
-msgstr ""
-
-#: settings_dialog%2318
-msgid "Conflict Policy Settings"
-msgstr ""
-
 #: settings_dialog%2319
-msgid "Select Plugins"
+msgid "Basic Settings"
 msgstr ""
 
 #: settings_dialog%2320
+msgid "Save Path Settings"
+msgstr ""
+
+#: settings_dialog%2321
+msgid "Select Plugins"
+msgstr ""
+
+#: settings_dialog%2322
 msgid "Updates Settings"
 msgstr ""
 
@@ -522,56 +530,56 @@ msgstr ""
 msgid "Mute other tracks"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:52
+#: ../libresvip/gui/modules/notifier.py:55
 msgid "Downloading"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:52
-#: ../libresvip/gui/modules/notifier.py:76
+#: ../libresvip/gui/modules/notifier.py:55
+#: ../libresvip/gui/modules/notifier.py:81
 msgid "Please wait..."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:62
+#: ../libresvip/gui/modules/notifier.py:65
 msgid "Error occurred while Downloading"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:63
+#: ../libresvip/gui/modules/notifier.py:66
 msgid "Failed to download file {}. Please try again later."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:75
+#: ../libresvip/gui/modules/notifier.py:80
 msgid "Checking for Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:91
+#: ../libresvip/gui/modules/notifier.py:96
 msgid "Open in Browser"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:145
+#: ../libresvip/gui/modules/notifier.py:150
 msgid "Download"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:155
+#: ../libresvip/gui/modules/notifier.py:160
 msgid "Update Available"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:156
+#: ../libresvip/gui/modules/notifier.py:161
 msgid "New version {} is available."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:161
+#: ../libresvip/gui/modules/notifier.py:166
 msgid "No Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:162
+#: ../libresvip/gui/modules/notifier.py:167
 msgid "You are using the latest version {}."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:170
+#: ../libresvip/gui/modules/notifier.py:175
 msgid "Error occurred while Checking for Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:171
+#: ../libresvip/gui/modules/notifier.py:176
 msgid "Failed to check for updates. Please try again later."
 msgstr ""
 
@@ -732,10 +740,26 @@ msgid "Conversion Plugin for ACE Studio project file"
 msgstr ""
 
 #: .acep.load[0].title
+msgid "Import pitch curve"
+msgstr ""
+
+#: .acep.load[1].title
+msgid "Import instrumental tracks"
+msgstr ""
+
+#: .acep.load[2].title
+msgid "Import gender envelope"
+msgstr ""
+
+#: .acep.load[3].title
+msgid "Import breath envelope"
+msgstr ""
+
+#: .acep.load[4].title
 msgid "Keep all pronunciation information"
 msgstr ""
 
-#: .acep.load[0].description
+#: .acep.load[4].description
 msgid ""
 "ACE Studio will add pronunciation to all notes. This is a redundant data for "
 "most Chinese characters, so by default only modified pronunciation will be "
@@ -744,31 +768,31 @@ msgid ""
 "file contains non-Chinese singing data, please turn on this option."
 msgstr ""
 
-#: .acep.load[1].title
+#: .acep.load[5].title
 msgid "Import tension envelope"
 msgstr ""
 
-#: .acep.load[1].description
+#: .acep.load[5].description
 msgid ""
 "When turned on, the tension envelope will be mapped to the tension channel "
 "of the intermediate model."
 msgstr ""
 
-#: .acep.load[2].title
+#: .acep.load[6].title
 msgid "Import energy envelope"
 msgstr ""
 
-#: .acep.load[2].description
+#: .acep.load[6].description
 msgid ""
 "When turned on, the energy envelope will be mapped to the energy channel of "
 "the intermediate model."
 msgstr ""
 
-#: .acep.load[3].title
+#: .acep.load[7].title
 msgid "Strength-volume mapping coefficient"
 msgstr ""
 
-#: .acep.load[3].description
+#: .acep.load[7].description
 msgid ""
 "Since the strength parameter of ACE Studio has a significant impact on the "
 "volume, this option is provided to control the mapping coefficient of the "
@@ -778,11 +802,11 @@ msgid ""
 "channel. This option accepts values in the range of 0~1.0."
 msgstr ""
 
-#: .acep.load[4].title
+#: .acep.load[8].title
 msgid "Interval of curve sampling"
 msgstr ""
 
-#: .acep.load[4].description
+#: .acep.load[8].description
 msgid ""
 "The unit is tick (the length of a quarter note is 480 ticks). By default, "
 "the parameter points in the acep file are stored in a very dense manner. "
@@ -791,11 +815,11 @@ msgid ""
 "value means keeping the original sampling interval."
 msgstr ""
 
-#: .acep.load[5].title
+#: .acep.load[9].title
 msgid "Breath parameter normalization"
 msgstr ""
 
-#: .acep.load[5].description
+#: .acep.load[9].description
 msgid ""
 "This option is an advanced option. After enabling this option, the breath "
 "parameters will be merged with the breath envelope after being transformed "
@@ -815,11 +839,11 @@ msgid ""
 "parameter value will be added to this value."
 msgstr ""
 
-#: .acep.load[6].title
+#: .acep.load[10].title
 msgid "Tension parameter normalization"
 msgstr ""
 
-#: .acep.load[6].description
+#: .acep.load[10].description
 msgid ""
 "This option is an advanced option. After enabling this option, the tension "
 "parameters will be merged with the tension envelope after being transformed "
@@ -839,11 +863,11 @@ msgid ""
 "parameter value will be added to this value."
 msgstr ""
 
-#: .acep.load[7].title
+#: .acep.load[11].title
 msgid "Energy parameter normalization"
 msgstr ""
 
-#: .acep.load[7].description
+#: .acep.load[11].description
 msgid ""
 "This option is an advanced option. After enabling this option, the energy "
 "parameters will be merged with the energy envelope after being transformed "
@@ -1135,6 +1159,10 @@ msgid ""
 "Only Gejigeji v2.0 spec is supported."
 msgstr ""
 
+#: .gj.load[0].title
+msgid "Import dynamics envelope"
+msgstr ""
+
 #: .gj.dump[0].title
 msgid "Average sampling interval for the volume parameter"
 msgstr ""
@@ -1289,47 +1317,47 @@ msgstr ""
 msgid "Conversion plugin for midi file"
 msgstr ""
 
-#: .mid.load[0].title
+#: .mid.load[2].title
 msgid "Import lyrics"
 msgstr ""
 
-#: .mid.load[1].title .mid.dump[4].title
+#: .mid.load[3].title .mid.dump[3].title
 msgid "Lyric text encoding"
 msgstr ""
 
-#: .mid.load[1].description .mid.dump[4].description
+#: .mid.load[3].description .mid.dump[3].description
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr ""
 
-#: .mid.load[2].title
+#: .mid.load[4].title
 msgid "Import time signatures"
 msgstr ""
 
-#: .mid.load[2].description
+#: .mid.load[4].description
 msgid "If this option is unset, the time signature is set to 4/4."
 msgstr ""
 
-#: .mid.load[3].title
+#: .mid.load[5].title
 msgid "Multi-channel processing method"
 msgstr ""
 
-#: .mid.load[3].choices[0].text
+#: .mid.load[5].choices[0].text
 msgid "Import first channel only"
 msgstr ""
 
-#: .mid.load[3].choices[1].text
+#: .mid.load[5].choices[1].text
 msgid "Split into tracks"
 msgstr ""
 
-#: .mid.load[3].choices[2].text
+#: .mid.load[5].choices[2].text
 msgid "Custom import range"
 msgstr ""
 
-#: .mid.load[4].title
+#: .mid.load[6].title
 msgid "Channels to import"
 msgstr ""
 
-#: .mid.load[4].description
+#: .mid.load[6].description
 msgid ""
 "Specify which channels to import notes from. Enter channel numbers and/or "
 "channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid "
@@ -1337,60 +1365,48 @@ msgid ""
 "processing method\"."
 msgstr ""
 
-#: .mid.load[5].title
+#: .mid.load[7].title
 msgid "Default BPM"
 msgstr ""
 
-#: .mid.load[5].description
+#: .mid.load[7].description
 msgid "Used when no BPM information is found in the MIDI file."
 msgstr ""
 
 #: .mid.dump[0].title
-msgid "Pre-shift compensation"
-msgstr ""
-
-#: .mid.dump[0].description
-msgid ""
-"Non-negative integer, unit is ticks. Negative values are treated as zero. "
-"Shifts notes that are pronounced as y-, w-, a-, o- and e- to alleviate the "
-"problem of delayed semivowels or vowels in some vocal synthesizers. "
-"Recommended value: 30~60."
-msgstr ""
-
-#: .mid.dump[1].title
 msgid "Export lyrics"
 msgstr ""
 
-#: .mid.dump[2].title
+#: .mid.dump[1].title
 msgid "Remove symbols from lyrics"
 msgstr ""
 
-#: .mid.dump[2].description
+#: .mid.dump[1].description
 msgid ""
 "Remove commas, periods, question marks and exclamation marks in Chinese and "
 "English to prevent lyric import failure in some vocal synthesizers."
 msgstr ""
 
-#: .mid.dump[3].title
+#: .mid.dump[2].title
 msgid "Lyric compatibility mode"
 msgstr ""
 
-#: .mid.dump[3].description
+#: .mid.dump[2].description
 msgid ""
 "Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI "
 "files with Chinese lyrics from being imported by vocal synthesizers that do "
 "not support Chinese lyrics."
 msgstr ""
 
-#: .mid.dump[5].title
+#: .mid.dump[4].title
 msgid "Transpose"
 msgstr ""
 
-#: .mid.dump[6].title
+#: .mid.dump[5].title
 msgid "Ticks per beat"
 msgstr ""
 
-#: .mid.dump[6].description
+#: .mid.dump[5].description
 msgid ""
 "Also known as parts per quarter, ticks per quarter note, the number of "
 "pulses per quarter note. This setting should not be changed unless you know "
@@ -1453,10 +1469,6 @@ msgstr ""
 msgid "Use this tempo to reset time axis of projects with dynamic tempos"
 msgstr ""
 
-#: .nn.dump[1].description
-msgid "Start from 0, -1 means auto select"
-msgstr ""
-
 #: .nn.dump[2].description
 msgid "Version of NIAONiao project file"
 msgstr ""
@@ -1487,6 +1499,10 @@ msgstr ""
 
 #: .s5p.description
 msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr ""
+
+#: .s5p.load[0].title
+msgid "Import vibrato params"
 msgstr ""
 
 #: .srt.name
@@ -1610,6 +1626,10 @@ msgstr ""
 msgid "The color of the text on the top and bottom of the note"
 msgstr ""
 
+#: .svg.dump[13].description
+msgid "Start from 0, -1 means auto select"
+msgstr ""
+
 #: .svg.dump[14].title
 msgid "Show grid lines"
 msgstr ""
@@ -1632,6 +1652,10 @@ msgstr ""
 
 #: .svip.description
 msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+#: .svip.load[1].title
+msgid "Import strength envelope"
 msgstr ""
 
 #: .svip.dump[0].description
@@ -1756,48 +1780,48 @@ msgid ""
 "that can lead to unforeseen exceptions."
 msgstr ""
 
-#: .svp.load[0].title
+#: .svp.load[6].title
 msgid "Always follow instant pitch mode"
 msgstr ""
 
-#: .svp.load[0].description
+#: .svp.load[6].description
 msgid ""
 "When this option is turned off, the default pitch curve will always be "
 "imported regardless of the project setting. If you have tuned the pitch "
 "curve based on instant pitch mode, it is recommended to turn on this option."
 msgstr ""
 
-#: .svp.load[1].title
+#: .svp.load[7].title
 msgid "Pitch input mode"
 msgstr ""
 
-#: .svp.load[1].choices[0].text
+#: .svp.load[7].choices[0].text
 msgid "Full pitch curve"
 msgstr ""
 
-#: .svp.load[1].choices[0].description
+#: .svp.load[7].choices[0].description
 msgid "Input the full pitch curve regardless of editing"
 msgstr ""
 
-#: .svp.load[1].choices[1].text
+#: .svp.load[7].choices[1].text
 msgid "Edited part only (vibrato mode)"
 msgstr ""
 
-#: .svp.load[1].choices[1].description
+#: .svp.load[7].choices[1].description
 msgid ""
 "Input the edited part of pitch curve; default vibrato will be imported if "
 "not edited"
 msgstr ""
 
-#: .svp.load[1].choices[2].text
+#: .svp.load[7].choices[2].text
 msgid "Edited part only (plain mode)"
 msgstr ""
 
-#: .svp.load[1].choices[2].description
+#: .svp.load[7].choices[2].description
 msgid "Input the edited part of pitch curve; default vibrato will be ignored"
 msgstr ""
 
-#: .svp.load[1].description
+#: .svp.load[7].description
 msgid ""
 "This option controls the range of pitch curve to be imported and the "
 "judgment condition. The definition of \"edited part\" is: the pitch "
@@ -1805,43 +1829,43 @@ msgid ""
 "envelope and the pitch transition in the note properties have been edited."
 msgstr ""
 
-#: .svp.load[2].title
+#: .svp.load[8].title
 msgid "The way to handle breath notes"
 msgstr ""
 
-#: .svp.load[2].choices[0].text
+#: .svp.load[8].choices[0].text
 msgid "Ignore all breath notes"
 msgstr ""
 
-#: .svp.load[2].choices[1].text
+#: .svp.load[8].choices[1].text
 msgid "Keep as normal notes"
 msgstr ""
 
-#: .svp.load[2].choices[2].text
+#: .svp.load[8].choices[2].text
 msgid "Convert to breath mark"
 msgstr ""
 
-#: .svp.load[3].title
+#: .svp.load[9].title
 msgid "The way to handle note groups"
 msgstr ""
 
-#: .svp.load[3].choices[0].text
+#: .svp.load[9].choices[0].text
 msgid "Split all to tracks"
 msgstr ""
 
-#: .svp.load[3].choices[0].description
+#: .svp.load[9].choices[0].description
 msgid "Generate a track for each note group reference"
 msgstr ""
 
-#: .svp.load[3].choices[1].text
+#: .svp.load[9].choices[1].text
 msgid "Keep original position"
 msgstr ""
 
-#: .svp.load[3].choices[1].description
+#: .svp.load[9].choices[1].description
 msgid "Split note groups to separate tracks only when notes overlap"
 msgstr ""
 
-#: .svp.load[3].description
+#: .svp.load[9].description
 msgid ""
 "Notice: If there are too many note groups, please choose \"Keep original "
 "position\" to avoid excessive track count. But if there are notes that are "
@@ -1997,11 +2021,11 @@ msgstr ""
 msgid "Conversion plugin for New Vocaloid project file"
 msgstr ""
 
-#: .vpr.load[0].title
+#: .vpr.load[2].title
 msgid "Extract audio"
 msgstr ""
 
-#: .vpr.load[0].description
+#: .vpr.load[2].description
 msgid ""
 "Extract audio from vocaloid project for later use if the path does not exist "
 "(this option has the side effect of writing additional files)"

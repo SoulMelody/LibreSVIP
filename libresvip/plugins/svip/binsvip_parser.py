@@ -1,3 +1,4 @@
+import dataclasses
 from collections.abc import Callable
 from typing import Optional
 
@@ -28,9 +29,13 @@ from .msnrbf.xstudio_models import (
     XSSongBeat,
     XSSongTempo,
 )
+from .options import InputOptions
 
 
+@dataclasses.dataclass
 class BinarySvipParser:
+    options: InputOptions
+
     def parse_project(self, version: str, model: XSAppModel) -> Project:
         project = Project()
         project.version = version
@@ -65,10 +70,11 @@ class BinarySvipParser:
                 if (ele := self.parse_note(note)) is not None:
                     result_track.note_list.append(ele)
             result_track.edited_params = self.parse_params(track)
-        elif isinstance(track, XSInstrumentTrack):
-            result_track = InstrumentalTrack()
-            result_track.audio_file_path = track.instrument_file_path
-            result_track.offset = track.offset_in_pos
+        elif self.options.import_instrumental_track and isinstance(track, XSInstrumentTrack):
+            result_track = InstrumentalTrack(
+                audio_file_path=track.instrument_file_path,
+                offset=track.offset_in_pos,
+            )
         else:
             return None
         result_track.title = track.name
@@ -79,20 +85,20 @@ class BinarySvipParser:
         return result_track
 
     def parse_params(self, track: XSSingingTrack) -> Params:
-        kwargs = {}
-        if (pitch_line := track.edited_pitch_line) is not None:
-            kwargs["pitch"] = self.parse_param_curve(
+        params = Params()
+        if self.options.import_pitch and (pitch_line := track.edited_pitch_line) is not None:
+            params.pitch = self.parse_param_curve(
                 pitch_line, op=lambda x: x - 1150 if x > 1050 else -100
             )
-        if (volume_line := track.edited_volume_line) is not None:
-            kwargs["volume"] = self.parse_param_curve(volume_line)
-        if (breath_line := track.edited_breath_line) is not None:
-            kwargs["breath"] = self.parse_param_curve(breath_line)
-        if (gender_line := track.edited_gender_line) is not None:
-            kwargs["gender"] = self.parse_param_curve(gender_line)
-        if (power_line := track.edited_power_line) is not None:
-            kwargs["power"] = self.parse_param_curve(power_line)
-        return Params(**kwargs)
+        if self.options.import_volume and (volume_line := track.edited_volume_line) is not None:
+            params.breath = self.parse_param_curve(volume_line)
+        if self.options.import_breath and (breath_line := track.edited_breath_line) is not None:
+            params.breath = self.parse_param_curve(breath_line)
+        if self.options.import_gender and (gender_line := track.edited_gender_line) is not None:
+            params.gender = self.parse_param_curve(gender_line)
+        if self.options.import_strength and (power_line := track.edited_power_line) is not None:
+            params.strength = self.parse_param_curve(power_line)
+        return params
 
     def parse_note(self, note: XSNote) -> Note:
         result_note = Note(

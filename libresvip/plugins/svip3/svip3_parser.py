@@ -32,11 +32,13 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
+from .options import InputOptions
 from .singers import singers_data
 
 
 @dataclasses.dataclass
 class Svip3Parser:
+    options: InputOptions
     first_bar_length: int = dataclasses.field(init=False)
     song_tempo_list: list[SongTempo] = dataclasses.field(init=False)
 
@@ -80,7 +82,9 @@ class Svip3Parser:
             if track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.SINGING_TRACK):
                 singing_track = Svip3SingingTrack.deserialize(track.value)
                 tracks.append(self.parse_singing_track(singing_track))
-            elif track.type_url == urljoin(TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK):
+            elif self.options.import_instrumental_track and track.type_url == urljoin(
+                TYPE_URL_BASE, Svip3TrackType.AUDIO_TRACK
+            ):
                 audio_track = Svip3AudioTrack.deserialize(track.value)
                 if xstudio_audio_track := self.parse_audio_track(audio_track):
                     tracks.append(xstudio_audio_track)
@@ -146,7 +150,10 @@ class Svip3Parser:
         return note_list
 
     def parse_edited_params(self, pattern_list: list[Svip3SingingPattern]) -> Params:
-        return Params(pitch=self.parse_pitch_curve(pattern_list))
+        params = Params()
+        if self.options.import_pitch:
+            params.pitch = self.parse_pitch_curve(pattern_list)
+        return params
 
     def parse_note(self, svip3_note: Svip3Note, offset: int) -> Note:
         return Note(

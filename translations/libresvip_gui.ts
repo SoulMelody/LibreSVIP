@@ -4,12 +4,12 @@
 <context>
     <name>converter_page</name>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="10"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="12"/>
         <source>Converter</source>
         <translation>转换器</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="276"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="278"/>
         <source>Select File Formats</source>
         <translation>格式选择</translation>
     </message>
@@ -19,8 +19,8 @@
         <translation>导入工程格式： </translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="327"/>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="490"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="326"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="487"/>
         <source>View Detail Information</source>
         <translation type="unfinished"></translation>
     </message>
@@ -40,118 +40,128 @@
         <translation>上下交换</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="463"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="461"/>
         <source>Output Format: </source>
         <translation>导出工程格式： </translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="563"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="560"/>
         <source>Set Output File Extension Automatically</source>
         <translation>自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="868"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="869"/>
         <source>Advanced Settings</source>
         <translation>高级选项</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="902"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="904"/>
         <source>Input Options</source>
         <translation>输入选项</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1243"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1245"/>
         <source>Output Options</source>
         <translation>输出选项</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="630"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="627"/>
         <source>Task List</source>
         <translation>任务列表</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="618"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="615"/>
         <source>Drag and drop files here</source>
         <translation>拖拽或单击导入文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="755"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="752"/>
         <source>Continue Adding files</source>
         <translation>继续添加文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="780"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="777"/>
         <source>Clear Task List</source>
         <translation>清空所有导入</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="806"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="803"/>
         <source>Reset Default Extension</source>
         <translation>恢复默认命名</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="832"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="829"/>
         <source>Remove Tasks With Other Extensions</source>
         <translation>过滤多余项目</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="913"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="915"/>
         <source>[Import as </source>
         <translation>[ 导入自 </translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1254"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1256"/>
         <source>[Export to </source>
         <translation>[ 导出为 </translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1396"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1399"/>
         <source>Output Settings</source>
         <translation>输出设置</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1509"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1512"/>
         <source>Choose Output Folder</source>
         <translation>选择输出文件夹</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1518"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1521"/>
         <source>Output Folder</source>
         <translation>输出文件夹</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1475"/>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1496"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1542"/>
+        <source>Deal with Conflicts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1725"/>
+        <source>Page 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1747"/>
+        <source>Page 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1478"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1499"/>
         <source>Start Conversion</source>
         <translation>开始转换</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1496"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1499"/>
         <source>Converting</source>
         <translation>转换中</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1401"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1404"/>
         <source>Open Output Folder When Done</source>
         <translation>完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1539"/>
-        <source>Deal with Conflicts:</source>
-        <translation>遇到同名文件时：</translation>
-    </message>
-    <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1546"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1549"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1547"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1550"/>
         <source>Skip</source>
         <translation>跳过</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1548"/>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="1551"/>
         <source>Prompt</source>
         <translation>询问</translation>
     </message>
@@ -260,109 +270,116 @@
 <context>
     <name>settings_dialog</name>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="47"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="49"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="75"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="87"/>
         <source>Auto-Detect Input File Type</source>
         <translation type="unfinished">自动检测导入格式</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="88"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="108"/>
         <source>Reset Task List When Changing Input File Type</source>
         <translation type="unfinished">切换格式时重置列表</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="101"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="129"/>
         <source>Set Output File Extension Automatically</source>
         <translation type="unfinished">自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="113"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="149"/>
         <source>Multi-Threaded Conversion</source>
         <translation type="unfinished">启用多线程转换</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="120"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="177"/>
+        <source>Output Settings</source>
+        <translation type="unfinished">输出设置</translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="183"/>
+        <source>Deal with Conflicts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="219"/>
         <source>Open Output Folder When Done</source>
         <translation type="unfinished">完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="146"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="175"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="252"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="281"/>
         <source>Same as Source</source>
         <translation type="unfinished">源路径</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="150"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="180"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="256"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="286"/>
         <source>Desktop</source>
         <translation type="unfinished">桌面</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="154"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="186"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="260"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="292"/>
         <source>Preset Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="158"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="238"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="264"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="344"/>
         <source>Custom (Browse ...)</source>
         <translation type="unfinished">自定义 (浏览选择)</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="246"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="353"/>
         <source>Manage Folders Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="282"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="303"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="194"/>
         <source>Overwrite</source>
         <translation type="unfinished">覆盖</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="285"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="309"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="195"/>
         <source>Skip</source>
         <translation type="unfinished">跳过</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="288"/>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="315"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="196"/>
         <source>Prompt</source>
         <translation type="unfinished">询问</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="366"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="407"/>
         <source>Auto Check for Updates</source>
         <translation type="unfinished">自动检查更新</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="416"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="81"/>
         <source>Conversion Settings</source>
         <translation type="unfinished">转换设置</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="426"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="462"/>
+        <source>Basic Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="472"/>
         <source>Save Path Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="438"/>
-        <source>Conflict Policy Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="450"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="484"/>
         <source>Select Plugins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="462"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="496"/>
         <source>Updates Settings</source>
         <translation type="unfinished"></translation>
     </message>

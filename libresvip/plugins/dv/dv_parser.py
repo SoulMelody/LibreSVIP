@@ -106,15 +106,16 @@ class DeepVocalParser:
         self, dv_audio_tracks: list[DvAudioTrack]
     ) -> list[InstrumentalTrack]:
         track_list = []
-        for dv_track in dv_audio_tracks:
-            track = InstrumentalTrack(
-                title=dv_track.name or dv_track.infos[0].name,
-                mute=dv_track.mute,
-                solo=dv_track.solo,
-                offset=dv_track.infos[0].start + self.tick_prefix,
-                audio_file_path=dv_track.infos[0].path,
-            )
-            track_list.append(track)
+        if self.options.import_instrumental_track:
+            for dv_track in dv_audio_tracks:
+                track = InstrumentalTrack(
+                    title=dv_track.name or dv_track.infos[0].name,
+                    mute=dv_track.mute,
+                    solo=dv_track.solo,
+                    offset=dv_track.infos[0].start + self.tick_prefix,
+                    audio_file_path=dv_track.infos[0].path,
+                )
+                track_list.append(track)
         return track_list
 
     def parse_singing_tracks(
@@ -125,7 +126,6 @@ class DeepVocalParser:
         track_list = []
         for dv_track in dv_singing_tracks:
             for i, segment in enumerate(dv_track.segments):
-                segment_pitch_data = []
                 note_with_pitch: list[DvNoteWithPitch] = []
                 tick_offset = segment.start
                 track = SingingTrack(
@@ -137,17 +137,22 @@ class DeepVocalParser:
                         segment.notes, note_with_pitch, tick_offset - self.tick_prefix
                     ),
                 )
-                segment_pitch_data = [
-                    DvSegmentPitchRawData(tick_offset - self.tick_prefix, segment.pitch_data)
-                ]
                 if (
-                    pitch := pitch_from_dv_track(
-                        self.first_bar_length,
-                        segment_pitch_data,
-                        note_with_pitch,
-                        tempo_list,
+                    self.options.import_pitch
+                    and (
+                        pitch := pitch_from_dv_track(
+                            self.first_bar_length,
+                            [
+                                DvSegmentPitchRawData(
+                                    tick_offset - self.tick_prefix, segment.pitch_data
+                                )
+                            ],
+                            note_with_pitch,
+                            tempo_list,
+                        )
                     )
-                ) is not None:
+                    is not None
+                ):
                     track.edited_params.pitch = pitch
                 track_list.append(track)
         return track_list

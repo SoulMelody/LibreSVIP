@@ -3,6 +3,15 @@ from typing import Annotated, NamedTuple
 
 from pydantic import BaseModel, Field
 
+from libresvip.model.option_mixins import (
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    EnableStrengthImportationMixin,
+    EnableVolumeImportationMixin,
+)
+
 
 class SynthVLanguagePreset(NamedTuple):
     language: str
@@ -97,7 +106,15 @@ class VibratoOption(Enum):
     ] = "hybrid"
 
 
-class InputOptions(BaseModel):
+class InputOptions(
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    EnableStrengthImportationMixin,
+    EnableVolumeImportationMixin,
+    BaseModel,
+):
     instant: bool = Field(
         default=True,
         title="Always follow instant pitch mode",
