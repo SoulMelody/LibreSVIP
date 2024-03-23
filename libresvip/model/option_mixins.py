@@ -9,10 +9,6 @@ class EnableInstrumentalTrackImportationMixin(BaseModel, abc.ABC):
     import_instrumental_track: bool = Field(True, title="Import instrumental tracks")
 
 
-class EnableVibratoImportationMixin(BaseModel, abc.ABC):
-    import_vibrato: bool = Field(True, title="Import vibrato params")
-
-
 class EnablePitchImportationMixin(BaseModel, abc.ABC):
     import_pitch: bool = Field(True, title="Import pitch curve")
 
@@ -45,5 +41,5 @@ class SelectSingleTrackMixin(BaseModel, abc.ABC):
     track_index: int = Field(
         default=-1,
         title="Track index",
-        description="Start from 0, -1 means auto select",
+        description="Start from 0, -1 means automatic selection",
     )
