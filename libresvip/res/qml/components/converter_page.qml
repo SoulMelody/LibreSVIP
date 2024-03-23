@@ -1716,7 +1716,7 @@ Page {
                 width: 50
                 contentItem: ColumnLayout {
                     Label {
-                        text: IconicFontLoader.icon("mdi7.numeric-1-circle-outline")
+                        text: smallViewStack.currentIndex === 0 ? IconicFontLoader.icon("mdi7.numeric-1-circle") : IconicFontLoader.icon("mdi7.numeric-1-circle-outline")
                         font.family: "Material Design Icons"
                         font.pixelSize: 24
                     }
@@ -1737,7 +1737,7 @@ Page {
                 width: 50
                 contentItem: ColumnLayout {
                     Label {
-                        text: IconicFontLoader.icon("mdi7.numeric-2-circle-outline")
+                        text: smallViewStack.currentIndex === 1 ? IconicFontLoader.icon("mdi7.numeric-2-circle") : IconicFontLoader.icon("mdi7.numeric-2-circle-outline")
                         font.family: "Material Design Icons"
                         font.pixelSize: 24
                     }
