@@ -49,11 +49,11 @@ jobs:
           python-version: 3.12
       - name: Install dependencies (Windows & Linux)
         if: matrix.os != 'macos-14'
-        run: pdm sync -G desktop -G ujson -G packaging --no-editable
+        run: pdm sync -G desktop -G ujson -G ruamel_yaml -G packaging --no-editable
       - name: Install dependencies (MacOS Universal2)
         if: matrix.os == 'macos-14'
         run: |
-          pdm export -G desktop -G ujson -G packaging -o packaging/requirements.txt --without-hashes
+          pdm export -G desktop -G ujson -G ruamel_yaml -G packaging -o packaging/requirements.txt --without-hashes
           python -m venv .venv
           source .venv/bin/activate
           cd packaging
@@ -114,7 +114,7 @@ jobs:
             cd /libresvip
             python -m ensurepip --upgrade
             python -m pip install pdm
-            python -m pdm sync -G desktop -G ujson -G packaging --no-editable
+            python -m pdm sync -G desktop -G ujson -G ruamel_yaml -G packaging --no-editable
             cd packaging
             python -m pdm run python setup.py bdist_portable
             cd ..

@@ -1,4 +1,4 @@
 import os
 
-__version__ = "1.0.6"
+__version__ = "1.0.7"
 os.environ.setdefault("LOGURU_AUTOINIT", "false")
