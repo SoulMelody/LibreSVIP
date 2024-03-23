@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform"]
 lock_version = "4.4.1"
-content_hash = "sha256:de1cfbd2e4af80be3465514e8cc2cf62170e52edf04f1e6767b45ae0d581f694"
+content_hash = "sha256:a2c6211bbe8779b247e7a3f1fa58982d368e9847e940046a582fbfaa7fd3fc88"
 
 [[package]]
 name = "aiofiles"
@@ -2908,7 +2908,7 @@ files = [
 
 [[package]]
 name = "typer"
-version = "0.9.0"
+version = "0.9.1"
 requires_python = ">=3.6"
 summary = "Typer, build great CLIs. Easy to code. Based on Python type hints."
 dependencies = [
@@ -2916,8 +2916,8 @@ dependencies = [
     "typing-extensions>=3.7.4.3",
 ]
 files = [
-    {file = "typer-0.9.0-py3-none-any.whl", hash = "sha256:5d96d986a21493606a358cae4461bd8cdf83cbf33a5aa950ae629ca3b51467ee"},
-    {file = "typer-0.9.0.tar.gz", hash = "sha256:50922fd79aea2f4751a8e0408ff10d2662bd0c8bbfa84755a699f3bada2978b2"},
+    {file = "typer-0.9.1-py3-none-any.whl", hash = "sha256:aa06ca6c9b34631afb6ec402009b2cc67f40e8221171fd7f0b319dd62e3bb741"},
+    {file = "typer-0.9.1.tar.gz", hash = "sha256:1cf0d77ad59eed73bf0e414b0258f523732afc7bd896122fd724910ddf308abc"},
 ]
 
 [[package]]
