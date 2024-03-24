@@ -1,7 +1,7 @@
 import dataclasses
 import math
 from collections.abc import MutableSequence
-from typing import cast
+from typing import Optional, cast
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -12,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils.audio import audio_track_info
 
 from .model import (
     PitchPoint,
@@ -73,8 +74,8 @@ class UstxGenerator:
                 ustx_project.voice_parts.append(
                     self.generate_voice_part(os_track, track_no, ustx_project, first_bar_length)
                 )
-            else:  # 伴奏音轨
-                ustx_project.wave_parts.append(self.generate_wave_part(os_track, track_no))
+            elif wav_part := self.generate_wave_part(os_track, track_no):  # 伴奏音轨
+                ustx_project.wave_parts.append(wav_part)
         return ustx_project
 
     @staticmethod
@@ -135,14 +136,16 @@ class UstxGenerator:
         return ustx_voice_part
 
     @staticmethod
-    def generate_wave_part(os_track: InstrumentalTrack, track_no: int) -> UWavePart:
-        return UWavePart(
-            name=os_track.title,
-            track_no=track_no,
-            position=os_track.offset,
-            file_path=os_track.audio_file_path,
-            relative_path=os_track.audio_file_path,
-        )
+    def generate_wave_part(os_track: InstrumentalTrack, track_no: int) -> Optional[UWavePart]:
+        if track_info := audio_track_info(os_track.audio_file_path):
+            return UWavePart(
+                name=os_track.title,
+                track_no=track_no,
+                position=os_track.offset,
+                file_path=os_track.audio_file_path,
+                relative_path=os_track.audio_file_path,
+                file_duration_ms=track_info.duration,
+            )
 
     @staticmethod
     def generate_note(os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
