@@ -16,11 +16,9 @@ __author__ = (
     "Mark Harviston <mark.harviston@gmail.com>, "
     "Arve Knudsen <arve.knudsen@gmail.com>",
 )
-__all__ = ["QEventLoop", "QThreadExecutor", "async_slot", "async_close"]
+__all__ = ["QEventLoop", "QThreadExecutor"]
 
 import asyncio
-import functools
-import inspect
 import itertools
 import os
 import sys
@@ -725,54 +723,3 @@ else:
 
     QSelectorEventLoop = type("QSelectorEventLoop", (_QEventLoop, _SelectorEventLoop), {})
     QEventLoop = QSelectorEventLoop
-
-
-def async_close(fn: Callable[_P, asyncio.Future[_T]]) -> Callable[_P, _T]:
-    """Allow to run async code before application is closed."""
-
-    @functools.wraps(fn)
-    def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> _T:
-        f = asyncio.ensure_future(fn(*args, **kwargs))
-        while not f.done():
-            QApplication.instance().process_events()
-
-    return wrapper
-
-
-def async_slot(*types: list[type], result: Optional[type] = None) -> QtCore.Slot:
-    """Make a Qt async slot run on asyncio loop."""
-
-    def _error_handler(task: asyncio.Future[Any]) -> None:
-        try:
-            task.result()
-        except Exception:
-            sys.excepthook(*sys.exc_info())
-
-    def outer_decorator(fn: Callable[_P, asyncio.Future[_T]]) -> Any:
-        @Slot(*types, result=result)
-        @functools.wraps(fn)
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
-            # Qt ignores trailing args from a signal but python does
-            # not so inspect the slot signature and if it's not
-            # callable try removing args until it is.
-            task = None
-            while len(args):
-                try:
-                    inspect.signature(fn).bind(*args, **kwargs)
-                except TypeError:  # noqa: PERF203
-                    if len(args):
-                        # Only convert args to a list if we need to pop()
-                        args = args[:-1]
-                        continue
-                else:
-                    task = asyncio.ensure_future(fn(*args, **kwargs))
-                    task.add_done_callback(_error_handler)
-                    break
-            if task is None:
-                msg = "async_slot was not callable from Signal. Potential signature mismatch."
-                raise TypeError(msg)
-            return task
-
-        return wrapper
-
-    return outer_decorator

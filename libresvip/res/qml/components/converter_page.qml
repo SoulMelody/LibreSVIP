@@ -305,13 +305,18 @@ Page {
                         }
                         dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")"
                         TaskManager.input_format_changed.connect((input_format) => {
-                            let new_index = Math.max(indexOfValue(input_format), 0)
-                            if (new_index != currentIndex) {
-                                currentIndex = new_index
-                            }
-                            let name_filter = qsTr(currentText) + " (*." + currentValue + ")"
-                            if (name_filter != dialogs.openDialog.nameFilters[0]) {
-                                dialogs.openDialog.nameFilters[0] = name_filter
+                            let new_index = indexOfValue(input_format)
+                            if (new_index < 0) {
+                                currentIndex = 0
+                                TaskManager.set_str("input_format", currentValue)
+                            } else {
+                                if (new_index != currentIndex) {
+                                    currentIndex = new_index
+                                }
+                                let name_filter = qsTr(currentText) + " (*." + currentValue + ")"
+                                if (name_filter != dialogs.openDialog.nameFilters[0]) {
+                                    dialogs.openDialog.nameFilters[0] = name_filter
+                                }
                             }
                         })
                         TaskManager.set_str("input_format", currentValue)
@@ -470,8 +475,11 @@ Page {
                             this.currentIndex = 0
                         }
                         TaskManager.output_format_changed.connect((output_format) => {
-                            let new_index = Math.max(indexOfValue(output_format), 0)
-                            if (new_index != currentIndex) {
+                            let new_index = indexOfValue(output_format)
+                            if (new_index < 0) {
+                                currentIndex = 0
+                                TaskManager.set_str("output_format", currentValue)
+                            } else if (new_index != currentIndex) {
                                 currentIndex = new_index
                             }
                         })
@@ -1081,15 +1089,8 @@ Page {
                                 new_padding: 6
                                 cursor_shape: Qt.WhatsThisCursor
                                 visible: modelData.description != ""
-                                onClicked: {
-                                    middlewareInfo.visible = !middlewareInfo.visible
-                                }
-                                ToolTip {
-                                    id: middlewareInfo
-                                    y: parent.y - parent.height
-                                    visible: false
-                                    text: qsTr(modelData.description)
-                                }
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr(modelData.description)
                             }
                         }
                         RowLayout {

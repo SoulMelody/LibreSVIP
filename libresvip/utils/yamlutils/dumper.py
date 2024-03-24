@@ -30,7 +30,7 @@ yaml_item_annotation_re = re.compile(r"^__yq_(?P<type>tag|style)_(?P<key>\d+)_(?
 
 
 def get_dumper(
-    use_annotations: bool = False, indentless: bool = False, grammar_version: str = "1.1"
+    use_annotations: bool = False, indentless: bool = False, grammar_version: str = "1.2"
 ) -> yaml.SafeDumper:
     # if not (use_annotations or indentless):
     #     return default_dumper

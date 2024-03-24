@@ -5,6 +5,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Templates as T
+import Qt.labs.qmlmodels
 
 Dialog {
     id: settingsDialog
@@ -376,18 +377,111 @@ Dialog {
 
     Component {
         id: pluginsSettingsPage
-        ListView {
-            model: ConfigItems.qget("plugin_cadidates")
-            ScrollBar.vertical: ScrollBar {}
-            delegate: CheckDelegate {
-                LayoutMirroring.enabled: true
-                text: qsTr(model.text)
-                checked: ConfigItems.enabled(model.value)
-                onToggled: {
-                    if (ConfigItems.toggle_plugin(model.value)) {
-                        TaskManager.reload_formats()
-                        TaskManager.set_str("input_format", converterPage.inputFormatComboBox.currentValue)
-                        TaskManager.set_str("output_format", converterPage.outputFormatComboBox.currentValue)
+        ColumnLayout {
+            HorizontalHeaderView {
+                id: horizontalHeader
+                syncView: pluginsTableView
+                Layout.fillWidth: true
+                clip: true
+                delegate: Rectangle {
+                    implicitHeight: 50
+                    border.width: 1
+                    color: window.Material.dialogColor
+
+                    RowLayout {
+                        anchors.centerIn: parent
+                        Layout.alignment: Qt.AlignHCenter
+                        Label {
+                            text: qsTr(display)
+                            visible: index !== 3
+                        }
+                        IconButton {
+                            icon_name: "mdi7.help-circle-outline"
+                            diameter: 20
+                            cursor_shape: Qt.WhatsThisCursor
+                            ToolTip.visible: hovered
+                            ToolTip.text: qsTr("Plugin is enabled or not (Double click to enter editing mode)")
+                            visible: index === 3
+                        }
+                    }
+                }
+            }
+            TableView {
+                id: pluginsTableView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                columnSpacing: 0
+                rowSpacing: 0
+                clip: true
+
+                model: ConfigItems.qget("plugin_candidates")
+                ScrollBar.vertical: ScrollBar {}
+                ScrollBar.horizontal: ScrollBar {}
+
+                delegate: DelegateChooser {
+                    DelegateChoice{
+                        column: 0
+                        delegate: Rectangle{
+                            implicitWidth: 220
+                            implicitHeight: 32
+                            border.width: 1
+
+                            Text {
+                                text: qsTr(display)
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 1
+                        delegate: Rectangle{
+                            implicitWidth: 120
+                            implicitHeight: 32
+                            border.width: 1
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 2
+                        delegate: Rectangle{
+                            implicitWidth: 60
+                            implicitHeight: 32
+                            border.width: 1
+                            clip: true
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 3
+                        delegate: Rectangle {
+                            implicitWidth: 70
+                            implicitHeight: 32
+                            border.width: 1
+
+                            Label {
+                                text: IconicFontLoader.icon("mdi7." + display)
+                                font.family: "Material Design Icons"
+                                anchors.centerIn: parent
+                            }
+
+                            TableView.editDelegate: Switch {
+                                checked: value === "checkbox-outline"
+                                anchors.centerIn: parent
+                                onToggled: {
+                                    if (ConfigItems.toggle_plugin(row)) {
+                                        TaskManager.reload_formats()
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -254,6 +254,7 @@ class TaskManager(QObject):
                 for plugin in plugin_manager.plugin_registry.values()
             ],
         )
+        self.input_format_changed.emit("")
         self.output_formats.clear()
         self.output_formats.append_many(
             [
@@ -264,6 +265,7 @@ class TaskManager(QObject):
                 for plugin in plugin_manager.plugin_registry.values()
             ],
         )
+        self.output_format_changed.emit("")
 
     @Slot(QModelIndex, int, int)
     def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:
