@@ -727,6 +727,45 @@ msgstr ""
 msgid "N&o to All"
 msgstr ""
 
+msgid "(dynamic)"
+msgstr ""
+
+msgid "Aborted!"
+msgstr ""
+
+msgid "default: {default}"
+msgstr ""
+
+msgid "required"
+msgstr ""
+
+msgid "env var: {var}"
+msgstr ""
+
+msgid "Arguments"
+msgstr ""
+
+msgid "(deprecated) "
+msgstr ""
+
+msgid "[default: {}]"
+msgstr ""
+
+msgid "[env var: {}]"
+msgstr ""
+
+msgid "[required]"
+msgstr ""
+
+msgid "Commands"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Aborted."
+msgstr ""
+
 #: .acep.name
 msgid "ACE Studio"
 msgstr ""
