@@ -1672,94 +1672,40 @@ Page {
         }
     }
 
-    RowLayout {
+    ColumnLayout {
         id: smallView
         visible: false
         anchors.fill: parent
         anchors.margins: 10
-        Layout.fillHeight: true
+        Layout.fillWidth: true
         TabBar {
             id: navigationRail
-            Layout.fillHeight: true
-            Layout.preferredWidth: 50
-            Layout.alignment: Qt.AlignHCenter
-
-            contentItem: ListView {
-                model: navigationRail.contentModel
-                currentIndex: navigationRail.currentIndex
-
-                spacing: navigationRail.spacing
-                orientation: ListView.Vertical
-                boundsBehavior: Flickable.StopAtBounds
-                flickableDirection: Flickable.AutoFlickIfNeeded
-                snapMode: ListView.SnapToItem
-
-                highlightMoveDuration: 250
-                highlightResizeDuration: 0
-                highlightFollowsCurrentItem: true
-                highlightRangeMode: ListView.ApplyRange
-                preferredHighlightBegin: 48
-                preferredHighlightEnd: width - 48
-
-                highlight: Ripple {
-                    x: (navigationRail.width - width) / 2
-                    y: (navigationRail.height - height) / 2
-                    clip: true
-                    width: 46
-                    height: 46
-                    active: true
-                    color: window.Material.rippleColor
-                }
-            }
-            spacing: 5
+            Layout.fillWidth: true
+            Layout.preferredHeight: 50
 
             TabButton {
-                id: firstPageBtn
-                width: 50
-                contentItem: ColumnLayout {
-                    Label {
-                        text: smallViewStack.currentIndex === 0 ? IconicFontLoader.icon("mdi7.numeric-1-circle") : IconicFontLoader.icon("mdi7.numeric-1-circle-outline")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 24
-                    }
-                    Label {
-                        text: qsTr("Page 1")
-                        font.pixelSize: 10
-                        visible: smallViewStack.currentIndex !== 0
-                    }
-                }
-                font.family: "Material Design Icons"
-                font.pixelSize: 24
-                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Select File Formats")
                 onClicked: {
                     smallViewStack.currentIndex = 0
                 }
             }
 
             TabButton {
-                width: 50
-                contentItem: ColumnLayout {
-                    Label {
-                        text: smallViewStack.currentIndex === 1 ? IconicFontLoader.icon("mdi7.numeric-2-circle") : IconicFontLoader.icon("mdi7.numeric-2-circle-outline")
-                        font.family: "Material Design Icons"
-                        font.pixelSize: 24
-                    }
-                    Label {
-                        text: qsTr("Page 2")
-                        font.pixelSize: 10
-                        visible: smallViewStack.currentIndex !== 1
-                    }
-                }
-                anchors.top: firstPageBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: parent.spacing
+                text: qsTr("Advanced Settings")
                 onClicked: {
                     smallViewStack.currentIndex = 1
                 }
             }
+
+            TabButton {
+                text: qsTr("Export")
+                onClicked: {
+                    smallViewStack.currentIndex = 2
+                }
+            }
         }
         Rectangle {
-            Layout.fillHeight: true
+            Layout.fillWidth: true
             width: 1
             color: "lightgrey"
         }
@@ -1814,9 +1760,9 @@ Page {
 
                 Control {
                     SplitView.fillWidth: true
-                    SplitView.preferredHeight: parent.height - 200
-                    SplitView.minimumHeight: parent.height - 250
-                    SplitView.maximumHeight: parent.height - 200
+                    SplitView.preferredHeight: 400
+                    SplitView.minimumHeight: 300
+                    SplitView.maximumHeight: 500
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
@@ -1838,8 +1784,23 @@ Page {
 
                 Control {
                     SplitView.fillWidth: true
-                    SplitView.minimumHeight: 200
+                    SplitView.maximumHeight: parent.height - 300
                     anchors.bottom: parent.bottom
+
+                    LayoutItemProxy {
+                        anchors.fill: parent
+                        target: taskListArea
+                    }
+                }
+            }
+            SplitView {
+                SplitView.fillWidth: true
+                SplitView.fillHeight: true
+                orientation: Qt.Vertical
+
+                Control {
+                    SplitView.fillWidth: true
+                    SplitView.minimumHeight: 200
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
@@ -1852,6 +1813,17 @@ Page {
                         anchors.fill: parent
                         anchors.margins: 20
                         target: outputSettingsCard
+                    }
+                }
+
+                Control {
+                    SplitView.fillWidth: true
+                    SplitView.maximumHeight: parent.height - 200
+                    anchors.bottom: parent.bottom
+
+                    LayoutItemProxy {
+                        anchors.fill: parent
+                        target: taskListArea
                     }
                 }
             }
