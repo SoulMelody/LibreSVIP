@@ -39,7 +39,7 @@ class PluginCadidatesTableModel(QAbstractTableModel):
                 0: plugin.file_format,
                 1: plugin.author,
                 2: str(plugin.version),
-                3: "checkbox-outline"
+                3: "checkbox-marked"
                 if plugin.suffix not in settings.disabled_plugins
                 else "checkbox-blank-outline",
             }

@@ -386,6 +386,7 @@ Dialog {
                 delegate: Rectangle {
                     implicitHeight: 50
                     border.width: 1
+                    border.color: window.Material.backgroundDimColor
                     color: window.Material.dialogColor
 
                     RowLayout {
@@ -400,7 +401,7 @@ Dialog {
                             diameter: 20
                             cursor_shape: Qt.WhatsThisCursor
                             ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Plugin is enabled or not (Double click to enter editing mode)")
+                            ToolTip.text: qsTr("Plugin is enabled or not (Click to enter editing mode)")
                             visible: index === 3
                         }
                     }
@@ -413,6 +414,7 @@ Dialog {
                 columnSpacing: 0
                 rowSpacing: 0
                 clip: true
+                editTriggers: TableView.SingleTapped
 
                 model: ConfigItems.qget("plugin_candidates")
                 ScrollBar.vertical: ScrollBar {}
@@ -421,12 +423,14 @@ Dialog {
                 delegate: DelegateChooser {
                     DelegateChoice{
                         column: 0
-                        delegate: Rectangle{
+                        delegate: Rectangle {
                             implicitWidth: 220
                             implicitHeight: 32
                             border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
 
-                            Text {
+                            Label {
                                 text: qsTr(display)
                                 anchors.centerIn: parent
                             }
@@ -434,10 +438,12 @@ Dialog {
                     }
                     DelegateChoice {
                         column: 1
-                        delegate: Rectangle{
+                        delegate: Rectangle {
                             implicitWidth: 120
                             implicitHeight: 32
                             border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
 
                             Label {
                                 text: display
@@ -447,11 +453,13 @@ Dialog {
                     }
                     DelegateChoice {
                         column: 2
-                        delegate: Rectangle{
+                        delegate: Rectangle {
                             implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
                             clip: true
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
 
                             Label {
                                 text: display
@@ -465,15 +473,19 @@ Dialog {
                             implicitWidth: 70
                             implicitHeight: 32
                             border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
 
                             Label {
                                 text: IconicFontLoader.icon("mdi7." + display)
                                 font.family: "Material Design Icons"
+                                font.pixelSize: 22
+                                color: window.Material.accent
                                 anchors.centerIn: parent
                             }
 
-                            TableView.editDelegate: Switch {
-                                checked: value === "checkbox-outline"
+                            TableView.editDelegate: CheckBox {
+                                checked: value === "checkbox-marked"
                                 anchors.centerIn: parent
                                 onToggled: {
                                     if (ConfigItems.toggle_plugin(row)) {
