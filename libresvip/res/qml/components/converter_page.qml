@@ -582,6 +582,7 @@ Page {
 
     DropArea {
         id: taskListArea
+        clip: true
         onDropped: (event) => {
             if (inputFormat.enabled) {
                 TaskManager.add_task_paths(event.urls.map(dialogs.url2path))
@@ -1760,9 +1761,9 @@ Page {
 
                 Control {
                     SplitView.fillWidth: true
-                    SplitView.preferredHeight: 400
-                    SplitView.minimumHeight: 300
-                    SplitView.maximumHeight: 500
+                    SplitView.preferredHeight: parent.height - 350
+                    SplitView.minimumHeight: parent.height - 400
+                    SplitView.maximumHeight: parent.height - 300
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
@@ -1784,7 +1785,7 @@ Page {
 
                 Control {
                     SplitView.fillWidth: true
-                    SplitView.maximumHeight: parent.height - 300
+                    SplitView.maximumHeight: 400
                     anchors.bottom: parent.bottom
 
                     LayoutItemProxy {
@@ -1801,6 +1802,7 @@ Page {
                 Control {
                     SplitView.fillWidth: true
                     SplitView.minimumHeight: 200
+                    SplitView.maximumHeight: 250
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
