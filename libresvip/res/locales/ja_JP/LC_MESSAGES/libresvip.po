@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-03-23 23:12+0800\n"
-"PO-Revision-Date: 2024-03-23 15:32\n"
+"PO-Revision-Date: 2024-03-24 01:26\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -722,6 +722,45 @@ msgstr ""
 
 #: QPlatformTheme%234
 msgid "N&o to All"
+msgstr ""
+
+msgid "(dynamic)"
+msgstr ""
+
+msgid "Aborted!"
+msgstr ""
+
+msgid "default: {default}"
+msgstr ""
+
+msgid "required"
+msgstr ""
+
+msgid "env var: {var}"
+msgstr ""
+
+msgid "Arguments"
+msgstr ""
+
+msgid "(deprecated) "
+msgstr ""
+
+msgid "[default: {}]"
+msgstr ""
+
+msgid "[env var: {}]"
+msgstr ""
+
+msgid "[required]"
+msgstr ""
+
+msgid "Commands"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Aborted."
 msgstr ""
 
 #: .acep.name
