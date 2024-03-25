@@ -1,5 +1,5 @@
 import pathlib
-from typing import Optional, get_type_hints
+from typing import Annotated, Optional, get_type_hints
 
 import typer
 from rich.progress import track
@@ -55,7 +55,7 @@ def convert(
         project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
         for middleware in middleware_manager.plugin_registry.values():
             if (
-                (Confirm.ask(_("Enable {} middleware?").format(_(middleware.name))))
+                (Confirm.ask(_("Enable {} middleware?").format(_(middleware.name)), default=False))
                 and (middleware.plugin_object is not None)
                 and (
                     middleware_option := get_type_hints(middleware.plugin_object.process).get(
@@ -138,5 +138,67 @@ def split_project(
                 project,
                 option_class(**option_kwargs),
             )
+    else:
+        typer.secho("Invalid options", err=True, color="red")
+
+
+@app.command("merge")
+def merge_projects(
+    in_paths: Annotated[list[pathlib.Path], typer.Argument()],
+    out_path: pathlib.Path = typer.Option(
+        "", exists=False, dir_okay=False, callback=option_callback
+    ),
+) -> None:
+    projects = []
+    middleware_with_options = []
+    for middleware in middleware_manager.plugin_registry.values():
+        if (
+            (Confirm.ask(_("Enable {} middleware?").format(_(middleware.name)), default=False))
+            and (middleware.plugin_object is not None)
+            and (
+                middleware_option := get_type_hints(middleware.plugin_object.process).get("options")
+            )
+        ):
+            option_type, option_class = _("Process Options: "), middleware_option
+            option_kwargs = {}
+            if len(option_class.model_fields):
+                typer.echo(option_type)
+                option_kwargs = prompt_fields(option_class)
+            middleware_with_options.append(
+                (middleware.plugin_object.process, option_class, option_kwargs)
+            )
+    for in_path in in_paths:
+        typer.echo(in_path)
+        input_ext = in_path.suffix.lstrip(".").lower()
+        input_plugin = plugin_manager.plugin_registry[input_ext]
+        if input_plugin.plugin_object is not None and (
+            input_option := get_type_hints(input_plugin.plugin_object.load).get("options")
+        ):
+            option_type, option_class = _("Input Options: "), input_option
+            option_kwargs = {}
+            if len(option_class.model_fields):
+                typer.echo(option_type)
+                option_kwargs = prompt_fields(option_class)
+            project = input_plugin.plugin_object.load(in_path, option_class(**option_kwargs))
+            for middleware_func, option_class, option_kwargs in middleware_with_options:
+                project = middleware_func(project, option_class(**option_kwargs))
+            projects.append(project)
+        else:
+            typer.secho("Invalid options", err=True, color="red")
+            break
+    output_ext = out_path.suffix.lstrip(".").lower()
+    output_plugin = plugin_manager.plugin_registry[output_ext]
+    if (
+        projects
+        and output_plugin.plugin_object is not None
+        and (output_option := get_type_hints(output_plugin.plugin_object.dump).get("options"))
+    ):
+        project = project.merge_projects(projects)
+        option_type, option_class = _("Output Options: "), output_option
+        option_kwargs = {}
+        if len(option_class.model_fields):
+            typer.echo(option_type)
+            option_kwargs = prompt_fields(option_class)
+        output_plugin.plugin_object.dump(out_path, project, option_class(**option_kwargs))
     else:
         typer.secho("Invalid options", err=True, color="red")
