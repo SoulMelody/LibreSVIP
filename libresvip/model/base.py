@@ -12,6 +12,7 @@ from typing import (
     runtime_checkable,
 )
 
+import more_itertools
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import (
     ConfigDict,
@@ -260,3 +261,30 @@ class Project(BaseModel):
         alias="TimeSignatureList",
     )
     track_list: list[Track] = Field(default_factory=list, alias="TrackList")
+
+    @classmethod
+    def merge_projects(cls, projects: list[Project]) -> Project:
+        assert len(projects) > 1, "No projects to merge"
+        sample_project = projects[0]
+        if not all(
+            project.time_signature_list == sample_project.time_signature_list
+            and project.song_tempo_list == sample_project.song_tempo_list
+            for project in projects[1:]
+        ):
+            msg = "All projects must have the same time signatures and tempos"
+            raise ValueError(msg)
+        return sample_project.model_copy(
+            update={"track_list": sum((project.track_list for project in projects), [])}, deep=True
+        )
+
+    def split_tracks(self, max_track_count: int) -> list[Project]:
+        assert any(
+            isinstance(track, SingingTrack) for track in self.track_list
+        ), "No singing tracks found"
+        return [
+            self.model_copy(update={"track_list": track_chunk}, deep=True)
+            for track_chunk in more_itertools.chunked(
+                (track for track in self.track_list if isinstance(track, SingingTrack)),
+                max_track_count,
+            )
+        ]
