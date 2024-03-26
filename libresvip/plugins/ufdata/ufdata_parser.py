@@ -79,10 +79,11 @@ class UFDataParser:
             for tick, value in zip(pitch.ticks, pitch.values):
                 if value == 0 and prev_point.y == -100:
                     pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
-                point = Point(
-                    x=tick + tick_prefix + self.first_bar_length,
-                    y=round(value * 100),
-                )
+                if value is not None:
+                    point = Point(
+                        x=tick + tick_prefix + self.first_bar_length,
+                        y=round(value * 100),
+                    )
                 pitch_points.append(point)
                 if value == 0 and prev_point.y != -100:
                     pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
@@ -97,6 +98,7 @@ class UFDataParser:
                 y=round(value * 100),
             )
             for tick, value in zip(pitch.ticks, pitch.values)
+            if value is not None
         ]
         return RelativePitchCurve(self.first_bar_length).to_absolute(rel_pitch_points, note_list)
 

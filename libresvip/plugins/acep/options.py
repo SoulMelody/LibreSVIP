@@ -186,7 +186,7 @@ class OutputOptions(BaseModel):
         description="Warning: when turned on, it may cause consonant issues",
     )
     default_consonant_length: int = Field(
-        default=50,
+        default=0,
         title="Default consonant length (ticks)",
         description="Set default consonant length for notes if not specified",
     )
