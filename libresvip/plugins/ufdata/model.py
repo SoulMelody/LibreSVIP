@@ -14,7 +14,7 @@ class UFNotes(BaseModel):
 
 class UFPitch(BaseModel):
     ticks: list[int] = Field(default_factory=list)
-    values: list[float] = Field(default_factory=list)
+    values: list[Optional[float]] = Field(default_factory=list)
     is_absolute: bool = Field(alias="isAbsolute")
 
 
