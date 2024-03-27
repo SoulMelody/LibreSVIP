@@ -33,7 +33,8 @@ from nicegui.context import get_client
 from nicegui.elements.switch import Switch
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.storage import request_contextvar
-from pydantic import create_model
+from pydantic import RootModel, create_model
+from pydantic.dataclasses import dataclass
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -42,7 +43,7 @@ from starlette.responses import Response
 from upath import UPath
 
 import libresvip
-from libresvip.core.config import DarkMode, settings
+from libresvip.core.config import DarkMode, Language, LibreSvipBaseUISettings
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import middleware_manager, plugin_manager
@@ -56,6 +57,21 @@ if TYPE_CHECKING:
     from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
+
+
+@dataclass
+class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
+    def __post_init__(self) -> None:
+        detected_language = None
+        request = request_contextvar.get()
+        if accept_lang := request.headers.get("Accept-Language"):
+            first_lang = accept_lang.split(",")[0].partition(";")[0]
+            if first_lang.startswith("zh"):
+                detected_language = Language.from_locale("zh_CN")
+            elif first_lang.startswith("ja"):
+                detected_language = Language.from_locale("ja_JP")
+        if detected_language is not None:
+            self.language = detected_language
 
 
 def dark_mode2str(mode: DarkMode) -> Optional[bool]:
@@ -113,33 +129,26 @@ class ConversionTask:
 def page_layout(lang: Optional[str] = None) -> None:
     cur_client = get_client()
 
-    if "lang" not in app.storage.user:
-        request = request_contextvar.get()
-        if accept_lang := request.headers.get("accept-language"):
-            first_lang = accept_lang.split(",")[0].partition(";")[0]
-            if first_lang.startswith("zh"):
-                app.storage.user["lang"] = "zh_CN"
-            elif first_lang.startswith("ja"):
-                app.storage.user["lang"] = "ja_JP"
-        if "lang" not in app.storage.user:
-            app.storage.user["lang"] = "en_US"
+    default_settings = LibreSvipWebUserSettings()
+    default_settings_dict = RootModel[LibreSvipWebUserSettings](default_settings).model_dump(
+        mode="json"
+    )
+
+    for key, default_value in default_settings_dict.items():
+        if key not in app.storage.user:
+            if key == "dark_mode":
+                default_value = dark_mode2str(default_value)
+            app.storage.user[key] = default_value
     if lang is None:
-        lang = app.storage.user["lang"]
-    try:
-        assert lang in ["en_US", "zh_CN", "ja_JP"]
-    except AssertionError:
-        lang = "en_US"
-    if lang != app.storage.user["lang"]:
-        app.storage.user["lang"] = lang
+        lang = app.storage.user["language"]
+    if lang != app.storage.user["language"]:
+        app.storage.user["language"] = lang
     translation = get_translation(PACKAGE_NAME, lang)
 
     def _(message: str) -> str:
         if message.strip():
             return translation.gettext(message)
         return message
-
-    if "dark_mode" not in app.storage.user:
-        app.storage.user["dark_mode"] = dark_mode2str(DarkMode.SYSTEM)
 
     plugin_details = {
         identifier: {
@@ -485,21 +494,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                     )
                 },
             )()
-            self.input_format = app.storage.user.get("last_input_format") or next(  # type: ignore[no-redef]
+            self.input_format = app.storage.user["last_input_format"] or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
             )
-            self.output_format = app.storage.user.get("last_output_format") or next(  # type: ignore[no-redef]
+            self.output_format = app.storage.user["last_output_format"] or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
-            )
-            app.storage.user.setdefault(
-                "auto_detect_input_format",
-                settings.auto_detect_input_format,
-            )
-            app.storage.user.setdefault(
-                "reset_tasks_on_input_change",
-                settings.reset_tasks_on_input_change,
             )
             app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
             app.add_route(
@@ -623,7 +624,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             name: str,
             content: Union[BinaryIO, aiofiles.threadpool.binary.AsyncBufferedReader],
         ) -> None:
-            if app.storage.user.get("auto_detect_input_format"):
+            if app.storage.user["auto_detect_input_format"]:
                 cur_suffix = name.rpartition(".")[-1].lower()
                 if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
@@ -658,7 +659,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         def input_format(self, value: str) -> None:
             if value != self._input_format:
                 self._input_format = value
-                if app.storage.user.get("reset_tasks_on_input_change"):
+                if app.storage.user["reset_tasks_on_input_change"]:
                     self.files_to_convert.clear()
                 app.storage.user["last_input_format"] = value
                 input_plugin_info.refresh()
@@ -1476,7 +1477,6 @@ def main() -> None:
         show=not args.daemon,
         window_size=None if args.server else (1280, 720),
         reload=args.reload,
-        dark=dark_mode2str(settings.dark_mode),
         host=args.host if args.server else None,
         port=args.port,
         storage_secret=storage_secret,
