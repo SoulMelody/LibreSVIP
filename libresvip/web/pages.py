@@ -468,6 +468,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ):
                             ui.tooltip(_(field_info.description))
 
+    select_input: Select
+    select_output: Select
+
     @dataclasses.dataclass
     class SelectedFormats:
         _input_format: str = dataclasses.field(default="")
@@ -658,11 +661,12 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @property  # type: ignore[no-redef]
         def input_format(self) -> str:
-            return app.storage.user["last_input_format"]
+            return self._input_format
 
         @input_format.setter
         def input_format(self, value: str) -> None:
-            if value != app.storage.user["last_input_format"]:
+            if value != self._input_format:
+                self._input_format = value
                 if app.storage.user["reset_tasks_on_input_change"]:
                     self.files_to_convert.clear()
                 app.storage.user["last_input_format"] = value
@@ -672,11 +676,12 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @property  # type: ignore[no-redef]
         def output_format(self) -> str:
-            return app.storage.user["last_output_format"]
+            return self._output_format
 
         @output_format.setter
         def output_format(self, value: str) -> None:
-            if value != app.storage.user["last_output_format"]:
+            if value != self._output_format:
+                self._output_format = value
                 app.storage.user["last_output_format"] = value
                 for task in self.files_to_convert.values():
                     task.reset()
@@ -825,6 +830,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             )
 
         async def add_upload(self) -> None:
+            nonlocal select_input
             if app.native.main_window is not None and hasattr(
                 app.native.main_window, "create_file_dialog"
             ):
@@ -845,6 +851,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ui.run_javascript("add_upload()")
 
         async def save_file(self, file_name: str = "") -> None:
+            nonlocal select_output
             if app.native.main_window is not None and hasattr(
                 app.native.main_window, "create_file_dialog"
             ):
@@ -894,13 +901,10 @@ def page_layout(lang: Optional[str] = None) -> None:
     )  # fix icon position
 
     def swap_values() -> None:
-        select_input.value, select_output.value = (
-            select_output.value,
-            select_input.value,
+        selected_formats.input_format, selected_formats.output_format = (
+            selected_formats.output_format,
+            selected_formats.input_format,
         )
-
-    with ui.left_drawer(value=False) as drawer:
-        pass
 
     with (
         ui.header(elevated=True)
@@ -909,7 +913,6 @@ def page_layout(lang: Optional[str] = None) -> None:
             "items-center",
         )
     ):
-        ui.button(icon="menu", on_click=drawer.toggle)
         convert_menu: Menu
         input_formats_menu: Menu
         output_formats_menu: Menu
@@ -1117,228 +1120,224 @@ def page_layout(lang: Optional[str] = None) -> None:
                         target="https://soulmelody.github.io/LibreSVIP",
                         new_tab=True,
                     )
+    uploader = ui.upload(
+        multiple=True,
+        on_upload=selected_formats.add_task,
+        auto_upload=True,
+    ).props("hidden")
 
-    with (
-        ui.card().classes("w-full").style("height: calc(100vh - 120px)"),
-        ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter,
-    ):
-        with main_splitter.before, ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
-            with (
-                left_splitter.before,
-                ui.card().classes("h-full w-full"),
-                ui.column().classes("w-full"),
+    def file_format_area() -> None:
+        nonlocal select_input, select_output
+        with ui.column().classes("w-full"):
+            ui.label(_("Choose file format")).classes(
+                "text-h5 font-bold",
+            )
+            with ui.grid().classes(
+                "grid grid-cols-11 gap-4 w-full",
             ):
-                ui.label(_("Choose file format")).classes(
-                    "text-h5 font-bold",
+                select_input = (
+                    ui.select(
+                        {
+                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            for k, v in plugin_details.items()
+                        },
+                        label=_("Import format"),
+                    )
+                    .classes("col-span-10")
+                    .bind_value(selected_formats, "input_format")
                 )
-                with ui.grid().classes(
-                    "grid grid-cols-11 gap-4 w-full",
-                ):
-                    select_input: Select = (
-                        ui.select(
-                            {
-                                k: _(v["file_format"] or "") + " " + v["suffix"]
-                                for k, v in plugin_details.items()
-                            },
-                            label=_("Import format"),
-                        )
-                        .classes("col-span-10")
-                        .bind_value(selected_formats, "input_format")
-                    )
-                    with ui.dialog() as input_info, ui.card():
-                        input_plugin_info()
-                        with (
-                            ui.card_actions()
-                            .props(
-                                "align=right",
-                            )
-                            .classes("w-full")
-                        ):
-                            ui.button(
-                                _("Close"),
-                                on_click=input_info.close,
-                            )
-                    with ui.button(
-                        icon="info",
-                        on_click=input_info.open,
-                    ).classes(
-                        "min-w-[45px] max-w-[45px] aspect-square",
-                    ):
-                        ui.tooltip(_("View Detail Information"))
-                    ui.switch(_("Auto detect import format")).classes(
-                        "col-span-5",
-                    ).bind_value(
-                        app.storage.user,
-                        "auto_detect_input_format",
-                    )
-                    ui.switch(
-                        _("Reset list when import format changed"),
-                    ).classes("col-span-5").bind_value(
-                        app.storage.user,
-                        "reset_tasks_on_input_change",
-                    )
+                with ui.dialog() as input_info, ui.card():
+                    input_plugin_info()
                     with (
-                        ui.button(
-                            icon="swap_vert",
-                            on_click=swap_values,
+                        ui.card_actions()
+                        .props(
+                            "align=right",
                         )
-                        .classes("w-fit aspect-square")
-                        .props("round")
-                    ):
-                        ui.tooltip(_("Swap Input and Output"))
-                    select_output: Select = (
-                        ui.select(
-                            {
-                                k: _(v["file_format"] or "") + " " + v["suffix"]
-                                for k, v in plugin_details.items()
-                            },
-                            label=_("Export format"),
-                        )
-                        .classes("col-span-10")
-                        .bind_value(selected_formats, "output_format")
-                    )
-                    with (
-                        ui.dialog().classes(
-                            "h-400 w-600",
-                        ) as output_info,
-                        ui.card(),
-                    ):
-                        output_plugin_info()
-                        with (
-                            ui.card_actions()
-                            .props(
-                                "align=right",
-                            )
-                            .classes("w-full")
-                        ):
-                            ui.button(
-                                _("Close"),
-                                on_click=output_info.close,
-                            )
-                    with ui.button(
-                        icon="info",
-                        on_click=output_info.open,
-                    ).classes(
-                        "min-w-[45px] max-w-[45px] aspect-square",
-                    ):
-                        ui.tooltip(_("View Detail Information"))
-            with left_splitter.after:
-                with ui.card().classes("w-full h-full") as tasks_card:
-                    # ui.label(_("Import project")).classes("text-h5 font-bold")
-                    with ui.tabs().classes("w-full") as tabs:
-                        direct = ui.tab("Direct", _("Direct"))
-                        merge = ui.tab("Merge", _("Merge"))
-                        split = ui.tab("Split", _("Split"))
-                    with (
-                        ui.tab_panels(tabs)
                         .classes("w-full")
-                        .bind_value(app.storage.user, "last_conversion_mode")
                     ):
-                        with ui.tab_panel(direct):
-                            selected_formats.tasks_container()
-                        with ui.tab_panel(merge):
-                            pass
-                        with ui.tab_panel(split):
-                            pass
-                    tasks_card.bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
-                    )
-                    uploader = ui.upload(
-                        multiple=True,
-                        on_upload=selected_formats.add_task,
-                        auto_upload=True,
-                    ).props("hidden")
-                    tasks_card.on(
-                        "dragover",
-                        js_handler="""(event) => {
-                        event.preventDefault()
-                    }""",
-                    )
-                    tasks_card.on(
-                        "drop",
-                        js_handler=f"""(event) => {{
-                        for (let file of event.dataTransfer.files) {{
-                            let file_name = file.name
-                            post_form('{uploader._props['url']}', {{
-                                file_name: file
-                            }})
-                        }}
-                        event.preventDefault()
-                    }}""",
-                    )
-                    with QFab(
-                        icon="construction",
-                    ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
-                        with fab.add_slot("active-icon"):
-                            ui.icon("construction").classes("rotate-45")
-                        fab.on(
-                            "mouseenter",
-                            functools.partial(fab.run_method, "show"),
-                        )
-                        QFabAction(
-                            icon="refresh",
-                            on_click=selected_formats.reset,
-                        ).tooltip(_("Clear Task List"))
-                        QFabAction(
-                            icon="filter_alt_off",
-                            on_click=selected_formats.filter_input_ext,
-                        ).tooltip(_("Remove Tasks With Other Extensions"))
-                    with (
                         ui.button(
-                            icon="add",
-                            on_click=selected_formats.add_upload,
+                            _("Close"),
+                            on_click=input_info.close,
                         )
-                        .props("round")
-                        .classes(
-                            "absolute bottom-0 right-2 m-2 z-10",
-                        )
-                    ):
-                        ui.badge().props(
-                            "floating color=orange",
-                        ).bind_text_from(
-                            selected_formats,
-                            "task_count",
-                            backward=str,
-                        )
-                        ui.tooltip(_("Continue Adding files"))
-                with (
-                    ui.card()
-                    .classes(
-                        "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
-                    )
-                    .style("cursor: pointer") as upload_card
+                with ui.button(
+                    icon="info",
+                    on_click=input_info.open,
+                ).classes(
+                    "min-w-[45px] max-w-[45px] aspect-square",
                 ):
-                    upload_card.on(
-                        "dragover",
-                        js_handler="""(event) => {
-                        event.preventDefault()
-                    }""",
+                    ui.tooltip(_("View Detail Information"))
+                ui.switch(_("Auto detect import format")).classes(
+                    "col-span-5",
+                ).bind_value(
+                    app.storage.user,
+                    "auto_detect_input_format",
+                )
+                ui.switch(
+                    _("Reset list when import format changed"),
+                ).classes("col-span-5").bind_value(
+                    app.storage.user,
+                    "reset_tasks_on_input_change",
+                )
+                with (
+                    ui.button(
+                        icon="swap_vert",
+                        on_click=swap_values,
                     )
-                    upload_card.on(
-                        "drop",
-                        js_handler=f"""(event) => {{
-                        for (let file of event.dataTransfer.files) {{
-                            let file_name = file.name
-                            post_form('{uploader._props['url']}', {{
-                                file_name: file
-                            }})
-                        }}
-                        event.preventDefault()
-                    }}""",
+                    .classes("w-fit aspect-square")
+                    .props("round")
+                ):
+                    ui.tooltip(_("Swap Input and Output"))
+                select_output = (
+                    ui.select(
+                        {
+                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            for k, v in plugin_details.items()
+                        },
+                        label=_("Export format"),
                     )
-                    upload_card.on("click", selected_formats.add_upload)
-                    upload_card.bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=not_,
-                    )
-                    ui.icon("file_upload").classes("text-6xl")
-                    ui.label(
-                        _("Drag and drop files here or click to upload"),
-                    ).classes("text-lg")
-        with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
+                    .classes("col-span-10")
+                    .bind_value(selected_formats, "output_format")
+                )
+                with (
+                    ui.dialog().classes(
+                        "h-400 w-600",
+                    ) as output_info,
+                    ui.card(),
+                ):
+                    output_plugin_info()
+                    with (
+                        ui.card_actions()
+                        .props(
+                            "align=right",
+                        )
+                        .classes("w-full")
+                    ):
+                        ui.button(
+                            _("Close"),
+                            on_click=output_info.close,
+                        )
+                with ui.button(
+                    icon="info",
+                    on_click=output_info.open,
+                ).classes(
+                    "min-w-[45px] max-w-[45px] aspect-square",
+                ):
+                    ui.tooltip(_("View Detail Information"))
+
+    def tasks_area() -> None:
+        with ui.card().classes("w-full h-full") as tasks_card:
+            # ui.label(_("Import project")).classes("text-h5 font-bold")
+            with ui.tabs().classes("w-full") as conversion_mode_tabs:
+                direct = ui.tab("Direct", _("Direct"))
+                merge = ui.tab("Merge", _("Merge"))
+                split = ui.tab("Split", _("Split"))
+            with (
+                ui.tab_panels(conversion_mode_tabs, value=app.storage.user["last_conversion_mode"])
+                .classes("w-full")
+                .bind_value(app.storage.user, "last_conversion_mode")
+            ):
+                with ui.tab_panel(direct):
+                    selected_formats.tasks_container()
+                with ui.tab_panel(merge):
+                    pass
+                with ui.tab_panel(split):
+                    pass
+            tasks_card.bind_visibility_from(
+                selected_formats,
+                "task_count",
+                backward=bool,
+            )
+            tasks_card.on(
+                "dragover",
+                js_handler="""(event) => {
+                event.preventDefault()
+            }""",
+            )
+            tasks_card.on(
+                "drop",
+                js_handler=f"""(event) => {{
+                for (let file of event.dataTransfer.files) {{
+                    let file_name = file.name
+                    post_form('{uploader._props['url']}', {{
+                        file_name: file
+                    }})
+                }}
+                event.preventDefault()
+            }}""",
+            )
+            with QFab(
+                icon="construction",
+            ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
+                with fab.add_slot("active-icon"):
+                    ui.icon("construction").classes("rotate-45")
+                fab.on(
+                    "mouseenter",
+                    functools.partial(fab.run_method, "show"),
+                )
+                QFabAction(
+                    icon="refresh",
+                    on_click=selected_formats.reset,
+                ).tooltip(_("Clear Task List"))
+                QFabAction(
+                    icon="filter_alt_off",
+                    on_click=selected_formats.filter_input_ext,
+                ).tooltip(_("Remove Tasks With Other Extensions"))
+            with (
+                ui.button(
+                    icon="add",
+                    on_click=selected_formats.add_upload,
+                )
+                .props("round")
+                .classes(
+                    "absolute bottom-0 right-2 m-2 z-10",
+                )
+            ):
+                ui.badge().props(
+                    "floating color=orange",
+                ).bind_text_from(
+                    selected_formats,
+                    "task_count",
+                    backward=str,
+                )
+                ui.tooltip(_("Continue Adding files"))
+        with (
+            ui.card()
+            .classes(
+                "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
+            )
+            .style("cursor: pointer") as upload_card
+        ):
+            upload_card.on(
+                "dragover",
+                js_handler="""(event) => {
+                event.preventDefault()
+            }""",
+            )
+            upload_card.on(
+                "drop",
+                js_handler=f"""(event) => {{
+                for (let file of event.dataTransfer.files) {{
+                    let file_name = file.name
+                    post_form('{uploader._props['url']}', {{
+                        file_name: file
+                    }})
+                }}
+                event.preventDefault()
+            }}""",
+            )
+            upload_card.on("click", selected_formats.add_upload)
+            upload_card.bind_visibility_from(
+                selected_formats,
+                "task_count",
+                backward=not_,
+            )
+            ui.icon("file_upload").classes("text-6xl")
+            ui.label(
+                _("Drag and drop files here or click to upload"),
+            ).classes("text-lg")
+
+    def options_area() -> None:
+        with ui.scroll_area().classes("w-full h-full"):
             with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                 with (
                     ui.button(
@@ -1401,79 +1400,124 @@ def page_layout(lang: Optional[str] = None) -> None:
                 with export_panel.add_slot("header"):
                     output_panel_header()
                 output_options()
+
+    with ui.card().classes("w-full min-w-80").style("height: calc(100vh - 120px)"):
+        with ui.splitter(limits=(40, 60)).classes(
+            "w-full h-0 sm:invisible lg:h-full lg:visible"
+        ) as main_splitter:
+            with (
+                main_splitter.before,
+                ui.splitter(limits=(40, 50), horizontal=True) as left_splitter,
+            ):
+                with left_splitter.before, ui.card().classes("h-full w-full"):
+                    file_format_area()
+                with left_splitter.after:
+                    tasks_area()
+            with main_splitter.after:
+                options_area()
+        with ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible"):
+            with ui.tabs().classes("w-full") as tabs:
+                format_select_tab = ui.tab(_("Select File Formats"))
+                options_tab = ui.tab(_("Advanced Settings"))
+            with ui.tab_panels(tabs, value=format_select_tab).classes("h-full w-full"):
+                with (
+                    ui.tab_panel(format_select_tab),
+                    ui.splitter(limits=(60, 60), horizontal=True, value=60).classes(
+                        "h-full w-full"
+                    ) as format_select_splitter,
+                ):
+                    with format_select_splitter.before, ui.card().classes("h-full w-full"):
+                        file_format_area()
+                    with format_select_splitter.after:
+                        tasks_area()
+                with (
+                    ui.tab_panel(options_tab),
+                    ui.splitter(limits=(50, 60), horizontal=True).classes(
+                        "h-full w-full"
+                    ) as options_splitter,
+                ):
+                    with options_splitter.before:
+                        options_area()
+                    with options_splitter.after:
+                        tasks_area()
     with ui.footer().classes("bg-transparent"):
         ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
-    ui.add_body_html(
-        textwrap.dedent(
-            f"""
-        <script>
-            function get_element(element_id) {{
-                let element = getElement(element_id)
-                if (element.$refs.qRef !== undefined)
-                    return element.$refs.qRef
-                return element
-            }}
-            function post_form(url, data) {{
-                let ajax_bar = get_element({ajax_bar.id})
-                let form_data = new FormData()
-                for (let key in data) {{
-                    form_data.append(key, data[key])
+
+    def add_javascript() -> None:
+        nonlocal select_input
+        ui.add_body_html(
+            textwrap.dedent(
+                f"""
+            <script>
+                function get_element(element_id) {{
+                    let element = getElement(element_id)
+                    if (element.$refs.qRef !== undefined)
+                        return element.$refs.qRef
+                    return element
                 }}
-                var xhr = new XMLHttpRequest();
-                var progress = 0
-                xhr.onreadystatechange = function() {{
-                    if (xhr.readyState === 4) {{
-                        ajax_bar.stop()
+                function post_form(url, data) {{
+                    let ajax_bar = get_element({ajax_bar.id})
+                    let form_data = new FormData()
+                    for (let key in data) {{
+                        form_data.append(key, data[key])
                     }}
-                }}
-                xhr.upload.onprogress = function(event) {{
-                    if (event.lengthComputable) {{
-                        let next = event.loaded / event.total * 100
-                        if (next - progress > 0.5) {{
-                            ajax_bar.increment(next - progress)
-                            progress = next
+                    var xhr = new XMLHttpRequest();
+                    var progress = 0
+                    xhr.onreadystatechange = function() {{
+                        if (xhr.readyState === 4) {{
+                            ajax_bar.stop()
                         }}
                     }}
+                    xhr.upload.onprogress = function(event) {{
+                        if (event.lengthComputable) {{
+                            let next = event.loaded / event.total * 100
+                            if (next - progress > 0.5) {{
+                                ajax_bar.increment(next - progress)
+                                progress = next
+                            }}
+                        }}
+                    }}
+                    xhr.open('POST', url, true);
+                    ajax_bar.start()
+                    xhr.send(form_data);
                 }}
-                xhr.open('POST', url, true);
-                ajax_bar.start()
-                xhr.send(form_data);
-            }}
-            function add_upload() {{
-                if (window.showOpenFilePicker) {{
-                    let format_desc = get_element({select_input.id}).modelValue.label
-                    let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
-                    let bracket_index = format_desc.lastIndexOf('(')
-                    let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
-                    window.showOpenFilePicker(
-                        {{
-                            types: [
-                                {{
-                                    description: file_format,
-                                    accept: {{
-                                        '*/*': [suffix],
+                function add_upload() {{
+                    if (window.showOpenFilePicker) {{
+                        let format_desc = get_element({select_input.id}).modelValue.label
+                        let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
+                        let bracket_index = format_desc.lastIndexOf('(')
+                        let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
+                        window.showOpenFilePicker(
+                            {{
+                                types: [
+                                    {{
+                                        description: file_format,
+                                        accept: {{
+                                            '*/*': [suffix],
+                                        }}
                                     }}
-                                }}
-                            ],
-                            multiple: true
-                        }}
-                    ).then(async function (fileHandles) {{
-                        for (const fileHandle of fileHandles) {{
-                            const file = await fileHandle.getFile();
-                            let file_name = file.name
-                            post_form('{uploader._props['url']}', {{
-                                file_name: file
-                            }})
-                        }}
-                    }});
-                }} else {{
-                    get_element({uploader.id}).pickFiles()
+                                ],
+                                multiple: true
+                            }}
+                        ).then(async function (fileHandles) {{
+                            for (const fileHandle of fileHandles) {{
+                                const file = await fileHandle.getFile();
+                                let file_name = file.name
+                                post_form('{uploader._props['url']}', {{
+                                    file_name: file
+                                }})
+                            }}
+                        }});
+                    }} else {{
+                        get_element({uploader.id}).pickFiles()
+                    }}
                 }}
-            }}
-        </script>
-        """,
-        ).strip(),
-    )
+            </script>
+            """,
+            ).strip(),
+        )
+
+    add_javascript()
 
 
 def main() -> None:
@@ -1493,7 +1537,7 @@ def main() -> None:
 
     ui.run(
         show=not args.daemon,
-        window_size=None if args.server else (1280, 720),
+        window_size=None if args.server else (1200, 800),
         reload=args.reload,
         host=args.host if args.server else None,
         port=args.port,
