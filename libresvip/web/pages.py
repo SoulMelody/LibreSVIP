@@ -43,7 +43,12 @@ from starlette.responses import Response
 from upath import UPath
 
 import libresvip
-from libresvip.core.config import DarkMode, Language, LibreSvipBaseUISettings
+from libresvip.core.config import (
+    ConversionMode,
+    DarkMode,
+    Language,
+    LibreSvipBaseUISettings,
+)
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import middleware_manager, plugin_manager
@@ -653,12 +658,11 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @property  # type: ignore[no-redef]
         def input_format(self) -> str:
-            return self._input_format
+            return app.storage.user["last_input_format"]
 
         @input_format.setter
         def input_format(self, value: str) -> None:
-            if value != self._input_format:
-                self._input_format = value
+            if value != app.storage.user["last_input_format"]:
                 if app.storage.user["reset_tasks_on_input_change"]:
                     self.files_to_convert.clear()
                 app.storage.user["last_input_format"] = value
@@ -668,12 +672,11 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @property  # type: ignore[no-redef]
         def output_format(self) -> str:
-            return self._output_format
+            return app.storage.user["last_output_format"]
 
         @output_format.setter
         def output_format(self, value: str) -> None:
-            if value != self._output_format:
-                self._output_format = value
+            if value != app.storage.user["last_output_format"]:
                 app.storage.user["last_output_format"] = value
                 for task in self.files_to_convert.values():
                     task.reset()
@@ -751,32 +754,33 @@ def page_layout(lang: Optional[str] = None) -> None:
             task.converting = False
 
         async def batch_convert(self) -> None:
-            n = ui.notification(_("Converting"), timeout=0)
+            if app.storage.user["last_conversion_mode"] == ConversionMode.DIRECT:
+                n = ui.notification(_("Converting"), timeout=0)
 
-            loop = asyncio.get_event_loop()
-            with ThreadPoolExecutor(
-                max_workers=max(len(self.files_to_convert), 4),
-            ) as executor:
-                futures: list[asyncio.Future[None]] = [
-                    loop.run_in_executor(
-                        executor,
-                        self.convert_one,
-                        task,
-                    )
-                    for task in self.files_to_convert.values()
-                ]
-                for i, future in enumerate(asyncio.as_completed(futures)):
-                    await future
-                    n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
-                    n.spinner = True
-            n.close_button = _("Close")
-            n.spinner = False
-            if any(not task.success for task in self.files_to_convert.values()):
-                n.message = _("Conversion Failed")
-                n.type = "negative"
-            else:
-                n.message = _("Conversion Successful")
-                n.type = "positive"
+                loop = asyncio.get_event_loop()
+                with ThreadPoolExecutor(
+                    max_workers=max(len(self.files_to_convert), 4),
+                ) as executor:
+                    futures: list[asyncio.Future[None]] = [
+                        loop.run_in_executor(
+                            executor,
+                            self.convert_one,
+                            task,
+                        )
+                        for task in self.files_to_convert.values()
+                    ]
+                    for i, future in enumerate(asyncio.as_completed(futures)):
+                        await future
+                        n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
+                        n.spinner = True
+                n.close_button = _("Close")
+                n.spinner = False
+                if any(not task.success for task in self.files_to_convert.values()):
+                    n.message = _("Conversion Failed")
+                    n.type = "negative"
+                else:
+                    n.message = _("Conversion Successful")
+                    n.type = "positive"
 
         def export_all(self, request: Request) -> Response:
             if result := self._export_all():
@@ -1220,8 +1224,22 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.tooltip(_("View Detail Information"))
             with left_splitter.after:
                 with ui.card().classes("w-full h-full") as tasks_card:
-                    ui.label(_("Import project")).classes("text-h5 font-bold")
-                    selected_formats.tasks_container()
+                    # ui.label(_("Import project")).classes("text-h5 font-bold")
+                    with ui.tabs().classes("w-full") as tabs:
+                        direct = ui.tab("Direct", _("Direct"))
+                        merge = ui.tab("Merge", _("Merge"))
+                        split = ui.tab("Split", _("Split"))
+                    with (
+                        ui.tab_panels(tabs)
+                        .classes("w-full")
+                        .bind_value(app.storage.user, "last_conversion_mode")
+                    ):
+                        with ui.tab_panel(direct):
+                            selected_formats.tasks_container()
+                        with ui.tab_panel(merge):
+                            pass
+                        with ui.tab_panel(split):
+                            pass
                     tasks_card.bind_visibility_from(
                         selected_formats,
                         "task_count",

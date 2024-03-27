@@ -56,9 +56,16 @@ class ConflictPolicy(enum.Enum):
     PROMPT = "Prompt"
 
 
+class ConversionMode(enum.Enum):
+    DIRECT = "Direct"
+    SPLIT = "Split"
+    MERGE = "Merge"
+
+
 @dataclass
 class LibreSvipBaseUISettings:
     language: Language = dataclasses.field(default_factory=Language.auto)
+    last_conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
     last_input_format: Optional[str] = dataclasses.field(default=None)
     last_output_format: Optional[str] = dataclasses.field(default=None)
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
