@@ -115,10 +115,10 @@ linting = [
   "types-zstd>=1.5.0.20240311; platform_python_implementation == \"PyPy\"",
 ]
 packaging = [
-    "cx-Freeze>=7.0.0rc0",
-    "nuitka>=2.1.4",
-    "pyinstaller>=6.5.0",
-    "shellingham<2.0.0,>=1.5.4",
+  "cx-Freeze>=7.0.0rc0",
+  "nuitka>=2.1.4",
+  "pyinstaller>=6.5.0",
+  "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.15"]
 test = ["pytest>=8.1.1", "pytest-datadir>=1.5.0"]
@@ -129,6 +129,7 @@ excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*/LC_MESSAGE
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
+pythonpath = "."
 testpaths = "tests"
 
 [tool.ruff]
