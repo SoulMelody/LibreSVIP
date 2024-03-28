@@ -279,33 +279,18 @@ def page_layout(lang: Optional[str] = None) -> None:
     def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
         conversion_plugin = plugin_manager.plugin_registry[attr]
-        field_types = {}
         option_class = None
-        if (
-            hasattr(conversion_plugin.plugin_object, method)
-            and (
-                option_class := get_type_hints(
-                    getattr(conversion_plugin.plugin_object, method),
-                ).get("options")
-            )
-            and hasattr(option_class, "model_fields")
+        if hasattr(conversion_plugin.plugin_object, method) and (
+            _option_class := get_type_hints(
+                getattr(conversion_plugin.plugin_object, method),
+            ).get("options")
         ):
-            for option_key, field_info in option_class.model_fields.items():
-                if issubclass(
-                    field_info.annotation,
-                    (str, Color, enum.Enum, BaseComplexModel),
-                ):
-                    field_types[option_key] = str
-                else:
-                    field_types[option_key] = field_info.annotation
-        if not option_class or not field_types:
+            option_class = _option_class
+        if not option_class:
             return
-        setattr(
-            selected_formats,
-            attr_prefix + "_options",
-            TypedDict(f"{attr_prefix.title()}Options", field_types)(),
-        )
         option_dict = getattr(selected_formats, attr_prefix + "_options")
+        option_dict.clear()
+        option_dict.update(option_class().model_dump())
         with ui.column().classes("w-full"):
             for i, (option_key, field_info) in enumerate(
                 option_class.model_fields.items(),
@@ -800,7 +785,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         async def batch_convert(self) -> None:
             if app.storage.user["last_conversion_mode"] == ConversionMode.DIRECT.value:
-                n = ui.notification(_("running"), timeout=0)
+                n = ui.notification(_("Converting"), timeout=0)
 
                 loop = asyncio.get_event_loop()
                 with ThreadPoolExecutor(
@@ -1571,7 +1556,6 @@ def main() -> None:
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("--host", type=str, default="127.0.0.1")
     arg_parser.add_argument("--port", type=int, default=8080)
-    arg_parser.add_argument("--reload", action="store_true")
     arg_parser.add_argument("--server", action="store_true")
     arg_parser.add_argument("--daemon", action="store_true")
     args, argv = arg_parser.parse_known_args()
@@ -1585,11 +1569,10 @@ def main() -> None:
     ui.run(
         show=not args.daemon,
         window_size=None if args.server else (1200, 800),
-        reload=args.reload,
+        reload=False,
         host=args.host if args.server else None,
         port=args.port,
         storage_secret=storage_secret,
         title="LibreSVIP",
         favicon=res_dir / "libresvip.ico",
-        uvicorn_reload_includes="*.py,*.txt,*.yapsy-plugin,*.mo",
     )

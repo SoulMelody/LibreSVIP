@@ -13,7 +13,7 @@ from .ufdata_parser import UFDataParser
 
 class UFDataConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ufdata_project = UFData.model_validate(json.loads(to_unicode(path.read_bytes())))
+        ufdata_project = UFData.model_validate_json(to_unicode(path.read_bytes()))
         return UFDataParser(options).parse_project(ufdata_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:

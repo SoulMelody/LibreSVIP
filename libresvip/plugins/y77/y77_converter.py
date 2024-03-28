@@ -13,7 +13,7 @@ from .y77_parser import Y77Parser
 
 class Y77Converter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        y77_project = Y77Project.model_validate(json.loads(path.read_bytes().decode("utf-8")))
+        y77_project = Y77Project.model_validate_json(path.read_bytes())
         return Y77Parser(options).parse_project(y77_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
