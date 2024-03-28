@@ -20,7 +20,6 @@ from typing import (
     BinaryIO,
     Optional,
     SupportsFloat,
-    TypedDict,
     Union,
     get_args,
     get_type_hints,
@@ -44,7 +43,6 @@ from upath import UPath
 
 import libresvip
 from libresvip.core.config import (
-    ConversionMode,
     DarkMode,
     Language,
     LibreSvipBaseUISettings,
@@ -52,7 +50,7 @@ from libresvip.core.config import (
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import middleware_manager, plugin_manager
-from libresvip.model.base import BaseComplexModel, Project
+from libresvip.model.base import BaseComplexModel
 from libresvip.utils.text import shorten_error_message
 from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
@@ -127,44 +125,6 @@ class ConversionTask:
             self.upload_path.unlink()
         if self.output_path.exists():
             self.output_path.unlink()
-
-
-class ChildMergeTask(TypedDict):
-    name: str
-    upload_path: pathlib.Path
-    running: bool
-    success: Optional[bool]
-    error: Optional[str]
-    warning: Optional[str]
-    project: Optional[Project]
-
-
-class MergeTask(TypedDict):
-    name: str
-    output_path: pathlib.Path
-    project: Optional[Project]
-    child_tasks: list[ChildMergeTask]
-
-
-class ChildSplitTask(TypedDict):
-    name: str
-    project: Project
-    output_path: pathlib.Path
-    running: bool
-    success: Optional[bool]
-    error: Optional[str]
-    warning: Optional[str]
-
-
-class SplitTask(TypedDict):
-    name: str
-    upload_path: pathlib.Path
-    max_track_count: int
-    running: bool
-    success: Optional[bool]
-    error: Optional[str]
-    warning: Optional[str]
-    child_tasks: list[ChildSplitTask]
 
 
 @ui.page("/")
@@ -503,8 +463,6 @@ def page_layout(lang: Optional[str] = None) -> None:
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
             default_factory=dict,
         )
-        split_tasks: list[SplitTask] = dataclasses.field(default_factory=list)
-        merge_tasks: list[MergeTask] = dataclasses.field(default_factory=list)
 
         def __post_init__(self) -> None:
             self.middleware_enabled_states = create_model(
@@ -784,33 +742,32 @@ def page_layout(lang: Optional[str] = None) -> None:
             task.running = False
 
         async def batch_convert(self) -> None:
-            if app.storage.user["last_conversion_mode"] == ConversionMode.DIRECT.value:
-                n = ui.notification(_("Converting"), timeout=0)
+            n = ui.notification(_("Converting"), timeout=0)
 
-                loop = asyncio.get_event_loop()
-                with ThreadPoolExecutor(
-                    max_workers=max(len(self.files_to_convert), 4),
-                ) as executor:
-                    futures: list[asyncio.Future[None]] = [
-                        loop.run_in_executor(
-                            executor,
-                            self.convert_one,
-                            task,
-                        )
-                        for task in self.files_to_convert.values()
-                    ]
-                    for i, future in enumerate(asyncio.as_completed(futures)):
-                        await future
-                        n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
-                        n.spinner = True
-                n.close_button = _("Close")
-                n.spinner = False
-                if any(not task.success for task in self.files_to_convert.values()):
-                    n.message = _("Conversion Failed")
-                    n.type = "negative"
-                else:
-                    n.message = _("Conversion Successful")
-                    n.type = "positive"
+            loop = asyncio.get_event_loop()
+            with ThreadPoolExecutor(
+                max_workers=max(len(self.files_to_convert), 4),
+            ) as executor:
+                futures: list[asyncio.Future[None]] = [
+                    loop.run_in_executor(
+                        executor,
+                        self.convert_one,
+                        task,
+                    )
+                    for task in self.files_to_convert.values()
+                ]
+                for i, future in enumerate(asyncio.as_completed(futures)):
+                    await future
+                    n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
+                    n.spinner = True
+            n.close_button = _("Close")
+            n.spinner = False
+            if any(not task.success for task in self.files_to_convert.values()):
+                n.message = _("Conversion Failed")
+                n.type = "negative"
+            else:
+                n.message = _("Conversion Successful")
+                n.type = "positive"
 
         def export_all(self, request: Request) -> Response:
             if result := self._export_all():
@@ -1259,22 +1216,8 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     def tasks_area() -> None:
         with ui.card().classes("w-full h-full") as tasks_card:
-            # ui.label(_("Import project")).classes("text-h5 font-bold")
-            with ui.tabs().classes("w-full") as conversion_mode_tabs:
-                direct = ui.tab("Direct", _("Direct"))
-                merge = ui.tab("Merge", _("Merge"))
-                split = ui.tab("Split", _("Split"))
-            with (
-                ui.tab_panels(conversion_mode_tabs, value=app.storage.user["last_conversion_mode"])
-                .classes("w-full")
-                .bind_value(app.storage.user, "last_conversion_mode")
-            ):
-                with ui.tab_panel(direct):
-                    selected_formats.tasks_container()
-                with ui.tab_panel(merge):
-                    pass
-                with ui.tab_panel(split):
-                    pass
+            ui.label(_("Import project")).classes("text-h5 font-bold")
+            selected_formats.tasks_container()
             tasks_card.bind_visibility_from(
                 selected_formats,
                 "task_count",

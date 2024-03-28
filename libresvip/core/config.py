@@ -65,7 +65,6 @@ class ConversionMode(enum.Enum):
 @dataclass
 class LibreSvipBaseUISettings:
     language: Language = dataclasses.field(default_factory=Language.auto)
-    last_conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
     last_input_format: Optional[str] = dataclasses.field(default=None)
     last_output_format: Optional[str] = dataclasses.field(default=None)
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
@@ -77,6 +76,8 @@ class LibreSvipBaseUISettings:
 class LibreSvipSettings(LibreSvipBaseUISettings):
     disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # GUI Only
+    last_conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
+    max_track_count: int = dataclasses.field(default=1)
     save_folder: pathlib.Path = dataclasses.field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
     conflict_policy: ConflictPolicy = dataclasses.field(default=ConflictPolicy.PROMPT)

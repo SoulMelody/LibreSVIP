@@ -276,73 +276,90 @@ Dialog {
             }
             ColumnLayout {
                 Layout.margins: 15
-                RadioButton {
-                    ButtonGroup.group: saveFolderGroup
-                    id: sameAsSourceRadio
-                    text: qsTr("Same as Source")
-                }
-                RadioButton {
-                    ButtonGroup.group: saveFolderGroup
-                    id: desktopRadio
-                    text: qsTr("Desktop")
-                }
-                RadioButton {
-                    ButtonGroup.group: saveFolderGroup
-                    id: presetRadio
-                    enabled: dialogs.folderPresetsList.count > 0
-                    text: qsTr("Preset Folder")
-                    ToolTip {
-                        id: presetRadioToolTip
-                        visible: presetRadio.hovered && text !== ""
-                        Component.onCompleted: {
-                            if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                            }
-                        }
-                        Connections {
-                            target: dialogs.folderPresetBtnGroup
-                            function onClicked() {
+                GridLayout {
+                    Layout.fillWidth: true
+                    rows: 2
+                    columns: 2
+                    RadioButton {
+                        Layout.fillWidth: true
+                        Layout.row: 0
+                        Layout.column: 0
+                        ButtonGroup.group: saveFolderGroup
+                        id: sameAsSourceRadio
+                        text: qsTr("Same as Source")
+                    }
+                    RadioButton {
+                        Layout.fillWidth: true
+                        Layout.row: 0
+                        Layout.column: 1
+                        ButtonGroup.group: saveFolderGroup
+                        id: desktopRadio
+                        text: qsTr("Desktop")
+                    }
+                    RadioButton {
+                        Layout.fillWidth: true
+                        Layout.row: 1
+                        Layout.column: 0
+                        ButtonGroup.group: saveFolderGroup
+                        id: presetRadio
+                        enabled: dialogs.folderPresetsList.count > 0
+                        text: qsTr("Preset Folder")
+                        ToolTip {
+                            id: presetRadioToolTip
+                            visible: presetRadio.hovered && text !== ""
+                            Component.onCompleted: {
                                 if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                    presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                    if (presetRadio.checked) {
-                                        let save_folder = ConfigItems.get_save_folder()
-                                        if (save_folder !== presetRadioToolTip.text) {
-                                            ConfigItems.set_save_folder(presetRadioToolTip.text)
-                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                                    text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                }
+                            }
+                            Connections {
+                                target: dialogs.folderPresetBtnGroup
+                                function onClicked() {
+                                    if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        if (presetRadio.checked) {
+                                            let save_folder = ConfigItems.get_save_folder()
+                                            if (save_folder !== presetRadioToolTip.text) {
+                                                ConfigItems.set_save_folder(presetRadioToolTip.text)
+                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        Connections {
-                            target: dialogs.folderPresetsList.model
-                            function onDataChanged(idx1, idx2, value) {
-                                if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                    presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                    if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                        let save_folder = ConfigItems.get_save_folder()
-                                        if (save_folder !== presetRadioToolTip.text) {
-                                            ConfigItems.set_save_folder(presetRadioToolTip.text)
-                                            dialogs.save_folder_changed(presetRadioToolTip.text)
+                            Connections {
+                                target: dialogs.folderPresetsList.model
+                                function onDataChanged(idx1, idx2, value) {
+                                    if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
+                                            let save_folder = ConfigItems.get_save_folder()
+                                            if (save_folder !== presetRadioToolTip.text) {
+                                                ConfigItems.set_save_folder(presetRadioToolTip.text)
+                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            function onRowsRemoved(idx, first, last) {
-                                if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
-                                    presetRadioToolTip.text = ""
-                                    if (presetRadio.checked) {
-                                        dialogs.save_folder_changed(ConfigItems.get_save_folder())
+                                function onRowsRemoved(idx, first, last) {
+                                    if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
+                                        presetRadioToolTip.text = ""
+                                        if (presetRadio.checked) {
+                                            dialogs.save_folder_changed(ConfigItems.get_save_folder())
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                RadioButton {
-                    ButtonGroup.group: saveFolderGroup
-                    id: customRadio
-                    text: qsTr("Custom (Browse ...)")
+                    RadioButton {
+                        Layout.fillWidth: true
+                        Layout.row: 1
+                        Layout.column: 1
+                        ButtonGroup.group: saveFolderGroup
+                        id: customRadio
+                        text: qsTr("Custom (Browse ...)")
+                    }
                 }
                 Rectangle {
                     Layout.fillWidth: true
@@ -587,7 +604,7 @@ Dialog {
             TabButton {
                 id: pluginsSettingsBtn
                 width: 200
-                text: qsTr("Select Plugins")
+                text: qsTr("Format Provider Plugins")
                 anchors.top: savePathSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing

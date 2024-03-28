@@ -114,8 +114,7 @@ class RelativePitchCurve:
                     if point.y:
                         prev_y = point.y
                     else:
-                        if prev_y:
-                            converted_data.append(Point(x=cur_x, y=-100))
+                        converted_data.append(Point(x=cur_x, y=-100))
                         prev_y = None
                 else:
                     prev_y = None if point.y == -100 else y

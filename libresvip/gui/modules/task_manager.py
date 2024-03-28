@@ -30,10 +30,10 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # 
 from libresvip.core.config import settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import middleware_manager, plugin_manager
+from libresvip.gui.models.list_models import ModelProxy
 from libresvip.model.base import BaseComplexModel, BaseModel
 
 from .url_opener import open_path
-from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
