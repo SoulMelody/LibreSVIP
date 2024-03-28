@@ -52,7 +52,7 @@ from libresvip.core.config import (
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import middleware_manager, plugin_manager
-from libresvip.model.base import BaseComplexModel
+from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.text import shorten_error_message
 from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
@@ -109,13 +109,13 @@ class ConversionTask:
     name: str
     upload_path: pathlib.Path
     output_path: pathlib.Path
-    converting: bool
+    running: bool
     success: Optional[bool]
     error: Optional[str]
     warning: Optional[str]
 
     def reset(self) -> None:
-        self.converting = False
+        self.running = False
         self.success = None
         self.error = None
         self.warning = None
@@ -127,6 +127,44 @@ class ConversionTask:
             self.upload_path.unlink()
         if self.output_path.exists():
             self.output_path.unlink()
+
+
+class ChildMergeTask(TypedDict):
+    name: str
+    upload_path: pathlib.Path
+    running: bool
+    success: Optional[bool]
+    error: Optional[str]
+    warning: Optional[str]
+    project: Optional[Project]
+
+
+class MergeTask(TypedDict):
+    name: str
+    output_path: pathlib.Path
+    project: Optional[Project]
+    child_tasks: list[ChildMergeTask]
+
+
+class ChildSplitTask(TypedDict):
+    name: str
+    project: Project
+    output_path: pathlib.Path
+    running: bool
+    success: Optional[bool]
+    error: Optional[str]
+    warning: Optional[str]
+
+
+class SplitTask(TypedDict):
+    name: str
+    upload_path: pathlib.Path
+    max_track_count: int
+    running: bool
+    success: Optional[bool]
+    error: Optional[str]
+    warning: Optional[str]
+    child_tasks: list[ChildSplitTask]
 
 
 @ui.page("/")
@@ -480,6 +518,8 @@ def page_layout(lang: Optional[str] = None) -> None:
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
             default_factory=dict,
         )
+        split_tasks: list[SplitTask] = dataclasses.field(default_factory=list)
+        merge_tasks: list[MergeTask] = dataclasses.field(default_factory=list)
 
         def __post_init__(self) -> None:
             self.middleware_enabled_states = create_model(
@@ -549,7 +589,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.label(info.name).classes("flex-grow")
                         ui.spinner().props("size=lg").bind_visibility_from(
                             info,
-                            "converting",
+                            "running",
                         )
                         ui.icon("check", size="lg").classes(
                             "text-green-500",
@@ -620,7 +660,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
-                            on_click=functools.partial(selected_formats.save_file, info.name),
+                            on_click=functools.partial(self.save_file, info.name),
                         ).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props(
                             "round",
@@ -648,7 +688,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 name=name,
                 upload_path=upload_path,
                 output_path=output_path,
-                converting=False,
+                running=False,
                 success=None,
                 error=None,
                 warning=None,
@@ -696,7 +736,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         def convert_one(self, task: ConversionTask) -> None:
             task.reset()
             lazy_translation.set(translation)
-            task.converting = True
+            task.running = True
             try:
                 with warnings.catch_warnings(record=True) as w:
                     warnings.simplefilter("always", BaseWarning)
@@ -756,11 +796,11 @@ def page_layout(lang: Optional[str] = None) -> None:
             except Exception:
                 task.success = False
                 task.error = traceback.format_exc()
-            task.converting = False
+            task.running = False
 
         async def batch_convert(self) -> None:
-            if app.storage.user["last_conversion_mode"] == ConversionMode.DIRECT:
-                n = ui.notification(_("Converting"), timeout=0)
+            if app.storage.user["last_conversion_mode"] == ConversionMode.DIRECT.value:
+                n = ui.notification(_("running"), timeout=0)
 
                 loop = asyncio.get_event_loop()
                 with ThreadPoolExecutor(
@@ -968,158 +1008,166 @@ def page_layout(lang: Optional[str] = None) -> None:
                             format_item.value = format_item._values[key]
 
         ui.keyboard(on_key=handle_key, active=True)
-        with ui.button(_("Convert"), on_click=lambda: convert_menu.open(), icon="loop"):
-            ui.tooltip("Alt+C")
-            with ui.menu() as convert_menu:
-                with ui.menu_item(
-                    on_click=selected_formats.add_upload,
-                ):
-                    ui.tooltip("Alt+O")
-                    with ui.row().classes("items-center"):
-                        ui.icon("file_open").classes("text-lg")
-                        ui.label(_("Import project"))
-                with ui.menu_item(
-                    on_click=selected_formats.batch_convert,
-                ).bind_visibility_from(
-                    selected_formats,
-                    "task_count",
-                    backward=bool,
-                ):
-                    ui.tooltip("Alt+Enter")
-                    with ui.row().classes("items-center"):
-                        ui.icon("play_arrow").classes("text-lg")
-                        ui.label(_("Convert"))
-                with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
-                    selected_formats,
-                    "task_count",
-                    backward=bool,
-                ):
-                    ui.tooltip("Alt+/")
-                    with ui.row().classes("items-center"):
-                        ui.icon("refresh").classes("text-lg")
-                        ui.label(_("Clear Task List"))
-                ui.separator()
-                with ui.menu_item(on_click=swap_values):
-                    ui.tooltip("Alt+\\")
-                    with ui.row().classes("items-center"):
-                        ui.icon("swap_vert").classes("text-lg")
-                        ui.label(_("Swap Input and Output"))
-        with ui.button(
-            _("Import format"),
-            on_click=lambda: input_formats_menu.open(),
-            icon="login",
-        ):
-            ui.tooltip("Alt+[")
-            with ui.menu() as input_formats_menu:
-                input_format_item = (
-                    ui.radio(
+        with ui.row():
+            with ui.button(_("Convert"), on_click=lambda: convert_menu.open(), icon="loop"):
+                ui.tooltip("Alt+C")
+                with ui.menu() as convert_menu:
+                    with ui.menu_item(
+                        on_click=selected_formats.add_upload,
+                    ):
+                        ui.tooltip("Alt+O")
+                        with ui.row().classes("items-center"):
+                            ui.icon("file_open").classes("text-lg")
+                            ui.label(_("Import project"))
+                    with ui.menu_item(
+                        on_click=selected_formats.batch_convert,
+                    ).bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    ):
+                        ui.tooltip("Alt+Enter")
+                        with ui.row().classes("items-center"):
+                            ui.icon("play_arrow").classes("text-lg")
+                            ui.label(_("Convert"))
+                    with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    ):
+                        ui.tooltip("Alt+/")
+                        with ui.row().classes("items-center"):
+                            ui.icon("refresh").classes("text-lg")
+                            ui.label(_("Clear Task List"))
+                    ui.separator()
+                    with ui.menu_item(on_click=swap_values):
+                        ui.tooltip("Alt+\\")
+                        with ui.row().classes("items-center"):
+                            ui.icon("swap_vert").classes("text-lg")
+                            ui.label(_("Swap Input and Output"))
+            with ui.button(
+                _("Import format"),
+                on_click=lambda: input_formats_menu.open(),
+                icon="login",
+            ):
+                ui.tooltip("Alt+[")
+                with ui.menu() as input_formats_menu:
+                    input_format_item = (
+                        ui.radio(
+                            {
+                                k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
+                                for i, (k, v) in enumerate(plugin_details.items())
+                            },
+                        )
+                        .bind_value(selected_formats, "input_format")
+                        .classes("text-sm")
+                    )
+            with ui.button(
+                _("Export format"),
+                on_click=lambda: output_formats_menu.open(),
+                icon="logout",
+            ):
+                ui.tooltip("Alt+]")
+                with ui.menu() as output_formats_menu:
+                    output_format_item = ui.radio(
                         {
                             k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
+                    ).bind_value(selected_formats, "output_format")
+            with ui.button(
+                _("Switch Theme"),
+                on_click=lambda: theme_menu.open(),
+                icon="palette",
+            ):
+                ui.tooltip("Alt+T")
+                with ui.menu() as theme_menu:
+                    with ui.menu_item(on_click=dark_toggler.disable):
+                        ui.tooltip("Alt+W")
+                        with ui.row().classes("items-center"):
+                            ui.icon("light_mode").classes("text-lg")
+                            ui.label(_("Light"))
+                    with ui.menu_item(on_click=dark_toggler.enable):
+                        ui.tooltip("Alt+B")
+                        with ui.row().classes("items-center"):
+                            ui.icon("dark_mode").classes("text-lg")
+                            ui.label(_("Dark"))
+                    with ui.menu_item(on_click=dark_toggler.auto):
+                        ui.tooltip("Alt+S")
+                        with ui.row().classes("items-center"):
+                            ui.icon("brightness_auto").classes("text-lg")
+                            ui.label(_("System"))
+            with ui.button(
+                _("Switch Language"),
+                on_click=lambda: lang_menu.open(),
+                icon="language",
+            ):
+                ui.tooltip("Alt+L")
+                with ui.menu() as lang_menu:
+                    ui.menu_item(
+                        "简体中文",
+                        on_click=lambda: ui.navigate.to("/?lang=zh_CN")
+                        if lang != "zh_CN"
+                        else None,
                     )
-                    .bind_value(selected_formats, "input_format")
-                    .classes("text-sm")
-                )
-        with ui.button(
-            _("Export format"),
-            on_click=lambda: output_formats_menu.open(),
-            icon="logout",
-        ):
-            ui.tooltip("Alt+]")
-            with ui.menu() as output_formats_menu:
-                output_format_item = ui.radio(
-                    {
-                        k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
-                        for i, (k, v) in enumerate(plugin_details.items())
-                    },
-                ).bind_value(selected_formats, "output_format")
-        with ui.button(
-            _("Switch Theme"),
-            on_click=lambda: theme_menu.open(),
-            icon="palette",
-        ):
-            ui.tooltip("Alt+T")
-            with ui.menu() as theme_menu:
-                with ui.menu_item(on_click=dark_toggler.disable):
-                    ui.tooltip("Alt+W")
-                    with ui.row().classes("items-center"):
-                        ui.icon("light_mode").classes("text-lg")
-                        ui.label(_("Light"))
-                with ui.menu_item(on_click=dark_toggler.enable):
-                    ui.tooltip("Alt+B")
-                    with ui.row().classes("items-center"):
-                        ui.icon("dark_mode").classes("text-lg")
-                        ui.label(_("Dark"))
-                with ui.menu_item(on_click=dark_toggler.auto):
-                    ui.tooltip("Alt+S")
-                    with ui.row().classes("items-center"):
-                        ui.icon("brightness_auto").classes("text-lg")
-                        ui.label(_("System"))
-        with ui.button(
-            _("Switch Language"),
-            on_click=lambda: lang_menu.open(),
-            icon="language",
-        ):
-            ui.tooltip("Alt+L")
-            with ui.menu() as lang_menu:
-                ui.menu_item(
-                    "简体中文",
-                    on_click=lambda: ui.navigate.to("/?lang=zh_CN") if lang != "zh_CN" else None,
-                )
-                ui.menu_item(
-                    "English",
-                    on_click=lambda: ui.navigate.to("/?lang=en_US") if lang != "en_US" else None,
-                )
-                ui.menu_item("日本語").props("disabled")
-        with ui.dialog() as about_dialog, ui.card():
-            ui.label(_("About")).classes("text-lg")
-            with ui.column().classes("text-center w-full"):
-                ui.label(_("LibreSVIP")).classes("text-h4 font-bold w-full")
-                ui.label(_("Version: ") + libresvip.__version__).classes(
-                    "text-md w-full",
-                )
-                ui.label(_("Author: SoulMelody")).classes("text-md w-full")
-                with ui.row().classes("w-full justify-center"):
-                    with ui.element("q-chip").props("icon=live_tv"):
+                    ui.menu_item(
+                        "English",
+                        on_click=lambda: ui.navigate.to("/?lang=en_US")
+                        if lang != "en_US"
+                        else None,
+                    )
+                    ui.menu_item("日本語").props("disabled")
+            with ui.dialog() as about_dialog, ui.card():
+                ui.label(_("About")).classes("text-lg")
+                with ui.column().classes("text-center w-full"):
+                    ui.label(_("LibreSVIP")).classes("text-h4 font-bold w-full")
+                    ui.label(_("Version: ") + libresvip.__version__).classes(
+                        "text-md w-full",
+                    )
+                    ui.label(_("Author: SoulMelody")).classes("text-md w-full")
+                    with ui.row().classes("w-full justify-center"):
+                        with ui.element("q-chip").props("icon=live_tv"):
+                            ui.link(
+                                _("Author's Profile"),
+                                "https://space.bilibili.com/175862486",
+                                new_tab=True,
+                            )
+                        with ui.element("q-chip").props("icon=logo_dev"):
+                            ui.link(
+                                _("Repo URL"),
+                                "https://github.com/SoulMelody/LibreSVIP",
+                                new_tab=True,
+                            )
+                    ui.label(
+                        _(
+                            "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.",
+                        ),
+                    ).classes("text-md w-full")
+                    ui.label(
+                        _(
+                            "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.",
+                        ),
+                    ).classes("text-md w-full")
+                with ui.card_actions().props("align=right").classes("w-full"):
+                    ui.button(_("Close"), on_click=about_dialog.close)
+            with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
+                ui.tooltip("Alt+H")
+                with ui.menu() as help_menu:
+                    with ui.menu_item(on_click=about_dialog.open):
+                        ui.tooltip("Alt+I")
+                        with ui.row().classes("items-center"):
+                            ui.icon("info").classes("text-lg")
+                            ui.label(_("About"))
+                    with ui.menu_item(), ui.row().classes("items-center"):
+                        ui.icon("text_snippet").classes("text-lg")
                         ui.link(
-                            _("Author's Profile"),
-                            "https://space.bilibili.com/175862486",
+                            _("Documentation"),
+                            target="https://soulmelody.github.io/LibreSVIP",
                             new_tab=True,
                         )
-                    with ui.element("q-chip").props("icon=logo_dev"):
-                        ui.link(
-                            _("Repo URL"),
-                            "https://github.com/SoulMelody/LibreSVIP",
-                            new_tab=True,
-                        )
-                ui.label(
-                    _(
-                        "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.",
-                    ),
-                ).classes("text-md w-full")
-                ui.label(
-                    _(
-                        "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.",
-                    ),
-                ).classes("text-md w-full")
-            with ui.card_actions().props("align=right").classes("w-full"):
-                ui.button(_("Close"), on_click=about_dialog.close)
-        with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
-            ui.tooltip("Alt+H")
-            with ui.menu() as help_menu:
-                with ui.menu_item(on_click=about_dialog.open):
-                    ui.tooltip("Alt+I")
-                    with ui.row().classes("items-center"):
-                        ui.icon("info").classes("text-lg")
-                        ui.label(_("About"))
-                with ui.menu_item(), ui.row().classes("items-center"):
-                    ui.icon("text_snippet").classes("text-lg")
-                    ui.link(
-                        _("Documentation"),
-                        target="https://soulmelody.github.io/LibreSVIP",
-                        new_tab=True,
-                    )
+        with ui.tabs().classes("w-full sm:visible lg:h-0 lg:invisible") as tabs:
+            format_select_tab = ui.tab(_("Select File Formats"))
+            options_tab = ui.tab(_("Advanced Settings"))
     uploader = ui.upload(
         multiple=True,
         on_upload=selected_formats.add_task,
@@ -1415,31 +1463,30 @@ def page_layout(lang: Optional[str] = None) -> None:
                     tasks_area()
             with main_splitter.after:
                 options_area()
-        with ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible"):
-            with ui.tabs().classes("w-full") as tabs:
-                format_select_tab = ui.tab(_("Select File Formats"))
-                options_tab = ui.tab(_("Advanced Settings"))
-            with ui.tab_panels(tabs, value=format_select_tab).classes("h-full w-full"):
-                with (
-                    ui.tab_panel(format_select_tab),
-                    ui.splitter(limits=(60, 60), horizontal=True, value=60).classes(
-                        "h-full w-full"
-                    ) as format_select_splitter,
-                ):
-                    with format_select_splitter.before, ui.card().classes("h-full w-full"):
-                        file_format_area()
-                    with format_select_splitter.after:
-                        tasks_area()
-                with (
-                    ui.tab_panel(options_tab),
-                    ui.splitter(limits=(50, 60), horizontal=True).classes(
-                        "h-full w-full"
-                    ) as options_splitter,
-                ):
-                    with options_splitter.before:
-                        options_area()
-                    with options_splitter.after:
-                        tasks_area()
+        with (
+            ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible"),
+            ui.tab_panels(tabs, value=format_select_tab).classes("h-full w-full"),
+        ):
+            with (
+                ui.tab_panel(format_select_tab),
+                ui.splitter(limits=(60, 60), horizontal=True, value=60).classes(
+                    "h-full w-full"
+                ) as format_select_splitter,
+            ):
+                with format_select_splitter.before, ui.card().classes("h-full w-full"):
+                    file_format_area()
+                with format_select_splitter.after:
+                    tasks_area()
+            with (
+                ui.tab_panel(options_tab),
+                ui.splitter(limits=(50, 60), horizontal=True).classes(
+                    "h-full w-full"
+                ) as options_splitter,
+            ):
+                with options_splitter.before:
+                    options_area()
+                with options_splitter.after:
+                    tasks_area()
     with ui.footer().classes("bg-transparent"):
         ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
 
