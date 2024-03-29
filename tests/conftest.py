@@ -1,9 +1,4 @@
-import pathlib
-import sys
-
 import pytest
-
-sys.path.append(str(pathlib.Path().parent))
 
 
 @pytest.fixture()
