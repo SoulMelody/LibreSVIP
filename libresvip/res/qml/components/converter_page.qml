@@ -11,12 +11,12 @@ import LibreSVIP
 Page {
     title: qsTr("Converter")
 
-    property alias taskList: taskListView;
-    property alias startConversionButton: startConversionBtn;
-    property alias saveFolder: saveFolderTextField;
-    property alias inputFormatComboBox: inputFormat;
-    property alias outputFormatComboBox: outputFormat;
-    property alias swapInputOutputButton: swapInputOutput;
+    property alias taskList: taskListView
+    property alias startConversionButton: startConversionBtn
+    property alias saveFolder: saveFolderTextField
+    property alias inputFormatComboBox: inputFormat
+    property alias outputFormatComboBox: outputFormat
+    property alias swapInputOutputButton: swapInputOutput
 
     Component {
         id: colorPickerItem
@@ -636,8 +636,38 @@ Page {
                 text: qsTr("Task List")
                 font.pixelSize: 20
                 height: 30
+            }    
+            TabBar {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 50
+                ToolTip.delay: 1000
+                ToolTip.timeout: 5000
+                ToolTip.visible: hovered
+                ToolTip.text: qsTr("Switch Conversion Mode")
+
+                TabButton {
+                    text: qsTr("Direct")
+                    onClicked: {
+                        tasksStack.currentIndex = 0
+                    }
+                }
+
+                TabButton {
+                    text: qsTr("Merge")
+                    onClicked: {
+                        tasksStack.currentIndex = 1
+                    }
+                }
+
+                TabButton {
+                    text: qsTr("Split")
+                    onClicked: {
+                        tasksStack.currentIndex = 2
+                    }
+                }
             }
             StackLayout {
+                id: tasksStack
                 Layout.alignment: Qt.AlignTop
                 Layout.fillHeight: true
                 Layout.fillWidth: true
@@ -654,15 +684,23 @@ Page {
                         )
                     }
                 }
+
+                ScrollView {
+
+                }
+
+                ScrollView {
+                    
+                }
             }
             Rectangle {
                 Layout.alignment: Qt.AlignBottom
                 color: "transparent"
                 Timer {
-                    id: hideTaskToolbarTimer;
-                    interval: 1000;
-                    repeat: true;
-                    triggeredOnStart: false;
+                    id: hideTaskToolbarTimer
+                    interval: 1000
+                    repeat: true
+                    triggeredOnStart: false
                     onTriggered: {
                         if (
                             toggleTaskToolbarButton.hovered ||
@@ -1016,7 +1054,7 @@ Page {
                                     let model = inputFields.model.get(i)
                                     let separator_item = separatorItem.createObject(inputContainer)
                                     this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null;
+                                    let item = null
                                     switch (model.type) {
                                         case "bool": {
                                             item = switchItem.createObject(inputContainer, {
@@ -1175,7 +1213,7 @@ Page {
                                             let middleware_state = middlewareFields.model.get(i)
                                             let separator_item = separatorItem.createObject(middlewareContainer)
                                             this.Component.onDestruction.connect(separator_item.destroy)
-                                            let item = null;
+                                            let item = null
                                             switch (model.type) {
                                                 case "bool": {
                                                     item = switchItem.createObject(middlewareContainer, {
@@ -1350,7 +1388,7 @@ Page {
                                     let model = outputFields.model.get(i)
                                     let separator_item = separatorItem.createObject(outputContainer)
                                     this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null;
+                                    let item = null
                                     switch (model.type) {
                                         case "bool": {
                                             item = switchItem.createObject(outputContainer, {
@@ -1675,7 +1713,6 @@ Page {
         anchors.margins: 10
         Layout.fillWidth: true
         TabBar {
-            id: navigationRail
             Layout.fillWidth: true
             Layout.preferredHeight: 50
 
