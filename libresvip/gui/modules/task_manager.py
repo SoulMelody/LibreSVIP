@@ -1,4 +1,5 @@
 import contextlib
+import dataclasses
 import enum
 import pathlib
 import traceback
@@ -12,6 +13,7 @@ from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from PySide6.QtCore import (
+    Property,
     QAbstractListModel,
     QModelIndex,
     QObject,
@@ -27,9 +29,10 @@ from upath import UPath
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
 
-from libresvip.core.config import settings
+from libresvip.core.config import ConversionMode, settings
 from libresvip.core.warning_types import BaseWarning
 from libresvip.extension.manager import middleware_manager, plugin_manager
+from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
 from libresvip.model.base import BaseComplexModel, BaseModel
 
@@ -150,24 +153,17 @@ class ConversionWorker(QRunnable):
 class TaskManager(QObject):
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
+    task_count_changed = Signal(int)
     busy_changed = Signal(bool)
     all_tasks_finished = Signal()
     _start_conversion = Signal()
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
-        self.tasks = ModelProxy(
-            {
-                "path": "",
-                "name": "",
-                "stem": "",
-                "ext": "",
-                "tmp_path": "",
-                "success": False,
-                "error": "",
-                "warning": "",
-            }
-        )
+        self.conversion_mode = ConversionMode.DIRECT.value
+        self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
+        self.tasks.rowsInserted.connect(self._on_tasks_changed)
+        self.tasks.rowsRemoved.connect(self._on_tasks_changed)
         self.input_formats = ModelProxy({"value": "", "text": ""})
         self.output_formats = ModelProxy({"value": "", "text": ""})
         self.input_fields = ModelProxy(
@@ -242,6 +238,15 @@ class TaskManager(QObject):
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
 
+    def _on_tasks_changed(self, index: QModelIndex, start: int, end: int) -> None:
+        self.task_count_changed.emit(len(self.tasks))
+
+    @Property(int, notify=task_count_changed)
+    def count(self) -> int:
+        if self.conversion_mode == ConversionMode.DIRECT.value:
+            return len(self.tasks)
+        return 0
+
     @Slot(result=None)
     def reload_formats(self) -> None:
         self.input_formats.clear()
@@ -267,7 +272,6 @@ class TaskManager(QObject):
         )
         self.output_format_changed.emit("")
 
-    @Slot(QModelIndex, int, int)
     def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:
         for i in range(start, end + 1):
             path = UPath(self.tasks[i]["tmp_path"])
@@ -499,18 +503,16 @@ class TaskManager(QObject):
         for path in paths:
             path_obj = pathlib.Path(path)
             tasks.append(
-                {
-                    "path": path,
-                    "name": path_obj.name,
-                    "stem": path_obj.stem,
-                    "ext": self.output_ext,
-                    "tmp_path": "",
-                    "success": None,
-                    "error": "",
-                    "warning": "",
-                }
+                BaseTask(
+                    path=path,
+                    name=path_obj.name,
+                    stem=path_obj.stem,
+                    ext=self.output_ext,
+                    success=None,
+                )
             )
-        self.tasks.append_many(tasks)
+        if self.conversion_mode == ConversionMode.DIRECT.value:
+            self.tasks.append_many([dataclasses.asdict(task) for task in tasks])
         if (
             settings.auto_detect_input_format
             and path_obj is not None

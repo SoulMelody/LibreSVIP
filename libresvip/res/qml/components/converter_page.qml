@@ -592,13 +592,13 @@ Page {
             anchors.fill: parent
             anchors.margins: 12
             radius: 8
-            visible: taskListView.count == 0
+            visible: TaskManager.count == 0
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onEntered: {
-                    if (taskListView.count == 0) {
+                    if (TaskManager.count == 0) {
                         parent.opacity = 0.5
                     }
                 }
@@ -608,7 +608,7 @@ Page {
                     }
                 }
                 onClicked: {
-                    if (taskListView.count == 0) {
+                    if (TaskManager.count == 0) {
                         actions.openFile.trigger()
                     }
                 }
@@ -630,25 +630,29 @@ Page {
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 20
-            visible: taskListView.count > 0
+            visible: TaskManager.count > 0
             Label {
                 Layout.alignment: Qt.AlignTop
                 text: qsTr("Task List")
                 font.pixelSize: 20
                 height: 30
             }
-            ScrollView {
+            StackLayout {
                 Layout.alignment: Qt.AlignTop
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                contentWidth: availableWidth
-                ListView {
-                    id: taskListView
+                ScrollView {
+                    Layout.fillHeight: true
                     Layout.fillWidth: true
-                    model: TaskManager.qget("tasks")
-                    delegate: Qt.createComponent(
-                        "task_row.qml"
-                    )
+                    contentWidth: availableWidth
+                    ListView {
+                        id: taskListView
+                        Layout.fillWidth: true
+                        model: TaskManager.qget("tasks")
+                        delegate: Qt.createComponent(
+                            "task_row.qml"
+                        )
+                    }
                 }
             }
             Rectangle {
@@ -781,7 +785,7 @@ Page {
                             font.family: "Material Design Icons"
                             font.pixelSize: Qt.application.font.pixelSize * 1.5
                             radius: this.height / 2
-                            enabled: taskListView.count > 0
+                            enabled: TaskManager.count > 0
                             ToolTip.visible: hovered
                             ToolTip.text: qsTr("Clear Task List")
                             onHoveredChanged: {
@@ -842,7 +846,7 @@ Page {
                                 }
                             }
                             onClicked: {
-                                if (startConversionBtn.enabled) {
+                                if (startConversionBtn.enabled) {  // TODO
                                     for (var i = 0; i < taskListView.count; i++) {
                                         var task = taskListView.model.get(i)
                                         let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
@@ -1432,7 +1436,7 @@ Page {
                     property bool anim_running: false
                     anchors.fill: parent
                     radius: 10
-                    enabled: taskListView.count > 0
+                    enabled: TaskManager.count > 0
                     opacity: enabled ? 1 : 0.7
                     background: Rectangle {
                         color: startConversionBtn.base_color
@@ -1487,20 +1491,11 @@ Page {
                         actions.startConversion.trigger()
                     }
                     Connections {
-                        target: taskListView.model
-                        function onRowsInserted(idx, first, last) {
-                            startConversionBtn.enabled = true
-                        }
-                        function onRowsRemoved(idx, first, last) {
-                            startConversionBtn.enabled = !(first == 0 && last == taskListView.count - 1)
-                        }
-                    }
-                    Connections {
                         target: TaskManager
                         function onBusy_changed(busy) {
                             startConversionBtn.contentItem.text = busy ? qsTr("Converting") : qsTr("Start Conversion")
                             inputFormat.enabled = outputFormat.enabled = !busy
-                            startConversionBtn.enabled = taskListView.count > 0 && !busy
+                            startConversionBtn.enabled = TaskManager.count > 0 && !busy
                             startConversionBtn.anim_running = busy
                         }
                     }

@@ -187,7 +187,7 @@ ToolBar {
                             action: actions.clearTasks;
                             icon_name: "mdi7.refresh"
                             label: qsTr("Clear Tasks (Ctrl+R)");
-                            enabled: converterPage.taskList.count > 0
+                            enabled: TaskManager.count > 0
                         }
                         MenuSeparator {}
                         IconMenuItem {

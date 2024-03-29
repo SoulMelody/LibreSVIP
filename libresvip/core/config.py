@@ -76,7 +76,6 @@ class LibreSvipBaseUISettings:
 class LibreSvipSettings(LibreSvipBaseUISettings):
     disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # GUI Only
-    last_conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
     max_track_count: int = dataclasses.field(default=1)
     save_folder: pathlib.Path = dataclasses.field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
