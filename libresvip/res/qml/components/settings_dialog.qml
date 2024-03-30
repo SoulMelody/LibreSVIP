@@ -605,6 +605,7 @@ Dialog {
                 id: pluginsSettingsBtn
                 width: 200
                 text: qsTr("Format Provider Plugins")
+                enabled: !TaskManager.busy
                 anchors.top: savePathSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing

@@ -1,13 +1,12 @@
 import dataclasses
 import re
-import warnings
 from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import NotesWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -196,10 +195,10 @@ class BinarySvipGenerator:
             )
             if note_duration < MIN_NOTE_DURATION:
                 msg_prefix = _("Note duration is too short:")
-                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+                show_warning(f"{msg_prefix} {note.lyric}")
             elif note_duration > MAX_NOTE_DURATION:
                 msg_prefix = _("Note duration is too long:")
-                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+                show_warning(f"{msg_prefix} {note.lyric}")
             if note.edited_phones is not None:
                 xs_note.note_phone_info = self.generate_phones(note.edited_phones)
             if note.vibrato is not None:

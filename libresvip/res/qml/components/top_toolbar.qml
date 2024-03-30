@@ -211,7 +211,7 @@ ToolBar {
                             id: importFormatMenu
                             width: 300
                             title: qsTr("Input Format (&I)")
-                            enabled: converterPage.inputFormatComboBox.enabled
+                            enabled: !TaskManager.busy
                             ButtonGroup {
                                 id: inputFormatButtonGroup
                             }
@@ -269,7 +269,7 @@ ToolBar {
                             id: exportFormatMenu
                             width: 300
                             title: qsTr("Output Format (&E)")
-                            enabled: converterPage.outputFormatComboBox.enabled
+                            enabled: !TaskManager.busy
                             ButtonGroup {
                                 id: exportFormatButtonGroup
                             }

@@ -1,13 +1,12 @@
 import contextlib
 import pathlib
 import platform
-import warnings
 from typing import Optional, Union
 
 from pymediainfo import ET, MediaInfo
 from pymediainfo import Track as MediaInfoTrack
 
-from libresvip.core.warning_types import UnknownWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -33,5 +32,5 @@ def audio_track_info(
                         None,
                     )
         except FileNotFoundError:
-            warnings.warn(_("Audio file not found: ") + f"{file_path}", UnknownWarning)
+            show_warning(_("Audio file not found: ") + f"{file_path}")
     return None

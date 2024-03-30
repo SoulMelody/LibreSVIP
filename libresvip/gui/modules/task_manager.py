@@ -1,12 +1,13 @@
+from __future__ import annotations
+
 import contextlib
 import dataclasses
 import enum
 import pathlib
 import traceback
 import uuid
-import warnings
 import zipfile
-from typing import Any, Optional, get_args, get_type_hints
+from typing import TYPE_CHECKING, Any, Optional, get_args, get_type_hints
 
 import more_itertools
 from loguru import logger
@@ -30,11 +31,14 @@ from upath import UPath
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
 
 from libresvip.core.config import ConversionMode, settings
-from libresvip.core.warning_types import BaseWarning
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
 from libresvip.model.base import BaseComplexModel, BaseModel
+
+if TYPE_CHECKING:
+    from libresvip.gui.models.list_models import Items
 
 from .url_opener import open_path
 
@@ -44,13 +48,12 @@ QML_IMPORT_MINOR_VERSION = 0
 
 
 class ConversionWorkerSignals(QObject):
-    result = Signal(int, dict)
+    result = Signal(dict)
 
 
 class ConversionWorker(QRunnable):
     def __init__(
         self,
-        index: int,
         input_path: str,
         output_path: str,
         input_format: str,
@@ -61,7 +64,6 @@ class ConversionWorker(QRunnable):
         parent: Optional[QObject] = None,
     ) -> None:
         super().__init__(parent=parent)
-        self.index = index
         self.input_path = input_path
         self.output_path = output_path
         self.input_format = input_format
@@ -74,8 +76,8 @@ class ConversionWorker(QRunnable):
     @Slot()
     def run(self) -> None:
         try:
-            with warnings.catch_warnings(record=True) as w:
-                warnings.simplefilter("always", BaseWarning)
+            result_kwargs = {}
+            with CatchWarnings() as w:
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
                 if (
@@ -94,12 +96,11 @@ class ConversionWorker(QRunnable):
                     )
                     is None
                 ):
-                    self.signals.result.emit(
-                        self.index,
+                    result_kwargs.update(
                         {
                             "success": False,
                             "error": "Invalid options",
-                        },
+                        }
                     )
                 else:
                     project = input_plugin.plugin_object.load(
@@ -128,19 +129,18 @@ class ConversionWorker(QRunnable):
                         project,
                         output_option(**self.output_options),
                     )
-                    warning_str = "\n".join(str(each.message) for each in w)
-                    self.signals.result.emit(
-                        self.index,
+                    result_kwargs.update(
                         {
                             "success": True,
                             "tmp_path": self.output_path,
-                            "warning": warning_str,
-                        },
+                        }
                     )
+            if w.output:
+                result_kwargs["warning"] = w.output
+            self.signals.result.emit(result_kwargs)
         except Exception:
             with contextlib.suppress(RuntimeError):
                 self.signals.result.emit(
-                    self.index,
                     {
                         "success": False,
                         "error": traceback.format_exc(),
@@ -188,7 +188,6 @@ class TaskManager(QObject):
                 "choices": [],
             }
         )
-        self._busy = False
         self._output_fields_inited = False
         self.middleware_states = ModelProxy(
             {
@@ -299,7 +298,7 @@ class TaskManager(QObject):
 
     @Slot(result=bool)
     def start_conversion(self) -> bool:
-        if self.is_busy():
+        if self.busy:
             return False
         self._start_conversion.emit()
         return True
@@ -582,13 +581,9 @@ class TaskManager(QObject):
                     logger.debug(infos)
         return infos
 
-    @Slot(result=bool)
-    def is_busy(self) -> bool:
-        return self.thread_pool.active_thread_count > 0
-
     @Slot()
     def check_busy(self) -> None:
-        if self.is_busy():
+        if self.busy:
             return
         self.set_busy(False)
         if self.timer.active:
@@ -607,12 +602,11 @@ class TaskManager(QObject):
                     open_path(output_dir)
 
     def set_busy(self, busy: bool) -> None:
-        self._busy = busy
         self.busy_changed.emit(busy)
 
     @Property(bool, notify=busy_changed)
     def busy(self) -> bool:
-        return self._busy
+        return self.thread_pool.active_thread_count > 0
 
     @Slot()
     def start(self) -> None:
@@ -621,7 +615,6 @@ class TaskManager(QObject):
             for i in range(len(self.tasks)):
                 self.tasks.update(i, {"success": False, "error": error_message, "warning": ""})
             return
-        self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
         middleware_options = {
@@ -641,7 +634,6 @@ class TaskManager(QObject):
             input_path = self.tasks[i]["path"]
             output_path = f"memory:/{uuid.uuid4()}.{self.output_ext}"
             worker = ConversionWorker(
-                i,
                 input_path,
                 output_path,
                 self.input_format,
@@ -650,8 +642,14 @@ class TaskManager(QObject):
                 output_options,
                 middleware_options,
             )
+
+            def _update_func(item: Items, index: int = i) -> None:
+                self.tasks.update(index=index, item=item)
+
             worker.signals.result.connect(
-                self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+                _update_func, type=Qt.ConnectionType.BlockingQueuedConnection
             )
             self.thread_pool.start(worker)
+            if not i:
+                self.set_busy(True)
         self.timer.start()

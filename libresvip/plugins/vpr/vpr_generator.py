@@ -1,6 +1,5 @@
 import dataclasses
 import pathlib
-import warnings
 from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
@@ -9,7 +8,7 @@ from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Project,
@@ -214,11 +213,10 @@ class VocaloidGenerator:
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
         ]:
-            warnings.warn(
+            show_warning(
                 _(
                     'Phonemes of all notes were set to "la". Please use "Job" -> "Convert Phonemes to Match Languages in the menu of VOCALOID to reset them.'
-                ),
-                PhonemeWarning,
+                )
             )
         return tracks
 

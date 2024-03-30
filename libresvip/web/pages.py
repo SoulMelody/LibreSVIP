@@ -10,7 +10,6 @@ import secrets
 import textwrap
 import traceback
 import uuid
-import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
@@ -48,7 +47,7 @@ from libresvip.core.config import (
     LibreSvipBaseUISettings,
 )
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
-from libresvip.core.warning_types import BaseWarning
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils.text import shorten_error_message
@@ -681,8 +680,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             lazy_translation.set(translation)
             task.running = True
             try:
-                with warnings.catch_warnings(record=True) as w:
-                    warnings.simplefilter("always", BaseWarning)
+                with CatchWarnings() as w:
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
                     if (
@@ -734,8 +732,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                             output_option(**self.output_options),
                         )
                         task.success = True
-                if len(w):
-                    task.warning = "\n".join(str(warning.message) for warning in w)
+                if w.output:
+                    task.warning = w.output
             except Exception:
                 task.success = False
                 task.error = traceback.format_exc()
