@@ -7,7 +7,7 @@ import pathlib
 import traceback
 import uuid
 import zipfile
-from typing import TYPE_CHECKING, Any, Optional, get_args, get_type_hints
+from typing import Any, Optional, get_args, get_type_hints
 
 import more_itertools
 from loguru import logger
@@ -37,9 +37,6 @@ from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
 from libresvip.model.base import BaseComplexModel, BaseModel
 
-if TYPE_CHECKING:
-    from libresvip.gui.models.list_models import Items
-
 from .url_opener import open_path
 
 QML_IMPORT_NAME = "LibreSVIP"
@@ -48,12 +45,13 @@ QML_IMPORT_MINOR_VERSION = 0
 
 
 class ConversionWorkerSignals(QObject):
-    result = Signal(dict)
+    result = Signal(int, dict)
 
 
 class ConversionWorker(QRunnable):
     def __init__(
         self,
+        index: int,
         input_path: str,
         output_path: str,
         input_format: str,
@@ -64,6 +62,7 @@ class ConversionWorker(QRunnable):
         parent: Optional[QObject] = None,
     ) -> None:
         super().__init__(parent=parent)
+        self.index = index
         self.input_path = input_path
         self.output_path = output_path
         self.input_format = input_format
@@ -75,8 +74,8 @@ class ConversionWorker(QRunnable):
 
     @Slot()
     def run(self) -> None:
+        result_kwargs: dict[str, Any] = {"running": False}
         try:
-            result_kwargs = {}
             with CatchWarnings() as w:
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
@@ -129,23 +128,20 @@ class ConversionWorker(QRunnable):
                         project,
                         output_option(**self.output_options),
                     )
-                    result_kwargs.update(
-                        {
-                            "success": True,
-                            "tmp_path": self.output_path,
-                        }
-                    )
+                    result_kwargs |= {
+                        "success": True,
+                        "tmp_path": self.output_path,
+                    }
             if w.output:
                 result_kwargs["warning"] = w.output
-            self.signals.result.emit(result_kwargs)
+            self.signals.result.emit(self.index, result_kwargs)
         except Exception:
+            result_kwargs |= {
+                "success": False,
+                "error": traceback.format_exc(),
+            }
             with contextlib.suppress(RuntimeError):
-                self.signals.result.emit(
-                    {
-                        "success": False,
-                        "error": traceback.format_exc(),
-                    },
-                )
+                self.signals.result.emit(self.index, result_kwargs)
 
 
 @QmlElement
@@ -634,6 +630,7 @@ class TaskManager(QObject):
             input_path = self.tasks[i]["path"]
             output_path = f"memory:/{uuid.uuid4()}.{self.output_ext}"
             worker = ConversionWorker(
+                i,
                 input_path,
                 output_path,
                 self.input_format,
@@ -642,13 +639,10 @@ class TaskManager(QObject):
                 output_options,
                 middleware_options,
             )
-
-            def _update_func(item: Items, index: int = i) -> None:
-                self.tasks.update(index=index, item=item)
-
             worker.signals.result.connect(
-                _update_func, type=Qt.ConnectionType.BlockingQueuedConnection
+                self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
             )
+            self.tasks.update(i, {"running": True, "success": None, "error": None, "warning": None})
             self.thread_pool.start(worker)
             if not i:
                 self.set_busy(True)
