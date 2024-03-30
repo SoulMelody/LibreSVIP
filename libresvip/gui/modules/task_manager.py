@@ -155,7 +155,6 @@ class TaskManager(QObject):
     output_format_changed = Signal(str)
     task_count_changed = Signal(int)
     busy_changed = Signal(bool)
-    all_tasks_finished = Signal()
     _start_conversion = Signal()
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
@@ -189,6 +188,7 @@ class TaskManager(QObject):
                 "choices": [],
             }
         )
+        self._busy = False
         self._output_fields_inited = False
         self.middleware_states = ModelProxy(
             {
@@ -605,10 +605,14 @@ class TaskManager(QObject):
                 if success_task is not None:
                     output_dir = self.output_dir(success_task)
                     open_path(output_dir)
-            self.all_tasks_finished.emit()
 
     def set_busy(self, busy: bool) -> None:
+        self._busy = busy
         self.busy_changed.emit(busy)
+
+    @Property(bool, notify=busy_changed)
+    def busy(self) -> bool:
+        return self._busy
 
     @Slot()
     def start(self) -> None:

@@ -286,6 +286,7 @@ Page {
                 LabeledComboBox {
                     id: inputFormat
                     Layout.fillWidth: true
+                    enabled: !TaskManager.busy
                     hint: qsTr("Input Format: ")
                     onActivated: (index) => {
                         if (
@@ -463,6 +464,7 @@ Page {
                 LabeledComboBox {
                     id: outputFormat
                     Layout.fillWidth: true
+                    enabled: !TaskManager.busy
                     hint: qsTr("Output Format: ")
                     onActivated: (index) => {
                         TaskManager.set_str("output_format", currentValue)
@@ -1471,10 +1473,10 @@ Page {
                         Material.Indigo
                     )
                     property int anim_index: 10
-                    property bool anim_running: false
+                    property bool anim_running: TaskManager.busy
                     anchors.fill: parent
                     radius: 10
-                    enabled: TaskManager.count > 0
+                    enabled: TaskManager.count > 0 && !TaskManager.busy
                     opacity: enabled ? 1 : 0.7
                     background: Rectangle {
                         color: startConversionBtn.base_color
@@ -1519,7 +1521,7 @@ Page {
                         }
                     }
                     contentItem: Label {
-                        text: qsTr("Start Conversion")
+                        text: TaskManager.busy ? qsTr("Converting") : qsTr("Start Conversion")
                         wrapMode: Text.WordWrap
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -1527,15 +1529,6 @@ Page {
                     }
                     onClicked: {
                         actions.startConversion.trigger()
-                    }
-                    Connections {
-                        target: TaskManager
-                        function onBusy_changed(busy) {
-                            startConversionBtn.contentItem.text = busy ? qsTr("Converting") : qsTr("Start Conversion")
-                            inputFormat.enabled = outputFormat.enabled = !busy
-                            startConversionBtn.enabled = TaskManager.count > 0 && !busy
-                            startConversionBtn.anim_running = busy
-                        }
                     }
                 }
             }

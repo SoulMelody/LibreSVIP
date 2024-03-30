@@ -291,60 +291,6 @@ ColumnLayout {
     }
     Connections {
         target: TaskManager
-        function onAll_tasks_finished() {
-            let task_result = converterPage.taskList.model.get(index)
-            if (task_result.success) {
-                let conflict = TaskManager.output_path_exists(index)
-                let conflict_policy = ConfigItems.get_conflict_policy()
-                if (!conflict || conflict_policy == "Overwrite" || (
-                    conflict_policy == "Prompt" && window.yesToAll
-                )) {
-                    let move_result = TaskManager.move_to_output(index)
-                    if (move_result) {
-                        if (task_result.warning) {
-                            warningLabel.text = Clipboard.shorten_error_message(task_result.warning)
-                            warningLabel.warningFullText = task_result.warning
-                            warningButton.visible = true
-                        } else {
-                            successButton.visible = true
-                        }
-                    } else {
-                        errorButton.visible = true
-                    }
-                } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
-                    skipButton.visible = true
-                } else {
-                    let message_box = messageBox.createObject(
-                        taskList,
-                        {
-                            body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
-                            message: qsTr("File %1 already exists. Overwrite?").arg(
-                                TaskManager.get_output_path(index)
-                            ),
-                            onOk: () => {
-                                let move_result = TaskManager.move_to_output(index)
-                                if (move_result) {
-                                    if (task_result.warning) {
-                                        warningLabel.text = task_result.warning
-                                        warningButton.visible = true
-                                    } else {
-                                        successButton.visible = true
-                                    }
-                                } else {
-                                    errorButton.visible = true
-                                }
-                            },
-                            onCancel: () => {
-                                skipButton.visible = true
-                            }
-                        }
-                    )
-                    message_box.open()
-                }
-            } else if (successButton.visible) {
-                successButton.visible = false
-            }
-        }
         function onBusy_changed(busy) {
             if (busy) {
                 successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
@@ -358,17 +304,67 @@ ColumnLayout {
         target: converterPage.taskList.model
         function onDataChanged(idx1, idx2, value) {
             if (idx1.row <= taskRow.index && taskRow.index <= idx2.row) {
-                let taskModel = converterPage.taskList.model.get(taskRow.index)
-                stemField.text = taskModel.stem
-                extLabel.text = taskModel.ext
-                let error = taskModel.error
+                let task_result = converterPage.taskList.model.get(taskRow.index)
+                stemField.text = task_result.stem
+                extLabel.text = task_result.ext
+                let error = task_result.error
                 if (error) {
                     errorLabel.text = Clipboard.shorten_error_message(error)
                     errorLabel.errorFullText = error
                     errorButton.visible = true
                     runningIndicator.visible = false
+                } else if (successButton.visible) {
+                    successButton.visible = false
                 } else if (errorButton.visible) {
                     errorButton.visible = false
+                } else if (task_result.success) {
+                    let conflict = TaskManager.output_path_exists(index)
+                    let conflict_policy = ConfigItems.get_conflict_policy()
+                    if (!conflict || conflict_policy == "Overwrite" || (
+                        conflict_policy == "Prompt" && window.yesToAll
+                    )) {
+                        let move_result = TaskManager.move_to_output(index)
+                        if (move_result) {
+                            if (task_result.warning) {
+                                warningLabel.text = Clipboard.shorten_error_message(task_result.warning)
+                                warningLabel.warningFullText = task_result.warning
+                                warningButton.visible = true
+                            } else {
+                                successButton.visible = true
+                            }
+                        } else {
+                            errorButton.visible = true
+                        }
+                    } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
+                        skipButton.visible = true
+                    } else {
+                        let message_box = messageBox.createObject(
+                            taskList,
+                            {
+                                body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
+                                message: qsTr("File %1 already exists. Overwrite?").arg(
+                                    TaskManager.get_output_path(index)
+                                ),
+                                onOk: () => {
+                                    let move_result = TaskManager.move_to_output(index)
+                                    if (move_result) {
+                                        if (task_result.warning) {
+                                            warningLabel.text = task_result.warning
+                                            warningButton.visible = true
+                                        } else {
+                                            successButton.visible = true
+                                        }
+                                    } else {
+                                        errorButton.visible = true
+                                    }
+                                },
+                                onCancel: () => {
+                                    skipButton.visible = true
+                                }
+                            }
+                        )
+                        message_box.open()
+                    }
                 }
             }
         }
