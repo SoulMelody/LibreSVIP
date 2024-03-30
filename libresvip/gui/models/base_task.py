@@ -17,3 +17,8 @@ class BaseTask:
     error: Optional[str] = ""
     warning: Optional[str] = ""
     child_tasks: list[BaseTask] = dataclasses.field(default_factory=list)
+    parent: Optional[BaseTask] = None
+
+    def add_child(self, child: BaseTask) -> None:
+        child.parent = self
+        self.child_tasks.append(child)

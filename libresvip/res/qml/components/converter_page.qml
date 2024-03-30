@@ -2,10 +2,9 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Controls.Material.impl
 import QtQuick.Layouts
 import QtQuick.Shapes
-import QtQuick.Templates as T
+import Qt.labs.qmlmodels
 import LibreSVIP
 
 Page {
@@ -638,7 +637,7 @@ Page {
                 text: qsTr("Task List")
                 font.pixelSize: 20
                 height: 30
-            }    
+            }
             TabBar {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
@@ -688,7 +687,138 @@ Page {
                 }
 
                 ScrollView {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    contentWidth: availableWidth
+                    ColumnLayout {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        HorizontalHeaderView {
+                            id: horizontalHeader
+                            Layout.preferredHeight: 45
+                            Layout.preferredWidth: 500
+                            syncView: mergeTasksTreeView
 
+                            delegate: Rectangle {
+                                implicitHeight: horizontalHeader.height
+                                implicitWidth: 120
+                                border.width: 1
+                                border.color: window.Material.backgroundDimColor
+
+                                Label {
+                                    text: qsTr(display)
+                                    anchors.centerIn: parent
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.bold: true
+                                }
+                            }
+                        }
+                        TreeView {
+                            id: mergeTasksTreeView
+                            columnSpacing: 0
+                            rowSpacing: 1
+                            boundsBehavior: Flickable.StopAtBounds
+                            model: TaskManager.merge_tasks
+                            delegate: DelegateChooser {
+                                DelegateChoice {
+                                    column: 0
+                                    delegate: Rectangle {
+
+                                        implicitWidth: 160
+                                        implicitHeight: 35
+                                        readonly property real indent: 20
+                                        readonly property real padding: 5
+
+                                        required property TreeView treeView
+                                        required property bool isTreeNode
+                                        required property bool expanded
+                                        required property int hasChildren
+                                        required property int depth
+                                        required property bool selected
+
+                                        Label {
+                                            visible: parent.isTreeNode && parent.hasChildren
+                                            x: padding + (parent.depth * parent.indent)
+                                            padding: 5
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            text: IconicFontLoader.icon("mdi7.chevron-right")
+                                            font.family: "Material Design Icons"
+
+                                            rotation: parent.expanded ? 90 : 0
+
+                                        }
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            acceptedButtons: Qt.LeftButton
+
+                                            onClicked: function(mouse)
+                                            {
+                                                if (mouse.button === Qt.LeftButton)
+                                                {
+                                                    treeView.toggleExpanded(row)
+                                                }
+                                            }
+                                        }
+                                        Label {
+                                            x: padding + (parent.isTreeNode ? (parent.depth + 1) * parent.indent : 0)
+                                            width: parent.width - parent.padding - x
+                                            clip: true
+                                            text: model.name
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    column: 1
+
+                                    delegate: Rectangle {
+                                        implicitWidth: 80
+                                        implicitHeight: 35
+                                        Label {
+                                            anchors.centerIn: parent
+                                            text: model.path
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    column: 2
+
+                                    delegate: Rectangle {
+                                        implicitWidth: 160
+                                        implicitHeight: 35
+                                        Label {
+                                            anchors.centerIn: parent
+                                            text: model.stem
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    column: 3
+
+                                    delegate: Rectangle {
+                                        implicitWidth: 60
+                                        implicitHeight: 35
+                                        Label {
+                                            anchors.centerIn: parent
+                                            text: model.ext
+                                        }
+                                    }
+                                }
+                                DelegateChoice {
+                                    column: 4
+
+                                    delegate: Rectangle {
+                                        implicitWidth: 100
+                                        implicitHeight: 35
+                                        Label {
+                                            anchors.centerIn: parent
+                                            text: model.running
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 ScrollView {
