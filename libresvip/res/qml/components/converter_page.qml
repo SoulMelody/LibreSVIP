@@ -636,6 +636,7 @@ Page {
                     text: qsTr("Direct")
                     onClicked: {
                         tasksStack.currentIndex = 0
+                        TaskManager.set_conversion_mode("Direct")
                     }
                 }
 
@@ -643,6 +644,7 @@ Page {
                     text: qsTr("Merge")
                     onClicked: {
                         tasksStack.currentIndex = 1
+                        TaskManager.set_conversion_mode("Merge")
                     }
                 }
 
@@ -650,6 +652,7 @@ Page {
                     text: qsTr("Split")
                     onClicked: {
                         tasksStack.currentIndex = 2
+                        TaskManager.set_conversion_mode("Split")
                     }
                 }
             }
@@ -690,6 +693,7 @@ Page {
                                 implicitWidth: 120
                                 border.width: 1
                                 border.color: window.Material.backgroundDimColor
+                                color: window.Material.backgroundColor
 
                                 Label {
                                     text: qsTr(display)
@@ -709,6 +713,7 @@ Page {
                                 DelegateChoice {
                                     column: 0
                                     delegate: Rectangle {
+                                        color: window.Material.backgroundColor
 
                                         implicitWidth: 160
                                         implicitHeight: 35
@@ -758,6 +763,7 @@ Page {
                                     column: 1
 
                                     delegate: Rectangle {
+                                        color: window.Material.backgroundColor
                                         implicitWidth: 80
                                         implicitHeight: 35
                                         Label {
@@ -770,6 +776,7 @@ Page {
                                     column: 2
 
                                     delegate: Rectangle {
+                                        color: window.Material.backgroundColor
                                         implicitWidth: 160
                                         implicitHeight: 35
                                         Label {
@@ -782,6 +789,7 @@ Page {
                                     column: 3
 
                                     delegate: Rectangle {
+                                        color: window.Material.backgroundColor
                                         implicitWidth: 60
                                         implicitHeight: 35
                                         Label {
@@ -794,6 +802,7 @@ Page {
                                     column: 4
 
                                     delegate: Rectangle {
+                                        color: window.Material.backgroundColor
                                         implicitWidth: 100
                                         implicitHeight: 35
                                         Label {

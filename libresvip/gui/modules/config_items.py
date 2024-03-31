@@ -30,7 +30,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 QML_IMPORT_MINOR_VERSION = 0
 
 
-def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) -> None:  # type: ignore[valid-type]
+def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) -> None:
     signal = Signal(field_type, name=f"{field_name}_changed")
 
     def _getter(self: QObject) -> Any:
@@ -40,9 +40,7 @@ def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) 
         setattr(settings, field_name, value)
         getattr(self, f"{field_name}_changed").emit(value)
 
-    qt_property = Property(field_type, _getter, _setter, notify=signal)
-
-    attrs[field_name] = qt_property
+    attrs[field_name] = Property(field_type, _getter, _setter, notify=signal)
     attrs[f"{field_name}_changed"] = signal
 
 

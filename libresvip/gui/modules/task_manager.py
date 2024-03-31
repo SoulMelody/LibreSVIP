@@ -149,6 +149,7 @@ class ConversionWorker(QRunnable):
 @QmlElement
 @QmlSingleton
 class TaskManager(QObject):
+    conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
     task_count_changed = Signal(int)
@@ -157,7 +158,7 @@ class TaskManager(QObject):
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
-        self.conversion_mode = ConversionMode.DIRECT.value
+        self.conversion_mode = ConversionMode.DIRECT
         self._merge_tasks = TasksTreeModel()
         self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
         self.tasks.rowsInserted.connect(self._on_tasks_changed)
@@ -239,9 +240,13 @@ class TaskManager(QObject):
     def _on_tasks_changed(self, index: QModelIndex, start: int, end: int) -> None:
         self.task_count_changed.emit(len(self.tasks))
 
+    @Slot(str)
+    def set_conversion_mode(self, mode: str) -> None:
+        self.conversion_mode = ConversionMode(mode)
+
     @Property(int, notify=task_count_changed)
     def count(self) -> int:
-        if self.conversion_mode == ConversionMode.DIRECT.value:
+        if self.conversion_mode == ConversionMode.DIRECT:
             return len(self.tasks)
         return 0
 
@@ -509,7 +514,7 @@ class TaskManager(QObject):
                     success=None,
                 )
             )
-        if self.conversion_mode == ConversionMode.DIRECT.value:
+        if self.conversion_mode == ConversionMode.DIRECT:
             self.tasks.append_many([dataclasses.asdict(task) for task in tasks])
         if (
             settings.auto_detect_input_format
