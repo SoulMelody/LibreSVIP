@@ -30,33 +30,35 @@ QML_IMPORT_MAJOR_VERSION = 1
 QML_IMPORT_MINOR_VERSION = 0
 
 
-def bool_prop_factory(attrs: dict[str, Any], field_name: str) -> None:  # type: ignore[valid-type]
-    signal = Signal(bool, name=f"{field_name}_changed")
+def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) -> None:  # type: ignore[valid-type]
+    signal = Signal(field_type, name=f"{field_name}_changed")
 
-    def _getter(self: QObject) -> bool:
+    def _getter(self: QObject) -> Any:
         return getattr(settings, field_name)
 
-    def _setter(self: QObject, value: bool) -> None:
+    def _setter(self: QObject, value: Any) -> None:
         setattr(settings, field_name, value)
         getattr(self, f"{field_name}_changed").emit(value)
 
-    qt_property = Property(bool, _getter, _setter, notify=signal)
+    qt_property = Property(field_type, _getter, _setter, notify=signal)
 
     attrs[field_name] = qt_property
     attrs[f"{field_name}_changed"] = signal
 
 
-class AutoBindBoolConfigMetaObject(type(QObject)):  # type: ignore[misc]
+class AutoBindBaseConfigMetaObject(type(QObject)):  # type: ignore[misc]
     def __new__(cls, name: str, bases: tuple[type], attrs: dict[str, Any]) -> type[QObject]:
         for field in dataclasses.fields(LibreSvipSettings):  # type: ignore[arg-type]
             if field.type == "bool":
-                bool_prop_factory(attrs, field.name)
+                base_prop_factory(attrs, field.name, bool)
+            elif field.type == "int":
+                base_prop_factory(attrs, field.name, int)
         return super().__new__(cls, name, bases, attrs)
 
 
 @QmlElement
 @QmlSingleton
-class ConfigItems(QObject, metaclass=AutoBindBoolConfigMetaObject):
+class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     save_folder_changed = Signal(str)
     conflict_policy_changed = Signal(str)
     theme_changed = Signal(str)
@@ -110,7 +112,7 @@ class ConfigItems(QObject, metaclass=AutoBindBoolConfigMetaObject):
     def get_theme(self) -> str:
         return settings.dark_mode.value
 
-    def set_theme(self, theme: str) -> bool:
+    def set_theme(self, theme: str) -> None:
         dark_mode = DarkMode(theme)
         settings.dark_mode = dark_mode
         self.theme_changed.emit(theme)
