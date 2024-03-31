@@ -4,7 +4,6 @@ import sys
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtQuickControls2 import QQuickStyle
 
-from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.gui.modules import LocaleSwitcher, app, app_close_event, event_loop, qml_engine
 
@@ -29,7 +28,7 @@ def run() -> None:
     app.window_icon = QIcon(icon_pixmap)
     locale_switcher = LocaleSwitcher()
     locale_switcher.translator_initialized.connect(startup)
-    locale_switcher.switch_language(settings.language.value)
+    locale_switcher.switch_language(locale_switcher.get_language())
 
 
 if __name__ == "__main__":

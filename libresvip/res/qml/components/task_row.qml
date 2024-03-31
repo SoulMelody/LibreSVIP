@@ -314,7 +314,7 @@ ColumnLayout {
                             runningIndicator.visible = false
                         } else if (task_result.success) {
                             let conflict = TaskManager.output_path_exists(index)
-                            let conflict_policy = ConfigItems.get_conflict_policy()
+                            let conflict_policy = ConfigItems.conflict_policy
                             if (!conflict || conflict_policy == "Overwrite" || (
                                 conflict_policy == "Prompt" && window.yesToAll
                             )) {

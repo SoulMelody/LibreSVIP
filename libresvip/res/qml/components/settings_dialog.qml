@@ -15,10 +15,6 @@ Dialog {
     height: 500
     padding: 5
     topPadding: 5
-    signal autoOpenSaveFolderChanged(bool value)
-    signal resetTasksOnInputChangeChanged(bool value)
-    signal autoDetectInputFormatChanged(bool value)
-    signal conflictPolicyChanged(string value)
 
     function save_folder_type(save_folder) {
         let preset_folder = null
@@ -91,15 +87,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.get_bool("auto_detect_input_format")
+                            checked: ConfigItems.auto_detect_input_format
                             onClicked: {
-                                ConfigItems.set_bool("auto_detect_input_format", checked)
-                                autoDetectInputFormatChanged(checked)
-                            }
-                            Component.onCompleted: {
-                                autoDetectInputFormatChanged.connect( (value) => {
-                                    value === checked ? null : checked = value
-                                })
+                                ConfigItems.auto_detect_input_format = checked
                             }
                         }
                     }
@@ -112,15 +102,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.get_bool("reset_tasks_on_input_change")
+                            checked: ConfigItems.reset_tasks_on_input_change
                             onClicked: {
-                                ConfigItems.set_bool("reset_tasks_on_input_change", checked)
-                                resetTasksOnInputChangeChanged(checked)
-                            }
-                            Component.onCompleted: {
-                                resetTasksOnInputChangeChanged.connect( (value) => {
-                                    value === checked ? null : checked = value
-                                })
+                                ConfigItems.reset_tasks_on_input_change = checked
                             }
                         }
                     }
@@ -133,9 +117,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.get_bool("auto_set_output_extension")
+                            checked: ConfigItems.auto_set_output_extension
                             onClicked: {
-                                ConfigItems.set_bool("auto_set_output_extension", checked)
+                                ConfigItems.auto_set_output_extension = checked
                             }
                             Component.onCompleted: {
                                 ConfigItems.auto_set_output_extension_changed.connect( (value) => {
@@ -153,9 +137,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.get_bool("multi_threaded_conversion")
+                            checked: ConfigItems.multi_threaded_conversion
                             onClicked: {
-                                ConfigItems.set_bool("multi_threaded_conversion", checked)
+                                ConfigItems.multi_threaded_conversion = checked
                             }
                         }
                     }
@@ -187,6 +171,7 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         ComboBox {
+                            id: conflictPolicyCombo
                             padding: 0
                             Layout.alignment: Qt.AlignRight
                             textRole: "text"
@@ -197,20 +182,22 @@ Dialog {
                                 {value: "Prompt", text: qsTr("Prompt")}
                             ]
                             onActivated: (index) => {
-                                ConfigItems.set_conflict_policy(currentValue)
-                                conflictPolicyChanged(currentValue)
+                                ConfigItems.conflict_policy = currentValue
                             }
-                            Component.onCompleted: {
-                                currentIndex = indexOfValue(ConfigItems.get_conflict_policy())
-                                conflictPolicyChanged.connect( (value) => {
+                            Connections {
+                                target: ConfigItems
+                                function onConflict_policy_changed(value) {
                                     switch (value) {
                                         case "Overwrite":
                                         case "Skip":
                                         case "Prompt":
-                                            currentIndex = indexOfValue(value)
+                                            conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value)
                                             break
                                     }
-                                })
+                                }
+                            }
+                            Component.onCompleted: {
+                                currentIndex = indexOfValue(ConfigItems.conflict_policy)
                             }
                         }
                     }
@@ -223,15 +210,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.get_bool("open_save_folder_on_completion")
+                            checked: ConfigItems.open_save_folder_on_completion
                             onClicked: {
-                                ConfigItems.set_bool("open_save_folder_on_completion", checked)
-                                autoOpenSaveFolderChanged(checked)
-                            }
-                            Component.onCompleted: {
-                                autoOpenSaveFolderChanged.connect( (value) => {
-                                    value === checked ? null : checked = value
-                                })
+                                ConfigItems.open_save_folder_on_completion = checked
                             }
                         }
                     }
@@ -266,12 +247,12 @@ Dialog {
                             actions.chooseSavePath.trigger()
                             return
                         }
-                        default:
-                            cur_value = ConfigItems.get_save_folder()
+                        default: {
+                            cur_value = ConfigItems.save_folder
                             break
+                        }
                     }
-                    ConfigItems.set_save_folder(cur_value)
-                    dialogs.save_folder_changed(cur_value)
+                    ConfigItems.save_folder = cur_value
                 }
             }
             ColumnLayout {
@@ -318,10 +299,9 @@ Dialog {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked) {
-                                            let save_folder = ConfigItems.get_save_folder()
+                                            let save_folder = ConfigItems.save_folder
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                ConfigItems.set_save_folder(presetRadioToolTip.text)
-                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                                ConfigItems.save_folder = presetRadioToolTip.text
                                             }
                                         }
                                     }
@@ -333,10 +313,9 @@ Dialog {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                            let save_folder = ConfigItems.get_save_folder()
+                                            let save_folder = ConfigItems.save_folder
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                ConfigItems.set_save_folder(presetRadioToolTip.text)
-                                                dialogs.save_folder_changed(presetRadioToolTip.text)
+                                                ConfigItems.save_folder = presetRadioToolTip.text
                                             }
                                         }
                                     }
@@ -345,7 +324,7 @@ Dialog {
                                     if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
                                         presetRadioToolTip.text = ""
                                         if (presetRadio.checked) {
-                                            dialogs.save_folder_changed(ConfigItems.get_save_folder())
+                                            ConfigItems.save_folder = ConfigItems.save_folder
                                         }
                                     }
                                 }
@@ -375,7 +354,7 @@ Dialog {
                 }
             }
             Connections {
-                target: dialogs
+                target: ConfigItems
                 function onSave_folder_changed(value) {
                     let selected_index = save_folder_type(value)
                     if (selected_index === 1) {
@@ -533,9 +512,9 @@ Dialog {
                     Layout.fillWidth: true
                 }
                 Switch {
-                    checked: ConfigItems.get_bool("auto_check_for_updates")
+                    checked: ConfigItems.auto_check_for_updates
                     onClicked: {
-                        ConfigItems.set_bool("auto_check_for_updates", checked)
+                        ConfigItems.auto_check_for_updates = checked
                     }
                 }
             }
@@ -547,7 +526,7 @@ Dialog {
         TabBar {
             id: settingsTabBar
             Layout.fillHeight: true
-            Layout.preferredWidth: 200
+            Layout.preferredWidth: 180
 
             contentItem: ListView {
                 model: settingsTabBar.contentModel
@@ -581,7 +560,7 @@ Dialog {
 
             TabButton {
                 id: basicSettingsBtn
-                width: 200
+                width: 180
                 text: qsTr("Basic Settings")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
@@ -591,7 +570,7 @@ Dialog {
 
             TabButton {
                 id: savePathSettingsBtn
-                width: 200
+                width: 180
                 text: qsTr("Save Path Settings")
                 anchors.top: basicSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -603,7 +582,7 @@ Dialog {
 
             TabButton {
                 id: pluginsSettingsBtn
-                width: 200
+                width: 180
                 text: qsTr("Format Provider Plugins")
                 enabled: !TaskManager.busy
                 anchors.top: savePathSettingsBtn.bottom
@@ -616,7 +595,7 @@ Dialog {
 
             TabButton {
                 id: updatesSettingsBtn
-                width: 200
+                width: 180
                 text: qsTr("Updates Settings")
                 anchors.top: pluginsSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -642,7 +621,7 @@ Dialog {
                 savePathSettingsPage.createObject(settingsStack)
                 pluginsSettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
-                dialogs.save_folder_changed(ConfigItems.get_save_folder())
+                ConfigItems.save_folder = ConfigItems.save_folder
             }
         }
     }

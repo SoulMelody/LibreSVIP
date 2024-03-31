@@ -12,7 +12,6 @@ Page {
 
     property alias taskList: taskListView
     property alias startConversionButton: startConversionBtn
-    property alias saveFolder: saveFolderTextField
     property alias inputFormatComboBox: inputFormat
     property alias outputFormatComboBox: outputFormat
     property alias swapInputOutputButton: swapInputOutput
@@ -405,16 +404,9 @@ Page {
                     id: resetTasksOnInputChange
                     height: 40
                     text: qsTr("Reset Tasks When Changing Input")
-                    checked: ConfigItems.get_bool("reset_tasks_on_input_change")
+                    checked: ConfigItems.reset_tasks_on_input_change
                     onClicked: {
-                        ConfigItems.set_bool("reset_tasks_on_input_change", checked)
-                        dialogs.settingsDialog.resetTasksOnInputChangeChanged(checked)
-                    }
-                    Connections {
-                        target: dialogs.settingsDialog
-                        function onResetTasksOnInputChangeChanged(value) {
-                            value === resetTasksOnInputChange.checked ? null : resetTasksOnInputChange.checked = value
-                        }
+                        ConfigItems.reset_tasks_on_input_change = checked
                     }
                 }
                 Item {
@@ -423,15 +415,9 @@ Page {
                 Switch {
                     height: 40
                     text: qsTr("Auto-Detect Input File Type")
-                    checked: ConfigItems.get_bool("auto_detect_input_format")
+                    checked: ConfigItems.auto_detect_input_format
                     onClicked: {
-                        ConfigItems.set_bool("auto_detect_input_format", checked)
-                        dialogs.settingsDialog.autoDetectInputFormatChanged(checked)
-                    }
-                    Component.onCompleted: {
-                        dialogs.settingsDialog.autoDetectInputFormatChanged.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
+                        ConfigItems.auto_detect_input_format = checked
                     }
                 }
                 Item {
@@ -567,9 +553,9 @@ Page {
                 Switch {
                     height: 40
                     text: qsTr("Set Output File Extension Automatically")
-                    checked: ConfigItems.get_bool("auto_set_output_extension")
+                    checked: ConfigItems.auto_set_output_extension
                     onClicked: {
-                        ConfigItems.set_bool("auto_set_output_extension", checked)
+                        ConfigItems.auto_set_output_extension = checked
                     }
                     Component.onCompleted: {
                         ConfigItems.auto_set_output_extension_changed.connect( (value) => {
@@ -1578,15 +1564,9 @@ Page {
             }
             Switch {
                 text: qsTr("Open Output Folder When Done")
-                checked: ConfigItems.get_bool("open_save_folder_on_completion")
+                checked: ConfigItems.open_save_folder_on_completion
                 onClicked: {
-                    ConfigItems.set_bool("open_save_folder_on_completion", checked)
-                    dialogs.settingsDialog.autoOpenSaveFolderChanged(checked)
-                }
-                Component.onCompleted: {
-                    dialogs.settingsDialog.autoOpenSaveFolderChanged.connect( (value) => {
-                        value === checked ? null : checked = value
-                    })
+                    ConfigItems.open_save_folder_on_completion = checked
                 }
             }
         }
@@ -1673,23 +1653,15 @@ Page {
                         }
                     }
                     TextField {
-                        id: saveFolderTextField
                         Layout.fillWidth: true
                         height: 50
                         placeholderText: qsTr("Output Folder")
-                        text: ConfigItems.get_save_folder()
+                        text: ConfigItems.save_folder
                         onEditingFinished: {
                             if (ConfigItems.dir_valid(text) === true) {
-                                ConfigItems.set_save_folder(text)
-                                saveFolderTextField.text = text
+                                ConfigItems.save_folder = text
                             } else {
                                 undo()
-                            }
-                        }
-                        Connections {
-                            target: dialogs
-                            function onSave_folder_changed(value) {
-                                saveFolderTextField.text = value
                             }
                         }
                     }
@@ -1701,6 +1673,7 @@ Page {
                         elide: Text.ElideRight
                     }
                     ComboBox {
+                        id: conflictPolicyCombo
                         textRole: "text"
                         valueRole: "value"
                         model: [
@@ -1709,20 +1682,22 @@ Page {
                             {value: "Prompt", text: qsTr("Prompt")}
                         ]
                         onActivated: (index) => {
-                            ConfigItems.set_conflict_policy(currentValue)
-                            dialogs.settingsDialog.conflictPolicyChanged(currentValue)
+                            ConfigItems.conflict_policy = currentValue
                         }
-                        Component.onCompleted: {
-                            currentIndex = indexOfValue(ConfigItems.get_conflict_policy())
-                            dialogs.settingsDialog.conflictPolicyChanged.connect( (value) => {
+                        Connections {
+                            target: ConfigItems
+                            function onConflict_policy_changed(value) {
                                 switch (value) {
                                     case "Overwrite":
                                     case "Skip":
                                     case "Prompt":
-                                        currentIndex = indexOfValue(value)
+                                        conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value)
                                         break
                                 }
-                            })
+                            }
+                        }
+                        Component.onCompleted: {
+                            currentIndex = indexOfValue(ConfigItems.conflict_policy)
                         }
                     }
                 }

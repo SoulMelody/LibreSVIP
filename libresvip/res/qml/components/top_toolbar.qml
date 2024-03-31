@@ -65,7 +65,7 @@ ToolBar {
             color: "transparent"
             Image {
                 anchors.centerIn: parent
-                source: ConfigItems.icon_data()
+                source: ConfigItems.icon_data
                 sourceSize.width: 16
                 sourceSize.height: 16
             }
@@ -374,7 +374,7 @@ ToolBar {
                                 }
                             }
                             Component.onCompleted: {
-                                let currentTheme = ConfigItems.get_theme()
+                                let currentTheme = ConfigItems.theme
                                 if (currentTheme === "Light") {
                                     lightThemeMenuItem.checked = true
                                 } else if (currentTheme === "Dark") {
