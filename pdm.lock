@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:8dbdf5d8f4b52a82851aabcaf7d49f7a25c685776bd25110ee03666b87414a24"
+content_hash = "sha256:39f939ec723d6e1d1600697a9c989633420635bbaf25877525ebf778400997f3"
 
 [[package]]
 name = "aiofiles"
@@ -3126,13 +3126,13 @@ files = [
 
 [[package]]
 name = "types-parsimonious"
-version = "0.10.0.10"
-requires_python = ">=3.7"
+version = "0.10.0.20240331"
+requires_python = ">=3.8"
 summary = "Typing stubs for parsimonious"
 groups = ["linting"]
 files = [
-    {file = "types-parsimonious-0.10.0.10.tar.gz", hash = "sha256:64c2fbaf73ccf559b8800188299f402581da2602c499af28ba76303239e22ffc"},
-    {file = "types_parsimonious-0.10.0.10-py3-none-any.whl", hash = "sha256:46cad84569b3372557eb3ee76cf0d54cfa30b651f85117b514fb14ece6315907"},
+    {file = "types-parsimonious-0.10.0.20240331.tar.gz", hash = "sha256:c9ca50c968b83203a285ee8fbe4a50c5aa6d8ca903d92802ee5398cb95608ceb"},
+    {file = "types_parsimonious-0.10.0.20240331-py3-none-any.whl", hash = "sha256:6828faa2b74c03d229d2ea5b661a9de47589a837fec48424804c42b9113a28cd"},
 ]
 
 [[package]]
