@@ -248,6 +248,8 @@ class TaskManager(QObject):
     def count(self) -> int:
         if self.conversion_mode == ConversionMode.DIRECT:
             return len(self.tasks)
+        elif self.conversion_mode == ConversionMode.MERGE:
+            return self._merge_tasks.row_count()
         return 0
 
     @Slot(result=None)
@@ -516,6 +518,8 @@ class TaskManager(QObject):
             )
         if self.conversion_mode == ConversionMode.DIRECT:
             self.tasks.append_many([dataclasses.asdict(task) for task in tasks])
+        elif self.conversion_mode == ConversionMode.MERGE:
+            self._merge_tasks.append_many(tasks)
         if (
             settings.auto_detect_input_format
             and path_obj is not None

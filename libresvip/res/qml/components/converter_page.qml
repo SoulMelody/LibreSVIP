@@ -641,7 +641,7 @@ Page {
                 }
 
                 TabButton {
-                    text: qsTr("Merge")
+                    text: qsTr("Merge Tracks")
                     onClicked: {
                         tasksStack.currentIndex = 1
                         TaskManager.set_conversion_mode("Merge")
@@ -649,7 +649,7 @@ Page {
                 }
 
                 TabButton {
-                    text: qsTr("Split")
+                    text: qsTr("Track Grouping")
                     onClicked: {
                         tasksStack.currentIndex = 2
                         TaskManager.set_conversion_mode("Split")
@@ -712,6 +712,7 @@ Page {
                             DelegateChoice {
                                 column: 0
                                 delegate: Rectangle {
+                                    clip: true
                                     color: window.Material.backgroundColor
 
                                     implicitWidth: 160
@@ -762,6 +763,7 @@ Page {
                                 column: 1
 
                                 delegate: Rectangle {
+                                    clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 80
                                     implicitHeight: 35
@@ -775,6 +777,7 @@ Page {
                                 column: 2
 
                                 delegate: Rectangle {
+                                    clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 160
                                     implicitHeight: 35
@@ -788,6 +791,7 @@ Page {
                                 column: 3
 
                                 delegate: Rectangle {
+                                    clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 60
                                     implicitHeight: 35
@@ -801,6 +805,7 @@ Page {
                                 column: 4
 
                                 delegate: Rectangle {
+                                    clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 100
                                     implicitHeight: 35

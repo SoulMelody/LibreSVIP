@@ -19,8 +19,8 @@ class TasksTreeModel(QAbstractItemModel):
         super().__init__(parent)
         self.root = BaseTask()
         root_task = BaseTask(name="Export")
-        root_task.add_child(BaseTask(name="Child"))
         self.root.add_child(root_task)
+        self.main_index = self.index(0, 0, QModelIndex())
 
     def role_names(self) -> dict[int, bytes]:
         return {
@@ -98,10 +98,16 @@ class TasksTreeModel(QAbstractItemModel):
 
         return None
 
-    def insert_rows(self, position: int, rows: int = 1, index: QModelIndex = QModelIndex()) -> bool:
-        return True
+    def append_many(self, items: list[BaseTask]) -> None:
+        root_task = self.main_index.internal_pointer()
+        row = len(root_task.child_tasks)
+        count = len(items)
+        super().begin_insert_rows(self.main_index, row, row + count - 1)
+        for item in items:
+            root_task.add_child(item)
+        super().end_insert_rows()
 
-    def remove_rows(self, position: int, rows: int = 1, index: QModelIndex = QModelIndex()) -> bool:
+    def remove_rows(self, row: int, count: int, parent: QModelIndex = QModelIndex()) -> bool:
         return True
 
     def set_data(
