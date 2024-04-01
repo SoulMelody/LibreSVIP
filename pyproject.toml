@@ -50,7 +50,7 @@ dependencies = [
   "srt<4.0.0,>=3.5.3",
   "typer-slim<1.0.0,>=0.12.0",
   "wanakana-python<2.0.0,>=1.2.2",
-  "xsdata<24.4,>=24.3.1",
+  "xsdata<24.5,>=24.4",
   "zhon<3.0.0,>=2.0.2",
   "zstandard<0.23.0,>=0.22.0; platform_python_implementation == \"CPython\"",
   "zstd<2.0.0,>=1.5.5.1; platform_python_implementation == \"PyPy\"",
