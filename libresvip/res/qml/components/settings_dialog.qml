@@ -471,6 +471,7 @@ Dialog {
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
+                            required property bool editing
 
                             Label {
                                 text: IconicFontLoader.icon("mdi7." + display)
@@ -478,6 +479,7 @@ Dialog {
                                 font.pixelSize: 22
                                 color: window.Material.accent
                                 anchors.centerIn: parent
+                                visible: !editing
                             }
 
                             TableView.editDelegate: CheckBox {

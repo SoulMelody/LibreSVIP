@@ -626,7 +626,7 @@ Page {
             }
             TabBar {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 50
+                height: 50
                 ToolTip.delay: 1000
                 ToolTip.timeout: 5000
                 ToolTip.visible: hovered
@@ -679,13 +679,11 @@ Page {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     HorizontalHeaderView {
-                        id: horizontalHeader
-                        Layout.preferredHeight: 45
-                        Layout.fillWidth: true
+                        clip: true
                         syncView: mergeTasksTreeView
 
                         delegate: Rectangle {
-                            implicitHeight: horizontalHeader.height
+                            implicitHeight: 40
                             implicitWidth: 120
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
@@ -707,6 +705,7 @@ Page {
                         rowSpacing: 1
                         boundsBehavior: Flickable.StopAtBounds
                         model: TaskManager.merge_tasks
+                        editTriggers: TableView.SingleTapped
                         ScrollBar.vertical: ScrollBar {}
                         delegate: DelegateChooser {
                             DelegateChoice {
@@ -716,7 +715,7 @@ Page {
                                     color: window.Material.backgroundColor
 
                                     implicitWidth: 160
-                                    implicitHeight: 35
+                                    implicitHeight: 45
                                     readonly property real indent: 20
                                     readonly property real padding: 5
 
@@ -727,17 +726,6 @@ Page {
                                     required property int depth
                                     required property bool selected
 
-                                    Label {
-                                        visible: parent.isTreeNode && parent.hasChildren
-                                        x: padding + (parent.depth * parent.indent)
-                                        padding: 5
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: IconicFontLoader.icon("mdi7.chevron-right")
-                                        font.family: "Material Design Icons"
-
-                                        rotation: parent.expanded ? 90 : 0
-
-                                    }
                                     MouseArea {
                                         anchors.fill: parent
                                         acceptedButtons: Qt.LeftButton
@@ -750,12 +738,22 @@ Page {
                                             }
                                         }
                                     }
-                                    Label {
-                                        x: padding + (parent.isTreeNode ? (parent.depth + 1) * parent.indent : 0)
-                                        width: parent.width - parent.padding - x
-                                        clip: true
-                                        text: model.name
+                                    RowLayout {
+                                        x: padding + (parent.depth * parent.indent)
                                         anchors.verticalCenter: parent.verticalCenter
+                                        Label {
+                                            visible: parent.parent.isTreeNode && parent.parent.hasChildren
+                                            padding: 5
+                                            text: IconicFontLoader.icon("mdi7.chevron-right")
+                                            font.family: "Material Design Icons"
+                                            font.pixelSize: 16
+
+                                            rotation: parent.parent.expanded ? 90 : 0
+                                        }
+                                        Label {
+                                            clip: true
+                                            text: model.name
+                                        }
                                     }
                                 }
                             }
@@ -763,13 +761,20 @@ Page {
                                 column: 1
 
                                 delegate: Rectangle {
-                                    clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 80
-                                    implicitHeight: 35
-                                    Label {
+                                    implicitHeight: 45
+                                    RoundButton {
                                         anchors.centerIn: parent
-                                        text: model.path
+                                        text: IconicFontLoader.icon("mdi7.dots-horizontal-circle-outline")
+                                        font.family: "Material Design Icons"
+                                        font.pixelSize: 16
+                                        visible: model.path.length !== 0
+                                        ToolTip {
+                                            id: pathColumnToolTip
+                                            text: model.path
+                                            visible: parent.hovered
+                                        }
                                     }
                                 }
                             }
@@ -780,10 +785,16 @@ Page {
                                     clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 160
-                                    implicitHeight: 35
+                                    implicitHeight: 45
+                                    required property bool editing
                                     Label {
                                         anchors.centerIn: parent
                                         text: model.stem
+                                        visible: !editing
+                                    }
+                                    TableView.editDelegate: TextField {
+                                        text: model.stem
+                                        anchors.centerIn: parent
                                     }
                                 }
                             }
@@ -794,7 +805,7 @@ Page {
                                     clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 60
-                                    implicitHeight: 35
+                                    implicitHeight: 45
                                     Label {
                                         anchors.centerIn: parent
                                         text: model.ext
@@ -808,10 +819,10 @@ Page {
                                     clip: true
                                     color: window.Material.backgroundColor
                                     implicitWidth: 100
-                                    implicitHeight: 35
+                                    implicitHeight: 45
                                     Label {
                                         anchors.centerIn: parent
-                                        text: model.running
+                                        text: model.status
                                     }
                                 }
                             }

@@ -13,7 +13,7 @@ class TasksTreeModel(QAbstractItemModel):
     path_role: int = Qt.ItemDataRole.UserRole + 2
     stem_role: int = Qt.ItemDataRole.UserRole + 3
     ext_role: int = Qt.ItemDataRole.UserRole + 4
-    running_role: int = Qt.ItemDataRole.UserRole + 5
+    status_role: int = Qt.ItemDataRole.UserRole + 5
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent)
@@ -28,7 +28,7 @@ class TasksTreeModel(QAbstractItemModel):
             self.path_role: b"path",
             self.stem_role: b"stem",
             self.ext_role: b"ext",
-            self.running_role: b"running",
+            self.status_role: b"status",
             Qt.ItemDataRole.DisplayRole: b"display",
         }
 
@@ -73,7 +73,7 @@ class TasksTreeModel(QAbstractItemModel):
             return item.stem
         elif role == self.ext_role:
             return item.ext
-        elif role == self.running_role:
+        elif role == self.status_role:
             return json.dumps(item.running)
 
         return None
@@ -91,9 +91,9 @@ class TasksTreeModel(QAbstractItemModel):
             return {
                 0: "Name",
                 1: "Path",
-                2: "Stem",
+                2: "Output Name",
                 3: "Ext",
-                4: "Running",
+                4: "Status",
             }[section]
 
         return None
