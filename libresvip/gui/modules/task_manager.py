@@ -15,7 +15,6 @@ from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from PySide6.QtCore import (
     Property,
-    QAbstractItemModel,
     QAbstractListModel,
     QModelIndex,
     QObject,
@@ -36,7 +35,6 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
-from libresvip.gui.models.tree_models import MergeTasksTreeModel
 from libresvip.model.base import BaseComplexModel, BaseModel
 
 from .url_opener import open_path
@@ -159,7 +157,6 @@ class TaskManager(QObject):
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
         self.conversion_mode = ConversionMode.DIRECT
-        self._merge_tasks = MergeTasksTreeModel()
         self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
         self.tasks.rowsInserted.connect(self._on_tasks_changed)
         self.tasks.rowsRemoved.connect(self._on_tasks_changed)
@@ -530,14 +527,6 @@ class TaskManager(QObject):
     @Slot(str, result=QAbstractListModel)
     def qget(self, name: str) -> Any:
         return getattr(self, name)
-
-    @Slot(str, result=QAbstractItemModel)
-    def get_tree(self, name: str) -> MergeTasksTreeModel:
-        return getattr(self, name)
-
-    @Property(QObject, constant=True)
-    def merge_tasks(self) -> MergeTasksTreeModel:
-        return self._merge_tasks
 
     @Slot(str, result=QAbstractListModel)
     def get_middleware_fields(self, name: str) -> Any:

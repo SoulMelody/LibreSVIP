@@ -4,7 +4,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Shapes
-import Qt.labs.qmlmodels
 import LibreSVIP
 
 Page {
@@ -618,43 +617,73 @@ Page {
             anchors.fill: parent
             anchors.margins: 20
             visible: TaskManager.count > 0
-            Label {
-                Layout.alignment: Qt.AlignTop
-                text: qsTr("Task List")
-                font.pixelSize: 20
-                height: 30
-            }
-            TabBar {
+            RowLayout {
                 Layout.fillWidth: true
-                height: 50
-                ToolTip.delay: 1000
-                ToolTip.timeout: 5000
-                ToolTip.visible: hovered
-                ToolTip.text: qsTr("Switch Conversion Mode")
+                Layout.alignment: Qt.AlignTop
+                Label {
+                    text: qsTr("Conversion Mode:")
+                    font.pixelSize: 20
+                    height: 30
+                }
+                TabBar {
+                    height: 30
 
-                TabButton {
-                    text: qsTr("Direct")
-                    onClicked: {
-                        tasksStack.currentIndex = 0
-                        TaskManager.set_conversion_mode("Direct")
+                    TabButton {
+                        width: 50
+                        text: IconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 25
+                        ToolTip.text: qsTr("Direct")
+                        ToolTip.visible: hovered
+                        onClicked: {
+                            tasksStack.currentIndex = 0
+                            TaskManager.set_conversion_mode("Direct")
+                        }
+                    }
+
+                    TabButton {
+                        width: 50
+                        text: IconicFontLoader.icon("mdi7.set-merge")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 25
+                        ToolTip.text: qsTr("Merge Tracks")
+                        ToolTip.visible: hovered
+                        onClicked: {
+                            tasksStack.currentIndex = 1
+                            TaskManager.set_conversion_mode("Merge")
+                        }
+                    }
+
+                    TabButton {
+                        width: 50
+                        text: IconicFontLoader.icon("mdi7.set-split")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 25
+                        ToolTip.text: qsTr("Track Grouping")
+                        ToolTip.visible: hovered
+                        onClicked: {
+                            tasksStack.currentIndex = 2
+                            TaskManager.set_conversion_mode("Split")
+                        }
                     }
                 }
 
-                TabButton {
-                    text: qsTr("Merge Tracks")
-                    onClicked: {
-                        tasksStack.currentIndex = 1
-                        TaskManager.set_conversion_mode("Merge")
-                    }
+                ToolSeparator {
+                    height: 30
                 }
 
-                TabButton {
-                    text: qsTr("Track Grouping")
-                    onClicked: {
-                        tasksStack.currentIndex = 2
-                        TaskManager.set_conversion_mode("Split")
-                    }
+                Label {
+                    text: qsTr("Task List")
+                    font.pixelSize: 20
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    height: 30
                 }
+            }
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: "lightgrey"
             }
             StackLayout {
                 id: tasksStack
@@ -675,159 +704,8 @@ Page {
                     }
                 }
 
-                ColumnLayout {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    HorizontalHeaderView {
-                        clip: true
-                        syncView: mergeTasksTreeView
-
-                        delegate: Rectangle {
-                            implicitHeight: 40
-                            implicitWidth: 120
-                            border.width: 1
-                            border.color: window.Material.backgroundDimColor
-                            color: window.Material.backgroundColor
-
-                            Label {
-                                text: qsTr(display)
-                                anchors.centerIn: parent
-                                horizontalAlignment: Text.AlignHCenter
-                                font.bold: true
-                            }
-                        }
-                    }
-                    TreeView {
-                        id: mergeTasksTreeView
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        columnSpacing: 0
-                        rowSpacing: 1
-                        boundsBehavior: Flickable.StopAtBounds
-                        model: TaskManager.merge_tasks
-                        editTriggers: TableView.SingleTapped
-                        ScrollBar.vertical: ScrollBar {}
-                        delegate: DelegateChooser {
-                            DelegateChoice {
-                                column: 0
-                                delegate: Rectangle {
-                                    clip: true
-                                    color: window.Material.backgroundColor
-
-                                    implicitWidth: 160
-                                    implicitHeight: 45
-                                    readonly property real indent: 20
-                                    readonly property real padding: 5
-
-                                    required property TreeView treeView
-                                    required property bool isTreeNode
-                                    required property bool expanded
-                                    required property int hasChildren
-                                    required property int depth
-                                    required property bool selected
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        acceptedButtons: Qt.LeftButton
-
-                                        onClicked: function(mouse)
-                                        {
-                                            if (mouse.button === Qt.LeftButton)
-                                            {
-                                                treeView.toggleExpanded(row)
-                                            }
-                                        }
-                                    }
-                                    RowLayout {
-                                        x: padding + (parent.depth * parent.indent)
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        Label {
-                                            visible: parent.parent.isTreeNode && parent.parent.hasChildren
-                                            padding: 5
-                                            text: IconicFontLoader.icon("mdi7.chevron-right")
-                                            font.family: "Material Design Icons"
-                                            font.pixelSize: 16
-
-                                            rotation: parent.parent.expanded ? 90 : 0
-                                        }
-                                        Label {
-                                            clip: true
-                                            text: model.name
-                                        }
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                column: 1
-
-                                delegate: Rectangle {
-                                    color: window.Material.backgroundColor
-                                    implicitWidth: 80
-                                    implicitHeight: 45
-                                    RoundButton {
-                                        anchors.centerIn: parent
-                                        text: IconicFontLoader.icon("mdi7.dots-horizontal-circle-outline")
-                                        font.family: "Material Design Icons"
-                                        font.pixelSize: 16
-                                        visible: model.path.length !== 0
-                                        ToolTip {
-                                            id: pathColumnToolTip
-                                            text: model.path
-                                            visible: parent.hovered
-                                        }
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                column: 2
-
-                                delegate: Rectangle {
-                                    clip: true
-                                    color: window.Material.backgroundColor
-                                    implicitWidth: 160
-                                    implicitHeight: 45
-                                    required property bool editing
-                                    Label {
-                                        anchors.centerIn: parent
-                                        text: model.stem
-                                        visible: !editing
-                                    }
-                                    TableView.editDelegate: TextField {
-                                        text: model.stem
-                                        anchors.centerIn: parent
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                column: 3
-
-                                delegate: Rectangle {
-                                    clip: true
-                                    color: window.Material.backgroundColor
-                                    implicitWidth: 60
-                                    implicitHeight: 45
-                                    Label {
-                                        anchors.centerIn: parent
-                                        text: model.ext
-                                    }
-                                }
-                            }
-                            DelegateChoice {
-                                column: 4
-
-                                delegate: Rectangle {
-                                    clip: true
-                                    color: window.Material.backgroundColor
-                                    implicitWidth: 100
-                                    implicitHeight: 45
-                                    Label {
-                                        anchors.centerIn: parent
-                                        text: model.status
-                                    }
-                                }
-                            }
-                        }
-                    }
+                ScrollView {
+                    
                 }
 
                 ScrollView {

@@ -376,6 +376,7 @@ Dialog {
         ColumnLayout {
             HorizontalHeaderView {
                 id: horizontalHeader
+                resizableColumns: false
                 syncView: pluginsTableView
                 Layout.fillWidth: true
                 clip: true
