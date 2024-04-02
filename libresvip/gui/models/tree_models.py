@@ -5,10 +5,11 @@ from PySide6.QtCore import QAbstractItemModel, QModelIndex, QObject, Qt
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
+from libresvip.core.config import settings
 from libresvip.gui.models.base_task import BaseTask
 
 
-class TasksTreeModel(QAbstractItemModel):
+class MergeTasksTreeModel(QAbstractItemModel):
     name_role: int = Qt.ItemDataRole.UserRole + 1
     path_role: int = Qt.ItemDataRole.UserRole + 2
     stem_role: int = Qt.ItemDataRole.UserRole + 3
@@ -100,12 +101,20 @@ class TasksTreeModel(QAbstractItemModel):
 
     def append_many(self, items: list[BaseTask]) -> None:
         root_task = self.main_index.internal_pointer()
+        ori_stem, ori_ext = root_task.stem, root_task.ext
         row = len(root_task.child_tasks)
         count = len(items)
         super().begin_insert_rows(self.main_index, row, row + count - 1)
         for item in items:
+            ori_stem = item.stem
+            if settings.auto_set_output_extension:
+                ori_ext = item.ext
+            item.stem, item.ext = "", ""
             root_task.add_child(item)
         super().end_insert_rows()
+        root_task.stem, root_task.ext = ori_stem, ori_ext
+        qindex = self.create_index(0, 0)
+        self.dataChanged.emit(qindex, qindex, [3, 4])
 
     def remove_rows(self, row: int, count: int, parent: QModelIndex = QModelIndex()) -> bool:
         return True
@@ -116,7 +125,10 @@ class TasksTreeModel(QAbstractItemModel):
         return False
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlag:
-        return Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEditable
+        item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+        if index.row() == 0:
+            item_flags |= Qt.ItemFlag.ItemIsEditable
+        return item_flags
 
     def parent(self, index: QModelIndex) -> QModelIndex:
         item = self.get_item(index)
