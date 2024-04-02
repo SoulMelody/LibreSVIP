@@ -7,7 +7,7 @@ from typing import Any, Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
 import zhon
-from more_itertools import chunked
+from more_itertools import batched
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -83,7 +83,7 @@ class SVParamCurve(BaseModel):
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> SVPoints:
         if _info.mode == "json":
-            return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
+            return SVPoints(root=[SVPoint._make(each) for each in batched(points, 2)])
         return SVPoints(root=points)
 
     @field_serializer("points", when_used="json")
