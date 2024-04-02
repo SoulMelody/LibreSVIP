@@ -1,7 +1,7 @@
 from itertools import chain
 from typing import NamedTuple, Optional
 
-from more_itertools import chunked
+from more_itertools import batched
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -111,7 +111,7 @@ class S5pParameters(BaseModel):
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> S5pPoints:
         if _info.mode == "json":
-            return S5pPoints(root=[S5pPoint(*each) for each in chunked(points, 2)])
+            return S5pPoints(root=[S5pPoint._make(each) for each in batched(points, 2)])
         return points if isinstance(points, S5pPoints) else S5pPoints(root=points)
 
     @field_serializer(
