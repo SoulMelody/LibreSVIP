@@ -28,31 +28,8 @@ class EchoGenerator(saxutils.XMLGenerator):
         else:
             super().characters(content)
 
-    # -- LexicalHandler interface
-
-    def comment(self, content: str) -> None:
-        self._write(f"<!--{content!r}-->")
-
-    def start_dtd(self, name: str, public_id: str, system_id: str) -> None:
-        self._write(f"<!DOCTYPE {name}")
-        if public_id:
-            self._write(
-                f" PUBLIC {saxutils.quoteattr(public_id)} {saxutils.quoteattr(system_id)}",
-            )
-        elif system_id:
-            self._write(f" SYSTEM {saxutils.quoteattr(system_id)}")
-
-    def end_dtd(self) -> None:
-        self._write(">\n")
-
-    def start_entity(self, name: str) -> None:
-        self._write(f"&{name};")
-        self._in_entity = 1
-
-    def end_entity(self, name: str) -> None:
-        self._in_entity = 0
-
     def start_cdata(self) -> None:
+        self._finish_pending_start_element()
         self._write("<![CDATA[")
         self._in_cdata = 1
 
