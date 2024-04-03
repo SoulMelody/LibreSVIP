@@ -4,11 +4,9 @@ from typing import Any, Optional, TextIO
 from xml.sax.saxutils import XMLGenerator
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
+from xsdata.formats.dataclass.serializers.config import SerializerConfig
 from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
-from xsdata.formats.dataclass.serializers.xml import (
-    SerializerConfig,
-    XmlSerializer,
-)
+from xsdata.formats.dataclass.serializers.xml import XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
