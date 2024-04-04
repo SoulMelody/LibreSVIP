@@ -49,6 +49,7 @@ id2singer = bidict(
         1013: "徵羽摩柯",
         2001: "川",
         3006: "Rowly G.",
+        5038: "空诗音Lemi",
     },
 )
 
@@ -106,5 +107,6 @@ singer2seed = bidict(
         58: "Naples",
         60: "墨清弦",
         61: "徵羽摩柯",
+        87: "空诗音Lemi",
     },
 ).inverse
