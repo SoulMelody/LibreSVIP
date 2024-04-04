@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-04 23:36+0800\n"
-"PO-Revision-Date: 2024-04-04 15:37\n"
+"PO-Revision-Date: 2024-04-04 15:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -56,15 +56,15 @@ msgstr "自动设置后缀名"
 
 #: converter_page%2310
 msgid "Direct Mode"
-msgstr ""
+msgstr "常规模式"
 
 #: converter_page%2311
 msgid "Singing Track Merging Mode"
-msgstr ""
+msgstr "演唱轨合并模式"
 
 #: converter_page%2312
 msgid "Singing Track Grouping Mode"
-msgstr ""
+msgstr "演唱轨分组模式"
 
 #: converter_page%2313
 msgid "Advanced Settings"
@@ -108,7 +108,7 @@ msgstr "过滤多余项目"
 
 #: converter_page%2323
 msgid "Max Track count:"
-msgstr ""
+msgstr "最大轨道数："
 
 #: converter_page%2324
 msgid "[Import as "
