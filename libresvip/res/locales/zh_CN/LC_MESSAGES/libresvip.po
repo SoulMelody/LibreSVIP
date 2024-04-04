@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-04 23:06+0800\n"
-"PO-Revision-Date: 2024-04-04 15:31\n"
+"POT-Creation-Date: 2024-04-04 23:36+0800\n"
+"PO-Revision-Date: 2024-04-04 15:37\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -55,40 +55,40 @@ msgid "Set Output File Extension Automatically"
 msgstr "自动设置后缀名"
 
 #: converter_page%2310
+msgid "Direct Mode"
+msgstr ""
+
+#: converter_page%2311
+msgid "Singing Track Merging Mode"
+msgstr ""
+
+#: converter_page%2312
+msgid "Singing Track Grouping Mode"
+msgstr ""
+
+#: converter_page%2313
 msgid "Advanced Settings"
 msgstr "高级选项"
 
-#: converter_page%2311
+#: converter_page%2314
 msgid "Input Options"
 msgstr "输入选项"
 
-#: converter_page%2312
+#: converter_page%2315
 msgid "Output Options"
 msgstr "输出选项"
 
-#: converter_page%2313
+#: converter_page%2316
 msgid "Task List"
 msgstr "任务列表"
 
-#: converter_page%2314
+#: converter_page%2317
 msgid "Drag and drop files here"
 msgstr "拖拽或单击导入文件"
 
-#: converter_page%2315
+#: converter_page%2318
 msgid "Conversion Mode:"
 msgstr "转换模式："
-
-#: converter_page%2316
-msgid "Direct"
-msgstr "常规模式"
-
-#: converter_page%2317
-msgid "Merge Tracks"
-msgstr "合并演唱轨模式"
-
-#: converter_page%2318
-msgid "Track Grouping"
-msgstr "演唱轨分组模式"
 
 #: converter_page%2319
 msgid "Continue Adding files"
@@ -107,54 +107,58 @@ msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
 #: converter_page%2323
+msgid "Max Track count:"
+msgstr ""
+
+#: converter_page%2324
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: converter_page%2324
+#: converter_page%2325
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: converter_page%2325 settings_dialog%236
+#: converter_page%2326 settings_dialog%236
 msgid "Output Settings"
 msgstr "输出设置"
 
-#: converter_page%2326
+#: converter_page%2327
 msgid "Choose Output Folder"
 msgstr "选择输出文件夹"
 
-#: converter_page%2327
+#: converter_page%2328
 msgid "Output Folder"
 msgstr "输出文件夹"
 
-#: converter_page%2328 settings_dialog%237
+#: converter_page%2329 settings_dialog%237
 msgid "Deal with Conflicts"
 msgstr "遇到同名文件时"
 
-#: converter_page%2329
+#: converter_page%2330
 msgid "Export"
 msgstr "导出"
 
-#: converter_page%2330
+#: converter_page%2331
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: converter_page%2331
+#: converter_page%2332
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2332 settings_dialog%238
+#: converter_page%2333 settings_dialog%238
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
-#: converter_page%2333 settings_dialog%2315
+#: converter_page%2334 settings_dialog%2315
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2334 settings_dialog%2316
+#: converter_page%2335 settings_dialog%2316
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2335 settings_dialog%2317
+#: converter_page%2336 settings_dialog%2317
 msgid "Prompt"
 msgstr "询问"
 
