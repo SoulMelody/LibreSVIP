@@ -51,6 +51,21 @@
         <translation>自动设置后缀名</translation>
     </message>
     <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="636"/>
+        <source>Direct Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="648"/>
+        <source>Singing Track Merging Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="660"/>
+        <source>Singing Track Grouping Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../libresvip/res/qml/components/converter_page.qml" line="941"/>
         <location filename="../libresvip/res/qml/components/converter_page.qml" line="1728"/>
         <source>Advanced Settings</source>
@@ -82,21 +97,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="636"/>
-        <source>Direct</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="648"/>
-        <source>Merge Tracks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../libresvip/res/qml/components/converter_page.qml" line="660"/>
-        <source>Track Grouping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../libresvip/res/qml/components/converter_page.qml" line="807"/>
         <source>Continue Adding files</source>
         <translation>继续添加文件</translation>
@@ -115,6 +115,11 @@
         <location filename="../libresvip/res/qml/components/converter_page.qml" line="884"/>
         <source>Remove Tasks With Other Extensions</source>
         <translation>过滤多余项目</translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/converter_page.qml" line="911"/>
+        <source>Max Track count:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../libresvip/res/qml/components/converter_page.qml" line="987"/>

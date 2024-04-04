@@ -633,7 +633,7 @@ Page {
                         text: IconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
-                        ToolTip.text: qsTr("Direct")
+                        ToolTip.text: qsTr("Direct Mode")
                         ToolTip.visible: hovered
                         onClicked: {
                             TaskManager.conversion_mode = "Direct"
@@ -645,7 +645,7 @@ Page {
                         text: IconicFontLoader.icon("mdi7.set-merge")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
-                        ToolTip.text: qsTr("Merge Tracks")
+                        ToolTip.text: qsTr("Singing Track Merging Mode")
                         ToolTip.visible: hovered
                         onClicked: {
                             TaskManager.conversion_mode = "Merge"
@@ -657,7 +657,7 @@ Page {
                         text: IconicFontLoader.icon("mdi7.set-split")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
-                        ToolTip.text: qsTr("Track Grouping")
+                        ToolTip.text: qsTr("Singing Track Grouping Mode")
                         ToolTip.visible: hovered
                         onClicked: {
                             TaskManager.conversion_mode = "Split"
@@ -908,7 +908,7 @@ Page {
                 }
                 Label {
                     Layout.alignment: Qt.AlignVCenter
-                    text: "Max Track count:"
+                    text: qsTr("Max Track count:")
                     visible: TaskManager.conversion_mode === "Split"
                 }
                 SpinBox {
