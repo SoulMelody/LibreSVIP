@@ -16,14 +16,11 @@ class EchoGenerator(saxutils.XMLGenerator):
         short_empty_elements: bool = False,
     ) -> None:
         super().__init__(out, encoding, short_empty_elements)
-        self._in_entity = 0
         self._in_cdata = 0
         self._write: Callable[[str], None]
 
     def characters(self, content: str) -> None:
-        if self._in_entity:
-            return
-        elif self._in_cdata:
+        if self._in_cdata:
             self._write(content)
         else:
             super().characters(content)

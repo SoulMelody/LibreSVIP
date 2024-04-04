@@ -100,6 +100,7 @@ ColumnLayout {
                             }
                             Button {
                                 Layout.alignment: Qt.AlignHCenter
+                                visible: TaskManager.conversion_mode === "Split" ? false : true
                                 background: Rectangle {
                                     color: Material.color(Material.Indigo, Material.Shade500)
                                 }
