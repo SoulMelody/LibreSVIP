@@ -615,7 +615,7 @@ Page {
         }
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 20
+            anchors.margins: 15
             visible: TaskManager.count > 0
             RowLayout {
                 Layout.fillWidth: true
@@ -1641,7 +1641,7 @@ Page {
                 }
             }
 
-            Pane {
+            Item {
                 SplitView.fillWidth: true
                 SplitView.maximumHeight: parent.height - 250
                 anchors.bottom: parent.bottom

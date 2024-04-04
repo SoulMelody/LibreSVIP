@@ -19,7 +19,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         RowLayout {
-            width: parent.width - 275
+            width: parent.width - 260
             Column {
                 Layout.fillWidth: true
                 Label {
