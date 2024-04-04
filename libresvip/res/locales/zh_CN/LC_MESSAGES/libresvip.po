@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-23 23:12+0800\n"
-"PO-Revision-Date: 2024-03-24 01:26\n"
+"POT-Creation-Date: 2024-04-04 23:06+0800\n"
+"PO-Revision-Date: 2024-04-04 15:16\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -75,74 +75,86 @@ msgid "Drag and drop files here"
 msgstr "拖拽或单击导入文件"
 
 #: converter_page%2315
+msgid "Conversion Mode:"
+msgstr ""
+
+#: converter_page%2316
+msgid "Direct"
+msgstr ""
+
+#: converter_page%2317
+msgid "Merge Tracks"
+msgstr ""
+
+#: converter_page%2318
+msgid "Track Grouping"
+msgstr ""
+
+#: converter_page%2319
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: converter_page%2316
+#: converter_page%2320
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: converter_page%2317
+#: converter_page%2321
 msgid "Reset Default Extension"
 msgstr "恢复默认命名"
 
-#: converter_page%2318
+#: converter_page%2322
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: converter_page%2319
+#: converter_page%2323
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: converter_page%2320
+#: converter_page%2324
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: converter_page%2321 settings_dialog%236
+#: converter_page%2325 settings_dialog%236
 msgid "Output Settings"
 msgstr "输出设置"
 
-#: converter_page%2322
+#: converter_page%2326
 msgid "Choose Output Folder"
 msgstr "选择输出文件夹"
 
-#: converter_page%2323
+#: converter_page%2327
 msgid "Output Folder"
 msgstr "输出文件夹"
 
-#: converter_page%2324 settings_dialog%237
+#: converter_page%2328 settings_dialog%237
 msgid "Deal with Conflicts"
 msgstr "遇到同名文件时"
 
-#: converter_page%2325
-msgid "Page 1"
-msgstr "第1页"
+#: converter_page%2329
+msgid "Export"
+msgstr "导出"
 
-#: converter_page%2326
-msgid "Page 2"
-msgstr "第2页"
-
-#: converter_page%2327
+#: converter_page%2330
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: converter_page%2328
+#: converter_page%2331
 msgid "Converting"
 msgstr "转换中"
 
-#: converter_page%2329 settings_dialog%238
+#: converter_page%2332 settings_dialog%238
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
-#: converter_page%2330 settings_dialog%2314
+#: converter_page%2333 settings_dialog%2315
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: converter_page%2331 settings_dialog%2315
+#: converter_page%2334 settings_dialog%2316
 msgid "Skip"
 msgstr "跳过"
 
-#: converter_page%2332 settings_dialog%2316
+#: converter_page%2335 settings_dialog%2317
 msgid "Prompt"
 msgstr "询问"
 
@@ -254,27 +266,31 @@ msgstr "自定义 (浏览选择)"
 msgid "Manage Folders Presets"
 msgstr "管理文件夹预设"
 
-#: settings_dialog%2317
+#: settings_dialog%2314
+msgid "Format Provider Plugins"
+msgstr ""
+
+#: settings_dialog%2318
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr ""
+
+#: settings_dialog%2319
 msgid "Auto Check for Updates"
 msgstr "自动检查更新"
 
-#: settings_dialog%2318
+#: settings_dialog%2320
 msgid "Conversion Settings"
 msgstr "转换设置"
 
-#: settings_dialog%2319
+#: settings_dialog%2321
 msgid "Basic Settings"
 msgstr "基础设置"
 
-#: settings_dialog%2320
+#: settings_dialog%2322
 msgid "Save Path Settings"
 msgstr "导出路径设置"
 
-#: settings_dialog%2321
-msgid "Select Plugins"
-msgstr "选择插件"
-
-#: settings_dialog%2322
+#: settings_dialog%2323
 msgid "Updates Settings"
 msgstr "更新设置"
 
@@ -446,7 +462,8 @@ msgstr "序号"
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:64 ../libresvip/web/pages.py:177
+#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/gui/models/table_models.py:16 ../libresvip/web/pages.py:188
 msgid "Author"
 msgstr "作者"
 
@@ -503,29 +520,41 @@ msgstr "可用值如下："
 msgid "Extension {} is not supported. Supported extensions are: {}"
 msgstr "不支持 {} 扩展名。支持的扩展名包括 {}"
 
-#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:96
+#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:100
+#: ../libresvip/cli/commands/proj.py:177
 msgid "Input Options: "
 msgstr "导入选项： "
 
-#: ../libresvip/cli/commands/proj.py:58
+#: ../libresvip/cli/commands/proj.py:58 ../libresvip/cli/commands/proj.py:110
+#: ../libresvip/cli/commands/proj.py:156
 msgid "Enable {} middleware?"
 msgstr "启用 {} 中间件吗?"
 
-#: ../libresvip/cli/commands/proj.py:66
+#: ../libresvip/cli/commands/proj.py:66 ../libresvip/cli/commands/proj.py:118
+#: ../libresvip/cli/commands/proj.py:162
 msgid "Process Options: "
 msgstr "处理选项： "
 
-#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:119
+#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:126
+#: ../libresvip/cli/commands/proj.py:197
 msgid "Output Options: "
 msgstr "导出选项： "
 
 #: ../libresvip/cli/commands/proj.py:88
-msgid "Offset in milliseconds"
-msgstr "偏移量，单位为毫秒"
+msgid "Output format"
+msgstr ""
 
 #: ../libresvip/cli/commands/proj.py:89
-msgid "Mute other tracks"
-msgstr "使其它音轨静音"
+msgid "Maximum track count per file"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:132
+msgid "Converting ..."
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:16
+msgid "Applicable File Format"
+msgstr ""
 
 #: ../libresvip/gui/modules/notifier.py:55
 msgid "Downloading"
@@ -584,127 +613,123 @@ msgstr "检查更新失败，请稍后再试。"
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
-#: ../libresvip/web/pages.py:167
+#: ../libresvip/web/pages.py:178
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:187 ../libresvip/web/pages.py:204
-#: ../libresvip/web/pages.py:1009 ../libresvip/web/pages.py:1025
-#: ../libresvip/web/pages.py:1135 ../libresvip/web/pages.py:1187
+#: ../libresvip/web/pages.py:198 ../libresvip/web/pages.py:215
+#: ../libresvip/web/pages.py:998 ../libresvip/web/pages.py:1014
+#: ../libresvip/web/pages.py:1129 ../libresvip/web/pages.py:1181
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:194
+#: ../libresvip/web/pages.py:205
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:325 ../libresvip/web/pages.py:439
+#: ../libresvip/web/pages.py:321 ../libresvip/web/pages.py:435
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:329 ../libresvip/web/pages.py:443
+#: ../libresvip/web/pages.py:325 ../libresvip/web/pages.py:439
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:570 ../libresvip/web/pages.py:600
+#: ../libresvip/web/pages.py:561 ../libresvip/web/pages.py:591
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:576 ../libresvip/web/pages.py:606
-#: ../libresvip/web/pages.py:771 ../libresvip/web/pages.py:1099
-#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1210
+#: ../libresvip/web/pages.py:567 ../libresvip/web/pages.py:597
+#: ../libresvip/web/pages.py:761 ../libresvip/web/pages.py:1092
+#: ../libresvip/web/pages.py:1147 ../libresvip/web/pages.py:1204
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:769
+#: ../libresvip/web/pages.py:759
 msgid "Conversion Progress"
 msgstr "转换进度"
 
-#: ../libresvip/web/pages.py:774
+#: ../libresvip/web/pages.py:764
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:777
+#: ../libresvip/web/pages.py:767
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:830 ../libresvip/web/pages.py:864
+#: ../libresvip/web/pages.py:821 ../libresvip/web/pages.py:856
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
-#: ../libresvip/web/pages.py:851
+#: ../libresvip/web/pages.py:843
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:861
+#: ../libresvip/web/pages.py:853
 msgid "Compressed Archive (*.zip)"
 msgstr "压缩文件 (*.zip)"
 
-#: ../libresvip/web/pages.py:873
+#: ../libresvip/web/pages.py:865
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:963 ../libresvip/web/pages.py:983
+#: ../libresvip/web/pages.py:952 ../libresvip/web/pages.py:972
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:972 ../libresvip/web/pages.py:1222
+#: ../libresvip/web/pages.py:961 ../libresvip/web/pages.py:1217
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:1000 ../libresvip/web/pages.py:1138
+#: ../libresvip/web/pages.py:989 ../libresvip/web/pages.py:1132
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:1017 ../libresvip/web/pages.py:1190
+#: ../libresvip/web/pages.py:1006 ../libresvip/web/pages.py:1184
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:1030
+#: ../libresvip/web/pages.py:1019
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:1052
+#: ../libresvip/web/pages.py:1041
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:1100
+#: ../libresvip/web/pages.py:1093
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:1111
+#: ../libresvip/web/pages.py:1104
 msgid "Documentation"
 msgstr "文档"
 
-#: ../libresvip/web/pages.py:1126
+#: ../libresvip/web/pages.py:1120
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:1163
+#: ../libresvip/web/pages.py:1157
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:1170
+#: ../libresvip/web/pages.py:1164
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1320
+#: ../libresvip/web/pages.py:1310
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1349
-msgid "Export"
-msgstr "导出"
-
-#: ../libresvip/web/pages.py:1350
+#: ../libresvip/web/pages.py:1342
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/web/pages.py:1359
+#: ../libresvip/web/pages.py:1351
 msgid "Intermediate Processing"
 msgstr "中间环节处理"
 
-#: ../libresvip/utils/audio.py:36
+#: ../libresvip/utils/audio.py:35
 msgid "Audio file not found: "
 msgstr "未找到音频文件："
 
