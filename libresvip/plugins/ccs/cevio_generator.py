@@ -1,7 +1,6 @@
 import dataclasses
 import datetime
 import uuid
-import warnings
 from typing import Optional
 
 from wanakana import PROLONGED_SOUND_MARK
@@ -10,7 +9,7 @@ from xsdata.models.datatype import XmlTime
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -184,7 +183,7 @@ class CeVIOGenerator:
             if not is_kana(lyric) and not is_romaji(lyric):
                 phonetic = DEFAULT_PHONEME
                 msg_prefix = _("Unsupported lyric: ")
-                warnings.warn(f"{msg_prefix} {lyric}", PhonemeWarning)
+                show_warning(f"{msg_prefix} {lyric}")
             cevio_notes.append(
                 CeVIONote(
                     clock=int(note.start_pos * TICK_RATE),

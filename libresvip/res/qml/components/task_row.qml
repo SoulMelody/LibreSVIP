@@ -11,26 +11,34 @@ ColumnLayout {
     required property string path
     required property string stem
     required property string ext
-    required property string index
+    required property int index
     width: converterPage.taskList.width
     height: 45
 
     Item {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Column {
-            width: parent.width - 280
-            Label {
-                width: parent.width
-                text: name
-                elide: Text.ElideRight
-                font.bold: true
-                font.pixelSize: Qt.application.font.pixelSize * 1.2
+        RowLayout {
+            width: parent.width - 260
+            Column {
+                Layout.fillWidth: true
+                Label {
+                    width: parent.width
+                    text: name
+                    elide: Text.ElideRight
+                    font.bold: true
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                }
+                Label {
+                    width: parent.width
+                    text: path
+                    elide: Text.ElideRight
+                }
             }
             Label {
-                width: parent.width
-                text: path
-                elide: Text.ElideRight
+                text: TaskManager.conversion_mode === "Merge" && index !== 0 ? IconicFontLoader.icon("mdi7.transfer-up") : IconicFontLoader.icon("mdi7.transfer-right")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
             }
         }
         RowLayout {
@@ -38,14 +46,10 @@ ColumnLayout {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             anchors.right: parent.right
-            Label {
-                text: IconicFontLoader.icon("mdi7.transfer-right")
-                font.family: "Material Design Icons"
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
-            }
 
             TextField {
                 id: stemField
+                visible: TaskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: stem
                 onEditingFinished: {
                     converterPage.taskList.model.update(index, {stem: this.text})
@@ -54,6 +58,7 @@ ColumnLayout {
 
             Label {
                 id: extLabel
+                visible: TaskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: ext
             }
 
@@ -100,6 +105,7 @@ ColumnLayout {
                             }
                             Button {
                                 Layout.alignment: Qt.AlignHCenter
+                                visible: TaskManager.conversion_mode === "Split" ? false : true
                                 background: Rectangle {
                                     color: Material.color(Material.Indigo, Material.Shade500)
                                 }
@@ -290,42 +296,39 @@ ColumnLayout {
         color: Material.color(Material.Grey, Material.Shade700)
     }
     Connections {
-        target: TaskManager
-        function onAll_tasks_finished() {
-            let task_result = converterPage.taskList.model.get(index)
-            if (task_result.success) {
-                let conflict = TaskManager.output_path_exists(index)
-                let conflict_policy = ConfigItems.get_conflict_policy()
-                if (!conflict || conflict_policy == "Overwrite" || (
-                    conflict_policy == "Prompt" && window.yesToAll
-                )) {
-                    let move_result = TaskManager.move_to_output(index)
-                    if (move_result) {
-                        if (task_result.warning) {
-                            warningLabel.text = Clipboard.shorten_error_message(task_result.warning)
-                            warningLabel.warningFullText = task_result.warning
-                            warningButton.visible = true
-                        } else {
-                            successButton.visible = true
-                        }
+        target: converterPage.taskList.model
+        function onDataChanged(idx1, idx2, value) {
+            if (idx1.row <= taskRow.index && taskRow.index <= idx2.row) {
+                let task_result = converterPage.taskList.model.get(taskRow.index)
+                if (value.includes(2)) { // 2 is the index of the stem field
+                    stemField.text = task_result.stem
+                } 
+                if (value.includes(3)) {  // 3 is the index of the ext field
+                    extLabel.text = task_result.ext
+                }
+                if (value.includes(5)) {  // 5 is the index of the running field
+                    if (task_result.running) {
+                        successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
+                        runningIndicator.visible = true
                     } else {
-                        errorButton.visible = true
-                    }
-                } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
-                    skipButton.visible = true
-                } else {
-                    let message_box = messageBox.createObject(
-                        taskList,
-                        {
-                            body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
-                            message: qsTr("File %1 already exists. Overwrite?").arg(
-                                TaskManager.get_output_path(index)
-                            ),
-                            onOk: () => {
+                        runningIndicator.visible = false
+                        let error = task_result.error
+                        if (error) {
+                            errorLabel.text = Clipboard.shorten_error_message(error)
+                            errorLabel.errorFullText = error
+                            errorButton.visible = true
+                            runningIndicator.visible = false
+                        } else if (task_result.success) {
+                            let conflict = TaskManager.output_path_exists(index)
+                            let conflict_policy = ConfigItems.conflict_policy
+                            if (!conflict || conflict_policy == "Overwrite" || (
+                                conflict_policy == "Prompt" && window.yesToAll
+                            )) {
                                 let move_result = TaskManager.move_to_output(index)
                                 if (move_result) {
                                     if (task_result.warning) {
-                                        warningLabel.text = task_result.warning
+                                        warningLabel.text = Clipboard.shorten_error_message(task_result.warning)
+                                        warningLabel.warningFullText = task_result.warning
                                         warningButton.visible = true
                                     } else {
                                         successButton.visible = true
@@ -333,42 +336,40 @@ ColumnLayout {
                                 } else {
                                     errorButton.visible = true
                                 }
-                            },
-                            onCancel: () => {
+                            } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
                                 skipButton.visible = true
+                            } else {
+                                let message_box = messageBox.createObject(
+                                    taskList,
+                                    {
+                                        body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
+                                        message: qsTr("File %1 already exists. Overwrite?").arg(
+                                            TaskManager.get_output_path(index)
+                                        ),
+                                        onOk: () => {
+                                            let move_result = TaskManager.move_to_output(index)
+                                            if (move_result) {
+                                                if (task_result.warning) {
+                                                    warningLabel.text = task_result.warning
+                                                    warningButton.visible = true
+                                                } else {
+                                                    successButton.visible = true
+                                                }
+                                            } else {
+                                                errorButton.visible = true
+                                            }
+                                        },
+                                        onCancel: () => {
+                                            skipButton.visible = true
+                                        }
+                                    }
+                                )
+                                message_box.open()
                             }
+                        } else {
+                            successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
                         }
-                    )
-                    message_box.open()
-                }
-            } else if (successButton.visible) {
-                successButton.visible = false
-            }
-        }
-        function onBusy_changed(busy) {
-            if (busy) {
-                successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
-                runningIndicator.visible = true
-            } else {
-                runningIndicator.visible = false
-            }
-        }
-    }
-    Connections {
-        target: converterPage.taskList.model
-        function onDataChanged(idx1, idx2, value) {
-            if (idx1.row <= taskRow.index && taskRow.index <= idx2.row) {
-                let taskModel = converterPage.taskList.model.get(taskRow.index)
-                stemField.text = taskModel.stem
-                extLabel.text = taskModel.ext
-                let error = taskModel.error
-                if (error) {
-                    errorLabel.text = Clipboard.shorten_error_message(error)
-                    errorLabel.errorFullText = error
-                    errorButton.visible = true
-                    runningIndicator.visible = false
-                } else if (errorButton.visible) {
-                    errorButton.visible = false
+                    }
                 }
             }
         }

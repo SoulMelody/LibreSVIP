@@ -47,41 +47,42 @@ class NotePitchData:
 def pitch_to_utau_mode2_track(
     pitch: ParamCurve, notes: list[Note], tempos: list[SongTempo]
 ) -> UtauMode2TrackPitchData:
-    absolute_pitch = pitch.points.root
+    absolute_pitch = [
+        point._replace(x=point.x - 1920) for point in pitch.points.root if point.y != -100
+    ]
 
     def to_relative(from_: list[Point], key: int) -> list[Point]:
         return [Point(x=p.x, y=(p.y or key * 100) - key * 100) for p in from_]
 
-    dot_pit_data = [
-        NotePitchData(
-            to_relative(
-                [point for point in absolute_pitch if point.x < notes[0].end_pos],
-                notes[0].key_number,
-            ),
-            -min((point.x for point in absolute_pitch if point.x < 0), default=0),
-            bpm_for_note(tempos, notes[0]),
-        ),  # first note
-    ] + [
-        NotePitchData(
-            to_relative(
-                [
-                    point
-                    for point in absolute_pitch
-                    if notes[i].start_pos <= point.x < notes[i].end_pos
-                ],
-                notes[i].key_number,
-            ),
-            (
-                next(
-                    (point.x for point in absolute_pitch if point.x >= notes[i].start_pos),
-                    notes[i].start_pos,
-                )
-                - notes[i].start_pos
-            ),
-            bpm_for_note(tempos, notes[i]),
-        )
-        for i in range(1, len(notes))
-    ]
+    dot_pit_data = (
+        [
+            NotePitchData(
+                to_relative(
+                    [point for point in absolute_pitch if point.x < notes[0].end_pos],
+                    notes[0].key_number,
+                ),
+                -min((point.x for point in absolute_pitch if point.x < 0), default=0),
+                bpm_for_note(tempos, notes[0]),
+            ),  # first note
+        ]
+        + [
+            NotePitchData(
+                to_relative(
+                    [point for point in absolute_pitch if note.start_pos <= point.x < note.end_pos],
+                    note.key_number,
+                ),
+                (
+                    next(
+                        (point.x for point in absolute_pitch if point.x >= note.start_pos),
+                        note.start_pos,
+                    )
+                    - note.start_pos
+                ),
+                bpm_for_note(tempos, note),
+            )
+            for note in notes[1:]
+        ]
+    )
 
     dot_pit_data_simplified = [
         NotePitchData(

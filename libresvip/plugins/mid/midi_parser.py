@@ -2,13 +2,12 @@ import collections
 import dataclasses
 import math
 import operator
-import warnings
 
 import mido_fix as mido
 import more_itertools
 
 from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
-from libresvip.core.warning_types import NotesWarning, TempoWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -136,7 +135,7 @@ class MidiParser:
                         tempos.append(SongTempo(position=tick, bpm=tempo))
         if not tempos:
             # default bpm
-            warnings.warn(_("No tempo labels found in the imported project."), TempoWarning)
+            show_warning(_("No tempo labels found in the imported project."))
             tempos.append(SongTempo(position=0, bpm=self.options.default_bpm))
         else:
             tempos.sort(key=operator.attrgetter("position"))
@@ -250,7 +249,7 @@ class MidiParser:
                             volume_base = velocity_to_db_change(event.value)
             if has_overlap(notes):
                 msg = _("Overlapping notes in track {}").format(track_idx)
-                warnings.warn(msg, NotesWarning)
+                show_warning(msg)
             edited_params = Params(volume=expression)
             if self.options.import_pitch:
                 rel_pitch_points.sort(key=operator.attrgetter("x"))

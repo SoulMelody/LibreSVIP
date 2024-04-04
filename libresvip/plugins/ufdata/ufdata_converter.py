@@ -3,6 +3,7 @@ import pathlib
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.utils.text import to_unicode
 
 from .model import UFData
 from .options import InputOptions, OutputOptions
@@ -12,7 +13,7 @@ from .ufdata_parser import UFDataParser
 
 class UFDataConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        ufdata_project = UFData.model_validate(json.loads(path.read_bytes().decode("utf-8")))
+        ufdata_project = UFData.model_validate_json(to_unicode(path.read_bytes()))
         return UFDataParser(options).parse_project(ufdata_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:

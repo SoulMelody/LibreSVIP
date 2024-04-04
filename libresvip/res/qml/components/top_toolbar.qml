@@ -65,7 +65,7 @@ ToolBar {
             color: "transparent"
             Image {
                 anchors.centerIn: parent
-                source: ConfigItems.icon_data()
+                source: ConfigItems.icon_data
                 sourceSize.width: 16
                 sourceSize.height: 16
             }
@@ -187,7 +187,7 @@ ToolBar {
                             action: actions.clearTasks;
                             icon_name: "mdi7.refresh"
                             label: qsTr("Clear Tasks (Ctrl+R)");
-                            enabled: converterPage.taskList.count > 0
+                            enabled: TaskManager.count > 0
                         }
                         MenuSeparator {}
                         IconMenuItem {
@@ -211,7 +211,7 @@ ToolBar {
                             id: importFormatMenu
                             width: 300
                             title: qsTr("Input Format (&I)")
-                            enabled: converterPage.inputFormatComboBox.enabled
+                            enabled: !TaskManager.busy
                             ButtonGroup {
                                 id: inputFormatButtonGroup
                             }
@@ -269,7 +269,7 @@ ToolBar {
                             id: exportFormatMenu
                             width: 300
                             title: qsTr("Output Format (&E)")
-                            enabled: converterPage.outputFormatComboBox.enabled
+                            enabled: !TaskManager.busy
                             ButtonGroup {
                                 id: exportFormatButtonGroup
                             }
@@ -374,7 +374,7 @@ ToolBar {
                                 }
                             }
                             Component.onCompleted: {
-                                let currentTheme = ConfigItems.get_theme()
+                                let currentTheme = ConfigItems.theme
                                 if (currentTheme === "Light") {
                                     lightThemeMenuItem.checked = true
                                 } else if (currentTheme === "Dark") {

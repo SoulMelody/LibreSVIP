@@ -13,6 +13,8 @@ lazy_translation: contextvars.ContextVar[Optional[gettext.NullTranslations]] = (
 
 
 def gettext_lazy(message: str) -> str:
+    if not message:
+        return message
     with contextlib.suppress(LookupError):
         if (translation := singleton_translation) is not None or (
             translation := lazy_translation.get()

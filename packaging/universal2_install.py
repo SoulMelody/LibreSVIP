@@ -22,7 +22,7 @@ if __name__ == "__main__":
         "ujson",
         "zstandard",
     ]
-    libmediainfo_version = "24.01"
+    libmediainfo_version = "24.03"
     cwd = pathlib.Path()
     requirements_path = cwd / "requirements.txt"
     tmp_dir = cwd / "temp"

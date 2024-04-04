@@ -10,7 +10,6 @@ import secrets
 import textwrap
 import traceback
 import uuid
-import warnings
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
@@ -20,7 +19,6 @@ from typing import (
     BinaryIO,
     Optional,
     SupportsFloat,
-    TypedDict,
     Union,
     get_args,
     get_type_hints,
@@ -33,7 +31,8 @@ from nicegui.context import get_client
 from nicegui.elements.switch import Switch
 from nicegui.events import KeyEventArguments, UploadEventArguments
 from nicegui.storage import request_contextvar
-from pydantic import create_model
+from pydantic import RootModel, create_model
+from pydantic.dataclasses import dataclass
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -42,9 +41,13 @@ from starlette.responses import Response
 from upath import UPath
 
 import libresvip
-from libresvip.core.config import DarkMode, settings
+from libresvip.core.config import (
+    DarkMode,
+    Language,
+    LibreSvipBaseUISettings,
+)
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
-from libresvip.core.warning_types import BaseWarning
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils.text import shorten_error_message
@@ -56,6 +59,21 @@ if TYPE_CHECKING:
     from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
+
+
+@dataclass
+class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
+    def __post_init__(self) -> None:
+        detected_language = None
+        request = request_contextvar.get()
+        if accept_lang := request.headers.get("Accept-Language"):
+            first_lang = accept_lang.split(",")[0].partition(";")[0]
+            if first_lang.startswith("zh"):
+                detected_language = Language.from_locale("zh_CN")
+            elif first_lang.startswith("ja"):
+                detected_language = Language.from_locale("ja_JP")
+        if detected_language is not None:
+            self.language = detected_language
 
 
 def dark_mode2str(mode: DarkMode) -> Optional[bool]:
@@ -88,13 +106,13 @@ class ConversionTask:
     name: str
     upload_path: pathlib.Path
     output_path: pathlib.Path
-    converting: bool
+    running: bool
     success: Optional[bool]
     error: Optional[str]
     warning: Optional[str]
 
     def reset(self) -> None:
-        self.converting = False
+        self.running = False
         self.success = None
         self.error = None
         self.warning = None
@@ -113,33 +131,26 @@ class ConversionTask:
 def page_layout(lang: Optional[str] = None) -> None:
     cur_client = get_client()
 
-    if "lang" not in app.storage.user:
-        request = request_contextvar.get()
-        if accept_lang := request.headers.get("accept-language"):
-            first_lang = accept_lang.split(",")[0].partition(";")[0]
-            if first_lang.startswith("zh"):
-                app.storage.user["lang"] = "zh_CN"
-            elif first_lang.startswith("ja"):
-                app.storage.user["lang"] = "ja_JP"
-        if "lang" not in app.storage.user:
-            app.storage.user["lang"] = "en_US"
+    default_settings = LibreSvipWebUserSettings()
+    default_settings_dict = RootModel[LibreSvipWebUserSettings](default_settings).model_dump(
+        mode="json"
+    )
+
+    for key, default_value in default_settings_dict.items():
+        if key not in app.storage.user:
+            if key == "dark_mode":
+                default_value = dark_mode2str(default_value)
+            app.storage.user[key] = default_value
     if lang is None:
-        lang = app.storage.user["lang"]
-    try:
-        assert lang in ["en_US", "zh_CN", "ja_JP"]
-    except AssertionError:
-        lang = "en_US"
-    if lang != app.storage.user["lang"]:
-        app.storage.user["lang"] = lang
+        lang = app.storage.user["language"]
+    if lang != app.storage.user["language"]:
+        app.storage.user["language"] = lang
     translation = get_translation(PACKAGE_NAME, lang)
 
     def _(message: str) -> str:
         if message.strip():
             return translation.gettext(message)
         return message
-
-    if "dark_mode" not in app.storage.user:
-        app.storage.user["dark_mode"] = dark_mode2str(DarkMode.SYSTEM)
 
     plugin_details = {
         identifier: {
@@ -227,33 +238,18 @@ def page_layout(lang: Optional[str] = None) -> None:
     def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
         conversion_plugin = plugin_manager.plugin_registry[attr]
-        field_types = {}
         option_class = None
-        if (
-            hasattr(conversion_plugin.plugin_object, method)
-            and (
-                option_class := get_type_hints(
-                    getattr(conversion_plugin.plugin_object, method),
-                ).get("options")
-            )
-            and hasattr(option_class, "model_fields")
+        if hasattr(conversion_plugin.plugin_object, method) and (
+            _option_class := get_type_hints(
+                getattr(conversion_plugin.plugin_object, method),
+            ).get("options")
         ):
-            for option_key, field_info in option_class.model_fields.items():
-                if issubclass(
-                    field_info.annotation,
-                    (str, Color, enum.Enum, BaseComplexModel),
-                ):
-                    field_types[option_key] = str
-                else:
-                    field_types[option_key] = field_info.annotation
-        if not option_class or not field_types:
+            option_class = _option_class
+        if not option_class:
             return
-        setattr(
-            selected_formats,
-            attr_prefix + "_options",
-            TypedDict(f"{attr_prefix.title()}Options", field_types)(),
-        )
         option_dict = getattr(selected_formats, attr_prefix + "_options")
+        option_dict.clear()
+        option_dict.update(option_class().model_dump())
         with ui.column().classes("w-full"):
             for i, (option_key, field_info) in enumerate(
                 option_class.model_fields.items(),
@@ -454,6 +450,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ):
                             ui.tooltip(_(field_info.description))
 
+    select_input: Select
+    select_output: Select
+
     @dataclasses.dataclass
     class SelectedFormats:
         _input_format: str = dataclasses.field(default="")
@@ -485,21 +484,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                     )
                 },
             )()
-            self.input_format = app.storage.user.get("last_input_format") or next(  # type: ignore[no-redef]
+            self.input_format = app.storage.user["last_input_format"] or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
             )
-            self.output_format = app.storage.user.get("last_output_format") or next(  # type: ignore[no-redef]
+            self.output_format = app.storage.user["last_output_format"] or next(  # type: ignore[no-redef]
                 iter(plugin_manager.plugin_registry),
                 "",
-            )
-            app.storage.user.setdefault(
-                "auto_detect_input_format",
-                settings.auto_detect_input_format,
-            )
-            app.storage.user.setdefault(
-                "reset_tasks_on_input_change",
-                settings.reset_tasks_on_input_change,
             )
             app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
             app.add_route(
@@ -540,7 +531,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ui.label(info.name).classes("flex-grow")
                         ui.spinner().props("size=lg").bind_visibility_from(
                             info,
-                            "converting",
+                            "running",
                         )
                         ui.icon("check", size="lg").classes(
                             "text-green-500",
@@ -611,7 +602,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         ).props("round").bind_visibility_from(info, "warning")
                         ui.button(
                             icon="download",
-                            on_click=functools.partial(selected_formats.save_file, info.name),
+                            on_click=functools.partial(self.save_file, info.name),
                         ).props("round").bind_visibility_from(info, "success")
                         with ui.button(icon="close", on_click=remove_row).props(
                             "round",
@@ -623,7 +614,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             name: str,
             content: Union[BinaryIO, aiofiles.threadpool.binary.AsyncBufferedReader],
         ) -> None:
-            if app.storage.user.get("auto_detect_input_format"):
+            if app.storage.user["auto_detect_input_format"]:
                 cur_suffix = name.rpartition(".")[-1].lower()
                 if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
@@ -639,7 +630,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 name=name,
                 upload_path=upload_path,
                 output_path=output_path,
-                converting=False,
+                running=False,
                 success=None,
                 error=None,
                 warning=None,
@@ -658,7 +649,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         def input_format(self, value: str) -> None:
             if value != self._input_format:
                 self._input_format = value
-                if app.storage.user.get("reset_tasks_on_input_change"):
+                if app.storage.user["reset_tasks_on_input_change"]:
                     self.files_to_convert.clear()
                 app.storage.user["last_input_format"] = value
                 input_plugin_info.refresh()
@@ -687,10 +678,9 @@ def page_layout(lang: Optional[str] = None) -> None:
         def convert_one(self, task: ConversionTask) -> None:
             task.reset()
             lazy_translation.set(translation)
-            task.converting = True
+            task.running = True
             try:
-                with warnings.catch_warnings(record=True) as w:
-                    warnings.simplefilter("always", BaseWarning)
+                with CatchWarnings() as w:
                     input_plugin = plugin_manager.plugin_registry[self.input_format]
                     output_plugin = plugin_manager.plugin_registry[self.output_format]
                     if (
@@ -742,12 +732,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                             output_option(**self.output_options),
                         )
                         task.success = True
-                if len(w):
-                    task.warning = "\n".join(str(warning.message) for warning in w)
+                if w.output:
+                    task.warning = w.output
             except Exception:
                 task.success = False
                 task.error = traceback.format_exc()
-            task.converting = False
+            task.running = False
 
         async def batch_convert(self) -> None:
             n = ui.notification(_("Converting"), timeout=0)
@@ -820,6 +810,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             )
 
         async def add_upload(self) -> None:
+            nonlocal select_input
             if app.native.main_window is not None and hasattr(
                 app.native.main_window, "create_file_dialog"
             ):
@@ -840,6 +831,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ui.run_javascript("add_upload()")
 
         async def save_file(self, file_name: str = "") -> None:
+            nonlocal select_output
             if app.native.main_window is not None and hasattr(
                 app.native.main_window, "create_file_dialog"
             ):
@@ -889,13 +881,10 @@ def page_layout(lang: Optional[str] = None) -> None:
     )  # fix icon position
 
     def swap_values() -> None:
-        select_input.value, select_output.value = (
-            select_output.value,
-            select_input.value,
+        selected_formats.input_format, selected_formats.output_format = (
+            selected_formats.output_format,
+            selected_formats.input_format,
         )
-
-    with ui.left_drawer(value=False) as drawer:
-        pass
 
     with (
         ui.header(elevated=True)
@@ -904,7 +893,6 @@ def page_layout(lang: Optional[str] = None) -> None:
             "items-center",
         )
     ):
-        ui.button(icon="menu", on_click=drawer.toggle)
         convert_menu: Menu
         input_formats_menu: Menu
         output_formats_menu: Menu
@@ -960,366 +948,370 @@ def page_layout(lang: Optional[str] = None) -> None:
                             format_item.value = format_item._values[key]
 
         ui.keyboard(on_key=handle_key, active=True)
-        with ui.button(_("Convert"), on_click=lambda: convert_menu.open(), icon="loop"):
-            ui.tooltip("Alt+C")
-            with ui.menu() as convert_menu:
-                with ui.menu_item(
-                    on_click=selected_formats.add_upload,
-                ):
-                    ui.tooltip("Alt+O")
-                    with ui.row().classes("items-center"):
-                        ui.icon("file_open").classes("text-lg")
-                        ui.label(_("Import project"))
-                with ui.menu_item(
-                    on_click=selected_formats.batch_convert,
-                ).bind_visibility_from(
-                    selected_formats,
-                    "task_count",
-                    backward=bool,
-                ):
-                    ui.tooltip("Alt+Enter")
-                    with ui.row().classes("items-center"):
-                        ui.icon("play_arrow").classes("text-lg")
-                        ui.label(_("Convert"))
-                with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
-                    selected_formats,
-                    "task_count",
-                    backward=bool,
-                ):
-                    ui.tooltip("Alt+/")
-                    with ui.row().classes("items-center"):
-                        ui.icon("refresh").classes("text-lg")
-                        ui.label(_("Clear Task List"))
-                ui.separator()
-                with ui.menu_item(on_click=swap_values):
-                    ui.tooltip("Alt+\\")
-                    with ui.row().classes("items-center"):
-                        ui.icon("swap_vert").classes("text-lg")
-                        ui.label(_("Swap Input and Output"))
-        with ui.button(
-            _("Import format"),
-            on_click=lambda: input_formats_menu.open(),
-            icon="login",
-        ):
-            ui.tooltip("Alt+[")
-            with ui.menu() as input_formats_menu:
-                input_format_item = (
-                    ui.radio(
+        with ui.row():
+            with ui.button(_("Convert"), on_click=lambda: convert_menu.open(), icon="loop"):
+                ui.tooltip("Alt+C")
+                with ui.menu() as convert_menu:
+                    with ui.menu_item(
+                        on_click=selected_formats.add_upload,
+                    ):
+                        ui.tooltip("Alt+O")
+                        with ui.row().classes("items-center"):
+                            ui.icon("file_open").classes("text-lg")
+                            ui.label(_("Import project"))
+                    with ui.menu_item(
+                        on_click=selected_formats.batch_convert,
+                    ).bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    ):
+                        ui.tooltip("Alt+Enter")
+                        with ui.row().classes("items-center"):
+                            ui.icon("play_arrow").classes("text-lg")
+                            ui.label(_("Convert"))
+                    with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    ):
+                        ui.tooltip("Alt+/")
+                        with ui.row().classes("items-center"):
+                            ui.icon("refresh").classes("text-lg")
+                            ui.label(_("Clear Task List"))
+                    ui.separator()
+                    with ui.menu_item(on_click=swap_values):
+                        ui.tooltip("Alt+\\")
+                        with ui.row().classes("items-center"):
+                            ui.icon("swap_vert").classes("text-lg")
+                            ui.label(_("Swap Input and Output"))
+            with ui.button(
+                _("Import format"),
+                on_click=lambda: input_formats_menu.open(),
+                icon="login",
+            ):
+                ui.tooltip("Alt+[")
+                with ui.menu() as input_formats_menu:
+                    input_format_item = (
+                        ui.radio(
+                            {
+                                k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
+                                for i, (k, v) in enumerate(plugin_details.items())
+                            },
+                        )
+                        .bind_value(selected_formats, "input_format")
+                        .classes("text-sm")
+                    )
+            with ui.button(
+                _("Export format"),
+                on_click=lambda: output_formats_menu.open(),
+                icon="logout",
+            ):
+                ui.tooltip("Alt+]")
+                with ui.menu() as output_formats_menu:
+                    output_format_item = ui.radio(
                         {
                             k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
-                    )
-                    .bind_value(selected_formats, "input_format")
-                    .classes("text-sm")
-                )
-        with ui.button(
-            _("Export format"),
-            on_click=lambda: output_formats_menu.open(),
-            icon="logout",
-        ):
-            ui.tooltip("Alt+]")
-            with ui.menu() as output_formats_menu:
-                output_format_item = ui.radio(
-                    {
-                        k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
-                        for i, (k, v) in enumerate(plugin_details.items())
-                    },
-                ).bind_value(selected_formats, "output_format")
-        with ui.button(
-            _("Switch Theme"),
-            on_click=lambda: theme_menu.open(),
-            icon="palette",
-        ):
-            ui.tooltip("Alt+T")
-            with ui.menu() as theme_menu:
-                with ui.menu_item(on_click=dark_toggler.disable):
-                    ui.tooltip("Alt+W")
-                    with ui.row().classes("items-center"):
-                        ui.icon("light_mode").classes("text-lg")
-                        ui.label(_("Light"))
-                with ui.menu_item(on_click=dark_toggler.enable):
-                    ui.tooltip("Alt+B")
-                    with ui.row().classes("items-center"):
-                        ui.icon("dark_mode").classes("text-lg")
-                        ui.label(_("Dark"))
-                with ui.menu_item(on_click=dark_toggler.auto):
-                    ui.tooltip("Alt+S")
-                    with ui.row().classes("items-center"):
-                        ui.icon("brightness_auto").classes("text-lg")
-                        ui.label(_("System"))
-        with ui.button(
-            _("Switch Language"),
-            on_click=lambda: lang_menu.open(),
-            icon="language",
-        ):
-            ui.tooltip("Alt+L")
-            with ui.menu() as lang_menu:
-                ui.menu_item(
-                    "简体中文",
-                    on_click=lambda: ui.navigate.to("/?lang=zh_CN") if lang != "zh_CN" else None,
-                )
-                ui.menu_item(
-                    "English",
-                    on_click=lambda: ui.navigate.to("/?lang=en_US") if lang != "en_US" else None,
-                )
-                ui.menu_item("日本語").props("disabled")
-        with ui.dialog() as about_dialog, ui.card():
-            ui.label(_("About")).classes("text-lg")
-            with ui.column().classes("text-center w-full"):
-                ui.label(_("LibreSVIP")).classes("text-h4 font-bold w-full")
-                ui.label(_("Version: ") + libresvip.__version__).classes(
-                    "text-md w-full",
-                )
-                ui.label(_("Author: SoulMelody")).classes("text-md w-full")
-                with ui.row().classes("w-full justify-center"):
-                    with ui.element("q-chip").props("icon=live_tv"):
-                        ui.link(
-                            _("Author's Profile"),
-                            "https://space.bilibili.com/175862486",
-                            new_tab=True,
-                        )
-                    with ui.element("q-chip").props("icon=logo_dev"):
-                        ui.link(
-                            _("Repo URL"),
-                            "https://github.com/SoulMelody/LibreSVIP",
-                            new_tab=True,
-                        )
-                ui.label(
-                    _(
-                        "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.",
-                    ),
-                ).classes("text-md w-full")
-                ui.label(
-                    _(
-                        "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.",
-                    ),
-                ).classes("text-md w-full")
-            with ui.card_actions().props("align=right").classes("w-full"):
-                ui.button(_("Close"), on_click=about_dialog.close)
-        with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
-            ui.tooltip("Alt+H")
-            with ui.menu() as help_menu:
-                with ui.menu_item(on_click=about_dialog.open):
-                    ui.tooltip("Alt+I")
-                    with ui.row().classes("items-center"):
-                        ui.icon("info").classes("text-lg")
-                        ui.label(_("About"))
-                with ui.menu_item(), ui.row().classes("items-center"):
-                    ui.icon("text_snippet").classes("text-lg")
-                    ui.link(
-                        _("Documentation"),
-                        target="https://soulmelody.github.io/LibreSVIP",
-                        new_tab=True,
-                    )
-
-    with (
-        ui.card().classes("w-full").style("height: calc(100vh - 120px)"),
-        ui.splitter(limits=(40, 60)).classes("h-full w-full") as main_splitter,
-    ):
-        with main_splitter.before, ui.splitter(limits=(40, 50), horizontal=True) as left_splitter:
-            with (
-                left_splitter.before,
-                ui.card().classes("h-full w-full"),
-                ui.column().classes("w-full"),
+                    ).bind_value(selected_formats, "output_format")
+            with ui.button(
+                _("Switch Theme"),
+                on_click=lambda: theme_menu.open(),
+                icon="palette",
             ):
-                ui.label(_("Choose file format")).classes(
-                    "text-h5 font-bold",
-                )
-                with ui.grid().classes(
-                    "grid grid-cols-11 gap-4 w-full",
-                ):
-                    select_input: Select = (
-                        ui.select(
-                            {
-                                k: _(v["file_format"] or "") + " " + v["suffix"]
-                                for k, v in plugin_details.items()
-                            },
-                            label=_("Import format"),
-                        )
-                        .classes("col-span-10")
-                        .bind_value(selected_formats, "input_format")
+                ui.tooltip("Alt+T")
+                with ui.menu() as theme_menu:
+                    with ui.menu_item(on_click=dark_toggler.disable):
+                        ui.tooltip("Alt+W")
+                        with ui.row().classes("items-center"):
+                            ui.icon("light_mode").classes("text-lg")
+                            ui.label(_("Light"))
+                    with ui.menu_item(on_click=dark_toggler.enable):
+                        ui.tooltip("Alt+B")
+                        with ui.row().classes("items-center"):
+                            ui.icon("dark_mode").classes("text-lg")
+                            ui.label(_("Dark"))
+                    with ui.menu_item(on_click=dark_toggler.auto):
+                        ui.tooltip("Alt+S")
+                        with ui.row().classes("items-center"):
+                            ui.icon("brightness_auto").classes("text-lg")
+                            ui.label(_("System"))
+            with ui.button(
+                _("Switch Language"),
+                on_click=lambda: lang_menu.open(),
+                icon="language",
+            ):
+                ui.tooltip("Alt+L")
+                with ui.menu() as lang_menu:
+                    ui.menu_item(
+                        "简体中文",
+                        on_click=lambda: ui.navigate.to("/?lang=zh_CN")
+                        if lang != "zh_CN"
+                        else None,
                     )
-                    with ui.dialog() as input_info, ui.card():
-                        input_plugin_info()
-                        with (
-                            ui.card_actions()
-                            .props(
-                                "align=right",
+                    ui.menu_item(
+                        "English",
+                        on_click=lambda: ui.navigate.to("/?lang=en_US")
+                        if lang != "en_US"
+                        else None,
+                    )
+                    ui.menu_item("日本語").props("disabled")
+            with ui.dialog() as about_dialog, ui.card():
+                ui.label(_("About")).classes("text-lg")
+                with ui.column().classes("text-center w-full"):
+                    ui.label(_("LibreSVIP")).classes("text-h4 font-bold w-full")
+                    ui.label(_("Version: ") + libresvip.__version__).classes(
+                        "text-md w-full",
+                    )
+                    ui.label(_("Author: SoulMelody")).classes("text-md w-full")
+                    with ui.row().classes("w-full justify-center"):
+                        with ui.element("q-chip").props("icon=live_tv"):
+                            ui.link(
+                                _("Author's Profile"),
+                                "https://space.bilibili.com/175862486",
+                                new_tab=True,
                             )
-                            .classes("w-full")
-                        ):
-                            ui.button(
-                                _("Close"),
-                                on_click=input_info.close,
+                        with ui.element("q-chip").props("icon=logo_dev"):
+                            ui.link(
+                                _("Repo URL"),
+                                "https://github.com/SoulMelody/LibreSVIP",
+                                new_tab=True,
                             )
-                    with ui.button(
-                        icon="info",
-                        on_click=input_info.open,
-                    ).classes(
-                        "min-w-[45px] max-w-[45px] aspect-square",
-                    ):
-                        ui.tooltip(_("View Detail Information"))
-                    ui.switch(_("Auto detect import format")).classes(
-                        "col-span-5",
-                    ).bind_value(
-                        app.storage.user,
-                        "auto_detect_input_format",
-                    )
-                    ui.switch(
-                        _("Reset list when import format changed"),
-                    ).classes("col-span-5").bind_value(
-                        app.storage.user,
-                        "reset_tasks_on_input_change",
-                    )
-                    with (
-                        ui.button(
-                            icon="swap_vert",
-                            on_click=swap_values,
-                        )
-                        .classes("w-fit aspect-square")
-                        .props("round")
-                    ):
-                        ui.tooltip(_("Swap Input and Output"))
-                    select_output: Select = (
-                        ui.select(
-                            {
-                                k: _(v["file_format"] or "") + " " + v["suffix"]
-                                for k, v in plugin_details.items()
-                            },
-                            label=_("Export format"),
-                        )
-                        .classes("col-span-10")
-                        .bind_value(selected_formats, "output_format")
-                    )
-                    with (
-                        ui.dialog().classes(
-                            "h-400 w-600",
-                        ) as output_info,
-                        ui.card(),
-                    ):
-                        output_plugin_info()
-                        with (
-                            ui.card_actions()
-                            .props(
-                                "align=right",
-                            )
-                            .classes("w-full")
-                        ):
-                            ui.button(
-                                _("Close"),
-                                on_click=output_info.close,
-                            )
-                    with ui.button(
-                        icon="info",
-                        on_click=output_info.open,
-                    ).classes(
-                        "min-w-[45px] max-w-[45px] aspect-square",
-                    ):
-                        ui.tooltip(_("View Detail Information"))
-            with left_splitter.after:
-                with ui.card().classes("w-full h-full") as tasks_card:
-                    ui.label(_("Import project")).classes("text-h5 font-bold")
-                    selected_formats.tasks_container()
-                    tasks_card.bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
-                    )
-                    uploader = ui.upload(
-                        multiple=True,
-                        on_upload=selected_formats.add_task,
-                        auto_upload=True,
-                    ).props("hidden")
-                    tasks_card.on(
-                        "dragover",
-                        js_handler="""(event) => {
-                        event.preventDefault()
-                    }""",
-                    )
-                    tasks_card.on(
-                        "drop",
-                        js_handler=f"""(event) => {{
-                        for (let file of event.dataTransfer.files) {{
-                            let file_name = file.name
-                            post_form('{uploader._props['url']}', {{
-                                file_name: file
-                            }})
-                        }}
-                        event.preventDefault()
-                    }}""",
-                    )
-                    with QFab(
-                        icon="construction",
-                    ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
-                        with fab.add_slot("active-icon"):
-                            ui.icon("construction").classes("rotate-45")
-                        fab.on(
-                            "mouseenter",
-                            functools.partial(fab.run_method, "show"),
-                        )
-                        QFabAction(
-                            icon="refresh",
-                            on_click=selected_formats.reset,
-                        ).tooltip(_("Clear Task List"))
-                        QFabAction(
-                            icon="filter_alt_off",
-                            on_click=selected_formats.filter_input_ext,
-                        ).tooltip(_("Remove Tasks With Other Extensions"))
-                    with (
-                        ui.button(
-                            icon="add",
-                            on_click=selected_formats.add_upload,
-                        )
-                        .props("round")
-                        .classes(
-                            "absolute bottom-0 right-2 m-2 z-10",
-                        )
-                    ):
-                        ui.badge().props(
-                            "floating color=orange",
-                        ).bind_text_from(
-                            selected_formats,
-                            "task_count",
-                            backward=str,
-                        )
-                        ui.tooltip(_("Continue Adding files"))
-                with (
-                    ui.card()
-                    .classes(
-                        "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
-                    )
-                    .style("cursor: pointer") as upload_card
-                ):
-                    upload_card.on(
-                        "dragover",
-                        js_handler="""(event) => {
-                        event.preventDefault()
-                    }""",
-                    )
-                    upload_card.on(
-                        "drop",
-                        js_handler=f"""(event) => {{
-                        for (let file of event.dataTransfer.files) {{
-                            let file_name = file.name
-                            post_form('{uploader._props['url']}', {{
-                                file_name: file
-                            }})
-                        }}
-                        event.preventDefault()
-                    }}""",
-                    )
-                    upload_card.on("click", selected_formats.add_upload)
-                    upload_card.bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=not_,
-                    )
-                    ui.icon("file_upload").classes("text-6xl")
                     ui.label(
-                        _("Drag and drop files here or click to upload"),
-                    ).classes("text-lg")
-        with main_splitter.after, ui.scroll_area().classes("w-full h-auto min-h-full"):
+                        _(
+                            "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.",
+                        ),
+                    ).classes("text-md w-full")
+                    ui.label(
+                        _(
+                            "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.",
+                        ),
+                    ).classes("text-md w-full")
+                with ui.card_actions().props("align=right").classes("w-full"):
+                    ui.button(_("Close"), on_click=about_dialog.close)
+            with ui.button(_("Help"), on_click=lambda: help_menu.open(), icon="help"):
+                ui.tooltip("Alt+H")
+                with ui.menu() as help_menu:
+                    with ui.menu_item(on_click=about_dialog.open):
+                        ui.tooltip("Alt+I")
+                        with ui.row().classes("items-center"):
+                            ui.icon("info").classes("text-lg")
+                            ui.label(_("About"))
+                    with ui.menu_item(), ui.row().classes("items-center"):
+                        ui.icon("text_snippet").classes("text-lg")
+                        ui.link(
+                            _("Documentation"),
+                            target="https://soulmelody.github.io/LibreSVIP",
+                            new_tab=True,
+                        )
+        with ui.tabs().classes("w-full sm:visible lg:h-0 lg:invisible") as tabs:
+            format_select_tab = ui.tab(_("Select File Formats"))
+            options_tab = ui.tab(_("Advanced Settings"))
+    uploader = ui.upload(
+        multiple=True,
+        on_upload=selected_formats.add_task,
+        auto_upload=True,
+    ).props("hidden")
+
+    def file_format_area() -> None:
+        nonlocal select_input, select_output
+        with ui.column().classes("w-full"):
+            ui.label(_("Choose file format")).classes(
+                "text-h5 font-bold",
+            )
+            with ui.grid().classes(
+                "grid grid-cols-11 gap-4 w-full",
+            ):
+                select_input = (
+                    ui.select(
+                        {
+                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            for k, v in plugin_details.items()
+                        },
+                        label=_("Import format"),
+                    )
+                    .classes("col-span-10")
+                    .bind_value(selected_formats, "input_format")
+                )
+                with ui.dialog() as input_info, ui.card():
+                    input_plugin_info()
+                    with (
+                        ui.card_actions()
+                        .props(
+                            "align=right",
+                        )
+                        .classes("w-full")
+                    ):
+                        ui.button(
+                            _("Close"),
+                            on_click=input_info.close,
+                        )
+                with ui.button(
+                    icon="info",
+                    on_click=input_info.open,
+                ).classes(
+                    "min-w-[45px] max-w-[45px] aspect-square",
+                ):
+                    ui.tooltip(_("View Detail Information"))
+                ui.switch(_("Auto detect import format")).classes(
+                    "col-span-5",
+                ).bind_value(
+                    app.storage.user,
+                    "auto_detect_input_format",
+                )
+                ui.switch(
+                    _("Reset list when import format changed"),
+                ).classes("col-span-5").bind_value(
+                    app.storage.user,
+                    "reset_tasks_on_input_change",
+                )
+                with (
+                    ui.button(
+                        icon="swap_vert",
+                        on_click=swap_values,
+                    )
+                    .classes("w-fit aspect-square")
+                    .props("round")
+                ):
+                    ui.tooltip(_("Swap Input and Output"))
+                select_output = (
+                    ui.select(
+                        {
+                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            for k, v in plugin_details.items()
+                        },
+                        label=_("Export format"),
+                    )
+                    .classes("col-span-10")
+                    .bind_value(selected_formats, "output_format")
+                )
+                with (
+                    ui.dialog().classes(
+                        "h-400 w-600",
+                    ) as output_info,
+                    ui.card(),
+                ):
+                    output_plugin_info()
+                    with (
+                        ui.card_actions()
+                        .props(
+                            "align=right",
+                        )
+                        .classes("w-full")
+                    ):
+                        ui.button(
+                            _("Close"),
+                            on_click=output_info.close,
+                        )
+                with ui.button(
+                    icon="info",
+                    on_click=output_info.open,
+                ).classes(
+                    "min-w-[45px] max-w-[45px] aspect-square",
+                ):
+                    ui.tooltip(_("View Detail Information"))
+
+    def tasks_area() -> None:
+        with ui.card().classes("w-full h-full") as tasks_card:
+            ui.label(_("Import project")).classes("text-h5 font-bold")
+            selected_formats.tasks_container()
+            tasks_card.bind_visibility_from(
+                selected_formats,
+                "task_count",
+                backward=bool,
+            )
+            tasks_card.on(
+                "dragover",
+                js_handler="""(event) => {
+                event.preventDefault()
+            }""",
+            )
+            tasks_card.on(
+                "drop",
+                js_handler=f"""(event) => {{
+                for (let file of event.dataTransfer.files) {{
+                    let file_name = file.name
+                    post_form('{uploader._props['url']}', {{
+                        file_name: file
+                    }})
+                }}
+                event.preventDefault()
+            }}""",
+            )
+            with QFab(
+                icon="construction",
+            ).classes("absolute bottom-0 left-0 m-2 z-10") as fab:
+                with fab.add_slot("active-icon"):
+                    ui.icon("construction").classes("rotate-45")
+                fab.on(
+                    "mouseenter",
+                    functools.partial(fab.run_method, "show"),
+                )
+                QFabAction(
+                    icon="refresh",
+                    on_click=selected_formats.reset,
+                ).tooltip(_("Clear Task List"))
+                QFabAction(
+                    icon="filter_alt_off",
+                    on_click=selected_formats.filter_input_ext,
+                ).tooltip(_("Remove Tasks With Other Extensions"))
+            with (
+                ui.button(
+                    icon="add",
+                    on_click=selected_formats.add_upload,
+                )
+                .props("round")
+                .classes(
+                    "absolute bottom-0 right-2 m-2 z-10",
+                )
+            ):
+                ui.badge().props(
+                    "floating color=orange",
+                ).bind_text_from(
+                    selected_formats,
+                    "task_count",
+                    backward=str,
+                )
+                ui.tooltip(_("Continue Adding files"))
+        with (
+            ui.card()
+            .classes(
+                "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
+            )
+            .style("cursor: pointer") as upload_card
+        ):
+            upload_card.on(
+                "dragover",
+                js_handler="""(event) => {
+                event.preventDefault()
+            }""",
+            )
+            upload_card.on(
+                "drop",
+                js_handler=f"""(event) => {{
+                for (let file of event.dataTransfer.files) {{
+                    let file_name = file.name
+                    post_form('{uploader._props['url']}', {{
+                        file_name: file
+                    }})
+                }}
+                event.preventDefault()
+            }}""",
+            )
+            upload_card.on("click", selected_formats.add_upload)
+            upload_card.bind_visibility_from(
+                selected_formats,
+                "task_count",
+                backward=not_,
+            )
+            ui.icon("file_upload").classes("text-6xl")
+            ui.label(
+                _("Drag and drop files here or click to upload"),
+            ).classes("text-lg")
+
+    def options_area() -> None:
+        with ui.scroll_area().classes("w-full h-full"):
             with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
                 with (
                     ui.button(
@@ -1382,86 +1374,129 @@ def page_layout(lang: Optional[str] = None) -> None:
                 with export_panel.add_slot("header"):
                     output_panel_header()
                 output_options()
+
+    with ui.card().classes("w-full min-w-80").style("height: calc(100vh - 120px)"):
+        with ui.splitter(limits=(40, 60)).classes(
+            "w-full h-0 sm:invisible lg:h-full lg:visible"
+        ) as main_splitter:
+            with (
+                main_splitter.before,
+                ui.splitter(limits=(40, 50), horizontal=True) as left_splitter,
+            ):
+                with left_splitter.before, ui.card().classes("h-full w-full"):
+                    file_format_area()
+                with left_splitter.after:
+                    tasks_area()
+            with main_splitter.after:
+                options_area()
+        with (
+            ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible"),
+            ui.tab_panels(tabs, value=format_select_tab).classes("h-full w-full"),
+        ):
+            with (
+                ui.tab_panel(format_select_tab),
+                ui.splitter(limits=(60, 60), horizontal=True, value=60).classes(
+                    "h-full w-full"
+                ) as format_select_splitter,
+            ):
+                with format_select_splitter.before, ui.card().classes("h-full w-full"):
+                    file_format_area()
+                with format_select_splitter.after:
+                    tasks_area()
+            with (
+                ui.tab_panel(options_tab),
+                ui.splitter(limits=(50, 60), horizontal=True).classes(
+                    "h-full w-full"
+                ) as options_splitter,
+            ):
+                with options_splitter.before:
+                    options_area()
+                with options_splitter.after:
+                    tasks_area()
     with ui.footer().classes("bg-transparent"):
         ajax_bar = ui.element("q-ajax-bar").props("position=bottom")
-    ui.add_body_html(
-        textwrap.dedent(
-            f"""
-        <script>
-            function get_element(element_id) {{
-                let element = getElement(element_id)
-                if (element.$refs.qRef !== undefined)
-                    return element.$refs.qRef
-                return element
-            }}
-            function post_form(url, data) {{
-                let ajax_bar = get_element({ajax_bar.id})
-                let form_data = new FormData()
-                for (let key in data) {{
-                    form_data.append(key, data[key])
+
+    def add_javascript() -> None:
+        nonlocal select_input
+        ui.add_body_html(
+            textwrap.dedent(
+                f"""
+            <script>
+                function get_element(element_id) {{
+                    let element = getElement(element_id)
+                    if (element.$refs.qRef !== undefined)
+                        return element.$refs.qRef
+                    return element
                 }}
-                var xhr = new XMLHttpRequest();
-                var progress = 0
-                xhr.onreadystatechange = function() {{
-                    if (xhr.readyState === 4) {{
-                        ajax_bar.stop()
+                function post_form(url, data) {{
+                    let ajax_bar = get_element({ajax_bar.id})
+                    let form_data = new FormData()
+                    for (let key in data) {{
+                        form_data.append(key, data[key])
                     }}
-                }}
-                xhr.upload.onprogress = function(event) {{
-                    if (event.lengthComputable) {{
-                        let next = event.loaded / event.total * 100
-                        if (next - progress > 0.5) {{
-                            ajax_bar.increment(next - progress)
-                            progress = next
+                    var xhr = new XMLHttpRequest();
+                    var progress = 0
+                    xhr.onreadystatechange = function() {{
+                        if (xhr.readyState === 4) {{
+                            ajax_bar.stop()
                         }}
                     }}
+                    xhr.upload.onprogress = function(event) {{
+                        if (event.lengthComputable) {{
+                            let next = event.loaded / event.total * 100
+                            if (next - progress > 0.5) {{
+                                ajax_bar.increment(next - progress)
+                                progress = next
+                            }}
+                        }}
+                    }}
+                    xhr.open('POST', url, true);
+                    ajax_bar.start()
+                    xhr.send(form_data);
                 }}
-                xhr.open('POST', url, true);
-                ajax_bar.start()
-                xhr.send(form_data);
-            }}
-            function add_upload() {{
-                if (window.showOpenFilePicker) {{
-                    let format_desc = get_element({select_input.id}).modelValue.label
-                    let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
-                    let bracket_index = format_desc.lastIndexOf('(')
-                    let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
-                    window.showOpenFilePicker(
-                        {{
-                            types: [
-                                {{
-                                    description: file_format,
-                                    accept: {{
-                                        '*/*': [suffix],
+                function add_upload() {{
+                    if (window.showOpenFilePicker) {{
+                        let format_desc = get_element({select_input.id}).modelValue.label
+                        let suffix = format_desc.match(/\\((?:\\*)(\\..*?)\\)/)[1]
+                        let bracket_index = format_desc.lastIndexOf('(')
+                        let file_format = format_desc.substr(0, bracket_index === -1 ? format_desc.length : bracket_index)
+                        window.showOpenFilePicker(
+                            {{
+                                types: [
+                                    {{
+                                        description: file_format,
+                                        accept: {{
+                                            '*/*': [suffix],
+                                        }}
                                     }}
-                                }}
-                            ],
-                            multiple: true
-                        }}
-                    ).then(async function (fileHandles) {{
-                        for (const fileHandle of fileHandles) {{
-                            const file = await fileHandle.getFile();
-                            let file_name = file.name
-                            post_form('{uploader._props['url']}', {{
-                                file_name: file
-                            }})
-                        }}
-                    }});
-                }} else {{
-                    get_element({uploader.id}).pickFiles()
+                                ],
+                                multiple: true
+                            }}
+                        ).then(async function (fileHandles) {{
+                            for (const fileHandle of fileHandles) {{
+                                const file = await fileHandle.getFile();
+                                let file_name = file.name
+                                post_form('{uploader._props['url']}', {{
+                                    file_name: file
+                                }})
+                            }}
+                        }});
+                    }} else {{
+                        get_element({uploader.id}).pickFiles()
+                    }}
                 }}
-            }}
-        </script>
-        """,
-        ).strip(),
-    )
+            </script>
+            """,
+            ).strip(),
+        )
+
+    add_javascript()
 
 
 def main() -> None:
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("--host", type=str, default="127.0.0.1")
     arg_parser.add_argument("--port", type=int, default=8080)
-    arg_parser.add_argument("--reload", action="store_true")
     arg_parser.add_argument("--server", action="store_true")
     arg_parser.add_argument("--daemon", action="store_true")
     args, argv = arg_parser.parse_known_args()
@@ -1474,13 +1509,11 @@ def main() -> None:
 
     ui.run(
         show=not args.daemon,
-        window_size=None if args.server else (1280, 720),
-        reload=args.reload,
-        dark=dark_mode2str(settings.dark_mode),
+        window_size=None if args.server else (1200, 800),
+        reload=False,
         host=args.host if args.server else None,
         port=args.port,
         storage_secret=storage_secret,
         title="LibreSVIP",
         favicon=res_dir / "libresvip.ico",
-        uvicorn_reload_includes="*.py,*.txt,*.yapsy-plugin,*.mo",
     )

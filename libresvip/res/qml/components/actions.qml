@@ -9,7 +9,7 @@ Item {
         text: qsTr("&Open")
         shortcut: "Ctrl+O"
         onTriggered: {   
-            if (converterPage.inputFormatComboBox.enabled) {
+            if (!TaskManager.busy) {
                 dialogs.openDialog.open()
             }
         }
@@ -30,7 +30,7 @@ Item {
         text: qsTr("&Restore Task List")
         shortcut: "Ctrl+R"
         onTriggered: {
-            if (converterPage.inputFormatComboBox.enabled) {
+            if (!TaskManager.busy) {
                 converterPage.taskList.model.clear()
             } else {
                 let message_box = messageBox.createObject(
@@ -64,7 +64,7 @@ Item {
         text: qsTr("&Import From")
         shortcut: "Alt+I"
         onTriggered: {   
-            if (converterPage.inputFormatComboBox.enabled) {
+            if (!TaskManager.busy) {
                 toolbar.openImportFormatMenu()
             }
         }
@@ -73,7 +73,7 @@ Item {
         text: qsTr("&Export To")
         shortcut: "Alt+E"
         onTriggered: {   
-            if (converterPage.outputFormatComboBox.enabled) {
+            if (!TaskManager.busy) {
                 toolbar.openExportFormatMenu()
             }
         }

@@ -2,21 +2,18 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Controls.Material.impl
 import QtQuick.Layouts
 import QtQuick.Shapes
-import QtQuick.Templates as T
 import LibreSVIP
 
 Page {
     title: qsTr("Converter")
 
-    property alias taskList: taskListView;
-    property alias startConversionButton: startConversionBtn;
-    property alias saveFolder: saveFolderTextField;
-    property alias inputFormatComboBox: inputFormat;
-    property alias outputFormatComboBox: outputFormat;
-    property alias swapInputOutputButton: swapInputOutput;
+    property alias taskList: taskListView
+    property alias startConversionButton: startConversionBtn
+    property alias inputFormatComboBox: inputFormat
+    property alias outputFormatComboBox: outputFormat
+    property alias swapInputOutputButton: swapInputOutput
 
     Component {
         id: colorPickerItem
@@ -286,6 +283,7 @@ Page {
                 LabeledComboBox {
                     id: inputFormat
                     Layout.fillWidth: true
+                    enabled: !TaskManager.busy
                     hint: qsTr("Input Format: ")
                     onActivated: (index) => {
                         if (
@@ -405,16 +403,9 @@ Page {
                     id: resetTasksOnInputChange
                     height: 40
                     text: qsTr("Reset Tasks When Changing Input")
-                    checked: ConfigItems.get_bool("reset_tasks_on_input_change")
+                    checked: ConfigItems.reset_tasks_on_input_change
                     onClicked: {
-                        ConfigItems.set_bool("reset_tasks_on_input_change", checked)
-                        dialogs.settingsDialog.resetTasksOnInputChangeChanged(checked)
-                    }
-                    Connections {
-                        target: dialogs.settingsDialog
-                        function onResetTasksOnInputChangeChanged(value) {
-                            value === resetTasksOnInputChange.checked ? null : resetTasksOnInputChange.checked = value
-                        }
+                        ConfigItems.reset_tasks_on_input_change = checked
                     }
                 }
                 Item {
@@ -423,15 +414,9 @@ Page {
                 Switch {
                     height: 40
                     text: qsTr("Auto-Detect Input File Type")
-                    checked: ConfigItems.get_bool("auto_detect_input_format")
+                    checked: ConfigItems.auto_detect_input_format
                     onClicked: {
-                        ConfigItems.set_bool("auto_detect_input_format", checked)
-                        dialogs.settingsDialog.autoDetectInputFormatChanged(checked)
-                    }
-                    Component.onCompleted: {
-                        dialogs.settingsDialog.autoDetectInputFormatChanged.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
+                        ConfigItems.auto_detect_input_format = checked
                     }
                 }
                 Item {
@@ -463,6 +448,7 @@ Page {
                 LabeledComboBox {
                     id: outputFormat
                     Layout.fillWidth: true
+                    enabled: !TaskManager.busy
                     hint: qsTr("Output Format: ")
                     onActivated: (index) => {
                         TaskManager.set_str("output_format", currentValue)
@@ -566,9 +552,9 @@ Page {
                 Switch {
                     height: 40
                     text: qsTr("Set Output File Extension Automatically")
-                    checked: ConfigItems.get_bool("auto_set_output_extension")
+                    checked: ConfigItems.auto_set_output_extension
                     onClicked: {
-                        ConfigItems.set_bool("auto_set_output_extension", checked)
+                        ConfigItems.auto_set_output_extension = checked
                     }
                     Component.onCompleted: {
                         ConfigItems.auto_set_output_extension_changed.connect( (value) => {
@@ -592,13 +578,13 @@ Page {
             anchors.fill: parent
             anchors.margins: 12
             radius: 8
-            visible: taskListView.count == 0
+            visible: TaskManager.count == 0
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onEntered: {
-                    if (taskListView.count == 0) {
+                    if (TaskManager.count == 0) {
                         parent.opacity = 0.5
                     }
                 }
@@ -608,7 +594,7 @@ Page {
                     }
                 }
                 onClicked: {
-                    if (taskListView.count == 0) {
+                    if (TaskManager.count == 0) {
                         actions.openFile.trigger()
                     }
                 }
@@ -629,16 +615,74 @@ Page {
         }
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: 20
-            visible: taskListView.count > 0
-            Label {
+            anchors.margins: 15
+            visible: TaskManager.count > 0
+            RowLayout {
+                Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
-                text: qsTr("Task List")
-                font.pixelSize: 20
-                height: 30
+                Label {
+                    text: qsTr("Conversion Mode:")
+                    font.pixelSize: 20
+                    height: 30
+                }
+                TabBar {
+                    height: 30
+
+                    TabButton {
+                        width: 50
+                        text: IconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 25
+                        ToolTip.text: qsTr("Direct")
+                        ToolTip.visible: hovered
+                        onClicked: {
+                            TaskManager.conversion_mode = "Direct"
+                        }
+                    }
+
+                    TabButton {
+                        width: 50
+                        text: IconicFontLoader.icon("mdi7.set-merge")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 25
+                        ToolTip.text: qsTr("Merge Tracks")
+                        ToolTip.visible: hovered
+                        onClicked: {
+                            TaskManager.conversion_mode = "Merge"
+                        }
+                    }
+
+                    TabButton {
+                        width: 50
+                        text: IconicFontLoader.icon("mdi7.set-split")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 25
+                        ToolTip.text: qsTr("Track Grouping")
+                        ToolTip.visible: hovered
+                        onClicked: {
+                            TaskManager.conversion_mode = "Split"
+                        }
+                    }
+                }
+
+                ToolSeparator {
+                    height: 30
+                }
+
+                Label {
+                    text: qsTr("Task List")
+                    font.pixelSize: 20
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                    height: 30
+                }
+            }
+            Rectangle {
+                Layout.fillWidth: true
+                height: 1
+                color: "lightgrey"
             }
             ScrollView {
-                Layout.alignment: Qt.AlignTop
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 contentWidth: availableWidth
@@ -651,209 +695,228 @@ Page {
                     )
                 }
             }
-            Rectangle {
+            RowLayout {
                 Layout.alignment: Qt.AlignBottom
-                color: "transparent"
-                Timer {
-                    id: hideTaskToolbarTimer;
-                    interval: 1000;
-                    repeat: true;
-                    triggeredOnStart: false;
-                    onTriggered: {
-                        if (
-                            toggleTaskToolbarButton.hovered ||
-                            addTaskButton.hovered ||
-                            clearTaskButton.hovered ||
-                            resetExtensionButton.hovered ||
-                            removeOtherExtensionButton.hovered
-                        ) {
-                            return
+                Layout.minimumHeight: 50
+                Rectangle {
+                    color: "transparent"
+                    Timer {
+                        id: hideTaskToolbarTimer
+                        interval: 1000
+                        repeat: true
+                        triggeredOnStart: false
+                        onTriggered: {
+                            if (
+                                toggleTaskToolbarButton.hovered ||
+                                addTaskButton.hovered ||
+                                clearTaskButton.hovered ||
+                                resetExtensionButton.hovered ||
+                                removeOtherExtensionButton.hovered
+                            ) {
+                                return
+                            }
+                            toggleTaskToolbarButton.state = "collapsed"
+                            this.stop()
                         }
-                        toggleTaskToolbarButton.state = "collapsed"
-                        this.stop()
                     }
-                }
-                RoundButton {
-                    id: toggleTaskToolbarButton
-                    states: [
-                        State {
-                            name: "expanded"
-                            PropertyChanges {
-                                target: toggleTaskToolbarButton
-                                rotation: 45
+                    RoundButton {
+                        id: toggleTaskToolbarButton
+                        states: [
+                            State {
+                                name: "expanded"
+                                PropertyChanges {
+                                    target: toggleTaskToolbarButton
+                                    rotation: 45
+                                }
+                                PropertyChanges {
+                                    target: taskToolbar
+                                    shown: true
+                                }
+                            },
+                            State {
+                                name: "collapsed"
+                                PropertyChanges {
+                                    target: toggleTaskToolbarButton
+                                    rotation: 0
+                                }
+                                PropertyChanges {
+                                    target: taskToolbar
+                                    shown: false
+                                }
                             }
-                            PropertyChanges {
-                                target: taskToolbar
-                                shown: true
-                            }
-                        },
-                        State {
-                            name: "collapsed"
-                            PropertyChanges {
-                                target: toggleTaskToolbarButton
-                                rotation: 0
-                            }
-                            PropertyChanges {
-                                target: taskToolbar
-                                shown: false
-                            }
+                        ]
+                        state: "collapsed"
+                        background: Rectangle {
+                            radius: this.height / 2
+                            color: Material.color(
+                                Material.Indigo,
+                                Material.Shade300
+                            )
                         }
-                    ]
-                    state: "collapsed"
-                    background: Rectangle {
+                        text: IconicFontLoader.icon("mdi7.hammer-wrench")
+                        y: parent.height - this.height / 2
+                        font.family: "Material Design Icons"
+                        font.pixelSize: Qt.application.font.pixelSize * 1.5
                         radius: this.height / 2
-                        color: Material.color(
-                            Material.Indigo,
-                            Material.Shade300
-                        )
-                    }
-                    text: IconicFontLoader.icon("mdi7.hammer-wrench")
-                    y: parent.height - this.height / 2 - 10
-                    font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    radius: this.height / 2
-                    Behavior on rotation {
-                        RotationAnimation {
-                            duration: 200
-                            easing.type: Easing.InOutQuad
+                        Behavior on rotation {
+                            RotationAnimation {
+                                duration: 200
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
+                        onHoveredChanged: {
+                            if (hovered) {
+                                hideTaskToolbarTimer.stop()
+                                state = "expanded"
+                            }
+                            else if (!hideTaskToolbarTimer.running) {
+                                hideTaskToolbarTimer.start()
+                            }
                         }
                     }
-                    onHoveredChanged: {
-                        if (hovered) {
-                            hideTaskToolbarTimer.stop()
-                            state = "expanded"
+                    Pane {
+                        id: taskToolbar
+                        property bool shown: false
+                        x: toggleTaskToolbarButton.width
+                        y: toggleTaskToolbarButton.y - 12
+                        width: shown ? implicitWidth : 0
+                        background: Rectangle {
+                            color: "transparent"
                         }
-                        else if (!hideTaskToolbarTimer.running) {
-                            hideTaskToolbarTimer.start()
+                        Behavior on width {
+                            NumberAnimation {
+                                easing.type: Easing.InOutQuad
+                            }
                         }
-                    }
-                }
-                Pane {
-                    id: taskToolbar
-                    property bool shown: false
-                    x: toggleTaskToolbarButton.width
-                    y: toggleTaskToolbarButton.y - 12
-                    width: shown ? implicitWidth : 0
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                    Behavior on width {
-                        NumberAnimation {
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                    clip: true
-                    Row {
-                        RoundButton {
-                            id: addTaskButton
-                            text: IconicFontLoader.icon("mdi7.plus")
-                            background: Rectangle {
+                        clip: true
+                        Row {
+                            RoundButton {
+                                id: addTaskButton
+                                text: IconicFontLoader.icon("mdi7.plus")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
+                                }
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Continue Adding files")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Continue Adding files")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    actions.openFile.trigger()
                                 }
                             }
-                            onClicked: {
-                                actions.openFile.trigger()
-                            }
-                        }
-                        RoundButton {
-                            id: clearTaskButton
-                            text: IconicFontLoader.icon("mdi7.refresh")
-                            background: Rectangle {
+                            RoundButton {
+                                id: clearTaskButton
+                                text: IconicFontLoader.icon("mdi7.refresh")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
+                                }
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            enabled: taskListView.count > 0
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Clear Task List")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
+                                enabled: TaskManager.count > 0
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Clear Task List")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    if (startConversionBtn.enabled) {
+                                        actions.clearTasks.trigger()
+                                    }
                                 }
                             }
-                            onClicked: {
-                                if (startConversionBtn.enabled) {
-                                    actions.clearTasks.trigger()
+                            RoundButton {
+                                id: resetExtensionButton
+                                text: IconicFontLoader.icon("mdi7.form-textbox")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
                                 }
-                            }
-                        }
-                        RoundButton {
-                            id: resetExtensionButton
-                            text: IconicFontLoader.icon("mdi7.form-textbox")
-                            background: Rectangle {
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Reset Default Extension")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Reset Default Extension")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    if (startConversionBtn.enabled) {
+                                        TaskManager.reset_stems()
+                                    }
                                 }
                             }
-                            onClicked: {
-                                if (startConversionBtn.enabled) {
-                                    TaskManager.reset_stems()
+                            RoundButton {
+                                id: removeOtherExtensionButton
+                                text: IconicFontLoader.icon("mdi7.filter-minus-outline")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
                                 }
-                            }
-                        }
-                        RoundButton {
-                            id: removeOtherExtensionButton
-                            text: IconicFontLoader.icon("mdi7.filter-minus-outline")
-                            background: Rectangle {
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Remove Tasks With Other Extensions")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Remove Tasks With Other Extensions")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
                                 }
-                            }
-                            onClicked: {
-                                if (startConversionBtn.enabled) {
-                                    for (var i = 0; i < taskListView.count; i++) {
-                                        var task = taskListView.model.get(i)
-                                        let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
-                                        if (extension != inputFormat.currentValue) {
-                                            taskListView.model.delete(i)
-                                            i--
+                                onClicked: {
+                                    if (startConversionBtn.enabled) {  // TODO
+                                        for (var i = 0; i < taskListView.count; i++) {
+                                            var task = taskListView.model.get(i)
+                                            let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
+                                            if (extension != inputFormat.currentValue) {
+                                                taskListView.model.delete(i)
+                                                i--
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                    }
+                }
+                Row {
+                    Layout.fillWidth: true
+                }
+                Label {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "Max Track count:"
+                    visible: TaskManager.conversion_mode === "Split"
+                }
+                SpinBox {
+                    from: 1
+                    value: ConfigItems.max_track_count
+                    visible: TaskManager.conversion_mode === "Split"
+                    onValueModified: {
+                        ConfigItems.max_track_count = value
                     }
                 }
             }
@@ -1012,7 +1075,7 @@ Page {
                                     let model = inputFields.model.get(i)
                                     let separator_item = separatorItem.createObject(inputContainer)
                                     this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null;
+                                    let item = null
                                     switch (model.type) {
                                         case "bool": {
                                             item = switchItem.createObject(inputContainer, {
@@ -1171,7 +1234,7 @@ Page {
                                             let middleware_state = middlewareFields.model.get(i)
                                             let separator_item = separatorItem.createObject(middlewareContainer)
                                             this.Component.onDestruction.connect(separator_item.destroy)
-                                            let item = null;
+                                            let item = null
                                             switch (model.type) {
                                                 case "bool": {
                                                     item = switchItem.createObject(middlewareContainer, {
@@ -1346,7 +1409,7 @@ Page {
                                     let model = outputFields.model.get(i)
                                     let separator_item = separatorItem.createObject(outputContainer)
                                     this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null;
+                                    let item = null
                                     switch (model.type) {
                                         case "bool": {
                                             item = switchItem.createObject(outputContainer, {
@@ -1404,15 +1467,9 @@ Page {
             }
             Switch {
                 text: qsTr("Open Output Folder When Done")
-                checked: ConfigItems.get_bool("open_save_folder_on_completion")
+                checked: ConfigItems.open_save_folder_on_completion
                 onClicked: {
-                    ConfigItems.set_bool("open_save_folder_on_completion", checked)
-                    dialogs.settingsDialog.autoOpenSaveFolderChanged(checked)
-                }
-                Component.onCompleted: {
-                    dialogs.settingsDialog.autoOpenSaveFolderChanged.connect( (value) => {
-                        value === checked ? null : checked = value
-                    })
+                    ConfigItems.open_save_folder_on_completion = checked
                 }
             }
         }
@@ -1429,10 +1486,10 @@ Page {
                         Material.Indigo
                     )
                     property int anim_index: 10
-                    property bool anim_running: false
+                    property bool anim_running: TaskManager.busy
                     anchors.fill: parent
                     radius: 10
-                    enabled: taskListView.count > 0
+                    enabled: TaskManager.count > 0 && !TaskManager.busy
                     opacity: enabled ? 1 : 0.7
                     background: Rectangle {
                         color: startConversionBtn.base_color
@@ -1477,7 +1534,7 @@ Page {
                         }
                     }
                     contentItem: Label {
-                        text: qsTr("Start Conversion")
+                        text: TaskManager.busy ? qsTr("Converting") : qsTr("Start Conversion")
                         wrapMode: Text.WordWrap
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -1485,24 +1542,6 @@ Page {
                     }
                     onClicked: {
                         actions.startConversion.trigger()
-                    }
-                    Connections {
-                        target: taskListView.model
-                        function onRowsInserted(idx, first, last) {
-                            startConversionBtn.enabled = true
-                        }
-                        function onRowsRemoved(idx, first, last) {
-                            startConversionBtn.enabled = !(first == 0 && last == taskListView.count - 1)
-                        }
-                    }
-                    Connections {
-                        target: TaskManager
-                        function onBusy_changed(busy) {
-                            startConversionBtn.contentItem.text = busy ? qsTr("Converting") : qsTr("Start Conversion")
-                            inputFormat.enabled = outputFormat.enabled = !busy
-                            startConversionBtn.enabled = taskListView.count > 0 && !busy
-                            startConversionBtn.anim_running = busy
-                        }
                     }
                 }
             }
@@ -1517,23 +1556,15 @@ Page {
                         }
                     }
                     TextField {
-                        id: saveFolderTextField
                         Layout.fillWidth: true
                         height: 50
                         placeholderText: qsTr("Output Folder")
-                        text: ConfigItems.get_save_folder()
+                        text: ConfigItems.save_folder
                         onEditingFinished: {
                             if (ConfigItems.dir_valid(text) === true) {
-                                ConfigItems.set_save_folder(text)
-                                saveFolderTextField.text = text
+                                ConfigItems.save_folder = text
                             } else {
                                 undo()
-                            }
-                        }
-                        Connections {
-                            target: dialogs
-                            function onSave_folder_changed(value) {
-                                saveFolderTextField.text = value
                             }
                         }
                     }
@@ -1545,6 +1576,7 @@ Page {
                         elide: Text.ElideRight
                     }
                     ComboBox {
+                        id: conflictPolicyCombo
                         textRole: "text"
                         valueRole: "value"
                         model: [
@@ -1553,20 +1585,22 @@ Page {
                             {value: "Prompt", text: qsTr("Prompt")}
                         ]
                         onActivated: (index) => {
-                            ConfigItems.set_conflict_policy(currentValue)
-                            dialogs.settingsDialog.conflictPolicyChanged(currentValue)
+                            ConfigItems.conflict_policy = currentValue
                         }
-                        Component.onCompleted: {
-                            currentIndex = indexOfValue(ConfigItems.get_conflict_policy())
-                            dialogs.settingsDialog.conflictPolicyChanged.connect( (value) => {
+                        Connections {
+                            target: ConfigItems
+                            function onConflict_policy_changed(value) {
                                 switch (value) {
                                     case "Overwrite":
                                     case "Skip":
                                     case "Prompt":
-                                        currentIndex = indexOfValue(value)
+                                        conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value)
                                         break
                                 }
-                            })
+                            }
+                        }
+                        Component.onCompleted: {
+                            currentIndex = indexOfValue(ConfigItems.conflict_policy)
                         }
                     }
                 }
@@ -1585,7 +1619,7 @@ Page {
             SplitView.minimumWidth: inputOptionsRow.implicitWidth + 50
             orientation: Qt.Vertical
 
-            Control {
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: 250
                 SplitView.minimumHeight: 250
@@ -1607,7 +1641,7 @@ Page {
                 }
             }
 
-            Control {
+            Item {
                 SplitView.fillWidth: true
                 SplitView.maximumHeight: parent.height - 250
                 anchors.bottom: parent.bottom
@@ -1627,7 +1661,7 @@ Page {
             SplitView.minimumWidth: 450
             orientation: Qt.Vertical
 
-            Control {   
+            Pane {   
                 SplitView.fillWidth: true
                 SplitView.minimumWidth: parent.width
                 SplitView.preferredHeight: parent.height - 200
@@ -1652,7 +1686,7 @@ Page {
                 }
             }
 
-            Control {
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.minimumHeight: 200
                 anchors.bottom: parent.bottom
@@ -1680,7 +1714,6 @@ Page {
         anchors.margins: 10
         Layout.fillWidth: true
         TabBar {
-            id: navigationRail
             Layout.fillWidth: true
             Layout.preferredHeight: 50
 
@@ -1721,7 +1754,7 @@ Page {
                 SplitView.fillWidth: true
                 orientation: Qt.Vertical
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.preferredHeight: 250
                     SplitView.minimumHeight: 250
@@ -1743,7 +1776,7 @@ Page {
                     }
                 }
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.maximumHeight: parent.height - 250
                     anchors.bottom: parent.bottom
@@ -1759,7 +1792,7 @@ Page {
                 SplitView.fillHeight: true
                 orientation: Qt.Vertical
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.preferredHeight: parent.height - 350
                     SplitView.minimumHeight: parent.height - 400
@@ -1783,7 +1816,7 @@ Page {
                     }
                 }
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.maximumHeight: 400
                     anchors.bottom: parent.bottom
@@ -1799,7 +1832,7 @@ Page {
                 SplitView.fillHeight: true
                 orientation: Qt.Vertical
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.minimumHeight: 200
                     SplitView.maximumHeight: 250
@@ -1818,7 +1851,7 @@ Page {
                     }
                 }
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.maximumHeight: parent.height - 200
                     anchors.bottom: parent.bottom

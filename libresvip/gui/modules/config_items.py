@@ -1,90 +1,65 @@
+from __future__ import annotations
+
 import base64
+import dataclasses
 import pathlib
-from functools import cache
-from gettext import gettext as _
 from typing import Any, Optional
 
-from PySide6.QtCore import QAbstractTableModel, QModelIndex, QObject, Qt, Signal, Slot
+from PySide6.QtCore import Property, QObject, Signal, Slot
 from PySide6.QtQml import QmlElement, QmlSingleton
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 import libresvip
-from libresvip.core.config import ConflictPolicy, DarkMode, save_settings, settings
+from libresvip.core.config import (
+    ConflictPolicy,
+    DarkMode,
+    LibreSvipSettings,
+    save_settings,
+    settings,
+)
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import plugin_manager
+from libresvip.gui.models.list_models import ModelProxy
+from libresvip.gui.models.table_models import PluginCadidatesTableModel
 
 from .application import app
-from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
 QML_IMPORT_MINOR_VERSION = 0
 
 
-class PluginCadidatesTableModel(QAbstractTableModel):
-    def __init__(self) -> None:
-        super().__init__()
-        self.column_names = [_("Applicable File Format"), _("Author"), _("Version"), "On/Off"]
-        self.plugin_candidates: list[dict[int, str]] = []
-        self.reload_formats()
+def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) -> None:
+    signal = Signal(field_type, name=f"{field_name}_changed")
 
-    def reload_formats(self) -> None:
-        self.begin_remove_rows(QModelIndex(), 0, len(self.plugin_candidates) - 1)
-        self.plugin_candidates.clear()
-        self.end_remove_rows()
-        self.begin_insert_rows(QModelIndex(), 0, len(plugin_manager._candidates) - 1)
-        self.plugin_candidates = [
-            {
-                0: plugin.file_format,
-                1: plugin.author,
-                2: str(plugin.version),
-                3: "checkbox-marked"
-                if plugin.suffix not in settings.disabled_plugins
-                else "checkbox-blank-outline",
-            }
-            for _path, plugin in plugin_manager._candidates
-        ]
-        self.end_insert_rows()
+    def _getter(self: QObject) -> Any:
+        return getattr(settings, field_name)
 
-    def row_count(self, parent: QModelIndex = QModelIndex()) -> int:
-        return len(self.plugin_candidates)
+    def _setter(self: QObject, value: Any) -> None:
+        setattr(settings, field_name, value)
+        getattr(self, f"{field_name}_changed").emit(value)
 
-    def column_count(self, parent: QModelIndex = QModelIndex()) -> int:
-        return len(self.column_names)
+    attrs[field_name] = Property(field_type, _getter, _setter, notify=signal)
+    attrs[f"{field_name}_changed"] = signal
 
-    def header_data(
-        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
-    ) -> Optional[str]:
-        if role != Qt.ItemDataRole.DisplayRole:
-            return None
 
-        if orientation == Qt.Orientation.Horizontal and 0 <= section < len(self.column_names):
-            return self.column_names[section]
-        return str(section + 1)
-
-    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Any:
-        if role == Qt.ItemDataRole.DisplayRole or (
-            role == Qt.ItemDataRole.EditRole and index.column() == 3
-        ):
-            return self.plugin_candidates[index.row()][index.column()]
-        return None
-
-    def flags(self, index: QModelIndex) -> Qt.ItemFlag:
-        item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
-        if index.column() == 3:
-            item_flags |= Qt.ItemFlag.ItemIsEditable
-        return item_flags
-
-    @cache
-    def role_names(self) -> dict[int, bytes]:
-        return {Qt.ItemDataRole.DisplayRole: b"display", Qt.ItemDataRole.EditRole: b"value"}
+class AutoBindBaseConfigMetaObject(type(QObject)):  # type: ignore[misc]
+    def __new__(cls, name: str, bases: tuple[type], attrs: dict[str, Any]) -> type[QObject]:
+        for field in dataclasses.fields(LibreSvipSettings):  # type: ignore[arg-type]
+            if field.type == "bool":
+                base_prop_factory(attrs, field.name, bool)
+            elif field.type == "int":
+                base_prop_factory(attrs, field.name, int)
+        return super().__new__(cls, name, bases, attrs)
 
 
 @QmlElement
 @QmlSingleton
-class ConfigItems(QObject):
-    auto_set_output_extension_changed = Signal(bool)
+class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
+    save_folder_changed = Signal(str)
+    conflict_policy_changed = Signal(str)
+    theme_changed = Signal(str)
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
@@ -99,45 +74,48 @@ class ConfigItems(QObject):
         settings.folder_presets = [pathlib.Path(item["path"]) for item in self.folder_presets.items]
         save_settings()
 
-    @Slot(result=str)
+    @Property(str, constant=True)
     def icon_data(self) -> str:
         return f"data:image/x-icon;base64,{base64.b64encode((res_dir / 'libresvip.ico').read_bytes()).decode()}"
+
+    @Property(str, constant=True)
+    def version(self) -> str:
+        return libresvip.__version__
 
     @Slot(str, result="QVariant")
     def qget(self, name: str) -> Any:
         return getattr(self, name)
 
-    @Slot(result=str)
-    def get_version(self) -> str:
-        return libresvip.__version__
+    def get_save_folder(self) -> str:
+        return self.posix_path(settings.save_folder)
 
-    @Slot(result=str)
+    def set_save_folder(self, value: str) -> None:
+        settings.save_folder = pathlib.Path(value)
+        self.save_folder_changed.emit(self.get_save_folder())
+
+    save_folder = Property(str, get_save_folder, set_save_folder, notify=save_folder_changed)
+
     def get_conflict_policy(self) -> str:
         return settings.conflict_policy.value
 
-    @Slot(str, result=bool)
-    def set_conflict_policy(self, policy: str) -> bool:
-        try:
-            conflict_policy = ConflictPolicy(policy)
-            settings.conflict_policy = conflict_policy
-        except ValueError:
-            return False
-        else:
-            return True
+    def set_conflict_policy(self, policy: str) -> None:
+        conflict_policy = ConflictPolicy(policy)
+        settings.conflict_policy = conflict_policy
+        self.conflict_policy_changed.emit(policy)
 
-    @Slot(result=str)
+    conflict_policy = Property(
+        str, get_conflict_policy, set_conflict_policy, notify=conflict_policy_changed
+    )
+
     def get_theme(self) -> str:
         return settings.dark_mode.value
 
-    @Slot(str, result=bool)
-    def set_theme(self, theme: str) -> bool:
-        try:
-            dark_mode = DarkMode(theme)
-            settings.dark_mode = dark_mode
-        except ValueError:
-            return False
-        else:
-            return True
+    def set_theme(self, theme: str) -> None:
+        dark_mode = DarkMode(theme)
+        settings.dark_mode = dark_mode
+        self.theme_changed.emit(theme)
+
+    theme = Property(str, get_theme, set_theme, notify=theme_changed)
 
     @Slot(int, result=bool)
     def toggle_plugin(self, index: int) -> bool:
@@ -156,32 +134,11 @@ class ConfigItems(QObject):
     def enabled(self, key: str) -> bool:
         return key in plugin_manager.plugin_registry
 
-    @Slot(str, result=bool)
-    def get_bool(self, key: str) -> bool:
-        return getattr(settings, key)
-
-    @Slot(str, bool, result=bool)
-    def set_bool(self, key: str, value: bool) -> bool:
-        if hasattr(settings, key):
-            setattr(settings, key, value)
-            if key == "auto_set_output_extension":
-                self.auto_set_output_extension_changed.emit(value)
-            return True
-        return False
-
     @staticmethod
     def posix_path(path: pathlib.Path) -> str:
         return str(path.as_posix())
-
-    @Slot(result=str)
-    def get_save_folder(self) -> str:
-        return self.posix_path(settings.save_folder)
 
     @Slot(str, result=bool)
     def dir_valid(self, value: str) -> bool:
         path = pathlib.Path(value)
         return (not path.is_absolute() or path.exists()) and path.is_dir()
-
-    @Slot(str)
-    def set_save_folder(self, value: str) -> None:
-        settings.save_folder = pathlib.Path(value)

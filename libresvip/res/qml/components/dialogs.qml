@@ -7,7 +7,6 @@ import QtQuick.Layouts
 import LibreSVIP
 
 Item {
-    signal save_folder_changed(string folder)
     property alias folderPresetsList: folderPresetsListView
     property alias folderPresetBtnGroup: folderPresetButtonGroup
 
@@ -172,11 +171,9 @@ Item {
         currentFolder: ""
         onAccepted: {
             let path = url2path(selectedFolder)
-            ConfigItems.set_save_folder(path)
-            save_folder_changed(path)
+            ConfigItems.save_folder = path
         }
         onRejected: {
-            save_folder_changed(ConfigItems.get_save_folder())
         }
     }
 
@@ -262,7 +259,7 @@ Item {
                         model: ConfigItems.qget("folder_presets")
                         delegate: folderPresetDelegate
                         Component.onCompleted: {
-                            let save_folder = ConfigItems.get_save_folder()
+                            let save_folder = ConfigItems.save_folder
                             if (count > 0) {
                                 for (let i = 0; i < count; i++) {
                                     if (model.get(i).path == save_folder) {
@@ -271,7 +268,6 @@ Item {
                                     }
                                 }
                             }
-                            save_folder_changed(save_folder)
                         }
                     }
                 }
@@ -373,7 +369,7 @@ Item {
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Version: ") + ConfigItems.get_version()
+                text: qsTr("Version: ") + ConfigItems.version
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
