@@ -16,6 +16,7 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
+from retrie.retrie import Blacklist
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
@@ -24,6 +25,62 @@ from libresvip.model.point import PointList
 
 from . import constants
 from .interval_utils import position_to_ticks
+
+symbols_blacklist = Blacklist(
+    [
+        "(",
+        ")",
+        "[",
+        "]",
+        "{",
+        "}",
+        "（",
+        "）",
+        "<",
+        ">",
+        "《",
+        "》",
+        "―",
+        "—",
+        "*",
+        "×",
+        "!",
+        "！",
+        "?",
+        "？",
+        ":",
+        "：",
+        "·",
+        "•",
+        ".",
+        "。",
+        ",",
+        "，",
+        ";",
+        "；",
+        "^",
+        "`",
+        '"',
+        "'",
+        "‘",
+        "’",
+        "“",
+        "”",
+        "+",
+        "=",
+        "、",
+        "_",
+        "$",
+        "%",
+        "~",
+        "@",
+        "#",
+        "…",
+        "&",
+        "￥",
+    ],
+    match_substrings=True,
+)
 
 
 def uuid_str() -> str:
@@ -363,11 +420,7 @@ class SVNote(BaseModel):
 
     @staticmethod
     def normalize_lyric(lyric: str) -> str:
-        return re.sub(
-            r"[\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"'‘’“”]",
-            "",
-            lyric,
-        ).strip()
+        return symbols_blacklist.cleanse_text(lyric).strip()
 
     @classmethod
     def normalize_phoneme(cls, note: Note) -> str:

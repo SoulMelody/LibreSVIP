@@ -13,11 +13,11 @@ from .msnrbf.xstudio_models import (
 
 @dataclasses.dataclass
 class OpenSvipSingers:
-    singers: dict[str, str] = dataclasses.field(init=False)
+    singers: bidict[str, str] = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
         singers_data_path = package_path("libresvip.plugins.svip") / "singers.json"
-        self.singers = json.loads(singers_data_path.read_text(encoding="utf-8"))
+        self.singers = bidict(json.loads(singers_data_path.read_text(encoding="utf-8")))
 
     def get_name(self, id_: str) -> str:
         if id_ in self.singers:
@@ -25,9 +25,8 @@ class OpenSvipSingers:
         return f"$({id_})" if re.match(r"[FM]\d+", id_) is not None else ""
 
     def get_id(self, name: str) -> str:
-        for id_ in self.singers:
-            if self.singers[id_] == name:
-                return id_
+        if name in self.singers.inverse:
+            return self.singers.inverse[name]
         return name[2:-1] if re.match(r"\$\([FM]\d+\)", name) is not None else ""
 
 

@@ -16,7 +16,6 @@ if __name__ == "__main__":
     macos_universal_platform = "macosx_12_0_universal2"
     no_universal2_packages = [
         "cx-Freeze",
-        "libsass",
         "pydantic-core",
         "PyYAML",
         "ujson",

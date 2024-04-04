@@ -13,8 +13,7 @@ from ..models.ds_note import (
     RestDsNote,
     RestDsPhoneme,
 )
-from . import pinyin_util
-from .lyric_util import LyricUtil
+from . import lyric_util, pinyin_util
 
 
 def encode_notes(
@@ -125,7 +124,7 @@ def encode_notes(
                     note_name=midi2note(note.key_number),
                 )
         ds_note = DsNote(
-            lyric=LyricUtil.get_symbol_removed_lyric(note.lyric),
+            lyric=lyric_util.get_symbol_removed_lyric(note.lyric),
             ds_phoneme=ds_phoneme,
             note_name=midi2note(note.key_number),
             duration=round(cur_end_in_secs - cur_start_in_secs, 6),

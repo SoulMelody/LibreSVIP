@@ -30,7 +30,7 @@ from .model import (
 )
 from .options import OutputOptions
 from .util import BasePitchGenerator
-from .utils.lyric_util import LyricUtil
+from .utils import lyric_util
 
 
 @dataclasses.dataclass
@@ -150,12 +150,12 @@ class UstxGenerator:
     @staticmethod
     def generate_note(os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
         y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
-        lyric = LyricUtil.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
+        lyric = lyric_util.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
         if os_note.pronunciation:  # 如果有发音，则用发音
             lyric = os_note.pronunciation
         if lyric == "-":  # OpenUTAU中的连音符为+
             lyric = "+"
-        if len(lyric) == 2 and LyricUtil.is_punctuation(lyric[1]):  # 删除标点符号
+        if len(lyric) == 2 and lyric_util.is_punctuation(lyric[1]):  # 删除标点符号
             lyric = lyric[:1]
         return UNote(
             position=os_note.start_pos,

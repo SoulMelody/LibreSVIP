@@ -119,16 +119,14 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_song_tempo(tempo: SongTempo) -> XSSongTempo:
-        xs_tempo = XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
-        return xs_tempo
+        return XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
 
     @staticmethod
     def generate_time_signature(signature: TimeSignature) -> XSSongBeat:
-        beat = XSSongBeat(
+        return XSSongBeat(
             bar_index=signature.bar_index,
             beat_size=XSBeatSize(x=signature.numerator, y=signature.denominator),
         )
-        return beat
 
     def generate_track(self, track: Track) -> Optional[XSITrack]:
         s_track: Optional[XSITrack] = None
@@ -209,11 +207,10 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_phones(edited_phones: Phones) -> XSNotePhoneInfo:
-        phone = XSNotePhoneInfo(
+        return XSNotePhoneInfo(
             head_phone_time_in_sec=edited_phones.head_length_in_secs,
             mid_part_over_tail_part_ratio=edited_phones.mid_ratio_over_tail,
         )
-        return phone
 
     def generate_vibrato(
         self, vibrato: VibratoParam
