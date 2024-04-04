@@ -156,10 +156,11 @@ class TaskManager(QObject):
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
-        self.conversion_mode = ConversionMode.DIRECT
+        self._conversion_mode = ConversionMode.DIRECT
         self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
         self.tasks.rowsInserted.connect(self._on_tasks_changed)
         self.tasks.rowsRemoved.connect(self._on_tasks_changed)
+        self.merge_target = BaseTask(name="Output")
         self.input_formats = ModelProxy({"value": "", "text": ""})
         self.output_formats = ModelProxy({"value": "", "text": ""})
         self.input_fields = ModelProxy(
@@ -237,17 +238,20 @@ class TaskManager(QObject):
     def _on_tasks_changed(self, index: QModelIndex, start: int, end: int) -> None:
         self.task_count_changed.emit(len(self.tasks))
 
-    @Slot(str)
+    def get_conversion_mode(self) -> str:
+        return self._conversion_mode.value
+
     def set_conversion_mode(self, mode: str) -> None:
-        self.conversion_mode = ConversionMode(mode)
+        self._conversion_mode = ConversionMode(mode)
+        self.conversion_mode_changed.emit(mode)
+
+    conversion_mode = Property(
+        str, get_conversion_mode, set_conversion_mode, notify=conversion_mode_changed
+    )
 
     @Property(int, notify=task_count_changed)
     def count(self) -> int:
-        if self.conversion_mode == ConversionMode.DIRECT:
-            return len(self.tasks)
-        elif self.conversion_mode == ConversionMode.MERGE:
-            return self._merge_tasks.row_count()
-        return 0
+        return len(self.tasks)
 
     @Slot(result=None)
     def reload_formats(self) -> None:
@@ -513,10 +517,7 @@ class TaskManager(QObject):
                     success=None,
                 )
             )
-        if self.conversion_mode == ConversionMode.DIRECT:
-            self.tasks.append_many([dataclasses.asdict(task) for task in tasks])
-        elif self.conversion_mode == ConversionMode.MERGE:
-            self._merge_tasks.append_many(tasks)
+        self.tasks.append_many([dataclasses.asdict(task) for task in tasks])
         if (
             settings.auto_detect_input_format
             and path_obj is not None

@@ -636,8 +636,7 @@ Page {
                         ToolTip.text: qsTr("Direct")
                         ToolTip.visible: hovered
                         onClicked: {
-                            tasksStack.currentIndex = 0
-                            TaskManager.set_conversion_mode("Direct")
+                            TaskManager.conversion_mode = "Direct"
                         }
                     }
 
@@ -649,8 +648,7 @@ Page {
                         ToolTip.text: qsTr("Merge Tracks")
                         ToolTip.visible: hovered
                         onClicked: {
-                            tasksStack.currentIndex = 1
-                            TaskManager.set_conversion_mode("Merge")
+                            TaskManager.conversion_mode = "Merge"
                         }
                     }
 
@@ -662,8 +660,7 @@ Page {
                         ToolTip.text: qsTr("Track Grouping")
                         ToolTip.visible: hovered
                         onClicked: {
-                            tasksStack.currentIndex = 2
-                            TaskManager.set_conversion_mode("Split")
+                            TaskManager.conversion_mode = "Split"
                         }
                     }
                 }
@@ -690,6 +687,16 @@ Page {
                 Layout.alignment: Qt.AlignTop
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                currentIndex: {
+                    switch (TaskManager.conversion_mode) {
+                        case "Merge":
+                            return 1
+                        case "Split":
+                            return 2
+                        default:
+                            return 0
+                    }
+                }
                 ScrollView {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
@@ -709,212 +716,241 @@ Page {
                 }
 
                 ScrollView {
-                    
-                }
-            }
-            Rectangle {
-                Layout.alignment: Qt.AlignBottom
-                color: "transparent"
-                Timer {
-                    id: hideTaskToolbarTimer
-                    interval: 1000
-                    repeat: true
-                    triggeredOnStart: false
-                    onTriggered: {
-                        if (
-                            toggleTaskToolbarButton.hovered ||
-                            addTaskButton.hovered ||
-                            clearTaskButton.hovered ||
-                            resetExtensionButton.hovered ||
-                            removeOtherExtensionButton.hovered
-                        ) {
-                            return
-                        }
-                        toggleTaskToolbarButton.state = "collapsed"
-                        this.stop()
-                    }
-                }
-                RoundButton {
-                    id: toggleTaskToolbarButton
-                    states: [
-                        State {
-                            name: "expanded"
-                            PropertyChanges {
-                                target: toggleTaskToolbarButton
-                                rotation: 45
-                            }
-                            PropertyChanges {
-                                target: taskToolbar
-                                shown: true
-                            }
-                        },
-                        State {
-                            name: "collapsed"
-                            PropertyChanges {
-                                target: toggleTaskToolbarButton
-                                rotation: 0
-                            }
-                            PropertyChanges {
-                                target: taskToolbar
-                                shown: false
-                            }
-                        }
-                    ]
-                    state: "collapsed"
-                    background: Rectangle {
-                        radius: this.height / 2
-                        color: Material.color(
-                            Material.Indigo,
-                            Material.Shade300
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    contentWidth: availableWidth
+                    ListView {
+                        id: splitTaskListView
+                        Layout.fillWidth: true
+                        model: TaskManager.qget("tasks")
+                        delegate: Qt.createComponent(
+                            "task_row.qml"
                         )
                     }
-                    text: IconicFontLoader.icon("mdi7.hammer-wrench")
-                    y: parent.height - this.height / 2 - 10
-                    font.family: "Material Design Icons"
-                    font.pixelSize: Qt.application.font.pixelSize * 1.5
-                    radius: this.height / 2
-                    Behavior on rotation {
-                        RotationAnimation {
-                            duration: 200
-                            easing.type: Easing.InOutQuad
-                        }
-                    }
-                    onHoveredChanged: {
-                        if (hovered) {
-                            hideTaskToolbarTimer.stop()
-                            state = "expanded"
-                        }
-                        else if (!hideTaskToolbarTimer.running) {
-                            hideTaskToolbarTimer.start()
-                        }
-                    }
                 }
-                Pane {
-                    id: taskToolbar
-                    property bool shown: false
-                    x: toggleTaskToolbarButton.width
-                    y: toggleTaskToolbarButton.y - 12
-                    width: shown ? implicitWidth : 0
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                    Behavior on width {
-                        NumberAnimation {
-                            easing.type: Easing.InOutQuad
+            }
+            RowLayout {
+                Layout.alignment: Qt.AlignBottom
+                Layout.minimumHeight: 50
+                Rectangle {
+                    color: "transparent"
+                    Timer {
+                        id: hideTaskToolbarTimer
+                        interval: 1000
+                        repeat: true
+                        triggeredOnStart: false
+                        onTriggered: {
+                            if (
+                                toggleTaskToolbarButton.hovered ||
+                                addTaskButton.hovered ||
+                                clearTaskButton.hovered ||
+                                resetExtensionButton.hovered ||
+                                removeOtherExtensionButton.hovered
+                            ) {
+                                return
+                            }
+                            toggleTaskToolbarButton.state = "collapsed"
+                            this.stop()
                         }
                     }
-                    clip: true
-                    Row {
-                        RoundButton {
-                            id: addTaskButton
-                            text: IconicFontLoader.icon("mdi7.plus")
-                            background: Rectangle {
-                                radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Continue Adding files")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
+                    RoundButton {
+                        id: toggleTaskToolbarButton
+                        states: [
+                            State {
+                                name: "expanded"
+                                PropertyChanges {
+                                    target: toggleTaskToolbarButton
+                                    rotation: 45
+                                }
+                                PropertyChanges {
+                                    target: taskToolbar
+                                    shown: true
+                                }
+                            },
+                            State {
+                                name: "collapsed"
+                                PropertyChanges {
+                                    target: toggleTaskToolbarButton
+                                    rotation: 0
+                                }
+                                PropertyChanges {
+                                    target: taskToolbar
+                                    shown: false
                                 }
                             }
-                            onClicked: {
-                                actions.openFile.trigger()
+                        ]
+                        state: "collapsed"
+                        background: Rectangle {
+                            radius: this.height / 2
+                            color: Material.color(
+                                Material.Indigo,
+                                Material.Shade300
+                            )
+                        }
+                        text: IconicFontLoader.icon("mdi7.hammer-wrench")
+                        y: parent.height - this.height / 2
+                        font.family: "Material Design Icons"
+                        font.pixelSize: Qt.application.font.pixelSize * 1.5
+                        radius: this.height / 2
+                        Behavior on rotation {
+                            RotationAnimation {
+                                duration: 200
+                                easing.type: Easing.InOutQuad
                             }
                         }
-                        RoundButton {
-                            id: clearTaskButton
-                            text: IconicFontLoader.icon("mdi7.refresh")
-                            background: Rectangle {
-                                radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
+                        onHoveredChanged: {
+                            if (hovered) {
+                                hideTaskToolbarTimer.stop()
+                                state = "expanded"
                             }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            enabled: TaskManager.count > 0
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Clear Task List")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
-                                }
-                            }
-                            onClicked: {
-                                if (startConversionBtn.enabled) {
-                                    actions.clearTasks.trigger()
-                                }
+                            else if (!hideTaskToolbarTimer.running) {
+                                hideTaskToolbarTimer.start()
                             }
                         }
-                        RoundButton {
-                            id: resetExtensionButton
-                            text: IconicFontLoader.icon("mdi7.form-textbox")
-                            background: Rectangle {
-                                radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Reset Default Extension")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
-                                }
-                            }
-                            onClicked: {
-                                if (startConversionBtn.enabled) {
-                                    TaskManager.reset_stems()
-                                }
+                    }
+                    Pane {
+                        id: taskToolbar
+                        property bool shown: false
+                        x: toggleTaskToolbarButton.width
+                        y: toggleTaskToolbarButton.y - 12
+                        width: shown ? implicitWidth : 0
+                        background: Rectangle {
+                            color: "transparent"
+                        }
+                        Behavior on width {
+                            NumberAnimation {
+                                easing.type: Easing.InOutQuad
                             }
                         }
-                        RoundButton {
-                            id: removeOtherExtensionButton
-                            text: IconicFontLoader.icon("mdi7.filter-minus-outline")
-                            background: Rectangle {
+                        clip: true
+                        Row {
+                            RoundButton {
+                                id: addTaskButton
+                                text: IconicFontLoader.icon("mdi7.plus")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
+                                }
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
-                                color: Material.color(
-                                    Material.LightBlue,
-                                    Material.Shade200
-                                )
-                            }
-                            font.family: "Material Design Icons"
-                            font.pixelSize: Qt.application.font.pixelSize * 1.5
-                            radius: this.height / 2
-                            ToolTip.visible: hovered
-                            ToolTip.text: qsTr("Remove Tasks With Other Extensions")
-                            onHoveredChanged: {
-                                if (!hovered && !hideTaskToolbarTimer.running) {
-                                    hideTaskToolbarTimer.start()
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Continue Adding files")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    actions.openFile.trigger()
                                 }
                             }
-                            onClicked: {
-                                if (startConversionBtn.enabled) {  // TODO
-                                    for (var i = 0; i < taskListView.count; i++) {
-                                        var task = taskListView.model.get(i)
-                                        let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
-                                        if (extension != inputFormat.currentValue) {
-                                            taskListView.model.delete(i)
-                                            i--
+                            RoundButton {
+                                id: clearTaskButton
+                                text: IconicFontLoader.icon("mdi7.refresh")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
+                                }
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                radius: this.height / 2
+                                enabled: TaskManager.count > 0
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Clear Task List")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    if (startConversionBtn.enabled) {
+                                        actions.clearTasks.trigger()
+                                    }
+                                }
+                            }
+                            RoundButton {
+                                id: resetExtensionButton
+                                text: IconicFontLoader.icon("mdi7.form-textbox")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
+                                }
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                radius: this.height / 2
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Reset Default Extension")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    if (startConversionBtn.enabled) {
+                                        TaskManager.reset_stems()
+                                    }
+                                }
+                            }
+                            RoundButton {
+                                id: removeOtherExtensionButton
+                                text: IconicFontLoader.icon("mdi7.filter-minus-outline")
+                                background: Rectangle {
+                                    radius: this.height / 2
+                                    color: Material.color(
+                                        Material.LightBlue,
+                                        Material.Shade200
+                                    )
+                                }
+                                font.family: "Material Design Icons"
+                                font.pixelSize: Qt.application.font.pixelSize * 1.5
+                                radius: this.height / 2
+                                ToolTip.visible: hovered
+                                ToolTip.text: qsTr("Remove Tasks With Other Extensions")
+                                onHoveredChanged: {
+                                    if (!hovered && !hideTaskToolbarTimer.running) {
+                                        hideTaskToolbarTimer.start()
+                                    }
+                                }
+                                onClicked: {
+                                    if (startConversionBtn.enabled) {  // TODO
+                                        for (var i = 0; i < taskListView.count; i++) {
+                                            var task = taskListView.model.get(i)
+                                            let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
+                                            if (extension != inputFormat.currentValue) {
+                                                taskListView.model.delete(i)
+                                                i--
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                    }
+                }
+                Row {
+                    Layout.fillWidth: true
+                }
+                Label {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "Max Track count:"
+                    visible: TaskManager.conversion_mode === "Split"
+                }
+                SpinBox {
+                    from: 1
+                    value: ConfigItems.max_track_count
+                    visible: TaskManager.conversion_mode === "Split"
+                    onValueModified: {
+                        ConfigItems.max_track_count = value
                     }
                 }
             }
@@ -1617,7 +1653,7 @@ Page {
             SplitView.minimumWidth: inputOptionsRow.implicitWidth + 50
             orientation: Qt.Vertical
 
-            Control {
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.preferredHeight: 250
                 SplitView.minimumHeight: 250
@@ -1639,7 +1675,7 @@ Page {
                 }
             }
 
-            Control {
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.maximumHeight: parent.height - 250
                 anchors.bottom: parent.bottom
@@ -1659,7 +1695,7 @@ Page {
             SplitView.minimumWidth: 450
             orientation: Qt.Vertical
 
-            Control {   
+            Pane {   
                 SplitView.fillWidth: true
                 SplitView.minimumWidth: parent.width
                 SplitView.preferredHeight: parent.height - 200
@@ -1684,7 +1720,7 @@ Page {
                 }
             }
 
-            Control {
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.minimumHeight: 200
                 anchors.bottom: parent.bottom
@@ -1752,7 +1788,7 @@ Page {
                 SplitView.fillWidth: true
                 orientation: Qt.Vertical
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.preferredHeight: 250
                     SplitView.minimumHeight: 250
@@ -1774,7 +1810,7 @@ Page {
                     }
                 }
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.maximumHeight: parent.height - 250
                     anchors.bottom: parent.bottom
@@ -1790,7 +1826,7 @@ Page {
                 SplitView.fillHeight: true
                 orientation: Qt.Vertical
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.preferredHeight: parent.height - 350
                     SplitView.minimumHeight: parent.height - 400
@@ -1814,7 +1850,7 @@ Page {
                     }
                 }
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.maximumHeight: 400
                     anchors.bottom: parent.bottom
@@ -1830,7 +1866,7 @@ Page {
                 SplitView.fillHeight: true
                 orientation: Qt.Vertical
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.minimumHeight: 200
                     SplitView.maximumHeight: 250
@@ -1849,7 +1885,7 @@ Page {
                     }
                 }
 
-                Control {
+                Pane {
                     SplitView.fillWidth: true
                     SplitView.maximumHeight: parent.height - 200
                     anchors.bottom: parent.bottom
