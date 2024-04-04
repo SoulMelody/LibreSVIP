@@ -11,26 +11,34 @@ ColumnLayout {
     required property string path
     required property string stem
     required property string ext
-    required property string index
+    required property int index
     width: converterPage.taskList.width
     height: 45
 
     Item {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        Column {
-            width: parent.width - 280
-            Label {
-                width: parent.width
-                text: name
-                elide: Text.ElideRight
-                font.bold: true
-                font.pixelSize: Qt.application.font.pixelSize * 1.2
+        RowLayout {
+            width: parent.width - 275
+            Column {
+                Layout.fillWidth: true
+                Label {
+                    width: parent.width
+                    text: name
+                    elide: Text.ElideRight
+                    font.bold: true
+                    font.pixelSize: Qt.application.font.pixelSize * 1.2
+                }
+                Label {
+                    width: parent.width
+                    text: path
+                    elide: Text.ElideRight
+                }
             }
             Label {
-                width: parent.width
-                text: path
-                elide: Text.ElideRight
+                text: TaskManager.conversion_mode === "Merge" && index !== 0 ? IconicFontLoader.icon("mdi7.transfer-up") : IconicFontLoader.icon("mdi7.transfer-right")
+                font.family: "Material Design Icons"
+                font.pixelSize: Qt.application.font.pixelSize * 1.5
             }
         }
         RowLayout {
@@ -38,14 +46,10 @@ ColumnLayout {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             anchors.right: parent.right
-            Label {
-                text: IconicFontLoader.icon("mdi7.transfer-right")
-                font.family: "Material Design Icons"
-                font.pixelSize: Qt.application.font.pixelSize * 1.5
-            }
 
             TextField {
                 id: stemField
+                visible: TaskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: stem
                 onEditingFinished: {
                     converterPage.taskList.model.update(index, {stem: this.text})
@@ -54,6 +58,7 @@ ColumnLayout {
 
             Label {
                 id: extLabel
+                visible: TaskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: ext
             }
 
@@ -361,6 +366,8 @@ ColumnLayout {
                                 )
                                 message_box.open()
                             }
+                        } else {
+                            successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
                         }
                     }
                 }

@@ -35,7 +35,7 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
-from libresvip.model.base import BaseComplexModel, BaseModel
+from libresvip.model.base import BaseComplexModel, BaseModel, Project
 
 from .url_opener import open_path
 
@@ -239,6 +239,105 @@ class SplitWorker(QRunnable):
                 self.signals.result.emit(self.index, result_kwargs)
 
 
+class MergeWorker(QRunnable):
+    def __init__(
+        self,
+        index: int,
+        input_paths: list[str],
+        output_path: str,
+        input_format: str,
+        output_format: str,
+        input_options: dict[str, Any],
+        output_options: dict[str, Any],
+        middleware_options: dict[str, dict[str, Any]],
+        parent: Optional[QObject] = None,
+    ) -> None:
+        super().__init__(parent=parent)
+        self.index = index
+        self.input_paths = input_paths
+        self.output_path = output_path
+        self.input_format = input_format
+        self.output_format = output_format
+        self.input_options = input_options
+        self.output_options = output_options
+        self.middleware_options = middleware_options
+        self.signals = ConversionWorkerSignals()
+
+    @Slot()
+    def run(self) -> None:
+        result_kwargs: dict[str, Any] = {"running": False}
+        try:
+            with CatchWarnings() as w:
+                input_plugin = plugin_manager.plugin_registry[self.input_format]
+                output_plugin = plugin_manager.plugin_registry[self.output_format]
+                if (
+                    input_plugin.plugin_object is None
+                    or (
+                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    )
+                    is None
+                    or output_plugin.plugin_object is None
+                    or (
+                        output_option_cls := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is None
+                ):
+                    result_kwargs |= {
+                        "success": False,
+                        "error": "Invalid options",
+                    }
+                else:
+                    input_option = input_option_cls(**self.input_options)
+                    child_projects = [
+                        input_plugin.plugin_object.load(
+                            pathlib.Path(input_path),
+                            input_option,
+                        )
+                        for input_path in self.input_paths
+                    ]
+                    project = Project.merge_projects(child_projects)
+                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                        middleware = middleware_manager.plugin_registry[middleware_abbr]
+                        if (
+                            middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                            and (
+                                middleware_option_class := get_type_hints(
+                                    middleware.plugin_object.process
+                                ).get(
+                                    "options",
+                                )
+                            )
+                        ):
+                            project = middleware.plugin_object.process(
+                                project,
+                                middleware_option_class.model_validate(middleware_option),
+                            )
+                    output_plugin.plugin_object.dump(
+                        UPath(self.output_path),
+                        project,
+                        output_option_cls(**self.output_options),
+                    )
+                    result_kwargs |= {
+                        "success": True,
+                        "tmp_path": self.output_path,
+                    }
+            if w.output:
+                result_kwargs["warning"] = w.output
+            self.signals.result.emit(self.index, result_kwargs)
+        except Exception:
+            result_kwargs |= {
+                "success": False,
+                "error": traceback.format_exc(),
+            }
+            with contextlib.suppress(RuntimeError):
+                self.signals.result.emit(self.index, result_kwargs)
+
+
 @QmlElement
 @QmlSingleton
 class TaskManager(QObject):
@@ -255,7 +354,6 @@ class TaskManager(QObject):
         self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
         self.tasks.rowsInserted.connect(self._on_tasks_changed)
         self.tasks.rowsRemoved.connect(self._on_tasks_changed)
-        self.merge_target = BaseTask(name="Output")
         self.input_formats = ModelProxy({"value": "", "text": ""})
         self.output_formats = ModelProxy({"value": "", "text": ""})
         self.input_fields = ModelProxy(
@@ -339,6 +437,12 @@ class TaskManager(QObject):
     def set_conversion_mode(self, mode: str) -> None:
         self._conversion_mode = ConversionMode(mode)
         self.conversion_mode_changed.emit(mode)
+        for i, task in enumerate(self.tasks):
+            if task["success"] is False or self.delete_tmp_file(QModelIndex(), i, i):
+                self.tasks.update(
+                    i,
+                    {"tmp_path": "", "running": False, "success": None, "error": "", "warning": ""},
+                )
 
     conversion_mode = Property(
         str, get_conversion_mode, set_conversion_mode, notify=conversion_mode_changed
@@ -373,7 +477,8 @@ class TaskManager(QObject):
         )
         self.output_format_changed.emit("")
 
-    def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:
+    def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> bool:
+        deleted = False
         for i in range(start, end + 1):
             path = UPath(self.tasks[i]["tmp_path"])
             if path.exists():
@@ -382,6 +487,8 @@ class TaskManager(QObject):
                         path.rmdir(recursive=True)
                     else:
                         path.unlink()
+                deleted = True
+        return deleted
 
     @property
     def input_format(self) -> Optional[str]:
@@ -800,4 +907,23 @@ class TaskManager(QObject):
                 self.thread_pool.start(worker)
                 if not i:
                     self.set_busy(True)
+        elif self._conversion_mode == ConversionMode.MERGE and len(self.tasks):
+            input_paths = [task["path"] for task in self.tasks]
+            output_path = f"memory:/{uuid.uuid4()}"
+            worker = MergeWorker(
+                0,
+                input_paths,
+                output_path,
+                self.input_format,
+                self.output_format,
+                input_options,
+                output_options,
+                middleware_options,
+            )
+            worker.signals.result.connect(
+                self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+            )
+            self.tasks.update(0, {"running": True, "success": None, "error": None, "warning": None})
+            self.thread_pool.start(worker)
+            self.set_busy(True)
         self.timer.start()

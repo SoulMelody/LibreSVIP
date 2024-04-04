@@ -682,51 +682,17 @@ Page {
                 height: 1
                 color: "lightgrey"
             }
-            StackLayout {
-                id: tasksStack
-                Layout.alignment: Qt.AlignTop
+            ScrollView {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                currentIndex: {
-                    switch (TaskManager.conversion_mode) {
-                        case "Merge":
-                            return 1
-                        case "Split":
-                            return 2
-                        default:
-                            return 0
-                    }
-                }
-                ScrollView {
-                    Layout.fillHeight: true
+                contentWidth: availableWidth
+                ListView {
+                    id: taskListView
                     Layout.fillWidth: true
-                    contentWidth: availableWidth
-                    ListView {
-                        id: taskListView
-                        Layout.fillWidth: true
-                        model: TaskManager.qget("tasks")
-                        delegate: Qt.createComponent(
-                            "task_row.qml"
-                        )
-                    }
-                }
-
-                ScrollView {
-                    
-                }
-
-                ScrollView {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    contentWidth: availableWidth
-                    ListView {
-                        id: splitTaskListView
-                        Layout.fillWidth: true
-                        model: TaskManager.qget("tasks")
-                        delegate: Qt.createComponent(
-                            "task_row.qml"
-                        )
-                    }
+                    model: TaskManager.qget("tasks")
+                    delegate: Qt.createComponent(
+                        "task_row.qml"
+                    )
                 }
             }
             RowLayout {
