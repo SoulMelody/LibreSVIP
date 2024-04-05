@@ -16,10 +16,15 @@ class CustomBoundriesMixin:
     def __init__(
         self,
         *args: Any,
-        left_boundary: str = WORD_BOUNDARY,
-        right_boundary: str = WORD_BOUNDARY,
+        left_boundary: Optional[str] = None,
+        right_boundary: Optional[str] = None,
         **kwargs: Any,
     ) -> None:
+        default_word_boundary = "" if kwargs.get("match_substrings") is True else WORD_BOUNDARY
+        if left_boundary is None:
+            left_boundary = default_word_boundary
+        if right_boundary is None:
+            right_boundary = default_word_boundary
         self.left_boundary = left_boundary
         self.right_boundary = right_boundary
         super().__init__(*args, **kwargs)
