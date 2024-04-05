@@ -39,16 +39,14 @@ class CustomBoundriesMixin:
         re_flags = self.re_flags if re_flags == -1 else re_flags
 
         if left_boundary == WORD_BOUNDARY:
-            # \b is non-capturing, so doesn't need to be wrapped
-            lookahead = left_boundary
+            lookbehind = left_boundary
         else:
-            lookahead = f"(?={left_boundary})" if left_boundary else ""
+            lookbehind = f"(?<={left_boundary})" if left_boundary else ""
 
         if right_boundary == WORD_BOUNDARY:
-            # \b is non-capturing, so doesn't need to be wrapped
-            lookbehind = right_boundary
+            lookahead = right_boundary
         else:
-            lookbehind = f"(?<={right_boundary})" if right_boundary else ""
+            lookahead = f"(?={right_boundary})" if right_boundary else ""
 
         return re.compile(
             lookbehind + self.pattern() + lookahead,
