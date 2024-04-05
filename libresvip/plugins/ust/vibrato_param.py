@@ -46,8 +46,10 @@ def append_utau_note_vibrato(
     def vibrato(t: float) -> float:
         if t < start:
             return 0.0
-        ease_in_factor = clamp((t - start) / ease_in_length, 0.0, 1.0)
-        ease_out_factor = clamp((note_length - t) / ease_out_length, 0.0, 1.0)
+        ease_in_factor = clamp((t - start) / ease_in_length, 0.0, 1.0) if ease_in_length else 1.0
+        ease_out_factor = (
+            clamp((note_length - t) / ease_out_length, 0.0, 1.0) if ease_out_length else 1.0
+        )
         x = math.tau * (frequency * (t - start) - phase)
         return depth * ease_in_factor * ease_out_factor * (math.sin(x) + shift)
 
