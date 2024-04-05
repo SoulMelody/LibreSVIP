@@ -1,13 +1,12 @@
 import dataclasses
 import re
-import warnings
 from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import NotesWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -120,16 +119,14 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_song_tempo(tempo: SongTempo) -> XSSongTempo:
-        xs_tempo = XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
-        return xs_tempo
+        return XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
 
     @staticmethod
     def generate_time_signature(signature: TimeSignature) -> XSSongBeat:
-        beat = XSSongBeat(
+        return XSSongBeat(
             bar_index=signature.bar_index,
             beat_size=XSBeatSize(x=signature.numerator, y=signature.denominator),
         )
-        return beat
 
     def generate_track(self, track: Track) -> Optional[XSITrack]:
         s_track: Optional[XSITrack] = None
@@ -196,10 +193,10 @@ class BinarySvipGenerator:
             )
             if note_duration < MIN_NOTE_DURATION:
                 msg_prefix = _("Note duration is too short:")
-                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+                show_warning(f"{msg_prefix} {note.lyric}")
             elif note_duration > MAX_NOTE_DURATION:
                 msg_prefix = _("Note duration is too long:")
-                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+                show_warning(f"{msg_prefix} {note.lyric}")
             if note.edited_phones is not None:
                 xs_note.note_phone_info = self.generate_phones(note.edited_phones)
             if note.vibrato is not None:
@@ -210,11 +207,10 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_phones(edited_phones: Phones) -> XSNotePhoneInfo:
-        phone = XSNotePhoneInfo(
+        return XSNotePhoneInfo(
             head_phone_time_in_sec=edited_phones.head_length_in_secs,
             mid_part_over_tail_part_ratio=edited_phones.mid_ratio_over_tail,
         )
-        return phone
 
     def generate_vibrato(
         self, vibrato: VibratoParam

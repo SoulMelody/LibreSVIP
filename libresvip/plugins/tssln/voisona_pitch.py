@@ -3,13 +3,12 @@ from __future__ import annotations
 import dataclasses
 import itertools
 import math
-import warnings
 from typing import NamedTuple, Optional
 
 import more_itertools
 
 from libresvip.core.tick_counter import shift_tempo_list
-from libresvip.core.warning_types import ParamsWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
 from libresvip.utils.music_math import hz2midi, midi2hz
@@ -78,7 +77,7 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
                     converted_points.append(Point(x=round(pos), y=value))
                 current_value = value
         except OverflowError:
-            warnings.warn(_("Pitch value is out of bounds"), ParamsWarning)
+            show_warning(_("Pitch value is out of bounds"))
         next_pos = pos + length
     converted_points.append(Point.end_point())
 

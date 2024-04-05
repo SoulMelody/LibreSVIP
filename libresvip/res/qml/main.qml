@@ -20,7 +20,7 @@ FramelessWindow {
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
     Material.theme: {
-        switch (ConfigItems.get_theme()) {
+        switch (ConfigItems.theme) {
             case "Dark":
                 return Material.Dark
             case "Light":
@@ -61,15 +61,15 @@ FramelessWindow {
         switch (theme) {
             case "Light":
                 window.Material.theme = Material.Light
-                ConfigItems.set_theme("Light")
+                ConfigItems.theme = "Light"
                 break
             case "Dark":
                 window.Material.theme = Material.Dark
-                ConfigItems.set_theme("Dark")
+                ConfigItems.theme = "Dark"
                 break
             case "System":
                 window.Material.theme = Material.System
-                ConfigItems.set_theme("System")
+                ConfigItems.theme = "System"
                 break
         }
     }
@@ -77,7 +77,7 @@ FramelessWindow {
     Connections {
         target: Application.styleHints
         function onColorSchemeChanged(value) {
-            let currentTheme = ConfigItems.get_theme()
+            let currentTheme = ConfigItems.theme
             if (currentTheme === "System") {
                 handleThemeChange(currentTheme)
             }
@@ -92,7 +92,7 @@ FramelessWindow {
     }
 
     Component.onCompleted: {
-        if (ConfigItems.get_bool("auto_check_for_updates")) {
+        if (ConfigItems.auto_check_for_updates) {
             Notifier.check_for_updates()
         }
     }

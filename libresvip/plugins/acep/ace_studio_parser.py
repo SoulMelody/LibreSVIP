@@ -2,14 +2,13 @@ import dataclasses
 import math
 import operator
 import re
-import warnings
 from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import skip_tempo_list
-from libresvip.core.warning_types import UnknownWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -75,11 +74,12 @@ class AceParser:
         return SongTempo(position=ace_tempo.position, bpm=ace_tempo.bpm)
 
     def parse_track(self, ace_track: AcepTrack) -> Optional[Track]:
-        if isinstance(ace_track, AcepAudioTrack):
-            if len(ace_track.patterns) == 0:
-                return None
-            track = InstrumentalTrack()
-            track.audio_file_path = ace_track.patterns[0].path
+        if (
+            self.options.import_instrumental_track
+            and isinstance(ace_track, AcepAudioTrack)
+            and len(ace_track.patterns)
+        ):
+            track = InstrumentalTrack(audio_file_path=ace_track.patterns[0].path)
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
                 ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
@@ -220,7 +220,7 @@ class AceParser:
                 )
             else:
                 msg = f"Unknown normalization method: {self.options.breath_normalization.normalize_method}"
-                warnings.warn(msg, UnknownWarning)
+                show_warning(msg)
 
             ace_params.breathiness = ace_params.breathiness.plus(
                 normalized, 1.0, lambda x: x * 1.5 if x >= 0 else x * 0.8
@@ -245,7 +245,7 @@ class AceParser:
                 )
             else:
                 msg = f"Unknown normalization method: {self.options.tension_normalization.normalize_method}"
-                warnings.warn(msg, UnknownWarning)
+                show_warning(msg)
 
             ace_params.tension = ace_params.tension.plus(
                 normalized, 1.0, lambda x: x * 0.5 if x >= 0 else x * 0.3
@@ -270,15 +270,21 @@ class AceParser:
                 )
             else:
                 msg = f"Unknown normalization method: {self.options.energy_normalization.normalize_method}"
-                warnings.warn(msg, UnknownWarning)
+                show_warning(msg)
 
             ace_params.energy = ace_params.energy.plus(normalized, 1.0, lambda x: x)
 
-        parameters = Params(
-            pitch=self.parse_pitch_curve(ace_params.pitch_delta, ace_note_list),
-            breath=self.parse_param_curve(ace_params.breathiness, linear_transform(0.2, 1, 2.5)),
-            gender=self.parse_param_curve(ace_params.gender, linear_transform(-1, 0, 1)),
-        )
+        parameters = Params()
+        if self.options.import_pitch:
+            parameters.pitch = self.parse_pitch_curve(ace_params.pitch_delta, ace_note_list)
+        if self.options.import_breath:
+            parameters.breath = self.parse_param_curve(
+                ace_params.breathiness, linear_transform(0.2, 1, 2.5)
+            )
+        if self.options.import_gender:
+            parameters.gender = self.parse_param_curve(
+                ace_params.gender, linear_transform(-1, 0, 1)
+            )
         if self.options.import_tension and self.options.import_energy:
             transform = linear_transform(0, 1, 2)
             parameters.volume = self.parse_param_curve(

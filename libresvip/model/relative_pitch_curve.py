@@ -33,16 +33,24 @@ def get_interval_dict(notes: list[Note], to_absolute: bool) -> PiecewiseInterval
             continue
         if prev_note.end_pos < next_note.start_pos:
             if to_absolute:
-                middle_pos = (prev_note.end_pos + next_note.start_pos) / 2
-                interval_dict[portion.closedopen(prev_note.end_pos, middle_pos)] = (
-                    prev_note.key_number
-                )
-                interval_dict[portion.singleton(middle_pos)] = (
-                    prev_note.key_number + next_note.key_number
-                ) / 2
-                interval_dict[portion.openclosed(middle_pos, next_note.start_pos)] = (
-                    next_note.key_number
-                )
+                if next_note.lyric == "-":
+                    interval_dict[portion.singleton(prev_note.end_pos)] = (
+                        prev_note.key_number + next_note.key_number
+                    ) / 2
+                    interval_dict[portion.openclosed(prev_note.end_pos, next_note.start_pos)] = (
+                        next_note.key_number
+                    )
+                else:
+                    middle_pos = (prev_note.end_pos + next_note.start_pos) / 2
+                    interval_dict[portion.closedopen(prev_note.end_pos, middle_pos)] = (
+                        prev_note.key_number
+                    )
+                    interval_dict[portion.singleton(middle_pos)] = (
+                        prev_note.key_number + next_note.key_number
+                    ) / 2
+                    interval_dict[portion.openclosed(middle_pos, next_note.start_pos)] = (
+                        next_note.key_number
+                    )
             else:
                 interval_dict[portion.singleton(prev_note.end_pos)] = prev_note.key_number
                 interval_dict[portion.singleton(next_note.start_pos)] = next_note.key_number

@@ -10,8 +10,10 @@ import httpx
 from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
-from PySide6.QtCore import QObject, Slot
+from PySide6.QtCore import QObject, QTimer, Slot
 from PySide6.QtQml import QmlElement, QmlSingleton
+
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 import libresvip
 from libresvip.core.compat import as_file
@@ -20,7 +22,6 @@ from libresvip.utils.translation import gettext_lazy as _
 
 from .application import app, event_loop
 from .url_opener import open_path, open_url
-from .vendor.qasync import async_slot
 
 if TYPE_CHECKING:
     from contextlib import AbstractContextManager
@@ -67,8 +68,7 @@ class Notifier(QObject):
                     ),
                 )
 
-    @async_slot(result=None)
-    async def check_for_updates(self) -> None:
+    async def _check_for_updates(self) -> None:
         failed = False
         logger.info("Checking for updates...")
         async with httpx.AsyncClient(
@@ -175,6 +175,19 @@ class Notifier(QObject):
                     title=_("Error occurred while Checking for Updates"),
                     message=_("Failed to check for updates. Please try again later."),
                 )
+
+    @Slot(result=None)
+    def check_for_updates(self) -> None:
+        timer = QTimer(self)
+        timer.interval = 100
+
+        def ensure_running_loop() -> None:
+            if event_loop.is_running():
+                event_loop.create_task(self._check_for_updates())
+                timer.stop()
+
+        timer.timeout.connect(ensure_running_loop)
+        timer.start()
 
     async def notify_async(
         self,

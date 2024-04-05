@@ -62,13 +62,14 @@ class CeVIOParser:
 
         self.time_synchronizer = TimeSynchronizer(tempos)
 
-        for index, unit_node in enumerate(audio_unit_nodes):
-            group_id = unit_node.group
-            if (group := id2group.get(group_id)) is None:
-                group = CeVIOGroup()
-            track_name = group.name
-            track = self.parse_instrumental_track(index, unit_node, group, track_name)
-            tracks.append(track)
+        if self.options.import_instrumental_track:
+            for index, unit_node in enumerate(audio_unit_nodes):
+                group_id = unit_node.group
+                if (group := id2group.get(group_id)) is None:
+                    group = CeVIOGroup()
+                track_name = group.name
+                track = self.parse_instrumental_track(index, unit_node, group, track_name)
+                tracks.append(track)
 
         return Project(
             track_list=tracks,
@@ -178,7 +179,11 @@ class CeVIOParser:
                 notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
 
         cevio_track_pitch_data = None
-        if unit_node.song.parameter is not None and unit_node.song.parameter.log_f0 is not None:
+        if (
+            self.options.import_pitch
+            and unit_node.song.parameter is not None
+            and unit_node.song.parameter.log_f0 is not None
+        ):
             pitch_data_nodes: list[CeVIOData] = cast(
                 list[CeVIOData], unit_node.song.parameter.log_f0.data
             )

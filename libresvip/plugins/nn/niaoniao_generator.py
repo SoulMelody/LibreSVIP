@@ -3,7 +3,6 @@ import math
 
 import pypinyin
 
-from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import (
     Note,
@@ -68,7 +67,7 @@ class NiaoniaoGenerator:
         )
 
     def generate_tempo(self, tempo_list: list[SongTempo]) -> float:
-        return tempo_list[0].bpm if len(tempo_list) else DEFAULT_BPM
+        return tempo_list[0].bpm
 
     def generate_notes(self, singing_track: SingingTrack) -> list[NNNote]:
         nn_notes = []

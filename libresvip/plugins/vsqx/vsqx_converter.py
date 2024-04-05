@@ -1,14 +1,13 @@
 import pathlib
-from typing import TYPE_CHECKING, Any, Optional, TextIO, Union
-from xml.sax.saxutils import XMLGenerator
+from typing import TYPE_CHECKING, Any, Union
 
 from xsdata.formats.dataclass.parsers.xml import XmlParser
-from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
-from xsdata.formats.dataclass.serializers.xml import SerializerConfig, XmlSerializer
+from xsdata.formats.dataclass.serializers.config import SerializerConfig
+from xsdata.formats.dataclass.serializers.xml import XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils.xmlutils import EchoGenerator
+from libresvip.utils.xmlutils import DefaultXmlWriter
 
 from .enums import VsqxVersion
 from .models.vsqx3 import VSQ3_NS
@@ -22,17 +21,7 @@ if TYPE_CHECKING:
     from .model import Vsqx
 
 
-class VocaloidXMLWriter(XmlEventWriter):
-    def __init__(
-        self, config: SerializerConfig, output: TextIO, ns_map: dict[Optional[str], str]
-    ) -> None:
-        super().__init__(config, output, ns_map)
-
-    def build_handler(self) -> XMLGenerator:
-        return EchoGenerator(
-            out=self.output, encoding=self.config.encoding, short_empty_elements=True
-        )
-
+class VocaloidXMLWriter(DefaultXmlWriter):
     def set_data(self, data: Any) -> None:
         if (
             isinstance(data, str)
@@ -63,11 +52,7 @@ class VocaloidXMLWriter(XmlEventWriter):
                 "version",
             )
         ):
-            self.flush_start(False)
-            self.handler._finish_pending_start_element()
-            self.handler.start_cdata()
-            super().set_data(data)
-            self.handler.end_cdata()
+            super().set_cdata(data)
         else:
             super().set_data(data)
 

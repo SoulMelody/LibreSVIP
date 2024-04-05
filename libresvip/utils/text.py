@@ -6,7 +6,7 @@ import charset_normalizer
 import zhon
 
 LATIN_ALPHABET: re.Pattern[str] = re.compile(r"[a-zA-Z]+")
-SYMBOL_PATTERN = re.compile(
+SYMBOL_PATTERN: re.Pattern[str] = re.compile(
     rf"(?!-)[\!\"\#\$%\&'\(\)\*,\./:;<=>\?\[\\\]\^_`\{{\|\}}\~{zhon.hanzi.punctuation}]+"
 )
 

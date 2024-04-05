@@ -6,7 +6,7 @@ from enum import Enum
 from itertools import chain
 from typing import TYPE_CHECKING, Annotated, Literal, NamedTuple, Optional, Union
 
-from more_itertools import chunked, minmax
+from more_itertools import batched, minmax
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -47,7 +47,9 @@ class AcepParamCurve(BaseModel):
     @field_validator("points", mode="before")
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> AcepAnchorPoints:
-        return AcepAnchorPoints(root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)])
+        return AcepAnchorPoints(
+            root=[AcepAnchorPoint._make(each) for each in batched(points or [], 2)]
+        )
 
     @field_serializer("points", when_used="json-unless-none")
     def serialize_points(

@@ -1,21 +1,17 @@
 from pydantic import Field
 
 from libresvip.model.base import BaseModel
+from libresvip.model.option_mixins import EnablePitchImportationMixin, SelectSingleTrackMixin
 
 
-class InputOptions(BaseModel):
+class InputOptions(EnablePitchImportationMixin, BaseModel):
     encoding: str = Field(
         default="auto",
         title="Text encoding",
     )
 
 
-class OutputOptions(BaseModel):
-    track_index: int = Field(
-        default=-1,
-        title="Track index",
-        description="Start from 0, -1 means automatic selection",
-    )
+class OutputOptions(SelectSingleTrackMixin, BaseModel):
     version: float = Field(
         default=1.2,
         title="Version",

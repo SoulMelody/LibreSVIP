@@ -15,7 +15,7 @@ class SvipConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         with SvipReader() as reader:
             version, xs_project = reader.read(path)
-            return BinarySvipParser().parse_project(version, xs_project)
+            return BinarySvipParser(options).parse_project(version, xs_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options is None:

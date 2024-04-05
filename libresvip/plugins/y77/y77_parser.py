@@ -68,7 +68,7 @@ class Y77Parser:
     def parse_params(self, notes: list[Y77Note]) -> Params:
         params = Params()
         for y77_note in notes:
-            if len(y77_note.pit):
+            if self.options.import_pitch and len(y77_note.pit):
                 step = y77_note.length * 30 / (len(y77_note.pit) - 1)
                 pbs = y77_note.pbs + 1
                 params.pitch.points.append(

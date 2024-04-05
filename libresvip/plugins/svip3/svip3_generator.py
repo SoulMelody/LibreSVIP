@@ -1,6 +1,5 @@
 import dataclasses
 import re
-import warnings
 from typing import Any
 from urllib.parse import urljoin
 
@@ -9,7 +8,7 @@ from google.protobuf import any_pb2
 
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import NotesWarning, PhonemeWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -218,17 +217,17 @@ class Svip3Generator:
                 pronunciation = note.pronunciation or note.lyric
             if note.lyric != "-" and PINYIN_PATTERN.fullmatch(pronunciation) is None:
                 msg_prefix = _("Unsupported pinyin:")
-                warnings.warn(f"{msg_prefix} {pronunciation}", PhonemeWarning)
+                show_warning(f"{msg_prefix} {pronunciation}")
                 pronunciation = ""
             note_duration = self.synchronizer.get_duration_secs_from_ticks(
                 note.start_pos, note.end_pos
             )
             if note_duration < MIN_NOTE_DURATION:
                 msg_prefix = _("Note duration is too short:")
-                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+                show_warning(f"{msg_prefix} {note.lyric}")
             elif note_duration > MAX_NOTE_DURATION:
                 msg_prefix = _("Note duration is too long:")
-                warnings.warn(f"{msg_prefix} {note.lyric}", NotesWarning)
+                show_warning(f"{msg_prefix} {note.lyric}")
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,

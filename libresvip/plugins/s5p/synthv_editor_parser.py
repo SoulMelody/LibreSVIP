@@ -57,7 +57,7 @@ class SynthVEditorParser:
         self.first_bar_length = round(time_signature_list[0].bar_length())
         self.synchronizer = TimeSynchronizer(tempo_list)
         track_list = self.parse_singing_tracks(s5p_project.tracks)
-        if s5p_project.instrumental.filename:
+        if self.options.import_instrumental_track and s5p_project.instrumental.filename:
             track_list.append(
                 self.parse_instrumental_track(s5p_project.instrumental, s5p_project.mixer)
             )
@@ -148,54 +148,58 @@ class SynthVEditorParser:
                 else None,
             )
             notes.append(note)
-            vibrato_start = self.synchronizer.get_actual_secs_from_ticks(note.start_pos) + (
-                s5p_note.t_f0_vbr_start
-                if s5p_note.t_f0_vbr_start is not None
-                else db_defaults.t_f0_vbr_start
-            )
-            vibrato_end = self.synchronizer.get_actual_secs_from_ticks(note.end_pos)
-            if vibrato_end <= vibrato_start:
-                continue
-            phase = s5p_note.p_f0_vbr if s5p_note.p_f0_vbr is not None else db_defaults.p_f0_vbr
-            frequency = s5p_note.f_f0_vbr if s5p_note.f_f0_vbr is not None else db_defaults.f_f0_vbr
-            self.vibrato_value_interval_dict[portion.closedopen(vibrato_start, vibrato_end)] = (
-                functools.partial(
-                    self.s5p_vibrato_value,
-                    vibrato_start=vibrato_start,
-                    phase=phase,
-                    frequency=frequency,
+            if self.options.import_pitch:
+                vibrato_start = self.synchronizer.get_actual_secs_from_ticks(note.start_pos) + (
+                    s5p_note.t_f0_vbr_start
+                    if s5p_note.t_f0_vbr_start is not None
+                    else db_defaults.t_f0_vbr_start
                 )
-            )
-            vibrato_attack_time = vibrato_start + (
-                s5p_note.t_f0_vbr_left
-                if s5p_note.t_f0_vbr_left is not None
-                else db_defaults.t_f0_vbr_left
-            )
-            vibrato_release_time = vibrato_end - (
-                s5p_note.t_f0_vbr_right
-                if s5p_note.t_f0_vbr_right is not None
-                else db_defaults.t_f0_vbr_right
-            )
-            vibrato_depth = cast(
-                float, s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr
-            )
-            self.vibrato_coef_interval_dict[
-                portion.closedopen(vibrato_start, vibrato_attack_time)
-            ] = functools.partial(
-                linear_interpolation,
-                start=(vibrato_start, 0),
-                end=(vibrato_attack_time, vibrato_depth),
-            )
-            self.vibrato_coef_interval_dict[
-                portion.closedopen(vibrato_attack_time, vibrato_release_time)
-            ] = vibrato_depth
-            self.vibrato_coef_interval_dict[
-                portion.closedopen(vibrato_release_time, vibrato_end)
-            ] = functools.partial(
-                linear_interpolation,
-                start=(vibrato_release_time, vibrato_depth),
-                end=(vibrato_end, 0),
-            )
+                vibrato_end = self.synchronizer.get_actual_secs_from_ticks(note.end_pos)
+                if vibrato_end <= vibrato_start:
+                    continue
+                phase = s5p_note.p_f0_vbr if s5p_note.p_f0_vbr is not None else db_defaults.p_f0_vbr
+                frequency = (
+                    s5p_note.f_f0_vbr if s5p_note.f_f0_vbr is not None else db_defaults.f_f0_vbr
+                )
+                self.vibrato_value_interval_dict[portion.closedopen(vibrato_start, vibrato_end)] = (
+                    functools.partial(
+                        self.s5p_vibrato_value,
+                        vibrato_start=vibrato_start,
+                        phase=phase,
+                        frequency=frequency,
+                    )
+                )
+                vibrato_attack_time = vibrato_start + (
+                    s5p_note.t_f0_vbr_left
+                    if s5p_note.t_f0_vbr_left is not None
+                    else db_defaults.t_f0_vbr_left
+                )
+                vibrato_release_time = vibrato_end - (
+                    s5p_note.t_f0_vbr_right
+                    if s5p_note.t_f0_vbr_right is not None
+                    else db_defaults.t_f0_vbr_right
+                )
+                vibrato_depth = cast(
+                    float,
+                    s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr,
+                )
+                self.vibrato_coef_interval_dict[
+                    portion.closedopen(vibrato_start, vibrato_attack_time)
+                ] = functools.partial(
+                    linear_interpolation,
+                    start=(vibrato_start, 0),
+                    end=(vibrato_attack_time, vibrato_depth),
+                )
+                self.vibrato_coef_interval_dict[
+                    portion.closedopen(vibrato_attack_time, vibrato_release_time)
+                ] = vibrato_depth
+                self.vibrato_coef_interval_dict[
+                    portion.closedopen(vibrato_release_time, vibrato_end)
+                ] = functools.partial(
+                    linear_interpolation,
+                    start=(vibrato_release_time, vibrato_depth),
+                    end=(vibrato_end, 0),
+                )
         return notes
 
     @staticmethod
@@ -205,14 +209,15 @@ class SynthVEditorParser:
         return math.sin(math.pi * (2 * (seconds - vibrato_start) * frequency + phase))
 
     def parse_params(self, parameters: S5pParameters, note_list: list[Note]) -> Params:
-        rel_pitch_points = self.parse_pitch_curve(
-            parameters.pitch_delta, parameters.interval, note_list
-        )
-        return Params(
-            pitch=RelativePitchCurve(self.first_bar_length).to_absolute(
+        params = Params()
+        if self.options.import_pitch:
+            rel_pitch_points = self.parse_pitch_curve(
+                parameters.pitch_delta, parameters.interval, note_list
+            )
+            params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
                 rel_pitch_points, note_list
-            ),
-        )
+            )
+        return params
 
     def parse_pitch_curve(
         self, pitch_delta: S5pPoints, interval: int, note_list: list[Note]

@@ -1,6 +1,5 @@
 import dataclasses
 import operator
-import warnings
 from typing import Union, cast
 
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
@@ -9,7 +8,7 @@ from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -125,11 +124,10 @@ class Vsq3Generator:
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
         ]:
-            warnings.warn(
+            show_warning(
                 _(
                     'Phonemes of all notes were set to "la". Please use "Lyrics" -> "Convert Phonemes" in the menu of VOCALOID3 to reset them.'
-                ),
-                PhonemeWarning,
+                )
             )
         for track_index, track in enumerate(track_list):
             vsqx_track = Vsq3VsTrack(

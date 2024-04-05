@@ -84,7 +84,9 @@ class MutaParser:
                     solo=muta_track.solo,
                     note_list=self.parse_notes(part.notes, part.start),
                 )
-                if pitch := self.parse_pitch(part.params.pitch_data, part.start):
+                if self.options.import_pitch and (
+                    pitch := self.parse_pitch(part.params.pitch_data, part.start)
+                ):
                     singing_track.edited_params.pitch = pitch
                 track_list.append(singing_track)
         return track_list
@@ -106,18 +108,19 @@ class MutaParser:
 
     def parse_instrumental_tracks(self, muta_tracks: list[MutaTrack]) -> list[InstrumentalTrack]:
         track_list = []
-        for muta_track in muta_tracks:
-            if muta_track.audio_track_data is None:
-                continue
-            for part in muta_track.audio_track_data:
-                instrumental_track = InstrumentalTrack(
-                    title=muta_track.name,
-                    mute=muta_track.mute,
-                    solo=muta_track.solo,
-                    offset=part.start,
-                    audio_file_path=part.file_path.rstrip("\0"),
-                )
-                track_list.append(instrumental_track)
+        if self.options.import_instrumental_track:
+            for muta_track in muta_tracks:
+                if muta_track.audio_track_data is None:
+                    continue
+                for part in muta_track.audio_track_data:
+                    instrumental_track = InstrumentalTrack(
+                        title=muta_track.name,
+                        mute=muta_track.mute,
+                        solo=muta_track.solo,
+                        offset=part.start,
+                        audio_file_path=part.file_path.rstrip("\0"),
+                    )
+                    track_list.append(instrumental_track)
         return track_list
 
     def parse_notes(self, muta_notes: list[MutaNote], tick_offset: int) -> list[Note]:

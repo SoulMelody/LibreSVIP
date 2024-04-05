@@ -9,6 +9,7 @@ from typing import Optional, cast
 
 from omegaconf import OmegaConf
 from omegaconf.errors import OmegaConfBaseException
+from pydantic.dataclasses import dataclass
 
 from .constants import app_dir
 
@@ -55,18 +56,27 @@ class ConflictPolicy(enum.Enum):
     PROMPT = "Prompt"
 
 
-@dataclasses.dataclass
-class LibreSvipSettings:
-    # Common
+class ConversionMode(enum.Enum):
+    DIRECT = "Direct"
+    SPLIT = "Split"
+    MERGE = "Merge"
+
+
+@dataclass
+class LibreSvipBaseUISettings:
     language: Language = dataclasses.field(default_factory=Language.auto)
-    disabled_plugins: list[str] = dataclasses.field(default_factory=list)
-    # both web and GUI
     last_input_format: Optional[str] = dataclasses.field(default=None)
     last_output_format: Optional[str] = dataclasses.field(default=None)
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = dataclasses.field(default=True)
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)
+
+
+@dataclass
+class LibreSvipSettings(LibreSvipBaseUISettings):
+    disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # GUI Only
+    max_track_count: int = dataclasses.field(default=1)
     save_folder: pathlib.Path = dataclasses.field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
     conflict_policy: ConflictPolicy = dataclasses.field(default=ConflictPolicy.PROMPT)

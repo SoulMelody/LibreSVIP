@@ -21,7 +21,8 @@ class VogenConverter(plugin_base.SVSConverterBase):
         return VogenParser(options).parse_project(vogen_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        project = reset_time_axis(project, options.tempo)
+        if len(project.song_tempo_list) != 1:
+            project = reset_time_axis(project, options.tempo)
         vogen_project = VogenGenerator(options).generate_project(project)
         proj_text = json.dumps(vogen_project.model_dump(by_alias=True), separators=(",", ":"))
         buffer = io.BytesIO()

@@ -1,23 +1,17 @@
 from pydantic import BaseModel, Field
 
-from libresvip.core.constants import DEFAULT_BPM
+from libresvip.model.option_mixins import (
+    EnablePitchImportationMixin,
+    SelectSingleTrackMixin,
+    StaticTempoMixin,
+)
 
 
-class InputOptions(BaseModel):
+class InputOptions(EnablePitchImportationMixin, BaseModel):
     pass
 
 
-class OutputOptions(BaseModel):
-    tempo: float = Field(
-        default=DEFAULT_BPM,
-        title="Constant tempo",
-        description="Use this tempo to reset time axis of projects with dynamic tempos",
-    )
-    track_index: int = Field(
-        default=-1,
-        title="Track index",
-        description="Start from 0, -1 means auto select",
-    )
+class OutputOptions(SelectSingleTrackMixin, StaticTempoMixin, BaseModel):
     version: int = Field(
         default=19,
         title="Version",

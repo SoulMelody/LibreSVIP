@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import contextlib
+import dataclasses
 import enum
 import pathlib
 import traceback
 import uuid
-import warnings
 import zipfile
 from typing import Any, Optional, get_args, get_type_hints
 
@@ -12,6 +14,7 @@ from loguru import logger
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from PySide6.QtCore import (
+    Property,
     QAbstractListModel,
     QModelIndex,
     QObject,
@@ -27,13 +30,14 @@ from upath import UPath
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
 
-from libresvip.core.config import settings
-from libresvip.core.warning_types import BaseWarning
+from libresvip.core.config import ConversionMode, settings
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
-from libresvip.model.base import BaseComplexModel, BaseModel
+from libresvip.gui.models.base_task import BaseTask
+from libresvip.gui.models.list_models import ModelProxy
+from libresvip.model.base import BaseComplexModel, BaseModel, Project
 
 from .url_opener import open_path
-from .vendor.model_proxy import ModelProxy
 
 QML_IMPORT_NAME = "LibreSVIP"
 QML_IMPORT_MAJOR_VERSION = 1
@@ -70,38 +74,35 @@ class ConversionWorker(QRunnable):
 
     @Slot()
     def run(self) -> None:
+        result_kwargs: dict[str, Any] = {"running": False}
         try:
-            with warnings.catch_warnings(record=True) as w:
-                warnings.simplefilter("always", BaseWarning)
+            with CatchWarnings() as w:
                 input_plugin = plugin_manager.plugin_registry[self.input_format]
                 output_plugin = plugin_manager.plugin_registry[self.output_format]
                 if (
                     input_plugin.plugin_object is None
                     or (
-                        input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
                             "options",
                         )
                     )
                     is None
                     or output_plugin.plugin_object is None
                     or (
-                        output_option := get_type_hints(
+                        output_option_cls := get_type_hints(
                             output_plugin.plugin_object.dump,
                         ).get("options")
                     )
                     is None
                 ):
-                    self.signals.result.emit(
-                        self.index,
-                        {
-                            "success": False,
-                            "error": "Invalid options",
-                        },
-                    )
+                    result_kwargs |= {
+                        "success": False,
+                        "error": "Invalid options",
+                    }
                 else:
                     project = input_plugin.plugin_object.load(
                         pathlib.Path(self.input_path),
-                        input_option(**self.input_options),
+                        input_option_cls(**self.input_options),
                     )
                     for middleware_abbr, middleware_option in self.middleware_options.items():
                         middleware = middleware_manager.plugin_registry[middleware_abbr]
@@ -123,51 +124,236 @@ class ConversionWorker(QRunnable):
                     output_plugin.plugin_object.dump(
                         UPath(self.output_path),
                         project,
-                        output_option(**self.output_options),
+                        output_option_cls(**self.output_options),
                     )
-                    warning_str = "\n".join(str(each.message) for each in w)
-                    self.signals.result.emit(
-                        self.index,
-                        {
-                            "success": True,
-                            "tmp_path": self.output_path,
-                            "warning": warning_str,
-                        },
-                    )
+                    result_kwargs |= {
+                        "success": True,
+                        "tmp_path": self.output_path,
+                    }
+            if w.output:
+                result_kwargs["warning"] = w.output
+            self.signals.result.emit(self.index, result_kwargs)
         except Exception:
+            result_kwargs |= {
+                "success": False,
+                "error": traceback.format_exc(),
+            }
             with contextlib.suppress(RuntimeError):
-                self.signals.result.emit(
-                    self.index,
-                    {
+                self.signals.result.emit(self.index, result_kwargs)
+
+
+class SplitWorker(QRunnable):
+    def __init__(
+        self,
+        index: int,
+        input_path: str,
+        output_dir: str,
+        input_format: str,
+        output_format: str,
+        input_options: dict[str, Any],
+        output_options: dict[str, Any],
+        middleware_options: dict[str, dict[str, Any]],
+        parent: Optional[QObject] = None,
+    ) -> None:
+        super().__init__(parent=parent)
+        self.index = index
+        self.input_path = input_path
+        self.output_dir = output_dir
+        UPath(self.output_dir).mkdir(parents=True, exist_ok=True)
+        self.input_format = input_format
+        self.output_format = output_format
+        self.input_options = input_options
+        self.output_options = output_options
+        self.middleware_options = middleware_options
+        self.signals = ConversionWorkerSignals()
+
+    @Slot()
+    def run(self) -> None:
+        result_kwargs: dict[str, Any] = {"running": False}
+        try:
+            with CatchWarnings() as w:
+                input_plugin = plugin_manager.plugin_registry[self.input_format]
+                output_plugin = plugin_manager.plugin_registry[self.output_format]
+                if (
+                    input_plugin.plugin_object is None
+                    or (
+                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    )
+                    is None
+                    or output_plugin.plugin_object is None
+                    or (
+                        output_option_cls := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is None
+                ):
+                    result_kwargs |= {
                         "success": False,
-                        "error": traceback.format_exc(),
-                    },
-                )
+                        "error": "Invalid options",
+                    }
+                else:
+                    project = input_plugin.plugin_object.load(
+                        pathlib.Path(self.input_path),
+                        input_option_cls(**self.input_options),
+                    )
+                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                        middleware = middleware_manager.plugin_registry[middleware_abbr]
+                        if (
+                            middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                            and (
+                                middleware_option_class := get_type_hints(
+                                    middleware.plugin_object.process
+                                ).get(
+                                    "options",
+                                )
+                            )
+                        ):
+                            project = middleware.plugin_object.process(
+                                project,
+                                middleware_option_class.model_validate(middleware_option),
+                            )
+                    output_option = output_option_cls(**self.output_options)
+                    for child_project in project.split_tracks(settings.max_track_count):
+                        output_plugin.plugin_object.dump(
+                            UPath(self.output_dir) / f"{uuid.uuid4()}",
+                            child_project,
+                            output_option,
+                        )
+                    result_kwargs |= {
+                        "success": True,
+                        "tmp_path": self.output_dir,
+                    }
+            if w.output:
+                result_kwargs["warning"] = w.output
+            self.signals.result.emit(self.index, result_kwargs)
+        except Exception:
+            result_kwargs |= {
+                "success": False,
+                "error": traceback.format_exc(),
+            }
+            with contextlib.suppress(RuntimeError):
+                self.signals.result.emit(self.index, result_kwargs)
+
+
+class MergeWorker(QRunnable):
+    def __init__(
+        self,
+        index: int,
+        input_paths: list[str],
+        output_path: str,
+        input_format: str,
+        output_format: str,
+        input_options: dict[str, Any],
+        output_options: dict[str, Any],
+        middleware_options: dict[str, dict[str, Any]],
+        parent: Optional[QObject] = None,
+    ) -> None:
+        super().__init__(parent=parent)
+        self.index = index
+        self.input_paths = input_paths
+        self.output_path = output_path
+        self.input_format = input_format
+        self.output_format = output_format
+        self.input_options = input_options
+        self.output_options = output_options
+        self.middleware_options = middleware_options
+        self.signals = ConversionWorkerSignals()
+
+    @Slot()
+    def run(self) -> None:
+        result_kwargs: dict[str, Any] = {"running": False}
+        try:
+            with CatchWarnings() as w:
+                input_plugin = plugin_manager.plugin_registry[self.input_format]
+                output_plugin = plugin_manager.plugin_registry[self.output_format]
+                if (
+                    input_plugin.plugin_object is None
+                    or (
+                        input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    )
+                    is None
+                    or output_plugin.plugin_object is None
+                    or (
+                        output_option_cls := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is None
+                ):
+                    result_kwargs |= {
+                        "success": False,
+                        "error": "Invalid options",
+                    }
+                else:
+                    input_option = input_option_cls(**self.input_options)
+                    child_projects = [
+                        input_plugin.plugin_object.load(
+                            pathlib.Path(input_path),
+                            input_option,
+                        )
+                        for input_path in self.input_paths
+                    ]
+                    project = Project.merge_projects(child_projects)
+                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                        middleware = middleware_manager.plugin_registry[middleware_abbr]
+                        if (
+                            middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                            and (
+                                middleware_option_class := get_type_hints(
+                                    middleware.plugin_object.process
+                                ).get(
+                                    "options",
+                                )
+                            )
+                        ):
+                            project = middleware.plugin_object.process(
+                                project,
+                                middleware_option_class.model_validate(middleware_option),
+                            )
+                    output_plugin.plugin_object.dump(
+                        UPath(self.output_path),
+                        project,
+                        output_option_cls(**self.output_options),
+                    )
+                    result_kwargs |= {
+                        "success": True,
+                        "tmp_path": self.output_path,
+                    }
+            if w.output:
+                result_kwargs["warning"] = w.output
+            self.signals.result.emit(self.index, result_kwargs)
+        except Exception:
+            result_kwargs |= {
+                "success": False,
+                "error": traceback.format_exc(),
+            }
+            with contextlib.suppress(RuntimeError):
+                self.signals.result.emit(self.index, result_kwargs)
 
 
 @QmlElement
 @QmlSingleton
 class TaskManager(QObject):
+    conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
+    task_count_changed = Signal(int)
     busy_changed = Signal(bool)
-    all_tasks_finished = Signal()
     _start_conversion = Signal()
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
         super().__init__(parent=parent)
-        self.tasks = ModelProxy(
-            {
-                "path": "",
-                "name": "",
-                "stem": "",
-                "ext": "",
-                "tmp_path": "",
-                "success": False,
-                "error": "",
-                "warning": "",
-            }
-        )
+        self._conversion_mode = ConversionMode.DIRECT
+        self.tasks = ModelProxy(dataclasses.asdict(BaseTask()))
+        self.tasks.rowsInserted.connect(self._on_tasks_changed)
+        self.tasks.rowsRemoved.connect(self._on_tasks_changed)
         self.input_formats = ModelProxy({"value": "", "text": ""})
         self.output_formats = ModelProxy({"value": "", "text": ""})
         self.input_fields = ModelProxy(
@@ -242,6 +428,30 @@ class TaskManager(QObject):
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
 
+    def _on_tasks_changed(self, index: QModelIndex, start: int, end: int) -> None:
+        self.task_count_changed.emit(len(self.tasks))
+
+    def get_conversion_mode(self) -> str:
+        return self._conversion_mode.value
+
+    def set_conversion_mode(self, mode: str) -> None:
+        self._conversion_mode = ConversionMode(mode)
+        self.conversion_mode_changed.emit(mode)
+        for i, task in enumerate(self.tasks):
+            if task["success"] is False or self.delete_tmp_file(QModelIndex(), i, i):
+                self.tasks.update(
+                    i,
+                    {"tmp_path": "", "running": False, "success": None, "error": "", "warning": ""},
+                )
+
+    conversion_mode = Property(
+        str, get_conversion_mode, set_conversion_mode, notify=conversion_mode_changed
+    )
+
+    @Property(int, notify=task_count_changed)
+    def count(self) -> int:
+        return len(self.tasks)
+
     @Slot(result=None)
     def reload_formats(self) -> None:
         self.input_formats.clear()
@@ -254,6 +464,7 @@ class TaskManager(QObject):
                 for plugin in plugin_manager.plugin_registry.values()
             ],
         )
+        self.input_format_changed.emit("")
         self.output_formats.clear()
         self.output_formats.append_many(
             [
@@ -264,14 +475,20 @@ class TaskManager(QObject):
                 for plugin in plugin_manager.plugin_registry.values()
             ],
         )
+        self.output_format_changed.emit("")
 
-    @Slot(QModelIndex, int, int)
-    def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> None:
+    def delete_tmp_file(self, index: QModelIndex, start: int, end: int) -> bool:
+        deleted = False
         for i in range(start, end + 1):
             path = UPath(self.tasks[i]["tmp_path"])
             if path.exists():
                 with contextlib.suppress(Exception):
-                    path.unlink()
+                    if path.is_dir():
+                        path.rmdir(recursive=True)
+                    else:
+                        path.unlink()
+                deleted = True
+        return deleted
 
     @property
     def input_format(self) -> Optional[str]:
@@ -293,7 +510,7 @@ class TaskManager(QObject):
 
     @Slot(result=bool)
     def start_conversion(self) -> bool:
-        if self.is_busy():
+        if self.busy:
             return False
         self._start_conversion.emit()
         return True
@@ -318,6 +535,8 @@ class TaskManager(QObject):
 
     def output_path(self, task: dict[str, Any]) -> pathlib.Path:
         output_dir = self.output_dir(task)
+        if self._conversion_mode == ConversionMode.SPLIT:
+            return output_dir / f"{task['stem']}_**{self.output_ext}"
         return output_dir / f"{task['stem']}{self.output_ext}"
 
     @Slot(int, result=str)
@@ -338,9 +557,17 @@ class TaskManager(QObject):
         return True
 
     @Slot(int, result=bool)
-    def output_path_exists(self, index: int) -> str:
+    def output_path_exists(self, index: int) -> bool:
         task = self.tasks[index]
-        return self.output_path(task).exists()
+        if self._conversion_mode != ConversionMode.SPLIT:
+            return self.output_path(task).exists()
+        output_dir = self.output_dir(task)
+        tmp_path = UPath(task["tmp_path"])
+        return any(
+            target_path.exists()
+            for i in range(more_itertools.ilen(tmp_path.iterdir()))
+            if (target_path := output_dir / f"{task['stem']}{i + 1:0=2d}{self.output_ext}")
+        )
 
     @Slot(int, result=bool)
     def move_to_output(self, index: int) -> bool:
@@ -351,11 +578,21 @@ class TaskManager(QObject):
         tmp_path = UPath(task["tmp_path"])
         result = False
         try:
-            target_path = output_dir / f"{task['stem']}{self.output_ext}"
-            if target_path.exists():
-                target_path.unlink()
-            target_path.write_bytes(tmp_path.read_bytes())
-            result = True
+            if tmp_path.exists():
+                if tmp_path.is_dir():
+                    for i, child_file in enumerate(tmp_path.iterdir()):
+                        if not child_file.is_file():
+                            continue
+                        target_path = output_dir / f"{task['stem']}{i + 1:0=2d}{self.output_ext}"
+                        if target_path.exists():
+                            target_path.unlink()
+                        target_path.write_bytes(child_file.read_bytes())
+                else:
+                    target_path = output_dir / f"{task['stem']}{self.output_ext}"
+                    if target_path.exists():
+                        target_path.unlink()
+                    target_path.write_bytes(tmp_path.read_bytes())
+                result = True
         except OSError as e:
             self.tasks.update(index, {"error": str(e)})
         return result
@@ -497,18 +734,15 @@ class TaskManager(QObject):
         for path in paths:
             path_obj = pathlib.Path(path)
             tasks.append(
-                {
-                    "path": path,
-                    "name": path_obj.name,
-                    "stem": path_obj.stem,
-                    "ext": self.output_ext,
-                    "tmp_path": "",
-                    "success": None,
-                    "error": "",
-                    "warning": "",
-                }
+                BaseTask(
+                    path=path,
+                    name=path_obj.name,
+                    stem=path_obj.stem,
+                    ext=self.output_ext,
+                    success=None,
+                )
             )
-        self.tasks.append_many(tasks)
+        self.tasks.append_many([dataclasses.asdict(task) for task in tasks])
         if (
             settings.auto_detect_input_format
             and path_obj is not None
@@ -578,13 +812,9 @@ class TaskManager(QObject):
                     logger.debug(infos)
         return infos
 
-    @Slot(result=bool)
-    def is_busy(self) -> bool:
-        return self.thread_pool.active_thread_count > 0
-
     @Slot()
     def check_busy(self) -> None:
-        if self.is_busy():
+        if self.busy:
             return
         self.set_busy(False)
         if self.timer.active:
@@ -601,10 +831,13 @@ class TaskManager(QObject):
                 if success_task is not None:
                     output_dir = self.output_dir(success_task)
                     open_path(output_dir)
-            self.all_tasks_finished.emit()
 
     def set_busy(self, busy: bool) -> None:
         self.busy_changed.emit(busy)
+
+    @Property(bool, notify=busy_changed)
+    def busy(self) -> bool:
+        return self.thread_pool.active_thread_count > 0
 
     @Slot()
     def start(self) -> None:
@@ -613,7 +846,6 @@ class TaskManager(QObject):
             for i in range(len(self.tasks)):
                 self.tasks.update(i, {"success": False, "error": error_message, "warning": ""})
             return
-        self.set_busy(True)
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
         middleware_options = {
@@ -629,12 +861,58 @@ class TaskManager(QObject):
         self.thread_pool.max_thread_count = (
             max(len(self.tasks), 4) if settings.multi_threaded_conversion else 1
         )
-        for i in range(len(self.tasks)):
-            input_path = self.tasks[i]["path"]
-            output_path = f"memory:/{uuid.uuid4()}.{self.output_ext}"
-            worker = ConversionWorker(
-                i,
-                input_path,
+        if self._conversion_mode == ConversionMode.DIRECT:
+            for i in range(len(self.tasks)):
+                input_path = self.tasks[i]["path"]
+                output_path = f"memory:/{uuid.uuid4()}"
+                worker = ConversionWorker(
+                    i,
+                    input_path,
+                    output_path,
+                    self.input_format,
+                    self.output_format,
+                    input_options,
+                    output_options,
+                    middleware_options,
+                )
+                worker.signals.result.connect(
+                    self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+                )
+                self.tasks.update(
+                    i, {"running": True, "success": None, "error": None, "warning": None}
+                )
+                self.thread_pool.start(worker)
+                if not i:
+                    self.set_busy(True)
+        elif self._conversion_mode == ConversionMode.SPLIT:
+            for i in range(len(self.tasks)):
+                input_path = self.tasks[i]["path"]
+                output_dir = f"memory:/{uuid.uuid4()}"
+                worker = SplitWorker(
+                    i,
+                    input_path,
+                    output_dir,
+                    self.input_format,
+                    self.output_format,
+                    input_options,
+                    output_options,
+                    middleware_options,
+                )
+                worker.signals.result.connect(
+                    self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+                )
+                self.tasks.update(
+                    i, {"running": True, "success": None, "error": None, "warning": None}
+                )
+                self.thread_pool.start(worker)
+                if not i:
+                    self.set_busy(True)
+        elif self._conversion_mode == ConversionMode.MERGE and len(self.tasks):
+            input_paths = [task["path"] for task in self.tasks]
+            output_path = f"memory:/{uuid.uuid4()}"
+            worker = MergeWorker(
+                0,
+                input_paths,
                 output_path,
                 self.input_format,
                 self.output_format,
@@ -645,5 +923,7 @@ class TaskManager(QObject):
             worker.signals.result.connect(
                 self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
             )
+            self.tasks.update(0, {"running": True, "success": None, "error": None, "warning": None})
             self.thread_pool.start(worker)
+            self.set_busy(True)
         self.timer.start()

@@ -11,65 +11,6 @@ merge_resolver = {
     "start_chars": ["<"],
 }
 core_resolvers = {
-    "1.1": [
-        {
-            "tag": "tag:yaml.org,2002:bool",
-            "regexp": re.compile(
-                r"""^(?:yes|Yes|YES|no|No|NO
-            |true|True|TRUE|false|False|FALSE
-            |on|On|ON|off|Off|OFF)$""",
-                re.X,
-            ),
-            "start_chars": list("yYnNtTfFoO"),
-        },
-        {
-            "tag": "tag:yaml.org,2002:float",
-            "regexp": re.compile(
-                r"""^(?:[-+]?(?:[0-9][0-9_]*)\.[0-9_]*(?:[eE][-+][0-9]+)?
-            |\.[0-9_]+(?:[eE][-+][0-9]+)?
-            |[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\.[0-9_]*
-            |[-+]?\.(?:inf|Inf|INF)
-            |\.(?:nan|NaN|NAN))$""",
-                re.X,
-            ),
-            "start_chars": list("-+0123456789."),
-        },
-        {
-            "tag": "tag:yaml.org,2002:int",
-            "regexp": re.compile(
-                r"""^(?:[-+]?0b[0-1_]+
-            |[-+]?0[0-7_]+
-            |[-+]?(?:0|[1-9][0-9_]*)
-            |[-+]?0x[0-9a-fA-F_]+
-            |[-+]?[1-9][0-9_]*(?::[0-5]?[0-9])+)$""",
-                re.X,
-            ),
-            "start_chars": list("-+0123456789"),
-        },
-        {
-            "tag": "tag:yaml.org,2002:null",
-            "regexp": re.compile(
-                r"""^(?: ~
-            |null|Null|NULL
-            | )$""",
-                re.X,
-            ),
-            "start_chars": ["~", "n", "N", ""],
-        },
-        {
-            "tag": "tag:yaml.org,2002:timestamp",
-            "regexp": re.compile(
-                r"""^(?:[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]
-            |[0-9][0-9][0-9][0-9] -[0-9][0-9]? -[0-9][0-9]?
-            (?:[Tt]|[ \t]+)[0-9][0-9]?
-            :[0-9][0-9] :[0-9][0-9] (?:\.[0-9]*)?
-            (?:[ \t]*(?:Z|[-+][0-9][0-9]?(?::[0-9][0-9])?))?)$""",
-                re.X,
-            ),
-            "start_chars": list("0123456789"),
-        },
-        {"tag": "tag:yaml.org,2002:value", "regexp": re.compile(r"^(?:=)$"), "start_chars": ["="]},
-    ],
     "1.2": [
         {
             "tag": "tag:yaml.org,2002:bool",

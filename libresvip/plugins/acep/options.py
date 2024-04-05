@@ -7,6 +7,12 @@ from typing import Annotated, Literal, Union
 from pydantic import Field, ValidationInfo, field_validator
 
 from libresvip.model.base import BaseModel
+from libresvip.model.option_mixins import (
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+)
 
 from .model import AcepLyricsLanguage
 from .singers import DEFAULT_SINGER
@@ -70,7 +76,13 @@ class NormalizationArgument(BaseModel):
         return self.normalize_method != "none"
 
 
-class InputOptions(BaseModel):
+class InputOptions(
+    EnableBreathImportationMixin,
+    EnableGenderImportationMixin,
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     keep_all_pronunciation: bool = Field(
         default=False,
         title="Keep all pronunciation information",
@@ -174,7 +186,7 @@ class OutputOptions(BaseModel):
         description="Warning: when turned on, it may cause consonant issues",
     )
     default_consonant_length: int = Field(
-        default=50,
+        default=0,
         title="Default consonant length (ticks)",
         description="Set default consonant length for notes if not specified",
     )

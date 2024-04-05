@@ -7,7 +7,7 @@ from typing import Any, Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
 import zhon
-from more_itertools import chunked
+from more_itertools import batched
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -16,6 +16,7 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
+from retrie.retrie import Blacklist
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
@@ -24,6 +25,62 @@ from libresvip.model.point import PointList
 
 from . import constants
 from .interval_utils import position_to_ticks
+
+symbols_blacklist = Blacklist(
+    [
+        "(",
+        ")",
+        "[",
+        "]",
+        "{",
+        "}",
+        "（",
+        "）",
+        "<",
+        ">",
+        "《",
+        "》",
+        "―",
+        "—",
+        "*",
+        "×",
+        "!",
+        "！",
+        "?",
+        "？",
+        ":",
+        "：",
+        "·",
+        "•",
+        ".",
+        "。",
+        ",",
+        "，",
+        ";",
+        "；",
+        "^",
+        "`",
+        '"',
+        "'",
+        "‘",
+        "’",
+        "“",
+        "”",
+        "+",
+        "=",
+        "、",
+        "_",
+        "$",
+        "%",
+        "~",
+        "@",
+        "#",
+        "…",
+        "&",
+        "￥",
+    ],
+    match_substrings=True,
+)
 
 
 def uuid_str() -> str:
@@ -83,7 +140,7 @@ class SVParamCurve(BaseModel):
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> SVPoints:
         if _info.mode == "json":
-            return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
+            return SVPoints(root=[SVPoint._make(each) for each in batched(points, 2)])
         return SVPoints(root=points)
 
     @field_serializer("points", when_used="json")
@@ -363,11 +420,7 @@ class SVNote(BaseModel):
 
     @staticmethod
     def normalize_lyric(lyric: str) -> str:
-        return re.sub(
-            r"[\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"'‘’“”]",
-            "",
-            lyric,
-        ).strip()
+        return symbols_blacklist.cleanse_text(lyric).strip()
 
     @classmethod
     def normalize_phoneme(cls, note: Note) -> str:

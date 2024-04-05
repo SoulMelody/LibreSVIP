@@ -91,7 +91,8 @@ class VocalSharpParser:
                 ai_singer_name=track.singer,
                 note_list=self.parse_notes(track.note),
             )
-            singing_track.edited_params.pitch = self.parse_pitch(track)
+            if self.options.import_pitch:
+                singing_track.edited_params.pitch = self.parse_pitch(track)
             tracks.append(singing_track)
         return tracks
 
@@ -139,14 +140,15 @@ class VocalSharpParser:
         self, track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]
     ) -> list[InstrumentalTrack]:
         tracks = []
-        for track in track_list:
-            for i, sequence in enumerate(track.sequences):
-                instrumental_track = InstrumentalTrack(
-                    title=sequence.name or f"{track.name} {i + 1}",
-                    mute=track.is_mute == "True",
-                    solo=track.is_solo == "True",
-                    offset=sequence.pos,
-                    audio_file_path=sequence.path,
-                )
-                tracks.append(instrumental_track)
+        if self.options.import_instrumental_track:
+            for track in track_list:
+                for i, sequence in enumerate(track.sequences):
+                    instrumental_track = InstrumentalTrack(
+                        title=sequence.name or f"{track.name} {i + 1}",
+                        mute=track.is_mute == "True",
+                        solo=track.is_solo == "True",
+                        offset=sequence.pos,
+                        audio_file_path=sequence.path,
+                    )
+                    tracks.append(instrumental_track)
         return tracks

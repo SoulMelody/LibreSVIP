@@ -56,19 +56,20 @@ class VoiSonaParser:
                     time_signatures.extend(time_signature_part)
         tempos = self.merge_tempos(tempos)
         self.time_synchronizer = TimeSynchronizer(tempos)
-        for track in voisona_project.tracks:
-            for item in track.track:
-                if isinstance(item, VoiSonaAudioTrackItem) and item.audio_event is not None:
-                    tracks.extend(
-                        InstrumentalTrack(
-                            title=f"{item.name} {i + 1}",
-                            audio_file_path=event.path,
-                            offset=int(
-                                self.time_synchronizer.get_actual_ticks_from_secs(event.offset)
-                            ),
+        if self.options.import_instrumental_track:
+            for track in voisona_project.tracks:
+                for item in track.track:
+                    if isinstance(item, VoiSonaAudioTrackItem) and item.audio_event is not None:
+                        tracks.extend(
+                            InstrumentalTrack(
+                                title=f"{item.name} {i + 1}",
+                                audio_file_path=event.path,
+                                offset=int(
+                                    self.time_synchronizer.get_actual_ticks_from_secs(event.offset)
+                                ),
+                            )
+                            for i, event in enumerate(item.audio_event)
                         )
-                        for i, event in enumerate(item.audio_event)
-                    )
         time_signatures = self.merge_time_signatures(time_signatures)
         return Project(
             time_signature_list=skip_beat_list(time_signatures, 0),
@@ -155,7 +156,8 @@ class VoiSonaParser:
         time_signatures = shift_beat_list(time_signatures, 1)
         singing_track = SingingTrack(title=track.name, note_list=notes)
         if (
-            voisona_track_pitch_data is not None
+            self.options.import_pitch
+            and voisona_track_pitch_data is not None
             and (pitch := pitch_from_voisona_track(voisona_track_pitch_data)) is not None
         ):
             singing_track.edited_params.pitch = pitch

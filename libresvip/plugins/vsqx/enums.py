@@ -5,8 +5,8 @@ from pydantic import Field
 
 
 class VsqxVersion(enum.IntEnum):
-    VSQ3: Annotated[int, Field(title="Vsqx 3")] = 3
-    VSQ4: Annotated[int, Field(title="Vsqx 4")] = 4
+    VSQ3: Annotated[int, Field(title="VSQx 3")] = 3
+    VSQ4: Annotated[int, Field(title="VSQx 4")] = 4
 
 
 class VocaloidLanguage(enum.IntEnum):
