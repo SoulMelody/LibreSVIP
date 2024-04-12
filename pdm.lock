@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:687ecf97b4c285b03860a7e02a23f96e96ecda0b21c28bc526505e0aba3a2785"
+content_hash = "sha256:bbe121d2a9eb843e9d8af7d582e18d68fc4adec874ed173a8940a231f6238c1d"
 
 [[package]]
 name = "aiofiles"
@@ -1797,7 +1797,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.20"
+version = "1.4.21"
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
@@ -1821,24 +1821,24 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.20-py3-none-any.whl", hash = "sha256:c81c8da98711eeb6c4644c43a369aa9246d85ff14cdb51920676c14334f177a1"},
-    {file = "nicegui-1.4.20.tar.gz", hash = "sha256:3c5a0c46f98486f22a1348996540a3ad3d7ccf7c4d030c7d0d2d3eb88ba478a8"},
+    {file = "nicegui-1.4.21-py3-none-any.whl", hash = "sha256:696767b9f8ca53153fd4bbe0f2624ad201396338e8af5d4c1e988c194cc4f737"},
+    {file = "nicegui-1.4.21.tar.gz", hash = "sha256:eb5d949e4abc011cd8617f058c737304e3b23b3408e6846de0ef75d5cda37414"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.20"
+version = "1.4.21"
 extras = ["native"]
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
 dependencies = [
-    "nicegui==1.4.20",
+    "nicegui==1.4.21",
     "pywebview<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "nicegui-1.4.20-py3-none-any.whl", hash = "sha256:c81c8da98711eeb6c4644c43a369aa9246d85ff14cdb51920676c14334f177a1"},
-    {file = "nicegui-1.4.20.tar.gz", hash = "sha256:3c5a0c46f98486f22a1348996540a3ad3d7ccf7c4d030c7d0d2d3eb88ba478a8"},
+    {file = "nicegui-1.4.21-py3-none-any.whl", hash = "sha256:696767b9f8ca53153fd4bbe0f2624ad201396338e8af5d4c1e988c194cc4f737"},
+    {file = "nicegui-1.4.21.tar.gz", hash = "sha256:eb5d949e4abc011cd8617f058c737304e3b23b3408e6846de0ef75d5cda37414"},
 ]
 
 [[package]]
