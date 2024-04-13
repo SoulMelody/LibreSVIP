@@ -41,14 +41,14 @@ dependencies = [
   "platformdirs<5.0.0,>=4.2.0",
   "portion<3.0.0,>=2.4.2",
   "proto-plus<2.0.0,>=1.23.0",
-  "pydantic<3.0.0,>=2.6.4",
+  "pydantic<3.0.0,>=2.7.0",
   "pydantic-extra-types<3.0.0,>=2.6.0",
   "pymediainfo<7.0.0,>=6.1.0",
   "pypinyin<1.0.0,>=0.51.0",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.7.1",
   "srt<4.0.0,>=3.5.3",
-  "typer-slim<1.0.0,>=0.12.1",
+  "typer-slim<1.0.0,>=0.12.3",
   "wanakana-python<2.0.0,>=1.2.2",
   "xsdata<24.5,>=24.4",
   "zhon<3.0.0,>=2.0.2",
@@ -73,11 +73,11 @@ upath = [
 ruamel_yaml = ["ruamel.yaml>=0.18.6"]
 lxml = ["lxml>=5.2.1"]
 webui = [
-    "nicegui[native]>=1.4.20",
+    "nicegui[native]>=1.4.21",
     "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.7.0,>=6.6.3.1,!=6.6.3",
+  "pyside6<6.8.0,>=6.6.3.1,!=6.7.0",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.27.0",
   "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
@@ -105,7 +105,7 @@ code_gen = [
 i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
 linting = [
   "pre-commit>=3.7.0",
-  "ruff>=0.3.5",
+  "ruff>=0.3.7",
   "mypy>=1.9.0",
   "sourcery>=1.16.0",
   "proto-plus-stubs>=0.7.0",
@@ -116,7 +116,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=7.0.0rc0",
-  "nuitka>=2.1.4",
+  "nuitka>=2.1.5",
   "pyinstaller>=6.5.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
