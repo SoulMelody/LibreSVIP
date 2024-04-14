@@ -118,13 +118,19 @@ class ConversionTask:
         self.error = None
         self.warning = None
         if self.output_path.exists():
-            self.output_path.unlink()
+            if self.output_path.is_dir():
+                self.output_path.rmdir()
+            else:
+                self.output_path.unlink()
 
     def __del__(self) -> None:
         if self.upload_path.exists():
             self.upload_path.unlink()
         if self.output_path.exists():
-            self.output_path.unlink()
+            if self.output_path.is_dir():
+                self.output_path.rmdir()
+            else:
+                self.output_path.unlink()
 
 
 @ui.page("/")
@@ -302,6 +308,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     elif issubclass(field_info.annotation, (str, BaseComplexModel)):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
+                            option_dict[option_key] = default_value
                         ui.input(
                             label=_(field_info.title),
                             value=default_value,
@@ -416,6 +423,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     elif issubclass(field_info.annotation, (str, BaseComplexModel)):
                         if issubclass(field_info.annotation, BaseComplexModel):
                             default_value = field_info.annotation.default_repr()
+                            option_dict[option_key] = default_value
                         ui.input(
                             label=_(field_info.title),
                             value=default_value,
@@ -464,6 +472,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
             default_factory=dict,
         )
+        max_track_count: int = dataclasses.field(default=1)
 
         def __post_init__(self) -> None:
             self.middleware_enabled_states = create_model(
@@ -651,6 +660,8 @@ def page_layout(lang: Optional[str] = None) -> None:
         def conversion_mode(self, value: str) -> None:
             if value != self._conversion_mode.value:
                 self._conversion_mode = ConversionMode(value)
+                for task in self.files_to_convert.values():
+                    task.reset()
                 self.tasks_container.refresh()
 
         @property  # type: ignore[no-redef]
@@ -698,14 +709,16 @@ def page_layout(lang: Optional[str] = None) -> None:
                     if (
                         input_plugin.plugin_object is None
                         or (
-                            input_option := get_type_hints(input_plugin.plugin_object.load).get(
+                            input_option_class := get_type_hints(
+                                input_plugin.plugin_object.load
+                            ).get(
                                 "options",
                             )
                         )
                         is None
                         or output_plugin.plugin_object is None
                         or (
-                            output_option := get_type_hints(
+                            output_option_class := get_type_hints(
                                 output_plugin.plugin_object.dump,
                             ).get("options")
                         )
@@ -715,11 +728,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                     else:
                         project = input_plugin.plugin_object.load(
                             task.upload_path,
-                            input_option(**self.input_options),
+                            input_option_class(**self.input_options),
                         )
-                        task.output_path = task.output_path.with_suffix(
-                            f".{self.output_format}",
-                        )
+                        if self._conversion_mode == ConversionMode.DIRECT:
+                            task.output_path = task.output_path.with_suffix(
+                                f".{self.output_format}",
+                            )
                         for (
                             middleware_abbr,
                             enabled,
@@ -738,11 +752,24 @@ def page_layout(lang: Optional[str] = None) -> None:
                                             middleware_option, from_attributes=True
                                         ),
                                     )
-                        output_plugin.plugin_object.dump(
-                            task.output_path,
-                            project,
-                            output_option(**self.output_options),
-                        )
+                        output_option = output_option_class(**self.output_options)
+                        if self._conversion_mode == ConversionMode.DIRECT:
+                            output_plugin.plugin_object.dump(
+                                task.output_path,
+                                project,
+                                output_option,
+                            )
+                        elif self._conversion_mode == ConversionMode.SPLIT:
+                            task.output_path.mkdir(parents=True, exist_ok=True)
+                            for i, child_project in enumerate(
+                                project.split_tracks(self.max_track_count)
+                            ):
+                                output_plugin.plugin_object.dump(
+                                    task.output_path
+                                    / f"{task.upload_path.stem}_{i + 1:0=2d}.{self.output_format}",
+                                    child_project,
+                                    output_option,
+                                )
                         task.success = True
                 if w.output:
                     task.warning = w.output
@@ -790,15 +817,31 @@ def page_layout(lang: Optional[str] = None) -> None:
             raise HTTPException(404, "File not found")
 
         def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
-            if (task := self.files_to_convert.get(filename)) and task.success:
-                return (
-                    task.output_path.read_bytes(),
-                    200,
-                    {
-                        "Content-Disposition": f"attachment; filename={quote(task.upload_path.with_suffix(task.output_path.suffix).name)}",
-                    },
-                    "application/octet-stream",
-                )
+            if not (task := self.files_to_convert.get(filename)) or not task.success:
+                return
+            if self._conversion_mode == ConversionMode.SPLIT:
+                buffer = io.BytesIO()
+                with zipfile.ZipFile(buffer, "w") as zip_file:
+                    for i, child_file in enumerate(task.output_path.iterdir()):
+                        if not child_file.is_file():
+                            continue
+                        zip_file.writestr(
+                            child_file.name,
+                            child_file.read_bytes(),
+                        )
+                content = buffer.getvalue()
+                filename_header = quote(task.upload_path.with_suffix(".zip").name)
+            else:
+                content = task.output_path.read_bytes()
+                filename_header = quote(task.upload_path.with_suffix(task.output_path.suffix).name)
+            return (
+                content,
+                200,
+                {
+                    "Content-Disposition": f"attachment; filename={filename_header}",
+                },
+                "application/octet-stream",
+            )
 
         def _export_all(self) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if len(self.files_to_convert) == 0:
@@ -810,10 +853,19 @@ def page_layout(lang: Optional[str] = None) -> None:
             with zipfile.ZipFile(buffer, "w") as zip_file:
                 for task in self.files_to_convert.values():
                     if task.success:
-                        zip_file.writestr(
-                            task.upload_path.with_suffix(task.output_path.suffix).name,
-                            task.output_path.read_bytes(),
-                        )
+                        if task.output_path.is_dir():
+                            for i, child_file in enumerate(task.output_path.iterdir()):
+                                if not child_file.is_file():
+                                    continue
+                                zip_file.writestr(
+                                    child_file.name,
+                                    child_file.read_bytes(),
+                                )
+                        else:
+                            zip_file.writestr(
+                                task.upload_path.with_suffix(task.output_path.suffix).name,
+                                task.output_path.read_bytes(),
+                            )
             return (
                 buffer.getvalue(),
                 200,
@@ -1319,24 +1371,33 @@ def page_layout(lang: Optional[str] = None) -> None:
                     icon="filter_alt_off",
                     on_click=selected_formats.filter_input_ext,
                 ).tooltip(_("Remove Tasks With Other Extensions"))
-            with (
-                ui.button(
+            with ui.row().classes(
+                "absolute bottom-0 right-2 m-2 z-10",
+            ):
+                ui.label(_("Max Track count:")).bind_visibility_from(
+                    selected_formats,
+                    "conversion_mode",
+                    backward=ConversionMode.SPLIT.value.__eq__,
+                )
+                ui.knob(
+                    min=1, max=10, step=1, show_value=True, track_color="light-blue"
+                ).bind_value(selected_formats, "max_track_count").bind_visibility_from(
+                    selected_formats,
+                    "conversion_mode",
+                    backward=ConversionMode.SPLIT.value.__eq__,
+                )
+                with ui.button(
                     icon="add",
                     on_click=selected_formats.add_upload,
-                )
-                .props("round")
-                .classes(
-                    "absolute bottom-0 right-2 m-2 z-10",
-                )
-            ):
-                ui.badge().props(
-                    "floating color=orange",
-                ).bind_text_from(
-                    selected_formats,
-                    "task_count",
-                    backward=str,
-                )
-                ui.tooltip(_("Continue Adding files"))
+                ).props("round"):
+                    ui.badge().props(
+                        "floating color=orange",
+                    ).bind_text_from(
+                        selected_formats,
+                        "task_count",
+                        backward=str,
+                    )
+                    ui.tooltip(_("Continue Adding files"))
         with (
             ui.card()
             .classes(

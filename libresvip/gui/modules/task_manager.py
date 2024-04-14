@@ -484,7 +484,7 @@ class TaskManager(QObject):
             if path.exists():
                 with contextlib.suppress(Exception):
                     if path.is_dir():
-                        path.rmdir(recursive=True)
+                        path.rmdir()
                     else:
                         path.unlink()
                 deleted = True
@@ -566,7 +566,7 @@ class TaskManager(QObject):
         return any(
             target_path.exists()
             for i in range(more_itertools.ilen(tmp_path.iterdir()))
-            if (target_path := output_dir / f"{task['stem']}{i + 1:0=2d}{self.output_ext}")
+            if (target_path := output_dir / f"{task['stem']}_{i + 1:0=2d}{self.output_ext}")
         )
 
     @Slot(int, result=bool)
@@ -583,7 +583,7 @@ class TaskManager(QObject):
                     for i, child_file in enumerate(tmp_path.iterdir()):
                         if not child_file.is_file():
                             continue
-                        target_path = output_dir / f"{task['stem']}{i + 1:0=2d}{self.output_ext}"
+                        target_path = output_dir / f"{task['stem']}_{i + 1:0=2d}{self.output_ext}"
                         if target_path.exists():
                             target_path.unlink()
                         target_path.write_bytes(child_file.read_bytes())
