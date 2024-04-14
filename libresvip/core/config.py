@@ -5,6 +5,7 @@ import dataclasses
 import enum
 import locale
 import pathlib
+import re
 from typing import Optional, cast
 
 from omegaconf import OmegaConf
@@ -12,6 +13,52 @@ from omegaconf.errors import OmegaConfBaseException
 from pydantic.dataclasses import dataclass
 
 from .constants import app_dir
+
+
+class LyricsReplaceMode(enum.Enum):
+    FULL = "full"
+    ALPHABETIC = "alphabetic"
+    NON_ALPHABETIC = "non_alphabetic"
+    REGEX = "regex"
+
+
+@dataclass
+class LyricsReplacement:
+    replacement: str
+    pattern_main: str
+    pattern_prefix: str = ""
+    pattern_suffix: str = ""
+    flags: re.RegexFlag = re.IGNORECASE | re.UNICODE
+    mode: LyricsReplaceMode = LyricsReplaceMode.FULL
+
+    def __post_init__(self) -> None:
+        if self.mode == LyricsReplaceMode.FULL:
+            self.pattern_prefix = "^"
+            self.pattern_suffix = "$"
+        elif self.mode == LyricsReplaceMode.ALPHABETIC:
+            self.pattern_prefix = r"(?:^|\b)"
+            self.pattern_suffix = r"(?:$|\b)"
+        elif self.mode == LyricsReplaceMode.NON_ALPHABETIC:
+            self.pattern_prefix = self.pattern_suffix = ""
+        if self.mode != LyricsReplaceMode.REGEX:
+            self.pattern_main = re.escape(self.pattern_main)
+        else:
+            try:
+                self.compiled_pattern
+            except re.error as e:
+                msg = f"Invalid pattern: {self._pattern}"
+                raise ValueError(msg) from e
+
+    @property
+    def compiled_pattern(self) -> re.Pattern[str]:
+        return re.compile(self._pattern, self.flags)
+
+    @property
+    def _pattern(self) -> str:
+        return f"{self.pattern_prefix}{self.pattern_main}{self.pattern_suffix}"
+
+    def replace(self, text: str) -> str:
+        return self.compiled_pattern.sub(self.replacement, text)
 
 
 class Language(enum.Enum):
