@@ -26,6 +26,7 @@ from typing import (
 from urllib.parse import quote, unquote
 
 import aiofiles
+import more_itertools
 from nicegui import app, binding, ui
 from nicegui.context import get_client
 from nicegui.elements.switch import Switch
@@ -50,7 +51,7 @@ from libresvip.core.config import (
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
-from libresvip.model.base import BaseComplexModel
+from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.text import shorten_error_message
 from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
@@ -532,7 +533,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         @ui.refreshable
         def tasks_container(self) -> None:
             with ui.scroll_area().classes("w-full"):
-                for info in self.files_to_convert.values():
+                for i, info in enumerate(self.files_to_convert.values()):
                     with ui.row().classes("w-full items-center"):
 
                         def remove_row() -> None:
@@ -540,6 +541,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                             self.tasks_container.refresh()
 
                         ui.label(info.name).classes("flex-grow")
+                        if self._conversion_mode == ConversionMode.MERGE and i:
+                            ui.icon("merge", size="lg")
                         ui.spinner().props("size=lg").bind_visibility_from(
                             info,
                             "running",
@@ -698,7 +701,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         def task_count(self) -> int:
             return len(self.files_to_convert)
 
-        def convert_one(self, task: ConversionTask) -> None:
+        def convert_one(self, task: ConversionTask, *sub_tasks: list[ConversionTask]) -> None:
             task.reset()
             lazy_translation.set(translation)
             task.running = True
@@ -726,11 +729,22 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ):
                         task.success = False
                     else:
-                        project = input_plugin.plugin_object.load(
-                            task.upload_path,
-                            input_option_class(**self.input_options),
-                        )
-                        if self._conversion_mode == ConversionMode.DIRECT:
+                        input_option = input_option_class(**self.input_options)
+                        if self._conversion_mode == ConversionMode.MERGE:
+                            child_projects = [
+                                input_plugin.plugin_object.load(
+                                    sub_task.upload_path,
+                                    input_option,
+                                )
+                                for sub_task in more_itertools.value_chain(task, sub_tasks)
+                            ]
+                            project = Project.merge_projects(child_projects)
+                        else:
+                            project = input_plugin.plugin_object.load(
+                                task.upload_path,
+                                input_option,
+                            )
+                        if self._conversion_mode != ConversionMode.SPLIT:
                             task.output_path = task.output_path.with_suffix(
                                 f".{self.output_format}",
                             )
@@ -753,13 +767,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         ),
                                     )
                         output_option = output_option_class(**self.output_options)
-                        if self._conversion_mode == ConversionMode.DIRECT:
-                            output_plugin.plugin_object.dump(
-                                task.output_path,
-                                project,
-                                output_option,
-                            )
-                        elif self._conversion_mode == ConversionMode.SPLIT:
+                        if self._conversion_mode == ConversionMode.SPLIT:
                             task.output_path.mkdir(parents=True, exist_ok=True)
                             for i, child_project in enumerate(
                                 project.split_tracks(self.max_track_count)
@@ -770,6 +778,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     child_project,
                                     output_option,
                                 )
+                        else:
+                            output_plugin.plugin_object.dump(
+                                task.output_path,
+                                project,
+                                output_option,
+                            )
                         task.success = True
                 if w.output:
                     task.warning = w.output
@@ -782,24 +796,39 @@ def page_layout(lang: Optional[str] = None) -> None:
             n = ui.notification(_("Converting"), timeout=0)
 
             loop = asyncio.get_event_loop()
+            running_tasks = []
             with ThreadPoolExecutor(
                 max_workers=max(len(self.files_to_convert), 4),
             ) as executor:
-                futures: list[asyncio.Future[None]] = [
-                    loop.run_in_executor(
-                        executor,
-                        self.convert_one,
-                        task,
-                    )
-                    for task in self.files_to_convert.values()
-                ]
+                futures: list[asyncio.Future[None]]
+                if self._conversion_mode == ConversionMode.MERGE:
+                    (task,), other_tasks = more_itertools.spy(self.files_to_convert.values())
+                    futures = [
+                        loop.run_in_executor(
+                            executor,
+                            self.convert_one,
+                            task,
+                            *other_tasks,
+                        )
+                    ]
+                    running_tasks.append(task)
+                else:
+                    running_tasks = list(self.files_to_convert.values())
+                    futures = [
+                        loop.run_in_executor(
+                            executor,
+                            self.convert_one,
+                            task,
+                        )
+                        for task in running_tasks
+                    ]
                 for i, future in enumerate(asyncio.as_completed(futures)):
                     await future
                     n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
                     n.spinner = True
             n.close_button = _("Close")
             n.spinner = False
-            if any(not task.success for task in self.files_to_convert.values()):
+            if any(not task.success for task in running_tasks):
                 n.message = _("Conversion Failed")
                 n.type = "negative"
             else:
