@@ -54,6 +54,7 @@ from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.text import shorten_error_message
 from libresvip.utils.translation import get_translation, lazy_translation
+from libresvip.utils.translation import gettext_lazy as _
 from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:
@@ -83,6 +84,14 @@ def dark_mode2str(mode: DarkMode) -> Optional[bool]:
         return False
     elif mode == DarkMode.DARK:
         return True
+
+
+def str2dark_mode(value: Optional[bool]) -> DarkMode:
+    return {
+        True: DarkMode.DARK,
+        False: DarkMode.LIGHT,
+        None: DarkMode.SYSTEM,
+    }.get(value, DarkMode.SYSTEM)
 
 
 def int_validator(value: Optional[SupportsFloat]) -> bool:
@@ -139,26 +148,40 @@ class ConversionTask:
 def page_layout(lang: Optional[str] = None) -> None:
     cur_client = get_client()
 
-    default_settings = LibreSvipWebUserSettings()
-    default_settings_dict = RootModel[LibreSvipWebUserSettings](default_settings).model_dump(
-        mode="json"
-    )
+    if app.native.main_window is not None:
+        from libresvip.core.config import save_settings, settings
 
-    for key, default_value in default_settings_dict.items():
-        if key not in app.storage.user:
-            if key == "dark_mode":
-                default_value = dark_mode2str(default_value)
-            app.storage.user[key] = default_value
-    if lang is None:
-        lang = app.storage.user["language"]
-    if lang != app.storage.user["language"]:
-        app.storage.user["language"] = lang
-    translation = get_translation(PACKAGE_NAME, lang)
+        app.on_shutdown(save_settings)
+    else:
+        settings = LibreSvipWebUserSettings()  # type: ignore[assignment]
+        request = request_contextvar.get()
+        session_id = request.session["id"]
 
-    def _(message: str) -> str:
-        if message.strip():
-            return translation.gettext(message)
-        return message
+        for key, value in app.storage.user.items():
+            if hasattr(settings, key):
+                if key == "dark_mode":
+                    value = str2dark_mode(value)
+                elif key == "language":
+                    value = Language.from_locale(value)
+                setattr(settings, key, value)
+
+        def save_settings() -> None:
+            if session_id in app.storage._users:
+                storage = app.storage._users[session_id]
+                default_settings_dict = RootModel[LibreSvipWebUserSettings](settings).model_dump(
+                    mode="json"
+                )
+
+                for key, default_value in default_settings_dict.items():
+                    if key == "dark_mode":
+                        default_value = dark_mode2str(default_value)
+                    if key not in storage or storage[key] != default_value:
+                        storage[key] = default_value
+
+        cur_client.on_disconnect(save_settings)
+
+    translation = get_translation(PACKAGE_NAME, settings.language.value)
+    lazy_translation.set(translation)
 
     plugin_details = {
         identifier: {
@@ -496,13 +519,21 @@ def page_layout(lang: Optional[str] = None) -> None:
                     )
                 },
             )()
-            self.input_format = app.storage.user["last_input_format"] or next(  # type: ignore[no-redef]
-                iter(plugin_manager.plugin_registry),
-                "",
+            self.input_format = (
+                settings.last_input_format
+                if settings.last_input_format is not None
+                else next(  # type: ignore[no-redef]
+                    iter(plugin_manager.plugin_registry),
+                    "",
+                )
             )
-            self.output_format = app.storage.user["last_output_format"] or next(  # type: ignore[no-redef]
-                iter(plugin_manager.plugin_registry),
-                "",
+            self.output_format = (
+                settings.last_output_format
+                if settings.last_output_format is not None
+                else next(  # type: ignore[no-redef]
+                    iter(plugin_manager.plugin_registry),
+                    "",
+                )
             )
             app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
             app.add_route(
@@ -628,7 +659,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             name: str,
             content: Union[BinaryIO, aiofiles.threadpool.binary.AsyncBufferedReader],
         ) -> None:
-            if app.storage.user["auto_detect_input_format"]:
+            if settings.auto_detect_input_format:
                 cur_suffix = name.rpartition(".")[-1].lower()
                 if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
@@ -675,9 +706,9 @@ def page_layout(lang: Optional[str] = None) -> None:
         def input_format(self, value: str) -> None:
             if value != self._input_format:
                 self._input_format = value
-                if app.storage.user["reset_tasks_on_input_change"]:
+                if settings.reset_tasks_on_input_change:
                     self.files_to_convert.clear()
-                app.storage.user["last_input_format"] = value
+                settings.last_input_format = value
                 input_plugin_info.refresh()
                 input_panel_header.refresh()
                 input_options.refresh()
@@ -690,7 +721,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         def output_format(self, value: str) -> None:
             if value != self._output_format:
                 self._output_format = value
-                app.storage.user["last_output_format"] = value
+                settings.last_output_format = value
                 for task in self.files_to_convert.values():
                     task.reset()
                 output_plugin_info.refresh()
@@ -959,7 +990,9 @@ def page_layout(lang: Optional[str] = None) -> None:
             else:
                 ui.download(f"/export/{cur_client.id}/{file_name}")
 
-    dark_toggler = ui.dark_mode().bind_value(app.storage.user, "dark_mode")
+    dark_toggler = ui.dark_mode().bind_value(
+        settings, "dark_mode", forward=str2dark_mode, backward=dark_mode2str
+    )
     selected_formats = SelectedFormats()
     ui.add_head_html(
         textwrap.dedent(
@@ -1292,13 +1325,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ui.switch(_("Auto detect import format")).classes(
                     "col-span-5",
                 ).bind_value(
-                    app.storage.user,
+                    settings,
                     "auto_detect_input_format",
                 )
                 ui.switch(
                     _("Reset list when import format changed"),
                 ).classes("col-span-5").bind_value(
-                    app.storage.user,
+                    settings,
                     "reset_tasks_on_input_change",
                 )
                 with (
