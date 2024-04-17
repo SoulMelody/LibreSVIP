@@ -49,13 +49,12 @@ from libresvip.core.config import (
     LibreSvipBaseUISettings,
     ui_settings_ctx,
 )
-from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
+from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.text import shorten_error_message
 from libresvip.utils.translation import get_translation, lazy_translation
-from libresvip.utils.translation import gettext_lazy as _
 from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:
@@ -185,8 +184,12 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         cur_client.on_disconnect(save_settings)
 
-    translation = get_translation(PACKAGE_NAME)
-    lazy_translation.set(translation)
+    translation = get_translation()
+
+    def _(message: str) -> str:
+        if message.strip():
+            return translation.gettext(message)
+        return message
 
     plugin_details = {
         identifier: {
@@ -501,7 +504,6 @@ def page_layout(lang: Optional[str] = None) -> None:
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
             default_factory=dict,
         )
-        max_track_count: int = dataclasses.field(default=1)
 
         def __post_init__(self) -> None:
             self.middleware_enabled_states = create_model(
@@ -806,7 +808,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         if self._conversion_mode == ConversionMode.SPLIT:
                             task.output_path.mkdir(parents=True, exist_ok=True)
                             for i, child_project in enumerate(
-                                project.split_tracks(self.max_track_count)
+                                project.split_tracks(settings.max_track_count)
                             ):
                                 output_plugin.plugin_object.dump(
                                     task.output_path
@@ -829,8 +831,6 @@ def page_layout(lang: Optional[str] = None) -> None:
             task.running = False
 
         async def batch_convert(self) -> None:
-            n = ui.notification(_("Converting"), timeout=0)
-
             loop = asyncio.get_event_loop()
             running_tasks = []
             with ThreadPoolExecutor(
@@ -860,16 +860,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ]
                 for i, future in enumerate(asyncio.as_completed(futures)):
                     await future
-                    n.message = _("Conversion Progress") + f" {i + 1} / {len(futures)}"
-                    n.spinner = True
-            n.close_button = _("Close")
-            n.spinner = False
             if any(not task.success for task in running_tasks):
-                n.message = _("Conversion Failed")
-                n.type = "negative"
+                ui.notification(_("Conversion Failed"), type="negative")
             else:
-                n.message = _("Conversion Successful")
-                n.type = "positive"
+                ui.notification(_("Conversion Successful"), type="positive")
 
         def export_all(self, request: Request) -> Response:
             if result := self._export_all():
@@ -1448,7 +1442,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 )
                 ui.knob(
                     min=1, max=10, step=1, show_value=True, track_color="light-blue"
-                ).bind_value(selected_formats, "max_track_count").bind_visibility_from(
+                ).bind_value(settings, "max_track_count").bind_visibility_from(
                     selected_formats,
                     "conversion_mode",
                     backward=ConversionMode.SPLIT.value.__eq__,

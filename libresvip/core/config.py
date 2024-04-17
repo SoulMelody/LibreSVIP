@@ -118,6 +118,7 @@ class LibreSvipBaseUISettings:
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = dataclasses.field(default=True)
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)
+    max_track_count: int = dataclasses.field(default=1)
 
 
 ui_settings_ctx: contextvars.ContextVar[Optional[LibreSvipBaseUISettings]] = contextvars.ContextVar(
@@ -129,7 +130,6 @@ ui_settings_ctx: contextvars.ContextVar[Optional[LibreSvipBaseUISettings]] = con
 class LibreSvipSettings(LibreSvipBaseUISettings):
     disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # GUI Only
-    max_track_count: int = dataclasses.field(default=1)
     save_folder: pathlib.Path = dataclasses.field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
     conflict_policy: ConflictPolicy = dataclasses.field(default=ConflictPolicy.PROMPT)

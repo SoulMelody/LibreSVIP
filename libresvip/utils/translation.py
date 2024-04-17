@@ -17,7 +17,7 @@ def gettext_lazy(message: str) -> str:
         return message
     with contextlib.suppress(LookupError):
         if (translation := singleton_translation) is not None or (
-            translation := lazy_translation.get()
+            translation := lazy_translation.get(None)
         ) is not None:
             return translation.gettext(message)
     return gettext.gettext(message)
