@@ -3,7 +3,7 @@ import contextvars
 import gettext
 from typing import Optional
 
-from libresvip.core.config import settings
+from libresvip.core.config import get_ui_settings
 from libresvip.core.constants import PACKAGE_NAME, res_dir
 
 singleton_translation: Optional[gettext.NullTranslations] = None
@@ -38,7 +38,7 @@ def get_translation(
     localedir = res_dir / "locales"
 
     if lang is None:
-        lang = settings.language.value
+        lang = get_ui_settings().language.value
 
     if (file := localedir / lang / "LC_MESSAGES" / f"{domain}.mo").is_file():
         with file.open("rb") as fp:

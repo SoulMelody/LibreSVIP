@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import contextvars
 import dataclasses
 import enum
 import locale
@@ -119,6 +120,11 @@ class LibreSvipBaseUISettings:
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)
 
 
+ui_settings_ctx: contextvars.ContextVar[Optional[LibreSvipBaseUISettings]] = contextvars.ContextVar(
+    "ui_settings_ctx"
+)
+
+
 @dataclass
 class LibreSvipSettings(LibreSvipBaseUISettings):
     disabled_plugins: list[str] = dataclasses.field(default_factory=list)
@@ -140,6 +146,10 @@ settings = cast(LibreSvipSettings, OmegaConf.structured(LibreSvipSettings))
 if config_path.exists():
     with contextlib.suppress(OmegaConfBaseException):
         settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
+
+
+def get_ui_settings() -> LibreSvipBaseUISettings:
+    return ui_settings_ctx.get(None) or settings
 
 
 def save_settings() -> None:

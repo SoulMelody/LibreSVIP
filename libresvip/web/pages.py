@@ -47,6 +47,7 @@ from libresvip.core.config import (
     DarkMode,
     Language,
     LibreSvipBaseUISettings,
+    ui_settings_ctx,
 )
 from libresvip.core.constants import PACKAGE_NAME, app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
@@ -151,9 +152,13 @@ def page_layout(lang: Optional[str] = None) -> None:
     if app.native.main_window is not None:
         from libresvip.core.config import save_settings, settings
 
+        if lang is not None:
+            settings.language = Language.from_locale(lang)
+
         app.on_shutdown(save_settings)
     else:
         settings = LibreSvipWebUserSettings()  # type: ignore[assignment]
+        ui_settings_ctx.set(settings)
         request = request_contextvar.get()
         session_id = request.session["id"]
 
@@ -180,7 +185,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         cur_client.on_disconnect(save_settings)
 
-    translation = get_translation(PACKAGE_NAME, settings.language.value)
+    translation = get_translation(PACKAGE_NAME)
     lazy_translation.set(translation)
 
     plugin_details = {
@@ -1236,13 +1241,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ui.menu_item(
                         "简体中文",
                         on_click=lambda: ui.navigate.to("/?lang=zh_CN")
-                        if lang != "zh_CN"
+                        if settings.language != Language.CHINESE
                         else None,
                     )
                     ui.menu_item(
                         "English",
                         on_click=lambda: ui.navigate.to("/?lang=en_US")
-                        if lang != "en_US"
+                        if settings.language != Language.ENGLISH
                         else None,
                     )
                     ui.menu_item("日本語").props("disabled")
