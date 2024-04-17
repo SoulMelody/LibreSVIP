@@ -143,6 +143,36 @@ class ConversionTask:
                 self.output_path.unlink()
 
 
+def export_all(request: Request) -> Response:
+    if selected_formats := getattr(
+        app.state, f"{request.path_params['client_id']}_selected_formats"
+    ):
+        return selected_formats.export_all(request)
+    else:
+        return Response(
+            "No selected formats",
+            status_code=400,
+        )
+
+
+app.add_route("/export/{client_id}/", export_all, methods=["GET"])
+
+
+def export_one(request: Request) -> Response:
+    if selected_formats := getattr(
+        app.state, f"{request.path_params['client_id']}_selected_formats"
+    ):
+        return selected_formats.export_one(request)
+    else:
+        return Response(
+            "No selected formats",
+            status_code=400,
+        )
+
+
+app.add_route("/export/{client_id}/{filename}", export_one, methods=["GET"])
+
+
 @ui.page("/")
 @ui.page("/?lang={lang}")
 def page_layout(lang: Optional[str] = None) -> None:
@@ -541,12 +571,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                     iter(plugin_manager.plugin_registry),
                     "",
                 )
-            )
-            app.add_route(f"/export/{cur_client.id}/", self.export_all, methods=["GET"])
-            app.add_route(
-                f"/export/{cur_client.id}/{{filename}}",
-                self.export_one,
-                methods=["GET"],
             )
 
         @functools.cached_property
@@ -993,6 +1017,13 @@ def page_layout(lang: Optional[str] = None) -> None:
         settings, "dark_mode", forward=str2dark_mode, backward=dark_mode2str
     )
     selected_formats = SelectedFormats()
+    if app.native.main_window is None:
+        setattr(app.state, f"{cur_client.id}_selected_formats", selected_formats)
+
+        def recycle_state() -> None:
+            delattr(app.state, f"{cur_client.id}_selected_formats")
+
+        cur_client.on_disconnect(recycle_state)
     ui.add_head_html(
         textwrap.dedent(
             """
