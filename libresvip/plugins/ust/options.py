@@ -6,7 +6,7 @@ from libresvip.model.option_mixins import EnablePitchImportationMixin, SelectSin
 
 class InputOptions(EnablePitchImportationMixin, BaseModel):
     encoding: str = Field(
-        default="auto",
+        default="SHIFT_JIS",
         title="Text encoding",
     )
 
@@ -18,6 +18,6 @@ class OutputOptions(SelectSingleTrackMixin, BaseModel):
         description="UST file version",
     )
     encoding: str = Field(
-        default="Shift_JIS",
+        default="SHIFT_JIS",
         title="Text encoding",
     )

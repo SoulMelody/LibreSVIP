@@ -53,7 +53,7 @@ from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
-from libresvip.utils.text import shorten_error_message
+from libresvip.utils.text import shorten_error_message, supported_charset_names
 from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
 
@@ -358,6 +358,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 else:
                                     continue
                                 choices[enum_item] = _(enum_field.title)
+                        ui.select(
+                            choices,
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif option_key in ["encoding", "lyric_encoding"]:
+                        choices = {charset: charset for charset in supported_charset_names()}
                         ui.select(
                             choices,
                             label=_(field_info.title),

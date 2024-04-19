@@ -7,6 +7,7 @@ from rich.prompt import Confirm, FloatPrompt, IntPrompt, Prompt
 
 from libresvip.core.config import get_ui_settings
 from libresvip.model.base import BaseComplexModel, BaseModel
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 
@@ -22,6 +23,13 @@ def prompt_fields(option_class: BaseModel) -> dict[str, Any]:
                 choice = Prompt.ask(
                     translated_title,
                     choices=list(get_ui_settings().lyric_replace_rules),
+                    default=default_value,
+                )
+                option_kwargs[option_key] = choice
+            elif option_key in ["encoding", "lyric_encoding"]:
+                choice = Prompt.ask(
+                    translated_title,
+                    choices=supported_charset_names(),
                     default=default_value,
                 )
                 option_kwargs[option_key] = choice

@@ -36,6 +36,7 @@ from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
 from libresvip.model.base import BaseComplexModel, BaseModel, Project
+from libresvip.utils.text import supported_charset_names
 
 from .url_opener import open_path
 
@@ -653,6 +654,26 @@ class TaskManager(QObject):
                         "desc": "",
                     }
                     for preset in get_ui_settings().lyric_replace_rules
+                ]
+                fields.append(
+                    {
+                        "type": "enum",
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
+                        "choices": choices,
+                    }
+                )
+            elif option_key in ["encoding", "lyric_encoding"]:
+                choices = [
+                    {
+                        "value": preset,
+                        "text": preset,
+                        "desc": "",
+                    }
+                    for preset in supported_charset_names()
                 ]
                 fields.append(
                     {
