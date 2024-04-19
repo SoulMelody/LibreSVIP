@@ -67,6 +67,7 @@ binding.MAX_PROPAGATION_TIME = 0.03
 @dataclass
 class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
     def __post_init__(self) -> None:
+        self.lyric_replace_rules.setdefault("default", [])
         detected_language = None
         request = request_contextvar.get()
         if accept_lang := request.headers.get("Accept-Language"):
@@ -172,6 +173,20 @@ def export_one(request: Request) -> Response:
 
 app.add_route("/export/{client_id}/{filename}", export_one, methods=["GET"])
 
+plugin_details = {
+    identifier: {
+        "name": plugin.name,
+        "author": plugin.author,
+        "website": plugin.website,
+        "description": plugin.description,
+        "version": str(plugin.version),
+        "suffix": f"(*.{plugin.suffix})",
+        "file_format": plugin.file_format,
+        "icon_base64": plugin.icon_base64,
+    }
+    for identifier, plugin in plugin_manager.plugin_registry.items()
+}
+
 
 @ui.page("/")
 @ui.page("/?lang={lang}")
@@ -220,20 +235,6 @@ def page_layout(lang: Optional[str] = None) -> None:
         if message.strip():
             return translation.gettext(message)
         return message
-
-    plugin_details = {
-        identifier: {
-            "name": plugin.name,
-            "author": plugin.author,
-            "website": plugin.website,
-            "description": plugin.description,
-            "version": str(plugin.version),
-            "suffix": f"(*.{plugin.suffix})",
-            "file_format": plugin.file_format,
-            "icon_base64": plugin.icon_base64,
-        }
-        for identifier, plugin in plugin_manager.plugin_registry.items()
-    }
 
     def plugin_info(attr_name: str) -> None:
         attr = getattr(selected_formats, attr_name)
@@ -477,6 +478,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                             label=_(field_info.title),
                             value=default_value,
                         ).bind_value(option_dict, option_key).classes("flex-grow")
+                    elif option_key == "lyric_replacement_preset_name":
+                        choices = {preset: preset for preset in settings.lyric_replace_rules}
+                        ui.select(
+                            choices,
+                            label=_(field_info.title),
+                            value=default_value,
+                        ).bind_value(option_dict, option_key).classes("flex-grow")
                     elif issubclass(field_info.annotation, Color):
                         ui.color_input(
                             label=_(field_info.title),
@@ -559,7 +567,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             self.input_format = (
                 settings.last_input_format
                 if settings.last_input_format is not None
-                else next(  # type: ignore[no-redef]
+                else next(
                     iter(plugin_manager.plugin_registry),
                     "",
                 )
@@ -567,7 +575,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             self.output_format = (
                 settings.last_output_format
                 if settings.last_output_format is not None
-                else next(  # type: ignore[no-redef]
+                else next(
                     iter(plugin_manager.plugin_registry),
                     "",
                 )

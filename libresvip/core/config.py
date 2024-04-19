@@ -119,6 +119,9 @@ class LibreSvipBaseUISettings:
     auto_detect_input_format: bool = dataclasses.field(default=True)
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)
     max_track_count: int = dataclasses.field(default=1)
+    lyric_replace_rules: dict[str, list[LyricsReplacement]] = dataclasses.field(
+        default_factory=dict
+    )
 
 
 ui_settings_ctx: contextvars.ContextVar[Optional[LibreSvipBaseUISettings]] = contextvars.ContextVar(
@@ -143,6 +146,7 @@ config_path = app_dir.user_config_path / "settings.yml"
 
 
 settings = cast(LibreSvipSettings, OmegaConf.structured(LibreSvipSettings))
+settings.lyric_replace_rules.setdefault("default", [])
 if config_path.exists():
     with contextlib.suppress(OmegaConfBaseException):
         settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
@@ -150,6 +154,12 @@ if config_path.exists():
 
 def get_ui_settings() -> LibreSvipBaseUISettings:
     return ui_settings_ctx.get(None) or settings
+
+
+def lyric_replacement_presets_enum() -> enum.Enum:
+    return enum.Enum(  # type: ignore[misc]
+        "LyricReplacementPreset", {key: key for key in get_ui_settings().lyric_replace_rules}
+    )
 
 
 def save_settings() -> None:
