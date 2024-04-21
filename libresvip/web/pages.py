@@ -30,7 +30,7 @@ import more_itertools
 from nicegui import app, binding, ui
 from nicegui.context import get_client
 from nicegui.elements.switch import Switch
-from nicegui.events import KeyEventArguments, UploadEventArguments
+from nicegui.events import KeyEventArguments, UploadEventArguments, ValueChangeEventArguments
 from nicegui.storage import request_contextvar
 from pydantic import RootModel, create_model
 from pydantic.dataclasses import dataclass
@@ -58,7 +58,6 @@ from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:
-    from nicegui.elements.menu import Menu
     from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
@@ -249,20 +248,22 @@ def page_layout(lang: Optional[str] = None) -> None:
                     "text-h5 w-full font-bold text-center",
                 )
                 with ui.row().classes("w-full"):
-                    with ui.element("q-chip").props("icon=tag"):
+                    with ui.element("q-chip").props("icon=tag").tooltip(_("Version")):
                         ui.label(plugin_details[attr]["version"])
-                        ui.tooltip(_("Version"))
                     ui.separator().props("vertical")
-                    with ui.element("q-chip").props("icon=person"):
-                        with ui.row().classes("items-center"):
-                            ui.label(_("Author") + ": ")
-                            ui.link(
-                                plugin_details[attr]["author"],
-                                plugin_details[attr]["website"],
-                                new_tab=True,
-                            )
-                            ui.icon("open_in_new")
-                        ui.tooltip(plugin_details[attr]["website"])
+                    with (
+                        ui.element("q-chip")
+                        .props("icon=person")
+                        .tooltip(plugin_details[attr]["website"]),
+                        ui.row().classes("items-center"),
+                    ):
+                        ui.label(_("Author") + ": ")
+                        ui.link(
+                            plugin_details[attr]["author"],
+                            plugin_details[attr]["website"],
+                            new_tab=True,
+                        )
+                        ui.icon("open_in_new")
                 with ui.element("q-chip").props("icon=outline_insert_drive_file"):
                     ui.label(
                         _(plugin_details[attr]["file_format"] or "")
@@ -405,14 +406,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                     else:
                         continue
                     if field_info.description:
-                        with (
-                            ui.icon("help_outline")
-                            .classes("text-3xl")
-                            .style(
-                                "cursor: help",
-                            )
-                        ):
-                            ui.tooltip(_(field_info.description))
+                        ui.icon("help_outline").classes("text-3xl").style(
+                            "cursor: help",
+                        ).tooltip(_(field_info.description))
 
     input_options = ui.refreshable(functools.partial(options_form, "input", "load"))
 
@@ -527,14 +523,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                     else:
                         continue
                     if field_info.description:
-                        with (
-                            ui.icon("help_outline")
-                            .classes("text-3xl")
-                            .style(
-                                "cursor: help",
-                            )
-                        ):
-                            ui.tooltip(_(field_info.description))
+                        ui.icon("help_outline").classes("text-3xl").style(
+                            "cursor: help",
+                        ).tooltip(_(field_info.description))
 
     select_input: Select
     select_output: Select
@@ -695,10 +686,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                             icon="download",
                             on_click=functools.partial(self.save_file, info.name),
                         ).props("round").bind_visibility_from(info, "success")
-                        with ui.button(icon="close", on_click=remove_row).props(
+                        ui.button(icon="close", on_click=remove_row).props(
                             "round",
-                        ):
-                            ui.tooltip(_("Remove"))
+                        ).tooltip(_("Remove"))
 
         async def _add_task(
             self,
@@ -1074,61 +1064,6 @@ def page_layout(lang: Optional[str] = None) -> None:
             "items-center",
         )
     ):
-        convert_menu: Menu
-        input_formats_menu: Menu
-        output_formats_menu: Menu
-        theme_menu: Menu
-        lang_menu: Menu
-        help_menu: Menu
-
-        async def handle_key(e: KeyEventArguments) -> None:
-            if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
-                if e.modifiers.alt and e.action.keyup and not e.action.repeat:
-                    if e.key == "c":
-                        convert_menu.open()
-                    elif e.key == "[":
-                        input_formats_menu.open()
-                    elif e.key == "]":
-                        output_formats_menu.open()
-                    elif e.key == "t":
-                        theme_menu.open()
-                    elif e.key == "l":
-                        lang_menu.open()
-                    elif e.key == "h":
-                        help_menu.open()
-                    elif e.key == "o":
-                        await selected_formats.add_upload()
-                    elif e.key == "i":
-                        about_dialog.open()
-                    elif e.key == "\\":
-                        swap_values()
-                    elif e.key == "/":
-                        selected_formats.reset()
-                    elif e.key == "w":
-                        dark_toggler.disable()
-                    elif e.key == "b":
-                        dark_toggler.enable()
-                    elif e.key == "s":
-                        dark_toggler.auto()
-                    elif e.key == "Enter":
-                        await selected_formats.batch_convert()
-            elif e.key.number is not None and not e.action.repeat and e.action.keyup:
-                key = e.key.number
-                for formats_menu, format_item in [
-                    (input_formats_menu, input_format_item),
-                    (output_formats_menu, output_format_item),
-                ]:
-                    current_index = format_item._value_to_model_value(format_item.value)
-                    count = len(format_item._values)
-                    if formats_menu.value:
-                        if count >= 10 + key:
-                            next_focus = 10 * ((current_index // 10) + 1)
-                            next_focus = key if next_focus + key >= count else next_focus + key
-                            format_item.value = format_item._values[next_focus]
-                        elif current_index != key:
-                            format_item.value = format_item._values[key]
-
-        ui.keyboard(on_key=handle_key, active=True)
         with ui.row().classes("w-full"):
             with ui.dialog() as about_dialog, ui.card():
                 ui.label(_("About")).classes("text-lg")
@@ -1174,39 +1109,47 @@ def page_layout(lang: Optional[str] = None) -> None:
                     .tooltip(_("Alt+C")),
                     ui.menu() as convert_menu,
                 ):
-                    with ui.menu_item(
-                        on_click=selected_formats.add_upload,
+                    with (
+                        ui.menu_item(
+                            on_click=selected_formats.add_upload,
+                        ).tooltip("Alt+O"),
+                        ui.row().classes("items-center"),
                     ):
-                        ui.tooltip("Alt+O")
-                        with ui.row().classes("items-center"):
-                            ui.icon("file_open").classes("text-lg")
-                            ui.label(_("Import project"))
-                    with ui.menu_item(
-                        on_click=selected_formats.batch_convert,
-                    ).bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
+                        ui.icon("file_open").classes("text-lg")
+                        ui.label(_("Import project"))
+                    with (
+                        ui.menu_item(
+                            on_click=selected_formats.batch_convert,
+                        )
+                        .bind_visibility_from(
+                            selected_formats,
+                            "task_count",
+                            backward=bool,
+                        )
+                        .tooltip("Alt+Enter"),
+                        ui.row().classes("items-center"),
                     ):
-                        ui.tooltip("Alt+Enter")
-                        with ui.row().classes("items-center"):
-                            ui.icon("play_arrow").classes("text-lg")
-                            ui.label(_("Convert"))
-                    with ui.menu_item(on_click=selected_formats.reset).bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
+                        ui.icon("play_arrow").classes("text-lg")
+                        ui.label(_("Convert"))
+                    with (
+                        ui.menu_item(on_click=selected_formats.reset)
+                        .bind_visibility_from(
+                            selected_formats,
+                            "task_count",
+                            backward=bool,
+                        )
+                        .tooltip("Alt+/"),
+                        ui.row().classes("items-center"),
                     ):
-                        ui.tooltip("Alt+/")
-                        with ui.row().classes("items-center"):
-                            ui.icon("refresh").classes("text-lg")
-                            ui.label(_("Clear Task List"))
+                        ui.icon("refresh").classes("text-lg")
+                        ui.label(_("Clear Task List"))
                     ui.separator()
-                    with ui.menu_item(on_click=swap_values):
-                        ui.tooltip("Alt+\\")
-                        with ui.row().classes("items-center"):
-                            ui.icon("swap_vert").classes("text-lg")
-                            ui.label(_("Swap Input and Output"))
+                    with (
+                        ui.menu_item(on_click=swap_values).tooltip("Alt+\\"),
+                        ui.row().classes("items-center"),
+                    ):
+                        ui.icon("swap_vert").classes("text-lg")
+                        ui.label(_("Swap Input and Output"))
                 with (
                     QFabAction(
                         _("Import format"),
@@ -1253,44 +1196,24 @@ def page_layout(lang: Optional[str] = None) -> None:
                     .tooltip(_("Alt+T")),
                     ui.menu() as theme_menu,
                 ):
-                    with ui.menu_item(on_click=dark_toggler.disable):
-                        ui.tooltip("Alt+W")
-                        with ui.row().classes("items-center"):
-                            ui.icon("light_mode").classes("text-lg")
-                            ui.label(_("Light"))
-                    with ui.menu_item(on_click=dark_toggler.enable):
-                        ui.tooltip("Alt+B")
-                        with ui.row().classes("items-center"):
-                            ui.icon("dark_mode").classes("text-lg")
-                            ui.label(_("Dark"))
-                    with ui.menu_item(on_click=dark_toggler.auto):
-                        ui.tooltip("Alt+S")
-                        with ui.row().classes("items-center"):
-                            ui.icon("brightness_auto").classes("text-lg")
-                            ui.label(_("System"))
-                with (
-                    QFabAction(
-                        _("Switch Language"),
-                        icon="language",
-                        on_click=lambda: lang_menu.open(),
-                    )
-                    .props("square")
-                    .tooltip(_("Alt+L")),
-                    ui.menu() as lang_menu,
-                ):
-                    ui.menu_item(
-                        "简体中文",
-                        on_click=lambda: ui.navigate.to("/?lang=zh_CN")
-                        if settings.language != Language.CHINESE
-                        else None,
-                    )
-                    ui.menu_item(
-                        "English",
-                        on_click=lambda: ui.navigate.to("/?lang=en_US")
-                        if settings.language != Language.ENGLISH
-                        else None,
-                    )
-                    ui.menu_item("日本語").props("disabled")
+                    with (
+                        ui.menu_item(on_click=dark_toggler.disable).tooltip("Alt+W"),
+                        ui.row().classes("items-center"),
+                    ):
+                        ui.icon("light_mode").classes("text-lg")
+                        ui.label(_("Light"))
+                    with (
+                        ui.menu_item(on_click=dark_toggler.enable).tooltip("Alt+B"),
+                        ui.row().classes("items-center"),
+                    ):
+                        ui.icon("dark_mode").classes("text-lg")
+                        ui.label(_("Dark"))
+                    with (
+                        ui.menu_item(on_click=dark_toggler.auto).tooltip("Alt+A"),
+                        ui.row().classes("items-center"),
+                    ):
+                        ui.icon("brightness_auto").classes("text-lg")
+                        ui.label(_("System"))
                 with (
                     QFabAction(
                         _("Help"),
@@ -1301,11 +1224,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                     .tooltip(_("Alt+H")),
                     ui.menu() as help_menu,
                 ):
-                    with ui.menu_item(on_click=about_dialog.open):
-                        ui.tooltip("Alt+I")
-                        with ui.row().classes("items-center"):
-                            ui.icon("info").classes("text-lg")
-                            ui.label(_("About"))
+                    with (
+                        ui.menu_item(on_click=about_dialog.open).tooltip("Alt+I"),
+                        ui.row().classes("items-center"),
+                    ):
+                        ui.icon("info").classes("text-lg")
+                        ui.label(_("About"))
                     with ui.menu_item(), ui.row().classes("items-center"):
                         ui.icon("text_snippet").classes("text-lg")
                         ui.link(
@@ -1313,14 +1237,114 @@ def page_layout(lang: Optional[str] = None) -> None:
                             target="https://soulmelody.github.io/LibreSVIP",
                             new_tab=True,
                         )
+            with ui.dialog() as settings_dialog, ui.card().classes("min-w-[500px]"):
+                with ui.splitter(value=40, limits=(40, 45)).classes("w-full") as settings_splitter:
+                    with settings_splitter.before, ui.tabs().props("vertical") as settings_nav:
+                        conversion_settings_tab = ui.tab(_("Conversion Settings"))
+                        lyric_replace_rules_tab = ui.tab(_("Lyric Replace Rules"))
+                        language_tab = ui.tab(_("Switch Language"))
+                    with (
+                        settings_splitter.after,
+                        ui.tab_panels(settings_nav, value=conversion_settings_tab),
+                    ):
+                        with ui.tab_panel(conversion_settings_tab), ui.column():
+                            ui.switch(_("Auto detect import format")).bind_value(
+                                settings,
+                                "auto_detect_input_format",
+                            )
+                            ui.switch(
+                                _("Reset list when import format changed"),
+                            ).classes("col-span-5").bind_value(
+                                settings,
+                                "reset_tasks_on_input_change",
+                            )
+                        with ui.tab_panel(lyric_replace_rules_tab):
+                            pass
+                        with ui.tab_panel(language_tab):
+
+                            def switch_language(event: ValueChangeEventArguments) -> None:
+                                if event.value == Language.CHINESE:
+                                    ui.navigate.to("/?lang=zh_CN")
+                                elif event.value == Language.ENGLISH:
+                                    ui.navigate.to("/?lang=en_US")
+
+                            ui.select(
+                                {
+                                    Language.CHINESE: "简体中文",
+                                    Language.ENGLISH: "English",
+                                    Language.JAPANESE: "日本語",
+                                },
+                            ).bind_value(
+                                settings,
+                                "language",
+                            ).on_value_change(switch_language)
+                with ui.card_actions().props("align=right").classes("w-full"):
+                    ui.button(_("Close"), on_click=settings_dialog.close)
+            ui.button(
+                icon="settings",
+                on_click=settings_dialog.open,
+            ).classes("aspect-square").tooltip(_("Settings") + " (Alt+S)")
             ui.space()
             with ui.tabs().classes("sm:visible lg:h-0 lg:invisible") as tabs:
                 format_select_tab = ui.tab(_("Select File Formats"))
                 options_tab = ui.tab(_("Advanced Settings"))
             ui.space()
             if app.native.main_window is not None:
-                ui.button(icon="minimize", on_click=app.native.main_window.minimize)
-                ui.button(icon="close", color="negative", on_click=app.native.main_window.destroy)
+                ui.button(icon="minimize", on_click=app.native.main_window.minimize).classes(
+                    "aspect-square"
+                ).tooltip(_("Minimize"))
+                ui.button(
+                    icon="close", color="negative", on_click=app.native.main_window.destroy
+                ).classes("aspect-square").tooltip(_("Close"))
+
+        async def handle_key(e: KeyEventArguments) -> None:
+            if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
+                if e.modifiers.alt and e.action.keyup and not e.action.repeat:
+                    if e.key == "c":
+                        convert_menu.open()
+                    elif e.key == "[":
+                        input_formats_menu.open()
+                    elif e.key == "]":
+                        output_formats_menu.open()
+                    elif e.key == "t":
+                        theme_menu.open()
+                    elif e.key == "h":
+                        help_menu.open()
+                    elif e.key == "o":
+                        await selected_formats.add_upload()
+                    elif e.key == "i":
+                        about_dialog.open()
+                    elif e.key == "\\":
+                        swap_values()
+                    elif e.key == "/":
+                        selected_formats.reset()
+                    elif e.key == "w":
+                        dark_toggler.disable()
+                    elif e.key == "b":
+                        dark_toggler.enable()
+                    elif e.key == "a":
+                        dark_toggler.auto()
+                    elif e.key == "s":
+                        settings_dialog.open()
+                    elif e.key == "Enter":
+                        await selected_formats.batch_convert()
+            elif e.key.number is not None and not e.action.repeat and e.action.keyup:
+                key = e.key.number
+                for formats_menu, format_item in [
+                    (input_formats_menu, input_format_item),
+                    (output_formats_menu, output_format_item),
+                ]:
+                    current_index = format_item._value_to_model_value(format_item.value)
+                    count = len(format_item._values)
+                    if formats_menu.value:
+                        if count >= 10 + key:
+                            next_focus = 10 * ((current_index // 10) + 1)
+                            next_focus = key if next_focus + key >= count else next_focus + key
+                            format_item.value = format_item._values[next_focus]
+                        elif current_index != key:
+                            format_item.value = format_item._values[key]
+
+        ui.keyboard(on_key=handle_key, active=True)
     uploader = ui.upload(
         multiple=True,
         on_upload=selected_formats.add_task,
@@ -1360,13 +1384,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                             _("Close"),
                             on_click=input_info.close,
                         )
-                with ui.button(
+                ui.button(
                     icon="info",
                     on_click=input_info.open,
                 ).classes(
                     "min-w-[45px] max-w-[45px] aspect-square",
-                ):
-                    ui.tooltip(_("View Detail Information"))
+                ).tooltip(_("View Detail Information"))
                 ui.switch(_("Auto detect import format")).classes(
                     "col-span-5",
                 ).bind_value(
@@ -1379,15 +1402,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                     settings,
                     "reset_tasks_on_input_change",
                 )
-                with (
-                    ui.button(
-                        icon="swap_vert",
-                        on_click=swap_values,
-                    )
-                    .classes("w-fit aspect-square")
-                    .props("round")
-                ):
-                    ui.tooltip(_("Swap Input and Output"))
+                ui.button(
+                    icon="swap_vert",
+                    on_click=swap_values,
+                ).classes("w-fit aspect-square").props("round").tooltip(_("Swap Input and Output"))
                 select_output = (
                     ui.select(
                         {
@@ -1417,13 +1435,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                             _("Close"),
                             on_click=output_info.close,
                         )
-                with ui.button(
+                ui.button(
                     icon="info",
                     on_click=output_info.open,
                 ).classes(
                     "min-w-[45px] max-w-[45px] aspect-square",
-                ):
-                    ui.tooltip(_("View Detail Information"))
+                ).tooltip(_("View Detail Information"))
 
     def tasks_area() -> None:
         with ui.card().classes("w-full h-full") as tasks_card:
@@ -1503,8 +1520,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         selected_formats,
                         "task_count",
                         backward=str,
-                    )
-                    ui.tooltip(_("Continue Adding files"))
+                    ).tooltip(_("Continue Adding files"))
         with (
             ui.card()
             .classes(
@@ -1544,32 +1560,22 @@ def page_layout(lang: Optional[str] = None) -> None:
     def options_area() -> None:
         with ui.scroll_area().classes("w-full h-full"):
             with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
-                with (
-                    ui.button(
-                        icon="play_arrow",
-                        on_click=selected_formats.batch_convert,
-                    )
-                    .props("round")
-                    .bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
-                    )
-                ):
-                    ui.tooltip(_("Start Conversion"))
-                with (
-                    ui.button(
-                        icon="download_for_offline",
-                        on_click=selected_formats.save_file,
-                    )
-                    .props("round")
-                    .bind_visibility_from(
-                        selected_formats,
-                        "task_count",
-                        backward=bool,
-                    )
-                ):
-                    ui.tooltip(_("Export"))
+                ui.button(
+                    icon="play_arrow",
+                    on_click=selected_formats.batch_convert,
+                ).props("round").bind_visibility_from(
+                    selected_formats,
+                    "task_count",
+                    backward=bool,
+                ).tooltip(_("Start Conversion"))
+                ui.button(
+                    icon="download_for_offline",
+                    on_click=selected_formats.save_file,
+                ).props("round").bind_visibility_from(
+                    selected_formats,
+                    "task_count",
+                    backward=bool,
+                ).tooltip(_("Export"))
             ui.label(_("Advanced Options")).classes("text-h5 font-bold")
             with ui.expansion().classes("w-full") as import_panel:
                 with import_panel.add_slot("header"):
@@ -1591,14 +1597,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                         )
                         if middleware.description:
                             ui.space()
-                            with (
-                                ui.icon("help_outline")
-                                .classes("text-3xl")
-                                .style(
-                                    "cursor: help",
-                                )
-                            ):
-                                ui.tooltip(_(middleware.description))
+                            ui.icon("help_outline").classes("text-3xl").style(
+                                "cursor: help",
+                            ).tooltip(_(middleware.description))
                     middleware_options_form(middleware.identifier, middleware_toggler)
             ui.separator()
             with ui.expansion().classes("w-full") as export_panel:

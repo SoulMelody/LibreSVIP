@@ -37,8 +37,8 @@ class LyricsReplacement:
             self.pattern_prefix = "^"
             self.pattern_suffix = "$"
         elif self.mode == LyricsReplaceMode.ALPHABETIC:
-            self.pattern_prefix = r"(?:^|\b)"
-            self.pattern_suffix = r"(?:$|\b)"
+            self.pattern_prefix = r"(?<=^|\b)"
+            self.pattern_suffix = r"(?=$|\b)"
         elif self.mode == LyricsReplaceMode.NON_ALPHABETIC:
             self.pattern_prefix = self.pattern_suffix = ""
         if self.mode != LyricsReplaceMode.REGEX:

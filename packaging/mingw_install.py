@@ -49,7 +49,6 @@ def install_mingw_deps() -> None:
             requirement.marker is None or requirement.marker.evaluate() is True
         ) and requirement.name not in [
             "libresvip",
-            "packaging",
             "pyinstaller",
             "pefile",
             "pyinstaller-hooks-contrib",

@@ -38,11 +38,18 @@ class TuneLabAffectedAutomations(BaseModel):
     volume: Optional[float] = Field(None, alias="Volume")
 
 
+class TuneLabPhoneme(BaseModel):
+    start_time: float = Field(alias="startTime")
+    end_time: float = Field(alias="endTime")
+    symbol: str
+
+
 class TuneLabNote(BaseModel):
     pos: float
     dur: float
     pitch: int
     lyric: str
+    phonemes: list[TuneLabPhoneme] = Field(default_factory=list)
     properties: dict[str, Any] = Field(default_factory=dict)
 
 
