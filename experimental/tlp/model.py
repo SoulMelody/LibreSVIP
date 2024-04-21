@@ -74,7 +74,7 @@ class BasePart(BaseModel):
 
 class TuneLabMidiPart(BasePart):
     type_: Literal["midi"] = Field(alias="type")
-    gain: float
+    gain: Optional[float] = 0.0
     voice: TuneLabVoice
     properties: dict[str, Any] = Field(default_factory=dict)
     notes: list[TuneLabNote] = Field(default_factory=list)

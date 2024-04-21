@@ -6,6 +6,7 @@ import functools
 import io
 import math
 import pathlib
+import re
 import secrets
 import textwrap
 import traceback
@@ -30,7 +31,12 @@ import more_itertools
 from nicegui import app, binding, ui
 from nicegui.context import get_client
 from nicegui.elements.switch import Switch
-from nicegui.events import KeyEventArguments, UploadEventArguments, ValueChangeEventArguments
+from nicegui.events import (
+    GenericEventArguments,
+    KeyEventArguments,
+    UploadEventArguments,
+    ValueChangeEventArguments,
+)
 from nicegui.storage import request_contextvar
 from pydantic import RootModel, create_model
 from pydantic.dataclasses import dataclass
@@ -47,6 +53,7 @@ from libresvip.core.config import (
     DarkMode,
     Language,
     LibreSvipBaseUISettings,
+    LyricsReplaceMode,
     ui_settings_ctx,
 )
 from libresvip.core.constants import app_dir, res_dir
@@ -1237,12 +1244,16 @@ def page_layout(lang: Optional[str] = None) -> None:
                             target="https://soulmelody.github.io/LibreSVIP",
                             new_tab=True,
                         )
-            with ui.dialog() as settings_dialog, ui.card().classes("min-w-[500px]"):
-                with ui.splitter(value=40, limits=(40, 45)).classes("w-full") as settings_splitter:
+            with ui.dialog() as settings_dialog, ui.card().classes("min-w-[750px]"):
+                with ui.splitter(value=25, limits=(25, 30)).classes("w-full") as settings_splitter:
                     with settings_splitter.before, ui.tabs().props("vertical") as settings_nav:
-                        conversion_settings_tab = ui.tab(_("Conversion Settings"))
-                        lyric_replace_rules_tab = ui.tab(_("Lyric Replace Rules"))
-                        language_tab = ui.tab(_("Switch Language"))
+                        conversion_settings_tab = ui.tab(
+                            _("Conversion Settings"), icon="settings_applications"
+                        )
+                        lyric_replace_rules_tab = ui.tab(
+                            _("Lyric Replace Rules"), icon="text_rotation_none"
+                        )
+                        language_tab = ui.tab(_("Switch Language"), icon="language")
                     with (
                         settings_splitter.after,
                         ui.tab_panels(settings_nav, value=conversion_settings_tab),
@@ -1259,7 +1270,209 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 "reset_tasks_on_input_change",
                             )
                         with ui.tab_panel(lyric_replace_rules_tab):
-                            pass
+                            columns = [
+                                {"name": "mode", "label": _("Mode"), "field": "mode"},
+                                {
+                                    "name": "pattern_prefix",
+                                    "label": _("Prefix"),
+                                    "field": "pattern_prefix",
+                                },
+                                {
+                                    "name": "pattern_main",
+                                    "label": _("Pattern"),
+                                    "field": "pattern_main",
+                                },
+                                {
+                                    "name": "pattern_suffix",
+                                    "label": _("Suffix"),
+                                    "field": "pattern_suffix",
+                                },
+                                {
+                                    "name": "replacement",
+                                    "label": _("Replacement"),
+                                    "field": "replacement",
+                                },
+                                {"name": "flags", "label": _("Flags"), "field": "flags"},
+                                {"name": "actions", "label": _("Actions"), "field": "actions"},
+                            ]
+                            rows = [
+                                {
+                                    "id": i + 1,
+                                    "mode": rule.mode.value,
+                                    "pattern_prefix": rule.pattern_prefix,
+                                    "pattern_main": rule.pattern_main,
+                                    "pattern_suffix": rule.pattern_suffix,
+                                    "replacement": rule.replacement,
+                                    "flags": rule.flags.value,
+                                }
+                                for i, rule in enumerate(settings.lyric_replace_rules["default"])
+                            ]
+                            replace_mode_options = [
+                                {"label": _("Full match"), "value": "full"},
+                                {"label": _("Alphabetic"), "value": "alphabetic"},
+                                {"label": _("Non-alphabetic"), "value": "non_alphabetic"},
+                                {"label": _("Regex"), "value": "regex"},
+                            ]
+                            re_flags_options = [
+                                {
+                                    "label": _("Ignore case"),
+                                    "value": (re.IGNORECASE | re.UNICODE).value,
+                                },
+                                {"label": _("Unicode"), "value": re.UNICODE.value},
+                            ]
+                            table = ui.table(columns=columns, rows=rows, pagination=5).classes(
+                                "w-full"
+                            )
+                            table.add_slot(
+                                "body-cell-mode",
+                                r'''
+                                <q-td key="mode" :props="props">
+                                    <q-select
+                                        v-model="props.row.mode"
+                                        readonly
+                                        map-options
+                                        :options="'''
+                                + str(replace_mode_options)
+                                + r""""
+                                    />
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-replacement",
+                                r"""
+                                <q-td key="replacement" :props="props">
+                                    <q-input
+                                        v-model="props.row.replacement"
+                                        @update:model-value="() => $parent.$emit('modify_replacement', props.row)"
+                                    />
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-pattern_prefix",
+                                r"""
+                                <q-td key="pattern_prefix" :props="props">
+                                    <q-input
+                                        v-model="props.row.pattern_prefix"
+                                        :readonly="props.row.mode !== 'regex'"
+                                        @update:model-value="() => $parent.$emit('modify_prefix', props.row)"
+                                    />
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-pattern_main",
+                                r"""
+                                <q-td key="pattern_main" :props="props">
+                                    <q-input
+                                        v-model="props.row.pattern_main"
+                                        @update:model-value="() => $parent.$emit('modify_pattern', props.row)"
+                                    />
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-pattern_suffix",
+                                r"""
+                                <q-td key="pattern_suffix" :props="props">
+                                    <q-input
+                                        v-model="props.row.pattern_suffix"
+                                        :readonly="props.row.mode !== 'regex'"
+                                        @update:model-value="() => $parent.$emit('modify_suffix', props.row)"
+                                    />
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-flags",
+                                r'''
+                                <q-td key="flags" :props="props">
+                                    <q-select
+                                        v-model="props.row.flags"
+                                        map-options
+                                        :options="'''
+                                + str(re_flags_options)
+                                + r""""
+                                        @update:model-value="() => $parent.$emit('modify_flags', props.row)"
+                                    />
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-actions",
+                                r"""
+                                <q-td key="-actions" :props="props">
+                                    <q-btn size="sm" color="accent" round dense
+                                        @click="() => $parent.$emit('delete', props.row)"
+                                        icon="remove" />
+                                </q-td>
+                            """,
+                            )
+
+                            def modify_mode(event: GenericEventArguments) -> None:
+                                for row in rows:
+                                    if row["id"] == event.args["id"]:
+                                        row["mode"] = event.args["mode"]
+                                        break
+
+                            table.on("modify_mode", modify_mode)
+
+                            def delete_rule(event: GenericEventArguments) -> None:
+                                for row in rows:
+                                    if row["id"] == event.args["id"]:
+                                        table.remove_rows(row)
+                                        break
+
+                            table.on("delete", delete_rule)
+
+                            with table.add_slot("top-left"):
+                                pass
+
+                            with table.add_slot("top-right"):
+
+                                def add_rule() -> None:
+                                    pattern_prefix = pattern_suffix = ""
+                                    if mode_select.value == LyricsReplaceMode.FULL.value:
+                                        pattern_prefix = "^"
+                                        pattern_suffix = "$"
+                                    elif mode_select.value == LyricsReplaceMode.ALPHABETIC.value:
+                                        pattern_prefix = r"(?<=^|\b)"
+                                        pattern_suffix = r"(?=$|\b)"
+                                    table.add_rows(
+                                        {
+                                            "id": rows[-1]["id"] + 1 if len(rows) else 1,
+                                            "mode": mode_select.value,
+                                            "pattern_main": "",
+                                            "pattern_prefix": pattern_prefix,
+                                            "pattern_suffix": pattern_suffix,
+                                            "replacement": "",
+                                            "flags": (re.IGNORECASE | re.UNICODE).value,
+                                        }
+                                    )
+
+                                ui.label(_("Default replace mode: "))
+                                mode_select = ui.select(
+                                    {mode.value: mode.name for mode in LyricsReplaceMode},
+                                    value=LyricsReplaceMode.FULL.value,
+                                )
+                                ui.button(icon="add", on_click=add_rule).props("round").tooltip(
+                                    _("Add new rule")
+                                )
+
+                                def table_toggle_fullscreen() -> None:
+                                    table.toggle_fullscreen()
+                                    table_fullscreen_btn.props(
+                                        "icon=fullscreen_exit"
+                                        if table.is_fullscreen
+                                        else "icon=fullscreen"
+                                    )
+
+                                table_fullscreen_btn = (
+                                    ui.button(icon="fullscreen", on_click=table_toggle_fullscreen)
+                                    .props("round")
+                                    .tooltip(_("Toggle fullscreen"))
+                                )
                         with ui.tab_panel(language_tab):
 
                             def switch_language(event: ValueChangeEventArguments) -> None:
@@ -1283,7 +1496,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             ui.button(
                 icon="settings",
                 on_click=settings_dialog.open,
-            ).classes("aspect-square").tooltip(_("Settings") + " (Alt+S)")
+            ).classes("aspect-square").tooltip(_("Settings (&S)"))
             ui.space()
             with ui.tabs().classes("sm:visible lg:h-0 lg:invisible") as tabs:
                 format_select_tab = ui.tab(_("Select File Formats"))
