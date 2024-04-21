@@ -29,11 +29,25 @@ class TuneLabAutomation(BaseModel):
 
 
 class TuneLabAutomations(BaseModel):
+    brightness: Optional[TuneLabAutomation] = Field(None, alias="Brightness")
+    clearness: Optional[TuneLabAutomation] = Field(None, alias="Clearness")
+    dynamics: Optional[TuneLabAutomation] = Field(None, alias="Dynamics")
+    gender: Optional[TuneLabAutomation] = Field(None, alias="Gender")
+    growl: Optional[TuneLabAutomation] = Field(None, alias="Growl")
+    pitch_bend: Optional[TuneLabAutomation] = Field(None, alias="PitchBend")
+    pitch_bend_sensitivity: Optional[TuneLabAutomation] = Field(None, alias="PitchBendSensitivity")
     vibrato_envelope: Optional[TuneLabAutomation] = Field(None, alias="VibratoEnvelope")
     volume: Optional[TuneLabAutomation] = Field(None, alias="Volume")
 
 
 class TuneLabAffectedAutomations(BaseModel):
+    brightness: Optional[float] = Field(None, alias="Brightness")
+    clearness: Optional[float] = Field(None, alias="Clearness")
+    dynamics: Optional[float] = Field(None, alias="Dynamics")
+    gender: Optional[float] = Field(None, alias="Gender")
+    growl: Optional[float] = Field(None, alias="Growl")
+    pitch_bend: Optional[float] = Field(None, alias="PitchBend")
+    pitch_bend_sensitivity: Optional[float] = Field(None, alias="PitchBendSensitivity")
     vibrato_envelope: Optional[float] = Field(None, alias="VibratoEnvelope")
     volume: Optional[float] = Field(None, alias="Volume")
 
@@ -107,11 +121,3 @@ class TuneLabProject(BaseModel):
         default_factory=list, alias="timeSignatures"
     )
     tracks: list[TuneLabTrack] = Field(default_factory=list)
-
-
-if __name__ == "__main__":
-    import pathlib
-
-    TuneLabProject.model_validate_json(
-        pathlib.Path(r"C:\Users\\Administrator\\Desktop\test0.tlp").read_bytes()
-    )

@@ -542,6 +542,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         _input_format: str = dataclasses.field(default="")
         _output_format: str = dataclasses.field(default="")
         _conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
+        current_preset: str = dataclasses.field(default="default")
         input_options: dict[str, Any] = dataclasses.field(default_factory=dict)
         output_options: dict[str, Any] = dataclasses.field(default_factory=dict)
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
@@ -1295,18 +1296,22 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 {"name": "flags", "label": _("Flags"), "field": "flags"},
                                 {"name": "actions", "label": _("Actions"), "field": "actions"},
                             ]
-                            rows = [
-                                {
-                                    "id": i + 1,
-                                    "mode": rule.mode.value,
-                                    "pattern_prefix": rule.pattern_prefix,
-                                    "pattern_main": rule.pattern_main,
-                                    "pattern_suffix": rule.pattern_suffix,
-                                    "replacement": rule.replacement,
-                                    "flags": rule.flags.value,
-                                }
-                                for i, rule in enumerate(settings.lyric_replace_rules["default"])
-                            ]
+
+                            def refresh_rules(preset: str) -> list[dict[str, Any]]:
+                                return [
+                                    {
+                                        "id": i + 1,
+                                        "mode": rule.mode.value,
+                                        "pattern_prefix": rule.pattern_prefix,
+                                        "pattern_main": rule.pattern_main,
+                                        "pattern_suffix": rule.pattern_suffix,
+                                        "replacement": rule.replacement,
+                                        "flags": rule.flags.value,
+                                    }
+                                    for i, rule in enumerate(settings.lyric_replace_rules[preset])
+                                ]
+
+                            rows = refresh_rules(selected_formats.current_preset)
                             replace_mode_options = [
                                 {"label": _("Full match"), "value": "full"},
                                 {"label": _("Alphabetic"), "value": "alphabetic"},
@@ -1402,7 +1407,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             table.add_slot(
                                 "body-cell-actions",
                                 r"""
-                                <q-td key="-actions" :props="props">
+                                <q-td key="actions" :props="props">
                                     <q-btn size="sm" color="accent" round dense
                                         @click="() => $parent.$emit('delete', props.row)"
                                         icon="remove" />
@@ -1426,10 +1431,44 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                             table.on("delete", delete_rule)
 
-                            with table.add_slot("top-left"):
-                                pass
+                            with table.add_slot("top"):
 
-                            with table.add_slot("top-right"):
+                                def table_toggle_fullscreen() -> None:
+                                    table.toggle_fullscreen()
+                                    table_fullscreen_btn.props(
+                                        "icon=fullscreen_exit"
+                                        if table.is_fullscreen
+                                        else "icon=fullscreen"
+                                    )
+
+                                table_fullscreen_btn = (
+                                    ui.button(icon="fullscreen", on_click=table_toggle_fullscreen)
+                                    .props("round")
+                                    .tooltip(_("Toggle fullscreen"))
+                                )
+
+                                def refresh_rows(event: ValueChangeEventArguments) -> None:
+                                    if event.value is not None:
+                                        settings.lyric_replace_rules.setdefault(event.value, [])
+                                        table.update_rows(refresh_rules(event.value))
+
+                                ui.label(_("Preset: "))
+                                preset_select = ui.select(
+                                    list(settings.lyric_replace_rules),
+                                    new_value_mode="add-unique",
+                                    on_change=refresh_rows,
+                                ).bind_value(selected_formats, "current_preset")
+
+                                def delete_preset() -> None:
+                                    if preset_select.value != "default":
+                                        settings.lyric_replace_rules.pop(preset_select.value)
+                                        preset_select.set_options(
+                                            list(settings.lyric_replace_rules), value="default"
+                                        )
+
+                                ui.button(icon="remove", on_click=delete_preset).props(
+                                    "round"
+                                ).tooltip(_("Remove preset"))
 
                                 def add_rule() -> None:
                                     pattern_prefix = pattern_suffix = ""
@@ -1458,20 +1497,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 )
                                 ui.button(icon="add", on_click=add_rule).props("round").tooltip(
                                     _("Add new rule")
-                                )
-
-                                def table_toggle_fullscreen() -> None:
-                                    table.toggle_fullscreen()
-                                    table_fullscreen_btn.props(
-                                        "icon=fullscreen_exit"
-                                        if table.is_fullscreen
-                                        else "icon=fullscreen"
-                                    )
-
-                                table_fullscreen_btn = (
-                                    ui.button(icon="fullscreen", on_click=table_toggle_fullscreen)
-                                    .props("round")
-                                    .tooltip(_("Toggle fullscreen"))
                                 )
                         with ui.tab_panel(language_tab):
 
