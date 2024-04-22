@@ -102,7 +102,7 @@ code_gen = [
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
+i18n = ["translate-toolkit>=3.13.0", "babel>=2.14.0"]
 linting = [
   "pre-commit>=3.7.0",
   "ruff>=0.4.1",

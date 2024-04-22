@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:db6986858b5145d078b78add4284a6843b679dfac816b7b2a15e7a66513e0d02"
+content_hash = "sha256:44ad3a35b5904c34b9a3581951d496a24e9a4485653931b525c1cb7af6dc2e64"
 
 [[package]]
 name = "aiofiles"
@@ -3139,7 +3139,7 @@ files = [
 
 [[package]]
 name = "translate-toolkit"
-version = "3.12.2"
+version = "3.13.0"
 requires_python = ">=3.8"
 summary = "Tools and API for translation and localization engineering."
 groups = ["i18n"]
@@ -3147,8 +3147,8 @@ dependencies = [
     "lxml>=4.6.3",
 ]
 files = [
-    {file = "translate-toolkit-3.12.2.tar.gz", hash = "sha256:acee42b816f7796809b9b4768693664f6bd19fb96eae3d8dfec0932fa8761706"},
-    {file = "translate_toolkit-3.12.2-py3-none-any.whl", hash = "sha256:bcf6e28307965cf80c8ce8a5b8a27e106d34e7b315e3acb545bde2884493daab"},
+    {file = "translate_toolkit-3.13.0-py3-none-any.whl", hash = "sha256:375e96e5af8a4942ed1f21ef70ae55c0435602e223eede2f0f4a14f2779e75c7"},
+    {file = "translate_toolkit-3.13.0.tar.gz", hash = "sha256:d31a1191894d0ad4ed99697663f1462e9a1820af3bbcf6848235add20cc00e62"},
 ]
 
 [[package]]
