@@ -10,5 +10,5 @@ class InputOptions(EnablePitchImportationMixin, EnableInstrumentalTrackImportati
     pass
 
 
-class OutputOptions(InputOptions):
+class OutputOptions(BaseModel):
     pass

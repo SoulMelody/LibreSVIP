@@ -198,6 +198,7 @@ plugin_details = {
 @ui.page("/?lang={lang}")
 def page_layout(lang: Optional[str] = None) -> None:
     cur_client = get_client()
+    settings: LibreSvipBaseUISettings
 
     if app.native.main_window is not None:
         from libresvip.core.config import save_settings, settings
@@ -207,7 +208,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         app.on_shutdown(save_settings)
     else:
-        settings = LibreSvipWebUserSettings()  # type: ignore[assignment]
+        settings = LibreSvipWebUserSettings()
         ui_settings_ctx.set(settings)
         request = request_contextvar.get()
         session_id = request.session["id"]
@@ -1344,25 +1345,16 @@ def page_layout(lang: Optional[str] = None) -> None:
                             """,
                             )
                             table.add_slot(
-                                "body-cell-replacement",
-                                r"""
-                                <q-td key="replacement" :props="props">
-                                    <q-input
-                                        v-model="props.row.replacement"
-                                        @update:model-value="() => $parent.$emit('modify_replacement', props.row)"
-                                    />
-                                </q-td>
-                            """,
-                            )
-                            table.add_slot(
                                 "body-cell-pattern_prefix",
                                 r"""
                                 <q-td key="pattern_prefix" :props="props">
-                                    <q-input
-                                        v-model="props.row.pattern_prefix"
-                                        :readonly="props.row.mode !== 'regex'"
-                                        @update:model-value="() => $parent.$emit('modify_prefix', props.row)"
-                                    />
+                                    {{ props.row.pattern_prefix }}
+                                    <q-popup-edit v-model="props.row.pattern_prefix" v-if="props.row.mode === 'regex'" v-slot="scope">
+                                        <q-input
+                                            v-model="scope.value" dense autofocus counter
+                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'pattern_prefix', scope.value)"
+                                        />
+                                    </q-popup-edit>
                                 </q-td>
                             """,
                             )
@@ -1370,10 +1362,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 "body-cell-pattern_main",
                                 r"""
                                 <q-td key="pattern_main" :props="props">
-                                    <q-input
-                                        v-model="props.row.pattern_main"
-                                        @update:model-value="() => $parent.$emit('modify_pattern', props.row)"
-                                    />
+                                    {{ props.row.pattern_main }}
+                                    <q-popup-edit v-model="props.row.pattern_main" v-if="props.row.mode === 'regex'" v-slot="scope">
+                                        <q-input
+                                            v-model="scope.value" dense autofocus counter
+                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'pattern_main', scope.value)"
+                                        />
+                                    </q-popup-edit>
                                 </q-td>
                             """,
                             )
@@ -1381,11 +1376,27 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 "body-cell-pattern_suffix",
                                 r"""
                                 <q-td key="pattern_suffix" :props="props">
-                                    <q-input
-                                        v-model="props.row.pattern_suffix"
-                                        :readonly="props.row.mode !== 'regex'"
-                                        @update:model-value="() => $parent.$emit('modify_suffix', props.row)"
-                                    />
+                                    {{ props.row.pattern_suffix }}
+                                    <q-popup-edit v-model="props.row.pattern_suffix" v-if="props.row.mode === 'regex'" v-slot="scope">
+                                        <q-input
+                                            v-model="scope.value" dense autofocus counter
+                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'pattern_suffix', scope.value)"
+                                        />
+                                    </q-popup-edit>
+                                </q-td>
+                            """,
+                            )
+                            table.add_slot(
+                                "body-cell-replacement",
+                                r"""
+                                <q-td key="replacement" :props="props">
+                                    {{ props.row.replacement }}
+                                    <q-popup-edit v-model="props.row.replacement" v-slot="scope">
+                                        <q-input
+                                            v-model="scope.value" dense autofocus counter
+                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'replacement', scope.value)"
+                                        />
+                                    </q-popup-edit>
                                 </q-td>
                             """,
                             )
@@ -1399,7 +1410,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         :options="'''
                                 + str(re_flags_options)
                                 + r""""
-                                        @update:model-value="() => $parent.$emit('modify_flags', props.row)"
+                                        @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'flags', props.row.flags.value)"
                                     />
                                 </q-td>
                             """,
@@ -1415,13 +1426,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                             """,
                             )
 
-                            def modify_mode(event: GenericEventArguments) -> None:
+                            def modify_field(event: GenericEventArguments) -> None:
                                 for row in rows:
-                                    if row["id"] == event.args["id"]:
-                                        row["mode"] = event.args["mode"]
+                                    if row["id"] == event.args[0]:
+                                        row[event.args[1]] = event.args[2]
                                         break
 
-                            table.on("modify_mode", modify_mode)
+                            table.on("modify_field", modify_field)
 
                             def delete_rule(event: GenericEventArguments) -> None:
                                 for row in rows:
@@ -1452,9 +1463,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         settings.lyric_replace_rules.setdefault(event.value, [])
                                         table.update_rows(refresh_rules(event.value))
 
-                                ui.label(_("Preset: "))
                                 preset_select = ui.select(
                                     list(settings.lyric_replace_rules),
+                                    label=_("Preset: "),
                                     new_value_mode="add-unique",
                                     on_change=refresh_rows,
                                 ).bind_value(selected_formats, "current_preset")
@@ -1468,20 +1479,27 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                                 ui.button(icon="remove", on_click=delete_preset).props(
                                     "round"
-                                ).tooltip(_("Remove preset"))
+                                ).tooltip(_("Remove current preset"))
 
-                                def add_rule() -> None:
+                                def save_preset() -> None:
+                                    pass
+
+                                ui.button(icon="save", on_click=save_preset).props("round").tooltip(
+                                    _("Save current preset")
+                                )
+
+                                def add_rule(mode_value: str) -> None:
                                     pattern_prefix = pattern_suffix = ""
-                                    if mode_select.value == LyricsReplaceMode.FULL.value:
+                                    if mode_value == LyricsReplaceMode.FULL.value:
                                         pattern_prefix = "^"
                                         pattern_suffix = "$"
-                                    elif mode_select.value == LyricsReplaceMode.ALPHABETIC.value:
+                                    elif mode_value == LyricsReplaceMode.ALPHABETIC.value:
                                         pattern_prefix = r"(?<=^|\b)"
                                         pattern_suffix = r"(?=$|\b)"
                                     table.add_rows(
                                         {
                                             "id": rows[-1]["id"] + 1 if len(rows) else 1,
-                                            "mode": mode_select.value,
+                                            "mode": mode_value,
                                             "pattern_main": "",
                                             "pattern_prefix": pattern_prefix,
                                             "pattern_suffix": pattern_suffix,
@@ -1490,14 +1508,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         }
                                     )
 
-                                ui.label(_("Default replace mode: "))
-                                mode_select = ui.select(
-                                    {mode.value: mode.name for mode in LyricsReplaceMode},
-                                    value=LyricsReplaceMode.FULL.value,
-                                )
-                                ui.button(icon="add", on_click=add_rule).props("round").tooltip(
-                                    _("Add new rule")
-                                )
+                                with ui.dropdown_button(_("Add new rule"), icon="add"):
+                                    for option in replace_mode_options:
+                                        ui.item(
+                                            option["label"],
+                                            on_click=functools.partial(add_rule, option["value"]),
+                                        )
                         with ui.tab_panel(language_tab):
 
                             def switch_language(event: ValueChangeEventArguments) -> None:
@@ -1643,7 +1659,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ui.button(
                     icon="swap_vert",
                     on_click=swap_values,
-                ).classes("w-fit aspect-square").props("round").tooltip(_("Swap Input and Output"))
+                ).classes("min-w-[45px] max-w-[45px] w-fit aspect-square").props("round").tooltip(
+                    _("Swap Input and Output")
+                )
                 select_output = (
                     ui.select(
                         {
@@ -1795,6 +1813,22 @@ def page_layout(lang: Optional[str] = None) -> None:
                 _("Drag and drop files here or click to upload"),
             ).classes("text-lg")
 
+    @ui.refreshable
+    def middleware_options() -> None:
+        for middleware in middleware_manager.plugin_registry.values():
+            with ui.row().classes("items-center w-full"):
+                middleware_toggler = (
+                    ui.switch(_(middleware.name))
+                    .props("color=green")
+                    .bind_value(selected_formats.middleware_enabled_states, middleware.identifier)
+                )
+                if middleware.description:
+                    ui.space()
+                    ui.icon("help_outline").classes("text-3xl").style(
+                        "cursor: help",
+                    ).tooltip(_(middleware.description))
+            middleware_options_form(middleware.identifier, middleware_toggler)
+
     def options_area() -> None:
         with ui.scroll_area().classes("w-full h-full"):
             with ui.row().classes("absolute top-0 right-2 m-2 z-10"):
@@ -1824,21 +1858,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 with middleware_panel.add_slot("header"), ui.row().classes("w-full items-center"):
                     ui.icon("auto_fix_high").classes("text-lg")
                     ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
-                for middleware in middleware_manager.plugin_registry.values():
-                    with ui.row().classes("items-center w-full"):
-                        middleware_toggler = (
-                            ui.switch(_(middleware.name))
-                            .props("color=green")
-                            .bind_value(
-                                selected_formats.middleware_enabled_states, middleware.identifier
-                            )
-                        )
-                        if middleware.description:
-                            ui.space()
-                            ui.icon("help_outline").classes("text-3xl").style(
-                                "cursor: help",
-                            ).tooltip(_(middleware.description))
-                    middleware_options_form(middleware.identifier, middleware_toggler)
+                middleware_options()
             ui.separator()
             with ui.expansion().classes("w-full") as export_panel:
                 with export_panel.add_slot("header"):
