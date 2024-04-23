@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:2bcb71e95646e87279c371cca4d6fdd4f0ec85bd85b4346fd0cbefecd538ec6c"
+content_hash = "sha256:924381923cce5057abccbaf28759a171557563064ef9d488049c2779843d9266"
 
 [[package]]
 name = "aiofiles"
@@ -2019,13 +2019,13 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "4.2.0"
+version = "4.2.1"
 requires_python = ">=3.8"
-summary = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+summary = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
 groups = ["code_gen", "default", "desktop", "docs", "linting", "webui"]
 files = [
-    {file = "platformdirs-4.2.0-py3-none-any.whl", hash = "sha256:0614df2a2f37e1a662acbd8e2b25b92ccf8632929bc6d43467e17fe89c75e068"},
-    {file = "platformdirs-4.2.0.tar.gz", hash = "sha256:ef0cc731df711022c174543cb70a9b5bd22e5a9337c8624ef2c2ceb8ddad8768"},
+    {file = "platformdirs-4.2.1-py3-none-any.whl", hash = "sha256:17d5a1161b3fd67b390023cb2d3b026bbd40abde6fdb052dfbd3a29c3ba22ee1"},
+    {file = "platformdirs-4.2.1.tar.gz", hash = "sha256:031cd18d4ec63ec53e82dceaac0417d218a6863f7745dfcc9efe7793b7039bdf"},
 ]
 
 [[package]]
