@@ -53,6 +53,7 @@ from libresvip.core.config import (
     DarkMode,
     Language,
     LibreSvipBaseUISettings,
+    LyricsReplacement,
     LyricsReplaceMode,
     ui_settings_ctx,
 )
@@ -1324,7 +1325,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     "label": _("Ignore case"),
                                     "value": (re.IGNORECASE | re.UNICODE).value,
                                 },
-                                {"label": _("Unicode"), "value": re.UNICODE.value},
+                                {"label": _("Case sensitive"), "value": re.UNICODE.value},
                             ]
                             table = ui.table(columns=columns, rows=rows, pagination=5).classes(
                                 "w-full"
@@ -1352,7 +1353,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     <q-popup-edit v-model="props.row.pattern_prefix" v-if="props.row.mode === 'regex'" v-slot="scope">
                                         <q-input
                                             v-model="scope.value" dense autofocus counter
-                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'pattern_prefix', scope.value)"
+                                            @update:model-value="() => {props.row.pattern_prefix = scope.value; $parent.$emit('modify_field', props.row.id, 'pattern_prefix', scope.value)}"
                                         />
                                     </q-popup-edit>
                                 </q-td>
@@ -1363,10 +1364,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 r"""
                                 <q-td key="pattern_main" :props="props">
                                     {{ props.row.pattern_main }}
-                                    <q-popup-edit v-model="props.row.pattern_main" v-if="props.row.mode === 'regex'" v-slot="scope">
+                                    <q-popup-edit v-model="props.row.pattern_main" v-slot="scope">
                                         <q-input
                                             v-model="scope.value" dense autofocus counter
-                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'pattern_main', scope.value)"
+                                            @update:model-value="() => {props.row.pattern_main = scope.value; $parent.$emit('modify_field', props.row.id, 'pattern_main', scope.value)}"
                                         />
                                     </q-popup-edit>
                                 </q-td>
@@ -1380,7 +1381,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     <q-popup-edit v-model="props.row.pattern_suffix" v-if="props.row.mode === 'regex'" v-slot="scope">
                                         <q-input
                                             v-model="scope.value" dense autofocus counter
-                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'pattern_suffix', scope.value)"
+                                            @update:model-value="() => {props.row.pattern_suffix = scope.value; $parent.$emit('modify_field', props.row.id, 'pattern_suffix', scope.value)}"
                                         />
                                     </q-popup-edit>
                                 </q-td>
@@ -1394,7 +1395,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     <q-popup-edit v-model="props.row.replacement" v-slot="scope">
                                         <q-input
                                             v-model="scope.value" dense autofocus counter
-                                            @update:model-value="() => $parent.$emit('modify_field', props.row.id, 'replacement', scope.value)"
+                                            @update:model-value="() => {props.row.replacement = scope.value; $parent.$emit('modify_field', props.row.id, 'replacement', scope.value)}"
                                         />
                                     </q-popup-edit>
                                 </q-td>
@@ -1482,7 +1483,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 ).tooltip(_("Remove current preset"))
 
                                 def save_preset() -> None:
-                                    pass
+                                    settings.lyric_replace_rules[preset_select.value] = [
+                                        LyricsReplacement(  # type: ignore[call-arg]
+                                            mode=LyricsReplaceMode(row["mode"]),
+                                            replacement=row["replacement"],
+                                            pattern_main=row["pattern_main"],
+                                            pattern_prefix=row["pattern_prefix"],
+                                            pattern_suffix=row["pattern_suffix"],
+                                            flags=re.UNICODE
+                                            if row["flags"] == re.UNICODE.value
+                                            else (re.UNICODE | re.IGNORECASE),
+                                        )
+                                        for row in rows
+                                    ]
 
                                 ui.button(icon="save", on_click=save_preset).props("round").tooltip(
                                     _("Save current preset")
