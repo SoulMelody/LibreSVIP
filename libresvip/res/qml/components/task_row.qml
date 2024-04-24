@@ -15,11 +15,11 @@ ColumnLayout {
     width: converterPage.taskList.width
     height: 45
 
-    Item {
+    RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         RowLayout {
-            width: parent.width - 260
+            Layout.fillWidth: true
             Column {
                 Layout.fillWidth: true
                 Label {
@@ -42,10 +42,9 @@ ColumnLayout {
             }
         }
         RowLayout {
-            Layout.fillWidth: true
+            Layout.preferredWidth: 260
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
-            anchors.right: parent.right
 
             TextField {
                 id: stemField
