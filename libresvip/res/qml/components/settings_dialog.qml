@@ -500,6 +500,59 @@ Dialog {
     }
     
     Component {
+        id: lyricReplacementSettingsPage
+        ColumnLayout {
+            Layout.margins: 15
+            RowLayout {
+                Layout.fillWidth: true
+                ComboBox {
+                    id: lyricReplacementPresetsComboBox
+                    editable: true
+                    model: ListModel {
+                        ListElement { text: "default" }
+                    }
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Preset")
+                    onAccepted: {
+                        if (find(editText) === -1)
+                            lyricReplacementPresetsComboBox.model.append({text: editText})
+                    }
+                }
+                IconButton {
+                    icon_name: "mdi7.minus"
+                    diameter: 35
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Remove current preset")
+                    onClicked: {
+                        if (lyricReplacementPresetsComboBox.editText !== "default") {
+                            lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentIndex)
+                            lyricReplacementPresetsComboBox.currentIndex = 0
+                        }
+                    }
+                }
+                Row {
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: qsTr("Add new rule")
+                }
+                ComboBox {
+                    Layout.preferredWidth: 150
+                    model: ListModel {
+                        ListElement { text: qsTr("Full match") }
+                        ListElement { text: qsTr("Alphabetic") }
+                        ListElement { text: qsTr("Non-alphabetic") }
+                        ListElement { text: qsTr("Regex") }
+                    }
+                    onActivated: {
+                        console.log(editText)
+                    }
+                }
+            }
+        }
+    }
+    
+    Component {
         id: updatesSettingsPage
         ColumnLayout {
             Layout.margins: 15
@@ -597,14 +650,26 @@ Dialog {
             }
 
             TabButton {
-                id: updatesSettingsBtn
+                id: lyricReplacementSettingsBtn
                 width: 180
-                text: qsTr("Updates Settings")
+                text: qsTr("Lyric Replacement Rules")
                 anchors.top: pluginsSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 3
+                }
+            }
+
+            TabButton {
+                id: updatesSettingsBtn
+                width: 180
+                text: qsTr("Updates Settings")
+                anchors.top: lyricReplacementSettingsBtn.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.spacing
+                onClicked: {
+                    settingsStack.currentIndex = 4
                 }
             }
         }
@@ -623,6 +688,7 @@ Dialog {
                 basicSettingsPage.createObject(settingsStack)
                 savePathSettingsPage.createObject(settingsStack)
                 pluginsSettingsPage.createObject(settingsStack)
+                lyricReplacementSettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
                 ConfigItems.save_folder = ConfigItems.save_folder
             }
