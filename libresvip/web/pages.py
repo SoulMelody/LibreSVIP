@@ -781,6 +781,8 @@ def page_layout(lang: Optional[str] = None) -> None:
         def convert_one(self, task: ConversionTask, *sub_tasks: list[ConversionTask]) -> None:
             task.reset()
             lazy_translation.set(translation)
+            if app.native.main_window is None:
+                ui_settings_ctx.set(settings)
             task.running = True
             try:
                 with CatchWarnings() as w:
@@ -1496,6 +1498,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         )
                                         for row in rows
                                     ]
+                                    middleware_options.refresh()
 
                                 ui.button(icon="save", on_click=save_preset).props("round").tooltip(
                                     _("Save current preset")

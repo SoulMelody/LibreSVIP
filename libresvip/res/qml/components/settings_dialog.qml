@@ -508,14 +508,14 @@ Dialog {
                 ComboBox {
                     id: lyricReplacementPresetsComboBox
                     editable: true
-                    model: ListModel {
-                        ListElement { text: "default" }
-                    }
+                    textRole: "display"
+                    model: ConfigItems.qget("lyric_replacement_presets")
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Preset")
                     onAccepted: {
-                        if (find(editText) === -1)
-                            lyricReplacementPresetsComboBox.model.append({text: editText})
+                        if (find(editText) === -1) {
+                            lyricReplacementPresetsComboBox.model.append(editText)
+                        }
                     }
                 }
                 IconButton {

@@ -3,9 +3,11 @@ from __future__ import annotations
 from functools import cache
 from typing import TYPE_CHECKING, Any, Optional, Union
 
-from PySide6.QtCore import QAbstractListModel, QModelIndex, Slot
+from PySide6.QtCore import QAbstractListModel, QModelIndex, QObject, QStringListModel, Slot
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
+
+from libresvip.core.config import settings
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -228,3 +230,20 @@ class ModelProxy(QAbstractListModel):
     def role_names(self) -> dict[int, bytes]:
         # return self._role_2_name
         return {k: v.encode("utf-8") for k, v in self._role_2_name.items()}
+
+
+class LyricReplacementPresetsModel(QStringListModel):
+    def __init__(self, parent: Optional[QObject] = None) -> None:
+        super().__init__(parent)
+        self.set_string_list(list(settings.lyric_replace_rules))
+
+    @Slot(str)
+    def append(self, value: str) -> None:
+        settings.lyric_replace_rules.setdefault(value, [])
+        self.set_string_list(list(settings.lyric_replace_rules))
+
+    @Slot(int)
+    def remove(self, index: int) -> None:
+        value = self.data(self.index(index))
+        settings.lyric_replace_rules.pop(value, None)
+        self.set_string_list(list(settings.lyric_replace_rules))
