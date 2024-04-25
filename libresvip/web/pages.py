@@ -1566,22 +1566,21 @@ def page_layout(lang: Optional[str] = None) -> None:
                     if maximized:
                         app.native.main_window.restore()
                         maximize_button.props("icon=open_in_full")
+                        maximize_button_tooltip.set_text(_("Maximize"))
                     else:
                         app.native.main_window.maximize()
                         maximize_button.props("icon=close_fullscreen")
+                        maximize_button_tooltip.set_text(_("Restore"))
                     maximized = not maximized
 
                 ui.button(icon="minimize", on_click=app.native.main_window.minimize).classes(
                     "aspect-square"
                 ).tooltip(_("Minimize"))
-                maximize_button = (
-                    ui.button(
-                        icon="open_in_full",
-                        on_click=toggle_maxmized,
-                    )
-                    .classes("aspect-square")
-                    .tooltip(_("Maximize"))
-                )
+                with ui.button(
+                    icon="open_in_full",
+                    on_click=toggle_maxmized,
+                ).classes("aspect-square") as maximize_button:
+                    maximize_button_tooltip = ui.tooltip(_("Maximize"))
                 ui.button(
                     icon="close", color="negative", on_click=app.native.main_window.destroy
                 ).classes("aspect-square").tooltip(_("Close"))
