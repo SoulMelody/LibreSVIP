@@ -73,7 +73,8 @@ upath = [
 ruamel_yaml = ["ruamel.yaml>=0.18.6"]
 lxml = ["lxml>=5.2.1"]
 webui = [
-    "nicegui[native]>=1.4.23",
+    "nicegui>=1.4.23",
+    "pywebview>=5.1",
     "libresvip[upath]",
 ]
 desktop = [

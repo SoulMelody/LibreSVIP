@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:0c5c9e6ea895bfd089b7fa2a1cc15db78c759e1a05aff50e88f47e59349fa10f"
+content_hash = "sha256:81d3fd25d7a8ed282bfb87082ef5f0babe600141e3b0f48aa1f79e528da6aedb"
 
 [[package]]
 name = "aiofiles"
@@ -1843,22 +1843,6 @@ files = [
 ]
 
 [[package]]
-name = "nicegui"
-version = "1.4.23"
-extras = ["native"]
-requires_python = "<4.0,>=3.8"
-summary = "Create web-based user interfaces with Python. The nice way."
-groups = ["webui"]
-dependencies = [
-    "nicegui==1.4.23",
-    "pywebview<5.0.0,>=4.4.0",
-]
-files = [
-    {file = "nicegui-1.4.23-py3-none-any.whl", hash = "sha256:ff4c31c05c344f66567ce90e2149ce2ceaa6cad6d4eb1484edf8b438dbd2e30d"},
-    {file = "nicegui-1.4.23.tar.gz", hash = "sha256:abfa1183822a43ec297cc14028de40a05672c8daea8ecf1b3c805b81ad45766f"},
-]
-
-[[package]]
 name = "nodeenv"
 version = "1.8.0"
 requires_python = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*"
@@ -2677,7 +2661,7 @@ files = [
 
 [[package]]
 name = "pywebview"
-version = "4.4.1"
+version = "5.1"
 requires_python = ">=3.7"
 summary = "Build GUI for your Python program with JavaScript, HTML, and CSS"
 groups = ["webui"]
@@ -2693,8 +2677,8 @@ dependencies = [
     "typing-extensions",
 ]
 files = [
-    {file = "pywebview-4.4.1-py3-none-any.whl", hash = "sha256:575b1362953349104b6ec08eed115c5a51d0d8b8e029b35335458cfa759ced1b"},
-    {file = "pywebview-4.4.1.tar.gz", hash = "sha256:ea4c517e9265fadfd77937facb67787c07425d303b00b9d5c3a401bbb4576941"},
+    {file = "pywebview-5.1-py3-none-any.whl", hash = "sha256:e352f587f82c173b28981fa0c893fab6124eb40d18c312e2bebf5346ab9f9f2c"},
+    {file = "pywebview-5.1.tar.gz", hash = "sha256:87eb60c299de5f20269aa18588ca6dd0d79580df5adc6edf8ac1e184fbe4885c"},
 ]
 
 [[package]]

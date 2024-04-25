@@ -29,7 +29,7 @@ from urllib.parse import quote, unquote
 import aiofiles
 import more_itertools
 from nicegui import app, binding, ui
-from nicegui.context import get_client
+from nicegui.context import context
 from nicegui.elements.switch import Switch
 from nicegui.events import (
     GenericEventArguments,
@@ -198,7 +198,6 @@ plugin_details = {
 @ui.page("/")
 @ui.page("/?lang={lang}")
 def page_layout(lang: Optional[str] = None) -> None:
-    cur_client = get_client()
     settings: LibreSvipBaseUISettings
 
     if app.native.main_window is not None:
@@ -235,7 +234,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     if key not in storage or storage[key] != default_value:
                         storage[key] = default_value
 
-        cur_client.on_disconnect(save_settings)
+        context.client.on_disconnect(save_settings)
 
     translation = get_translation()
 
@@ -591,7 +590,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @functools.cached_property
         def temp_path(self) -> UPath:
-            user_temp_path = UPath("memory:/") / f"{cur_client.id}"
+            user_temp_path = UPath("memory:/") / f"{context.client.id}"
             if not user_temp_path.exists():
                 user_temp_path.mkdir(exist_ok=True)
             return user_temp_path
@@ -1028,19 +1027,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                     await content.write(result[0])
                 ui.notify(_("Saved"), type="positive")
             else:
-                ui.download(f"/export/{cur_client.id}/{file_name}")
+                ui.download(f"/export/{context.client.id}/{file_name}")
 
     dark_toggler = ui.dark_mode().bind_value(
         settings, "dark_mode", forward=str2dark_mode, backward=dark_mode2str
     )
     selected_formats = SelectedFormats()
     if app.native.main_window is None:
-        setattr(app.state, f"{cur_client.id}_selected_formats", selected_formats)
+        setattr(app.state, f"{context.client.id}_selected_formats", selected_formats)
 
         def recycle_state() -> None:
-            delattr(app.state, f"{cur_client.id}_selected_formats")
+            delattr(app.state, f"{context.client.id}_selected_formats")
 
-        cur_client.on_disconnect(recycle_state)
+        context.client.on_disconnect(recycle_state)
     ui.add_head_html(
         textwrap.dedent(
             """
@@ -1560,9 +1559,29 @@ def page_layout(lang: Optional[str] = None) -> None:
                 options_tab = ui.tab(_("Advanced Settings"))
             ui.space()
             if app.native.main_window is not None:
+                maximized = False
+
+                def toggle_maxmized() -> None:
+                    nonlocal maximized
+                    if maximized:
+                        app.native.main_window.restore()
+                        maximize_button.props("icon=open_in_full")
+                    else:
+                        app.native.main_window.maximize()
+                        maximize_button.props("icon=close_fullscreen")
+                    maximized = not maximized
+
                 ui.button(icon="minimize", on_click=app.native.main_window.minimize).classes(
                     "aspect-square"
                 ).tooltip(_("Minimize"))
+                maximize_button = (
+                    ui.button(
+                        icon="open_in_full",
+                        on_click=toggle_maxmized,
+                    )
+                    .classes("aspect-square")
+                    .tooltip(_("Maximize"))
+                )
                 ui.button(
                     icon="close", color="negative", on_click=app.native.main_window.destroy
                 ).classes("aspect-square").tooltip(_("Close"))
@@ -2016,6 +2035,7 @@ def main() -> None:
     ui.run(
         show=not args.daemon,
         window_size=None if args.server else (1200, 800),
+        frameless=not args.server,
         reload=False,
         host=args.host if args.server else None,
         port=args.port,
