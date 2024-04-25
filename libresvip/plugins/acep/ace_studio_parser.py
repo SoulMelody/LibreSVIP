@@ -54,9 +54,19 @@ class AceParser:
         project = Project()
         self.content_version = ace_project.version
         self.ace_tempo_list = ace_project.tempos
-        project.time_signature_list.append(
-            TimeSignature(bar_index=0, numerator=ace_project.beats_per_bar, denominator=4)
-        )
+        if ace_project.time_signatures:
+            project.time_signature_list = [
+                TimeSignature(
+                    bar_index=ace_time_sig.bar_pos,
+                    numerator=ace_time_sig.numerator,
+                    denominator=ace_time_sig.denominator,
+                )
+                for ace_time_sig in ace_project.time_signatures
+            ]
+        else:
+            project.time_signature_list.append(
+                TimeSignature(bar_index=0, numerator=ace_project.beats_per_bar, denominator=4)
+            )
         self.first_bar_ticks = TICKS_IN_BEAT * ace_project.beats_per_bar
         project.song_tempo_list = skip_tempo_list(
             tempo_list=[self.parse_tempo(ace_tempo) for ace_tempo in ace_project.tempos],

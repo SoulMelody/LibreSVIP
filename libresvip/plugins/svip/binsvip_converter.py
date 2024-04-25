@@ -18,8 +18,6 @@ class SvipConverter(plugin_base.SVSConverterBase):
             return BinarySvipParser(options).parse_project(version, xs_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        if options is None:
-            options = OutputOptions()
         ver_enum = options.version
         if ver_enum == BinarySvipVersion.SVIP7_0_0:
             project.version = "SVIP7.0.0"

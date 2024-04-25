@@ -4,7 +4,7 @@ import math
 import statistics
 from enum import Enum
 from itertools import chain
-from typing import TYPE_CHECKING, Annotated, Literal, NamedTuple, Optional, Union
+from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional, Union
 
 from more_itertools import batched, minmax
 from pydantic import (
@@ -249,6 +249,7 @@ class AcepPattern(BaseModel):
     clip_pos: int = Field(0, alias="clipPos")
     clip_dur: int = Field(0, alias="clipDur")
     enabled: Optional[bool] = True
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
 class AcepAnalysedBeat(BaseModel):
@@ -281,6 +282,7 @@ class AcepTrackProperties(BaseModel):
     record: bool = False
     channel: Optional[int] = 0
     listen: Optional[bool] = False
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
 class AcepEmptyTrack(AcepTrackProperties, BaseModel):
@@ -327,15 +329,45 @@ class AcepVocalTrack(AcepTrackProperties, BaseModel):
         return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
 
 
+class AcepChord(BaseModel):
+    addeds: list[Literal["7", "j7", "b9", "9", "#9", "11", "#11", "b13", "13"]] = Field(
+        default_factory=list
+    )
+    bass: int
+    dur: int = 0
+    root: int = -1
+    type_: Literal["", "maj", "min", "dim", "sus2", "sus4", "aug"] = Field(default="", alias="type")
+
+
+class AcepChordPattern(AcepPattern):
+    color: str = "#91bcdc"
+    chords: list[AcepChord] = Field(default_factory=list)
+
+
+class AcepChordTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["chord"] = Field(default="chord", alias="type")
+    patterns: list[AcepChordPattern] = Field(default_factory=list)
+
+
 AcepTrack = Annotated[
-    Union[AcepAudioTrack, AcepEmptyTrack, AcepVocalTrack], Field(discriminator="type_")
+    Union[AcepAudioTrack, AcepEmptyTrack, AcepVocalTrack, AcepChordTrack],
+    Field(discriminator="type_"),
 ]
+
+
+class AcepTimeSignature(BaseModel):
+    bar_pos: int = Field(0, alias="barPos")
+    numerator: int = 4
+    denominator: int = 4
 
 
 class AcepProject(BaseModel):
     beats_per_bar: int = Field(4, alias="beatsPerBar")
     color_index: int = Field(0, alias="colorIndex")
+    pattern_individual_color_index: Optional[int] = Field(0, alias="patternIndividualColorIndex")
+    debug_info: dict[str, Any] = Field(default_factory=dict, alias="debugInfo")
     duration: int = 0
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
     master: AcepMaster = Field(default_factory=AcepMaster)
     piano_cells: int = Field(2147483646, alias="pianoCells")
     tempos: list[AcepTempo] = Field(default_factory=list)
@@ -344,8 +376,9 @@ class AcepProject(BaseModel):
     loop: Optional[bool] = False
     loop_start: Optional[int] = Field(0, alias="loopStart")
     loop_end: Optional[int] = Field(7680, alias="loopEnd")
-    version: int = 5
+    version: int = 6
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")
     singer_library_id: Optional[str] = "1200593006"
+    time_signatures: list[AcepTimeSignature] = Field(default_factory=list, alias="timeSignatures")
     track_control_panel_w: Optional[int] = Field(0, alias="trackControlPanelW")
