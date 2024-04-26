@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:81d3fd25d7a8ed282bfb87082ef5f0babe600141e3b0f48aa1f79e528da6aedb"
+content_hash = "sha256:ee7db3c8a817a63d85fd4c0291d637cef5eb7b259c29d73ce662587a850744a0"
 
 [[package]]
 name = "aiofiles"
@@ -848,7 +848,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.17.0"
+version = "1.17.1"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 groups = ["code_gen"]
@@ -866,8 +866,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.17.0.tar.gz", hash = "sha256:3a01172d00a3705158ab9c71f4a828b96e68889742f0a840ce0dcd5b87234a89"},
-    {file = "gapic_generator-1.17.0-py3-none-any.whl", hash = "sha256:9862309798b39806d9882663e788db2d67c7c8002db16b3c8bb4a5714f383e6a"},
+    {file = "gapic-generator-1.17.1.tar.gz", hash = "sha256:0bdaccdc109428c8cc1f77136e558d9790e4e21297bac258442160394deb35f4"},
+    {file = "gapic_generator-1.17.1-py3-none-any.whl", hash = "sha256:09eeeccf51f294b1995537c9717a5426c863a0c376f711fe875fb65eb6bc2015"},
 ]
 
 [[package]]
@@ -2532,7 +2532,7 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.1.1"
+version = "8.1.2"
 requires_python = ">=3.8"
 summary = "pytest: simple powerful testing with Python"
 groups = ["test"]
@@ -2545,8 +2545,8 @@ dependencies = [
     "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
-    {file = "pytest-8.1.1-py3-none-any.whl", hash = "sha256:2a8386cfc11fa9d2c50ee7b2a57e7d898ef90470a7a34c4b949ff59662bb78b7"},
-    {file = "pytest-8.1.1.tar.gz", hash = "sha256:ac978141a75948948817d360297b7aae0fcb9d6ff6bc9ec6d514b85d5a65c044"},
+    {file = "pytest-8.1.2-py3-none-any.whl", hash = "sha256:6c06dc309ff46a05721e6fd48e492a775ed8165d2ecdf57f156a80c7e95bb142"},
+    {file = "pytest-8.1.2.tar.gz", hash = "sha256:f3c45d1d5eed96b01a2aea70dee6a4a366d51d38f9957768083e4fecfc77f3ef"},
 ]
 
 [[package]]

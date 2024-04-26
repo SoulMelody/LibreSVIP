@@ -98,7 +98,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.25.6",
-  "gapic-generator>=1.17.0",
+  "gapic-generator>=1.17.1",
   "click-default-group>=1.2.4",
   "docformatter>=1.7.5",
   "toposort>=1.10",
@@ -122,7 +122,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.19"]
-test = ["pytest>=8.1.1", "pytest-datadir>=1.5.0"]
+test = ["pytest>=8.1.2", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
 includes = ["libresvip"]
