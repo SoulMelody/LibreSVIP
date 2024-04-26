@@ -1324,7 +1324,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             re_flags_options = [
                                 {
                                     "label": _("Ignore case"),
-                                    "value": (re.IGNORECASE | re.UNICODE).value,
+                                    "value": re.IGNORECASE.value,
                                 },
                                 {"label": _("Case sensitive"), "value": re.UNICODE.value},
                             ]
@@ -1493,7 +1493,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                             pattern_suffix=row["pattern_suffix"],
                                             flags=re.UNICODE
                                             if row["flags"] == re.UNICODE.value
-                                            else (re.UNICODE | re.IGNORECASE),
+                                            else re.IGNORECASE,
                                         )
                                         for row in rows
                                     ]
@@ -1519,7 +1519,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                             "pattern_prefix": pattern_prefix,
                                             "pattern_suffix": pattern_suffix,
                                             "replacement": "",
-                                            "flags": (re.IGNORECASE | re.UNICODE).value,
+                                            "flags": re.IGNORECASE.value,
                                         }
                                     )
 

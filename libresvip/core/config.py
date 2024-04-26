@@ -29,7 +29,7 @@ class LyricsReplacement:
     pattern_main: str
     pattern_prefix: str = ""
     pattern_suffix: str = ""
-    flags: re.RegexFlag = re.IGNORECASE | re.UNICODE
+    flags: re.RegexFlag = re.IGNORECASE
     mode: LyricsReplaceMode = LyricsReplaceMode.FULL
 
     def __post_init__(self) -> None:

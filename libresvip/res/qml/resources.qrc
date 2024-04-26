@@ -9,7 +9,6 @@
         <file>components/icon_button.qml</file>
         <file>components/icon_menu_item.qml</file>
         <file>components/labeled_combo_box.qml</file>
-        <file>components/lyric_replacement_row.qml</file>
         <file>components/message_box.qml</file>
         <file>components/plugin_info.qml</file>
         <file>components/running_indicator.qml</file>

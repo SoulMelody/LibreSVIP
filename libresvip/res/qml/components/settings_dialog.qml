@@ -375,7 +375,6 @@ Dialog {
         id: pluginsSettingsPage
         ColumnLayout {
             HorizontalHeaderView {
-                id: horizontalHeader
                 resizableColumns: false
                 syncView: pluginsTableView
                 Layout.fillWidth: true
@@ -418,7 +417,7 @@ Dialog {
                 ScrollBar.horizontal: ScrollBar {}
 
                 delegate: DelegateChooser {
-                    DelegateChoice{
+                    DelegateChoice {
                         column: 0
                         delegate: Rectangle {
                             implicitWidth: 220
@@ -485,7 +484,7 @@ Dialog {
 
                             TableView.editDelegate: CheckBox {
                                 checked: value === "checkbox-marked"
-                                anchors.centerIn: parent
+                                anchors.fill: parent
                                 onToggled: {
                                     if (ConfigItems.toggle_plugin(row)) {
                                         TaskManager.reload_formats()
@@ -503,6 +502,8 @@ Dialog {
         id: lyricReplacementSettingsPage
         ColumnLayout {
             Layout.margins: 15
+            Layout.fillHeight: true
+            Layout.fillWidth: true
             RowLayout {
                 Layout.fillWidth: true
                 ComboBox {
@@ -517,6 +518,9 @@ Dialog {
                             lyricReplacementPresetsComboBox.model.append(editText)
                         }
                     }
+                    onActivated: (index) => {
+                        lyricReplacementRulesTableView.model = ConfigItems.rules_for_preset(currentText)
+                    }
                 }
                 IconButton {
                     icon_name: "mdi7.minus"
@@ -524,7 +528,7 @@ Dialog {
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Remove current preset")
                     onClicked: {
-                        if (lyricReplacementPresetsComboBox.editText !== "default") {
+                        if (lyricReplacementPresetsComboBox.currentText !== "default") {
                             lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentIndex)
                             lyricReplacementPresetsComboBox.currentIndex = 0
                         }
@@ -545,7 +549,182 @@ Dialog {
                         ListElement { text: qsTr("Regex") }
                     }
                     onActivated: {
-                        console.log(editText)
+                        console.log(currentText)
+                    }
+                }
+            }
+            HorizontalHeaderView {
+                resizableColumns: false
+                syncView: lyricReplacementRulesTableView
+                Layout.fillWidth: true
+                clip: true
+                delegate: Rectangle {
+                    implicitHeight: 50
+                    border.width: 1
+                    border.color: window.Material.backgroundDimColor
+                    color: window.Material.dialogColor
+
+                    RowLayout {
+                        anchors.centerIn: parent
+                        Layout.alignment: Qt.AlignHCenter
+                        Label {
+                            text: qsTr(display)
+                        }
+                    }
+                }
+            }
+            TableView {
+                id: lyricReplacementRulesTableView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                columnSpacing: 0
+                rowSpacing: 0
+                clip: true
+                editTriggers: TableView.SingleTapped
+
+                model: ConfigItems.rules_for_preset(lyricReplacementPresetsComboBox.currentText)
+                ScrollBar.vertical: ScrollBar {}
+                ScrollBar.horizontal: ScrollBar {}
+
+                delegate: DelegateChooser {
+                    DelegateChoice {
+                        column: 0
+                        delegate: Rectangle {
+                            implicitWidth: 100
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: qsTr(display)
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 1
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 50
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 2
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 80
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 3
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 50
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 4
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 80
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 5
+                        delegate: Rectangle {
+                            implicitWidth: 80
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 6
+                        delegate: Rectangle {
+                            implicitWidth: 60
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            IconButton {
+                                icon_name: "mdi7.delete-outline"
+                                diameter: 25
+                                new_padding: 5
+                                anchors.centerIn: parent
+                            }
+                        }
                     }
                 }
             }

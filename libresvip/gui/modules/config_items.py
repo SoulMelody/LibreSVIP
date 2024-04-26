@@ -21,7 +21,10 @@ from libresvip.core.config import (
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import plugin_manager
 from libresvip.gui.models.list_models import LyricReplacementPresetsModel, ModelProxy
-from libresvip.gui.models.table_models import PluginCadidatesTableModel
+from libresvip.gui.models.table_models import (
+    LyricReplacementRulesTableModel,
+    PluginCadidatesTableModel,
+)
 
 from .application import app
 
@@ -86,6 +89,11 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     @Slot(str, result="QVariant")
     def qget(self, name: str) -> Any:
         return getattr(self, name)
+
+    @Slot(str, result="QVariant")
+    def rules_for_preset(self, preset: str) -> Any:
+        self.result = LyricReplacementRulesTableModel(preset)
+        return self.result
 
     def get_save_folder(self) -> str:
         return self.posix_path(settings.save_folder)

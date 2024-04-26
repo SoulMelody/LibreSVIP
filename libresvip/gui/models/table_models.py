@@ -1,3 +1,4 @@
+import enum
 from functools import cache
 from gettext import gettext as _
 from typing import Any, Optional
@@ -61,6 +62,67 @@ class PluginCadidatesTableModel(QAbstractTableModel):
     def flags(self, index: QModelIndex) -> Qt.ItemFlag:
         item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
         if index.column() == 3:
+            item_flags |= Qt.ItemFlag.ItemIsEditable
+        return item_flags
+
+    @cache
+    def role_names(self) -> dict[int, bytes]:
+        return {Qt.ItemDataRole.DisplayRole: b"display", Qt.ItemDataRole.EditRole: b"value"}
+
+
+class LyricReplacementRulesTableModel(QAbstractTableModel):
+    def __init__(self, preset: str) -> None:
+        super().__init__()
+        self.preset = preset
+        self.column_keys = [
+            "mode",
+            "pattern_prefix",
+            "pattern_main",
+            "pattern_suffix",
+            "replacement",
+            "flags",
+        ]
+        self.column_names = [
+            _("Mode"),
+            _("Prefix"),
+            _("Pattern"),
+            _("Suffix"),
+            _("Replacement"),
+            _("Flags"),
+            _("Actions"),
+        ]
+
+    def row_count(self, parent: QModelIndex = QModelIndex()) -> int:
+        return len(settings.lyric_replace_rules[self.preset])
+
+    def column_count(self, parent: QModelIndex = QModelIndex()) -> int:
+        return len(self.column_names)
+
+    def header_data(
+        self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole
+    ) -> Optional[str]:
+        if role != Qt.ItemDataRole.DisplayRole:
+            return None
+
+        if orientation == Qt.Orientation.Horizontal and 0 <= section < len(self.column_names):
+            return self.column_names[section]
+        return str(section + 1)
+
+    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Any:
+        column_index = index.column()
+        if role in [Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.EditRole] and (
+            0 <= column_index < len(self.column_keys)
+        ):
+            prop = getattr(
+                settings.lyric_replace_rules[self.preset][index.row()],
+                self.column_keys[column_index],
+            )
+            return str(prop.name) if isinstance(prop, enum.Enum) else prop
+        return ""
+
+    def flags(self, index: QModelIndex) -> Qt.ItemFlag:
+        item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
+        if index.column():
             item_flags |= Qt.ItemFlag.ItemIsEditable
         return item_flags
 
