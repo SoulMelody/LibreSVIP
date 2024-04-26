@@ -156,12 +156,6 @@ def get_ui_settings() -> LibreSvipBaseUISettings:
     return ui_settings_ctx.get(None) or settings
 
 
-def lyric_replacement_presets_enum() -> enum.Enum:
-    return enum.Enum(  # type: ignore[misc]
-        "LyricReplacementPreset", {key: key for key in get_ui_settings().lyric_replace_rules}
-    )
-
-
 def save_settings() -> None:
     app_dir.user_config_path.mkdir(parents=True, exist_ok=True)
     OmegaConf.save(settings, config_path)

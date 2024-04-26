@@ -242,8 +242,7 @@ class LyricReplacementPresetsModel(QStringListModel):
         settings.lyric_replace_rules.setdefault(value, [])
         self.set_string_list(list(settings.lyric_replace_rules))
 
-    @Slot(int)
-    def remove(self, index: int) -> None:
-        value = self.data(self.index(index))
+    @Slot(str)
+    def remove(self, value: str) -> None:
         settings.lyric_replace_rules.pop(value, None)
         self.set_string_list(list(settings.lyric_replace_rules))

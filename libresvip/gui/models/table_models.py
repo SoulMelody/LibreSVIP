@@ -110,9 +110,7 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Any:
         column_index = index.column()
-        if role in [Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.EditRole] and (
-            0 <= column_index < len(self.column_keys)
-        ):
+        if role == Qt.ItemDataRole.DisplayRole and (0 <= column_index < len(self.column_keys)):
             prop = getattr(
                 settings.lyric_replace_rules[self.preset][index.row()],
                 self.column_keys[column_index],
@@ -121,10 +119,7 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
         return ""
 
     def flags(self, index: QModelIndex) -> Qt.ItemFlag:
-        item_flags = Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
-        if index.column():
-            item_flags |= Qt.ItemFlag.ItemIsEditable
-        return item_flags
+        return Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable
 
     @cache
     def role_names(self) -> dict[int, bytes]:

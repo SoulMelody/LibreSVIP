@@ -529,7 +529,7 @@ Dialog {
                     ToolTip.text: qsTr("Remove current preset")
                     onClicked: {
                         if (lyricReplacementPresetsComboBox.currentText !== "default") {
-                            lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentIndex)
+                            lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentText)
                             lyricReplacementPresetsComboBox.currentIndex = 0
                         }
                     }
@@ -612,16 +612,13 @@ Dialog {
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
 
-                            Label {
-                                text: display
-                                anchors.centerIn: parent
-                            }
-
-                            TableView.editDelegate: TextField {
+                            TextField {
                                 anchors.fill: parent
-                                text: value
+                                text: display
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                }
                             }
                         }
                     }
@@ -635,16 +632,13 @@ Dialog {
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
 
-                            Label {
-                                text: display
-                                anchors.centerIn: parent
-                            }
-
-                            TableView.editDelegate: TextField {
+                            TextField {
                                 anchors.fill: parent
-                                text: value
+                                text: display
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                }
                             }
                         }
                     }
@@ -658,16 +652,13 @@ Dialog {
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
 
-                            Label {
-                                text: display
-                                anchors.centerIn: parent
-                            }
-
-                            TableView.editDelegate: TextField {
+                            TextField {
                                 anchors.fill: parent
-                                text: value
+                                text: display
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                }
                             }
                         }
                     }
@@ -681,16 +672,13 @@ Dialog {
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
 
-                            Label {
-                                text: display
-                                anchors.centerIn: parent
-                            }
-
-                            TableView.editDelegate: TextField {
+                            TextField {
                                 anchors.fill: parent
-                                text: value
+                                text: display
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                }
                             }
                         }
                     }
