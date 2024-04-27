@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-27 12:09+0800\n"
-"PO-Revision-Date: 2024-04-27 05:31\n"
+"PO-Revision-Date: 2024-04-27 07:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -2334,13 +2334,13 @@ msgstr "当音符之间存在较短的休止符时，将前一个音符延长来
 
 #: .replace_lyric.name
 msgid "Replace lyrics"
-msgstr ""
+msgstr "替换歌词"
 
 #: .replace_lyric.description
 msgid "Replace lyrics using preset rules. You can customize the lyrics replacement rules in the program configuration page"
-msgstr ""
+msgstr "使用预设规则对歌词进行替换。你可以在程序配置页面中编辑歌词替换规则"
 
 #: .replace_lyric.process[0].title
 msgid "Name of lyric replacement preset"
-msgstr ""
+msgstr "歌词替换预设的名称"
 
