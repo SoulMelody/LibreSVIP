@@ -453,14 +453,18 @@ class TaskManager(QObject):
                         "choices": [],
                     }
                 )
+        self.reload_middleware_options()
+        self.middleware_options_updated.connect(self.reload_middleware_options)
+
+    def reload_middleware_options(self) -> None:
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
                 option_class = get_type_hints(middleware.plugin_object.process)["options"]
-
-                def reload_middleware(option_class: BaseModel = option_class) -> None:
-                    self.middleware_fields[middleware.identifier].clear()
-                    middleware_fields = self.inspect_fields(option_class)
-                    self.middleware_fields[middleware.identifier].append_many(middleware_fields)
-
-                self.middleware_options_updated.connect(reload_middleware)
+                self.middleware_fields[middleware.identifier].clear()
+                middleware_fields = self.inspect_fields(option_class)
+                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
 
     @Slot(result=None)
     def reload_formats(self) -> None:
