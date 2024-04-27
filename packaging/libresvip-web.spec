@@ -86,6 +86,7 @@ js_lib_prefix = os.path.join("nicegui", "elements", "lib")
 to_exclude = [
     os.path.join(js_lib_prefix, "aggrid"),
     os.path.join(js_lib_prefix, "echarts"),
+    os.path.join(js_lib_prefix, "leaflet"),
     os.path.join(js_lib_prefix, "mermaid"),
     os.path.join(js_lib_prefix, "plotly"),
     os.path.join(js_lib_prefix, "three"),

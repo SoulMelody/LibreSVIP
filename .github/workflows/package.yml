@@ -107,6 +107,40 @@ jobs:
           files: |
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }}
 
+  release_windows_webview:
+    runs-on: windows-latest
+    needs: [make-outputs]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: 3.12
+      - name: Build with pyinstaller
+        shell: bash -el {0}
+        run: |
+          pdm sync -G webui -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
+          cd packaging
+          pdm run pyinstaller libresvip-web.spec
+          cd dist
+          7z a LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.zip libresvip
+          rm -rf libresvip-web
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libresvip-web-win-amd64.zip
+          path: ./packaging/dist/
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/dist/LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.zip
+
   release_linux_aarch64:
     runs-on: ubuntu-latest
     needs: [make-outputs]
@@ -131,8 +165,11 @@ jobs:
             python -m pip install -U pdm
             python -m pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
             cd packaging
-            python -m pdm run python setup.py bdist_portable
-            cd ..
+            pyinstaller libresvip.spec
+            cd dist
+            tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
+            rm -rf libresvip
+            cd ../..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:

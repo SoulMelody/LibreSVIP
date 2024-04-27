@@ -154,11 +154,65 @@ gui_a = Analysis(
     noarchive=False,
 )
 to_keep = []
-to_exclude = [
-    "libQt6WebEngineCore.so.6",
-    "QtWebEngineCore",
-    "Qt6WebEngineCore.dll",
-]
+
+def platform_libs_for_qtmodule(module: str) -> list[str]:
+    return [
+        f"libQt6{module}.so.6",  # Linux
+        f"Qt{module}",  # MacOS
+        f"Qt6{module}.dll",  # Windows
+    ]
+
+to_exclude = sum(
+    (platform_libs_for_qtmodule(module)
+    for module in (
+        "Charts",
+        "ChartsQml",
+        "Concurrent",
+        "DataVisualization",
+        "DataVisualizationQml",
+        "Location",
+        "Multimedia",
+        "MultimediaQuick",
+        "Pdf",
+        "PdfQuick",
+        "Positioning",
+        "PositioningQuick",
+        "Quick3D",
+        "Quick3DUtils",
+        "RemoteObjects",
+        "RemoteObjectsQml",
+        "Scxml",
+        "ScxmlQml",
+        "Sensors",
+        "SensorsQuick",
+        "ShaderTools",
+        "Sql",
+        "StateMachine",
+        "StateMachineQml",
+        "Svg",
+        "Test",
+        "TextToSpeech",
+        "VirtualKeyboard",
+        "WebChannel",
+        "WebEngineCore",
+        "WebEngineQuick",
+        "WebEngineQuickDelegatesQml",
+        "WebSockets",
+        "3DAnimation",
+        "3DCore",
+        "3DExtras",
+        "3DInput",
+        "3DLogic",
+        "3DQuick",
+        "3DQuickAnimation",
+        "3DQuickExtras",
+        "3DQuickInput",
+        "3DQuickRender",
+        "3DQuickScene2D",
+        "3DRender",
+    )),
+    []
+)
 
 for (dest, source, kind) in gui_a.binaries:
     # Skip anything we don't need.
