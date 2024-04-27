@@ -1,10 +1,20 @@
 import functools
+from collections.abc import MutableMapping
+from typing import Any, Union
 
-from libresvip.core.config import get_ui_settings
+from libresvip.core.config import LyricsReplacement, get_ui_settings
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, SingingTrack
 
 from .options import ProcessOptions
+
+
+def replace_lyric(
+    replacement: Union[LyricsReplacement, MutableMapping[str, Any]], text: str
+) -> str:
+    if isinstance(replacement, MutableMapping):
+        replacement = LyricsReplacement(**replacement)
+    return replacement.replace(text)
 
 
 class RemoveShortSilencesMiddleware(plugin_base.MiddlewareBase):
@@ -15,7 +25,7 @@ class RemoveShortSilencesMiddleware(plugin_base.MiddlewareBase):
                 if isinstance(track, SingingTrack):
                     for note in track.note_list:
                         note.lyric = functools.reduce(
-                            lambda lyric, replacement: replacement.replace(lyric),
+                            lambda lyric, replacement: replace_lyric(replacement, lyric),
                             settings.lyric_replace_rules[options.lyric_replacement_preset_name],
                             note.lyric,
                         )
