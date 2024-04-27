@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-27 12:09+0800\n"
-"PO-Revision-Date: 2024-04-27 05:09\n"
+"PO-Revision-Date: 2024-04-27 05:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -272,37 +272,39 @@ msgstr "管理文件夹预设"
 
 #: settings_dialog%2314
 msgid "Preset"
-msgstr ""
+msgstr "预设"
 
 #: settings_dialog%2315
 msgid "Remove current preset"
-msgstr ""
+msgstr "删除当前预设"
 
 #: settings_dialog%2316
 msgid "Add new rule"
-msgstr ""
+msgstr "新建规则"
 
 #: settings_dialog%2317
 msgid "Full match"
-msgstr ""
+msgstr "完全匹配"
 
 #: settings_dialog%2318
 msgid "Alphabetic"
-msgstr ""
+msgstr "拼音文字"
 
 #: settings_dialog%2319
 msgid "Non-alphabetic"
-msgstr ""
+msgstr "非拼音文字"
 
 #: settings_dialog%2320
 msgid "Regex"
-msgstr ""
+msgstr "正则表达式"
 
 #: settings_dialog%2321
 msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
-msgstr ""
+msgstr "拼音文字模式：适用于拼音文字\n"
+"非拼音文字模式：适用于非拼音文字及标点符号等字符\n"
+"正则模式：适用于了解正则表达式语法的高级用户"
 
 #: settings_dialog%2322
 msgid "Format Provider Plugins"
@@ -330,7 +332,7 @@ msgstr "导出路径设置"
 
 #: settings_dialog%2331
 msgid "Lyric Replacement Rules"
-msgstr ""
+msgstr "歌词替换规则"
 
 #: settings_dialog%2332
 msgid "Updates Settings"
@@ -600,31 +602,31 @@ msgstr "适用的文件格式"
 
 #: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1278
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 #: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1281
 msgid "Prefix"
-msgstr ""
+msgstr "前綴"
 
 #: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1286
 msgid "Pattern"
-msgstr ""
+msgstr "表达式"
 
 #: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1291
 msgid "Suffix"
-msgstr ""
+msgstr "后缀"
 
 #: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1296
 msgid "Replacement"
-msgstr ""
+msgstr "替换为"
 
 #: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1329
 msgid "Case sensitive"
-msgstr ""
+msgstr "区分大小写"
 
 #: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1300
 msgid "Actions"
-msgstr ""
+msgstr "操作"
 
 #: ../libresvip/gui/modules/notifier.py:55
 msgid "Downloading"
@@ -790,7 +792,7 @@ msgstr "文档"
 
 #: ../libresvip/web/pages.py:1258
 msgid "Lyric Replace Rules"
-msgstr ""
+msgstr "歌词替换规则"
 
 #: ../libresvip/web/pages.py:1260
 msgid "Switch Language"
@@ -806,35 +808,35 @@ msgstr "切换格式时重置列表"
 
 #: ../libresvip/web/pages.py:1299
 msgid "Flags"
-msgstr ""
+msgstr "标记"
 
 #: ../libresvip/web/pages.py:1326
 msgid "Ignore case"
-msgstr ""
+msgstr "忽略大小写"
 
 #: ../libresvip/web/pages.py:1460
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "全屏开关"
 
 #: ../libresvip/web/pages.py:1470
 msgid "Preset: "
-msgstr ""
+msgstr "预设： "
 
 #: ../libresvip/web/pages.py:1503
 msgid "Save current preset"
-msgstr ""
+msgstr "保存当前预设"
 
 #: ../libresvip/web/pages.py:1573 ../libresvip/web/pages.py:1587
 msgid "Maximize"
-msgstr ""
+msgstr "最大化"
 
 #: ../libresvip/web/pages.py:1577
 msgid "Restore"
-msgstr ""
+msgstr "还原"
 
 #: ../libresvip/web/pages.py:1582
 msgid "Minimize"
-msgstr ""
+msgstr "最小化"
 
 #: ../libresvip/web/pages.py:1649
 msgid "Choose file format"
