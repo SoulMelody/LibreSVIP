@@ -1227,52 +1227,52 @@ Page {
                         ListView {
                             id: middlewareFields
                             model: TaskManager.get_middleware_fields(modelData.identifier)
+                            function rebuildFields() {
+                                for (var i = 0; i < model.rowCount(); i++) {
+                                    let middleware_state = model.get(i)
+                                    let separator_item = separatorItem.createObject(middlewareContainer)
+                                    let item = null
+                                    switch (middleware_state.type) {
+                                        case "bool": {
+                                            item = switchItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields
+                                            })
+                                            break
+                                        }
+                                        case "enum": {
+                                            item = comboBoxItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields
+                                            })
+                                            break
+                                        }
+                                        case "color" : {
+                                            item = colorPickerItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields
+                                            })
+                                            break
+                                        }
+                                        default: {
+                                            item = textFieldItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields,
+                                            })
+                                            break
+                                        }
+                                    }
+                                }
+                            }
                             delegate: Column {
                                 Component.onCompleted: {
                                     if (index == 0) {
-                                        for (var i = 0; i < middlewareFields.count; i++) {
-                                            let middleware_state = middlewareFields.model.get(i)
-                                            let separator_item = separatorItem.createObject(middlewareContainer)
-                                            this.Component.onDestruction.connect(separator_item.destroy)
-                                            let item = null
-                                            switch (model.type) {
-                                                case "bool": {
-                                                    item = switchItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields
-                                                    })
-                                                    break
-                                                }
-                                                case "enum": {
-                                                    item = comboBoxItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields
-                                                    })
-                                                    break
-                                                }
-                                                case "color" : {
-                                                    item = colorPickerItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields
-                                                    })
-                                                    break
-                                                }
-                                                default: {
-                                                    item = textFieldItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields,
-                                                    })
-                                                    break
-                                                }
-                                            }
-                                            if (item) {
-                                                this.Component.onDestruction.connect(item.destroy)
-                                            }
-                                        }
+                                        middlewareContainer.children.length = 0
+                                        middlewareFields.rebuildFields()
                                     }
                                 }
                             }

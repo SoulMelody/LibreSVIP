@@ -160,17 +160,12 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     @Slot(str)
     def append(self, mode: str) -> None:
-        self.begin_insert_rows(
-            QModelIndex(),
-            len(settings.lyric_replace_rules[self.preset]),
-            len(settings.lyric_replace_rules[self.preset]),
-        )
         settings.lyric_replace_rules[self.preset].append(
             LyricsReplacement(  # type: ignore[call-arg]
                 mode=LyricsReplaceMode(mode), pattern_main="", replacement=""
             )
         )
-        self.end_insert_rows()
+        self.modelReset.emit()
 
     @Slot(int, int)
     def swap(self, old_index: int, new_index: int) -> None:

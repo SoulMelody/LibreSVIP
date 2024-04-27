@@ -516,10 +516,11 @@ Dialog {
                     onAccepted: {
                         if (find(editText) === -1) {
                             lyricReplacementPresetsComboBox.model.append(editText)
+                            TaskManager.middleware_options_updated()
                         }
                     }
                     onActivated: (index) => {
-                        lyricReplacementRulesTableView.model.modelReset.emit()
+                        lyricReplacementRulesTableView.model.modelReset()
                     }
                 }
                 IconButton {
@@ -531,6 +532,7 @@ Dialog {
                         if (lyricReplacementPresetsComboBox.currentText !== "default") {
                             lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentText)
                             lyricReplacementPresetsComboBox.currentIndex = 0
+                            TaskManager.middleware_options_updated()
                         }
                     }
                 }

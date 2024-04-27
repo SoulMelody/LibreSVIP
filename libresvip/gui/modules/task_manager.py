@@ -347,6 +347,7 @@ class TaskManager(QObject):
     output_format_changed = Signal(str)
     task_count_changed = Signal(int)
     busy_changed = Signal(bool)
+    middleware_options_updated = Signal()
     _start_conversion = Signal()
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
@@ -391,33 +392,7 @@ class TaskManager(QObject):
             }
         )
         self.middleware_fields: dict[str, ModelProxy] = {}
-        for middleware in middleware_manager.plugin_registry.values():
-            if middleware.plugin_object is not None and hasattr(
-                middleware.plugin_object, "process"
-            ):
-                self.middleware_states.append(
-                    {
-                        "index": len(self.middleware_states),
-                        "identifier": middleware.identifier,
-                        "name": middleware.name,
-                        "description": middleware.description,
-                        "value": False,
-                    }
-                )
-                self.middleware_fields[middleware.identifier] = ModelProxy(
-                    {
-                        "name": "",
-                        "title": "",
-                        "description": "",
-                        "default": "",
-                        "type": "",
-                        "value": "",
-                        "choices": [],
-                    }
-                )
-                option_class = get_type_hints(middleware.plugin_object.process)["options"]
-                middleware_fields = self.inspect_fields(option_class)
-                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
+        self.init_middleware_options()
         self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
@@ -452,6 +427,40 @@ class TaskManager(QObject):
     @Property(int, notify=task_count_changed)
     def count(self) -> int:
         return len(self.tasks)
+
+    def init_middleware_options(self) -> None:
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
+                self.middleware_states.append(
+                    {
+                        "index": len(self.middleware_states),
+                        "identifier": middleware.identifier,
+                        "name": middleware.name,
+                        "description": middleware.description,
+                        "value": False,
+                    }
+                )
+                self.middleware_fields[middleware.identifier] = ModelProxy(
+                    {
+                        "name": "",
+                        "title": "",
+                        "description": "",
+                        "default": "",
+                        "type": "",
+                        "value": "",
+                        "choices": [],
+                    }
+                )
+                option_class = get_type_hints(middleware.plugin_object.process)["options"]
+
+                def reload_middleware(option_class: BaseModel = option_class) -> None:
+                    self.middleware_fields[middleware.identifier].clear()
+                    middleware_fields = self.inspect_fields(option_class)
+                    self.middleware_fields[middleware.identifier].append_many(middleware_fields)
+
+                self.middleware_options_updated.connect(reload_middleware)
 
     @Slot(result=None)
     def reload_formats(self) -> None:
