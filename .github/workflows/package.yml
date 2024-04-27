@@ -57,29 +57,29 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         with:
           python-version: 3.11
-      - name: Export requirements.txt
-        run: pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
       - name: Build with pyinstaller (Windows)
         if: matrix.os == 'windows-latest'
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          spec: 'packaging/libresvip.spec'
-          requirements: 'packaging/requirements.txt'
-          python_ver: '3.12'
-          python_arch: 'x64'
-          exe_path: './packaging/dist'
+        shell: bash -el {0}
+        run: |
+          pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
+          cd packaging
+          pdm run pyinstaller libresvip.spec
+          cd dist
+          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }} libresvip
+          rm -rf libresvip
       - name: Build with pyinstaller (Linux)
         if: matrix.os == 'ubuntu-latest'
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          spec: 'packaging/libresvip.spec'
-          requirements: 'packaging/requirements.txt'
-          python_ver: '3.11'
-          python_arch: 'x64'
-          exe_path: './packaging/dist'
+        run: |
+          pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
+          cd packaging
+          pdm run pyinstaller libresvip.spec
+          cd dist
+          tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }} libresvip
+          rm -rf libresvip
       - name: Build with cx_freeze (MacOS Universal2)
         if: matrix.os == 'macos-14'
         run: |
+          pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
           python -m venv .venv
           source .venv/bin/activate
           cd packaging
@@ -98,14 +98,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: libresvip-${{ matrix.pkg_suffix }}
-          path: ./packaging/dist
+          path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/**
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.${{ matrix.pkg_suffix }}
 
   release_linux_aarch64:
     runs-on: ubuntu-latest
