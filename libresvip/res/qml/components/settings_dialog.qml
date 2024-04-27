@@ -541,16 +541,26 @@ Dialog {
                     text: qsTr("Add new rule")
                 }
                 ComboBox {
+                    id: addPresetComboBox
                     Layout.preferredWidth: 150
+                    textRole: "text"
+                    valueRole: "value"
                     model: ListModel {
-                        ListElement { text: qsTr("Full match") }
-                        ListElement { text: qsTr("Alphabetic") }
-                        ListElement { text: qsTr("Non-alphabetic") }
-                        ListElement { text: qsTr("Regex") }
+                        ListElement { text: qsTr("Full match"); value: "full"}
+                        ListElement { text: qsTr("Alphabetic"); value: "alphabetic"}
+                        ListElement { text: qsTr("Non-alphabetic"); value: "non_alphabetic"}
+                        ListElement { text: qsTr("Regex"); value: "regex"}
                     }
                     onActivated: {
-                        console.log(currentText)
+                        lyricReplacementRulesTableView.model.append(currentValue)
                     }
+                }
+                IconButton {
+                    icon_name: "mdi7.help-circle-outline"
+                    diameter: 35
+                    cursor_shape: Qt.WhatsThisCursor
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Alphabetic: Applies to alphabetic characters.\nNon-Alphabetic: For non-alphabetic characters and punctuation marks.\nRegex: for advanced users with knowledge of regular expressions.")    
                 }
             }
             HorizontalHeaderView {
@@ -569,6 +579,7 @@ Dialog {
                         Layout.alignment: Qt.AlignHCenter
                         Label {
                             text: qsTr(display)
+                            font.pixelSize: 10
                         }
                     }
                 }
@@ -597,7 +608,7 @@ Dialog {
                             color: window.Material.dialogColor
 
                             Label {
-                                text: qsTr(display)
+                                text: qsTr(addPresetComboBox.textAt(addPresetComboBox.indexOfValue(display)))
                                 anchors.centerIn: parent
                             }
                         }
@@ -606,18 +617,30 @@ Dialog {
                         column: 1
                         delegate: Rectangle {
                             clip: true
-                            implicitWidth: 50
+                            implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
+                            required property bool editing
 
-                            TextField {
-                                anchors.fill: parent
+                            Label {
                                 text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
                                 }
                             }
                         }
@@ -626,18 +649,30 @@ Dialog {
                         column: 2
                         delegate: Rectangle {
                             clip: true
-                            implicitWidth: 80
+                            implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
+                            required property bool editing
 
-                            TextField {
-                                anchors.fill: parent
+                            Label {
                                 text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
                                 }
                             }
                         }
@@ -651,13 +686,25 @@ Dialog {
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
+                            required property bool editing
 
-                            TextField {
-                                anchors.fill: parent
+                            Label {
                                 text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
                                 }
                             }
                         }
@@ -666,18 +713,30 @@ Dialog {
                         column: 4
                         delegate: Rectangle {
                             clip: true
-                            implicitWidth: 80
+                            implicitWidth: 60
                             implicitHeight: 32
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
+                            required property bool editing
 
-                            TextField {
-                                anchors.fill: parent
+                            Label {
                                 text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
                                 }
                             }
                         }
@@ -685,32 +744,69 @@ Dialog {
                     DelegateChoice {
                         column: 5
                         delegate: Rectangle {
-                            implicitWidth: 80
+                            implicitWidth: 70
                             implicitHeight: 32
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
+                            required property bool editing
 
                             Label {
-                                text: display
+                                text: IconicFontLoader.icon("mdi7." + (display === "UNICODE" ? "checkbox-marked" : "checkbox-blank-outline"))
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 22
+                                color: window.Material.accent
                                 anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: CheckBox {
+                                checked: value === "UNICODE"
+                                anchors.fill: parent
+                                onToggled: {
+                                    let index = TableView.view.index(row, column)
+                                    lyricReplacementRulesTableView.model.setData(index, checked ? "UNICODE" : "IGNORECASE", Qt.DisplayRole)
+                                    parent.children[0].text = IconicFontLoader.icon("mdi7." + (checked ? "checkbox-marked" : "checkbox-blank-outline"))
+                                }
                             }
                         }
                     }
                     DelegateChoice {
                         column: 6
                         delegate: Rectangle {
-                            implicitWidth: 60
+                            implicitWidth: 80
                             implicitHeight: 32
                             border.width: 1
                             border.color: window.Material.backgroundDimColor
                             color: window.Material.dialogColor
 
-                            IconButton {
-                                icon_name: "mdi7.delete-outline"
-                                diameter: 25
-                                new_padding: 5
+                            RowLayout {
                                 anchors.centerIn: parent
+                                IconButton {
+                                    icon_name: "mdi7.arrow-up-circle-outline"
+                                    diameter: 20
+                                    new_padding: 4
+                                    enabled: row > 0
+                                    onClicked: {
+                                        lyricReplacementRulesTableView.model.swap(row - 1, row)
+                                    }
+                                }
+                                IconButton {
+                                    icon_name: "mdi7.arrow-down-circle-outline"
+                                    diameter: 20
+                                    new_padding: 4
+                                    onClicked: {
+                                        lyricReplacementRulesTableView.model.swap(row, row + 1)
+                                    }
+                                }
+                                IconButton {
+                                    icon_name: "mdi7.minus"
+                                    diameter: 20
+                                    new_padding: 4
+                                    onClicked: {
+                                        lyricReplacementRulesTableView.model.delete(row)
+                                    }
+                                }
                             }
                         }
                     }
