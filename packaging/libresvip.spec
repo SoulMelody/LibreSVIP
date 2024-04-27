@@ -23,7 +23,7 @@ with contextlib.suppress(Exception):
 
 
 cli_a = Analysis(
-    ['libresvip/cli/__main__.py'],
+    ['../libresvip/cli/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
         os.path.join(PySide6.__path__[0], os.pardir)
@@ -103,7 +103,7 @@ cli_exe = EXE(
 
 
 gui_a = Analysis(
-    ['libresvip/gui/__main__.py'],
+    ['../libresvip/gui/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
         os.path.join(PySide6.__path__[0], os.pardir)
