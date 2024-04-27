@@ -1523,7 +1523,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         }
                                     )
 
-                                with ui.dropdown_button(_("Add new rule"), icon="add"):
+                                with ui.dropdown_button(_("Add new rule"), icon="add").tooltip(
+                                    _(
+                                        "Alphabetic: Applies to alphabetic characters.\nNon-Alphabetic: For non-alphabetic characters and punctuation marks.\nRegex: for advanced users with knowledge of regular expressions."
+                                    )
+                                ):
                                     for option in replace_mode_options:
                                         ui.item(
                                             option["label"],

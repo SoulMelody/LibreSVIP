@@ -519,7 +519,7 @@ Dialog {
                         }
                     }
                     onActivated: (index) => {
-                        lyricReplacementRulesTableView.model = ConfigItems.rules_for_preset(currentText)
+                        lyricReplacementRulesTableView.model.modelReset.emit()
                     }
                 }
                 IconButton {
