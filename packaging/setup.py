@@ -188,6 +188,7 @@ build_exe_options = {
         "libresvip.web",
     ],
     "include_files": include_files,
+    "include_msvcr": True,
     "zip_includes": zip_includes,
     "zip_include_packages": [
         "PySide6",

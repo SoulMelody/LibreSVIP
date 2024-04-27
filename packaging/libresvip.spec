@@ -23,7 +23,7 @@ with contextlib.suppress(Exception):
 
 
 cli_a = Analysis(
-    ['../libresvip/cli/__main__.py'],
+    ['libresvip/cli/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
         os.path.join(PySide6.__path__[0], os.pardir)
@@ -51,7 +51,7 @@ cli_a = Analysis(
         "xsdata.formats.dataclass.parsers",
         "xsdata.formats.dataclass.serializers",
         "zstandard",
-    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model"),
+    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -103,7 +103,7 @@ cli_exe = EXE(
 
 
 gui_a = Analysis(
-    ['../libresvip/gui/__main__.py'],
+    ['libresvip/gui/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
         os.path.join(PySide6.__path__[0], os.pardir)
@@ -112,7 +112,7 @@ gui_a = Analysis(
     datas=[
         (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + copy_metadata("libresvip") + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata"),
+    ] + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata"),
     hiddenimports=[
         "bidict",
         "construct_typed",
@@ -131,7 +131,7 @@ gui_a = Analysis(
         "xsdata.formats.dataclass.parsers",
         "xsdata.formats.dataclass.serializers",
         "zstd",
-    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model"),
+    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

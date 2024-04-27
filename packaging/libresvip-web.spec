@@ -51,7 +51,7 @@ a = Analysis(
         "xsdata.formats.dataclass.parsers",
         "xsdata.formats.dataclass.serializers",
         "zstandard",
-    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model"),
+    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
