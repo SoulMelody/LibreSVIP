@@ -572,6 +572,7 @@ Dialog {
                 clip: true
                 delegate: Rectangle {
                     implicitHeight: 50
+                    implicitWidth: 70
                     border.width: 1
                     border.color: window.Material.backgroundDimColor
                     color: window.Material.dialogColor

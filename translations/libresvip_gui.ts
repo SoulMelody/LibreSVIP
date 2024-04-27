@@ -360,7 +360,49 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="589"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="515"/>
+        <source>Preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="530"/>
+        <source>Remove current preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="543"/>
+        <source>Add new rule</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="551"/>
+        <source>Full match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="552"/>
+        <source>Alphabetic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="553"/>
+        <source>Non-alphabetic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="554"/>
+        <source>Regex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="565"/>
+        <source>Alphabetic: Applies to alphabetic characters.
+Non-Alphabetic: For non-alphabetic characters and punctuation marks.
+Regex: for advanced users with knowledge of regular expressions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="908"/>
         <source>Format Provider Plugins</source>
         <translation type="unfinished"></translation>
     </message>
@@ -380,12 +422,12 @@
         <translation type="unfinished">询问</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="401"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="400"/>
         <source>Plugin is enabled or not (Click to enter editing mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="512"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="831"/>
         <source>Auto Check for Updates</source>
         <translation type="unfinished">自动检查更新</translation>
     </message>
@@ -395,17 +437,22 @@
         <translation type="unfinished">转换设置</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="567"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="886"/>
         <source>Basic Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="577"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="896"/>
         <source>Save Path Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="602"/>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="921"/>
+        <source>Lyric Replacement Rules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/settings_dialog.qml" line="933"/>
         <source>Updates Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -413,59 +460,59 @@
 <context>
     <name>task_row</name>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="104"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="103"/>
         <source>File successfully converted</source>
         <translation>此文件已成功转换</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="113"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="112"/>
         <source>Open</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="125"/>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="168"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="124"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="167"/>
         <source>Open folder</source>
         <translation>打开目录</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="346"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="345"/>
         <source>File %1 already exists. Overwrite?</source>
         <translation>文件 %1 已存在，是否覆盖？</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="160"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="159"/>
         <source>File skipped due to conflict</source>
         <translation>已跳过</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="73"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="72"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="203"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="202"/>
         <source>This project file may contain abnormal or illegal data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="245"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="244"/>
         <source>File failed to convert, below is the error message:</source>
         <translation>此文件转换失败，错误信息如下：</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="258"/>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="273"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="257"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="272"/>
         <source>Copy error message</source>
         <translation>复制错误信息</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="262"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="261"/>
         <source>Copied</source>
         <translation>已复制</translation>
     </message>
     <message>
-        <location filename="../libresvip/res/qml/components/task_row.qml" line="345"/>
+        <location filename="../libresvip/res/qml/components/task_row.qml" line="344"/>
         <source>Do you want to overwrite the file?</source>
         <translation type="unfinished"></translation>
     </message>

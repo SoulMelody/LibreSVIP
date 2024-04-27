@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-04 23:36+0800\n"
+"POT-Creation-Date: 2024-04-27 12:09+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.12.2\n"
+"X-Generator: Translate Toolkit 3.13.0\n"
 
 #: converter_page%231
 msgid "Converter"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "View Detail Information"
 msgstr ""
 
-#: converter_page%235 settings_dialog%232
+#: converter_page%235 settings_dialog%232
 msgid "Auto-Detect Input File Type"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Output Format: "
 msgstr ""
 
-#: converter_page%239 settings_dialog%234
+#: converter_page%239 settings_dialog%234
 msgid "Set Output File Extension Automatically"
 msgstr ""
 
@@ -112,7 +112,7 @@ msgstr ""
 msgid "[Export to "
 msgstr ""
 
-#: converter_page%2326 settings_dialog%236
+#: converter_page%2326 settings_dialog%236
 msgid "Output Settings"
 msgstr ""
 
@@ -124,7 +124,7 @@ msgstr ""
 msgid "Output Folder"
 msgstr ""
 
-#: converter_page%2329 settings_dialog%237
+#: converter_page%2329 settings_dialog%237
 msgid "Deal with Conflicts"
 msgstr ""
 
@@ -140,19 +140,19 @@ msgstr ""
 msgid "Converting"
 msgstr ""
 
-#: converter_page%2333 settings_dialog%238
+#: converter_page%2333 settings_dialog%238
 msgid "Open Output Folder When Done"
 msgstr ""
 
-#: converter_page%2334 settings_dialog%2315
+#: converter_page%2334 settings_dialog%2323
 msgid "Overwrite"
 msgstr ""
 
-#: converter_page%2335 settings_dialog%2316
+#: converter_page%2335 settings_dialog%2324
 msgid "Skip"
 msgstr ""
 
-#: converter_page%2336 settings_dialog%2317
+#: converter_page%2336 settings_dialog%2325
 msgid "Prompt"
 msgstr ""
 
@@ -272,30 +272,69 @@ msgid "Manage Folders Presets"
 msgstr ""
 
 #: settings_dialog%2314
-msgid "Format Provider Plugins"
+msgid "Preset"
+msgstr ""
+
+#: settings_dialog%2315
+msgid "Remove current preset"
+msgstr ""
+
+#: settings_dialog%2316
+msgid "Add new rule"
+msgstr ""
+
+#: settings_dialog%2317
+msgid "Full match"
 msgstr ""
 
 #: settings_dialog%2318
-msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgid "Alphabetic"
 msgstr ""
 
 #: settings_dialog%2319
-msgid "Auto Check for Updates"
+msgid "Non-alphabetic"
 msgstr ""
 
 #: settings_dialog%2320
-msgid "Conversion Settings"
+msgid "Regex"
 msgstr ""
 
 #: settings_dialog%2321
-msgid "Basic Settings"
+msgid ""
+"Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
 msgstr ""
 
 #: settings_dialog%2322
+msgid "Format Provider Plugins"
+msgstr ""
+
+#: settings_dialog%2326
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr ""
+
+#: settings_dialog%2327
+msgid "Auto Check for Updates"
+msgstr ""
+
+#: settings_dialog%2328
+msgid "Conversion Settings"
+msgstr ""
+
+#: settings_dialog%2329
+msgid "Basic Settings"
+msgstr ""
+
+#: settings_dialog%2330
 msgid "Save Path Settings"
 msgstr ""
 
-#: settings_dialog%2323
+#: settings_dialog%2331
+msgid "Lyric Replacement Rules"
+msgstr ""
+
+#: settings_dialog%2332
 msgid "Updates Settings"
 msgstr ""
 
@@ -468,7 +507,7 @@ msgid "Name"
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:64
-#: ../libresvip/gui/models/table_models.py:16 ../libresvip/web/pages.py:188
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:268
 msgid "Author"
 msgstr ""
 
@@ -559,8 +598,36 @@ msgstr ""
 msgid "Converting ..."
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:16
+#: ../libresvip/gui/models/table_models.py:17
 msgid "Applicable File Format"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1278
+msgid "Mode"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1281
+msgid "Prefix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1286
+msgid "Pattern"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1291
+msgid "Suffix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1296
+msgid "Replacement"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1329
+msgid "Case sensitive"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1300
+msgid "Actions"
 msgstr ""
 
 #: ../libresvip/gui/modules/notifier.py:55
@@ -620,119 +687,172 @@ msgstr ""
 msgid "Notes Overlapped"
 msgstr ""
 
-#: ../libresvip/web/pages.py:178
+#: ../libresvip/web/pages.py:255
 msgid "name"
 msgstr ""
 
-#: ../libresvip/web/pages.py:198 ../libresvip/web/pages.py:215
-#: ../libresvip/web/pages.py:998 ../libresvip/web/pages.py:1014
-#: ../libresvip/web/pages.py:1129 ../libresvip/web/pages.py:1181
+#: ../libresvip/web/pages.py:277 ../libresvip/web/pages.py:294
+#: ../libresvip/web/pages.py:1177 ../libresvip/web/pages.py:1196
+#: ../libresvip/web/pages.py:1658 ../libresvip/web/pages.py:1706
 msgid "file_format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:205
+#: ../libresvip/web/pages.py:284
 msgid "description"
 msgstr ""
 
-#: ../libresvip/web/pages.py:321 ../libresvip/web/pages.py:435
+#: ../libresvip/web/pages.py:408 ../libresvip/web/pages.py:525
 msgid "Invalid integer"
 msgstr ""
 
-#: ../libresvip/web/pages.py:325 ../libresvip/web/pages.py:439
+#: ../libresvip/web/pages.py:412 ../libresvip/web/pages.py:529
 msgid "Invalid float"
 msgstr ""
 
-#: ../libresvip/web/pages.py:561 ../libresvip/web/pages.py:591
+#: ../libresvip/web/pages.py:652 ../libresvip/web/pages.py:682
 msgid "Copy to clipboard"
 msgstr ""
 
-#: ../libresvip/web/pages.py:567 ../libresvip/web/pages.py:597
-#: ../libresvip/web/pages.py:761 ../libresvip/web/pages.py:1092
-#: ../libresvip/web/pages.py:1147 ../libresvip/web/pages.py:1204
+#: ../libresvip/web/pages.py:658 ../libresvip/web/pages.py:688
+#: ../libresvip/web/pages.py:1111 ../libresvip/web/pages.py:1555
+#: ../libresvip/web/pages.py:1590 ../libresvip/web/pages.py:1676
+#: ../libresvip/web/pages.py:1729
 msgid "Close"
 msgstr ""
 
-#: ../libresvip/web/pages.py:759
-msgid "Conversion Progress"
-msgstr ""
-
-#: ../libresvip/web/pages.py:764
+#: ../libresvip/web/pages.py:904
 msgid "Conversion Failed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:767
+#: ../libresvip/web/pages.py:906
 msgid "Conversion Successful"
 msgstr ""
 
-#: ../libresvip/web/pages.py:821 ../libresvip/web/pages.py:856
+#: ../libresvip/web/pages.py:984 ../libresvip/web/pages.py:1019
 msgid "All files (*.*)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:843
+#: ../libresvip/web/pages.py:1006
 msgid "Save failed!"
 msgstr ""
 
-#: ../libresvip/web/pages.py:853
+#: ../libresvip/web/pages.py:1016
 msgid "Compressed Archive (*.zip)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:865
+#: ../libresvip/web/pages.py:1028
 msgid "Saved"
 msgstr ""
 
-#: ../libresvip/web/pages.py:952 ../libresvip/web/pages.py:972
+#: ../libresvip/web/pages.py:1115 ../libresvip/web/pages.py:1144
 msgid "Convert"
 msgstr ""
 
-#: ../libresvip/web/pages.py:961 ../libresvip/web/pages.py:1217
+#: ../libresvip/web/pages.py:1120
+msgid "Alt+C"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1130 ../libresvip/web/pages.py:1742
 msgid "Import project"
 msgstr ""
 
-#: ../libresvip/web/pages.py:989 ../libresvip/web/pages.py:1132
+#: ../libresvip/web/pages.py:1166 ../libresvip/web/pages.py:1661
 msgid "Import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1006 ../libresvip/web/pages.py:1184
+#: ../libresvip/web/pages.py:1171
+msgid "Alt+["
+msgstr ""
+
+#: ../libresvip/web/pages.py:1186 ../libresvip/web/pages.py:1709
 msgid "Export format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1019
+#: ../libresvip/web/pages.py:1191
+msgid "Alt+]"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1202
 msgid "Switch Theme"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1041
-msgid "Switch Language"
+#: ../libresvip/web/pages.py:1207
+msgid "Alt+T"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1093
+#: ../libresvip/web/pages.py:1230
 msgid "Help"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1104
+#: ../libresvip/web/pages.py:1235
+msgid "Alt+H"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1247
 msgid "Documentation"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1120
-msgid "Choose file format"
+#: ../libresvip/web/pages.py:1258
+msgid "Lyric Replace Rules"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1157
+#: ../libresvip/web/pages.py:1260
+msgid "Switch Language"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1266 ../libresvip/web/pages.py:1685
 msgid "Auto detect import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1164
+#: ../libresvip/web/pages.py:1271 ../libresvip/web/pages.py:1692
 msgid "Reset list when import format changed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1310
+#: ../libresvip/web/pages.py:1299
+msgid "Flags"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1326
+msgid "Ignore case"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1460
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1470
+msgid "Preset: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:1503
+msgid "Save current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1573 ../libresvip/web/pages.py:1587
+msgid "Maximize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1577
+msgid "Restore"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1582
+msgid "Minimize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1649
+msgid "Choose file format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1851
 msgid "Drag and drop files here or click to upload"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1342
+#: ../libresvip/web/pages.py:1889
 msgid "Advanced Options"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1351
+#: ../libresvip/web/pages.py:1898
 msgid "Intermediate Processing"
 msgstr ""
 
@@ -2374,4 +2494,18 @@ msgstr ""
 
 #: .remove_short_silences.process[0].description
 msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+#: .replace_lyric.name
+msgid "Replace lyrics"
+msgstr ""
+
+#: .replace_lyric.description
+msgid ""
+"Replace lyrics using preset rules. You can customize the lyrics replacement "
+"rules in the program configuration page"
+msgstr ""
+
+#: .replace_lyric.process[0].title
+msgid "Name of lyric replacement preset"
 msgstr ""

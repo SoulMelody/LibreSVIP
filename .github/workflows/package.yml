@@ -29,24 +29,34 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python (Windows & Linux)
-        if: matrix.os != 'macos-14'
+      - name: Set up Python (Windows)
+        if: matrix.os == 'windows-latest'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Set up Python (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Set up Python (MacOS Universal2)
         if: matrix.os == 'macos-14'
         run: |
-          curl -L https://www.python.org/ftp/python/3.12.2/python-3.12.2-macos11.pkg --output ~/Downloads/python.pkg
+          curl -L https://www.python.org/ftp/python/3.12.3/python-3.12.3-macos11.pkg --output ~/Downloads/python.pkg
           sudo installer -pkg ~/Downloads/python.pkg -target /
       - name: Install OS dependencies
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install -y libegl1
-      - uses: pdm-project/setup-pdm@v4    
+      - uses: pdm-project/setup-pdm@v4
+        if: matrix.os != 'ubuntu-latest'
         with:
           python-version: 3.12
+      - uses: pdm-project/setup-pdm@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          python-version: 3.11
       - name: Install dependencies (Windows & Linux)
         if: matrix.os != 'macos-14'
         run: pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
@@ -108,8 +118,8 @@ jobs:
             apt-get install -y software-properties-common
             add-apt-repository ppa:deadsnakes/ppa
             apt-get update
-            apt-get install -y libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6 python3.12-dev python3.12-venv
-            update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
+            apt-get install -y libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6 python3.11-dev python3.11-venv
+            update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
           run: |
             cd /libresvip
             python -m ensurepip --upgrade
