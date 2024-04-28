@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:ee7db3c8a817a63d85fd4c0291d637cef5eb7b259c29d73ce662587a850744a0"
+content_hash = "sha256:c675115810617f879966303c88591472d06bf450a28c309ea55c79f3cf67f1b6"
 
 [[package]]
 name = "aiofiles"
@@ -2532,7 +2532,7 @@ files = [
 
 [[package]]
 name = "pytest"
-version = "8.1.2"
+version = "8.2.0"
 requires_python = ">=3.8"
 summary = "pytest: simple powerful testing with Python"
 groups = ["test"]
@@ -2541,12 +2541,12 @@ dependencies = [
     "exceptiongroup>=1.0.0rc8; python_version < \"3.11\"",
     "iniconfig",
     "packaging",
-    "pluggy<2.0,>=1.4",
+    "pluggy<2.0,>=1.5",
     "tomli>=1; python_version < \"3.11\"",
 ]
 files = [
-    {file = "pytest-8.1.2-py3-none-any.whl", hash = "sha256:6c06dc309ff46a05721e6fd48e492a775ed8165d2ecdf57f156a80c7e95bb142"},
-    {file = "pytest-8.1.2.tar.gz", hash = "sha256:f3c45d1d5eed96b01a2aea70dee6a4a366d51d38f9957768083e4fecfc77f3ef"},
+    {file = "pytest-8.2.0-py3-none-any.whl", hash = "sha256:1733f0620f6cda4095bbf0d9ff8022486e91892245bb9e7d5542c018f612f233"},
+    {file = "pytest-8.2.0.tar.gz", hash = "sha256:d507d4482197eac0ba2bae2e9babf0672eb333017bcedaa5fb1a3d42c1174b3f"},
 ]
 
 [[package]]
