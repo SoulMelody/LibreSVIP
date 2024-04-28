@@ -61,6 +61,7 @@ from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
+from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names
 from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.web.elements import QFab, QFabAction
@@ -1421,26 +1422,70 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 "body-cell-actions",
                                 r"""
                                 <q-td key="actions" :props="props">
-                                    <q-btn size="sm" color="accent" round dense
-                                        @click="() => $parent.$emit('delete', props.row)"
-                                        icon="remove" />
+                                    <span>
+                                        <q-btn size="sm" color="accent" round dense
+                                            @click="() => $parent.$emit('move_up', props.row)"
+                                            icon="arrow_upward" />
+                                        <q-btn size="sm" color="accent" round dense
+                                            @click="() => $parent.$emit('move_down', props.row)"
+                                            icon="arrow_downward" />
+                                        <q-btn size="sm" color="accent" round dense
+                                            @click="() => $parent.$emit('delete', props.row)"
+                                            icon="remove" />
+                                    </span>
                                 </q-td>
                             """,
                             )
 
                             def modify_field(event: GenericEventArguments) -> None:
-                                for row in rows:
-                                    if row["id"] == event.args[0]:
-                                        row[event.args[1]] = event.args[2]
-                                        break
+                                if (
+                                    row_idx := find_index(
+                                        rows, lambda row: row["id"] == event.args["id"]
+                                    )
+                                ) != -1:
+                                    rows[row_idx][event.args[1]] = event.args[2]
 
                             table.on("modify_field", modify_field)
 
+                            def move_up_rule(event: GenericEventArguments) -> None:
+                                if (
+                                    row_idx := find_index(
+                                        rows, lambda row: row["id"] == event.args["id"]
+                                    )
+                                ) > 0:
+                                    rows[row_idx - 1], rows[row_idx] = (
+                                        rows[row_idx],
+                                        rows[row_idx - 1],
+                                    )
+                                    table.update_rows(rows)
+
+                            table.on("move_up", move_up_rule)
+
+                            def move_down_rule(event: GenericEventArguments) -> None:
+                                if (
+                                    -1
+                                    < (
+                                        row_idx := find_index(
+                                            rows, lambda row: row["id"] == event.args["id"]
+                                        )
+                                    )
+                                    < len(rows) - 1
+                                ):
+                                    rows[row_idx + 1], rows[row_idx] = (
+                                        rows[row_idx],
+                                        rows[row_idx + 1],
+                                    )
+                                    table.update_rows(rows)
+
+                            table.on("move_down", move_down_rule)
+
                             def delete_rule(event: GenericEventArguments) -> None:
-                                for row in rows:
-                                    if row["id"] == event.args["id"]:
-                                        table.remove_rows(row)
-                                        break
+                                if (
+                                    row_idx := find_index(
+                                        rows, lambda row: row["id"] == event.args["id"]
+                                    )
+                                ) != -1:
+                                    table.remove_rows(rows[row_idx])
 
                             table.on("delete", delete_rule)
 
