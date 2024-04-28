@@ -23,7 +23,7 @@ with contextlib.suppress(Exception):
 
 
 a = Analysis(
-    ['../libresvip/web/pages.py'],
+    ['../libresvip/web/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
         os.path.join(nicegui.__path__[0], os.pardir)
