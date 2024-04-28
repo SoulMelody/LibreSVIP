@@ -99,14 +99,6 @@ def install_mingw_deps() -> None:
             "--noconfirm",
         ]
     )
-    subprocess.call(
-        [
-            "pacman",
-            "-S",
-            f"{mingw_arch}-rust",
-            "--noconfirm",
-        ]
-    )
     requirements_path = cwd / "requirements.txt"
     for requirement_str in requirements_path.read_text().splitlines():
         try:
