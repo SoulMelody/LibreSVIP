@@ -36,6 +36,7 @@ a = Analysis(
     hiddenimports=[
         "bidict",
         "construct_typed",
+        "docutils",
         "drawsvg",
         "google.protobuf.any_pb2",
         "jinja2",
