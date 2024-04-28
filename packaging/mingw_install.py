@@ -1,11 +1,13 @@
 import os
 import pathlib
+import site
 import subprocess
 
 from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
 def install_mingw_deps() -> None:
+    sys_site_packages_path = site.getsitepackages()[-1]
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
     msystem = os.environ.get("MSYSTEM", "UCRT64")
     subprocess.call(
@@ -125,6 +127,14 @@ def install_mingw_deps() -> None:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
     subprocess.call(["pip", "install", "-r", "requirements.txt", "--no-deps"])
+    subprocess.call(
+        [
+            "ln",
+            "-s",
+            f"/{msystem.lower()}/bin/libmediainfo-0.dll",
+            f"{sys_site_packages_path}/pymediainfo",
+        ]
+    )
 
 
 if __name__ == "__main__":
