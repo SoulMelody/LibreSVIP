@@ -110,16 +110,29 @@ class Notifier(QObject):
                             ):
                                 pass
                             elif uname.system == "Windows":
-                                asset = next(
-                                    (
-                                        asset
-                                        for asset in data["assets"]
-                                        if fnmatch.fnmatch(
-                                            asset["name"], f"LibreSVIP-*.win-{arch}.zip"
-                                        )
-                                    ),
-                                    None,
-                                )
+                                python_compiler = platform.python_compiler()
+                                if python_compiler.startswith("GCC"):
+                                    asset = next(
+                                        (
+                                            asset
+                                            for asset in data["assets"]
+                                            if fnmatch.fnmatch(
+                                                asset["name"], "LibreSVIP-*.msys2-*.tar.gz"
+                                            )
+                                        ),
+                                        None,
+                                    )
+                                else:
+                                    asset = next(
+                                        (
+                                            asset
+                                            for asset in data["assets"]
+                                            if fnmatch.fnmatch(
+                                                asset["name"], f"LibreSVIP-*.win-{arch}.*"
+                                            )
+                                        ),
+                                        None,
+                                    )
                             elif uname.system == "Linux":
                                 asset = next(
                                     (

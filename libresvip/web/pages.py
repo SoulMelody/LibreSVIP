@@ -143,7 +143,7 @@ class ConversionTask:
                 self.output_path.unlink()
 
     def __del__(self) -> None:
-        if self.upload_path.exists():
+        if app.native.main_window is None and self.upload_path.exists():
             self.upload_path.unlink()
         if self.output_path.exists():
             if self.output_path.is_dir():
@@ -703,17 +703,16 @@ def page_layout(lang: Optional[str] = None) -> None:
         async def _add_task(
             self,
             name: str,
-            content: Union[BinaryIO, aiofiles.threadpool.binary.AsyncBufferedReader],
+            content: Union[BinaryIO, pathlib.Path],
         ) -> None:
             if settings.auto_detect_input_format:
                 cur_suffix = name.rpartition(".")[-1].lower()
                 if cur_suffix in plugin_manager.plugin_registry and cur_suffix != self.input_format:
                     self.input_format = cur_suffix
-            upload_path = self.temp_path / name
-            if isinstance(content, aiofiles.threadpool.binary.AsyncBufferedReader):
-                await content.seek(0)
-                upload_path.write_bytes(await content.read())
+            if isinstance(content, pathlib.Path):
+                upload_path = content
             else:
+                upload_path = self.temp_path / name
                 content.seek(0)
                 upload_path.write_bytes(content.read())
             output_path = self.temp_path / str(uuid.uuid4())
@@ -989,8 +988,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     return
                 for file_path in file_paths:
                     path = pathlib.Path(file_path)
-                    async with aiofiles.open(path, "rb") as content:
-                        await self._add_task(path.name, content)
+                    await self._add_task(path.name, path)
             else:
                 ui.run_javascript("add_upload()")
 
@@ -1118,7 +1116,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         on_click=lambda: convert_menu.open(),
                     )
                     .props("square")
-                    .tooltip(_("Alt+C")),
+                    .tooltip("Alt+C"),
                     ui.menu() as convert_menu,
                 ):
                     with (
@@ -1169,7 +1167,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         on_click=lambda: input_formats_menu.open(),
                     )
                     .props("square")
-                    .tooltip(_("Alt+[")),
+                    .tooltip("Alt+["),
                     ui.menu() as input_formats_menu,
                 ):
                     input_format_item = (
@@ -1189,7 +1187,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         on_click=lambda: output_formats_menu.open(),
                     )
                     .props("square")
-                    .tooltip(_("Alt+]")),
+                    .tooltip("Alt+]"),
                     ui.menu() as output_formats_menu,
                 ):
                     output_format_item = ui.radio(
@@ -1205,7 +1203,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         on_click=lambda: theme_menu.open(),
                     )
                     .props("square")
-                    .tooltip(_("Alt+T")),
+                    .tooltip("Alt+T"),
                     ui.menu() as theme_menu,
                 ):
                     with (
@@ -1233,7 +1231,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         on_click=lambda: help_menu.open(),
                     )
                     .props("square")
-                    .tooltip(_("Alt+H")),
+                    .tooltip("Alt+H"),
                     ui.menu() as help_menu,
                 ):
                     with (

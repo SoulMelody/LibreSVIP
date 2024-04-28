@@ -7,24 +7,68 @@ from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 def install_mingw_deps() -> None:
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
+    msystem = os.environ.get("MSYSTEM", "UCRT64")
+    subprocess.call(
+        [
+            "wget",
+            "-N",
+            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-qt6-base-6.6.2-2-any.pkg.tar.zst",
+        ]
+    )
+    subprocess.call(
+        [
+            "wget",
+            "-N",
+            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-qt6-declarative-6.6.2-1-any.pkg.tar.zst",
+        ]
+    )
+    subprocess.call(
+        [
+            "wget",
+            "-N",
+            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-shiboken6-6.6.2-3-any.pkg.tar.zst",
+        ]
+    )
+    subprocess.call(
+        [
+            "wget",
+            "-N",
+            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-pyside6-6.6.2-3-any.pkg.tar.zst",
+        ]
+    )
+    subprocess.call(
+        [
+            "pacman",
+            "--noconfirm",
+            "-U",
+            f"{mingw_arch}-qt6-base-6.6.2-2-any.pkg.tar.zst",
+            f"{mingw_arch}-qt6-declarative-6.6.2-1-any.pkg.tar.zst",
+            f"{mingw_arch}-shiboken6-6.6.2-3-any.pkg.tar.zst",
+            f"{mingw_arch}-pyside6-6.6.2-3-any.pkg.tar.zst",
+        ]
+    )
+    subprocess.call(["pacman", "-Sy"])
     new_requirements = []
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
         "anyio": "python-anyio",
         "charset-normalizer": "python-charset-normalizer",
-        "cx-Freeze": "python-cx-freeze",
-        "cx-Logging": "python-cx-logging",
+        "cx-freeze": "python-cx-freeze",
+        "cx-logging": "python-cx-logging",
         "lief": "python-lief",
+        "lxml": "python-lxml",
+        "markupsafe": "python-markupsafe",
         "nuitka": "python-nuitka",
+        "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
-        "pyside6": "pyside6",
-        "PySide6-Addons": None,
-        "PySide6-Essentials": None,
-        "PyYAML": "python-yaml",
+        "pyside6": None,
+        "pyside6-addons": None,
+        "pyside6-essentials": None,
+        "pyyaml": "python-yaml",
         "regex": "python-regex",
         "ruamel-yaml": "python-ruamel-yaml",
         "ruamel-yaml-clib": "python-ruamel.yaml.clib",
-        "shiboken6": "shiboken6",
+        "shiboken6": None,
         "ujson": "python-ujson",
         "winsdk": "python-winsdk",
         "zstandard": "python-zstandard",
@@ -34,9 +78,33 @@ def install_mingw_deps() -> None:
         [
             "pacman",
             "-S",
+            f"{mingw_arch}-gettext",
+            "--noconfirm",
+        ]
+    )
+    subprocess.call(
+        [
+            "pacman",
+            "-S",
             f"{mingw_arch}-libmediainfo",
             "--noconfirm",
             "--needed",
+        ]
+    )
+    subprocess.call(
+        [
+            "pacman",
+            "-S",
+            f"{mingw_arch}-python-cffi",
+            "--noconfirm",
+        ]
+    )
+    subprocess.call(
+        [
+            "pacman",
+            "-S",
+            f"{mingw_arch}-rust",
+            "--noconfirm",
         ]
     )
     requirements_path = cwd / "requirements.txt"
@@ -49,9 +117,6 @@ def install_mingw_deps() -> None:
             requirement.marker is None or requirement.marker.evaluate() is True
         ) and requirement.name not in [
             "libresvip",
-            "pyinstaller",
-            "pefile",
-            "pyinstaller-hooks-contrib",
         ]:
             if requirement.name in mingw_native_packages:
                 if (mingw_native_package := mingw_native_packages[requirement.name]) is not None:
