@@ -78,12 +78,13 @@ jobs:
           python mingw_install.py
           pyinstaller libresvip.spec
           cd dist
-          tar cvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.tar.gz libresvip
+          pacman -S p7zip --noconfirm
+          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip
           rm -rf libresvip
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-msys2-ucrt64.tar.gz
+          name: libresvip-msys2-ucrt64.7z
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -91,7 +92,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.tar.gz
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z
 
   release_windows_webview:
     runs-on: windows-latest
