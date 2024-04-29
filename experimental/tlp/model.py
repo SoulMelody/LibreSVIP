@@ -1,10 +1,26 @@
 from __future__ import annotations
 
-from typing import Annotated, Any, Literal, Optional, Union
+from itertools import chain
+from typing import Annotated, Any, Literal, NamedTuple, Optional, Union
 
-from pydantic import Field
+from more_itertools import batched
+from pydantic import Field, RootModel, ValidationInfo, field_validator, model_serializer
 
 from libresvip.model.base import BaseModel
+from libresvip.model.point import PointList
+
+
+class TuneLabPoint(NamedTuple):
+    pos: float
+    value: float
+
+
+class TuneLabPoints(PointList[TuneLabPoint], RootModel[list[TuneLabPoint]]):
+    root: list[TuneLabPoint] = Field(default_factory=list)
+
+    @model_serializer(when_used="json")
+    def serialize_points(self) -> list[float]:
+        return list(chain.from_iterable(self.root))
 
 
 class TuneLabTempo(BaseModel):
@@ -25,7 +41,16 @@ class TuneLabVoice(BaseModel):
 
 class TuneLabAutomation(BaseModel):
     default: float
-    values: list[float] = Field(default_factory=list)
+    values: TuneLabPoints = Field(default_factory=TuneLabPoints)
+
+    @field_validator("values", mode="before")
+    @classmethod
+    def validate_values(
+        cls, values: list[Union[float, TuneLabPoint]], _info: ValidationInfo
+    ) -> TuneLabPoints:
+        if _info.mode == "json":
+            return TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
+        return TuneLabPoints(root=values)
 
 
 class TuneLabAutomations(BaseModel):
@@ -89,12 +114,24 @@ class BasePart(BaseModel):
 class TuneLabMidiPart(BasePart):
     type_: Literal["midi"] = Field(alias="type")
     gain: Optional[float] = 0.0
-    voice: TuneLabVoice
+    voice: TuneLabVoice = Field(default_factory=TuneLabVoice)
     properties: dict[str, Any] = Field(default_factory=dict)
     notes: list[TuneLabNote] = Field(default_factory=list)
     automations: Optional[TuneLabAutomations] = None
-    pitch: list[list[float]]
+    pitch: list[TuneLabPoints] = Field(default_factory=list)
     vibratos: list[TuneLabVibrato] = Field(default_factory=list)
+
+    @field_validator("pitch", mode="before")
+    @classmethod
+    def validate_pitch(
+        cls, pitch: list[Union[list[float], TuneLabPoints]], _info: ValidationInfo
+    ) -> TuneLabPoints:
+        if _info.mode == "json":
+            return [
+                TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
+                for values in pitch
+            ]
+        return pitch
 
 
 class TuneLabAudioPart(BasePart):
