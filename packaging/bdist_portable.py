@@ -20,7 +20,7 @@ class BdistPortable(Command):
         (
             "plat-name=",
             "p",
-            "platform name to embed in generated filenames " "(default: %s)" % get_platform(),
+            "platform name to embed in generated filenames " f"(default: {get_platform()})",
         ),
         (
             "format=",
@@ -77,10 +77,11 @@ class BdistPortable(Command):
             try:
                 self.format = self.default_format[os.name]
             except KeyError as exc:
-                raise DistutilsPlatformError(
+                msg = (
                     "don't know how to create portable built distributions "
-                    "on platform %s" % os.name
-                ) from exc
+                    f"on platform {os.name}"
+                )
+                raise DistutilsPlatformError(msg) from exc
 
         self.set_undefined_options(
             "bdist",
