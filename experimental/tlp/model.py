@@ -105,13 +105,13 @@ class TuneLabVibrato(BaseModel):
     )
 
 
-class BasePart(BaseModel):
+class TuneLabBasePart(BaseModel):
     name: str
     pos: float
     dur: float
 
 
-class TuneLabMidiPart(BasePart):
+class TuneLabMidiPart(TuneLabBasePart):
     type_: Literal["midi"] = Field(alias="type")
     gain: Optional[float] = 0.0
     voice: TuneLabVoice = Field(default_factory=TuneLabVoice)
@@ -134,7 +134,7 @@ class TuneLabMidiPart(BasePart):
         return pitch
 
 
-class TuneLabAudioPart(BasePart):
+class TuneLabAudioPart(TuneLabBasePart):
     type_: Literal["audio"] = Field(alias="type")
     path: str
 
