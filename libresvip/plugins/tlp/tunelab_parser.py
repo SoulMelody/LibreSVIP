@@ -101,9 +101,9 @@ class TuneLabParser:
         ]
 
     def parse_pitch(self, pitch: list[TuneLabPoints], offset: int) -> list[Point]:
-        points = []
+        points: list[Point] = []
         for pitch_part in pitch:
-            for is_first, is_last, tlp_point in more_itertools.mark_ends(pitch_part):
+            for is_first, is_last, tlp_point in more_itertools.mark_ends(pitch_part.root):
                 if is_first:
                     points.append(
                         Point(
