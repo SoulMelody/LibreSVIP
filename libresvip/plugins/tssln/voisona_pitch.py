@@ -10,7 +10,7 @@ import more_itertools
 from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import ParamCurve, Points, SongTempo
-from libresvip.model.point import Point
+from libresvip.model.point import Point, interpolate_linear
 from libresvip.utils.music_math import hz2midi, midi2hz
 from libresvip.utils.search import find_last_index
 from libresvip.utils.translation import gettext_lazy as _
@@ -79,6 +79,15 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
         except OverflowError:
             show_warning(_("Pitch value is out of bounds"))
         next_pos = pos + length
+        converted_points.extend(
+            interpolate_linear(
+                [
+                    Point(x=round(pos), y=value),
+                    Point(x=round(next_pos), y=value),
+                ],
+                5,
+            )
+        )
     converted_points.append(Point.end_point())
 
     return ParamCurve(points=Points(root=converted_points)) if len(converted_points) > 2 else None
