@@ -72,7 +72,7 @@ class MutaGenerator:
     def generate_tempos(self, tempos: list[SongTempo]) -> list[MutaTempo]:
         return [
             MutaTempo(
-                position=tempo.position - self.first_bar_length,
+                position=max(tempo.position - self.first_bar_length, 0),
                 bpm=round(tempo.bpm * 100),
             )
             for tempo in tempos
@@ -124,7 +124,7 @@ class MutaGenerator:
     def generate_pitch(self, pitch: ParamCurve) -> list[MutaPoint]:
         return [
             MutaPoint(
-                time=point.x - 2 * self.first_bar_length,
+                time=max(point.x - 2 * self.first_bar_length, -1),
                 value=12900 if point.y < 0 else point.y - 1200,
             )
             for point in pitch.points.root
