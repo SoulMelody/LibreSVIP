@@ -32,28 +32,24 @@ def get_interval_dict(notes: list[Note], to_absolute: bool) -> PiecewiseInterval
         if next_note is None:
             continue
         if prev_note.end_pos < next_note.start_pos:
-            if to_absolute:
-                if next_note.lyric == "-":
-                    interval_dict[portion.singleton(prev_note.end_pos)] = (
-                        prev_note.key_number + next_note.key_number
-                    ) / 2
-                    interval_dict[portion.openclosed(prev_note.end_pos, next_note.start_pos)] = (
-                        next_note.key_number
-                    )
-                else:
-                    middle_pos = (prev_note.end_pos + next_note.start_pos) / 2
-                    interval_dict[portion.closedopen(prev_note.end_pos, middle_pos)] = (
-                        prev_note.key_number
-                    )
-                    interval_dict[portion.singleton(middle_pos)] = (
-                        prev_note.key_number + next_note.key_number
-                    ) / 2
-                    interval_dict[portion.openclosed(middle_pos, next_note.start_pos)] = (
-                        next_note.key_number
-                    )
+            if next_note.lyric == "-":
+                interval_dict[portion.singleton(prev_note.end_pos)] = (
+                    prev_note.key_number + next_note.key_number
+                ) / 2
+                interval_dict[portion.openclosed(prev_note.end_pos, next_note.start_pos)] = (
+                    next_note.key_number
+                )
             else:
-                interval_dict[portion.singleton(prev_note.end_pos)] = prev_note.key_number
-                interval_dict[portion.singleton(next_note.start_pos)] = next_note.key_number
+                middle_pos = (prev_note.end_pos + next_note.start_pos) / 2
+                interval_dict[portion.closedopen(prev_note.end_pos, middle_pos)] = (
+                    prev_note.key_number
+                )
+                interval_dict[portion.singleton(middle_pos)] = (
+                    prev_note.key_number + next_note.key_number
+                ) / 2
+                interval_dict[portion.openclosed(middle_pos, next_note.start_pos)] = (
+                    next_note.key_number
+                )
         else:
             interval_dict[portion.singleton(next_note.start_pos)] = next_note.key_number
     return interval_dict
@@ -82,31 +78,37 @@ class RelativePitchCurve:
         if not len(note_list):
             return converted_data
         interval_dict = get_interval_dict(note_list, to_absolute)
+        prev_x = None
         prev_y = None
         for point in points:
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
             cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
+            if (base_key := interval_dict.get(pos)) is None:
+                y = None
+            elif not to_absolute and point.y == -100:
+                y = 0
+            else:
+                y = point.y + (base_key if to_absolute else -base_key) * 100
             if (
-                (to_absolute or point.y != -100)
+                y is not None
                 and prev_y is not None
                 and converted_data
-                and cur_x - converted_data[-1].x > self.pitch_interval
+                and cur_x - prev_x > self.pitch_interval
             ):
-                for tick in range(
-                    converted_data[-1].x + self.pitch_interval, cur_x, self.pitch_interval
-                ):
+                for tick in range(prev_x + self.pitch_interval, cur_x, self.pitch_interval):
                     tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
                     if (tick_key := interval_dict.get(tick_pos)) is not None:
                         if to_absolute:
                             converted_data.append(Point(x=tick, y=round(prev_y + tick_key * 100)))
                         else:
-                            converted_data.append(Point(x=tick, y=0))
-            if (base_key := interval_dict.get(pos)) is not None:
-                if not to_absolute and point.y == -100:
-                    y = 0
-                else:
-                    y = point.y + (base_key if to_absolute else -base_key) * 100
-                if to_absolute and len(converted_data) and converted_data[-1].y == -100:
+                            converted_data.append(
+                                Point(
+                                    x=tick,
+                                    y=prev_y + (y - prev_y) * (tick - prev_x) / (cur_x - prev_x),
+                                )
+                            )
+            if y is not None:
+                if to_absolute and prev_y is None:
                     converted_data.append(Point(x=cur_x, y=-100))
                 cur_point = Point(x=cur_x, y=round(y))
                 converted_data.append(cur_point)
@@ -120,6 +122,7 @@ class RelativePitchCurve:
                     prev_y = None if point.y == -100 else y
             else:
                 prev_y = None
+            prev_x = cur_x
         if converted_data and to_absolute:
             if self.lower_bound == 0:
                 converted_data.insert(0, Point.start_point())
