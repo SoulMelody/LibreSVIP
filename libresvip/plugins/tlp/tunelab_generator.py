@@ -14,6 +14,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import ratio_to_db
 
 from .model import (
     TuneLabAudioPart,
@@ -76,7 +77,7 @@ class TuneLabGenerator:
                 if (track_info := audio_track_info(track.audio_file_path)) is not None:
                     tlp_track = TuneLabTrack(
                         name=track.title,
-                        gain=track.volume,
+                        gain=self.generate_volume(track.volume),
                         pan=track.pan,
                         mute=track.mute,
                         solo=track.solo,
@@ -103,7 +104,7 @@ class TuneLabGenerator:
                     tlp_midi_part.pitch = pitch
                 tlp_track = TuneLabTrack(
                     name=track.title,
-                    gain=track.volume,
+                    gain=self.generate_volume(track.volume),
                     pan=track.pan,
                     mute=track.mute,
                     solo=track.solo,
@@ -111,6 +112,10 @@ class TuneLabGenerator:
                 )
                 tlp_track_list.append(tlp_track)
         return tlp_track_list
+
+    @staticmethod
+    def generate_volume(volume: float) -> float:
+        return max(ratio_to_db(max(volume, 0.01)), -70) if volume > 0 else -70
 
     @staticmethod
     def generate_notes(note_list: list[Note]) -> list[TuneLabNote]:

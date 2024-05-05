@@ -12,6 +12,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
+from libresvip.utils.music_math import db_to_float, ratio_to_db
 
 from .model import (
     TuneLabAudioPart,
@@ -66,27 +67,44 @@ class TuneLabParser:
                             audio_file_path=part.path,
                             title=part.name,
                             offset=int(part.pos),
-                            volume=track.gain,
+                            volume=self.parse_volume(track.gain),
                             pan=track.pan,
                             mute=track.mute,
                             solo=track.solo,
                         )
                     )
                 elif isinstance(part, TuneLabMidiPart) and len(part.notes):
-                    singing_track = SingingTrack(
-                        title=part.name,
-                        volume=track.gain,
-                        pan=track.pan,
-                        mute=track.mute,
-                        solo=track.solo,
-                        note_list=self.parse_notes(part.notes, int(part.pos)),
-                    )
+                    if (
+                        len(track_list)
+                        and isinstance(track_list[-1], SingingTrack)
+                        and (
+                            not track_list[-1].note_list
+                            or track_list[-1].note_list[-1].end_pos <= int(part.pos)
+                        )
+                    ):
+                        singing_track = track_list[-1]
+                    else:
+                        singing_track = SingingTrack(
+                            title=part.name,
+                            volume=self.parse_volume(track.gain),
+                            pan=track.pan,
+                            mute=track.mute,
+                            solo=track.solo,
+                        )
+                        track_list.append(singing_track)
+                    singing_track.note_list.extend(self.parse_notes(part.notes, int(part.pos)))
                     if self.options.import_pitch and (
                         pitch_points := self.parse_pitch(part.pitch, int(part.pos))
                     ):
-                        singing_track.edited_params.pitch.points.root = pitch_points
-                    track_list.append(singing_track)
+                        singing_track.edited_params.pitch.points.root.extend(pitch_points)
         return track_list
+
+    @staticmethod
+    def parse_volume(gain: float) -> float:
+        if gain >= 0:
+            return min(gain / (ratio_to_db(4)) + 1.0, 2.0)
+        else:
+            return db_to_float(gain)
 
     @staticmethod
     def parse_notes(notes: list[TuneLabNote], offset: int) -> list[Note]:
@@ -107,13 +125,13 @@ class TuneLabParser:
                 if is_first:
                     points.append(
                         Point(
-                            x=tlp_point.pos + offset + self.first_bar_length,
+                            x=int(tlp_point.pos) + offset + self.first_bar_length,
                             y=-100,
                         )
                     )
                 points.append(
                     Point(
-                        x=tlp_point.pos + offset + self.first_bar_length,
+                        x=int(tlp_point.pos) + offset + self.first_bar_length,
                         y=round(tlp_point.value * 100),
                     )
                 )
