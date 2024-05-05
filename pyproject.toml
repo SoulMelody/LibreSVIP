@@ -103,7 +103,7 @@ code_gen = [
   "docformatter>=1.7.5",
   "toposort>=1.10",
 ]
-i18n = ["translate-toolkit>=3.13.0", "babel>=2.14.0"]
+i18n = ["translate-toolkit>=3.13.0", "babel>=2.15.0"]
 linting = [
   "pre-commit>=3.7.0",
   "ruff>=0.4.3",
@@ -117,7 +117,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=7.0.0",
-  "nuitka>=2.2",
+  "nuitka>=2.2.1",
   "pyinstaller>=6.6.0",
   "shellingham<2.0.0,>=1.5.4",
 ]

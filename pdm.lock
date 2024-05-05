@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:9b63d2b110c68d2725091104a6c2f783b576d4c158ccc79021495824b88bf027"
+content_hash = "sha256:aff6c784c5fe237b48135928e78c069d3841fe1deb7f75f045c91fb1542fbb0a"
 
 [[package]]
 name = "aiofiles"
@@ -193,13 +193,13 @@ files = [
 
 [[package]]
 name = "babel"
-version = "2.14.0"
-requires_python = ">=3.7"
+version = "2.15.0"
+requires_python = ">=3.8"
 summary = "Internationalization utilities"
 groups = ["docs", "i18n"]
 files = [
-    {file = "Babel-2.14.0-py3-none-any.whl", hash = "sha256:efb1a25b7118e67ce3a259bed20545c29cb68be8ad2c784c83689981b7a57287"},
-    {file = "Babel-2.14.0.tar.gz", hash = "sha256:6919867db036398ba21eb5c7a0f6b28ab8cbc3ae7a73a44ebe34ae74a4e7d363"},
+    {file = "Babel-2.15.0-py3-none-any.whl", hash = "sha256:08706bdad8d0a3413266ab61bd6c34d0c28d6e1e7badf40a2cebe67644e2e1fb"},
+    {file = "babel-2.15.0.tar.gz", hash = "sha256:8daf0e265d05768bc6c7a314cf1321e9a123afc328cc635c18622a2f30a04413"},
 ]
 
 [[package]]
@@ -1858,7 +1858,7 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.2"
+version = "2.2.1"
 summary = "Python compiler with full language support and CPython compatibility"
 groups = ["packaging"]
 dependencies = [
@@ -1866,7 +1866,7 @@ dependencies = [
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.2.tar.gz", hash = "sha256:a8ca7d8a2b65d544385b8c6678a3633c228fe22a9be39af3bdfe89d8e97ea511"},
+    {file = "Nuitka-2.2.1.tar.gz", hash = "sha256:7bf67e80f94c93017fbaacfe1e277b92422d234a3c849a1555e43848f5fb27a1"},
 ]
 
 [[package]]
