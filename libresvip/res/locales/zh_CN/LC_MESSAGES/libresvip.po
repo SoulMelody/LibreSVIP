@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-06 21:06+0800\n"
-"PO-Revision-Date: 2024-05-06 13:12\n"
+"PO-Revision-Date: 2024-05-06 13:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -533,7 +533,7 @@ msgstr "主页： "
 
 #: ../libresvip/cli/commands/plugin.py:95
 msgid "This plugin is applicable to"
-msgstr ""
+msgstr "此插件适用于"
 
 #: ../libresvip/cli/commands/plugin.py:97
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
@@ -541,7 +541,7 @@ msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \
 
 #: ../libresvip/cli/commands/plugin.py:102
 msgid "Description: "
-msgstr ""
+msgstr "描述： "
 
 #: ../libresvip/cli/commands/plugin.py:103
 msgid "input"
@@ -1962,11 +1962,11 @@ msgstr ""
 
 #: .tlp.file_format
 msgid "TuneLab project file"
-msgstr ""
+msgstr "TuneLab工程文件"
 
 #: .tlp.description
 msgid "Convertion plugin for TuneLab project file"
-msgstr ""
+msgstr "TuneLab工程格式转换插件"
 
 #: .tssln.name
 msgid "TSSln"
@@ -1990,7 +1990,7 @@ msgstr "UtaFormatix3 数据格式"
 
 #: .ufdata.description
 msgid "Convertion plugin for UFData format"
-msgstr ""
+msgstr "UFData格式转换插件"
 
 #: .ust.name
 msgid "Ust"
