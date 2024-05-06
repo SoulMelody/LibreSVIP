@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-27 12:09+0800\n"
-"PO-Revision-Date: 2024-04-27 05:09\n"
+"POT-Creation-Date: 2024-05-06 21:06+0800\n"
+"PO-Revision-Date: 2024-05-06 13:12\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "View Detail Information"
 msgstr ""
 
-#: converter_page%235 settings_dialog%232
+#: converter_page%235 settings_dialog%232
 msgid "Auto-Detect Input File Type"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Output Format: "
 msgstr ""
 
-#: converter_page%239 settings_dialog%234
+#: converter_page%239 settings_dialog%234
 msgid "Set Output File Extension Automatically"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 msgid "[Export to "
 msgstr ""
 
-#: converter_page%2326 settings_dialog%236
+#: converter_page%2326 settings_dialog%236
 msgid "Output Settings"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 msgid "Output Folder"
 msgstr ""
 
-#: converter_page%2329 settings_dialog%237
+#: converter_page%2329 settings_dialog%237
 msgid "Deal with Conflicts"
 msgstr ""
 
@@ -146,19 +146,19 @@ msgstr ""
 msgid "Converting"
 msgstr ""
 
-#: converter_page%2333 settings_dialog%238
+#: converter_page%2333 settings_dialog%238
 msgid "Open Output Folder When Done"
 msgstr ""
 
-#: converter_page%2334 settings_dialog%2323
+#: converter_page%2334 settings_dialog%2323
 msgid "Overwrite"
 msgstr ""
 
-#: converter_page%2335 settings_dialog%2324
+#: converter_page%2335 settings_dialog%2324
 msgid "Skip"
 msgstr ""
 
-#: converter_page%2336 settings_dialog%2325
+#: converter_page%2336 settings_dialog%2325
 msgid "Prompt"
 msgstr ""
 
@@ -505,7 +505,7 @@ msgid "Name"
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:64
-#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:268
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:269
 msgid "Author"
 msgstr ""
 
@@ -529,8 +529,16 @@ msgstr ""
 msgid "Website: "
 msgstr ""
 
+#: ../libresvip/cli/commands/plugin.py:95
+msgid "This plugin is applicable to"
+msgstr ""
+
 #: ../libresvip/cli/commands/plugin.py:97
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:102
+msgid "Description: "
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:103
@@ -598,31 +606,31 @@ msgstr ""
 msgid "Applicable File Format"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1278
+#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1277
 msgid "Mode"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1281
+#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1280
 msgid "Prefix"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1286
+#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1285
 msgid "Pattern"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1291
+#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1290
 msgid "Suffix"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1296
+#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1295
 msgid "Replacement"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1329
+#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1328
 msgid "Case sensitive"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1300
+#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1299
 msgid "Actions"
 msgstr ""
 
@@ -651,31 +659,31 @@ msgstr ""
 msgid "Open in Browser"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:150
+#: ../libresvip/gui/modules/notifier.py:163
 msgid "Download"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:160
+#: ../libresvip/gui/modules/notifier.py:173
 msgid "Update Available"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:161
+#: ../libresvip/gui/modules/notifier.py:174
 msgid "New version {} is available."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:166
+#: ../libresvip/gui/modules/notifier.py:179
 msgid "No Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:167
+#: ../libresvip/gui/modules/notifier.py:180
 msgid "You are using the latest version {}."
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:175
+#: ../libresvip/gui/modules/notifier.py:188
 msgid "Error occurred while Checking for Updates"
 msgstr ""
 
-#: ../libresvip/gui/modules/notifier.py:176
+#: ../libresvip/gui/modules/notifier.py:189
 msgid "Failed to check for updates. Please try again later."
 msgstr ""
 
@@ -683,36 +691,36 @@ msgstr ""
 msgid "Notes Overlapped"
 msgstr ""
 
-#: ../libresvip/web/pages.py:255
+#: ../libresvip/web/pages.py:256
 msgid "name"
 msgstr ""
 
-#: ../libresvip/web/pages.py:277 ../libresvip/web/pages.py:294
-#: ../libresvip/web/pages.py:1177 ../libresvip/web/pages.py:1196
-#: ../libresvip/web/pages.py:1658 ../libresvip/web/pages.py:1706
+#: ../libresvip/web/pages.py:278 ../libresvip/web/pages.py:295
+#: ../libresvip/web/pages.py:1176 ../libresvip/web/pages.py:1195
+#: ../libresvip/web/pages.py:1701 ../libresvip/web/pages.py:1749
 msgid "file_format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:284
+#: ../libresvip/web/pages.py:285
 msgid "description"
 msgstr ""
 
-#: ../libresvip/web/pages.py:408 ../libresvip/web/pages.py:525
+#: ../libresvip/web/pages.py:409 ../libresvip/web/pages.py:526
 msgid "Invalid integer"
 msgstr ""
 
-#: ../libresvip/web/pages.py:412 ../libresvip/web/pages.py:529
+#: ../libresvip/web/pages.py:413 ../libresvip/web/pages.py:530
 msgid "Invalid float"
 msgstr ""
 
-#: ../libresvip/web/pages.py:652 ../libresvip/web/pages.py:682
+#: ../libresvip/web/pages.py:653 ../libresvip/web/pages.py:683
 msgid "Copy to clipboard"
 msgstr ""
 
-#: ../libresvip/web/pages.py:658 ../libresvip/web/pages.py:688
-#: ../libresvip/web/pages.py:1111 ../libresvip/web/pages.py:1555
-#: ../libresvip/web/pages.py:1590 ../libresvip/web/pages.py:1676
-#: ../libresvip/web/pages.py:1729
+#: ../libresvip/web/pages.py:659 ../libresvip/web/pages.py:689
+#: ../libresvip/web/pages.py:1110 ../libresvip/web/pages.py:1598
+#: ../libresvip/web/pages.py:1633 ../libresvip/web/pages.py:1719
+#: ../libresvip/web/pages.py:1772
 msgid "Close"
 msgstr ""
 
@@ -724,131 +732,111 @@ msgstr ""
 msgid "Conversion Successful"
 msgstr ""
 
-#: ../libresvip/web/pages.py:984 ../libresvip/web/pages.py:1019
+#: ../libresvip/web/pages.py:984 ../libresvip/web/pages.py:1018
 msgid "All files (*.*)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1006
+#: ../libresvip/web/pages.py:1005
 msgid "Save failed!"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1016
+#: ../libresvip/web/pages.py:1015
 msgid "Compressed Archive (*.zip)"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1028
+#: ../libresvip/web/pages.py:1027
 msgid "Saved"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1115 ../libresvip/web/pages.py:1144
+#: ../libresvip/web/pages.py:1114 ../libresvip/web/pages.py:1143
 msgid "Convert"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1120
-msgid "Alt+C"
-msgstr ""
-
-#: ../libresvip/web/pages.py:1130 ../libresvip/web/pages.py:1742
+#: ../libresvip/web/pages.py:1129 ../libresvip/web/pages.py:1785
 msgid "Import project"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1166 ../libresvip/web/pages.py:1661
+#: ../libresvip/web/pages.py:1165 ../libresvip/web/pages.py:1704
 msgid "Import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1171
-msgid "Alt+["
-msgstr ""
-
-#: ../libresvip/web/pages.py:1186 ../libresvip/web/pages.py:1709
+#: ../libresvip/web/pages.py:1185 ../libresvip/web/pages.py:1752
 msgid "Export format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1191
-msgid "Alt+]"
-msgstr ""
-
-#: ../libresvip/web/pages.py:1202
+#: ../libresvip/web/pages.py:1201
 msgid "Switch Theme"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1207
-msgid "Alt+T"
-msgstr ""
-
-#: ../libresvip/web/pages.py:1230
+#: ../libresvip/web/pages.py:1229
 msgid "Help"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1235
-msgid "Alt+H"
-msgstr ""
-
-#: ../libresvip/web/pages.py:1247
+#: ../libresvip/web/pages.py:1246
 msgid "Documentation"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1258
+#: ../libresvip/web/pages.py:1257
 msgid "Lyric Replace Rules"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1260
+#: ../libresvip/web/pages.py:1259
 msgid "Switch Language"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1266 ../libresvip/web/pages.py:1685
+#: ../libresvip/web/pages.py:1265 ../libresvip/web/pages.py:1728
 msgid "Auto detect import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1271 ../libresvip/web/pages.py:1692
+#: ../libresvip/web/pages.py:1270 ../libresvip/web/pages.py:1735
 msgid "Reset list when import format changed"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1299
+#: ../libresvip/web/pages.py:1298
 msgid "Flags"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1326
+#: ../libresvip/web/pages.py:1325
 msgid "Ignore case"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1460
+#: ../libresvip/web/pages.py:1503
 msgid "Toggle fullscreen"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1470
+#: ../libresvip/web/pages.py:1513
 msgid "Preset: "
 msgstr ""
 
-#: ../libresvip/web/pages.py:1503
+#: ../libresvip/web/pages.py:1546
 msgid "Save current preset"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1573 ../libresvip/web/pages.py:1587
+#: ../libresvip/web/pages.py:1616 ../libresvip/web/pages.py:1630
 msgid "Maximize"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1577
+#: ../libresvip/web/pages.py:1620
 msgid "Restore"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1582
+#: ../libresvip/web/pages.py:1625
 msgid "Minimize"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1649
+#: ../libresvip/web/pages.py:1692
 msgid "Choose file format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1851
+#: ../libresvip/web/pages.py:1894
 msgid "Drag and drop files here or click to upload"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1889
+#: ../libresvip/web/pages.py:1932
 msgid "Advanced Options"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1898
+#: ../libresvip/web/pages.py:1941
 msgid "Intermediate Processing"
 msgstr ""
 
@@ -1946,6 +1934,18 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
+#: .tlp.name
+msgid "TuneLab"
+msgstr ""
+
+#: .tlp.file_format
+msgid "TuneLab project file"
+msgstr ""
+
+#: .tlp.description
+msgid "Convertion plugin for TuneLab project file"
+msgstr ""
+
 #: .tssln.name
 msgid "TSSln"
 msgstr ""
@@ -1967,7 +1967,7 @@ msgid "UtaFormatix3 data format"
 msgstr ""
 
 #: .ufdata.description
-msgid "Convertion plugin UFData format"
+msgid "Convertion plugin for UFData format"
 msgstr ""
 
 #: .ust.name
