@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:8233fee7127d3b457ff8adc6e3211e463064d2d252d8f0fa619a87f7b9b80565"
+content_hash = "sha256:86b89dee2cc381bdf32780ecac196f90ef833c3344e274a488849c05db9bae7e"
 
 [[package]]
 name = "aiofiles"
@@ -1814,7 +1814,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.23"
+version = "1.4.24"
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
@@ -1838,8 +1838,8 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.23-py3-none-any.whl", hash = "sha256:ff4c31c05c344f66567ce90e2149ce2ceaa6cad6d4eb1484edf8b438dbd2e30d"},
-    {file = "nicegui-1.4.23.tar.gz", hash = "sha256:abfa1183822a43ec297cc14028de40a05672c8daea8ecf1b3c805b81ad45766f"},
+    {file = "nicegui-1.4.24-py3-none-any.whl", hash = "sha256:13273ace7c729369c5c716be8c2fdd15a7e61df1c53a22ad54910372bf946dae"},
+    {file = "nicegui-1.4.24.tar.gz", hash = "sha256:6a66200252203d449f7edea6dbddcdffd6bf7406800dba3d8961129ce1f036d1"},
 ]
 
 [[package]]
