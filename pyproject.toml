@@ -81,7 +81,7 @@ desktop = [
   "pyside6<6.8.0,>=6.6.3.1,!=6.7.0",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.27.0",
-  "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
+  "desktop-notifier>=4.0.0; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
 ]
 
