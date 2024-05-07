@@ -448,7 +448,7 @@ class VocalSharpNote:
             "type": "Element",
         },
     )
-    syllable: Optional[list[VocalSharpSyllable]] = field(
+    syllable: list[VocalSharpSyllable] = field(
         default_factory=list,
         metadata={
             "name": "Syllable",

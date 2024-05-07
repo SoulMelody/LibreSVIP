@@ -805,8 +805,8 @@ class CeVIOParameter:
             "type": "Element",
         },
     )
-    no_data: Optional[list[CeVIONoData]] = field(
-        default=None,
+    no_data: list[CeVIONoData] = field(
+        default_factory=list,
         metadata={
             "name": "NoData",
             "type": "Element",
