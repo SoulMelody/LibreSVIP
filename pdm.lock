@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:6b2b68604054622c47445b6b2894ff062d81594169d63a856afe4092c5a0f57b"
+content_hash = "sha256:25fb77bb3fc77c4b8999346ca937b9b013ea559d17154ac24c437261cad971e1"
 
 [[package]]
 name = "aiofiles"
@@ -3844,7 +3844,7 @@ files = [
 
 [[package]]
 name = "xsdata"
-version = "24.4"
+version = "24.5"
 requires_python = ">=3.8"
 summary = "Python XML Binding"
 groups = ["default", "desktop", "webui"]
@@ -3852,8 +3852,8 @@ dependencies = [
     "typing-extensions",
 ]
 files = [
-    {file = "xsdata-24.4-py3-none-any.whl", hash = "sha256:5207b9ae15218ffb1b5a53d4b8b42b43829d728427d36e2b4d65dc0fa4b76b19"},
-    {file = "xsdata-24.4.tar.gz", hash = "sha256:bbff8e7706dad9cd691e5eb0f47008edabae10c4e650759a4f56daab6d98b6c4"},
+    {file = "xsdata-24.5-py3-none-any.whl", hash = "sha256:6ff12949083d9a0d9934c50401b347ccbf254bb10bf8472aef956b92662f7858"},
+    {file = "xsdata-24.5.tar.gz", hash = "sha256:4e8414a01bff603ca38a361d04d819934fcc525f9b4220f0076e040d84a4a963"},
 ]
 
 [[package]]
