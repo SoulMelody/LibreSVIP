@@ -3,7 +3,7 @@ import functools
 import math
 import operator
 import pathlib
-from typing import cast
+from typing import Optional, cast
 
 import more_itertools
 import portion
@@ -133,11 +133,15 @@ class SynthVEditorParser:
             offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
         )
 
-    def parse_notes(self, s5p_notes: list[S5pNote], db_defaults: S5pDbDefaults) -> list[Note]:
+    def parse_notes(
+        self, s5p_notes: list[Optional[S5pNote]], db_defaults: S5pDbDefaults
+    ) -> list[Note]:
         self.vibrato_value_interval_dict = PiecewiseIntervalDict()
         self.vibrato_coef_interval_dict = PiecewiseIntervalDict()
         notes = []
         for s5p_note in s5p_notes:
+            if s5p_note is None:
+                continue
             note = Note(
                 key_number=s5p_note.pitch,
                 start_pos=round(s5p_note.onset / TICK_RATE),

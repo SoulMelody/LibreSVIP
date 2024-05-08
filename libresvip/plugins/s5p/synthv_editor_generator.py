@@ -109,6 +109,13 @@ class SynthVEditorGenerator:
                         track.edited_params, track.note_list
                     )
                 tracks.append(s5p_track)
+        if not tracks:
+            tracks.append(
+                S5pTrack(
+                    name="Unnamed Track",
+                    notes=[None],
+                )
+            )
         return tracks
 
     def generate_notes(self, note_list: list[Note]) -> list[S5pNote]:
