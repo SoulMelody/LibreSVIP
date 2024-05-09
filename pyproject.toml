@@ -106,9 +106,9 @@ code_gen = [
 i18n = ["translate-toolkit>=3.13.0", "babel>=2.15.0"]
 linting = [
   "pre-commit>=3.7.0",
-  "ruff>=0.4.3",
+  "ruff>=0.4.4",
   "mypy>=1.10.0",
-  "sourcery>=1.16.0",
+  "sourcery>=1.17.0",
   "proto-plus-stubs>=0.7.0",
   "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20240311",
