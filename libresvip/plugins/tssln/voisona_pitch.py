@@ -96,6 +96,8 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
                 if value_diff := vibrato_value_interval_dict.get(secs):
                     value_diff *= vibrato_amplitude_interval_dict.get(secs, 1)
                     converted_points.append(Point(x=pos_x, y=round(value + value_diff)))
+                else:
+                    break
                 secs += secs_step
         except OverflowError:
             show_warning(_("Pitch value is out of bounds"))
@@ -251,12 +253,12 @@ def build_voisona_wave_interval_dict(
     events: list[VoiSonaParamEvent], synchronizer: TimeSynchronizer, tick_prefix: int
 ) -> PiecewiseIntervalDict:
     param_interval_dict = PiecewiseIntervalDict()
-    phase = 0.0
     omega = math.tau * 6
     for continuous_part in more_itertools.split_before(
         events,
         lambda event: event.idx is not None,
     ):
+        phase = 0.0
         for prev_event, next_event in more_itertools.windowed(
             more_itertools.prepend(
                 None,
