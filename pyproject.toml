@@ -105,7 +105,7 @@ code_gen = [
 ]
 i18n = ["translate-toolkit>=3.13.0", "babel>=2.15.0"]
 linting = [
-  "pre-commit>=3.7.0",
+  "pre-commit>=3.7.1",
   "ruff>=0.4.4",
   "mypy>=1.10.0",
   "sourcery>=1.17.0",
