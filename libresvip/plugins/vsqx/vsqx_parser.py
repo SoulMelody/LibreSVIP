@@ -1,10 +1,17 @@
 import dataclasses
+import functools
+import math
 import pathlib
 from enum import Enum
 from typing import Optional
 
+import more_itertools
+import portion
+
 from libresvip.core.constants import DEFAULT_ENGLISH_LYRIC
 from libresvip.core.tick_counter import skip_beat_list, skip_tempo_list
+from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -46,6 +53,7 @@ class VsqxParser:
     src_path: pathlib.Path
     param_names: type[Enum] = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pc2voice: dict[int, VsqxVVoice] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, vsqx_project: Vsqx) -> Project:
@@ -58,6 +66,7 @@ class VsqxParser:
             master_track.time_sig, master_track.pre_measure
         )
         tempos = self.parse_tempos(master_track.tempo, tick_prefix)
+        self.synchronizer = TimeSynchronizer(tempos)
         for v_voice in vsqx_project.v_voice_table.v_voice:
             if v_voice.v_pc is not None:
                 self.pc2voice[v_voice.v_pc] = v_voice
@@ -124,7 +133,9 @@ class VsqxParser:
                 title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo
             )
             for musical_part in vs_track.musical_part:
-                note_list = self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
+                note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict = (
+                    self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
+                )
                 singing_track.note_list.extend(note_list)
                 if (
                     not singing_track.ai_singer_name
@@ -137,6 +148,8 @@ class VsqxParser:
                     pitch := self.parse_pitch(
                         musical_part,
                         note_list,
+                        vibrato_rate_interval_dict,
+                        vibrato_depth_interval_dict,
                         tick_prefix,
                     )
                 ):
@@ -147,9 +160,17 @@ class VsqxParser:
             singing_tracks.append(singing_track)
         return singing_tracks
 
-    def parse_notes(self, vsqx_notes: list[VsqxNote], tick_offset: int) -> list[Note]:
+    @staticmethod
+    def vibrato_curve(value: float, shift: float, omega: float, phase: float) -> float:
+        return math.cos(omega * (value - shift) + phase)
+
+    def parse_notes(
+        self, vsqx_notes: list[VsqxNote], tick_offset: int
+    ) -> tuple[list[Note], PiecewiseIntervalDict, PiecewiseIntervalDict]:
         prev_vsqx_note = None
         note_list: list[Note] = []
+        vibrato_depth_interval_dict = PiecewiseIntervalDict()
+        vibrato_rate_interval_dict = PiecewiseIntervalDict()
         for vsqx_note in vsqx_notes:
             if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC("):
                 note_list[-1].length += vsqx_note.dur_tick
@@ -164,6 +185,55 @@ class VsqxParser:
                     else None,
                     key_number=vsqx_note.note_num,
                 )
+                if vsqx_note.note_style.seq_attr:
+                    start_secs = self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
+                    duration_secs = self.synchronizer.get_duration_secs_from_ticks(
+                        note.start_pos, note.end_pos
+                    )
+                    for seq_attr in vsqx_note.note_style.seq_attr:
+                        if seq_attr.seq_id == "vibRate":
+                            phase = 0
+                            for prev_elem, elem in more_itertools.windowed(
+                                seq_attr.elem + [None], 2
+                            ):
+                                prev_start = start_secs + duration_secs * prev_elem.pos_nrm / 65536
+                                omega = prev_elem.elv / 2
+                                if elem is None:
+                                    prev_end = start_secs + duration_secs
+                                    vibrato_rate_interval_dict[
+                                        portion.closed(prev_start, prev_end)
+                                    ] = functools.partial(
+                                        self.vibrato_curve,
+                                        shift=prev_start,
+                                        omega=omega,
+                                        phase=phase,
+                                    )
+                                else:
+                                    prev_end = start_secs + duration_secs * elem.pos_nrm / 65536
+                                    vibrato_rate_interval_dict[
+                                        portion.closedopen(prev_start, prev_end)
+                                    ] = functools.partial(
+                                        self.vibrato_curve,
+                                        shift=prev_start,
+                                        omega=omega,
+                                        phase=phase,
+                                    )
+                                phase += (prev_end - prev_start) * omega
+                        elif seq_attr.seq_id == "vibDep":
+                            for prev_elem, elem in more_itertools.windowed(
+                                seq_attr.elem + [None], 2
+                            ):
+                                prev_start = start_secs + duration_secs * prev_elem.pos_nrm / 65536
+                                if elem is None:
+                                    prev_end = start_secs + duration_secs
+                                    vibrato_depth_interval_dict[
+                                        portion.closed(prev_start, prev_end)
+                                    ] = prev_elem.elv
+                                else:
+                                    prev_end = start_secs + duration_secs * elem.pos_nrm / 65536
+                                    vibrato_depth_interval_dict[
+                                        portion.closedopen(prev_start, prev_end)
+                                    ] = prev_elem.elv
                 if (
                     prev_vsqx_note is not None
                     and prev_vsqx_note.phnms is not None
@@ -173,10 +243,15 @@ class VsqxParser:
                     note.head_tag = "0"
                 note_list.append(note)
             prev_vsqx_note = vsqx_note
-        return note_list
+        return note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict
 
     def parse_pitch(
-        self, musical_part: VsqxMusicalPart, note_list: list[Note], tick_offset: int
+        self,
+        musical_part: VsqxMusicalPart,
+        note_list: list[Note],
+        vibrato_rate_interval_dict: PiecewiseIntervalDict,
+        vibrato_depth_interval_dict: PiecewiseIntervalDict,
+        tick_offset: int,
     ) -> Optional[ParamCurve]:
         pitch_data = VocaloidPartPitchData(
             start_pos=musical_part.pos_tick - tick_offset,
@@ -201,7 +276,10 @@ class VsqxParser:
         )
         return pitch_from_vocaloid_parts(
             [pitch_data],
+            self.synchronizer,
             note_list,
+            vibrato_rate_interval_dict,
+            vibrato_depth_interval_dict,
             self.first_bar_length,
             musical_part.pos_tick - tick_offset,
             musical_part.pos_tick + musical_part.play_time - tick_offset,
