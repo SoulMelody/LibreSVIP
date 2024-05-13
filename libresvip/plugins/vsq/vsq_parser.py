@@ -141,7 +141,20 @@ class VsqParser:
             vsq_track.read_string(text)
         except configparser.Error:
             vsq_track.read_string(text.rsplit("\n", 1)[0])
+        singer_name = ""
+        if (
+            singer_icon_key := next(
+                (
+                    value.get("iconhandle")
+                    for key, value in vsq_track.items()
+                    if key.startswith("ID#") and value.get("type") == "Singer"
+                ),
+                None,
+            )
+        ) is not None:
+            singer_name = vsq_track.get(singer_icon_key, "ids", fallback="")
         singing_track = SingingTrack(
+            ai_singer_name=singer_name,
             title=vsq_track.get("Common", "Name", fallback=f"Track {track_index}"),
             note_list=self.parse_notes(vsq_track, tick_prefix)
             if vsq_track.has_section("EventList")
