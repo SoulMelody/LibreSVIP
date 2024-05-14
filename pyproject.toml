@@ -66,7 +66,7 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 
-ujson = ["ujson>=5.9.0"]
+ujson = ["ujson>=5.10.0"]
 upath = [
   "universal-pathlib<1.0.0,>=0.2.2",
 ]
