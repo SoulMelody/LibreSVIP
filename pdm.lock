@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:9a45813ff5a1b1d26711cd7f6a4e99de7c7c52a549f9890bd658fa908a94a559"
+content_hash = "sha256:b31544d9ac7b91781bf8f98561d598c0cb9027b3dc3272a4eb90cf32e92e7daa"
 
 [[package]]
 name = "aiofiles"
@@ -3207,13 +3207,13 @@ files = [
 
 [[package]]
 name = "types-ujson"
-version = "5.9.0.0"
-requires_python = ">=3.7"
+version = "5.10.0.20240515"
+requires_python = ">=3.8"
 summary = "Typing stubs for ujson"
 groups = ["linting"]
 files = [
-    {file = "types-ujson-5.9.0.0.tar.gz", hash = "sha256:7e7042454dc7cd7f31b09c420d7caf36b93d30bdf4b8db93791bd0561713d017"},
-    {file = "types_ujson-5.9.0.0-py3-none-any.whl", hash = "sha256:f274fa604ed6317effcd1c424ef4cf292c3b0689cb118fb3180689d40ed1f4ed"},
+    {file = "types-ujson-5.10.0.20240515.tar.gz", hash = "sha256:ceae7127f0dafe4af5dd0ecf98ee13e9d75951ef963b5c5a9b7ea92e0d71f0d7"},
+    {file = "types_ujson-5.10.0.20240515-py3-none-any.whl", hash = "sha256:02bafc36b3a93d2511757a64ff88bd505e0a57fba08183a9150fbcfcb2015310"},
 ]
 
 [[package]]
