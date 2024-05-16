@@ -207,13 +207,54 @@ jobs:
           files: |
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
 
-  release_macos:
+  release_macos_x86_64:
+    runs-on: macos-12
+    needs: [make-outputs]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python (MacOS x86_64)
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: 3.12
+      - name: Build with pyinstaller
+        run: |
+          pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+          python -m venv .venv
+          source .venv/bin/activate
+          cd packaging
+          python -m ensurepip --upgrade
+          python -m pip install dmgbuild uv
+          python -m uv pip install -r requirements.txt
+          python download_mediainfo.py
+          cd ..
+          pdm build --no-sdist
+          python -m pip install dist/*.whl --no-deps
+          cd packaging
+          python -m PyInstaller libresvip.spec
+          python -m dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
+          cd ..
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libresvip-macos-x86_64.dmg
+          path: ./packaging/dist/
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
+
+  release_macos_arm64:
     runs-on: macos-14
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python (MacOS Universal2)
-        if: matrix.os == 'macos-14'
+      - name: Set up Python (MacOS arm64)
         run: |
           curl -L https://www.python.org/ftp/python/3.12.3/python-3.12.3-macos11.pkg --output ~/Downloads/python.pkg
           sudo installer -pkg ~/Downloads/python.pkg -target /
@@ -227,19 +268,20 @@ jobs:
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
-          python -m pip install delocate dmgbuild
-          python universal2_install.py
+          python -m pip install dmgbuild uv
+          python -m uv pip install -r requirements.txt
+          python download_mediainfo.py
           cd ..
           pdm build --no-sdist
           python -m pip install dist/*.whl --no-deps
           cd packaging
           python -m PyInstaller libresvip.spec
-          python -m dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-universal2.dmg
+          python -m dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg
           cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-macos-universal2.dmg
+          name: libresvip-macos-arm64.dmg
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -247,4 +289,4 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-universal2.dmg
+            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg

@@ -152,7 +152,7 @@ class Notifier(QObject):
                                         for asset in data["assets"]
                                         if fnmatch.fnmatch(
                                             asset["name"],
-                                            "LibreSVIP-*.macos-*",
+                                            f"LibreSVIP-*.macos-{arch}.dmg",
                                         )
                                     ),
                                     None,

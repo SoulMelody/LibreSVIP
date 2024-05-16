@@ -99,11 +99,9 @@ cli_exe = EXE(
     console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
+    target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    **{
-        "target_arch": "universal2" if platform.system() == "Darwin" else None
-    },
 )
 
 
@@ -242,12 +240,10 @@ gui_exe = EXE(
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
+    target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
     icon=['../libresvip/res/libresvip.ico'],
-    **{
-        "target_arch": "universal2" if platform.system() == "Darwin" else None
-    },
 )
 coll = COLLECT(
     cli_exe,
