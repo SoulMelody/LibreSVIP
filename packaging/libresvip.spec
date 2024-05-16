@@ -4,9 +4,12 @@ block_cipher = None
 
 import contextlib
 import os
+import pathlib
+import platform
 import sys
 sys.modules['FixTk'] = None
 
+import libresvip
 import PySide6
 import shellingham
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules
@@ -99,6 +102,9 @@ cli_exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    **({
+        "target_arch": "universal2"
+    } if platform.system() == "Darwin" else {}),
 )
 
 
@@ -241,6 +247,9 @@ gui_exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon=['../libresvip/res/libresvip.ico'],
+    **({
+        "target_arch": "universal2"
+    } if platform.system() == "Darwin" else {}),
 )
 coll = COLLECT(
     cli_exe,
@@ -256,3 +265,20 @@ coll = COLLECT(
     upx_exclude=[],
     name='libresvip',
 )
+
+
+if platform.system() == "Darwin":
+    app = BUNDLE(
+        coll,
+        name="LibreSVIP.app",
+        icon=pathlib.Path("./logo.icns"),
+        bundle_identifier="org.soulmelody.LibreSVIP",
+        version=libresvip.__version__,
+        info_plist={
+            "NSPrincipalClass": "NSApplication",
+            "CFBundleExecutable": "MacOS/libresvip-gui",
+            "CFBundleIconFile": "logo.icns",
+            "NSAppleEventsUsageDescription": "Please grant access to use Apple Events",
+            "CFBundleVersion": libresvip.__version__,
+        },
+    )
