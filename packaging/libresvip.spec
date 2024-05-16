@@ -265,7 +265,7 @@ if platform.system() == "Darwin":
     app = BUNDLE(
         coll,
         name="LibreSVIP.app",
-        icon=pathlib.Path("./logo.icns"),
+        icon=pathlib.Path("../libresvip/res/libresvip.ico"),
         bundle_identifier="org.soulmelody.LibreSVIP",
         version=libresvip.__version__,
         info_plist={

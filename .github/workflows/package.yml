@@ -226,7 +226,7 @@ jobs:
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
-          python -m pip install dmgbuild uv
+          python -m pip install dmgbuild pillow uv
           python -m uv pip install -r requirements.txt
           cd ..
           pdm build --no-sdist
@@ -267,7 +267,7 @@ jobs:
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
-          python -m pip install dmgbuild uv
+          python -m pip install dmgbuild pillow uv
           python -m uv pip install -r requirements.txt
           python download_libmediainfo.py
           cd ..
