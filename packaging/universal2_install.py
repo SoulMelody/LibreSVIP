@@ -18,6 +18,7 @@ if __name__ == "__main__":
         "cx-Freeze",
         "pydantic-core",
         "PyYAML",
+        "ruamel-yaml-clib",
         "ujson",
         "zstandard",
     ]
