@@ -228,7 +228,7 @@ jobs:
           python -m ensurepip --upgrade
           python -m pip install dmgbuild uv
           python -m uv pip install -r requirements.txt
-          python download_mediainfo.py
+          python download_libmediainfo.py
           cd ..
           pdm build --no-sdist
           python -m pip install dist/*.whl --no-deps
@@ -270,7 +270,7 @@ jobs:
           python -m ensurepip --upgrade
           python -m pip install dmgbuild uv
           python -m uv pip install -r requirements.txt
-          python download_mediainfo.py
+          python download_libmediainfo.py
           cd ..
           pdm build --no-sdist
           python -m pip install dist/*.whl --no-deps
