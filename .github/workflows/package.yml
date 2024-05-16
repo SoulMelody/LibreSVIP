@@ -226,14 +226,16 @@ jobs:
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
-          python -m pip install dmgbuild pillow uv
+          python -m pip install pillow uv
           python -m uv pip install -r requirements.txt
           cd ..
           pdm build --no-sdist
           python -m pip install dist/*.whl --no-deps
           cd packaging
           python -m PyInstaller libresvip.spec
-          python -m dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
+          brew install create-dmg
+          create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg ./dist/LibreSVIP.app
+          rm -rf ./dist/LibreSVIP.app
           cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -267,7 +269,7 @@ jobs:
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
-          python -m pip install dmgbuild pillow uv
+          python -m pip install pillow uv
           python -m uv pip install -r requirements.txt
           python download_libmediainfo.py
           cd ..
@@ -275,7 +277,9 @@ jobs:
           python -m pip install dist/*.whl --no-deps
           cd packaging
           python -m PyInstaller libresvip.spec
-          python -m dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg
+          brew install create-dmg
+          create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg ./dist/LibreSVIP.app
+          rm -rf ./dist/LibreSVIP.app
           cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
