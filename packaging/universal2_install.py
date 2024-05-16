@@ -41,7 +41,11 @@ if __name__ == "__main__":
                     else requirement.name.replace("-", "_")
                 )
                 package_version = str(requirement.specifier).lstrip("<>=")
-                for macos_platform in macos_single_platforms:
+                for macos_platform in (
+                    macos_single_platforms
+                    if requirement.name == "ruamel-yaml-clib"
+                    else ["macosx_10_12_x86_64", "macosx_13_0_arm64"]
+                ):
                     subprocess.call(
                         [
                             "pip",
