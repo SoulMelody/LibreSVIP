@@ -233,8 +233,8 @@ jobs:
           pdm build --no-sdist
           python -m pip install dist/*.whl --no-deps
           cd packaging
-          pyinstaller libresvip.spec
-          dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-universal2.dmg
+          python -m PyInstaller libresvip.spec
+          python -m dmgbuild -s dmg_settings.py -D app=dist/LibreSVIP.app "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-universal2.dmg
           cd ..
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
