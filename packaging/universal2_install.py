@@ -35,7 +35,11 @@ if __name__ == "__main__":
             requirement.marker is None or requirement.marker.evaluate() is True
         ) and requirement.name != "libresvip":
             if requirement.name in no_universal2_packages:
-                normalized_name = requirement.name.replace("-", "_")
+                normalized_name = (
+                    "ruamel.yaml.clib"
+                    if requirement.name == "ruamel-yaml-clib"
+                    else requirement.name.replace("-", "_")
+                )
                 package_version = str(requirement.specifier).lstrip("<>=")
                 for macos_platform in macos_single_platforms:
                     subprocess.call(
