@@ -51,7 +51,7 @@ class AceGenerator:
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
-    ace_note_list: list[AcepNote] = dataclasses.field(init=False)
+    ace_note_list: list[AcepNote] = dataclasses.field(default_factory=list)
     pattern_start: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> AcepProject:
@@ -146,18 +146,19 @@ class AceGenerator:
                             buffer[0].start_pos - 240,
                         )
                     )
+                    self.ace_note_list.clear()
+                    for note in buffer:
+                        if note.lyric:
+                            self.generate_note(note)
                     vocal_pattern = AcepVocalPattern(
                         pos=self.pattern_start,
                         dur=round(buffer[-1].end_pos) - self.pattern_start,
-                    )
-                    vocal_pattern.notes.extend(
-                        self.generate_note(note) for note in buffer if note.lyric
+                        notes=self.ace_note_list,
                     )
                     vocal_pattern.clip_dur = vocal_pattern.dur
                     buffer.clear()
                     if self.options.breath > 0:
                         self.adjust_breath_tags(vocal_pattern.notes)
-                    self.ace_note_list = vocal_pattern.notes
                     vocal_pattern.parameters = self.generate_params(track.edited_params)
                     ace_vocal_track.patterns.append(vocal_pattern)
 
@@ -210,7 +211,7 @@ class AceGenerator:
             )
             notes[i].br_len -= actual_breath
 
-    def generate_note(self, note: Note, pinyin: Optional[str] = None) -> AcepNote:
+    def generate_note(self, note: Note, pinyin: Optional[str] = None) -> None:
         if self.options.lyric_language == AcepLyricsLanguage.CHINESE and not pinyin:
             pinyin = next(iter(get_pinyin_series(note.lyric)), None)
         ace_note = AcepNote(
@@ -234,6 +235,15 @@ class AceGenerator:
                 ace_note.head_consonants = [round(note.start_pos - phone_start_in_ticks)]
             elif self.options.default_consonant_length:
                 ace_note.head_consonants = [self.options.default_consonant_length]
+        elif self.options.lyric_language == AcepLyricsLanguage.ENGLISH and self.ace_note_list:
+            ace_note.pronunciation = "-"
+            last_ace_note = self.ace_note_list[-1]
+            lyric, sep, index = last_ace_note.lyric.partition("#")
+            if sep == "#" and index.isdigit():
+                ace_note.lyric = f"{lyric}#{int(index) + 1}"
+            else:
+                last_ace_note.lyric = f"{lyric}#1"
+                ace_note.lyric = f"{lyric}#2"
         else:
             ace_note.lyric = ace_note.pronunciation = "-"
 
@@ -243,7 +253,7 @@ class AceGenerator:
             )
             breath_start_in_ticks = second_to_tick(breath_start_in_secs, self.ace_tempo_list)
             ace_note.br_len = round(note.start_pos - breath_start_in_ticks)
-        return ace_note
+        self.ace_note_list.append(ace_note)
 
     @staticmethod
     def linear_transform(
