@@ -51,7 +51,7 @@ class AceGenerator:
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
-    ace_note_list: list[AcepNote] = dataclasses.field(default_factory=list)
+    ace_note_list: list[AcepNote] = dataclasses.field(init=False)
     pattern_start: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> AcepProject:
@@ -146,7 +146,7 @@ class AceGenerator:
                             buffer[0].start_pos - 240,
                         )
                     )
-                    self.ace_note_list.clear()
+                    self.ace_note_list = []
                     for note in buffer:
                         if note.lyric:
                             self.generate_note(note)

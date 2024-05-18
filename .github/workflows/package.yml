@@ -69,16 +69,17 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: mingw-w64-ucrt-x86_64-python-pip
+          install: >-
+            mingw-w64-ucrt-x86_64-python-pip
+            p7zip
       - name: Build with pyinstaller
         shell: msys2 {0}
         run: |
-          python -m pip install dist/*.whl --no-deps
           cd packaging
           python mingw_install.py
+          python -m pip install ../dist/*.whl --no-deps
           pyinstaller libresvip.spec
           cd dist
-          pacman -S p7zip --noconfirm
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip
           rm -rf libresvip
       - name: Upload build artifact
@@ -187,9 +188,16 @@ jobs:
             cd /libresvip
             python -m ensurepip --upgrade
             python -m pip install -U pdm
-            python -m pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
+            python -m pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+            python -m pdm build --no-sdist
+            python -m venv .venv
+            source .venv/bin/activate
+            python -m ensurepip --upgrade
+            python -m pip install uv
             cd packaging
-            python -m pdm run pyinstaller libresvip.spec
+            python -m uv pip install -r requirements.txt
+            python -m pip install ../dist/*.whl --no-deps
+            python -m PyInstaller libresvip.spec
             cd dist
             tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
             rm -rf libresvip
@@ -222,16 +230,14 @@ jobs:
       - name: Build with pyinstaller
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+          pdm build --no-sdist
           python -m venv .venv
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
           python -m pip install pillow uv
           python -m uv pip install -r requirements.txt
-          cd ..
-          pdm build --no-sdist
-          python -m pip install dist/*.whl --no-deps
-          cd packaging
+          python -m pip install ../dist/*.whl --no-deps
           python -m PyInstaller libresvip.spec
           brew install create-dmg
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg ./dist/LibreSVIP.app
@@ -265,17 +271,17 @@ jobs:
       - name: Build with pyinstaller
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+          pdm build --no-sdist
           python -m venv .venv
           source .venv/bin/activate
           cd packaging
           python -m ensurepip --upgrade
           python -m pip install pillow uv
           python -m uv pip install -r requirements.txt
-          python download_libmediainfo.py
-          cd ..
-          pdm build --no-sdist
-          python -m pip install dist/*.whl --no-deps
-          cd packaging
+          curl -L https://mediaarea.net/download/binary/libmediainfo0/24.04/MediaInfo_DLL_24.04_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
+          tar xvf libmediainfo.tar.bz2
+          mv libmediainfo/MediaInfoLib/libmediainfo.0.dylib ../.venv/lib/python3.12/site-packages/pymediainfo/
+          python -m pip install ../dist/*.whl --no-deps
           python -m PyInstaller libresvip.spec
           brew install create-dmg
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg ./dist/LibreSVIP.app
