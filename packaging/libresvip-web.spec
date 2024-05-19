@@ -4,6 +4,7 @@ block_cipher = None
 
 import contextlib
 import os
+import platform
 import sys
 sys.modules['FixTk'] = None
 
@@ -93,6 +94,8 @@ to_exclude = [
     os.path.join(js_lib_prefix, "three"),
     os.path.join(js_lib_prefix, "vanilla-jsoneditor"),
 ]
+if platform.machine() != "ARM64":
+    to_exclude.append(os.path.join("webview", "runtimes", "win-arm", "native", "WebView2Loader.dll"))
 
 for (dest, source, kind) in a.datas:
     # Skip anything we don't need.
