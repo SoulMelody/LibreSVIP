@@ -1,4 +1,5 @@
 import dataclasses
+import operator
 import re
 from collections.abc import Callable
 from functools import partial, reduce
@@ -656,7 +657,7 @@ class SynthVParser:
                             self.first_bar_tick,
                         )
                         merged_group.notes.extend(group.notes)
-                        merged_group.notes.sort(key=lambda n: n.onset)
+                        merged_group.notes.sort(key=operator.attrgetter("onset"))
             svip_track = singing_track
         svip_track.title = sv_track.name
         svip_track.mute = sv_track.mixer.mute
