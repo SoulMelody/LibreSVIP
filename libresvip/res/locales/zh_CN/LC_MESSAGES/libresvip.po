@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-06 21:06+0800\n"
-"PO-Revision-Date: 2024-05-06 13:31\n"
+"PO-Revision-Date: 2024-05-18 03:49\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -796,7 +796,7 @@ msgstr "切换格式时重置列表"
 
 #: ../libresvip/web/pages.py:1298
 msgid "Flags"
-msgstr "标记"
+msgstr "修饰符"
 
 #: ../libresvip/web/pages.py:1325
 msgid "Ignore case"
