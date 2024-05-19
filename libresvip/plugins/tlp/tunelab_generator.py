@@ -121,7 +121,11 @@ class TuneLabGenerator:
     def generate_notes(note_list: list[Note]) -> list[TuneLabNote]:
         return [
             TuneLabNote(
-                pos=note.start_pos, dur=note.length, pitch=note.key_number, lyric=note.lyric
+                pos=note.start_pos,
+                dur=note.length,
+                pitch=note.key_number,
+                lyric=note.lyric,
+                pronunciation=note.pronunciation,
             )
             for note in note_list
         ]

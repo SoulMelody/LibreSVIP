@@ -114,6 +114,7 @@ class TuneLabParser:
                 length=tlp_note.dur,
                 key_number=tlp_note.pitch,
                 lyric=tlp_note.lyric,
+                pronunciation=tlp_note.pronunciation,
             )
             for tlp_note in notes
         ]

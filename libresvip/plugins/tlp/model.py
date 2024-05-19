@@ -88,6 +88,7 @@ class TuneLabNote(BaseModel):
     dur: float
     pitch: int
     lyric: str
+    pronunciation: Optional[str] = None
     phonemes: list[TuneLabPhoneme] = Field(default_factory=list)
     properties: dict[str, Any] = Field(default_factory=dict)
 
