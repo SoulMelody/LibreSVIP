@@ -1,7 +1,13 @@
 import dataclasses
+import functools
+import math
+import operator
 
 import more_itertools
+import portion
 
+from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -23,6 +29,7 @@ from .model import (
     TuneLabTempo,
     TuneLabTimeSignature,
     TuneLabTrack,
+    TuneLabVibrato,
 )
 from .options import InputOptions
 
@@ -31,11 +38,13 @@ from .options import InputOptions
 class TuneLabParser:
     options: InputOptions
     first_bar_length: int = dataclasses.field(init=False)
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def parse_project(self, project: TuneLabProject) -> Project:
         time_signature_list = self.parse_time_signatures(project.time_signatures)
         self.first_bar_length = round(time_signature_list[0].bar_length())
         tempo_list = self.parse_tempos(project.tempos)
+        self.synchronizer = TimeSynchronizer(tempo_list)
         return Project(
             song_tempo_list=tempo_list,
             time_signature_list=time_signature_list,
@@ -93,10 +102,17 @@ class TuneLabParser:
                         )
                         track_list.append(singing_track)
                     singing_track.note_list.extend(self.parse_notes(part.notes, int(part.pos)))
-                    if self.options.import_pitch and (
-                        pitch_points := self.parse_pitch(part.pitch, int(part.pos))
-                    ):
-                        singing_track.edited_params.pitch.points.root.extend(pitch_points)
+                    if self.options.import_pitch:
+                        vibrato_base_interval_dict, vibrato_envelope_interval_dict = (
+                            self.parse_vibrato(part)
+                        )
+                        if pitch_points := self.parse_pitch(
+                            part.pitch,
+                            int(part.pos),
+                            vibrato_base_interval_dict,
+                            vibrato_envelope_interval_dict,
+                        ):
+                            singing_track.edited_params.pitch.points.root.extend(pitch_points)
         return track_list
 
     @staticmethod
@@ -119,21 +135,70 @@ class TuneLabParser:
             for tlp_note in notes
         ]
 
-    def parse_pitch(self, pitch: list[TuneLabPoints], offset: int) -> list[Point]:
+    @staticmethod
+    def vibrato_value(seconds: float, vibrato_start: float, vibrato: TuneLabVibrato) -> float:
+        return (
+            math.sin(math.pi * (2 * (seconds - vibrato_start) * vibrato.frequency - vibrato.phase))
+            * vibrato.amplitude
+        )
+
+    def parse_vibrato(
+        self, part: TuneLabMidiPart
+    ) -> tuple[PiecewiseIntervalDict, PiecewiseIntervalDict]:
+        vibrato_base_interval_dict = PiecewiseIntervalDict()
+        vibrato_envelope_interval_dict = PiecewiseIntervalDict()
+        for vibrato in part.vibratos:
+            vibrato_start = self.synchronizer.get_actual_secs_from_ticks(int(vibrato.pos))
+            vibrato_end = self.synchronizer.get_actual_secs_from_ticks(
+                int(vibrato.pos + vibrato.dur)
+            )
+            vibrato_base_interval_dict[portion.closed(vibrato_start, vibrato_end)] = (
+                functools.partial(self.vibrato_value, vibrato_start=vibrato_start, vibrato=vibrato)
+            )
+        if part.automations is not None and part.automations.vibrato_envelope is not None:
+            for value, ticks_group in more_itertools.groupby_transform(
+                part.automations.vibrato_envelope.values.root,
+                keyfunc=operator.attrgetter("value"),
+                valuefunc=operator.attrgetter("pos"),
+            ):
+                ticks_group = list(ticks_group)
+                group_start = self.synchronizer.get_actual_secs_from_ticks(int(ticks_group[0]))
+                group_end = self.synchronizer.get_actual_secs_from_ticks(int(ticks_group[-1] + 5))
+                vibrato_envelope_interval_dict[
+                    portion.closedopen(
+                        group_start,
+                        group_end,
+                    )
+                ] = max(value + 1, 0)
+        return vibrato_base_interval_dict, vibrato_envelope_interval_dict
+
+    def parse_pitch(
+        self,
+        pitch: list[TuneLabPoints],
+        offset: int,
+        vibrato_base_interval_dict: PiecewiseIntervalDict,
+        vibrato_envelope_interval_dict: PiecewiseIntervalDict,
+    ) -> list[Point]:
         points: list[Point] = []
         for pitch_part in pitch:
             for is_first, is_last, tlp_point in more_itertools.mark_ends(pitch_part.root):
+                pitch_pos = int(tlp_point.pos) + offset
                 if is_first:
                     points.append(
                         Point(
-                            x=int(tlp_point.pos) + offset + self.first_bar_length,
+                            x=pitch_pos + self.first_bar_length,
                             y=-100,
                         )
                     )
+                pitch_secs = self.synchronizer.get_actual_secs_from_ticks(pitch_pos)
+                pitch_value = tlp_point.value
+                if (vibrato_value := vibrato_base_interval_dict.get(pitch_secs)) is not None:
+                    vibrato_value *= vibrato_envelope_interval_dict.get(pitch_secs, 1)
+                    pitch_value += vibrato_value
                 points.append(
                     Point(
-                        x=int(tlp_point.pos) + offset + self.first_bar_length,
-                        y=round(tlp_point.value * 100),
+                        x=pitch_pos + self.first_bar_length,
+                        y=round(pitch_value * 100),
                     )
                 )
                 if is_last:
