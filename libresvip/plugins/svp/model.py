@@ -66,7 +66,6 @@ symbols_blacklist = Blacklist(
         "’",
         "“",
         "”",
-        "+",
         "=",
         "、",
         "_",
@@ -420,7 +419,7 @@ class SVNote(BaseModel):
 
     @staticmethod
     def normalize_lyric(lyric: str) -> str:
-        return symbols_blacklist.cleanse_text("-" if lyric == "+" else lyric).strip()
+        return symbols_blacklist.cleanse_text(lyric).strip()
 
     @classmethod
     def normalize_phoneme(cls, note: Note) -> str:

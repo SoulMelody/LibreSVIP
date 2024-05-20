@@ -18,7 +18,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils.audio import audio_track_info
-from libresvip.utils.search import binary_find_first, binary_find_last
+from libresvip.utils.search import binary_find_first, binary_find_last, find_last_index
 
 from .base_pitch_curve import BasePitchCurve
 from .color_pool import count_color, get_color
@@ -222,7 +222,7 @@ class AceGenerator:
         )
         ace_note.dur = round(note.end_pos - note.start_pos)
 
-        if "-" not in note.lyric:
+        if all(symbol not in note.lyric for symbol in ["-", "+"]):
             ace_note.pronunciation = (
                 note.pronunciation if note.pronunciation is not None else pinyin or ""
             )
@@ -235,9 +235,15 @@ class AceGenerator:
                 ace_note.head_consonants = [round(note.start_pos - phone_start_in_ticks)]
             elif self.options.default_consonant_length:
                 ace_note.head_consonants = [self.options.default_consonant_length]
-        elif self.options.lyric_language == AcepLyricsLanguage.ENGLISH and self.ace_note_list:
+        elif (
+            self.options.lyric_language == AcepLyricsLanguage.ENGLISH
+            and ace_note.lyric == "+"
+            and self.ace_note_list
+        ):
             ace_note.pronunciation = "-"
-            last_ace_note = self.ace_note_list[-1]
+            last_ace_note = self.ace_note_list[
+                find_last_index(self.ace_note_list, lambda n: n.lyric != "-")
+            ]
             lyric, sep, index = last_ace_note.lyric.partition("#")
             if sep == "#" and index.isdigit():
                 ace_note.lyric = f"{lyric}#{int(index) + 1}"
