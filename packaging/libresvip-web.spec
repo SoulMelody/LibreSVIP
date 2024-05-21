@@ -95,7 +95,7 @@ to_exclude = [
     os.path.join(js_lib_prefix, "vanilla-jsoneditor"),
 ]
 if platform.machine() != "ARM64":
-    to_exclude.append(os.path.join("webview", "runtimes", "win-arm", "native", "WebView2Loader.dll"))
+    to_exclude.append(os.path.join("webview", "lib", "runtimes", "win-arm", "native", "WebView2Loader.dll"))
 
 for (dest, source, kind) in a.datas:
     # Skip anything we don't need.

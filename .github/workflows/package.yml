@@ -262,7 +262,7 @@ jobs:
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg
 
   release_macos_arm64:
-    runs-on: macos-14
+    runs-on: macos-latest
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
