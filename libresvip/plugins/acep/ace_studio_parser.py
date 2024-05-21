@@ -180,7 +180,7 @@ class AceParser:
             if span_index == 1:
                 note.lyric = ACEP_ENGLISH_SPAN_RE.sub("", note.lyric)
             else:
-                note.lyric = "-"
+                note.lyric = "+"
         if pinyin is None or "-" not in ace_note.lyric and ace_note.pronunciation != pinyin:
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
