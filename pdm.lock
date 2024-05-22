@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:61b3c3834b722722ed3add8a3573e2995bb68dbcae8d438117e8457f08306f43"
+content_hash = "sha256:ffe78e111552869f6dc4578c486a1d4c4a5a09b56b5dcb4aa6477b9f2b3045e8"
 
 [[package]]
 name = "aiofiles"
