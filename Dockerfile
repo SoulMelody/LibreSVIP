@@ -5,7 +5,7 @@ COPY ./ /app
 RUN pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/ --global && \
     pip install pdm && \
     pdm config python.use_venv false && \
-    pdm sync --prod -G webui -G ujson -G ruamel_yaml && \
+    pdm sync --prod -G webui -G ujson -G ruamel_yaml -G lxml && \
     rm -rf ~/.cache/pip && \
     rm -rf ~/.cache/pdm
 
