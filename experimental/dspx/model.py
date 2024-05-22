@@ -3,17 +3,19 @@ from typing import Annotated, Any, Literal, Optional, Union
 
 from pydantic import Field
 
+from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.model.base import BaseModel
 
 
-class DspxMetadata(BaseModel):
-    version: Optional[str] = None
+class DspxGlobal(BaseModel):
+    cent_shift: int = Field(0, alias="centShift")
     name: str
     author: str
 
 
 class DspxControl(BaseModel):
     gain: float = 1.0
+    pan: float = 0.0
     mute: bool = False
 
 
@@ -116,13 +118,21 @@ class DspxPhonemes(BaseModel):
     edited: list[DspxPhoneme] = Field(default_factory=list)
 
 
+class DspxPronunciation(BaseModel):
+    original: str = DEFAULT_PHONEME
+    edited: Optional[str] = None
+
+
 class DspxNote(BaseModel):
     pos: int = 0
     length: int = 0
     key_num: int = Field(0, alias="keyNum")
     lyric: str = ""
+    pronunciation: DspxPronunciation = Field(default_factory=DspxPronunciation)
     phonemes: DspxPhonemes = Field(default_factory=DspxPhonemes)
     vibrato: DspxVibrato = Field(default_factory=DspxVibrato)
+    language: str
+    cent_shift: int = Field(0, alias="centShift")
     extra: dict[str, dict[Any, Any]] = Field(default_factory=dict)
 
 
@@ -167,7 +177,7 @@ class DspxTrack(BaseModel):
 
 
 class DspxContent(BaseModel):
-    metadata: DspxMetadata
+    global_config: DspxGlobal = Field(alias="global")
     master: DspxMaster = Field(default_factory=DspxMaster)
     timeline: DsTimeline = Field(default_factory=DsTimeline)
     params: DspxParams = Field(default_factory=DspxParams)

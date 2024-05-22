@@ -3,9 +3,9 @@
 | `acep`         | ACE Studio                     | 标准序列化格式  | 基于json；内容使用了zstandard压缩         | 公测期间曾更换过加密方法，最终于1.7.8版本移除       | 活跃开发 |
 | `ais`          | AISingers Web                  | 混合类型     | 将json头和自定义文本拼接而成                |                                 | 尚在维护 |
 | `aisp`         | AISingers Studio               | 混合类型     | 基于json；为两段json拼接而成              |                                 | 活跃开发 |
-| `bin/dscp`     | 大市唱                            | 自定义二进制格式 |                                 |                                 | 活跃开发 |
 | `ccs/ccst`     | CeVIO Creative Studio          | 标准序列化格式  | 基于xml                           |                                 | 活跃开发 |
 | `ds`           | DiffSinger                     | 标准序列化格式  | 基于json                          | 为临时解决方案                         | 活跃开发 |
+| `dsc`          | 大市唱                         | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
 | `dspx`         | DiffScope                      | 标准序列化格式  | 基于json                          | 尚在开发中                           | 活跃开发 |
 | `dv/sk`        | DeepVocal/Sharpkey             | 自定义二进制格式 |                                 |                                 | 疑似暂停 |
 | `gj`           | 歌叽歌叽                           | 标准序列化格式  | 基于json                          |                                 | 停止开发 |
@@ -20,6 +20,7 @@
 | `svip`         | X Studio Singer 1/2            | 标准二进制格式  | 基于.net framework的MS-NRBF格式      | 已过时                             | 停止开发 |
 | `svip3`        | X Studio 3/网易云音乐·X Studio      | 标准二进制格式  | 基于protobuf                      |                                 | 活跃开发 |
 | `svp`          | Synthesizer V Studio           | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
+| `tlp`          | TuneLab                        | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
 | `tssln/tssprj` | VoiSona                        | 自定义二进制格式 | 基于JUCE框架的ValueTree数据结构          |                                 | 活跃开发 |
 | `ufdata`       | UtaFormatix 3                  | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
 | `ust`          | Ameya UTAU                     | 自定义文本格式  |                                 |                                 | 停止开发 |
