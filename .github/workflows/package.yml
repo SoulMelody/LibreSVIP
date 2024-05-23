@@ -31,7 +31,7 @@ jobs:
         run: |
           pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
           pdm run python -m ensurepip
-          pdm run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.6.0-py3-none-any.whl
+          pdm run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.7.0-py3-none-any.whl
           cd packaging
           pdm run pyinstaller libresvip.spec
           cd dist
@@ -80,7 +80,7 @@ jobs:
           cd packaging
           python mingw_install.py
           python -m pip install ../dist/*.whl --no-deps
-          python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.6.0-py3-none-any.whl
+          python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.7.0-py3-none-any.whl
           pyinstaller libresvip.spec
           cd dist
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip
@@ -115,7 +115,7 @@ jobs:
         run: |
           pdm sync -G webui -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
           pdm run python -m ensurepip
-          pdm run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.6.0-py3-none-any.whl
+          pdm run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.7.0-py3-none-any.whl
           cd packaging
           pdm run pyinstaller libresvip-web.spec
           cd dist

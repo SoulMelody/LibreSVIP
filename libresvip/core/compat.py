@@ -5,9 +5,9 @@ try:
 except ImportError:
     import json
 
-if sys.implementation.name == "pypy":
-    import zstd
-else:
+try:
+    import pyzstd as zstd
+except ImportError:
     import zstandard as zstd
 
 __all__ = ["Traversable", "as_file", "json", "package_path", "zstd"]
