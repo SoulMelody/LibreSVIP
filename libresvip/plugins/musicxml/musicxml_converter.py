@@ -1,9 +1,8 @@
 import pathlib
 
 from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
-from xsdata.formats.dataclass.serializers.xml import XmlSerializer
+from xsdata_pydantic.bindings import XmlParser, XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project

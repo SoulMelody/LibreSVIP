@@ -51,7 +51,7 @@ dependencies = [
   "srt<4.0.0,>=3.5.3",
   "typer-slim<1.0.0,>=0.12.3",
   "wanakana-python<2.0.0,>=1.2.2",
-  "xsdata<24.6,>=24.5",
+  "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.0.2",
   "zstandard<0.23.0,>=0.22.0; platform_python_implementation == \"CPython\"",
 ]
@@ -99,9 +99,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 code_gen = [
   "datamodel-code-generator>=0.25.6",
   "gapic-generator>=1.18.0",
-  "click-default-group>=1.2.4",
-  "docformatter>=1.7.5",
-  "toposort>=1.10",
+  "xsdata[cli]>=24.5",
 ]
 i18n = ["translate-toolkit>=3.13.0", "babel>=2.15.0"]
 linting = [

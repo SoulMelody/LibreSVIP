@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:7c994d08766fc355db50cf39f867117cc8129bda0ef6f19a28eac9348c0d64bc"
+content_hash = "sha256:1f1cb183cfc52e6a65f68aa2db715f5f07e021d393667e19d94b363fc918d605"
 
 [[package]]
 name = "aiofiles"
@@ -3064,7 +3064,7 @@ name = "ruff"
 version = "0.4.5"
 requires_python = ">=3.7"
 summary = "An extremely fast Python linter and code formatter, written in Rust."
-groups = ["linting"]
+groups = ["code_gen", "linting"]
 files = [
     {file = "ruff-0.4.5-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:8f58e615dec58b1a6b291769b559e12fdffb53cc4187160a2fc83250eaf54e96"},
     {file = "ruff-0.4.5-py3-none-macosx_11_0_arm64.whl", hash = "sha256:84dd157474e16e3a82745d2afa1016c17d27cb5d52b12e3d45d418bcc6d49264"},
@@ -3975,9 +3975,45 @@ name = "xsdata"
 version = "24.5"
 requires_python = ">=3.8"
 summary = "Python XML Binding"
-groups = ["default", "desktop", "webui"]
+groups = ["code_gen", "default", "desktop", "webui"]
 dependencies = [
     "typing-extensions",
+]
+files = [
+    {file = "xsdata-24.5-py3-none-any.whl", hash = "sha256:6ff12949083d9a0d9934c50401b347ccbf254bb10bf8472aef956b92662f7858"},
+    {file = "xsdata-24.5.tar.gz", hash = "sha256:4e8414a01bff603ca38a361d04d819934fcc525f9b4220f0076e040d84a4a963"},
+]
+
+[[package]]
+name = "xsdata-pydantic"
+version = "24.5"
+requires_python = ">=3.8"
+summary = "xsdata pydantic plugin"
+groups = ["default", "desktop", "webui"]
+dependencies = [
+    "pydantic>=2.6",
+    "xsdata>=24.5",
+]
+files = [
+    {file = "xsdata_pydantic-24.5-py3-none-any.whl", hash = "sha256:bb6da7d3445d655640096c65c1b11037153b19df533da89553f24247ef352cd0"},
+    {file = "xsdata_pydantic-24.5.tar.gz", hash = "sha256:e3c8758133195657ece578537eda6c7ebd8419f77abf6b90fd4ced96e348129b"},
+]
+
+[[package]]
+name = "xsdata"
+version = "24.5"
+extras = ["cli"]
+requires_python = ">=3.8"
+summary = "Python XML Binding"
+groups = ["code_gen"]
+dependencies = [
+    "click-default-group>=1.2",
+    "click>=5.0",
+    "docformatter>=1.7.2",
+    "jinja2>=2.10",
+    "ruff>=0.3.0",
+    "toposort>=1.5",
+    "xsdata==24.5",
 ]
 files = [
     {file = "xsdata-24.5-py3-none-any.whl", hash = "sha256:6ff12949083d9a0d9934c50401b347ccbf254bb10bf8472aef956b92662f7858"},
