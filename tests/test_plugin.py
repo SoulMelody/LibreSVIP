@@ -210,7 +210,7 @@ def test_dspx_read(
 
 
 def test_vspx_read(shared_datadir: pathlib.Path) -> None:
-    from xsdata.formats.dataclass.parsers.xml import XmlParser
+    from xsdata_pydantic.bindings import XmlParser
 
     from libresvip.plugins.vspx.model import VocalSharpProject
 
@@ -222,7 +222,7 @@ def test_vspx_read(shared_datadir: pathlib.Path) -> None:
 
 
 def test_vsqx_read(shared_datadir: pathlib.Path) -> None:
-    from xsdata.formats.dataclass.parsers.xml import XmlParser
+    from xsdata_pydantic.bindings import XmlParser
 
     if TYPE_CHECKING:
         from libresvip.plugins.vsqx.model import Vsqx
@@ -236,7 +236,7 @@ def test_vsqx_read(shared_datadir: pathlib.Path) -> None:
 
 def test_musicxml_read(shared_datadir: pathlib.Path) -> None:
     from xsdata.formats.dataclass.parsers.config import ParserConfig
-    from xsdata.formats.dataclass.parsers.xml import XmlParser
+    from xsdata_pydantic.bindings import XmlParser
 
     from libresvip.plugins.musicxml.models.mxml2 import ScorePartwise
 
@@ -248,7 +248,7 @@ def test_musicxml_read(shared_datadir: pathlib.Path) -> None:
 
 def test_ccs_read(shared_datadir: pathlib.Path) -> None:
     # from xsdata.formats.dataclass.parsers.config import ParserConfig
-    from xsdata.formats.dataclass.parsers.xml import XmlParser
+    from xsdata_pydantic.bindings import XmlParser
 
     from libresvip.plugins.ccs.model import CeVIOCreativeStudioProject
 

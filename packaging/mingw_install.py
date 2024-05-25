@@ -11,45 +11,6 @@ def install_mingw_deps() -> None:
     sys_site_packages_path = site.getsitepackages()[-1]
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
     msystem = os.environ.get("MSYSTEM", "UCRT64")
-    subprocess.call(
-        [
-            "wget",
-            "-N",
-            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-qt6-base-6.6.2-2-any.pkg.tar.zst",
-        ]
-    )
-    subprocess.call(
-        [
-            "wget",
-            "-N",
-            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-qt6-declarative-6.6.2-1-any.pkg.tar.zst",
-        ]
-    )
-    subprocess.call(
-        [
-            "wget",
-            "-N",
-            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-shiboken6-6.6.2-3-any.pkg.tar.zst",
-        ]
-    )
-    subprocess.call(
-        [
-            "wget",
-            "-N",
-            f"https://mirrors.tuna.tsinghua.edu.cn/msys2/mingw/{msystem.lower()}/{mingw_arch}-pyside6-6.6.2-3-any.pkg.tar.zst",
-        ]
-    )
-    subprocess.call(
-        [
-            "pacman",
-            "--noconfirm",
-            "-U",
-            f"{mingw_arch}-qt6-base-6.6.2-2-any.pkg.tar.zst",
-            f"{mingw_arch}-qt6-declarative-6.6.2-1-any.pkg.tar.zst",
-            f"{mingw_arch}-shiboken6-6.6.2-3-any.pkg.tar.zst",
-            f"{mingw_arch}-pyside6-6.6.2-3-any.pkg.tar.zst",
-        ]
-    )
     subprocess.call(["pacman", "-Sy"])
     new_requirements = []
     mingw_native_packages = {
@@ -64,7 +25,7 @@ def install_mingw_deps() -> None:
         "nuitka": "python-nuitka",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
-        "pyside6": None,
+        "pyside6": "pyside6",
         "pyside6-addons": None,
         "pyside6-essentials": None,
         "pyyaml": "python-yaml",

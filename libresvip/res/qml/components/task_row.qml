@@ -36,7 +36,7 @@ ColumnLayout {
                 }
             }
             Label {
-                text: TaskManager.conversion_mode === "Merge" && index !== 0 ? IconicFontLoader.icon("mdi7.transfer-up") : IconicFontLoader.icon("mdi7.transfer-right")
+                text: taskManager.conversion_mode === "Merge" && index !== 0 ? iconicFontLoader.icon("mdi7.transfer-up") : iconicFontLoader.icon("mdi7.transfer-right")
                 font.family: "Material Design Icons"
                 font.pixelSize: Qt.application.font.pixelSize * 1.5
             }
@@ -48,7 +48,7 @@ ColumnLayout {
 
             TextField {
                 id: stemField
-                visible: TaskManager.conversion_mode === "Merge" ? index === 0 : true
+                visible: taskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: stem
                 onEditingFinished: {
                     converterPage.taskList.model.update(index, {stem: this.text})
@@ -57,7 +57,7 @@ ColumnLayout {
 
             Label {
                 id: extLabel
-                visible: TaskManager.conversion_mode === "Merge" ? index === 0 : true
+                visible: taskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: ext
             }
 
@@ -82,7 +82,7 @@ ColumnLayout {
                     id: successButton
                     anchors.centerIn: parent
                     visible: false
-                    text: IconicFontLoader.icon("mdi7.check")
+                    text: iconicFontLoader.icon("mdi7.check")
                     background: Rectangle {
                         color: Material.color(Material.Green, Material.Shade300)
                         radius: parent.height / 2
@@ -104,7 +104,7 @@ ColumnLayout {
                             }
                             Button {
                                 Layout.alignment: Qt.AlignHCenter
-                                visible: TaskManager.conversion_mode === "Split" ? false : true
+                                visible: taskManager.conversion_mode === "Split" ? false : true
                                 background: Rectangle {
                                     color: Material.color(Material.Indigo, Material.Shade500)
                                 }
@@ -112,7 +112,7 @@ ColumnLayout {
                                     text: qsTr("Open")
                                 }
                                 onClicked: {
-                                    TaskManager.open_output_path(index)
+                                    taskManager.open_output_path(index)
                                 }
                             }
                             Button {
@@ -124,7 +124,7 @@ ColumnLayout {
                                     text: qsTr("Open folder")
                                 }
                                 onClicked: {
-                                    TaskManager.open_output_dir(index)
+                                    taskManager.open_output_dir(index)
                                 }
                             }
                         }
@@ -146,7 +146,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: IconicFontLoader.icon("mdi7.minus-thick")
+                    text: iconicFontLoader.icon("mdi7.minus-thick")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
@@ -167,7 +167,7 @@ ColumnLayout {
                                     text: qsTr("Open folder")
                                 }
                                 onClicked: {
-                                    TaskManager.open_output_dir(index)
+                                    taskManager.open_output_dir(index)
                                 }
                             }
                         }
@@ -189,7 +189,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: IconicFontLoader.icon("mdi7.alert-circle")
+                    text: iconicFontLoader.icon("mdi7.alert-circle")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
@@ -230,7 +230,7 @@ ColumnLayout {
                             cursorShape: Qt.PointingHandCursor
                         }
                     }
-                    text: IconicFontLoader.icon("mdi7.alert-circle")
+                    text: iconicFontLoader.icon("mdi7.alert-circle")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.2
                     height: parent.height
@@ -256,7 +256,7 @@ ColumnLayout {
                                 }
                                 text: qsTr("Copy error message")
                                 onClicked: {
-                                    let copy_result = Clipboard.set_clipboard(errorLabel.errorFullText)
+                                    let copy_result = clipboard.set_clipboard(errorLabel.errorFullText)
                                     if (copy_result) {
                                         text = qsTr("Copied")
                                         resetCopyErrorButtonTimer.start()
@@ -313,20 +313,20 @@ ColumnLayout {
                         runningIndicator.visible = false
                         let error = task_result.error
                         if (error) {
-                            errorLabel.text = Clipboard.shorten_error_message(error)
+                            errorLabel.text = clipboard.shorten_error_message(error)
                             errorLabel.errorFullText = error
                             errorButton.visible = true
                             runningIndicator.visible = false
                         } else if (task_result.success) {
-                            let conflict = TaskManager.output_path_exists(index)
-                            let conflict_policy = ConfigItems.conflict_policy
+                            let conflict = taskManager.output_path_exists(index)
+                            let conflict_policy = configItems.conflict_policy
                             if (!conflict || conflict_policy == "Overwrite" || (
                                 conflict_policy == "Prompt" && window.yesToAll
                             )) {
-                                let move_result = TaskManager.move_to_output(index)
+                                let move_result = taskManager.move_to_output(index)
                                 if (move_result) {
                                     if (task_result.warning) {
-                                        warningLabel.text = Clipboard.shorten_error_message(task_result.warning)
+                                        warningLabel.text = clipboard.shorten_error_message(task_result.warning)
                                         warningLabel.warningFullText = task_result.warning
                                         warningButton.visible = true
                                     } else {
@@ -343,10 +343,10 @@ ColumnLayout {
                                     {
                                         body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
                                         message: qsTr("File %1 already exists. Overwrite?").arg(
-                                            TaskManager.get_output_path(index)
+                                            taskManager.get_output_path(index)
                                         ),
                                         onOk: () => {
-                                            let move_result = TaskManager.move_to_output(index)
+                                            let move_result = taskManager.move_to_output(index)
                                             if (move_result) {
                                                 if (task_result.warning) {
                                                     warningLabel.text = task_result.warning

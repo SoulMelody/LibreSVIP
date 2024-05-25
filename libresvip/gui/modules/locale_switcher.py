@@ -1,8 +1,8 @@
 import gettext
-from typing import Optional
+from typing import Any, Optional
 
 from PySide6.QtCore import QLocale, QObject, QTranslator, Signal, Slot
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -35,9 +35,17 @@ class GettextTranslator(QTranslator):
         return source_text
 
 
+class SingletonMetaObject(type(QObject)):  # type: ignore[misc]
+    _instance = None
+
+    def __new__(cls, name: str, bases: tuple[type], attrs: dict[str, Any]) -> type[QObject]:
+        if not cls._instance:
+            cls._instance = super().__new__(cls, name, bases, attrs)
+        return cls._instance
+
+
 @QmlElement
-@QmlSingleton
-class LocaleSwitcher(QObject):
+class LocaleSwitcher(QObject, metaclass=SingletonMetaObject):
     translator_initialized = Signal()
 
     def __init__(self) -> None:

@@ -6,7 +6,7 @@ import pathlib
 from typing import Any, Optional
 
 from PySide6.QtCore import Property, QObject, Signal, Slot
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -58,7 +58,6 @@ class AutoBindBaseConfigMetaObject(type(QObject)):  # type: ignore[misc]
 
 
 @QmlElement
-@QmlSingleton
 class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
     save_folder_changed = Signal(str)
     conflict_policy_changed = Signal(str)

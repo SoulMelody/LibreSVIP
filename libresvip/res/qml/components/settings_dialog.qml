@@ -87,9 +87,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.auto_detect_input_format
+                            checked: configItems.auto_detect_input_format
                             onClicked: {
-                                ConfigItems.auto_detect_input_format = checked
+                                configItems.auto_detect_input_format = checked
                             }
                         }
                     }
@@ -102,9 +102,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.reset_tasks_on_input_change
+                            checked: configItems.reset_tasks_on_input_change
                             onClicked: {
-                                ConfigItems.reset_tasks_on_input_change = checked
+                                configItems.reset_tasks_on_input_change = checked
                             }
                         }
                     }
@@ -117,12 +117,12 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.auto_set_output_extension
+                            checked: configItems.auto_set_output_extension
                             onClicked: {
-                                ConfigItems.auto_set_output_extension = checked
+                                configItems.auto_set_output_extension = checked
                             }
                             Component.onCompleted: {
-                                ConfigItems.auto_set_output_extension_changed.connect( (value) => {
+                                configItems.auto_set_output_extension_changed.connect( (value) => {
                                     value === checked ? null : checked = value
                                 })
                             }
@@ -137,9 +137,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.multi_threaded_conversion
+                            checked: configItems.multi_threaded_conversion
                             onClicked: {
-                                ConfigItems.multi_threaded_conversion = checked
+                                configItems.multi_threaded_conversion = checked
                             }
                         }
                     }
@@ -182,7 +182,7 @@ Dialog {
                                 {value: "Prompt", text: qsTr("Prompt")}
                             ]
                             onActivated: (index) => {
-                                ConfigItems.conflict_policy = currentValue
+                                configItems.conflict_policy = currentValue
                             }
                             Connections {
                                 target: ConfigItems
@@ -197,7 +197,7 @@ Dialog {
                                 }
                             }
                             Component.onCompleted: {
-                                currentIndex = indexOfValue(ConfigItems.conflict_policy)
+                                currentIndex = indexOfValue(configItems.conflict_policy)
                             }
                         }
                     }
@@ -210,9 +210,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.open_save_folder_on_completion
+                            checked: configItems.open_save_folder_on_completion
                             onClicked: {
-                                ConfigItems.open_save_folder_on_completion = checked
+                                configItems.open_save_folder_on_completion = checked
                             }
                         }
                     }
@@ -248,11 +248,11 @@ Dialog {
                             return
                         }
                         default: {
-                            cur_value = ConfigItems.save_folder
+                            cur_value = configItems.save_folder
                             break
                         }
                     }
-                    ConfigItems.save_folder = cur_value
+                    configItems.save_folder = cur_value
                 }
             }
             ColumnLayout {
@@ -299,9 +299,9 @@ Dialog {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked) {
-                                            let save_folder = ConfigItems.save_folder
+                                            let save_folder = configItems.save_folder
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                ConfigItems.save_folder = presetRadioToolTip.text
+                                                configItems.save_folder = presetRadioToolTip.text
                                             }
                                         }
                                     }
@@ -313,9 +313,9 @@ Dialog {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                            let save_folder = ConfigItems.save_folder
+                                            let save_folder = configItems.save_folder
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                ConfigItems.save_folder = presetRadioToolTip.text
+                                                configItems.save_folder = presetRadioToolTip.text
                                             }
                                         }
                                     }
@@ -324,7 +324,7 @@ Dialog {
                                     if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
                                         presetRadioToolTip.text = ""
                                         if (presetRadio.checked) {
-                                            ConfigItems.save_folder = ConfigItems.save_folder
+                                            configItems.save_folder = configItems.save_folder
                                         }
                                     }
                                 }
@@ -412,7 +412,7 @@ Dialog {
                 clip: true
                 editTriggers: TableView.SingleTapped
 
-                model: ConfigItems.qget("plugin_candidates")
+                model: configItems.qget("plugin_candidates")
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
 
@@ -474,7 +474,7 @@ Dialog {
                             required property bool editing
 
                             Label {
-                                text: IconicFontLoader.icon("mdi7." + display)
+                                text: iconicFontLoader.icon("mdi7." + display)
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 22
                                 color: window.Material.accent
@@ -486,8 +486,8 @@ Dialog {
                                 checked: value === "checkbox-marked"
                                 anchors.fill: parent
                                 onToggled: {
-                                    if (ConfigItems.toggle_plugin(row)) {
-                                        TaskManager.reload_formats()
+                                    if (configItems.toggle_plugin(row)) {
+                                        taskManager.reload_formats()
                                     }
                                 }
                             }
@@ -510,13 +510,13 @@ Dialog {
                     id: lyricReplacementPresetsComboBox
                     editable: true
                     textRole: "display"
-                    model: ConfigItems.qget("lyric_replacement_presets")
+                    model: configItems.qget("lyric_replacement_presets")
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("Preset")
                     onAccepted: {
                         if (find(editText) === -1) {
                             lyricReplacementPresetsComboBox.model.append(editText)
-                            TaskManager.middleware_options_updated()
+                            taskManager.middleware_options_updated()
                         }
                     }
                     onActivated: (index) => {
@@ -532,7 +532,7 @@ Dialog {
                         if (lyricReplacementPresetsComboBox.currentText !== "default") {
                             lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentText)
                             lyricReplacementPresetsComboBox.currentIndex = 0
-                            TaskManager.middleware_options_updated()
+                            taskManager.middleware_options_updated()
                         }
                     }
                 }
@@ -596,7 +596,7 @@ Dialog {
                 clip: true
                 editTriggers: TableView.SingleTapped
 
-                model: ConfigItems.rules_for_preset(lyricReplacementPresetsComboBox.currentText)
+                model: configItems.rules_for_preset(lyricReplacementPresetsComboBox.currentText)
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
 
@@ -755,7 +755,7 @@ Dialog {
                             required property bool editing
 
                             Label {
-                                text: IconicFontLoader.icon("mdi7." + (display === "UNICODE" ? "checkbox-marked" : "checkbox-blank-outline"))
+                                text: iconicFontLoader.icon("mdi7." + (display === "UNICODE" ? "checkbox-marked" : "checkbox-blank-outline"))
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 22
                                 color: window.Material.accent
@@ -769,7 +769,7 @@ Dialog {
                                 onToggled: {
                                     let index = TableView.view.index(row, column)
                                     lyricReplacementRulesTableView.model.setData(index, checked ? "UNICODE" : "IGNORECASE", Qt.DisplayRole)
-                                    parent.children[0].text = IconicFontLoader.icon("mdi7." + (checked ? "checkbox-marked" : "checkbox-blank-outline"))
+                                    parent.children[0].text = iconicFontLoader.icon("mdi7." + (checked ? "checkbox-marked" : "checkbox-blank-outline"))
                                 }
                             }
                         }
@@ -834,9 +834,9 @@ Dialog {
                     Layout.fillWidth: true
                 }
                 Switch {
-                    checked: ConfigItems.auto_check_for_updates
+                    checked: configItems.auto_check_for_updates
                     onClicked: {
-                        ConfigItems.auto_check_for_updates = checked
+                        configItems.auto_check_for_updates = checked
                     }
                 }
             }
@@ -906,7 +906,7 @@ Dialog {
                 id: pluginsSettingsBtn
                 width: 180
                 text: qsTr("Format Provider Plugins")
-                enabled: !TaskManager.busy
+                enabled: !taskManager.busy
                 anchors.top: savePathSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
@@ -956,7 +956,7 @@ Dialog {
                 pluginsSettingsPage.createObject(settingsStack)
                 lyricReplacementSettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
-                ConfigItems.save_folder = ConfigItems.save_folder
+                configItems.save_folder = configItems.save_folder
             }
         }
     }

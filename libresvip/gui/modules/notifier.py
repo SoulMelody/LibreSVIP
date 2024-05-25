@@ -11,7 +11,7 @@ from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
 from PySide6.QtCore import QObject, QTimer, Slot
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -33,7 +33,6 @@ QML_IMPORT_MINOR_VERSION = 0
 
 
 @QmlElement
-@QmlSingleton
 class Notifier(QObject):
     def __init__(self) -> None:
         super().__init__()

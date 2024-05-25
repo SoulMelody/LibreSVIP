@@ -42,7 +42,7 @@ Item {
                     Layout.preferredWidth: 400
                     text: model.path
                     onEditingFinished: {
-                        if (ConfigItems.dir_valid(text) === false) {
+                        if (configItems.dir_valid(text) === false) {
                             undo()
                         } else {
                             folderPresetsListView.model.update(index, {path: text})
@@ -74,7 +74,7 @@ Item {
                         QQC2.Label {
                             z: 1
                             anchors.centerIn: parent
-                            text: IconicFontLoader.icon("mdi7.close")
+                            text: iconicFontLoader.icon("mdi7.close")
                             font.family: "Material Design Icons"
                             HoverHandler {
                                 acceptedDevices: PointerDevice.AllPointerTypes
@@ -126,7 +126,7 @@ Item {
         fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
-            TaskManager.add_task_paths(
+            taskManager.add_task_paths(
                 selectedFiles.map(url2path)
             )
         }
@@ -159,7 +159,7 @@ Item {
             }
         }
         onAccepted: {
-            TaskManager.install_plugins(plugin_infos)
+            taskManager.install_plugins(plugin_infos)
         }
         function show_dialog(plugin_infos) {
             this.plugin_infos = plugin_infos
@@ -171,7 +171,7 @@ Item {
         currentFolder: ""
         onAccepted: {
             let path = url2path(selectedFolder)
-            ConfigItems.save_folder = path
+            configItems.save_folder = path
         }
         onRejected: {
         }
@@ -256,10 +256,10 @@ Item {
                     contentWidth: availableWidth
                     ListView {
                         id: folderPresetsListView
-                        model: ConfigItems.qget("folder_presets")
+                        model: configItems.qget("folder_presets")
                         delegate: folderPresetDelegate
                         Component.onCompleted: {
-                            let save_folder = ConfigItems.save_folder
+                            let save_folder = configItems.save_folder
                             if (count > 0) {
                                 for (let i = 0; i < count; i++) {
                                     if (model.get(i).path == save_folder) {
@@ -280,7 +280,7 @@ Item {
                     }
                     QQC2.Button {
                         Layout.alignment: Qt.AlignHCenter
-                        text: IconicFontLoader.icon("mdi7.plus")
+                        text: iconicFontLoader.icon("mdi7.plus")
                         font.family: "Material Design Icons"
                         font.pixelSize: Qt.application.font.pixelSize * 1.5
                         onClicked: {
@@ -323,7 +323,7 @@ Item {
                         anchors.centerIn: parent
                         QQC2.Label {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: IconicFontLoader.icon("mdi7.folder-plus-outline")
+                            text: iconicFontLoader.icon("mdi7.folder-plus-outline")
                             font.family: "Material Design Icons"
                             font.pixelSize: 100
                         }
@@ -369,7 +369,7 @@ Item {
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Version: ") + ConfigItems.version
+                text: qsTr("Version: ") + configItems.version
             }
             QQC2.Label {
                 Layout.alignment: Qt.AlignHCenter
@@ -380,7 +380,7 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: IconicFontLoader.icon("mdi7.television-classic")
+                            text: iconicFontLoader.icon("mdi7.television-classic")
                             font.family: "Material Design Icons"
                         }
                         QQC2.Label {
@@ -394,7 +394,7 @@ Item {
                 QQC2.Button {
                     contentItem: RowLayout {
                         QQC2.Label {
-                            text: IconicFontLoader.icon("mdi7.github")
+                            text: iconicFontLoader.icon("mdi7.github")
                             font.family: "Material Design Icons"
                         }
                         QQC2.Label {

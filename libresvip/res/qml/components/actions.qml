@@ -9,7 +9,7 @@ Item {
         text: qsTr("&Open")
         shortcut: "Ctrl+O"
         onTriggered: {   
-            if (!TaskManager.busy) {
+            if (!taskManager.busy) {
                 dialogs.openDialog.open()
             }
         }
@@ -30,7 +30,7 @@ Item {
         text: qsTr("&Restore Task List")
         shortcut: "Ctrl+R"
         onTriggered: {
-            if (!TaskManager.busy) {
+            if (!taskManager.busy) {
                 converterPage.taskList.model.clear()
             } else {
                 let message_box = messageBox.createObject(
@@ -64,7 +64,7 @@ Item {
         text: qsTr("&Import From")
         shortcut: "Alt+I"
         onTriggered: {   
-            if (!TaskManager.busy) {
+            if (!taskManager.busy) {
                 toolbar.openImportFormatMenu()
             }
         }
@@ -73,7 +73,7 @@ Item {
         text: qsTr("&Export To")
         shortcut: "Alt+E"
         onTriggered: {   
-            if (!TaskManager.busy) {
+            if (!taskManager.busy) {
                 toolbar.openExportFormatMenu()
             }
         }
@@ -98,14 +98,14 @@ Item {
         shortcut: "Ctrl+Enter"
         onTriggered: {
             if (converterPage.startConversionButton.enabled) {
-                TaskManager.start_conversion()
+                taskManager.start_conversion()
             }
         }
     }
     property QtObject openDocumentation: Action {
         text: qsTr("&Documentation")
         shortcut: "F1"
-        onTriggered: Notifier.open_link("https://soulmelody.github.io/LibreSVIP")
+        onTriggered: notifier.open_link("https://soulmelody.github.io/LibreSVIP")
     }
     property QtObject quit: Action {
         text: qsTr("&Quit")

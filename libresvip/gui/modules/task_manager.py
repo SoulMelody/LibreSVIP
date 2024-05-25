@@ -25,7 +25,7 @@ from PySide6.QtCore import (
     Signal,
     Slot,
 )
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 from upath import UPath
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
@@ -340,7 +340,6 @@ class MergeWorker(QRunnable):
 
 
 @QmlElement
-@QmlSingleton
 class TaskManager(QObject):
     conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)

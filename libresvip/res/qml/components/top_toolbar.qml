@@ -27,6 +27,10 @@ ToolBar {
         }
     }
 
+    LocaleSwitcher {
+        id: localeSwitcher
+    }
+
     background: Rectangle {
         implicitHeight: 32
         color: window.Material.background
@@ -65,7 +69,7 @@ ToolBar {
             color: "transparent"
             Image {
                 anchors.centerIn: parent
-                source: ConfigItems.icon_data
+                source: configItems.icon_data
                 sourceSize.width: 16
                 sourceSize.height: 16
             }
@@ -91,7 +95,7 @@ ToolBar {
                     implicitHeight: 24
                     background.implicitWidth: implicitWidth
                     background.implicitHeight: implicitHeight
-                    text: IconicFontLoader.icon("mdi7.window-minimize")
+                    text: iconicFontLoader.icon("mdi7.window-minimize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.3
                     onClicked: window.showMinimized()
@@ -112,7 +116,7 @@ ToolBar {
                     implicitHeight: 24
                     background.implicitWidth: implicitWidth
                     background.implicitHeight: implicitHeight
-                    text: window.visibility == Window.Maximized ? IconicFontLoader.icon("mdi7.window-restore") : IconicFontLoader.icon("mdi7.window-maximize")
+                    text: window.visibility == Window.Maximized ? iconicFontLoader.icon("mdi7.window-restore") : iconicFontLoader.icon("mdi7.window-maximize")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.3
                     onClicked: toggleMaximized()
@@ -131,7 +135,7 @@ ToolBar {
                     implicitHeight: 24
                     background.implicitWidth: implicitWidth
                     background.implicitHeight: implicitHeight
-                    text: hovered ? "<font color='white'>" + IconicFontLoader.icon("mdi7.close") + "</font>" : IconicFontLoader.icon("mdi7.close")
+                    text: hovered ? "<font color='white'>" + iconicFontLoader.icon("mdi7.close") + "</font>" : iconicFontLoader.icon("mdi7.close")
                     font.family: "Material Design Icons"
                     font.pixelSize: Qt.application.font.pixelSize * 1.3
                     onClicked: actions.quit.trigger()
@@ -187,7 +191,7 @@ ToolBar {
                             action: actions.clearTasks;
                             icon_name: "mdi7.refresh"
                             label: qsTr("Clear Tasks (Ctrl+R)");
-                            enabled: TaskManager.count > 0
+                            enabled: taskManager.count > 0
                         }
                         MenuSeparator {}
                         IconMenuItem {
@@ -211,19 +215,19 @@ ToolBar {
                             id: importFormatMenu
                             width: 300
                             title: qsTr("Input Format (&I)")
-                            enabled: !TaskManager.busy
+                            enabled: !taskManager.busy
                             ButtonGroup {
                                 id: inputFormatButtonGroup
                             }
                             contentItem: ListView {
                                 id: importMenuList
-                                model: TaskManager.qget("input_formats")
+                                model: taskManager.qget("input_formats")
                                 delegate: MenuItem {
                                     checkable: true
                                     checked: ListView.isCurrentItem
                                     ButtonGroup.group: inputFormatButtonGroup
                                     onTriggered: {
-                                        TaskManager.set_str("input_format", model.value)
+                                        taskManager.set_str("input_format", model.value)
                                     }
                                     text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
@@ -269,19 +273,19 @@ ToolBar {
                             id: exportFormatMenu
                             width: 300
                             title: qsTr("Output Format (&E)")
-                            enabled: !TaskManager.busy
+                            enabled: !taskManager.busy
                             ButtonGroup {
                                 id: exportFormatButtonGroup
                             }
                             contentItem: ListView {
                                 id: exportMenuList
-                                model: TaskManager.qget("output_formats")
+                                model: taskManager.qget("output_formats")
                                 delegate: MenuItem {
                                     checkable: true
                                     checked: ListView.isCurrentItem
                                     ButtonGroup.group: exportFormatButtonGroup
                                     onTriggered: {
-                                        TaskManager.set_str("output_format", model.value)
+                                        taskManager.set_str("output_format", model.value)
                                     }
                                     text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
@@ -374,7 +378,7 @@ ToolBar {
                                 }
                             }
                             Component.onCompleted: {
-                                let currentTheme = ConfigItems.theme
+                                let currentTheme = configItems.theme
                                 if (currentTheme === "Light") {
                                     lightThemeMenuItem.checked = true
                                 } else if (currentTheme === "Dark") {
@@ -398,25 +402,25 @@ ToolBar {
                                 checkable: true
                                 ButtonGroup.group: languageButtonGroup
                                 text: "简体中文";
-                                onTriggered: LocaleSwitcher.switch_language("zh_CN")
+                                onTriggered: localeSwitcher.switch_language("zh_CN")
                             }
                             MenuItem {
                                 id: enUSMenuItem
                                 checkable: true
                                 ButtonGroup.group: languageButtonGroup
                                 text: "English";
-                                onTriggered: LocaleSwitcher.switch_language("en_US")
+                                onTriggered: localeSwitcher.switch_language("en_US")
                             }
                             MenuItem {
                                 id: jaJPMenuItem
                                 checkable: true
                                 ButtonGroup.group: languageButtonGroup
                                 text: "日本語";
-                                onTriggered: LocaleSwitcher.switch_language("ja_JP")
+                                onTriggered: localeSwitcher.switch_language("ja_JP")
                                 enabled: false
                             }
                             Component.onCompleted: {
-                                let currentLanguage = LocaleSwitcher.get_language()
+                                let currentLanguage = localeSwitcher.get_language()
                                 if (currentLanguage === "zh_CN") {
                                     zhCNMenuItem.checked = true
                                 } else if (currentLanguage === "en_US") {
@@ -447,7 +451,7 @@ ToolBar {
                             icon_name: "mdi7.progress-upload"
                             label: qsTr("Check for Updates");
                             enabled: true
-                            onTriggered: Notifier.check_for_updates()
+                            onTriggered: notifier.check_for_updates()
                         }
                         IconMenuItem {
                             action: actions.openDocumentation;
