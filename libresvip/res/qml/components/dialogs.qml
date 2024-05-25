@@ -132,41 +132,6 @@ Item {
         }
     }
 
-    property QtObject confirmInstallDialog: QQC2.Dialog {
-        title: qsTr("Install New Plugins")
-        x: window.width / 2 - width / 2
-        y: window.height / 2 - height / 2
-        property var plugin_infos: []
-        standardButtons: QQC2.Dialog.Ok | QQC2.Dialog.Cancel
-        Overlay.modal: Rectangle {
-            anchors.fill: parent
-            anchors.topMargin: (window.visibility === Window.Maximized ? 0 : 10) + toolbar.height
-            anchors.margins: window.visibility === Window.Maximized ? 0 : 10
-            color: Material.backgroundDimColor
-        }
-
-        ColumnLayout {
-            width: 400
-            QQC2.Label {
-                text: qsTr("Are you sure to install following plugins?")
-            }
-            Repeater {
-                model: confirmInstallDialog.plugin_infos
-                QQC2.Label {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: qsTr("Developed by ") + modelData.author + qsTr(", which supports ") + qsTr(modelData.file_format)
-                }
-            }
-        }
-        onAccepted: {
-            taskManager.install_plugins(plugin_infos)
-        }
-        function show_dialog(plugin_infos) {
-            this.plugin_infos = plugin_infos
-            open()
-        }
-    }
-
     property QtObject saveDialog: FolderDialog {
         currentFolder: ""
         onAccepted: {
@@ -219,7 +184,13 @@ Item {
                     Layout.alignment: Qt.AlignRight
                     icon_name: "mdi7.close"
                     diameter: 30
+                    new_padding: 6
                     onClicked: folderPresetsDialog.close()
+                }
+                Rectangle {
+                    Layout.fillHeight: true
+                    width: 10
+                    color: "transparent"
                 }
             }
             Rectangle {

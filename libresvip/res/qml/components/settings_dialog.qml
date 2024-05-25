@@ -52,7 +52,13 @@ Dialog {
                 Layout.alignment: Qt.AlignRight
                 icon_name: "mdi7.close"
                 diameter: 30
+                new_padding: 6
                 onClicked: settingsDialog.close()
+            }
+            Rectangle {
+                Layout.fillHeight: true
+                width: 10
+                color: "transparent"
             }
         }
         Rectangle {
