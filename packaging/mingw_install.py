@@ -1,5 +1,6 @@
 import os
 import pathlib
+import shutil
 import site
 import subprocess
 
@@ -11,7 +12,18 @@ def install_mingw_deps() -> None:
     sys_site_packages_path = site.getsitepackages()[-1]
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
     msystem = os.environ.get("MSYSTEM", "UCRT64")
-    subprocess.call(["pacman", "-Sy"])
+    pacman_available = shutil.which("pacman.exe") is not None
+    msys2_requirements = [f"{mingw_arch}-python-pip"]
+
+    def install_msys2_requirements(args: list[str], check: bool = False) -> None:
+        nonlocal msys2_requirements
+        if pacman_available:
+            subprocess.check_call(args) if check else subprocess.call(args)
+        else:
+            msys2_requirements.append(args[2])
+
+    if pacman_available:
+        subprocess.call(["pacman", "-Sy"])
     new_requirements = []
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
@@ -37,7 +49,7 @@ def install_mingw_deps() -> None:
         "zstandard": "python-zstandard",
     }
     cwd = pathlib.Path()
-    subprocess.call(
+    install_msys2_requirements(
         [
             "pacman",
             "-S",
@@ -45,7 +57,7 @@ def install_mingw_deps() -> None:
             "--noconfirm",
         ]
     )
-    subprocess.call(
+    install_msys2_requirements(
         [
             "pacman",
             "-S",
@@ -54,7 +66,7 @@ def install_mingw_deps() -> None:
             "--needed",
         ]
     )
-    subprocess.call(
+    install_msys2_requirements(
         [
             "pacman",
             "-S",
@@ -63,16 +75,17 @@ def install_mingw_deps() -> None:
         ]
     )
     try:
-        subprocess.check_call(
+        install_msys2_requirements(
             [
                 "pacman",
                 "-S",
                 f"{mingw_arch}-gcc-compat",
                 "--noconfirm",
-            ]
+            ],
+            check=True,
         )
     except subprocess.CalledProcessError:
-        subprocess.call(
+        install_msys2_requirements(
             [
                 "pacman",
                 "-S",
@@ -93,8 +106,14 @@ def install_mingw_deps() -> None:
             "libresvip",
         ]:
             if requirement.name in mingw_native_packages:
+                if requirement.name in [
+                    "cx-freeze",
+                    "cx-logging",
+                    "lief",
+                ] and not mingw_arch.endswith("x86_64"):
+                    continue
                 if (mingw_native_package := mingw_native_packages[requirement.name]) is not None:
-                    subprocess.call(
+                    install_msys2_requirements(
                         [
                             "pacman",
                             "-S",
@@ -106,15 +125,20 @@ def install_mingw_deps() -> None:
             else:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
-    subprocess.call(["pip", "install", "-r", "requirements.txt", "--no-deps"])
-    subprocess.call(
-        [
-            "ln",
-            "-s",
-            f"/{msystem.lower()}/bin/libmediainfo-0.dll",
-            f"{sys_site_packages_path}/pymediainfo",
-        ]
-    )
+    if pacman_available:
+        subprocess.call(["pip", "install", "-r", "requirements.txt", "--no-deps"])
+        subprocess.call(
+            [
+                "ln",
+                "-s",
+                f"/{msystem.lower()}/bin/libmediainfo-0.dll",
+                f"{sys_site_packages_path}/pymediainfo",
+            ]
+        )
+    else:
+        (cwd / "install_msys2_requirements.sh").write_text(
+            f"pacman -S {' '.join(msys2_requirements)} --noconfirm --needed"
+        )
 
 
 if __name__ == "__main__":
