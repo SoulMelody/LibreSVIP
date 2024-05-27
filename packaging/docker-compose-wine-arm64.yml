@@ -9,7 +9,7 @@ services:
       wine-arm64 cmd /c "cd /src &&
       set PATH=/clangarm64/bin;%PATH% &&
       set SETUPTOOLS_USE_DISTUTILS=stdlib &&
-      python -m pip install wheels/*.whl --no-deps &&
+      python -m pip install dist/*.whl --no-deps &&
       cd packaging &&
       python -m pip install -r requirements.txt &&
       pyinstaller libresvip.spec"
