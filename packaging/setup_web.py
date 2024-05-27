@@ -88,7 +88,7 @@ build_exe_options = {
         "pymediainfo",
         "srt",
         "webview",
-        "xsdata",
+        "xsdata_pydantic",
         "email._header_value_parser",
         "uvicorn.lifespan.on",
         "uvicorn.loops.auto",

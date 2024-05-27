@@ -11,6 +11,7 @@ sys.modules['FixTk'] = None
 import nicegui
 import shellingham
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+from PyInstaller.utils.misc import is_win
 
 from libresvip.core.constants import pkg_dir
 
@@ -50,8 +51,8 @@ a = Analysis(
         "fsspec.implementations.memory",
         "upath.implementations.memory",
         "wanakana",
-        "xsdata.formats.dataclass.parsers",
-        "xsdata.formats.dataclass.serializers",
+        "xsdata_pydantic.bindings",
+        "xsdata_pydantic.fields",
         "zstandard",
     ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
     hookspath=[],
@@ -94,7 +95,7 @@ to_exclude = [
     os.path.join(js_lib_prefix, "three"),
     os.path.join(js_lib_prefix, "vanilla-jsoneditor"),
 ]
-if platform.machine() != "ARM64":
+if is_win and platform.machine() != "ARM64":
     to_exclude.append(os.path.join("webview", "lib", "runtimes", "win-arm", "native", "WebView2Loader.dll"))
 
 for (dest, source, kind) in a.datas:
@@ -105,7 +106,7 @@ for (dest, source, kind) in a.datas:
 
 # Replace list of data files with filtered one.
 a.datas = to_keep
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure, cipher=block_cipher)
 
 exe = EXE(
     pyz,

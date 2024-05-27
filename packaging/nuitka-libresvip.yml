@@ -19,7 +19,7 @@
       - .parsimonious
       - .proto
       - .srt
-      - .xsdata
+      - .xsdata_pydantic
 
 - module-name: xsdata
   data-files:
