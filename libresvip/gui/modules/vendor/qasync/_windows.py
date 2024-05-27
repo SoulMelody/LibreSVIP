@@ -19,18 +19,17 @@ from PySide6 import QtCore
 with contextlib.suppress(
     ImportError
 ):  # w/o guarding this import py.test can't gather doctests on platforms w/o _winapi
-    from asyncio import windows_events
-
     import _overlapped
     import _winapi
+    from asyncio import windows_events
 
 if TYPE_CHECKING:
     import socket
+    from _winapi import Overlapped
     from asyncio import windows_utils
     from collections.abc import Callable
 
     from _typeshed import Incomplete, ReadableBuffer, WriteableBuffer
-    from _winapi import Overlapped
 
     ProactorEvent = tuple[
         asyncio.Future[Any],
