@@ -133,7 +133,7 @@ gui_a = Analysis(
         "wanakana",
         "xsdata.formats.dataclass.parsers",
         "xsdata.formats.dataclass.serializers",
-        "zstd",
+        "zstandard",
     ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
     hookspath=[],
     hooksconfig={},

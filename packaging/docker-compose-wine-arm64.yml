@@ -14,6 +14,7 @@ services:
       cd ../packaging &&
       python -m pip install -r requirements.txt &&
       python -m pip download pyinstaller==6.7.0 --platform win_arm64 --only-binary=:all: &&
-      python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl &&
-      move pyinstaller-6.7.0/PyInstaller/bootloader/Windows-64bit-arm /clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader &&
-      pyinstaller libresvip.spec"
+      python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl" &&
+      mv /src/packaging/pyinstaller-6.7.0/PyInstaller/bootloader/Windows-64bit-arm /clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader &&
+      ln -s /clangarm64/bin/libmediainfo-0.dll /clangarm64/lib/python3.11/site-packages/pymediainfo/ &&
+      wine-arm64 cmd /c "cd /src/dist && pyinstaller libresvip.spec"
