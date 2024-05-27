@@ -15,10 +15,10 @@ def install_mingw_deps() -> None:
     pacman_available = shutil.which("pacman.exe") is not None
     msys2_requirements = [f"{mingw_arch}-python-pip"]
 
-    def install_msys2_requirements(args: list[str], check: bool = False) -> None:
+    def install_msys2_requirements(args: list[str]) -> None:
         nonlocal msys2_requirements
         if pacman_available:
-            subprocess.check_call(args) if check else subprocess.call(args)
+            subprocess.check_call(args)
         else:
             msys2_requirements.append(args[2])
 
@@ -74,7 +74,7 @@ def install_mingw_deps() -> None:
             "--noconfirm",
         ]
     )
-    try:
+    if "clang" in mingw_arch:
         install_msys2_requirements(
             [
                 "pacman",
@@ -82,9 +82,8 @@ def install_mingw_deps() -> None:
                 f"{mingw_arch}-gcc-compat",
                 "--noconfirm",
             ],
-            check=True,
         )
-    except subprocess.CalledProcessError:
+    else:
         install_msys2_requirements(
             [
                 "pacman",

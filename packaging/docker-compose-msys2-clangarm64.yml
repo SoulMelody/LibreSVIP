@@ -1,0 +1,8 @@
+version: "3"
+services:
+  msys2:
+    image: ghcr.io/msys2/msys2-docker-experimental
+    volumes:
+      - ./clangarm64:/root/.wine/drive_c/msys64/clangarm64
+      - ./install_msys2_requirements.sh:/install_msys2_requirements.sh:ro
+    command: msys2 -c "bash /install_msys2_requirements.sh"
