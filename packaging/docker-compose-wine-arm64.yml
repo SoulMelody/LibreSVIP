@@ -13,4 +13,7 @@ services:
       python -m pip install -r requirements.txt --no-deps &&
       cd ../packaging &&
       python -m pip install -r requirements.txt &&
+      python -m pip download pyinstaller==6.7.0 --platform win_arm64 --only-binary=:all: &&
+      python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl &&
+      mv pyinstaller-6.7.0/bootloader/Windows-64bit-arm /clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader &&
       pyinstaller libresvip.spec"
