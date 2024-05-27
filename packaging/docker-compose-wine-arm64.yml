@@ -6,10 +6,11 @@ services:
       - ./clangarm64:/clangarm64
       - ../:/src
     command: >
-      wine-arm64 cmd /c "cd /src &&
+      wine-arm64 cmd /c "cd /src/dist &&
       set PATH=/clangarm64/bin;%PATH% &&
       set SETUPTOOLS_USE_DISTUTILS=stdlib &&
-      python -m pip install dist/*.whl --no-deps &&
-      cd packaging &&
+      dir *.whl /b > requirements.txt &&
+      python -m pip install -r requirements.txt --no-deps &&
+      cd ../packaging &&
       python -m pip install -r requirements.txt &&
       pyinstaller libresvip.spec"
