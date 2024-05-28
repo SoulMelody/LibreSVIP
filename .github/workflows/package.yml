@@ -158,11 +158,12 @@ jobs:
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
           export MSYSTEM=CLANGARM64
           python mingw_install.py
+          ls
           cd ..
       - uses: hoverkraft-tech/compose-action@v2.0.0
         with:
           compose-file: "./docker-compose-msys2-clangarm64.yml"
-          cwd: "${{ github.workspace }}/packaging"
+          cwd: "packaging"
       - name: Pack binary dist folder
         run:
           cd packaging/dist
