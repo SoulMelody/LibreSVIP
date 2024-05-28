@@ -101,16 +101,11 @@ class Notifier(QObject):
                         ]
                         if arch.endswith("64"):
                             asset = None
-                            if (
-                                "arm" in arch
-                                and uname.system != "Darwin"
-                                or "aarch" in arch
-                                and uname.system != "Linux"
-                            ):
+                            if "aarch" in arch and uname.system != "Linux":
                                 pass
                             elif uname.system == "Windows":
                                 python_compiler = platform.python_compiler()
-                                if python_compiler.startswith("GCC"):
+                                if python_compiler.startswith("GCC") and "arm" not in arch:
                                     asset = next(
                                         (
                                             asset
