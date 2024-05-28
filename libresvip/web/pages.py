@@ -48,6 +48,7 @@ from starlette.responses import Response
 from upath import UPath
 
 import libresvip
+from libresvip.core.compat import as_file
 from libresvip.core.config import (
     ConversionMode,
     DarkMode,
@@ -2078,14 +2079,15 @@ def main() -> None:
         secrets_path.write_text(secrets.token_urlsafe(32))
     storage_secret = secrets_path.read_text()
 
-    ui.run(
-        show=not args.daemon,
-        window_size=None if args.server else (1200, 800),
-        frameless=not args.server,
-        reload=False,
-        host=args.host if args.server else None,
-        port=args.port,
-        storage_secret=storage_secret,
-        title="LibreSVIP",
-        favicon=res_dir / "libresvip.ico",
-    )
+    with as_file(res_dir / "libresvip.ico") as icon_path:
+        ui.run(
+            show=not args.daemon,
+            window_size=None if args.server else (1200, 800),
+            frameless=not args.server,
+            reload=False,
+            host=args.host if args.server else None,
+            port=args.port,
+            storage_secret=storage_secret,
+            title="LibreSVIP",
+            favicon=icon_path,
+        )

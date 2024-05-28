@@ -211,6 +211,7 @@ build_exe_options = {
         "PySide6.QtOpenGL",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
+        "xsdata_pydantic.hooks.class_type",
     ],
 }
 
