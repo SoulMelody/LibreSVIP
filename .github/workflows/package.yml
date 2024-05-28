@@ -160,7 +160,7 @@ jobs:
           compose-file: "./docker-compose-msys2-clangarm64.yml"
           cwd: "packaging"
       - name: Pack binary dist folder
-        run:
+        run: |
           cd packaging/dist
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
           rm -rf libresvip
