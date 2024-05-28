@@ -146,10 +146,6 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.11
-      - name: Install OS dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y p7zip
       - name: Export requirements
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
@@ -158,7 +154,6 @@ jobs:
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
           export MSYSTEM=CLANGARM64
           python mingw_install.py
-          ls
           cd ..
       - uses: hoverkraft-tech/compose-action@v2.0.0
         with:
