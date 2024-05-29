@@ -5,7 +5,9 @@ services:
     volumes:
       - ./clangarm64:/root/.wine/drive_c/msys64/clangarm64
       - ./install_msys2_requirements.sh:/root/.wine/drive_c/install_msys2_requirements.sh:ro
-    command: msys2 -c "bash /c/install_msys2_requirements.sh" || exit 0
+    command: >
+      WINEDEBUG="-all" WINEPATH="C:\\msys64\\usr\\bin" MSYSTEM="UCRT64"
+      wine64 bash.exe /c/install_msys2_requirements.sh || exit 0
 
   wine_arm64:
     image: linaro/wine-arm64
