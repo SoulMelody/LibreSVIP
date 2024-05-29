@@ -1,6 +1,6 @@
 version: "3"
 services:
-  wine_arm64:
+  install_dependencies:
     image: linaro/wine-arm64
     volumes:
       - ./clangarm64:/clangarm64
@@ -14,7 +14,28 @@ services:
       cd ../packaging &&
       python -m pip install -r requirements.txt &&
       python -m pip download pyinstaller==6.7.0 --platform win_arm64 --only-binary=:all: &&
-      python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl" &&
+      python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl"
+
+  move_binaries:
+    image: alpine
+    volumes:
+      - ./clangarm64:/clangarm64
+      - ../:/src
+    command: >
       mv /src/packaging/pyinstaller-6.7.0/PyInstaller/bootloader/Windows-64bit-arm /clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader &&
-      ln -s /clangarm64/bin/libmediainfo-0.dll /clangarm64/lib/python3.11/site-packages/pymediainfo/ &&
-      wine-arm64 cmd /c "cd /src/dist && pyinstaller libresvip.spec"
+      ln -s /clangarm64/bin/libmediainfo-0.dll /clangarm64/lib/python3.11/site-packages/pymediainfo/
+    depends_on:
+      install_dependencies:
+        condition: service_completed_successfully
+        restart: false
+
+  run_pyinstaller:
+    image: linaro/wine-arm64
+    volumes:
+      - ./clangarm64:/clangarm64
+      - ../:/src
+    command: wine-arm64 cmd /c "cd /src/dist && pyinstaller libresvip.spec"
+    depends_on:
+      move_binaries:
+        condition: service_completed_successfully
+        restart: false
