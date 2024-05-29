@@ -146,7 +146,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.11
-      - name: Export requirements
+      - name: Build with pyinstaller
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
           pdm build --no-sdist
@@ -154,18 +154,9 @@ jobs:
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
           export MSYSTEM=CLANGARM64
           python mingw_install.py
-          cd ..
-      - uses: hoverkraft-tech/compose-action@v2.0.0
-        with:
-          compose-file: "./docker-compose-msys2-clangarm64.yml"
-          cwd: "packaging"
-      - uses: hoverkraft-tech/compose-action@v2.0.0
-        with:
-          compose-file: "./docker-compose-wine-arm64.yml"
-          cwd: "packaging"
-      - name: Pack binary dist folder
-        run: |
-          cd packaging/dist
+          docker-compose -f docker-compose-msys2-clangarm64.yml up
+          docker-compose -f docker-compose-wine-arm64.yml up
+          cd dist
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
           rm -rf libresvip
       - name: Upload build artifact
