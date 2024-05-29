@@ -27,7 +27,6 @@ services:
     depends_on:
       install_dependencies:
         condition: service_completed_successfully
-        restart: false
 
   run_pyinstaller:
     image: linaro/wine-arm64
@@ -38,4 +37,3 @@ services:
     depends_on:
       move_binaries:
         condition: service_completed_successfully
-        restart: false
