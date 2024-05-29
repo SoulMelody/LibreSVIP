@@ -170,7 +170,7 @@ jobs:
         with:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
-            ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z
+            ./packaging/archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z
 
   release_linux_x86_64:
     runs-on: ubuntu-latest
