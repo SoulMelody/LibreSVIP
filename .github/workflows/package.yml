@@ -156,14 +156,14 @@ jobs:
           python mingw_install.py
           docker-compose -f docker-compose-msys2-clangarm64.yml up
           docker-compose -f docker-compose-wine-arm64.yml up
+          mkdir archive
           cd dist
-          7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
-          rm -rf libresvip
+          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: libresvip-win-arm64.7z
-          path: ./packaging/dist/
+          path: ./packaging/archive/
       - name: Create Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
