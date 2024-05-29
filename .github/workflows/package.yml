@@ -159,6 +159,10 @@ jobs:
         with:
           compose-file: "./docker-compose-msys2-clangarm64.yml"
           cwd: "packaging"
+      - uses: hoverkraft-tech/compose-action@v2.0.0
+        with:
+          compose-file: "./docker-compose-wine-arm64.yml"
+          cwd: "packaging"
       - name: Pack binary dist folder
         run: |
           cd packaging/dist
