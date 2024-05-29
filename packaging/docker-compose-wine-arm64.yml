@@ -17,13 +17,13 @@ services:
       python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl"
 
   move_binaries:
-    image: alpine
+    image: debian:bookworm-slim
     volumes:
       - ./clangarm64:/clangarm64
       - ../:/src
     command: >
-      mv /src/packaging/pyinstaller-6.7.0/PyInstaller/bootloader/Windows-64bit-arm /clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader &&
-      ln -s /clangarm64/bin/libmediainfo-0.dll /clangarm64/lib/python3.11/site-packages/pymediainfo/
+      bash -c "mv /src/packaging/pyinstaller-6.7.0/PyInstaller/bootloader/Windows-64bit-arm /clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader &&
+      ln -s /clangarm64/bin/libmediainfo-0.dll /clangarm64/lib/python3.11/site-packages/pymediainfo/"
     depends_on:
       install_dependencies:
         condition: service_completed_successfully
