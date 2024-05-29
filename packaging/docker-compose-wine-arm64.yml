@@ -33,7 +33,7 @@ services:
     volumes:
       - ./clangarm64:/clangarm64
       - ../:/src
-    command: wine-arm64 cmd /c "cd /src/dist && pyinstaller libresvip.spec"
+    command: wine-arm64 cmd /c "cd /src/packaging && set PATH=/clangarm64/bin;%PATH% && pyinstaller libresvip.spec"
     depends_on:
       move_binaries:
         condition: service_completed_successfully
