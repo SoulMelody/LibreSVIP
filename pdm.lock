@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:dea68ce053f1915de5eae8e0caa5df16e0e8988383b49c610f12c631b1b347df"
+content_hash = "sha256:897a4ae0fdd41f29abacb418e57f2bf7c929e5989caf5bf266ee7ddddc11a04a"
 
 [[package]]
 name = "aiofiles"
@@ -2395,6 +2395,7 @@ version = "6.1.0"
 requires_python = ">=3.7"
 summary = "A Python wrapper for the mediainfo library."
 groups = ["default", "desktop", "webui"]
+marker = "sys_platform != \"emscripten\""
 files = [
     {file = "pymediainfo-6.1.0-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:69d5d3cac056c24a68a1129216aec82a222e804a35f88567c08585e8ae7ef2b3"},
     {file = "pymediainfo-6.1.0-py3-none-win32.whl", hash = "sha256:19e6baeca3db71f12ed568f056de899fd02f380990fb10f43a26c32b67362dd3"},
