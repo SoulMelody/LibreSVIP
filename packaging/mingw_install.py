@@ -11,6 +11,7 @@ def install_mingw_deps() -> None:
     os.environ.setdefault("SETUPTOOLS_USE_DISTUTILS", "stdlib")
     sys_site_packages_path = site.getsitepackages()[-1]
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
+    assert mingw_arch.endswith("64")
     msystem = os.environ.get("MSYSTEM", "UCRT64")
     pacman_available = shutil.which("pacman.exe") is not None
     msys2_requirements = [f"{mingw_arch}-python-pip"]
@@ -29,12 +30,13 @@ def install_mingw_deps() -> None:
         "annotated-types": "python-annotated-types",
         "anyio": "python-anyio",
         "charset-normalizer": "python-charset-normalizer",
-        "cx-freeze": "python-cx-freeze",
-        "cx-logging": "python-cx-logging",
-        "lief": "python-lief",
+        "cx-freeze": None,
+        "cx-logging": None,
+        "lief": None,
         "lxml": "python-lxml",
         "markupsafe": "python-markupsafe",
         "nuitka": "python-nuitka",
+        "protobuf": "python-protobuf",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
         "pyside6": "pyside6",
@@ -105,12 +107,6 @@ def install_mingw_deps() -> None:
             "libresvip",
         ]:
             if requirement.name in mingw_native_packages:
-                if requirement.name in [
-                    "cx-freeze",
-                    "cx-logging",
-                    "lief",
-                ] and not mingw_arch.endswith("x86_64"):
-                    continue
                 if (mingw_native_package := mingw_native_packages[requirement.name]) is not None:
                     install_msys2_requirements(
                         [
