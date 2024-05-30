@@ -1,4 +1,5 @@
 import dataclasses
+import math
 
 import more_itertools
 
@@ -97,7 +98,8 @@ class TuneLabGenerator:
                 tlp_midi_part = TuneLabMidiPart(
                     name=track.title,
                     pos=0.0,
-                    dur=track.note_list[-1].end_pos - track.note_list[0].start_pos,
+                    dur=math.ceil(track.note_list[-1].end_pos / self.first_bar_length)
+                    * self.first_bar_length,
                     notes=self.generate_notes(track.note_list),
                 )
                 if pitch := self.generate_pitch(track.edited_params.pitch):
