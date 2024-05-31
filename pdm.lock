@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:897a4ae0fdd41f29abacb418e57f2bf7c929e5989caf5bf266ee7ddddc11a04a"
+content_hash = "sha256:4deb622a60581ce427c0cb81575773241b464922158b16d70dea057faf95ef8e"
 
 [[package]]
 name = "aiofiles"
@@ -1877,7 +1877,7 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.2.3"
+version = "2.3"
 summary = "Python compiler with full language support and CPython compatibility"
 groups = ["packaging"]
 dependencies = [
@@ -1885,7 +1885,7 @@ dependencies = [
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.2.3.tar.gz", hash = "sha256:aa78f838c2b5d165e2c071e9a9e705b2ac77506d24e91121321fa4b9740bba88"},
+    {file = "Nuitka-2.3.tar.gz", hash = "sha256:44f628d8b644e5166e5f47a2ee4aa192ca08f23f7fd784222d59cbf1a99733c1"},
 ]
 
 [[package]]
