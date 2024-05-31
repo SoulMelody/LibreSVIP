@@ -73,7 +73,6 @@ jobs:
           update: true
           install: >-
             mingw-w64-ucrt-x86_64-python-pip
-            mingw-w64-ucrt-x86_64-python-uv
             p7zip
       - name: Build with pyinstaller
         shell: msys2 {0}
