@@ -14,7 +14,7 @@ def install_mingw_deps() -> None:
     assert mingw_arch.endswith("64")
     msystem = os.environ.get("MSYSTEM", "UCRT64")
     pacman_available = shutil.which("pacman.exe") is not None
-    msys2_requirements = [f"{mingw_arch}-python-pip"]
+    msys2_requirements = [f"{mingw_arch}-python-pip", f"{mingw_arch}-python-uv"]
 
     def install_msys2_requirements(args: list[str]) -> None:
         nonlocal msys2_requirements
@@ -121,7 +121,7 @@ def install_mingw_deps() -> None:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
     if pacman_available:
-        subprocess.call(["pip", "install", "-r", "requirements.txt", "--no-deps"])
+        subprocess.call(["uv", "pip", "install", "-r", "requirements.txt", "--no-deps"])
         subprocess.call(
             [
                 "ln",

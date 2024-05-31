@@ -73,6 +73,7 @@ jobs:
           update: true
           install: >-
             mingw-w64-ucrt-x86_64-python-pip
+            mingw-w64-ucrt-x86_64-python-uv
             p7zip
       - name: Build with pyinstaller
         shell: msys2 {0}
@@ -155,7 +156,11 @@ jobs:
           export MSYSTEM=CLANGARM64
           python mingw_install.py
           docker-compose -f docker-compose-msys2-clangarm64.yml up
-          docker-compose -f docker-compose-wine-arm64.yml up
+          python -m pip download pyinstaller==6.7.0 --platform win_arm64 --only-binary=:all:
+          python -m wheel unpack pyinstaller-6.7.0-py3-none-win_arm64.whl
+          mv ./pyinstaller-6.7.0/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader
+          cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python3.11/site-packages/pymediainfo/
+          docker-compose -f docker-compose-build-wine-arm64.yml up
           mkdir archive
           cd dist
           7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip

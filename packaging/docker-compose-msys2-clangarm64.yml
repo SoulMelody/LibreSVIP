@@ -1,8 +1,25 @@
 version: "3"
 services:
-  msys2:
+  install_mingw_dependencies:
     image: ghcr.io/msys2/msys2-docker-experimental
     volumes:
       - ./clangarm64:/root/.wine/drive_c/msys64/clangarm64
       - ./install_msys2_requirements.sh:/root/.wine/drive_c/install_msys2_requirements.sh:ro
     command: msys2 -c "bash /c/install_msys2_requirements.sh" || exit 0
+
+  install_python_dependencies:
+    image: linaro/wine-arm64
+    volumes:
+      - ./clangarm64:/clangarm64
+      - ../:/src
+    command: >
+      wine-arm64 cmd /c "cd /src/dist &&
+      set PATH=/clangarm64/bin;%PATH% &&
+      set SETUPTOOLS_USE_DISTUTILS=stdlib &&
+      dir *.whl /b > requirements.txt &&
+      python -m pip install -r requirements.txt --no-deps &&
+      cd ../packaging &&
+      python -m uv pip install -r requirements.txt"
+    depends_on:
+      install_mingw_dependencies:
+        condition: service_completed_successfully
