@@ -46,6 +46,7 @@ def install_mingw_deps() -> None:
         "regex": "python-regex",
         "ruamel-yaml": "python-ruamel-yaml",
         "ruamel-yaml-clib": "python-ruamel.yaml.clib",
+        "shellingham": "python-shellingham",
         "shiboken6": None,
         "ujson": "python-ujson",
         "zstandard": "python-zstandard",
@@ -121,7 +122,7 @@ def install_mingw_deps() -> None:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
     if pacman_available:
-        subprocess.call(["uv", "pip", "install", "-r", "requirements.txt", "--no-deps"])
+        subprocess.call(["uv", "pip", "install", "-r", "requirements.txt", "--no-deps", "--system"])
         subprocess.call(
             [
                 "ln",
