@@ -54,9 +54,12 @@ class TuneLabAutomation(BaseModel):
 
 
 class TuneLabAutomations(BaseModel):
+    air: Optional[TuneLabAutomation] = Field(None, alias="Air")
+    breathiness: Optional[TuneLabAutomation] = Field(None, alias="Breathiness")
     brightness: Optional[TuneLabAutomation] = Field(None, alias="Brightness")
     clearness: Optional[TuneLabAutomation] = Field(None, alias="Clearness")
     dynamics: Optional[TuneLabAutomation] = Field(None, alias="Dynamics")
+    exciter: Optional[TuneLabAutomation] = Field(None, alias="Exciter")
     gender: Optional[TuneLabAutomation] = Field(None, alias="Gender")
     growl: Optional[TuneLabAutomation] = Field(None, alias="Growl")
     pitch_bend: Optional[TuneLabAutomation] = Field(None, alias="PitchBend")
@@ -66,9 +69,12 @@ class TuneLabAutomations(BaseModel):
 
 
 class TuneLabAffectedAutomations(BaseModel):
+    air: Optional[float] = Field(None, alias="Air")
+    breathiness: Optional[float] = Field(None, alias="Breathiness")
     brightness: Optional[float] = Field(None, alias="Brightness")
     clearness: Optional[float] = Field(None, alias="Clearness")
     dynamics: Optional[float] = Field(None, alias="Dynamics")
+    exciter: Optional[float] = Field(None, alias="Exciter")
     gender: Optional[float] = Field(None, alias="Gender")
     growl: Optional[float] = Field(None, alias="Growl")
     pitch_bend: Optional[float] = Field(None, alias="PitchBend")
