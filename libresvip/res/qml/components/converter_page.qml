@@ -42,6 +42,7 @@ Page {
             IconButton {
                 icon_name: "mdi7.eyedropper-variant"
                 diameter: 30
+                new_padding: 6
                 onClicked: {
                     dialogs.colorDialog.bind_color(
                         colorField.text,
@@ -55,6 +56,7 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -102,6 +104,7 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -144,7 +147,7 @@ Page {
                     width: ListView.view.width
                     contentItem: Label {
                         text: comboBox.textRole
-                            ? qsTr(Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole])
+                            ? qsTr((comboBox.textRole in modelData) ? modelData[comboBox.textRole] : model[comboBox.textRole])
                             : qsTr(modelData)
                         color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
                         ToolTip.visible: hovered && modelData["desc"]
@@ -158,6 +161,7 @@ Page {
                 popup: Popup {
                     y: comboBox.height
                     width: comboBox.width
+                    implicitHeight: Math.min(field.choices.length * 35, 400)
                     padding: 1
 
                     contentItem: ListView {
@@ -181,6 +185,7 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
@@ -234,6 +239,7 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
                 onClicked: {
