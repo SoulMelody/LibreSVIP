@@ -191,7 +191,7 @@ Dialog {
                                 configItems.conflict_policy = currentValue
                             }
                             Connections {
-                                target: ConfigItems
+                                target: configItems
                                 function onConflict_policy_changed(value) {
                                     switch (value) {
                                         case "Overwrite":
@@ -360,7 +360,7 @@ Dialog {
                 }
             }
             Connections {
-                target: ConfigItems
+                target: configItems
                 function onSave_folder_changed(value) {
                     let selected_index = save_folder_type(value)
                     if (selected_index === 1) {

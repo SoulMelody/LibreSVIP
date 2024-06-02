@@ -1594,7 +1594,7 @@ Page {
                             configItems.conflict_policy = currentValue
                         }
                         Connections {
-                            target: ConfigItems
+                            target: configItems
                             function onConflict_policy_changed(value) {
                                 switch (value) {
                                     case "Overwrite":

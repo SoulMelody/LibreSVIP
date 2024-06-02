@@ -232,7 +232,7 @@ ToolBar {
                                     text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
-                                    target: TaskManager
+                                    target: taskManager
                                     function onInput_format_changed(input_format) {
                                         let new_index = converterPage.inputFormatComboBox.indexOfValue(input_format)
                                         if (new_index != importMenuList.currentIndex) {
@@ -290,7 +290,7 @@ ToolBar {
                                     text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
-                                    target: TaskManager
+                                    target: taskManager
                                     function onOutput_format_changed(output_format) {
                                         let new_index = converterPage.outputFormatComboBox.indexOfValue(output_format)
                                         if (new_index != exportMenuList.currentIndex) {

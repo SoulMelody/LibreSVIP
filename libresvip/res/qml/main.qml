@@ -105,7 +105,7 @@ FramelessWindow {
     }
 
     Connections {
-        target: ConfigItems
+        target: configItems
         function onAuto_set_output_extension_changed(value) {
             taskManager.reset_output_ext("")
         }
