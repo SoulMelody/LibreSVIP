@@ -418,7 +418,7 @@ Dialog {
                 clip: true
                 editTriggers: TableView.SingleTapped
 
-                model: configItems.qget("plugin_candidates")
+                model: taskManager.qget("plugin_candidates")
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
 
@@ -492,9 +492,7 @@ Dialog {
                                 checked: value === "checkbox-marked"
                                 anchors.fill: parent
                                 onToggled: {
-                                    if (configItems.toggle_plugin(row)) {
-                                        taskManager.reload_formats()
-                                    }
+                                    taskManager.toggle_plugin(row)
                                 }
                             }
                         }
@@ -795,7 +793,7 @@ Dialog {
                                     icon_name: "mdi7.arrow-up-circle-outline"
                                     diameter: 20
                                     new_padding: 4
-                                    enabled: row > 0
+                                    visible: row > 0
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.swap(row - 1, row)
                                     }
@@ -804,6 +802,7 @@ Dialog {
                                     icon_name: "mdi7.arrow-down-circle-outline"
                                     diameter: 20
                                     new_padding: 4
+                                    visible: row < lyricReplacementRulesTableView.model.rowCount() - 1
                                     onClicked: {
                                         lyricReplacementRulesTableView.model.swap(row, row + 1)
                                     }

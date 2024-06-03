@@ -591,7 +591,7 @@ class SVTrack(BaseModel):
 class SVProject(BaseModel):
     library: list[SVGroup] = Field(default_factory=list)
     render_config: SVRenderConfig = Field(default_factory=SVRenderConfig, alias="renderConfig")
-    instant_mode_enabled: Optional[bool] = Field(False, alias="instantModeEnabled")
+    instant_mode_enabled: Optional[bool] = Field(True, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)
     version: int = 113

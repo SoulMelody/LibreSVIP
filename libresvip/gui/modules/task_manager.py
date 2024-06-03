@@ -35,6 +35,7 @@ from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
+from libresvip.gui.models.table_models import PluginCadidatesTableModel
 from libresvip.model.base import BaseComplexModel, BaseModel, Project
 from libresvip.utils.text import supported_charset_names
 
@@ -402,6 +403,20 @@ class TaskManager(QObject):
         self.timer.interval = 100
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
+        self.plugin_candidates = PluginCadidatesTableModel()
+
+    @Slot(int)
+    def toggle_plugin(self, index: int) -> None:
+        key = plugin_manager._candidates[index][1].suffix
+        if key in plugin_manager.plugin_registry and key not in settings.disabled_plugins:
+            settings.disabled_plugins.append(key)
+        elif key in settings.disabled_plugins:
+            settings.disabled_plugins.remove(key)
+        else:
+            return
+        plugin_manager.import_plugins(reload=True)
+        self.plugin_candidates.reload_formats()
+        self.reload_formats()
 
     def _on_tasks_changed(self, index: QModelIndex, start: int, end: int) -> None:
         self.task_count_changed.emit(len(self.tasks))

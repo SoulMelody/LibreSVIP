@@ -21,10 +21,7 @@ from libresvip.core.config import (
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import plugin_manager
 from libresvip.gui.models.list_models import LyricReplacementPresetsModel, ModelProxy
-from libresvip.gui.models.table_models import (
-    LyricReplacementRulesTableModel,
-    PluginCadidatesTableModel,
-)
+from libresvip.gui.models.table_models import LyricReplacementRulesTableModel
 
 from .application import app
 
@@ -69,7 +66,6 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
         self.folder_presets.append_many(
             [{"path": self.posix_path(path)} for path in settings.folder_presets]
         )
-        self.plugin_candidates = PluginCadidatesTableModel()
         self.lyric_replacement_presets = LyricReplacementPresetsModel()
         app.aboutToQuit.connect(self.save_settings)
 
@@ -124,19 +120,6 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
         self.theme_changed.emit(theme)
 
     theme = Property(str, get_theme, set_theme, notify=theme_changed)
-
-    @Slot(int, result=bool)
-    def toggle_plugin(self, index: int) -> bool:
-        key = plugin_manager._candidates[index][1].suffix
-        if key in plugin_manager.plugin_registry and key not in settings.disabled_plugins:
-            settings.disabled_plugins.append(key)
-        elif key in settings.disabled_plugins:
-            settings.disabled_plugins.remove(key)
-        else:
-            return False
-        plugin_manager.import_plugins(reload=True)
-        self.plugin_candidates.reload_formats()
-        return True
 
     @Slot(str, result=bool)
     def enabled(self, key: str) -> bool:
