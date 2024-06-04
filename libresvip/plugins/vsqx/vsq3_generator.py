@@ -87,7 +87,11 @@ class Vsq3Generator:
     def generate_instrumental_track(
         self, track: InstrumentalTrack, vsqx: Vsq3, tick_prefix: int
     ) -> None:
-        if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
+        if (
+            (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None
+            and track_info.sampling_rate == 44100
+            and track_info.bit_depth == 16
+        ):
             wav_part = Vsq3WavPart(
                 part_name=track.title,
                 file_path=track.audio_file_path,
@@ -120,7 +124,9 @@ class Vsq3Generator:
     ) -> tuple[list[Vsq3VsTrack], list[Vsq3VsUnit]]:
         vs_track_list = []
         vs_unit_list = []
-        if len(track_list) and self.options.default_lang_id not in [
+        if not len(track_list):
+            track_list.append(SingingTrack(title="Track"))
+        elif self.options.default_lang_id not in [
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
         ]:

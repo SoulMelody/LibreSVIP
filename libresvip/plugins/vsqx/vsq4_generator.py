@@ -87,7 +87,11 @@ class Vsq4Generator:
     def generate_instrumental_track(
         self, track: InstrumentalTrack, vsqx: Vsq4, tick_prefix: int
     ) -> None:
-        if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
+        if (
+            (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None
+            and track_info.sampling_rate == 44100
+            and track_info.bit_depth == 16
+        ):
             wav_part = Vsq4WavPart(
                 part_name=track.title,
                 file_path=track.audio_file_path,
@@ -120,7 +124,9 @@ class Vsq4Generator:
     ) -> tuple[list[Vsq4VsTrack], list[Vsq4VsUnit]]:
         vs_track_list = []
         vs_unit_list = []
-        if len(track_list) and self.options.default_lang_id not in [
+        if not len(track_list):
+            track_list.append(SingingTrack(title="Track"))
+        elif self.options.default_lang_id not in [
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
         ]:
@@ -157,6 +163,8 @@ class Vsq4Generator:
             )
             vs_track_list.append(vsqx_track)
             vs_unit_list.append(vsqx_unit)
+        if not len(vs_track_list):
+            pass
         return vs_track_list, vs_unit_list
 
     def generate_tempos(self, song_tempos: list[SongTempo], tick_prefix: int) -> list[Vsq4Tempo]:

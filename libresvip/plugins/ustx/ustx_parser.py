@@ -39,6 +39,8 @@ class UstxParser:
     base_pitch_generator: BasePitchGenerator = dataclasses.field(init=False)
 
     def parse_project(self, ustx_project: USTXProject) -> Project:
+        self.breath_lyrics = self.options.breath_lyrics.strip().split()
+        self.silence_lyrics = self.options.silence_lyrics.strip().split()
         self.base_pitch_generator = BasePitchGenerator(ustx_project)
         tempos = self.parse_tempos(ustx_project.tempos)
         time_signatures = self.parse_time_signatures(ustx_project.time_signatures)
@@ -136,6 +138,7 @@ class UstxParser:
 
     def parse_notes(self, notes: list[UNote], tick_prefix: int) -> list[Note]:
         note_list = []
+        prev_ustx_note = None
         for ustx_note in notes:
             note = Note(
                 key_number=ustx_note.tone,
@@ -152,7 +155,18 @@ class UstxParser:
                     note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
                 else:
                     note.pronunciation = ustx_note.lyric
-            note_list.append(note)
+            if (
+                prev_ustx_note is not None
+                and prev_ustx_note.lyric in self.breath_lyrics
+                and prev_ustx_note.end == ustx_note.position
+            ):
+                note.head_tag = "V"
+            if (
+                ustx_note.lyric not in self.breath_lyrics
+                and ustx_note.lyric not in self.silence_lyrics
+            ):
+                note_list.append(note)
+            prev_ustx_note = ustx_note
         return note_list
 
     def parse_wave_parts(
