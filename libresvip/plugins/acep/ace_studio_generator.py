@@ -63,9 +63,10 @@ class AceGenerator:
         denominator = project.time_signature_list[0].denominator
         numerator = project.time_signature_list[0].numerator
         ace_project.beats_per_bar = numerator * 4 // denominator
-        ace_project.time_signatures = [
-            AcepTimeSignature(bar_pos=0, numerator=numerator, denominator=denominator)
-        ]
+        if denominator <= 8 and numerator <= 8:
+            ace_project.time_signatures = [
+                AcepTimeSignature(bar_pos=0, numerator=numerator, denominator=denominator)
+            ]
         self.ace_tempo_list = ace_project.tempos = self.generate_tempos(project.song_tempo_list)
 
         for track in project.track_list:
