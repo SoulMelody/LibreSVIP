@@ -128,14 +128,16 @@ class VocaloidGenerator:
             if isinstance(track, InstrumentalTrack):
                 wav_path = pathlib.Path(track.audio_file_path)
                 if (
-                    track_info := audio_track_info(track.audio_file_path, only_wav=True)
-                ) is not None:
+                    (track_info := audio_track_info(track.audio_file_path, only_wav=True))
+                    is not None
+                    and track_info.sampling_rate == 44100
+                    and track_info.bit_depth == 16
+                ):
                     audio_duration_in_secs = track_info.duration / 1000
-                    audio_duration_in_ticks = self.time_synchronizer.get_actual_ticks_from_secs(
-                        audio_duration_in_secs
+                    wav_part_region_end = self.time_synchronizer.get_actual_ticks_from_secs_offset(
+                        track.offset, audio_duration_in_secs
                     )
                     self.wav_paths[wav_path.name] = wav_path
-                    wav_part_region_end = track.offset + audio_duration_in_ticks
                     wav_part = VocaloidWavPart(
                         pos=track.offset,
                         wav=VocaloidWav(
@@ -143,7 +145,7 @@ class VocaloidGenerator:
                             name=wav_path.name,
                         ),
                         region=VocaloidRegion(
-                            begin=track.offset,
+                            begin=0,
                             end=wav_part_region_end,
                         ),
                     )
