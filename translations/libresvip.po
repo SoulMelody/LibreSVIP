@@ -2177,6 +2177,24 @@ msgstr ""
 msgid "Conversion plugin for Ustx file format"
 msgstr ""
 
+#: .ustx.load[2].title
+msgid "Breath lyrics"
+msgstr ""
+
+#: .ustx.load[2].description
+msgid ""
+"Special lyrics that will be recognized as breath notes only when immediately "
+"followed by a regular note, each separated by a space"
+msgstr ""
+
+#: .ustx.load[3].title
+msgid "Silence lyrics"
+msgstr ""
+
+#: .ustx.load[3].description
+msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr ""
+
 #: .vog.name
 msgid "Vogen"
 msgstr ""
