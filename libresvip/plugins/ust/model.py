@@ -52,7 +52,7 @@ ust_grammar = Grammar(
         (newline ust_note_attr)*
 
     ust_note_head =
-        "[#" ~"(\d+|PREV|NEXT|INSERT|DELETE)" "]"
+        "[#" ~"(\\d+|PREV|NEXT|INSERT|DELETE)" "]"
 
     ust_track_end = "[#TRACKEND]"
 
@@ -96,7 +96,7 @@ ust_grammar = Grammar(
         ("@filename" "=" value) /
         ("@alias" "=" value) /
         ("@cache" "=" value) /
-        (~"\$?[^=\r\n]+" "=" value) /
+        (~"\\$?[^=\r\n]+" "=" value) /
         (!ust_tag_entry value)
 
     ust_envelope =
