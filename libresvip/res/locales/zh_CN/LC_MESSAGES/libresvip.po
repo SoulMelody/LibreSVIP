@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-05-06 21:06+0800\n"
-"PO-Revision-Date: 2024-06-05 14:35\n"
+"PO-Revision-Date: 2024-06-05 17:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -2026,19 +2026,19 @@ msgstr "Ustx格式转换插件"
 
 #: .ustx.load[2].title
 msgid "Breath lyrics"
-msgstr ""
+msgstr "呼吸音歌词"
 
 #: .ustx.load[2].description
 msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
-msgstr ""
+msgstr "仅在之后紧跟一个普通音符时才会被识别为呼吸音符的特殊歌词，歌词之间用空格隔开。"
 
 #: .ustx.load[3].title
 msgid "Silence lyrics"
-msgstr ""
+msgstr "休止符歌词"
 
 #: .ustx.load[3].description
 msgid "Special lyrics that will be ignored, each separated by a space"
-msgstr ""
+msgstr "将被忽略的特殊歌词，歌词之间用空格隔开"
 
 #: .vog.name
 msgid "Vogen"
