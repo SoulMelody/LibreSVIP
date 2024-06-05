@@ -12,7 +12,9 @@ from .synthv_parser import SynthVParser
 
 class SynthVStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        sv_content = path.read_bytes().decode("utf-8").rstrip("\x00")
+        sv_content = (
+            path.read_bytes().removesuffix(b"\x00").removeprefix("\ufeff".encode()).decode("utf-8")
+        )
         sv_proj = SVProject.model_validate_json(sv_content)
         options.instant = options.instant and sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
