@@ -84,24 +84,25 @@ class VocaloidParser:
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:
         track_list = []
         for track in tracks:
-            if self.options.import_instrumental_track and isinstance(track, VocaloidAudioTrack):
-                for part in track.parts:
-                    if part.wav is None:
-                        continue
-                    if self.options.extract_audio:
-                        archive_wav_path = f"Project/Audio/{part.wav.name}"
-                        if not (
-                            wav_path := pathlib.Path(part.wav.original_name or part.wav.name)
-                        ).exists():
-                            wav_path.write_bytes(self.archive_file.read(archive_wav_path))
-                    instrumental_track = InstrumentalTrack(
-                        title=part.name,
-                        offset=part.pos,
-                        mute=track.is_muted,
-                        solo=track.is_solo_mode,
-                        audio_file_path=part.wav.original_name or part.wav.name,
-                    )
-                    track_list.append(instrumental_track)
+            if isinstance(track, VocaloidAudioTrack):
+                if self.options.import_instrumental_track:
+                    for part in track.parts:
+                        if part.wav is None:
+                            continue
+                        if self.options.extract_audio:
+                            archive_wav_path = f"Project/Audio/{part.wav.name}"
+                            if not (
+                                wav_path := pathlib.Path(part.wav.original_name or part.wav.name)
+                            ).exists():
+                                wav_path.write_bytes(self.archive_file.read(archive_wav_path))
+                        instrumental_track = InstrumentalTrack(
+                            title=part.name,
+                            offset=part.pos,
+                            mute=track.is_muted,
+                            solo=track.is_solo_mode,
+                            audio_file_path=part.wav.original_name or part.wav.name,
+                        )
+                        track_list.append(instrumental_track)
             else:
                 for part in track.parts:
                     comp_id = ""
