@@ -126,8 +126,8 @@ class TuneLabParser:
     def parse_notes(notes: list[TuneLabNote], offset: int) -> list[Note]:
         return [
             Note(
-                start_pos=tlp_note.pos + offset,
-                length=tlp_note.dur,
+                start_pos=int(tlp_note.pos + offset),
+                length=int(tlp_note.dur),
                 key_number=tlp_note.pitch,
                 lyric=tlp_note.lyric,
                 pronunciation=tlp_note.pronunciation,
