@@ -2,10 +2,22 @@ name: Publish
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_pypi:
+        type: boolean
+        description: 'Publish PyPi Package'
+        required: true
+        default: true
+      publish_docker:
+        type: boolean
+        description: 'Publish Docker Image'
+        required: true
+        default: true
 
 jobs:
   pypi-publish:
     runs-on: ubuntu-latest
+    if: ${{ inputs.publish_pypi }}
     permissions:
       id-token: write
     steps:
@@ -24,6 +36,7 @@ jobs:
 
   docker-publish:
     runs-on: ubuntu-latest
+    if: ${{ inputs.publish_docker }}
     permissions:
       packages: write
     steps:
