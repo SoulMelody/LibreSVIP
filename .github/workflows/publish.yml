@@ -54,5 +54,5 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: soulmelody/libresvip:latest
+            tags: ghcr.io/soulmelody/libresvip:latest
             platforms: linux/amd64
