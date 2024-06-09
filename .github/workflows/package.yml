@@ -267,7 +267,7 @@ jobs:
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz
 
   release_macos_x86_64:
-    runs-on: macos-14
+    runs-on: macos-13
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
