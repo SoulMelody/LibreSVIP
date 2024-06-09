@@ -54,5 +54,5 @@ jobs:
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: ${{ github.repository}}:latest
+            tags: soulmelody/libresvip:latest
             platforms: linux/amd64
