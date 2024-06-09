@@ -50,15 +50,9 @@ jobs:
             username: ${{ github.actor }}
             password: ${{ secrets.GHCR_TOKEN }}
 
-        - name: Extract metadata (tags, labels) for Docker
-          id: meta
-          uses: docker/metadata-action@v5
-          with:
-            images: ghcr.io/${{ github.repository}}
-
         - name: Build and push (tags latest)
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: ${{ steps.meta.outputs.tags }}
-            labels: ${{ steps.meta.outputs.labels }}
+            tags: ${{ github.repository}}:latest
+            platforms: linux/amd64
