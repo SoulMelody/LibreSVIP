@@ -1,3 +1,13 @@
+本项目从以下项目中受到了高度启发:
+
+- [OpenSVIP](https://github.com/yqzhishen/opensvip)
+- [Utaformatix3](https://github.com/sdercolin/utaformatix3)
+
+其它相关项目:
+
+- [QNrbf](https://github.com/SineStriker/QNrbf)
+
+## 本项目依赖的第三方库
 | 包名                            | 简介                                                                                                                                                                                          | 许可证                                                 |
 |:----------------------------- |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |:--------------------------------------------------- |
 | bidict                        | The bidirectional mapping library for Python.                                                                                                                                               | Mozilla Public License 2.0 (MPL 2.0)                |

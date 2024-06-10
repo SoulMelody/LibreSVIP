@@ -28,18 +28,6 @@ pip install libresvip[desktop]
 
 ## 参考资料
 
-本项目从以下项目中受到了高度启发:
-
-- [OpenSVIP](https://github.com/yqzhishen/opensvip)
-- [Utaformatix3](https://github.com/sdercolin/utaformatix3)
-
-其它相关项目:
-
-- [QNrbf](https://github.com/SineStriker/QNrbf)
-
 下文(原文为英文)将会就文本文件及二进制文件的解析这一方面，向你介绍一些相关的 python 第三方库：
 
 - [Parsing In Python: Tools And Libraries](https://tomassetti.me/parsing-in-python/)
-
-## 协议
-LibreSVIP 是以 [MIT许可协议](https://opensource.org/licenses/MIT) 发布的开源软件.
