@@ -97,7 +97,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.6",
+  "datamodel-code-generator>=0.25.7",
   "gapic-generator>=1.18.0",
   "xsdata[cli]>=24.5",
 ]

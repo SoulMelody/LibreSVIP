@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:f018320b74aa7ca710a0051cb5a7b40ce9ea13ff35473d6d9fce84ef95b13f30"
+content_hash = "sha256:a086218d1469abef902c7158374f3bf24418f062ed2e11362a5c84c6acfc8ff6"
 
 [[package]]
 name = "aiofiles"
@@ -599,7 +599,7 @@ files = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.25.6"
+version = "0.25.7"
 requires_python = "<4.0,>=3.7"
 summary = "Datamodel Code Generator"
 groups = ["code_gen"]
@@ -619,8 +619,8 @@ dependencies = [
     "toml<1.0.0,>=0.10.0; python_version < \"3.11\"",
 ]
 files = [
-    {file = "datamodel_code_generator-0.25.6-py3-none-any.whl", hash = "sha256:adbdb485a713a7035d7260c28d3f280e598b0eb3170d2361cb92431a44c4d154"},
-    {file = "datamodel_code_generator-0.25.6.tar.gz", hash = "sha256:466f56de876947b73d4a4cd0c947ce37f63f68f2f6c0ce1477045d1e6e495da5"},
+    {file = "datamodel_code_generator-0.25.7-py3-none-any.whl", hash = "sha256:0b890a0c2bfe8c250f1ddc9656fabeb85db289d4d497a616c19bd80db004dd9a"},
+    {file = "datamodel_code_generator-0.25.7.tar.gz", hash = "sha256:975079cb3776f10a71d6aa9914b73149c3fdf4c71825b0977951a959fefc77f6"},
 ]
 
 [[package]]
@@ -3355,13 +3355,13 @@ files = [
 
 [[package]]
 name = "typing-extensions"
-version = "4.12.1"
+version = "4.12.2"
 requires_python = ">=3.8"
 summary = "Backported and Experimental Type Hints for Python 3.8+"
 groups = ["code_gen", "default", "desktop", "linting", "packaging", "webui"]
 files = [
-    {file = "typing_extensions-4.12.1-py3-none-any.whl", hash = "sha256:6024b58b69089e5a89c347397254e35f1bf02a907728ec7fee9bf0fe837d203a"},
-    {file = "typing_extensions-4.12.1.tar.gz", hash = "sha256:915f5e35ff76f56588223f15fdd5938f9a1cf9195c0de25130c627e4d597f6d1"},
+    {file = "typing_extensions-4.12.2-py3-none-any.whl", hash = "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d"},
+    {file = "typing_extensions-4.12.2.tar.gz", hash = "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"},
 ]
 
 [[package]]
