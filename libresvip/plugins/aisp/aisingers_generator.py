@@ -3,7 +3,7 @@ import dataclasses
 from typing import Union
 
 from libresvip.core.constants import DEFAULT_PHONEME
-from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -174,8 +174,11 @@ class AiSingersGenerator:
                 length=round(note.length / 15),
                 lyric=note.lyric,
                 pinyin=note.pronunciation
-                or " ".join(get_pinyin_series(note.lyric))
-                or DEFAULT_PHONEME,
+                or (
+                    " ".join(get_pinyin_series(note.lyric))
+                    if CHINESE_RE.fullmatch(note.lyric) is not None
+                    else (note.lyric or DEFAULT_PHONEME)
+                ),
                 triple=False,
                 pit="0x500",
             )

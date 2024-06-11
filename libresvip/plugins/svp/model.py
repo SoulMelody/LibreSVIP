@@ -52,7 +52,6 @@ symbols_blacklist = Blacklist(
         "：",
         "·",
         "•",
-        ".",
         "。",
         ",",
         "，",
@@ -61,7 +60,6 @@ symbols_blacklist = Blacklist(
         "^",
         "`",
         '"',
-        "'",
         "‘",
         "’",
         "“",
@@ -428,7 +426,7 @@ class SVNote(BaseModel):
         elif (hanzi := re.search(rf"[{zhon.hanzi.characters}]+", note.lyric)) is not None:
             return hanzi[0]
         elif valid_chars := cls.normalize_lyric(note.lyric):
-            return valid_chars
+            return valid_chars.lstrip(".")
         else:
             return DEFAULT_PHONEME
 
