@@ -9,6 +9,8 @@ python -m nuitka --standalone --assume-yes-for-downloads --output-dir=nuitka --o
  --disable-plugins=matplotlib --disable-plugins=numpy \
  --disable-plugins=delvewheel --disable-plugins=upx \
  --windows-console-mode=disable --windows-icon-from-ico=../libresvip/res/libresvip.ico --user-package-configuration-file=./nuitka-libresvip.yml \
+ --include-distribution-metadata=xsdata_pydantic \
+ --include-package=xsdata_pydantic \
  --include-package=pygments.formatters.html \
  --include-package=libresvip \
  ../libresvip/web/__main__.py

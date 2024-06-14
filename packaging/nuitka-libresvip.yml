@@ -27,11 +27,6 @@
       - 'schemas'
       - 'formats/dataclass/templates'
 
-- module-name: xsdata_pydantic
-  data-files:
-    include-metadata:
-      - 'xsdata-pydantic'
-
 - module-name: desktop_notifier
   data-files:
     dirs:
