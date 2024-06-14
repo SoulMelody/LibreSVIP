@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import (
@@ -14,6 +16,6 @@ class InputOptions(EnablePitchImportationMixin, BaseModel):
 class OutputOptions(SelectSingleTrackMixin, StaticTempoMixin, BaseModel):
     version: int = Field(
         default=19,
-        title="Version",
-        description="Version of NIAONiao project file",
+        title=_("Version"),
+        description=_("Version of NIAONiao project file"),
     )

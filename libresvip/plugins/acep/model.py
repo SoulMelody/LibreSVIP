@@ -26,6 +26,7 @@ from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from gettext import gettext as _
 
 
 class AcepAnchorPoint(NamedTuple):
@@ -164,19 +165,19 @@ class AcepLyricsLanguage(Enum):
     CHINESE: Annotated[
         str,
         Field(
-            title="Chinese",
+            title=_("Chinese"),
         ),
     ] = "CHN"
     JAPANESE: Annotated[
         str,
         Field(
-            title="Japanese",
+            title=_("Japanese"),
         ),
     ] = "JPN"
     ENGLISH: Annotated[
         str,
         Field(
-            title="English",
+            title=_("English"),
         ),
     ] = "ENG"
 

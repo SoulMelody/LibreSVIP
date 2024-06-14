@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import (
@@ -13,6 +15,6 @@ class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportati
 class OutputOptions(BaseModel):
     default_singer_name: str = Field(
         "嫣汐",
-        title="Default Singer Name",
-        description="The default singer name to use for all tracks",
+        title=_("Default Singer Name"),
+        description=_("The default singer name to use for all tracks"),
     )
