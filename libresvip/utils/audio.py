@@ -67,7 +67,7 @@ else:
             return js_buf
 
         def locate_file(path: str, prefix: str) -> str:
-            return "https://fastly.jsdelivr.net/npm/mediainfo.js@0.3.1/dist/MediaInfoModule.wasm"
+            return f"https://fastly.jsdelivr.net/npm/mediainfo.js@{mediainfo_js_ver}/dist/MediaInfoModule.wasm"
 
         async def parse_media_info() -> str:
             media_info = await MediaInfo.mediaInfoFactory(format="XML", locateFile=locate_file)
