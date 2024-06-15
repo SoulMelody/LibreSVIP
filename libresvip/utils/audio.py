@@ -55,7 +55,6 @@ else:
     ) -> Optional[MediaInfoTrack]:
         if isinstance(file_path, str):
             file_path = pathlib.Path(file_path)
-        content = file_path.read_bytes()
 
         def filter_func(track: MediaInfoTrack) -> bool:
             return track.format == "PCM" if only_wav else (track.duration is not None)
@@ -75,16 +74,19 @@ else:
             media_info.close()
             return result
 
-        try:
-            xml_str = run_sync(parse_media_info())
-            media_info = XmlParser(
-                config=ParserConfig(fail_on_unknown_properties=False)
-            ).from_string(xml_str, MediaInfo)
-            if not len(media_info.video_tracks):
-                return next(
-                    (track for track in media_info.audio_tracks if filter_func(track)),
-                    None,
-                )
-        except FileNotFoundError:
-            show_warning(_("Audio file not found: ") + f"{file_path}")
+        if hasattr(js, "MediaInfo"):
+            if file_path.exists():
+                with contextlib.suppress(RuntimeError, ValueError):
+                    content = file_path.read_bytes()
+                    xml_str = run_sync(parse_media_info())
+                    media_info = XmlParser(
+                        config=ParserConfig(fail_on_unknown_properties=False)
+                    ).from_string(xml_str, MediaInfo)
+                    if not len(media_info.video_tracks):
+                        return next(
+                            (track for track in media_info.audio_tracks if filter_func(track)),
+                            None,
+                        )
+            else:
+                show_warning(_("Audio file not found: ") + f"{file_path}")
         return None
