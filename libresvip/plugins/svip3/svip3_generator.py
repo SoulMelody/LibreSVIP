@@ -7,6 +7,7 @@ import pypinyin
 from google.protobuf import any_pb2
 
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -58,6 +59,8 @@ class Svip3Generator:
     song_duration: int = dataclasses.field(default=0)
 
     def generate_project(self, project: Project) -> Svip3Project:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         return Svip3Project(
             beat_list=self.generate_time_signatures(project.time_signature_list),
             tempo_list=self.generate_song_tempos(project.song_tempo_list),
@@ -65,24 +68,21 @@ class Svip3Generator:
             duration=self.song_duration,
         )
 
-    def generate_time_signatures(
-        self, time_signature_list: list[TimeSignature]
-    ) -> list[Svip3SongBeat]:
-        first_signature = time_signature_list[0]
-        song_beat_list = [
+    @staticmethod
+    def generate_time_signatures(time_signature_list: list[TimeSignature]) -> list[Svip3SongBeat]:
+        return [
             Svip3SongBeat(
                 beat_size=Svip3BeatSize(
-                    numerator=first_signature.numerator,
-                    denominator=first_signature.denominator,
+                    numerator=time_signature.numerator,
+                    denominator=time_signature.denominator,
                 ),
-                pos=first_signature.bar_index,
+                pos=time_signature.bar_index,
             )
+            for time_signature in time_signature_list
         ]
-        self.first_bar_length = round(first_signature.bar_length())
-        return song_beat_list
 
     def generate_song_tempos(self, song_tempo_list: list[SongTempo]) -> list[Svip3SongTempo]:
-        self.synchronizer = TimeSynchronizer(song_tempo_list)
+        song_tempo_list = shift_tempo_list(song_tempo_list, -self.first_bar_length)
         return [
             Svip3SongTempo(
                 tempo=round(song_tempo.bpm * 100),
@@ -132,9 +132,8 @@ class Svip3Generator:
     def generate_audio_patterns(self, track: InstrumentalTrack) -> list[Svip3AudioPattern]:
         kwargs: dict[str, Any] = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
-            audio_duration_in_secs = track_info.duration / 1000
             audio_duration_in_ticks = round(
-                self.synchronizer.get_actual_ticks_from_secs(audio_duration_in_secs)
+                self.synchronizer.get_actual_ticks_from_secs(track_info.duration / 1000)
             )
             kwargs["real_dur"] = kwargs["play_dur"] = audio_duration_in_ticks
             if track.offset >= 0:

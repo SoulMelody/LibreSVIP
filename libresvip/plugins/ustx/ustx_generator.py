@@ -89,7 +89,7 @@ class UstxGenerator:
     def generate_track(os_track: Track) -> UTrack:
         return UTrack(
             track_name=os_track.title,
-            singer="",
+            singer=os_track.ai_singer_name,
             phonemizer="OpenUtau.Core.DefaultPhonemizer",  # 默认音素器
             renderer_settings=URendererSettings(renderer="CLASSIC"),
             mute=os_track.mute,
