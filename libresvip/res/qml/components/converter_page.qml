@@ -59,13 +59,9 @@ Page {
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -107,13 +103,9 @@ Page {
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -188,13 +180,9 @@ Page {
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -242,13 +230,9 @@ Page {
                 new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -639,6 +623,7 @@ Page {
                         text: iconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
+                        enabled: !taskManager.busy
                         ToolTip.text: qsTr("Direct Mode")
                         ToolTip.visible: hovered
                         onClicked: {
@@ -651,6 +636,7 @@ Page {
                         text: iconicFontLoader.icon("mdi7.set-merge")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
+                        enabled: !taskManager.busy
                         ToolTip.text: qsTr("Singing Track Merging Mode")
                         ToolTip.visible: hovered
                         onClicked: {
@@ -663,6 +649,7 @@ Page {
                         text: iconicFontLoader.icon("mdi7.set-split")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
+                        enabled: !taskManager.busy
                         ToolTip.text: qsTr("Singing Track Grouping Mode")
                         ToolTip.visible: hovered
                         onClicked: {

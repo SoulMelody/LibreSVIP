@@ -64,7 +64,8 @@ ColumnLayout {
             IconButton {
                 id: deleteButton
                 icon_name: "mdi7.trash-can-outline"
-                enabled: converterPage.startConversionButton.enabled
+                enabled: !taskManager.busy
+                new_padding: 5
                 onClicked: {
                     converterPage.taskList.model.delete(index)
                 }
