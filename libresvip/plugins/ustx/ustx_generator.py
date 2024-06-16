@@ -51,12 +51,7 @@ class UstxGenerator:
         # 曲速
         tempos = [self.generate_tempo(x, first_bar_length) for x in os_project.song_tempo_list]
         if not tempos:
-            tempos.append(
-                UTempo(
-                    bpm=120,
-                    position=0,
-                )
-            )
+            tempos.append(UTempo())
 
         ustx_project = USTXProject(
             ustx_version="0.6",

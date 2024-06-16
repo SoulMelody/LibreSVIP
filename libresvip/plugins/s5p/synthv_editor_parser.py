@@ -9,7 +9,7 @@ import more_itertools
 import portion
 import sortedcontainers
 
-from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -81,23 +81,17 @@ class SynthVEditorParser:
             time_signatures.append(TimeSignature(bar_index=0, numerator=4, denominator=4))
         return time_signatures
 
-    @staticmethod
-    def parse_tempos(tempo: list[S5pTempoItem]) -> list[SongTempo]:
-        tempos = [
-            SongTempo(
-                position=item.position // TICK_RATE,
-                bpm=item.beat_per_minute,
-            )
-            for item in tempo
-        ]
-        if not len(tempos):
-            tempos.append(
+    def parse_tempos(self, tempo: list[S5pTempoItem]) -> list[SongTempo]:
+        return skip_tempo_list(
+            tempo_list=[
                 SongTempo(
-                    position=0,
-                    bpm=DEFAULT_BPM,
+                    position=item.position // TICK_RATE,
+                    bpm=item.beat_per_minute,
                 )
-            )
-        return tempos
+                for item in tempo
+            ],
+            skip_ticks=self.first_bar_length,
+        )
 
     def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[Track]:
         return [

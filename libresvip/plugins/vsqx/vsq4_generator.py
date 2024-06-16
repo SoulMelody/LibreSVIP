@@ -168,7 +168,7 @@ class Vsq4Generator:
         return vs_track_list, vs_unit_list
 
     def generate_tempos(self, song_tempos: list[SongTempo], tick_prefix: int) -> list[Vsq4Tempo]:
-        song_tempos = shift_tempo_list(song_tempos, tick_prefix)
+        song_tempos = shift_tempo_list(song_tempos, -tick_prefix)
         return [
             Vsq4Tempo(
                 pos_tick=song_tempo.position,

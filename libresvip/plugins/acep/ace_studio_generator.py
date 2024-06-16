@@ -47,7 +47,6 @@ from .time_utils import second_to_tick, tick_to_second
 @dataclasses.dataclass
 class AceGenerator:
     options: OutputOptions
-    has_multi_tempo: bool = dataclasses.field(init=False)
     first_bar_tempo: list[SongTempo] = dataclasses.field(init=False)
     ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
@@ -67,7 +66,8 @@ class AceGenerator:
             ace_project.time_signatures = [
                 AcepTimeSignature(bar_pos=0, numerator=numerator, denominator=denominator)
             ]
-        self.ace_tempo_list = ace_project.tempos = self.generate_tempos(project.song_tempo_list)
+        self.ace_tempo_list = self.generate_tempos(project.song_tempo_list, False)
+        ace_project.tempos = self.generate_tempos(project.song_tempo_list, True)
 
         for track in project.track_list:
             if (ace_track := self.generate_track(track)) is not None:
@@ -83,19 +83,14 @@ class AceGenerator:
         ace_project.color_index = color_index
         return ace_project
 
-    def generate_tempos(self, tempos: list[SongTempo]) -> list[AcepTempo]:
-        shifted_tempo = shift_tempo_list(tempos, self.first_bar_ticks)
-        if len(shifted_tempo) == 1 or len({tempo.bpm for tempo in shifted_tempo}) == 1:
-            shifted_tempo = [shifted_tempo[0]]
-            self.has_multi_tempo = False
-        else:
-            self.has_multi_tempo = True
+    def generate_tempos(self, tempos: list[SongTempo], shift: bool) -> list[AcepTempo]:
+        tempos = shift_tempo_list(tempos, -self.first_bar_ticks) if shift else tempos
         return [
             AcepTempo(
                 bpm=tempo.bpm,
                 position=tempo.position,
             )
-            for tempo in shifted_tempo
+            for tempo in tempos
         ]
 
     def generate_track(self, track: Track) -> Optional[AcepTrack]:
@@ -182,8 +177,6 @@ class AceGenerator:
         return ace_track
 
     def generate_audio_offset(self, offset: int) -> int:
-        if not self.has_multi_tempo:
-            return offset
         if offset > 0:
             return round(second_to_tick(offset, self.ace_tempo_list))
         current_pos = self.first_bar_ticks

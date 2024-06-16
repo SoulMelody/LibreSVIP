@@ -3,6 +3,7 @@ import math
 
 import more_itertools
 
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -48,8 +49,8 @@ class TuneLabGenerator:
             tracks=self.generate_tracks(project.track_list),
         )
 
-    @staticmethod
-    def generate_tempos(song_tempo_list: list[SongTempo]) -> list[TuneLabTempo]:
+    def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[TuneLabTempo]:
+        song_tempo_list = shift_tempo_list(song_tempo_list, -self.first_bar_length)
         return [
             TuneLabTempo(
                 pos=tempo.position,

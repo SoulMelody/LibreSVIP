@@ -3,6 +3,7 @@ from __future__ import annotations
 import math
 import statistics
 from enum import Enum
+from gettext import gettext as _
 from itertools import chain
 from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional, Union
 
