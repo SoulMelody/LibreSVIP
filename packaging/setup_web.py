@@ -119,7 +119,7 @@ build_exe_options = {
         "parsimonious",
         "proto",
         "pymediainfo",
-        "srt",
+        "pysubs2",
         "webview",
         "xsdata_pydantic",
         "email._header_value_parser",

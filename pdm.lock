@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:3232b3c609b5fda50ea88d7de3b63773992b5ce6a07635769270c0e55017a683"
+content_hash = "sha256:bd001421dc0a5d0bc499614da7bfbde19a875868a872207e71c0f6dfab823534"
 
 [[package]]
 name = "aiofiles"
@@ -2560,6 +2560,17 @@ files = [
 ]
 
 [[package]]
+name = "pysubs2"
+version = "1.7.2"
+requires_python = ">=3.8"
+summary = "A library for editing subtitle files"
+groups = ["default", "desktop", "webui"]
+files = [
+    {file = "pysubs2-1.7.2-py3-none-any.whl", hash = "sha256:f6de61539df485f8d4ad0c5b737f2dc1f2a9c65afcbe93177ebff25815163865"},
+    {file = "pysubs2-1.7.2.tar.gz", hash = "sha256:b708904269cb252dbc51de75a372e04ab00c368939bb8220f7b0f940d978725e"},
+]
+
+[[package]]
 name = "pytest"
 version = "8.2.2"
 requires_python = ">=3.8"
@@ -3191,16 +3202,6 @@ files = [
     {file = "sourcery-1.19.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:7930fc3679834cc481d1db79b243ce9566e75ba01ec71124299f4005cfa451ab"},
     {file = "sourcery-1.19.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:20916e32dadd747722b8719e882bafe2181ca3d137189bde7a02fb741995980c"},
     {file = "sourcery-1.19.0-py2.py3-none-win_amd64.whl", hash = "sha256:2358533cd188f37ded51a5c17bb620686f4f1e5b9170aaeb04ef961f801146d0"},
-]
-
-[[package]]
-name = "srt"
-version = "3.5.3"
-requires_python = ">=2.7"
-summary = "A tiny library for parsing, modifying, and composing SRT files."
-groups = ["default", "desktop", "webui"]
-files = [
-    {file = "srt-3.5.3.tar.gz", hash = "sha256:4884315043a4f0740fd1f878ed6caa376ac06d70e135f306a6dc44632eed0cc0"},
 ]
 
 [[package]]

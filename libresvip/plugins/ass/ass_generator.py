@@ -10,7 +10,7 @@ from .options import OutputOptions, SplitOption
 
 
 @dataclasses.dataclass
-class SrtGenerator:
+class AssGenerator:
     options: OutputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
@@ -52,7 +52,7 @@ class SrtGenerator:
             SYMBOL_PATTERN.sub("", note.lyric)
             + (" " if LATIN_ALPHABET.search(note.lyric) is not None else "")
             for note in buffer
-        ).strip()
+        )
         lyric_lines.append(
             SSAEvent(
                 start=start_time,
