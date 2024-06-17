@@ -2,7 +2,7 @@ import dataclasses
 import math
 from typing import Optional, Union
 
-from libresvip.core.tick_counter import shift_tempo_list
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -75,7 +75,7 @@ class VocalSharpGenerator:
         ]
 
     def generate_tempos(self, tempos: list[SongTempo]) -> list[VocalSharpTempo]:
-        tempos = shift_tempo_list(tempos, -self.first_bar_length)
+        tempos = skip_tempo_list(tempos, self.first_bar_length)
         return [
             VocalSharpTempo(
                 pos=tempo.position,

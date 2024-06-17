@@ -6,7 +6,7 @@ from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
-from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
+from libresvip.core.tick_counter import shift_beat_list, skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -168,7 +168,7 @@ class Vsq4Generator:
         return vs_track_list, vs_unit_list
 
     def generate_tempos(self, song_tempos: list[SongTempo], tick_prefix: int) -> list[Vsq4Tempo]:
-        song_tempos = shift_tempo_list(song_tempos, -tick_prefix)
+        song_tempos = skip_tempo_list(song_tempos, tick_prefix)
         return [
             Vsq4Tempo(
                 pos_tick=song_tempo.position,

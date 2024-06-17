@@ -205,11 +205,6 @@ class OutputOptions(BaseModel):
             "ACE Studio supports three languages of lyrics. This option is used to set the language of lyrics."
         ),
     )
-    export_pitch: bool = Field(
-        default=True,
-        title=_("Export pitch curve or not"),
-        description=_("Warning: when turned on, it may cause consonant issues"),
-    )
     default_consonant_length: int = Field(
         default=0,
         title=_("Default consonant length (ticks)"),

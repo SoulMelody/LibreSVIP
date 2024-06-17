@@ -6,7 +6,7 @@ import operator
 import more_itertools
 import portion
 
-from libresvip.core.tick_counter import skip_tempo_list
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -65,7 +65,7 @@ class TuneLabParser:
         ]
 
     def parse_tempos(self, tempos: list[TuneLabTempo]) -> list[SongTempo]:
-        return skip_tempo_list(
+        return shift_tempo_list(
             [SongTempo(position=int(tempo.pos), bpm=tempo.bpm) for tempo in tempos],
             self.first_bar_length,
         )

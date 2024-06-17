@@ -7,7 +7,7 @@ import pypinyin
 from google.protobuf import any_pb2
 
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
-from libresvip.core.tick_counter import shift_tempo_list
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -82,7 +82,7 @@ class Svip3Generator:
         ]
 
     def generate_song_tempos(self, song_tempo_list: list[SongTempo]) -> list[Svip3SongTempo]:
-        song_tempo_list = shift_tempo_list(song_tempo_list, -self.first_bar_length)
+        song_tempo_list = skip_tempo_list(song_tempo_list, self.first_bar_length)
         return [
             Svip3SongTempo(
                 tempo=round(song_tempo.bpm * 100),

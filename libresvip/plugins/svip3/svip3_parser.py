@@ -7,7 +7,7 @@ from urllib.parse import urljoin
 from google.protobuf import any_pb2
 
 from libresvip.core.constants import TICKS_IN_BEAT
-from libresvip.core.tick_counter import skip_tempo_list
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -66,7 +66,7 @@ class Svip3Parser:
         ]
 
     def parse_song_tempos(self, tempo_list: MutableSequence[Svip3SongTempo]) -> list[SongTempo]:
-        return skip_tempo_list(
+        return shift_tempo_list(
             [
                 SongTempo(
                     position=tempo.pos,

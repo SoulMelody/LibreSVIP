@@ -7,7 +7,8 @@ from typing import Optional
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
-from libresvip.core.tick_counter import skip_tempo_list
+from libresvip.core.tick_counter import shift_tempo_list
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -38,7 +39,6 @@ from .model import (
 )
 from .options import InputOptions, NormalizationMethod
 from .singers import id2singer
-from .time_utils import tick_to_second
 
 ACEP_ENGLISH_SPAN_RE = re.compile(r"#(\d+)$")
 
@@ -47,13 +47,12 @@ ACEP_ENGLISH_SPAN_RE = re.compile(r"#(\d+)$")
 class AceParser:
     options: InputOptions
     content_version: int = dataclasses.field(init=False)
-    ace_tempo_list: list[AcepTempo] = dataclasses.field(init=False)
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_ticks: int = dataclasses.field(init=False)
 
     def parse_project(self, ace_project: AcepProject) -> Project:
         project = Project()
         self.content_version = ace_project.version
-        self.ace_tempo_list = ace_project.tempos
         if ace_project.time_signatures:
             project.time_signature_list = [
                 TimeSignature(
@@ -68,10 +67,11 @@ class AceParser:
                 TimeSignature(bar_index=0, numerator=ace_project.beats_per_bar, denominator=4)
             )
         self.first_bar_ticks = TICKS_IN_BEAT * ace_project.beats_per_bar
-        project.song_tempo_list = skip_tempo_list(
-            tempo_list=[self.parse_tempo(ace_tempo) for ace_tempo in ace_project.tempos],
-            skip_ticks=self.first_bar_ticks,
+        project.song_tempo_list = shift_tempo_list(
+            self.parse_tempos(ace_project.tempos),
+            self.first_bar_ticks,
         )
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         for ace_track in ace_project.tracks:
             ace_track.gain += ace_project.master.gain
         for ace_track in ace_project.tracks:
@@ -80,8 +80,10 @@ class AceParser:
         return project
 
     @staticmethod
-    def parse_tempo(ace_tempo: AcepTempo) -> SongTempo:
-        return SongTempo(position=ace_tempo.position, bpm=ace_tempo.bpm)
+    def parse_tempos(ace_tempos: list[AcepTempo]) -> list[SongTempo]:
+        return [
+            SongTempo(position=ace_tempo.position, bpm=ace_tempo.bpm) for ace_tempo in ace_tempos
+        ]
 
     def parse_track(self, ace_track: AcepTrack) -> Optional[Track]:
         if (
@@ -188,10 +190,8 @@ class AceParser:
         if ace_note.head_consonants:
             note.edited_phones = Phones(
                 head_length_in_secs=(
-                    tick_to_second(note.start_pos, self.ace_tempo_list)
-                    - tick_to_second(
-                        note.start_pos - ace_note.head_consonants[0],
-                        self.ace_tempo_list,
+                    self.synchronizer.get_duration_secs_from_ticks(
+                        note.start_pos - ace_note.head_consonants[0], note.start_pos
                     )
                 )
             )
@@ -344,10 +344,7 @@ class AceParser:
         curve = ParamCurve()
         curve.points.append(Point.start_point())
         if len(ace_curves.root) > 0:
-            base_pitch = BasePitchCurve(
-                notes=ace_note_list,
-                tempos=self.ace_tempo_list,
-            )
+            base_pitch = BasePitchCurve(ace_note_list, self.synchronizer)
             for ace_curve in ace_curves.root:
                 pos = ace_curve.offset
                 curve.points.append(Point(pos + self.first_bar_ticks, -100))
@@ -360,7 +357,7 @@ class AceParser:
                         if not math.isnan(value):
                             abs_semitone = (
                                 base_pitch.semitone_value_at(
-                                    tick_to_second(pos, self.ace_tempo_list)
+                                    self.synchronizer.get_actual_secs_from_ticks(pos)
                                 )
                                 + value
                             )

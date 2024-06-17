@@ -1,5 +1,6 @@
 import dataclasses
 
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -39,8 +40,8 @@ class UFDataGenerator:
             )
         )
 
-    @staticmethod
-    def generate_tempos(song_tempo_list: list[SongTempo]) -> list[UFTempos]:
+    def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[UFTempos]:
+        song_tempo_list = skip_tempo_list(song_tempo_list, self.first_bar_length)
         return [
             UFTempos(
                 tick_position=tempo.position,

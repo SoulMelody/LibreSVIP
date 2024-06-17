@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional, Union
 
-from libresvip.core.tick_counter import skip_tempo_list
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -74,7 +74,7 @@ class VocalSharpParser:
         ]
 
     def parse_tempos(self, tempo_list: list[VocalSharpTempo]) -> list[SongTempo]:
-        return skip_tempo_list(
+        return shift_tempo_list(
             [
                 SongTempo(
                     position=tempo.pos,
