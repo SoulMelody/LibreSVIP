@@ -62,7 +62,7 @@ a = Analysis(
     excludes=[
         'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
-        'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image',
+        'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         'PySide6',
         'PySide6.QtCore',
         'PySide6.QtDataVisualization',

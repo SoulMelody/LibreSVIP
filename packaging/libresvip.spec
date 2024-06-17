@@ -65,7 +65,7 @@ if not (is_win and platform.machine() == "ARM64"):
         excludes=[
             'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
             'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
-            'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image',
+            'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
             "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',
             'PySide6',
             'PySide6.QtCore',
@@ -152,7 +152,7 @@ gui_a = Analysis(
     excludes=[
         'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
-        'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image',
+        'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',
         'PySide6.QtDataVisualization',
         'PySide6.QtWebChannel',
