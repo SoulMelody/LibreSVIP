@@ -57,7 +57,7 @@ jobs:
             images: ghcr.io/soulmelody/libresvip
 
         - name: Build and push (tags latest)
-          uses: docker/build-push-action@v5
+          uses: docker/build-push-action@v6
           with:
             push: true
             tags: ${{ steps.meta.outputs.tags }}
