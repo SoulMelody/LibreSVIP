@@ -29,7 +29,8 @@
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions",
       "groupSlug": "github-actions",
-      "separateMultipleMajor": false
+      "separateMultipleMajor": false,
+      "ignoreDeps": ["macos"]
     }
   ]
 }
