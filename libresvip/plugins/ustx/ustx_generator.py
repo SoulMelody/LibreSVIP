@@ -36,6 +36,7 @@ from .utils import lyric_util
 @dataclasses.dataclass
 class UstxGenerator:
     options: OutputOptions
+    last_syllable_index: int = 1
 
     def generate_project(self, os_project: Project) -> USTXProject:
         # 节拍
@@ -110,6 +111,7 @@ class UstxGenerator:
             return ustx_voice_part
         last_note_end_pos = -480  # 上一个音符的结束时间
         last_note_key_number = 60  # 上一个音符的音高
+        self.last_syllable_index = 1
         # 转换音符
         for os_note in os_track.note_list:
             ustx_voice_part.notes.append(
@@ -143,14 +145,18 @@ class UstxGenerator:
                 file_duration_ms=track_info.duration,
             )
 
-    @staticmethod
-    def generate_note(os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
+    def generate_note(self, os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
         y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
         lyric = lyric_util.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
         if os_note.pronunciation:  # 如果有发音，则用发音
             lyric = os_note.pronunciation
         if lyric == "-":  # OpenUTAU中的连音符为+
             lyric = "+"
+        elif lyric == "+":
+            self.last_syllable_index += 1
+            lyric = f"+{self.last_syllable_index}"
+        else:
+            self.last_syllable_index = 1
         if len(lyric) == 2 and lyric_util.is_punctuation(lyric[1]):  # 删除标点符号
             lyric = lyric[:1]
         return UNote(

@@ -140,9 +140,12 @@ class UstxParser:
         note_list = []
         prev_ustx_note = None
         for ustx_note in notes:
+            note_lyric = ustx_note.lyric
+            if note_lyric.startswith("+"):
+                note_lyric = "+" if note_lyric.removeprefix("+").isdigit() else "-"
             note = Note(
                 key_number=ustx_note.tone,
-                lyric="-" if ustx_note.lyric.startswith("+") else ustx_note.lyric,
+                lyric=note_lyric,
                 start_pos=ustx_note.position + tick_prefix,
                 length=ustx_note.duration,
             )
