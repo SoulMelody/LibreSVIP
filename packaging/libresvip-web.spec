@@ -47,7 +47,7 @@ a = Analysis(
         "portion",
         "proto",
         "pypinyin",
-        "srt",
+        "pysubs2",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
         "wanakana",
