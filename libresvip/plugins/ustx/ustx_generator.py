@@ -66,6 +66,7 @@ class UstxGenerator:
         for track_no, os_track in enumerate(os_project.track_list):
             ustx_project.tracks.append(self.generate_track(os_track))
             if isinstance(os_track, SingingTrack):  # 合成音轨
+                ustx_project.tracks[-1].singer = os_track.ai_singer_name
                 ustx_project.voice_parts.append(
                     self.generate_voice_part(os_track, track_no, ustx_project, first_bar_length)
                 )
@@ -89,7 +90,7 @@ class UstxGenerator:
     def generate_track(os_track: Track) -> UTrack:
         return UTrack(
             track_name=os_track.title,
-            singer=os_track.ai_singer_name,
+            singer="",
             phonemizer="OpenUtau.Core.DefaultPhonemizer",  # 默认音素器
             renderer_settings=URendererSettings(renderer="CLASSIC"),
             mute=os_track.mute,
