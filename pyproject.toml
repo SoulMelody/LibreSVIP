@@ -100,7 +100,7 @@ code_gen = [
   "gapic-generator>=1.18.0",
   "xsdata[cli]>=24.5",
 ]
-i18n = ["translate-toolkit>=3.13.0", "babel>=2.15.0"]
+i18n = ["translate-toolkit>=3.13.1", "babel>=2.15.0"]
 linting = [
   "pre-commit>=3.7.1",
   "ruff>=0.4.9",
@@ -114,7 +114,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=7.1.1",
-  "nuitka>=2.3.4",
+  "nuitka>=2.3.6",
   "pyinstaller>=6.8.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
