@@ -14,7 +14,7 @@ RoundButton {
 
     width: diameter
     height: diameter
-    padding: new_padding
+    padding: enabled ? new_padding : new_padding + 1
 
     contentItem: Label {
         anchors.centerIn: parent

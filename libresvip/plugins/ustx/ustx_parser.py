@@ -157,7 +157,7 @@ class UstxParser:
                 elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
                     note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
                 else:
-                    note.pronunciation = ustx_note.lyric
+                    note.pronunciation = ustx_note.lyric.removeprefix("?")
             if (
                 prev_ustx_note is not None
                 and prev_ustx_note.lyric in self.breath_lyrics
