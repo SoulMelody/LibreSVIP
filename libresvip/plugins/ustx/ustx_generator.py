@@ -28,7 +28,7 @@ from .model import (
     UVoicePart,
     UWavePart,
 )
-from .options import OutputOptions
+from .options import OpenUtauEnglishPhonemizerCompatibility, OutputOptions
 from .util import BasePitchGenerator
 from .utils import lyric_util
 
@@ -152,7 +152,11 @@ class UstxGenerator:
             lyric = os_note.pronunciation
         if lyric == "-":  # OpenUTAU中的连音符为+
             lyric = "+"
-        elif lyric == "+":
+        elif (
+            lyric == "+"
+            and self.options.english_phonemizer_compatibility
+            == OpenUtauEnglishPhonemizerCompatibility.ARPA
+        ):
             self.last_syllable_index += 1
             lyric = f"+{self.last_syllable_index}"
         else:

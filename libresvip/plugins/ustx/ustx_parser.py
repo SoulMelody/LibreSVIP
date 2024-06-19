@@ -27,7 +27,7 @@ from .model import (
     UVoicePart,
     UWavePart,
 )
-from .options import InputOptions
+from .options import InputOptions, OpenUtauEnglishPhonemizerCompatibility
 from .util import BasePitchGenerator
 
 PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
@@ -142,7 +142,14 @@ class UstxParser:
         for ustx_note in notes:
             note_lyric = ustx_note.lyric
             if note_lyric.startswith("+"):
-                note_lyric = "+" if note_lyric.removeprefix("+").isdigit() else "-"
+                if (
+                    note_lyric.removeprefix("+").isdigit()
+                    and self.options.english_phonemizer_compatibility
+                    == OpenUtauEnglishPhonemizerCompatibility.ARPA
+                ):
+                    note_lyric = "+"
+                else:
+                    note_lyric = "-"
             note = Note(
                 key_number=ustx_note.tone,
                 lyric=note_lyric,

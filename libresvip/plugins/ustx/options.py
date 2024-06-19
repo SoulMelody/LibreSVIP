@@ -1,4 +1,6 @@
+from enum import Enum
 from gettext import gettext as _
+from typing import Annotated
 
 from pydantic import BaseModel, Field
 
@@ -8,7 +10,27 @@ from libresvip.model.option_mixins import (
 )
 
 
+class OpenUtauEnglishPhonemizerCompatibility(Enum):
+    NON_ARPA: Annotated[
+        str,
+        Field(
+            title=_("Incompatible with ARPAsing-series Phonemizers"),
+        ),
+    ] = "non-arpa"
+    ARPA: Annotated[
+        str,
+        Field(
+            title=_("Compatible with ARPAsing-series Phonemizers"),
+        ),
+    ] = "arpa"
+
+
 class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
+    english_phonemizer_compatibility: OpenUtauEnglishPhonemizerCompatibility = Field(
+        OpenUtauEnglishPhonemizerCompatibility.NON_ARPA,
+        title=_("The way to handle english polysyllabic words"),
+        description=_("Compatibility with ARPAsing-series Phonemizer"),
+    )
     breath_lyrics: str = Field(
         "Asp AP",
         title=_("Breath lyrics"),
@@ -24,4 +46,8 @@ class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportati
 
 
 class OutputOptions(BaseModel):
-    pass
+    english_phonemizer_compatibility: OpenUtauEnglishPhonemizerCompatibility = Field(
+        OpenUtauEnglishPhonemizerCompatibility.NON_ARPA,
+        title=_("The way to handle english polysyllabic words"),
+        description=_("Compatibility with ARPAsing-series Phonemizer"),
+    )
