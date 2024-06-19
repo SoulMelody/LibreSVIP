@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:a65920993054b58a9cba3d31df3d99c87cbf6a51f386ecd7b7b42cbe20356063"
+content_hash = "sha256:9c1ff05e0058fbe1eb01fd1c2593d6ffada516f135b124080b24372066e225b0"
 
 [[package]]
 name = "aiofiles"
@@ -2102,16 +2102,16 @@ files = [
 
 [[package]]
 name = "proto-plus"
-version = "1.23.0"
-requires_python = ">=3.6"
+version = "1.24.0"
+requires_python = ">=3.7"
 summary = "Beautiful, Pythonic protocol buffers."
 groups = ["code_gen", "default", "desktop", "linting", "webui"]
 dependencies = [
-    "protobuf<5.0.0dev,>=3.19.0",
+    "protobuf<6.0.0dev,>=3.19.0",
 ]
 files = [
-    {file = "proto-plus-1.23.0.tar.gz", hash = "sha256:89075171ef11988b3fa157f5dbd8b9cf09d65fffee97e29ce403cd8defba19d2"},
-    {file = "proto_plus-1.23.0-py3-none-any.whl", hash = "sha256:a829c79e619e1cf632de091013a4173deed13a55f326ef84f05af6f50ff4c82c"},
+    {file = "proto-plus-1.24.0.tar.gz", hash = "sha256:30b72a5ecafe4406b0d339db35b56c4059064e69227b8c3bda7462397f966445"},
+    {file = "proto_plus-1.24.0-py3-none-any.whl", hash = "sha256:402576830425e5f6ce4c2a6702400ac79897dab0b4343821aa5188b0fab81a12"},
 ]
 
 [[package]]
