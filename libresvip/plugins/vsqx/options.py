@@ -11,7 +11,11 @@ from .enums import VocaloidLanguage, VsqxVersion
 
 
 class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
-    pass
+    combine_syllables: bool = Field(
+        False,
+        title=_("Combine syllables"),
+        description=_("Combine multisyllabic lyrics into single words"),
+    )
 
 
 class OutputOptions(BaseModel):

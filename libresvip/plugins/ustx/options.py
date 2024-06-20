@@ -28,7 +28,7 @@ class OpenUtauEnglishPhonemizerCompatibility(Enum):
 class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
     english_phonemizer_compatibility: OpenUtauEnglishPhonemizerCompatibility = Field(
         OpenUtauEnglishPhonemizerCompatibility.NON_ARPA,
-        title=_("The way to handle english polysyllabic words"),
+        title=_("The way to handle english multisyllabic words"),
         description=_("Compatibility with ARPAsing-series Phonemizer"),
     )
     breath_lyrics: str = Field(

@@ -71,7 +71,7 @@ class VsqxParser:
             if v_voice.v_pc is not None:
                 self.pc2voice[v_voice.v_pc] = v_voice
         singing_tracks = self.parse_singing_tracks(
-            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix, master_track.pre_measure
+            vsqx_project.vs_track, vsqx_project.mixer.vs_unit, tick_prefix
         )
         wav_parts: VsqxWavPartList = []
         wav_units: VsqxWavUnitList = []
@@ -125,7 +125,6 @@ class VsqxParser:
         vs_tracks: VsqxVsTrackList,
         vs_units: VsqxVsUnitList,
         tick_prefix: int,
-        measure_prefix: int,
     ) -> list[SingingTrack]:
         singing_tracks = []
         for vs_track, vs_unit in zip(vs_tracks, vs_units):
@@ -243,6 +242,17 @@ class VsqxParser:
                     note.head_tag = "0"
                 note_list.append(note)
             prev_vsqx_note = vsqx_note
+        if self.options.combine_syllables:
+            for syllables_group in more_itertools.split_when(
+                note_list, lambda prev_vsqx_note, vsqx_note: not prev_vsqx_note.lyric.endswith("-")
+            ):
+                if len(syllables_group) > 1:
+                    syllables_group[0].lyric = "".join(
+                        vsqx_note.lyric.rstrip("-") for vsqx_note in syllables_group
+                    )
+                    for vsqx_note in syllables_group[1:]:
+                        if vsqx_note.lyric != "-":
+                            vsqx_note.lyric = "+"
         return note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict
 
     def parse_pitch(

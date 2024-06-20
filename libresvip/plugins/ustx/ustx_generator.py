@@ -36,7 +36,6 @@ from .utils import lyric_util
 @dataclasses.dataclass
 class UstxGenerator:
     options: OutputOptions
-    last_syllable_index: int = 1
 
     def generate_project(self, os_project: Project) -> USTXProject:
         # 节拍
@@ -109,20 +108,8 @@ class UstxGenerator:
         ustx_voice_part = UVoicePart(name=os_track.title, track_no=track_no, position=0, notes=[])
         if not os_track.note_list:
             return ustx_voice_part
-        last_note_end_pos = -480  # 上一个音符的结束时间
-        last_note_key_number = 60  # 上一个音符的音高
-        self.last_syllable_index = 1
         # 转换音符
-        for os_note in os_track.note_list:
-            ustx_voice_part.notes.append(
-                self.generate_note(
-                    os_note,
-                    last_note_end_pos >= os_note.start_pos,
-                    last_note_key_number,
-                )
-            )
-            last_note_end_pos = os_note.start_pos + os_note.length
-            last_note_key_number = os_note.key_number
+        ustx_voice_part.notes.extend(self.generate_notes(os_track.note_list))
         # 转换音高曲线
         self.generate_pitch(
             ustx_voice_part,
@@ -145,38 +132,60 @@ class UstxGenerator:
                 file_duration_ms=track_info.duration,
             )
 
-    def generate_note(self, os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
-        y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
-        lyric = lyric_util.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
-        if os_note.pronunciation:  # 如果有发音，则用发音
-            lyric = os_note.pronunciation
-        if lyric == "-":  # OpenUTAU中的连音符为+
-            lyric = "+"
-        elif (
-            lyric == "+"
-            and self.options.english_phonemizer_compatibility
-            == OpenUtauEnglishPhonemizerCompatibility.ARPA
-        ):
-            self.last_syllable_index += 1
-            lyric = f"+{self.last_syllable_index}"
-        else:
-            self.last_syllable_index = 1
-        if len(lyric) == 2 and lyric_util.is_punctuation(lyric[1]):  # 删除标点符号
-            lyric = lyric[:1]
-        return UNote(
-            position=os_note.start_pos,
-            duration=os_note.length,
-            tone=os_note.key_number,
-            lyric=lyric,
-            pitch=UPitch(
-                snap_first=snap_first,
-                data=[
-                    PitchPoint(x=-40, y=y0, shape="io"),
-                    PitchPoint(x=0, y=0, shape="io"),
-                ],
-            ),
-            vibrato=UVibrato(length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0),
-        )
+    def generate_notes(self, os_notes: list[Note]) -> list[UNote]:
+        notes: list[UNote] = []
+        last_note_end_pos = -480  # 上一个音符的结束时间
+        last_note_key_number = 60  # 上一个音符的音高
+        last_syllable_index = 1
+        for i, os_note in enumerate(os_notes):
+            snap_first = last_note_end_pos >= os_note.start_pos
+            y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
+            lyric = lyric_util.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
+            if os_note.pronunciation:  # 如果有发音，则用发音
+                lyric = os_note.pronunciation
+            if lyric == "-":  # OpenUTAU中的连音符为+
+                lyric = "+"
+            elif lyric == "+":
+                if (
+                    self.options.english_phonemizer_compatibility
+                    == OpenUtauEnglishPhonemizerCompatibility.ARPA
+                ):
+                    last_syllable_index += 1
+                    lyric = f"+{last_syllable_index}"
+                else:
+                    for j in range(i - 1, 0, -1):
+                        if os_notes[j].lyric == "-":
+                            notes[j].lyric = "+~"
+                        else:
+                            break
+            elif (
+                self.options.english_phonemizer_compatibility
+                == OpenUtauEnglishPhonemizerCompatibility.ARPA
+            ):
+                last_syllable_index = 1
+            if len(lyric) == 2 and lyric_util.is_punctuation(lyric[1]):  # 删除标点符号
+                lyric = lyric[:1]
+            notes.append(
+                UNote(
+                    position=os_note.start_pos,
+                    duration=os_note.length,
+                    tone=os_note.key_number,
+                    lyric=lyric,
+                    pitch=UPitch(
+                        snap_first=snap_first,
+                        data=[
+                            PitchPoint(x=-40, y=y0, shape="io"),
+                            PitchPoint(x=0, y=0, shape="io"),
+                        ],
+                    ),
+                    vibrato=UVibrato(
+                        length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0
+                    ),
+                )
+            )
+            last_note_end_pos = os_note.end_pos
+            last_note_key_number = os_note.key_number
+        return notes
 
     @staticmethod
     def generate_pitch(
