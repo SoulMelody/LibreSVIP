@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:79d22c0cb67e1129741e74da4c97d5900a0817421a5567a24a690cf85b603736"
+content_hash = "sha256:f996091bc342334b01cec627d077e4270d2cea1755cd8ba23392bbd7cf81fc56"
 
 [[package]]
 name = "aiofiles"
@@ -708,11 +708,11 @@ files = [
 
 [[package]]
 name = "drawsvg"
-version = "2.3.0"
+version = "2.4.0"
 summary = "A Python 3 library for programmatically generating SVG (vector) images and animations.  Drawsvg can also render to PNG, MP4, and display your drawings in Jupyter notebook and Jupyter lab."
 groups = ["default", "desktop", "webui"]
 files = [
-    {file = "drawsvg-2.3.0-py3-none-any.whl", hash = "sha256:93ad2b465d0da0b98c4e2cde11b64ce0149e2f15f8cdc0bd8e68f8b30a2e0abf"},
+    {file = "drawsvg-2.4.0-py3-none-any.whl", hash = "sha256:85b54044956390f05053bc2651e2414d54a4939b57a2be0a043e5cec2e04f1bb"},
 ]
 
 [[package]]
