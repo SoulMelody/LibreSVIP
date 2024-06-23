@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-06 21:06+0800\n"
-"PO-Revision-Date: 2024-06-15 01:50\n"
+"POT-Creation-Date: 2024-06-23 17:06+0800\n"
+"PO-Revision-Date: 2024-06-23 09:12\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.13.0\n"
+"X-Generator: Translate Toolkit 3.13.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
@@ -167,66 +167,50 @@ msgid "All Files (*.*)"
 msgstr "所有文件 (*.*)"
 
 #: dialogs%232
-msgid "Install New Plugins"
-msgstr "安装插件"
-
-#: dialogs%233
-msgid "Are you sure to install following plugins?"
-msgstr "确定安装新的插件吗？"
-
-#: dialogs%234
-msgid "Developed by "
-msgstr "开发者是"
-
-#: dialogs%235
-msgid ", which supports "
-msgstr "，适用于"
-
-#: dialogs%236
 msgid "Custom folder"
 msgstr "自定义路径"
 
-#: dialogs%237
+#: dialogs%233
 msgid "Folder Presets"
 msgstr "文件夹预设"
 
-#: dialogs%238
+#: dialogs%234
 msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
 msgstr "你可以在开头插入 \".\" 来代表源路径，例如 \"./subfolder\""
 
-#: dialogs%239
+#: dialogs%235
 msgid "Click to add a folder preset"
 msgstr "点击添加文件夹预设"
 
-#: dialogs%2310
+#: dialogs%236
 msgid "About"
 msgstr "关于"
 
-#: dialogs%2311
+#: dialogs%237
 msgid "LibreSVIP"
 msgstr ""
 
-#: dialogs%2312
+#: dialogs%238
 msgid "Version: "
 msgstr "版本："
 
-#: dialogs%2313
+#: dialogs%239
 msgid "Author: SoulMelody"
 msgstr "作者：岁月静好_初心不忘"
 
-#: dialogs%2314
+#: dialogs%2310
 msgid "Author's Profile"
 msgstr "作者主页"
 
-#: dialogs%2315
+#: dialogs%2311
 msgid "Repo URL"
 msgstr "仓库地址"
 
-#: dialogs%2316
+#: dialogs%2312
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
 msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: dialogs%2317
+#: dialogs%2313
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
 
@@ -521,6 +505,18 @@ msgstr "AISingers Studio 工程文件"
 #: ../libresvip/plugins/aisp/aisp.yapsy-plugin:3
 msgid "Conversion plugin for AISingers Studio project file"
 msgstr "AISingers Studio 工程文件转换插件"
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:1
+msgid "ASS"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:2
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:3
+msgid "Generator plugin for ASS subtitle file"
+msgstr ""
 
 #: ../libresvip/plugins/ccs/ccs.yapsy-plugin:1
 msgid "CeVIO"
@@ -1254,16 +1250,16 @@ msgstr "从0开始，-1表示自动选择"
 msgid "Notes Overlapped"
 msgstr "音符重叠"
 
-#: ../libresvip/plugins/acep/model.py:168
+#: ../libresvip/plugins/acep/model.py:169
 msgid "Chinese"
 msgstr "中文"
 
-#: ../libresvip/plugins/acep/model.py:174
+#: ../libresvip/plugins/acep/model.py:175
 #: ../libresvip/plugins/svp/options.py:34
 msgid "Japanese"
 msgstr "日语"
 
-#: ../libresvip/plugins/acep/model.py:180
+#: ../libresvip/plugins/acep/model.py:181
 #: ../libresvip/plugins/svp/options.py:35 ../libresvip/plugins/vpr/model.py:13
 #: ../libresvip/plugins/vsqx/enums.py:15
 msgid "English"
@@ -1430,20 +1426,73 @@ msgid "ACE Studio supports three languages of lyrics. This option is used to set
 msgstr "ACE Studio 支持三大语种的歌词，本选项用于设定歌词的语言。"
 
 #: ../libresvip/plugins/acep/options.py:210
-msgid "Export pitch curve or not"
-msgstr "是否导出音高参数"
-
-#: ../libresvip/plugins/acep/options.py:211
-msgid "Warning: when turned on, it may cause consonant issues"
-msgstr "请注意：打开后，可能会导致辅音发声问题"
-
-#: ../libresvip/plugins/acep/options.py:215
 msgid "Default consonant length (ticks)"
 msgstr "默认辅音长度 (单位为ticks)"
 
-#: ../libresvip/plugins/acep/options.py:216
+#: ../libresvip/plugins/acep/options.py:211
 msgid "Set default consonant length for notes if not specified"
 msgstr "给未设置辅音长度的音符添加默认值"
+
+#: ../libresvip/plugins/ass/options.py:14
+#: ../libresvip/plugins/lrc/options.py:33
+#: ../libresvip/plugins/srt/options.py:14
+msgid "Both note gap and punctuation"
+msgstr "音符间隙和标点符号"
+
+#: ../libresvip/plugins/ass/options.py:15
+#: ../libresvip/plugins/lrc/options.py:34
+#: ../libresvip/plugins/srt/options.py:15
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符或遇到标点符号时另起新行。"
+
+#: ../libresvip/plugins/ass/options.py:23
+#: ../libresvip/plugins/lrc/options.py:42
+#: ../libresvip/plugins/srt/options.py:23
+msgid "Note gap only"
+msgstr "仅音符间隙"
+
+#: ../libresvip/plugins/ass/options.py:24
+#: ../libresvip/plugins/lrc/options.py:43
+#: ../libresvip/plugins/srt/options.py:24
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符时另起新行。"
+
+#: ../libresvip/plugins/ass/options.py:32
+#: ../libresvip/plugins/lrc/options.py:51
+#: ../libresvip/plugins/srt/options.py:32
+msgid "Punctuation only"
+msgstr "仅标点符号"
+
+#: ../libresvip/plugins/ass/options.py:33
+#: ../libresvip/plugins/lrc/options.py:52
+#: ../libresvip/plugins/srt/options.py:33
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr "遇到标点符号时另起新行。"
+
+#: ../libresvip/plugins/ass/options.py:41
+#: ../libresvip/plugins/lrc/options.py:64
+#: ../libresvip/plugins/srt/options.py:41
+msgid "Offset"
+msgstr "偏移量"
+
+#: ../libresvip/plugins/ass/options.py:42
+#: ../libresvip/plugins/lrc/options.py:65
+#: ../libresvip/plugins/srt/options.py:42
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr "单位为毫秒，正值表示整体提前，负值相反。"
+
+#: ../libresvip/plugins/ass/options.py:44
+#: ../libresvip/plugins/lrc/options.py:70
+#: ../libresvip/plugins/srt/options.py:44
+msgid "New line by"
+msgstr "歌词换行方式"
+
+#: ../libresvip/plugins/ass/options.py:45
+#: ../libresvip/plugins/srt/options.py:45
+#: ../libresvip/plugins/ust/options.py:12
+#: ../libresvip/plugins/ust/options.py:24
+msgid "Text encoding"
+msgstr "文本编码"
 
 #: ../libresvip/plugins/ccs/cevio_generator.py:185
 #: ../libresvip/plugins/tssln/voisona_generator.py:139
@@ -1458,7 +1507,7 @@ msgstr "音高值越界"
 #: ../libresvip/plugins/ccs/options.py:16
 #: ../libresvip/plugins/mtp/options.py:18
 #: ../libresvip/plugins/vpr/options.py:41
-#: ../libresvip/plugins/vsqx/options.py:34
+#: ../libresvip/plugins/vsqx/options.py:38
 msgid "Default Singer Name"
 msgstr "默认歌手名称"
 
@@ -1523,7 +1572,7 @@ msgid "The selected dictionary does not contain the pronunciation \"{}\". Please
 msgstr "所选词典不包含发音“{}”，请检查发音或更换词典后重试。"
 
 #: ../libresvip/plugins/gj/gjgj_generator.py:138
-#: ../libresvip/plugins/svip3/svip3_generator.py:219
+#: ../libresvip/plugins/svip3/svip3_generator.py:218
 msgid "Unsupported pinyin:"
 msgstr "不支持的拼音："
 
@@ -1559,36 +1608,6 @@ msgstr "作用于元数据"
 msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
 msgstr "写入偏移量到元数据的“offset”，不处理歌词的时间轴。注意：由于部分播放器不支持元数据里的“offset”标签，选择此选项可能会导致歌词显示时间不准确。"
 
-#: ../libresvip/plugins/lrc/options.py:33
-#: ../libresvip/plugins/srt/options.py:14
-msgid "Both note gap and punctuation"
-msgstr "音符间隙和标点符号"
-
-#: ../libresvip/plugins/lrc/options.py:34
-#: ../libresvip/plugins/srt/options.py:15
-msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr "两个相邻的音符间距大于等于32分音符或遇到标点符号时另起新行。"
-
-#: ../libresvip/plugins/lrc/options.py:42
-#: ../libresvip/plugins/srt/options.py:23
-msgid "Note gap only"
-msgstr "仅音符间隙"
-
-#: ../libresvip/plugins/lrc/options.py:43
-#: ../libresvip/plugins/srt/options.py:24
-msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
-msgstr "两个相邻的音符间距大于等于32分音符时另起新行。"
-
-#: ../libresvip/plugins/lrc/options.py:51
-#: ../libresvip/plugins/srt/options.py:32
-msgid "Punctuation only"
-msgstr "仅标点符号"
-
-#: ../libresvip/plugins/lrc/options.py:52
-#: ../libresvip/plugins/srt/options.py:33
-msgid "When a punctuation mark is encountered, start a new line."
-msgstr "遇到标点符号时另起新行。"
-
 #: ../libresvip/plugins/lrc/options.py:58
 #: ../libresvip/plugins/vog/options.py:14
 msgid "Singer name"
@@ -1606,24 +1625,9 @@ msgstr "专辑名"
 msgid "Lyric editor"
 msgstr "歌词编辑"
 
-#: ../libresvip/plugins/lrc/options.py:64
-#: ../libresvip/plugins/srt/options.py:41
-msgid "Offset"
-msgstr "偏移量"
-
-#: ../libresvip/plugins/lrc/options.py:65
-#: ../libresvip/plugins/srt/options.py:42
-msgid "In milliseconds, positive means ahead, negative means opposite."
-msgstr "单位为毫秒，正值表示整体提前，负值相反。"
-
 #: ../libresvip/plugins/lrc/options.py:68
 msgid "Offset policy"
 msgstr "偏移处理方式"
-
-#: ../libresvip/plugins/lrc/options.py:70
-#: ../libresvip/plugins/srt/options.py:44
-msgid "New line by"
-msgstr "歌词换行方式"
 
 #: ../libresvip/plugins/lrc/options.py:72
 msgid "Write timeline"
@@ -1751,12 +1755,6 @@ msgstr "未找到演唱轨"
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
 
-#: ../libresvip/plugins/srt/options.py:45
-#: ../libresvip/plugins/ust/options.py:12
-#: ../libresvip/plugins/ust/options.py:24
-msgid "Text encoding"
-msgstr "文本编码"
-
 #: ../libresvip/plugins/svg/options.py:12
 msgid "Align to left"
 msgstr "左对齐"
@@ -1861,12 +1859,12 @@ msgstr "网格线宽度"
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
 
-#: ../libresvip/plugins/svip3/svip3_generator.py:226
+#: ../libresvip/plugins/svip3/svip3_generator.py:225
 #: ../libresvip/plugins/svip/binsvip_generator.py:195
 msgid "Note duration is too short:"
 msgstr "音符时长过短："
 
-#: ../libresvip/plugins/svip3/svip3_generator.py:229
+#: ../libresvip/plugins/svip3/svip3_generator.py:228
 #: ../libresvip/plugins/svip/binsvip_generator.py:198
 msgid "Note duration is too long:"
 msgstr "音符时长过长："
@@ -2064,21 +2062,42 @@ msgstr "UST文件版本号"
 msgid "UST project has no track"
 msgstr "UST工程中没有找到任何音轨"
 
-#: ../libresvip/plugins/ustx/options.py:14
+#: ../libresvip/plugins/ustx/options.py:17
+msgid "Incompatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:23
+msgid "Compatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:31
+msgid "The way to handle english multisyllabic words"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:32
+#: ../libresvip/plugins/ustx/options.py:52
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:36
 msgid "Breath lyrics"
 msgstr "呼吸音歌词"
 
-#: ../libresvip/plugins/ustx/options.py:15
+#: ../libresvip/plugins/ustx/options.py:37
 msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
 msgstr "仅在之后紧跟一个普通音符时才会被识别为呼吸音符的特殊歌词，歌词之间用空格隔开。"
 
-#: ../libresvip/plugins/ustx/options.py:21
+#: ../libresvip/plugins/ustx/options.py:43
 msgid "Silence lyrics"
 msgstr "休止符歌词"
 
-#: ../libresvip/plugins/ustx/options.py:22
+#: ../libresvip/plugins/ustx/options.py:44
 msgid "Special lyrics that will be ignored, each separated by a space"
 msgstr "将被忽略的特殊歌词，歌词之间用空格隔开"
+
+#: ../libresvip/plugins/ustx/options.py:51
+msgid "The way to handle english polysyllabic words"
+msgstr ""
 
 #: ../libresvip/plugins/vog/options.py:15
 msgid "Please enter the singer's English name."
@@ -2117,27 +2136,27 @@ msgid "The default voicebank is AI singer or not"
 msgstr "默认声库是否属于AI类型"
 
 #: ../libresvip/plugins/vpr/options.py:31
-#: ../libresvip/plugins/vsqx/options.py:24
+#: ../libresvip/plugins/vsqx/options.py:28
 msgid "Default language"
 msgstr "默认语言"
 
 #: ../libresvip/plugins/vpr/options.py:32
-#: ../libresvip/plugins/vsqx/options.py:25
+#: ../libresvip/plugins/vsqx/options.py:29
 msgid "Default language id of voicebank and notes"
 msgstr "声库及音符的默认语言"
 
 #: ../libresvip/plugins/vpr/options.py:36
-#: ../libresvip/plugins/vsqx/options.py:29
+#: ../libresvip/plugins/vsqx/options.py:33
 msgid "Default Comp ID"
 msgstr "默认的CompID"
 
 #: ../libresvip/plugins/vpr/options.py:37
-#: ../libresvip/plugins/vsqx/options.py:30
+#: ../libresvip/plugins/vsqx/options.py:34
 msgid "Default comp_id of voicebank"
 msgstr "默认声库对应的comp_id"
 
 #: ../libresvip/plugins/vpr/options.py:42
-#: ../libresvip/plugins/vsqx/options.py:35
+#: ../libresvip/plugins/vsqx/options.py:39
 msgid "Default singer name of voicebank"
 msgstr "默认声库对应的歌手名"
 
@@ -2177,15 +2196,23 @@ msgstr ""
 msgid "VSQx 4"
 msgstr ""
 
-#: ../libresvip/plugins/vsqx/options.py:18
+#: ../libresvip/plugins/vsqx/options.py:16
+msgid "Combine syllables"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:17
+msgid "Combine multisyllabic lyrics into single words"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:22
 msgid "VSQX Version"
 msgstr "VSQX文件版本"
 
-#: ../libresvip/plugins/vsqx/options.py:20
+#: ../libresvip/plugins/vsqx/options.py:24
 msgid "Pretty XML"
 msgstr "美化XML"
 
-#: ../libresvip/plugins/vsqx/options.py:20
+#: ../libresvip/plugins/vsqx/options.py:24
 msgid "Whether to output pretty XML"
 msgstr "是否导出美化显示的XML"
 
@@ -2197,7 +2224,7 @@ msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID3菜单中
 msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert Phonemes\" in the menu of VOCALOID4 to reset them."
 msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID4菜单中的「歌词」->「音位变换」功能来重置音素。"
 
-#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:89
+#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
 msgid "Audio file not found: "
 msgstr "未找到音频文件："
 
