@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-06 21:06+0800\n"
-"PO-Revision-Date: 2024-06-15 01:50\n"
+"POT-Creation-Date: 2024-06-23 17:06+0800\n"
+"PO-Revision-Date: 2024-06-23 09:12\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.13.0\n"
+"X-Generator: Translate Toolkit 3.13.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
@@ -167,66 +167,50 @@ msgid "All Files (*.*)"
 msgstr ""
 
 #: dialogs%232
-msgid "Install New Plugins"
-msgstr ""
-
-#: dialogs%233
-msgid "Are you sure to install following plugins?"
-msgstr ""
-
-#: dialogs%234
-msgid "Developed by "
-msgstr ""
-
-#: dialogs%235
-msgid ", which supports "
-msgstr ""
-
-#: dialogs%236
 msgid "Custom folder"
 msgstr ""
 
-#: dialogs%237
+#: dialogs%233
 msgid "Folder Presets"
 msgstr ""
 
-#: dialogs%238
+#: dialogs%234
 msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
 msgstr ""
 
-#: dialogs%239
+#: dialogs%235
 msgid "Click to add a folder preset"
 msgstr ""
 
-#: dialogs%2310
+#: dialogs%236
 msgid "About"
 msgstr ""
 
-#: dialogs%2311
+#: dialogs%237
 msgid "LibreSVIP"
 msgstr ""
 
-#: dialogs%2312
+#: dialogs%238
 msgid "Version: "
 msgstr ""
 
-#: dialogs%2313
+#: dialogs%239
 msgid "Author: SoulMelody"
 msgstr ""
 
-#: dialogs%2314
+#: dialogs%2310
 msgid "Author's Profile"
 msgstr ""
 
-#: dialogs%2315
+#: dialogs%2311
 msgid "Repo URL"
 msgstr ""
 
-#: dialogs%2316
+#: dialogs%2312
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
 msgstr ""
 
-#: dialogs%2317
+#: dialogs%2313
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr ""
 
@@ -518,6 +502,18 @@ msgstr ""
 
 #: ../libresvip/plugins/aisp/aisp.yapsy-plugin:3
 msgid "Conversion plugin for AISingers Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:1
+msgid "ASS"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:2
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:3
+msgid "Generator plugin for ASS subtitle file"
 msgstr ""
 
 #: ../libresvip/plugins/ccs/ccs.yapsy-plugin:1
@@ -1250,16 +1246,16 @@ msgstr ""
 msgid "Notes Overlapped"
 msgstr ""
 
-#: ../libresvip/plugins/acep/model.py:168
+#: ../libresvip/plugins/acep/model.py:169
 msgid "Chinese"
 msgstr ""
 
-#: ../libresvip/plugins/acep/model.py:174
+#: ../libresvip/plugins/acep/model.py:175
 #: ../libresvip/plugins/svp/options.py:34
 msgid "Japanese"
 msgstr ""
 
-#: ../libresvip/plugins/acep/model.py:180
+#: ../libresvip/plugins/acep/model.py:181
 #: ../libresvip/plugins/svp/options.py:35 ../libresvip/plugins/vpr/model.py:13
 #: ../libresvip/plugins/vsqx/enums.py:15
 msgid "English"
@@ -1411,19 +1407,72 @@ msgid "ACE Studio supports three languages of lyrics. This option is used to set
 msgstr ""
 
 #: ../libresvip/plugins/acep/options.py:210
-msgid "Export pitch curve or not"
-msgstr ""
-
-#: ../libresvip/plugins/acep/options.py:211
-msgid "Warning: when turned on, it may cause consonant issues"
-msgstr ""
-
-#: ../libresvip/plugins/acep/options.py:215
 msgid "Default consonant length (ticks)"
 msgstr ""
 
-#: ../libresvip/plugins/acep/options.py:216
+#: ../libresvip/plugins/acep/options.py:211
 msgid "Set default consonant length for notes if not specified"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:14
+#: ../libresvip/plugins/lrc/options.py:33
+#: ../libresvip/plugins/srt/options.py:14
+msgid "Both note gap and punctuation"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:15
+#: ../libresvip/plugins/lrc/options.py:34
+#: ../libresvip/plugins/srt/options.py:15
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:23
+#: ../libresvip/plugins/lrc/options.py:42
+#: ../libresvip/plugins/srt/options.py:23
+msgid "Note gap only"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:24
+#: ../libresvip/plugins/lrc/options.py:43
+#: ../libresvip/plugins/srt/options.py:24
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:32
+#: ../libresvip/plugins/lrc/options.py:51
+#: ../libresvip/plugins/srt/options.py:32
+msgid "Punctuation only"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:33
+#: ../libresvip/plugins/lrc/options.py:52
+#: ../libresvip/plugins/srt/options.py:33
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:41
+#: ../libresvip/plugins/lrc/options.py:64
+#: ../libresvip/plugins/srt/options.py:41
+msgid "Offset"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:42
+#: ../libresvip/plugins/lrc/options.py:65
+#: ../libresvip/plugins/srt/options.py:42
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:44
+#: ../libresvip/plugins/lrc/options.py:70
+#: ../libresvip/plugins/srt/options.py:44
+msgid "New line by"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:45
+#: ../libresvip/plugins/srt/options.py:45
+#: ../libresvip/plugins/ust/options.py:12
+#: ../libresvip/plugins/ust/options.py:24
+msgid "Text encoding"
 msgstr ""
 
 #: ../libresvip/plugins/ccs/cevio_generator.py:185
@@ -1439,7 +1488,7 @@ msgstr ""
 #: ../libresvip/plugins/ccs/options.py:16
 #: ../libresvip/plugins/mtp/options.py:18
 #: ../libresvip/plugins/vpr/options.py:41
-#: ../libresvip/plugins/vsqx/options.py:34
+#: ../libresvip/plugins/vsqx/options.py:38
 msgid "Default Singer Name"
 msgstr ""
 
@@ -1504,7 +1553,7 @@ msgid "The selected dictionary does not contain the pronunciation \"{}\". Please
 msgstr ""
 
 #: ../libresvip/plugins/gj/gjgj_generator.py:138
-#: ../libresvip/plugins/svip3/svip3_generator.py:219
+#: ../libresvip/plugins/svip3/svip3_generator.py:218
 msgid "Unsupported pinyin:"
 msgstr ""
 
@@ -1540,36 +1589,6 @@ msgstr ""
 msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
 msgstr ""
 
-#: ../libresvip/plugins/lrc/options.py:33
-#: ../libresvip/plugins/srt/options.py:14
-msgid "Both note gap and punctuation"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:34
-#: ../libresvip/plugins/srt/options.py:15
-msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:42
-#: ../libresvip/plugins/srt/options.py:23
-msgid "Note gap only"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:43
-#: ../libresvip/plugins/srt/options.py:24
-msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:51
-#: ../libresvip/plugins/srt/options.py:32
-msgid "Punctuation only"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:52
-#: ../libresvip/plugins/srt/options.py:33
-msgid "When a punctuation mark is encountered, start a new line."
-msgstr ""
-
 #: ../libresvip/plugins/lrc/options.py:58
 #: ../libresvip/plugins/vog/options.py:14
 msgid "Singer name"
@@ -1587,23 +1606,8 @@ msgstr ""
 msgid "Lyric editor"
 msgstr ""
 
-#: ../libresvip/plugins/lrc/options.py:64
-#: ../libresvip/plugins/srt/options.py:41
-msgid "Offset"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:65
-#: ../libresvip/plugins/srt/options.py:42
-msgid "In milliseconds, positive means ahead, negative means opposite."
-msgstr ""
-
 #: ../libresvip/plugins/lrc/options.py:68
 msgid "Offset policy"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/options.py:70
-#: ../libresvip/plugins/srt/options.py:44
-msgid "New line by"
 msgstr ""
 
 #: ../libresvip/plugins/lrc/options.py:72
@@ -1732,12 +1736,6 @@ msgstr ""
 msgid "Version of NIAONiao project file"
 msgstr ""
 
-#: ../libresvip/plugins/srt/options.py:45
-#: ../libresvip/plugins/ust/options.py:12
-#: ../libresvip/plugins/ust/options.py:24
-msgid "Text encoding"
-msgstr ""
-
 #: ../libresvip/plugins/svg/options.py:12
 msgid "Align to left"
 msgstr ""
@@ -1842,12 +1840,12 @@ msgstr ""
 msgid "Unexpected enum value"
 msgstr ""
 
-#: ../libresvip/plugins/svip3/svip3_generator.py:226
+#: ../libresvip/plugins/svip3/svip3_generator.py:225
 #: ../libresvip/plugins/svip/binsvip_generator.py:195
 msgid "Note duration is too short:"
 msgstr ""
 
-#: ../libresvip/plugins/svip3/svip3_generator.py:229
+#: ../libresvip/plugins/svip3/svip3_generator.py:228
 #: ../libresvip/plugins/svip/binsvip_generator.py:198
 msgid "Note duration is too long:"
 msgstr ""
@@ -2042,20 +2040,41 @@ msgstr ""
 msgid "UST project has no track"
 msgstr ""
 
-#: ../libresvip/plugins/ustx/options.py:14
+#: ../libresvip/plugins/ustx/options.py:17
+msgid "Incompatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:23
+msgid "Compatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:31
+msgid "The way to handle english multisyllabic words"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:32
+#: ../libresvip/plugins/ustx/options.py:52
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:36
 msgid "Breath lyrics"
 msgstr ""
 
-#: ../libresvip/plugins/ustx/options.py:15
+#: ../libresvip/plugins/ustx/options.py:37
 msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
 msgstr ""
 
-#: ../libresvip/plugins/ustx/options.py:21
+#: ../libresvip/plugins/ustx/options.py:43
 msgid "Silence lyrics"
 msgstr ""
 
-#: ../libresvip/plugins/ustx/options.py:22
+#: ../libresvip/plugins/ustx/options.py:44
 msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:51
+msgid "The way to handle english polysyllabic words"
 msgstr ""
 
 #: ../libresvip/plugins/vog/options.py:15
@@ -2095,27 +2114,27 @@ msgid "The default voicebank is AI singer or not"
 msgstr ""
 
 #: ../libresvip/plugins/vpr/options.py:31
-#: ../libresvip/plugins/vsqx/options.py:24
+#: ../libresvip/plugins/vsqx/options.py:28
 msgid "Default language"
 msgstr ""
 
 #: ../libresvip/plugins/vpr/options.py:32
-#: ../libresvip/plugins/vsqx/options.py:25
+#: ../libresvip/plugins/vsqx/options.py:29
 msgid "Default language id of voicebank and notes"
 msgstr ""
 
 #: ../libresvip/plugins/vpr/options.py:36
-#: ../libresvip/plugins/vsqx/options.py:29
+#: ../libresvip/plugins/vsqx/options.py:33
 msgid "Default Comp ID"
 msgstr ""
 
 #: ../libresvip/plugins/vpr/options.py:37
-#: ../libresvip/plugins/vsqx/options.py:30
+#: ../libresvip/plugins/vsqx/options.py:34
 msgid "Default comp_id of voicebank"
 msgstr ""
 
 #: ../libresvip/plugins/vpr/options.py:42
-#: ../libresvip/plugins/vsqx/options.py:35
+#: ../libresvip/plugins/vsqx/options.py:39
 msgid "Default singer name of voicebank"
 msgstr ""
 
@@ -2155,15 +2174,23 @@ msgstr ""
 msgid "VSQx 4"
 msgstr ""
 
-#: ../libresvip/plugins/vsqx/options.py:18
+#: ../libresvip/plugins/vsqx/options.py:16
+msgid "Combine syllables"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:17
+msgid "Combine multisyllabic lyrics into single words"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:22
 msgid "VSQX Version"
 msgstr ""
 
-#: ../libresvip/plugins/vsqx/options.py:20
+#: ../libresvip/plugins/vsqx/options.py:24
 msgid "Pretty XML"
 msgstr ""
 
-#: ../libresvip/plugins/vsqx/options.py:20
+#: ../libresvip/plugins/vsqx/options.py:24
 msgid "Whether to output pretty XML"
 msgstr ""
 
@@ -2175,7 +2202,7 @@ msgstr ""
 msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert Phonemes\" in the menu of VOCALOID4 to reset them."
 msgstr ""
 
-#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:89
+#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
 msgid "Audio file not found: "
 msgstr ""
 
