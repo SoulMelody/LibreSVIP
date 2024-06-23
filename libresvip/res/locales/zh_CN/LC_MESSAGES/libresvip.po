@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-23 17:06+0800\n"
-"PO-Revision-Date: 2024-06-23 09:23\n"
+"PO-Revision-Date: 2024-06-23 09:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -2071,6 +2071,7 @@ msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr "与 ARPAsing系列音素器兼容"
 
 #: ../libresvip/plugins/ustx/options.py:31
+#: ../libresvip/plugins/ustx/options.py:51
 msgid "The way to handle english multisyllabic words"
 msgstr "处理英文多音节单词的方式"
 
@@ -2094,10 +2095,6 @@ msgstr "休止符歌词"
 #: ../libresvip/plugins/ustx/options.py:44
 msgid "Special lyrics that will be ignored, each separated by a space"
 msgstr "将被忽略的特殊歌词，歌词之间用空格隔开"
-
-#: ../libresvip/plugins/ustx/options.py:51
-msgid "The way to handle english polysyllabic words"
-msgstr "处理英文多音节单词的方式"
 
 #: ../libresvip/plugins/vog/options.py:15
 msgid "Please enter the singer's English name."
