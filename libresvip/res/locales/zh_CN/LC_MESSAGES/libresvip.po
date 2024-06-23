@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-23 17:06+0800\n"
-"PO-Revision-Date: 2024-06-23 09:28\n"
+"PO-Revision-Date: 2024-06-23 09:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "MIME-Version: 1.0\n"
@@ -2078,7 +2078,7 @@ msgstr "处理英文多音节单词的方式"
 #: ../libresvip/plugins/ustx/options.py:32
 #: ../libresvip/plugins/ustx/options.py:52
 msgid "Compatibility with ARPAsing-series Phonemizer"
-msgstr "与 ARPAsing系列音素器兼容"
+msgstr "与 ARPAsing系列音素器的兼容性"
 
 #: ../libresvip/plugins/ustx/options.py:36
 msgid "Breath lyrics"
