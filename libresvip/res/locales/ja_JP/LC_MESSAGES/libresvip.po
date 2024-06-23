@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: libresvip\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-06-23 17:06+0800\n"
-"PO-Revision-Date: 2024-06-23 09:12\n"
+"PO-Revision-Date: 2024-06-23 09:28\n"
 "Last-Translator: \n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -2049,6 +2049,7 @@ msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr ""
 
 #: ../libresvip/plugins/ustx/options.py:31
+#: ../libresvip/plugins/ustx/options.py:51
 msgid "The way to handle english multisyllabic words"
 msgstr ""
 
@@ -2071,10 +2072,6 @@ msgstr ""
 
 #: ../libresvip/plugins/ustx/options.py:44
 msgid "Special lyrics that will be ignored, each separated by a space"
-msgstr ""
-
-#: ../libresvip/plugins/ustx/options.py:51
-msgid "The way to handle english polysyllabic words"
 msgstr ""
 
 #: ../libresvip/plugins/vog/options.py:15
