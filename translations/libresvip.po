@@ -2223,6 +2223,7 @@ msgid "Compatible with ARPAsing-series Phonemizers"
 msgstr ""
 
 #: ../libresvip/plugins/ustx/options.py:31
+#: ../libresvip/plugins/ustx/options.py:51
 msgid "The way to handle english multisyllabic words"
 msgstr ""
 
@@ -2247,10 +2248,6 @@ msgstr ""
 
 #: ../libresvip/plugins/ustx/options.py:44
 msgid "Special lyrics that will be ignored, each separated by a space"
-msgstr ""
-
-#: ../libresvip/plugins/ustx/options.py:51
-msgid "The way to handle english polysyllabic words"
 msgstr ""
 
 #: ../libresvip/plugins/vog/options.py:15
