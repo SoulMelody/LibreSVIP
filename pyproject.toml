@@ -98,7 +98,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 code_gen = [
   "datamodel-code-generator>=0.25.7",
   "gapic-generator>=1.18.1",
-  "xsdata[cli]>=24.5",
+  "xsdata[cli]>=24.6",
 ]
 i18n = ["translate-toolkit>=3.13.1", "babel>=2.15.0"]
 linting = [
