@@ -104,7 +104,7 @@ i18n = ["translate-toolkit>=3.13.1", "babel>=2.15.0"]
 linting = [
   "pre-commit>=3.7.1",
   "ruff>=0.4.10",
-  "mypy>=1.10.0",
+  "mypy>=1.10.1",
   "sourcery>=1.19.0",
   "proto-plus-stubs>=0.7.0",
   "types-lxml>=2024.4.14",
