@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from math import ceil
 
+from libresvip.core.exceptions import NoTrackError
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import DsItem
 from .models.ds_project import DsProjectModel
@@ -29,7 +31,8 @@ class DiffSingerGenerator:
         else:
             singing_track = project.track_list[self.options.track_index]
         if singing_track is None:
-            raise
+            msg = _("No singing track found")
+            raise NoTrackError(msg)
         os_notes = singing_track.note_list
         ds_project = DsProjectModel()
         ds_project.note_list = encode_notes(os_notes, synchronizer, self.trailing_space)

@@ -193,7 +193,7 @@ class VsqxParser:
                         if seq_attr.seq_id == "vibRate":
                             phase = 0
                             for prev_elem, elem in more_itertools.windowed(
-                                seq_attr.elem + [None], 2
+                                [*seq_attr.elem, None], 2
                             ):
                                 prev_start = start_secs + duration_secs * prev_elem.pos_nrm / 65536
                                 omega = prev_elem.elv / 2
@@ -220,7 +220,7 @@ class VsqxParser:
                                 phase += (prev_end - prev_start) * omega
                         elif seq_attr.seq_id == "vibDep":
                             for prev_elem, elem in more_itertools.windowed(
-                                seq_attr.elem + [None], 2
+                                [*seq_attr.elem, None], 2
                             ):
                                 prev_start = start_secs + duration_secs * prev_elem.pos_nrm / 65536
                                 if elem is None:

@@ -83,7 +83,7 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.name}\t{{}}{str(plugin.version)}\t{{}}{plugin.author}".format(
+        f"{{}}{plugin.name}\t{{}}{plugin.version!s}\t{{}}{plugin.author}".format(
             _("Plugin: "),
             _("Version: "),
             _("Author: "),

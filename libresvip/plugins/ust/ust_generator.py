@@ -88,7 +88,7 @@ class USTGenerator:
                 if mode2_pitch.start is not None:
                     utau_note.pbs = [mode2_pitch.start]
                 if mode2_pitch.widths:
-                    utau_note.pbw = [1] + mode2_pitch.widths  # type: ignore[assignment]
+                    utau_note.pbw = [1, *mode2_pitch.widths]
                 if mode2_pitch.start_shift is not None:
                     utau_note.pby = [mode2_pitch.start_shift]
                 if mode2_pitch.shifts:

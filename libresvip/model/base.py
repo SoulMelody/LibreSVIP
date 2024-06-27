@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import abc
+import itertools
 import sys
 from types import SimpleNamespace
 from typing import (
@@ -274,7 +275,12 @@ class Project(BaseModel):
             msg = "All projects must have the same time signatures and tempos"
             raise ValueError(msg)
         return sample_project.model_copy(
-            update={"track_list": sum((project.track_list for project in projects), [])}, deep=True
+            update={
+                "track_list": [
+                    *itertools.chain.from_iterable(project.track_list for project in projects)
+                ]
+            },
+            deep=True,
         )
 
     def split_tracks(self, max_track_count: int) -> list[Project]:

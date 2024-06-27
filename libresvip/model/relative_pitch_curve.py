@@ -71,7 +71,6 @@ class RelativePitchCurve:
         self,
         points: list[Point],
         note_list: list[Note],
-        border_append_radius: int = 0,
         to_absolute: bool = False,
     ) -> list[Point]:
         converted_data: list[Point] = []
@@ -128,44 +127,11 @@ class RelativePitchCurve:
                 converted_data.insert(0, Point.start_point())
             if self.upper_bound == portion.inf:
                 converted_data.extend((converted_data[-1]._replace(y=-100), Point.end_point()))
-        if not to_absolute:
-            return self.append_points_at_borders(
-                converted_data, note_list, radius=border_append_radius
-            )
         return converted_data
 
     def from_absolute(
-        self, points: list[Point], notes: list[Note], border_append_radius: int = 0
+        self,
+        points: list[Point],
+        notes: list[Note],
     ) -> list[Point]:
-        return self._convert_relativity(points, notes, border_append_radius, to_absolute=False)
-
-    def append_points_at_borders(
-        self, data: list[Point], notes: list[Note], radius: int
-    ) -> list[Point]:
-        if radius <= 0:
-            return data
-        result = data.copy()
-        for last_note, this_note in more_itertools.windowed(notes, 2):
-            if this_note is None or this_note.start_pos - last_note.end_pos > radius:
-                continue
-            if (
-                first_point_at_this_note_index := next(
-                    (j for j, point in enumerate(result) if point.x >= this_note.start_pos),
-                    None,
-                )
-            ) is not None:
-                first_point_at_this_note = result[first_point_at_this_note_index]
-                if first_point_at_this_note.x != this_note.start_pos:
-                    # if first_point_at_this_note.x > this_note.start_pos + radius
-                    post_value = first_point_at_this_note.y
-                    new_point_tick = this_note.start_pos - radius
-                    new_point = Point(x=new_point_tick, y=post_value)
-                    result.insert(first_point_at_this_note_index, new_point)
-                    result = [
-                        point
-                        for point in result
-                        if not (
-                            new_point_tick <= point.x < this_note.start_pos and point != new_point
-                        )
-                    ]
-        return result
+        return self._convert_relativity(points, notes, to_absolute=False)

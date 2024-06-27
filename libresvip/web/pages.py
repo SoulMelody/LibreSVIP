@@ -653,7 +653,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 ui.button(
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
-                                        f"navigator.clipboard.writeText({repr(info.error)})",
+                                        f"navigator.clipboard.writeText({info.error!r})",
                                     )
                                     and ui.notify(_("Copied"), type="info"),
                                 )
@@ -683,7 +683,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 ui.button(
                                     _("Copy to clipboard"),
                                     on_click=lambda: ui.run_javascript(
-                                        f"navigator.clipboard.writeText({repr(info.warning)})",
+                                        f"navigator.clipboard.writeText({info.warning!r})",
                                     )
                                     and ui.notify(_("Copied"), type="info"),
                                 )

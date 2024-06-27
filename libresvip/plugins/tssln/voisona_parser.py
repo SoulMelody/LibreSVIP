@@ -1,4 +1,5 @@
 import dataclasses
+import itertools
 import operator
 from typing import Optional
 
@@ -143,14 +144,14 @@ class VoiSonaParser:
         if track.plugin_data.state_information.parameter is not None:
             for parameter in track.plugin_data.state_information.parameter:
                 if parameter.log_f0 is not None:
-                    pitch_data_nodes: list[VoiSonaPointData] = sum(
-                        (curve.data for curve in parameter.log_f0), []
+                    pitch_data_nodes = itertools.chain.from_iterable(
+                        curve.data for curve in parameter.log_f0
                     )
-                    vibrato_amplitude_nodes: list[VoiSonaPointData] = sum(
-                        (curve.data for curve in parameter.vib_amp or []), []
+                    vibrato_amplitude_nodes = itertools.chain.from_iterable(
+                        curve.data for curve in parameter.vib_amp or []
                     )
-                    vibrato_frequency_nodes: list[VoiSonaPointData] = sum(
-                        (curve.data for curve in parameter.vib_frq or []), []
+                    vibrato_frequency_nodes = itertools.chain.from_iterable(
+                        curve.data for curve in parameter.vib_frq or []
                     )
                     pitch_datas = [
                         pitch_data

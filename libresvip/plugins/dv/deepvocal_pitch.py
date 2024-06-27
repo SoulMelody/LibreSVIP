@@ -132,7 +132,7 @@ def apply_default_pitch(
 
 def get_base_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict[int, int]:
     result = {}
-    for last_note, this_note in zip([None] + notes, notes + [None]):
+    for last_note, this_note in zip([None, *notes], [*notes, None]):
         portamento = []
         if last_note is not None and this_note is not None:
             portamento = get_portamento(last_note, transformer, this_note)

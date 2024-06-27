@@ -14,25 +14,25 @@ core_resolvers = {
     "1.2": [
         {
             "tag": "tag:yaml.org,2002:bool",
-            "regexp": re.compile(r"^(?:|true|True|TRUE|false|False|FALSE)$", re.X),
+            "regexp": re.compile(r"^(?:|true|True|TRUE|false|False|FALSE)$", re.VERBOSE),
             "start_chars": list("tTfF"),
         },
         {
             "tag": "tag:yaml.org,2002:int",
-            "regexp": re.compile(r"^(?:|0o[0-7]+|[-+]?(?:[0-9]+)|0x[0-9a-fA-F]+)$", re.X),
+            "regexp": re.compile(r"^(?:|0o[0-7]+|[-+]?(?:[0-9]+)|0x[0-9a-fA-F]+)$", re.VERBOSE),
             "start_chars": list("-+0123456789"),
         },
         {
             "tag": "tag:yaml.org,2002:float",
             "regexp": re.compile(
                 r"^(?:[-+]?(?:\.[0-9]+|[0-9]+(\.[0-9]*)?)(?:[eE][-+]?[0-9]+)?|[-+]?\.(?:inf|Inf|INF)|\.(?:nan|NaN|NAN))$",
-                re.X,
+                re.VERBOSE,
             ),
             "start_chars": list("-+0123456789."),
         },
         {
             "tag": "tag:yaml.org,2002:null",
-            "regexp": re.compile(r"^(?:~||null|Null|NULL)$", re.X),
+            "regexp": re.compile(r"^(?:~||null|Null|NULL)$", re.VERBOSE),
             "start_chars": ["~", "n", "N", ""],
         },
     ],

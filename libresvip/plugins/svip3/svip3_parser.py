@@ -1,4 +1,5 @@
 import dataclasses
+import itertools
 import operator
 from collections.abc import MutableSequence
 from typing import Optional
@@ -200,7 +201,7 @@ class Svip3Parser:
 
     @staticmethod
     def merge_param_curves(curves: list[ParamCurve]) -> list[Point]:
-        return sum((curve.points.root for curve in curves), [])
+        return [*itertools.chain.from_iterable(curve.points.root for curve in curves)]
 
     @staticmethod
     def get_visible_range(pattern: Svip3SingingPattern) -> tuple[int, int]:

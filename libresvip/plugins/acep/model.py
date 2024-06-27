@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import math
 import statistics
 from enum import Enum
@@ -141,7 +142,7 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def z_score_normalize(self, d: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        points = sum((curve.values for curve in self.root), [])
+        points = [*itertools.chain.from_iterable(curve.values for curve in self.root)]
         miu = statistics.mean(points)
         sigma = statistics.stdev(points)
         return type(self)(
@@ -151,7 +152,9 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def minmax_normalize(self, r: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        min_, max_ = minmax(sum((curve.values for curve in self.root), []), default=(0, 0))
+        min_, max_ = minmax(
+            itertools.chain.from_iterable(curve.values for curve in self.root), default=(0, 0)
+        )
         return type(self)(
             root=[
                 curve.transform(lambda x: r * (2 * (x - min_) / (max_ - min_) - 1) + b)

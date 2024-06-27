@@ -155,9 +155,11 @@ select = [
   "PIE",   # assign and return
   "PGH",   # pygrep-hooks
   "PLC",   # pylint convention
+  "PLE",   # pylint errors
   "PT",    # pytest-style
   "PTH",   # pathlib
   "PYI",   # stubs
+  "RUF",   # ruff
   "SIM",   # simplify
   "T10",   # debugger
   "T20",   # print
@@ -173,6 +175,8 @@ ignore = [
   "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
   "UP007",  # Use `X | Y` for type annotations
+  "RUF001", # String contains ambiguous symbol
+  "RUF009", # Do not perform function call in dataclass defaults
 ]
 
 [tool.ruff.lint.isort]

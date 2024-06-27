@@ -33,4 +33,4 @@ qInstallMessageHandler(qt_log_handler)
 if platform.python_implementation() == "CPython":
     __all__ += ["Notifier"]
 
-    from .notifier import Notifier  # noqa: F401
+    from .notifier import Notifier

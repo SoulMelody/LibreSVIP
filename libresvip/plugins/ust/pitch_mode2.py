@@ -210,7 +210,7 @@ def fix_points_at_last_note(
     ]
     last_point = fixed[-1] if fixed else None
     return (
-        fixed + [Point(x=this_note.start_pos, y=0)]
+        [*fixed, Point(x=this_note.start_pos, y=0)]
         if last_point is not None and last_point.x < this_note.start_pos
         else fixed
     )
@@ -221,7 +221,7 @@ def append_start_point(pitch_data: list[Point], this_note: Note) -> list[Point]:
     if first_point is None:
         return [Point(x=this_note.start_pos, y=0)]
     elif first_point.x > this_note.start_pos:
-        return [Point(x=this_note.start_pos, y=first_point.y)] + pitch_data
+        return [Point(x=this_note.start_pos, y=first_point.y), *pitch_data]
     else:
         return pitch_data
 
@@ -231,7 +231,7 @@ def append_end_point(pitch_data: list[Point], this_note: Note) -> list[Point]:
     if last_point is None:
         return [Point(x=this_note.end_pos, y=0)]
     elif last_point.x < this_note.end_pos:
-        return pitch_data + [Point(this_note.end_pos, last_point.y)]
+        return [*pitch_data, Point(this_note.end_pos, last_point.y)]
     else:
         return pitch_data
 

@@ -1,3 +1,4 @@
+import itertools
 from functools import cached_property
 from typing import Optional
 
@@ -6206,7 +6207,7 @@ class MediaInfo(BaseModel):
 
     @cached_property
     def tracks(self) -> list[Track]:
-        return sum((media.track for media in self.media), [])
+        return [*itertools.chain.from_iterable(media.track for media in self.media)]
 
     def _tracks(self, track_type: str) -> list[Track]:
         return [track for track in self.tracks if track.track_type == track_type]

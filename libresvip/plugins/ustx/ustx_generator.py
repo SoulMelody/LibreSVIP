@@ -141,7 +141,7 @@ class UstxGenerator:
             snap_first = last_note_end_pos >= os_note.start_pos
             y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
             lyric = lyric_util.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
-            if os_note.pronunciation:  # 如果有发音，则用发音
+            if os_note.pronunciation:  # 如果有发音, 则用发音
                 lyric = os_note.pronunciation
             if lyric == "-":  # OpenUTAU中的连音符为+
                 lyric = "+"
@@ -212,10 +212,10 @@ class UstxGenerator:
         for i in range(len(base_pitch)):
             time = (
                 i * pitch_interval + pitch_start
-            )  # 当前openutau采样点的时间，以tick为单位，从0开始
+            )  # 当前openutau采样点的时间, 以tick为单位, 从0开始
             while os_pitch[os_pitch_pointer + 1][0] <= time + first_bar_length:
                 os_pitch_pointer += 1
-            # 此时，os_pitch_pointer对应的位置恰好在time之前(或等于)，区间[os_pitch_pointer,os_pitch_pointer+1)包含time
+            # 此时, os_pitch_pointer对应的位置恰好在time之前(或等于), 区间[os_pitch_pointer,os_pitch_pointer+1)包含time
             if os_pitch[os_pitch_pointer][1] < 0:  # 间断点
                 pitd.xs.append(time)
                 pitd.ys.append(0)
