@@ -4,8 +4,8 @@
 [metadata]
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
-lock_version = "4.4.1"
-content_hash = "sha256:158e1c244d7a3f3a0381bb0769704d4f327ce2bcba13f7e78bfc87086847a335"
+lock_version = "4.4.2"
+content_hash = "sha256:f7a07d5249e83f50f13e24e582687765cb46de58ef8349f21b80e85257d01489"
 
 [[package]]
 name = "aiofiles"
@@ -1832,7 +1832,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.27"
+version = "1.4.28"
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
@@ -1857,24 +1857,24 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.27-py3-none-any.whl", hash = "sha256:515b8b6000ee349ee74ac61c6a57266fb7f98a5ff46cabbda6c07462f5a9c00e"},
-    {file = "nicegui-1.4.27.tar.gz", hash = "sha256:92d9442462c849450be96414bed5a8006206968ce2e51c1a4d0d398556dfde5a"},
+    {file = "nicegui-1.4.28-py3-none-any.whl", hash = "sha256:1982c60b35d7e3b1279f182329be96dfdc3688c4874637a7d47d14252c07288d"},
+    {file = "nicegui-1.4.28.tar.gz", hash = "sha256:21df8aa7a3b927fa42d8e63aff46b25d58856d37b12b0a86f662ea9227b0cf36"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.27"
+version = "1.4.28"
 extras = ["native"]
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
 dependencies = [
-    "nicegui==1.4.27",
+    "nicegui==1.4.28",
     "pywebview<6.0.0,>=5.0.1",
 ]
 files = [
-    {file = "nicegui-1.4.27-py3-none-any.whl", hash = "sha256:515b8b6000ee349ee74ac61c6a57266fb7f98a5ff46cabbda6c07462f5a9c00e"},
-    {file = "nicegui-1.4.27.tar.gz", hash = "sha256:92d9442462c849450be96414bed5a8006206968ce2e51c1a4d0d398556dfde5a"},
+    {file = "nicegui-1.4.28-py3-none-any.whl", hash = "sha256:1982c60b35d7e3b1279f182329be96dfdc3688c4874637a7d47d14252c07288d"},
+    {file = "nicegui-1.4.28.tar.gz", hash = "sha256:21df8aa7a3b927fa42d8e63aff46b25d58856d37b12b0a86f662ea9227b0cf36"},
 ]
 
 [[package]]
