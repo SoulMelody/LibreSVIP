@@ -2,7 +2,7 @@
 
 import os
 import pathlib
-from typing import Optional
+from typing import ClassVar, Optional
 
 from loguru import logger
 from setuptools import Command
@@ -15,7 +15,7 @@ from setuptools._distutils.util import get_platform
 class BdistPortable(Command):
     description = 'create a "portable" built distribution'
 
-    user_options = [
+    user_options: ClassVar[list[tuple[str, str, str]]] = [
         ("bdist-dir=", "d", "temporary directory for creating the distribution"),
         (
             "plat-name=",
@@ -51,9 +51,9 @@ class BdistPortable(Command):
         ),
     ]
 
-    boolean_options = ["keep-temp", "skip-build", "relative"]
+    boolean_options: ClassVar[list[str]] = ["keep-temp", "skip-build", "relative"]
 
-    default_format = {"posix": "gztar", "nt": "zip"}
+    default_format: ClassVar[dict[str, str]] = {"posix": "gztar", "nt": "zip"}
 
     def initialize_options(self) -> None:
         self.bdist_dir: Optional[pathlib.Path] = None
@@ -113,7 +113,7 @@ class BdistPortable(Command):
         elif self.distribution.has_ext_modules() and (
             install.install_base != install.install_platbase
         ):
-            msg = f"can't make a portable built distribution where base and platbase are different ({repr(install.install_base)}, {repr(install.install_platbase)})"
+            msg = f"can't make a portable built distribution where base and platbase are different ({install.install_base!r}, {install.install_platbase!r})"
             raise DistutilsPlatformError(msg)
         else:
             archive_root = self.bdist_dir / ensure_relative(install.install_base)
