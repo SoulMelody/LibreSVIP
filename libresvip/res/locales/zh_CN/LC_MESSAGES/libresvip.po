@@ -10,11 +10,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-28 09:56\n"
+"PO-Revision-Date: 2024-06-28 10:28\n"
 
 msgctxt "converter_page"
 msgid "Converter"
-msgstr ""
+msgstr "转换器"
 
 msgctxt "converter_page"
 msgid "Select File Formats"
@@ -22,7 +22,7 @@ msgstr "格式选择"
 
 msgctxt "converter_page"
 msgid "Input Format: "
-msgstr ""
+msgstr "导入工程格式： "
 
 msgctxt "converter_page"
 msgid "View Detail Information"
@@ -30,11 +30,11 @@ msgstr "查看详细信息"
 
 msgctxt "converter_page"
 msgid "Auto-Detect Input File Type"
-msgstr ""
+msgstr "自动检测导入格式"
 
 msgctxt "converter_page"
 msgid "Reset Tasks When Changing Input"
-msgstr ""
+msgstr "切换格式时重置列表"
 
 msgctxt "converter_page"
 msgid "Swap Input and Output"
@@ -42,23 +42,23 @@ msgstr "上下交换"
 
 msgctxt "converter_page"
 msgid "Output Format: "
-msgstr ""
+msgstr "导出工程格式： "
 
 msgctxt "converter_page"
 msgid "Set Output File Extension Automatically"
-msgstr ""
+msgstr "自动设置后缀名"
 
 msgctxt "converter_page"
 msgid "Direct Mode"
-msgstr ""
+msgstr "常规模式"
 
 msgctxt "converter_page"
 msgid "Singing Track Merging Mode"
-msgstr ""
+msgstr "演唱轨合并模式"
 
 msgctxt "converter_page"
 msgid "Singing Track Grouping Mode"
-msgstr ""
+msgstr "演唱轨分组模式"
 
 msgctxt "converter_page"
 msgid "Advanced Settings"
@@ -74,11 +74,11 @@ msgstr "输出选项"
 
 msgctxt "converter_page"
 msgid "Task List"
-msgstr ""
+msgstr "任务列表"
 
 msgctxt "converter_page"
 msgid "Drag and drop files here"
-msgstr ""
+msgstr "拖拽或单击导入文件"
 
 msgctxt "converter_page"
 msgid "Conversion Mode:"
@@ -94,7 +94,7 @@ msgstr "清空所有导入"
 
 msgctxt "converter_page"
 msgid "Reset Default Extension"
-msgstr ""
+msgstr "恢复默认命名"
 
 msgctxt "converter_page"
 msgid "Remove Tasks With Other Extensions"
@@ -114,19 +114,19 @@ msgstr "[ 导出为 "
 
 msgctxt "converter_page"
 msgid "Output Settings"
-msgstr ""
+msgstr "输出设置"
 
 msgctxt "converter_page"
 msgid "Choose Output Folder"
-msgstr ""
+msgstr "选择输出文件夹"
 
 msgctxt "converter_page"
 msgid "Output Folder"
-msgstr ""
+msgstr "输出文件夹"
 
 msgctxt "converter_page"
 msgid "Deal with Conflicts"
-msgstr ""
+msgstr "遇到同名文件时"
 
 msgctxt "converter_page"
 msgid "Export"
@@ -138,43 +138,43 @@ msgstr "开始转换"
 
 msgctxt "converter_page"
 msgid "Converting"
-msgstr ""
+msgstr "转换中"
 
 msgctxt "converter_page"
 msgid "Open Output Folder When Done"
-msgstr ""
+msgstr "完成后打开输出路径"
 
 msgctxt "converter_page"
 msgid "Overwrite"
-msgstr ""
+msgstr "覆盖"
 
 msgctxt "converter_page"
 msgid "Skip"
-msgstr ""
+msgstr "跳过"
 
 msgctxt "converter_page"
 msgid "Prompt"
-msgstr ""
+msgstr "询问"
 
 msgctxt "dialogs"
 msgid "All Files (*.*)"
-msgstr ""
+msgstr "所有文件 (*.*)"
 
 msgctxt "dialogs"
 msgid "Custom folder"
-msgstr ""
+msgstr "自定义路径"
 
 msgctxt "dialogs"
 msgid "Folder Presets"
-msgstr ""
+msgstr "文件夹预设"
 
 msgctxt "dialogs"
 msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
-msgstr ""
+msgstr "你可以在开头插入 \".\" 来代表源路径，例如 \"./subfolder\""
 
 msgctxt "dialogs"
 msgid "Click to add a folder preset"
-msgstr ""
+msgstr "点击添加文件夹预设"
 
 msgctxt "dialogs"
 msgid "About"
@@ -218,59 +218,59 @@ msgstr "简介"
 
 msgctxt "settings_dialog"
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 msgctxt "settings_dialog"
 msgid "Auto-Detect Input File Type"
-msgstr ""
+msgstr "自动检测导入格式"
 
 msgctxt "settings_dialog"
 msgid "Reset Task List When Changing Input File Type"
-msgstr ""
+msgstr "切换格式时重置列表"
 
 msgctxt "settings_dialog"
 msgid "Set Output File Extension Automatically"
-msgstr ""
+msgstr "自动设置后缀名"
 
 msgctxt "settings_dialog"
 msgid "Multi-Threaded Conversion"
-msgstr ""
+msgstr "启用多线程转换"
 
 msgctxt "settings_dialog"
 msgid "Output Settings"
-msgstr ""
+msgstr "输出设置"
 
 msgctxt "settings_dialog"
 msgid "Deal with Conflicts"
-msgstr ""
+msgstr "遇到同名文件时"
 
 msgctxt "settings_dialog"
 msgid "Open Output Folder When Done"
-msgstr ""
+msgstr "完成后打开输出路径"
 
 msgctxt "settings_dialog"
 msgid "Same as Source"
-msgstr ""
+msgstr "源路径"
 
 msgctxt "settings_dialog"
 msgid "Desktop"
-msgstr ""
+msgstr "桌面"
 
 msgctxt "settings_dialog"
 msgid "Preset Folder"
-msgstr ""
+msgstr "文件夹预设"
 
 msgctxt "settings_dialog"
 msgid "Custom (Browse ...)"
-msgstr ""
+msgstr "自定义 (浏览选择)"
 
 msgctxt "settings_dialog"
 msgid "Manage Folders Presets"
-msgstr ""
+msgstr "管理文件夹预设"
 
 msgctxt "settings_dialog"
 msgid "Preset"
-msgstr ""
+msgstr "预设"
 
 msgctxt "settings_dialog"
 msgid "Remove current preset"
@@ -306,27 +306,27 @@ msgstr "拼音文字模式：适用于拼音文字\n"
 
 msgctxt "settings_dialog"
 msgid "Format Provider Plugins"
-msgstr ""
+msgstr "格式支持插件"
 
 msgctxt "settings_dialog"
 msgid "Overwrite"
-msgstr ""
+msgstr "覆盖"
 
 msgctxt "settings_dialog"
 msgid "Skip"
-msgstr ""
+msgstr "跳过"
 
 msgctxt "settings_dialog"
 msgid "Prompt"
-msgstr ""
+msgstr "询问"
 
 msgctxt "settings_dialog"
 msgid "Plugin is enabled or not (Click to enter editing mode)"
-msgstr ""
+msgstr "是否启用插件(点击进入编辑模式)"
 
 msgctxt "settings_dialog"
 msgid "Auto Check for Updates"
-msgstr ""
+msgstr "自动检查更新"
 
 msgctxt "settings_dialog"
 msgid "Conversion Settings"
@@ -334,39 +334,39 @@ msgstr "转换设置"
 
 msgctxt "settings_dialog"
 msgid "Basic Settings"
-msgstr ""
+msgstr "基础设置"
 
 msgctxt "settings_dialog"
 msgid "Save Path Settings"
-msgstr ""
+msgstr "导出路径设置"
 
 msgctxt "settings_dialog"
 msgid "Lyric Replacement Rules"
-msgstr ""
+msgstr "歌词替换规则"
 
 msgctxt "settings_dialog"
 msgid "Updates Settings"
-msgstr ""
+msgstr "更新设置"
 
 msgctxt "task_row"
 msgid "File successfully converted"
-msgstr ""
+msgstr "此文件已成功转换"
 
 msgctxt "task_row"
 msgid "Open"
-msgstr ""
+msgstr "打开文件"
 
 msgctxt "task_row"
 msgid "Open folder"
-msgstr ""
+msgstr "打开目录"
 
 msgctxt "task_row"
 msgid "File %1 already exists. Overwrite?"
-msgstr ""
+msgstr "文件 %1 已存在，是否覆盖？"
 
 msgctxt "task_row"
 msgid "File skipped due to conflict"
-msgstr ""
+msgstr "已跳过"
 
 msgctxt "task_row"
 msgid "Remove"
@@ -374,15 +374,15 @@ msgstr "移除"
 
 msgctxt "task_row"
 msgid "This project file may contain abnormal or illegal data"
-msgstr ""
+msgstr "此工程文件可能包含异常或非法数据"
 
 msgctxt "task_row"
 msgid "File failed to convert, below is the error message:"
-msgstr ""
+msgstr "此文件转换失败，错误信息如下："
 
 msgctxt "task_row"
 msgid "Copy error message"
-msgstr ""
+msgstr "复制错误信息"
 
 msgctxt "task_row"
 msgid "Copied"
