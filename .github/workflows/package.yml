@@ -6,6 +6,7 @@ on:
 
 env:
   PYINSTALLER_VERSION: "6.8.0"
+  LIBMEDIAINFO_VERSION: "24.06"
 
 jobs:
   make-outputs:
@@ -329,7 +330,7 @@ jobs:
           python -m ensurepip --upgrade
           python -m pip install pillow uv
           python -m uv pip install -r requirements.txt
-          curl -L https://mediaarea.net/download/binary/libmediainfo0/24.04/MediaInfo_DLL_24.04_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
+          curl -L https://mediaarea.net/download/binary/libmediainfo0/${LIBMEDIAINFO_VERSION}/MediaInfo_DLL_${LIBMEDIAINFO_VERSION}_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
           tar xvf libmediainfo.tar.bz2
           mv MediaInfoLib/libmediainfo.0.dylib ../.venv/lib/python3.12/site-packages/pymediainfo/
           python -m pip install ../dist/*.whl --no-deps
