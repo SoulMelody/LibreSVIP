@@ -65,6 +65,7 @@ from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names
 from libresvip.utils.translation import get_translation, lazy_translation
+from libresvip.utils.translation import gettext_lazy as _
 from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:
@@ -239,11 +240,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         context.client.on_disconnect(save_settings)
 
     translation = get_translation()
-
-    def _(message: str) -> str:
-        if message.strip():
-            return translation.gettext(message)
-        return message
+    lazy_translation.set(translation)
 
     def plugin_info(attr_name: str) -> None:
         attr = getattr(selected_formats, attr_name)
