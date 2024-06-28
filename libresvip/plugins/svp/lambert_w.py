@@ -39,5 +39,5 @@ class LambertW:
         fx = x * math.exp(x)
         if (delta := fx - y) == 0:
             return False
-        delta_bits = math.log(abs(y / delta), 2)
+        delta_bits = math.log2(abs(y / delta))
         return delta_bits < 42

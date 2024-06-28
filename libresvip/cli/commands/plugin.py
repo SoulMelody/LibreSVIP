@@ -8,9 +8,9 @@ from rich.table import Table
 
 from libresvip.core.config import save_settings, settings
 from libresvip.extension.manager import plugin_manager
-from libresvip.extension.meta_info import LibreSvipPluginInfo
+from libresvip.extension.meta_info import FormatProviderPluginInfo
 from libresvip.model.base import BaseComplexModel
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 app = typer.Typer()
 
@@ -52,7 +52,7 @@ def detail(plugin_name: str) -> None:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
-def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
+def print_plugin_summary(plugins: ValuesView[FormatProviderPluginInfo]) -> None:
     console = Console(color_system="256")
     if not plugins:
         console.print(_("No plugins are currently installed."))
@@ -65,23 +65,25 @@ def print_plugin_summary(plugins: ValuesView[LibreSvipPluginInfo]) -> None:
     table.add_column(_("Identifier"), justify="left", style="cyan")
     table.add_column(_("Applicable file format"), justify="left", style="cyan")
     for num, plugin in enumerate(plugins):
-        format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
+        format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
         table.add_row(
             f"[{num + 1}] ",
             plugin.name + margin,
             str(plugin.version) + margin,
             plugin.author + margin,
             plugin.suffix + margin,
-            _(format_desc) + margin,
+            format_desc + margin,
         )
     console.print(table)
 
 
-def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
+def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
+    if plugin.plugin_object is None:
+        return
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.name}\t{{}}{str(plugin.version)}\t{{}}{plugin.author}".format(
+        f"{{}}{plugin.name}\t{{}}{plugin.version!s}\t{{}}{plugin.author}".format(
             _("Plugin: "),
             _("Version: "),
             _("Author: "),
@@ -90,20 +92,14 @@ def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
     if plugin.website:
         typer.echo("\n" + _("Website: ") + plugin.website)
     format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
-    typer.echo(
-        "\n"
-        + "{} {}.".format(
-            _("This plugin is applicable to"),
-            _(format_desc),
-        )
-    )
+    typer.echo("\n" + f'{_("This plugin is applicable to")} {_(format_desc)}.')
     typer.echo(
         _(
             "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
         ).format(plugin.suffix.lower(), plugin.suffix.lower())
     )
     if plugin.description:
-        typer.echo("\n{}\n{}".format(_("Description: "), _(plugin.description)))
+        typer.echo(f'\n{_("Description: ")}\n{_(plugin.description)}')
     op_arr = [_("input"), _("output")]
     options_arr = [
         get_type_hints(plugin.plugin_object.load).get("options", None),
@@ -117,11 +113,7 @@ def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
             if issubclass(field_info.annotation, (bool, int, float, str, enum.Enum)):
                 typer.echo(
                     "\n  "
-                    + "{} = {}    {}".format(
-                        _(field_info.title),
-                        field_info.annotation.__name__,
-                        _(field_info.description),
-                    )
+                    + f"{_(field_info.title)} = {field_info.annotation.__name__}    {_(field_info.description)}"
                 )
                 if field_info.default is not None:
                     typer.echo(f"\t{{}}{field_info.default}".format(_("Default: ")))
@@ -137,11 +129,7 @@ def print_plugin_details(plugin: LibreSvipPluginInfo) -> None:
             elif issubclass(field_info.annotation, BaseComplexModel):
                 typer.echo(
                     "\n  "
-                    + "{} = {}    {}".format(
-                        _(field_info.title),
-                        field_info.annotation.__name__,
-                        _(field_info.description),
-                    )
+                    + f"{_(field_info.title)} = {field_info.annotation.__name__}    {_(field_info.description)}"
                 )
                 typer.echo("  " + _("Available fields:"))
                 for field in field_info.annotation.model_fields.values():

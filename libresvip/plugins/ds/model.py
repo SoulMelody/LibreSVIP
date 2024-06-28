@@ -20,9 +20,9 @@ class DsItem(BaseModel):
     note_dur_seq: Optional[list[float]] = None
     note_slur: Optional[list[int]] = None
     is_slur_seq: Optional[list[int]] = None
-    ph_dur: list[float]
+    ph_dur: Optional[list[float]] = None
     ph_num: Optional[list[int]] = None
-    f0_timestep: float
+    f0_timestep: Optional[float] = None
     f0_seq: Optional[Union[str, list[float]]] = None
     input_type: Optional[Literal["phoneme"]] = None
     offset: Union[str, float]

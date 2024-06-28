@@ -1,4 +1,6 @@
 import dataclasses
+import itertools
+from typing import Optional
 
 import more_itertools
 from drawsvg import Line, Lines, Rectangle, Text
@@ -110,7 +112,7 @@ text {{
     def draw_text(
         self,
         position: TextPositionOption,
-        text: str,
+        text: Optional[str],
         parameters: NotePositionParameters,
         is_phoneme: bool,
     ) -> None:
@@ -153,12 +155,8 @@ text {{
                 polyline_element = Lines(
                     start_point[0],
                     start_point[1],
-                    *sum(
-                        (
-                            list(self.coordinate_helper.get_pitch_point(p))
-                            for p in self.pitch_points_buf[1:]
-                        ),
-                        [],
+                    *itertools.chain.from_iterable(
+                        self.coordinate_helper.get_pitch_point(p) for p in self.pitch_points_buf[1:]
                     ),
                     class_="pitch",
                 )

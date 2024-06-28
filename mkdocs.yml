@@ -1,13 +1,18 @@
 site_name: LibreSVIP
 site_author: SoulMelody
-site_description: >-
-  一个通用的歌声合成工程文件转换器
+site_url: https://soulmelody.github.io/LibreSVIP/
+site_description: 一个通用的歌声合成工程文件转换器
+repo_name: SoulMelody/LibreSVIP
+repo_url: https://github.com/SoulMelody/LibreSVIP
+copyright: Copyright &copy; 2023 - 2024 SoulMelody
+
 theme:
   name: material
-  custom_dir: libresvip/res
+  custom_dir: docs/.overrides
   features:
     - navigation.footer
     - navigation.tabs
+  font: false
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -28,14 +33,29 @@ theme:
     repo: material/github
   favicon: libresvip.ico
   language: zh
-repo_name: SoulMelody/LibreSVIP
-repo_url: https://github.com/SoulMelody/LibreSVIP
+
+markdown_extensions:
+  - pymdownx.snippets
+  - tables
+
 nav:
+  - 快速开始:
+    - 简介: index.md
+    - 鸣谢: credits.md
+    - 开源协议: license.md
   - 开发者文档:
-      - 歌声合成工程格式一览: project_formats.md
+    - 环境搭建: setup.md
+    - 贡献代码: contributing.md
+    - 代码规范: coding_style.md
+    - 歌声合成工程格式一览: project_formats.md
+  - 常见问题:
+    - 常见问题: faq.md
+
 extra:
   social:
     - icon: material/github
       link: https://github.com/SoulMelody/LibreSVIP
     - icon: material/language-python
       link: https://pypi.org/project/libresvip/
+    - icon: material/translate
+      link: https://crowdin.com/project/libresvip

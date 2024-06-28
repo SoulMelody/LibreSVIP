@@ -1,6 +1,9 @@
-from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
+
+from xsdata_pydantic.fields import field
+
+from libresvip.model.base import BaseModel
 
 from ..enums import VocaloidLanguage
 
@@ -20,8 +23,7 @@ class ParameterNames(Enum):
     GWL = "W"
 
 
-@dataclass
-class Aux:
+class Aux(BaseModel):
     class Meta:
         name = "aux"
         namespace = VSQ4_NS
@@ -43,8 +45,7 @@ class Aux:
     )
 
 
-@dataclass
-class StylePlugin:
+class StylePlugin(BaseModel):
     class Meta:
         name = "sPlug"
         namespace = VSQ4_NS
@@ -75,8 +76,7 @@ class StylePlugin:
     )
 
 
-@dataclass
-class SeqAttr:
+class SeqAttr(BaseModel):
     class Meta:
         name = "seq"
         namespace = VSQ4_NS
@@ -98,8 +98,7 @@ class SeqAttr:
         },
     )
 
-    @dataclass
-    class Elem:
+    class Elem(BaseModel):
         pos_nrm: Optional[int] = field(
             default=None,
             metadata={
@@ -118,8 +117,7 @@ class SeqAttr:
         )
 
 
-@dataclass
-class Singer:
+class Singer(BaseModel):
     class Meta:
         name = "singer"
         namespace = VSQ4_NS
@@ -154,8 +152,7 @@ class Singer:
     )
 
 
-@dataclass
-class Tempo:
+class Tempo(BaseModel):
     class Meta:
         name = "tempo"
         namespace = VSQ4_NS
@@ -178,8 +175,7 @@ class Tempo:
     )
 
 
-@dataclass
-class TimeSig:
+class TimeSig(BaseModel):
     class Meta:
         name = "timeSig"
         namespace = VSQ4_NS
@@ -210,8 +206,7 @@ class TimeSig:
     )
 
 
-@dataclass
-class TypeParamAttr:
+class TypeParamAttr(BaseModel):
     class Meta:
         name = "typeParamAttr"
 
@@ -231,8 +226,7 @@ class TypeParamAttr:
     )
 
 
-@dataclass
-class TypePhonemes:
+class TypePhonemes(BaseModel):
     class Meta:
         name = "typePhonemes"
 
@@ -270,8 +264,7 @@ class TypeVstSdkversion(Enum):
     VALUE_3 = 3
 
 
-@dataclass
-class VVoiceParam:
+class VVoiceParam(BaseModel):
     class Meta:
         name = "vPrm"
         namespace = VSQ4_NS
@@ -323,8 +316,7 @@ class VVoiceParam:
     )
 
 
-@dataclass
-class VPrm2:
+class VPrm2(BaseModel):
     class Meta:
         name = "vPrm2"
         namespace = VSQ4_NS
@@ -385,21 +377,19 @@ class VPrm2:
     )
 
 
-@dataclass
-class MCtrl:
+class MCtrl(BaseModel):
     class Meta:
         name = "cc"
         namespace = VSQ4_NS
 
-    pos_tick: Optional[int] = field(
-        default=None,
+    pos_tick: int = field(
         metadata={
             "name": "t",
             "type": "Element",
             "required": True,
         },
     )
-    attr: Optional[TypeParamAttr] = field(
+    attr: TypeParamAttr = field(
         default_factory=TypeParamAttr,
         metadata={
             "name": "v",
@@ -409,8 +399,7 @@ class MCtrl:
     )
 
 
-@dataclass
-class MasterTrack:
+class MasterTrack(BaseModel):
     class Meta:
         name = "masterTrack"
         namespace = VSQ4_NS
@@ -437,7 +426,7 @@ class MasterTrack:
             "required": True,
         },
     )
-    pre_measure: Optional[int] = field(
+    pre_measure: int = field(
         default=1,
         metadata={
             "name": "preMeasure",
@@ -464,8 +453,7 @@ class MasterTrack:
     )
 
 
-@dataclass
-class NoteStyle:
+class NoteStyle(BaseModel):
     class Meta:
         name = "nStyle"
         namespace = VSQ4_NS
@@ -486,8 +474,7 @@ class NoteStyle:
     )
 
 
-@dataclass
-class PartStyle:
+class PartStyle(BaseModel):
     class Meta:
         name = "pStyle"
         namespace = VSQ4_NS
@@ -502,8 +489,7 @@ class PartStyle:
     )
 
 
-@dataclass
-class VstPlugin:
+class VstPlugin(BaseModel):
     class Meta:
         name = "plug"
         namespace = VSQ4_NS
@@ -573,8 +559,7 @@ class VstPlugin:
         },
     )
 
-    @dataclass
-    class VstParamVal:
+    class VstParamVal(BaseModel):
         val: list[int] = field(
             default_factory=list,
             metadata={
@@ -584,8 +569,7 @@ class VstPlugin:
         )
 
 
-@dataclass
-class VstPluginSr:
+class VstPluginSr(BaseModel):
     class Meta:
         name = "plugSR"
         namespace = VSQ4_NS
@@ -655,8 +639,7 @@ class VstPluginSr:
         },
     )
 
-    @dataclass
-    class VstParamVal:
+    class VstParamVal(BaseModel):
         val: list[int] = field(
             default_factory=list,
             metadata={
@@ -666,8 +649,7 @@ class VstPluginSr:
         )
 
 
-@dataclass
-class VVoice:
+class VVoice(BaseModel):
     class Meta:
         name = "vVoice"
         namespace = VSQ4_NS
@@ -733,8 +715,7 @@ class VVoice:
     )
 
 
-@dataclass
-class WavPart:
+class WavPart(BaseModel):
     class Meta:
         name = "wavPart"
         namespace = VSQ4_NS
@@ -806,8 +787,7 @@ class WavPart:
     )
 
 
-@dataclass
-class MasterUnit:
+class MasterUnit(BaseModel):
     class Meta:
         name = "masterUnit"
         namespace = VSQ4_NS
@@ -852,13 +832,12 @@ class MasterUnit:
     )
 
 
-@dataclass
-class MonoTrack:
+class MonoTrack(BaseModel):
     class Meta:
         name = "monoTrack"
         namespace = VSQ4_NS
 
-    wav_part: Optional[list[WavPart]] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
@@ -867,8 +846,7 @@ class MonoTrack:
     )
 
 
-@dataclass
-class MonoUnit:
+class MonoUnit(BaseModel):
     class Meta:
         name = "monoUnit"
         namespace = VSQ4_NS
@@ -943,8 +921,7 @@ class MonoUnit:
     )
 
 
-@dataclass
-class Note:
+class Note(BaseModel):
     class Meta:
         name = "note"
         namespace = VSQ4_NS
@@ -1001,7 +978,7 @@ class Note:
             "required": True,
         },
     )
-    note_style: Optional[NoteStyle] = field(
+    note_style: NoteStyle = field(
         default_factory=NoteStyle,
         metadata={
             "name": "nStyle",
@@ -1010,13 +987,12 @@ class Note:
     )
 
 
-@dataclass
-class StereoTrack:
+class StereoTrack(BaseModel):
     class Meta:
         name = "stTrack"
         namespace = VSQ4_NS
 
-    wav_part: Optional[list[WavPart]] = field(
+    wav_part: list[WavPart] = field(
         default_factory=list,
         metadata={
             "name": "wavPart",
@@ -1025,8 +1001,7 @@ class StereoTrack:
     )
 
 
-@dataclass
-class StereoUnit:
+class StereoUnit(BaseModel):
     class Meta:
         name = "stUnit"
         namespace = VSQ4_NS
@@ -1076,8 +1051,7 @@ class StereoUnit:
     )
 
 
-@dataclass
-class VVoiceTable:
+class VVoiceTable(BaseModel):
     class Meta:
         name = "vVoiceTable"
         namespace = VSQ4_NS
@@ -1092,8 +1066,7 @@ class VVoiceTable:
     )
 
 
-@dataclass
-class VsUnit:
+class VsUnit(BaseModel):
     class Meta:
         name = "vsUnit"
         namespace = VSQ4_NS
@@ -1178,8 +1151,7 @@ class VsUnit:
     )
 
 
-@dataclass
-class Mixer:
+class Mixer(BaseModel):
     class Meta:
         name = "mixer"
         namespace = VSQ4_NS
@@ -1201,7 +1173,7 @@ class Mixer:
             "max_occurs": 16,
         },
     )
-    mono_unit: Optional[MonoUnit] = field(
+    mono_unit: MonoUnit = field(
         default_factory=MonoUnit,
         metadata={
             "name": "monoUnit",
@@ -1209,7 +1181,7 @@ class Mixer:
             "required": True,
         },
     )
-    stereo_unit: Optional[StereoUnit] = field(
+    stereo_unit: StereoUnit = field(
         default_factory=StereoUnit,
         metadata={
             "name": "stUnit",
@@ -1219,8 +1191,7 @@ class Mixer:
     )
 
 
-@dataclass
-class MusicalPart:
+class MusicalPart(BaseModel):
     class Meta:
         name = "vsPart"
         namespace = VSQ4_NS
@@ -1264,7 +1235,7 @@ class MusicalPart:
             "required": True,
         },
     )
-    part_style: Optional[PartStyle] = field(
+    part_style: PartStyle = field(
         default_factory=PartStyle,
         metadata={
             "name": "pStyle",
@@ -1301,8 +1272,7 @@ class MusicalPart:
     )
 
 
-@dataclass
-class VsTrack:
+class VsTrack(BaseModel):
     class Meta:
         name = "vsTrack"
         namespace = VSQ4_NS
@@ -1332,8 +1302,8 @@ class VsTrack:
             "required": True,
         },
     )
-    musical_part: Optional[list[MusicalPart]] = field(
-        default=None,
+    musical_part: list[MusicalPart] = field(
+        default_factory=list,
         metadata={
             "name": "vsPart",
             "type": "Element",
@@ -1341,8 +1311,7 @@ class VsTrack:
     )
 
 
-@dataclass
-class Vsq4:
+class Vsq4(BaseModel):
     class Meta:
         name = "vsq4"
         namespace = VSQ4_NS
@@ -1361,7 +1330,7 @@ class Vsq4:
             "required": True,
         },
     )
-    v_voice_table: Optional[VVoiceTable] = field(
+    v_voice_table: VVoiceTable = field(
         default_factory=VVoiceTable,
         metadata={
             "name": "vVoiceTable",
@@ -1369,14 +1338,14 @@ class Vsq4:
             "required": True,
         },
     )
-    mixer: Optional[Mixer] = field(
+    mixer: Mixer = field(
         default_factory=Mixer,
         metadata={
             "type": "Element",
             "required": True,
         },
     )
-    master_track: Optional[MasterTrack] = field(
+    master_track: MasterTrack = field(
         default_factory=MasterTrack,
         metadata={
             "name": "masterTrack",

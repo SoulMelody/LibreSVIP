@@ -2,7 +2,7 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .binsvip_generator import BinarySvipGenerator
 from .binsvip_parser import BinarySvipParser
@@ -15,11 +15,9 @@ class SvipConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         with SvipReader() as reader:
             version, xs_project = reader.read(path)
-            return BinarySvipParser().parse_project(version, xs_project)
+            return BinarySvipParser(options).parse_project(version, xs_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        if options is None:
-            options = OutputOptions()
         ver_enum = options.version
         if ver_enum == BinarySvipVersion.SVIP7_0_0:
             project.version = "SVIP7.0.0"

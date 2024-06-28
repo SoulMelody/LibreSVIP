@@ -2,7 +2,6 @@ import pathlib
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.utils import to_unicode
 
 from .model import UstVisitor, ust_grammar
 from .options import InputOptions, OutputOptions
@@ -13,7 +12,9 @@ from .ust_parser import USTParser
 
 class USTConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        tree = ust_grammar.parse(to_unicode(path.read_bytes()))
+        ust_content = path.read_bytes()
+        ust_text = ust_content.decode(options.encoding, errors="replace")
+        tree = ust_grammar.parse(ust_text)
         ust_project = UstVisitor().visit(tree)
         return USTParser(options).parse_project(ust_project)
 

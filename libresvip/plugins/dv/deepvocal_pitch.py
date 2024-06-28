@@ -94,7 +94,7 @@ def apply_default_pitch(
     bend_diff = get_bend_pitch(notes, time_synchronizer)
     vibrato_diff = get_vibrato_pitch(notes, time_synchronizer)
 
-    result = [Point.start_point()]
+    result = []
     last_point = None
     for point in points:
         if last_point is not None and last_point.y == -100:
@@ -116,21 +116,23 @@ def apply_default_pitch(
         else:
             result.append(Point(x=point.x + first_bar_length, y=-100))
         last_point = point
-    if points[-1].x < notes[-1].note.end_pos:
-        result.extend(
+    if not result or result[0].x > notes[-1].note.end_pos:
+        result = [
             Point(
                 x=tick + first_bar_length,
                 y=(base.get(tick, 0) + bend_diff.get(tick, 0) + vibrato_diff.get(tick, 0)),
             )
-            for tick in range(points[-1].x + 1, notes[-1].note.end_pos, SAMPLING_INTERVAL_TICK)
-        )
-    result.append(Point.end_point())
+            for tick in range(0, notes[-1].note.end_pos, SAMPLING_INTERVAL_TICK)
+        ] + result
+    if result:
+        result.insert(0, Point.start_point())
+        result.append(Point.end_point())
     return result
 
 
 def get_base_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) -> dict[int, int]:
     result = {}
-    for last_note, this_note in zip([None] + notes, notes + [None]):
+    for last_note, this_note in zip([None, *notes], [*notes, None]):
         portamento = []
         if last_note is not None and this_note is not None:
             portamento = get_portamento(last_note, transformer, this_note)

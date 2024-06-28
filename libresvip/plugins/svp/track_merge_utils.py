@@ -1,7 +1,7 @@
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import Note, ParamCurve, Params, SingingTrack
 from libresvip.model.point import Point
-from libresvip.utils import find_index, find_last_index
+from libresvip.utils.search import find_index, find_last_index
 
 
 def param_curve_override_with(
@@ -18,19 +18,21 @@ def param_curve_override_with(
         override_curve.points.root, lambda point: point.x <= start
     )
     override_right_index = find_index(override_curve.points.root, lambda point: point.x > end)
-    main_left_defined = (
+    main_cure_points_count = len(main_curve.points)
+    main_left_defined = 0 <= main_left_index < main_cure_points_count - 1 and (
         main_curve.points[main_left_index].x != termination
         and main_curve.points[main_left_index + 1].x != termination
     )
-    main_right_defined = (
+    main_right_defined = 0 < main_right_index <= main_cure_points_count - 1 and (
         main_curve.points[main_right_index - 1].x != termination
         and main_curve.points[main_right_index].x != termination
     )
-    override_left_defined = (
+    override_cure_points_count = len(override_curve.points)
+    override_left_defined = 0 <= override_left_index < override_cure_points_count - 1 and (
         override_curve.points[override_left_index].x != termination
         and override_curve.points[override_left_index + 1].x != termination
     )
-    override_right_defined = (
+    override_right_defined = 0 < override_right_index <= override_cure_points_count - 1 and (
         override_curve.points[override_right_index - 1].x != termination
         and override_curve.points[override_right_index].x != termination
     )
@@ -71,8 +73,9 @@ def param_curve_override_with(
                 ),
             )
         )
-    for i in range(override_left_index + 1, override_right_index):
-        inserted_points.append(override_curve.points[i])
+    inserted_points.extend(
+        override_curve.points[i] for i in range(override_left_index + 1, override_right_index)
+    )
     if override_right_defined:
         r = (end - override_curve.points[override_right_index - 1].x) / (
             override_curve.points[override_right_index].x

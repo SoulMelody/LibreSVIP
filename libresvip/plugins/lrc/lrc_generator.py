@@ -3,7 +3,7 @@ import datetime
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
-from libresvip.utils import SYMBOL_PATTERN
+from libresvip.utils.text import SYMBOL_PATTERN
 
 from .model import (
     AlbumInfoTag,

@@ -3,11 +3,11 @@ import operator
 import re
 from collections import defaultdict
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, cast
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import Project, SingingTrack, TimeSignature
-from libresvip.utils import midi2note
+from libresvip.utils.music_math import midi2note
 
 from .model import KeyTick, MXmlMeasure, MXmlMeasureContent
 from .models.mxml2 import (
@@ -25,6 +25,7 @@ from .models.mxml2 import (
     ScorePartwise,
     Sound,
     StartStop,
+    Step,
     Syllabic,
     TextElementData,
     Tie,
@@ -95,15 +96,16 @@ class MusicXMLGenerator:
                         sound_node, direction_node = self.generate_nodes_for_tempo(content)
                         measure_node.sound.append(sound_node)
                         measure_node.direction.append(direction_node)
-                    elif content.note_type is not None:
-                        measure_node.note.append(self.generate_note_node(content))
+                    elif content.note_type is not None and content.note is not None:
+                        if note := self.generate_note_node(content):
+                            measure_node.note.append(note)
                     else:
                         measure_node.note.append(self.generate_rest_node(content))
             part_node.measure.append(measure_node)
         return part_node, score_part
 
     def generate_nodes_for_tempo(self, tempo: MXmlMeasureContent) -> tuple[Sound, Direction]:
-        sound_node = Sound(tempo=Decimal.from_float(tempo.bpm))
+        sound_node = Sound(tempo=Decimal.from_float(cast(float, tempo.bpm)))
         direction_node = Direction(
             direction_type=[
                 DirectionType(
@@ -119,13 +121,21 @@ class MusicXMLGenerator:
     def generate_rest_node(self, rest: MXmlMeasureContent) -> MusicXMLNote:
         return MusicXMLNote(rest=[DisplayStepOctave()], duration=[Decimal(rest.duration)])
 
-    def generate_note_node(self, note: MXmlMeasureContent) -> MusicXMLNote:
+    def generate_note_node(self, note: MXmlMeasureContent) -> Optional[MusicXMLNote]:
+        if note.note is None or note.note_type is None:
+            return None
         note_node = MusicXMLNote(
             duration=[Decimal(note.duration)],
         )
         key_str = midi2note(note.note.key_number)
-        octave = int(re.search(r"\d+$", key_str).group())
-        step = re.search(r"^[A-G]", key_str).group()
+        if (octave_matcher := re.search(r"\d+$", key_str)) is not None:
+            octave = int(octave_matcher.group())
+        else:
+            return None
+        if (step_matcher := re.search(r"^[A-G]", key_str)) is not None:
+            step = Step(step_matcher.group())
+        else:
+            return None
         alter = 1 if "#" in key_str else 0
         note_node.pitch.append(
             Pitch(step=step, alter=Decimal(alter) if alter != 0 else None, octave=octave)
@@ -196,18 +206,14 @@ class MusicXMLGenerator:
     def get_measures(
         key_ticks: list[KeyTick], time_signatures: list[TimeSignature], track_index: int
     ) -> list[MXmlMeasure]:
-        ticks_in_full_note = int(TICKS_IN_BEAT * 4 * DEFAULT_TICK_RATE_CEVIO)
+        ticks_in_beat = round(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
         measure_border_ticks = [0]
         measure = 0.0
         tick = 0.0
         prev_time_signature = TimeSignature()
         for time_signature in time_signatures:
             previous_measure = int(measure)
-            ticks_in_measure = (
-                ticks_in_full_note
-                * prev_time_signature.numerator
-                // prev_time_signature.denominator
-            )
+            ticks_in_measure = round(prev_time_signature.bar_length(ticks_in_beat))
             tick += ticks_in_measure * (time_signature.bar_index - measure)
             measure = time_signature.bar_index
             current_measure = int(measure)
@@ -218,11 +224,7 @@ class MusicXMLGenerator:
             prev_time_signature = time_signature
         last_tick = key_ticks[-1].tick
         if last_tick >= tick + (
-            ticks_in_measure := (
-                ticks_in_full_note
-                * prev_time_signature.numerator
-                // prev_time_signature.denominator
-            )
+            ticks_in_measure := round(prev_time_signature.bar_length(ticks_in_beat))
         ):
             previous_measure = int(measure)
             tick_diff = last_tick - tick
@@ -234,8 +236,7 @@ class MusicXMLGenerator:
                 for _ in range(current_measure - previous_measure)
             )
         measure_border_ticks.append(
-            measure_border_ticks[-1]
-            + ticks_in_full_note * prev_time_signature.numerator // prev_time_signature.denominator
+            measure_border_ticks[-1] + round(prev_time_signature.bar_length(ticks_in_beat))
         )
 
         key_ticks_with_measure_borders = [

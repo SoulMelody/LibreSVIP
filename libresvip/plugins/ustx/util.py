@@ -1,4 +1,7 @@
 import dataclasses
+import operator
+
+import more_itertools
 
 from .model import PitchPoint, USTXProject, UVoicePart
 from .utils import music_math
@@ -49,22 +52,27 @@ class BasePitchGenerator:
             for i in range(start_index, end_index):
                 n_pos = (self.pitch_start + i * self.pitch_interval - note.position) / note.duration
                 point = note.vibrato.evaluate(n_pos, n_period, note)
-                pitches[i] = round(point[1] * 100)
+                pitches[i] = point[1] * 100
 
         for note in part.notes:
-            pitch_points = note.pitch.data
-            pitch_points = [
-                PitchPoint(
-                    x=self.time_axis.ms_pos_to_tick_pos(
-                        self.time_axis.tick_pos_to_ms_pos(part.position + note.position) + point.x
-                    )
-                    - part.position,
-                    y=point.y * 10 + note.tone * 100,
-                    shape=point.shape,
+            pitch_points = list(
+                more_itertools.unique_justseen(
+                    (
+                        PitchPoint(
+                            x=self.time_axis.ms_pos_to_tick_pos(
+                                self.time_axis.tick_pos_to_ms_pos(part.position + note.position)
+                                + point.x
+                            )
+                            - part.position,
+                            y=point.y * 10 + note.tone * 100,
+                            shape=point.shape,
+                        )
+                        for point in note.pitch.data
+                    ),
+                    key=operator.attrgetter("x"),
                 )
-                for point in pitch_points
-            ]
-            if len(pitch_points) == 0:
+            )
+            if not pitch_points:
                 pitch_points.append(PitchPoint(x=note.position, y=note.tone * 100))
                 pitch_points.append(PitchPoint(x=note.end, y=note.tone * 100))
             if note == part.notes[0] and pitch_points[0].x > self.pitch_start:
@@ -82,7 +90,7 @@ class BasePitchGenerator:
                         (prev_point.x, prev_point.y),
                         (point.x, point.y),
                         x,
-                        prev_point.shape,
+                        prev_point.shape or "lo",
                     )
                     base_pitch = (
                         prev_note.tone * 100

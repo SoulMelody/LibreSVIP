@@ -77,7 +77,7 @@ class JUCECompressedIntStruct(Construct):
 JUCECompressedInt = JUCECompressedIntStruct()
 
 
-JUCEVariant = Struct(
+JUCEVariant: Container = Struct(
     "name" / CString("utf-8"),
     "data"
     / Prefixed(
@@ -105,7 +105,7 @@ JUCEVariant = Struct(
     ),
 )
 
-JUCENode = Struct(
+JUCENode: Container = Struct(
     "name" / CString("utf-8"),
     "attrs" / PrefixedArray(JUCECompressedInt, JUCEVariant),
     "children" / PrefixedArray(JUCECompressedInt, LazyBound(lambda: JUCENode)),

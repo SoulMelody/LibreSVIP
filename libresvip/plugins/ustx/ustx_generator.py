@@ -1,6 +1,7 @@
 import dataclasses
 import math
 from collections.abc import MutableSequence
+from typing import Optional, cast
 
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -11,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils.audio import audio_track_info
 
 from .model import (
     PitchPoint,
@@ -26,9 +28,9 @@ from .model import (
     UVoicePart,
     UWavePart,
 )
-from .options import OutputOptions
+from .options import OpenUtauEnglishPhonemizerCompatibility, OutputOptions
 from .util import BasePitchGenerator
-from .utils.lyric_util import LyricUtil
+from .utils import lyric_util
 
 
 @dataclasses.dataclass
@@ -42,19 +44,14 @@ class UstxGenerator:
         ]
         if not ustx_time_signatures:
             ustx_time_signatures.append(UTimeSignature(0, 4, 4))
-        first_bar_length = (
+        first_bar_length = int(
             1920 * ustx_time_signatures[0].beat_per_bar / ustx_time_signatures[0].beat_unit
         )
 
         # 曲速
         tempos = [self.generate_tempo(x, first_bar_length) for x in os_project.song_tempo_list]
         if not tempos:
-            tempos.append(
-                UTempo(
-                    bpm=120,
-                    position=0,
-                )
-            )
+            tempos.append(UTempo())
 
         ustx_project = USTXProject(
             ustx_version="0.6",
@@ -69,11 +66,12 @@ class UstxGenerator:
         for track_no, os_track in enumerate(os_project.track_list):
             ustx_project.tracks.append(self.generate_track(os_track))
             if isinstance(os_track, SingingTrack):  # 合成音轨
+                ustx_project.tracks[-1].singer = os_track.ai_singer_name
                 ustx_project.voice_parts.append(
                     self.generate_voice_part(os_track, track_no, ustx_project, first_bar_length)
                 )
-            else:  # 伴奏音轨
-                ustx_project.wave_parts.append(self.generate_wave_part(os_track, track_no))
+            elif wav_part := self.generate_wave_part(os_track, track_no):  # 伴奏音轨
+                ustx_project.wave_parts.append(wav_part)
         return ustx_project
 
     @staticmethod
@@ -105,75 +103,96 @@ class UstxGenerator:
         os_track: SingingTrack,
         track_no: int,
         ustx_project: USTXProject,
-        first_bar_length: int = 1920,
+        first_bar_length: int,
     ) -> UVoicePart:
         ustx_voice_part = UVoicePart(name=os_track.title, track_no=track_no, position=0, notes=[])
         if not os_track.note_list:
             return ustx_voice_part
-        last_note_end_pos = -480  # 上一个音符的结束时间
-        last_note_key_number = 60  # 上一个音符的音高
         # 转换音符
-        for os_note in os_track.note_list:
-            ustx_voice_part.notes.append(
-                self.generate_note(
-                    os_note,
-                    last_note_end_pos >= os_note.start_pos,
-                    last_note_key_number,
-                )
-            )
-            last_note_end_pos = os_note.start_pos + os_note.length
-            last_note_key_number = os_note.key_number
+        ustx_voice_part.notes.extend(self.generate_notes(os_track.note_list))
         # 转换音高曲线
         self.generate_pitch(
             ustx_voice_part,
             ustx_project,
-            os_track.edited_params.pitch.points.root,
+            cast(MutableSequence[tuple[int, int]], os_track.edited_params.pitch.points.root),
             first_bar_length,
         )
 
         return ustx_voice_part
 
     @staticmethod
-    def generate_wave_part(os_track: InstrumentalTrack, track_no: int) -> UWavePart:
-        return UWavePart(
-            name=os_track.title,
-            track_no=track_no,
-            position=os_track.offset,
-            file_path=os_track.audio_file_path,
-            relative_path=os_track.audio_file_path,
-        )
+    def generate_wave_part(os_track: InstrumentalTrack, track_no: int) -> Optional[UWavePart]:
+        if track_info := audio_track_info(os_track.audio_file_path):
+            return UWavePart(
+                name=os_track.title,
+                track_no=track_no,
+                position=os_track.offset,
+                file_path=os_track.audio_file_path,
+                relative_path=os_track.audio_file_path,
+                file_duration_ms=track_info.duration,
+            )
 
-    @staticmethod
-    def generate_note(os_note: Note, snap_first: bool, last_note_key_number: int) -> UNote:
-        y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
-        lyric = LyricUtil.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
-        if os_note.pronunciation:  # 如果有发音，则用发音
-            lyric = os_note.pronunciation
-        if lyric == "-":  # OpenUTAU中的连音符为+
-            lyric = "+"
-        if len(lyric) == 2 and LyricUtil.is_punctuation(lyric[1]):  # 删除标点符号
-            lyric = lyric[:1]
-        return UNote(
-            position=os_note.start_pos,
-            duration=os_note.length,
-            tone=os_note.key_number,
-            lyric=lyric,
-            pitch=UPitch(
-                snap_first=snap_first,
-                data=[
-                    PitchPoint(x=-40, y=y0, shape="io"),
-                    PitchPoint(x=0, y=0, shape="io"),
-                ],
-            ),
-            vibrato=UVibrato(length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0),
-        )
+    def generate_notes(self, os_notes: list[Note]) -> list[UNote]:
+        notes: list[UNote] = []
+        last_note_end_pos = -480  # 上一个音符的结束时间
+        last_note_key_number = 60  # 上一个音符的音高
+        last_syllable_index = 1
+        for i, os_note in enumerate(os_notes):
+            snap_first = last_note_end_pos >= os_note.start_pos
+            y0 = (last_note_key_number - os_note.key_number) * 10 if snap_first else 0
+            lyric = lyric_util.get_symbol_removed_lyric(os_note.lyric)  # 去除标点符号
+            if os_note.pronunciation:  # 如果有发音, 则用发音
+                lyric = os_note.pronunciation
+            if lyric == "-":  # OpenUTAU中的连音符为+
+                lyric = "+"
+            elif lyric == "+":
+                if (
+                    self.options.english_phonemizer_compatibility
+                    == OpenUtauEnglishPhonemizerCompatibility.ARPA
+                ):
+                    last_syllable_index += 1
+                    lyric = f"+{last_syllable_index}"
+                else:
+                    for j in range(i - 1, 0, -1):
+                        if os_notes[j].lyric == "-":
+                            notes[j].lyric = "+~"
+                        else:
+                            break
+            elif (
+                self.options.english_phonemizer_compatibility
+                == OpenUtauEnglishPhonemizerCompatibility.ARPA
+            ):
+                last_syllable_index = 1
+            if len(lyric) == 2 and lyric_util.is_punctuation(lyric[1]):  # 删除标点符号
+                lyric = lyric[:1]
+            notes.append(
+                UNote(
+                    position=os_note.start_pos,
+                    duration=os_note.length,
+                    tone=os_note.key_number,
+                    lyric=lyric,
+                    pitch=UPitch(
+                        snap_first=snap_first,
+                        data=[
+                            PitchPoint(x=-40, y=y0, shape="io"),
+                            PitchPoint(x=0, y=0, shape="io"),
+                        ],
+                    ),
+                    vibrato=UVibrato(
+                        length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0
+                    ),
+                )
+            )
+            last_note_end_pos = os_note.end_pos
+            last_note_key_number = os_note.key_number
+        return notes
 
     @staticmethod
     def generate_pitch(
         part: UVoicePart,
         project: USTXProject,
         os_pitch: MutableSequence[tuple[int, int]],
-        first_bar_length: int = 1920,
+        first_bar_length: int,
     ) -> None:
         pitch_start = BasePitchGenerator.pitch_start
         pitch_interval = BasePitchGenerator.pitch_interval
@@ -193,10 +212,10 @@ class UstxGenerator:
         for i in range(len(base_pitch)):
             time = (
                 i * pitch_interval + pitch_start
-            )  # 当前openutau采样点的时间，以tick为单位，从0开始
+            )  # 当前openutau采样点的时间, 以tick为单位, 从0开始
             while os_pitch[os_pitch_pointer + 1][0] <= time + first_bar_length:
                 os_pitch_pointer += 1
-            # 此时，os_pitch_pointer对应的位置恰好在time之前(或等于)，区间[os_pitch_pointer,os_pitch_pointer+1)包含time
+            # 此时, os_pitch_pointer对应的位置恰好在time之前(或等于), 区间[os_pitch_pointer,os_pitch_pointer+1)包含time
             if os_pitch[os_pitch_pointer][1] < 0:  # 间断点
                 pitd.xs.append(time)
                 pitd.ys.append(0)
@@ -209,4 +228,5 @@ class UstxGenerator:
                 pitd.ys.append(
                     round((y2 - y1) * (time - x1) / (x2 - x1) + y1 - int(base_pitch[i]))
                 )  # 线性插值
-        part.curves.append(pitd)
+        if not pitd.is_empty:
+            part.curves.append(pitd)

@@ -1,7 +1,11 @@
 import dataclasses
+import re
+
+import pypinyin
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
+from libresvip.core.lyric_phoneme.japanese import is_kana, to_romaji
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -12,7 +16,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import db_to_float
+from libresvip.utils.music_math import db_to_float
 
 from .model import (
     UNote,
@@ -23,8 +27,10 @@ from .model import (
     UVoicePart,
     UWavePart,
 )
-from .options import InputOptions
+from .options import InputOptions, OpenUtauEnglishPhonemizerCompatibility
 from .util import BasePitchGenerator
+
+PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
 
 
 @dataclasses.dataclass
@@ -33,6 +39,8 @@ class UstxParser:
     base_pitch_generator: BasePitchGenerator = dataclasses.field(init=False)
 
     def parse_project(self, ustx_project: USTXProject) -> Project:
+        self.breath_lyrics = self.options.breath_lyrics.strip().split()
+        self.silence_lyrics = self.options.silence_lyrics.strip().split()
         self.base_pitch_generator = BasePitchGenerator(ustx_project)
         tempos = self.parse_tempos(ustx_project.tempos)
         time_signatures = self.parse_time_signatures(ustx_project.time_signatures)
@@ -86,22 +94,24 @@ class UstxParser:
             )
             for i, ustx_track in enumerate(tracks)
         ]
-        for track in track_list:
-            track.edited_params.pitch.points.append(Point.start_point())
+        if self.options.import_pitch:
+            for track in track_list:
+                track.edited_params.pitch.points.append(Point.start_point())
         for voice_part in voice_parts:
             track_index = voice_part.track_no
             if track_index < len(track_list):
-                track: SingingTrack = track_list[track_index]
+                singing_track: SingingTrack = track_list[track_index]
             else:
                 continue
-            if not track.title:
-                track.title = voice_part.name
+            if not singing_track.title:
+                singing_track.title = voice_part.name
             notes = self.parse_notes(voice_part.notes, voice_part.position)
-            track.note_list.extend(notes)
-            track.edited_params.pitch.points.extend(self.parse_pitch(voice_part))
+            singing_track.note_list.extend(notes)
+            if self.options.import_pitch:
+                singing_track.edited_params.pitch.points.root.extend(self.parse_pitch(voice_part))
         return [track for track in track_list if len(track.note_list)]
 
-    def parse_pitch(self, part: UVoicePart) -> list[tuple[int, int]]:
+    def parse_pitch(self, part: UVoicePart) -> list[Point]:
         pitch_start = self.base_pitch_generator.pitch_start
         pitch_interval = self.base_pitch_generator.pitch_interval
         first_bar_length = 1920
@@ -128,37 +138,67 @@ class UstxParser:
 
     def parse_notes(self, notes: list[UNote], tick_prefix: int) -> list[Note]:
         note_list = []
+        prev_ustx_note = None
         for ustx_note in notes:
+            note_lyric = ustx_note.lyric
+            if note_lyric.startswith("+"):
+                if (
+                    note_lyric.removeprefix("+").isdigit()
+                    and self.options.english_phonemizer_compatibility
+                    == OpenUtauEnglishPhonemizerCompatibility.ARPA
+                ):
+                    note_lyric = "+"
+                else:
+                    note_lyric = "-"
             note = Note(
                 key_number=ustx_note.tone,
-                lyric="-" if ustx_note.lyric.startswith("+") else ustx_note.lyric,
+                lyric=note_lyric,
                 start_pos=ustx_note.position + tick_prefix,
                 length=ustx_note.duration,
             )
-            if (CHINESE_RE.search(ustx_note.lyric) is None) and len(ustx_note.lyric) > 1:
-                note.pronunciation = ustx_note.lyric
-            note_list.append(note)
+            if ustx_note.lyric:
+                if (phonetic_hint := PHONETIC_HINT_RE.search(ustx_note.lyric)) is not None:
+                    note.pronunciation = phonetic_hint.group(1)
+                elif is_kana(ustx_note.lyric):
+                    note.pronunciation = to_romaji(ustx_note.lyric)
+                elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
+                    note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
+                else:
+                    note.pronunciation = ustx_note.lyric.removeprefix("?")
+            if (
+                prev_ustx_note is not None
+                and prev_ustx_note.lyric in self.breath_lyrics
+                and prev_ustx_note.end == ustx_note.position
+            ):
+                note.head_tag = "V"
+            if (
+                ustx_note.lyric not in self.breath_lyrics
+                and ustx_note.lyric not in self.silence_lyrics
+            ):
+                note_list.append(note)
+            prev_ustx_note = ustx_note
         return note_list
 
     def parse_wave_parts(
         self, tracks: list[UTrack], wave_parts: list[UWavePart]
     ) -> list[InstrumentalTrack]:
         track_list = []
-        for wave_part in wave_parts:
-            ustx_track = tracks[wave_part.track_no]
-            rel_path = wave_part.relative_path
-            # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
-            track_list.append(
-                InstrumentalTrack(
-                    audio_file_path=rel_path,
-                    offset=wave_part.position,
-                    title=wave_part.name,
-                    mute=ustx_track.mute,
-                    solo=ustx_track.solo,
-                    volume=self.parse_volume(ustx_track.volume),
+        if self.options.import_instrumental_track:
+            for wave_part in wave_parts:
+                ustx_track = tracks[wave_part.track_no]
+                rel_path = wave_part.relative_path
+                # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
+                track_list.append(
+                    InstrumentalTrack(
+                        audio_file_path=rel_path,
+                        offset=wave_part.position,
+                        title=wave_part.name,
+                        mute=ustx_track.mute,
+                        solo=ustx_track.solo,
+                        volume=self.parse_volume(ustx_track.volume),
+                    )
                 )
-            )
         return track_list
 
-    def parse_volume(self, volume: int) -> float:
+    def parse_volume(self, volume: float) -> float:
         return min(db_to_float(volume, using_amplitude=False), 2)

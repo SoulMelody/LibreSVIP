@@ -12,16 +12,14 @@ from .synthv_parser import SynthVParser
 
 class SynthVStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        if options is None:
-            options = InputOptions()
-        sv_content = path.read_text(encoding="utf-8").strip("\x00")
+        sv_content = (
+            path.read_bytes().removesuffix(b"\x00").removeprefix("\ufeff".encode()).decode("utf-8")
+        )
         sv_proj = SVProject.model_validate_json(sv_content)
         options.instant = options.instant and sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        if options is None:
-            options = OutputOptions()
         sv_project = SynthVGenerator(
             options=options,
         ).generate_project(project)
@@ -29,6 +27,6 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
             json.dumps(
                 sv_project.model_dump(mode="json", by_alias=True, exclude_none=True),
                 separators=(",", ":"),
-            ).encode()
+            ).encode("utf-8")
             + b"\x00"
         )

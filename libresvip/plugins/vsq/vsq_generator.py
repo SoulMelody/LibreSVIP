@@ -1,14 +1,15 @@
 import dataclasses
 import operator
-import warnings
 from typing import Optional
 
 import mido_fix as mido
 
 from libresvip.core.constants import (
+    DEFAULT_PHONEME,
     TICKS_IN_BEAT,
 )
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.lyric_phoneme.japanese import to_romaji
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -18,7 +19,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import gettext_lazy as _
+from libresvip.model.reset_time_axis import limit_bars
 
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
@@ -36,6 +37,7 @@ class VsqGenerator:
         return 1
 
     def generate_project(self, project: Project) -> mido.MidiFile:
+        project = limit_bars(project, 4096)
         mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         self.first_bar_length = int(
@@ -73,19 +75,23 @@ class VsqGenerator:
     def generate_time_signatures(
         self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
     ) -> None:
-        prev_ticks = 0
+        ticks = 0
+        prev_time_signature = None
         for time_signature in time_signature_list:
+            if prev_time_signature is not None:
+                ticks += round(
+                    prev_time_signature.bar_length(self.options.ticks_per_beat)
+                    * (time_signature.bar_index - prev_time_signature.bar_index)
+                )
             master_track.append(
                 mido.MetaMessage(
                     "time_signature",
                     numerator=time_signature.numerator,
                     denominator=time_signature.denominator,
-                    time=prev_ticks,
+                    time=ticks,
                 )
             )
-            prev_ticks += round(
-                time_signature.bar_index * self.options.ticks_per_beat * time_signature.numerator
-            )
+            prev_time_signature = time_signature
 
     def generate_tracks(self, tracks: list[Track]) -> list[mido.MidiTrack]:
         mido_tracks = []
@@ -125,7 +131,7 @@ class VsqGenerator:
         track: SingingTrack,
         track_index: int,
         tracks_count: int,
-        measure_prefix: int = 0,
+        measure_prefix: int = 1,
     ) -> str:
         notes_lines = []
         lyrics_lines = []
@@ -149,18 +155,17 @@ class VsqGenerator:
                 ]
             )
             lyric = note.lyric
+            xsampa = (
+                "-"
+                if lyric in legato_chars
+                else romaji2xsampa.get(to_romaji(lyric), DEFAULT_PHONEME)
+            )
             lyrics_lines.extend(
                 [
                     f"[h#{number.zfill(4)}]",
-                    f"""L0="{lyric}","l a",0.000000,64,0,0""",
+                    f"""L0="{lyric}","{xsampa}",0.000000,64,0,0""",
                 ]
             )
-        warnings.warn(
-            _(
-                'Phonemes of all notes were set to "la". Please reset them to make it sound correctly.'
-            ),
-            PhonemeWarning,
-        )
         result = [
             "[Common]",
             "Version=DSB301",
@@ -219,7 +224,7 @@ class VsqGenerator:
         self, pitch: ParamCurve, tick_prefix: int, note_list: list[Note]
     ) -> list[str]:
         result = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, note_list):
+        if pitch_raw_data := generate_for_vocaloid(pitch, note_list, self.first_bar_length):
             if len(pitch_raw_data.pit):
                 result.append("[PitchBendBPList]")
                 result.extend(f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit)

@@ -8,7 +8,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
 from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .constants import MODE2_PITCH_MAX_POINT_COUNT, MODE2_PITCH_SAMPLING_INTERVAL_TICK
 from .interpolation import interpolate
@@ -47,41 +47,42 @@ class NotePitchData:
 def pitch_to_utau_mode2_track(
     pitch: ParamCurve, notes: list[Note], tempos: list[SongTempo]
 ) -> UtauMode2TrackPitchData:
-    absolute_pitch = pitch.points.root
+    absolute_pitch = [
+        point._replace(x=point.x - 1920) for point in pitch.points.root if point.y != -100
+    ]
 
     def to_relative(from_: list[Point], key: int) -> list[Point]:
         return [Point(x=p.x, y=(p.y or key * 100) - key * 100) for p in from_]
 
-    dot_pit_data = [
-        NotePitchData(
-            to_relative(
-                [point for point in absolute_pitch if point.x < notes[0].end_pos],
-                notes[0].key_number,
-            ),
-            -min((point.x for point in absolute_pitch if point.x < 0), default=0),
-            bpm_for_note(tempos, notes[0]),
-        ),  # first note
-    ] + [
-        NotePitchData(
-            to_relative(
-                [
-                    point
-                    for point in absolute_pitch
-                    if notes[i].start_pos <= point.x < notes[i].end_pos
-                ],
-                notes[i].key_number,
-            ),
-            (
-                next(
-                    (point.x for point in absolute_pitch if point.x >= notes[i].start_pos),
-                    notes[i].start_pos,
-                )
-                - notes[i].start_pos
-            ),
-            bpm_for_note(tempos, notes[i]),
-        )
-        for i in range(1, len(notes))
-    ]
+    dot_pit_data = (
+        [
+            NotePitchData(
+                to_relative(
+                    [point for point in absolute_pitch if point.x < notes[0].end_pos],
+                    notes[0].key_number,
+                ),
+                -min((point.x for point in absolute_pitch if point.x < 0), default=0),
+                bpm_for_note(tempos, notes[0]),
+            ),  # first note
+        ]
+        + [
+            NotePitchData(
+                to_relative(
+                    [point for point in absolute_pitch if note.start_pos <= point.x < note.end_pos],
+                    note.key_number,
+                ),
+                (
+                    next(
+                        (point.x for point in absolute_pitch if point.x >= note.start_pos),
+                        note.start_pos,
+                    )
+                    - note.start_pos
+                ),
+                bpm_for_note(tempos, note),
+            )
+            for note in notes[1:]
+        ]
+    )
 
     dot_pit_data_simplified = [
         NotePitchData(
@@ -123,71 +124,77 @@ def pitch_from_utau_mode2_track(
     last_note: Optional[Note] = None
     pending_pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):
-        points = []
-        note_start_in_millis = (
-            tick_time_transformer.get_actual_secs_from_ticks(note.start_pos) * 1000
-        )
-        if note_pitch.start is not None:
-            pos_in_millis = note_start_in_millis + note_pitch.start
-            tick_pos = tick_time_transformer.get_actual_ticks_from_secs(pos_in_millis / 1000)
-            start_shift = round(
-                (last_note.key_number - note.key_number) * 100
-                if last_note and note.start_pos == last_note.end_pos
-                else note_pitch.start_shift * 10
-                if note_pitch.start_shift is not None
-                else 0
+        if note_pitch is not None:
+            points = []
+            note_start_in_millis = (
+                tick_time_transformer.get_actual_secs_from_ticks(note.start_pos) * 1000
             )
-            points.append(Point(x=round(tick_pos), y=start_shift))
-            for width, shift, curve_type in itertools.zip_longest(
-                note_pitch.widths, note_pitch.shifts, note_pitch.curve_types
-            ):
-                if width is None:
-                    break
-                if shift is None:
-                    shift = 0
-                if curve_type is None:
-                    curve_type = ""
-                pos_in_millis += width
+            if note_pitch.start is not None:
+                pos_in_millis = note_start_in_millis + note_pitch.start
                 tick_pos = tick_time_transformer.get_actual_ticks_from_secs(pos_in_millis / 1000)
-                this_point = Point(x=round(tick_pos), y=round(shift * 10))
-                last_point = points[-1]
-                if this_point.x != last_point.x and this_point.y != last_point.y:
-                    interpolated_point_list = interpolate(
-                        last_point,
-                        this_point,
-                        curve_type,
-                        MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                start_shift = round(
+                    (last_note.key_number - note.key_number) * 100
+                    if last_note and note.start_pos == last_note.end_pos
+                    else note_pitch.start_shift * 10
+                    if note_pitch.start_shift is not None
+                    else 0
+                )
+                points.append(Point(x=round(tick_pos), y=start_shift))
+                for width, shift, curve_type in itertools.zip_longest(
+                    note_pitch.widths, note_pitch.shifts, note_pitch.curve_types
+                ):
+                    if width is None:
+                        break
+                    if shift is None:
+                        shift = 0
+                    if curve_type is None:
+                        curve_type = ""
+                    pos_in_millis += width
+                    tick_pos = tick_time_transformer.get_actual_ticks_from_secs(
+                        pos_in_millis / 1000
                     )
-                    points.extend(interpolated_point_list[1:])
-                else:
-                    points.append(this_point)
-        pitch_points.extend(
-            point
-            for point in pending_pitch_points
-            if point.x < (points[0].x if points else float("inf"))
-        )
-        pending_pitch_points = shape(
-            append_utau_note_vibrato(
-                append_end_point(
-                    append_start_point(
-                        fix_points_at_last_note(
-                            points,
+                    this_point = Point(x=round(tick_pos), y=round(shift * 10))
+                    last_point = points[-1]
+                    if this_point.x != last_point.x and this_point.y != last_point.y:
+                        interpolated_point_list = interpolate(
+                            last_point,
+                            this_point,
+                            curve_type,
+                            MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                        )
+                        points.extend(interpolated_point_list[1:])
+                    else:
+                        points.append(this_point)
+            pitch_points.extend(
+                point
+                for point in pending_pitch_points
+                if point.x < (points[0].x if points else float("inf"))
+            )
+            pending_pitch_points = shape(
+                append_utau_note_vibrato(
+                    append_end_point(
+                        append_start_point(
+                            fix_points_at_last_note(
+                                points,
+                                note,
+                                last_note,
+                            ),
                             note,
-                            last_note,
                         ),
                         note,
                     ),
+                    note_pitch.vibrato_params,
                     note,
-                ),
-                note_pitch.vibrato_params,
-                note,
-                tick_time_transformer,
-                MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                    tick_time_transformer,
+                    MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+                )
             )
-        )
         last_note = note
     pitch_points.extend(pending_pitch_points)
-    return RelativePitchCurve().to_absolute(pitch_points, notes)
+    return RelativePitchCurve(
+        lower_bound=notes[0].start_pos,
+        upper_bound=notes[-1].end_pos,
+    ).to_absolute(pitch_points, notes)
 
 
 def fix_points_at_last_note(
@@ -203,7 +210,7 @@ def fix_points_at_last_note(
     ]
     last_point = fixed[-1] if fixed else None
     return (
-        fixed + [Point(x=this_note.start_pos, y=0)]
+        [*fixed, Point(x=this_note.start_pos, y=0)]
         if last_point is not None and last_point.x < this_note.start_pos
         else fixed
     )
@@ -214,7 +221,7 @@ def append_start_point(pitch_data: list[Point], this_note: Note) -> list[Point]:
     if first_point is None:
         return [Point(x=this_note.start_pos, y=0)]
     elif first_point.x > this_note.start_pos:
-        return [Point(x=this_note.start_pos, y=first_point.y)] + pitch_data
+        return [Point(x=this_note.start_pos, y=first_point.y), *pitch_data]
     else:
         return pitch_data
 
@@ -224,7 +231,7 @@ def append_end_point(pitch_data: list[Point], this_note: Note) -> list[Point]:
     if last_point is None:
         return [Point(x=this_note.end_pos, y=0)]
     elif last_point.x < this_note.end_pos:
-        return pitch_data + [Point(this_note.end_pos, last_point.y)]
+        return [*pitch_data, Point(this_note.end_pos, last_point.y)]
     else:
         return pitch_data
 

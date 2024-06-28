@@ -4,7 +4,9 @@ from collections.abc import Callable
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -18,6 +20,7 @@ from libresvip.model.base import (
     Track,
     VibratoParam,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.constants import (
@@ -27,6 +30,8 @@ from .msnrbf.constants import (
     VALUE_LIST_VERSION_SONG_TEMPO,
 )
 from .msnrbf.xstudio_models import (
+    MAX_NOTE_DURATION,
+    MIN_NOTE_DURATION,
     XSAppModel,
     XSBeatSize,
     XSInstrumentTrack,
@@ -114,18 +119,17 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_song_tempo(tempo: SongTempo) -> XSSongTempo:
-        xs_tempo = XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
-        return xs_tempo
+        return XSSongTempo(pos=tempo.position, tempo=round(tempo.bpm * 100))
 
     @staticmethod
     def generate_time_signature(signature: TimeSignature) -> XSSongBeat:
-        beat = XSSongBeat(
+        return XSSongBeat(
             bar_index=signature.bar_index,
             beat_size=XSBeatSize(x=signature.numerator, y=signature.denominator),
         )
-        return beat
 
     def generate_track(self, track: Track) -> Optional[XSITrack]:
+        s_track: Optional[XSITrack] = None
         if isinstance(track, SingingTrack):
             singer_id = opensvip_singers.get_id(track.ai_singer_name)
             if singer_id == "":
@@ -175,13 +179,24 @@ class BinarySvipGenerator:
                 head_tag=XSNoteHeadTag(
                     value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
                 ),
-                lyric=note.lyric or DEFAULT_CHINESE_LYRIC,
+                lyric=note.lyric
+                if CHINESE_RE.match(note.lyric) is not None
+                else DEFAULT_CHINESE_LYRIC,
                 pronouncing=note.pronunciation or "",
             )
             xs_note.width_pos = (
                 round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos))
                 - xs_note.start_pos
             )
+            note_duration = self.synchronizer.get_duration_secs_from_ticks(
+                note.start_pos, note.end_pos
+            )
+            if note_duration < MIN_NOTE_DURATION:
+                msg_prefix = _("Note duration is too short:")
+                show_warning(f"{msg_prefix} {note.lyric}")
+            elif note_duration > MAX_NOTE_DURATION:
+                msg_prefix = _("Note duration is too long:")
+                show_warning(f"{msg_prefix} {note.lyric}")
             if note.edited_phones is not None:
                 xs_note.note_phone_info = self.generate_phones(note.edited_phones)
             if note.vibrato is not None:
@@ -192,11 +207,10 @@ class BinarySvipGenerator:
 
     @staticmethod
     def generate_phones(edited_phones: Phones) -> XSNotePhoneInfo:
-        phone = XSNotePhoneInfo(
+        return XSNotePhoneInfo(
             head_phone_time_in_sec=edited_phones.head_length_in_secs,
             mid_part_over_tail_part_ratio=edited_phones.mid_ratio_over_tail,
         )
-        return phone
 
     def generate_vibrato(
         self, vibrato: VibratoParam
@@ -253,7 +267,7 @@ class BinarySvipGenerator:
                     )
                 else:
                     pos = p.x
-                node = XSLineParamNode(pos=pos, value=op(p.y))
+                node = XSLineParamNode(pos=pos, value=int(op(p.y)))
                 line.nodes.append(node)
         if len(line.nodes) == 0 or line.nodes[0].pos > left:
             bound = XSLineParamNode(pos=left, value=termination)

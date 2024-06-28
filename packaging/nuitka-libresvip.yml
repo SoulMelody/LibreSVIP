@@ -1,9 +1,10 @@
 - module-name: libresvip
   data-files:
-    dirs:
-      - 'res'
     patterns:
-      - 'gui/**/*.qml'
+      - 'res/*.ico'
+      - 'res/**/*.mo'
+      - 'middlewares/*/*.yapsy-plugin'
+      - 'middlewares/**/*.py'
       - 'plugins/*/*.yapsy-plugin'
       - 'plugins/**/*.json'
       - 'plugins/**/*.txt'
@@ -17,8 +18,8 @@
       - .mido_fix
       - .parsimonious
       - .proto
-      - .srt
-      - .xsdata
+      - .pysubs2
+      - .xsdata_pydantic
 
 - module-name: xsdata
   data-files:

@@ -4,7 +4,7 @@
     "config:recommended"
   ],
   "constraints": {
-    "python": "==3.11"
+    "python": "==3.12"
   },
   "rangeStrategy": "bump",
   "enabledManagers": ["pep621", "github-actions"],
@@ -29,7 +29,8 @@
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions",
       "groupSlug": "github-actions",
-      "separateMultipleMajor": false
+      "separateMultipleMajor": false,
+      "ignoreDeps": ["macos"]
     }
   ]
 }

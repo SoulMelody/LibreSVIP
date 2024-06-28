@@ -3,7 +3,6 @@ import sys
 from collections.abc import Callable
 from typing import TYPE_CHECKING, Optional
 
-from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.tick_counter import skip_beat_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -17,13 +16,12 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import (
-    audio_track_info,
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import (
     clamp,
-    find_index,
-    find_last_index,
     ratio_to_db,
 )
+from libresvip.utils.search import find_index, find_last_index
 
 from .constants import TICK_RATE
 from .interval_utils import ticks_to_position
@@ -62,14 +60,7 @@ class SynthVGenerator:
     def generate_project(self, project: Project) -> SVProject:
         sv_project = SVProject()
         new_meters = skip_beat_list(project.time_signature_list, 1)
-        self.first_bar_tick = int(
-            round(
-                TICKS_IN_BEAT
-                * 4
-                * project.time_signature_list[0].numerator
-                / project.time_signature_list[0].denominator
-            )
-        )
+        self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         self.first_bar_tempo = [
             tempo for tempo in project.song_tempo_list if tempo.position < self.first_bar_tick
         ]
@@ -84,9 +75,9 @@ class SynthVGenerator:
             for meter in new_meters:
                 sv_project.time_sig.meter.append(self.generate_meter(meter))
         for track_id, track in enumerate(project.track_list):
-            sv_track = self.generate_track(track)
-            sv_track.disp_order = track_id
-            sv_project.tracks.append(sv_track)
+            if (sv_track := self.generate_track(track)) is not None:
+                sv_track.disp_order = track_id
+                sv_project.tracks.append(sv_track)
         return sv_project
 
     @staticmethod
@@ -128,7 +119,7 @@ class SynthVGenerator:
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
 
             self.lyrics_phonemes = sv_g2p(
-                (SVNote.normalize_lyric(note) for note in track.note_list),
+                (SVNote.normalize_phoneme(note) for note in track.note_list),
                 [language_preset.language] * len(track.note_list),
             )
 
@@ -148,7 +139,7 @@ class SynthVGenerator:
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
                 sv_track.main_ref.audio.duration = track_info.duration / 1000
         else:
-            return
+            return None
         return sv_track
 
     def generate_audio_offset(self, offset: int) -> int:
@@ -428,7 +419,12 @@ class SynthVGenerator:
             )
 
             index = 1 if current_phone_marks[0] > 0 else 0
-            if current_main_part_edited and next_head_part_edited:
+            if (
+                current_main_part_edited
+                and next_head_part_edited
+                and (current_note.edited_phones is not None)
+                and (next_note.edited_phones is not None)
+            ):
                 current_main_ratio = (
                     current_note.edited_phones.mid_ratio_over_tail / current_phone_marks[1]
                 )
@@ -449,13 +445,13 @@ class SynthVGenerator:
                 current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
                 current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
                 next_sv_note.attributes.set_phone_duration(0, clamp(z, 0.2, 1.8))
-            elif current_main_part_edited:
+            elif current_main_part_edited and current_note.edited_phones is not None:
                 ratio = current_note.edited_phones.mid_ratio_over_tail / current_phone_marks[1]
                 x = 2 * ratio / (1 + ratio)
                 y = 2 / (1 + ratio)
                 current_sv_note.attributes.set_phone_duration(index, clamp(x, 0.2, 1.8))
                 current_sv_note.attributes.set_phone_duration(index + 1, clamp(y, 0.2, 1.8))
-            elif next_head_part_edited:
+            elif next_head_part_edited and next_note.edited_phones is not None:
                 ratio = next_note.edited_phones.head_length_in_secs / next_phone_marks[0]
                 if (
                     self.synchronizer.get_duration_secs_from_ticks(
@@ -488,6 +484,7 @@ class SynthVGenerator:
             current_phone_marks[1] > 0
             and current_note.edited_phones is not None
             and current_note.edited_phones.mid_ratio_over_tail > 0
+            and notes[-1].edited_phones is not None
         ):
             ratio = notes[-1].edited_phones.mid_ratio_over_tail / current_phone_marks[1]
             x = 2 * ratio / (1 + ratio)

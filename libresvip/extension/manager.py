@@ -1,57 +1,45 @@
+from __future__ import annotations
+
 import dataclasses
 import functools
 import inspect
-import os
-import pathlib
 import sys
-import types
 from importlib.abc import MetaPathFinder
-from importlib.machinery import ModuleSpec, PathFinder, SourceFileLoader, all_suffixes
-from importlib.util import module_from_spec, spec_from_file_location
-from types import ModuleType
-from typing import Optional, cast
+from importlib.machinery import (
+    PathFinder,
+    SourceFileLoader,
+    all_suffixes,
+)
+from typing import TYPE_CHECKING, Generic, Optional, cast
 
 from loguru import logger
 from typing_extensions import TypeGuard
 
-from libresvip.core.compat import Traversable
 from libresvip.core.config import settings
 from libresvip.core.constants import app_dir, pkg_dir
+from libresvip.utils.module_loading import import_module
 
-from .base import BasePlugin, SVSConverterBase
-from .meta_info import LibreSvipPluginInfo, PluginInfo
+from .base import BasePlugin_co, MiddlewareBase, SVSConverterBase
+from .meta_info import FormatProviderPluginInfo, MiddlewarePluginInfo, PluginInfo_co
 
-# import zipfile
+if TYPE_CHECKING:
+    import pathlib
+    from importlib.machinery import ModuleSpec
+    from types import ModuleType
 
-
-def load_module(name: str, plugin_path: Traversable) -> types.ModuleType:
-    spec = spec_from_file_location(name, plugin_path)
-    spec.submodule_search_locations = [
-        str(plugin_path)
-        if plugin_path.is_dir()
-        else str(plugin_path).removesuffix(plugin_path.name)
-    ]
-    module = module_from_spec(spec)
-    try:
-        spec.loader.exec_module(module)
-    except Exception as e:
-        msg = f"{e}: {plugin_path}"
-        raise ImportError(msg) from e
-    return module
+    from libresvip.core.compat import Traversable
 
 
 @dataclasses.dataclass
-class PluginManager:
+class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
     info_extension: str
-    info_cls: type[PluginInfo]
-    plugin_base: type[BasePlugin]
+    plugin_base: type[BasePlugin_co]
+    plugin_info_class: type[PluginInfo_co]
     plugin_namespace: str
     install_path: pathlib.Path
     plugin_places: list[Traversable]
-    plugin_registry: dict[str, PluginInfo] = dataclasses.field(default_factory=dict)
-    _candidates: list[tuple[str, Traversable, LibreSvipPluginInfo]] = dataclasses.field(
-        default_factory=list
-    )
+    plugin_registry: dict[str, PluginInfo_co] = dataclasses.field(default_factory=dict)
+    _candidates: list[tuple[Traversable, PluginInfo_co]] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
         sys.meta_path.append(cast(MetaPathFinder, self))
@@ -67,43 +55,22 @@ class PluginManager:
             return None
         path = [str(path) for path in self.plugin_places]
 
-        spec = PathFinder.find_spec(fullname, path, target)
-        if spec:
+        if (
+            spec := PathFinder.find_spec(fullname, path, target)
+        ) is not None and spec.loader is not None:
             spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)
-        return spec
+            return spec
 
-    def is_plugin(self, member: object) -> TypeGuard[BasePlugin]:
+    def is_plugin(self, member: object) -> TypeGuard[BasePlugin_co]:
         return (
             inspect.isclass(member)
+            and not inspect.isabstract(member)
             and issubclass(member, self.plugin_base)
-            and member != self.plugin_base
         )
-
-    def _import_module(
-        self, plugin_module_name: str, candidate_filepath: Traversable, reload: bool
-    ) -> types.ModuleType:
-        """
-        Import a module, trying either to find it as a single file or as a directory.
-
-        .. note:: Isolated and provided to be reused, but not to be reimplemented !
-        """
-
-        if candidate_filepath.is_file():
-            plugin_dirname = (
-                str(candidate_filepath)
-                .removesuffix(candidate_filepath.name)
-                .removesuffix(os.path.sep)
-                .rpartition(os.path.sep)[-1]
-            )
-            plugin_package = f"{self.plugin_namespace}.{plugin_dirname}"
-        if plugin_package not in sys.modules or reload:
-            sys.modules[plugin_package] = load_module(plugin_package, candidate_filepath)
-
-        return sys.modules[plugin_package]
 
     def scan_candidates(self) -> None:
         self._candidates.clear()
-        _discovered = set()
+        _discovered: set[str] = set()
         for dir_path in self.plugin_places:
             # first of all, is it a directory :)
             if not dir_path.is_dir():
@@ -114,14 +81,18 @@ class PluginManager:
                 if not child_path.is_dir():
                     continue
                 for file_path in child_path.iterdir():
-                    if not file_path.is_file() or not file_path.name.endswith(self.info_extension):
+                    if not file_path.is_file() or not file_path.name.endswith(
+                        f".{self.info_extension}"
+                    ):
                         continue
                     if (candidate_infofile := str(file_path)) in _discovered:
-                        # logger.debug("%s (with strategy %s) rejected because already discovered" % (candidate_infofile, analyzer.name))
+                        logger.debug(f"{candidate_infofile} rejected because already discovered")
                         continue
-                    # logger.debug("%s found a candidate:\n    %s" % (self.__class__.__name__, candidate_infofile))
-                    if (plugin_info := self.info_cls.load(file_path)) is None:
-                        # logger.debug("Plugin candidate '%s'  rejected by strategy '%s'" % (candidate_infofile, analyzer.name))
+                    logger.debug(
+                        f"{self.__class__.__name__} found a candidate:\n    {candidate_infofile}"
+                    )
+                    if (plugin_info := self.plugin_info_class.load(file_path)) is None:
+                        logger.debug(f"Plugin candidate '{candidate_infofile}'  rejected")
                         continue  # we consider this was the good strategy to use for: it failed -> not a plugin -> don't try another strategy
                     if entry_suffix := next(
                         (
@@ -147,7 +118,7 @@ class PluginManager:
                             f"Plugin candidate rejected: cannot find the file or directory module for '{candidate_infofile}'",
                         )
                         break
-                    self._candidates.append((candidate_infofile, candidate_filepath, plugin_info))
+                    self._candidates.append((candidate_filepath, plugin_info))
                     # finally the candidate_infofile must not be discovered again
                     _discovered.add(candidate_infofile)
 
@@ -155,20 +126,19 @@ class PluginManager:
         if reload:
             self.plugin_registry.clear()
         self.scan_candidates()
-        for candidate_infofile, candidate_filepath, plugin_info in self._candidates:
+        for candidate_filepath, plugin_info in self._candidates:
             # make sure to attribute a unique module name to the one
             # that is about to be loaded
-            plugin_module_name = f"{self.plugin_namespace}.{plugin_info.suffix}"
+            plugin_module_name = f"{self.plugin_namespace}.{plugin_info.identifier}"
             if (
-                plugin_info.suffix in self.plugin_registry and not reload
-            ) or plugin_info.suffix in settings.disabled_plugins:
-                logger.debug(f"Skipped plugin: {plugin_info.suffix}")
+                plugin_info.identifier in self.plugin_registry and not reload
+            ) or plugin_info.identifier in settings.disabled_plugins:
+                logger.debug(f"Skipped plugin: {plugin_info.identifier}")
                 continue
             try:
-                candidate_module = self._import_module(
-                    plugin_module_name, candidate_filepath, reload
-                )
-            except Exception:
+                candidate_module = import_module(plugin_module_name, candidate_filepath, reload)
+            except Exception as e:
+                logger.exception(e)
                 logger.error(
                     f"Unable to import plugin: {candidate_filepath}",
                 )
@@ -179,18 +149,35 @@ class PluginManager:
                     0
                 ]
                 plugin_info.plugin_object = plugin_cls()
-                self.plugin_registry[plugin_info.suffix] = plugin_info
+                self.plugin_registry[plugin_info.identifier] = plugin_info
             except Exception:
                 logger.error(f"Unable to create plugin object: {candidate_filepath}")
                 continue  # If it didn't work once it wont again
 
 
-plugin_manager = PluginManager(
+class ConverterPluginManager(BasePluginManager[SVSConverterBase, FormatProviderPluginInfo]):
+    pass
+
+
+class MiddlewareManager(BasePluginManager[MiddlewareBase, MiddlewarePluginInfo]):
+    pass
+
+
+plugin_manager = ConverterPluginManager(
     info_extension="yapsy-plugin",
-    info_cls=LibreSvipPluginInfo,
     plugin_base=SVSConverterBase,
+    plugin_info_class=FormatProviderPluginInfo,
     plugin_places=[pkg_dir / "plugins", app_dir.user_config_path / "plugins"],
     plugin_namespace="libresvip.plugins",
     install_path=app_dir.user_config_path / "plugins",
 )
 plugin_manager.import_plugins()
+middleware_manager = MiddlewareManager(
+    info_extension="yapsy-plugin",
+    plugin_base=MiddlewareBase,
+    plugin_info_class=MiddlewarePluginInfo,
+    plugin_places=[pkg_dir / "middlewares", app_dir.user_config_path / "middlewares"],
+    plugin_namespace="libresvip.middlewares",
+    install_path=app_dir.user_config_path / "middlewares",
+)
+middleware_manager.import_plugins()

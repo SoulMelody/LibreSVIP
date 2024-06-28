@@ -3,8 +3,6 @@ import math
 import pathlib
 from collections.abc import Callable
 
-from construct import Container
-
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -19,7 +17,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import db_to_float
+from libresvip.utils.music_math import db_to_float
 
 from .model import (
     VocalShifterLabel,
@@ -29,6 +27,7 @@ from .model import (
     VocalShifterPatternType,
     VocalShifterProjectData,
     VocalShifterProjectMetadata,
+    VocalShifterTrackMetadata,
 )
 from .options import InputOptions
 from .utils import ansi2unicode
@@ -39,7 +38,6 @@ class VocalShifterParser:
     options: InputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     tick_rate: float = dataclasses.field(init=False)
-    track_index2metadata: dict[int, Container] = dataclasses.field(default_factory=dict)
 
     def parse_project(self, vshp_proj: VocalShifterProjectData) -> Project:
         project = Project(
@@ -73,8 +71,6 @@ class VocalShifterParser:
 
     def parse_track_list(self, vshp_proj: VocalShifterProjectData) -> list[Track]:
         track_list = []
-        for i, track_metadata in enumerate(vshp_proj.track_metadatas):
-            self.track_index2metadata[i + 1] = track_metadata
         for pattern_metadata, pattern_data in zip(
             vshp_proj.pattern_metadatas, vshp_proj.pattern_datas
         ):
@@ -82,9 +78,17 @@ class VocalShifterParser:
                 pattern_data.header.pattern_type == VocalShifterPatternType.WAVE
                 and not self.options.wave_to_singing
             ):
-                track = self.parse_instrumental_track(pattern_metadata, pattern_data)
+                track = self.parse_instrumental_track(
+                    pattern_metadata,
+                    pattern_data,
+                    vshp_proj.track_metadatas[pattern_metadata.track_index],
+                )
             else:
-                track = self.parse_singing_track(pattern_metadata, pattern_data)
+                track = self.parse_singing_track(
+                    pattern_metadata,
+                    pattern_data,
+                    vshp_proj.track_metadatas[pattern_metadata.track_index],
+                )
             track_list.append(track)
         return track_list
 
@@ -92,12 +96,12 @@ class VocalShifterParser:
         self,
         pattern_metadata: VocalShifterPatternMetadata,
         pattern_data: VocalShifterPatternData,
+        track_metadata: VocalShifterTrackMetadata,
     ) -> InstrumentalTrack:
         sample_rate = pattern_data.header.sample_rate
         sample_offset = pattern_metadata.offset_samples + pattern_metadata.offset_correction
         offset_in_seconds = sample_offset / sample_rate
         offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds)
-        track_metadata = self.track_index2metadata[pattern_metadata.track_index]
         return InstrumentalTrack(
             audio_file_path=ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]),
             offset=offset_in_ticks,
@@ -111,8 +115,8 @@ class VocalShifterParser:
         self,
         pattern_metadata: VocalShifterPatternMetadata,
         pattern_data: VocalShifterPatternData,
+        track_metadata: VocalShifterTrackMetadata,
     ) -> SingingTrack:
-        track_metadata = self.track_index2metadata[pattern_metadata.track_index]
         file_path = pathlib.Path(ansi2unicode(pattern_metadata.path_and_ext.split(b"\x00")[0]))
         track = SingingTrack(
             title=file_path.stem,
@@ -123,7 +127,7 @@ class VocalShifterParser:
         )
         sample_offset = pattern_metadata.offset_samples + pattern_metadata.offset_correction
         offset_in_seconds = sample_offset / pattern_data.header.sample_rate
-        offset_in_ticks = self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds)
+        offset_in_ticks = int(self.synchronizer.get_actual_ticks_from_secs(offset_in_seconds))
         track.note_list = self.parse_note_list(
             offset_in_ticks,
             pattern_data.notes.notes,
@@ -258,7 +262,7 @@ class VocalShifterParser:
             param_curve.points.append(
                 Point(
                     round(self.synchronizer.get_actual_ticks_from_secs(offset)) + 1920,
-                    mapping_func(value),
+                    int(mapping_func(value)),
                 )
             )
             offset += time_step

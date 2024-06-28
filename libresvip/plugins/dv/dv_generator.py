@@ -1,8 +1,9 @@
 import dataclasses
+from typing import cast
 
 from construct_typed import DataclassMixin, DataclassStruct
 
-from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -13,7 +14,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
 
 from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, MIN_SEGMENT_LENGTH
 from .deepvocal_pitch import convert_note_key, generate_for_dv
@@ -93,7 +94,7 @@ class DeepVocalGenerator:
                     song_tempo if i > 0 else song_tempo.model_copy(update={"position": 0})
                     for i, song_tempo in enumerate(tempos)
                 ],
-                self.tick_prefix,
+                self.tick_prefix - self.first_bar_length,
             )
         ]
 
@@ -123,7 +124,7 @@ class DeepVocalGenerator:
                 )
                 track_list.append(
                     DvTrack(
-                        track_type=DvTrackType.AUDIO,
+                        track_type=cast(DvTrackType, DvTrackType.AUDIO),
                         track_data=dv_track,
                     )
                 )
@@ -187,7 +188,7 @@ class DeepVocalGenerator:
             )
             track_list.append(
                 DvTrack(
-                    track_type=DvTrackType.SINGING,
+                    track_type=cast(DvTrackType, DvTrackType.SINGING),
                     track_data=dv_track,
                 )
             )
@@ -198,9 +199,13 @@ class DeepVocalGenerator:
             DvNote(
                 start=note.start_pos,
                 length=note.length,
-                key=convert_note_key(note.key_number),
-                phoneme=note.pronunciation
-                or ("-" if note.lyric == "-" else next(iter(get_pinyin_series(note.lyric)), "")),
+                key=cast(int, convert_note_key(note.key_number)),
+                phoneme=cast(str, note.pronunciation)
+                or (
+                    note.lyric
+                    if CHINESE_RE.search(note.lyric) is None
+                    else next(iter(get_pinyin_series(note.lyric)), "")
+                ),
                 word=note.lyric,
                 padding_1=0,
                 vibrato=50,

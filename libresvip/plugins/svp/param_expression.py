@@ -7,7 +7,7 @@ import operator
 from typing import TYPE_CHECKING, Union
 
 from libresvip.model.point import Point
-from libresvip.utils import find_last_index
+from libresvip.utils.search import find_last_index
 
 from .interval_utils import position_to_ticks
 from .layer_generator import (
@@ -34,7 +34,7 @@ class ParamOperators(enum.Enum):
 
 class ParamExpression(abc.ABC):
     @abc.abstractmethod
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         pass
 
     def __add__(self, other: Union[int, ParamExpression]) -> ParamExpression:
@@ -89,8 +89,8 @@ class ScaledParam(ParamExpression):
     expression: ParamExpression
     ratio: float
 
-    def value_at_ticks(self, ticks: int) -> int:
-        return int(round(self.ratio * self.expression.value_at_ticks(ticks)))
+    def value_at_ticks(self, ticks: int) -> float:
+        return self.ratio * self.expression.value_at_ticks(ticks)
 
 
 @dataclasses.dataclass
@@ -98,7 +98,7 @@ class TranslationalParam(ParamExpression):
     expression: ParamExpression
     offset: int
 
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         return self.expression.value_at_ticks(ticks) + self.offset
 
 
@@ -135,7 +135,7 @@ class CurveGenerator(ParamExpression):
         self.interpolation = _interpolation
         self.base_value = _base_value
 
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         if len(self.point_list) == 0:
             return self.base_value
         index = find_last_index(self.point_list, lambda point: point.x <= ticks)
@@ -147,7 +147,7 @@ class CurveGenerator(ParamExpression):
             (ticks - self.point_list[index].x)
             / (self.point_list[index + 1].x - self.point_list[index].x)
         )
-        return round((1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y)
+        return (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
 
     def get_converted_curve(self, step: int) -> list[Point]:
         result: list[Point] = []
@@ -185,7 +185,7 @@ class CompoundParam(ParamExpression):
     op: ParamOperators
     expr2: ParamExpression
 
-    def value_at_ticks(self, ticks: int) -> float:  # type: ignore[override]
+    def value_at_ticks(self, ticks: int) -> float:
         ticks1 = self.expr1.value_at_ticks(ticks)
         ticks2 = self.expr2.value_at_ticks(ticks)
         if self.op == ParamOperators.ADD:
@@ -249,12 +249,12 @@ class PitchGenerator(ParamExpression):
         self.vibrato_layer = VibratoLayerGenerator(note_structs)
         self.gaussian_layer = GaussianLayerGenerator(note_structs)
 
-    def value_at_ticks(self, ticks: int) -> int:
+    def value_at_ticks(self, ticks: int) -> float:
         return self.value_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
-    def value_at_secs(self, secs: float) -> int:
+    def value_at_secs(self, secs: float) -> float:
         ticks = round(self.synchronizer.get_actual_ticks_from_secs(secs))
-        return round(
+        return (
             self.base_layer.pitch_at_secs(secs)
             + self.pitch_diff.value_at_ticks(ticks)
             + self.vibrato_layer.pitch_diff_at_secs(secs)

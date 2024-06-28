@@ -1,6 +1,7 @@
 import dataclasses
 from typing import Optional, Union
 
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -39,7 +40,7 @@ class VocalSharpParser:
     def parse_project(self, vspx_project: VocalSharpProject) -> Project:
         self.default_trill = vspx_project.project.default_trill
         time_signatures = self.parse_time_signatures(vspx_project.project.beat)
-        self.first_bar_length = time_signatures[0].bar_length()
+        self.first_bar_length = round(time_signatures[0].bar_length())
         tempos = self.parse_tempos(vspx_project.project.tempo)
         self.synchronizer = TimeSynchronizer(tempos)
         singing_tracks = self.parse_singing_tracks(
@@ -73,13 +74,16 @@ class VocalSharpParser:
         ]
 
     def parse_tempos(self, tempo_list: list[VocalSharpTempo]) -> list[SongTempo]:
-        return [
-            SongTempo(
-                position=tempo.pos,
-                bpm=tempo.bpm,
-            )
-            for tempo in tempo_list
-        ]
+        return shift_tempo_list(
+            [
+                SongTempo(
+                    position=tempo.pos,
+                    bpm=tempo.bpm,
+                )
+                for tempo in tempo_list
+            ],
+            self.first_bar_length,
+        )
 
     def parse_singing_tracks(self, track_list: list[VocalSharpNoteTrack]) -> list[SingingTrack]:
         tracks = []
@@ -91,7 +95,8 @@ class VocalSharpParser:
                 ai_singer_name=track.singer,
                 note_list=self.parse_notes(track.note),
             )
-            singing_track.edited_params.pitch = self.parse_pitch(track)
+            if self.options.import_pitch:
+                singing_track.edited_params.pitch = self.parse_pitch(track)
             tracks.append(singing_track)
         return tracks
 
@@ -139,14 +144,15 @@ class VocalSharpParser:
         self, track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]
     ) -> list[InstrumentalTrack]:
         tracks = []
-        for track in track_list:
-            for i, sequence in enumerate(track.sequences):
-                instrumental_track = InstrumentalTrack(
-                    title=sequence.name or f"{track.name} {i + 1}",
-                    mute=track.is_mute == "True",
-                    solo=track.is_solo == "True",
-                    offset=sequence.pos,
-                    audio_file_path=sequence.path,
-                )
-                tracks.append(instrumental_track)
+        if self.options.import_instrumental_track:
+            for track in track_list:
+                for i, sequence in enumerate(track.sequences):
+                    instrumental_track = InstrumentalTrack(
+                        title=sequence.name or f"{track.name} {i + 1}",
+                        mute=track.is_mute == "True",
+                        solo=track.is_solo == "True",
+                        offset=sequence.pos,
+                        audio_file_path=sequence.path,
+                    )
+                    tracks.append(instrumental_track)
         return tracks

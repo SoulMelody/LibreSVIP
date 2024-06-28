@@ -6,7 +6,8 @@ from typing import NamedTuple
 import more_itertools
 
 from libresvip.core.exceptions import ParamsError
-from libresvip.utils import clamp, find_index
+from libresvip.utils.music_math import clamp
+from libresvip.utils.search import find_index
 
 from .constants import MAX_BREAK
 from .lambert_w import LambertW
@@ -61,15 +62,15 @@ class SigmoidNode:
         self.start = _start
         self.end = _end
         self.center = _center
-        h = (_key_right - _key_left) * 100
+        h: float = (_key_right - _key_left) * 100
         a = 1 / (1 + math.exp(self.k))
         power = 0.75
 
         left = self.center - self.start
-        if left >= _radius:
+        if left >= _radius or left == 0:
             k_l = self.k
             h_l = h
-            d_l = 0
+            d_l = 0.0
         else:
             al = a * math.pow(_radius / left, power)
             bl = left / _radius
@@ -89,14 +90,14 @@ class SigmoidNode:
             / math.pow(1 + math.exp(-k_l / _radius * (x - self.center + d_l)), 2)
         )
 
-        r = self.end - self.center
-        if r >= _radius:
+        right = self.end - self.center
+        if right >= _radius or right == 0:
             k_r = self.k
             h_r = h
-            d_r = 0
+            d_r = 0.0
         else:
-            ar = a * math.pow(_radius / r, power)
-            br = r / _radius
+            ar = a * math.pow(_radius / right, power)
+            br = right / _radius
             cr = ar * br * self.k / (2 * ar - 1)
             k_r = ar / (2 * ar - 1) * self.k - 1 / br * LambertW.evaluate(cr * math.exp(cr), -1)
             h_r = h * k_r / (2 * k_r - self.k)
@@ -134,10 +135,8 @@ class BaseLayerGenerator:
         for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
-            if (
-                current_note.slide_right
-                and next_note.slide_left
-                and next_note.start - current_note.end <= MAX_BREAK
+            if (diameter := current_note.slide_right + next_note.slide_left) and (
+                next_note.start - current_note.end <= MAX_BREAK
             ):
                 start = clamp(
                     current_note.end - current_note.slide_right + next_note.slide_offset,
@@ -159,7 +158,7 @@ class BaseLayerGenerator:
                         _start=start,
                         _end=end,
                         _center=mid,
-                        _radius=(current_note.slide_right + next_note.slide_left) / 2,
+                        _radius=diameter / 2,
                         _key_left=current_note.key,
                         _key_right=next_note.key,
                     )
@@ -179,7 +178,7 @@ class BaseLayerGenerator:
 
     def pitch_at_secs(self, secs: float) -> float:
         query = [node for node in self.sigmoid_nodes if node.start <= secs < node.end]
-        if len(query) == 0:
+        if not query:
             on_note_index = find_index(self.note_list, lambda note: note.start <= secs < note.end)
             if on_note_index >= 0:
                 return self.note_list[on_note_index].key * 100
@@ -192,17 +191,17 @@ class BaseLayerGenerator:
             )
         elif len(query) == 1:
             return query[0].value_at_secs(secs)
-        elif len(query) == 2:
+        elif len(query) <= 3:
             first = query[0]
-            second = query[1]
-            width = first.end - second.start
-            bottom = first.value_at_secs(second.start)
-            top = second.value_at_secs(first.end)
-            diff1 = first.slope_at_secs(second.start)
-            diff2 = second.slope_at_secs(first.end)
-            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - second.start)
+            last = query[-1]
+            width = first.end - last.start
+            bottom = first.value_at_secs(last.start)
+            top = last.value_at_secs(first.end)
+            diff1 = first.slope_at_secs(last.start)
+            diff2 = last.slope_at_secs(first.end)
+            return self.cubic_bezier(width, bottom, top, diff1, diff2)(secs - last.start)
         else:
-            msg = "More than two sigmoid nodes overlapped"
+            msg = "More than three sigmoid nodes overlapped"
             raise ParamsError(msg)
 
     @staticmethod
@@ -299,10 +298,7 @@ class GaussianNode:
                 )
 
     def value_at_secs(self, secs: float) -> float:
-        if secs < self.origin:
-            return self.gaussian_l(secs)
-        else:
-            return self.gaussian_r(secs)
+        return self.gaussian_l(secs) if secs < self.origin else self.gaussian_r(secs)
 
 
 @dataclasses.dataclass
@@ -311,7 +307,7 @@ class GaussianLayerGenerator:
     gaussian_nodes: list[GaussianNode] = dataclasses.field(default_factory=list)
 
     def __post_init__(self, _note_list: list[NoteStruct]) -> None:
-        if len(_note_list) == 0:
+        if not _note_list:
             return
         current_note = _note_list[0]
         self.gaussian_nodes.append(

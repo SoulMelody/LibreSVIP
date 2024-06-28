@@ -62,7 +62,7 @@ class Y77Generator:
             p
             for p in pitch_param_curve.points.root
             if p.x >= note.start_pos + self.first_bar_length
-            and p.x <= note.start_pos + self.first_bar_length + note.length
+            and p.x <= note.end_pos + self.first_bar_length
         ]
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
@@ -71,7 +71,7 @@ class Y77Generator:
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1
-                value = 50
+                value = 50.0
 
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:

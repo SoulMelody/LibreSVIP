@@ -1,9 +1,4 @@
-import pathlib
-import sys
-
 import pytest
-
-sys.path.append(str(pathlib.Path().parent))
 
 
 @pytest.fixture()
@@ -12,24 +7,24 @@ def pinyin_example() -> list[str]:
 
 
 @pytest.fixture()
-def pretty_construct() -> None:
+def _pretty_construct() -> None:
     from enum import IntEnum
 
     from construct import Container, EnumIntegerString, ListContainer
 
-    def int_enum_repr(self: IntEnum) -> str:
+    def int_enum_repr(self: object) -> str:
         return repr(self.value)
 
-    IntEnum.__repr__ = int_enum_repr
+    setattr(IntEnum, "__repr__", int_enum_repr)
 
     def contruct_enum_repr(self: EnumIntegerString) -> str:
         return str.__repr__(self)
 
     EnumIntegerString.__repr__ = contruct_enum_repr
 
-    def container_repr(self) -> str:
+    def container_repr(self: Container) -> str:
         parts = [
-            f"{repr(k)}: {repr(v)}"
+            f"{k!r}: {v!r}"
             for k, v in self.items()
             if not (isinstance(k, str) and k.startswith("_"))
         ]
@@ -44,4 +39,4 @@ def pretty_construct() -> None:
 
     ListContainer.__repr__ = list_container_repr
 
-    return None
+    return

@@ -1,0 +1,64 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_pypi:
+        type: boolean
+        description: 'Publish PyPi Package'
+        required: true
+        default: true
+      publish_docker:
+        type: boolean
+        description: 'Publish Docker Image'
+        required: true
+        default: true
+
+jobs:
+  pypi-publish:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.publish_pypi }}
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: "3.12"
+
+      - name: Publish to PyPI
+        run: pdm publish
+        env:
+          PDM_PUBLISH_USERNAME: __token__
+          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+
+  docker-publish:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.publish_docker }}
+    permissions:
+      packages: write
+    steps:
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+        - name: Login to the Container registry
+          uses: docker/login-action@v3
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GHCR_TOKEN }}
+
+        - name: Extract metadata (tags, labels) for Docker
+          id: meta
+          uses: docker/metadata-action@v5
+          with:
+            images: ghcr.io/soulmelody/libresvip
+
+        - name: Build and push (tags latest)
+          uses: docker/build-push-action@v6
+          with:
+            push: true
+            tags: ${{ steps.meta.outputs.tags }}
+            labels: ${{ steps.meta.outputs.labels }}

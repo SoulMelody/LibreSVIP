@@ -1,6 +1,6 @@
 import dataclasses
 import operator
-from typing import Optional
+from typing import Optional, cast
 
 import more_itertools
 from wanakana import PROLONGED_SOUND_MARK
@@ -17,7 +17,7 @@ from libresvip.model.base import (
     Track,
 )
 
-from .cevio_pitch import CeVIOPitchEvent, CeVIOTrackPitchData, pitch_from_cevio_track
+from .cevio_pitch import CeVIOParamEvent, CeVIOTrackPitchData, pitch_from_cevio_track
 from .constants import OCTAVE_OFFSET, TICK_RATE
 from .model import CeVIOCreativeStudioProject, CeVIOData, CeVIOGroup, CeVIOUnit
 from .options import InputOptions
@@ -32,7 +32,8 @@ class CeVIOParser:
     def parse_project(self, ccs_project: CeVIOCreativeStudioProject) -> Project:
         scene_node = ccs_project.sequence.scene
         for sound_source in ccs_project.generation.svss.sound_sources.sound_source:
-            self.singer_id2name[sound_source.sound_source_id] = sound_source.name
+            if sound_source.name is not None:
+                self.singer_id2name[sound_source.sound_source_id] = sound_source.name
         singing_unit_nodes = [
             unit_node for unit_node in scene_node.units.unit if unit_node.category == "SingerSong"
         ]
@@ -61,13 +62,14 @@ class CeVIOParser:
 
         self.time_synchronizer = TimeSynchronizer(tempos)
 
-        for index, unit_node in enumerate(audio_unit_nodes):
-            group_id = unit_node.group
-            if (group := id2group.get(group_id)) is None:
-                group = CeVIOGroup()
-            track_name = group.name
-            track = self.parse_instrumental_track(index, unit_node, group, track_name)
-            tracks.append(track)
+        if self.options.import_instrumental_track:
+            for index, unit_node in enumerate(audio_unit_nodes):
+                group_id = unit_node.group
+                if (group := id2group.get(group_id)) is None:
+                    group = CeVIOGroup()
+                track_name = group.name
+                track = self.parse_instrumental_track(index, unit_node, group, track_name)
+                tracks.append(track)
 
         return Project(
             track_list=tracks,
@@ -97,7 +99,9 @@ class CeVIOParser:
             solo=group_node.is_solo,
             offset=int(
                 self.time_synchronizer.get_actual_ticks_from_secs(unit_node.start_time.duration)
-            ),
+            )
+            if unit_node.start_time is not None
+            else 0,
         )
 
     def parse_singing_track(
@@ -107,9 +111,9 @@ class CeVIOParser:
         group_node: CeVIOGroup,
         track_name: Optional[str],
     ) -> tuple[SingingTrack, list[SongTempo], list[TimeSignature]]:
-        time_nodes = unit_node.song.beat.time
+        time_nodes = unit_node.song.beat.time if unit_node.song.beat is not None else []
 
-        prev_tick = 0
+        prev_tick = 0.0
         time_signatures = [
             TimeSignature(bar_index=0, numerator=4, denominator=4),
         ]
@@ -140,13 +144,12 @@ class CeVIOParser:
 
         tick_prefix = int(time_signatures[0].bar_length())
 
-        tempos = []
-        tempo_nodes = unit_node.song.tempo.sound
-        for tempo_node in tempo_nodes:
-            tick = tempo_node.clock // TICK_RATE if tempo_node.clock is not None else None
-            bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
-            if tick is not None and bpm is not None:
-                tempos.append(SongTempo(position=tick, bpm=bpm))
+        tempo_nodes = unit_node.song.tempo.sound if unit_node.song.tempo is not None else []
+        tempos = [
+            SongTempo(position=tempo_node.clock // TICK_RATE, bpm=float(tempo_node.tempo))
+            for tempo_node in tempo_nodes
+            if tempo_node.clock is not None and tempo_node.tempo is not None
+        ]
 
         notes = []
         note_nodes = unit_node.song.score.note
@@ -171,19 +174,52 @@ class CeVIOParser:
                 and key is not None
                 and lyric is not None
             ):
-                if lyric == PROLONGED_SOUND_MARK:
+                if lyric == chr(PROLONGED_SOUND_MARK):
                     lyric = "-"
                 notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
 
         cevio_track_pitch_data = None
-        if unit_node.song.parameter is not None and unit_node.song.parameter.log_f0 is not None:
-            pitch_data_nodes: list[CeVIOData] = unit_node.song.parameter.log_f0.data
-            pitch_datas = []
-            for data_node in pitch_data_nodes:
-                if pitch_data := self.parse_pitch_data(data_node):
-                    pitch_datas.append(pitch_data)
+        if (
+            self.options.import_pitch
+            and unit_node.song.parameter is not None
+            and unit_node.song.parameter.log_f0 is not None
+        ):
+            pitch_data_nodes: list[CeVIOData] = cast(
+                list[CeVIOData], unit_node.song.parameter.log_f0.data
+            )
+            vibrato_amplitude_nodes: list[CeVIOData] = cast(
+                list[CeVIOData],
+                unit_node.song.parameter.vib_amp.data
+                if unit_node.song.parameter.vib_amp is not None
+                else [],
+            )
+            vibrato_frequency_nodes: list[CeVIOData] = cast(
+                list[CeVIOData],
+                unit_node.song.parameter.vib_frq.data
+                if unit_node.song.parameter.vib_frq is not None
+                else [],
+            )
+            pitch_datas = [
+                pitch_data
+                for pitch_data_node in pitch_data_nodes
+                if (pitch_data := self.parse_param_data(pitch_data_node))
+            ]
+            vibrato_amplitude_data = [
+                vibrato_amplitude
+                for vibrato_amplitude_node in vibrato_amplitude_nodes
+                if (vibrato_amplitude := self.parse_param_data(vibrato_amplitude_node))
+            ]
+            vibrato_frequency_data = [
+                vibrato_frequency
+                for vibrato_frequency_node in vibrato_frequency_nodes
+                if (vibrato_frequency := self.parse_param_data(vibrato_frequency_node))
+            ]
             cevio_track_pitch_data = CeVIOTrackPitchData(
-                events=pitch_datas, tempos=tempos, tick_prefix=tick_prefix
+                events=pitch_datas,
+                tempos=tempos,
+                tick_prefix=tick_prefix,
+                vibrato_amplitude_events=vibrato_amplitude_data,
+                vibrato_frequency_events=vibrato_frequency_data,
             )
 
         track_name = track_name or f"Track {index + 1}"
@@ -202,9 +238,9 @@ class CeVIOParser:
         return track, tempos, time_signatures
 
     @staticmethod
-    def parse_pitch_data(data_element: CeVIOData) -> Optional[CeVIOPitchEvent]:
+    def parse_param_data(data_element: CeVIOData) -> Optional[CeVIOParamEvent]:
         value = float(data_element.value) if data_element.value is not None else None
         if value is not None:
             index = data_element.index or None
             repeat = data_element.repeat or None
-            return CeVIOPitchEvent(index=index, repeat=repeat, value=value)
+            return CeVIOParamEvent(idx=index, repeat=repeat, value=value)

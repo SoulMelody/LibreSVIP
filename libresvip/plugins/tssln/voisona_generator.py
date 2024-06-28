@@ -2,7 +2,9 @@ import dataclasses
 from typing import Optional
 
 from libresvip.core.constants import KEY_IN_OCTAVE
+from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -12,8 +14,9 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
-from .constants import OCTAVE_OFFSET, TICK_RATE
+from .constants import DEFAULT_PHONEME, OCTAVE_OFFSET, TICK_RATE
 from .model import (
     VoiSonaAudioEventItem,
     VoiSonaAudioTrackItem,
@@ -45,7 +48,7 @@ class VoisonaGenerator:
     def generate_project(self, project: Project) -> VoiSonaProject:
         voisona_project = VoiSonaProject()
         self.time_synchronizer = TimeSynchronizer(project.song_tempo_list)
-        self.first_bar_length = int(project.time_signature_list[0].bar_length() * TICK_RATE)
+        self.first_bar_length = int(project.time_signature_list[0].bar_length())
         default_time_signatures = self.generate_time_signatures(project.time_signature_list)
         default_tempos = self.generate_tempos(project.song_tempo_list)
         voisona_project.tracks.append(VoiSonaTrack())
@@ -92,7 +95,7 @@ class VoisonaGenerator:
         return VoiSonaTempoItem(
             sound=[
                 VoiSonaSoundItem(
-                    clock=round(tempo.position * TICK_RATE) + (self.first_bar_length if i else 0),
+                    clock=round(tempo.position * TICK_RATE) if i else 0,
                     tempo=tempo.bpm,
                 )
                 for i, tempo in enumerate(tempos)
@@ -118,7 +121,7 @@ class VoisonaGenerator:
                 ) * prev_time_signature.bar_length()
             beat.time.append(
                 VoiSonaTimeItem(
-                    clock=int(tick * TICK_RATE) + self.first_bar_length,
+                    clock=int(tick * TICK_RATE),
                     beats=time_signature.numerator,
                     beat_type=time_signature.denominator,
                 )
@@ -127,18 +130,26 @@ class VoisonaGenerator:
         return beat
 
     def generate_notes(self, notes: list[Note]) -> list[VoiSonaNoteItem]:
-        return [
-            VoiSonaNoteItem(
-                clock=int(note.start_pos * TICK_RATE) + self.first_bar_length,
-                duration=int(note.length * TICK_RATE),
-                lyric=note.lyric,
-                pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
-                pitch_step=note.key_number % KEY_IN_OCTAVE,
-                syllabic=0,
-                phoneme="",
+        voisona_notes = []
+        for note in notes:
+            lyric = note.lyric
+            phoneme = ""
+            if not is_kana(lyric) and not is_romaji(lyric):
+                phoneme = DEFAULT_PHONEME
+                msg_prefix = _("Unsupported lyric: ")
+                show_warning(f"{msg_prefix} {lyric}")
+            voisona_notes.append(
+                VoiSonaNoteItem(
+                    clock=int(note.start_pos * TICK_RATE),
+                    duration=int(note.length * TICK_RATE),
+                    lyric=note.lyric,
+                    pitch_octave=note.key_number // KEY_IN_OCTAVE + OCTAVE_OFFSET,
+                    pitch_step=note.key_number % KEY_IN_OCTAVE,
+                    syllabic=0,
+                    phoneme=phoneme,
+                )
             )
-            for note in notes
-        ]
+        return voisona_notes
 
     def generate_pitch(
         self, pitch: ParamCurve, tempo_list: list[SongTempo]
@@ -148,7 +159,7 @@ class VoisonaGenerator:
                 length=data.length,
                 data=[
                     VoiSonaPointData(
-                        index=each.index,
+                        index=each.idx,
                         repeat=each.repeat,
                         value=each.value,
                     )

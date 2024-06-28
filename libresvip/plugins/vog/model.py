@@ -21,7 +21,7 @@ class VogenTrack(BaseModel):
 
 
 class VogenProject(BaseModel):
-    time_sig0: Optional[str] = Field(None, alias="timeSig0")
-    bpm0: Optional[float] = None
+    time_sig0: str = Field(alias="timeSig0")
+    bpm0: float
     accom_offset: Optional[int] = Field(0, alias="accomOffset")
     utts: list[VogenTrack] = Field(default_factory=list)

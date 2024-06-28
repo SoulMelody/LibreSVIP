@@ -1,5 +1,6 @@
 import enum
 from dataclasses import dataclass
+from gettext import gettext as _
 from typing import Annotated, Literal, Optional, Union
 
 from pydantic import ConfigDict, Field
@@ -8,11 +9,11 @@ from libresvip.model.base import BaseModel
 
 
 class VocaloidLanguage(enum.IntEnum):
-    JAPANESE: Annotated[int, Field(title="日本語")] = 0
-    ENGLISH: Annotated[int, Field(title="English")] = 1
-    KOREAN: Annotated[int, Field(title="한국어")] = 2
-    SPANISH: Annotated[int, Field(title="Español")] = 3
-    SIMPLIFIED_CHINESE: Annotated[int, Field(title="简体中文")] = 4
+    JAPANESE: Annotated[int, Field(title=_("日本語"))] = 0
+    ENGLISH: Annotated[int, Field(title=_("English"))] = 1
+    KOREAN: Annotated[int, Field(title=_("한국어"))] = 2
+    SPANISH: Annotated[int, Field(title=_("Español"))] = 3
+    SIMPLIFIED_CHINESE: Annotated[int, Field(title=_("简体中文"))] = 4
 
 
 class VocaloidTrackType(enum.IntEnum):
@@ -169,11 +170,11 @@ class VocaloidAutomation(VocaloidFolded):
 
 
 class VocaloidMasterTrack(BaseModel):
-    loop: Optional[VocaloidRegion] = Field(default_factory=VocaloidRegion)
+    loop: VocaloidRegion = Field(default_factory=VocaloidRegion)
     sampling_rate: int = Field(44100, alias="samplingRate")
     tempo: VocaloidTempo = Field(default_factory=VocaloidTempo)
     time_sig: VocaloidTimeSigs = Field(alias="timeSig", default_factory=VocaloidTimeSigs)
-    volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
+    volume: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
 
 
 class VocaloidDVQMRelease(VocaloidCompID):
@@ -213,7 +214,7 @@ class VocaloidVoicePart(VocaloidWithDur):
     name: Optional[str] = ""
     midi_effects: list[VocaloidEffects] = Field(default_factory=list, alias="midiEffects")
     audio_effects: list[VocaloidEffects] = Field(default_factory=list, alias="audioEffects")
-    notes: Optional[list[VocaloidNotes]] = Field(default_factory=list)
+    notes: list[VocaloidNotes] = Field(default_factory=list)
     style_preset_id: Optional[str] = Field(None, alias="stylePresetID")
     style_name: Optional[str] = Field("No Effect", alias="styleName")
     voice: Optional[VocaloidVoice] = None
@@ -252,8 +253,8 @@ class VocaloidBaseTracks(VocaloidFolded):
     is_muted: bool = Field(False, alias="isMuted")
     is_solo_mode: bool = Field(False, alias="isSoloMode")
     name: Optional[str] = ""
-    panpot: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
-    volume: Optional[VocaloidAutomation] = Field(default_factory=VocaloidAutomation)
+    panpot: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
+    volume: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
     last_scroll_position_note_number: Optional[int] = Field(
         None, alias="lastScrollPositionNoteNumber"
     )

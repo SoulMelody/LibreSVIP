@@ -1,7 +1,7 @@
 from typing import Optional
 
 from PySide6.QtCore import QCoreApplication, QEvent, QObject, Qt
-from PySide6.QtGui import QMouseEvent
+from PySide6.QtGui import QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickWindow
 
@@ -14,9 +14,11 @@ QML_IMPORT_MINOR_VERSION = 0
 
 @QmlElement
 class FramelessWindow(QQuickWindow):
-    def __init__(self, parent: Optional[QObject] = None, border_width: int = 5) -> None:
+    def __init__(self, parent: Optional[QWindow] = None, border_width: int = 5) -> None:
         super().__init__(parent)
-        self.flags = self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
+        self.flags: Qt.WindowType = (
+            self.flags | Qt.WindowType.FramelessWindowHint | Qt.WindowType.Window
+        )
         self.border_width = border_width
         QCoreApplication.instance().install_event_filter(self)
 

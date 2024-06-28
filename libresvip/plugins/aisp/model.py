@@ -29,7 +29,7 @@ class AISNote(BaseModel):
     pinyin: Optional[str] = Field(alias="py")
     vel: Optional[int] = 50
     triple: Optional[bool] = Field(False, alias="tri")
-    pit: Optional[list[float]] = None
+    pit: list[float] = Field(default_factory=list)
     bc: Optional[int] = 0
     bj: Optional[int] = 0
     bq: Optional[int] = 0

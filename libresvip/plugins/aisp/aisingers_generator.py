@@ -3,6 +3,7 @@ import dataclasses
 from typing import Union
 
 from libresvip.core.constants import DEFAULT_PHONEME
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -14,7 +15,8 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info
+from libresvip.model.reset_time_axis import limit_bars
+from libresvip.utils.audio import audio_track_info
 
 from .model import (
     AISAudioPattern,
@@ -37,6 +39,7 @@ class AiSingersGenerator:
     first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> tuple[AISProjectHead, AISProjectBody]:
+        project = limit_bars(project, 100)
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         ais_time_signatures = self.generate_time_signatures(project.time_signature_list)
@@ -136,29 +139,30 @@ class AiSingersGenerator:
                         ],
                     )
                     ais_tracks.append(ais_track)
-            elif isinstance(track, InstrumentalTrack):
-                if track_info := audio_track_info(track.audio_file_path, only_wav=True):
-                    offset_secs = track_info.duration / 1000
-                    end_tick = self.synchronizer.get_actual_ticks_from_secs_offset(
-                        track.offset, offset_secs
-                    )
-                    ais_track = AISAudioTrack(
-                        idx=len(ais_tracks),
-                        name=track.title,
-                        mute=track.mute,
-                        solo=track.solo,
-                        items=[
-                            AISAudioPattern(
-                                start=track.offset // 15,
-                                length=(end_tick - track.offset) // 15,
-                                path_audio=track.audio_file_path,
-                                path_wave=track.audio_file_path,
-                                len_sec=int(offset_secs),
-                                n_channel=track_info.channel_s,
-                            )
-                        ],
-                    )
-                    ais_tracks.append(ais_track)
+            elif isinstance(track, InstrumentalTrack) and (
+                track_info := audio_track_info(track.audio_file_path, only_wav=True)
+            ):
+                offset_secs = track_info.duration / 1000
+                end_tick = self.synchronizer.get_actual_ticks_from_secs_offset(
+                    track.offset, offset_secs
+                )
+                ais_track = AISAudioTrack(
+                    idx=len(ais_tracks),
+                    name=track.title,
+                    mute=track.mute,
+                    solo=track.solo,
+                    items=[
+                        AISAudioPattern(
+                            start=track.offset // 15,
+                            length=(end_tick - track.offset) // 15,
+                            path_audio=track.audio_file_path,
+                            path_wave=track.audio_file_path,
+                            len_sec=int(offset_secs),
+                            n_channel=track_info.channel_s,
+                        )
+                    ],
+                )
+                ais_tracks.append(ais_track)
         return ais_tracks
 
     def generate_notes(self, track: SingingTrack) -> list[AISNote]:
@@ -169,7 +173,12 @@ class AiSingersGenerator:
                 start=round(note.start_pos / 15),
                 length=round(note.length / 15),
                 lyric=note.lyric,
-                pinyin=note.pronunciation or DEFAULT_PHONEME,
+                pinyin=note.pronunciation
+                or (
+                    " ".join(get_pinyin_series(note.lyric))
+                    if CHINESE_RE.fullmatch(note.lyric) is not None
+                    else (note.lyric or DEFAULT_PHONEME)
+                ),
                 triple=False,
                 pit="0x500",
             )
@@ -186,7 +195,7 @@ class AiSingersGenerator:
         pitch_param_in_note = [
             p
             for p in pitch_param_curve.points.root
-            if note.start_pos + self.first_bar_length <= p.x <= note.end_pos + self.first_bar_length
+            if note.start_pos + self.first_bar_length <= p.x < note.end_pos + self.first_bar_length
         ]
 
         pitch_param_time_in_note = dict(pitch_param_in_note)
@@ -195,7 +204,7 @@ class AiSingersGenerator:
         for sample_time in sample_time_list:
             if (pitch := pitch_param_time_in_note.get(sample_time)) is None:
                 distance = -1
-                value = 0
+                value = 0.0
 
                 for point in pitch_param_in_note:
                     if distance > abs(point.x - sample_time) or distance == -1:

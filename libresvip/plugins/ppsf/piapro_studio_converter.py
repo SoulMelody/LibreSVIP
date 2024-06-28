@@ -21,7 +21,7 @@ class PiaproStudioConverter(plugin_base.SVSConverterBase):
         if content[:2] == b"PK":
             with zipfile.ZipFile(io.BytesIO(content), "r") as zf:
                 proj_text = zf.read("ppsf.json")
-            ppsf_project = PpsfProject.model_validate(json.loads(proj_text))
+            ppsf_project = PpsfProject.model_validate_json(proj_text)
             return PiaproStudioNTParser(options).parse_project(ppsf_project)
         elif content[:4] == b"PPSF":
             ppsf_project = PpsfLegacyProject.parse(content)

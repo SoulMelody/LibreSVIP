@@ -643,7 +643,7 @@ MessageEnd = Struct(
 )
 
 
-Record = Struct(
+Record: Container = Struct(
     "record_type_enum" / RecordTypeEnum,
     "obj"
     / Switch(

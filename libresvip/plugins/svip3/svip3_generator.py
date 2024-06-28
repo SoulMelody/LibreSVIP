@@ -1,13 +1,15 @@
 import dataclasses
 import re
-import warnings
 from typing import Any
 from urllib.parse import urljoin
 
+import pypinyin
 from google.protobuf import any_pb2
 
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -18,11 +20,18 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info, ratio_to_db
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import ratio_to_db
+from libresvip.utils.translation import gettext_lazy as _
 
 from .color_pool import random_color
-from .constants import DEFAULT_SINGER_ID, TYPE_URL_BASE, Svip3TrackType
+from .constants import (
+    DEFAULT_SINGER_ID,
+    MAX_NOTE_DURATION,
+    MIN_NOTE_DURATION,
+    TYPE_URL_BASE,
+    Svip3TrackType,
+)
 from .model import (
     Svip3AudioPattern,
     Svip3AudioTrack,
@@ -35,6 +44,7 @@ from .model import (
     Svip3SongBeat,
     Svip3SongTempo,
 )
+from .options import OutputOptions
 from .singers import singers_data
 
 PINYIN_PATTERN = re.compile(r"^[a-z]+$")
@@ -42,12 +52,15 @@ PINYIN_PATTERN = re.compile(r"^[a-z]+$")
 
 @dataclasses.dataclass
 class Svip3Generator:
+    options: OutputOptions
     first_bar_length: int = dataclasses.field(init=False)
     song_tempo_list: list[SongTempo] = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     song_duration: int = dataclasses.field(default=0)
 
     def generate_project(self, project: Project) -> Svip3Project:
+        self.first_bar_length = round(project.time_signature_list[0].bar_length())
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         return Svip3Project(
             beat_list=self.generate_time_signatures(project.time_signature_list),
             tempo_list=self.generate_song_tempos(project.song_tempo_list),
@@ -55,24 +68,21 @@ class Svip3Generator:
             duration=self.song_duration,
         )
 
-    def generate_time_signatures(
-        self, time_signature_list: list[TimeSignature]
-    ) -> list[Svip3SongBeat]:
-        first_signature = time_signature_list[0]
-        song_beat_list = [
+    @staticmethod
+    def generate_time_signatures(time_signature_list: list[TimeSignature]) -> list[Svip3SongBeat]:
+        return [
             Svip3SongBeat(
                 beat_size=Svip3BeatSize(
-                    numerator=first_signature.numerator,
-                    denominator=first_signature.denominator,
+                    numerator=time_signature.numerator,
+                    denominator=time_signature.denominator,
                 ),
-                pos=first_signature.bar_index,
+                pos=time_signature.bar_index,
             )
+            for time_signature in time_signature_list
         ]
-        self.first_bar_length = round(first_signature.bar_length())
-        return song_beat_list
 
     def generate_song_tempos(self, song_tempo_list: list[SongTempo]) -> list[Svip3SongTempo]:
-        self.synchronizer = TimeSynchronizer(song_tempo_list)
+        song_tempo_list = skip_tempo_list(song_tempo_list, self.first_bar_length)
         return [
             Svip3SongTempo(
                 tempo=round(song_tempo.bpm * 100),
@@ -122,9 +132,8 @@ class Svip3Generator:
     def generate_audio_patterns(self, track: InstrumentalTrack) -> list[Svip3AudioPattern]:
         kwargs: dict[str, Any] = {}
         if (track_info := audio_track_info(track.audio_file_path)) is not None:
-            audio_duration_in_secs = track_info.duration / 1000
             audio_duration_in_ticks = round(
-                self.synchronizer.get_actual_ticks_from_secs(audio_duration_in_secs)
+                self.synchronizer.get_actual_ticks_from_secs(track_info.duration / 1000)
             )
             kwargs["real_dur"] = kwargs["play_dur"] = audio_duration_in_ticks
             if track.offset >= 0:
@@ -161,6 +170,8 @@ class Svip3Generator:
         )
 
     def generate_singing_patterns(self, track: SingingTrack) -> list[Svip3SingingPattern]:
+        if not track.note_list:
+            return []
         last_note = track.note_list[-1]
         if last_note.end_pos > self.song_duration:
             self.song_duration = last_note.end_pos + self.first_bar_length
@@ -197,13 +208,25 @@ class Svip3Generator:
                 )
             if PINYIN_PATTERN.fullmatch(note.lyric) is not None:
                 pronunciation = note.lyric
-            elif note.pronunciation and PINYIN_PATTERN.fullmatch(note.pronunciation) is not None:
+            elif note.pronunciation:
                 pronunciation = note.pronunciation
+            elif note.lyric and CHINESE_RE.fullmatch(note.lyric) is not None:
+                pronunciation = " ".join(pypinyin.lazy_pinyin(note.lyric))
             else:
                 pronunciation = note.pronunciation or note.lyric
-                msg_prefx = _("Unsupported pinyin:")
-                warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
+            if note.lyric != "-" and PINYIN_PATTERN.fullmatch(pronunciation) is None:
+                msg_prefix = _("Unsupported pinyin:")
+                show_warning(f"{msg_prefix} {pronunciation}")
                 pronunciation = ""
+            note_duration = self.synchronizer.get_duration_secs_from_ticks(
+                note.start_pos, note.end_pos
+            )
+            if note_duration < MIN_NOTE_DURATION:
+                msg_prefix = _("Note duration is too short:")
+                show_warning(f"{msg_prefix} {note.lyric}")
+            elif note_duration > MAX_NOTE_DURATION:
+                msg_prefix = _("Note duration is too long:")
+                show_warning(f"{msg_prefix} {note.lyric}")
             svip3_note = Svip3Note(
                 start_pos=note.start_pos,
                 width_pos=note.length,

@@ -1,9 +1,8 @@
 import pathlib
 
 from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
-from xsdata.formats.dataclass.serializers.xml import XmlSerializer
+from xsdata_pydantic.bindings import XmlParser, XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
@@ -32,4 +31,4 @@ class CeVIOConverter(plugin_base.SVSConverterBase):
             config=SerializerConfig(pretty_print=True),
         )
         xml_text = serializer.render(ccs_project)
-        path.write_text(xml_text, encoding="utf-8")
+        path.write_bytes(xml_text.encode("utf-8"))

@@ -3,7 +3,7 @@ import math
 
 import pypinyin
 
-from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.exceptions import NoTrackError
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -12,6 +12,7 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import NNInfoLine, NNNote, NNPoints, NNProject, NNTimeSignature
 from .options import OutputOptions
@@ -26,10 +27,14 @@ class NiaoniaoGenerator:
     def generate_project(self, project: Project) -> NNProject:
         self.length_multiplier = 60 if self.options.version == 19 else 30
         if self.options.track_index < 0:
-            first_singing_track = next(
-                (track for track in project.track_list if isinstance(track, SingingTrack)),
-                None,
-            )
+            if (
+                first_singing_track := next(
+                    (track for track in project.track_list if isinstance(track, SingingTrack)),
+                    None,
+                )
+            ) is None:
+                msg = _("No singing track found")
+                raise NoTrackError(msg)
         else:
             first_singing_track = project.track_list[self.options.track_index]
         nn_time_signature = self.generate_time_signature(project.time_signature_list)
@@ -62,7 +67,7 @@ class NiaoniaoGenerator:
         )
 
     def generate_tempo(self, tempo_list: list[SongTempo]) -> float:
-        return tempo_list[0].bpm if len(tempo_list) else DEFAULT_BPM
+        return tempo_list[0].bpm
 
     def generate_notes(self, singing_track: SingingTrack) -> list[NNNote]:
         nn_notes = []
@@ -88,7 +93,7 @@ class NiaoniaoGenerator:
             p
             for p in pitch_param_curve.points.root
             if p.x >= note.start_pos + self.first_bar_length
-            and p.x <= note.start_pos + self.first_bar_length + note.length
+            and p.x < note.end_pos + self.first_bar_length
         ]
 
         pitch_param_time_in_note = dict(pitch_param_in_note)

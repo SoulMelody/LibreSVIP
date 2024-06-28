@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import itertools
 import os
 import pathlib
 import sys
@@ -11,10 +12,9 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable  # noqa: E402
+from bdist_portable import BdistPortable
 
-import libresvip  # noqa: E402
-from libresvip.core.constants import pkg_dir  # noqa: E402
+import libresvip
 
 with contextlib.suppress(Exception):
     if (
@@ -24,10 +24,30 @@ with contextlib.suppress(Exception):
     ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
-include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
-
 base = "Win32GUI" if sys.platform == "win32" else None
 nicegui_assets_dir = pathlib.Path(nicegui.__path__[0]) / "elements" / "lib"
+zip_includes: list[tuple[str, str]] = [
+    ("../libresvip/res", "libresvip/res"),
+]
+zip_includes.extend(
+    (
+        str(resource_file),
+        str(resource_file.as_posix())[3:],
+    )
+    for resource_file in pathlib.Path("../res").rglob("**/*.*")
+    if resource_file.is_file() and resource_file.suffix not in [".po", ".qml"]
+)
+zip_includes.extend(
+    (
+        str(plugin_info),
+        str(plugin_info.as_posix())[3:],
+    )
+    for plugin_info in itertools.chain(
+        pathlib.Path("../libresvip/middlewares").rglob("**/*.*"),
+        pathlib.Path("../libresvip/plugins").rglob("**/*.*"),
+    )
+    if plugin_info.is_file() and plugin_info.suffix not in [".py", ".pyc"]
+)
 
 
 build_exe_options = {
@@ -51,8 +71,9 @@ build_exe_options = {
         "black",
         "debugpy",
         "jedi",
-        "numpy",
+        "libresvip.gui",
         "matplotlib",
+        "numpy",
         "IPython",
         "Cython",
         "sqlite3",
@@ -65,32 +86,44 @@ build_exe_options = {
         "pydoc_data",
         "setuptools",
         "tkinter",
-        "wslink",
         "wx",
         "PySide6",
         "qtpy",
         "qtawesome",
         "desktop_notifier",
-        "qtinter",
         "zmq",
     ],
-    "include_files": include_files,
-    "zip_include_packages": [],
+    "include_files": [],
+    "zip_includes": zip_includes,
+    "zip_include_packages": [
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.middlewares",
+        "libresvip.model",
+        "libresvip.plugins",
+        "libresvip.web",
+    ],
     "packages": [
         "anyio",
         "construct_typed",
         "drawsvg",
         "google.protobuf",
         "jinja2",
-        "libresvip",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.middlewares",
+        "libresvip.model",
+        "libresvip.plugins",
+        "libresvip.web",
         "mido_fix",
         "parsimonious",
         "proto",
         "pymediainfo",
-        "srt",
+        "pysubs2",
         "webview",
-        "xsdata",
+        "xsdata_pydantic",
         "email._header_value_parser",
+        "nicegui.functions.clipboard",
         "uvicorn.lifespan.on",
         "uvicorn.loops.auto",
         "uvicorn.protocols.http.auto",

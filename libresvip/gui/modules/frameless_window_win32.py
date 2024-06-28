@@ -2,8 +2,8 @@ import ctypes
 from ctypes.wintypes import MSG
 from typing import Optional, SupportsInt
 
-from PySide6.QtCore import QObject, QPoint, QRect, Qt
-from PySide6.QtGui import QGuiApplication, QMouseEvent
+from PySide6.QtCore import QPoint, QRect, Qt
+from PySide6.QtGui import QGuiApplication, QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickItem, QQuickWindow
 
@@ -17,19 +17,19 @@ QML_IMPORT_MINOR_VERSION = 0
 
 
 class MARGINS(ctypes.Structure):
-    _fields_ = [
+    _fields_ = (
         ("cxLeftWidth", ctypes.c_int),
         ("cxRightWidth", ctypes.c_int),
         ("cyTopHeight", ctypes.c_int),
         ("cyBottomHeight", ctypes.c_int),
-    ]
+    )
 
 
 @QmlElement
 class FramelessWindow(QQuickWindow):
-    def __init__(self, parent: Optional[QObject] = None, border_width: int = 5) -> None:
+    def __init__(self, parent: Optional[QWindow] = None, border_width: int = 5) -> None:
         super().__init__(parent)
-        self.flags = (
+        self.flags: Qt.WindowType = (
             self.flags
             | Qt.WindowType.FramelessWindowHint
             | Qt.WindowType.Window
@@ -49,8 +49,8 @@ class FramelessWindow(QQuickWindow):
     def get_point_from_lparam(self, l_param: int) -> tuple[int, int]:
         pixel_ratio = self.screen().device_pixel_ratio
         return (
-            (l_param & 0xFFFF) // pixel_ratio - self.x,
-            (l_param >> 16) // pixel_ratio - self.y,
+            (ctypes.c_short(l_param & 0xFFFF).value) // pixel_ratio - self.x,
+            (ctypes.c_short((l_param >> 16) & 0xFFFF).value) // pixel_ratio - self.y,
         )
 
     @property
@@ -83,9 +83,9 @@ class FramelessWindow(QQuickWindow):
         style &= ~win32con.WS_EX_LAYERED
         user32.SetWindowLongW(hwnd, win32con.GWL_EXSTYLE, style)
 
-    def add_dwm_effect(self) -> Optional[ctypes.HRESULT]:
+    def add_dwm_effect(self) -> Optional[SupportsInt]:
         if not self.is_composition_enabled:
-            return
+            return None
 
         dwmapi = ctypes.windll.dwmapi
 
@@ -131,9 +131,8 @@ class FramelessWindow(QQuickWindow):
                     elif lx:
                         if self.visibility != QQuickWindow.Visibility.Maximized:
                             return True, win32con.HTLEFT
-                    elif rx:
-                        if self.visibility != QQuickWindow.Visibility.Maximized:
-                            return True, win32con.HTRIGHT
+                    elif rx and self.visibility != QQuickWindow.Visibility.Maximized:
+                        return True, win32con.HTRIGHT
                     if self.maximize_btn is not None:
                         top_left = self.maximize_btn.map_to_global(QPoint(0, 0))
                         rect = QRect(
@@ -168,9 +167,8 @@ class FramelessWindow(QQuickWindow):
                     else:
                         self.show_normal()
                     return True, 0
-            elif msg.message == win32con.WM_SIZE:
-                if msg.wParam == win32con.SIZE_MINIMIZED:
-                    self.prev_visibility = self.visibility
+            elif msg.message == win32con.WM_SIZE and msg.wParam == win32con.SIZE_MINIMIZED:
+                self.prev_visibility = self.visibility
         return super().native_event(event_type, message)
 
     def handle_mouse_event(self, msg: MSG) -> None:

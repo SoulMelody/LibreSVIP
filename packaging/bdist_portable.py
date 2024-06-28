@@ -2,6 +2,7 @@
 
 import os
 import pathlib
+from typing import ClassVar, Optional
 
 from loguru import logger
 from setuptools import Command
@@ -14,12 +15,12 @@ from setuptools._distutils.util import get_platform
 class BdistPortable(Command):
     description = 'create a "portable" built distribution'
 
-    user_options = [
+    user_options: ClassVar[list[tuple[str, Optional[str], str]]] = [
         ("bdist-dir=", "d", "temporary directory for creating the distribution"),
         (
             "plat-name=",
             "p",
-            "platform name to embed in generated filenames " "(default: %s)" % get_platform(),
+            "platform name to embed in generated filenames " f"(default: {get_platform()})",
         ),
         (
             "format=",
@@ -50,14 +51,14 @@ class BdistPortable(Command):
         ),
     ]
 
-    boolean_options = ["keep-temp", "skip-build", "relative"]
+    boolean_options: ClassVar[list[str]] = ["keep-temp", "skip-build", "relative"]
 
-    default_format = {"posix": "gztar", "nt": "zip"}
+    default_format: ClassVar[dict[str, str]] = {"posix": "gztar", "nt": "zip"}
 
     def initialize_options(self) -> None:
-        self.bdist_dir = None
+        self.bdist_dir: Optional[pathlib.Path] = None
         self.plat_name = None
-        self.format = None
+        self.format: Optional[str] = None
         self.keep_temp = 0
         self.dist_dir = None
         self.skip_build = None
@@ -76,10 +77,11 @@ class BdistPortable(Command):
             try:
                 self.format = self.default_format[os.name]
             except KeyError as exc:
-                raise DistutilsPlatformError(
+                msg = (
                     "don't know how to create portable built distributions "
-                    "on platform %s" % os.name
-                ) from exc
+                    f"on platform {os.name}"
+                )
+                raise DistutilsPlatformError(msg) from exc
 
         self.set_undefined_options(
             "bdist",
@@ -105,13 +107,13 @@ class BdistPortable(Command):
         # pseudo-installation tree.
         archive_basename = f"{self.distribution.get_fullname()}.{self.plat_name}"
 
-        pseudoinstall_root = pathlib.Path(self.dist_dir) / archive_basename
+        pseudoinstall_root = pathlib.Path(self.dist_dir or "./dist") / archive_basename
         if not self.relative:
             archive_root = self.bdist_dir
         elif self.distribution.has_ext_modules() and (
             install.install_base != install.install_platbase
         ):
-            msg = f"can't make a portable built distribution where base and platbase are different ({repr(install.install_base)}, {repr(install.install_platbase)})"
+            msg = f"can't make a portable built distribution where base and platbase are different ({install.install_base!r}, {install.install_platbase!r})"
             raise DistutilsPlatformError(msg)
         else:
             archive_root = self.bdist_dir / ensure_relative(install.install_base)
@@ -124,10 +126,7 @@ class BdistPortable(Command):
             owner=self.owner,
             group=self.group,
         )
-        if self.distribution.has_ext_modules():
-            pyversion = get_python_version()
-        else:
-            pyversion = "any"
+        pyversion = get_python_version() if self.distribution.has_ext_modules() else "any"
         self.distribution.dist_files.append(("bdist_portable", pyversion, filename))
 
         if not self.keep_temp:

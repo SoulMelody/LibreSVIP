@@ -1,6 +1,7 @@
 import dataclasses
 
-from libresvip.core.constants import DEFAULT_PHONEME
+from libresvip.core.lyric_phoneme.japanese import to_romaji
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -11,7 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import audio_track_info
+from libresvip.utils.audio import audio_track_info
 
 from .model import (
     PpsfAudioTrackEvent,
@@ -132,47 +133,48 @@ class PiaproStudioGenerator:
     ) -> list[PpsfAudioTrackItem]:
         audio_tracks = []
         for track in tracks:
-            if isinstance(track, InstrumentalTrack):
-                if (
-                    track_info := audio_track_info(track.audio_file_path, only_wav=True)
-                ) is not None:
-                    offset = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
-                    tick_length = round(
-                        self.time_synchronizer.get_actual_ticks_from_secs(
-                            offset + track_info.duration / 1000
-                        )
-                        - track.offset
+            if (
+                isinstance(track, InstrumentalTrack)
+                and (track_info := audio_track_info(track.audio_file_path, only_wav=True))
+                is not None
+            ):
+                offset = self.time_synchronizer.get_actual_secs_from_ticks(track.offset)
+                tick_length = round(
+                    self.time_synchronizer.get_actual_ticks_from_secs(
+                        offset + track_info.duration / 1000
                     )
-                    audio_track = PpsfAudioTrackItem(
-                        name=track.title,
-                        events=[
-                            PpsfAudioTrackEvent(
-                                tick_length=tick_length,
-                                tick_pos=track.offset,
-                                file_audio_data=PpsfFileAudioData(file_path=track.audio_file_path),
+                    - track.offset
+                )
+                audio_track = PpsfAudioTrackItem(
+                    name=track.title,
+                    events=[
+                        PpsfAudioTrackEvent(
+                            tick_length=tick_length,
+                            tick_pos=track.offset,
+                            file_audio_data=PpsfFileAudioData(file_path=track.audio_file_path),
+                        )
+                    ],
+                )
+                audio_tracks.append(audio_track)
+                mute_flag = PpsfMuteflag.NONE
+                if track.mute:
+                    mute_flag = PpsfMuteflag.MUTE
+                elif track.solo:
+                    mute_flag = PpsfMuteflag.SOLO
+                event_tracks.append(
+                    PpsfEventTrack(
+                        index=len(event_tracks),
+                        track_type=1,
+                        mute_solo=mute_flag,
+                        regions=[
+                            PpsfRegion(
+                                length=tick_length,
+                                position=track.offset,
+                                audio_event_index=0,
                             )
                         ],
                     )
-                    audio_tracks.append(audio_track)
-                    mute_flag = PpsfMuteflag.NONE
-                    if track.mute:
-                        mute_flag = PpsfMuteflag.MUTE
-                    elif track.solo:
-                        mute_flag = PpsfMuteflag.SOLO
-                    event_tracks.append(
-                        PpsfEventTrack(
-                            index=len(event_tracks),
-                            track_type=1,
-                            mute_solo=mute_flag,
-                            regions=[
-                                PpsfRegion(
-                                    length=tick_length,
-                                    position=track.offset,
-                                    audio_event_index=0,
-                                )
-                            ],
-                        )
-                    )
+                )
         return audio_tracks
 
     def generate_notes(self, notes: list[Note]) -> tuple[list[PpsfDvlTrackEvent], list[PpsfNote]]:
@@ -185,7 +187,9 @@ class PiaproStudioGenerator:
                     pos=note.start_pos,
                     length=note.length,
                     lyric=note.lyric,
-                    symbols=note.pronunciation or DEFAULT_PHONEME,
+                    symbols="-"
+                    if note.lyric in legato_chars
+                    else romaji2xsampa.get(to_romaji(note.lyric), "4 a"),
                 )
             )
             ppsf_notes.append(
@@ -196,7 +200,9 @@ class PiaproStudioGenerator:
                     syllables=[
                         PpsfSyllable(
                             lyric_text=note.lyric,
-                            symbols_text=note.pronunciation or DEFAULT_PHONEME,
+                            symbols_text="-"
+                            if note.lyric in legato_chars
+                            else romaji2xsampa.get(to_romaji(note.lyric), "4 a"),
                         )
                     ],
                 )

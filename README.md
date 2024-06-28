@@ -2,7 +2,8 @@
 [![PyPi](https://img.shields.io/pypi/v/libresvip)](https://pypi.org/project/libresvip/)
 [![Python Version](https://img.shields.io/pypi/pyversions/libresvip.svg)](https://pypi.org/project/libresvip/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/libresvip)](https://pypi.org/project/libresvip/)
-[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![License](https://img.shields.io/pypi/l/libresvip?color=blue)](https://opensource.org/licenses/MIT)
 [![GitHub Build](https://img.shields.io/github/actions/workflow/status/SoulMelody/LibreSVIP/package.yml?label=packaging)](https://github.com/SoulMelody/LibreSVIP/actions/workflows/package.yml?query=workflow%3APackaging)
 

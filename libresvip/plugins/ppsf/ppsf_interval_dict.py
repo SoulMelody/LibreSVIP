@@ -4,7 +4,8 @@ import more_itertools
 import portion
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
-from libresvip.model.point import Point, cosine_easing_in_out_interpolation
+from libresvip.model.point import Point
+from libresvip.utils.music_math import cosine_easing_in_out_interpolation
 
 from .model import PpsfDvlTrackEvent, PpsfNote
 
@@ -29,15 +30,20 @@ def ppsf_key_interval_dict(
                     )
                 ] = prev_note.note_number
             if next_event.portamento_length:
+                if (
+                    prev_portamento_end := prev_note.pos
+                    + prev_event.portamento_offset
+                    + prev_event.portamento_length
+                ) < (next_portamento_start := next_note.pos + next_event.portamento_offset):
+                    interval_dict[
+                        portion.closedopen(
+                            prev_portamento_end,
+                            next_portamento_start,
+                        )
+                    ] = prev_note.note_number
                 interval_dict[
                     portion.closedopen(
-                        prev_note.pos + prev_event.portamento_offset + prev_event.portamento_length,
-                        next_note.pos + next_event.portamento_offset,
-                    )
-                ] = prev_note.note_number
-                interval_dict[
-                    portion.closedopen(
-                        next_note.pos + next_event.portamento_offset,
+                        next_portamento_start,
                         next_note.pos + next_event.portamento_offset + next_event.portamento_length,
                     )
                 ] = functools.partial(
@@ -53,10 +59,14 @@ def ppsf_key_interval_dict(
                         y=next_note.note_number,
                     ),
                 )
-            else:
+            elif (
+                prev_portamento_end := prev_note.pos
+                + prev_event.portamento_offset
+                + prev_event.portamento_length
+            ) < prev_note.end_pos:
                 interval_dict[
                     portion.closedopen(
-                        prev_note.pos + prev_event.portamento_offset + prev_event.portamento_length,
+                        prev_portamento_end,
                         prev_note.end_pos,
                     )
                 ] = prev_note.note_number

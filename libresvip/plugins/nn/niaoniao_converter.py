@@ -3,7 +3,7 @@ import pathlib
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
-from libresvip.utils import to_unicode
+from libresvip.utils.text import to_unicode
 
 from .model import nn_grammar, nn_visitor
 from .niaoniao_generator import NiaoniaoGenerator
@@ -19,6 +19,7 @@ class NiaoNiaoConverter(plugin_base.SVSConverterBase):
         return NiaoNiaoParser(options).parse_project(nn_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        project = reset_time_axis(project, options.tempo)
+        if len(project.song_tempo_list) != 1:
+            project = reset_time_axis(project, options.tempo)
         nn_project = NiaoniaoGenerator(options).generate_project(project)
         render_nn(nn_project, path)

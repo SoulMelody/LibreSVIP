@@ -2,6 +2,7 @@ import dataclasses
 import math
 from typing import Optional, Union
 
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -12,8 +13,8 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
-from libresvip.model.point import linear_interpolation
-from libresvip.utils import audio_track_info, midi2note
+from libresvip.utils.audio import audio_track_info
+from libresvip.utils.music_math import linear_interpolation, midi2note
 
 from .model import (
     PIT,
@@ -74,6 +75,7 @@ class VocalSharpGenerator:
         ]
 
     def generate_tempos(self, tempos: list[SongTempo]) -> list[VocalSharpTempo]:
+        tempos = skip_tempo_list(tempos, self.first_bar_length)
         return [
             VocalSharpTempo(
                 pos=tempo.position,
@@ -85,7 +87,7 @@ class VocalSharpGenerator:
     def generate_instrumental_tracks(
         self, instrumental_tracks: list[InstrumentalTrack]
     ) -> list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]:
-        track_list = []
+        track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]] = []
         for track in instrumental_tracks:
             if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
                 sequence = VocalSharpSequence(

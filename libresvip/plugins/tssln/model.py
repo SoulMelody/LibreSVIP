@@ -4,8 +4,10 @@ import enum
 from types import GenericAlias
 from typing import Annotated, Any, Literal, Optional, Union, get_args
 
-from pydantic import Field
+from packaging.version import Version
+from pydantic import Field, ValidationInfo, field_validator
 
+from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
 
 from .value_tree import JUCENode, JUCEVarTypes
@@ -39,6 +41,7 @@ class VoiSonaPanelControllerStatus(BaseModel):
     tempo_panel: Optional[bool] = Field(None, alias="TempoPanel")
     beat_panel: Optional[bool] = Field(None, alias="BeatPanel")
     key_panel: Optional[bool] = Field(None, alias="KeyPanel")
+    dynamics_panel: Optional[bool] = Field(None, alias="DynamicsPanel")
 
 
 class VoiSonaMainPanelStatus(VoiSonaPanelControllerStatus):
@@ -269,6 +272,14 @@ class VoiSonaProject(BaseModel):
     gui_status: list[VoiSonaGuiStatus] = Field(default_factory=list, alias="GUIStatus")
     version_of_app_file_saved: Optional[str] = Field("1.8.0.17", alias="VersionOfAppFileSaved")
 
+    @field_validator("version_of_app_file_saved")
+    @classmethod
+    def version_validator(cls, value: str, _info: ValidationInfo) -> str:
+        if Version(value) < Version("1.8"):
+            msg = f"Unsupported project version {value}"
+            raise UnsupportedProjectVersionError(msg)
+        return value
+
 
 def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[str, Any]:
     if issubclass(field_type, bool):
@@ -285,7 +296,7 @@ def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[s
     elif issubclass(field_type, bytes):
         variant_type = JUCEVarTypes.BINARY
     else:
-        msg = f"Unknown field type {field_type}"
+        msg = f"Unknown field type {field_type} for field {field_name}"
         raise TypeError(msg)
     return {
         "name": field_name,
@@ -309,9 +320,9 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str,
         if field_value is not None:
             if isinstance(field_info.annotation, type):
                 field_type = field_info.annotation
-            elif field_info.default is None:
+            elif field_info.default is None or field_info.default_factory is list:
                 field_type = field_info.annotation
-                while not isinstance(field_type, type):
+                while not isinstance(field_type, (type, GenericAlias)):
                     field_type = get_args(field_type)[0]
             else:
                 field_type = type(field_info.default)

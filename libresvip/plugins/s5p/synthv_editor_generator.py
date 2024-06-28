@@ -1,5 +1,6 @@
 import dataclasses
 
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -13,7 +14,7 @@ from libresvip.model.base import (
 )
 from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils import ratio_to_db
+from libresvip.utils.music_math import ratio_to_db
 
 from .model import (
     S5pInstrumental,
@@ -60,6 +61,7 @@ class SynthVEditorGenerator:
         return s5p_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[S5pTempoItem]:
+        song_tempo_list = skip_tempo_list(song_tempo_list, self.first_bar_length)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return [
             S5pTempoItem(
@@ -109,15 +111,23 @@ class SynthVEditorGenerator:
                         track.edited_params, track.note_list
                     )
                 tracks.append(s5p_track)
+        if not tracks:
+            tracks.append(
+                S5pTrack(
+                    name="Unnamed Track",
+                    notes=[None],
+                )
+            )
         return tracks
 
     def generate_notes(self, note_list: list[Note]) -> list[S5pNote]:
         return [
             S5pNote(
-                lyric=note.pronunciation or note.lyric,
+                lyric=note.lyric,
                 onset=note.start_pos * TICK_RATE,
                 duration=note.length * TICK_RATE,
                 pitch=note.key_number,
+                d_f0_vbr=0,
             )
             for note in note_list
         ]
@@ -136,7 +146,7 @@ class SynthVEditorGenerator:
     def generate_parameters(self, edited_params: Params, note_list: list[Note]) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
         rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
-            edited_params.pitch, note_list
+            edited_params.pitch.points.root, note_list
         )
         return S5pParameters(
             pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),

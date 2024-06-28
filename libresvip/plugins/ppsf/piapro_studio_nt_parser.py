@@ -1,6 +1,7 @@
 import dataclasses
 from typing import Optional
 
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -80,14 +81,15 @@ class PiaproStudioNTParser:
         self, ppsf_audio_tracks: list[PpsfAudioTrackItem]
     ) -> list[InstrumentalTrack]:
         tracks = []
-        for track in ppsf_audio_tracks:
-            for i, event in enumerate(track.events):
-                instrumental_track = InstrumentalTrack(
-                    title=f"{track.name} {i + 1}",
-                    audio_file_path=event.file_audio_data.file_path,
-                    offset=event.tick_pos,
-                )
-                tracks.append(instrumental_track)
+        if self.options.import_instrumental_track:
+            for track in ppsf_audio_tracks:
+                for i, event in enumerate(track.events):
+                    instrumental_track = InstrumentalTrack(
+                        title=f"{track.name} {i + 1}",
+                        audio_file_path=event.file_audio_data.file_path,
+                        offset=event.tick_pos,
+                    )
+                    tracks.append(instrumental_track)
         return tracks
 
     def parse_singing_tracks(
@@ -104,7 +106,11 @@ class PiaproStudioNTParser:
                     note_list=self.parse_notes(track.events),
                 )
                 for parameter in track.parameters:
-                    if parameter.base_sequence.name == "pitch_bend":
+                    if (
+                        self.options.import_pitch
+                        and parameter.base_sequence is not None
+                        and parameter.base_sequence.name == "pitch_bend"
+                    ):
                         key_interval_dict = ppsf_key_interval_dict(track.events, event_track.notes)
                         for point in parameter.base_sequence.sequence:
                             if point.curve_type == PpsfCurveType.BORDER and point.value == 0:
@@ -130,7 +136,7 @@ class PiaproStudioNTParser:
                 key_number=event.note_number,
                 start_pos=event.pos,
                 length=event.length,
-                lyric=event.lyric,
+                lyric="-" if event.lyric in legato_chars else event.lyric,
                 pronunciation=event.symbols,
             )
             for event in ppsf_dvl_track_events

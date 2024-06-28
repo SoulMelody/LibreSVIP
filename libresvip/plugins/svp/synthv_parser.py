@@ -1,8 +1,9 @@
 import dataclasses
+import operator
 import re
 from collections.abc import Callable
 from functools import partial, reduce
-from typing import Optional
+from typing import Optional, cast
 
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
@@ -21,7 +22,8 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import clamp, db_to_float, find_index, ratio_to_db
+from libresvip.utils.music_math import clamp, db_to_float, ratio_to_db
+from libresvip.utils.search import find_index
 
 from . import interpolation
 from .constants import TICK_RATE
@@ -39,11 +41,11 @@ from .model import (
     SVVoice,
 )
 from .options import BreathOption, GroupOption, InputOptions, PitchOption
-from .param_expression import CompoundParam, CurveGenerator, PitchGenerator
+from .param_expression import CurveGenerator, ParamExpression, PitchGenerator
 from .phoneme_utils import default_phone_marks, sv_g2p, xsampa2pinyin
 from .track_merge_utils import track_override_with
 
-clip = partial(clamp, lower=-1000, upper=1000)
+clip = cast(Callable[[int], int], partial(clamp, lower=-1000, upper=1000))
 
 
 @dataclasses.dataclass
@@ -54,14 +56,13 @@ class SynthVParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     voice_settings: SVVoice = dataclasses.field(init=False)
     instant_pitch: SVParamCurve = dataclasses.field(init=False)
-    note_list: list[SVNote] = dataclasses.field(init=False)
     group_library: dict[str, SVGroup] = dataclasses.field(default_factory=dict)
     group_split_counts: dict[str, int] = dataclasses.field(default_factory=dict)
     tracks_from_groups: list[Track] = dataclasses.field(default_factory=list)
 
     def actual_value_at(
         self,
-        compound_expr: CompoundParam,
+        compound_expr: ParamExpression,
         mapping_func: Callable[[float], int],
         ticks: int,
     ) -> int:
@@ -235,16 +236,17 @@ class SynthVParser:
         self,
         pitch_diff: SVParamCurve,
         vibrato_env: SVParamCurve,
+        sv_notes: list[SVNote],
         step: int = 5,
         master_pitch_diff: Optional[SVParamCurve] = None,
         master_vibrato_env: Optional[SVParamCurve] = None,
     ) -> ParamCurve:
         curve = ParamCurve()
-        if not len(self.note_list):
+        if not sv_notes:
             curve.points.append(Point.start_point())
             curve.points.append(Point.end_point())
             return curve
-        pitch_diff_expr = CurveGenerator(
+        pitch_diff_expr: ParamExpression = CurveGenerator(
             _point_list=[
                 Point(
                     position_to_ticks(point.offset),
@@ -254,7 +256,7 @@ class SynthVParser:
             ],
             _interpolation=self.parse_interpolation(pitch_diff.mode),
         )
-        vibrato_env_expr = CurveGenerator(
+        vibrato_env_expr: ParamExpression = CurveGenerator(
             _point_list=[
                 Point(
                     position_to_ticks(point.offset),
@@ -304,7 +306,7 @@ class SynthVParser:
                     position_to_ticks(note.onset),
                     position_to_ticks(note.onset + note.duration),
                 )
-                for note in self.note_list
+                for note in sv_notes
             ]
         ).expand(120)
 
@@ -339,7 +341,7 @@ class SynthVParser:
                 reduced_interval,
                 (
                     note
-                    for note in self.note_list
+                    for note in sv_notes
                     if note.pitch_edited(regard_default_vibrato_as_unedited, self.options.instant)
                 ),
                 RangeInterval(),
@@ -352,7 +354,7 @@ class SynthVParser:
             interval &= note_edited_range | param_edited_range
         generator = PitchGenerator(
             _synchronizer=self.synchronizer,
-            _note_list=self.note_list,
+            _note_list=sv_notes,
             _pitch_diff=pitch_diff_expr,
             _vibrato_env=vibrato_env_expr,
         )
@@ -360,58 +362,69 @@ class SynthVParser:
         for start, end in interval.shift(self.first_bar_tick).sub_ranges():
             curve.points.append(Point(start, -100))
             curve.points.extend(
-                Point(i, generator.value_at_ticks(i - self.first_bar_tick))
+                Point(i, round(generator.value_at_ticks(i - self.first_bar_tick)))
                 for i in range(start, end, step)
             )
-            curve.points.append(Point(end, generator.value_at_ticks(end - self.first_bar_tick)))
+            curve.points.append(
+                Point(end, round(generator.value_at_ticks(end - self.first_bar_tick)))
+            )
             curve.points.append(Point(end, -100))
         curve.points.append(Point.end_point())
         return curve
 
     def parse_params(
-        self, sv_params: SVParameters, master_params: Optional[SVParameters] = None
+        self,
+        sv_params: SVParameters,
+        sv_notes: list[SVNote],
+        master_params: Optional[SVParameters] = None,
     ) -> Params:
-        return Params(
-            pitch=self.parse_pitch_curve(
+        params = Params()
+        if self.options.import_pitch:
+            params.pitch = self.parse_pitch_curve(
                 sv_params.pitch_delta,
                 sv_params.vibrato_env,
+                sv_notes,
                 5,
                 master_params.pitch_delta if master_params else None,
                 master_params.vibrato_env if master_params else None,
-            ),
-            volume=self.parse_param_curve(
+            )
+        if self.options.import_volume:
+            params.volume = self.parse_param_curve(
                 sv_params.loudness,
                 lambda val: round(val / 12.0 * 1000.0)
                 if val >= 0.0
                 else round(1000 * db_to_float(val) - 1000),
-                self.voice_settings.param_loudness,
+                self.voice_settings.param_loudness or 0.0,
                 master_params.loudness if master_params else None,
-            ),
-            breath=self.parse_param_curve(
+            )
+        if self.options.import_breath:
+            params.breath = self.parse_param_curve(
                 sv_params.breathiness,
                 lambda val: round(val * 1000),
-                self.voice_settings.param_breathiness,
+                self.voice_settings.param_breathiness or 0.0,
                 master_params.breathiness if master_params else None,
-            ),
-            gender=self.parse_param_curve(
+            )
+        if self.options.import_gender:
+            params.gender = self.parse_param_curve(
                 sv_params.gender,
                 lambda val: round(val * -1000),
-                self.voice_settings.param_gender,
+                self.voice_settings.param_gender or 0.0,
                 master_params.gender if master_params else None,
-            ),
-            strength=self.parse_param_curve(
+            )
+        if self.options.import_strength:
+            params.strength = self.parse_param_curve(
                 sv_params.tension,
                 lambda val: round(val * 1000),
-                self.voice_settings.param_tension,
+                self.voice_settings.param_tension or 0.0,
                 master_params.tension if master_params else None,
-            ),
-        )
+            )
+        return params
 
     @staticmethod
     def parse_note(sv_note: SVNote, database: SVDatabase) -> Note:
         note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
         note.length = position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
-        note.lyric = sv_note.lyrics
+        note.lyric = SVNote.normalize_lyric(sv_note.lyrics)
         if sv_note.phonemes:
             note_default_language = sv_note.attributes.default_language(database)
             if note_default_language == "japanese":
@@ -457,12 +470,12 @@ class SynthVParser:
         if len(sv_note_list):
             lyrics, languages = zip(
                 *(
-                    (SVNote.normalize_lyric(note), sv_note.attributes.default_language(database))
+                    (SVNote.normalize_phoneme(note), sv_note.attributes.default_language(database))
                     for note, sv_note in zip(note_list, sv_note_list)
                 )
             )
         else:
-            lyrics, languages = [], []
+            lyrics, languages = (), ()
         lyrics_phoneme = sv_g2p(lyrics, languages)
         if not len(note_list):
             return note_list
@@ -497,13 +510,31 @@ class SynthVParser:
             next_head_part_edited = (
                 next_phone_marks[0] > 0 and next_duration is not None and len(next_duration)
             )
-            if current_main_part_edited and len(current_duration) > index + 1:
+            if (
+                current_main_part_edited
+                and current_duration is not None
+                and len(current_duration) > index + 1
+            ):
                 if note_list[i].edited_phones is None:
-                    note_list[i].edited_phones = Phones()
-                note_list[i].edited_phones.mid_ratio_over_tail = (
-                    current_phone_marks[1] * current_duration[index] / current_duration[index + 1]
-                )
-            if next_head_part_edited:
+                    note_list[i].edited_phones = Phones(
+                        mid_ratio_over_tail=(
+                            current_phone_marks[1]
+                            * current_duration[index]
+                            / current_duration[index + 1]
+                        )
+                    )
+                else:
+                    note_list[i].edited_phones.mid_ratio_over_tail = (  #  type: ignore[union-attr]
+                        current_phone_marks[1]
+                        * current_duration[index]
+                        / current_duration[index + 1]
+                    )
+            if (
+                next_head_part_edited
+                and current_duration is not None
+                and next_phone_marks is not None
+                and next_duration is not None
+            ):
                 if note_list[i + 1].edited_phones is None:
                     note_list[i + 1].edited_phones = Phones()
                 space_in_secs = min(
@@ -525,7 +556,7 @@ class SynthVParser:
                         note_list[i + 1].start_pos + self.first_bar_tick,
                     ):
                         length *= ratio
-                note_list[i + 1].edited_phones.head_length_in_secs = min(
+                note_list[i + 1].edited_phones.head_length_in_secs = min(  #  type: ignore[union-attr]
                     0.9 * space_in_secs, length
                 )
             current_duration = next_duration
@@ -543,18 +574,20 @@ class SynthVParser:
             )
         return note_list
 
-    def parse_track(self, sv_track: SVTrack) -> Track:
+    def parse_track(self, sv_track: SVTrack) -> Optional[Track]:
         if sv_track.main_ref.is_instrumental:
-            svip_track = InstrumentalTrack(
-                audio_file_path=sv_track.main_ref.audio.filename,
-                offset=self.parse_audio_offset(sv_track.main_ref.blick_offset),
-            )
+            if self.options.import_instrumental_track and sv_track.main_ref.audio is not None:
+                svip_track = InstrumentalTrack(
+                    audio_file_path=sv_track.main_ref.audio.filename,
+                    offset=self.parse_audio_offset(sv_track.main_ref.blick_offset),
+                )
+            else:
+                return None
         else:
             self.voice_settings = sv_track.main_ref.voice
             master_note_attributes = self.voice_settings.to_attributes()
             if self.options.instant:
                 self.instant_pitch = sv_track.main_ref.system_pitch_delta
-            self.note_list = sv_track.main_group.notes
             for note in sv_track.main_group.notes:
                 note.merge_attributes(master_note_attributes)
             singing_track = SingingTrack(
@@ -562,7 +595,9 @@ class SynthVParser:
                 note_list=self.parse_note_list(
                     sv_track.main_group.notes, sv_track.main_ref.database
                 ),
-                edited_params=self.parse_params(sv_track.main_group.parameters),
+                edited_params=self.parse_params(
+                    sv_track.main_group.parameters, sv_track.main_group.notes
+                ),
             )
             if self.options.group == GroupOption.SPLIT:
                 for sv_ref in sv_track.groups:
@@ -583,7 +618,7 @@ class SynthVParser:
                             title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                             note_list=self.parse_note_list(group.notes, sv_ref.database),
                             edited_params=self.parse_params(
-                                group.parameters, sv_track.main_group.parameters
+                                group.parameters, group.notes, sv_track.main_group.parameters
                             ),
                         )
                     )
@@ -608,7 +643,7 @@ class SynthVParser:
                                 title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                                 note_list=self.parse_note_list(group.notes, sv_ref.database),
                                 edited_params=self.parse_params(
-                                    group.parameters, sv_track.main_group.parameters
+                                    group.parameters, group.notes, sv_track.main_group.parameters
                                 ),
                             )
                         )
@@ -616,11 +651,13 @@ class SynthVParser:
                         track_override_with(
                             singing_track,
                             self.parse_note_list(group.notes, sv_ref.database),
-                            self.parse_params(group.parameters, sv_track.main_group.parameters),
+                            self.parse_params(
+                                group.parameters, group.notes, sv_track.main_group.parameters
+                            ),
                             self.first_bar_tick,
                         )
                         merged_group.notes.extend(group.notes)
-                        merged_group.notes.sort(key=lambda n: n.onset)
+                        merged_group.notes.sort(key=operator.attrgetter("onset"))
             svip_track = singing_track
         svip_track.title = sv_track.name
         svip_track.mute = sv_track.mixer.mute
@@ -632,14 +669,14 @@ class SynthVParser:
     def parse_project(self, sv_project: SVProject) -> Project:
         project = Project()
         time_sig = sv_project.time_sig
-        self.first_bar_tick = 1920 * time_sig.meter[0].numerator // time_sig.meter[0].denominator
         self.first_bpm = time_sig.tempo[0].bpm
 
-        project.song_tempo_list = shift_tempo_list(
-            [self.parse_tempo(tempo) for tempo in time_sig.tempo], self.first_bar_tick
-        )
         project.time_signature_list = shift_beat_list(
             [self.parse_meter(meter) for meter in time_sig.meter], 1
+        )
+        self.first_bar_tick = round(project.time_signature_list[0].bar_length())
+        project.song_tempo_list = shift_tempo_list(
+            [self.parse_tempo(tempo) for tempo in time_sig.tempo], self.first_bar_tick
         )
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
 
@@ -648,7 +685,8 @@ class SynthVParser:
             self.group_split_counts[sv_group.uuid] = 0
 
         for sv_track in sv_project.tracks:
-            project.track_list.append(self.parse_track(sv_track))
+            if track := self.parse_track(sv_track):
+                project.track_list.append(track)
 
         project.track_list.extend(self.tracks_from_groups)
         return project

@@ -1,6 +1,6 @@
 from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
-from libresvip.utils import binary_find_first, binary_find_last
+from libresvip.utils.search import binary_find_first, binary_find_last
 
 from ..models.ds_param_curve import DsParamCurve, DsParamNode
 
@@ -16,16 +16,12 @@ class GenderParamUtils:
     @classmethod
     def encode_point_list(cls, os_point_list: Points, end: int) -> list[DsParamNode]:
         valid_points = [
-            p
-            for p in os_point_list.root
-            if p.x - 10 >= 1920 and p.x + 10 < end and -1000 <= p.y <= 1000
+            p for p in os_point_list.root if p.x >= 1930 and p.x + 10 < end and -1000 <= p.y <= 1000
         ]
-        ds_point_list = []
-        for pos in range(1920, end, 5):
-            ds_point_list.append(
-                DsParamNode(time=pos / 1000.0, value=cls.value_at(valid_points, pos) / 1000.0)
-            )
-        return ds_point_list
+        return [
+            DsParamNode(time=pos / 1000.0, value=cls.value_at(valid_points, pos) / 1000.0)
+            for pos in range(1920, end, 5)
+        ]
 
     @staticmethod
     def value_at(segment: list[Point], ticks: float) -> float:

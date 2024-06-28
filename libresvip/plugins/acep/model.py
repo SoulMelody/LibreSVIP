@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+import itertools
 import math
 import statistics
 from enum import Enum
+from gettext import gettext as _
 from itertools import chain
-from typing import TYPE_CHECKING, Annotated, Literal, NamedTuple, Optional, Union
+from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional, Union
 
-from more_itertools import chunked, minmax
+from more_itertools import batched, minmax
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -18,13 +20,15 @@ from pydantic import (
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
-from libresvip.model.point import PointList, linear_interpolation
+from libresvip.model.point import PointList
+from libresvip.utils.music_math import linear_interpolation
 
 from .ace_curve_utils import interpolate_hermite
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from gettext import gettext as _
 
 
 class AcepAnchorPoint(NamedTuple):
@@ -46,7 +50,9 @@ class AcepParamCurve(BaseModel):
     @field_validator("points", mode="before")
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> AcepAnchorPoints:
-        return AcepAnchorPoints(root=[AcepAnchorPoint(*each) for each in chunked(points or [], 2)])
+        return AcepAnchorPoints(
+            root=[AcepAnchorPoint._make(each) for each in batched(points or [], 2)]
+        )
 
     @field_serializer("points", when_used="json-unless-none")
     def serialize_points(
@@ -136,7 +142,7 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def z_score_normalize(self, d: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        points = sum((curve.values for curve in self.root), [])
+        points = [*itertools.chain.from_iterable(curve.values for curve in self.root)]
         miu = statistics.mean(points)
         sigma = statistics.stdev(points)
         return type(self)(
@@ -146,7 +152,9 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
     def minmax_normalize(self, r: float = 1, b: float = 0) -> AcepParamCurveList:
         if not self.root:
             return self
-        min_, max_ = minmax(sum((curve.values for curve in self.root), []), default=(0, 0))
+        min_, max_ = minmax(
+            itertools.chain.from_iterable(curve.values for curve in self.root), default=(0, 0)
+        )
         return type(self)(
             root=[
                 curve.transform(lambda x: r * (2 * (x - min_) / (max_ - min_) - 1) + b)
@@ -161,19 +169,19 @@ class AcepLyricsLanguage(Enum):
     CHINESE: Annotated[
         str,
         Field(
-            title="Chinese",
+            title=_("Chinese"),
         ),
     ] = "CHN"
     JAPANESE: Annotated[
         str,
         Field(
-            title="Japanese",
+            title=_("Japanese"),
         ),
     ] = "JPN"
     ENGLISH: Annotated[
         str,
         Field(
-            title="English",
+            title=_("English"),
         ),
     ] = "ENG"
 
@@ -246,6 +254,7 @@ class AcepPattern(BaseModel):
     clip_pos: int = Field(0, alias="clipPos")
     clip_dur: int = Field(0, alias="clipDur")
     enabled: Optional[bool] = True
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
 class AcepAnalysedBeat(BaseModel):
@@ -278,6 +287,7 @@ class AcepTrackProperties(BaseModel):
     record: bool = False
     channel: Optional[int] = 0
     listen: Optional[bool] = False
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
 class AcepEmptyTrack(AcepTrackProperties, BaseModel):
@@ -324,15 +334,45 @@ class AcepVocalTrack(AcepTrackProperties, BaseModel):
         return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
 
 
+class AcepChord(BaseModel):
+    addeds: list[Literal["7", "j7", "b9", "9", "#9", "11", "#11", "b13", "13"]] = Field(
+        default_factory=list
+    )
+    bass: int
+    dur: int = 0
+    root: int = -1
+    type_: Literal["", "maj", "min", "dim", "sus2", "sus4", "aug"] = Field(default="", alias="type")
+
+
+class AcepChordPattern(AcepPattern):
+    color: str = "#91bcdc"
+    chords: list[AcepChord] = Field(default_factory=list)
+
+
+class AcepChordTrack(AcepTrackProperties, BaseModel):
+    type_: Literal["chord"] = Field(default="chord", alias="type")
+    patterns: list[AcepChordPattern] = Field(default_factory=list)
+
+
 AcepTrack = Annotated[
-    Union[AcepAudioTrack, AcepEmptyTrack, AcepVocalTrack], Field(discriminator="type_")
+    Union[AcepAudioTrack, AcepEmptyTrack, AcepVocalTrack, AcepChordTrack],
+    Field(discriminator="type_"),
 ]
+
+
+class AcepTimeSignature(BaseModel):
+    bar_pos: int = Field(0, alias="barPos")
+    numerator: int = 4
+    denominator: int = 4
 
 
 class AcepProject(BaseModel):
     beats_per_bar: int = Field(4, alias="beatsPerBar")
     color_index: int = Field(0, alias="colorIndex")
+    pattern_individual_color_index: Optional[int] = Field(0, alias="patternIndividualColorIndex")
+    debug_info: dict[str, Any] = Field(default_factory=dict, alias="debugInfo")
     duration: int = 0
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
     master: AcepMaster = Field(default_factory=AcepMaster)
     piano_cells: int = Field(2147483646, alias="pianoCells")
     tempos: list[AcepTempo] = Field(default_factory=list)
@@ -341,8 +381,9 @@ class AcepProject(BaseModel):
     loop: Optional[bool] = False
     loop_start: Optional[int] = Field(0, alias="loopStart")
     loop_end: Optional[int] = Field(7680, alias="loopEnd")
-    version: int = 5
+    version: int = 6
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")
     singer_library_id: Optional[str] = "1200593006"
+    time_signatures: list[AcepTimeSignature] = Field(default_factory=list, alias="timeSignatures")
     track_control_panel_w: Optional[int] = Field(0, alias="trackControlPanelW")

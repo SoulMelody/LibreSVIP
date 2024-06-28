@@ -41,6 +41,7 @@ from .vocaloid_pitch import pitch_from_vocaloid_parts
 class VocaloidParser:
     options: InputOptions
     archive_file: zipfile.ZipFile
+    first_bar_length: int = dataclasses.field(init=False)
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
 
     def parse_project(self, vpr_project: VocaloidProject) -> Project:
@@ -57,15 +58,19 @@ class VocaloidParser:
             track_list=self.parse_tracks(vpr_project.tracks),
         )
 
-    def parse_time_signatures(self, time_signatures: list[VocaloidTimeSig]) -> list[TimeSignature]:
-        return [
+    def parse_time_signatures(
+        self, vocaloid_time_signatures: list[VocaloidTimeSig]
+    ) -> list[TimeSignature]:
+        time_signatures = [
             TimeSignature(
                 bar_index=time_signature.bar,
                 numerator=time_signature.numer,
                 denominator=time_signature.denom,
             )
-            for time_signature in time_signatures
+            for time_signature in vocaloid_time_signatures
         ]
+        self.first_bar_length = round(time_signatures[0].bar_length())
+        return time_signatures
 
     def parse_tempos(self, tempos: list[VocaloidPoint]) -> list[SongTempo]:
         return [
@@ -80,28 +85,33 @@ class VocaloidParser:
         track_list = []
         for track in tracks:
             if isinstance(track, VocaloidAudioTrack):
-                for part in track.parts:
-                    if self.options.extract_audio:
-                        archive_wav_path = f"Project/Audio/{part.wav.name}"
-                        if not (wav_path := pathlib.Path(part.wav.original_name)).exists():
-                            wav_path.write_bytes(self.archive_file.read(archive_wav_path))
-                    instrumental_track = InstrumentalTrack(
-                        title=part.name,
-                        offset=part.pos,
-                        mute=track.is_muted,
-                        solo=track.is_solo_mode,
-                        audio_file_path=part.wav.original_name,
-                    )
-                    track_list.append(instrumental_track)
+                if self.options.import_instrumental_track:
+                    for part in track.parts:
+                        if part.wav is None:
+                            continue
+                        if self.options.extract_audio:
+                            archive_wav_path = f"Project/Audio/{part.wav.name}"
+                            if not (
+                                wav_path := pathlib.Path(part.wav.original_name or part.wav.name)
+                            ).exists():
+                                wav_path.write_bytes(self.archive_file.read(archive_wav_path))
+                        instrumental_track = InstrumentalTrack(
+                            title=part.name,
+                            offset=part.pos,
+                            mute=track.is_muted,
+                            solo=track.is_solo_mode,
+                            audio_file_path=part.wav.original_name or part.wav.name,
+                        )
+                        track_list.append(instrumental_track)
             else:
                 for part in track.parts:
-                    comp_id = None
+                    comp_id = ""
                     supported_lang_ids = []
                     if part.voice is not None:
-                        comp_id = part.voice.comp_id
+                        comp_id = part.voice.comp_id or ""
                         supported_lang_ids.append(part.voice.lang_id)
                     elif part.ai_voice is not None:
-                        comp_id = part.ai_voice.comp_id
+                        comp_id = part.ai_voice.comp_id or ""
                         supported_lang_ids.extend(part.ai_voice.lang_ids)
                     if len(supported_lang_ids):
                         main_lang_id = supported_lang_ids[0]
@@ -122,16 +132,22 @@ class VocaloidParser:
                         note_list=self.parse_notes(part.notes, part.pos, default_lyric),
                         ai_singer_name=self.comp_id2name.get(comp_id, ""),
                     )
-                    part_data = VocaloidPartPitchData(
-                        start_pos=part.pos,
-                        pit=part.get_controller_events(PITCH_BEND_NAME),
-                        pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
-                    )
                     if (
-                        part_pitch := pitch_from_vocaloid_parts(
-                            [part_data], singing_track.note_list
+                        self.options.import_pitch
+                        and (
+                            part_data := VocaloidPartPitchData(
+                                start_pos=part.pos,
+                                pit=part.get_controller_events(PITCH_BEND_NAME),
+                                pbs=part.get_controller_events(PITCH_BEND_SENSITIVITY_NAME),
+                            )
                         )
-                    ) is not None:
+                        and (
+                            part_pitch := pitch_from_vocaloid_parts(
+                                [part_data], singing_track.note_list, self.first_bar_length
+                            )
+                        )
+                        is not None
+                    ):
                         singing_track.edited_params.pitch = part_pitch
                     track_list.append(singing_track)
         return track_list

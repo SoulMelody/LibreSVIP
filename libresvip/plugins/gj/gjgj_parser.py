@@ -1,3 +1,4 @@
+import contextlib
 import dataclasses
 import math
 
@@ -17,7 +18,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils import find_index
+from libresvip.utils.search import find_index
 
 from .model import (
     GjgjBeatItems,
@@ -48,7 +49,8 @@ class GjgjParser:
             time_signature_list=self.parse_time_signatures(gjgj_project.tempo_map.time_signature),
         )
         project.track_list = self.parse_singing_tracks(gjgj_project.tracks)
-        project.track_list.extend(self.parse_instrumental_tracks(gjgj_project.accompaniments))
+        if self.options.import_instrumental_track:
+            project.track_list.extend(self.parse_instrumental_tracks(gjgj_project.accompaniments))
         return project
 
     def parse_tempos(self, tempo_map: GjgjTempoMap) -> list[SongTempo]:
@@ -77,7 +79,7 @@ class GjgjParser:
         self.first_bar_length = int(time_signature_changes[0].bar_length(self.ticks_in_beat))
 
         prev_ticks = 0
-        measure = 0
+        measure = 0.0
         for time_signature in time_signatures[1:]:
             tick = time_signature.time
             measure += (tick - prev_ticks) / time_signature_changes[-1].bar_length(
@@ -96,7 +98,7 @@ class GjgjParser:
         return [
             SingingTrack(
                 ai_singer_name=id2singer.get(track.singer_info.display_name, DEFAULT_SINGER),
-                mute=track.master_volume.mute,
+                mute=track.master_volume.mute if track.master_volume is not None else False,
                 note_list=self.parse_notes(track.beat_items),
                 edited_params=self.parse_params(track),
             )
@@ -106,7 +108,9 @@ class GjgjParser:
     def parse_instrumental_tracks(self, accompaniments: list[GjgjInstrumentalTrack]) -> list[Track]:
         return [
             InstrumentalTrack(
-                mute=accompaniment.master_volume.mute,
+                mute=accompaniment.master_volume.mute
+                if accompaniment.master_volume is not None
+                else False,
                 audio_file_path=accompaniment.path,
                 offset=round(
                     self.time_synchronizer.get_actual_ticks_from_secs(
@@ -158,10 +162,12 @@ class GjgjParser:
         return phones
 
     def parse_params(self, track: GjgjSingingTrack) -> Params:
-        return Params(
-            pitch=self.parse_pitch_curve(track.tone),
-            volume=self.parse_volume_curve(track.volume_map),
-        )
+        params = Params()
+        if self.options.import_pitch:
+            params.pitch = self.parse_pitch_curve(track.tone)
+        if self.options.import_volume:
+            params.volume = self.parse_volume_curve(track.volume_map)
+        return params
 
     def pitch_time_to_position(self, pitch_time: float) -> int:
         return round(pitch_time * 5) + self.first_bar_length
@@ -169,7 +175,7 @@ class GjgjParser:
     def parse_pitch_curve(self, tone: GjgjTone) -> ParamCurve:
         pitch_curve = ParamCurve()
         pitch_curve.points.append(Point.start_point())
-        try:
+        with contextlib.suppress(Exception):
             for mod_range in tone.modify_ranges:
                 left_point = Point(self.pitch_time_to_position(mod_range.x), -100)
                 right_point = Point(self.pitch_time_to_position(mod_range.y), -100)
@@ -186,8 +192,6 @@ class GjgjParser:
                     )
                     index += 1
                 pitch_curve.points.append(right_point)
-        except Exception:
-            pass
         pitch_curve.points.append(Point.end_point())
         return pitch_curve
 

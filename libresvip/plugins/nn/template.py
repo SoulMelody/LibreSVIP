@@ -16,4 +16,4 @@ NN_TEMPLATE = Template(
 
 
 def render_nn(nn_project: NNProject, output_path: pathlib.Path) -> None:
-    output_path.write_text(NN_TEMPLATE.render(nn_project=nn_project), encoding="utf-8")
+    output_path.write_bytes(NN_TEMPLATE.render(nn_project=nn_project).encode("utf-8"))

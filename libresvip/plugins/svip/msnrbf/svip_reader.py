@@ -6,7 +6,7 @@ from typing import Any, Optional
 from construct import Container
 from loguru import logger
 
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .binary_models import (
     PrimitiveTypeEnum,
@@ -64,6 +64,7 @@ class SvipReader(NrbfIOBase):
             else:
                 class_kwargs[key] = value.value
         if class_name == "System.Collections.Generic.List":
+            assert isinstance(class_kwargs["items"], list)
             class_kwargs["items"] = class_kwargs["items"][: class_kwargs["size"]]
         return model_class(**class_kwargs)
 
@@ -92,10 +93,14 @@ class SvipReader(NrbfIOBase):
     def read_record(self, record: Container) -> bool:
         if record.record_type_enum == RecordTypeEnum.SerializedStreamHeader:
             self.header = record.obj
-        elif "Class" in str(record.record_type_enum):
-            if record.obj.class_info.object_id == self.header.root_id:
-                self.xstudio_model = self.build_object(record.obj)
-                return True
+        elif (
+            ("Class" in str(record.record_type_enum))
+            and (record.obj.class_info.object_id == self.header.root_id)
+            and (xstudio_model := self.build_object(record.obj)) is not None
+            and isinstance(xstudio_model, XSAppModel)
+        ):
+            self.xstudio_model = xstudio_model
+            return True
         return False
 
     def resolve_references(self) -> None:

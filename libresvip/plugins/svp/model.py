@@ -6,7 +6,8 @@ from itertools import chain
 from typing import Any, Literal, NamedTuple, Optional, Union
 from uuid import uuid4
 
-from more_itertools import chunked
+import zhon
+from more_itertools import batched
 from pydantic import (
     Field,
     FieldSerializationInfo,
@@ -15,15 +16,68 @@ from pydantic import (
     field_serializer,
     field_validator,
 )
+from retrie.retrie import Blacklist
 
 from libresvip.core.constants import DEFAULT_PHONEME
-from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
 
 from . import constants
 from .interval_utils import position_to_ticks
+
+symbols_blacklist = Blacklist(
+    [
+        "(",
+        ")",
+        "[",
+        "]",
+        "{",
+        "}",
+        "（",
+        "）",
+        "<",
+        ">",
+        "《",
+        "》",
+        "―",
+        "—",
+        "*",
+        "×",
+        "!",
+        "！",
+        "?",
+        "？",
+        ":",
+        "：",
+        "·",
+        "•",
+        "。",
+        ",",
+        "，",
+        ";",
+        "；",
+        "^",
+        "`",
+        '"',
+        "‘",
+        "’",
+        "“",
+        "”",
+        "=",
+        "、",
+        "_",
+        "$",
+        "%",
+        "~",
+        "@",
+        "#",
+        "…",
+        "&",
+        "￥",
+    ],
+    match_substrings=True,
+)
 
 
 def uuid_str() -> str:
@@ -83,7 +137,7 @@ class SVParamCurve(BaseModel):
     @classmethod
     def validate_points(cls, points: list[float], _info: ValidationInfo) -> SVPoints:
         if _info.mode == "json":
-            return SVPoints(root=[SVPoint(*each) for each in chunked(points, 2)])
+            return SVPoints(root=[SVPoint._make(each) for each in batched(points, 2)])
         return SVPoints(root=points)
 
     @field_serializer("points", when_used="json")
@@ -144,6 +198,15 @@ class SVParamTakes(BaseModel):
 
 
 class SVNoteAttributes(SVBaseAttributes):
+    t_f0_left: Optional[float] = Field(None, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(None, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(None, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(None, alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(None, alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(None, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(None, alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(None, alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(None, alias="fF0Vbr")
     t_f0_offset: Optional[float] = Field(None, alias="tF0Offset")
     p_f0_vbr: Optional[float] = Field(None, alias="pF0Vbr")
     d_f0_jitter: Optional[float] = Field(None, alias="dF0Jitter")
@@ -353,18 +416,17 @@ class SVNote(BaseModel):
         return self.model_copy(deep=True, update={"pitch": self.pitch + pitch_offset})
 
     @staticmethod
-    def normalize_lyric(note: Note) -> str:
+    def normalize_lyric(lyric: str) -> str:
+        return symbols_blacklist.cleanse_text(lyric).strip()
+
+    @classmethod
+    def normalize_phoneme(cls, note: Note) -> str:
         if note.pronunciation:
             return note.pronunciation
-        elif valid_chars := re.sub(
-            r"[\s\(\)\[\]\{\}\^_*×――—（）$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”]",
-            "",
-            note.lyric,
-        ):
-            if (hanzi := CHINESE_RE.search(valid_chars)) is not None:
-                return hanzi.group(0)
-            else:
-                return valid_chars
+        elif (hanzi := re.search(rf"[{zhon.hanzi.characters}]+", note.lyric)) is not None:
+            return hanzi[0]
+        elif valid_chars := cls.normalize_lyric(note.lyric):
+            return valid_chars.lstrip(".")
         else:
             return DEFAULT_PHONEME
 
@@ -405,6 +467,15 @@ class SVParameters(BaseModel):
 
 
 class SVVoice(SVBaseAttributes):
+    t_f0_left: Optional[float] = Field(0.07, alias="tF0Left")
+    t_f0_right: Optional[float] = Field(0.07, alias="tF0Right")
+    d_f0_left: Optional[float] = Field(0.15, alias="dF0Left")
+    d_f0_right: Optional[float] = Field(0.15, alias="dF0Right")
+    t_f0_vbr_start: Optional[float] = Field(0.25, alias="tF0VbrStart")
+    t_f0_vbr_left: Optional[float] = Field(0.2, alias="tF0VbrLeft")
+    t_f0_vbr_right: Optional[float] = Field(0.2, alias="tF0VbrRight")
+    d_f0_vbr: Optional[float] = Field(1.0, alias="dF0Vbr")
+    f_f0_vbr: Optional[float] = Field(5.5, alias="fF0Vbr")
     vocal_mode_inherited: bool = Field(True, alias="vocalModeInherited")
     vocal_mode_preset: str = Field("", alias="vocalModePreset")
     vocal_mode_params: Optional[dict[str, float]] = Field(None, alias="vocalModeParams")
@@ -443,6 +514,8 @@ class SVDatabase(BaseModel):
 
 class SVRef(BaseModel):
     audio: Optional[SVAudio] = None
+    blick_absolute_begin: Optional[int] = Field(0, alias="blickAbsoluteBegin")
+    blick_absolute_end: Optional[int] = Field(-1, alias="blickAbsoluteEnd")
     blick_offset: int = Field(default=0, alias="blickOffset")
     pitch_offset: int = Field(default=0, alias="pitchOffset")
     pitch_takes: Optional[SVParamTakes] = Field(None, alias="pitchTakes")
@@ -516,7 +589,7 @@ class SVTrack(BaseModel):
 class SVProject(BaseModel):
     library: list[SVGroup] = Field(default_factory=list)
     render_config: SVRenderConfig = Field(default_factory=SVRenderConfig, alias="renderConfig")
-    instant_mode_enabled: Optional[bool] = Field(False, alias="instantModeEnabled")
+    instant_mode_enabled: Optional[bool] = Field(True, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)
     version: int = 113

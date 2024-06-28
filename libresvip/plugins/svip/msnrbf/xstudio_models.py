@@ -8,9 +8,11 @@ import struct
 from itertools import chain
 from typing import Generic, Literal, NamedTuple, Optional, TypeVar
 
-from more_itertools import chunked
+from more_itertools import batched
 
 XSItem = TypeVar("XSItem")
+MIN_NOTE_DURATION = 0.045
+MAX_NOTE_DURATION = 20.0
 
 
 def to_backing_field(key: str) -> str:
@@ -39,8 +41,8 @@ class XSLineParam:
         if len(self.line_param) >= 4:
             (node_count,) = struct.unpack("<i", bytearray(self.line_param[:4]))
             self.nodes.extend(
-                XSLineParamNode(value=value, pos=pos)
-                for pos, value in chunked(
+                XSLineParamNode._make(each)
+                for each in batched(
                     struct.unpack(
                         f"<{node_count * 2}i",
                         bytearray(self.line_param[4 : 4 + node_count * 8]),

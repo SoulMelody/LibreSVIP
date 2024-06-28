@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import contextlib
+import itertools
 import os
 import pathlib
 import sys
@@ -12,10 +13,9 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable  # noqa: E402
+from bdist_portable import BdistPortable
 
-import libresvip  # noqa: E402
-from libresvip.core.constants import pkg_dir  # noqa: E402
+import libresvip
 
 bin_includes = []
 bin_path_includes = [shiboken6.__path__[0]]
@@ -33,7 +33,29 @@ except ImportError:
     get_qt_plugins_paths = None
 
 pyside6_dir = pathlib.Path(PySide6.__path__[0])
-include_files = [(pkg_dir / "plugins", pathlib.Path("./lib/libresvip/plugins"))]
+include_files: list[tuple[pathlib.Path, pathlib.Path]] = []
+zip_includes: list[tuple[str, str]] = [
+    ("../libresvip/res", "libresvip/res"),
+]
+zip_includes.extend(
+    (
+        str(resource_file),
+        str(resource_file.as_posix())[3:],
+    )
+    for resource_file in pathlib.Path("../res").rglob("**/*.*")
+    if resource_file.is_file() and resource_file.suffix not in [".po", ".qml"]
+)
+zip_includes.extend(
+    (
+        str(plugin_info),
+        str(plugin_info.as_posix())[3:],
+    )
+    for plugin_info in itertools.chain(
+        pathlib.Path("../libresvip/middlewares").rglob("**/*.*"),
+        pathlib.Path("../libresvip/plugins").rglob("**/*.*"),
+    )
+    if plugin_info.is_file() and plugin_info.suffix not in [".py", ".pyc"]
+)
 qml_dirs = ["Qt", "QtCore", "QtQml", "QtQuick"]
 qml_base_dir = None
 if (pyside6_dir / "qml").exists():
@@ -135,11 +157,10 @@ build_exe_options = {
                 "3DRender",
             )
         ),
-        [],
+        (str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")),
     ),
     "bin_includes": bin_includes,
     "bin_path_includes": bin_path_includes,
-    # exclude packages that are not really needed
     "excludes": [
         "attr",
         "black",
@@ -163,28 +184,33 @@ build_exe_options = {
         "uvicorn",
         "webview",
         "wx",
+        "libresvip.web",
     ],
     "include_files": include_files,
-    "zip_include_packages": ["PySide6"],
+    "include_msvcr": True,
+    "zip_includes": zip_includes,
+    "zip_include_packages": [
+        "PySide6",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.gui",
+        "libresvip.middlewares",
+        "libresvip.model",
+        "libresvip.plugins",
+    ],
     "packages": [
         "anyio",
-        "bidict",
-        "construct_typed",
-        "drawsvg",
-        "google.protobuf",
-        "jinja2",
-        "libresvip",
-        "mido_fix",
-        "parsimonious",
-        "proto",
-        "pymediainfo",
+        "libresvip.cli",
+        "libresvip.core",
+        "libresvip.gui",
+        "libresvip.middlewares",
+        "libresvip.model",
+        "libresvip.plugins",
         "PySide6.QtQuick",
         "PySide6.QtOpenGL",
-        "srt",
-        "xsdata",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
-        "zstandard",
+        "xsdata_pydantic.hooks.class_type",
     ],
 }
 

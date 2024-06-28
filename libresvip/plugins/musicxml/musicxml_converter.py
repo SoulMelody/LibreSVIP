@@ -1,13 +1,12 @@
 import pathlib
 
 from xsdata.formats.dataclass.parsers.config import ParserConfig
-from xsdata.formats.dataclass.parsers.xml import XmlParser
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
-from xsdata.formats.dataclass.serializers.writers import XmlEventWriter
-from xsdata.formats.dataclass.serializers.xml import XmlSerializer
+from xsdata_pydantic.bindings import XmlParser, XmlSerializer
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.utils.xmlutils import DefaultXmlWriter
 
 from .models.mxml2 import ScorePartwise
 from .musicxml_generator import MusicXMLGenerator
@@ -15,7 +14,7 @@ from .musicxml_parser import MusicXMLParser
 from .options import InputOptions, OutputOptions
 
 
-class MusicXMLWriter(XmlEventWriter):
+class MusicXMLWriter(DefaultXmlWriter):
     def start_document(self) -> None:
         super().start_document()
         if self.config.xml_declaration:
@@ -35,4 +34,4 @@ class MusicXMLConverter(plugin_base.SVSConverterBase):
         xml_serializer = XmlSerializer(
             config=SerializerConfig(pretty_print=True), writer=MusicXMLWriter
         )
-        path.write_text(xml_serializer.render(score), encoding="utf-8")
+        path.write_bytes(xml_serializer.render(score).encode("utf-8"))

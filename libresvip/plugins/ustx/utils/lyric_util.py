@@ -1,17 +1,13 @@
-from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
+from libresvip.utils.text import CustomBoundriesBlacklist
+
+unsupported_symbols = CustomBoundriesBlacklist(
+    [",", "，", ".", "。", "?", "？", "!", "！"], right_boundary="$", match_substrings=True
+)
 
 
-class LyricUtil:
-    unsupported_symbols = "".join((",", ".", "?", "!", "，", "。", "？", "！"))
+def is_punctuation(c: str) -> bool:
+    return unsupported_symbols.is_blacklisted(c)
 
-    @staticmethod
-    def is_hanzi(c: str) -> bool:
-        return CHINESE_RE.match(c) is not None
 
-    @classmethod
-    def is_punctuation(cls, c: str) -> bool:
-        return c in cls.unsupported_symbols
-
-    @classmethod
-    def get_symbol_removed_lyric(cls, lyric: str) -> str:
-        return lyric.rstrip(cls.unsupported_symbols)
+def get_symbol_removed_lyric(lyric: str) -> str:
+    return unsupported_symbols.cleanse_text(lyric)

@@ -1,13 +1,12 @@
 import contextlib
 import dataclasses
-import warnings
 
 import mido_fix as mido
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.core.warning_types import PhonemeWarning
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -18,7 +17,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.utils import gettext_lazy as _
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import SUPPORTED_PINYIN
 from .model import (
@@ -137,7 +136,7 @@ class GjgjGenerator:
             pronunciation = note.pronunciation or pinyin
             if pronunciation not in SUPPORTED_PINYIN:
                 msg_prefx = _("Unsupported pinyin:")
-                warnings.warn(f"{msg_prefx} {pronunciation}", PhonemeWarning)
+                show_warning(f"{msg_prefx} {pronunciation}")
                 pronunciation = ""
             if note.head_tag == "0":
                 beat_style = GjgjBeatStyle.SIL
@@ -145,7 +144,7 @@ class GjgjGenerator:
                 beat_style = GjgjBeatStyle.SP
             else:
                 beat_style = GjgjBeatStyle.NONE
-            pre_time, post_time = 0, 0
+            pre_time, post_time = 0.0, 0.0
             if note.edited_phones is not None:
                 with contextlib.suppress(Exception):
                     if note.edited_phones.head_length_in_secs != -1:

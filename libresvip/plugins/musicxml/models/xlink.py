@@ -1,6 +1,9 @@
-from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
+
+from xsdata_pydantic.fields import field
+
+from libresvip.model.base import BaseModel
 
 XLINK_NS = "http://www.w3.org/1999/xlink"
 
@@ -24,8 +27,7 @@ class TypeValue(Enum):
     SIMPLE = "simple"
 
 
-@dataclass
-class Href:
+class Href(BaseModel):
     class Meta:
         name = "href"
         namespace = XLINK_NS
@@ -38,8 +40,7 @@ class Href:
     )
 
 
-@dataclass
-class Role:
+class Role(BaseModel):
     class Meta:
         name = "role"
         namespace = XLINK_NS
@@ -52,8 +53,7 @@ class Role:
     )
 
 
-@dataclass
-class Title:
+class Title(BaseModel):
     class Meta:
         name = "title"
         namespace = XLINK_NS
@@ -66,8 +66,7 @@ class Title:
     )
 
 
-@dataclass
-class Actuate:
+class Actuate(BaseModel):
     class Meta:
         name = "actuate"
         namespace = XLINK_NS
@@ -75,8 +74,7 @@ class Actuate:
     value: Optional[ActuateValue] = field(default=None)
 
 
-@dataclass
-class Show:
+class Show(BaseModel):
     class Meta:
         name = "show"
         namespace = XLINK_NS
@@ -84,8 +82,7 @@ class Show:
     value: Optional[ShowValue] = field(default=None)
 
 
-@dataclass
-class TypeType:
+class TypeType(BaseModel):
     class Meta:
         name = "type"
         namespace = XLINK_NS

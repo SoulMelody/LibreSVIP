@@ -20,4 +20,4 @@ LRC_TEMPLATE = Template(
 
 
 def render_lrc(lrc_model: LrcFile, output_path: pathlib.Path) -> None:
-    output_path.write_text(LRC_TEMPLATE.render(lrc_model=lrc_model), encoding="utf-8")
+    output_path.write_bytes(LRC_TEMPLATE.render(lrc_model=lrc_model).encode("utf-8"))
