@@ -1,0 +1,2570 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/translations/libresvip.po\n"
+"X-Crowdin-File-ID: 6\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-28 14:41\n"
+
+msgctxt "converter_page"
+msgid "Converter"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Select File Formats"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Input Format: "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "View Detail Information"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Reset Tasks When Changing Input"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Swap Input and Output"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Format: "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Direct Mode"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Singing Track Merging Mode"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Singing Track Grouping Mode"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Advanced Settings"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Input Options"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Options"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Task List"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Drag and drop files here"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Conversion Mode:"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Continue Adding files"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Clear Task List"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Reset Default Extension"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Max Track count:"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "[Import as "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "[Export to "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Settings"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Choose Output Folder"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Folder"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Deal with Conflicts"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Export"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Start Conversion"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Converting"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Overwrite"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Skip"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Prompt"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "All Files (*.*)"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Custom folder"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Folder Presets"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Click to add a folder preset"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "About"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "LibreSVIP"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Version: "
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Author: SoulMelody"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Author's Profile"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Repo URL"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr ""
+
+msgctxt "dialogs"
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr ""
+
+msgctxt "plugin_info"
+msgid "Version"
+msgstr ""
+
+msgctxt "plugin_info"
+msgid "Introduction"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Options"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Reset Task List When Changing Input File Type"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Multi-Threaded Conversion"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Output Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Deal with Conflicts"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Same as Source"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Desktop"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Preset Folder"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Custom (Browse ...)"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Manage Folders Presets"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Preset"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Remove current preset"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Add new rule"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Full match"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Alphabetic"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Non-alphabetic"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Regex"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Format Provider Plugins"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Overwrite"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Skip"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Prompt"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Auto Check for Updates"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Conversion Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Basic Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Save Path Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Lyric Replacement Rules"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Updates Settings"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File successfully converted"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Open"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Open folder"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File %1 already exists. Overwrite?"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File skipped due to conflict"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Remove"
+msgstr ""
+
+msgctxt "task_row"
+msgid "This project file may contain abnormal or illegal data"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File failed to convert, below is the error message:"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Copy error message"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Copied"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Do you want to overwrite the file?"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Convert (&C)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Import Projects (Ctrl+O)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Perform All Tasks (Ctrl+Enter)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Clear Tasks (Ctrl+R)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Swap Input and Output (Ctrl+Tab)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Output Format (&E)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Formats (&F)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Input Format (&I)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Settings (&S)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Options (&O)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Themes (&T)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Light"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Dark"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "System"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Language (&L)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Help (&H)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "About (Ctrl+A)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Check for Updates"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Documentation (F1)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "SVS Projects Converter"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "OK"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "Yes to &All"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "N&o to All"
+msgstr ""
+
+#: ../libresvip/middlewares/pitch_shift/pitch_shift.yapsy-plugin:1
+msgid "Pitch Shift"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:1
+msgid "Project Zoom"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:3
+msgid "Zoom in/out project"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:1
+msgid "Pronounciation Conversion"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:3
+msgid "For Chinese and Japanese Lyrics"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:1
+msgid "Remove Short Silences"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:3
+msgid "Fill short rests"
+msgstr ""
+
+#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:1
+msgid "Replace lyrics"
+msgstr ""
+
+#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:3
+msgid "Replace lyrics using preset rules. You can customize the lyrics replacement rules in the program configuration page"
+msgstr ""
+
+#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:1
+msgid "ACE Studio"
+msgstr ""
+
+#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:2
+msgid "ACE Studio project File"
+msgstr ""
+
+#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:3
+msgid "Conversion Plugin for ACE Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:1
+msgid "AISingers"
+msgstr ""
+
+#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:2
+msgid "AISingers Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:3
+msgid "Conversion plugin for AISingers Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:1
+msgid "ASS"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:2
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:3
+msgid "Generator plugin for ASS subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:1
+msgid "CeVIO"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:2
+msgid "CeVIO Creative Studio Project file"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:3
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/ds/ds.yapsy-plugin:1
+msgid "DiffSinger"
+msgstr ""
+
+#: ../libresvip/plugins/ds/ds.yapsy-plugin:2
+msgid "DiffSinger parameters file"
+msgstr ""
+
+#: ../libresvip/plugins/ds/ds.yapsy-plugin:3
+msgid "DiffSinger plugin."
+msgstr ""
+
+#: ../libresvip/plugins/dv/dv.yapsy-plugin:1
+msgid "DeepVocal"
+msgstr ""
+
+#: ../libresvip/plugins/dv/dv.yapsy-plugin:2
+msgid "DeepVocal project file"
+msgstr ""
+
+#: ../libresvip/plugins/dv/dv.yapsy-plugin:3
+msgid "Conversion plugin for dv file"
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:1
+msgid "gjgj"
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:2
+msgid "Gejigeji project file"
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:3
+msgid "Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr ""
+
+#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:1
+msgid "JsonSvip"
+msgstr ""
+
+#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:2
+msgid "OpenSVIP file"
+msgstr ""
+
+#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:3
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:1
+msgid "LRC"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:2
+msgid "LRC lyric file"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:3
+msgid "Generator plugin for LRC lyric file"
+msgstr ""
+
+#: ../libresvip/plugins/mid/mid.yapsy-plugin:1
+msgid "MIDI"
+msgstr ""
+
+#: ../libresvip/plugins/mid/mid.yapsy-plugin:2
+msgid "Standard MIDI file (SMF)"
+msgstr ""
+
+#: ../libresvip/plugins/mid/mid.yapsy-plugin:3
+msgid "Conversion plugin for midi file"
+msgstr ""
+
+#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:1
+msgid "Muta"
+msgstr ""
+
+#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:2
+msgid "Muta project file"
+msgstr ""
+
+#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:3
+msgid "Conversion plugin for mtp file"
+msgstr ""
+
+#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:1
+msgid "MusicXML"
+msgstr ""
+
+#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:2
+msgid "MusicXML file"
+msgstr ""
+
+#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:3
+msgid "Conversion plugin for MusicXML Score file"
+msgstr ""
+
+#: ../libresvip/plugins/nn/nn.yapsy-plugin:1
+msgid "NIAONiao"
+msgstr ""
+
+#: ../libresvip/plugins/nn/nn.yapsy-plugin:2
+msgid "NIAONiao Virtual Singer project file"
+msgstr ""
+
+#: ../libresvip/plugins/nn/nn.yapsy-plugin:3
+msgid "Conversion plugin for NIAONiao project file"
+msgstr ""
+
+#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:1
+msgid "Ppsf"
+msgstr ""
+
+#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:2
+msgid "Piapro Studio Song file"
+msgstr ""
+
+#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:3
+msgid "Conversion plugin for Piapro Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:1
+msgid "SynthV Editor"
+msgstr ""
+
+#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:2
+msgid "Synthesizer V Editor project file"
+msgstr ""
+
+#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:3
+msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr ""
+
+#: ../libresvip/plugins/srt/srt.yapsy-plugin:1
+msgid "SRT"
+msgstr ""
+
+#: ../libresvip/plugins/srt/srt.yapsy-plugin:2
+msgid "SubRip subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/srt/srt.yapsy-plugin:3
+msgid "Generator plugin for SRT subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/svg/svg.yapsy-plugin:1
+msgid "Svg"
+msgstr ""
+
+#: ../libresvip/plugins/svg/svg.yapsy-plugin:2
+msgid "Scalable Vector Graphics"
+msgstr ""
+
+#: ../libresvip/plugins/svg/svg.yapsy-plugin:3
+msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:1
+msgid "BinSvip"
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:2
+msgid "X Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:3
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:1
+msgid "Svip3"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:2
+msgid "Netease Cloud Music XStudio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:3
+msgid "Conversion plugin for Netease Cloud Music XStudio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svp/svp.yapsy-plugin:1
+msgid "SynthV Studio"
+msgstr ""
+
+#: ../libresvip/plugins/svp/svp.yapsy-plugin:2
+msgid "Synthesizer V Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svp/svp.yapsy-plugin:3
+msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
+"Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
+msgstr ""
+
+#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:1
+msgid "TuneLab"
+msgstr ""
+
+#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:2
+msgid "TuneLab project file"
+msgstr ""
+
+#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:3
+msgid "Convertion plugin for TuneLab project file"
+msgstr ""
+
+#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:1
+msgid "TSSln"
+msgstr ""
+
+#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:2
+msgid "Techno-Speech Solution file"
+msgstr ""
+
+#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:3
+msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
+msgstr ""
+
+#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:1
+msgid "UFData"
+msgstr ""
+
+#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:2
+msgid "UtaFormatix3 data format"
+msgstr ""
+
+#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:3
+msgid "Convertion plugin for UFData format"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust.yapsy-plugin:1
+msgid "Ust"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust.yapsy-plugin:2
+msgid "UTAU Sequence Text"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust.yapsy-plugin:3
+msgid "Conversion plugin for UST file format"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:1
+msgid "Ustx"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:2
+msgid "OpenUtau project file"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:3
+msgid "Conversion plugin for Ustx file format"
+msgstr ""
+
+#: ../libresvip/plugins/vog/vog.yapsy-plugin:1
+msgid "Vogen"
+msgstr ""
+
+#: ../libresvip/plugins/vog/vog.yapsy-plugin:2
+msgid "Vogen project file"
+msgstr ""
+
+#: ../libresvip/plugins/vog/vog.yapsy-plugin:3
+msgid "Conversion plugin for Vogen project file"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:1
+msgid "Vpr"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:2
+msgid "New Vocaloid Project file"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:3
+msgid "Conversion plugin for New Vocaloid project file"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:1
+msgid "VocalShifter"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:2
+msgid "VocalShifter project file"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:3
+msgid "Import parameters from VocalShifter project file."
+msgstr ""
+
+#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:1
+msgid "VocalSharp"
+msgstr ""
+
+#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:2
+msgid "VocalSharp project file"
+msgstr ""
+
+#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:3
+msgid "Conversion plugin for VocalSharp project file"
+msgstr ""
+
+#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:1
+msgid "Vsq"
+msgstr ""
+
+#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:2
+msgid "Vocaloid 2 Sequence file"
+msgstr ""
+
+#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:3
+msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:1
+msgid "Vsqx"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:2
+msgid "Vocaloid Sequence XML file"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:3
+msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr ""
+
+#: ../libresvip/plugins/y77/y77.yapsy-plugin:1
+msgid "Y77"
+msgstr ""
+
+#: ../libresvip/plugins/y77/y77.yapsy-plugin:2
+msgid "Yuan77 project file"
+msgstr ""
+
+#: ../libresvip/plugins/y77/y77.yapsy-plugin:3
+msgid "Conversion plugin for Yuan77 project file"
+msgstr ""
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\nReport-Msgid-Bugs-To: EMAIL@ADDRESS\nPOT-Creation-Date: 2024-06-28 17:32+0800\nPO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\nLanguage-Team: LANGUAGE <LL@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\nGenerated-By: Babel 2.10.3\n"
+
+#: ../libresvip/cli/commands/conf.py:19
+msgid "Setting {} is not supported in cli mode."
+msgstr ""
+
+#: ../libresvip/cli/commands/conf.py:31
+msgid "Set {} to {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:26
+msgid "The plugin is successfully disabled."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:28
+msgid "Failed to disable the plugin!"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:35
+msgid "The plugin is successfully enabled."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:37
+msgid "Failed to enable the plugin!"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:39
+msgid "Unable to find the plugin."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:52
+msgid "Cannot find plugin "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:58
+msgid "No plugins are currently installed."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:61
+msgid "No."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:62
+msgid "Name"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:63
+#: ../libresvip/gui/models/table_models.py:17
+#: ../libresvip/plugins/nn/options.py:19 ../libresvip/plugins/ust/options.py:19
+#: ../libresvip/web/pages.py:261
+msgid "Version"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:270
+msgid "Author"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:65
+msgid "Identifier"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:66
+msgid "Applicable file format"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:87
+msgid "Plugin: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:88 ../libresvip/web/pages.py:1083
+msgid "Version: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "Author: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:93
+msgid "Website: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:97
+msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "input"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "output"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:111
+msgid "This plugin supports the following {} conversion options:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:119
+#: ../libresvip/cli/commands/plugin.py:140
+msgid "Default: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:121
+msgid "Available values:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:134
+msgid "Available fields:"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:21
+msgid "Extension {} is not supported. Supported extensions are: {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:100
+#: ../libresvip/cli/commands/proj.py:177
+msgid "Input Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:58 ../libresvip/cli/commands/proj.py:110
+#: ../libresvip/cli/commands/proj.py:156
+msgid "Enable {} middleware?"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:66 ../libresvip/cli/commands/proj.py:118
+#: ../libresvip/cli/commands/proj.py:162
+msgid "Process Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:126
+#: ../libresvip/cli/commands/proj.py:197
+msgid "Output Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:88
+msgid "Output format"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:89
+msgid "Maximum track count per file"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:132
+msgid "Converting ..."
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:17
+msgid "Applicable File Format"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1278
+msgid "Mode"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1281
+msgid "Prefix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1286
+msgid "Pattern"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1291
+msgid "Suffix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1296
+msgid "Replacement"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1329
+msgid "Case sensitive"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1300
+msgid "Actions"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:54
+msgid "Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:54
+#: ../libresvip/gui/modules/notifier.py:80
+msgid "Please wait..."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:64
+msgid "Error occurred while Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:65
+msgid "Failed to download file {}. Please try again later."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:79
+msgid "Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:95
+msgid "Open in Browser"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:157
+msgid "Download"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:167
+msgid "Update Available"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:168
+msgid "New version {} is available."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:173
+msgid "No Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:174
+msgid "You are using the latest version {}."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:182
+msgid "Error occurred while Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:183
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+
+#: ../libresvip/middlewares/pitch_shift/options.py:9
+msgid "Key transition of pitch"
+msgstr ""
+
+#: ../libresvip/middlewares/pitch_shift/options.py:10
+msgid "Pitch shift in semitones."
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:9
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:9
+msgid "None"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:11
+msgid "1/2"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:12
+msgid "5/3"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:13
+msgid "3/2"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:14
+msgid "6/5"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:15
+msgid "4/5"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:16
+msgid "3/5"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:17
+msgid "3/4"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:23
+msgid "Zoom factor"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/options.py:24
+msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:10
+msgid "Hanzi to Pinyin"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:11
+msgid "To Romaji"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:12
+msgid "To Hiragana"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:13
+msgid "To Katakana"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:19
+msgid "Pronounciation conversion mode"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/options.py:20
+msgid "Convert lyrics to the specified pronounciation format"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:9
+msgid "Zero length note"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:10
+msgid "1/8 note"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:11
+msgid "1/16 note"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:12
+msgid "1/32 note"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:13
+msgid "1/64 note"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:17
+msgid "1/128 note"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:25
+msgid "Max length to be processed (exclusive)"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/options.py:26
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+#: ../libresvip/middlewares/replace_lyric/options.py:9
+msgid "Name of lyric replacement preset"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:10
+msgid "Import instrumental tracks"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:14
+msgid "Import pitch curve"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:18
+msgid "Import dynamics envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:22
+msgid "Import breath envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:26
+msgid "Import gender envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:30
+msgid "Import strength envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:36
+msgid "Constant tempo"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:37
+msgid "Use this tempo to reset time axis of projects with dynamic tempos"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:44
+msgid "Track index"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:45
+msgid "Start from 0, -1 means automatic selection"
+msgstr ""
+
+#: ../libresvip/model/relative_pitch_curve.py:28
+msgid "Notes Overlapped"
+msgstr ""
+
+#: ../libresvip/plugins/acep/model.py:172
+msgid "Chinese"
+msgstr ""
+
+#: ../libresvip/plugins/acep/model.py:178
+#: ../libresvip/plugins/svp/options.py:34
+msgid "Japanese"
+msgstr ""
+
+#: ../libresvip/plugins/acep/model.py:184
+#: ../libresvip/plugins/svp/options.py:35 ../libresvip/plugins/vpr/model.py:13
+#: ../libresvip/plugins/vsqx/enums.py:15
+msgid "English"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:26
+msgid "Both strength and tension"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:27
+msgid "Map both strength and tension parameters to strength and tension parameters, each with a weight of 50%."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:35
+msgid "Only strength"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:36
+msgid "Map only strength parameters to strength parameters. Tension parameters will remain unparameterized."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:44
+msgid "Only tension"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:45
+msgid "Map only tension parameters to tension parameters. Strength parameters will remain unparameterized."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:95
+msgid "Keep all pronunciation information"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:96
+msgid "ACE Studio will add pronunciation to all notes. This is a redundant data for most Chinese characters, so by default only modified pronunciation will be kept. When this option is turned on, all pronunciation information will be kept unconditionally, but it may produce a larger file size. When the source file contains non-Chinese singing data, please turn on this option."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:102
+msgid "Import tension envelope"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:103
+msgid "When turned on, the tension envelope will be mapped to the tension channel of the intermediate model."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:109
+msgid "Import energy envelope"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:110
+msgid "When turned on, the energy envelope will be mapped to the energy channel of the intermediate model."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:116
+msgid "Strength-volume mapping coefficient"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:117
+msgid "Since the strength parameter of ACE Studio has a significant impact on the volume, this option is provided to control the mapping coefficient of the strength envelope. The strength envelope will be multiplied by the value of this option as a whole and then mapped to the volume channel of the intermediate model, and the remaining part will be mapped to the strength channel. This option accepts values in the range of 0~1.0."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:123
+msgid "Interval of curve sampling"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:124
+msgid "The unit is tick (the length of a quarter note is 480 ticks). By default, the parameter points in the acep file are stored in a very dense manner. Increasing the sampling interval appropriately will not cause much loss of accuracy, but it can get a smaller file size. Setting to 0 or a negative value means keeping the original sampling interval."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:130
+msgid "Breath parameter normalization"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:131
+msgid "This option is an advanced option. After enabling this option, the breath parameters will be merged with the breath envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:140
+msgid "Tension parameter normalization"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:141
+msgid "This option is an advanced option. After enabling this option, the tension parameters will be merged with the tension envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:150
+msgid "Energy parameter normalization"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:151
+msgid "This option is an advanced option. After enabling this option, the energy parameters will be merged with the energy envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
+"(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
+"(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
+"(3) Upper threshold: a real number in the range of 0~10.0, the parameter points higher than this value will not participate in the normalization.\n"
+"(4) Scaling factor: a real number in the range of -1.0~1.0, the normalized parameter value will be multiplied by this value.\n"
+"(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:177
+#: ../libresvip/plugins/gj/options.py:31
+#: ../libresvip/plugins/svip/options.py:67
+msgid "Default singer"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:178
+msgid "Please input the complete and correct singer name"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:182
+msgid "Default breath length (ms)"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:183
+msgid "This option is used to set the default breath length when the breath mark is converted to a breath parameter. The actual breath length may be less than the default value due to the small gap between notes; some notes may be shortened due to the insertion of breath marks. Setting to 0 or a negative value means ignoring all breath marks."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:189
+msgid "Map strength and tension parameters to"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:190
+msgid "ACE Studio has both strength and tension parameters, both of which can affect the strength of the singing. This option is used to set the mapping target of the strength parameter."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:196
+msgid "Threshold for splitting"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:197
+msgid "When the distance between notes exceeds the set value, they will be split into different segments (patterns) for subsequent editing. The threshold unit is the value of a quarter note, and the default is 1, which means that when the distance between notes exceeds 1 quarter notes (480 ticks), they will be split. If you don't want to split at all, please set this option to 0 or a negative value."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:203
+msgid "Lyrics language"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:204
+msgid "ACE Studio supports three languages of lyrics. This option is used to set the language of lyrics."
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:210
+msgid "Default consonant length (ticks)"
+msgstr ""
+
+#: ../libresvip/plugins/acep/options.py:211
+msgid "Set default consonant length for notes if not specified"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:14
+#: ../libresvip/plugins/lrc/options.py:33
+#: ../libresvip/plugins/srt/options.py:14
+msgid "Both note gap and punctuation"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:15
+#: ../libresvip/plugins/lrc/options.py:34
+#: ../libresvip/plugins/srt/options.py:15
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:23
+#: ../libresvip/plugins/lrc/options.py:42
+#: ../libresvip/plugins/srt/options.py:23
+msgid "Note gap only"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:24
+#: ../libresvip/plugins/lrc/options.py:43
+#: ../libresvip/plugins/srt/options.py:24
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:32
+#: ../libresvip/plugins/lrc/options.py:51
+#: ../libresvip/plugins/srt/options.py:32
+msgid "Punctuation only"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:33
+#: ../libresvip/plugins/lrc/options.py:52
+#: ../libresvip/plugins/srt/options.py:33
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:41
+#: ../libresvip/plugins/lrc/options.py:64
+#: ../libresvip/plugins/srt/options.py:41
+msgid "Offset"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:42
+#: ../libresvip/plugins/lrc/options.py:65
+#: ../libresvip/plugins/srt/options.py:42
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:44
+#: ../libresvip/plugins/lrc/options.py:70
+#: ../libresvip/plugins/srt/options.py:44
+msgid "New line by"
+msgstr ""
+
+#: ../libresvip/plugins/ass/options.py:45
+#: ../libresvip/plugins/srt/options.py:45
+#: ../libresvip/plugins/ust/options.py:12
+#: ../libresvip/plugins/ust/options.py:24
+msgid "Text encoding"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/cevio_generator.py:185
+#: ../libresvip/plugins/tssln/voisona_generator.py:139
+msgid "Unsupported lyric: "
+msgstr ""
+
+#: ../libresvip/plugins/ccs/cevio_pitch.py:103
+#: ../libresvip/plugins/tssln/voisona_pitch.py:103
+msgid "Pitch value is out of bounds"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/options.py:16
+#: ../libresvip/plugins/mtp/options.py:18
+#: ../libresvip/plugins/vpr/options.py:41
+#: ../libresvip/plugins/vsqx/options.py:38
+msgid "Default Singer Name"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/options.py:17
+msgid "Default Voicebank ID"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/options.py:18
+msgid "Default Voicebank Version"
+msgstr ""
+
+#: ../libresvip/plugins/ds/diffsinger_generator.py:34
+#: ../libresvip/plugins/nn/niaoniao_generator.py:36
+#: ../libresvip/plugins/ust/ust_generator.py:31
+#: ../libresvip/plugins/ust/ust_generator.py:39
+msgid "No singing track found"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:13
+msgid "Dictionary Name"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:16
+msgid "Split threshold (in seconds)"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:17
+msgid "This option controls the segmentation strategy during conversion. When the value of this option is negative, no segmentation is performed; when the value of this option is 0, segmentation is performed at the threshold where the interval between all notes reaches the threshold; when the value of this option is positive, the minimum length of each segment can be controlled on the basis of segmentation. Setting a reasonable segmentation strategy can reduce the memory usage during synthesis while maximizing the utilization of performance and improving the synthesis effect."
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:23
+msgid "Minimum interval (in milliseconds)"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:24
+msgid "This option controls the minimum interval between notes. It is recommended to set it to a value greater than 300 milliseconds."
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:30
+msgid "Seed"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:31
+msgid "A fixed random seed can get a stable and reproducible synthesis effect. This option takes effect when the non-negative value is set."
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:37
+msgid "Export gender parameter"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:41
+msgid "Indentation"
+msgstr ""
+
+#: ../libresvip/plugins/ds/options.py:42
+msgid "The number of spaces used for indentation. When the value is negative, no formatting is performed."
+msgstr ""
+
+#: ../libresvip/plugins/ds/phoneme_dict.py:12
+msgid "Cannot find dict."
+msgstr ""
+
+#: ../libresvip/plugins/ds/utils/note_list_util.py:43
+msgid "The source file lacks phoneme parameters."
+msgstr ""
+
+#: ../libresvip/plugins/ds/utils/pinyin_util.py:16
+msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj_generator.py:138
+#: ../libresvip/plugins/svip3/svip3_generator.py:218
+msgid "Unsupported pinyin:"
+msgstr ""
+
+#: ../libresvip/plugins/gj/options.py:24
+msgid "Average sampling interval for the volume parameter"
+msgstr ""
+
+#: ../libresvip/plugins/gj/options.py:25
+msgid "The unit is Tick. The larger the value, the smoother the editor; the smaller the value, the more accurate the volume parameter."
+msgstr ""
+
+#: ../libresvip/plugins/json/options.py:13
+msgid "Generate JSON file with indentation"
+msgstr ""
+
+#: ../libresvip/plugins/json/options.py:14
+msgid "The indented format is easier to read and modify, but it will take up a larger file size."
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:12
+msgid "Act on timeline"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:13
+msgid "Shift the time axis for each line of lyrics, and keep the \"offset\" value in the metadata at 0."
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:21
+msgid "Act on metadata"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:22
+msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:58
+#: ../libresvip/plugins/vog/options.py:14
+msgid "Singer name"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:59
+msgid "Song title"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:60
+msgid "Album name"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:61
+msgid "Lyric editor"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:68
+msgid "Offset policy"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:72
+msgid "Write timeline"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:73
+msgid "If you need lyrics without timeline, turn off this option."
+msgstr ""
+
+#: ../libresvip/plugins/lrc/options.py:76
+msgid "Lyric Text encoding"
+msgstr ""
+
+#: ../libresvip/plugins/mid/midi_parser.py:139
+msgid "No tempo labels found in the imported project."
+msgstr ""
+
+#: ../libresvip/plugins/mid/midi_parser.py:252
+msgid "Overlapping notes in track {}"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:12
+msgid "Import first channel only"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:13
+msgid "Split into tracks"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:14
+msgid "Custom import range"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:18
+msgid "Import lyrics"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:21
+#: ../libresvip/plugins/mid/options.py:65
+#: ../libresvip/plugins/vsq/options.py:18
+#: ../libresvip/plugins/vsq/options.py:37
+msgid "Lyric text encoding"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:22
+#: ../libresvip/plugins/mid/options.py:66
+#: ../libresvip/plugins/vsq/options.py:19
+#: ../libresvip/plugins/vsq/options.py:38
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:26
+msgid "Import time signatures"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:27
+msgid "If this option is unset, the time signature is set to 4/4."
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:31
+msgid "Multi-channel processing method"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:35
+msgid "Channels to import"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:36
+msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:42
+msgid "Default BPM"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:43
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:48
+msgid "Export lyrics"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:51
+msgid "Remove symbols from lyrics"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:52
+msgid "Remove commas, periods, question marks and exclamation marks in Chinese and English to prevent lyric import failure in some vocal synthesizers."
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:58
+msgid "Lyric compatibility mode"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:59
+msgid "Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI files with Chinese lyrics from being imported by vocal synthesizers that do not support Chinese lyrics."
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:70
+msgid "Transpose"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:74
+#: ../libresvip/plugins/vsq/options.py:30
+msgid "Ticks per beat"
+msgstr ""
+
+#: ../libresvip/plugins/mid/options.py:75
+#: ../libresvip/plugins/vsq/options.py:31
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr ""
+
+#: ../libresvip/plugins/mtp/options.py:19
+msgid "The default singer name to use for all tracks"
+msgstr ""
+
+#: ../libresvip/plugins/nn/options.py:20
+msgid "Version of NIAONiao project file"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:12
+msgid "Align to left"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:13
+msgid "Align to middle"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:14
+msgid "Align to right"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:18
+msgid "Above the note"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:19
+msgid "Inside the note"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:20
+msgid "Below the note"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:21
+msgid "Don't show"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:25
+msgid "Pixels per beat"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:25
+#: ../libresvip/plugins/svg/options.py:26
+#: ../libresvip/plugins/svg/options.py:44
+#: ../libresvip/plugins/svg/options.py:73
+msgid "Unit: pixel."
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:26
+msgid "Note height"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:27
+msgid "Note radius"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:30
+msgid "Note fill color"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:31
+#: ../libresvip/plugins/svg/options.py:36
+#: ../libresvip/plugins/svg/options.py:42
+#: ../libresvip/plugins/svg/options.py:60
+#: ../libresvip/plugins/svg/options.py:65
+#: ../libresvip/plugins/svg/options.py:71
+msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:35
+msgid "Note stroke color"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:41
+msgid "Pitch stroke color"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:44
+msgid "Pitch stroke width"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:47
+msgid "Lyric position"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:51
+msgid "Pronounciation position"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:55
+msgid "Text align"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:59
+msgid "Inner text color"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:64
+msgid "The color of the text on the top and bottom of the note"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:70
+msgid "Grid line color"
+msgstr ""
+
+#: ../libresvip/plugins/svg/options.py:73
+msgid "Grid line width"
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip_converter.py:32
+msgid "Unexpected enum value"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3_generator.py:225
+#: ../libresvip/plugins/svip/binsvip_generator.py:195
+msgid "Note duration is too short:"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3_generator.py:228
+#: ../libresvip/plugins/svip/binsvip_generator.py:198
+msgid "Note duration is too long:"
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:21
+msgid "Auto detect"
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:22
+msgid "Use the version of the project file corresponding to the X Studio installed on your current system."
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:31
+msgid "Use the project file version of X Studio 2.0."
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:38
+msgid "Use the project file version which is compatible with X Studio 1.8."
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:44
+msgid "Max compatibility (read only)"
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:45
+msgid "Export project files that can be opened using any version of X Studio.\n"
+"Warning: After saving with this option, the volume, breath, gender, and power parameters will not be recognized by X Studio (no data is lost).\n"
+"To avoid irretrievable data loss, it is strongly recommended not to use X Studio to modify and save project files exported with this option. To restore the project file back to a safe editable state, select Save as SVIP 6.0.0 or later."
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:68
+msgid "Please enter the singer's name in Chinese. If the specified singer does not exist, the default singer set in X Studio will be used. If you want to specify the conversion relationship between singer ID and name, or add a singer that has an ID but has not been publicly released, please modify singers.json in the plugin directory."
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:74
+msgid "Default tempo"
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:79
+msgid "Specify the version of the generated .svip file"
+msgstr ""
+
+#: ../libresvip/plugins/svip/options.py:80
+msgid "This option only controls the header version information of the output project file.\n"
+"Choosing an older project file version will not affect the integrity of the data, but using a lower version of X Studio to open, edit and save a higher version project file may cause data loss."
+msgstr ""
+
+#: ../libresvip/plugins/svip/msnrbf/svip_reader.py:120
+msgid "Root not found"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:32
+msgid "Mandarin"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:33
+msgid "Cantonese"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:36
+msgid "Spanish"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:40
+#: ../libresvip/plugins/vsq/options.py:11
+msgid "Ignore all breath notes"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:41
+#: ../libresvip/plugins/vsq/options.py:12
+msgid "Keep as normal notes"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:42
+msgid "Convert to breath mark"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:49
+msgid "Split all to tracks"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:50
+msgid "Generate a track for each note group reference"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:56
+msgid "Keep original position"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:57
+msgid "Split note groups to separate tracks only when notes overlap"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:66
+msgid "Full pitch curve"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:67
+msgid "Input the full pitch curve regardless of editing"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:73
+msgid "Edited part only (vibrato mode)"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:74
+msgid "Input the edited part of pitch curve; default vibrato will be imported if not edited"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:82
+msgid "Edited part only (plain mode)"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:83
+msgid "Input the edited part of pitch curve; default vibrato will be ignored"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:92
+msgid "All removed"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:93
+msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:101
+msgid "All kept"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:102
+msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:110
+msgid "Hybrid mode"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:111
+msgid "Remove vibrato in edited part, keep default vibrato in other parts"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:127
+msgid "Always follow instant pitch mode"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:128
+msgid "When this option is turned off, the default pitch curve will always be imported regardless of the project setting. If you have tuned the pitch curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:134
+msgid "Pitch input mode"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:135
+msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:141
+#: ../libresvip/plugins/vsq/options.py:23
+msgid "The way to handle breath notes"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:145
+msgid "The way to handle note groups"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:146
+msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:154
+msgid "The way to handle vibrato notes"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:158
+msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:161
+msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
+msgstr ""
+
+#: ../libresvip/plugins/svp/options.py:167
+msgid "Override default language for the voicebank"
+msgstr ""
+
+#: ../libresvip/plugins/ust/options.py:20
+msgid "UST file version"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust_parser.py:37
+msgid "UST project has no track"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:17
+msgid "Incompatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:23
+msgid "Compatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:31
+#: ../libresvip/plugins/ustx/options.py:51
+msgid "The way to handle english multisyllabic words"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:32
+#: ../libresvip/plugins/ustx/options.py:52
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:36
+msgid "Breath lyrics"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:37
+msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:43
+msgid "Silence lyrics"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/options.py:44
+msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr ""
+
+#: ../libresvip/plugins/vog/options.py:15
+msgid "Please enter the singer's English name."
+msgstr ""
+
+#: ../libresvip/plugins/vpr/model.py:12 ../libresvip/plugins/vsqx/enums.py:14
+msgid "日本語"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/model.py:14 ../libresvip/plugins/vsqx/enums.py:16
+msgid "한국어"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/model.py:15 ../libresvip/plugins/vsqx/enums.py:17
+msgid "Español"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/model.py:16 ../libresvip/plugins/vsqx/enums.py:18
+msgid "简体中文"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:16
+msgid "Extract audio"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:17
+msgid "Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:26
+msgid "Is AI Singer"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:27
+msgid "The default voicebank is AI singer or not"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:31
+#: ../libresvip/plugins/vsqx/options.py:28
+msgid "Default language"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:32
+#: ../libresvip/plugins/vsqx/options.py:29
+msgid "Default language id of voicebank and notes"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:36
+#: ../libresvip/plugins/vsqx/options.py:33
+msgid "Default Comp ID"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:37
+#: ../libresvip/plugins/vsqx/options.py:34
+msgid "Default comp_id of voicebank"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/options.py:42
+#: ../libresvip/plugins/vsqx/options.py:39
+msgid "Default singer name of voicebank"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr_generator.py:219
+msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert Phonemes to Match Languages in the menu of VOCALOID to reset them."
+msgstr ""
+
+#: ../libresvip/plugins/vshp/options.py:7
+msgid "Convert wave pattern to singing pattern"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/options.py:8
+msgid "Use edited pitch curve"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/options.py:9
+msgid "Use edited dynamics curve"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/options.py:10
+msgid "Import dynamics curve"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/options.py:11
+msgid "Import formant curve"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/options.py:12
+msgid "Import breath curve"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/enums.py:9
+msgid "VSQx 3"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/enums.py:10
+msgid "VSQx 4"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:16
+msgid "Combine syllables"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:17
+msgid "Combine multisyllabic lyrics into single words"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:22
+msgid "VSQX Version"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:24
+msgid "Pretty XML"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/options.py:24
+msgid "Whether to output pretty XML"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsq3_generator.py:134
+msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert Phonemes\" in the menu of VOCALOID3 to reset them."
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsq4_generator.py:134
+msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert Phonemes\" in the menu of VOCALOID4 to reset them."
+msgstr ""
+
+#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
+msgid "Audio file not found: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:257
+msgid "name"
+msgstr ""
+
+#: ../libresvip/web/pages.py:279 ../libresvip/web/pages.py:296
+#: ../libresvip/web/pages.py:1177 ../libresvip/web/pages.py:1196
+#: ../libresvip/web/pages.py:1702 ../libresvip/web/pages.py:1750
+msgid "file_format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:285
+msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/web/pages.py:286
+msgid "description"
+msgstr ""
+
+#: ../libresvip/web/pages.py:304
+msgid "Input Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:305
+msgid "[Import as "
+msgstr ""
+
+#: ../libresvip/web/pages.py:313
+msgid "Output Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:314
+msgid "[Export to "
+msgstr ""
+
+#: ../libresvip/web/pages.py:410 ../libresvip/web/pages.py:527
+msgid "Invalid integer"
+msgstr ""
+
+#: ../libresvip/web/pages.py:414 ../libresvip/web/pages.py:531
+msgid "Invalid float"
+msgstr ""
+
+#: ../libresvip/web/pages.py:654 ../libresvip/web/pages.py:684
+msgid "Copy to clipboard"
+msgstr ""
+
+#: ../libresvip/web/pages.py:658 ../libresvip/web/pages.py:688
+msgid "Copied"
+msgstr ""
+
+#: ../libresvip/web/pages.py:660 ../libresvip/web/pages.py:690
+#: ../libresvip/web/pages.py:1111 ../libresvip/web/pages.py:1599
+#: ../libresvip/web/pages.py:1634 ../libresvip/web/pages.py:1720
+#: ../libresvip/web/pages.py:1773
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/web/pages.py:702
+msgid "Remove"
+msgstr ""
+
+#: ../libresvip/web/pages.py:905
+msgid "Conversion Failed"
+msgstr ""
+
+#: ../libresvip/web/pages.py:907
+msgid "Conversion Successful"
+msgstr ""
+
+#: ../libresvip/web/pages.py:985 ../libresvip/web/pages.py:1019
+msgid "All files (*.*)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1006
+msgid "Save failed!"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1016
+msgid "Compressed Archive (*.zip)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1028
+msgid "Saved"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1080 ../libresvip/web/pages.py:1243
+msgid "About"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1082
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1086
+msgid "Author: SoulMelody"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1090
+msgid "Author's Profile"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1096
+msgid "Repo URL"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1101
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1106
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1115 ../libresvip/web/pages.py:1144
+msgid "Convert"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1130 ../libresvip/web/pages.py:1786
+msgid "Import project"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1156 ../libresvip/web/pages.py:1831
+msgid "Clear Task List"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1163 ../libresvip/web/pages.py:1745
+msgid "Swap Input and Output"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1166 ../libresvip/web/pages.py:1705
+msgid "Import format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1186 ../libresvip/web/pages.py:1753
+msgid "Export format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1202
+msgid "Switch Theme"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1215
+msgid "Light"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1221
+msgid "Dark"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1227
+msgid "System"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1230
+msgid "Help"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1247
+msgid "Documentation"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1255
+msgid "Conversion Settings"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1258
+msgid "Lyric Replace Rules"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1260
+msgid "Switch Language"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1266 ../libresvip/web/pages.py:1729
+msgid "Auto detect import format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1271 ../libresvip/web/pages.py:1736
+msgid "Reset list when import format changed"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1299
+msgid "Flags"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1319
+msgid "Full match"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1320
+msgid "Alphabetic"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1321
+msgid "Non-alphabetic"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1322
+msgid "Regex"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1326
+msgid "Ignore case"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1504
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1514
+msgid "Preset: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:1528
+msgid "Remove current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1547
+msgid "Save current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1570
+msgid "Add new rule"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1571
+msgid "Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1603
+msgid "Settings (&S)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1606
+msgid "Select File Formats"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1607
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1617 ../libresvip/web/pages.py:1631
+msgid "Maximize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1621
+msgid "Restore"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1626
+msgid "Minimize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1693
+msgid "Choose file format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1728 ../libresvip/web/pages.py:1781
+msgid "View Detail Information"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1788
+msgid "Conversion Mode:"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1835
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1839
+msgid "Max Track count:"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1861
+msgid "Continue Adding files"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1895
+msgid "Drag and drop files here or click to upload"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1924
+msgid "Start Conversion"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1932
+msgid "Export"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1933
+msgid "Advanced Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1942
+msgid "Intermediate Processing"
+msgstr ""
+
+#: QPlatformTheme%231
+msgid "OK"
+msgstr ""
+
+#: QPlatformTheme%232
+msgid "Cancel"
+msgstr ""
+
+#: QPlatformTheme%233
+msgid "Yes to &All"
+msgstr ""
+
+#: QPlatformTheme%234
+msgid "N&o to All"
+msgstr ""
+
