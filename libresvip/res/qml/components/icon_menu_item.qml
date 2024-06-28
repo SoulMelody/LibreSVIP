@@ -16,7 +16,7 @@ MenuItem {
             anchors.verticalCenter: parent.verticalCenter
         }
         Label {
-            text: qsTr(label);
+            text: label
             width: parent.width - 35
             anchors.verticalCenter: parent.verticalCenter
         }

@@ -31,6 +31,10 @@ class GettextTranslator(QTranslator):
         n: int = 0,
     ) -> str:
         if translation.singleton_translation is not None and source_text.strip():
+            if (
+                contextual_text := translation.singleton_translation.pgettext(context, source_text)
+            ) != source_text:
+                return contextual_text
             return translation.singleton_translation.gettext(source_text)
         return source_text
 

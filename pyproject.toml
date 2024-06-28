@@ -100,7 +100,7 @@ code_gen = [
   "gapic-generator>=1.18.1",
   "xsdata[cli]>=24.6.1",
 ]
-i18n = ["translate-toolkit>=3.13.1", "babel>=2.15.0"]
+i18n = ["babel>=2.15.0"]
 linting = [
   "pre-commit>=3.7.1",
   "ruff>=0.5.0",

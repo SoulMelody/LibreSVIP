@@ -615,7 +615,7 @@ Dialog {
                             color: window.Material.dialogColor
 
                             Label {
-                                text: qsTr(addPresetComboBox.textAt(addPresetComboBox.indexOfValue(display)))
+                                text: addPresetComboBox.textAt(addPresetComboBox.indexOfValue(display))
                                 anchors.centerIn: parent
                             }
                         }
