@@ -15,7 +15,7 @@ from setuptools._distutils.util import get_platform
 class BdistPortable(Command):
     description = 'create a "portable" built distribution'
 
-    user_options: ClassVar[list[tuple[str, str, str]]] = [
+    user_options: ClassVar[list[tuple[str, Optional[str], str]]] = [
         ("bdist-dir=", "d", "temporary directory for creating the distribution"),
         (
             "plat-name=",

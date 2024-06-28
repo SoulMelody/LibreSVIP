@@ -13,9 +13,9 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable  # noqa: E402
+from bdist_portable import BdistPortable
 
-import libresvip  # noqa: E402
+import libresvip
 
 bin_includes = []
 bin_path_includes = [shiboken6.__path__[0]]
@@ -157,11 +157,10 @@ build_exe_options = {
                 "3DRender",
             )
         ),
-        [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")],
+        (str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")),
     ),
     "bin_includes": bin_includes,
     "bin_path_includes": bin_path_includes,
-    # exclude packages that are not really needed
     "excludes": [
         "attr",
         "black",

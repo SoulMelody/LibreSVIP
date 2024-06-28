@@ -12,9 +12,9 @@ from cx_Freeze import Executable, setup
 
 sys.path.append(str(pathlib.Path("../").absolute().resolve()))
 
-from bdist_portable import BdistPortable  # noqa: E402
+from bdist_portable import BdistPortable
 
-import libresvip  # noqa: E402
+import libresvip
 
 with contextlib.suppress(Exception):
     if (
