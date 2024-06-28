@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-
 import pathlib
 from collections.abc import Iterator
 from configparser import RawConfigParser
 from typing import Any, BinaryIO, Optional, Union
 
 from babel.messages import setuptools_frontend
-from ts_model import Ts
+from ts_model import TranslationType, Ts
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata_pydantic.bindings import XmlParser
 
@@ -63,6 +61,11 @@ def extract_from_qt_ts(
     for context in ts.context:
         context_name = context.name.content[0]
         for message in context.message:
+            if (
+                message.translation is not None
+                and message.translation.type_value == TranslationType.OBSOLETE
+            ):
+                continue
             if message.location:
                 for location in message.location:
                     yield (
@@ -74,6 +77,11 @@ def extract_from_qt_ts(
             else:
                 yield 0, "pgettext", (context_name, message.source.content[0]), ""
     for message in ts.message:
+        if (
+            message.translation is not None
+            and message.translation.type_value == TranslationType.OBSOLETE
+        ):
+            continue
         for location in message.location:
             yield int(location.line), "gettext", message.source.content[0], ""
 
