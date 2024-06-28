@@ -1,4 +1,5 @@
 import pathlib
+import subprocess
 from collections.abc import Iterator
 from configparser import RawConfigParser
 from typing import Any, BinaryIO, Optional, Union
@@ -87,6 +88,16 @@ def extract_from_qt_ts(
 
 
 def extract_qt_ts_msgs() -> None:
+    subprocess.call(
+        [
+            "pyside6-lupdate",
+            "-I",
+            *(str(qml_path) for qml_path in pathlib.Path("../libresvip/res/qml").rglob("**/*.qml")),
+            "-no-obsolete",
+            "-ts",
+            "../translations/libresvip_gui.ts",
+        ]
+    )
     cmdinst = setuptools_frontend.extract_messages()
     cmdinst.initialize_options()
     cmdinst.omit_header = True
@@ -101,6 +112,13 @@ def extract_qt_ts_msgs() -> None:
     cmdinst.run()
 
 
+def extract_python_msgs() -> None:
+    subprocess.call(
+        ["pybabel", "extract", "../libresvip/", "-o", "../translations/libresvip_python.pot"]
+    )
+
+
 if __name__ == "__main__":
+    extract_python_msgs()
     extract_plugin_metadata_msgs()
     extract_qt_ts_msgs()

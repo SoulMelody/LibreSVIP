@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
+    <name>actions</name>
+    <message>
+        <location filename="../libresvip/res/qml/components/actions.qml" line="35"/>
+        <source>Alert</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../libresvip/res/qml/components/actions.qml" line="36"/>
+        <source>Cannot restore task list while conversion is in progress.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>converter_page</name>
     <message>
         <location filename="../libresvip/res/qml/components/converter_page.qml" line="10"/>
