@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:e3de271111510d491cc472144e5987c117ab1ba55381ffae834ce13bcf9b6738"
+content_hash = "sha256:876f759205ad45239793b153a82c4783c6da79c2c03f489597598cda540dc8a4"
 
 [[package]]
 name = "aiofiles"
@@ -3990,7 +3990,7 @@ files = [
 
 [[package]]
 name = "xsdata"
-version = "24.6"
+version = "24.6.1"
 requires_python = ">=3.8"
 summary = "Python XML Binding"
 groups = ["code_gen", "default", "desktop", "webui"]
@@ -3998,8 +3998,8 @@ dependencies = [
     "typing-extensions>=4.7.0",
 ]
 files = [
-    {file = "xsdata-24.6-py3-none-any.whl", hash = "sha256:552397aa75b2fa457db51b54fbf4dd61243af6d40a6910b1a59afc80bedc17f1"},
-    {file = "xsdata-24.6.tar.gz", hash = "sha256:4c33feb2a470228ec639545ae5f166c1cdd291d759037b8b236bcbb6a2b1d3e1"},
+    {file = "xsdata-24.6.1-py3-none-any.whl", hash = "sha256:3f4896b6657478853799a45af7b90d18a2c066d0dbf4cf3f4a1bcdcddf2ede63"},
+    {file = "xsdata-24.6.1.tar.gz", hash = "sha256:78e754e24fc16726b7ddca5c853a9347bc6679737b46ea2be5bddef12f83e501"},
 ]
 
 [[package]]
@@ -4019,7 +4019,7 @@ files = [
 
 [[package]]
 name = "xsdata"
-version = "24.6"
+version = "24.6.1"
 extras = ["cli"]
 requires_python = ">=3.8"
 summary = "Python XML Binding"
@@ -4031,11 +4031,11 @@ dependencies = [
     "jinja2>=2.10",
     "ruff>=0.3.0",
     "toposort>=1.5",
-    "xsdata==24.6",
+    "xsdata==24.6.1",
 ]
 files = [
-    {file = "xsdata-24.6-py3-none-any.whl", hash = "sha256:552397aa75b2fa457db51b54fbf4dd61243af6d40a6910b1a59afc80bedc17f1"},
-    {file = "xsdata-24.6.tar.gz", hash = "sha256:4c33feb2a470228ec639545ae5f166c1cdd291d759037b8b236bcbb6a2b1d3e1"},
+    {file = "xsdata-24.6.1-py3-none-any.whl", hash = "sha256:3f4896b6657478853799a45af7b90d18a2c066d0dbf4cf3f4a1bcdcddf2ede63"},
+    {file = "xsdata-24.6.1.tar.gz", hash = "sha256:78e754e24fc16726b7ddca5c853a9347bc6679737b46ea2be5bddef12f83e501"},
 ]
 
 [[package]]
