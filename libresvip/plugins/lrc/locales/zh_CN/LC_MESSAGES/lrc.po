@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/lrc/lrc.po\n"
+"X-Crowdin-File-ID: 126\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/lrc.yapsy-plugin:1
+msgid "LRC"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/lrc.yapsy-plugin:2
+msgid "LRC lyric file"
+msgstr "LRC 歌词文件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/lrc.yapsy-plugin:3
+msgid "Generator plugin for LRC lyric file"
+msgstr "LRC 歌词格式转换插件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:12
+msgid "Act on timeline"
+msgstr "作用于时间轴"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:13
+msgid "Shift the time axis for each line of lyrics, and keep the \"offset\" value in the metadata at 0."
+msgstr "对每一行歌词的时间轴作偏移，元数据的“offset”保持为0。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:21
+msgid "Act on metadata"
+msgstr "作用于元数据"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:22
+msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
+msgstr "写入偏移量到元数据的“offset”，不处理歌词的时间轴。注意：由于部分播放器不支持元数据里的“offset”标签，选择此选项可能会导致歌词显示时间不准确。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:33
+msgid "Both note gap and punctuation"
+msgstr "音符间隙和标点符号"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:34
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符或遇到标点符号时另起新行。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:42
+msgid "Note gap only"
+msgstr "仅音符间隙"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:43
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符时另起新行。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:51
+msgid "Punctuation only"
+msgstr "仅标点符号"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:52
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr "遇到标点符号时另起新行。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:58
+msgid "Singer name"
+msgstr "歌手名"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:59
+msgid "Song title"
+msgstr "歌曲名"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:60
+msgid "Album name"
+msgstr "专辑名"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:61
+msgid "Lyric editor"
+msgstr "歌词编辑"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:64
+msgid "Offset"
+msgstr "偏移量"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:65
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr "单位为毫秒，正值表示整体提前，负值相反。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:68
+msgid "Offset policy"
+msgstr "偏移处理方式"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:70
+msgid "New line by"
+msgstr "歌词换行方式"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:72
+msgid "Write timeline"
+msgstr "写入时间轴"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:73
+msgid "If you need lyrics without timeline, turn off this option."
+msgstr "如果需要无时间轴的歌词，关闭此选项即可。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:76
+msgid "Lyric Text encoding"
+msgstr "歌词文本编码"
+
