@@ -10,25 +10,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/jsonsvip.yapsy-plugin:1
 msgid "JsonSvip"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/jsonsvip.yapsy-plugin:2
 msgid "OpenSVIP file"
 msgstr "OpenSVIP 文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/jsonsvip.yapsy-plugin:3
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
 msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/options.py:13
 msgid "Generate JSON file with indentation"
 msgstr "生成带缩进格式的 JSON 文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/options.py:14
 msgid "The indented format is easier to read and modify, but it will take up a larger file size."
 msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"
 
