@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.po\n"
+"X-Crowdin-File-ID: 104\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 02:47\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:9
+msgid "None"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:10
+msgid "Hanzi to Pinyin"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:11
+msgid "To Romaji"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:12
+msgid "To Hiragana"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:13
+msgid "To Katakana"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:19
+msgid "Pronounciation conversion mode"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:20
+msgid "Convert lyrics to the specified pronounciation format"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:1
+msgid "Pronounciation Conversion"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:3
+msgid "For Chinese and Japanese Lyrics"
+msgstr ""
+
