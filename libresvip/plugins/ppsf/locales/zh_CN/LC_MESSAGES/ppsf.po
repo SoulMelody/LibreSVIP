@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/ppsf/ppsf.po\n"
+"X-Crowdin-File-ID: 136\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ppsf/ppsf.yapsy-plugin:1
+msgid "Ppsf"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ppsf/ppsf.yapsy-plugin:2
+msgid "Piapro Studio Song file"
+msgstr "Piapro Studio 工程文件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ppsf/ppsf.yapsy-plugin:3
+msgid "Conversion plugin for Piapro Studio project file"
+msgstr "Piapro Studio 工程文件转换插件"
+
