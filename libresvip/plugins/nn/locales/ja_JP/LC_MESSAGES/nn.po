@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/nn/nn.po\n"
+"X-Crowdin-File-ID: 134\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/niaoniao_generator.py:36
+msgid "No singing track found"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/nn.yapsy-plugin:1
+msgid "NIAONiao"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/nn.yapsy-plugin:2
+msgid "NIAONiao Virtual Singer project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/nn.yapsy-plugin:3
+msgid "Conversion plugin for NIAONiao project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/options.py:19
+msgid "Version"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/options.py:20
+msgid "Version of NIAONiao project file"
+msgstr ""
+
