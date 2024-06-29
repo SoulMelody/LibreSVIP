@@ -10,47 +10,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:11
 msgid "Ignore all breath notes"
 msgstr "忽略所有换气音符"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:12
 msgid "Keep as normal notes"
 msgstr "保留为普通音符"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:18
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:37
 msgid "Lyric text encoding"
 msgstr "歌词编码"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:19
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:38
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "除非歌词出现乱码，否则不应更改此设置。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:23
 msgid "The way to handle breath notes"
 msgstr "换气音符处理方式"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:30
 msgid "Ticks per beat"
 msgstr "每拍ticks数"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:31
 msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
 msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/vsq.yapsy-plugin:1
 msgid "Vsq"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/vsq.yapsy-plugin:2
 msgid "Vocaloid 2 Sequence file"
 msgstr "Vocaloid 2 序列文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/vsq.yapsy-plugin:3
 msgid "Conversion plugin for Vocaloid 2 sequence file"
 msgstr "Vocaloid 2 序列文件转换插件"
 

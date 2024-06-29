@@ -10,34 +10,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 02:47\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj.yapsy-plugin:1
 msgid "gjgj"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj.yapsy-plugin:2
 msgid "Gejigeji project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj.yapsy-plugin:3
 msgid "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj_generator.py:138
 msgid "Unsupported pinyin:"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/options.py:24
 msgid "Average sampling interval for the volume parameter"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/options.py:25
 msgid "The unit is Tick. The larger the value, the smoother the editor; the smaller the value, the more accurate the volume parameter."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/options.py:31
 msgid "Default singer"
 msgstr ""
 

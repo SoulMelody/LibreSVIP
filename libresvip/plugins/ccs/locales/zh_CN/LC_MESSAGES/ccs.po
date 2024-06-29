@@ -10,37 +10,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:47\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/ccs.yapsy-plugin:1
 msgid "CeVIO"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/ccs.yapsy-plugin:2
 msgid "CeVIO Creative Studio Project file"
 msgstr "CeVIO Creative Studio工程文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/ccs.yapsy-plugin:3
 msgid "Conversion plugin for CeVIO Creative Studio project file"
 msgstr "CeVIO Creative Studio工程文件转换插件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/cevio_generator.py:185
 msgid "Unsupported lyric: "
 msgstr "不支持的歌词: "
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/cevio_pitch.py:103
 msgid "Pitch value is out of bounds"
 msgstr "音高值越界"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/options.py:16
 msgid "Default Singer Name"
 msgstr "默认歌手名称"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/options.py:17
 msgid "Default Voicebank ID"
 msgstr "默认声库ID"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/options.py:18
 msgid "Default Voicebank Version"
 msgstr "默认声库版本"
 

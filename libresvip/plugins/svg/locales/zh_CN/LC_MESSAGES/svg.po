@@ -10,117 +10,83 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:12
 msgid "Align to left"
 msgstr "左对齐"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:13
 msgid "Align to middle"
 msgstr "居中对齐"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:14
 msgid "Align to right"
 msgstr "右对齐"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:18
 msgid "Above the note"
 msgstr "音符上方"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:19
 msgid "Inside the note"
 msgstr "音符内部"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:20
 msgid "Below the note"
 msgstr "音符下方"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:21
 msgid "Don't show"
 msgstr "不显示"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:25
 msgid "Pixels per beat"
 msgstr "每拍像素数"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:25
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:26
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:44
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:73
 msgid "Unit: pixel."
 msgstr "单位：像素。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:26
 msgid "Note height"
 msgstr "音符高度"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:27
 msgid "Note radius"
 msgstr "音符圆角"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:30
 msgid "Note fill color"
 msgstr "音符填充颜色"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:31
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:36
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:42
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:60
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:65
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:71
 msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
 msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:35
 msgid "Note stroke color"
 msgstr "音符描边颜色"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:41
 msgid "Pitch stroke color"
 msgstr "音高曲线描边颜色"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:44
 msgid "Pitch stroke width"
 msgstr "音高曲线描边宽度"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:47
 msgid "Lyric position"
 msgstr "歌词显示于"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:51
 msgid "Pronounciation position"
 msgstr "发音显示于"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:55
 msgid "Text align"
 msgstr "文字对齐"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:59
 msgid "Inner text color"
 msgstr "音符内部文本颜色"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:64
 msgid "The color of the text on the top and bottom of the note"
 msgstr "音符上下方文本颜色"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:70
 msgid "Grid line color"
 msgstr "网格线颜色"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:73
 msgid "Grid line width"
 msgstr "网格线宽度"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/svg.yapsy-plugin:1
 msgid "Svg"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/svg.yapsy-plugin:2
 msgid "Scalable Vector Graphics"
 msgstr "可缩放矢量图形"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/svg.yapsy-plugin:3
 msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
 msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
 

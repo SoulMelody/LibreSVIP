@@ -10,35 +10,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:47\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj.yapsy-plugin:1
 msgid "gjgj"
 msgstr "歌叽歌叽"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj.yapsy-plugin:2
 msgid "Gejigeji project file"
 msgstr "歌叽歌叽工程文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj.yapsy-plugin:3
 msgid "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
 msgstr "歌叽歌叽工程格式转换插件。\n"
 "仅支持歌叽歌叽2.0版本。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/gjgj_generator.py:138
 msgid "Unsupported pinyin:"
 msgstr "不支持的拼音："
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/options.py:24
 msgid "Average sampling interval for the volume parameter"
 msgstr "音量参数平均采样间隔"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/options.py:25
 msgid "The unit is Tick. The larger the value, the smoother the editor; the smaller the value, the more accurate the volume parameter."
 msgstr "单位为Tick。数值越大，编辑器越流畅；数值越小，音量参数越精确。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/gj/options.py:31
 msgid "Default singer"
 msgstr "默认使用的歌手"
 

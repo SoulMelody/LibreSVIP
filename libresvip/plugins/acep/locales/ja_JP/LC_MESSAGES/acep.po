@@ -10,101 +10,77 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 02:47\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/ace-studio.yapsy-plugin:1
 msgid "ACE Studio"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/ace-studio.yapsy-plugin:2
 msgid "ACE Studio project File"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/ace-studio.yapsy-plugin:3
 msgid "Conversion Plugin for ACE Studio project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/model.py:172
 msgid "Chinese"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/model.py:178
 msgid "Japanese"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/model.py:184
 msgid "English"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:26
 msgid "Both strength and tension"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:27
 msgid "Map both strength and tension parameters to strength and tension parameters, each with a weight of 50%."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:35
 msgid "Only strength"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:36
 msgid "Map only strength parameters to strength parameters. Tension parameters will remain unparameterized."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:44
 msgid "Only tension"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:45
 msgid "Map only tension parameters to tension parameters. Strength parameters will remain unparameterized."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:95
 msgid "Keep all pronunciation information"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:96
 msgid "ACE Studio will add pronunciation to all notes. This is a redundant data for most Chinese characters, so by default only modified pronunciation will be kept. When this option is turned on, all pronunciation information will be kept unconditionally, but it may produce a larger file size. When the source file contains non-Chinese singing data, please turn on this option."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:102
 msgid "Import tension envelope"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:103
 msgid "When turned on, the tension envelope will be mapped to the tension channel of the intermediate model."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:109
 msgid "Import energy envelope"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:110
 msgid "When turned on, the energy envelope will be mapped to the energy channel of the intermediate model."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:116
 msgid "Strength-volume mapping coefficient"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:117
 msgid "Since the strength parameter of ACE Studio has a significant impact on the volume, this option is provided to control the mapping coefficient of the strength envelope. The strength envelope will be multiplied by the value of this option as a whole and then mapped to the volume channel of the intermediate model, and the remaining part will be mapped to the strength channel. This option accepts values in the range of 0~1.0."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:123
 msgid "Interval of curve sampling"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:124
 msgid "The unit is tick (the length of a quarter note is 480 ticks). By default, the parameter points in the acep file are stored in a very dense manner. Increasing the sampling interval appropriately will not cause much loss of accuracy, but it can get a smaller file size. Setting to 0 or a negative value means keeping the original sampling interval."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:130
 msgid "Breath parameter normalization"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:131
 msgid "This option is an advanced option. After enabling this option, the breath parameters will be merged with the breath envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
 "(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
 "(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
@@ -113,11 +89,9 @@ msgid "This option is an advanced option. After enabling this option, the breath
 "(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:140
 msgid "Tension parameter normalization"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:141
 msgid "This option is an advanced option. After enabling this option, the tension parameters will be merged with the tension envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
 "(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
 "(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
@@ -126,11 +100,9 @@ msgid "This option is an advanced option. After enabling this option, the tensio
 "(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:150
 msgid "Energy parameter normalization"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:151
 msgid "This option is an advanced option. After enabling this option, the energy parameters will be merged with the energy envelope after being transformed by the normalization. It is recommended to enable this option after fixing all parameters with a fixed brush. This option needs to set 5 values, separated by \",\" from each other:\n"
 "(1) Normalization method: none means to turn off this option, zscore means to perform Z-Score normalization on the parameter points, and minmax means to Min-Max normalize the parameter points to the [-1.0, 1.0] interval.\n"
 "(2) Lower threshold: a real number in the range of 0~10.0, the parameter points lower than this value will not participate in the normalization.\n"
@@ -139,51 +111,39 @@ msgid "This option is an advanced option. After enabling this option, the energy
 "(5) Bias: a real number in the range of -1.0~1.0, the normalized and scaled parameter value will be added to this value."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:177
 msgid "Default singer"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:178
 msgid "Please input the complete and correct singer name"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:182
 msgid "Default breath length (ms)"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:183
 msgid "This option is used to set the default breath length when the breath mark is converted to a breath parameter. The actual breath length may be less than the default value due to the small gap between notes; some notes may be shortened due to the insertion of breath marks. Setting to 0 or a negative value means ignoring all breath marks."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:189
 msgid "Map strength and tension parameters to"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:190
 msgid "ACE Studio has both strength and tension parameters, both of which can affect the strength of the singing. This option is used to set the mapping target of the strength parameter."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:196
 msgid "Threshold for splitting"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:197
 msgid "When the distance between notes exceeds the set value, they will be split into different segments (patterns) for subsequent editing. The threshold unit is the value of a quarter note, and the default is 1, which means that when the distance between notes exceeds 1 quarter notes (480 ticks), they will be split. If you don't want to split at all, please set this option to 0 or a negative value."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:203
 msgid "Lyrics language"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:204
 msgid "ACE Studio supports three languages of lyrics. This option is used to set the language of lyrics."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:210
 msgid "Default consonant length (ticks)"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/acep/options.py:211
 msgid "Set default consonant length for notes if not specified"
 msgstr ""
 

@@ -10,41 +10,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:7
 msgid "Convert wave pattern to singing pattern"
 msgstr "将音频片段导入为演唱轨"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:8
 msgid "Use edited pitch curve"
 msgstr "使用已编辑的音高曲线"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:9
 msgid "Use edited dynamics curve"
 msgstr "使用已编辑的动态曲线"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:10
 msgid "Import dynamics curve"
 msgstr "导入动态曲线"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:11
 msgid "Import formant curve"
 msgstr "导入共振峰曲线"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:12
 msgid "Import breath curve"
 msgstr "导入呼吸曲线"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/vshp.yapsy-plugin:1
 msgid "VocalShifter"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/vshp.yapsy-plugin:2
 msgid "VocalShifter project file"
 msgstr "VocalShifter 工程文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/vshp.yapsy-plugin:3
 msgid "Import parameters from VocalShifter project file."
 msgstr "从 VoralShifter 工程文件导入参数。"
 

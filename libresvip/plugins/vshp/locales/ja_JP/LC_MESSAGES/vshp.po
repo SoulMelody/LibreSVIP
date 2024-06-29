@@ -10,41 +10,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:7
 msgid "Convert wave pattern to singing pattern"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:8
 msgid "Use edited pitch curve"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:9
 msgid "Use edited dynamics curve"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:10
 msgid "Import dynamics curve"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:11
 msgid "Import formant curve"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/options.py:12
 msgid "Import breath curve"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/vshp.yapsy-plugin:1
 msgid "VocalShifter"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/vshp.yapsy-plugin:2
 msgid "VocalShifter project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vshp/vshp.yapsy-plugin:3
 msgid "Import parameters from VocalShifter project file."
 msgstr ""
 
