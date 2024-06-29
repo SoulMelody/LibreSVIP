@@ -10,17 +10,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/y77/y77.yapsy-plugin:1
 msgid "Y77"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/y77/y77.yapsy-plugin:2
 msgid "Yuan77 project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/y77/y77.yapsy-plugin:3
 msgid "Conversion plugin for Yuan77 project file"
 msgstr ""
 
