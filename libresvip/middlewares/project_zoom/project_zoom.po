@@ -1,51 +1,39 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:9
 msgid "None"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:11
 msgid "1/2"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:12
 msgid "5/3"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:13
 msgid "3/2"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:14
 msgid "6/5"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:15
 msgid "4/5"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:16
 msgid "3/5"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:17
 msgid "3/4"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:23
 msgid "Zoom factor"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:24
 msgid ""
 "Change Bpm and notes in parallel so that the actual singing speed is "
 "kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes "
 "become twice the length"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:1
 msgid "Project Zoom"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:3
 msgid "Zoom in/out project"
 msgstr ""
 

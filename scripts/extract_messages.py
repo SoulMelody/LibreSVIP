@@ -48,6 +48,7 @@ def extract_plugin_msgs() -> None:
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True
+        cmdinst.no_location = True
         cmdinst.input_dirs = [str(plugin_dir)]
         cmdinst.output_file = str(plugin_dir / f"{plugin_info.identifier}.po")
         cmdinst.mapping_file = "babel.cfg"

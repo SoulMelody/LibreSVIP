@@ -1,12 +1,9 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/s5p/s5p.yapsy-plugin:1
 msgid "SynthV Editor"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/s5p/s5p.yapsy-plugin:2
 msgid "Synthesizer V Editor project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/s5p/s5p.yapsy-plugin:3
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr ""
 

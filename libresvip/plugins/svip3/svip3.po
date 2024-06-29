@@ -1,24 +1,18 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip3/svip3.yapsy-plugin:1
 msgid "Svip3"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip3/svip3.yapsy-plugin:2
 msgid "Netease Cloud Music XStudio project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip3/svip3.yapsy-plugin:3
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip3/svip3_generator.py:218
 msgid "Unsupported pinyin:"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip3/svip3_generator.py:225
 msgid "Note duration is too short:"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip3/svip3_generator.py:228
 msgid "Note duration is too long:"
 msgstr ""
 

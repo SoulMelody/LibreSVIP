@@ -1,20 +1,15 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/jsonsvip.yapsy-plugin:1
 msgid "JsonSvip"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/jsonsvip.yapsy-plugin:2
 msgid "OpenSVIP file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/jsonsvip.yapsy-plugin:3
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/options.py:13
 msgid "Generate JSON file with indentation"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/json/options.py:14
 msgid ""
 "The indented format is easier to read and modify, but it will take up a "
 "larger file size."

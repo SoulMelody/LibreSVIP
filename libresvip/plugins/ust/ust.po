@@ -1,34 +1,24 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:12
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:24
 msgid "Text encoding"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:19
 msgid "Version"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:20
 msgid "UST file version"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust.yapsy-plugin:1
 msgid "Ust"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust.yapsy-plugin:2
 msgid "UTAU Sequence Text"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust.yapsy-plugin:3
 msgid "Conversion plugin for UST file format"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust_generator.py:31
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust_generator.py:39
 msgid "No singing track found"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust_parser.py:37
 msgid "UST project has no track"
 msgstr ""
 

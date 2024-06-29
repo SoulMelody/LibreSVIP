@@ -488,452 +488,607 @@ msgctxt "QPlatformTheme"
 msgid "N&o to All"
 msgstr ""
 
-#: ../libresvip/middlewares/pitch_shift/pitch_shift.yapsy-plugin:1
-msgid "Pitch Shift"
-msgstr ""
-
-#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:1
-msgid "Project Zoom"
-msgstr ""
-
-#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:3
-msgid "Zoom in/out project"
-msgstr ""
-
-#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:1
-msgid "Pronounciation Conversion"
-msgstr ""
-
-#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:3
-msgid "For Chinese and Japanese Lyrics"
-msgstr ""
-
-#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:1
-msgid "Remove Short Silences"
-msgstr ""
-
-#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:3
-msgid "Fill short rests"
-msgstr ""
-
-#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:1
-msgid "Replace lyrics"
-msgstr ""
-
-#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:3
-msgid ""
-"Replace lyrics using preset rules. You can customize the lyrics replacement "
-"rules in the program configuration page"
-msgstr ""
-
-#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:1
-msgid "ACE Studio"
-msgstr ""
-
-#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:2
-msgid "ACE Studio project File"
-msgstr ""
-
-#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:3
-msgid "Conversion Plugin for ACE Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:1
-msgid "AISingers"
-msgstr ""
-
-#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:2
-msgid "AISingers Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:3
-msgid "Conversion plugin for AISingers Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/ass/ass.yapsy-plugin:1
-msgid "ASS"
-msgstr ""
-
-#: ../libresvip/plugins/ass/ass.yapsy-plugin:2
-msgid "Advanced SubStation Alpha subtitle file"
-msgstr ""
-
-#: ../libresvip/plugins/ass/ass.yapsy-plugin:3
-msgid "Generator plugin for ASS subtitle file"
-msgstr ""
-
-#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:1
-msgid "CeVIO"
-msgstr ""
-
-#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:2
-msgid "CeVIO Creative Studio Project file"
-msgstr ""
-
-#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:3
-msgid "Conversion plugin for CeVIO Creative Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/ds/ds.yapsy-plugin:1
-msgid "DiffSinger"
-msgstr ""
-
-#: ../libresvip/plugins/ds/ds.yapsy-plugin:2
-msgid "DiffSinger parameters file"
-msgstr ""
-
-#: ../libresvip/plugins/ds/ds.yapsy-plugin:3
-msgid "DiffSinger plugin."
-msgstr ""
-
-#: ../libresvip/plugins/dv/dv.yapsy-plugin:1
-msgid "DeepVocal"
-msgstr ""
-
-#: ../libresvip/plugins/dv/dv.yapsy-plugin:2
-msgid "DeepVocal project file"
-msgstr ""
-
-#: ../libresvip/plugins/dv/dv.yapsy-plugin:3
-msgid "Conversion plugin for dv file"
-msgstr ""
-
-#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:1
-msgid "gjgj"
-msgstr ""
-
-#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:2
-msgid "Gejigeji project file"
-msgstr ""
-
-#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:3
-msgid ""
-"Conversion plugin for Gejigeji project file.\n"
-"Only Gejigeji v2.0 spec is supported."
-msgstr ""
-
-#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:1
-msgid "JsonSvip"
-msgstr ""
-
-#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:2
-msgid "OpenSVIP file"
-msgstr ""
-
-#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:3
-msgid "Conversion plugin for OpenSVIP Model, which is based on json"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:1
-msgid "LRC"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:2
-msgid "LRC lyric file"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:3
-msgid "Generator plugin for LRC lyric file"
-msgstr ""
-
-#: ../libresvip/plugins/mid/mid.yapsy-plugin:1
-msgid "MIDI"
-msgstr ""
-
-#: ../libresvip/plugins/mid/mid.yapsy-plugin:2
-msgid "Standard MIDI file (SMF)"
-msgstr ""
-
-#: ../libresvip/plugins/mid/mid.yapsy-plugin:3
-msgid "Conversion plugin for midi file"
-msgstr ""
-
-#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:1
-msgid "Muta"
-msgstr ""
-
-#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:2
-msgid "Muta project file"
-msgstr ""
-
-#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:3
-msgid "Conversion plugin for mtp file"
-msgstr ""
-
-#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:1
-msgid "MusicXML"
-msgstr ""
-
-#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:2
-msgid "MusicXML file"
-msgstr ""
-
-#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:3
-msgid "Conversion plugin for MusicXML Score file"
-msgstr ""
-
-#: ../libresvip/plugins/nn/nn.yapsy-plugin:1
-msgid "NIAONiao"
-msgstr ""
-
-#: ../libresvip/plugins/nn/nn.yapsy-plugin:2
-msgid "NIAONiao Virtual Singer project file"
-msgstr ""
-
-#: ../libresvip/plugins/nn/nn.yapsy-plugin:3
-msgid "Conversion plugin for NIAONiao project file"
-msgstr ""
-
-#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:1
-msgid "Ppsf"
-msgstr ""
-
-#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:2
-msgid "Piapro Studio Song file"
-msgstr ""
-
-#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:3
-msgid "Conversion plugin for Piapro Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:1
-msgid "SynthV Editor"
-msgstr ""
-
-#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:2
-msgid "Synthesizer V Editor project file"
-msgstr ""
-
-#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:3
-msgid "Conversion plugin for Synthesizer V Editor project file"
-msgstr ""
-
-#: ../libresvip/plugins/srt/srt.yapsy-plugin:1
-msgid "SRT"
-msgstr ""
-
-#: ../libresvip/plugins/srt/srt.yapsy-plugin:2
-msgid "SubRip subtitle file"
-msgstr ""
-
-#: ../libresvip/plugins/srt/srt.yapsy-plugin:3
-msgid "Generator plugin for SRT subtitle file"
-msgstr ""
-
-#: ../libresvip/plugins/svg/svg.yapsy-plugin:1
-msgid "Svg"
-msgstr ""
-
-#: ../libresvip/plugins/svg/svg.yapsy-plugin:2
-msgid "Scalable Vector Graphics"
-msgstr ""
-
-#: ../libresvip/plugins/svg/svg.yapsy-plugin:3
-msgid ""
-"Generate graphics containing notes and pitch curve in SVG format. Only the "
-"first or specified singing track will be imported."
-msgstr ""
-
-#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:1
-msgid "BinSvip"
-msgstr ""
-
-#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:2
-msgid "X Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:3
-msgid "Conversion plugin for the original .svip binary file format"
-msgstr ""
-
-#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:1
-msgid "Svip3"
-msgstr ""
-
-#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:2
-msgid "Netease Cloud Music XStudio project file"
-msgstr ""
-
-#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:3
-msgid "Conversion plugin for Netease Cloud Music XStudio project file"
-msgstr ""
-
-#: ../libresvip/plugins/svp/svp.yapsy-plugin:1
-msgid "SynthV Studio"
-msgstr ""
-
-#: ../libresvip/plugins/svp/svp.yapsy-plugin:2
-msgid "Synthesizer V Studio project file"
-msgstr ""
-
-#: ../libresvip/plugins/svp/svp.yapsy-plugin:3
-msgid ""
-"Conversion plugin for Synthesizer V Studio project file, it supports reading "
-"and writing of all parameters including notes, lyrics, parameter curve, note "
-"attributes, note group, and instant pitch mode.\n"
-"Notes: Importing a project file with overlapping notes is undefined behavior "
-"that can lead to unforeseen exceptions."
-msgstr ""
-
-#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:1
-msgid "TuneLab"
-msgstr ""
-
-#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:2
-msgid "TuneLab project file"
-msgstr ""
-
-#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:3
-msgid "Convertion plugin for TuneLab project file"
-msgstr ""
-
-#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:1
-msgid "TSSln"
-msgstr ""
-
-#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:2
-msgid "Techno-Speech Solution file"
-msgstr ""
-
-#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:3
-msgid ""
-"Conversion plugin for VoiSona project file (Only versions 1.8.0 and later "
-"are supported)"
-msgstr ""
-
-#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:1
-msgid "UFData"
-msgstr ""
-
-#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:2
-msgid "UtaFormatix3 data format"
-msgstr ""
-
-#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:3
-msgid "Convertion plugin for UFData format"
-msgstr ""
-
-#: ../libresvip/plugins/ust/ust.yapsy-plugin:1
-msgid "Ust"
-msgstr ""
-
-#: ../libresvip/plugins/ust/ust.yapsy-plugin:2
-msgid "UTAU Sequence Text"
-msgstr ""
-
-#: ../libresvip/plugins/ust/ust.yapsy-plugin:3
-msgid "Conversion plugin for UST file format"
-msgstr ""
-
-#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:1
-msgid "Ustx"
-msgstr ""
-
-#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:2
-msgid "OpenUtau project file"
-msgstr ""
-
-#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:3
-msgid "Conversion plugin for Ustx file format"
-msgstr ""
-
-#: ../libresvip/plugins/vog/vog.yapsy-plugin:1
-msgid "Vogen"
-msgstr ""
-
-#: ../libresvip/plugins/vog/vog.yapsy-plugin:2
-msgid "Vogen project file"
-msgstr ""
-
-#: ../libresvip/plugins/vog/vog.yapsy-plugin:3
-msgid "Conversion plugin for Vogen project file"
-msgstr ""
-
-#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:1
-msgid "Vpr"
-msgstr ""
-
-#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:2
-msgid "New Vocaloid Project file"
-msgstr ""
-
-#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:3
-msgid "Conversion plugin for New Vocaloid project file"
-msgstr ""
-
-#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:1
-msgid "VocalShifter"
-msgstr ""
-
-#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:2
-msgid "VocalShifter project file"
-msgstr ""
-
-#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:3
-msgid "Import parameters from VocalShifter project file."
-msgstr ""
-
-#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:1
-msgid "VocalSharp"
-msgstr ""
-
-#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:2
-msgid "VocalSharp project file"
-msgstr ""
-
-#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:3
-msgid "Conversion plugin for VocalSharp project file"
-msgstr ""
-
-#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:1
-msgid "Vsq"
-msgstr ""
-
-#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:2
-msgid "Vocaloid 2 Sequence file"
-msgstr ""
-
-#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:3
-msgid "Conversion plugin for Vocaloid 2 sequence file"
-msgstr ""
-
-#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:1
-msgid "Vsqx"
-msgstr ""
-
-#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:2
-msgid "Vocaloid Sequence XML file"
-msgstr ""
-
-#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:3
-msgid "Conversion plugin for Vocaloid Sequence XML file"
-msgstr ""
-
-#: ../libresvip/plugins/y77/y77.yapsy-plugin:1
-msgid "Y77"
-msgstr ""
-
-#: ../libresvip/plugins/y77/y77.yapsy-plugin:2
-msgid "Yuan77 project file"
-msgstr ""
-
-#: ../libresvip/plugins/y77/y77.yapsy-plugin:3
-msgid "Conversion plugin for Yuan77 project file"
-msgstr ""
-
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-23 17:06+0800\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-06-29 11:28+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 3.13.1\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: ../libresvip/cli/commands/conf.py:19
+msgid "Setting {} is not supported in cli mode."
+msgstr ""
+
+#: ../libresvip/cli/commands/conf.py:31
+msgid "Set {} to {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:26
+msgid "The plugin is successfully disabled."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:28
+msgid "Failed to disable the plugin!"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:35
+msgid "The plugin is successfully enabled."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:37
+msgid "Failed to enable the plugin!"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:39
+msgid "Unable to find the plugin."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:52
+msgid "Cannot find plugin "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:58
+msgid "No plugins are currently installed."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:61
+msgid "No."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:62
+msgid "Name"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:63
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:258
+msgid "Version"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:267
+msgid "Author"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:65
+msgid "Identifier"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:66
+msgid "Applicable file format"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:87
+msgid "Plugin: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:88 ../libresvip/web/pages.py:1080
+msgid "Version: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "Author: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:93
+msgid "Website: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:97
+msgid ""
+"If you want to use this plugin, please specify '-i {}' (input) or '-o {}' "
+"(output) when converting."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "input"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "output"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:111
+msgid "This plugin supports the following {} conversion options:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:119
+#: ../libresvip/cli/commands/plugin.py:140
+msgid "Default: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:121
+msgid "Available values:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:134
+msgid "Available fields:"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:21
+msgid "Extension {} is not supported. Supported extensions are: {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:100
+#: ../libresvip/cli/commands/proj.py:177
+msgid "Input Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:58 ../libresvip/cli/commands/proj.py:110
+#: ../libresvip/cli/commands/proj.py:156
+msgid "Enable {} middleware?"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:66 ../libresvip/cli/commands/proj.py:118
+#: ../libresvip/cli/commands/proj.py:162
+msgid "Process Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:126
+#: ../libresvip/cli/commands/proj.py:197
+msgid "Output Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:88
+msgid "Output format"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:89
+msgid "Maximum track count per file"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:132
+msgid "Converting ..."
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:17
+msgid "Applicable File Format"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1275
+msgid "Mode"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1278
+msgid "Prefix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1283
+msgid "Pattern"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1288
+msgid "Suffix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1293
+msgid "Replacement"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1326
+msgid "Case sensitive"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1297
+msgid "Actions"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:54
+msgid "Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:54
+#: ../libresvip/gui/modules/notifier.py:80
+msgid "Please wait..."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:64
+msgid "Error occurred while Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:65
+msgid "Failed to download file {}. Please try again later."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:79
+msgid "Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:95
+msgid "Open in Browser"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:157
+msgid "Download"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:167
+msgid "Update Available"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:168
+msgid "New version {} is available."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:173
+msgid "No Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:174
+msgid "You are using the latest version {}."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:182
+msgid "Error occurred while Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:183
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:10
+msgid "Import instrumental tracks"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:14
+msgid "Import pitch curve"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:18
+msgid "Import dynamics envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:22
+msgid "Import breath envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:26
+msgid "Import gender envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:30
+msgid "Import strength envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:36
+msgid "Constant tempo"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:37
+msgid "Use this tempo to reset time axis of projects with dynamic tempos"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:44
+msgid "Track index"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:45
+msgid "Start from 0, -1 means automatic selection"
+msgstr ""
+
+#: ../libresvip/model/relative_pitch_curve.py:28
+msgid "Notes Overlapped"
+msgstr ""
+
+#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
+msgid "Audio file not found: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:254
+msgid "name"
+msgstr ""
+
+#: ../libresvip/web/pages.py:276 ../libresvip/web/pages.py:293
+#: ../libresvip/web/pages.py:1174 ../libresvip/web/pages.py:1193
+#: ../libresvip/web/pages.py:1699 ../libresvip/web/pages.py:1747
+msgid "file_format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:282
+msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/web/pages.py:283
+msgid "description"
+msgstr ""
+
+#: ../libresvip/web/pages.py:301
+msgid "Input Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:302
+msgid "[Import as "
+msgstr ""
+
+#: ../libresvip/web/pages.py:310
+msgid "Output Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:311
+msgid "[Export to "
+msgstr ""
+
+#: ../libresvip/web/pages.py:407 ../libresvip/web/pages.py:524
+msgid "Invalid integer"
+msgstr ""
+
+#: ../libresvip/web/pages.py:411 ../libresvip/web/pages.py:528
+msgid "Invalid float"
+msgstr ""
+
+#: ../libresvip/web/pages.py:651 ../libresvip/web/pages.py:681
+msgid "Copy to clipboard"
+msgstr ""
+
+#: ../libresvip/web/pages.py:655 ../libresvip/web/pages.py:685
+msgid "Copied"
+msgstr ""
+
+#: ../libresvip/web/pages.py:657 ../libresvip/web/pages.py:687
+#: ../libresvip/web/pages.py:1108 ../libresvip/web/pages.py:1596
+#: ../libresvip/web/pages.py:1631 ../libresvip/web/pages.py:1717
+#: ../libresvip/web/pages.py:1770
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/web/pages.py:699
+msgid "Remove"
+msgstr ""
+
+#: ../libresvip/web/pages.py:902
+msgid "Conversion Failed"
+msgstr ""
+
+#: ../libresvip/web/pages.py:904
+msgid "Conversion Successful"
+msgstr ""
+
+#: ../libresvip/web/pages.py:982 ../libresvip/web/pages.py:1016
+msgid "All files (*.*)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1003
+msgid "Save failed!"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1013
+msgid "Compressed Archive (*.zip)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1025
+msgid "Saved"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1077 ../libresvip/web/pages.py:1240
+msgid "About"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1079
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1083
+msgid "Author: SoulMelody"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1087
+msgid "Author's Profile"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1093
+msgid "Repo URL"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1098
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that can "
+"convert your singing synthesis projects between different file formats."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1103
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from the "
+"constraints of platforms and coterie."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1112 ../libresvip/web/pages.py:1141
+msgid "Convert"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1127 ../libresvip/web/pages.py:1783
+msgid "Import project"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1828
+msgid "Clear Task List"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1160 ../libresvip/web/pages.py:1742
+msgid "Swap Input and Output"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1163 ../libresvip/web/pages.py:1702
+msgid "Import format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1183 ../libresvip/web/pages.py:1750
+msgid "Export format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1199
+msgid "Switch Theme"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1212
+msgid "Light"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1218
+msgid "Dark"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1224
+msgid "System"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1227
+msgid "Help"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1244
+msgid "Documentation"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1252
+msgid "Conversion Settings"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1255
+msgid "Lyric Replace Rules"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1257
+msgid "Switch Language"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1263 ../libresvip/web/pages.py:1726
+msgid "Auto detect import format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1268 ../libresvip/web/pages.py:1733
+msgid "Reset list when import format changed"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1296
+msgid "Flags"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1316
+msgid "Full match"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1317
+msgid "Alphabetic"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1318
+msgid "Non-alphabetic"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1319
+msgid "Regex"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1323
+msgid "Ignore case"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1501
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1511
+msgid "Preset: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:1525
+msgid "Remove current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1544
+msgid "Save current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1567
+msgid "Add new rule"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1568
+msgid ""
+"Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1600
+msgid "Settings (&S)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1603
+msgid "Select File Formats"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1604
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1614 ../libresvip/web/pages.py:1628
+msgid "Maximize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1618
+msgid "Restore"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1623
+msgid "Minimize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1690
+msgid "Choose file format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1725 ../libresvip/web/pages.py:1778
+msgid "View Detail Information"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1785
+msgid "Conversion Mode:"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1832
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1836
+msgid "Max Track count:"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1858
+msgid "Continue Adding files"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1892
+msgid "Drag and drop files here or click to upload"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1921
+msgid "Start Conversion"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1929
+msgid "Export"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1930
+msgid "Advanced Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1939
+msgid "Intermediate Processing"
+msgstr ""
 
 #: QPlatformTheme%231
 msgid "OK"

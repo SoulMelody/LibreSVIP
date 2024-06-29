@@ -1,12 +1,9 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ufdata/ufdata.yapsy-plugin:1
 msgid "UFData"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ufdata/ufdata.yapsy-plugin:2
 msgid "UtaFormatix3 data format"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ufdata/ufdata.yapsy-plugin:3
 msgid "Convertion plugin for UFData format"
 msgstr ""
 

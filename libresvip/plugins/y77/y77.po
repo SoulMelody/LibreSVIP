@@ -1,12 +1,9 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/y77/y77.yapsy-plugin:1
 msgid "Y77"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/y77/y77.yapsy-plugin:2
 msgid "Yuan77 project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/y77/y77.yapsy-plugin:3
 msgid "Conversion plugin for Yuan77 project file"
 msgstr ""
 

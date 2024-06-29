@@ -1,40 +1,30 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:9
 msgid "Zero length note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:10
 msgid "1/8 note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:11
 msgid "1/16 note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:12
 msgid "1/32 note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:13
 msgid "1/64 note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:17
 msgid "1/128 note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:25
 msgid "Max length to be processed (exclusive)"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:26
 msgid "Extend note to fill the short silences between it and its next note"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:1
 msgid "Remove Short Silences"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:3
 msgid "Fill short rests"
 msgstr ""
 

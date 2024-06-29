@@ -1,12 +1,9 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vspx/vspx.yapsy-plugin:1
 msgid "VocalSharp"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vspx/vspx.yapsy-plugin:2
 msgid "VocalSharp project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vspx/vspx.yapsy-plugin:3
 msgid "Conversion plugin for VocalSharp project file"
 msgstr ""
 

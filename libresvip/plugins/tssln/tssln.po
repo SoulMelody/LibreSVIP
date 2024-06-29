@@ -1,22 +1,17 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/tssln.yapsy-plugin:1
 msgid "TSSln"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/tssln.yapsy-plugin:2
 msgid "Techno-Speech Solution file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/tssln.yapsy-plugin:3
 msgid ""
 "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later"
 " are supported)"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/voisona_generator.py:139
 msgid "Unsupported lyric: "
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/voisona_pitch.py:103
 msgid "Pitch value is out of bounds"
 msgstr ""
 

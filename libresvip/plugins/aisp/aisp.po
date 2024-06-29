@@ -1,12 +1,9 @@
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/aisp/aisp.yapsy-plugin:1
 msgid "AISingers"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/aisp/aisp.yapsy-plugin:2
 msgid "AISingers Studio project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/aisp/aisp.yapsy-plugin:3
 msgid "Conversion plugin for AISingers Studio project file"
 msgstr ""
 
