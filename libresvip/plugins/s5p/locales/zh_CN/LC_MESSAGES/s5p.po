@@ -10,17 +10,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/s5p/s5p.yapsy-plugin:1
 msgid "SynthV Editor"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/s5p/s5p.yapsy-plugin:2
 msgid "Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/s5p/s5p.yapsy-plugin:3
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr "Synthesizer V Editor 工程格式转换插件。"
 
