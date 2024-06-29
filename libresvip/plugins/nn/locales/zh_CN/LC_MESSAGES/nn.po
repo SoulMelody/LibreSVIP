@@ -10,29 +10,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/niaoniao_generator.py:36
 msgid "No singing track found"
 msgstr "未找到演唱轨"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/nn.yapsy-plugin:1
 msgid "NIAONiao"
 msgstr "袅袅虚拟歌手"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/nn.yapsy-plugin:2
 msgid "NIAONiao Virtual Singer project file"
 msgstr "袅袅虚拟歌手工程文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/nn.yapsy-plugin:3
 msgid "Conversion plugin for NIAONiao project file"
 msgstr "袅袅工程格式转换插件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/options.py:19
 msgid "Version"
 msgstr "版本"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/nn/options.py:20
 msgid "Version of NIAONiao project file"
 msgstr "袅袅工程版本"
 
