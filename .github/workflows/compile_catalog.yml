@@ -17,7 +17,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install babel
-        run: pip install babel
+        run: pip install babel setuptools
 
       - name: Compile catalogs
         run: |
