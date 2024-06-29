@@ -1,0 +1,120 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/mid/mid.po\n"
+"X-Crowdin-File-ID: 128\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/mid.yapsy-plugin:1
+msgid "MIDI"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/mid.yapsy-plugin:2
+msgid "Standard MIDI file (SMF)"
+msgstr "标准MIDI文件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/mid.yapsy-plugin:3
+msgid "Conversion plugin for midi file"
+msgstr "MIDI文件转换插件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/midi_parser.py:139
+msgid "No tempo labels found in the imported project."
+msgstr "在导入的工程中未找到速度记号。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/midi_parser.py:252
+msgid "Overlapping notes in track {}"
+msgstr "轨道{}中存在重叠音符"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:12
+msgid "Import first channel only"
+msgstr "仅导入首条通道"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:13
+msgid "Split into tracks"
+msgstr "全部拆分为轨道"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:14
+msgid "Custom import range"
+msgstr "自定义导入范围"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:18
+msgid "Import lyrics"
+msgstr "导入歌词"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:21
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:65
+msgid "Lyric text encoding"
+msgstr "歌词编码"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:22
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:66
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr "除非歌词出现乱码，否则不应更改此设置。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:26
+msgid "Import time signatures"
+msgstr "导入拍号"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:27
+msgid "If this option is unset, the time signature is set to 4/4."
+msgstr "关闭此选项，拍号设置为4/4。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:31
+msgid "Multi-channel processing method"
+msgstr "通道处理方式"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:35
+msgid "Channels to import"
+msgstr "通道"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:36
+msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
+msgstr "指定要导入哪些通道上的音符。请输入通道的序号和/或通道范围(用英文逗号分隔)，例如：1,3,5-12。取值范围：1-16。仅在“通道处理方式”选项中选择“自定义导入范围”时有效"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:42
+msgid "Default BPM"
+msgstr "默认BPM"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:43
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr "当MIDI文件中不存在BPM信息时，使用此值。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:48
+msgid "Export lyrics"
+msgstr "导出歌词"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:51
+msgid "Remove symbols from lyrics"
+msgstr "移除歌词中的常见标点符号"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:52
+msgid "Remove commas, periods, question marks and exclamation marks in Chinese and English to prevent lyric import failure in some vocal synthesizers."
+msgstr "移除中英文的逗号、句号、问号和感叹号，防止不支持含标点符号歌词的歌声合成软件无法正常合成。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:58
+msgid "Lyric compatibility mode"
+msgstr "歌词兼容性模式"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:59
+msgid "Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI files with Chinese lyrics from being imported by vocal synthesizers that do not support Chinese lyrics."
+msgstr "将所有中文歌词转换为拼音，防止不支持导入带有中文歌词 MIDI 文件的歌声合成软件出现乱码。"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:70
+msgid "Transpose"
+msgstr "移调"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:74
+msgid "Ticks per beat"
+msgstr "每拍ticks数"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mid/options.py:75
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
+
