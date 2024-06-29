@@ -1,0 +1,62 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/middlewares/project_zoom/project_zoom.po\n"
+"X-Crowdin-File-ID: 102\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:47\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:9
+msgid "None"
+msgstr "无"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:11
+msgid "1/2"
+msgstr "2分之1"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:12
+msgid "5/3"
+msgstr "3分之5"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:13
+msgid "3/2"
+msgstr "2分之3"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:14
+msgid "6/5"
+msgstr "5分之6"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:15
+msgid "4/5"
+msgstr "5分之4"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:16
+msgid "3/5"
+msgstr "5分之3"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:17
+msgid "3/4"
+msgstr "4分之3"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:23
+msgid "Zoom factor"
+msgstr "缩放系数"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/options.py:24
+msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
+msgstr "在不改变实际曲速的前提下同时改变Bpm数值与音符长度。例如，在60 bpm的乐曲中使用2倍的缩放，则乐曲变为120bpm，同时所有音符的长度也翻倍"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:1
+msgid "Project Zoom"
+msgstr "工程缩放"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:3
+msgid "Zoom in/out project"
+msgstr "缩放工程"
+
