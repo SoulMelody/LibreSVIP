@@ -1,0 +1,34 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/mtp/mtp.po\n"
+"X-Crowdin-File-ID: 130\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mtp/mtp.yapsy-plugin:1
+msgid "Muta"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mtp/mtp.yapsy-plugin:2
+msgid "Muta project file"
+msgstr "Muta工程文件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mtp/mtp.yapsy-plugin:3
+msgid "Conversion plugin for mtp file"
+msgstr "mtp 格式转换插件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mtp/options.py:18
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/mtp/options.py:19
+msgid "The default singer name to use for all tracks"
+msgstr "在所有唱歌轨道中使用的默认歌手名称"
+
