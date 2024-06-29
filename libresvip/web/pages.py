@@ -60,12 +60,12 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import middleware_manager, plugin_manager
+from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names
-from libresvip.utils.translation import get_translation, lazy_translation
 from libresvip.utils.translation import gettext_lazy as _
+from libresvip.utils.translation import lazy_translation
 from libresvip.web.elements import QFab, QFabAction
 
 if TYPE_CHECKING:

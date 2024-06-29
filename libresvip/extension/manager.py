@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import copy
 import dataclasses
 import functools
+import gettext
 import inspect
 import sys
 from importlib.abc import MetaPathFinder
@@ -15,8 +17,9 @@ from typing import TYPE_CHECKING, Generic, Optional, cast
 from loguru import logger
 from typing_extensions import TypeGuard
 
-from libresvip.core.config import settings
-from libresvip.core.constants import app_dir, pkg_dir
+from libresvip.core.compat import package_path
+from libresvip.core.config import get_ui_settings, settings
+from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.utils.module_loading import import_module
 
 from .base import BasePlugin_co, MiddlewareBase, SVSConverterBase
@@ -181,3 +184,32 @@ middleware_manager = MiddlewareManager(
     install_path=app_dir.user_config_path / "middlewares",
 )
 middleware_manager.import_plugins()
+
+
+def merge_translation(
+    ori_translation: gettext.NullTranslations, resource_dir: Traversable, lang: str
+) -> gettext.NullTranslations:
+    msg_dir = resource_dir / "locales" / lang / "LC_MESSAGES"
+    if msg_dir.is_dir():
+        for child_file in msg_dir.iterdir():
+            if child_file.name.endswith(".mo"):
+                with child_file.open("rb") as fp:
+                    child_translation = gettext.GNUTranslations(fp)
+                    new_translation = copy.copy(ori_translation)
+                    new_translation.add_fallback(child_translation)
+                    return new_translation
+    else:
+        logger.debug(f"No translation file found in {msg_dir}")
+    return ori_translation
+
+
+def get_translation(lang: Optional[str] = None) -> gettext.NullTranslations:
+    if lang is None:
+        lang = get_ui_settings().language.value
+    translation = gettext.NullTranslations()
+    translation = merge_translation(translation, res_dir, lang)
+    for manager in [plugin_manager, middleware_manager]:
+        for plugin_id in manager.plugin_registry:
+            plugin_base_dir = package_path(f"{manager.plugin_namespace}.{plugin_id}")
+            translation = merge_translation(translation, plugin_base_dir, lang)
+    return translation
