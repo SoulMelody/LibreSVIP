@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/ust/ust.po\n"
+"X-Crowdin-File-ID: 156\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:12
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:24
+msgid "Text encoding"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:19
+msgid "Version"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/options.py:20
+msgid "UST file version"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust.yapsy-plugin:1
+msgid "Ust"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust.yapsy-plugin:2
+msgid "UTAU Sequence Text"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust.yapsy-plugin:3
+msgid "Conversion plugin for UST file format"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust_generator.py:31
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust_generator.py:39
+msgid "No singing track found"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ust/ust_parser.py:37
+msgid "UST project has no track"
+msgstr ""
+

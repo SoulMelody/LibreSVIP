@@ -1,0 +1,34 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/tssln/tssln.po\n"
+"X-Crowdin-File-ID: 152\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/tssln.yapsy-plugin:1
+msgid "TSSln"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/tssln.yapsy-plugin:2
+msgid "Techno-Speech Solution file"
+msgstr "Techno-Speech 项目文件"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/tssln.yapsy-plugin:3
+msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
+msgstr "Voisona 工程文件转换插件 (仅支持1.8.0及以上版本保存的工程)"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/voisona_generator.py:139
+msgid "Unsupported lyric: "
+msgstr "不支持的歌词: "
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/tssln/voisona_pitch.py:103
+msgid "Pitch value is out of bounds"
+msgstr "音高值越界"
+

@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.po\n"
+"X-Crowdin-File-ID: 104\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 02:47\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:9
+msgid "None"
+msgstr "无"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:10
+msgid "Hanzi to Pinyin"
+msgstr "汉字转拼音"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:11
+msgid "To Romaji"
+msgstr "日文转罗马音"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:12
+msgid "To Hiragana"
+msgstr "日文转平假名"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:13
+msgid "To Katakana"
+msgstr "日文转片假名"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:19
+msgid "Pronounciation conversion mode"
+msgstr "歌词发音转换模式"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/options.py:20
+msgid "Convert lyrics to the specified pronounciation format"
+msgstr "将歌词转换为指定的发音格式"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:1
+msgid "Pronounciation Conversion"
+msgstr "歌词发音转换"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:3
+msgid "For Chinese and Japanese Lyrics"
+msgstr "仅限中文及日文歌词"
+

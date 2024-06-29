@@ -1,0 +1,167 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/svp/svp.po\n"
+"X-Crowdin-File-ID: 148\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 02:48\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:32
+msgid "Mandarin"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:33
+msgid "Cantonese"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:34
+msgid "Japanese"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:35
+msgid "English"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:36
+msgid "Spanish"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:40
+msgid "Ignore all breath notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:41
+msgid "Keep as normal notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:42
+msgid "Convert to breath mark"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:49
+msgid "Split all to tracks"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:50
+msgid "Generate a track for each note group reference"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:56
+msgid "Keep original position"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:57
+msgid "Split note groups to separate tracks only when notes overlap"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:66
+msgid "Full pitch curve"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:67
+msgid "Input the full pitch curve regardless of editing"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:73
+msgid "Edited part only (vibrato mode)"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:74
+msgid "Input the edited part of pitch curve; default vibrato will be imported if not edited"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:82
+msgid "Edited part only (plain mode)"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:83
+msgid "Input the edited part of pitch curve; default vibrato will be ignored"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:92
+msgid "All removed"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:93
+msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:101
+msgid "All kept"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:102
+msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:110
+msgid "Hybrid mode"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:111
+msgid "Remove vibrato in edited part, keep default vibrato in other parts"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:127
+msgid "Always follow instant pitch mode"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:128
+msgid "When this option is turned off, the default pitch curve will always be imported regardless of the project setting. If you have tuned the pitch curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:134
+msgid "Pitch input mode"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:135
+msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:141
+msgid "The way to handle breath notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:145
+msgid "The way to handle note groups"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:146
+msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:154
+msgid "The way to handle vibrato notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:158
+msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:161
+msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/options.py:167
+msgid "Override default language for the voicebank"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/svp.yapsy-plugin:1
+msgid "SynthV Studio"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/svp.yapsy-plugin:2
+msgid "Synthesizer V Studio project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svp/svp.yapsy-plugin:3
+msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
+"Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
+msgstr ""
+

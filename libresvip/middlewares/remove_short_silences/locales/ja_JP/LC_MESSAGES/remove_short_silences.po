@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/middlewares/remove_short_silences/remove_short_silences.po\n"
+"X-Crowdin-File-ID: 106\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 02:47\n"
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:9
+msgid "Zero length note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:10
+msgid "1/8 note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:11
+msgid "1/16 note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:12
+msgid "1/32 note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:13
+msgid "1/64 note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:17
+msgid "1/128 note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:25
+msgid "Max length to be processed (exclusive)"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/options.py:26
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:1
+msgid "Remove Short Silences"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:3
+msgid "Fill short rests"
+msgstr ""
+
