@@ -20,7 +20,9 @@ jobs:
         run: pip install babel
 
       - name: Compile catalogs
-        run: pybabel compile -d libresvip/res/locales/ -D libresvip
+        run: |
+          cd scripts
+          python batch_compile_catalog.py
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
