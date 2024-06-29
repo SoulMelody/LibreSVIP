@@ -10,17 +10,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 02:47\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/aisp/aisp.yapsy-plugin:1
 msgid "AISingers"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/aisp/aisp.yapsy-plugin:2
 msgid "AISingers Studio project file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/aisp/aisp.yapsy-plugin:3
 msgid "Conversion plugin for AISingers Studio project file"
 msgstr ""
 
