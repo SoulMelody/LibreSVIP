@@ -10,17 +10,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/musicxml/musicxml.yapsy-plugin:1
 msgid "MusicXML"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/musicxml/musicxml.yapsy-plugin:2
 msgid "MusicXML file"
 msgstr "MusicXML 文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/musicxml/musicxml.yapsy-plugin:3
 msgid "Conversion plugin for MusicXML Score file"
 msgstr "MusicXML 乐谱文件转换插件"
 
