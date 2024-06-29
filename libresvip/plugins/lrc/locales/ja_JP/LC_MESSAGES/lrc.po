@@ -10,101 +10,77 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/lrc.yapsy-plugin:1
 msgid "LRC"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/lrc.yapsy-plugin:2
 msgid "LRC lyric file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/lrc.yapsy-plugin:3
 msgid "Generator plugin for LRC lyric file"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:12
 msgid "Act on timeline"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:13
 msgid "Shift the time axis for each line of lyrics, and keep the \"offset\" value in the metadata at 0."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:21
 msgid "Act on metadata"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:22
 msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:33
 msgid "Both note gap and punctuation"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:34
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:42
 msgid "Note gap only"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:43
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:51
 msgid "Punctuation only"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:52
 msgid "When a punctuation mark is encountered, start a new line."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:58
 msgid "Singer name"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:59
 msgid "Song title"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:60
 msgid "Album name"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:61
 msgid "Lyric editor"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:64
 msgid "Offset"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:65
 msgid "In milliseconds, positive means ahead, negative means opposite."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:68
 msgid "Offset policy"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:70
 msgid "New line by"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:72
 msgid "Write timeline"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:73
 msgid "If you need lyrics without timeline, turn off this option."
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/lrc/options.py:76
 msgid "Lyric Text encoding"
 msgstr ""
 
