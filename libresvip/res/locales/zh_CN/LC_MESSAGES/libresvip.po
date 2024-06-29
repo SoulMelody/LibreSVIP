@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
 msgctxt "actions"
 msgid "Alert"
@@ -496,433 +496,586 @@ msgctxt "QPlatformTheme"
 msgid "N&o to All"
 msgstr "全部否"
 
-#: ../libresvip/middlewares/pitch_shift/pitch_shift.yapsy-plugin:1
-msgid "Pitch Shift"
-msgstr "音高变调"
-
-#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:1
-msgid "Project Zoom"
-msgstr "工程缩放"
-
-#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:3
-msgid "Zoom in/out project"
-msgstr "缩放工程"
-
-#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:1
-msgid "Pronounciation Conversion"
-msgstr "歌词发音转换"
-
-#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:3
-msgid "For Chinese and Japanese Lyrics"
-msgstr "仅限中文及日文歌词"
-
-#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:1
-msgid "Remove Short Silences"
-msgstr "移除短的无声间隙"
-
-#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:3
-msgid "Fill short rests"
-msgstr "填充短休止符"
-
-#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:1
-msgid "Replace lyrics"
-msgstr "替换歌词"
-
-#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:3
-msgid "Replace lyrics using preset rules. You can customize the lyrics replacement rules in the program configuration page"
-msgstr "使用预设规则对歌词进行替换。你可以在程序配置页面中编辑歌词替换规则"
-
-#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:1
-msgid "ACE Studio"
-msgstr ""
-
-#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:2
-msgid "ACE Studio project File"
-msgstr "ACE Studio 工程文件"
-
-#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:3
-msgid "Conversion Plugin for ACE Studio project file"
-msgstr "ACE Studio 工程文件转换插件"
-
-#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:1
-msgid "AISingers"
-msgstr ""
-
-#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:2
-msgid "AISingers Studio project file"
-msgstr "AISingers Studio 工程文件"
-
-#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:3
-msgid "Conversion plugin for AISingers Studio project file"
-msgstr "AISingers Studio 工程文件转换插件"
-
-#: ../libresvip/plugins/ass/ass.yapsy-plugin:1
-msgid "ASS"
-msgstr ""
-
-#: ../libresvip/plugins/ass/ass.yapsy-plugin:2
-msgid "Advanced SubStation Alpha subtitle file"
-msgstr "ASS字幕文件"
-
-#: ../libresvip/plugins/ass/ass.yapsy-plugin:3
-msgid "Generator plugin for ASS subtitle file"
-msgstr "ASS 字幕格式转换插件"
-
-#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:1
-msgid "CeVIO"
-msgstr ""
-
-#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:2
-msgid "CeVIO Creative Studio Project file"
-msgstr "CeVIO Creative Studio工程文件"
-
-#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:3
-msgid "Conversion plugin for CeVIO Creative Studio project file"
-msgstr "CeVIO Creative Studio工程文件转换插件"
-
-#: ../libresvip/plugins/ds/ds.yapsy-plugin:1
-msgid "DiffSinger"
-msgstr ""
-
-#: ../libresvip/plugins/ds/ds.yapsy-plugin:2
-msgid "DiffSinger parameters file"
-msgstr "DiffSinger参数文件"
-
-#: ../libresvip/plugins/ds/ds.yapsy-plugin:3
-msgid "DiffSinger plugin."
-msgstr "DiffSinger 参数格式转换插件。"
-
-#: ../libresvip/plugins/dv/dv.yapsy-plugin:1
-msgid "DeepVocal"
-msgstr ""
-
-#: ../libresvip/plugins/dv/dv.yapsy-plugin:2
-msgid "DeepVocal project file"
-msgstr "DeepVocal工程文件"
-
-#: ../libresvip/plugins/dv/dv.yapsy-plugin:3
-msgid "Conversion plugin for dv file"
-msgstr "dv 格式转换插件。"
-
-#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:1
-msgid "gjgj"
-msgstr "歌叽歌叽"
-
-#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:2
-msgid "Gejigeji project file"
-msgstr "歌叽歌叽工程文件"
-
-#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:3
-msgid "Conversion plugin for Gejigeji project file.\n"
-"Only Gejigeji v2.0 spec is supported."
-msgstr "歌叽歌叽工程格式转换插件。\n"
-"仅支持歌叽歌叽2.0版本。"
-
-#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:1
-msgid "JsonSvip"
-msgstr ""
-
-#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:2
-msgid "OpenSVIP file"
-msgstr "OpenSVIP 文件"
-
-#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:3
-msgid "Conversion plugin for OpenSVIP Model, which is based on json"
-msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
-
-#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:1
-msgid "LRC"
-msgstr ""
-
-#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:2
-msgid "LRC lyric file"
-msgstr "LRC 歌词文件"
-
-#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:3
-msgid "Generator plugin for LRC lyric file"
-msgstr "LRC 歌词格式转换插件"
-
-#: ../libresvip/plugins/mid/mid.yapsy-plugin:1
-msgid "MIDI"
-msgstr ""
-
-#: ../libresvip/plugins/mid/mid.yapsy-plugin:2
-msgid "Standard MIDI file (SMF)"
-msgstr "标准MIDI文件"
-
-#: ../libresvip/plugins/mid/mid.yapsy-plugin:3
-msgid "Conversion plugin for midi file"
-msgstr "MIDI文件转换插件"
-
-#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:1
-msgid "Muta"
-msgstr ""
-
-#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:2
-msgid "Muta project file"
-msgstr "Muta工程文件"
-
-#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:3
-msgid "Conversion plugin for mtp file"
-msgstr "mtp 格式转换插件"
-
-#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:1
-msgid "MusicXML"
-msgstr ""
-
-#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:2
-msgid "MusicXML file"
-msgstr "MusicXML 文件"
-
-#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:3
-msgid "Conversion plugin for MusicXML Score file"
-msgstr "MusicXML 乐谱文件转换插件"
-
-#: ../libresvip/plugins/nn/nn.yapsy-plugin:1
-msgid "NIAONiao"
-msgstr "袅袅虚拟歌手"
-
-#: ../libresvip/plugins/nn/nn.yapsy-plugin:2
-msgid "NIAONiao Virtual Singer project file"
-msgstr "袅袅虚拟歌手工程文件"
-
-#: ../libresvip/plugins/nn/nn.yapsy-plugin:3
-msgid "Conversion plugin for NIAONiao project file"
-msgstr "袅袅工程格式转换插件"
-
-#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:1
-msgid "Ppsf"
-msgstr ""
-
-#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:2
-msgid "Piapro Studio Song file"
-msgstr "Piapro Studio 工程文件"
-
-#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:3
-msgid "Conversion plugin for Piapro Studio project file"
-msgstr "Piapro Studio 工程文件转换插件"
-
-#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:1
-msgid "SynthV Editor"
-msgstr ""
-
-#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:2
-msgid "Synthesizer V Editor project file"
-msgstr "Synthesizer V Editor 工程文件"
-
-#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:3
-msgid "Conversion plugin for Synthesizer V Editor project file"
-msgstr "Synthesizer V Editor 工程格式转换插件。"
-
-#: ../libresvip/plugins/srt/srt.yapsy-plugin:1
-msgid "SRT"
-msgstr ""
-
-#: ../libresvip/plugins/srt/srt.yapsy-plugin:2
-msgid "SubRip subtitle file"
-msgstr "SubRip 字幕文件"
-
-#: ../libresvip/plugins/srt/srt.yapsy-plugin:3
-msgid "Generator plugin for SRT subtitle file"
-msgstr "SRT 字幕格式转换插件"
-
-#: ../libresvip/plugins/svg/svg.yapsy-plugin:1
-msgid "Svg"
-msgstr ""
-
-#: ../libresvip/plugins/svg/svg.yapsy-plugin:2
-msgid "Scalable Vector Graphics"
-msgstr "可缩放矢量图形"
-
-#: ../libresvip/plugins/svg/svg.yapsy-plugin:3
-msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
-msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
-
-#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:1
-msgid "BinSvip"
-msgstr ""
-
-#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:2
-msgid "X Studio project file"
-msgstr "X Studio 工程文件"
-
-#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:3
-msgid "Conversion plugin for the original .svip binary file format"
-msgstr "原始二进制 .svip 文件转换插件"
-
-#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:1
-msgid "Svip3"
-msgstr ""
-
-#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:2
-msgid "Netease Cloud Music XStudio project file"
-msgstr "网易云音乐·X Studio 工程文件"
-
-#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:3
-msgid "Conversion plugin for Netease Cloud Music XStudio project file"
-msgstr "网易云音乐·X Studio 工程转换插件"
-
-#: ../libresvip/plugins/svp/svp.yapsy-plugin:1
-msgid "SynthV Studio"
-msgstr ""
-
-#: ../libresvip/plugins/svp/svp.yapsy-plugin:2
-msgid "Synthesizer V Studio project file"
-msgstr "Synthesizer V Studio 工程文件"
-
-#: ../libresvip/plugins/svp/svp.yapsy-plugin:3
-msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
-"Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
-msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性、音符组、即时音高模式在内所有数据的读取与写入。\n"
-"请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
-
-#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:1
-msgid "TuneLab"
-msgstr ""
-
-#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:2
-msgid "TuneLab project file"
-msgstr "TuneLab工程文件"
-
-#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:3
-msgid "Convertion plugin for TuneLab project file"
-msgstr "TuneLab工程格式转换插件"
-
-#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:1
-msgid "TSSln"
-msgstr ""
-
-#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:2
-msgid "Techno-Speech Solution file"
-msgstr "Techno-Speech 项目文件"
-
-#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:3
-msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
-msgstr "Voisona 工程文件转换插件 (仅支持1.8.0及以上版本保存的工程)"
-
-#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:1
-msgid "UFData"
-msgstr ""
-
-#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:2
-msgid "UtaFormatix3 data format"
-msgstr "UtaFormatix3 数据格式"
-
-#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:3
-msgid "Convertion plugin for UFData format"
-msgstr "UFData格式转换插件"
-
-#: ../libresvip/plugins/ust/ust.yapsy-plugin:1
-msgid "Ust"
-msgstr ""
-
-#: ../libresvip/plugins/ust/ust.yapsy-plugin:2
-msgid "UTAU Sequence Text"
-msgstr "UTAU 序列文本"
-
-#: ../libresvip/plugins/ust/ust.yapsy-plugin:3
-msgid "Conversion plugin for UST file format"
-msgstr "UST文件格式转换插件"
-
-#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:1
-msgid "Ustx"
-msgstr ""
-
-#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:2
-msgid "OpenUtau project file"
-msgstr "OpenUtau 工程文件"
-
-#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:3
-msgid "Conversion plugin for Ustx file format"
-msgstr "Ustx格式转换插件"
-
-#: ../libresvip/plugins/vog/vog.yapsy-plugin:1
-msgid "Vogen"
-msgstr ""
-
-#: ../libresvip/plugins/vog/vog.yapsy-plugin:2
-msgid "Vogen project file"
-msgstr "Vogen 工程文件"
-
-#: ../libresvip/plugins/vog/vog.yapsy-plugin:3
-msgid "Conversion plugin for Vogen project file"
-msgstr "Vogen 工程格式转换插件"
-
-#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:1
-msgid "Vpr"
-msgstr ""
-
-#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:2
-msgid "New Vocaloid Project file"
-msgstr "新版Vocaloid工程格式"
-
-#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:3
-msgid "Conversion plugin for New Vocaloid project file"
-msgstr "新版Vocaloid工程格式转换插件"
-
-#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:1
-msgid "VocalShifter"
-msgstr ""
-
-#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:2
-msgid "VocalShifter project file"
-msgstr "VocalShifter 工程文件"
-
-#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:3
-msgid "Import parameters from VocalShifter project file."
-msgstr "从 VoralShifter 工程文件导入参数。"
-
-#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:1
-msgid "VocalSharp"
-msgstr ""
-
-#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:2
-msgid "VocalSharp project file"
-msgstr "VocalSharp 工程格式"
-
-#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:3
-msgid "Conversion plugin for VocalSharp project file"
-msgstr "VocalSharp格式转换插件"
-
-#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:1
-msgid "Vsq"
-msgstr ""
-
-#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:2
-msgid "Vocaloid 2 Sequence file"
-msgstr "Vocaloid 2 序列文件"
-
-#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:3
-msgid "Conversion plugin for Vocaloid 2 sequence file"
-msgstr "Vocaloid 2 序列文件转换插件"
-
-#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:1
-msgid "Vsqx"
-msgstr ""
-
-#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:2
-msgid "Vocaloid Sequence XML file"
-msgstr "Vocaloid XML序列文件"
-
-#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:3
-msgid "Conversion plugin for Vocaloid Sequence XML file"
-msgstr "Vocaloid XML序列格式转换插件"
-
-#: ../libresvip/plugins/y77/y77.yapsy-plugin:1
-msgid "Y77"
-msgstr ""
-
-#: ../libresvip/plugins/y77/y77.yapsy-plugin:2
-msgid "Yuan77 project file"
-msgstr "元七七工程文件"
-
-#: ../libresvip/plugins/y77/y77.yapsy-plugin:3
-msgid "Conversion plugin for Yuan77 project file"
-msgstr "元七七工程格式转换插件"
-
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2024-06-23 17:06+0800\nPO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\nLanguage-Team: LANGUAGE <LL@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nX-Generator: Translate Toolkit 3.13.1\n"
+"Project-Id-Version: PROJECT VERSION\nReport-Msgid-Bugs-To: EMAIL@ADDRESS\nPOT-Creation-Date: 2024-06-29 11:28+0800\nPO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\nLanguage-Team: LANGUAGE <LL@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\nGenerated-By: Babel 2.10.3\n"
+
+#: ../libresvip/cli/commands/conf.py:19
+msgid "Setting {} is not supported in cli mode."
+msgstr "在命令行模式中不支持设置 {} 选项"
+
+#: ../libresvip/cli/commands/conf.py:31
+msgid "Set {} to {}"
+msgstr "已将 {} 设置为 {}"
+
+#: ../libresvip/cli/commands/plugin.py:26
+msgid "The plugin is successfully disabled."
+msgstr "插件已成功禁用。"
+
+#: ../libresvip/cli/commands/plugin.py:28
+msgid "Failed to disable the plugin!"
+msgstr "插件禁用失败！"
+
+#: ../libresvip/cli/commands/plugin.py:35
+msgid "The plugin is successfully enabled."
+msgstr "插件已成功启用。"
+
+#: ../libresvip/cli/commands/plugin.py:37
+msgid "Failed to enable the plugin!"
+msgstr "插件启用失败！"
+
+#: ../libresvip/cli/commands/plugin.py:39
+msgid "Unable to find the plugin."
+msgstr "无法找到该插件。"
+
+#: ../libresvip/cli/commands/plugin.py:52
+msgid "Cannot find plugin "
+msgstr "未找到插件 "
+
+#: ../libresvip/cli/commands/plugin.py:58
+msgid "No plugins are currently installed."
+msgstr "目前尚未安装任何插件。"
+
+#: ../libresvip/cli/commands/plugin.py:61
+msgid "No."
+msgstr "序号"
+
+#: ../libresvip/cli/commands/plugin.py:62
+msgid "Name"
+msgstr "名称"
+
+#: ../libresvip/cli/commands/plugin.py:63
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:258
+msgid "Version"
+msgstr "版本"
+
+#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:267
+msgid "Author"
+msgstr "作者"
+
+#: ../libresvip/cli/commands/plugin.py:65
+msgid "Identifier"
+msgstr "标识符"
+
+#: ../libresvip/cli/commands/plugin.py:66
+msgid "Applicable file format"
+msgstr "适用格式"
+
+#: ../libresvip/cli/commands/plugin.py:87
+msgid "Plugin: "
+msgstr "插件： "
+
+#: ../libresvip/cli/commands/plugin.py:88 ../libresvip/web/pages.py:1080
+msgid "Version: "
+msgstr "版本："
+
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "Author: "
+msgstr "作者： "
+
+#: ../libresvip/cli/commands/plugin.py:93
+msgid "Website: "
+msgstr "主页： "
+
+#: ../libresvip/cli/commands/plugin.py:97
+msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
+msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "input"
+msgstr "输入"
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "output"
+msgstr "输出"
+
+#: ../libresvip/cli/commands/plugin.py:111
+msgid "This plugin supports the following {} conversion options:"
+msgstr "本插件可指定以下{}转换选项："
+
+#: ../libresvip/cli/commands/plugin.py:119
+#: ../libresvip/cli/commands/plugin.py:140
+msgid "Default: "
+msgstr "默认值："
+
+#: ../libresvip/cli/commands/plugin.py:121
+msgid "Available values:"
+msgstr "可用值如下："
+
+#: ../libresvip/cli/commands/plugin.py:134
+msgid "Available fields:"
+msgstr "可用值如下："
+
+#: ../libresvip/cli/commands/proj.py:21
+msgid "Extension {} is not supported. Supported extensions are: {}"
+msgstr "不支持 {} 扩展名。支持的扩展名包括 {}"
+
+#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:100
+#: ../libresvip/cli/commands/proj.py:177
+msgid "Input Options: "
+msgstr "导入选项： "
+
+#: ../libresvip/cli/commands/proj.py:58 ../libresvip/cli/commands/proj.py:110
+#: ../libresvip/cli/commands/proj.py:156
+msgid "Enable {} middleware?"
+msgstr "启用 {} 中间件吗?"
+
+#: ../libresvip/cli/commands/proj.py:66 ../libresvip/cli/commands/proj.py:118
+#: ../libresvip/cli/commands/proj.py:162
+msgid "Process Options: "
+msgstr "处理选项： "
+
+#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:126
+#: ../libresvip/cli/commands/proj.py:197
+msgid "Output Options: "
+msgstr "导出选项： "
+
+#: ../libresvip/cli/commands/proj.py:88
+msgid "Output format"
+msgstr "输出格式"
+
+#: ../libresvip/cli/commands/proj.py:89
+msgid "Maximum track count per file"
+msgstr "每个文件的最大音轨数"
+
+#: ../libresvip/cli/commands/proj.py:132
+msgid "Converting ..."
+msgstr "转换中 ..."
+
+#: ../libresvip/gui/models/table_models.py:17
+msgid "Applicable File Format"
+msgstr "适用的文件格式"
+
+#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1275
+msgid "Mode"
+msgstr "模式"
+
+#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1278
+msgid "Prefix"
+msgstr "前綴"
+
+#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1283
+msgid "Pattern"
+msgstr "表达式"
+
+#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1288
+msgid "Suffix"
+msgstr "后缀"
+
+#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1293
+msgid "Replacement"
+msgstr "替换为"
+
+#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1326
+msgid "Case sensitive"
+msgstr "区分大小写"
+
+#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1297
+msgid "Actions"
+msgstr "操作"
+
+#: ../libresvip/gui/modules/notifier.py:54
+msgid "Downloading"
+msgstr "下载中"
+
+#: ../libresvip/gui/modules/notifier.py:54
+#: ../libresvip/gui/modules/notifier.py:80
+msgid "Please wait..."
+msgstr "请稍候……"
+
+#: ../libresvip/gui/modules/notifier.py:64
+msgid "Error occurred while Downloading"
+msgstr "下载过程中出现错误"
+
+#: ../libresvip/gui/modules/notifier.py:65
+msgid "Failed to download file {}. Please try again later."
+msgstr "{} 文件下载失败，请稍后再试。"
+
+#: ../libresvip/gui/modules/notifier.py:79
+msgid "Checking for Updates"
+msgstr "检查更新中"
+
+#: ../libresvip/gui/modules/notifier.py:95
+msgid "Open in Browser"
+msgstr "在浏览器中打开"
+
+#: ../libresvip/gui/modules/notifier.py:157
+msgid "Download"
+msgstr "下载"
+
+#: ../libresvip/gui/modules/notifier.py:167
+msgid "Update Available"
+msgstr "更新可用"
+
+#: ../libresvip/gui/modules/notifier.py:168
+msgid "New version {} is available."
+msgstr "新版本{}已经可用。"
+
+#: ../libresvip/gui/modules/notifier.py:173
+msgid "No Updates"
+msgstr "未找到更新"
+
+#: ../libresvip/gui/modules/notifier.py:174
+msgid "You are using the latest version {}."
+msgstr "你正在使用最新版本 {}。"
+
+#: ../libresvip/gui/modules/notifier.py:182
+msgid "Error occurred while Checking for Updates"
+msgstr "检查更新时出现错误！"
+
+#: ../libresvip/gui/modules/notifier.py:183
+msgid "Failed to check for updates. Please try again later."
+msgstr "检查更新失败，请稍后再试。"
+
+#: ../libresvip/model/option_mixins.py:10
+msgid "Import instrumental tracks"
+msgstr "导入伴奏轨"
+
+#: ../libresvip/model/option_mixins.py:14
+msgid "Import pitch curve"
+msgstr "导入音高曲线"
+
+#: ../libresvip/model/option_mixins.py:18
+msgid "Import dynamics envelope"
+msgstr "导入音量包络"
+
+#: ../libresvip/model/option_mixins.py:22
+msgid "Import breath envelope"
+msgstr "导入气声包络"
+
+#: ../libresvip/model/option_mixins.py:26
+msgid "Import gender envelope"
+msgstr "导入性别包络"
+
+#: ../libresvip/model/option_mixins.py:30
+msgid "Import strength envelope"
+msgstr "导入力度包络"
+
+#: ../libresvip/model/option_mixins.py:36
+msgid "Constant tempo"
+msgstr "恒定曲速"
+
+#: ../libresvip/model/option_mixins.py:37
+msgid "Use this tempo to reset time axis of projects with dynamic tempos"
+msgstr "使用此曲速重设变速音乐的时间轴"
+
+#: ../libresvip/model/option_mixins.py:44
+msgid "Track index"
+msgstr "音轨序号"
+
+#: ../libresvip/model/option_mixins.py:45
+msgid "Start from 0, -1 means automatic selection"
+msgstr "从0开始，-1表示自动选择"
+
+#: ../libresvip/model/relative_pitch_curve.py:28
+msgid "Notes Overlapped"
+msgstr "音符重叠"
+
+#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
+msgid "Audio file not found: "
+msgstr "未找到音频文件："
+
+#: ../libresvip/web/pages.py:254
+msgid "name"
+msgstr "名称"
+
+#: ../libresvip/web/pages.py:276 ../libresvip/web/pages.py:293
+#: ../libresvip/web/pages.py:1174 ../libresvip/web/pages.py:1193
+#: ../libresvip/web/pages.py:1699 ../libresvip/web/pages.py:1747
+msgid "file_format"
+msgstr "文件格式"
+
+#: ../libresvip/web/pages.py:282
+msgid "Introduction"
+msgstr "简介"
+
+#: ../libresvip/web/pages.py:283
+msgid "description"
+msgstr "描述"
+
+#: ../libresvip/web/pages.py:301
+msgid "Input Options"
+msgstr "输入选项"
+
+#: ../libresvip/web/pages.py:302
+msgid "[Import as "
+msgstr "[ 导入自 "
+
+#: ../libresvip/web/pages.py:310
+msgid "Output Options"
+msgstr "输出选项"
+
+#: ../libresvip/web/pages.py:311
+msgid "[Export to "
+msgstr "[ 导出为 "
+
+#: ../libresvip/web/pages.py:407 ../libresvip/web/pages.py:524
+msgid "Invalid integer"
+msgstr "无效的整数"
+
+#: ../libresvip/web/pages.py:411 ../libresvip/web/pages.py:528
+msgid "Invalid float"
+msgstr "无效的浮点数"
+
+#: ../libresvip/web/pages.py:651 ../libresvip/web/pages.py:681
+msgid "Copy to clipboard"
+msgstr "复制到剪贴板"
+
+#: ../libresvip/web/pages.py:655 ../libresvip/web/pages.py:685
+msgid "Copied"
+msgstr "已复制"
+
+#: ../libresvip/web/pages.py:657 ../libresvip/web/pages.py:687
+#: ../libresvip/web/pages.py:1108 ../libresvip/web/pages.py:1596
+#: ../libresvip/web/pages.py:1631 ../libresvip/web/pages.py:1717
+#: ../libresvip/web/pages.py:1770
+msgid "Close"
+msgstr "关闭"
+
+#: ../libresvip/web/pages.py:699
+msgid "Remove"
+msgstr "移除"
+
+#: ../libresvip/web/pages.py:902
+msgid "Conversion Failed"
+msgstr "转换失败"
+
+#: ../libresvip/web/pages.py:904
+msgid "Conversion Successful"
+msgstr "转换成功"
+
+#: ../libresvip/web/pages.py:982 ../libresvip/web/pages.py:1016
+msgid "All files (*.*)"
+msgstr "所有文件 (*.*)"
+
+#: ../libresvip/web/pages.py:1003
+msgid "Save failed!"
+msgstr "保存失败！"
+
+#: ../libresvip/web/pages.py:1013
+msgid "Compressed Archive (*.zip)"
+msgstr "压缩文件 (*.zip)"
+
+#: ../libresvip/web/pages.py:1025
+msgid "Saved"
+msgstr "已保存"
+
+#: ../libresvip/web/pages.py:1077 ../libresvip/web/pages.py:1240
+msgid "About"
+msgstr "关于"
+
+#: ../libresvip/web/pages.py:1079
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1083
+msgid "Author: SoulMelody"
+msgstr "作者：岁月静好_初心不忘"
+
+#: ../libresvip/web/pages.py:1087
+msgid "Author's Profile"
+msgstr "作者主页"
+
+#: ../libresvip/web/pages.py:1093
+msgid "Repo URL"
+msgstr "仓库地址"
+
+#: ../libresvip/web/pages.py:1098
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
+
+#: ../libresvip/web/pages.py:1103
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
+
+#: ../libresvip/web/pages.py:1112 ../libresvip/web/pages.py:1141
+msgid "Convert"
+msgstr "转换"
+
+#: ../libresvip/web/pages.py:1127 ../libresvip/web/pages.py:1783
+msgid "Import project"
+msgstr "导入工程"
+
+#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1828
+msgid "Clear Task List"
+msgstr "清空所有导入"
+
+#: ../libresvip/web/pages.py:1160 ../libresvip/web/pages.py:1742
+msgid "Swap Input and Output"
+msgstr "上下交换"
+
+#: ../libresvip/web/pages.py:1163 ../libresvip/web/pages.py:1702
+msgid "Import format"
+msgstr "导入工程格式"
+
+#: ../libresvip/web/pages.py:1183 ../libresvip/web/pages.py:1750
+msgid "Export format"
+msgstr "导出工程格式"
+
+#: ../libresvip/web/pages.py:1199
+msgid "Switch Theme"
+msgstr "切换主题"
+
+#: ../libresvip/web/pages.py:1212
+msgid "Light"
+msgstr "浅色"
+
+#: ../libresvip/web/pages.py:1218
+msgid "Dark"
+msgstr "深色"
+
+#: ../libresvip/web/pages.py:1224
+msgid "System"
+msgstr "跟随系统"
+
+#: ../libresvip/web/pages.py:1227
+msgid "Help"
+msgstr "帮助"
+
+#: ../libresvip/web/pages.py:1244
+msgid "Documentation"
+msgstr "文档"
+
+#: ../libresvip/web/pages.py:1252
+msgid "Conversion Settings"
+msgstr "转换设置"
+
+#: ../libresvip/web/pages.py:1255
+msgid "Lyric Replace Rules"
+msgstr "歌词替换规则"
+
+#: ../libresvip/web/pages.py:1257
+msgid "Switch Language"
+msgstr "切换语言"
+
+#: ../libresvip/web/pages.py:1263 ../libresvip/web/pages.py:1726
+msgid "Auto detect import format"
+msgstr "自动检测导入格式"
+
+#: ../libresvip/web/pages.py:1268 ../libresvip/web/pages.py:1733
+msgid "Reset list when import format changed"
+msgstr "切换格式时重置列表"
+
+#: ../libresvip/web/pages.py:1296
+msgid "Flags"
+msgstr "修饰符"
+
+#: ../libresvip/web/pages.py:1316
+msgid "Full match"
+msgstr "完全匹配"
+
+#: ../libresvip/web/pages.py:1317
+msgid "Alphabetic"
+msgstr "拼音文字"
+
+#: ../libresvip/web/pages.py:1318
+msgid "Non-alphabetic"
+msgstr "非拼音文字"
+
+#: ../libresvip/web/pages.py:1319
+msgid "Regex"
+msgstr "正则表达式"
+
+#: ../libresvip/web/pages.py:1323
+msgid "Ignore case"
+msgstr "忽略大小写"
+
+#: ../libresvip/web/pages.py:1501
+msgid "Toggle fullscreen"
+msgstr "全屏开关"
+
+#: ../libresvip/web/pages.py:1511
+msgid "Preset: "
+msgstr "预设： "
+
+#: ../libresvip/web/pages.py:1525
+msgid "Remove current preset"
+msgstr "删除当前预设"
+
+#: ../libresvip/web/pages.py:1544
+msgid "Save current preset"
+msgstr "保存当前预设"
+
+#: ../libresvip/web/pages.py:1567
+msgid "Add new rule"
+msgstr "新建规则"
+
+#: ../libresvip/web/pages.py:1568
+msgid "Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr "拼音文字模式：适用于拼音文字\n"
+"非拼音文字模式：适用于非拼音文字及标点符号等字符\n"
+"正则模式：适用于了解正则表达式语法的高级用户"
+
+#: ../libresvip/web/pages.py:1600
+msgid "Settings (&S)"
+msgstr "设置 (&S)"
+
+#: ../libresvip/web/pages.py:1603
+msgid "Select File Formats"
+msgstr "格式选择"
+
+#: ../libresvip/web/pages.py:1604
+msgid "Advanced Settings"
+msgstr "高级选项"
+
+#: ../libresvip/web/pages.py:1614 ../libresvip/web/pages.py:1628
+msgid "Maximize"
+msgstr "最大化"
+
+#: ../libresvip/web/pages.py:1618
+msgid "Restore"
+msgstr "还原"
+
+#: ../libresvip/web/pages.py:1623
+msgid "Minimize"
+msgstr "最小化"
+
+#: ../libresvip/web/pages.py:1690
+msgid "Choose file format"
+msgstr "选择格式"
+
+#: ../libresvip/web/pages.py:1725 ../libresvip/web/pages.py:1778
+msgid "View Detail Information"
+msgstr "查看详细信息"
+
+#: ../libresvip/web/pages.py:1785
+msgid "Conversion Mode:"
+msgstr "转换模式："
+
+#: ../libresvip/web/pages.py:1832
+msgid "Remove Tasks With Other Extensions"
+msgstr "过滤多余项目"
+
+#: ../libresvip/web/pages.py:1836
+msgid "Max Track count:"
+msgstr "最大轨道数："
+
+#: ../libresvip/web/pages.py:1858
+msgid "Continue Adding files"
+msgstr "继续添加文件"
+
+#: ../libresvip/web/pages.py:1892
+msgid "Drag and drop files here or click to upload"
+msgstr "拖放文件或点击导入"
+
+#: ../libresvip/web/pages.py:1921
+msgid "Start Conversion"
+msgstr "开始转换"
+
+#: ../libresvip/web/pages.py:1929
+msgid "Export"
+msgstr "导出"
+
+#: ../libresvip/web/pages.py:1930
+msgid "Advanced Options"
+msgstr "高级选项"
+
+#: ../libresvip/web/pages.py:1939
+msgid "Intermediate Processing"
+msgstr "中间环节处理"
 
 #: QPlatformTheme%231
 msgid "OK"
