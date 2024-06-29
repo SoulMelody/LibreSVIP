@@ -7,6 +7,7 @@ from PySide6.QtQml import QmlElement
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import Language, config_path, settings
+from libresvip.extension.manager import get_translation
 from libresvip.utils import translation
 
 from .application import app, qml_engine
@@ -19,7 +20,7 @@ QML_IMPORT_MINOR_VERSION = 0
 class GettextTranslator(QTranslator):
     def load_translation(self, lang: str) -> None:
         try:
-            translation.singleton_translation = translation.get_translation(lang=lang)
+            translation.singleton_translation = get_translation(lang=lang)
         except OSError:
             translation.singleton_translation = gettext.NullTranslations()
 

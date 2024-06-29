@@ -1,0 +1,12 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/musicxml/musicxml.yapsy-plugin:1
+msgid "MusicXML"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/musicxml/musicxml.yapsy-plugin:2
+msgid "MusicXML file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/musicxml/musicxml.yapsy-plugin:3
+msgid "Conversion plugin for MusicXML Score file"
+msgstr ""
+

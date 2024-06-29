@@ -1,0 +1,57 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/ass.yapsy-plugin:1
+msgid "ASS"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/ass.yapsy-plugin:2
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/ass.yapsy-plugin:3
+msgid "Generator plugin for ASS subtitle file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:14
+msgid "Both note gap and punctuation"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:15
+msgid ""
+"When the interval between two adjacent notes is greater than or equal to "
+"thirty-second note or a punctuation mark is encountered, start a new "
+"line."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:23
+msgid "Note gap only"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:24
+msgid ""
+"When the interval between two adjacent notes is greater than or equal to "
+"thirty-second note, start a new line."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:32
+msgid "Punctuation only"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:33
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:41
+msgid "Offset"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:42
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:44
+msgid "New line by"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ass/options.py:45
+msgid "Text encoding"
+msgstr ""
+

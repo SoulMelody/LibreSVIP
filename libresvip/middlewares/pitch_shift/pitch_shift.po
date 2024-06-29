@@ -1,0 +1,12 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pitch_shift/options.py:9
+msgid "Key transition of pitch"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pitch_shift/options.py:10
+msgid "Pitch shift in semitones."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/pitch_shift/pitch_shift.yapsy-plugin:1
+msgid "Pitch Shift"
+msgstr ""
+

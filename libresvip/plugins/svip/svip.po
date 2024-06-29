@@ -1,0 +1,91 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/binsvip.yapsy-plugin:1
+msgid "BinSvip"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/binsvip.yapsy-plugin:2
+msgid "X Studio project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/binsvip.yapsy-plugin:3
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/binsvip_converter.py:32
+msgid "Unexpected enum value"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/binsvip_generator.py:195
+msgid "Note duration is too short:"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/binsvip_generator.py:198
+msgid "Note duration is too long:"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:21
+msgid "Auto detect"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:22
+msgid ""
+"Use the version of the project file corresponding to the X Studio "
+"installed on your current system."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:31
+msgid "Use the project file version of X Studio 2.0."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:38
+msgid "Use the project file version which is compatible with X Studio 1.8."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:44
+msgid "Max compatibility (read only)"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:45
+msgid ""
+"Export project files that can be opened using any version of X Studio.\n"
+"Warning: After saving with this option, the volume, breath, gender, and "
+"power parameters will not be recognized by X Studio (no data is lost).\n"
+"To avoid irretrievable data loss, it is strongly recommended not to use X"
+" Studio to modify and save project files exported with this option. To "
+"restore the project file back to a safe editable state, select Save as "
+"SVIP 6.0.0 or later."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:67
+msgid "Default singer"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:68
+msgid ""
+"Please enter the singer's name in Chinese. If the specified singer does "
+"not exist, the default singer set in X Studio will be used. If you want "
+"to specify the conversion relationship between singer ID and name, or add"
+" a singer that has an ID but has not been publicly released, please "
+"modify singers.json in the plugin directory."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:74
+msgid "Default tempo"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:79
+msgid "Specify the version of the generated .svip file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/options.py:80
+msgid ""
+"This option only controls the header version information of the output "
+"project file.\n"
+"Choosing an older project file version will not affect the integrity of "
+"the data, but using a lower version of X Studio to open, edit and save a "
+"higher version project file may cause data loss."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svip/msnrbf/svip_reader.py:120
+msgid "Root not found"
+msgstr ""
+

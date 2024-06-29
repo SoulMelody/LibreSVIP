@@ -1,0 +1,20 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/options.py:14
+msgid "Singer name"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/options.py:15
+msgid "Please enter the singer's English name."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/vog.yapsy-plugin:1
+msgid "Vogen"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/vog.yapsy-plugin:2
+msgid "Vogen project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/vog.yapsy-plugin:3
+msgid "Conversion plugin for Vogen project file"
+msgstr ""
+

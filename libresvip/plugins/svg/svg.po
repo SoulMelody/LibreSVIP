@@ -1,0 +1,114 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:12
+msgid "Align to left"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:13
+msgid "Align to middle"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:14
+msgid "Align to right"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:18
+msgid "Above the note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:19
+msgid "Inside the note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:20
+msgid "Below the note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:21
+msgid "Don't show"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:25
+msgid "Pixels per beat"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:25
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:26
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:44
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:73
+msgid "Unit: pixel."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:26
+msgid "Note height"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:27
+msgid "Note radius"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:30
+msgid "Note fill color"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:31
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:36
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:42
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:60
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:65
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:71
+msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:35
+msgid "Note stroke color"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:41
+msgid "Pitch stroke color"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:44
+msgid "Pitch stroke width"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:47
+msgid "Lyric position"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:51
+msgid "Pronounciation position"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:55
+msgid "Text align"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:59
+msgid "Inner text color"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:64
+msgid "The color of the text on the top and bottom of the note"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:70
+msgid "Grid line color"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/options.py:73
+msgid "Grid line width"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/svg.yapsy-plugin:1
+msgid "Svg"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/svg.yapsy-plugin:2
+msgid "Scalable Vector Graphics"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/svg/svg.yapsy-plugin:3
+msgid ""
+"Generate graphics containing notes and pitch curve in SVG format. Only "
+"the first or specified singing track will be imported."
+msgstr ""
+

@@ -1,0 +1,48 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:17
+msgid "Incompatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:23
+msgid "Compatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:31
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:51
+msgid "The way to handle english multisyllabic words"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:32
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:52
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:36
+msgid "Breath lyrics"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:37
+msgid ""
+"Special lyrics that will be recognized as breath notes only when "
+"immediately followed by a regular note, each separated by a space"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:43
+msgid "Silence lyrics"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/options.py:44
+msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/ustx.yapsy-plugin:1
+msgid "Ustx"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/ustx.yapsy-plugin:2
+msgid "OpenUtau project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ustx/ustx.yapsy-plugin:3
+msgid "Conversion plugin for Ustx file format"
+msgstr ""
+
