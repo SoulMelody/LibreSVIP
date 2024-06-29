@@ -10,25 +10,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 02:48\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/options.py:14
 msgid "Singer name"
 msgstr "歌手名"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/options.py:15
 msgid "Please enter the singer's English name."
 msgstr "请输入完整无误的歌手英文名字。"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/vog.yapsy-plugin:1
 msgid "Vogen"
 msgstr ""
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/vog.yapsy-plugin:2
 msgid "Vogen project file"
 msgstr "Vogen 工程文件"
 
-#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vog/vog.yapsy-plugin:3
 msgid "Conversion plugin for Vogen project file"
 msgstr "Vogen 工程格式转换插件"
 
