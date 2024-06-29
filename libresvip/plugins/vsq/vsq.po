@@ -1,0 +1,45 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:11
+msgid "Ignore all breath notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:12
+msgid "Keep as normal notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:18
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:37
+msgid "Lyric text encoding"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:19
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:38
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:23
+msgid "The way to handle breath notes"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:30
+msgid "Ticks per beat"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/options.py:31
+msgid ""
+"Also known as parts per quarter, ticks per quarter note, the number of "
+"pulses per quarter note. This setting should not be changed unless you "
+"know what it is."
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/vsq.yapsy-plugin:1
+msgid "Vsq"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/vsq.yapsy-plugin:2
+msgid "Vocaloid 2 Sequence file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/vsq/vsq.yapsy-plugin:3
+msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr ""
+

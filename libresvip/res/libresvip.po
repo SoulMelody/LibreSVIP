@@ -1,0 +1,952 @@
+msgctxt "actions"
+msgid "Alert"
+msgstr ""
+
+msgctxt "actions"
+msgid "Cannot restore task list while conversion is in progress."
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Converter"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Select File Formats"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Input Format: "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "View Detail Information"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Reset Tasks When Changing Input"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Swap Input and Output"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Format: "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Direct Mode"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Singing Track Merging Mode"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Singing Track Grouping Mode"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Advanced Settings"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Input Options"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Options"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Task List"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Drag and drop files here"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Conversion Mode:"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Continue Adding files"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Clear Task List"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Reset Default Extension"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Max Track count:"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "[Import as "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "[Export to "
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Settings"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Choose Output Folder"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Output Folder"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Deal with Conflicts"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Export"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Start Conversion"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Converting"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Overwrite"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Skip"
+msgstr ""
+
+msgctxt "converter_page"
+msgid "Prompt"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "All Files (*.*)"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Custom folder"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Folder Presets"
+msgstr ""
+
+msgctxt "dialogs"
+msgid ""
+"You can insert \".\" at the beginning to represent the source path, for "
+"example \"./subfolder\""
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Click to add a folder preset"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "About"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "LibreSVIP"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Version: "
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Author: SoulMelody"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Author's Profile"
+msgstr ""
+
+msgctxt "dialogs"
+msgid "Repo URL"
+msgstr ""
+
+msgctxt "dialogs"
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that can "
+"convert your singing synthesis projects between different file formats."
+msgstr ""
+
+msgctxt "dialogs"
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from the "
+"constraints of platforms and coterie."
+msgstr ""
+
+msgctxt "plugin_info"
+msgid "Version"
+msgstr ""
+
+msgctxt "plugin_info"
+msgid "Introduction"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Options"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Reset Task List When Changing Input File Type"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Multi-Threaded Conversion"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Output Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Deal with Conflicts"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Same as Source"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Desktop"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Preset Folder"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Custom (Browse ...)"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Manage Folders Presets"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Preset"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Remove current preset"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Add new rule"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Full match"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Alphabetic"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Non-alphabetic"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Regex"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid ""
+"Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Format Provider Plugins"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Overwrite"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Skip"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Prompt"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Auto Check for Updates"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Conversion Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Basic Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Save Path Settings"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Lyric Replacement Rules"
+msgstr ""
+
+msgctxt "settings_dialog"
+msgid "Updates Settings"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File successfully converted"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Open"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Open folder"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File %1 already exists. Overwrite?"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File skipped due to conflict"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Remove"
+msgstr ""
+
+msgctxt "task_row"
+msgid "This project file may contain abnormal or illegal data"
+msgstr ""
+
+msgctxt "task_row"
+msgid "File failed to convert, below is the error message:"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Copy error message"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Copied"
+msgstr ""
+
+msgctxt "task_row"
+msgid "Do you want to overwrite the file?"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Convert (&C)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Import Projects (Ctrl+O)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Perform All Tasks (Ctrl+Enter)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Clear Tasks (Ctrl+R)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Swap Input and Output (Ctrl+Tab)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Output Format (&E)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Formats (&F)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Input Format (&I)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Settings (&S)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Options (&O)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Themes (&T)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Light"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Dark"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "System"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Language (&L)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Help (&H)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "About (Ctrl+A)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Check for Updates"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "Documentation (F1)"
+msgstr ""
+
+msgctxt "top_toolbar"
+msgid "SVS Projects Converter"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "OK"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "Cancel"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "Yes to &All"
+msgstr ""
+
+msgctxt "QPlatformTheme"
+msgid "N&o to All"
+msgstr ""
+
+#: ../libresvip/middlewares/pitch_shift/pitch_shift.yapsy-plugin:1
+msgid "Pitch Shift"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:1
+msgid "Project Zoom"
+msgstr ""
+
+#: ../libresvip/middlewares/project_zoom/project_zoom.yapsy-plugin:3
+msgid "Zoom in/out project"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:1
+msgid "Pronounciation Conversion"
+msgstr ""
+
+#: ../libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.yapsy-plugin:3
+msgid "For Chinese and Japanese Lyrics"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:1
+msgid "Remove Short Silences"
+msgstr ""
+
+#: ../libresvip/middlewares/remove_short_silences/remove_short_silences.yapsy-plugin:3
+msgid "Fill short rests"
+msgstr ""
+
+#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:1
+msgid "Replace lyrics"
+msgstr ""
+
+#: ../libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:3
+msgid ""
+"Replace lyrics using preset rules. You can customize the lyrics replacement "
+"rules in the program configuration page"
+msgstr ""
+
+#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:1
+msgid "ACE Studio"
+msgstr ""
+
+#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:2
+msgid "ACE Studio project File"
+msgstr ""
+
+#: ../libresvip/plugins/acep/ace-studio.yapsy-plugin:3
+msgid "Conversion Plugin for ACE Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:1
+msgid "AISingers"
+msgstr ""
+
+#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:2
+msgid "AISingers Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/aisp/aisp.yapsy-plugin:3
+msgid "Conversion plugin for AISingers Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:1
+msgid "ASS"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:2
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/ass/ass.yapsy-plugin:3
+msgid "Generator plugin for ASS subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:1
+msgid "CeVIO"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:2
+msgid "CeVIO Creative Studio Project file"
+msgstr ""
+
+#: ../libresvip/plugins/ccs/ccs.yapsy-plugin:3
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/ds/ds.yapsy-plugin:1
+msgid "DiffSinger"
+msgstr ""
+
+#: ../libresvip/plugins/ds/ds.yapsy-plugin:2
+msgid "DiffSinger parameters file"
+msgstr ""
+
+#: ../libresvip/plugins/ds/ds.yapsy-plugin:3
+msgid "DiffSinger plugin."
+msgstr ""
+
+#: ../libresvip/plugins/dv/dv.yapsy-plugin:1
+msgid "DeepVocal"
+msgstr ""
+
+#: ../libresvip/plugins/dv/dv.yapsy-plugin:2
+msgid "DeepVocal project file"
+msgstr ""
+
+#: ../libresvip/plugins/dv/dv.yapsy-plugin:3
+msgid "Conversion plugin for dv file"
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:1
+msgid "gjgj"
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:2
+msgid "Gejigeji project file"
+msgstr ""
+
+#: ../libresvip/plugins/gj/gjgj.yapsy-plugin:3
+msgid ""
+"Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr ""
+
+#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:1
+msgid "JsonSvip"
+msgstr ""
+
+#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:2
+msgid "OpenSVIP file"
+msgstr ""
+
+#: ../libresvip/plugins/json/jsonsvip.yapsy-plugin:3
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:1
+msgid "LRC"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:2
+msgid "LRC lyric file"
+msgstr ""
+
+#: ../libresvip/plugins/lrc/lrc.yapsy-plugin:3
+msgid "Generator plugin for LRC lyric file"
+msgstr ""
+
+#: ../libresvip/plugins/mid/mid.yapsy-plugin:1
+msgid "MIDI"
+msgstr ""
+
+#: ../libresvip/plugins/mid/mid.yapsy-plugin:2
+msgid "Standard MIDI file (SMF)"
+msgstr ""
+
+#: ../libresvip/plugins/mid/mid.yapsy-plugin:3
+msgid "Conversion plugin for midi file"
+msgstr ""
+
+#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:1
+msgid "Muta"
+msgstr ""
+
+#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:2
+msgid "Muta project file"
+msgstr ""
+
+#: ../libresvip/plugins/mtp/mtp.yapsy-plugin:3
+msgid "Conversion plugin for mtp file"
+msgstr ""
+
+#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:1
+msgid "MusicXML"
+msgstr ""
+
+#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:2
+msgid "MusicXML file"
+msgstr ""
+
+#: ../libresvip/plugins/musicxml/musicxml.yapsy-plugin:3
+msgid "Conversion plugin for MusicXML Score file"
+msgstr ""
+
+#: ../libresvip/plugins/nn/nn.yapsy-plugin:1
+msgid "NIAONiao"
+msgstr ""
+
+#: ../libresvip/plugins/nn/nn.yapsy-plugin:2
+msgid "NIAONiao Virtual Singer project file"
+msgstr ""
+
+#: ../libresvip/plugins/nn/nn.yapsy-plugin:3
+msgid "Conversion plugin for NIAONiao project file"
+msgstr ""
+
+#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:1
+msgid "Ppsf"
+msgstr ""
+
+#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:2
+msgid "Piapro Studio Song file"
+msgstr ""
+
+#: ../libresvip/plugins/ppsf/ppsf.yapsy-plugin:3
+msgid "Conversion plugin for Piapro Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:1
+msgid "SynthV Editor"
+msgstr ""
+
+#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:2
+msgid "Synthesizer V Editor project file"
+msgstr ""
+
+#: ../libresvip/plugins/s5p/s5p.yapsy-plugin:3
+msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr ""
+
+#: ../libresvip/plugins/srt/srt.yapsy-plugin:1
+msgid "SRT"
+msgstr ""
+
+#: ../libresvip/plugins/srt/srt.yapsy-plugin:2
+msgid "SubRip subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/srt/srt.yapsy-plugin:3
+msgid "Generator plugin for SRT subtitle file"
+msgstr ""
+
+#: ../libresvip/plugins/svg/svg.yapsy-plugin:1
+msgid "Svg"
+msgstr ""
+
+#: ../libresvip/plugins/svg/svg.yapsy-plugin:2
+msgid "Scalable Vector Graphics"
+msgstr ""
+
+#: ../libresvip/plugins/svg/svg.yapsy-plugin:3
+msgid ""
+"Generate graphics containing notes and pitch curve in SVG format. Only the "
+"first or specified singing track will be imported."
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:1
+msgid "BinSvip"
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:2
+msgid "X Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svip/binsvip.yapsy-plugin:3
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:1
+msgid "Svip3"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:2
+msgid "Netease Cloud Music XStudio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svip3/svip3.yapsy-plugin:3
+msgid "Conversion plugin for Netease Cloud Music XStudio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svp/svp.yapsy-plugin:1
+msgid "SynthV Studio"
+msgstr ""
+
+#: ../libresvip/plugins/svp/svp.yapsy-plugin:2
+msgid "Synthesizer V Studio project file"
+msgstr ""
+
+#: ../libresvip/plugins/svp/svp.yapsy-plugin:3
+msgid ""
+"Conversion plugin for Synthesizer V Studio project file, it supports reading "
+"and writing of all parameters including notes, lyrics, parameter curve, note "
+"attributes, note group, and instant pitch mode.\n"
+"Notes: Importing a project file with overlapping notes is undefined behavior "
+"that can lead to unforeseen exceptions."
+msgstr ""
+
+#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:1
+msgid "TuneLab"
+msgstr ""
+
+#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:2
+msgid "TuneLab project file"
+msgstr ""
+
+#: ../libresvip/plugins/tlp/tlp.yapsy-plugin:3
+msgid "Convertion plugin for TuneLab project file"
+msgstr ""
+
+#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:1
+msgid "TSSln"
+msgstr ""
+
+#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:2
+msgid "Techno-Speech Solution file"
+msgstr ""
+
+#: ../libresvip/plugins/tssln/tssln.yapsy-plugin:3
+msgid ""
+"Conversion plugin for VoiSona project file (Only versions 1.8.0 and later "
+"are supported)"
+msgstr ""
+
+#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:1
+msgid "UFData"
+msgstr ""
+
+#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:2
+msgid "UtaFormatix3 data format"
+msgstr ""
+
+#: ../libresvip/plugins/ufdata/ufdata.yapsy-plugin:3
+msgid "Convertion plugin for UFData format"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust.yapsy-plugin:1
+msgid "Ust"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust.yapsy-plugin:2
+msgid "UTAU Sequence Text"
+msgstr ""
+
+#: ../libresvip/plugins/ust/ust.yapsy-plugin:3
+msgid "Conversion plugin for UST file format"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:1
+msgid "Ustx"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:2
+msgid "OpenUtau project file"
+msgstr ""
+
+#: ../libresvip/plugins/ustx/ustx.yapsy-plugin:3
+msgid "Conversion plugin for Ustx file format"
+msgstr ""
+
+#: ../libresvip/plugins/vog/vog.yapsy-plugin:1
+msgid "Vogen"
+msgstr ""
+
+#: ../libresvip/plugins/vog/vog.yapsy-plugin:2
+msgid "Vogen project file"
+msgstr ""
+
+#: ../libresvip/plugins/vog/vog.yapsy-plugin:3
+msgid "Conversion plugin for Vogen project file"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:1
+msgid "Vpr"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:2
+msgid "New Vocaloid Project file"
+msgstr ""
+
+#: ../libresvip/plugins/vpr/vpr.yapsy-plugin:3
+msgid "Conversion plugin for New Vocaloid project file"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:1
+msgid "VocalShifter"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:2
+msgid "VocalShifter project file"
+msgstr ""
+
+#: ../libresvip/plugins/vshp/vshp.yapsy-plugin:3
+msgid "Import parameters from VocalShifter project file."
+msgstr ""
+
+#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:1
+msgid "VocalSharp"
+msgstr ""
+
+#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:2
+msgid "VocalSharp project file"
+msgstr ""
+
+#: ../libresvip/plugins/vspx/vspx.yapsy-plugin:3
+msgid "Conversion plugin for VocalSharp project file"
+msgstr ""
+
+#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:1
+msgid "Vsq"
+msgstr ""
+
+#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:2
+msgid "Vocaloid 2 Sequence file"
+msgstr ""
+
+#: ../libresvip/plugins/vsq/vsq.yapsy-plugin:3
+msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:1
+msgid "Vsqx"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:2
+msgid "Vocaloid Sequence XML file"
+msgstr ""
+
+#: ../libresvip/plugins/vsqx/vsqx.yapsy-plugin:3
+msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr ""
+
+#: ../libresvip/plugins/y77/y77.yapsy-plugin:1
+msgid "Y77"
+msgstr ""
+
+#: ../libresvip/plugins/y77/y77.yapsy-plugin:2
+msgid "Yuan77 project file"
+msgstr ""
+
+#: ../libresvip/plugins/y77/y77.yapsy-plugin:3
+msgid "Conversion plugin for Yuan77 project file"
+msgstr ""
+
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-23 17:06+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Translate Toolkit 3.13.1\n"
+
+#: QPlatformTheme%231
+msgid "OK"
+msgstr ""
+
+#: QPlatformTheme%232
+msgid "Cancel"
+msgstr ""
+
+#: QPlatformTheme%233
+msgid "Yes to &All"
+msgstr ""
+
+#: QPlatformTheme%234
+msgid "N&o to All"
+msgstr ""

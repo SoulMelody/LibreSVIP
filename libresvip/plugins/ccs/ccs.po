@@ -1,0 +1,32 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/ccs.yapsy-plugin:1
+msgid "CeVIO"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/ccs.yapsy-plugin:2
+msgid "CeVIO Creative Studio Project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/ccs.yapsy-plugin:3
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/cevio_generator.py:185
+msgid "Unsupported lyric: "
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/cevio_pitch.py:103
+msgid "Pitch value is out of bounds"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/options.py:16
+msgid "Default Singer Name"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/options.py:17
+msgid "Default Voicebank ID"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/plugins/ccs/options.py:18
+msgid "Default Voicebank Version"
+msgstr ""
+

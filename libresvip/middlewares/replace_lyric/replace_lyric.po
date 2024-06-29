@@ -1,0 +1,14 @@
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/replace_lyric/options.py:9
+msgid "Name of lyric replacement preset"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:1
+msgid "Replace lyrics"
+msgstr ""
+
+#: C:/Users/SoulMelody/PycharmProjects/LibreSVIP/libresvip/middlewares/replace_lyric/replace_lyric.yapsy-plugin:3
+msgid ""
+"Replace lyrics using preset rules. You can customize the lyrics "
+"replacement rules in the program configuration page"
+msgstr ""
+

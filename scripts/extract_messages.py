@@ -1,3 +1,4 @@
+import itertools
 import pathlib
 import subprocess
 from collections.abc import Iterator
@@ -9,6 +10,7 @@ from ts_model import TranslationType, Ts
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata_pydantic.bindings import XmlParser
 
+from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.extension.meta_info import BasePluginInfo
 
 
@@ -38,17 +40,19 @@ def extract_from_plugin_metadata(
             yield 3, "gettext", plugin_info.description, ""
 
 
-def extract_plugin_metadata_msgs() -> None:
-    cmdinst = setuptools_frontend.extract_messages()
-    cmdinst.initialize_options()
-    cmdinst.omit_header = True
-    cmdinst.input_paths = [
-        str(path) for path in pathlib.Path("../libresvip").rglob("**/*.yapsy-plugin")
-    ]
-    cmdinst.output_file = "../translations/libresvip_plugins.pot"
-    cmdinst.mapping_file = "babel.cfg"
-    cmdinst.finalize_options()
-    cmdinst.run()
+def extract_plugin_msgs() -> None:
+    for entry_path, plugin_info in itertools.chain.from_iterable(
+        (middleware_manager._candidates, plugin_manager._candidates)
+    ):
+        plugin_dir: pathlib.Path = entry_path.parent
+        cmdinst = setuptools_frontend.extract_messages()
+        cmdinst.initialize_options()
+        cmdinst.omit_header = True
+        cmdinst.input_dirs = [str(plugin_dir)]
+        cmdinst.output_file = str(plugin_dir / f"{plugin_info.identifier}.po")
+        cmdinst.mapping_file = "babel.cfg"
+        cmdinst.finalize_options()
+        cmdinst.run()
 
 
 def extract_from_qt_ts(
@@ -112,13 +116,21 @@ def extract_qt_ts_msgs() -> None:
     cmdinst.run()
 
 
-def extract_python_msgs() -> None:
+def extract_main_msgs() -> None:
     subprocess.call(
-        ["pybabel", "extract", "../libresvip/", "-o", "../translations/libresvip_python.pot"]
+        [
+            "pybabel",
+            "extract",
+            "../libresvip/",
+            "--ignore-dirs=*middlewares*",
+            "--ignore-dirs=*plugins*",
+            "-o",
+            "../translations/libresvip_main.pot",
+        ]
     )
 
 
 if __name__ == "__main__":
-    extract_python_msgs()
-    extract_plugin_metadata_msgs()
+    extract_main_msgs()
+    extract_plugin_msgs()
     extract_qt_ts_msgs()
