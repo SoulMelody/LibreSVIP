@@ -13,12 +13,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check diff
+        id: check-diff
         run: |
           REGEXP="^libresvip/.*\.po$"
           PO_CHANGED_COUNT=$(git show --name-only | grep "$REGEXP" | wc -l)
           PO_CHANGED=$([[ PO_CHANGED_COUNT -gt 0 ]] && echo "true" || echo "false")
 
-          echo "::set-output name=po_changed::$PO_CHANGED"
+          echo "po_changed=$PO_CHANGED" >> $GITHUB_OUTPUT
 
       - name: Set up Python
         if: ${{ steps.check-diff.outputs.po_changed == 'true' }}
