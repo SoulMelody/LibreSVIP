@@ -20,11 +20,11 @@ jobs:
           git fetch origin main
           git merge-base origin/main HEAD
           REGEXP="^libresvip/.*\.po$"
-          DIFF_OUTPUT=$(git diff --name-only ${{ github.event.before }} | grep "$REGEXP")
-          PO_CHANGED_COUNT=$(echo $DIFF_OUTPUT | wc -l)
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
+          echo "Changed files: $CHANGED_FILES"
+          PO_CHANGED_COUNT=$(echo $CHANGED_FILES | grep "$REGEXP" | wc -l)
           PO_CHANGED=$([[ PO_CHANGED_COUNT -gt 0 ]] && echo "true" || echo "false")
 
-          echo $DIFF_OUTPUT
           echo "po_changed=$PO_CHANGED" >> $GITHUB_OUTPUT
 
       - name: Set up Python
