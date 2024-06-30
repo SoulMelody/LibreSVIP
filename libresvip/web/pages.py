@@ -1605,17 +1605,19 @@ def page_layout(lang: Optional[str] = None) -> None:
             ui.space()
             if app.native.main_window is not None:
                 maximized = False
+                maximize_text = _("Maximize")
+                restore_text = _("Restore")
 
                 def toggle_maxmized() -> None:
                     nonlocal maximized
                     if maximized:
                         app.native.main_window.restore()
                         maximize_button.props("icon=open_in_full")
-                        maximize_button_tooltip.set_text(_("Maximize"))
+                        maximize_button_tooltip.set_text(maximize_text)
                     else:
                         app.native.main_window.maximize()
                         maximize_button.props("icon=close_fullscreen")
-                        maximize_button_tooltip.set_text(_("Restore"))
+                        maximize_button_tooltip.set_text(restore_text)
                     maximized = not maximized
 
                 ui.button(icon="minimize", on_click=app.native.main_window.minimize).classes(
@@ -1625,7 +1627,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     icon="open_in_full",
                     on_click=toggle_maxmized,
                 ).classes("aspect-square") as maximize_button:
-                    maximize_button_tooltip = ui.tooltip(_("Maximize"))
+                    maximize_button_tooltip = ui.tooltip(maximize_text)
                 ui.button(
                     icon="close", color="negative", on_click=app.native.main_window.destroy
                 ).classes("aspect-square").tooltip(_("Close"))

@@ -56,6 +56,7 @@ build_exe_options = {
         for lib_name in [
             "aggrid",
             "echarts",
+            "echarts-gl",
             "mermaid",
             "plotly",
             "three",

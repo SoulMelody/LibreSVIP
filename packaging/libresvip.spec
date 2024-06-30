@@ -64,6 +64,7 @@ if not (is_win and platform.machine() == "ARM64"):
         runtime_hooks=[],
         excludes=[
             'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
+            'pywintypes', 'pythoncom',
             'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
             'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
             "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',
@@ -151,6 +152,7 @@ gui_a = Analysis(
     runtime_hooks=[],
     excludes=[
         'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
+        'pywintypes', 'pythoncom',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
         'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         "uvicorn", "webview", "clr", 'pythoncom', 'pywintypes',

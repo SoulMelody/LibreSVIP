@@ -61,6 +61,7 @@ a = Analysis(
     runtime_hooks=[],
     excludes=[
         'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3',
+        'pywintypes', 'pythoncom',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
         'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         'PySide6',
@@ -90,6 +91,7 @@ js_lib_prefix = os.path.join("nicegui", "elements", "lib")
 to_exclude = [
     os.path.join(js_lib_prefix, "aggrid"),
     os.path.join(js_lib_prefix, "echarts"),
+    os.path.join(js_lib_prefix, "echarts-gl"),
     os.path.join(js_lib_prefix, "leaflet"),
     os.path.join(js_lib_prefix, "mermaid"),
     os.path.join(js_lib_prefix, "plotly"),

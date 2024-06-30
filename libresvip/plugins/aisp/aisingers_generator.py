@@ -15,7 +15,6 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.model.reset_time_axis import limit_bars
 from libresvip.utils.audio import audio_track_info
 
 from .model import (
@@ -39,7 +38,6 @@ class AiSingersGenerator:
     first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> tuple[AISProjectHead, AISProjectBody]:
-        project = limit_bars(project, 100)
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         ais_time_signatures = self.generate_time_signatures(project.time_signature_list)
