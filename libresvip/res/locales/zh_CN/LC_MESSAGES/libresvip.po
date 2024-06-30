@@ -10,495 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
-
-msgctxt "actions"
-msgid "Alert"
-msgstr ""
-
-msgctxt "actions"
-msgid "Cannot restore task list while conversion is in progress."
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Converter"
-msgstr "转换器"
-
-msgctxt "converter_page"
-msgid "Select File Formats"
-msgstr "格式选择"
-
-msgctxt "converter_page"
-msgid "Input Format: "
-msgstr "导入工程格式： "
-
-msgctxt "converter_page"
-msgid "View Detail Information"
-msgstr "查看详细信息"
-
-msgctxt "converter_page"
-msgid "Auto-Detect Input File Type"
-msgstr "自动检测导入格式"
-
-msgctxt "converter_page"
-msgid "Reset Tasks When Changing Input"
-msgstr "切换格式时重置列表"
-
-msgctxt "converter_page"
-msgid "Swap Input and Output"
-msgstr "上下交换"
-
-msgctxt "converter_page"
-msgid "Output Format: "
-msgstr "导出工程格式： "
-
-msgctxt "converter_page"
-msgid "Set Output File Extension Automatically"
-msgstr "自动设置后缀名"
-
-msgctxt "converter_page"
-msgid "Direct Mode"
-msgstr "常规模式"
-
-msgctxt "converter_page"
-msgid "Singing Track Merging Mode"
-msgstr "演唱轨合并模式"
-
-msgctxt "converter_page"
-msgid "Singing Track Grouping Mode"
-msgstr "演唱轨分组模式"
-
-msgctxt "converter_page"
-msgid "Advanced Settings"
-msgstr "高级选项"
-
-msgctxt "converter_page"
-msgid "Input Options"
-msgstr "输入选项"
-
-msgctxt "converter_page"
-msgid "Output Options"
-msgstr "输出选项"
-
-msgctxt "converter_page"
-msgid "Task List"
-msgstr "任务列表"
-
-msgctxt "converter_page"
-msgid "Drag and drop files here"
-msgstr "拖拽或单击导入文件"
-
-msgctxt "converter_page"
-msgid "Conversion Mode:"
-msgstr "转换模式："
-
-msgctxt "converter_page"
-msgid "Continue Adding files"
-msgstr "继续添加文件"
-
-msgctxt "converter_page"
-msgid "Clear Task List"
-msgstr "清空所有导入"
-
-msgctxt "converter_page"
-msgid "Reset Default Extension"
-msgstr "恢复默认命名"
-
-msgctxt "converter_page"
-msgid "Remove Tasks With Other Extensions"
-msgstr "过滤多余项目"
-
-msgctxt "converter_page"
-msgid "Max Track count:"
-msgstr "最大轨道数："
-
-msgctxt "converter_page"
-msgid "[Import as "
-msgstr "[ 导入自 "
-
-msgctxt "converter_page"
-msgid "[Export to "
-msgstr "[ 导出为 "
-
-msgctxt "converter_page"
-msgid "Output Settings"
-msgstr "输出设置"
-
-msgctxt "converter_page"
-msgid "Choose Output Folder"
-msgstr "选择输出文件夹"
-
-msgctxt "converter_page"
-msgid "Output Folder"
-msgstr "输出文件夹"
-
-msgctxt "converter_page"
-msgid "Deal with Conflicts"
-msgstr "遇到同名文件时"
-
-msgctxt "converter_page"
-msgid "Export"
-msgstr "导出"
-
-msgctxt "converter_page"
-msgid "Start Conversion"
-msgstr "开始转换"
-
-msgctxt "converter_page"
-msgid "Converting"
-msgstr "转换中"
-
-msgctxt "converter_page"
-msgid "Open Output Folder When Done"
-msgstr "完成后打开输出路径"
-
-msgctxt "converter_page"
-msgid "Overwrite"
-msgstr "覆盖"
-
-msgctxt "converter_page"
-msgid "Skip"
-msgstr "跳过"
-
-msgctxt "converter_page"
-msgid "Prompt"
-msgstr "询问"
-
-msgctxt "dialogs"
-msgid "All Files (*.*)"
-msgstr "所有文件 (*.*)"
-
-msgctxt "dialogs"
-msgid "Custom folder"
-msgstr "自定义路径"
-
-msgctxt "dialogs"
-msgid "Folder Presets"
-msgstr "文件夹预设"
-
-msgctxt "dialogs"
-msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
-msgstr "你可以在开头插入 \".\" 来代表源路径，例如 \"./subfolder\""
-
-msgctxt "dialogs"
-msgid "Click to add a folder preset"
-msgstr "点击添加文件夹预设"
-
-msgctxt "dialogs"
-msgid "About"
-msgstr "关于"
-
-msgctxt "dialogs"
-msgid "LibreSVIP"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Version: "
-msgstr "版本："
-
-msgctxt "dialogs"
-msgid "Author: SoulMelody"
-msgstr "作者：岁月静好_初心不忘"
-
-msgctxt "dialogs"
-msgid "Author's Profile"
-msgstr "作者主页"
-
-msgctxt "dialogs"
-msgid "Repo URL"
-msgstr "仓库地址"
-
-msgctxt "dialogs"
-msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
-msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
-
-msgctxt "dialogs"
-msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
-msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
-
-msgctxt "plugin_info"
-msgid "Version"
-msgstr "版本"
-
-msgctxt "plugin_info"
-msgid "Introduction"
-msgstr "简介"
-
-msgctxt "settings_dialog"
-msgid "Options"
-msgstr "选项"
-
-msgctxt "settings_dialog"
-msgid "Auto-Detect Input File Type"
-msgstr "自动检测导入格式"
-
-msgctxt "settings_dialog"
-msgid "Reset Task List When Changing Input File Type"
-msgstr "切换格式时重置列表"
-
-msgctxt "settings_dialog"
-msgid "Set Output File Extension Automatically"
-msgstr "自动设置后缀名"
-
-msgctxt "settings_dialog"
-msgid "Multi-Threaded Conversion"
-msgstr "启用多线程转换"
-
-msgctxt "settings_dialog"
-msgid "Output Settings"
-msgstr "输出设置"
-
-msgctxt "settings_dialog"
-msgid "Deal with Conflicts"
-msgstr "遇到同名文件时"
-
-msgctxt "settings_dialog"
-msgid "Open Output Folder When Done"
-msgstr "完成后打开输出路径"
-
-msgctxt "settings_dialog"
-msgid "Same as Source"
-msgstr "源路径"
-
-msgctxt "settings_dialog"
-msgid "Desktop"
-msgstr "桌面"
-
-msgctxt "settings_dialog"
-msgid "Preset Folder"
-msgstr "文件夹预设"
-
-msgctxt "settings_dialog"
-msgid "Custom (Browse ...)"
-msgstr "自定义 (浏览选择)"
-
-msgctxt "settings_dialog"
-msgid "Manage Folders Presets"
-msgstr "管理文件夹预设"
-
-msgctxt "settings_dialog"
-msgid "Preset"
-msgstr "预设"
-
-msgctxt "settings_dialog"
-msgid "Remove current preset"
-msgstr "删除当前预设"
-
-msgctxt "settings_dialog"
-msgid "Add new rule"
-msgstr "新建规则"
-
-msgctxt "settings_dialog"
-msgid "Full match"
-msgstr "完全匹配"
-
-msgctxt "settings_dialog"
-msgid "Alphabetic"
-msgstr "拼音文字"
-
-msgctxt "settings_dialog"
-msgid "Non-alphabetic"
-msgstr "非拼音文字"
-
-msgctxt "settings_dialog"
-msgid "Regex"
-msgstr "正则表达式"
-
-msgctxt "settings_dialog"
-msgid "Alphabetic: Applies to alphabetic characters.\n"
-"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
-"Regex: for advanced users with knowledge of regular expressions."
-msgstr "拼音文字模式：适用于拼音文字\n"
-"非拼音文字模式：适用于非拼音文字及标点符号等字符\n"
-"正则模式：适用于了解正则表达式语法的高级用户"
-
-msgctxt "settings_dialog"
-msgid "Format Provider Plugins"
-msgstr "格式支持插件"
-
-msgctxt "settings_dialog"
-msgid "Overwrite"
-msgstr "覆盖"
-
-msgctxt "settings_dialog"
-msgid "Skip"
-msgstr "跳过"
-
-msgctxt "settings_dialog"
-msgid "Prompt"
-msgstr "询问"
-
-msgctxt "settings_dialog"
-msgid "Plugin is enabled or not (Click to enter editing mode)"
-msgstr "是否启用插件(点击进入编辑模式)"
-
-msgctxt "settings_dialog"
-msgid "Auto Check for Updates"
-msgstr "自动检查更新"
-
-msgctxt "settings_dialog"
-msgid "Conversion Settings"
-msgstr "转换设置"
-
-msgctxt "settings_dialog"
-msgid "Basic Settings"
-msgstr "基础设置"
-
-msgctxt "settings_dialog"
-msgid "Save Path Settings"
-msgstr "导出路径设置"
-
-msgctxt "settings_dialog"
-msgid "Lyric Replacement Rules"
-msgstr "歌词替换规则"
-
-msgctxt "settings_dialog"
-msgid "Updates Settings"
-msgstr "更新设置"
-
-msgctxt "task_row"
-msgid "File successfully converted"
-msgstr "此文件已成功转换"
-
-msgctxt "task_row"
-msgid "Open"
-msgstr "打开文件"
-
-msgctxt "task_row"
-msgid "Open folder"
-msgstr "打开目录"
-
-msgctxt "task_row"
-msgid "File %1 already exists. Overwrite?"
-msgstr "文件 %1 已存在，是否覆盖？"
-
-msgctxt "task_row"
-msgid "File skipped due to conflict"
-msgstr "已跳过"
-
-msgctxt "task_row"
-msgid "Remove"
-msgstr "移除"
-
-msgctxt "task_row"
-msgid "This project file may contain abnormal or illegal data"
-msgstr "此工程文件可能包含异常或非法数据"
-
-msgctxt "task_row"
-msgid "File failed to convert, below is the error message:"
-msgstr "此文件转换失败，错误信息如下："
-
-msgctxt "task_row"
-msgid "Copy error message"
-msgstr "复制错误信息"
-
-msgctxt "task_row"
-msgid "Copied"
-msgstr "已复制"
-
-msgctxt "task_row"
-msgid "Do you want to overwrite the file?"
-msgstr "是否覆盖文件？"
-
-msgctxt "top_toolbar"
-msgid "Convert (&C)"
-msgstr "转换 (&C)"
-
-msgctxt "top_toolbar"
-msgid "Import Projects (Ctrl+O)"
-msgstr "导入文件 (Ctrl+O)"
-
-msgctxt "top_toolbar"
-msgid "Perform All Tasks (Ctrl+Enter)"
-msgstr "开始转换 (Ctrl+Enter)"
-
-msgctxt "top_toolbar"
-msgid "Clear Tasks (Ctrl+R)"
-msgstr "清空所有导入 (Ctrl+R)"
-
-msgctxt "top_toolbar"
-msgid "Swap Input and Output (Ctrl+Tab)"
-msgstr "上下交换 (Ctrl+Tab)"
-
-msgctxt "top_toolbar"
-msgid "Output Format (&E)"
-msgstr "导出格式 (&E)"
-
-msgctxt "top_toolbar"
-msgid "Formats (&F)"
-msgstr "格式 (&F)"
-
-msgctxt "top_toolbar"
-msgid "Input Format (&I)"
-msgstr "导入格式 (&I)"
-
-msgctxt "top_toolbar"
-msgid "Settings (&S)"
-msgstr "设置 (&S)"
-
-msgctxt "top_toolbar"
-msgid "Options (&O)"
-msgstr "选项 (&O)"
-
-msgctxt "top_toolbar"
-msgid "Themes (&T)"
-msgstr "主题 (&T)"
-
-msgctxt "top_toolbar"
-msgid "Light"
-msgstr "浅色"
-
-msgctxt "top_toolbar"
-msgid "Dark"
-msgstr "深色"
-
-msgctxt "top_toolbar"
-msgid "System"
-msgstr "跟随系统"
-
-msgctxt "top_toolbar"
-msgid "Language (&L)"
-msgstr "语言 (&L)"
-
-msgctxt "top_toolbar"
-msgid "Help (&H)"
-msgstr "帮助 (&H)"
-
-msgctxt "top_toolbar"
-msgid "About (Ctrl+A)"
-msgstr "关于 (Ctrl+A)"
-
-msgctxt "top_toolbar"
-msgid "Check for Updates"
-msgstr "检查更新"
-
-msgctxt "top_toolbar"
-msgid "Documentation (F1)"
-msgstr "在线文档 (F1)"
-
-msgctxt "top_toolbar"
-msgid "SVS Projects Converter"
-msgstr "歌声合成工程文件转换器"
-
-msgctxt "QPlatformTheme"
-msgid "OK"
-msgstr "确定"
-
-msgctxt "QPlatformTheme"
-msgid "Cancel"
-msgstr "取消"
-
-msgctxt "QPlatformTheme"
-msgid "Yes to &All"
-msgstr "全部是"
-
-msgctxt "QPlatformTheme"
-msgid "N&o to All"
-msgstr "全部否"
-
-msgid ""
-msgstr ""
-"Project-Id-Version: PROJECT VERSION\nReport-Msgid-Bugs-To: EMAIL@ADDRESS\nPOT-Creation-Date: 2024-06-29 11:28+0800\nPO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\nLanguage-Team: LANGUAGE <LL@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\nGenerated-By: Babel 2.10.3\n"
+"PO-Revision-Date: 2024-06-30 09:31\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -578,9 +90,17 @@ msgstr "作者： "
 msgid "Website: "
 msgstr "主页： "
 
+#: ../libresvip/cli/commands/plugin.py:95
+msgid "This plugin is applicable to"
+msgstr ""
+
 #: ../libresvip/cli/commands/plugin.py:97
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
+
+#: ../libresvip/cli/commands/plugin.py:102
+msgid "Description: "
+msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:103
 msgid "input"
@@ -771,6 +291,619 @@ msgstr "从0开始，-1表示自动选择"
 #: ../libresvip/model/relative_pitch_curve.py:28
 msgid "Notes Overlapped"
 msgstr "音符重叠"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:35
+msgctxt "actions"
+msgid "Alert"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:36
+msgctxt "actions"
+msgid "Cannot restore task list while conversion is in progress."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:10
+msgctxt "converter_page"
+msgid "Converter"
+msgstr "转换器"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:265
+#: ../libresvip/res/locales/libresvip_gui.ts:1714
+msgctxt "converter_page"
+msgid "Select File Formats"
+msgstr "格式选择"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:277
+msgctxt "converter_page"
+msgid "Input Format: "
+msgstr "导入工程格式： "
+
+#: ../libresvip/res/locales/libresvip_gui.ts:319
+#: ../libresvip/res/locales/libresvip_gui.ts:471
+msgctxt "converter_page"
+msgid "View Detail Information"
+msgstr "查看详细信息"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:406
+msgctxt "converter_page"
+msgid "Auto-Detect Input File Type"
+msgstr "自动检测导入格式"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:395
+msgctxt "converter_page"
+msgid "Reset Tasks When Changing Input"
+msgstr "切换格式时重置列表"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:421
+msgctxt "converter_page"
+msgid "Swap Input and Output"
+msgstr "上下交换"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:442
+msgctxt "converter_page"
+msgid "Output Format: "
+msgstr "导出工程格式： "
+
+#: ../libresvip/res/locales/libresvip_gui.ts:544
+msgctxt "converter_page"
+msgid "Set Output File Extension Automatically"
+msgstr "自动设置后缀名"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:627
+msgctxt "converter_page"
+msgid "Direct Mode"
+msgstr "常规模式"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:640
+msgctxt "converter_page"
+msgid "Singing Track Merging Mode"
+msgstr "演唱轨合并模式"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:653
+msgctxt "converter_page"
+msgid "Singing Track Grouping Mode"
+msgstr "演唱轨分组模式"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:934
+#: ../libresvip/res/locales/libresvip_gui.ts:1721
+msgctxt "converter_page"
+msgid "Advanced Settings"
+msgstr "高级选项"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:969
+msgctxt "converter_page"
+msgid "Input Options"
+msgstr "输入选项"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1303
+msgctxt "converter_page"
+msgid "Output Options"
+msgstr "输出选项"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:666
+msgctxt "converter_page"
+msgid "Task List"
+msgstr "任务列表"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:600
+msgctxt "converter_page"
+msgid "Drag and drop files here"
+msgstr "拖拽或单击导入文件"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:614
+msgctxt "converter_page"
+msgid "Conversion Mode:"
+msgstr "转换模式："
+
+#: ../libresvip/res/locales/libresvip_gui.ts:800
+msgctxt "converter_page"
+msgid "Continue Adding files"
+msgstr "继续添加文件"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:825
+msgctxt "converter_page"
+msgid "Clear Task List"
+msgstr "清空所有导入"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:851
+msgctxt "converter_page"
+msgid "Reset Default Extension"
+msgstr "恢复默认命名"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:877
+msgctxt "converter_page"
+msgid "Remove Tasks With Other Extensions"
+msgstr "过滤多余项目"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:904
+msgctxt "converter_page"
+msgid "Max Track count:"
+msgstr "最大轨道数："
+
+#: ../libresvip/res/locales/libresvip_gui.ts:980
+msgctxt "converter_page"
+msgid "[Import as "
+msgstr "[ 导入自 "
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1314
+msgctxt "converter_page"
+msgid "[Export to "
+msgstr "[ 导出为 "
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1457
+msgctxt "converter_page"
+msgid "Output Settings"
+msgstr "输出设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1546
+msgctxt "converter_page"
+msgid "Choose Output Folder"
+msgstr "选择输出文件夹"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1554
+msgctxt "converter_page"
+msgid "Output Folder"
+msgstr "输出文件夹"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1568
+msgctxt "converter_page"
+msgid "Deal with Conflicts"
+msgstr "遇到同名文件时"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1728
+msgctxt "converter_page"
+msgid "Export"
+msgstr "导出"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1530
+msgctxt "converter_page"
+msgid "Start Conversion"
+msgstr "开始转换"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1530
+msgctxt "converter_page"
+msgid "Converting"
+msgstr "转换中"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1462
+msgctxt "converter_page"
+msgid "Open Output Folder When Done"
+msgstr "完成后打开输出路径"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1576
+msgctxt "converter_page"
+msgid "Overwrite"
+msgstr "覆盖"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1577
+msgctxt "converter_page"
+msgid "Skip"
+msgstr "跳过"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1578
+msgctxt "converter_page"
+msgid "Prompt"
+msgstr "询问"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:125
+msgctxt "dialogs"
+msgid "All Files (*.*)"
+msgstr "所有文件 (*.*)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:61
+msgctxt "dialogs"
+msgid "Custom folder"
+msgstr "自定义路径"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:178
+msgctxt "dialogs"
+msgid "Folder Presets"
+msgstr "文件夹预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:212
+msgctxt "dialogs"
+msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
+msgstr "你可以在开头插入 \".\" 来代表源路径，例如 \"./subfolder\""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:302
+msgctxt "dialogs"
+msgid "Click to add a folder preset"
+msgstr "点击添加文件夹预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:324
+msgctxt "dialogs"
+msgid "About"
+msgstr "关于"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:337
+msgctxt "dialogs"
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:343
+msgctxt "dialogs"
+msgid "Version: "
+msgstr "版本："
+
+#: ../libresvip/res/locales/libresvip_gui.ts:347
+msgctxt "dialogs"
+msgid "Author: SoulMelody"
+msgstr "作者：岁月静好_初心不忘"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:358
+msgctxt "dialogs"
+msgid "Author's Profile"
+msgstr "作者主页"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:372
+msgctxt "dialogs"
+msgid "Repo URL"
+msgstr "仓库地址"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:382
+msgctxt "dialogs"
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:387
+msgctxt "dialogs"
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:99
+msgctxt "plugin_info"
+msgid "Version"
+msgstr "版本"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:171
+msgctxt "plugin_info"
+msgid "Introduction"
+msgstr "简介"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:46
+msgctxt "settings_dialog"
+msgid "Options"
+msgstr "选项"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:90
+msgctxt "settings_dialog"
+msgid "Auto-Detect Input File Type"
+msgstr "自动检测导入格式"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:105
+msgctxt "settings_dialog"
+msgid "Reset Task List When Changing Input File Type"
+msgstr "切换格式时重置列表"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:120
+msgctxt "settings_dialog"
+msgid "Set Output File Extension Automatically"
+msgstr "自动设置后缀名"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:140
+msgctxt "settings_dialog"
+msgid "Multi-Threaded Conversion"
+msgstr "启用多线程转换"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:168
+msgctxt "settings_dialog"
+msgid "Output Settings"
+msgstr "输出设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:174
+msgctxt "settings_dialog"
+msgid "Deal with Conflicts"
+msgstr "遇到同名文件时"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:213
+msgctxt "settings_dialog"
+msgid "Open Output Folder When Done"
+msgstr "完成后打开输出路径"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:240
+#: ../libresvip/res/locales/libresvip_gui.ts:276
+msgctxt "settings_dialog"
+msgid "Same as Source"
+msgstr "源路径"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:244
+#: ../libresvip/res/locales/libresvip_gui.ts:284
+msgctxt "settings_dialog"
+msgid "Desktop"
+msgstr "桌面"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:248
+#: ../libresvip/res/locales/libresvip_gui.ts:293
+msgctxt "settings_dialog"
+msgid "Preset Folder"
+msgstr "文件夹预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:252
+#: ../libresvip/res/locales/libresvip_gui.ts:346
+msgctxt "settings_dialog"
+msgid "Custom (Browse ...)"
+msgstr "自定义 (浏览选择)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:356
+msgctxt "settings_dialog"
+msgid "Manage Folders Presets"
+msgstr "管理文件夹预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:519
+msgctxt "settings_dialog"
+msgid "Preset"
+msgstr "预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:534
+msgctxt "settings_dialog"
+msgid "Remove current preset"
+msgstr "删除当前预设"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:547
+msgctxt "settings_dialog"
+msgid "Add new rule"
+msgstr "新建规则"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:555
+msgctxt "settings_dialog"
+msgid "Full match"
+msgstr "完全匹配"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:556
+msgctxt "settings_dialog"
+msgid "Alphabetic"
+msgstr "拼音文字"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:557
+msgctxt "settings_dialog"
+msgid "Non-alphabetic"
+msgstr "非拼音文字"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:558
+msgctxt "settings_dialog"
+msgid "Regex"
+msgstr "正则表达式"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:569
+msgctxt "settings_dialog"
+msgid "Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr "拼音文字模式：适用于拼音文字\n"
+"非拼音文字模式：适用于非拼音文字及标点符号等字符\n"
+"正则模式：适用于了解正则表达式语法的高级用户"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:913
+msgctxt "settings_dialog"
+msgid "Format Provider Plugins"
+msgstr "格式支持插件"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:186
+msgctxt "settings_dialog"
+msgid "Overwrite"
+msgstr "覆盖"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:187
+msgctxt "settings_dialog"
+msgid "Skip"
+msgstr "跳过"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:188
+msgctxt "settings_dialog"
+msgid "Prompt"
+msgstr "询问"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:406
+msgctxt "settings_dialog"
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr "是否启用插件(点击进入编辑模式)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:836
+msgctxt "settings_dialog"
+msgid "Auto Check for Updates"
+msgstr "自动检查更新"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:84
+msgctxt "settings_dialog"
+msgid "Conversion Settings"
+msgstr "转换设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:891
+msgctxt "settings_dialog"
+msgid "Basic Settings"
+msgstr "基础设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:901
+msgctxt "settings_dialog"
+msgid "Save Path Settings"
+msgstr "导出路径设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:926
+msgctxt "settings_dialog"
+msgid "Lyric Replacement Rules"
+msgstr "歌词替换规则"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:938
+msgctxt "settings_dialog"
+msgid "Updates Settings"
+msgstr "更新设置"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:103
+msgctxt "task_row"
+msgid "File successfully converted"
+msgstr "此文件已成功转换"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:112
+msgctxt "task_row"
+msgid "Open"
+msgstr "打开文件"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:124
+#: ../libresvip/res/locales/libresvip_gui.ts:167
+msgctxt "task_row"
+msgid "Open folder"
+msgstr "打开目录"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:345
+msgctxt "task_row"
+msgid "File %1 already exists. Overwrite?"
+msgstr "文件 %1 已存在，是否覆盖？"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:159
+msgctxt "task_row"
+msgid "File skipped due to conflict"
+msgstr "已跳过"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:72
+msgctxt "task_row"
+msgid "Remove"
+msgstr "移除"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:202
+msgctxt "task_row"
+msgid "This project file may contain abnormal or illegal data"
+msgstr "此工程文件可能包含异常或非法数据"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:244
+msgctxt "task_row"
+msgid "File failed to convert, below is the error message:"
+msgstr "此文件转换失败，错误信息如下："
+
+#: ../libresvip/res/locales/libresvip_gui.ts:257
+#: ../libresvip/res/locales/libresvip_gui.ts:272
+msgctxt "task_row"
+msgid "Copy error message"
+msgstr "复制错误信息"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:261
+msgctxt "task_row"
+msgid "Copied"
+msgstr "已复制"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:344
+msgctxt "task_row"
+msgid "Do you want to overwrite the file?"
+msgstr "是否覆盖文件？"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:171
+msgctxt "top_toolbar"
+msgid "Convert (&C)"
+msgstr "转换 (&C)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:180
+msgctxt "top_toolbar"
+msgid "Import Projects (Ctrl+O)"
+msgstr "导入文件 (Ctrl+O)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:186
+msgctxt "top_toolbar"
+msgid "Perform All Tasks (Ctrl+Enter)"
+msgstr "开始转换 (Ctrl+Enter)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:193
+msgctxt "top_toolbar"
+msgid "Clear Tasks (Ctrl+R)"
+msgstr "清空所有导入 (Ctrl+R)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:200
+msgctxt "top_toolbar"
+msgid "Swap Input and Output (Ctrl+Tab)"
+msgstr "上下交换 (Ctrl+Tab)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:275
+msgctxt "top_toolbar"
+msgid "Output Format (&E)"
+msgstr "导出格式 (&E)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:208
+msgctxt "top_toolbar"
+msgid "Formats (&F)"
+msgstr "格式 (&F)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:217
+msgctxt "top_toolbar"
+msgid "Input Format (&I)"
+msgstr "导入格式 (&I)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:336
+msgctxt "top_toolbar"
+msgid "Settings (&S)"
+msgstr "设置 (&S)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "top_toolbar"
+msgid "Options (&O)"
+msgstr "选项 (&O)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:349
+msgctxt "top_toolbar"
+msgid "Themes (&T)"
+msgstr "主题 (&T)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:357
+msgctxt "top_toolbar"
+msgid "Light"
+msgstr "浅色"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:366
+msgctxt "top_toolbar"
+msgid "Dark"
+msgstr "深色"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:375
+msgctxt "top_toolbar"
+msgid "System"
+msgstr "跟随系统"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:393
+msgctxt "top_toolbar"
+msgid "Language (&L)"
+msgstr "语言 (&L)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:439
+msgctxt "top_toolbar"
+msgid "Help (&H)"
+msgstr "帮助 (&H)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:448
+msgctxt "top_toolbar"
+msgid "About (Ctrl+A)"
+msgstr "关于 (Ctrl+A)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:452
+msgctxt "top_toolbar"
+msgid "Check for Updates"
+msgstr "检查更新"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:459
+msgctxt "top_toolbar"
+msgid "Documentation (F1)"
+msgstr "在线文档 (F1)"
+
+#: ../libresvip/res/locales/libresvip_gui.ts:157
+msgctxt "top_toolbar"
+msgid "SVS Projects Converter"
+msgstr "歌声合成工程文件转换器"
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "OK"
+msgstr "确定"
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "Cancel"
+msgstr "取消"
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "Yes to &All"
+msgstr "全部是"
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "N&o to All"
+msgstr "全部否"
 
 #: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
 msgid "Audio file not found: "
@@ -1076,20 +1209,4 @@ msgstr "高级选项"
 #: ../libresvip/web/pages.py:1939
 msgid "Intermediate Processing"
 msgstr "中间环节处理"
-
-#: QPlatformTheme%231
-msgid "OK"
-msgstr "确定"
-
-#: QPlatformTheme%232
-msgid "Cancel"
-msgstr "取消"
-
-#: QPlatformTheme%233
-msgid "Yes to &All"
-msgstr "全部是"
-
-#: QPlatformTheme%234
-msgid "N&o to All"
-msgstr "全部否"
 
