@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-30 09:31\n"
+"PO-Revision-Date: 2024-06-30 09:56\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -92,7 +92,7 @@ msgstr "主页： "
 
 #: ../libresvip/cli/commands/plugin.py:95
 msgid "This plugin is applicable to"
-msgstr ""
+msgstr "此插件适用于"
 
 #: ../libresvip/cli/commands/plugin.py:97
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
@@ -100,7 +100,7 @@ msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \
 
 #: ../libresvip/cli/commands/plugin.py:102
 msgid "Description: "
-msgstr ""
+msgstr "描述： "
 
 #: ../libresvip/cli/commands/plugin.py:103
 msgid "input"
@@ -295,12 +295,12 @@ msgstr "音符重叠"
 #: ../libresvip/res/locales/libresvip_gui.ts:35
 msgctxt "actions"
 msgid "Alert"
-msgstr ""
+msgstr "警告"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:36
 msgctxt "actions"
 msgid "Cannot restore task list while conversion is in progress."
-msgstr ""
+msgstr "在转换过程中无法重置任务列表。"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:10
 msgctxt "converter_page"
