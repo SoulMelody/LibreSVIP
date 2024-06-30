@@ -10,493 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
-
-msgctxt "actions"
-msgid "Alert"
-msgstr ""
-
-msgctxt "actions"
-msgid "Cannot restore task list while conversion is in progress."
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Converter"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Select File Formats"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Input Format: "
-msgstr ""
-
-msgctxt "converter_page"
-msgid "View Detail Information"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Auto-Detect Input File Type"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Reset Tasks When Changing Input"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Swap Input and Output"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Output Format: "
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Set Output File Extension Automatically"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Direct Mode"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Singing Track Merging Mode"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Singing Track Grouping Mode"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Advanced Settings"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Input Options"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Output Options"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Task List"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Drag and drop files here"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Conversion Mode:"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Continue Adding files"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Clear Task List"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Reset Default Extension"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Remove Tasks With Other Extensions"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Max Track count:"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "[Import as "
-msgstr ""
-
-msgctxt "converter_page"
-msgid "[Export to "
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Output Settings"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Choose Output Folder"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Output Folder"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Deal with Conflicts"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Export"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Start Conversion"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Converting"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Open Output Folder When Done"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Overwrite"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Skip"
-msgstr ""
-
-msgctxt "converter_page"
-msgid "Prompt"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "All Files (*.*)"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Custom folder"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Folder Presets"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Click to add a folder preset"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "About"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "LibreSVIP"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Version: "
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Author: SoulMelody"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Author's Profile"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "Repo URL"
-msgstr ""
-
-msgctxt "dialogs"
-msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
-msgstr ""
-
-msgctxt "dialogs"
-msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
-msgstr ""
-
-msgctxt "plugin_info"
-msgid "Version"
-msgstr ""
-
-msgctxt "plugin_info"
-msgid "Introduction"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Options"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Auto-Detect Input File Type"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Reset Task List When Changing Input File Type"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Set Output File Extension Automatically"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Multi-Threaded Conversion"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Output Settings"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Deal with Conflicts"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Open Output Folder When Done"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Same as Source"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Desktop"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Preset Folder"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Custom (Browse ...)"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Manage Folders Presets"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Preset"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Remove current preset"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Add new rule"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Full match"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Alphabetic"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Non-alphabetic"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Regex"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Alphabetic: Applies to alphabetic characters.\n"
-"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
-"Regex: for advanced users with knowledge of regular expressions."
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Format Provider Plugins"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Overwrite"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Skip"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Prompt"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Plugin is enabled or not (Click to enter editing mode)"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Auto Check for Updates"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Conversion Settings"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Basic Settings"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Save Path Settings"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Lyric Replacement Rules"
-msgstr ""
-
-msgctxt "settings_dialog"
-msgid "Updates Settings"
-msgstr ""
-
-msgctxt "task_row"
-msgid "File successfully converted"
-msgstr ""
-
-msgctxt "task_row"
-msgid "Open"
-msgstr ""
-
-msgctxt "task_row"
-msgid "Open folder"
-msgstr ""
-
-msgctxt "task_row"
-msgid "File %1 already exists. Overwrite?"
-msgstr ""
-
-msgctxt "task_row"
-msgid "File skipped due to conflict"
-msgstr ""
-
-msgctxt "task_row"
-msgid "Remove"
-msgstr ""
-
-msgctxt "task_row"
-msgid "This project file may contain abnormal or illegal data"
-msgstr ""
-
-msgctxt "task_row"
-msgid "File failed to convert, below is the error message:"
-msgstr ""
-
-msgctxt "task_row"
-msgid "Copy error message"
-msgstr ""
-
-msgctxt "task_row"
-msgid "Copied"
-msgstr ""
-
-msgctxt "task_row"
-msgid "Do you want to overwrite the file?"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Convert (&C)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Import Projects (Ctrl+O)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Perform All Tasks (Ctrl+Enter)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Clear Tasks (Ctrl+R)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Swap Input and Output (Ctrl+Tab)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Output Format (&E)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Formats (&F)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Input Format (&I)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Settings (&S)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Options (&O)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Themes (&T)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Light"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Dark"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "System"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Language (&L)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Help (&H)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "About (Ctrl+A)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Check for Updates"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "Documentation (F1)"
-msgstr ""
-
-msgctxt "top_toolbar"
-msgid "SVS Projects Converter"
-msgstr ""
-
-msgctxt "QPlatformTheme"
-msgid "OK"
-msgstr ""
-
-msgctxt "QPlatformTheme"
-msgid "Cancel"
-msgstr ""
-
-msgctxt "QPlatformTheme"
-msgid "Yes to &All"
-msgstr ""
-
-msgctxt "QPlatformTheme"
-msgid "N&o to All"
-msgstr ""
-
-msgid ""
-msgstr ""
-"Project-Id-Version: PROJECT VERSION\nReport-Msgid-Bugs-To: EMAIL@ADDRESS\nPOT-Creation-Date: 2024-06-29 11:28+0800\nPO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\nLast-Translator: FULL NAME <EMAIL@ADDRESS>\nLanguage-Team: LANGUAGE <LL@li.org>\nMIME-Version: 1.0\nContent-Type: text/plain; charset=utf-8\nContent-Transfer-Encoding: 8bit\nGenerated-By: Babel 2.10.3\n"
+"PO-Revision-Date: 2024-06-30 09:31\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -576,8 +90,16 @@ msgstr ""
 msgid "Website: "
 msgstr ""
 
+#: ../libresvip/cli/commands/plugin.py:95
+msgid "This plugin is applicable to"
+msgstr ""
+
 #: ../libresvip/cli/commands/plugin.py:97
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:102
+msgid "Description: "
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:103
@@ -768,6 +290,617 @@ msgstr ""
 
 #: ../libresvip/model/relative_pitch_curve.py:28
 msgid "Notes Overlapped"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:35
+msgctxt "actions"
+msgid "Alert"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:36
+msgctxt "actions"
+msgid "Cannot restore task list while conversion is in progress."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:10
+msgctxt "converter_page"
+msgid "Converter"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:265
+#: ../libresvip/res/locales/libresvip_gui.ts:1714
+msgctxt "converter_page"
+msgid "Select File Formats"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:277
+msgctxt "converter_page"
+msgid "Input Format: "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:319
+#: ../libresvip/res/locales/libresvip_gui.ts:471
+msgctxt "converter_page"
+msgid "View Detail Information"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:406
+msgctxt "converter_page"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:395
+msgctxt "converter_page"
+msgid "Reset Tasks When Changing Input"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:421
+msgctxt "converter_page"
+msgid "Swap Input and Output"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:442
+msgctxt "converter_page"
+msgid "Output Format: "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:544
+msgctxt "converter_page"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:627
+msgctxt "converter_page"
+msgid "Direct Mode"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:640
+msgctxt "converter_page"
+msgid "Singing Track Merging Mode"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:653
+msgctxt "converter_page"
+msgid "Singing Track Grouping Mode"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:934
+#: ../libresvip/res/locales/libresvip_gui.ts:1721
+msgctxt "converter_page"
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:969
+msgctxt "converter_page"
+msgid "Input Options"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1303
+msgctxt "converter_page"
+msgid "Output Options"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:666
+msgctxt "converter_page"
+msgid "Task List"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:600
+msgctxt "converter_page"
+msgid "Drag and drop files here"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:614
+msgctxt "converter_page"
+msgid "Conversion Mode:"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:800
+msgctxt "converter_page"
+msgid "Continue Adding files"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:825
+msgctxt "converter_page"
+msgid "Clear Task List"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:851
+msgctxt "converter_page"
+msgid "Reset Default Extension"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:877
+msgctxt "converter_page"
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:904
+msgctxt "converter_page"
+msgid "Max Track count:"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:980
+msgctxt "converter_page"
+msgid "[Import as "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1314
+msgctxt "converter_page"
+msgid "[Export to "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1457
+msgctxt "converter_page"
+msgid "Output Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1546
+msgctxt "converter_page"
+msgid "Choose Output Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1554
+msgctxt "converter_page"
+msgid "Output Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1568
+msgctxt "converter_page"
+msgid "Deal with Conflicts"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1728
+msgctxt "converter_page"
+msgid "Export"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1530
+msgctxt "converter_page"
+msgid "Start Conversion"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1530
+msgctxt "converter_page"
+msgid "Converting"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1462
+msgctxt "converter_page"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1576
+msgctxt "converter_page"
+msgid "Overwrite"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1577
+msgctxt "converter_page"
+msgid "Skip"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1578
+msgctxt "converter_page"
+msgid "Prompt"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:125
+msgctxt "dialogs"
+msgid "All Files (*.*)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:61
+msgctxt "dialogs"
+msgid "Custom folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:178
+msgctxt "dialogs"
+msgid "Folder Presets"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:212
+msgctxt "dialogs"
+msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:302
+msgctxt "dialogs"
+msgid "Click to add a folder preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:324
+msgctxt "dialogs"
+msgid "About"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:337
+msgctxt "dialogs"
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:343
+msgctxt "dialogs"
+msgid "Version: "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:347
+msgctxt "dialogs"
+msgid "Author: SoulMelody"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:358
+msgctxt "dialogs"
+msgid "Author's Profile"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:372
+msgctxt "dialogs"
+msgid "Repo URL"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:382
+msgctxt "dialogs"
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:387
+msgctxt "dialogs"
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:99
+msgctxt "plugin_info"
+msgid "Version"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:171
+msgctxt "plugin_info"
+msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:46
+msgctxt "settings_dialog"
+msgid "Options"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:90
+msgctxt "settings_dialog"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:105
+msgctxt "settings_dialog"
+msgid "Reset Task List When Changing Input File Type"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:120
+msgctxt "settings_dialog"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:140
+msgctxt "settings_dialog"
+msgid "Multi-Threaded Conversion"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:168
+msgctxt "settings_dialog"
+msgid "Output Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:174
+msgctxt "settings_dialog"
+msgid "Deal with Conflicts"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:213
+msgctxt "settings_dialog"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:240
+#: ../libresvip/res/locales/libresvip_gui.ts:276
+msgctxt "settings_dialog"
+msgid "Same as Source"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:244
+#: ../libresvip/res/locales/libresvip_gui.ts:284
+msgctxt "settings_dialog"
+msgid "Desktop"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:248
+#: ../libresvip/res/locales/libresvip_gui.ts:293
+msgctxt "settings_dialog"
+msgid "Preset Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:252
+#: ../libresvip/res/locales/libresvip_gui.ts:346
+msgctxt "settings_dialog"
+msgid "Custom (Browse ...)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:356
+msgctxt "settings_dialog"
+msgid "Manage Folders Presets"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:519
+msgctxt "settings_dialog"
+msgid "Preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:534
+msgctxt "settings_dialog"
+msgid "Remove current preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:547
+msgctxt "settings_dialog"
+msgid "Add new rule"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:555
+msgctxt "settings_dialog"
+msgid "Full match"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:556
+msgctxt "settings_dialog"
+msgid "Alphabetic"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:557
+msgctxt "settings_dialog"
+msgid "Non-alphabetic"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:558
+msgctxt "settings_dialog"
+msgid "Regex"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:569
+msgctxt "settings_dialog"
+msgid "Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:913
+msgctxt "settings_dialog"
+msgid "Format Provider Plugins"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:186
+msgctxt "settings_dialog"
+msgid "Overwrite"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:187
+msgctxt "settings_dialog"
+msgid "Skip"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:188
+msgctxt "settings_dialog"
+msgid "Prompt"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:406
+msgctxt "settings_dialog"
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:836
+msgctxt "settings_dialog"
+msgid "Auto Check for Updates"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:84
+msgctxt "settings_dialog"
+msgid "Conversion Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:891
+msgctxt "settings_dialog"
+msgid "Basic Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:901
+msgctxt "settings_dialog"
+msgid "Save Path Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:926
+msgctxt "settings_dialog"
+msgid "Lyric Replacement Rules"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:938
+msgctxt "settings_dialog"
+msgid "Updates Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:103
+msgctxt "task_row"
+msgid "File successfully converted"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:112
+msgctxt "task_row"
+msgid "Open"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:124
+#: ../libresvip/res/locales/libresvip_gui.ts:167
+msgctxt "task_row"
+msgid "Open folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:345
+msgctxt "task_row"
+msgid "File %1 already exists. Overwrite?"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:159
+msgctxt "task_row"
+msgid "File skipped due to conflict"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:72
+msgctxt "task_row"
+msgid "Remove"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:202
+msgctxt "task_row"
+msgid "This project file may contain abnormal or illegal data"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:244
+msgctxt "task_row"
+msgid "File failed to convert, below is the error message:"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:257
+#: ../libresvip/res/locales/libresvip_gui.ts:272
+msgctxt "task_row"
+msgid "Copy error message"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:261
+msgctxt "task_row"
+msgid "Copied"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:344
+msgctxt "task_row"
+msgid "Do you want to overwrite the file?"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:171
+msgctxt "top_toolbar"
+msgid "Convert (&C)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:180
+msgctxt "top_toolbar"
+msgid "Import Projects (Ctrl+O)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:186
+msgctxt "top_toolbar"
+msgid "Perform All Tasks (Ctrl+Enter)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:193
+msgctxt "top_toolbar"
+msgid "Clear Tasks (Ctrl+R)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:200
+msgctxt "top_toolbar"
+msgid "Swap Input and Output (Ctrl+Tab)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:275
+msgctxt "top_toolbar"
+msgid "Output Format (&E)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:208
+msgctxt "top_toolbar"
+msgid "Formats (&F)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:217
+msgctxt "top_toolbar"
+msgid "Input Format (&I)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:336
+msgctxt "top_toolbar"
+msgid "Settings (&S)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "top_toolbar"
+msgid "Options (&O)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:349
+msgctxt "top_toolbar"
+msgid "Themes (&T)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:357
+msgctxt "top_toolbar"
+msgid "Light"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:366
+msgctxt "top_toolbar"
+msgid "Dark"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:375
+msgctxt "top_toolbar"
+msgid "System"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:393
+msgctxt "top_toolbar"
+msgid "Language (&L)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:439
+msgctxt "top_toolbar"
+msgid "Help (&H)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:448
+msgctxt "top_toolbar"
+msgid "About (Ctrl+A)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:452
+msgctxt "top_toolbar"
+msgid "Check for Updates"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:459
+msgctxt "top_toolbar"
+msgid "Documentation (F1)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:157
+msgctxt "top_toolbar"
+msgid "SVS Projects Converter"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "OK"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "Cancel"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "Yes to &All"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "N&o to All"
 msgstr ""
 
 #: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
@@ -1071,21 +1204,5 @@ msgstr ""
 
 #: ../libresvip/web/pages.py:1939
 msgid "Intermediate Processing"
-msgstr ""
-
-#: QPlatformTheme%231
-msgid "OK"
-msgstr ""
-
-#: QPlatformTheme%232
-msgid "Cancel"
-msgstr ""
-
-#: QPlatformTheme%233
-msgid "Yes to &All"
-msgstr ""
-
-#: QPlatformTheme%234
-msgid "N&o to All"
 msgstr ""
 
