@@ -18,10 +18,11 @@ jobs:
         id: check-diff
         run: |
           REGEXP="^libresvip/.*\.po$"
-          PO_CHANGED_COUNT=$(git show --name-only | grep "$REGEXP" | wc -l)
+          DIFF_OUTPUT=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep "$REGEXP")
+          PO_CHANGED_COUNT=$(echo $DIFF_OUTPUT | wc -l)
           PO_CHANGED=$([[ PO_CHANGED_COUNT -gt 0 ]] && echo "true" || echo "false")
 
-          git show --name-only | grep "$REGEXP"
+          echo $DIFF_OUTPUT
           echo "po_changed=$PO_CHANGED" >> $GITHUB_OUTPUT
 
       - name: Set up Python
