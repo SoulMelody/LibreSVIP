@@ -19,6 +19,7 @@ jobs:
           PO_CHANGED_COUNT=$(git show --name-only | grep "$REGEXP" | wc -l)
           PO_CHANGED=$([[ PO_CHANGED_COUNT -gt 0 ]] && echo "true" || echo "false")
 
+          git show --name-only | grep "$REGEXP"
           echo "po_changed=$PO_CHANGED" >> $GITHUB_OUTPUT
 
       - name: Set up Python
