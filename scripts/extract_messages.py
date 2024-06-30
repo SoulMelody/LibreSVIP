@@ -92,7 +92,7 @@ def extract_from_qt_ts(
             yield int(location.line), "gettext", message.source.content[0], ""
 
 
-def extract_qt_ts_msgs() -> None:
+def extract_main_msgs() -> None:
     subprocess.call(
         [
             "pyside6-lupdate",
@@ -100,38 +100,20 @@ def extract_qt_ts_msgs() -> None:
             *(str(qml_path) for qml_path in pathlib.Path("../libresvip/res/qml").rglob("**/*.qml")),
             "-no-obsolete",
             "-ts",
-            "../translations/libresvip_gui.ts",
+            "../libresvip/res/locales/libresvip_gui.ts",
         ]
     )
     cmdinst = setuptools_frontend.extract_messages()
     cmdinst.initialize_options()
     cmdinst.omit_header = True
-    cmdinst.no_location = True
-    cmdinst.input_paths = [
-        "../translations/libresvip_gui.ts",
-        "../translations/qt_standard_buttons.ts",
-    ]
-    cmdinst.output_file = "../translations/libresvip_gui.pot"
+    cmdinst.input_dirs = ["../libresvip/"]
+    cmdinst.ignore_dirs = ["*middlewares*", "*plugins*"]
+    cmdinst.output_file = "../libresvip/res/libresvip.po"
     cmdinst.mapping_file = "babel.cfg"
     cmdinst.finalize_options()
     cmdinst.run()
 
 
-def extract_main_msgs() -> None:
-    subprocess.call(
-        [
-            "pybabel",
-            "extract",
-            "../libresvip/",
-            "--ignore-dirs=*middlewares*",
-            "--ignore-dirs=*plugins*",
-            "-o",
-            "../translations/libresvip_main.pot",
-        ]
-    )
-
-
 if __name__ == "__main__":
     extract_main_msgs()
     extract_plugin_msgs()
-    extract_qt_ts_msgs()
