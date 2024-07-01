@@ -19,7 +19,7 @@ jobs:
         run: |
           git fetch origin main
           git merge-base origin/main HEAD
-          REGEXP="^libresvip/.*\.po$"
+          REGEXP=".*/LC_MESSAGES/[^\.]*\.po$"
           CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
           echo "Changed files: $CHANGED_FILES"
           PO_CHANGED_COUNT=$(echo $CHANGED_FILES | grep "$REGEXP" | wc -l)
