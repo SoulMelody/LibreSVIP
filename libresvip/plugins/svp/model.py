@@ -390,9 +390,6 @@ class SVNote(BaseModel):
     musical_type: Optional[Literal["singing", "rap"]] = Field("singing", alias="musicalType")
     instant_mode: Optional[bool] = Field(None, alias="instantMode")
 
-    def cover_range(self) -> RangeInterval:
-        return RangeInterval([(self.onset, self.onset + self.duration)])
-
     def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
             by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True

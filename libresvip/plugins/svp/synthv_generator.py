@@ -66,6 +66,8 @@ class SynthVGenerator:
         sv_project = SVProject()
         if self.options.version_compatibility == SVProjectVersionCompatibility.BELOW_1_9_0:
             sv_project.instant_mode_enabled = False
+        else:
+            sv_project.version = SVProjectVersionCompatibility.ABOVE_1_9_0.value
         new_meters = skip_beat_list(project.time_signature_list, 1)
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         self.first_bar_tempo = [
