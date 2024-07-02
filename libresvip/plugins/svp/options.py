@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import Enum, IntEnum
 from typing import Annotated, NamedTuple
 
 from pydantic import BaseModel, Field
@@ -26,6 +26,15 @@ synthv_language_presets = {
     "english": SynthVLanguagePreset(language="english", phoneset="arpabet"),
     "spanish": SynthVLanguagePreset(language="spanish", phoneset="xsampa"),
 }
+
+
+class SVProjectVersionCompatibility(IntEnum):
+    BELOW_1_9_0: Annotated[
+        int, Field(title=_("Compatible with SynthesizerV Studio 1.9.0 and below"))
+    ] = 100
+    ABOVE_1_9_0: Annotated[
+        int, Field(title=_("Incompatible with SynthesizerV Studio 1.9.0 and below"))
+    ] = 135
 
 
 class LanguageOption(Enum):
@@ -150,6 +159,10 @@ class InputOptions(
 
 
 class OutputOptions(BaseModel):
+    version_compatibility: SVProjectVersionCompatibility = Field(
+        default=SVProjectVersionCompatibility.BELOW_1_9_0,
+        title=_("Version compatibility"),
+    )
     vibrato: VibratoOption = Field(
         default=VibratoOption.NONE, title=_("The way to handle vibrato notes")
     )

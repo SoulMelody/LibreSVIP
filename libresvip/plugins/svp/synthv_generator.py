@@ -37,7 +37,12 @@ from .model import (
     SVTempo,
     SVTrack,
 )
-from .options import OutputOptions, VibratoOption, synthv_language_presets
+from .options import (
+    OutputOptions,
+    SVProjectVersionCompatibility,
+    VibratoOption,
+    synthv_language_presets,
+)
 from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
 from .pitch_simulator import PitchSimulator
 from .pitch_slide import PitchSlide
@@ -59,6 +64,8 @@ class SynthVGenerator:
 
     def generate_project(self, project: Project) -> SVProject:
         sv_project = SVProject()
+        if self.options.version_compatibility == SVProjectVersionCompatibility.BELOW_1_9_0:
+            sv_project.instant_mode_enabled = False
         new_meters = skip_beat_list(project.time_signature_list, 1)
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         self.first_bar_tempo = [
@@ -242,10 +249,12 @@ class SynthVGenerator:
             )
         return sv_curve
 
-    @staticmethod
-    def generate_note(note: Note) -> SVNote:
+    def generate_note(self, note: Note) -> SVNote:
         onset = ticks_to_position(note.start_pos)
         return SVNote(
+            instant_mode=False
+            if self.options.version_compatibility == SVProjectVersionCompatibility.ABOVE_1_9_0
+            else None,
             onset=onset,
             pitch=note.key_number,
             lyrics=note.lyric or note.pronunciation or "",

@@ -595,4 +595,4 @@ class SVProject(BaseModel):
     instant_mode_enabled: Optional[bool] = Field(True, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)
-    version: int = 113
+    version: int = 100
