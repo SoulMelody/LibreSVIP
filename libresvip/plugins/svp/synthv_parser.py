@@ -293,21 +293,21 @@ class SynthVParser:
             instant_interval = RangeInterval(
                 [
                     (
-                        note.onset,
-                        note.onset + note.duration,
+                        position_to_ticks(note.onset),
+                        position_to_ticks(note.onset + note.duration),
                     )
                     for note in sv_notes
                     if note.instant_mode is True
                 ]
             )
             pitch_diff_expr += CurveGenerator(
+                interval=instant_interval.interval,
                 _point_list=[
                     Point(
                         position_to_ticks(point.offset),
                         round(point.value),
                     )
                     for point in self.instant_pitch.points.root
-                    if point.offset in instant_interval
                 ],
                 _interpolation=self.parse_interpolation(self.instant_pitch.mode),
             )
