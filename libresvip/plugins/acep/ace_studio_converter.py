@@ -13,7 +13,7 @@ from .options import InputOptions, OutputOptions
 class ACEStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         obj = decompress_ace_studio_project(path)
-        acep_project = AcepProject.model_validate(obj)
+        acep_project = AcepProject.model_validate(obj, context={"path": path})
         return AceParser(options=options).parse_project(acep_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:

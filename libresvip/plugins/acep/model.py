@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import itertools
 import math
+import pathlib
 import statistics
 from enum import Enum
 from gettext import gettext as _
@@ -268,6 +269,17 @@ class AcepAudioPattern(AcepPattern):
     path: str = ""
     gain: Optional[float] = None
     analysed_beat: Optional[AcepAnalysedBeat] = Field(None, alias="analysedBeat")
+
+    @field_validator("path", mode="before")
+    @classmethod
+    def validate_path(cls, path: str, info: ValidationInfo) -> str:
+        audio_path = pathlib.Path(path)
+        if not audio_path.is_absolute():
+            project_path: Optional[pathlib.Path]
+            if (project_path := info.context.get("path")) and not hasattr(project_path, "protocol"):
+                audio_path = (project_path.parent / path).resolve()
+                path = str(audio_path)
+        return path
 
 
 class AcepVocalPattern(AcepPattern):
