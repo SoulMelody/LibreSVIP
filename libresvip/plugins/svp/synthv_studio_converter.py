@@ -16,6 +16,8 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
             path.read_bytes().removesuffix(b"\x00").removeprefix("\ufeff".encode()).decode("utf-8")
         )
         sv_proj = SVProject.model_validate_json(sv_content, context={"path": path})
+        if options.instant and sv_proj.instant_mode_enabled is not None:
+            options.instant = sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
