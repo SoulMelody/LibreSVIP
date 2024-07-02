@@ -297,7 +297,7 @@ class SynthVParser:
                         position_to_ticks(note.onset + note.duration),
                     )
                     for note in sv_notes
-                    if note.instant_mode is True
+                    if note.instant_mode is not False
                 ]
             )
             pitch_diff_expr += CurveGenerator(
