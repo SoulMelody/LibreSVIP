@@ -6,6 +6,7 @@ from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 from libresvip.core.compat import json, zstd
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class AcepDebug(BaseModel):
@@ -28,7 +29,7 @@ class AcepFile(BaseModel):
     @classmethod
     def version_validator(cls, value: int, _info: ValidationInfo) -> int:
         if value < 1000:
-            msg = "Unsupported project version"
+            msg = _("Unsupported project version")
             raise UnsupportedProjectVersionError(msg)
         return value
 

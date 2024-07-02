@@ -900,7 +900,7 @@ msgctxt "QPlatformTheme"
 msgid "N&o to All"
 msgstr ""
 
-#: ../libresvip/utils/audio.py:35 ../libresvip/utils/audio.py:91
+#: ../libresvip/utils/audio.py:48 ../libresvip/utils/audio.py:104
 msgid "Audio file not found: "
 msgstr ""
 
@@ -910,7 +910,7 @@ msgstr ""
 
 #: ../libresvip/web/pages.py:276 ../libresvip/web/pages.py:293
 #: ../libresvip/web/pages.py:1174 ../libresvip/web/pages.py:1193
-#: ../libresvip/web/pages.py:1699 ../libresvip/web/pages.py:1747
+#: ../libresvip/web/pages.py:1701 ../libresvip/web/pages.py:1749
 msgid "file_format"
 msgstr ""
 
@@ -956,8 +956,8 @@ msgstr ""
 
 #: ../libresvip/web/pages.py:657 ../libresvip/web/pages.py:687
 #: ../libresvip/web/pages.py:1108 ../libresvip/web/pages.py:1596
-#: ../libresvip/web/pages.py:1631 ../libresvip/web/pages.py:1717
-#: ../libresvip/web/pages.py:1770
+#: ../libresvip/web/pages.py:1633 ../libresvip/web/pages.py:1719
+#: ../libresvip/web/pages.py:1772
 msgid "Close"
 msgstr ""
 
@@ -1027,23 +1027,23 @@ msgstr ""
 msgid "Convert"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1127 ../libresvip/web/pages.py:1783
+#: ../libresvip/web/pages.py:1127 ../libresvip/web/pages.py:1785
 msgid "Import project"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1828
+#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1830
 msgid "Clear Task List"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1160 ../libresvip/web/pages.py:1742
+#: ../libresvip/web/pages.py:1160 ../libresvip/web/pages.py:1744
 msgid "Swap Input and Output"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1163 ../libresvip/web/pages.py:1702
+#: ../libresvip/web/pages.py:1163 ../libresvip/web/pages.py:1704
 msgid "Import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1183 ../libresvip/web/pages.py:1750
+#: ../libresvip/web/pages.py:1183 ../libresvip/web/pages.py:1752
 msgid "Export format"
 msgstr ""
 
@@ -1083,11 +1083,11 @@ msgstr ""
 msgid "Switch Language"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1263 ../libresvip/web/pages.py:1726
+#: ../libresvip/web/pages.py:1263 ../libresvip/web/pages.py:1728
 msgid "Auto detect import format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1268 ../libresvip/web/pages.py:1733
+#: ../libresvip/web/pages.py:1268 ../libresvip/web/pages.py:1735
 msgid "Reset list when import format changed"
 msgstr ""
 
@@ -1154,59 +1154,59 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1614 ../libresvip/web/pages.py:1628
+#: ../libresvip/web/pages.py:1608
 msgid "Maximize"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1618
+#: ../libresvip/web/pages.py:1609
 msgid "Restore"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1623
+#: ../libresvip/web/pages.py:1625
 msgid "Minimize"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1690
+#: ../libresvip/web/pages.py:1692
 msgid "Choose file format"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1725 ../libresvip/web/pages.py:1778
+#: ../libresvip/web/pages.py:1727 ../libresvip/web/pages.py:1780
 msgid "View Detail Information"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1785
+#: ../libresvip/web/pages.py:1787
 msgid "Conversion Mode:"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1832
+#: ../libresvip/web/pages.py:1834
 msgid "Remove Tasks With Other Extensions"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1836
+#: ../libresvip/web/pages.py:1838
 msgid "Max Track count:"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1858
+#: ../libresvip/web/pages.py:1860
 msgid "Continue Adding files"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1892
+#: ../libresvip/web/pages.py:1894
 msgid "Drag and drop files here or click to upload"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1921
+#: ../libresvip/web/pages.py:1923
 msgid "Start Conversion"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1929
+#: ../libresvip/web/pages.py:1931
 msgid "Export"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1930
+#: ../libresvip/web/pages.py:1932
 msgid "Advanced Options"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1939
+#: ../libresvip/web/pages.py:1941
 msgid "Intermediate Processing"
 msgstr ""
 

@@ -9,6 +9,7 @@ from pydantic import AliasChoices, Field, ValidationInfo, field_validator
 
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
+from libresvip.utils.translation import gettext_lazy as _
 
 from .value_tree import JUCENode, JUCEVarTypes
 
@@ -281,7 +282,7 @@ class VoiSonaProject(BaseModel):
     @classmethod
     def version_validator(cls, value: str, _info: ValidationInfo) -> str:
         if Version(value) < Version("1.8"):
-            msg = f"Unsupported project version {value}"
+            msg = _("Unsupported project version") + f" {value}"
             raise UnsupportedProjectVersionError(msg)
         return value
 

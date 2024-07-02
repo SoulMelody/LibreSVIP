@@ -1,3 +1,9 @@
+msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
+msgstr ""
+
+msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
+msgstr ""
+
 msgid "Mandarin"
 msgstr ""
 
@@ -107,6 +113,9 @@ msgid ""
 "are adjacent (but not overlapped) between note groups or between note "
 "groups and main group, it is recommended to choose \"Split to tracks\" to"
 " ensure the paragraph division is not broken."
+msgstr ""
+
+msgid "Version compatibility"
 msgstr ""
 
 msgid "The way to handle vibrato notes"
