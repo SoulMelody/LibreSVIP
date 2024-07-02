@@ -601,8 +601,6 @@ class SynthVParser:
                 self.instant_pitch = sv_track.main_ref.system_pitch_delta
             for note in sv_track.main_group.notes:
                 note.merge_attributes(master_note_attributes)
-                if note.system_attributes is not None:
-                    note.merge_attributes(note.system_attributes)
             singing_track = SingingTrack(
                 ai_singer_name=sv_track.main_ref.database.name,
                 note_list=self.parse_note_list(

@@ -15,8 +15,10 @@ from pydantic import (
     ValidationInfo,
     field_serializer,
     field_validator,
+    model_validator,
 )
 from retrie.retrie import Blacklist
+from typing_extensions import Self
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
@@ -400,6 +402,12 @@ class SVNote(BaseModel):
         )
         ori_dict.update({k: v for k, v in new_dict.items() if k not in ori_dict})
         self.attributes = SVNoteAttributes.model_validate(ori_dict)
+
+    @model_validator(mode="after")
+    def _merge_system_attribute(self) -> Self:
+        if self.system_attributes is not None:
+            self.merge_attributes(self.system_attributes)
+        return self
 
     def pitch_edited(
         self,
