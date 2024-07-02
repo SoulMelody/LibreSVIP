@@ -1,6 +1,6 @@
-from gettext import gettext as _
-
 from pydantic import BaseModel, Field
+
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class ProcessOptions(BaseModel):

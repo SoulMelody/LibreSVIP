@@ -1,11 +1,11 @@
 from enum import Enum
-from gettext import gettext as _
 from typing import Annotated
 
 from pydantic import BaseModel, Field
 from pydantic_extra_types.color import Color
 
 from libresvip.model.option_mixins import SelectSingleTrackMixin
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class TextAlignOption(Enum):

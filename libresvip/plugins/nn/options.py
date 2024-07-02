@@ -1,5 +1,3 @@
-from gettext import gettext as _
-
 from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import (
@@ -7,6 +5,7 @@ from libresvip.model.option_mixins import (
     SelectSingleTrackMixin,
     StaticTempoMixin,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class InputOptions(EnablePitchImportationMixin, BaseModel):

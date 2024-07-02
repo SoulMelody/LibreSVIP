@@ -1,9 +1,9 @@
 import abc
-from gettext import gettext as _
 
 from pydantic import BaseModel, Field
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class EnableInstrumentalTrackImportationMixin(BaseModel, abc.ABC):

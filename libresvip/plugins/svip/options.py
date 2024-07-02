@@ -1,5 +1,4 @@
 from enum import Enum
-from gettext import gettext as _
 from typing import Annotated
 
 from pydantic import BaseModel, Field
@@ -12,6 +11,7 @@ from libresvip.model.option_mixins import (
     EnableStrengthImportationMixin,
     EnableVolumeImportationMixin,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class BinarySvipVersion(Enum):

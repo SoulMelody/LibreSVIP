@@ -1,8 +1,9 @@
 import enum
-from gettext import gettext as _
 from typing import Annotated
 
 from pydantic import Field
+
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class VsqxVersion(enum.IntEnum):

@@ -3,8 +3,21 @@ import pathlib
 import platform
 from typing import Optional, Union
 
+from pydantic import ValidationInfo
+
 from libresvip.core.warning_types import show_warning
 from libresvip.utils.translation import gettext_lazy as _
+
+
+def audio_path_validator(path: str, info: ValidationInfo) -> str:
+    audio_path = pathlib.Path(path)
+    if not audio_path.is_absolute() and info.context is not None:
+        project_path: Optional[pathlib.Path]
+        if (project_path := info.context.get("path")) and not hasattr(project_path, "protocol"):
+            audio_path = (project_path.parent / path).resolve()
+            path = str(audio_path)
+    return path
+
 
 if platform.system() != "Emscripten":
     from pymediainfo import ET, MediaInfo

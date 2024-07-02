@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from enum import Enum
-from gettext import gettext as _
 from types import SimpleNamespace
 from typing import Annotated, Literal, Union
 
@@ -14,6 +13,7 @@ from libresvip.model.option_mixins import (
     EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import AcepLyricsLanguage
 from .singers import DEFAULT_SINGER

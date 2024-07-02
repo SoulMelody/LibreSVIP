@@ -22,6 +22,7 @@ from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
+from libresvip.utils.audio import audio_path_validator
 
 from . import constants
 from .interval_utils import position_to_ticks
@@ -500,6 +501,8 @@ class SVVoice(SVBaseAttributes):
 class SVAudio(BaseModel):
     filename: str = ""
     duration: float
+
+    validate_filename = field_validator("filename", mode="before")(audio_path_validator)
 
 
 class SVDatabase(BaseModel):

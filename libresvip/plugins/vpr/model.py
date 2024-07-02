@@ -1,11 +1,11 @@
 import enum
 from dataclasses import dataclass
-from gettext import gettext as _
 from typing import Annotated, Literal, Optional, Union
 
 from pydantic import ConfigDict, Field
 
 from libresvip.model.base import BaseModel
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class VocaloidLanguage(enum.IntEnum):

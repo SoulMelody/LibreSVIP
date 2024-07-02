@@ -2,10 +2,8 @@ from __future__ import annotations
 
 import itertools
 import math
-import pathlib
 import statistics
 from enum import Enum
-from gettext import gettext as _
 from itertools import chain
 from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional, Union
 
@@ -22,6 +20,7 @@ from pydantic import (
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
 from libresvip.model.point import PointList
+from libresvip.utils.audio import audio_path_validator
 from libresvip.utils.music_math import linear_interpolation
 
 from .ace_curve_utils import interpolate_hermite
@@ -29,7 +28,8 @@ from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from gettext import gettext as _
+
+    from libresvip.utils.translation import gettext_lazy as _
 
 
 class AcepAnchorPoint(NamedTuple):
@@ -270,16 +270,7 @@ class AcepAudioPattern(AcepPattern):
     gain: Optional[float] = None
     analysed_beat: Optional[AcepAnalysedBeat] = Field(None, alias="analysedBeat")
 
-    @field_validator("path", mode="before")
-    @classmethod
-    def validate_path(cls, path: str, info: ValidationInfo) -> str:
-        audio_path = pathlib.Path(path)
-        if not audio_path.is_absolute() and info.context is not None:
-            project_path: Optional[pathlib.Path]
-            if (project_path := info.context.get("path")) and not hasattr(project_path, "protocol"):
-                audio_path = (project_path.parent / path).resolve()
-                path = str(audio_path)
-        return path
+    validate_path = field_validator("path", mode="before")(audio_path_validator)
 
 
 class AcepVocalPattern(AcepPattern):

@@ -15,7 +15,7 @@ class SynthVStudioConverter(plugin_base.SVSConverterBase):
         sv_content = (
             path.read_bytes().removesuffix(b"\x00").removeprefix("\ufeff".encode()).decode("utf-8")
         )
-        sv_proj = SVProject.model_validate_json(sv_content)
+        sv_proj = SVProject.model_validate_json(sv_content, context={"path": path})
         options.instant = options.instant and sv_proj.instant_mode_enabled
         return SynthVParser(options=options).parse_project(sv_proj)
 

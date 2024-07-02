@@ -6,10 +6,11 @@ import math
 from types import SimpleNamespace
 from typing import Annotated, Literal, Optional, Union
 
-from pydantic import Field
+from pydantic import Field, field_validator
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.base import BaseModel
+from libresvip.utils.audio import audio_path_validator
 from libresvip.utils.music_math import linear_interpolation
 
 ParamType = SimpleNamespace(
@@ -192,6 +193,8 @@ class UWavePart(UPart):
     file_duration_ms: float = 0
     skip_ms: float = 0
     trim_ms: float = 0
+
+    validate_relative_path = field_validator("relative_path", mode="before")(audio_path_validator)
 
 
 class USTXProject(BaseModel):

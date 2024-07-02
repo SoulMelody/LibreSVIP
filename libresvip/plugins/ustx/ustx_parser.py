@@ -186,11 +186,10 @@ class UstxParser:
         if self.options.import_instrumental_track:
             for wave_part in wave_parts:
                 ustx_track = tracks[wave_part.track_no]
-                rel_path = wave_part.relative_path
                 # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
                 track_list.append(
                     InstrumentalTrack(
-                        audio_file_path=rel_path,
+                        audio_file_path=wave_part.relative_path,
                         offset=wave_part.position,
                         title=wave_part.name,
                         mute=ustx_track.mute,

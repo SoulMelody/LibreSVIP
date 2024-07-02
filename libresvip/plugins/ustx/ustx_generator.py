@@ -127,7 +127,6 @@ class UstxGenerator:
                 name=os_track.title,
                 track_no=track_no,
                 position=os_track.offset,
-                file_path=os_track.audio_file_path,
                 relative_path=os_track.audio_file_path,
                 file_duration_ms=track_info.duration,
             )

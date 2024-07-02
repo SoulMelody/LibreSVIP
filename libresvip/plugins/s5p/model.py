@@ -14,6 +14,7 @@ from pydantic import (
 from libresvip.core.constants import DEFAULT_BPM, DEFAULT_PHONEME
 from libresvip.model.base import BaseModel
 from libresvip.model.point import PointList
+from libresvip.utils.audio import audio_path_validator
 
 
 class S5pPoint(NamedTuple):
@@ -143,6 +144,8 @@ class S5pTrack(BaseModel):
 class S5pInstrumental(BaseModel):
     filename: str = ""
     offset: float = 0.0
+
+    validate_filename = field_validator("filename", mode="before")(audio_path_validator)
 
 
 class S5pMixer(BaseModel):

@@ -1,6 +1,5 @@
 import re
 from functools import cache
-from gettext import gettext as _
 from typing import Any, Optional
 
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, Slot
@@ -9,6 +8,7 @@ from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import LyricsReplacement, LyricsReplaceMode, settings
 from libresvip.extension.manager import plugin_manager
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class PluginCadidatesTableModel(QAbstractTableModel):

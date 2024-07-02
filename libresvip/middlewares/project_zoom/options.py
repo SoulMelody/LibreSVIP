@@ -1,8 +1,9 @@
 from enum import Enum
-from gettext import gettext as _
 from typing import Annotated
 
 from pydantic import BaseModel, Field
+
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class ProjectZoomOptions(Enum):
