@@ -10,7 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-07-02 22:18\n"
+
+msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
+msgstr ""
+
+msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
+msgstr ""
 
 msgid "Mandarin"
 msgstr ""
@@ -103,6 +109,9 @@ msgid "The way to handle note groups"
 msgstr ""
 
 msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
+msgstr ""
+
+msgid "Version compatibility"
 msgstr ""
 
 msgid "The way to handle vibrato notes"
