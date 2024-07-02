@@ -274,7 +274,7 @@ class AcepAudioPattern(AcepPattern):
     @classmethod
     def validate_path(cls, path: str, info: ValidationInfo) -> str:
         audio_path = pathlib.Path(path)
-        if not audio_path.is_absolute():
+        if not audio_path.is_absolute() and info.context is not None:
             project_path: Optional[pathlib.Path]
             if (project_path := info.context.get("path")) and not hasattr(project_path, "protocol"):
                 audio_path = (project_path.parent / path).resolve()

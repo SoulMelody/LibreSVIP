@@ -52,9 +52,9 @@ class SynthVEditorParser:
     vibrato_coef_interval_dict: PiecewiseIntervalDict = dataclasses.field(init=False)
 
     def parse_project(self, s5p_project: S5pProject) -> Project:
-        tempo_list = self.parse_tempos(s5p_project.tempo)
         time_signature_list = self.parse_time_signatures(s5p_project.meter)
         self.first_bar_length = round(time_signature_list[0].bar_length())
+        tempo_list = self.parse_tempos(s5p_project.tempo)
         self.synchronizer = TimeSynchronizer(tempo_list)
         track_list = self.parse_singing_tracks(s5p_project.tracks)
         if self.options.import_instrumental_track and s5p_project.instrumental.filename:
