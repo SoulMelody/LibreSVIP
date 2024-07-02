@@ -10,13 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-07-02 22:18\n"
+"PO-Revision-Date: 2024-07-02 22:41\n"
 
 msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
-msgstr ""
+msgstr "与 SynthesizerV Studio 1.9.0 及以下版本兼容"
 
 msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
-msgstr ""
+msgstr "与 SynthesizerV Studio 1.9.0 及以下版本不兼容"
 
 msgid "Mandarin"
 msgstr "普通话"
@@ -112,7 +112,7 @@ msgid "Notice: If there are too many note groups, please choose \"Keep original 
 msgstr "注意：若音符组较多，请尽量选择“保留原始位置”以防止轨道数量暴增。但若音符组之间、音符组与主组之间存在时间轴上紧挨 (但不重叠) 的音符，则建议选择“拆分为轨道”以确保段落划分不被破坏。"
 
 msgid "Version compatibility"
-msgstr ""
+msgstr "版本兼容性"
 
 msgid "The way to handle vibrato notes"
 msgstr "自动颤音处理方式"
