@@ -15,7 +15,7 @@ from libresvip.model.option_mixins import (
 )
 from libresvip.utils.translation import gettext_lazy as _
 
-from .model import AcepLyricsLanguage
+from .enums import AcepLyricsLanguage
 from .singers import DEFAULT_SINGER
 
 

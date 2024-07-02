@@ -290,6 +290,16 @@ class SynthVParser:
                 _interpolation=self.parse_interpolation(vibrato_env.mode),
             )
         if self.options.instant:
+            instant_interval = RangeInterval(
+                [
+                    (
+                        note.onset,
+                        note.onset + note.duration,
+                    )
+                    for note in sv_notes
+                    if note.instant_mode is True
+                ]
+            )
             pitch_diff_expr += CurveGenerator(
                 _point_list=[
                     Point(
@@ -297,6 +307,7 @@ class SynthVParser:
                         round(point.value),
                     )
                     for point in self.instant_pitch.points.root
+                    if point.offset in instant_interval
                 ],
                 _interpolation=self.parse_interpolation(self.instant_pitch.mode),
             )

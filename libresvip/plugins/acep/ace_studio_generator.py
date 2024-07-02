@@ -23,12 +23,12 @@ from libresvip.utils.audio import audio_track_info
 from libresvip.utils.search import binary_find_first, binary_find_last, find_last_index
 
 from .color_pool import count_color, get_color
+from .enums import AcepLyricsLanguage
 from .model import (
     AcepAnchorPoint,
     AcepAnchorPoints,
     AcepAudioPattern,
     AcepAudioTrack,
-    AcepLyricsLanguage,
     AcepNote,
     AcepParamCurve,
     AcepParamCurveList,

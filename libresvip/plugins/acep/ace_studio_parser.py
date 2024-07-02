@@ -26,9 +26,9 @@ from libresvip.model.point import Point
 from libresvip.utils.music_math import clamp
 
 from .base_pitch_curve import BasePitchCurve
+from .enums import AcepLyricsLanguage
 from .model import (
     AcepAudioTrack,
-    AcepLyricsLanguage,
     AcepNote,
     AcepParamCurveList,
     AcepParams,

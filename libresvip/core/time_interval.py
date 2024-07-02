@@ -87,8 +87,10 @@ class RangeInterval:
     def includes(self, value: int) -> bool:
         return value in self.interval
 
-    def __contains__(self, interval: RangeInterval) -> bool:
-        return interval.interval in self.interval
+    def __contains__(self, interval: Union[RangeInterval, int]) -> bool:
+        if isinstance(interval, RangeInterval):
+            interval = interval.interval
+        return interval in self.interval
 
     def intersection(self, interval: RangeInterval) -> RangeInterval:
         new_interval = RangeInterval()

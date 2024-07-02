@@ -3,7 +3,6 @@ from __future__ import annotations
 import itertools
 import math
 import statistics
-from enum import Enum
 from itertools import chain
 from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional, Union
 
@@ -24,12 +23,11 @@ from libresvip.utils.audio import audio_path_validator
 from libresvip.utils.music_math import linear_interpolation
 
 from .ace_curve_utils import interpolate_hermite
+from .enums import AcepLyricsLanguage
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-    from libresvip.utils.translation import gettext_lazy as _
 
 
 class AcepAnchorPoint(NamedTuple):
@@ -164,27 +162,6 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
             if abs(max_ - min_) > 1e-3
             else [curve.transform(lambda x: 0) for curve in self.root]
         )
-
-
-class AcepLyricsLanguage(Enum):
-    CHINESE: Annotated[
-        str,
-        Field(
-            title=_("Chinese"),
-        ),
-    ] = "CHN"
-    JAPANESE: Annotated[
-        str,
-        Field(
-            title=_("Japanese"),
-        ),
-    ] = "JPN"
-    ENGLISH: Annotated[
-        str,
-        Field(
-            title=_("English"),
-        ),
-    ] = "ENG"
 
 
 class AcepMaster(BaseModel):
