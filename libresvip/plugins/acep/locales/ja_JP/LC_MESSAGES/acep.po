@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-07-02 22:18\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -19,6 +19,9 @@ msgid "ACE Studio project File"
 msgstr ""
 
 msgid "Conversion Plugin for ACE Studio project file"
+msgstr ""
+
+msgid "Unsupported project version"
 msgstr ""
 
 msgid "Chinese"
