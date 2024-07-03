@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:3e250dddf215df6d3ae98c1f6c91a681b636d286ea67427d822e1ba977018c1b"
+content_hash = "sha256:869bc3d340f14e6d80ea6bbfa6f4ad52cc5f6e50059110b9570319aaadb3577a"
 
 [[package]]
 name = "aiofiles"
@@ -865,7 +865,7 @@ files = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.18.1"
+version = "1.18.2"
 requires_python = ">=3.7"
 summary = "Google API Client Generator for Python"
 groups = ["code_gen"]
@@ -883,8 +883,8 @@ dependencies = [
     "pypandoc>=1.4",
 ]
 files = [
-    {file = "gapic-generator-1.18.1.tar.gz", hash = "sha256:d663dafd5703f558f9f8468ed049ed64a6eab1e0dfe825eba0f94ecfd7a4daf1"},
-    {file = "gapic_generator-1.18.1-py3-none-any.whl", hash = "sha256:48282cb66ea03e8ae5a2403c7b3fe2cc5255c5fcf31c26f20928c78172d158c1"},
+    {file = "gapic-generator-1.18.2.tar.gz", hash = "sha256:114dd51b577adc54c7468f5faf2635e218ba78d97c342d94e3145d945789684e"},
+    {file = "gapic_generator-1.18.2-py3-none-any.whl", hash = "sha256:73a20aba63563fbd24fb7744b3ac725f26f7dc35e9eefb8b714b5f48e249234f"},
 ]
 
 [[package]]
@@ -949,7 +949,7 @@ files = [
 
 [[package]]
 name = "google-auth"
-version = "2.30.0"
+version = "2.31.0"
 requires_python = ">=3.7"
 summary = "Google Authentication Library"
 groups = ["code_gen"]
@@ -959,8 +959,8 @@ dependencies = [
     "rsa<5,>=3.1.4",
 ]
 files = [
-    {file = "google-auth-2.30.0.tar.gz", hash = "sha256:ab630a1320f6720909ad76a7dbdb6841cdf5c66b328d690027e4867bdfb16688"},
-    {file = "google_auth-2.30.0-py2.py3-none-any.whl", hash = "sha256:8df7da660f62757388b8a7f249df13549b3373f24388cb5d2f1dd91cc18180b5"},
+    {file = "google-auth-2.31.0.tar.gz", hash = "sha256:87805c36970047247c8afe614d4e3af8eceafc1ebba0c679fe75ddd1d575e871"},
+    {file = "google_auth-2.31.0-py2.py3-none-any.whl", hash = "sha256:042c4702efa9f7d3c48d3a69341c209381b125faa6dbf3ebe56bc7e40ae05c23"},
 ]
 
 [[package]]
