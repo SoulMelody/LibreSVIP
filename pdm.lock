@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:869bc3d340f14e6d80ea6bbfa6f4ad52cc5f6e50059110b9570319aaadb3577a"
+content_hash = "sha256:f2f6ce1e6ef06454f29ba6fb6d3e415146c41dad44d864a777fee5ea1e1c63ce"
 
 [[package]]
 name = "aiofiles"
@@ -2298,7 +2298,7 @@ files = [
 
 [[package]]
 name = "pydantic-extra-types"
-version = "2.8.2"
+version = "2.9.0"
 requires_python = ">=3.8"
 summary = "Extra Pydantic types."
 groups = ["default", "desktop", "webui"]
@@ -2306,8 +2306,8 @@ dependencies = [
     "pydantic>=2.5.2",
 ]
 files = [
-    {file = "pydantic_extra_types-2.8.2-py3-none-any.whl", hash = "sha256:f2400b3c3553fb7fa09a131967b4edf2d53f01ad9fa89d158784653f2e5c13d1"},
-    {file = "pydantic_extra_types-2.8.2.tar.gz", hash = "sha256:4d2b3c52c1e2e4dfa31bf1d5a37b841b09e3c5a08ec2bffca0e07fc2ad7d5c4a"},
+    {file = "pydantic_extra_types-2.9.0-py3-none-any.whl", hash = "sha256:f0bb975508572ba7bf3390b7337807588463b7248587e69f43b1ad7c797530d0"},
+    {file = "pydantic_extra_types-2.9.0.tar.gz", hash = "sha256:e061c01636188743bb69f368dcd391f327b8cfbfede2fe1cbb1211b06601ba3b"},
 ]
 
 [[package]]
