@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:e08007231006f209407fb1c0516f03142a35c02f42c6d100241f66de9531351f"
+content_hash = "sha256:3e250dddf215df6d3ae98c1f6c91a681b636d286ea67427d822e1ba977018c1b"
 
 [[package]]
 name = "aiofiles"
@@ -2482,6 +2482,18 @@ files = [
     {file = "pyobjc_framework_WebKit-10.2-cp36-abi3-macosx_10_9_universal2.whl", hash = "sha256:0d128a9e053b3dfaa71857eba6e6aadfbde88347382e1e58e288b5e410b71226"},
     {file = "pyobjc_framework_WebKit-10.2-cp36-abi3-macosx_10_9_x86_64.whl", hash = "sha256:d20344d55c3cb4aa27314e096f59db5cefa70539112d8c1658f2a2076df58612"},
     {file = "pyobjc_framework_WebKit-10.2-cp36-abi3-macosx_11_0_universal2.whl", hash = "sha256:f7dcf2e51964406cc2440e556c855d087c4706289c5f53464e8ffb0fba37adda"},
+]
+
+[[package]]
+name = "pyodide-py"
+version = "0.26.1"
+requires_python = ">=3.12"
+summary = "A Python package providing core interpreter functionality for Pyodide"
+groups = ["linting"]
+marker = "python_version >= \"3.12\""
+files = [
+    {file = "pyodide_py-0.26.1-py3-none-any.whl", hash = "sha256:7b7a1be1c1faa5bfc642cf4bf6a8497793e5aa874f7fa8b53d1840c92dc2a13e"},
+    {file = "pyodide_py-0.26.1.tar.gz", hash = "sha256:02f2e20f8babe016920e43d63dbae6e253954362d02de9059eb48fe669f017a6"},
 ]
 
 [[package]]

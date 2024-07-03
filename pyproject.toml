@@ -107,6 +107,7 @@ linting = [
   "mypy>=1.10.1",
   "sourcery>=1.19.0",
   "proto-plus-stubs>=0.7.0",
+  "pyodide-py>=0.26.1; python_version >= \"3.12\"",
   "types-lxml>=2024.4.14",
   "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20240311",
