@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:09a144fd58746d253d175a50f869e69584986f91df34f26b174bd1fe1e1c10de"
+content_hash = "sha256:d83212b8d30b6e1691e0eb43992cc0a6066fa1d8e319fe19cd559ee1b435e109"
 
 [[package]]
 name = "aiofiles"
@@ -599,7 +599,7 @@ files = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.25.7"
+version = "0.25.8"
 requires_python = "<4.0,>=3.7"
 summary = "Datamodel Code Generator"
 groups = ["code_gen"]
@@ -619,8 +619,8 @@ dependencies = [
     "toml<1.0.0,>=0.10.0; python_version < \"3.11\"",
 ]
 files = [
-    {file = "datamodel_code_generator-0.25.7-py3-none-any.whl", hash = "sha256:0b890a0c2bfe8c250f1ddc9656fabeb85db289d4d497a616c19bd80db004dd9a"},
-    {file = "datamodel_code_generator-0.25.7.tar.gz", hash = "sha256:975079cb3776f10a71d6aa9914b73149c3fdf4c71825b0977951a959fefc77f6"},
+    {file = "datamodel_code_generator-0.25.8-py3-none-any.whl", hash = "sha256:f9b216efad84d8dcb517273d2728875b6052b7e8dc4e5c13a597441cef236f6e"},
+    {file = "datamodel_code_generator-0.25.8.tar.gz", hash = "sha256:b7838122b8133dae6e46f36a1cf25c0ccc66745da057988f490d00ab71121de7"},
 ]
 
 [[package]]
@@ -3206,13 +3206,13 @@ files = [
 
 [[package]]
 name = "sourcery"
-version = "1.19.0"
+version = "1.20.0"
 summary = "Magically refactor Python"
 groups = ["linting"]
 files = [
-    {file = "sourcery-1.19.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:7930fc3679834cc481d1db79b243ce9566e75ba01ec71124299f4005cfa451ab"},
-    {file = "sourcery-1.19.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:20916e32dadd747722b8719e882bafe2181ca3d137189bde7a02fb741995980c"},
-    {file = "sourcery-1.19.0-py2.py3-none-win_amd64.whl", hash = "sha256:2358533cd188f37ded51a5c17bb620686f4f1e5b9170aaeb04ef961f801146d0"},
+    {file = "sourcery-1.20.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:bc9fdc007039460cfcf85c47a4eea6ca14d6070e9d2269990efe511dfc13a3ec"},
+    {file = "sourcery-1.20.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:3571a94b66ac542cac2b9812be941ce8c7768ff702a69ff33a5d5f24cdd44044"},
+    {file = "sourcery-1.20.0-py2.py3-none-win_amd64.whl", hash = "sha256:c52c2da9a4b2e56e69a84777bedccc08cb035b2b6dfd4ae3b5426cfaf1f01764"},
 ]
 
 [[package]]
