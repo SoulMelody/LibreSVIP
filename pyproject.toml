@@ -116,7 +116,7 @@ linting = [
 packaging = [
   "cx-Freeze>=7.1.1",
   "nuitka>=2.3.11",
-  "pyinstaller>=6.8.0",
+  "pyinstaller>=6.9.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.28"]
