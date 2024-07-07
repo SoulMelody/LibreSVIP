@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:738e86568d73fec80c2803a44e41665736da4dc60df0700da288bb3c57d2c5b2"
+content_hash = "sha256:56a118f643fe1b95fe4cc3ac896fed714564f741a4cd4efa1a314f953a63748e"
 
 [[package]]
 name = "aiofiles"
@@ -637,7 +637,7 @@ files = [
 
 [[package]]
 name = "desktop-notifier"
-version = "5.0.0"
+version = "5.0.1"
 requires_python = ">=3.7"
 summary = "Python library for cross-platform desktop notifications"
 groups = ["desktop"]
@@ -654,8 +654,8 @@ dependencies = [
     "winrt-windows-ui-notifications; sys_platform == \"win32\"",
 ]
 files = [
-    {file = "desktop_notifier-5.0.0-py3-none-any.whl", hash = "sha256:2349da650af86685281acadd56be403eea9c429570bdac8e9bcef2c801f7ce6d"},
-    {file = "desktop_notifier-5.0.0.tar.gz", hash = "sha256:6b2ebb5ca28b271b5bc69cec16a82cb32f170a685f9134218237ffa909ea2cc6"},
+    {file = "desktop_notifier-5.0.1-py3-none-any.whl", hash = "sha256:eacfd923fd6fd21daede6de6ba3dc86cbaa6511cf3a8b810a589263b692be967"},
+    {file = "desktop_notifier-5.0.1.tar.gz", hash = "sha256:8fbe550fd0e765ec79014a04a087824edd4a3f11577a0b0a892e1cb892f5d7ea"},
 ]
 
 [[package]]
