@@ -1,0 +1,9 @@
+msgid "SynthV Editor"
+msgstr ""
+
+msgid "Synthesizer V Editor project file"
+msgstr ""
+
+msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr ""
+

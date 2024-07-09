@@ -1,0 +1,35 @@
+msgid "Incompatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+msgid "Compatible with ARPAsing-series Phonemizers"
+msgstr ""
+
+msgid "The way to handle english multisyllabic words"
+msgstr ""
+
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr ""
+
+msgid "Breath lyrics"
+msgstr ""
+
+msgid ""
+"Special lyrics that will be recognized as breath notes only when "
+"immediately followed by a regular note, each separated by a space"
+msgstr ""
+
+msgid "Silence lyrics"
+msgstr ""
+
+msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr ""
+
+msgid "Ustx"
+msgstr ""
+
+msgid "OpenUtau project file"
+msgstr ""
+
+msgid "Conversion plugin for Ustx file format"
+msgstr ""
+

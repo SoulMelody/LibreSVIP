@@ -1,0 +1,25 @@
+msgid "gjgj"
+msgstr ""
+
+msgid "Gejigeji project file"
+msgstr ""
+
+msgid ""
+"Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr ""
+
+msgid "Unsupported pinyin:"
+msgstr ""
+
+msgid "Average sampling interval for the volume parameter"
+msgstr ""
+
+msgid ""
+"The unit is Tick. The larger the value, the smoother the editor; the "
+"smaller the value, the more accurate the volume parameter."
+msgstr ""
+
+msgid "Default singer"
+msgstr ""
+

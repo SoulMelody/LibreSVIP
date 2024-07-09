@@ -1,0 +1,17 @@
+msgid "JsonSvip"
+msgstr ""
+
+msgid "OpenSVIP file"
+msgstr ""
+
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr ""
+
+msgid "Generate JSON file with indentation"
+msgstr ""
+
+msgid ""
+"The indented format is easier to read and modify, but it will take up a "
+"larger file size."
+msgstr ""
+

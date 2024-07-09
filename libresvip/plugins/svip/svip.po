@@ -1,0 +1,73 @@
+msgid "BinSvip"
+msgstr ""
+
+msgid "X Studio project file"
+msgstr ""
+
+msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+msgid "Unexpected enum value"
+msgstr ""
+
+msgid "Note duration is too short:"
+msgstr ""
+
+msgid "Note duration is too long:"
+msgstr ""
+
+msgid "Auto detect"
+msgstr ""
+
+msgid ""
+"Use the version of the project file corresponding to the X Studio "
+"installed on your current system."
+msgstr ""
+
+msgid "Use the project file version of X Studio 2.0."
+msgstr ""
+
+msgid "Use the project file version which is compatible with X Studio 1.8."
+msgstr ""
+
+msgid "Max compatibility (read only)"
+msgstr ""
+
+msgid ""
+"Export project files that can be opened using any version of X Studio.\n"
+"Warning: After saving with this option, the volume, breath, gender, and "
+"power parameters will not be recognized by X Studio (no data is lost).\n"
+"To avoid irretrievable data loss, it is strongly recommended not to use X"
+" Studio to modify and save project files exported with this option. To "
+"restore the project file back to a safe editable state, select Save as "
+"SVIP 6.0.0 or later."
+msgstr ""
+
+msgid "Default singer"
+msgstr ""
+
+msgid ""
+"Please enter the singer's name in Chinese. If the specified singer does "
+"not exist, the default singer set in X Studio will be used. If you want "
+"to specify the conversion relationship between singer ID and name, or add"
+" a singer that has an ID but has not been publicly released, please "
+"modify singers.json in the plugin directory."
+msgstr ""
+
+msgid "Default tempo"
+msgstr ""
+
+msgid "Specify the version of the generated .svip file"
+msgstr ""
+
+msgid ""
+"This option only controls the header version information of the output "
+"project file.\n"
+"Choosing an older project file version will not affect the integrity of "
+"the data, but using a lower version of X Studio to open, edit and save a "
+"higher version project file may cause data loss."
+msgstr ""
+
+msgid "Root not found"
+msgstr ""
+

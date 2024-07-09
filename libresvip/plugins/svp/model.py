@@ -15,13 +15,16 @@ from pydantic import (
     ValidationInfo,
     field_serializer,
     field_validator,
+    model_validator,
 )
 from retrie.retrie import Blacklist
+from typing_extensions import Self
 
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
+from libresvip.utils.audio import audio_path_validator
 
 from . import constants
 from .interval_utils import position_to_ticks
@@ -52,7 +55,6 @@ symbols_blacklist = Blacklist(
         "：",
         "·",
         "•",
-        ".",
         "。",
         ",",
         "，",
@@ -61,12 +63,10 @@ symbols_blacklist = Blacklist(
         "^",
         "`",
         '"',
-        "'",
         "‘",
         "’",
         "“",
         "”",
-        "+",
         "=",
         "、",
         "_",
@@ -390,9 +390,6 @@ class SVNote(BaseModel):
     musical_type: Optional[Literal["singing", "rap"]] = Field("singing", alias="musicalType")
     instant_mode: Optional[bool] = Field(None, alias="instantMode")
 
-    def cover_range(self) -> RangeInterval:
-        return RangeInterval([(self.onset, self.onset + self.duration)])
-
     def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
             by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
@@ -403,13 +400,20 @@ class SVNote(BaseModel):
         ori_dict.update({k: v for k, v in new_dict.items() if k not in ori_dict})
         self.attributes = SVNoteAttributes.model_validate(ori_dict)
 
+    @model_validator(mode="after")
+    def _merge_system_attribute(self) -> Self:
+        if self.system_attributes is not None:
+            self.merge_attributes(self.system_attributes)
+        return self
+
     def pitch_edited(
         self,
         regard_default_vibrato_as_unedited: bool = True,
         consider_instant_pitch_mode: bool = True,
     ) -> bool:
         return self.attributes.pitch_edited(
-            regard_default_vibrato_as_unedited, consider_instant_pitch_mode
+            regard_default_vibrato_as_unedited,
+            consider_instant_pitch_mode and self.instant_mode is not False,
         )
 
     def __add__(self, blick_offset: int) -> SVNote:
@@ -429,7 +433,7 @@ class SVNote(BaseModel):
         elif (hanzi := re.search(rf"[{zhon.hanzi.characters}]+", note.lyric)) is not None:
             return hanzi[0]
         elif valid_chars := cls.normalize_lyric(note.lyric):
-            return valid_chars
+            return valid_chars.lstrip(".")
         else:
             return DEFAULT_PHONEME
 
@@ -503,6 +507,8 @@ class SVVoice(SVBaseAttributes):
 class SVAudio(BaseModel):
     filename: str = ""
     duration: float
+
+    validate_filename = field_validator("filename", mode="before")(audio_path_validator)
 
 
 class SVDatabase(BaseModel):
@@ -592,7 +598,7 @@ class SVTrack(BaseModel):
 class SVProject(BaseModel):
     library: list[SVGroup] = Field(default_factory=list)
     render_config: SVRenderConfig = Field(default_factory=SVRenderConfig, alias="renderConfig")
-    instant_mode_enabled: Optional[bool] = Field(False, alias="instantModeEnabled")
+    instant_mode_enabled: Optional[bool] = Field(None, alias="instantModeEnabled")
     time_sig: SVTime = Field(default_factory=SVTime, alias="time")
     tracks: list[SVTrack] = Field(default_factory=list)
-    version: int = 113
+    version: int = 100

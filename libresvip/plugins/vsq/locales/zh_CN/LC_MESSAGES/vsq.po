@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/vsq/vsq.po\n"
+"X-Crowdin-File-ID: 168\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "Ignore all breath notes"
+msgstr "忽略所有换气音符"
+
+msgid "Keep as normal notes"
+msgstr "保留为普通音符"
+
+msgid "Lyric text encoding"
+msgstr "歌词编码"
+
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr "除非歌词出现乱码，否则不应更改此设置。"
+
+msgid "The way to handle breath notes"
+msgstr "换气音符处理方式"
+
+msgid "Ticks per beat"
+msgstr "每拍ticks数"
+
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
+
+msgid "Vsq"
+msgstr ""
+
+msgid "Vocaloid 2 Sequence file"
+msgstr "Vocaloid 2 序列文件"
+
+msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr "Vocaloid 2 序列文件转换插件"
+

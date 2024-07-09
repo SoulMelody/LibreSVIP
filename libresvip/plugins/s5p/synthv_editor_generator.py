@@ -1,5 +1,6 @@
 import dataclasses
 
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -60,6 +61,7 @@ class SynthVEditorGenerator:
         return s5p_project
 
     def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[S5pTempoItem]:
+        song_tempo_list = skip_tempo_list(song_tempo_list, self.first_bar_length)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return [
             S5pTempoItem(
@@ -109,6 +111,13 @@ class SynthVEditorGenerator:
                         track.edited_params, track.note_list
                     )
                 tracks.append(s5p_track)
+        if not tracks:
+            tracks.append(
+                S5pTrack(
+                    name="Unnamed Track",
+                    notes=[None],
+                )
+            )
         return tracks
 
     def generate_notes(self, note_list: list[Note]) -> list[S5pNote]:

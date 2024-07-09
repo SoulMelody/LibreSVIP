@@ -24,7 +24,7 @@ def _pretty_construct() -> None:
 
     def container_repr(self: Container) -> str:
         parts = [
-            f"{repr(k)}: {repr(v)}"
+            f"{k!r}: {v!r}"
             for k, v in self.items()
             if not (isinstance(k, str) and k.startswith("_"))
         ]

@@ -25,17 +25,19 @@ from PySide6.QtCore import (
     Signal,
     Slot,
 )
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 from upath import UPath
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
 
-from libresvip.core.config import ConversionMode, settings
+from libresvip.core.config import ConversionMode, get_ui_settings, settings
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import middleware_manager, plugin_manager
 from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
+from libresvip.gui.models.table_models import PluginCadidatesTableModel
 from libresvip.model.base import BaseComplexModel, BaseModel, Project
+from libresvip.utils.text import supported_charset_names
 
 from .url_opener import open_path
 
@@ -339,13 +341,13 @@ class MergeWorker(QRunnable):
 
 
 @QmlElement
-@QmlSingleton
 class TaskManager(QObject):
     conversion_mode_changed = Signal(str)
     input_format_changed = Signal(str)
     output_format_changed = Signal(str)
     task_count_changed = Signal(int)
     busy_changed = Signal(bool)
+    middleware_options_updated = Signal()
     _start_conversion = Signal()
 
     def __init__(self, parent: Optional[QObject] = None) -> None:
@@ -390,33 +392,7 @@ class TaskManager(QObject):
             }
         )
         self.middleware_fields: dict[str, ModelProxy] = {}
-        for middleware in middleware_manager.plugin_registry.values():
-            if middleware.plugin_object is not None and hasattr(
-                middleware.plugin_object, "process"
-            ):
-                self.middleware_states.append(
-                    {
-                        "index": len(self.middleware_states),
-                        "identifier": middleware.identifier,
-                        "name": middleware.name,
-                        "description": middleware.description,
-                        "value": False,
-                    }
-                )
-                self.middleware_fields[middleware.identifier] = ModelProxy(
-                    {
-                        "name": "",
-                        "title": "",
-                        "description": "",
-                        "default": "",
-                        "type": "",
-                        "value": "",
-                        "choices": [],
-                    }
-                )
-                option_class = get_type_hints(middleware.plugin_object.process)["options"]
-                middleware_fields = self.inspect_fields(option_class)
-                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
+        self.init_middleware_options()
         self.reload_formats()
         self.thread_pool = QThreadPool.global_instance()
         self.input_format_changed.connect(self.set_input_fields)
@@ -427,6 +403,20 @@ class TaskManager(QObject):
         self.timer.interval = 100
         self.timer.timeout.connect(self.check_busy)
         self.tasks.rowsAboutToBeRemoved.connect(self.delete_tmp_file)
+        self.plugin_candidates = PluginCadidatesTableModel()
+
+    @Slot(int)
+    def toggle_plugin(self, index: int) -> None:
+        key = plugin_manager._candidates[index][1].suffix
+        if key in plugin_manager.plugin_registry and key not in settings.disabled_plugins:
+            settings.disabled_plugins.append(key)
+        elif key in settings.disabled_plugins:
+            settings.disabled_plugins.remove(key)
+        else:
+            return
+        plugin_manager.import_plugins(reload=True)
+        self.plugin_candidates.reload_formats()
+        self.reload_formats()
 
     def _on_tasks_changed(self, index: QModelIndex, start: int, end: int) -> None:
         self.task_count_changed.emit(len(self.tasks))
@@ -451,6 +441,44 @@ class TaskManager(QObject):
     @Property(int, notify=task_count_changed)
     def count(self) -> int:
         return len(self.tasks)
+
+    def init_middleware_options(self) -> None:
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
+                self.middleware_states.append(
+                    {
+                        "index": len(self.middleware_states),
+                        "identifier": middleware.identifier,
+                        "name": middleware.name,
+                        "description": middleware.description,
+                        "value": False,
+                    }
+                )
+                self.middleware_fields[middleware.identifier] = ModelProxy(
+                    {
+                        "name": "",
+                        "title": "",
+                        "description": "",
+                        "default": "",
+                        "type": "",
+                        "value": "",
+                        "choices": [],
+                    }
+                )
+        self.reload_middleware_options()
+        self.middleware_options_updated.connect(self.reload_middleware_options)
+
+    def reload_middleware_options(self) -> None:
+        for middleware in middleware_manager.plugin_registry.values():
+            if middleware.plugin_object is not None and hasattr(
+                middleware.plugin_object, "process"
+            ):
+                option_class = get_type_hints(middleware.plugin_object.process)["options"]
+                self.middleware_fields[middleware.identifier].clear()
+                middleware_fields = self.inspect_fields(option_class)
+                self.middleware_fields[middleware.identifier].append_many(middleware_fields)
 
     @Slot(result=None)
     def reload_formats(self) -> None:
@@ -484,7 +512,7 @@ class TaskManager(QObject):
             if path.exists():
                 with contextlib.suppress(Exception):
                     if path.is_dir():
-                        path.rmdir(recursive=True)
+                        path.rmdir()
                     else:
                         path.unlink()
                 deleted = True
@@ -566,7 +594,7 @@ class TaskManager(QObject):
         return any(
             target_path.exists()
             for i in range(more_itertools.ilen(tmp_path.iterdir()))
-            if (target_path := output_dir / f"{task['stem']}{i + 1:0=2d}{self.output_ext}")
+            if (target_path := output_dir / f"{task['stem']}_{i + 1:0=2d}{self.output_ext}")
         )
 
     @Slot(int, result=bool)
@@ -583,7 +611,7 @@ class TaskManager(QObject):
                     for i, child_file in enumerate(tmp_path.iterdir()):
                         if not child_file.is_file():
                             continue
-                        target_path = output_dir / f"{task['stem']}{i + 1:0=2d}{self.output_ext}"
+                        target_path = output_dir / f"{task['stem']}_{i + 1:0=2d}{self.output_ext}"
                         if target_path.exists():
                             target_path.unlink()
                         target_path.write_bytes(child_file.read_bytes())
@@ -634,6 +662,46 @@ class TaskManager(QObject):
                         )
                     else:
                         logger.warning(enum_item.name)
+                fields.append(
+                    {
+                        "type": "enum",
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
+                        "choices": choices,
+                    }
+                )
+            elif option_key == "lyric_replacement_preset_name":
+                choices = [
+                    {
+                        "value": preset,
+                        "text": preset,
+                        "desc": "",
+                    }
+                    for preset in get_ui_settings().lyric_replace_rules
+                ]
+                fields.append(
+                    {
+                        "type": "enum",
+                        "name": option_key,
+                        "title": field_info.title,
+                        "description": field_info.description or "",
+                        "default": default_value,
+                        "value": default_value,
+                        "choices": choices,
+                    }
+                )
+            elif option_key in ["encoding", "lyric_encoding"]:
+                choices = [
+                    {
+                        "value": preset,
+                        "text": preset,
+                        "desc": "",
+                    }
+                    for preset in supported_charset_names()
+                ]
                 fields.append(
                     {
                         "type": "enum",

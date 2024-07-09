@@ -1,0 +1,20 @@
+msgid "Unsupported project version"
+msgstr ""
+
+msgid "TSSln"
+msgstr ""
+
+msgid "Techno-Speech Solution file"
+msgstr ""
+
+msgid ""
+"Conversion plugin for VoiSona project file (Only versions 1.8.0 and later"
+" are supported)"
+msgstr ""
+
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "Pitch value is out of bounds"
+msgstr ""
+

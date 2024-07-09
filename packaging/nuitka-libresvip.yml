@@ -18,8 +18,8 @@
       - .mido_fix
       - .parsimonious
       - .proto
-      - .srt
-      - .xsdata
+      - .pysubs2
+      - .xsdata_pydantic
 
 - module-name: xsdata
   data-files:

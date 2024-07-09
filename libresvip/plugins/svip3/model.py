@@ -50,6 +50,17 @@ class Svip3NoteLengthValidateTag(proto.Enum):
     TOO_SHORT = 2
 
 
+class Svip3SongMark(proto.Message):
+    pos: int = proto.Field(
+        proto.INT32,
+        number=1,
+    )
+    mark: str = proto.Field(
+        proto.STRING,
+        number=2,
+    )
+
+
 class Svip3Project(proto.Message):
     project_file_path: str = proto.Field(
         proto.STRING,
@@ -123,6 +134,11 @@ class Svip3Project(proto.Message):
     is_last_play: bool = proto.Field(
         proto.BOOL,
         number=17,
+    )
+    mark_list: MutableSequence[Svip3SongMark] = proto.RepeatedField(
+        proto.MESSAGE,
+        number=18,
+        message="Svip3SongMark",
     )
 
 

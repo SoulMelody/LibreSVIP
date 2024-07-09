@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/ust/ust.po\n"
+"X-Crowdin-File-ID: 156\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "Text encoding"
+msgstr "文本编码"
+
+msgid "Version"
+msgstr "版本"
+
+msgid "UST file version"
+msgstr "UST文件版本号"
+
+msgid "Ust"
+msgstr ""
+
+msgid "UTAU Sequence Text"
+msgstr "UTAU 序列文本"
+
+msgid "Conversion plugin for UST file format"
+msgstr "UST文件格式转换插件"
+
+msgid "No singing track found"
+msgstr "未找到演唱轨"
+
+msgid "UST project has no track"
+msgstr "UST工程中没有找到任何音轨"
+

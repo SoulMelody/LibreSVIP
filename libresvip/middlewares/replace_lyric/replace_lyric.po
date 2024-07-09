@@ -1,0 +1,11 @@
+msgid "Name of lyric replacement preset"
+msgstr ""
+
+msgid "Replace lyrics"
+msgstr ""
+
+msgid ""
+"Replace lyrics using preset rules. You can customize the lyrics "
+"replacement rules in the program configuration page"
+msgstr ""
+

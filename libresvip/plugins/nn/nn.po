@@ -1,0 +1,18 @@
+msgid "No singing track found"
+msgstr ""
+
+msgid "NIAONiao"
+msgstr ""
+
+msgid "NIAONiao Virtual Singer project file"
+msgstr ""
+
+msgid "Conversion plugin for NIAONiao project file"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "Version of NIAONiao project file"
+msgstr ""
+

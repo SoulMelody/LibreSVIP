@@ -7,10 +7,10 @@ import portion
 from more_itertools import convolve
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.utils.music_math import linear_interpolation
 
-from .model import AcepNote, AcepTempo, AcepVibrato
-from .time_utils import tick_to_second
+from .model import AcepNote, AcepVibrato
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ def acep_vibrato_value_curve(seconds: float, vibrato_start: float, vibrato: Acep
 @dataclasses.dataclass
 class BasePitchCurve:
     notes: dataclasses.InitVar[Iterable[AcepNote]]
-    tempos: dataclasses.InitVar[list[AcepTempo]]
+    synchronizer: dataclasses.InitVar[TimeSynchronizer]
     tick_offset: dataclasses.InitVar[int] = 0
     vibrato_value_interval_dict: PiecewiseIntervalDict = dataclasses.field(
         default_factory=PiecewiseIntervalDict
@@ -62,21 +62,21 @@ class BasePitchCurve:
     values_in_semitone: list[float] = dataclasses.field(default_factory=list)
 
     def __post_init__(
-        self, notes: Iterable[AcepNote], tempos: list[AcepTempo], tick_offset: int
+        self, notes: Iterable[AcepNote], synchronizer: TimeSynchronizer, tick_offset: int
     ) -> None:
         note_list = []
         for note in notes:
-            note_end = tick_to_second(note.pos + note.dur + tick_offset, tempos)
+            note_end = synchronizer.get_actual_secs_from_ticks(note.pos + note.dur + tick_offset)
             note_list.append(
                 NoteInSeconds(
-                    start=tick_to_second(note.pos + tick_offset, tempos),
+                    start=synchronizer.get_actual_secs_from_ticks(note.pos + tick_offset),
                     end=note_end,
                     semitone=note.pitch,
                 )
             )
             if note.vibrato is not None:
-                vibrato_start = tick_to_second(
-                    int(note.pos + note.vibrato.start_pos + tick_offset), tempos
+                vibrato_start = synchronizer.get_actual_secs_from_ticks(
+                    int(note.pos + note.vibrato.start_pos + tick_offset)
                 )
                 vibrato_duration = note_end - vibrato_start
                 self.vibrato_value_interval_dict[portion.closed(vibrato_start, note_end)] = (

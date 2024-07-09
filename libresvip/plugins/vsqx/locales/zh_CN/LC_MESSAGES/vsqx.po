@@ -1,0 +1,83 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/vsqx/vsqx.po\n"
+"X-Crowdin-File-ID: 170\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "VSQx 3"
+msgstr ""
+
+msgid "VSQx 4"
+msgstr ""
+
+msgid "日本語"
+msgstr ""
+
+msgid "English"
+msgstr "英语"
+
+msgid "한국어"
+msgstr ""
+
+msgid "Español"
+msgstr ""
+
+msgid "简体中文"
+msgstr ""
+
+msgid "Combine syllables"
+msgstr "合并音节"
+
+msgid "Combine multisyllabic lyrics into single words"
+msgstr "将拆分后的多音节歌词合并回独立的单词"
+
+msgid "VSQX Version"
+msgstr "VSQX文件版本"
+
+msgid "Pretty XML"
+msgstr "美化XML"
+
+msgid "Whether to output pretty XML"
+msgstr "是否导出美化显示的XML"
+
+msgid "Default language"
+msgstr "默认语言"
+
+msgid "Default language id of voicebank and notes"
+msgstr "声库及音符的默认语言"
+
+msgid "Default Comp ID"
+msgstr "默认的CompID"
+
+msgid "Default comp_id of voicebank"
+msgstr "默认声库对应的comp_id"
+
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+msgid "Default singer name of voicebank"
+msgstr "默认声库对应的歌手名"
+
+msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert Phonemes\" in the menu of VOCALOID3 to reset them."
+msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID3菜单中的「歌词」->「音位变换」功能来重置音素。"
+
+msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Convert Phonemes\" in the menu of VOCALOID4 to reset them."
+msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID4菜单中的「歌词」->「音位变换」功能来重置音素。"
+
+msgid "Vsqx"
+msgstr ""
+
+msgid "Vocaloid Sequence XML file"
+msgstr "Vocaloid XML序列文件"
+
+msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr "Vocaloid XML序列格式转换插件"
+

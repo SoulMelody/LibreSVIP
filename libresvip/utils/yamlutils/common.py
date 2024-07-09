@@ -14,45 +14,25 @@ core_resolvers = {
     "1.2": [
         {
             "tag": "tag:yaml.org,2002:bool",
-            "regexp": re.compile(r"^(?:|true|True|TRUE|false|False|FALSE)$", re.X),
+            "regexp": re.compile(r"^(?:|true|True|TRUE|false|False|FALSE)$", re.VERBOSE),
             "start_chars": list("tTfF"),
         },
         {
             "tag": "tag:yaml.org,2002:int",
-            "regexp": re.compile(
-                r"""^(?:
-                # [-+]?0b[0-1_]+ # (base 2)
-                 [-+]?0[0-7]+ # (base 8)
-                |[-+]?0o[0-7]+ # (base 8)
-                |[-+]?(0|[1-9][0-9]*) # (base 10)
-                # |[-+]?0[0-7_]+ # (base 8)
-                # |[-+]?0o[0-7_]+ # (base 8)
-                # |[-+]?(0|[1-9][0-9_]*) # (base 10)
-                # |[-+]?0x[0-9a-fA-F_]+ # (base 16)
-                # |[-+]?[1-9][0-9_]*(:[0-5]?[0-9])+ # (base 60)
-                )$""",
-                re.X,
-            ),
+            "regexp": re.compile(r"^(?:|0o[0-7]+|[-+]?(?:[0-9]+)|0x[0-9a-fA-F]+)$", re.VERBOSE),
             "start_chars": list("-+0123456789"),
         },
         {
             "tag": "tag:yaml.org,2002:float",
             "regexp": re.compile(
-                r"""^(?:
-                 [-+]?([0-9][0-9]*)?\.[0-9.]*([eE][-+][0-9]+)? (base 10)
-                |[-+]?[0-9][0-9]*(:[0-5]?[0-9])+\.[0-9]* (base 60)
-                # |[-+]?([0-9][0-9_]*)?\.[0-9.]*([eE][-+][0-9]+)? (base 10)
-                # |[-+]?[0-9][0-9_]*(:[0-5]?[0-9])+\.[0-9_]* (base 60)
-                |[-+]?\.(inf|Inf|INF) # (infinity)
-                |\.(nan|NaN|NAN) # (not a number)
-                )$""",
-                re.X,
+                r"^(?:[-+]?(?:\.[0-9]+|[0-9]+(\.[0-9]*)?)(?:[eE][-+]?[0-9]+)?|[-+]?\.(?:inf|Inf|INF)|\.(?:nan|NaN|NAN))$",
+                re.VERBOSE,
             ),
             "start_chars": list("-+0123456789."),
         },
         {
             "tag": "tag:yaml.org,2002:null",
-            "regexp": re.compile(r"^(?:~||null|Null|NULL)$", re.X),
+            "regexp": re.compile(r"^(?:~||null|Null|NULL)$", re.VERBOSE),
             "start_chars": ["~", "n", "N", ""],
         },
     ],

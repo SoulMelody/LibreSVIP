@@ -1,12 +1,13 @@
-from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Optional, Union
 
 from xsdata.models.datatype import XmlTime
+from xsdata_pydantic.fields import field
+
+from libresvip.model.base import BaseModel
 
 
-@dataclass
-class CeVIOAuthor:
+class CeVIOAuthor(BaseModel):
     class Meta:
         name = "Author"
 
@@ -19,8 +20,7 @@ class CeVIOAuthor:
     )
 
 
-@dataclass
-class CeVIONoData:
+class CeVIONoData(BaseModel):
     class Meta:
         name = "NoData"
 
@@ -40,7 +40,6 @@ class CeVIONoData:
     )
 
 
-@dataclass
 class CeVIOData(CeVIONoData):
     class Meta:
         name = "Data"
@@ -48,8 +47,7 @@ class CeVIOData(CeVIONoData):
     value: Optional[Union[float, int, Decimal]] = field(default=None)
 
 
-@dataclass
-class CeVIODictExtension:
+class CeVIODictExtension(BaseModel):
     class Meta:
         name = "Extension"
 
@@ -70,8 +68,7 @@ class CeVIODictExtension:
     )
 
 
-@dataclass
-class CeVIODictionary:
+class CeVIODictionary(BaseModel):
     class Meta:
         name = "Dictionary"
 
@@ -91,8 +88,7 @@ class CeVIODictionary:
     )
 
 
-@dataclass
-class CeVIODynamics:
+class CeVIODynamics(BaseModel):
     class Meta:
         name = "Dynamics"
 
@@ -112,8 +108,7 @@ class CeVIODynamics:
     )
 
 
-@dataclass
-class CeVIOTalkExtension:
+class CeVIOTalkExtension(BaseModel):
     class Meta:
         name = "Extension"
 
@@ -126,8 +121,7 @@ class CeVIOTalkExtension:
     )
 
 
-@dataclass
-class CeVIOGroup:
+class CeVIOGroup(BaseModel):
     class Meta:
         name = "Group"
 
@@ -217,8 +211,7 @@ class CeVIOGroup:
     )
 
 
-@dataclass
-class CeVIOKey:
+class CeVIOKey(BaseModel):
     class Meta:
         name = "Key"
 
@@ -245,8 +238,7 @@ class CeVIOKey:
     )
 
 
-@dataclass
-class CeVIONote:
+class CeVIONote(BaseModel):
     class Meta:
         name = "Note"
 
@@ -343,8 +335,7 @@ class CeVIONote:
     )
 
 
-@dataclass
-class CeVIOReferenceState:
+class CeVIOReferenceState(BaseModel):
     class Meta:
         name = "ReferenceState"
 
@@ -364,8 +355,7 @@ class CeVIOReferenceState:
     )
 
 
-@dataclass
-class CeVIOSound:
+class CeVIOSound(BaseModel):
     class Meta:
         name = "Sound"
 
@@ -385,8 +375,7 @@ class CeVIOSound:
     )
 
 
-@dataclass
-class CeVIOSoundSetting:
+class CeVIOSoundSetting(BaseModel):
     class Meta:
         name = "SoundSetting"
 
@@ -413,8 +402,7 @@ class CeVIOSoundSetting:
     )
 
 
-@dataclass
-class CeVIOSoundSource:
+class CeVIOSoundSource(BaseModel):
     class Meta:
         name = "SoundSource"
 
@@ -441,8 +429,7 @@ class CeVIOSoundSource:
     )
 
 
-@dataclass
-class CeVIOTime:
+class CeVIOTime(BaseModel):
     class Meta:
         name = "Time"
 
@@ -469,8 +456,7 @@ class CeVIOTime:
     )
 
 
-@dataclass
-class CeVIOViewScale:
+class CeVIOViewScale(BaseModel):
     class Meta:
         name = "ViewScale"
 
@@ -490,8 +476,7 @@ class CeVIOViewScale:
     )
 
 
-@dataclass
-class CeVIOBeat:
+class CeVIOBeat(BaseModel):
     class Meta:
         name = "Beat"
 
@@ -504,8 +489,7 @@ class CeVIOBeat:
     )
 
 
-@dataclass
-class CeVIOGroups:
+class CeVIOGroups(BaseModel):
     class Meta:
         name = "Groups"
 
@@ -525,8 +509,7 @@ class CeVIOGroups:
     )
 
 
-@dataclass
-class CeVIOScore:
+class CeVIOScore(BaseModel):
     class Meta:
         name = "Score"
 
@@ -618,8 +601,7 @@ class CeVIOScore:
     )
 
 
-@dataclass
-class CeVIOSongEditor:
+class CeVIOSongEditor(BaseModel):
     class Meta:
         name = "SongEditor"
 
@@ -667,8 +649,7 @@ class CeVIOSongEditor:
     )
 
 
-@dataclass
-class CeVIOSoundSources:
+class CeVIOSoundSources(BaseModel):
     class Meta:
         name = "SoundSources"
 
@@ -681,8 +662,7 @@ class CeVIOSoundSources:
     )
 
 
-@dataclass
-class CeVIOTts:
+class CeVIOTts(BaseModel):
     class Meta:
         name = "TTS"
 
@@ -709,8 +689,7 @@ class CeVIOTts:
     )
 
 
-@dataclass
-class CeVIOTalkEditor:
+class CeVIOTalkEditor(BaseModel):
     class Meta:
         name = "TalkEditor"
 
@@ -730,8 +709,7 @@ class CeVIOTalkEditor:
     )
 
 
-@dataclass
-class CeVIOTempo:
+class CeVIOTempo(BaseModel):
     class Meta:
         name = "Tempo"
 
@@ -744,8 +722,7 @@ class CeVIOTempo:
     )
 
 
-@dataclass
-class CeVIOTimeline:
+class CeVIOTimeline(BaseModel):
     class Meta:
         name = "Timeline"
 
@@ -786,8 +763,7 @@ class CeVIOTimeline:
     )
 
 
-@dataclass
-class CeVIOParameter:
+class CeVIOParameter(BaseModel):
     class Meta:
         name = "Parameter"
 
@@ -805,8 +781,8 @@ class CeVIOParameter:
             "type": "Element",
         },
     )
-    no_data: Optional[list[CeVIONoData]] = field(
-        default=None,
+    no_data: list[CeVIONoData] = field(
+        default_factory=list,
         metadata={
             "name": "NoData",
             "type": "Element",
@@ -814,8 +790,7 @@ class CeVIOParameter:
     )
 
 
-@dataclass
-class CeVIOParameters:
+class CeVIOParameters(BaseModel):
     class Meta:
         name = "Parameters"
 
@@ -870,8 +845,7 @@ class CeVIOParameters:
     )
 
 
-@dataclass
-class CeVIOSvss:
+class CeVIOSvss(BaseModel):
     class Meta:
         name = "SVSS"
 
@@ -898,8 +872,7 @@ class CeVIOSvss:
     )
 
 
-@dataclass
-class CeVIOGeneration:
+class CeVIOGeneration(BaseModel):
     class Meta:
         name = "Generation"
 
@@ -926,8 +899,7 @@ class CeVIOGeneration:
     )
 
 
-@dataclass
-class CeVIOSong:
+class CeVIOSong(BaseModel):
     class Meta:
         name = "Song"
 
@@ -975,8 +947,7 @@ class CeVIOSong:
     )
 
 
-@dataclass
-class CeVIOBaseUnit:
+class CeVIOBaseUnit(BaseModel):
     version: Optional[str] = field(
         default="1.0",
         metadata={
@@ -1035,7 +1006,6 @@ class CeVIOBaseUnit:
     )
 
 
-@dataclass
 class CeVIOSongUnit(CeVIOBaseUnit):
     song: CeVIOSong = field(
         default_factory=CeVIOSong,
@@ -1060,8 +1030,7 @@ class CeVIOSongUnit(CeVIOBaseUnit):
     )
 
 
-@dataclass
-class CeVIOComponent:
+class CeVIOComponent(BaseModel):
     class Meta:
         name = "Component"
 
@@ -1083,8 +1052,7 @@ class CeVIOComponent:
     )
 
 
-@dataclass
-class CeVIOPhoneme:
+class CeVIOPhoneme(BaseModel):
     class Meta:
         name = "Phoneme"
 
@@ -1119,8 +1087,7 @@ class CeVIOPhoneme:
     )
 
 
-@dataclass
-class CeVIODirection:
+class CeVIODirection(BaseModel):
     class Meta:
         name = "Direction"
 
@@ -1174,8 +1141,7 @@ class CeVIODirection:
     )
 
 
-@dataclass
-class CeVIOPhonemes:
+class CeVIOPhonemes(BaseModel):
     class Meta:
         name = "Phonemes"
 
@@ -1189,8 +1155,7 @@ class CeVIOPhonemes:
     )
 
 
-@dataclass
-class Word:
+class Word(BaseModel):
     class Meta:
         name = "word"
 
@@ -1217,8 +1182,7 @@ class Word:
     value: str = field(default="")
 
 
-@dataclass
-class AcousticPhrase:
+class AcousticPhrase(BaseModel):
     class Meta:
         name = "acoustic_phrase"
 
@@ -1230,8 +1194,7 @@ class AcousticPhrase:
     )
 
 
-@dataclass
-class Base:
+class Base(BaseModel):
     acoustic_phrase: list[AcousticPhrase] = field(
         default_factory=list,
         metadata={
@@ -1240,8 +1203,7 @@ class Base:
     )
 
 
-@dataclass
-class Edited:
+class Edited(BaseModel):
     acoustic_phrase: list[AcousticPhrase] = field(
         default_factory=list,
         metadata={
@@ -1250,8 +1212,7 @@ class Edited:
     )
 
 
-@dataclass
-class CeVIOMetadataEN:
+class CeVIOMetadataEN(BaseModel):
     class Meta:
         name = "Metadata_EN"
 
@@ -1272,7 +1233,6 @@ class CeVIOMetadataEN:
     )
 
 
-@dataclass
 class CeVIOTalkUnit(CeVIOBaseUnit):
     metadata: Optional[str] = field(
         default=None,
@@ -1306,7 +1266,6 @@ class CeVIOTalkUnit(CeVIOBaseUnit):
     )
 
 
-@dataclass
 class CeVIOAudioUnit(CeVIOBaseUnit):
     file_path: Optional[str] = field(
         default=None,
@@ -1317,14 +1276,12 @@ class CeVIOAudioUnit(CeVIOBaseUnit):
     )
 
 
-@dataclass
 class CeVIOUnit(CeVIOSongUnit, CeVIOTalkUnit, CeVIOAudioUnit):
     class Meta:
         name = "Unit"
 
 
-@dataclass
-class CeVIOUnits:
+class CeVIOUnits(BaseModel):
     class Meta:
         name = "Units"
 
@@ -1337,8 +1294,7 @@ class CeVIOUnits:
     )
 
 
-@dataclass
-class CeVIOScene:
+class CeVIOScene(BaseModel):
     class Meta:
         name = "Scene"
 
@@ -1393,8 +1349,7 @@ class CeVIOScene:
     )
 
 
-@dataclass
-class CeVIOSequence:
+class CeVIOSequence(BaseModel):
     class Meta:
         name = "Sequence"
 
@@ -1414,8 +1369,7 @@ class CeVIOSequence:
     )
 
 
-@dataclass
-class CeVIOCreativeStudioProject:
+class CeVIOCreativeStudioProject(BaseModel):
     class Meta:
         name = "Scenario"
 

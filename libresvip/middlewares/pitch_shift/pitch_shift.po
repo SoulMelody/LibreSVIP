@@ -1,0 +1,9 @@
+msgid "Key transition of pitch"
+msgstr ""
+
+msgid "Pitch shift in semitones."
+msgstr ""
+
+msgid "Pitch Shift"
+msgstr ""
+

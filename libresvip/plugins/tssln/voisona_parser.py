@@ -1,4 +1,5 @@
 import dataclasses
+import itertools
 import operator
 from typing import Optional
 
@@ -143,16 +144,37 @@ class VoiSonaParser:
         if track.plugin_data.state_information.parameter is not None:
             for parameter in track.plugin_data.state_information.parameter:
                 if parameter.log_f0 is not None:
-                    for curve in parameter.log_f0:
-                        pitch_data_nodes: list[VoiSonaPointData] = curve.data
-                        pitch_datas = [
-                            pitch_data
-                            for data_node in pitch_data_nodes
-                            if (pitch_data := self.parse_pitch_data(data_node))
-                        ]
-                        voisona_track_pitch_data = VoiSonaTrackPitchData(
-                            events=pitch_datas, tempos=tempos, tick_prefix=tick_prefix
-                        )
+                    pitch_data_nodes = itertools.chain.from_iterable(
+                        curve.data for curve in parameter.log_f0
+                    )
+                    vibrato_amplitude_nodes = itertools.chain.from_iterable(
+                        curve.data for curve in parameter.vib_amp or []
+                    )
+                    vibrato_frequency_nodes = itertools.chain.from_iterable(
+                        curve.data for curve in parameter.vib_frq or []
+                    )
+                    pitch_datas = [
+                        pitch_data
+                        for data_node in pitch_data_nodes
+                        if (pitch_data := self.parse_param_data(data_node))
+                    ]
+                    vibrato_amplitude_data = [
+                        vibrato_amplitude
+                        for vibrato_amplitude_node in vibrato_amplitude_nodes
+                        if (vibrato_amplitude := self.parse_param_data(vibrato_amplitude_node))
+                    ]
+                    vibrato_frequency_data = [
+                        vibrato_frequency
+                        for vibrato_frequency_node in vibrato_frequency_nodes
+                        if (vibrato_frequency := self.parse_param_data(vibrato_frequency_node))
+                    ]
+                    voisona_track_pitch_data = VoiSonaTrackPitchData(
+                        events=pitch_datas,
+                        tempos=tempos,
+                        tick_prefix=tick_prefix,
+                        vibrato_amplitude_events=vibrato_amplitude_data,
+                        vibrato_frequency_events=vibrato_frequency_data,
+                    )
         time_signatures = shift_beat_list(time_signatures, 1)
         singing_track = SingingTrack(title=track.name, note_list=notes)
         if (
@@ -164,7 +186,7 @@ class VoiSonaParser:
         return singing_track, tempos, time_signatures
 
     @staticmethod
-    def parse_pitch_data(data_element: VoiSonaPointData) -> Optional[VoiSonaParamEvent]:
+    def parse_param_data(data_element: VoiSonaPointData) -> Optional[VoiSonaParamEvent]:
         value = float(data_element.value) if data_element.value is not None else None
         if value is not None:
             index = data_element.index or None

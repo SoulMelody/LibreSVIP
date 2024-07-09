@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/ccs/ccs.po\n"
+"X-Crowdin-File-ID: 116\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
+
+msgid "CeVIO"
+msgstr ""
+
+msgid "CeVIO Creative Studio Project file"
+msgstr "CeVIO Creative Studio工程文件"
+
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr "CeVIO Creative Studio工程文件转换插件"
+
+msgid "Unsupported lyric: "
+msgstr "不支持的歌词: "
+
+msgid "Pitch value is out of bounds"
+msgstr "音高值越界"
+
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+msgid "Default Voicebank ID"
+msgstr "默认声库ID"
+
+msgid "Default Voicebank Version"
+msgstr "默认声库版本"
+

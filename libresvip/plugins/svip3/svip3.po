@@ -1,0 +1,18 @@
+msgid "Svip3"
+msgstr ""
+
+msgid "Netease Cloud Music XStudio project file"
+msgstr ""
+
+msgid "Conversion plugin for Netease Cloud Music XStudio project file"
+msgstr ""
+
+msgid "Unsupported pinyin:"
+msgstr ""
+
+msgid "Note duration is too short:"
+msgstr ""
+
+msgid "Note duration is too long:"
+msgstr ""
+

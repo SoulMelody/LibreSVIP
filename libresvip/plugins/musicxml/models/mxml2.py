@@ -1,7 +1,10 @@
-from dataclasses import dataclass, field
 from decimal import Decimal
 from enum import Enum
 from typing import Optional, Union
+
+from xsdata_pydantic.fields import field
+
+from libresvip.model.base import BaseModel
 
 from .xlink import XLINK_NS, ActuateValue, ShowValue, TypeValue
 from .xml import XML_NS, LangValue
@@ -85,8 +88,7 @@ class BeamValue(Enum):
     BACKWARD_HOOK = "backward hook"
 
 
-@dataclass
-class Bookmark:
+class Bookmark(BaseModel):
     """
     The bookmark type serves as a well-defined target for an incoming simple XLink.
     """
@@ -162,8 +164,7 @@ class DegreeTypeValue(Enum):
     SUBTRACT = "subtract"
 
 
-@dataclass
-class Empty:
+class Empty(BaseModel):
     """
     The empty type represents an empty element with no attributes.
     """
@@ -194,8 +195,7 @@ class Fan(Enum):
     NONE = "none"
 
 
-@dataclass
-class Feature:
+class Feature(BaseModel):
     """The feature type is a part of the grouping element used for musical
     analysis.
 
@@ -292,8 +292,7 @@ class HarmonyType(Enum):
     ALTERNATE = "alternate"
 
 
-@dataclass
-class Instrument:
+class Instrument(BaseModel):
     """The instrument type distinguishes between score-instrument elements in a
     score-part.
 
@@ -451,8 +450,7 @@ class LineType(Enum):
     WAVY = "wavy"
 
 
-@dataclass
-class LineWidth:
+class LineWidth(BaseModel):
     """The line-width type indicates the width of a line type in tenths.
 
     The type attribute defines what type of line is being defined.
@@ -492,8 +490,7 @@ class MarginType(Enum):
     BOTH = "both"
 
 
-@dataclass
-class MeasureLayout:
+class MeasureLayout(BaseModel):
     """
     The measure-layout type includes the horizontal distance from the previous
     measure.
@@ -525,8 +522,7 @@ class MeasureNumberingValue(Enum):
     SYSTEM = "system"
 
 
-@dataclass
-class MidiDevice:
+class MidiDevice(BaseModel):
     """The midi-device type corresponds to the DeviceName meta event in Standard
     MIDI Files.
 
@@ -553,8 +549,7 @@ class MidiDevice:
     )
 
 
-@dataclass
-class MidiInstrument:
+class MidiInstrument(BaseModel):
     """The midi-instrument type defines MIDI 1.0 instrument playback.
 
     The midi-instrument element can be a part of either the score-
@@ -670,8 +665,7 @@ class MidiInstrument:
     )
 
 
-@dataclass
-class MiscellaneousField:
+class MiscellaneousField(BaseModel):
     """If a program has other metadata not yet supported in the MusicXML format,
     each type of metadata can go in a miscellaneous-field element.
 
@@ -771,8 +765,7 @@ class NumberOrNormalValue(Enum):
     NORMAL = "normal"
 
 
-@dataclass
-class OtherAppearance:
+class OtherAppearance(BaseModel):
     """The other-appearance type is used to define any graphical settings not yet
     in the current version of the MusicXML format.
 
@@ -834,8 +827,7 @@ class RightLeftMiddle(Enum):
     MIDDLE = "middle"
 
 
-@dataclass
-class Scaling:
+class Scaling(BaseModel):
     """Margins, page sizes, and distances are all measured in tenths to keep
     MusicXML data in a consistent coordinate system as much as possible.
 
@@ -888,8 +880,7 @@ class ShowTuplet(Enum):
     NONE = "none"
 
 
-@dataclass
-class StaffLayout:
+class StaffLayout(BaseModel):
     """Staff layout includes the vertical distance from the bottom line of the
     previous staff in this system to the top line of the staff specified by the
     number attribute.
@@ -1057,8 +1048,7 @@ class SymbolSize(Enum):
     LARGE = "large"
 
 
-@dataclass
-class SystemMargins:
+class SystemMargins(BaseModel):
     """System margins are relative to the page margins.
 
     Positive values indent and negative values reduce the margin size.
@@ -1152,8 +1142,7 @@ class TwoNoteTurn(Enum):
     NONE = "none"
 
 
-@dataclass
-class TypedText:
+class TypedText(BaseModel):
     """
     The typed-text type represents a text element with a type attributes.
     """
@@ -1256,8 +1245,7 @@ class YesNo(Enum):
     NO = "no"
 
 
-@dataclass
-class Accidental:
+class Accidental(BaseModel):
     """The accidental type represents actual notated accidentals.
 
     Editorial and cautionary indications are indicated by attributes.
@@ -1371,8 +1359,7 @@ class Accidental:
     )
 
 
-@dataclass
-class AccidentalMark:
+class AccidentalMark(BaseModel):
     """An accidental-mark can be used as a separate notation or as part of an
     ornament.
 
@@ -1461,8 +1448,7 @@ class AccidentalMark:
     )
 
 
-@dataclass
-class AccidentalText:
+class AccidentalText(BaseModel):
     """
     The accidental-text type represents an element with an accidental value and
     text-formatting attributes.
@@ -1628,8 +1614,7 @@ class AccidentalText:
     )
 
 
-@dataclass
-class Accord:
+class Accord(BaseModel):
     """The accord type represents the tuning of a single string in the scordatura
     element.
 
@@ -1684,8 +1669,7 @@ class Accord:
     )
 
 
-@dataclass
-class AccordionRegistration:
+class AccordionRegistration(BaseModel):
     """The accordion-registration type is use for accordion registration symbols.
 
     These are circular symbols divided horizontally into high, middle,
@@ -1807,8 +1791,7 @@ class AccordionRegistration:
     )
 
 
-@dataclass
-class Arpeggiate:
+class Arpeggiate(BaseModel):
     """The arpeggiate type indicates that this note is part of an arpeggiated
     chord.
 
@@ -1879,8 +1862,7 @@ class Arpeggiate:
     )
 
 
-@dataclass
-class BarStyleColor:
+class BarStyleColor(BaseModel):
     """
     The bar-style-color type contains barline style and color information.
     """
@@ -1903,8 +1885,7 @@ class BarStyleColor:
     )
 
 
-@dataclass
-class Barre:
+class Barre(BaseModel):
     """The barre element indicates placing a finger over multiple strings on a
     single fret.
 
@@ -1933,8 +1914,7 @@ class Barre:
     )
 
 
-@dataclass
-class BassAlter:
+class BassAlter(BaseModel):
     """The bass-alter type represents the chromatic alteration of the bass of the
     current chord within the harmony element.
 
@@ -2033,8 +2013,7 @@ class BassAlter:
     )
 
 
-@dataclass
-class BassStep:
+class BassStep(BaseModel):
     """The bass-step type represents the pitch step of the bass of the current
     chord within the harmony element.
 
@@ -2123,8 +2102,7 @@ class BassStep:
     )
 
 
-@dataclass
-class Beam:
+class Beam(BaseModel):
     """Beam values include begin, continue, end, forward hook, and backward hook.
 
     Up to six concurrent beam levels are available to cover up to 256th
@@ -2178,8 +2156,7 @@ class Beam:
     )
 
 
-@dataclass
-class BeatRepeat:
+class BeatRepeat(BaseModel):
     """The beat-repeat type is used to indicate that a single beat (but possibly
     many notes) is repeated.
 
@@ -2243,8 +2220,7 @@ class BeatRepeat:
     )
 
 
-@dataclass
-class Bracket:
+class Bracket(BaseModel):
     """Brackets are combined with words in a variety of modern directions.
 
     The line-end attribute specifies if there is a jog up or down (or
@@ -2331,8 +2307,7 @@ class Bracket:
     )
 
 
-@dataclass
-class Cancel:
+class Cancel(BaseModel):
     """A cancel element indicates that the old key signature should be cancelled
     before the new one appears.
 
@@ -2362,8 +2337,7 @@ class Cancel:
     )
 
 
-@dataclass
-class Clef:
+class Clef(BaseModel):
     """Clefs are represented by a combination of sign, line, and clef-octave-change
     elements.
 
@@ -2513,8 +2487,7 @@ class Clef:
     )
 
 
-@dataclass
-class Dashes:
+class Dashes(BaseModel):
     """The dashes type represents dashes, used for instance with cresc.
 
     and dim. marks.
@@ -2576,8 +2549,7 @@ class Dashes:
     )
 
 
-@dataclass
-class DegreeAlter:
+class DegreeAlter(BaseModel):
     """The degree-alter type represents the chromatic alteration for the current
     degree.
 
@@ -2672,8 +2644,7 @@ class DegreeAlter:
     )
 
 
-@dataclass
-class DegreeType:
+class DegreeType(BaseModel):
     """The degree-type type indicates if this degree is an addition, alteration, or
     subtraction relative to the kind of the current chord.
 
@@ -2763,8 +2734,7 @@ class DegreeType:
     )
 
 
-@dataclass
-class DegreeValue:
+class DegreeValue(BaseModel):
     """The content of the degree-value type is a number indicating the degree of
     the chord (1 for the root, 3 for third, etc).
 
@@ -2853,8 +2823,7 @@ class DegreeValue:
     )
 
 
-@dataclass
-class DisplayStepOctave:
+class DisplayStepOctave(BaseModel):
     """The display-step-octave type contains the sequence of elements used by both
     the rest and unpitched elements.
 
@@ -2888,8 +2857,7 @@ class DisplayStepOctave:
     )
 
 
-@dataclass
-class Dynamics:
+class Dynamics(BaseModel):
     """Dynamics can be associated either with a note or a general musical
     direction.
 
@@ -3130,8 +3098,7 @@ class Dynamics:
     )
 
 
-@dataclass
-class Elision:
+class Elision(BaseModel):
     """In Version 2.0, the content of the elision type is used to specify the
     symbol used to display the elision.
 
@@ -3186,8 +3153,7 @@ class Elision:
     )
 
 
-@dataclass
-class EmptyFont:
+class EmptyFont(BaseModel):
     """
     The empty-font type represents an empty element with font attributes.
     """
@@ -3226,8 +3192,7 @@ class EmptyFont:
     )
 
 
-@dataclass
-class EmptyLine:
+class EmptyLine(BaseModel):
     """
     The empty-line type represents an empty element with line-shape, line-type,
     print-style and placement attributes.
@@ -3322,8 +3287,7 @@ class EmptyLine:
     )
 
 
-@dataclass
-class EmptyPlacement:
+class EmptyPlacement(BaseModel):
     """
     The empty-placement type represents an empty element with print-style and
     placement attributes.
@@ -3404,8 +3368,7 @@ class EmptyPlacement:
     )
 
 
-@dataclass
-class EmptyPrintStyle:
+class EmptyPrintStyle(BaseModel):
     """
     The empty-print-style type represents an empty element with print-style
     attributes.
@@ -3480,8 +3443,7 @@ class EmptyPrintStyle:
     )
 
 
-@dataclass
-class EmptyTrillSound:
+class EmptyTrillSound(BaseModel):
     """
     The empty-trill-sound type represents an empty element with print-style,
     placement, and trill-sound attributes.
@@ -3614,8 +3576,7 @@ class EmptyTrillSound:
     )
 
 
-@dataclass
-class Ending:
+class Ending(BaseModel):
     """The ending type represents multiple (e.g. first and second) endings.
 
     Typically, the start type is associated with the left barline of the
@@ -3756,8 +3717,7 @@ class Ending:
     )
 
 
-@dataclass
-class Extend:
+class Extend(BaseModel):
     """
     The extend type represents word extensions for lyrics.
     """
@@ -3803,8 +3763,7 @@ class Extend:
     )
 
 
-@dataclass
-class Fermata:
+class Fermata(BaseModel):
     """The fermata text content represents the shape of the fermata sign.
 
     An empty fermata element represents a normal fermata. The fermata
@@ -3893,8 +3852,7 @@ class Fermata:
     )
 
 
-@dataclass
-class Fingering:
+class Fingering(BaseModel):
     """Fingering is typically indicated 1,2,3,4,5.
 
     Multiple fingerings may be given, typically to substitute fingerings
@@ -3997,8 +3955,7 @@ class Fingering:
     )
 
 
-@dataclass
-class FirstFret:
+class FirstFret(BaseModel):
     """The first-fret type indicates which fret is shown in the top space of the
     frame; it is fret 1 if the element is not present.
 
@@ -4030,8 +3987,7 @@ class FirstFret:
     )
 
 
-@dataclass
-class FormattedText:
+class FormattedText(BaseModel):
     """
     The formatted-text type represents a text element with text-formatting
     attributes.
@@ -4197,8 +4153,7 @@ class FormattedText:
     )
 
 
-@dataclass
-class Fret:
+class Fret(BaseModel):
     """The fret element is used with tablature notation and chord diagrams.
 
     Fret numbers start with 0 for an open string and 1 for the first
@@ -4252,8 +4207,7 @@ class Fret:
     )
 
 
-@dataclass
-class Glissando:
+class Glissando(BaseModel):
     """Glissando and slide types both indicate rapidly moving from one pitch to the
     other so that individual notes are not discerned.
 
@@ -4361,8 +4315,7 @@ class Glissando:
     )
 
 
-@dataclass
-class Grace:
+class Grace(BaseModel):
     """The grace type indicates the presence of a grace note.
 
     The slash attribute for a grace note is yes for slashed eighth
@@ -4411,8 +4364,7 @@ class Grace:
     )
 
 
-@dataclass
-class GroupBarline:
+class GroupBarline(BaseModel):
     """
     The group-barline type indicates if the group should have common barlines.
     """
@@ -4435,8 +4387,7 @@ class GroupBarline:
     )
 
 
-@dataclass
-class GroupName:
+class GroupName(BaseModel):
     """The group-name type describes the name or abbreviation of a part-group
     element.
 
@@ -4526,8 +4477,7 @@ class GroupName:
     )
 
 
-@dataclass
-class GroupSymbol:
+class GroupSymbol(BaseModel):
     """
     The group-symbol type indicates how the symbol for a group is indicated in the
     score.
@@ -4579,8 +4529,7 @@ class GroupSymbol:
     )
 
 
-@dataclass
-class Grouping:
+class Grouping(BaseModel):
     """The grouping type is used for musical analysis.
 
     When the type attribute is "start" or "single", it usually contains
@@ -4627,8 +4576,7 @@ class Grouping:
     )
 
 
-@dataclass
-class HammerOnPullOff:
+class HammerOnPullOff(BaseModel):
     """The hammer-on and pull-off elements are used in guitar and fretted
     instrument notation.
 
@@ -4736,8 +4684,7 @@ class HammerOnPullOff:
     )
 
 
-@dataclass
-class Harmonic:
+class Harmonic(BaseModel):
     """The harmonic type indicates natural and artificial harmonics.
 
     Allowing the type of pitch to be specified, combined with controls
@@ -4887,8 +4834,7 @@ class Harmonic:
     )
 
 
-@dataclass
-class Image:
+class Image(BaseModel):
     """
     The image type is used to include graphical images in a score.
     """
@@ -4953,8 +4899,7 @@ class Image:
     )
 
 
-@dataclass
-class Inversion:
+class Inversion(BaseModel):
     """The inversion type represents harmony inversions.
 
     The value is a number indicating which inversion is used: 0 for root position, 1 for first inversion, etc.
@@ -5035,8 +4980,7 @@ class Inversion:
     )
 
 
-@dataclass
-class KeyOctave:
+class KeyOctave(BaseModel):
     """The key-octave element specifies in which octave an element of a key
     signature appears.
 
@@ -5073,8 +5017,7 @@ class KeyOctave:
     )
 
 
-@dataclass
-class Kind:
+class Kind(BaseModel):
     """Kind indicates the type of chord.
 
     Degree elements can then add, subtract, or alter from these starting points
@@ -5209,8 +5152,7 @@ class Kind:
     )
 
 
-@dataclass
-class Level:
+class Level(BaseModel):
     """The level type is used to specify editorial information for different
     MusicXML elements.
 
@@ -5256,8 +5198,7 @@ class Level:
     )
 
 
-@dataclass
-class Link:
+class Link(BaseModel):
     """The link type serves as an outgoing simple XLink.
 
     It is also used to connect a MusicXML score with a MusicXML opus.
@@ -5359,8 +5300,7 @@ class Link:
     )
 
 
-@dataclass
-class LyricFont:
+class LyricFont(BaseModel):
     """
     The lyric-font type specifies the default font for a particular name and number
     of lyric.
@@ -5412,8 +5352,7 @@ class LyricFont:
     )
 
 
-@dataclass
-class LyricLanguage:
+class LyricLanguage(BaseModel):
     """
     The lyric-language type specifies the default language for a particular name
     and number of lyric.
@@ -5444,8 +5383,7 @@ class LyricLanguage:
     )
 
 
-@dataclass
-class MeasureNumbering:
+class MeasureNumbering(BaseModel):
     """The measure-numbering type describes how frequently measure numbers are
     displayed on this part.
 
@@ -5529,8 +5467,7 @@ class MeasureNumbering:
     )
 
 
-@dataclass
-class MeasureRepeat:
+class MeasureRepeat(BaseModel):
     """The measure-repeat type is used for both single and multiple measure
     repeats.
 
@@ -5565,8 +5502,7 @@ class MeasureRepeat:
     )
 
 
-@dataclass
-class MetronomeBeam:
+class MetronomeBeam(BaseModel):
     """
     The metronome-beam type works like the beam type in defining metric
     relationships, but does not include all the attributes available in the beam
@@ -5592,8 +5528,7 @@ class MetronomeBeam:
     )
 
 
-@dataclass
-class Miscellaneous:
+class Miscellaneous(BaseModel):
     """If a program has other metadata not yet supported in the MusicXML format, it
     can go in the miscellaneous element.
 
@@ -5613,8 +5548,7 @@ class Miscellaneous:
     )
 
 
-@dataclass
-class MultipleRest:
+class MultipleRest(BaseModel):
     """The text of the multiple-rest type indicates the number of measures in the
     multiple rest.
 
@@ -5637,8 +5571,7 @@ class MultipleRest:
     )
 
 
-@dataclass
-class NonArpeggiate:
+class NonArpeggiate(BaseModel):
     """The non-arpeggiate type indicates that this note is at the top or bottom of
     a bracket indicating to not arpeggiate these notes.
 
@@ -5708,8 +5641,7 @@ class NonArpeggiate:
     )
 
 
-@dataclass
-class NoteSize:
+class NoteSize(BaseModel):
     """The note-size type indicates the percentage of the regular note size to use
     for notes with a cue and large size as defined in the type element.
 
@@ -5741,8 +5673,7 @@ class NoteSize:
     )
 
 
-@dataclass
-class NoteType:
+class NoteType(BaseModel):
     """The note-type type indicates the graphic note type.
 
     Values range from 256th to long. The size attribute indicates full,
@@ -5767,8 +5698,7 @@ class NoteType:
     )
 
 
-@dataclass
-class Notehead:
+class Notehead(BaseModel):
     """The notehead element indicates shapes other than the open and closed ovals
     associated with note durations.
 
@@ -5837,8 +5767,7 @@ class Notehead:
     )
 
 
-@dataclass
-class OctaveShift:
+class OctaveShift(BaseModel):
     """The octave shift type indicates where notes are shifted up or down from
     their true pitched values because of printing difficulty.
 
@@ -5938,8 +5867,7 @@ class OctaveShift:
     )
 
 
-@dataclass
-class Offset:
+class Offset(BaseModel):
     """An offset is represented in terms of divisions, and indicates where the
     direction will appear relative to the current musical location.
 
@@ -5970,8 +5898,7 @@ class Offset:
     )
 
 
-@dataclass
-class Opus:
+class Opus(BaseModel):
     """
     The opus type represents a link to a MusicXML opus document that composes
     multiple MusicXML scores into a collection.
@@ -6027,8 +5954,7 @@ class Opus:
     )
 
 
-@dataclass
-class OtherDirection:
+class OtherDirection(BaseModel):
     """The other-direction type is used to define any direction symbols not yet in
     the current version of the MusicXML format.
 
@@ -6118,8 +6044,7 @@ class OtherDirection:
     )
 
 
-@dataclass
-class OtherNotation:
+class OtherNotation(BaseModel):
     """The other-notation type is used to define any notations not yet in the
     MusicXML format.
 
@@ -6233,8 +6158,7 @@ class OtherNotation:
     )
 
 
-@dataclass
-class PageMargins:
+class PageMargins(BaseModel):
     """Page margins are specified either for both even and odd pages, or via
     separate odd and even page number values.
 
@@ -6287,8 +6211,7 @@ class PageMargins:
     )
 
 
-@dataclass
-class PartName:
+class PartName(BaseModel):
     """The part-name type describes the name or abbreviation of a score-part
     element.
 
@@ -6385,8 +6308,7 @@ class PartName:
     )
 
 
-@dataclass
-class PartSymbol:
+class PartSymbol(BaseModel):
     """The part-symbol element indicates how a symbol for a multi-staff part is
     indicated in the score.
 
@@ -6458,8 +6380,7 @@ class PartSymbol:
     )
 
 
-@dataclass
-class Pedal:
+class Pedal(BaseModel):
     """The pedal type represents piano pedal marks.
 
     The line attribute is yes if pedal lines are used, no if Ped and *
@@ -6549,8 +6470,7 @@ class Pedal:
     )
 
 
-@dataclass
-class PedalTuning:
+class PedalTuning(BaseModel):
     """
     The pedal-tuning type specifies the tuning of a single harp pedal.
 
@@ -6581,8 +6501,7 @@ class PedalTuning:
     )
 
 
-@dataclass
-class PerMinute:
+class PerMinute(BaseModel):
     """The per-minute type can be a number, or a text description including
     numbers.
 
@@ -6632,8 +6551,7 @@ class PerMinute:
     )
 
 
-@dataclass
-class Pitch:
+class Pitch(BaseModel):
     """
     Pitch is represented as a combination of the step of the diatonic scale, the
     chromatic alteration, and the octave.
@@ -6666,8 +6584,7 @@ class Pitch:
     )
 
 
-@dataclass
-class PlacementText:
+class PlacementText(BaseModel):
     """
     The placement-text type represents a text element with print-style and
     placement attribute groups.
@@ -6754,8 +6671,7 @@ class PlacementText:
     )
 
 
-@dataclass
-class Rehearsal:
+class Rehearsal(BaseModel):
     """The rehearsal type specifies a rehearsal mark.
 
     Language is Italian ("it") by default. Enclosure is square by
@@ -6890,8 +6806,7 @@ class Rehearsal:
     )
 
 
-@dataclass
-class Repeat:
+class Repeat(BaseModel):
     """The repeat type represents repeat marks.
 
     The start of the repeat has a forward direction while the end of the
@@ -6918,8 +6833,7 @@ class Repeat:
     )
 
 
-@dataclass
-class RootAlter:
+class RootAlter(BaseModel):
     """The root-alter type represents the chromatic alteration of the root of the
     current chord within the harmony element.
 
@@ -7018,8 +6932,7 @@ class RootAlter:
     )
 
 
-@dataclass
-class RootStep:
+class RootStep(BaseModel):
     """The root-step type represents the pitch step of the root of the current
     chord within the harmony element.
 
@@ -7108,8 +7021,7 @@ class RootStep:
     )
 
 
-@dataclass
-class ScoreInstrument:
+class ScoreInstrument(BaseModel):
     """The score-instrument type represents a single instrument within a score-
     part.
 
@@ -7178,8 +7090,7 @@ class ScoreInstrument:
     )
 
 
-@dataclass
-class Slash:
+class Slash(BaseModel):
     """The slash type is used to indicate that slash notation is to be used.
 
     If the slash is on every beat, use-stems is no (the default). To
@@ -7239,8 +7150,7 @@ class Slash:
     )
 
 
-@dataclass
-class Slide:
+class Slide(BaseModel):
     """Glissando and slide types both indicate rapidly moving from one pitch to the
     other so that individual notes are not discerned.
 
@@ -7379,8 +7289,7 @@ class Slide:
     )
 
 
-@dataclass
-class Slur:
+class Slur(BaseModel):
     """Slur types are empty.
 
     Most slurs are represented with two elements: one with a start type, and one with a stop type. Slurs can add more elements using a continue type. This is typically used to specify the formatting of cross-system slurs, or to specify the shape of very complex slurs.
@@ -7503,8 +7412,7 @@ class Slur:
     )
 
 
-@dataclass
-class StaffTuning:
+class StaffTuning(BaseModel):
     """
     The staff-tuning type specifies the open, non-capo tuning of the lines on a
     tablature staff.
@@ -7557,8 +7465,7 @@ class StaffTuning:
     )
 
 
-@dataclass
-class Stem:
+class Stem(BaseModel):
     """Stems can be down, up, none, or double.
 
     For down and up stems, the position attributes can be used to
@@ -7614,8 +7521,7 @@ class Stem:
     )
 
 
-@dataclass
-class String:
+class String(BaseModel):
     """The string type is used with tablature notation, regular notation (where it
     is often circled), and chord diagrams.
 
@@ -7703,8 +7609,7 @@ class String:
     )
 
 
-@dataclass
-class StyleText:
+class StyleText(BaseModel):
     """
     The style-text type represents a text element with a print-style attribute
     group.
@@ -7785,8 +7690,7 @@ class StyleText:
     )
 
 
-@dataclass
-class Supports:
+class Supports(BaseModel):
     """The supports type indicates if a MusicXML encoding supports a particular
     MusicXML element.
 
@@ -7831,8 +7735,7 @@ class Supports:
     )
 
 
-@dataclass
-class SystemLayout:
+class SystemLayout(BaseModel):
     """System layout includes left and right margins and the vertical distance from
     the previous system.
 
@@ -7875,8 +7778,7 @@ class SystemLayout:
     )
 
 
-@dataclass
-class TextElementData:
+class TextElementData(BaseModel):
     """The text-element-data type represents a syllable or portion of a syllable
     for lyric text underlay.
 
@@ -7986,8 +7888,7 @@ class TextElementData:
     )
 
 
-@dataclass
-class Tie:
+class Tie(BaseModel):
     """The tie element indicates that a tie begins or ends with this note.
 
     The tie element indicates sound; the tied element indicates
@@ -8007,8 +7908,7 @@ class Tie:
     )
 
 
-@dataclass
-class Tied:
+class Tied(BaseModel):
     """The tied type represents the notated tie.
 
     The tie element represents the tie sound.
@@ -8131,8 +8031,7 @@ class Tied:
     )
 
 
-@dataclass
-class Time:
+class Time(BaseModel):
     """Time signatures are represented by the beats element for the numerator and
     the beat-type element for the denominator.
 
@@ -8277,8 +8176,7 @@ class Time:
     )
 
 
-@dataclass
-class TimeModification:
+class TimeModification(BaseModel):
     """
     The time-modification type represents tuplets and other durational changes.
 
@@ -8332,8 +8230,7 @@ class TimeModification:
     )
 
 
-@dataclass
-class Transpose:
+class Transpose(BaseModel):
     """
     The transpose type represents what must be added to a written pitch to get a
     correct sounding pitch.
@@ -8385,8 +8282,7 @@ class Transpose:
     )
 
 
-@dataclass
-class Tremolo:
+class Tremolo(BaseModel):
     """While using repeater beams was the original method for indicating tremolos,
     often playback and display are not well-enough integrated in an application to
     make that feasible.
@@ -8490,8 +8386,7 @@ class Tremolo:
     )
 
 
-@dataclass
-class TupletDot:
+class TupletDot(BaseModel):
     """
     The tuplet-dot type is used to specify dotted normal tuplet types.
     """
@@ -8537,8 +8432,7 @@ class TupletDot:
     )
 
 
-@dataclass
-class TupletNumber:
+class TupletNumber(BaseModel):
     """
     The tuplet-number type indicates the number of notes for this portion of the
     tuplet.
@@ -8591,8 +8485,7 @@ class TupletNumber:
     )
 
 
-@dataclass
-class TupletType:
+class TupletType(BaseModel):
     """
     The tuplet-type type indicates the graphical note type of the notes for this
     portion of the tuplet.
@@ -8645,8 +8538,7 @@ class TupletType:
     )
 
 
-@dataclass
-class WavyLine:
+class WavyLine(BaseModel):
     """Wavy lines are one way to indicate trills.
 
     When used with a measure element, they should always have
@@ -8767,8 +8659,7 @@ class WavyLine:
     )
 
 
-@dataclass
-class Wedge:
+class Wedge(BaseModel):
     """The wedge type represents crescendo and diminuendo wedge symbols.
 
     The type attribute is crescendo for the start of a wedge that is
@@ -8840,8 +8731,7 @@ class Wedge:
     )
 
 
-@dataclass
-class Appearance:
+class Appearance(BaseModel):
     """The appearance type controls general graphical settings for the music's
     final form appearance on a printed page of display.
 
@@ -8876,8 +8766,7 @@ class Appearance:
     )
 
 
-@dataclass
-class Backup:
+class Backup(BaseModel):
     """The backup and forward elements are required to coordinate multiple voices
     in one part, including music on multiple staves.
 
@@ -8921,8 +8810,7 @@ class Backup:
     )
 
 
-@dataclass
-class Barline:
+class Barline(BaseModel):
     """If a barline is other than a normal single barline, it should be represented
     by a barline type that describes it.
 
@@ -9018,8 +8906,7 @@ class Barline:
     )
 
 
-@dataclass
-class Bass:
+class Bass(BaseModel):
     """The bass type is used to indicate a bass note in popular music chord
     symbols, e.g. G/C.
 
@@ -9048,8 +8935,7 @@ class Bass:
     )
 
 
-@dataclass
-class Bend:
+class Bend(BaseModel):
     """The bend type is used in guitar and tablature.
 
     The bend-alter element indicates the number of steps in the bend,
@@ -9217,8 +9103,7 @@ class Bend:
     )
 
 
-@dataclass
-class Credit:
+class Credit(BaseModel):
     """The credit type represents the appearance of the title, composer, arranger,
     lyricist, copyright, dedication, and other text and graphics that commonly
     appears on the first page of a score.
@@ -9276,8 +9161,7 @@ class Credit:
     )
 
 
-@dataclass
-class Degree:
+class Degree(BaseModel):
     """The degree type is used to add, alter, or subtract individual notes in the
     chord.
 
@@ -9325,8 +9209,7 @@ class Degree:
     )
 
 
-@dataclass
-class Encoding:
+class Encoding(BaseModel):
     """The encoding element contains information about who did the digital
     encoding, when, with what software, and in what aspects.
 
@@ -9373,8 +9256,7 @@ class Encoding:
     )
 
 
-@dataclass
-class Figure:
+class Figure(BaseModel):
     """
     The figure type represents a single figure within a figured-bass element.
 
@@ -9426,8 +9308,7 @@ class Figure:
     )
 
 
-@dataclass
-class Forward:
+class Forward(BaseModel):
     """The backup and forward elements are required to coordinate multiple voices
     in one part, including music on multiple staves.
 
@@ -9486,8 +9367,7 @@ class Forward:
     )
 
 
-@dataclass
-class FrameNote:
+class FrameNote(BaseModel):
     """The frame-note type represents each note included in the frame.
 
     An open string will have a fret value of 0, while a muted string
@@ -9525,8 +9405,7 @@ class FrameNote:
     )
 
 
-@dataclass
-class HarpPedals:
+class HarpPedals(BaseModel):
     """The harp-pedals type is used to create harp pedal diagrams.
 
     The pedal-step and pedal-alter elements use the same values as the
@@ -9612,7 +9491,6 @@ class HarpPedals:
     )
 
 
-@dataclass
 class HeelToe(EmptyPlacement):
     """The heel and toe elements are used with organ pedals.
 
@@ -9630,8 +9508,7 @@ class HeelToe(EmptyPlacement):
     )
 
 
-@dataclass
-class Key:
+class Key(BaseModel):
     """The key type represents a key signature.
 
     Both traditional and non-traditional key signatures are supported.
@@ -9787,8 +9664,7 @@ class Key:
     )
 
 
-@dataclass
-class Lyric:
+class Lyric(BaseModel):
     """The lyric type represents text underlays for lyrics, based on Humdrum with
     support for other formats.
 
@@ -9955,8 +9831,7 @@ class Lyric:
     )
 
 
-@dataclass
-class MeasureStyle:
+class MeasureStyle(BaseModel):
     """A measure-style indicates a special way to print partial to multiple
     measures within a part.
 
@@ -10044,7 +9919,6 @@ class MeasureStyle:
     )
 
 
-@dataclass
 class MetronomeTuplet(TimeModification):
     """
     The metronome-tuplet type uses the same element structure as the time-
@@ -10077,7 +9951,6 @@ class MetronomeTuplet(TimeModification):
     )
 
 
-@dataclass
 class Mordent(EmptyTrillSound):
     """The mordent type is used for both represents the mordent sign with the
     vertical line and the inverted-mordent sign without the line.
@@ -10096,8 +9969,7 @@ class Mordent(EmptyTrillSound):
     )
 
 
-@dataclass
-class NameDisplay:
+class NameDisplay(BaseModel):
     """The name-display type is used for exact formatting of multi-font text in
     part and group names to the left of the system.
 
@@ -10133,8 +10005,7 @@ class NameDisplay:
     )
 
 
-@dataclass
-class PageLayout:
+class PageLayout(BaseModel):
     """Page layout can be defined both in score-wide defaults and in the print
     element.
 
@@ -10171,8 +10042,7 @@ class PageLayout:
     )
 
 
-@dataclass
-class Root:
+class Root(BaseModel):
     """The root type indicates a pitch like C, D, E vs.
 
     a function indication like I, II, III. It is used with chord symbols
@@ -10201,8 +10071,7 @@ class Root:
     )
 
 
-@dataclass
-class Scordatura:
+class Scordatura(BaseModel):
     """Scordatura string tunings are represented by a series of accord elements,
     similar to the staff-tuning elements.
 
@@ -10221,8 +10090,7 @@ class Scordatura:
     )
 
 
-@dataclass
-class Sound:
+class Sound(BaseModel):
     """The sound element contains general playback parameters.
 
     They can stand alone within a part/measure, or be a component
@@ -10405,8 +10273,7 @@ class Sound:
     )
 
 
-@dataclass
-class StaffDetails:
+class StaffDetails(BaseModel):
     """The staff-details element is used to indicate different types of staves.
 
     The optional number attribute specifies the staff number from top to
@@ -10505,7 +10372,6 @@ class StaffDetails:
     )
 
 
-@dataclass
 class StrongAccent(EmptyPlacement):
     """The strong-accent type indicates a vertical accent mark.
 
@@ -10525,8 +10391,7 @@ class StrongAccent(EmptyPlacement):
     )
 
 
-@dataclass
-class TupletPortion:
+class TupletPortion(BaseModel):
     """The tuplet-portion type provides optional full control over tuplet
     specifications.
 
@@ -10562,8 +10427,7 @@ class TupletPortion:
     )
 
 
-@dataclass
-class Work:
+class Work(BaseModel):
     """Works are optionally identified by number and title.
 
     The work type also may indicate a link to the opus document that
@@ -10601,8 +10465,7 @@ class Work:
     )
 
 
-@dataclass
-class Articulations:
+class Articulations(BaseModel):
     """
     Articulations and accents are grouped together here.
 
@@ -10750,8 +10613,7 @@ class Articulations:
     )
 
 
-@dataclass
-class Attributes:
+class Attributes(BaseModel):
     """The attributes element contains musical information that typically changes
     on measure boundaries.
 
@@ -10893,8 +10755,7 @@ class Attributes:
         },
     )
 
-    @dataclass
-    class Directive:
+    class Directive(BaseModel):
         value: str = field(
             default="",
             metadata={
@@ -10974,8 +10835,7 @@ class Attributes:
         )
 
 
-@dataclass
-class Defaults:
+class Defaults(BaseModel):
     """
     The defaults type specifies score-wide defaults for scaling, layout, and
     appearance.
@@ -11047,8 +10907,7 @@ class Defaults:
     )
 
 
-@dataclass
-class FiguredBass:
+class FiguredBass(BaseModel):
     """The figured-bass element represents figured bass notation.
 
     Figured bass elements take their position from the first regular
@@ -11209,8 +11068,7 @@ class FiguredBass:
     )
 
 
-@dataclass
-class Frame:
+class Frame(BaseModel):
     """The frame type represents a frame or fretboard diagram used together with a
     chord symbol.
 
@@ -11329,8 +11187,7 @@ class Frame:
     )
 
 
-@dataclass
-class Identification:
+class Identification(BaseModel):
     """Identification contains basic metadata about the score.
 
     It includes the information in MuseData headers that may apply at a
@@ -11404,8 +11261,7 @@ class Identification:
     )
 
 
-@dataclass
-class MetronomeNote:
+class MetronomeNote(BaseModel):
     """
     The metronome-note type defines the appearance of a note within a metric
     relationship mark.
@@ -11452,8 +11308,7 @@ class MetronomeNote:
     )
 
 
-@dataclass
-class Ornaments:
+class Ornaments(BaseModel):
     """Ornaments can be any of several types, followed optionally by accidentals.
 
     The accidental-mark element's content is represented the same as an
@@ -11587,8 +11442,7 @@ class Ornaments:
     )
 
 
-@dataclass
-class PartGroup:
+class PartGroup(BaseModel):
     """The part-group element indicates groupings of parts in the score, usually
     indicated by braces and brackets.
 
@@ -11704,8 +11558,7 @@ class PartGroup:
     )
 
 
-@dataclass
-class Print:
+class Print(BaseModel):
     """The print type contains general printing parameters, including the layout
     elements defined in the layout.mod file.
 
@@ -11808,8 +11661,7 @@ class Print:
     )
 
 
-@dataclass
-class Technical:
+class Technical(BaseModel):
     """
     Technical indications give performance information for individual instruments.
 
@@ -11997,8 +11849,7 @@ class Technical:
     )
 
 
-@dataclass
-class Tuplet:
+class Tuplet(BaseModel):
     """A tuplet element is present when a tuplet is to be displayed graphically, in
     addition to the sound data provided by the time-modification elements.
 
@@ -12135,8 +11986,7 @@ class Tuplet:
     )
 
 
-@dataclass
-class Harmony:
+class Harmony(BaseModel):
     """The harmony type is based on Humdrum's **harm encoding, extended to support
     chord symbols in popular music as well as functional harmony analysis in
     classical music.
@@ -12346,8 +12196,7 @@ class Harmony:
     )
 
 
-@dataclass
-class Metronome:
+class Metronome(BaseModel):
     """The metronome type represents metronome marks and other metric
     relationships.
 
@@ -12493,8 +12342,7 @@ class Metronome:
     )
 
 
-@dataclass
-class Notations:
+class Notations(BaseModel):
     """Notations refer to musical notations, not XML notations.
 
     Multiple notations are allowed in order to represent multiple
@@ -12607,8 +12455,7 @@ class Notations:
     )
 
 
-@dataclass
-class ScorePart:
+class ScorePart(BaseModel):
     """Each MusicXML part corresponds to a track in a Standard MIDI Format 1 file.
 
     The score-instrument elements are used when there are multiple
@@ -12707,8 +12554,7 @@ class ScorePart:
     )
 
 
-@dataclass
-class DirectionType:
+class DirectionType(BaseModel):
     """Textual direction types may have more than 1 component due to multiple
     fonts.
 
@@ -12869,8 +12715,7 @@ class DirectionType:
     )
 
 
-@dataclass
-class Note:
+class Note(BaseModel):
     """Notes are the most common type of MusicXML data.
 
     The MusicXML format keeps the MuseData distinction between elements used for sound information and elements used for notation information (e.g., tie is used for sound, tied for notation). Thus grace notes do not have a duration element. Cue notes have a duration element, as do forward elements, but no tie elements. Having these two types of information available can make interchange considerably easier, as some programs handle one type of information much more readily than the other.
@@ -13218,8 +13063,7 @@ class Note:
     )
 
 
-@dataclass
-class PartList:
+class PartList(BaseModel):
     """The part-list identifies the different musical parts in this movement.
 
     Each part has an ID that is used later within the musical data.
@@ -13259,8 +13103,7 @@ class PartList:
     )
 
 
-@dataclass
-class Direction:
+class Direction(BaseModel):
     """A direction is a musical indication that is not attached to a specific note.
 
     Two or more may be combined to indicate starts and stops of wedges,
@@ -13344,8 +13187,7 @@ class Direction:
     )
 
 
-@dataclass
-class ScorePartwise:
+class ScorePartwise(BaseModel):
     """The score-partwise element is the root element for a partwise MusicXML
     score.
 
@@ -13429,8 +13271,7 @@ class ScorePartwise:
         },
     )
 
-    @dataclass
-    class Part:
+    class Part(BaseModel):
         measure: list["ScorePartwise.Part.Measure"] = field(
             default_factory=list,
             metadata={
@@ -13447,8 +13288,7 @@ class ScorePartwise:
             },
         )
 
-        @dataclass
-        class Measure:
+        class Measure(BaseModel):
             note: list[Note] = field(
                 default_factory=list,
                 metadata={
@@ -13557,8 +13397,7 @@ class ScorePartwise:
             )
 
 
-@dataclass
-class ScoreTimewise:
+class ScoreTimewise(BaseModel):
     """The score-timewise element is the root element for a timewise MusicXML
     score.
 
@@ -13642,8 +13481,7 @@ class ScoreTimewise:
         },
     )
 
-    @dataclass
-    class Measure:
+    class Measure(BaseModel):
         part: list["ScoreTimewise.Measure.Part"] = field(
             default_factory=list,
             metadata={
@@ -13678,8 +13516,7 @@ class ScoreTimewise:
             },
         )
 
-        @dataclass
-        class Part:
+        class Part(BaseModel):
             note: list[Note] = field(
                 default_factory=list,
                 metadata={

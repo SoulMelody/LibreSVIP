@@ -1,0 +1,24 @@
+msgid "Text encoding"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "UST file version"
+msgstr ""
+
+msgid "Ust"
+msgstr ""
+
+msgid "UTAU Sequence Text"
+msgstr ""
+
+msgid "Conversion plugin for UST file format"
+msgstr ""
+
+msgid "No singing track found"
+msgstr ""
+
+msgid "UST project has no track"
+msgstr ""
+

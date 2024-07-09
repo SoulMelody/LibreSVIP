@@ -1,0 +1,9 @@
+msgid "AISingers"
+msgstr ""
+
+msgid "AISingers Studio project file"
+msgstr ""
+
+msgid "Conversion plugin for AISingers Studio project file"
+msgstr ""
+

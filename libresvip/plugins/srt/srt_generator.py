@@ -1,11 +1,10 @@
 import dataclasses
-import datetime
 
-from srt import Subtitle
+from pysubs2 import SSAEvent, SSAFile
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Project, SingingTrack
-from libresvip.utils.text import SYMBOL_PATTERN
+from libresvip.utils.text import LATIN_ALPHABET, SYMBOL_PATTERN
 
 from .options import OutputOptions, SplitOption
 
@@ -15,7 +14,7 @@ class SrtGenerator:
     options: OutputOptions
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
-    def generate_project(self, project: Project) -> list[Subtitle]:
+    def generate_project(self, project: Project) -> SSAFile:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         if self.options.track_index == -1:
             singing_track = next(
@@ -25,7 +24,7 @@ class SrtGenerator:
             singing_track = project.track_list[self.options.track_index]
         note_list = singing_track.note_list
         buffer = []
-        lyric_lines: list[Subtitle] = []
+        lyric_lines = SSAFile()
         for i, note in enumerate(note_list):
             buffer.append(note)
             commit_flag = False
@@ -46,21 +45,18 @@ class SrtGenerator:
                 buffer = []
         return lyric_lines
 
-    def commit_current_lyric_line(self, lyric_lines: list[Subtitle], buffer: list[Note]) -> None:
-        start_time = self.get_time_from_ticks(buffer[0].start_pos)
-        end_time = self.get_time_from_ticks(buffer[-1].end_pos)
-        lyrics = "".join(SYMBOL_PATTERN.sub("", note.lyric) for note in buffer)
+    def commit_current_lyric_line(self, lyric_lines: list[SSAEvent], buffer: list[Note]) -> None:
+        start_time = int(self.synchronizer.get_actual_secs_from_ticks(buffer[0].start_pos) * 1000)
+        end_time = int(self.synchronizer.get_actual_secs_from_ticks(buffer[-1].end_pos) * 1000)
+        lyrics = "".join(
+            SYMBOL_PATTERN.sub("", note.lyric)
+            + (" " if LATIN_ALPHABET.search(note.lyric) is not None else "")
+            for note in buffer
+        ).strip()
         lyric_lines.append(
-            Subtitle(
-                index=len(lyric_lines) + 1,
+            SSAEvent(
                 start=start_time,
                 end=end_time,
-                content=lyrics,
+                text=lyrics,
             )
         )
-
-    def get_time_from_ticks(self, ticks: int) -> datetime.timedelta:
-        seconds = self.synchronizer.get_actual_secs_from_ticks(ticks)
-        seconds_int = int(seconds)
-        milliseconds = (seconds % 1) * 1000
-        return datetime.timedelta(seconds=seconds_int, milliseconds=milliseconds)

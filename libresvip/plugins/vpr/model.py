@@ -5,14 +5,15 @@ from typing import Annotated, Literal, Optional, Union
 from pydantic import ConfigDict, Field
 
 from libresvip.model.base import BaseModel
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class VocaloidLanguage(enum.IntEnum):
-    JAPANESE: Annotated[int, Field(title="日本語")] = 0
-    ENGLISH: Annotated[int, Field(title="English")] = 1
-    KOREAN: Annotated[int, Field(title="한국어")] = 2
-    SPANISH: Annotated[int, Field(title="Español")] = 3
-    SIMPLIFIED_CHINESE: Annotated[int, Field(title="简体中文")] = 4
+    JAPANESE: Annotated[int, Field(title=_("日本語"))] = 0
+    ENGLISH: Annotated[int, Field(title=_("English"))] = 1
+    KOREAN: Annotated[int, Field(title=_("한국어"))] = 2
+    SPANISH: Annotated[int, Field(title=_("Español"))] = 3
+    SIMPLIFIED_CHINESE: Annotated[int, Field(title=_("简体中文"))] = 4
 
 
 class VocaloidTrackType(enum.IntEnum):

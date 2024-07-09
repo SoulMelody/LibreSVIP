@@ -1,0 +1,9 @@
+msgid "DeepVocal"
+msgstr ""
+
+msgid "DeepVocal project file"
+msgstr ""
+
+msgid "Conversion plugin for dv file"
+msgstr ""
+

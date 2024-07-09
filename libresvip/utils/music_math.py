@@ -129,6 +129,6 @@ def ratio_to_db(ratio: float, val2: Optional[float] = None, using_amplitude: boo
         return -float("inf")
 
     if using_amplitude:
-        return 20 * math.log(ratio, 10)
+        return 20 * math.log10(ratio)
     else:  # using power
-        return 10 * math.log(ratio, 10)
+        return 10 * math.log10(ratio)

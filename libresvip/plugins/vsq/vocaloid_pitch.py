@@ -88,9 +88,7 @@ def pitch_from_vocaloid_parts(
 def generate_for_vocaloid(
     pitch: ParamCurve, notes: list[Note], first_bar_length: int
 ) -> Optional[VocaloidPartPitchData]:
-    data = RelativePitchCurve(first_bar_length).from_absolute(
-        pitch.points.root, notes, border_append_radius=0
-    )
+    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, notes)
     if not len(data):
         return None
     pitch_sectioned: list[list[Point]] = [[]]

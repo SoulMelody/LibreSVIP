@@ -29,31 +29,31 @@ dependencies = [
   "bidict<0.23.2,>=0.23.1",
   "charset-normalizer<4.0.0,>=3.3.2",
   "construct-typing<1.0.0,>=0.6.2",
-  "drawsvg<3.0.0,>=2.3.0",
+  "drawsvg<3.0.0,>=2.4.0",
   "importlib-resources<7.0.0,>=6.4.0; python_version < \"3.11\"",
-  "jinja2<4.0.0,>=3.1.3",
+  "jinja2<4.0.0,>=3.1.4",
   "loguru<1.0.0,>=0.7.2",
   "mido-fix<2.0.0,>=1.2.12",
-  "more-itertools<11.0.0,>=10.2.0",
+  "more-itertools<11.0.0,>=10.3.0",
   "omegaconf<3.0.0,>=2.3.0",
-  "packaging<24.1,>=24.0",
+  "packaging<24.2,>=24.1",
   "parsimonious<0.11.0,>=0.10.0",
-  "platformdirs<5.0.0,>=4.2.0",
+  "platformdirs<5.0.0,>=4.2.2",
   "portion<3.0.0,>=2.4.2",
-  "proto-plus<2.0.0,>=1.23.0",
-  "pydantic<3.0.0,>=2.7.0",
-  "pydantic-extra-types<3.0.0,>=2.6.0",
-  "pymediainfo<7.0.0,>=6.1.0",
+  "proto-plus<2.0.0,>=1.24.0",
+  "pydantic<3.0.0,>=2.8.2",
+  "pydantic-extra-types<3.0.0,>=2.9.0",
+  "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.51.0",
+  "pysubs2<2.0.0,>=1.7.2",
+  "pyzstd<1.0.0,>=0.16.0; platform_python_implementation == \"PyPy\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.7.1",
-  "srt<4.0.0,>=3.5.3",
   "typer-slim<1.0.0,>=0.12.3",
   "wanakana-python<2.0.0,>=1.2.2",
-  "xsdata<24.5,>=24.4",
+  "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.0.2",
   "zstandard<0.23.0,>=0.22.0; platform_python_implementation == \"CPython\"",
-  "zstd<2.0.0,>=1.5.5.1; platform_python_implementation == \"PyPy\"",
 ]
 name = "libresvip"
 dynamic = ["version"]
@@ -66,21 +66,21 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
 
-ujson = ["ujson>=5.9.0"]
+ujson = ["ujson>=5.10.0"]
 upath = [
   "universal-pathlib<1.0.0,>=0.2.2",
 ]
 ruamel_yaml = ["ruamel.yaml>=0.18.6"]
-lxml = ["lxml>=5.2.1"]
+lxml = ["lxml>=5.2.2"]
 webui = [
-    "nicegui[native]>=1.4.21",
+    "nicegui[native]>=1.4.29",
     "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.8.0,>=6.6.3.1,!=6.7.0",
+  "pyside6<6.8.0,>=6.7.2",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.27.0",
-  "desktop-notifier>=3.5.6; platform_python_implementation == \"CPython\"",
+  "desktop-notifier>=5.0.1; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
 ]
 
@@ -96,36 +96,35 @@ version = { source = "file", path = "libresvip/__init__.py" }
 
 [tool.pdm.dev-dependencies]
 code_gen = [
-  "datamodel-code-generator>=0.25.5",
-  "gapic-generator>=1.16.1",
-  "click-default-group>=1.2.4",
-  "docformatter>=1.7.5",
-  "toposort>=1.10",
+  "datamodel-code-generator>=0.25.8",
+  "gapic-generator>=1.18.2",
+  "xsdata[cli]>=24.6.1",
 ]
-i18n = ["translate-toolkit>=3.12.2", "babel>=2.14.0"]
+i18n = ["babel>=2.15.0"]
 linting = [
-  "pre-commit>=3.7.0",
-  "ruff>=0.3.7",
-  "mypy>=1.9.0",
-  "sourcery>=1.16.0",
+  "pre-commit>=3.7.1",
+  "ruff>=0.5.1",
+  "mypy>=1.10.1",
+  "sourcery>=1.20.0",
   "proto-plus-stubs>=0.7.0",
+  "pyodide-py>=0.26.1; python_version >= \"3.12\"",
+  "types-lxml>=2024.4.14",
   "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20240311",
-  "types-ujson>=5.9.0.0",
-  "types-zstd>=1.5.0.20240311; platform_python_implementation == \"PyPy\"",
+  "types-ujson>=5.10.0.20240515",
 ]
 packaging = [
-  "cx-Freeze>=7.0.0rc0",
-  "nuitka>=2.1.5",
-  "pyinstaller>=6.5.0",
+  "cx-Freeze>=7.1.1",
+  "nuitka>=2.3.11",
+  "pyinstaller>=6.9.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.5.17"]
-test = ["pytest>=8.1.1", "pytest-datadir>=1.5.0"]
+docs = ["mkdocs-material<10.0.0,>=9.5.28"]
+test = ["pytest>=8.2.2", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
 includes = ["libresvip"]
-excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*/LC_MESSAGES/libresvip.po", "libresvip/middlewares/*/*.pot", "libresvip/plugins/*/*.pot", "**/.mypy_cache"]
+excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*.ts", "libresvip/**/*.po", "**/.mypy_cache"]
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
@@ -158,9 +157,11 @@ select = [
   "PIE",   # assign and return
   "PGH",   # pygrep-hooks
   "PLC",   # pylint convention
+  "PLE",   # pylint errors
   "PT",    # pytest-style
   "PTH",   # pathlib
   "PYI",   # stubs
+  "RUF",   # ruff
   "SIM",   # simplify
   "T10",   # debugger
   "T20",   # print
@@ -176,11 +177,12 @@ ignore = [
   "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
   "UP007",  # Use `X | Y` for type annotations
+  "RUF001", # String contains ambiguous symbol
+  "RUF009", # Do not perform function call in dataclass defaults
 ]
 
 [tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
-known-third-party = ['srt']
 
 [tool.mypy]
 disable_error_code = "attr-defined,import-not-found,operator,return-value,type-abstract,unused-ignore"

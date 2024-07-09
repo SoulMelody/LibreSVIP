@@ -5,10 +5,11 @@ from types import GenericAlias
 from typing import Annotated, Any, Literal, Optional, Union, get_args
 
 from packaging.version import Version
-from pydantic import Field, ValidationInfo, field_validator
+from pydantic import AliasChoices, Field, ValidationInfo, field_validator
 
 from libresvip.core.exceptions import UnsupportedProjectVersionError
 from libresvip.model.base import BaseModel
+from libresvip.utils.translation import gettext_lazy as _
 
 from .value_tree import JUCENode, JUCEVarTypes
 
@@ -45,8 +46,8 @@ class VoiSonaPanelControllerStatus(BaseModel):
 
 
 class VoiSonaMainPanelStatus(VoiSonaPanelControllerStatus):
-    scale_x: float = Field(alias="ScaleX")
-    scale_y: float = Field(alias="ScaleY")
+    scale_x: float = Field(alias="ScaleX_V2", validation_alias=AliasChoices("ScaleX_V2", "ScaleX"))
+    scale_y: float = Field(alias="ScaleY_V2", validation_alias=AliasChoices("ScaleY_V2", "ScaleY"))
     scroll_x: Optional[float] = Field(None, alias="ScrollX")
     scroll_y: Optional[float] = Field(None, alias="ScrollY")
 
@@ -137,6 +138,11 @@ class VoiSonaNoteItem(BaseModel):
     syllabic: int = Field(alias="Syllabic")
     phoneme: str = Field(alias="Phoneme")
     do_re_mi: Optional[bool] = Field(None, alias="DoReMi")
+    accent: Optional[bool] = Field(None, alias="Accent")
+    breath: Optional[bool] = Field(None, alias="Breath")
+    staccato: Optional[bool] = Field(None, alias="Staccato")
+    slur_start: Optional[bool] = Field(None, alias="SlurStart")
+    slur_stop: Optional[bool] = Field(None, alias="SlurStop")
 
 
 class VoiSonaScoreItem(BaseModel):
@@ -276,7 +282,7 @@ class VoiSonaProject(BaseModel):
     @classmethod
     def version_validator(cls, value: str, _info: ValidationInfo) -> str:
         if Version(value) < Version("1.8"):
-            msg = f"Unsupported project version {value}"
+            msg = _("Unsupported project version") + f" {value}"
             raise UnsupportedProjectVersionError(msg)
         return value
 

@@ -20,7 +20,7 @@ FramelessWindow {
     Material.primary: "#FF5722"
     Material.accent: "#3F51B5"
     Material.theme: {
-        switch (ConfigItems.theme) {
+        switch (configItems.theme) {
             case "Dark":
                 return Material.Dark
             case "Light":
@@ -30,8 +30,28 @@ FramelessWindow {
         }
     }
 
+    Clipboard {
+        id: clipboard
+    }
+
+    IconicFontLoader {
+        id: iconicFontLoader
+    }
+
+    ConfigItems {
+        id: configItems
+    }
+
+    Notifier {
+        id: notifier
+    }
+
+    TaskManager {
+        id: taskManager
+    }
+
     FontLoader {
-        source: IconicFontLoader.font_path("mdi7")
+        source: iconicFontLoader.font_path("mdi7")
     }
 
     Components.Dialogs {
@@ -61,15 +81,15 @@ FramelessWindow {
         switch (theme) {
             case "Light":
                 window.Material.theme = Material.Light
-                ConfigItems.theme = "Light"
+                configItems.theme = "Light"
                 break
             case "Dark":
                 window.Material.theme = Material.Dark
-                ConfigItems.theme = "Dark"
+                configItems.theme = "Dark"
                 break
             case "System":
                 window.Material.theme = Material.System
-                ConfigItems.theme = "System"
+                configItems.theme = "System"
                 break
         }
     }
@@ -77,7 +97,7 @@ FramelessWindow {
     Connections {
         target: Application.styleHints
         function onColorSchemeChanged(value) {
-            let currentTheme = ConfigItems.theme
+            let currentTheme = configItems.theme
             if (currentTheme === "System") {
                 handleThemeChange(currentTheme)
             }
@@ -85,15 +105,15 @@ FramelessWindow {
     }
 
     Connections {
-        target: ConfigItems
+        target: configItems
         function onAuto_set_output_extension_changed(value) {
-            TaskManager.reset_output_ext("")
+            taskManager.reset_output_ext("")
         }
     }
 
     Component.onCompleted: {
-        if (ConfigItems.auto_check_for_updates) {
-            Notifier.check_for_updates()
+        if (configItems.auto_check_for_updates) {
+            notifier.check_for_updates()
         }
     }
 }

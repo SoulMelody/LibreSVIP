@@ -1,0 +1,9 @@
+msgid "UFData"
+msgstr ""
+
+msgid "UtaFormatix3 data format"
+msgstr ""
+
+msgid "Convertion plugin for UFData format"
+msgstr ""
+

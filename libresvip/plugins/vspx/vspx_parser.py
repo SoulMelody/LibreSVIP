@@ -1,6 +1,7 @@
 import dataclasses
 from typing import Optional, Union
 
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -73,13 +74,16 @@ class VocalSharpParser:
         ]
 
     def parse_tempos(self, tempo_list: list[VocalSharpTempo]) -> list[SongTempo]:
-        return [
-            SongTempo(
-                position=tempo.pos,
-                bpm=tempo.bpm,
-            )
-            for tempo in tempo_list
-        ]
+        return shift_tempo_list(
+            [
+                SongTempo(
+                    position=tempo.pos,
+                    bpm=tempo.bpm,
+                )
+                for tempo in tempo_list
+            ],
+            self.first_bar_length,
+        )
 
     def parse_singing_tracks(self, track_list: list[VocalSharpNoteTrack]) -> list[SingingTrack]:
         tracks = []

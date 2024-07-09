@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/ass/ass.po\n"
+"X-Crowdin-File-ID: 114\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
+
+msgid "ASS"
+msgstr ""
+
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr "ASS字幕文件"
+
+msgid "Generator plugin for ASS subtitle file"
+msgstr "ASS 字幕格式转换插件"
+
+msgid "Both note gap and punctuation"
+msgstr "音符间隙和标点符号"
+
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符或遇到标点符号时另起新行。"
+
+msgid "Note gap only"
+msgstr "仅音符间隙"
+
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
+msgstr "两个相邻的音符间距大于等于32分音符时另起新行。"
+
+msgid "Punctuation only"
+msgstr "仅标点符号"
+
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr "遇到标点符号时另起新行。"
+
+msgid "Offset"
+msgstr "偏移量"
+
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr "单位为毫秒，正值表示整体提前，负值相反。"
+
+msgid "New line by"
+msgstr "歌词换行方式"
+
+msgid "Text encoding"
+msgstr "文本编码"
+

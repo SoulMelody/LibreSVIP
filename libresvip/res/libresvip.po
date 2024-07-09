@@ -1,0 +1,1212 @@
+#: ../libresvip/cli/commands/conf.py:19
+msgid "Setting {} is not supported in cli mode."
+msgstr ""
+
+#: ../libresvip/cli/commands/conf.py:31
+msgid "Set {} to {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:26
+msgid "The plugin is successfully disabled."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:28
+msgid "Failed to disable the plugin!"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:35
+msgid "The plugin is successfully enabled."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:37
+msgid "Failed to enable the plugin!"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:39
+msgid "Unable to find the plugin."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:52
+msgid "Cannot find plugin "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:58
+msgid "No plugins are currently installed."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:61
+msgid "No."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:62
+msgid "Name"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:63
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:258
+msgid "Version"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:64
+#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:267
+msgid "Author"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:65
+msgid "Identifier"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:66
+msgid "Applicable file format"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:87
+msgid "Plugin: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:88 ../libresvip/web/pages.py:1080
+msgid "Version: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:89
+msgid "Author: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:93
+msgid "Website: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:95
+msgid "This plugin is applicable to"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:97
+msgid ""
+"If you want to use this plugin, please specify '-i {}' (input) or '-o {}'"
+" (output) when converting."
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:102
+msgid "Description: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "input"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:103
+msgid "output"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:111
+msgid "This plugin supports the following {} conversion options:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:119
+#: ../libresvip/cli/commands/plugin.py:140
+msgid "Default: "
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:121
+msgid "Available values:"
+msgstr ""
+
+#: ../libresvip/cli/commands/plugin.py:134
+msgid "Available fields:"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:21
+msgid "Extension {} is not supported. Supported extensions are: {}"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:50 ../libresvip/cli/commands/proj.py:100
+#: ../libresvip/cli/commands/proj.py:177
+msgid "Input Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:58 ../libresvip/cli/commands/proj.py:110
+#: ../libresvip/cli/commands/proj.py:156
+msgid "Enable {} middleware?"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:66 ../libresvip/cli/commands/proj.py:118
+#: ../libresvip/cli/commands/proj.py:162
+msgid "Process Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:72 ../libresvip/cli/commands/proj.py:126
+#: ../libresvip/cli/commands/proj.py:197
+msgid "Output Options: "
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:88
+msgid "Output format"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:89
+msgid "Maximum track count per file"
+msgstr ""
+
+#: ../libresvip/cli/commands/proj.py:132
+msgid "Converting ..."
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:17
+msgid "Applicable File Format"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1275
+msgid "Mode"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1278
+msgid "Prefix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1283
+msgid "Pattern"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1288
+msgid "Suffix"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1293
+msgid "Replacement"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1326
+msgid "Case sensitive"
+msgstr ""
+
+#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1297
+msgid "Actions"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:54
+msgid "Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:54
+#: ../libresvip/gui/modules/notifier.py:80
+msgid "Please wait..."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:64
+msgid "Error occurred while Downloading"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:65
+msgid "Failed to download file {}. Please try again later."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:79
+msgid "Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:95
+msgid "Open in Browser"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:157
+msgid "Download"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:167
+msgid "Update Available"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:168
+msgid "New version {} is available."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:173
+msgid "No Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:174
+msgid "You are using the latest version {}."
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:182
+msgid "Error occurred while Checking for Updates"
+msgstr ""
+
+#: ../libresvip/gui/modules/notifier.py:183
+msgid "Failed to check for updates. Please try again later."
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:10
+msgid "Import instrumental tracks"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:14
+msgid "Import pitch curve"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:18
+msgid "Import dynamics envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:22
+msgid "Import breath envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:26
+msgid "Import gender envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:30
+msgid "Import strength envelope"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:36
+msgid "Constant tempo"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:37
+msgid "Use this tempo to reset time axis of projects with dynamic tempos"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:44
+msgid "Track index"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:45
+msgid "Start from 0, -1 means automatic selection"
+msgstr ""
+
+#: ../libresvip/model/relative_pitch_curve.py:28
+msgid "Notes Overlapped"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:35
+msgctxt "actions"
+msgid "Alert"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:36
+msgctxt "actions"
+msgid "Cannot restore task list while conversion is in progress."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:10
+msgctxt "converter_page"
+msgid "Converter"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:265
+#: ../libresvip/res/locales/libresvip_gui.ts:1714
+msgctxt "converter_page"
+msgid "Select File Formats"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:277
+msgctxt "converter_page"
+msgid "Input Format: "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:319
+#: ../libresvip/res/locales/libresvip_gui.ts:471
+msgctxt "converter_page"
+msgid "View Detail Information"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:406
+msgctxt "converter_page"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:395
+msgctxt "converter_page"
+msgid "Reset Tasks When Changing Input"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:421
+msgctxt "converter_page"
+msgid "Swap Input and Output"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:442
+msgctxt "converter_page"
+msgid "Output Format: "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:544
+msgctxt "converter_page"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:627
+msgctxt "converter_page"
+msgid "Direct Mode"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:640
+msgctxt "converter_page"
+msgid "Singing Track Merging Mode"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:653
+msgctxt "converter_page"
+msgid "Singing Track Grouping Mode"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:934
+#: ../libresvip/res/locales/libresvip_gui.ts:1721
+msgctxt "converter_page"
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:969
+msgctxt "converter_page"
+msgid "Input Options"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1303
+msgctxt "converter_page"
+msgid "Output Options"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:666
+msgctxt "converter_page"
+msgid "Task List"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:600
+msgctxt "converter_page"
+msgid "Drag and drop files here"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:614
+msgctxt "converter_page"
+msgid "Conversion Mode:"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:800
+msgctxt "converter_page"
+msgid "Continue Adding files"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:825
+msgctxt "converter_page"
+msgid "Clear Task List"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:851
+msgctxt "converter_page"
+msgid "Reset Default Extension"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:877
+msgctxt "converter_page"
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:904
+msgctxt "converter_page"
+msgid "Max Track count:"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:980
+msgctxt "converter_page"
+msgid "[Import as "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1314
+msgctxt "converter_page"
+msgid "[Export to "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1457
+msgctxt "converter_page"
+msgid "Output Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1546
+msgctxt "converter_page"
+msgid "Choose Output Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1554
+msgctxt "converter_page"
+msgid "Output Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1568
+msgctxt "converter_page"
+msgid "Deal with Conflicts"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1728
+msgctxt "converter_page"
+msgid "Export"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1530
+msgctxt "converter_page"
+msgid "Start Conversion"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1530
+msgctxt "converter_page"
+msgid "Converting"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1462
+msgctxt "converter_page"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1576
+msgctxt "converter_page"
+msgid "Overwrite"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1577
+msgctxt "converter_page"
+msgid "Skip"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:1578
+msgctxt "converter_page"
+msgid "Prompt"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:125
+msgctxt "dialogs"
+msgid "All Files (*.*)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:61
+msgctxt "dialogs"
+msgid "Custom folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:178
+msgctxt "dialogs"
+msgid "Folder Presets"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:212
+msgctxt "dialogs"
+msgid ""
+"You can insert \".\" at the beginning to represent the source path, for "
+"example \"./subfolder\""
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:302
+msgctxt "dialogs"
+msgid "Click to add a folder preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:324
+msgctxt "dialogs"
+msgid "About"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:337
+msgctxt "dialogs"
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:343
+msgctxt "dialogs"
+msgid "Version: "
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:347
+msgctxt "dialogs"
+msgid "Author: SoulMelody"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:358
+msgctxt "dialogs"
+msgid "Author's Profile"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:372
+msgctxt "dialogs"
+msgid "Repo URL"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:382
+msgctxt "dialogs"
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that "
+"can convert your singing synthesis projects between different file "
+"formats."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:387
+msgctxt "dialogs"
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from "
+"the constraints of platforms and coterie."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:99
+msgctxt "plugin_info"
+msgid "Version"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:171
+msgctxt "plugin_info"
+msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:46
+msgctxt "settings_dialog"
+msgid "Options"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:90
+msgctxt "settings_dialog"
+msgid "Auto-Detect Input File Type"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:105
+msgctxt "settings_dialog"
+msgid "Reset Task List When Changing Input File Type"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:120
+msgctxt "settings_dialog"
+msgid "Set Output File Extension Automatically"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:140
+msgctxt "settings_dialog"
+msgid "Multi-Threaded Conversion"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:168
+msgctxt "settings_dialog"
+msgid "Output Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:174
+msgctxt "settings_dialog"
+msgid "Deal with Conflicts"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:213
+msgctxt "settings_dialog"
+msgid "Open Output Folder When Done"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:240
+#: ../libresvip/res/locales/libresvip_gui.ts:276
+msgctxt "settings_dialog"
+msgid "Same as Source"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:244
+#: ../libresvip/res/locales/libresvip_gui.ts:284
+msgctxt "settings_dialog"
+msgid "Desktop"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:248
+#: ../libresvip/res/locales/libresvip_gui.ts:293
+msgctxt "settings_dialog"
+msgid "Preset Folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:252
+#: ../libresvip/res/locales/libresvip_gui.ts:346
+msgctxt "settings_dialog"
+msgid "Custom (Browse ...)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:356
+msgctxt "settings_dialog"
+msgid "Manage Folders Presets"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:519
+msgctxt "settings_dialog"
+msgid "Preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:534
+msgctxt "settings_dialog"
+msgid "Remove current preset"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:547
+msgctxt "settings_dialog"
+msgid "Add new rule"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:555
+msgctxt "settings_dialog"
+msgid "Full match"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:556
+msgctxt "settings_dialog"
+msgid "Alphabetic"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:557
+msgctxt "settings_dialog"
+msgid "Non-alphabetic"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:558
+msgctxt "settings_dialog"
+msgid "Regex"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:569
+msgctxt "settings_dialog"
+msgid ""
+"Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:913
+msgctxt "settings_dialog"
+msgid "Format Provider Plugins"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:186
+msgctxt "settings_dialog"
+msgid "Overwrite"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:187
+msgctxt "settings_dialog"
+msgid "Skip"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:188
+msgctxt "settings_dialog"
+msgid "Prompt"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:406
+msgctxt "settings_dialog"
+msgid "Plugin is enabled or not (Click to enter editing mode)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:836
+msgctxt "settings_dialog"
+msgid "Auto Check for Updates"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:84
+msgctxt "settings_dialog"
+msgid "Conversion Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:891
+msgctxt "settings_dialog"
+msgid "Basic Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:901
+msgctxt "settings_dialog"
+msgid "Save Path Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:926
+msgctxt "settings_dialog"
+msgid "Lyric Replacement Rules"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:938
+msgctxt "settings_dialog"
+msgid "Updates Settings"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:103
+msgctxt "task_row"
+msgid "File successfully converted"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:112
+msgctxt "task_row"
+msgid "Open"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:124
+#: ../libresvip/res/locales/libresvip_gui.ts:167
+msgctxt "task_row"
+msgid "Open folder"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:345
+msgctxt "task_row"
+msgid "File %1 already exists. Overwrite?"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:159
+msgctxt "task_row"
+msgid "File skipped due to conflict"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:72
+msgctxt "task_row"
+msgid "Remove"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:202
+msgctxt "task_row"
+msgid "This project file may contain abnormal or illegal data"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:244
+msgctxt "task_row"
+msgid "File failed to convert, below is the error message:"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:257
+#: ../libresvip/res/locales/libresvip_gui.ts:272
+msgctxt "task_row"
+msgid "Copy error message"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:261
+msgctxt "task_row"
+msgid "Copied"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:344
+msgctxt "task_row"
+msgid "Do you want to overwrite the file?"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:171
+msgctxt "top_toolbar"
+msgid "Convert (&C)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:180
+msgctxt "top_toolbar"
+msgid "Import Projects (Ctrl+O)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:186
+msgctxt "top_toolbar"
+msgid "Perform All Tasks (Ctrl+Enter)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:193
+msgctxt "top_toolbar"
+msgid "Clear Tasks (Ctrl+R)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:200
+msgctxt "top_toolbar"
+msgid "Swap Input and Output (Ctrl+Tab)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:275
+msgctxt "top_toolbar"
+msgid "Output Format (&E)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:208
+msgctxt "top_toolbar"
+msgid "Formats (&F)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:217
+msgctxt "top_toolbar"
+msgid "Input Format (&I)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:336
+msgctxt "top_toolbar"
+msgid "Settings (&S)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:342
+msgctxt "top_toolbar"
+msgid "Options (&O)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:349
+msgctxt "top_toolbar"
+msgid "Themes (&T)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:357
+msgctxt "top_toolbar"
+msgid "Light"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:366
+msgctxt "top_toolbar"
+msgid "Dark"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:375
+msgctxt "top_toolbar"
+msgid "System"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:393
+msgctxt "top_toolbar"
+msgid "Language (&L)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:439
+msgctxt "top_toolbar"
+msgid "Help (&H)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:448
+msgctxt "top_toolbar"
+msgid "About (Ctrl+A)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:452
+msgctxt "top_toolbar"
+msgid "Check for Updates"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:459
+msgctxt "top_toolbar"
+msgid "Documentation (F1)"
+msgstr ""
+
+#: ../libresvip/res/locales/libresvip_gui.ts:157
+msgctxt "top_toolbar"
+msgid "SVS Projects Converter"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "OK"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "Cancel"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "Yes to &All"
+msgstr ""
+
+#: ../libresvip/res/locales/qt_standard_buttons.ts
+msgctxt "QPlatformTheme"
+msgid "N&o to All"
+msgstr ""
+
+#: ../libresvip/utils/audio.py:48 ../libresvip/utils/audio.py:104
+msgid "Audio file not found: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:254
+msgid "name"
+msgstr ""
+
+#: ../libresvip/web/pages.py:276 ../libresvip/web/pages.py:293
+#: ../libresvip/web/pages.py:1174 ../libresvip/web/pages.py:1193
+#: ../libresvip/web/pages.py:1701 ../libresvip/web/pages.py:1749
+msgid "file_format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:282
+msgid "Introduction"
+msgstr ""
+
+#: ../libresvip/web/pages.py:283
+msgid "description"
+msgstr ""
+
+#: ../libresvip/web/pages.py:301
+msgid "Input Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:302
+msgid "[Import as "
+msgstr ""
+
+#: ../libresvip/web/pages.py:310
+msgid "Output Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:311
+msgid "[Export to "
+msgstr ""
+
+#: ../libresvip/web/pages.py:407 ../libresvip/web/pages.py:524
+msgid "Invalid integer"
+msgstr ""
+
+#: ../libresvip/web/pages.py:411 ../libresvip/web/pages.py:528
+msgid "Invalid float"
+msgstr ""
+
+#: ../libresvip/web/pages.py:651 ../libresvip/web/pages.py:681
+msgid "Copy to clipboard"
+msgstr ""
+
+#: ../libresvip/web/pages.py:655 ../libresvip/web/pages.py:685
+msgid "Copied"
+msgstr ""
+
+#: ../libresvip/web/pages.py:657 ../libresvip/web/pages.py:687
+#: ../libresvip/web/pages.py:1108 ../libresvip/web/pages.py:1596
+#: ../libresvip/web/pages.py:1633 ../libresvip/web/pages.py:1719
+#: ../libresvip/web/pages.py:1772
+msgid "Close"
+msgstr ""
+
+#: ../libresvip/web/pages.py:699
+msgid "Remove"
+msgstr ""
+
+#: ../libresvip/web/pages.py:902
+msgid "Conversion Failed"
+msgstr ""
+
+#: ../libresvip/web/pages.py:904
+msgid "Conversion Successful"
+msgstr ""
+
+#: ../libresvip/web/pages.py:982 ../libresvip/web/pages.py:1016
+msgid "All files (*.*)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1003
+msgid "Save failed!"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1013
+msgid "Compressed Archive (*.zip)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1025
+msgid "Saved"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1077 ../libresvip/web/pages.py:1240
+msgid "About"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1079
+msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1083
+msgid "Author: SoulMelody"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1087
+msgid "Author's Profile"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1093
+msgid "Repo URL"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1098
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that "
+"can convert your singing synthesis projects between different file "
+"formats."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1103
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from "
+"the constraints of platforms and coterie."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1112 ../libresvip/web/pages.py:1141
+msgid "Convert"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1127 ../libresvip/web/pages.py:1785
+msgid "Import project"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1830
+msgid "Clear Task List"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1160 ../libresvip/web/pages.py:1744
+msgid "Swap Input and Output"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1163 ../libresvip/web/pages.py:1704
+msgid "Import format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1183 ../libresvip/web/pages.py:1752
+msgid "Export format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1199
+msgid "Switch Theme"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1212
+msgid "Light"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1218
+msgid "Dark"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1224
+msgid "System"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1227
+msgid "Help"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1244
+msgid "Documentation"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1252
+msgid "Conversion Settings"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1255
+msgid "Lyric Replace Rules"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1257
+msgid "Switch Language"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1263 ../libresvip/web/pages.py:1728
+msgid "Auto detect import format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1268 ../libresvip/web/pages.py:1735
+msgid "Reset list when import format changed"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1296
+msgid "Flags"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1316
+msgid "Full match"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1317
+msgid "Alphabetic"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1318
+msgid "Non-alphabetic"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1319
+msgid "Regex"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1323
+msgid "Ignore case"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1501
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1511
+msgid "Preset: "
+msgstr ""
+
+#: ../libresvip/web/pages.py:1525
+msgid "Remove current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1544
+msgid "Save current preset"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1567
+msgid "Add new rule"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1568
+msgid ""
+"Alphabetic: Applies to alphabetic characters.\n"
+"Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
+"Regex: for advanced users with knowledge of regular expressions."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1600
+msgid "Settings (&S)"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1603
+msgid "Select File Formats"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1604
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1608
+msgid "Maximize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1609
+msgid "Restore"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1625
+msgid "Minimize"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1692
+msgid "Choose file format"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1727 ../libresvip/web/pages.py:1780
+msgid "View Detail Information"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1787
+msgid "Conversion Mode:"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1834
+msgid "Remove Tasks With Other Extensions"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1838
+msgid "Max Track count:"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1860
+msgid "Continue Adding files"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1894
+msgid "Drag and drop files here or click to upload"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1923
+msgid "Start Conversion"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1931
+msgid "Export"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1932
+msgid "Advanced Options"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1941
+msgid "Intermediate Processing"
+msgstr ""
+

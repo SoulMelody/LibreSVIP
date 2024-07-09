@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import StaticTempoMixin
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class InputOptions(BaseModel):
@@ -9,7 +10,7 @@ class InputOptions(BaseModel):
 
 class OutputOptions(StaticTempoMixin, BaseModel):
     singer_name: str = Field(
-        title="Singer name",
-        description="Please enter the singer's English name.",
+        title=_("Singer name"),
+        description=_("Please enter the singer's English name."),
         default="Doaz",
     )

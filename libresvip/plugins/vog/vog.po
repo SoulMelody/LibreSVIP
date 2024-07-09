@@ -1,0 +1,15 @@
+msgid "Singer name"
+msgstr ""
+
+msgid "Please enter the singer's English name."
+msgstr ""
+
+msgid "Vogen"
+msgstr ""
+
+msgid "Vogen project file"
+msgstr ""
+
+msgid "Conversion plugin for Vogen project file"
+msgstr ""
+

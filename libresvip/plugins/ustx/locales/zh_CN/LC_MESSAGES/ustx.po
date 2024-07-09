@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/ustx/ustx.po\n"
+"X-Crowdin-File-ID: 158\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "Incompatible with ARPAsing-series Phonemizers"
+msgstr "与 ARPAsing系列音素器不兼容"
+
+msgid "Compatible with ARPAsing-series Phonemizers"
+msgstr "与 ARPAsing系列音素器兼容"
+
+msgid "The way to handle english multisyllabic words"
+msgstr "处理英文多音节单词的方式"
+
+msgid "Compatibility with ARPAsing-series Phonemizer"
+msgstr "与 ARPAsing系列音素器的兼容性"
+
+msgid "Breath lyrics"
+msgstr "呼吸音歌词"
+
+msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
+msgstr "仅在之后紧跟一个普通音符时才会被识别为呼吸音符的特殊歌词，歌词之间用空格隔开。"
+
+msgid "Silence lyrics"
+msgstr "休止符歌词"
+
+msgid "Special lyrics that will be ignored, each separated by a space"
+msgstr "将被忽略的特殊歌词，歌词之间用空格隔开"
+
+msgid "Ustx"
+msgstr ""
+
+msgid "OpenUtau project file"
+msgstr "OpenUtau 工程文件"
+
+msgid "Conversion plugin for Ustx file format"
+msgstr "Ustx格式转换插件"
+

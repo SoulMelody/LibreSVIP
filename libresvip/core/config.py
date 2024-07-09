@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import contextlib
+import contextvars
 import dataclasses
 import enum
 import locale
 import pathlib
+import re
 from typing import Optional, cast
 
 from omegaconf import OmegaConf
@@ -12,6 +14,52 @@ from omegaconf.errors import OmegaConfBaseException
 from pydantic.dataclasses import dataclass
 
 from .constants import app_dir
+
+
+class LyricsReplaceMode(enum.Enum):
+    FULL = "full"
+    ALPHABETIC = "alphabetic"
+    NON_ALPHABETIC = "non_alphabetic"
+    REGEX = "regex"
+
+
+@dataclass
+class LyricsReplacement:
+    replacement: str
+    pattern_main: str
+    pattern_prefix: str = ""
+    pattern_suffix: str = ""
+    flags: re.RegexFlag = re.IGNORECASE
+    mode: LyricsReplaceMode = LyricsReplaceMode.FULL
+
+    def __post_init__(self) -> None:
+        if self.mode == LyricsReplaceMode.FULL:
+            self.pattern_prefix = "^"
+            self.pattern_suffix = "$"
+        elif self.mode == LyricsReplaceMode.ALPHABETIC:
+            self.pattern_prefix = r"(?<=^|\b)"
+            self.pattern_suffix = r"(?=$|\b)"
+        elif self.mode == LyricsReplaceMode.NON_ALPHABETIC:
+            self.pattern_prefix = self.pattern_suffix = ""
+        if self.mode != LyricsReplaceMode.REGEX:
+            self.pattern_main = re.escape(self.pattern_main)
+        else:
+            try:
+                self.compiled_pattern
+            except re.error as e:
+                msg = f"Invalid pattern: {self._pattern}"
+                raise ValueError(msg) from e
+
+    @property
+    def compiled_pattern(self) -> re.Pattern[str]:
+        return re.compile(self._pattern, self.flags)
+
+    @property
+    def _pattern(self) -> str:
+        return f"{self.pattern_prefix}{self.pattern_main}{self.pattern_suffix}"
+
+    def replace(self, text: str) -> str:
+        return self.compiled_pattern.sub(self.replacement, text)
 
 
 class Language(enum.Enum):
@@ -70,13 +118,21 @@ class LibreSvipBaseUISettings:
     dark_mode: DarkMode = dataclasses.field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = dataclasses.field(default=True)
     reset_tasks_on_input_change: bool = dataclasses.field(default=True)
+    max_track_count: int = dataclasses.field(default=1)
+    lyric_replace_rules: dict[str, list[LyricsReplacement]] = dataclasses.field(
+        default_factory=dict
+    )
+
+
+ui_settings_ctx: contextvars.ContextVar[Optional[LibreSvipBaseUISettings]] = contextvars.ContextVar(
+    "ui_settings_ctx"
+)
 
 
 @dataclass
 class LibreSvipSettings(LibreSvipBaseUISettings):
     disabled_plugins: list[str] = dataclasses.field(default_factory=list)
     # GUI Only
-    max_track_count: int = dataclasses.field(default=1)
     save_folder: pathlib.Path = dataclasses.field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = dataclasses.field(default_factory=list)
     conflict_policy: ConflictPolicy = dataclasses.field(default=ConflictPolicy.PROMPT)
@@ -90,9 +146,14 @@ config_path = app_dir.user_config_path / "settings.yml"
 
 
 settings = cast(LibreSvipSettings, OmegaConf.structured(LibreSvipSettings))
+settings.lyric_replace_rules.setdefault("default", [])
 if config_path.exists():
     with contextlib.suppress(OmegaConfBaseException):
         settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
+
+
+def get_ui_settings() -> LibreSvipBaseUISettings:
+    return ui_settings_ctx.get(None) or settings
 
 
 def save_settings() -> None:

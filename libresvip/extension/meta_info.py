@@ -66,7 +66,8 @@ class BasePluginInfo(abc.ABC):
             cp.read_string(content)
             return cls(cp)
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def identifier(self) -> str: ...
 
 

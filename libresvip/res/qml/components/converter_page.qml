@@ -42,6 +42,7 @@ Page {
             IconButton {
                 icon_name: "mdi7.eyedropper-variant"
                 diameter: 30
+                new_padding: 6
                 onClicked: {
                     dialogs.colorDialog.bind_color(
                         colorField.text,
@@ -55,15 +56,12 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -102,15 +100,12 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -144,7 +139,7 @@ Page {
                     width: ListView.view.width
                     contentItem: Label {
                         text: comboBox.textRole
-                            ? qsTr(Array.isArray(comboBox.model) ? modelData[comboBox.textRole] : model[comboBox.textRole])
+                            ? qsTr((comboBox.textRole in modelData) ? modelData[comboBox.textRole] : model[comboBox.textRole])
                             : qsTr(modelData)
                         color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
                         ToolTip.visible: hovered && modelData["desc"]
@@ -158,6 +153,7 @@ Page {
                 popup: Popup {
                     y: comboBox.height
                     width: comboBox.width
+                    implicitHeight: Math.min(field.choices.length * 35, 400)
                     padding: 1
 
                     contentItem: ListView {
@@ -181,15 +177,12 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -234,15 +227,12 @@ Page {
             IconButton {
                 icon_name: "mdi7.help-circle-outline"
                 diameter: 30
+                new_padding: 6
                 cursor_shape: Qt.WhatsThisCursor
                 visible: field.description != ""
-                onClicked: {
-                    info.visible = !info.visible
-                }
                 ToolTip {
-                    id: info
                     y: parent.y - parent.height
-                    visible: false
+                    visible: parent.hovered
                     text: qsTr(field.description)
                 }
             }
@@ -254,7 +244,7 @@ Page {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: IconicFontLoader.icon("mdi7.tune-variant")
+                text: iconicFontLoader.icon("mdi7.tune-variant")
                 font.family: "Material Design Icons"
                 font.pixelSize: 12
             }
@@ -283,30 +273,30 @@ Page {
                 LabeledComboBox {
                     id: inputFormat
                     Layout.fillWidth: true
-                    enabled: !TaskManager.busy
+                    enabled: !taskManager.busy
                     hint: qsTr("Input Format: ")
                     onActivated: (index) => {
                         if (
                             resetTasksOnInputChange.checked &&
-                            TaskManager.get_str("input_format") != currentValue
+                            taskManager.get_str("input_format") != currentValue
                         ) {
                             actions.clearTasks.trigger()
                         }
-                        TaskManager.set_str("input_format", currentValue)
+                        taskManager.set_str("input_format", currentValue)
                     }
                     Component.onCompleted: {
-                        let last_input_format = TaskManager.get_str("input_format")
+                        let last_input_format = taskManager.get_str("input_format")
                         if (last_input_format !== "") {
                             this.currentIndex = indexOfValue(last_input_format)
                         } else {
                             this.currentIndex = 0
                         }
                         dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")"
-                        TaskManager.input_format_changed.connect((input_format) => {
+                        taskManager.input_format_changed.connect((input_format) => {
                             let new_index = indexOfValue(input_format)
                             if (new_index < 0) {
                                 currentIndex = 0
-                                TaskManager.set_str("input_format", currentValue)
+                                taskManager.set_str("input_format", currentValue)
                             } else {
                                 if (new_index != currentIndex) {
                                     currentIndex = new_index
@@ -317,10 +307,10 @@ Page {
                                 }
                             }
                         })
-                        TaskManager.set_str("input_format", currentValue)
+                        taskManager.set_str("input_format", currentValue)
                     }
                     width: parent.width
-                    choices: TaskManager.qget("input_formats")
+                    choices: taskManager.qget("input_formats")
                 }
                 IconButton {
                     icon_name: "mdi7.information-outline"
@@ -386,10 +376,10 @@ Page {
                         x: smallView.visible ? - width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: TaskManager.plugin_info("input_format")
+                            info: taskManager.plugin_info("input_format")
                             Component.onCompleted: {
-                                TaskManager.input_format_changed.connect( (input_format) => {
-                                    info = TaskManager.plugin_info("input_format")
+                                taskManager.input_format_changed.connect( (input_format) => {
+                                    info = taskManager.plugin_info("input_format")
                                 })
                             }
                         }
@@ -403,9 +393,9 @@ Page {
                     id: resetTasksOnInputChange
                     height: 40
                     text: qsTr("Reset Tasks When Changing Input")
-                    checked: ConfigItems.reset_tasks_on_input_change
+                    checked: configItems.reset_tasks_on_input_change
                     onClicked: {
-                        ConfigItems.reset_tasks_on_input_change = checked
+                        configItems.reset_tasks_on_input_change = checked
                     }
                 }
                 Item {
@@ -414,9 +404,9 @@ Page {
                 Switch {
                     height: 40
                     text: qsTr("Auto-Detect Input File Type")
-                    checked: ConfigItems.auto_detect_input_format
+                    checked: configItems.auto_detect_input_format
                     onClicked: {
-                        ConfigItems.auto_detect_input_format = checked
+                        configItems.auto_detect_input_format = checked
                     }
                 }
                 Item {
@@ -438,8 +428,8 @@ Page {
                                 outputFormat.currentIndex,
                                 inputFormat.currentIndex
                             ]
-                            TaskManager.set_str("input_format", inputFormat.currentValue)
-                            TaskManager.set_str("output_format", outputFormat.currentValue)
+                            taskManager.set_str("input_format", inputFormat.currentValue)
+                            taskManager.set_str("output_format", outputFormat.currentValue)
                         }
                     }
                 }
@@ -448,31 +438,31 @@ Page {
                 LabeledComboBox {
                     id: outputFormat
                     Layout.fillWidth: true
-                    enabled: !TaskManager.busy
+                    enabled: !taskManager.busy
                     hint: qsTr("Output Format: ")
                     onActivated: (index) => {
-                        TaskManager.set_str("output_format", currentValue)
+                        taskManager.set_str("output_format", currentValue)
                     }
                     Component.onCompleted: {
-                        let last_output_format = TaskManager.get_str("output_format")
+                        let last_output_format = taskManager.get_str("output_format")
                         if (last_output_format !== "") {
                             this.currentIndex = indexOfValue(last_output_format)
                         } else {
                             this.currentIndex = 0
                         }
-                        TaskManager.output_format_changed.connect((output_format) => {
+                        taskManager.output_format_changed.connect((output_format) => {
                             let new_index = indexOfValue(output_format)
                             if (new_index < 0) {
                                 currentIndex = 0
-                                TaskManager.set_str("output_format", currentValue)
+                                taskManager.set_str("output_format", currentValue)
                             } else if (new_index != currentIndex) {
                                 currentIndex = new_index
                             }
                         })
-                        TaskManager.set_str("output_format", currentValue)
+                        taskManager.set_str("output_format", currentValue)
                     }
                     width: parent.width
-                    model: TaskManager.qget("output_formats")
+                    model: taskManager.qget("output_formats")
                 }
                 IconButton {
                     icon_name: "mdi7.information-outline"
@@ -538,10 +528,10 @@ Page {
                         x: smallView.visible ? - width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
-                            info: TaskManager.plugin_info("output_format")
+                            info: taskManager.plugin_info("output_format")
                             Component.onCompleted: {
-                                TaskManager.output_format_changed.connect( (output_format) => {
-                                    info = TaskManager.plugin_info("output_format")
+                                taskManager.output_format_changed.connect( (output_format) => {
+                                    info = taskManager.plugin_info("output_format")
                                 })
                             }
                         }
@@ -552,12 +542,12 @@ Page {
                 Switch {
                     height: 40
                     text: qsTr("Set Output File Extension Automatically")
-                    checked: ConfigItems.auto_set_output_extension
+                    checked: configItems.auto_set_output_extension
                     onClicked: {
-                        ConfigItems.auto_set_output_extension = checked
+                        configItems.auto_set_output_extension = checked
                     }
                     Component.onCompleted: {
-                        ConfigItems.auto_set_output_extension_changed.connect( (value) => {
+                        configItems.auto_set_output_extension_changed.connect( (value) => {
                             value === checked ? null : checked = value
                         })
                     }
@@ -571,20 +561,20 @@ Page {
         clip: true
         onDropped: (event) => {
             if (inputFormat.enabled) {
-                TaskManager.add_task_paths(event.urls.map(dialogs.url2path))
+                taskManager.add_task_paths(event.urls.map(dialogs.url2path))
             }
         }
         DashedRectangle {
             anchors.fill: parent
             anchors.margins: 12
             radius: 8
-            visible: TaskManager.count == 0
+            visible: taskManager.count == 0
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onEntered: {
-                    if (TaskManager.count == 0) {
+                    if (taskManager.count == 0) {
                         parent.opacity = 0.5
                     }
                 }
@@ -594,7 +584,7 @@ Page {
                     }
                 }
                 onClicked: {
-                    if (TaskManager.count == 0) {
+                    if (taskManager.count == 0) {
                         actions.openFile.trigger()
                     }
                 }
@@ -602,7 +592,7 @@ Page {
                     anchors.centerIn: parent
                     Label {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: IconicFontLoader.icon("mdi7.tray-arrow-up")
+                        text: iconicFontLoader.icon("mdi7.tray-arrow-up")
                         font.family: "Material Design Icons"
                         font.pixelSize: 100
                     }
@@ -616,7 +606,7 @@ Page {
         ColumnLayout {
             anchors.fill: parent
             anchors.margins: 15
-            visible: TaskManager.count > 0
+            visible: taskManager.count > 0
             RowLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignTop
@@ -630,37 +620,40 @@ Page {
 
                     TabButton {
                         width: 50
-                        text: IconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
+                        text: iconicFontLoader.icon("mdi7.file-arrow-left-right-outline")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
+                        enabled: !taskManager.busy
                         ToolTip.text: qsTr("Direct Mode")
                         ToolTip.visible: hovered
                         onClicked: {
-                            TaskManager.conversion_mode = "Direct"
+                            taskManager.conversion_mode = "Direct"
                         }
                     }
 
                     TabButton {
                         width: 50
-                        text: IconicFontLoader.icon("mdi7.set-merge")
+                        text: iconicFontLoader.icon("mdi7.set-merge")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
+                        enabled: !taskManager.busy
                         ToolTip.text: qsTr("Singing Track Merging Mode")
                         ToolTip.visible: hovered
                         onClicked: {
-                            TaskManager.conversion_mode = "Merge"
+                            taskManager.conversion_mode = "Merge"
                         }
                     }
 
                     TabButton {
                         width: 50
-                        text: IconicFontLoader.icon("mdi7.set-split")
+                        text: iconicFontLoader.icon("mdi7.set-split")
                         font.family: "Material Design Icons"
                         font.pixelSize: 25
+                        enabled: !taskManager.busy
                         ToolTip.text: qsTr("Singing Track Grouping Mode")
                         ToolTip.visible: hovered
                         onClicked: {
-                            TaskManager.conversion_mode = "Split"
+                            taskManager.conversion_mode = "Split"
                         }
                     }
                 }
@@ -689,7 +682,7 @@ Page {
                 ListView {
                     id: taskListView
                     Layout.fillWidth: true
-                    model: TaskManager.qget("tasks")
+                    model: taskManager.qget("tasks")
                     delegate: Qt.createComponent(
                         "task_row.qml"
                     )
@@ -753,7 +746,7 @@ Page {
                                 Material.Shade300
                             )
                         }
-                        text: IconicFontLoader.icon("mdi7.hammer-wrench")
+                        text: iconicFontLoader.icon("mdi7.hammer-wrench")
                         y: parent.height - this.height / 2
                         font.family: "Material Design Icons"
                         font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -792,7 +785,7 @@ Page {
                         Row {
                             RoundButton {
                                 id: addTaskButton
-                                text: IconicFontLoader.icon("mdi7.plus")
+                                text: iconicFontLoader.icon("mdi7.plus")
                                 background: Rectangle {
                                     radius: this.height / 2
                                     color: Material.color(
@@ -816,7 +809,7 @@ Page {
                             }
                             RoundButton {
                                 id: clearTaskButton
-                                text: IconicFontLoader.icon("mdi7.refresh")
+                                text: iconicFontLoader.icon("mdi7.refresh")
                                 background: Rectangle {
                                     radius: this.height / 2
                                     color: Material.color(
@@ -827,7 +820,7 @@ Page {
                                 font.family: "Material Design Icons"
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
                                 radius: this.height / 2
-                                enabled: TaskManager.count > 0
+                                enabled: taskManager.count > 0
                                 ToolTip.visible: hovered
                                 ToolTip.text: qsTr("Clear Task List")
                                 onHoveredChanged: {
@@ -843,7 +836,7 @@ Page {
                             }
                             RoundButton {
                                 id: resetExtensionButton
-                                text: IconicFontLoader.icon("mdi7.form-textbox")
+                                text: iconicFontLoader.icon("mdi7.form-textbox")
                                 background: Rectangle {
                                     radius: this.height / 2
                                     color: Material.color(
@@ -863,13 +856,13 @@ Page {
                                 }
                                 onClicked: {
                                     if (startConversionBtn.enabled) {
-                                        TaskManager.reset_stems()
+                                        taskManager.reset_stems()
                                     }
                                 }
                             }
                             RoundButton {
                                 id: removeOtherExtensionButton
-                                text: IconicFontLoader.icon("mdi7.filter-minus-outline")
+                                text: iconicFontLoader.icon("mdi7.filter-minus-outline")
                                 background: Rectangle {
                                     radius: this.height / 2
                                     color: Material.color(
@@ -909,14 +902,14 @@ Page {
                 Label {
                     Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Max Track count:")
-                    visible: TaskManager.conversion_mode === "Split"
+                    visible: taskManager.conversion_mode === "Split"
                 }
                 SpinBox {
                     from: 1
-                    value: ConfigItems.max_track_count
-                    visible: TaskManager.conversion_mode === "Split"
+                    value: configItems.max_track_count
+                    visible: taskManager.conversion_mode === "Split"
                     onValueModified: {
-                        ConfigItems.max_track_count = value
+                        configItems.max_track_count = value
                     }
                 }
             }
@@ -954,7 +947,7 @@ Page {
                         radius: this.height / 2
                         anchors.verticalCenter: parent.verticalCenter
                         contentItem: Label {
-                            text: IconicFontLoader.icon("mdi7.chevron-right")
+                            text: iconicFontLoader.icon("mdi7.chevron-right")
                             font.family: "Material Design Icons"
                             font.pixelSize: 20
                             rotation: inputContainer.expanded ? 45 : 0
@@ -991,8 +984,8 @@ Page {
                         font.pixelSize: 20
                         anchors.verticalCenter: parent.verticalCenter
                         Component.onCompleted: {
-                            TaskManager.input_format_changed.connect((input_format) => {
-                                let plugin_info = TaskManager.plugin_info("input_format")
+                            taskManager.input_format_changed.connect((input_format) => {
+                                let plugin_info = taskManager.plugin_info("input_format")
                                 input_format_name = plugin_info.file_format
                             })
                         }
@@ -1067,7 +1060,7 @@ Page {
                 }
                 ListView {
                     id: inputFields
-                    model: TaskManager.qget("input_fields")
+                    model: taskManager.qget("input_fields")
                     delegate: Column {
                         Component.onCompleted: {
                             if (index == 0) {
@@ -1119,7 +1112,7 @@ Page {
                     }
                 }
                 Repeater {
-                    model: TaskManager.qget("middleware_states")
+                    model: taskManager.qget("middleware_states")
                     delegate: ColumnLayout {
                         required property var modelData
                         Row {
@@ -1133,7 +1126,7 @@ Page {
                                 }
                                 onToggled: {
                                     middlewareContainer.expanded = !middlewareContainer.expanded
-                                    TaskManager.qget("middleware_states").update(modelData.index, {"value": middlewareContainer.expanded})
+                                    taskManager.qget("middleware_states").update(modelData.index, {"value": middlewareContainer.expanded})
                                 }
                             }
                             Label {
@@ -1226,53 +1219,53 @@ Page {
                         }
                         ListView {
                             id: middlewareFields
-                            model: TaskManager.get_middleware_fields(modelData.identifier)
+                            model: taskManager.get_middleware_fields(modelData.identifier)
+                            function rebuildFields() {
+                                for (var i = 0; i < model.rowCount(); i++) {
+                                    let middleware_state = model.get(i)
+                                    let separator_item = separatorItem.createObject(middlewareContainer)
+                                    let item = null
+                                    switch (middleware_state.type) {
+                                        case "bool": {
+                                            item = switchItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields
+                                            })
+                                            break
+                                        }
+                                        case "enum": {
+                                            item = comboBoxItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields
+                                            })
+                                            break
+                                        }
+                                        case "color" : {
+                                            item = colorPickerItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields
+                                            })
+                                            break
+                                        }
+                                        default: {
+                                            item = textFieldItem.createObject(middlewareContainer, {
+                                                "field": middleware_state,
+                                                "index": i,
+                                                "list_view": middlewareFields,
+                                            })
+                                            break
+                                        }
+                                    }
+                                }
+                            }
                             delegate: Column {
                                 Component.onCompleted: {
                                     if (index == 0) {
-                                        for (var i = 0; i < middlewareFields.count; i++) {
-                                            let middleware_state = middlewareFields.model.get(i)
-                                            let separator_item = separatorItem.createObject(middlewareContainer)
-                                            this.Component.onDestruction.connect(separator_item.destroy)
-                                            let item = null
-                                            switch (model.type) {
-                                                case "bool": {
-                                                    item = switchItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields
-                                                    })
-                                                    break
-                                                }
-                                                case "enum": {
-                                                    item = comboBoxItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields
-                                                    })
-                                                    break
-                                                }
-                                                case "color" : {
-                                                    item = colorPickerItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields
-                                                    })
-                                                    break
-                                                }
-                                                default: {
-                                                    item = textFieldItem.createObject(middlewareContainer, {
-                                                        "field": model,
-                                                        "index": i,
-                                                        "list_view": middlewareFields,
-                                                    })
-                                                    break
-                                                }
-                                            }
-                                            if (item) {
-                                                this.Component.onDestruction.connect(item.destroy)
-                                            }
-                                        }
+                                        middlewareContainer.children.length = 0
+                                        middlewareFields.rebuildFields()
                                     }
                                 }
                             }
@@ -1288,7 +1281,7 @@ Page {
                         radius: this.height / 2
                         anchors.verticalCenter: parent.verticalCenter
                         contentItem: Label {
-                            text: IconicFontLoader.icon("mdi7.chevron-right")
+                            text: iconicFontLoader.icon("mdi7.chevron-right")
                             font.family: "Material Design Icons"
                             font.pixelSize: 20
                             rotation: outputContainer.expanded ? 45 : 0
@@ -1325,8 +1318,8 @@ Page {
                         )
                         anchors.verticalCenter: parent.verticalCenter
                         Component.onCompleted: {
-                            TaskManager.output_format_changed.connect((output_format) => {
-                                let plugin_info = TaskManager.plugin_info("output_format")
+                            taskManager.output_format_changed.connect((output_format) => {
+                                let plugin_info = taskManager.plugin_info("output_format")
                                 output_format_name = plugin_info.file_format
                             })
                         }
@@ -1401,7 +1394,7 @@ Page {
                 }
                 ListView {
                     id: outputFields
-                    model: TaskManager.qget("output_fields")
+                    model: taskManager.qget("output_fields")
                     delegate: Column {
                         Component.onCompleted: {
                             if (index == 0) {
@@ -1467,9 +1460,9 @@ Page {
             }
             Switch {
                 text: qsTr("Open Output Folder When Done")
-                checked: ConfigItems.open_save_folder_on_completion
+                checked: configItems.open_save_folder_on_completion
                 onClicked: {
-                    ConfigItems.open_save_folder_on_completion = checked
+                    configItems.open_save_folder_on_completion = checked
                 }
             }
         }
@@ -1486,10 +1479,10 @@ Page {
                         Material.Indigo
                     )
                     property int anim_index: 10
-                    property bool anim_running: TaskManager.busy
+                    property bool anim_running: taskManager.busy
                     anchors.fill: parent
                     radius: 10
-                    enabled: TaskManager.count > 0 && !TaskManager.busy
+                    enabled: taskManager.count > 0 && !taskManager.busy
                     opacity: enabled ? 1 : 0.7
                     background: Rectangle {
                         color: startConversionBtn.base_color
@@ -1534,7 +1527,7 @@ Page {
                         }
                     }
                     contentItem: Label {
-                        text: TaskManager.busy ? qsTr("Converting") : qsTr("Start Conversion")
+                        text: taskManager.busy ? qsTr("Converting") : qsTr("Start Conversion")
                         wrapMode: Text.WordWrap
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -1559,10 +1552,10 @@ Page {
                         Layout.fillWidth: true
                         height: 50
                         placeholderText: qsTr("Output Folder")
-                        text: ConfigItems.save_folder
+                        text: configItems.save_folder
                         onEditingFinished: {
-                            if (ConfigItems.dir_valid(text) === true) {
-                                ConfigItems.save_folder = text
+                            if (configItems.dir_valid(text) === true) {
+                                configItems.save_folder = text
                             } else {
                                 undo()
                             }
@@ -1585,10 +1578,10 @@ Page {
                             {value: "Prompt", text: qsTr("Prompt")}
                         ]
                         onActivated: (index) => {
-                            ConfigItems.conflict_policy = currentValue
+                            configItems.conflict_policy = currentValue
                         }
                         Connections {
-                            target: ConfigItems
+                            target: configItems
                             function onConflict_policy_changed(value) {
                                 switch (value) {
                                     case "Overwrite":
@@ -1600,7 +1593,7 @@ Page {
                             }
                         }
                         Component.onCompleted: {
-                            currentIndex = indexOfValue(ConfigItems.conflict_policy)
+                            currentIndex = indexOfValue(configItems.conflict_policy)
                         }
                     }
                 }

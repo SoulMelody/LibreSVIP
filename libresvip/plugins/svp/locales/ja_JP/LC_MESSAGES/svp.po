@@ -1,0 +1,138 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/svp/svp.po\n"
+"X-Crowdin-File-ID: 148\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-07-02 22:18\n"
+
+msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
+msgstr ""
+
+msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
+msgstr ""
+
+msgid "Mandarin"
+msgstr ""
+
+msgid "Cantonese"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Ignore all breath notes"
+msgstr ""
+
+msgid "Keep as normal notes"
+msgstr ""
+
+msgid "Convert to breath mark"
+msgstr ""
+
+msgid "Split all to tracks"
+msgstr ""
+
+msgid "Generate a track for each note group reference"
+msgstr ""
+
+msgid "Keep original position"
+msgstr ""
+
+msgid "Split note groups to separate tracks only when notes overlap"
+msgstr ""
+
+msgid "Full pitch curve"
+msgstr ""
+
+msgid "Input the full pitch curve regardless of editing"
+msgstr ""
+
+msgid "Edited part only (vibrato mode)"
+msgstr ""
+
+msgid "Input the edited part of pitch curve; default vibrato will be imported if not edited"
+msgstr ""
+
+msgid "Edited part only (plain mode)"
+msgstr ""
+
+msgid "Input the edited part of pitch curve; default vibrato will be ignored"
+msgstr ""
+
+msgid "All removed"
+msgstr ""
+
+msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
+msgstr ""
+
+msgid "All kept"
+msgstr ""
+
+msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+msgstr ""
+
+msgid "Hybrid mode"
+msgstr ""
+
+msgid "Remove vibrato in edited part, keep default vibrato in other parts"
+msgstr ""
+
+msgid "Always follow instant pitch mode"
+msgstr ""
+
+msgid "When this option is turned off, the default pitch curve will always be imported regardless of the project setting. If you have tuned the pitch curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr ""
+
+msgid "Pitch input mode"
+msgstr ""
+
+msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
+msgstr ""
+
+msgid "The way to handle breath notes"
+msgstr ""
+
+msgid "The way to handle note groups"
+msgstr ""
+
+msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
+msgstr ""
+
+msgid "Version compatibility"
+msgstr ""
+
+msgid "The way to handle vibrato notes"
+msgstr ""
+
+msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
+msgstr ""
+
+msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
+msgstr ""
+
+msgid "Override default language for the voicebank"
+msgstr ""
+
+msgid "SynthV Studio"
+msgstr ""
+
+msgid "Synthesizer V Studio project file"
+msgstr ""
+
+msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\n"
+"Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
+msgstr ""
+

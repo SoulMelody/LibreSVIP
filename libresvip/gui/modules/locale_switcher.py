@@ -1,13 +1,13 @@
 import gettext
-from typing import Optional
+from typing import Any, Optional
 
 from PySide6.QtCore import QLocale, QObject, QTranslator, Signal, Slot
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import Language, config_path, settings
-from libresvip.core.constants import PACKAGE_NAME
+from libresvip.extension.manager import get_translation
 from libresvip.utils import translation
 
 from .application import app, qml_engine
@@ -20,7 +20,7 @@ QML_IMPORT_MINOR_VERSION = 0
 class GettextTranslator(QTranslator):
     def load_translation(self, lang: str) -> None:
         try:
-            translation.singleton_translation = translation.get_translation(PACKAGE_NAME, lang)
+            translation.singleton_translation = get_translation(lang=lang)
         except OSError:
             translation.singleton_translation = gettext.NullTranslations()
 
@@ -32,13 +32,25 @@ class GettextTranslator(QTranslator):
         n: int = 0,
     ) -> str:
         if translation.singleton_translation is not None and source_text.strip():
+            if (
+                contextual_text := translation.singleton_translation.pgettext(context, source_text)
+            ) != source_text:
+                return contextual_text
             return translation.singleton_translation.gettext(source_text)
         return source_text
 
 
+class SingletonMetaObject(type(QObject)):  # type: ignore[misc]
+    _instance = None
+
+    def __new__(cls, name: str, bases: tuple[type], attrs: dict[str, Any]) -> type[QObject]:
+        if not cls._instance:
+            cls._instance = super().__new__(cls, name, bases, attrs)
+        return cls._instance
+
+
 @QmlElement
-@QmlSingleton
-class LocaleSwitcher(QObject):
+class LocaleSwitcher(QObject, metaclass=SingletonMetaObject):
     translator_initialized = Signal()
 
     def __init__(self) -> None:

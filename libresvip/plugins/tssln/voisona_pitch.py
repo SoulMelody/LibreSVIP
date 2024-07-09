@@ -1,13 +1,17 @@
 from __future__ import annotations
 
 import dataclasses
+import functools
 import itertools
 import math
-from typing import NamedTuple, Optional
+from typing import NamedTuple, Optional, cast
 
 import more_itertools
+import portion
 
 from libresvip.core.tick_counter import shift_tempo_list
+from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import ParamCurve, Points, SongTempo
 from libresvip.model.point import Point
@@ -47,6 +51,8 @@ class VoiSonaTrackPitchData:
     events: list[VoiSonaParamEvent]
     tempos: list[SongTempo]
     tick_prefix: int
+    vibrato_amplitude_events: list[VoiSonaParamEvent] = dataclasses.field(default_factory=list)
+    vibrato_frequency_events: list[VoiSonaParamEvent] = dataclasses.field(default_factory=list)
 
     @property
     def length(self) -> int:
@@ -61,13 +67,22 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
     converted_points = [Point.start_point()]
     current_value = -100
 
+    synchronizer = TimeSynchronizer(data.tempos)
+    vibrato_amplitude_interval_dict = build_voisona_param_interval_dict(
+        data.vibrato_amplitude_events, synchronizer, data.tick_prefix
+    )
+    vibrato_value_interval_dict = build_voisona_wave_interval_dict(
+        data.vibrato_frequency_events, synchronizer, data.tick_prefix
+    )
+
     events_normalized = shape_events(
         normalize_to_tick(append_ending_points(data.events), data.tempos, data.tick_prefix)
     )
 
     next_pos = None
     for event in events_normalized:
-        pos = event.idx - data.tick_prefix
+        pos = int(cast(float, event.idx)) - data.tick_prefix
+        secs = synchronizer.get_actual_secs_from_ticks(pos)
         length = event.repeat
         try:
             value = round(hz2midi(math.e**event.value) * 100) if event.value is not None else -100
@@ -76,6 +91,14 @@ def pitch_from_voisona_track(data: VoiSonaTrackPitchData) -> Optional[ParamCurve
                 if value == -100:
                     converted_points.append(Point(x=round(pos), y=value))
                 current_value = value
+            secs_step = synchronizer.get_duration_secs_from_ticks(pos, pos + 5)
+            for pos_x in range(pos, int(cast(float, pos + length)), 5):
+                if value_diff := vibrato_value_interval_dict.get(secs):
+                    value_diff *= vibrato_amplitude_interval_dict.get(secs, 1)
+                    converted_points.append(Point(x=pos_x, y=round(value + value_diff)))
+                else:
+                    break
+                secs += secs_step
         except OverflowError:
             show_warning(_("Pitch value is out of bounds"))
         next_pos = pos + length
@@ -181,6 +204,93 @@ def expand(tempos: list[SongTempo], tick_prefix: int) -> list[tuple[int, int, fl
             new_pos = last_pos + (tempo.position - last_tick_pos) / ticks_in_time_unit
             result.append((int(new_pos), tempo.position, tempo.bpm))
     return result
+
+
+def vibrato_curve(value: float, shift: float, omega: float, phase: float) -> float:
+    return math.sin(omega * (value - shift) + phase)
+
+
+def build_voisona_param_interval_dict(
+    events: list[VoiSonaParamEvent], synchronizer: TimeSynchronizer, tick_prefix: int
+) -> PiecewiseIntervalDict:
+    param_interval_dict = PiecewiseIntervalDict()
+    for continuous_part in more_itertools.split_before(
+        events,
+        lambda event: event.idx is not None,
+    ):
+        for prev_event, next_event in more_itertools.windowed(
+            more_itertools.prepend(
+                None,
+                normalize_to_tick(
+                    append_ending_points(continuous_part), synchronizer.tempo_list, tick_prefix
+                ),
+            ),
+            2,
+        ):
+            next_start = synchronizer.get_actual_secs_from_ticks(next_event.idx - tick_prefix)
+            if (
+                prev_event is not None
+                and (
+                    prev_end := synchronizer.get_actual_secs_from_ticks(
+                        prev_event.idx + (prev_event.repeat or 1) - tick_prefix
+                    )
+                )
+                and prev_end < next_start
+            ):
+                param_interval_dict[portion.closedopen(prev_end, next_start)] = next_event.value
+            param_interval_dict[
+                portion.closedopen(
+                    next_start,
+                    synchronizer.get_actual_secs_from_ticks(
+                        next_event.idx + (next_event.repeat or 1) - tick_prefix
+                    ),
+                )
+            ] = next_event.value
+    return param_interval_dict
+
+
+def build_voisona_wave_interval_dict(
+    events: list[VoiSonaParamEvent], synchronizer: TimeSynchronizer, tick_prefix: int
+) -> PiecewiseIntervalDict:
+    param_interval_dict = PiecewiseIntervalDict()
+    omega = math.tau * 6
+    for continuous_part in more_itertools.split_before(
+        events,
+        lambda event: event.idx is not None,
+    ):
+        phase = 0.0
+        for prev_event, next_event in more_itertools.windowed(
+            more_itertools.prepend(
+                None,
+                normalize_to_tick(
+                    append_ending_points(continuous_part), synchronizer.tempo_list, tick_prefix
+                ),
+            ),
+            2,
+        ):
+            next_start = synchronizer.get_actual_secs_from_ticks(next_event.idx - tick_prefix)
+            next_end = synchronizer.get_actual_secs_from_ticks(
+                next_event.idx + (next_event.repeat or 1) - tick_prefix
+            )
+            if (
+                prev_event is not None
+                and (
+                    prev_end := synchronizer.get_actual_secs_from_ticks(
+                        prev_event.idx + (prev_event.repeat or 1) - tick_prefix
+                    )
+                )
+                and prev_end < next_start
+            ):
+                prev_start = synchronizer.get_actual_secs_from_ticks(prev_event.idx - tick_prefix)
+                param_interval_dict[portion.closedopen(prev_end, next_start)] = vibrato_curve(
+                    prev_end, prev_start, omega, phase
+                )
+            omega = math.tau * (next_event.value or 6)
+            param_interval_dict[portion.closedopen(next_start, next_end)] = functools.partial(
+                vibrato_curve, shift=next_start, omega=omega, phase=phase
+            )
+            phase += (next_end - next_start) * omega
+    return param_interval_dict
 
 
 def generate_for_voisona(

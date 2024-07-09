@@ -2,7 +2,7 @@
 
 import os
 import pathlib
-from typing import Optional
+from typing import ClassVar, Optional
 
 from loguru import logger
 from setuptools import Command
@@ -15,12 +15,12 @@ from setuptools._distutils.util import get_platform
 class BdistPortable(Command):
     description = 'create a "portable" built distribution'
 
-    user_options = [
+    user_options: ClassVar[list[tuple[str, Optional[str], str]]] = [
         ("bdist-dir=", "d", "temporary directory for creating the distribution"),
         (
             "plat-name=",
             "p",
-            "platform name to embed in generated filenames " "(default: %s)" % get_platform(),
+            "platform name to embed in generated filenames " f"(default: {get_platform()})",
         ),
         (
             "format=",
@@ -51,9 +51,9 @@ class BdistPortable(Command):
         ),
     ]
 
-    boolean_options = ["keep-temp", "skip-build", "relative"]
+    boolean_options: ClassVar[list[str]] = ["keep-temp", "skip-build", "relative"]
 
-    default_format = {"posix": "gztar", "nt": "zip"}
+    default_format: ClassVar[dict[str, str]] = {"posix": "gztar", "nt": "zip"}
 
     def initialize_options(self) -> None:
         self.bdist_dir: Optional[pathlib.Path] = None
@@ -77,10 +77,11 @@ class BdistPortable(Command):
             try:
                 self.format = self.default_format[os.name]
             except KeyError as exc:
-                raise DistutilsPlatformError(
+                msg = (
                     "don't know how to create portable built distributions "
-                    "on platform %s" % os.name
-                ) from exc
+                    f"on platform {os.name}"
+                )
+                raise DistutilsPlatformError(msg) from exc
 
         self.set_undefined_options(
             "bdist",
@@ -112,7 +113,7 @@ class BdistPortable(Command):
         elif self.distribution.has_ext_modules() and (
             install.install_base != install.install_platbase
         ):
-            msg = f"can't make a portable built distribution where base and platbase are different ({repr(install.install_base)}, {repr(install.install_platbase)})"
+            msg = f"can't make a portable built distribution where base and platbase are different ({install.install_base!r}, {install.install_platbase!r})"
             raise DistutilsPlatformError(msg)
         else:
             archive_root = self.bdist_dir / ensure_relative(install.install_base)

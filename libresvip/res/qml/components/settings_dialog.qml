@@ -52,7 +52,13 @@ Dialog {
                 Layout.alignment: Qt.AlignRight
                 icon_name: "mdi7.close"
                 diameter: 30
+                new_padding: 6
                 onClicked: settingsDialog.close()
+            }
+            Rectangle {
+                Layout.fillHeight: true
+                width: 10
+                color: "transparent"
             }
         }
         Rectangle {
@@ -87,9 +93,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.auto_detect_input_format
+                            checked: configItems.auto_detect_input_format
                             onClicked: {
-                                ConfigItems.auto_detect_input_format = checked
+                                configItems.auto_detect_input_format = checked
                             }
                         }
                     }
@@ -102,9 +108,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.reset_tasks_on_input_change
+                            checked: configItems.reset_tasks_on_input_change
                             onClicked: {
-                                ConfigItems.reset_tasks_on_input_change = checked
+                                configItems.reset_tasks_on_input_change = checked
                             }
                         }
                     }
@@ -117,12 +123,12 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.auto_set_output_extension
+                            checked: configItems.auto_set_output_extension
                             onClicked: {
-                                ConfigItems.auto_set_output_extension = checked
+                                configItems.auto_set_output_extension = checked
                             }
                             Component.onCompleted: {
-                                ConfigItems.auto_set_output_extension_changed.connect( (value) => {
+                                configItems.auto_set_output_extension_changed.connect( (value) => {
                                     value === checked ? null : checked = value
                                 })
                             }
@@ -137,9 +143,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.multi_threaded_conversion
+                            checked: configItems.multi_threaded_conversion
                             onClicked: {
-                                ConfigItems.multi_threaded_conversion = checked
+                                configItems.multi_threaded_conversion = checked
                             }
                         }
                     }
@@ -182,10 +188,10 @@ Dialog {
                                 {value: "Prompt", text: qsTr("Prompt")}
                             ]
                             onActivated: (index) => {
-                                ConfigItems.conflict_policy = currentValue
+                                configItems.conflict_policy = currentValue
                             }
                             Connections {
-                                target: ConfigItems
+                                target: configItems
                                 function onConflict_policy_changed(value) {
                                     switch (value) {
                                         case "Overwrite":
@@ -197,7 +203,7 @@ Dialog {
                                 }
                             }
                             Component.onCompleted: {
-                                currentIndex = indexOfValue(ConfigItems.conflict_policy)
+                                currentIndex = indexOfValue(configItems.conflict_policy)
                             }
                         }
                     }
@@ -210,9 +216,9 @@ Dialog {
                             Layout.fillWidth: true
                         }
                         Switch {
-                            checked: ConfigItems.open_save_folder_on_completion
+                            checked: configItems.open_save_folder_on_completion
                             onClicked: {
-                                ConfigItems.open_save_folder_on_completion = checked
+                                configItems.open_save_folder_on_completion = checked
                             }
                         }
                     }
@@ -248,11 +254,11 @@ Dialog {
                             return
                         }
                         default: {
-                            cur_value = ConfigItems.save_folder
+                            cur_value = configItems.save_folder
                             break
                         }
                     }
-                    ConfigItems.save_folder = cur_value
+                    configItems.save_folder = cur_value
                 }
             }
             ColumnLayout {
@@ -299,9 +305,9 @@ Dialog {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked) {
-                                            let save_folder = ConfigItems.save_folder
+                                            let save_folder = configItems.save_folder
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                ConfigItems.save_folder = presetRadioToolTip.text
+                                                configItems.save_folder = presetRadioToolTip.text
                                             }
                                         }
                                     }
@@ -313,9 +319,9 @@ Dialog {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
                                         presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
                                         if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                            let save_folder = ConfigItems.save_folder
+                                            let save_folder = configItems.save_folder
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                ConfigItems.save_folder = presetRadioToolTip.text
+                                                configItems.save_folder = presetRadioToolTip.text
                                             }
                                         }
                                     }
@@ -324,7 +330,7 @@ Dialog {
                                     if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
                                         presetRadioToolTip.text = ""
                                         if (presetRadio.checked) {
-                                            ConfigItems.save_folder = ConfigItems.save_folder
+                                            configItems.save_folder = configItems.save_folder
                                         }
                                     }
                                 }
@@ -354,7 +360,7 @@ Dialog {
                 }
             }
             Connections {
-                target: ConfigItems
+                target: configItems
                 function onSave_folder_changed(value) {
                     let selected_index = save_folder_type(value)
                     if (selected_index === 1) {
@@ -375,7 +381,6 @@ Dialog {
         id: pluginsSettingsPage
         ColumnLayout {
             HorizontalHeaderView {
-                id: horizontalHeader
                 resizableColumns: false
                 syncView: pluginsTableView
                 Layout.fillWidth: true
@@ -413,12 +418,12 @@ Dialog {
                 clip: true
                 editTriggers: TableView.SingleTapped
 
-                model: ConfigItems.qget("plugin_candidates")
+                model: taskManager.qget("plugin_candidates")
                 ScrollBar.vertical: ScrollBar {}
                 ScrollBar.horizontal: ScrollBar {}
 
                 delegate: DelegateChooser {
-                    DelegateChoice{
+                    DelegateChoice {
                         column: 0
                         delegate: Rectangle {
                             implicitWidth: 220
@@ -475,7 +480,7 @@ Dialog {
                             required property bool editing
 
                             Label {
-                                text: IconicFontLoader.icon("mdi7." + display)
+                                text: iconicFontLoader.icon("mdi7." + display)
                                 font.family: "Material Design Icons"
                                 font.pixelSize: 22
                                 color: window.Material.accent
@@ -485,10 +490,329 @@ Dialog {
 
                             TableView.editDelegate: CheckBox {
                                 checked: value === "checkbox-marked"
-                                anchors.centerIn: parent
+                                anchors.fill: parent
                                 onToggled: {
-                                    if (ConfigItems.toggle_plugin(row)) {
-                                        TaskManager.reload_formats()
+                                    taskManager.toggle_plugin(row)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    Component {
+        id: lyricReplacementSettingsPage
+        ColumnLayout {
+            Layout.margins: 15
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            RowLayout {
+                Layout.fillWidth: true
+                ComboBox {
+                    id: lyricReplacementPresetsComboBox
+                    editable: true
+                    textRole: "display"
+                    model: configItems.qget("lyric_replacement_presets")
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Preset")
+                    onAccepted: {
+                        if (find(editText) === -1) {
+                            lyricReplacementPresetsComboBox.model.append(editText)
+                            taskManager.middleware_options_updated()
+                        }
+                    }
+                    onActivated: (index) => {
+                        lyricReplacementRulesTableView.model.modelReset()
+                    }
+                }
+                IconButton {
+                    icon_name: "mdi7.minus"
+                    diameter: 35
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Remove current preset")
+                    onClicked: {
+                        if (lyricReplacementPresetsComboBox.currentText !== "default") {
+                            lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentText)
+                            lyricReplacementPresetsComboBox.currentIndex = 0
+                            taskManager.middleware_options_updated()
+                        }
+                    }
+                }
+                Row {
+                    Layout.fillWidth: true
+                }
+                Label {
+                    text: qsTr("Add new rule")
+                }
+                ComboBox {
+                    id: addPresetComboBox
+                    Layout.preferredWidth: 150
+                    textRole: "text"
+                    valueRole: "value"
+                    model: ListModel {
+                        ListElement { text: qsTr("Full match"); value: "full"}
+                        ListElement { text: qsTr("Alphabetic"); value: "alphabetic"}
+                        ListElement { text: qsTr("Non-alphabetic"); value: "non_alphabetic"}
+                        ListElement { text: qsTr("Regex"); value: "regex"}
+                    }
+                    onActivated: {
+                        lyricReplacementRulesTableView.model.append(currentValue)
+                    }
+                }
+                IconButton {
+                    icon_name: "mdi7.help-circle-outline"
+                    diameter: 35
+                    cursor_shape: Qt.WhatsThisCursor
+                    ToolTip.visible: hovered
+                    ToolTip.text: qsTr("Alphabetic: Applies to alphabetic characters.\nNon-Alphabetic: For non-alphabetic characters and punctuation marks.\nRegex: for advanced users with knowledge of regular expressions.")    
+                }
+            }
+            HorizontalHeaderView {
+                resizableColumns: false
+                syncView: lyricReplacementRulesTableView
+                Layout.fillWidth: true
+                clip: true
+                delegate: Rectangle {
+                    implicitHeight: 50
+                    implicitWidth: 70
+                    border.width: 1
+                    border.color: window.Material.backgroundDimColor
+                    color: window.Material.dialogColor
+
+                    RowLayout {
+                        anchors.centerIn: parent
+                        Layout.alignment: Qt.AlignHCenter
+                        Label {
+                            text: qsTr(display)
+                            font.pixelSize: 10
+                        }
+                    }
+                }
+            }
+            TableView {
+                id: lyricReplacementRulesTableView
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                columnSpacing: 0
+                rowSpacing: 0
+                clip: true
+                editTriggers: TableView.SingleTapped
+
+                model: configItems.rules_for_preset(lyricReplacementPresetsComboBox.currentText)
+                ScrollBar.vertical: ScrollBar {}
+                ScrollBar.horizontal: ScrollBar {}
+
+                delegate: DelegateChooser {
+                    DelegateChoice {
+                        column: 0
+                        delegate: Rectangle {
+                            implicitWidth: 100
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            Label {
+                                text: addPresetComboBox.textAt(addPresetComboBox.indexOfValue(display))
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 1
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 60
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+                            required property bool editing
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
+                                }
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 2
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 60
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+                            required property bool editing
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
+                                }
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 3
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 50
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+                            required property bool editing
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
+                                }
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 4
+                        delegate: Rectangle {
+                            clip: true
+                            implicitWidth: 60
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+                            required property bool editing
+
+                            Label {
+                                text: display
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: TextField {
+                                anchors.fill: parent
+                                text: value
+                                horizontalAlignment: TextInput.AlignHCenter
+                                verticalAlignment: TextInput.AlignVCenter
+                                onEditingFinished: {
+                                    display = text
+                                    parent.children[0].text = text
+                                }
+                                TableView.onCommit: {
+                                    editingFinished()
+                                }
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 5
+                        delegate: Rectangle {
+                            implicitWidth: 70
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+                            required property bool editing
+
+                            Label {
+                                text: iconicFontLoader.icon("mdi7." + (display === "UNICODE" ? "checkbox-marked" : "checkbox-blank-outline"))
+                                font.family: "Material Design Icons"
+                                font.pixelSize: 22
+                                color: window.Material.accent
+                                anchors.centerIn: parent
+                                visible: !editing
+                            }
+
+                            TableView.editDelegate: CheckBox {
+                                checked: value === "UNICODE"
+                                anchors.fill: parent
+                                onToggled: {
+                                    let index = TableView.view.index(row, column)
+                                    lyricReplacementRulesTableView.model.setData(index, checked ? "UNICODE" : "IGNORECASE", Qt.DisplayRole)
+                                    parent.children[0].text = iconicFontLoader.icon("mdi7." + (checked ? "checkbox-marked" : "checkbox-blank-outline"))
+                                }
+                            }
+                        }
+                    }
+                    DelegateChoice {
+                        column: 6
+                        delegate: Rectangle {
+                            implicitWidth: 80
+                            implicitHeight: 32
+                            border.width: 1
+                            border.color: window.Material.backgroundDimColor
+                            color: window.Material.dialogColor
+
+                            RowLayout {
+                                anchors.centerIn: parent
+                                IconButton {
+                                    icon_name: "mdi7.arrow-up-circle-outline"
+                                    diameter: 20
+                                    new_padding: 4
+                                    visible: row > 0
+                                    onClicked: {
+                                        lyricReplacementRulesTableView.model.swap(row - 1, row)
+                                    }
+                                }
+                                IconButton {
+                                    icon_name: "mdi7.arrow-down-circle-outline"
+                                    diameter: 20
+                                    new_padding: 4
+                                    visible: row < lyricReplacementRulesTableView.model.rowCount() - 1
+                                    onClicked: {
+                                        lyricReplacementRulesTableView.model.swap(row, row + 1)
+                                    }
+                                }
+                                IconButton {
+                                    icon_name: "mdi7.minus"
+                                    diameter: 20
+                                    new_padding: 4
+                                    onClicked: {
+                                        lyricReplacementRulesTableView.model.delete(row)
                                     }
                                 }
                             }
@@ -515,9 +839,9 @@ Dialog {
                     Layout.fillWidth: true
                 }
                 Switch {
-                    checked: ConfigItems.auto_check_for_updates
+                    checked: configItems.auto_check_for_updates
                     onClicked: {
-                        ConfigItems.auto_check_for_updates = checked
+                        configItems.auto_check_for_updates = checked
                     }
                 }
             }
@@ -587,7 +911,7 @@ Dialog {
                 id: pluginsSettingsBtn
                 width: 180
                 text: qsTr("Format Provider Plugins")
-                enabled: !TaskManager.busy
+                enabled: !taskManager.busy
                 anchors.top: savePathSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
@@ -597,14 +921,26 @@ Dialog {
             }
 
             TabButton {
-                id: updatesSettingsBtn
+                id: lyricReplacementSettingsBtn
                 width: 180
-                text: qsTr("Updates Settings")
+                text: qsTr("Lyric Replacement Rules")
                 anchors.top: pluginsSettingsBtn.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 3
+                }
+            }
+
+            TabButton {
+                id: updatesSettingsBtn
+                width: 180
+                text: qsTr("Updates Settings")
+                anchors.top: lyricReplacementSettingsBtn.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.spacing
+                onClicked: {
+                    settingsStack.currentIndex = 4
                 }
             }
         }
@@ -623,8 +959,9 @@ Dialog {
                 basicSettingsPage.createObject(settingsStack)
                 savePathSettingsPage.createObject(settingsStack)
                 pluginsSettingsPage.createObject(settingsStack)
+                lyricReplacementSettingsPage.createObject(settingsStack)
                 updatesSettingsPage.createObject(settingsStack)
-                ConfigItems.save_folder = ConfigItems.save_folder
+                configItems.save_folder = configItems.save_folder
             }
         }
     }

@@ -83,7 +83,7 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.name}\t{{}}{str(plugin.version)}\t{{}}{plugin.author}".format(
+        f"{{}}{plugin.name}\t{{}}{plugin.version!s}\t{{}}{plugin.author}".format(
             _("Plugin: "),
             _("Version: "),
             _("Author: "),
@@ -91,8 +91,8 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     )
     if plugin.website:
         typer.echo("\n" + _("Website: ") + plugin.website)
-    format_desc = f"{plugin.file_format} (*.{plugin.suffix})"
-    typer.echo("\n" + f'{_("This plugin is applicable to")} {_(format_desc)}.')
+    format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
+    typer.echo("\n" + f'{_("This plugin is applicable to")} {format_desc}.')
     typer.echo(
         _(
             "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."

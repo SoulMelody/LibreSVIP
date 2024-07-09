@@ -1,6 +1,7 @@
 import dataclasses
 from typing import cast
 
+from libresvip.core.lyric_phoneme.chinese import CHINESE_RE, get_pinyin_series
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -12,6 +13,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.utils.audio import audio_track_info
+from libresvip.utils.text import LATIN_ALPHABET
 
 from .model import (
     MutaAudioTrackData,
@@ -70,7 +72,7 @@ class MutaGenerator:
     def generate_tempos(self, tempos: list[SongTempo]) -> list[MutaTempo]:
         return [
             MutaTempo(
-                position=tempo.position - self.first_bar_length,
+                position=max(tempo.position - self.first_bar_length, 0),
                 bpm=round(tempo.bpm * 100),
             )
             for tempo in tempos
@@ -122,7 +124,7 @@ class MutaGenerator:
     def generate_pitch(self, pitch: ParamCurve) -> list[MutaPoint]:
         return [
             MutaPoint(
-                time=point.x - 2 * self.first_bar_length,
+                time=max(point.x - 2 * self.first_bar_length, -1),
                 value=12900 if point.y < 0 else point.y - 1200,
             )
             for point in pitch.points.root
@@ -135,13 +137,24 @@ class MutaGenerator:
                 length=note.length,
                 key=139 - note.key_number,
                 lyric=[ord(c) for c in note.lyric] + [0] * (8 - len(note.lyric)),
-                phoneme=note.pronunciation
-                if note.pronunciation and len(note.pronunciation.encode("utf-16-le")) <= 16
-                else "",
+                phoneme=self.generate_phoneme(note),
                 tmg_data=[MutaNoteTiming(ori_pos=0, mod_pos=0)] * 5,
             )
             for note in notes
         ]
+
+    @staticmethod
+    def generate_phoneme(note: Note) -> str:
+        result = ""
+        if note.lyric == "-":
+            result = "-"
+        elif LATIN_ALPHABET.fullmatch(note.pronunciation or note.lyric) is not None:
+            result = note.pronunciation or note.lyric
+        elif CHINESE_RE.fullmatch(note.lyric) is not None:
+            result = " ".join(get_pinyin_series(note.lyric))
+        if len(result.encode("utf-16-le")) > 16:
+            result = ""
+        return result
 
     def generate_instrumental_tracks(
         self, tracks: list[InstrumentalTrack], singing_track_count: int

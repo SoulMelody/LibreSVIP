@@ -2,6 +2,8 @@ import math
 from dataclasses import dataclass
 from typing import Optional
 
+from libresvip.core.time_interval import PiecewiseIntervalDict
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve
 from libresvip.model.point import Point
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
@@ -29,7 +31,10 @@ class VocaloidPartPitchData:
 
 def pitch_from_vocaloid_parts(
     data_by_parts: list[VocaloidPartPitchData],
+    synchronizer: TimeSynchronizer,
     note_list: list[Note],
+    vibrato_rate_interval_dict: PiecewiseIntervalDict,
+    vibrato_depth_interval_dict: PiecewiseIntervalDict,
     first_bar_length: int,
     lower_bound: int,
     upper_bound: int,
@@ -75,13 +80,32 @@ def pitch_from_vocaloid_parts(
             pitch_raw_data = pitch_raw_data[:first_invalid_index_in_previous] + list(
                 element.items()
             )
-    data = [
-        Point(
-            x=pos,
-            y=round((value / (PITCH_MAX_VALUE if value > 0 else (PITCH_MAX_VALUE + 1))) * 100),
+    data = []
+    prev_pos = None
+    value = None
+    for pos, pitch in pitch_raw_data:
+        pos_secs = synchronizer.get_actual_secs_from_ticks(pos)
+        if prev_pos is not None and value is not None:
+            for interp_pos in range(prev_pos + 5, pos, 5):
+                interp_pos_secs = synchronizer.get_actual_secs_from_ticks(interp_pos)
+                if interp_value_diff := vibrato_rate_interval_dict.get(interp_pos_secs, 0):
+                    interp_value_diff *= vibrato_depth_interval_dict.get(interp_pos_secs, 64)
+                data.append(
+                    Point(
+                        x=interp_pos,
+                        y=value + round(interp_value_diff),
+                    )
+                )
+        value = round((pitch / (PITCH_MAX_VALUE if pitch > 0 else (PITCH_MAX_VALUE + 1))) * 100)
+        if value_diff := vibrato_rate_interval_dict.get(pos_secs, 0):
+            value_diff *= vibrato_depth_interval_dict.get(pos_secs, 64)
+        data.append(
+            Point(
+                x=pos,
+                y=value + round(value_diff),
+            )
         )
-        for pos, value in pitch_raw_data
-    ]
+        prev_pos = pos
     return (
         RelativePitchCurve(first_bar_length, lower_bound, upper_bound).to_absolute(data, note_list)
         if data and note_list
@@ -92,9 +116,7 @@ def pitch_from_vocaloid_parts(
 def generate_for_vocaloid(
     pitch: ParamCurve, notes: list[Note], first_bar_length: int
 ) -> Optional[VocaloidPartPitchData]:
-    data = RelativePitchCurve(first_bar_length).from_absolute(
-        pitch.points.root, notes, border_append_radius=0
-    )
+    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, notes)
     if not len(data):
         return None
     pitch_sectioned: list[list[Point]] = [[]]

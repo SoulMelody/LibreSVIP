@@ -1,0 +1,9 @@
+msgid "Y77"
+msgstr ""
+
+msgid "Yuan77 project file"
+msgstr ""
+
+msgid "Conversion plugin for Yuan77 project file"
+msgstr ""
+

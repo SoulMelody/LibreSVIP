@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/tssln/tssln.po\n"
+"X-Crowdin-File-ID: 152\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-07-02 22:41\n"
+
+msgid "Unsupported project version"
+msgstr "不支持的工程版本"
+
+msgid "TSSln"
+msgstr ""
+
+msgid "Techno-Speech Solution file"
+msgstr "Techno-Speech 项目文件"
+
+msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
+msgstr "Voisona 工程文件转换插件 (仅支持1.8.0及以上版本保存的工程)"
+
+msgid "Unsupported lyric: "
+msgstr "不支持的歌词: "
+
+msgid "Pitch value is out of bounds"
+msgstr "音高值越界"
+

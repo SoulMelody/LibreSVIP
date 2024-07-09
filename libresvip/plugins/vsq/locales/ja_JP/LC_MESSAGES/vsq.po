@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/vsq/vsq.po\n"
+"X-Crowdin-File-ID: 168\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "Ignore all breath notes"
+msgstr ""
+
+msgid "Keep as normal notes"
+msgstr ""
+
+msgid "Lyric text encoding"
+msgstr ""
+
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr ""
+
+msgid "The way to handle breath notes"
+msgstr ""
+
+msgid "Ticks per beat"
+msgstr ""
+
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr ""
+
+msgid "Vsq"
+msgstr ""
+
+msgid "Vocaloid 2 Sequence file"
+msgstr ""
+
+msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr ""
+

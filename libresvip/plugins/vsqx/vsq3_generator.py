@@ -6,7 +6,7 @@ from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
-from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
+from libresvip.core.tick_counter import shift_beat_list, skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -87,7 +87,11 @@ class Vsq3Generator:
     def generate_instrumental_track(
         self, track: InstrumentalTrack, vsqx: Vsq3, tick_prefix: int
     ) -> None:
-        if (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None:
+        if (
+            (track_info := audio_track_info(track.audio_file_path, only_wav=True)) is not None
+            and track_info.sampling_rate == 44100
+            and track_info.bit_depth == 16
+        ):
             wav_part = Vsq3WavPart(
                 part_name=track.title,
                 file_path=track.audio_file_path,
@@ -120,7 +124,9 @@ class Vsq3Generator:
     ) -> tuple[list[Vsq3VsTrack], list[Vsq3VsUnit]]:
         vs_track_list = []
         vs_unit_list = []
-        if len(track_list) and self.options.default_lang_id not in [
+        if not len(track_list):
+            track_list.append(SingingTrack(title="Track"))
+        elif self.options.default_lang_id not in [
             VocaloidLanguage.SIMPLIFIED_CHINESE,
             VocaloidLanguage.JAPANESE,
         ]:
@@ -160,7 +166,7 @@ class Vsq3Generator:
         return vs_track_list, vs_unit_list
 
     def generate_tempos(self, song_tempos: list[SongTempo], tick_prefix: int) -> list[Vsq3Tempo]:
-        song_tempos = shift_tempo_list(song_tempos, tick_prefix)
+        song_tempos = skip_tempo_list(song_tempos, tick_prefix)
         return [
             Vsq3Tempo(
                 pos_tick=song_tempo.position,

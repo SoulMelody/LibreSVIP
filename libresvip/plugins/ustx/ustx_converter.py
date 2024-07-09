@@ -14,7 +14,7 @@ from .ustx_parser import UstxParser
 class OpenUtauConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         proj_text = to_unicode(path.read_bytes())
-        ustx_project = USTXProject.model_validate(load_yaml_1_2(proj_text))
+        ustx_project = USTXProject.model_validate(load_yaml_1_2(proj_text), context={"path": path})
         return UstxParser(options).parse_project(ustx_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:

@@ -32,9 +32,7 @@ class MIDIPitchData:
 def generate_for_midi(
     first_bar_length: int, pitch: ParamCurve, notes: list[Note]
 ) -> Optional[MIDIPitchData]:
-    data = RelativePitchCurve(first_bar_length).from_absolute(
-        pitch.points.root, notes, border_append_radius=0
-    )
+    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, notes)
     if not len(data):
         return None
     pitch_sectioned: list[list[Point]] = [[]]

@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/mid/mid.po\n"
+"X-Crowdin-File-ID: 128\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "MIDI"
+msgstr ""
+
+msgid "Standard MIDI file (SMF)"
+msgstr ""
+
+msgid "Conversion plugin for midi file"
+msgstr ""
+
+msgid "No tempo labels found in the imported project."
+msgstr ""
+
+msgid "Overlapping notes in track {}"
+msgstr ""
+
+msgid "Import first channel only"
+msgstr ""
+
+msgid "Split into tracks"
+msgstr ""
+
+msgid "Custom import range"
+msgstr ""
+
+msgid "Import lyrics"
+msgstr ""
+
+msgid "Lyric text encoding"
+msgstr ""
+
+msgid "Unless the lyrics are garbled, this option should not be changed."
+msgstr ""
+
+msgid "Import time signatures"
+msgstr ""
+
+msgid "If this option is unset, the time signature is set to 4/4."
+msgstr ""
+
+msgid "Multi-channel processing method"
+msgstr ""
+
+msgid "Channels to import"
+msgstr ""
+
+msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
+msgstr ""
+
+msgid "Default BPM"
+msgstr ""
+
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr ""
+
+msgid "Export lyrics"
+msgstr ""
+
+msgid "Remove symbols from lyrics"
+msgstr ""
+
+msgid "Remove commas, periods, question marks and exclamation marks in Chinese and English to prevent lyric import failure in some vocal synthesizers."
+msgstr ""
+
+msgid "Lyric compatibility mode"
+msgstr ""
+
+msgid "Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI files with Chinese lyrics from being imported by vocal synthesizers that do not support Chinese lyrics."
+msgstr ""
+
+msgid "Transpose"
+msgstr ""
+
+msgid "Ticks per beat"
+msgstr ""
+
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr ""
+

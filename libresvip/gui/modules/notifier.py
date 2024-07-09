@@ -11,7 +11,7 @@ from desktop_notifier import Button, DesktopNotifier, Notification
 from loguru import logger
 from packaging.version import Version
 from PySide6.QtCore import QObject, QTimer, Slot
-from PySide6.QtQml import QmlElement, QmlSingleton
+from PySide6.QtQml import QmlElement
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -33,7 +33,6 @@ QML_IMPORT_MINOR_VERSION = 0
 
 
 @QmlElement
-@QmlSingleton
 class Notifier(QObject):
     def __init__(self) -> None:
         super().__init__()
@@ -102,24 +101,32 @@ class Notifier(QObject):
                         ]
                         if arch.endswith("64"):
                             asset = None
-                            if (
-                                "arm" in arch
-                                and uname.system != "Darwin"
-                                or "aarch" in arch
-                                and uname.system != "Linux"
-                            ):
+                            if "aarch" in arch and uname.system != "Linux":
                                 pass
                             elif uname.system == "Windows":
-                                asset = next(
-                                    (
-                                        asset
-                                        for asset in data["assets"]
-                                        if fnmatch.fnmatch(
-                                            asset["name"], f"LibreSVIP-*.win-{arch}.zip"
-                                        )
-                                    ),
-                                    None,
-                                )
+                                python_compiler = platform.python_compiler()
+                                if python_compiler.startswith("GCC") and "arm" not in arch:
+                                    asset = next(
+                                        (
+                                            asset
+                                            for asset in data["assets"]
+                                            if fnmatch.fnmatch(
+                                                asset["name"], "LibreSVIP-*.msys2-*.7z"
+                                            )
+                                        ),
+                                        None,
+                                    )
+                                else:
+                                    asset = next(
+                                        (
+                                            asset
+                                            for asset in data["assets"]
+                                            if fnmatch.fnmatch(
+                                                asset["name"], f"LibreSVIP-*.win-{arch}.*"
+                                            )
+                                        ),
+                                        None,
+                                    )
                             elif uname.system == "Linux":
                                 asset = next(
                                     (
@@ -139,7 +146,7 @@ class Notifier(QObject):
                                         for asset in data["assets"]
                                         if fnmatch.fnmatch(
                                             asset["name"],
-                                            "LibreSVIP-*.macos-*",
+                                            f"LibreSVIP-*.macos-{arch}.dmg",
                                         )
                                     ),
                                     None,

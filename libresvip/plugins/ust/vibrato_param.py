@@ -51,7 +51,7 @@ def append_utau_note_vibrato(
             clamp((note_length - t) / ease_out_length, 0.0, 1.0) if ease_out_length else 1.0
         )
         x = math.tau * (frequency * (t - start) - phase)
-        return depth * ease_in_factor * ease_out_factor * (math.sin(x) + shift)
+        return depth * ease_in_factor * ease_out_factor * (math.sin(x) + shift) * 100
 
     note_start_in_millis = (
         tick_time_transformer.get_actual_secs_from_ticks(note_start.start_pos) * 1000
@@ -88,7 +88,7 @@ def append_utau_note_vibrato(
             round(
                 tick_time_transformer.get_actual_ticks_from_secs((x + note_start_in_millis) / 1000)
             ),
-            round(y * 100),
+            round(y),
         )
         for x, y in interpolated_points
     ]

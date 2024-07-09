@@ -1,0 +1,80 @@
+msgid "Align to left"
+msgstr ""
+
+msgid "Align to middle"
+msgstr ""
+
+msgid "Align to right"
+msgstr ""
+
+msgid "Above the note"
+msgstr ""
+
+msgid "Inside the note"
+msgstr ""
+
+msgid "Below the note"
+msgstr ""
+
+msgid "Don't show"
+msgstr ""
+
+msgid "Pixels per beat"
+msgstr ""
+
+msgid "Unit: pixel."
+msgstr ""
+
+msgid "Note height"
+msgstr ""
+
+msgid "Note radius"
+msgstr ""
+
+msgid "Note fill color"
+msgstr ""
+
+msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+msgstr ""
+
+msgid "Note stroke color"
+msgstr ""
+
+msgid "Pitch stroke color"
+msgstr ""
+
+msgid "Pitch stroke width"
+msgstr ""
+
+msgid "Lyric position"
+msgstr ""
+
+msgid "Pronounciation position"
+msgstr ""
+
+msgid "Text align"
+msgstr ""
+
+msgid "Inner text color"
+msgstr ""
+
+msgid "The color of the text on the top and bottom of the note"
+msgstr ""
+
+msgid "Grid line color"
+msgstr ""
+
+msgid "Grid line width"
+msgstr ""
+
+msgid "Svg"
+msgstr ""
+
+msgid "Scalable Vector Graphics"
+msgstr ""
+
+msgid ""
+"Generate graphics containing notes and pitch curve in SVG format. Only "
+"the first or specified singing track will be imported."
+msgstr ""
+

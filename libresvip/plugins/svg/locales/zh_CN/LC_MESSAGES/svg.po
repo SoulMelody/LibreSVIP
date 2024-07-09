@@ -1,0 +1,92 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/svg/svg.po\n"
+"X-Crowdin-File-ID: 142\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "Align to left"
+msgstr "左对齐"
+
+msgid "Align to middle"
+msgstr "居中对齐"
+
+msgid "Align to right"
+msgstr "右对齐"
+
+msgid "Above the note"
+msgstr "音符上方"
+
+msgid "Inside the note"
+msgstr "音符内部"
+
+msgid "Below the note"
+msgstr "音符下方"
+
+msgid "Don't show"
+msgstr "不显示"
+
+msgid "Pixels per beat"
+msgstr "每拍像素数"
+
+msgid "Unit: pixel."
+msgstr "单位：像素。"
+
+msgid "Note height"
+msgstr "音符高度"
+
+msgid "Note radius"
+msgstr "音符圆角"
+
+msgid "Note fill color"
+msgstr "音符填充颜色"
+
+msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
+
+msgid "Note stroke color"
+msgstr "音符描边颜色"
+
+msgid "Pitch stroke color"
+msgstr "音高曲线描边颜色"
+
+msgid "Pitch stroke width"
+msgstr "音高曲线描边宽度"
+
+msgid "Lyric position"
+msgstr "歌词显示于"
+
+msgid "Pronounciation position"
+msgstr "发音显示于"
+
+msgid "Text align"
+msgstr "文字对齐"
+
+msgid "Inner text color"
+msgstr "音符内部文本颜色"
+
+msgid "The color of the text on the top and bottom of the note"
+msgstr "音符上下方文本颜色"
+
+msgid "Grid line color"
+msgstr "网格线颜色"
+
+msgid "Grid line width"
+msgstr "网格线宽度"
+
+msgid "Svg"
+msgstr ""
+
+msgid "Scalable Vector Graphics"
+msgstr "可缩放矢量图形"
+
+msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
+msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
+

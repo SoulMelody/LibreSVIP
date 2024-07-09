@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/json/json.po\n"
+"X-Crowdin-File-ID: 124\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "JsonSvip"
+msgstr ""
+
+msgid "OpenSVIP file"
+msgstr "OpenSVIP 文件"
+
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
+
+msgid "Generate JSON file with indentation"
+msgstr "生成带缩进格式的 JSON 文件"
+
+msgid "The indented format is easier to read and modify, but it will take up a larger file size."
+msgstr "缩进格式便于阅读与修改，但会占据较大的文件体积。"
+

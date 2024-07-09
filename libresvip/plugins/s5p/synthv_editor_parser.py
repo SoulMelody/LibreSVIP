@@ -3,13 +3,13 @@ import functools
 import math
 import operator
 import pathlib
-from typing import cast
+from typing import Optional, cast
 
 import more_itertools
 import portion
 import sortedcontainers
 
-from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
@@ -52,9 +52,9 @@ class SynthVEditorParser:
     vibrato_coef_interval_dict: PiecewiseIntervalDict = dataclasses.field(init=False)
 
     def parse_project(self, s5p_project: S5pProject) -> Project:
-        tempo_list = self.parse_tempos(s5p_project.tempo)
         time_signature_list = self.parse_time_signatures(s5p_project.meter)
         self.first_bar_length = round(time_signature_list[0].bar_length())
+        tempo_list = self.parse_tempos(s5p_project.tempo)
         self.synchronizer = TimeSynchronizer(tempo_list)
         track_list = self.parse_singing_tracks(s5p_project.tracks)
         if self.options.import_instrumental_track and s5p_project.instrumental.filename:
@@ -81,23 +81,17 @@ class SynthVEditorParser:
             time_signatures.append(TimeSignature(bar_index=0, numerator=4, denominator=4))
         return time_signatures
 
-    @staticmethod
-    def parse_tempos(tempo: list[S5pTempoItem]) -> list[SongTempo]:
-        tempos = [
-            SongTempo(
-                position=item.position // TICK_RATE,
-                bpm=item.beat_per_minute,
-            )
-            for item in tempo
-        ]
-        if not len(tempos):
-            tempos.append(
+    def parse_tempos(self, tempo: list[S5pTempoItem]) -> list[SongTempo]:
+        return shift_tempo_list(
+            [
                 SongTempo(
-                    position=0,
-                    bpm=DEFAULT_BPM,
+                    position=item.position // TICK_RATE,
+                    bpm=item.beat_per_minute,
                 )
-            )
-        return tempos
+                for item in tempo
+            ],
+            self.first_bar_length,
+        )
 
     def parse_singing_tracks(self, tracks: list[S5pTrack]) -> list[Track]:
         return [
@@ -133,11 +127,15 @@ class SynthVEditorParser:
             offset=round(self.synchronizer.get_actual_ticks_from_secs(track.offset)),
         )
 
-    def parse_notes(self, s5p_notes: list[S5pNote], db_defaults: S5pDbDefaults) -> list[Note]:
+    def parse_notes(
+        self, s5p_notes: list[Optional[S5pNote]], db_defaults: S5pDbDefaults
+    ) -> list[Note]:
         self.vibrato_value_interval_dict = PiecewiseIntervalDict()
         self.vibrato_coef_interval_dict = PiecewiseIntervalDict()
         notes = []
         for s5p_note in s5p_notes:
+            if s5p_note is None:
+                continue
             note = Note(
                 key_number=s5p_note.pitch,
                 start_pos=round(s5p_note.onset / TICK_RATE),

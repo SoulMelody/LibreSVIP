@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/tssln/tssln.po\n"
+"X-Crowdin-File-ID: 152\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-07-02 22:18\n"
+
+msgid "Unsupported project version"
+msgstr ""
+
+msgid "TSSln"
+msgstr ""
+
+msgid "Techno-Speech Solution file"
+msgstr ""
+
+msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
+msgstr ""
+
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "Pitch value is out of bounds"
+msgstr ""
+

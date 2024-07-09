@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/vpr/vpr.po\n"
+"X-Crowdin-File-ID: 162\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "日本語"
+msgstr ""
+
+msgid "English"
+msgstr "英语"
+
+msgid "한국어"
+msgstr ""
+
+msgid "Español"
+msgstr ""
+
+msgid "简体中文"
+msgstr ""
+
+msgid "Extract audio"
+msgstr "解压音频文件"
+
+msgid "Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)"
+msgstr "若音频文件路径不存在，则从vocaloid工程文件中解压以供后续使用（此选项有写入额外文件的副作用）"
+
+msgid "Is AI Singer"
+msgstr "是否AI歌手"
+
+msgid "The default voicebank is AI singer or not"
+msgstr "默认声库是否属于AI类型"
+
+msgid "Default language"
+msgstr "默认语言"
+
+msgid "Default language id of voicebank and notes"
+msgstr "声库及音符的默认语言"
+
+msgid "Default Comp ID"
+msgstr "默认的CompID"
+
+msgid "Default comp_id of voicebank"
+msgstr "默认声库对应的comp_id"
+
+msgid "Default Singer Name"
+msgstr "默认歌手名称"
+
+msgid "Default singer name of voicebank"
+msgstr "默认声库对应的歌手名"
+
+msgid "Vpr"
+msgstr ""
+
+msgid "New Vocaloid Project file"
+msgstr "新版Vocaloid工程格式"
+
+msgid "Conversion plugin for New Vocaloid project file"
+msgstr "新版Vocaloid工程格式转换插件"
+
+msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert Phonemes to Match Languages in the menu of VOCALOID to reset them."
+msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID菜单中的「任务」->「发音符号匹配」功能来重置音素。"
+

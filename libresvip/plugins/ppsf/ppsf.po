@@ -1,0 +1,9 @@
+msgid "Ppsf"
+msgstr ""
+
+msgid "Piapro Studio Song file"
+msgstr ""
+
+msgid "Conversion plugin for Piapro Studio project file"
+msgstr ""
+

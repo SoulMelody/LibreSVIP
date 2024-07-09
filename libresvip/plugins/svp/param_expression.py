@@ -4,7 +4,7 @@ import abc
 import dataclasses
 import enum
 import operator
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from libresvip.model.point import Point
 from libresvip.utils.search import find_last_index
@@ -19,6 +19,8 @@ from .layer_generator import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
+
+    import portion
 
     from libresvip.core.time_sync import TimeSynchronizer
 
@@ -110,6 +112,7 @@ class CurveGenerator(ParamExpression):
     _point_list: dataclasses.InitVar[Iterable[Point]]
     _interpolation: dataclasses.InitVar[Callable[[float], float]]
     _base_value: dataclasses.InitVar[int] = 0
+    interval: Optional[portion.Interval] = None
 
     def __post_init__(
         self,
@@ -136,7 +139,7 @@ class CurveGenerator(ParamExpression):
         self.base_value = _base_value
 
     def value_at_ticks(self, ticks: int) -> float:
-        if len(self.point_list) == 0:
+        if len(self.point_list) == 0 or (self.interval is not None and ticks not in self.interval):
             return self.base_value
         index = find_last_index(self.point_list, lambda point: point.x <= ticks)
         if index == -1:

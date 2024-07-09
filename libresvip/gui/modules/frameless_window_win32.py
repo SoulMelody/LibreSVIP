@@ -17,12 +17,12 @@ QML_IMPORT_MINOR_VERSION = 0
 
 
 class MARGINS(ctypes.Structure):
-    _fields_ = [
+    _fields_ = (
         ("cxLeftWidth", ctypes.c_int),
         ("cxRightWidth", ctypes.c_int),
         ("cyTopHeight", ctypes.c_int),
         ("cyBottomHeight", ctypes.c_int),
-    ]
+    )
 
 
 @QmlElement

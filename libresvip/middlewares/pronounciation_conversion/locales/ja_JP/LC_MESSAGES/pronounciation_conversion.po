@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/middlewares/pronounciation_conversion/pronounciation_conversion.po\n"
+"X-Crowdin-File-ID: 104\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
+
+msgid "None"
+msgstr ""
+
+msgid "Hanzi to Pinyin"
+msgstr ""
+
+msgid "To Romaji"
+msgstr ""
+
+msgid "To Hiragana"
+msgstr ""
+
+msgid "To Katakana"
+msgstr ""
+
+msgid "Pronounciation conversion mode"
+msgstr ""
+
+msgid "Convert lyrics to the specified pronounciation format"
+msgstr ""
+
+msgid "Pronounciation Conversion"
+msgstr ""
+
+msgid "For Chinese and Japanese Lyrics"
+msgstr ""
+

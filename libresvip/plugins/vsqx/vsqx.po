@@ -1,0 +1,73 @@
+msgid "VSQx 3"
+msgstr ""
+
+msgid "VSQx 4"
+msgstr ""
+
+msgid "日本語"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "한국어"
+msgstr ""
+
+msgid "Español"
+msgstr ""
+
+msgid "简体中文"
+msgstr ""
+
+msgid "Combine syllables"
+msgstr ""
+
+msgid "Combine multisyllabic lyrics into single words"
+msgstr ""
+
+msgid "VSQX Version"
+msgstr ""
+
+msgid "Pretty XML"
+msgstr ""
+
+msgid "Whether to output pretty XML"
+msgstr ""
+
+msgid "Default language"
+msgstr ""
+
+msgid "Default language id of voicebank and notes"
+msgstr ""
+
+msgid "Default Comp ID"
+msgstr ""
+
+msgid "Default comp_id of voicebank"
+msgstr ""
+
+msgid "Default Singer Name"
+msgstr ""
+
+msgid "Default singer name of voicebank"
+msgstr ""
+
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> "
+"\"Convert Phonemes\" in the menu of VOCALOID3 to reset them."
+msgstr ""
+
+msgid ""
+"Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> "
+"\"Convert Phonemes\" in the menu of VOCALOID4 to reset them."
+msgstr ""
+
+msgid "Vsqx"
+msgstr ""
+
+msgid "Vocaloid Sequence XML file"
+msgstr ""
+
+msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr ""
+

@@ -1,0 +1,24 @@
+msgid "CeVIO"
+msgstr ""
+
+msgid "CeVIO Creative Studio Project file"
+msgstr ""
+
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr ""
+
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "Pitch value is out of bounds"
+msgstr ""
+
+msgid "Default Singer Name"
+msgstr ""
+
+msgid "Default Voicebank ID"
+msgstr ""
+
+msgid "Default Voicebank Version"
+msgstr ""
+

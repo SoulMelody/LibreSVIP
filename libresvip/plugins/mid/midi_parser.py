@@ -1,5 +1,6 @@
 import collections
 import dataclasses
+import itertools
 import math
 import operator
 
@@ -267,7 +268,8 @@ class MidiParser:
         return tracks
 
     def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[Track]:
-        return sum(
-            (self.parse_track(track_idx, track) for track_idx, track in enumerate(midi_tracks)),
-            [],
-        )
+        return [
+            *itertools.chain.from_iterable(
+                (self.parse_track(track_idx, track) for track_idx, track in enumerate(midi_tracks)),
+            )
+        ]

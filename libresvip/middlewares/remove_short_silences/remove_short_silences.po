@@ -1,0 +1,30 @@
+msgid "Zero length note"
+msgstr ""
+
+msgid "1/8 note"
+msgstr ""
+
+msgid "1/16 note"
+msgstr ""
+
+msgid "1/32 note"
+msgstr ""
+
+msgid "1/64 note"
+msgstr ""
+
+msgid "1/128 note"
+msgstr ""
+
+msgid "Max length to be processed (exclusive)"
+msgstr ""
+
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+msgid "Remove Short Silences"
+msgstr ""
+
+msgid "Fill short rests"
+msgstr ""
+

@@ -93,7 +93,7 @@ class NiaoniaoGenerator:
             p
             for p in pitch_param_curve.points.root
             if p.x >= note.start_pos + self.first_bar_length
-            and p.x <= note.start_pos + self.first_bar_length + note.length
+            and p.x < note.end_pos + self.first_bar_length
         ]
 
         pitch_param_time_in_note = dict(pitch_param_in_note)

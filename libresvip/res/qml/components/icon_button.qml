@@ -14,11 +14,11 @@ RoundButton {
 
     width: diameter
     height: diameter
-    padding: new_padding
+    padding: enabled ? new_padding : new_padding + 1
 
     contentItem: Label {
         anchors.centerIn: parent
-        text: IconicFontLoader.icon(icon_name)
+        text: iconicFontLoader.icon(icon_name)
         font.family: "Material Design Icons"
         font.pixelSize: diameter * 0.56
     }

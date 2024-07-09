@@ -1,0 +1,9 @@
+msgid "VocalSharp"
+msgstr ""
+
+msgid "VocalSharp project file"
+msgstr ""
+
+msgid "Conversion plugin for VocalSharp project file"
+msgstr ""
+

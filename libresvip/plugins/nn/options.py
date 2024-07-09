@@ -5,6 +5,7 @@ from libresvip.model.option_mixins import (
     SelectSingleTrackMixin,
     StaticTempoMixin,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 
 class InputOptions(EnablePitchImportationMixin, BaseModel):
@@ -14,6 +15,6 @@ class InputOptions(EnablePitchImportationMixin, BaseModel):
 class OutputOptions(SelectSingleTrackMixin, StaticTempoMixin, BaseModel):
     version: int = Field(
         default=19,
-        title="Version",
-        description="Version of NIAONiao project file",
+        title=_("Version"),
+        description=_("Version of NIAONiao project file"),
     )

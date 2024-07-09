@@ -33,8 +33,8 @@ nn_grammar = Grammar(
 
     word              = ~"([\u4e00-\u9fff]|-|[a-z]+)"
     pinyin            = ~"[a-z-]+"
-    float             = ~"[-+]?(\d+(\.\d*)?|\.\d+)"
-    int               = ~"[-+]?\d+"
+    float             = ~"[-+]?(\\d+(\\.\\d*)?|\\.\\d+)"
+    int               = ~"[-+]?\\d+"
     """
 )
 

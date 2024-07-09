@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/vshp/vshp.po\n"
+"X-Crowdin-File-ID: 164\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "Convert wave pattern to singing pattern"
+msgstr "将音频片段导入为演唱轨"
+
+msgid "Use edited pitch curve"
+msgstr "使用已编辑的音高曲线"
+
+msgid "Use edited dynamics curve"
+msgstr "使用已编辑的动态曲线"
+
+msgid "Import dynamics curve"
+msgstr "导入动态曲线"
+
+msgid "Import formant curve"
+msgstr "导入共振峰曲线"
+
+msgid "Import breath curve"
+msgstr "导入呼吸曲线"
+
+msgid "VocalShifter"
+msgstr ""
+
+msgid "VocalShifter project file"
+msgstr "VocalShifter 工程文件"
+
+msgid "Import parameters from VocalShifter project file."
+msgstr "从 VoralShifter 工程文件导入参数。"
+

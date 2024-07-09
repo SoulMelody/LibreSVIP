@@ -1,0 +1,44 @@
+msgid "ASS"
+msgstr ""
+
+msgid "Advanced SubStation Alpha subtitle file"
+msgstr ""
+
+msgid "Generator plugin for ASS subtitle file"
+msgstr ""
+
+msgid "Both note gap and punctuation"
+msgstr ""
+
+msgid ""
+"When the interval between two adjacent notes is greater than or equal to "
+"thirty-second note or a punctuation mark is encountered, start a new "
+"line."
+msgstr ""
+
+msgid "Note gap only"
+msgstr ""
+
+msgid ""
+"When the interval between two adjacent notes is greater than or equal to "
+"thirty-second note, start a new line."
+msgstr ""
+
+msgid "Punctuation only"
+msgstr ""
+
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr ""
+
+msgid "Offset"
+msgstr ""
+
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr ""
+
+msgid "New line by"
+msgstr ""
+
+msgid "Text encoding"
+msgstr ""
+

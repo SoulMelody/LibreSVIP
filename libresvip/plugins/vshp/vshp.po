@@ -1,0 +1,27 @@
+msgid "Convert wave pattern to singing pattern"
+msgstr ""
+
+msgid "Use edited pitch curve"
+msgstr ""
+
+msgid "Use edited dynamics curve"
+msgstr ""
+
+msgid "Import dynamics curve"
+msgstr ""
+
+msgid "Import formant curve"
+msgstr ""
+
+msgid "Import breath curve"
+msgstr ""
+
+msgid "VocalShifter"
+msgstr ""
+
+msgid "VocalShifter project file"
+msgstr ""
+
+msgid "Import parameters from VocalShifter project file."
+msgstr ""
+

@@ -57,14 +57,14 @@ def encode_notes(
         # Fill Note Gap
         gap = cur_actual_start_in_secs - prev_actual_end_in_secs  # 音符间隙
         if gap > 0:  # 有间隙
-            if gap < min_asp_len:  # 间隙很小，休止
+            if gap < min_asp_len:  # 间隙很小, 休止
                 rest_phoneme = RestDsPhoneme(
                     _duration=round(cur_actual_start_in_secs - prev_actual_end_in_secs, 6)
                 )
                 rest_note = RestDsNote(round(cur_start_in_secs - prev_end_in_secs, 6), rest_phoneme)
                 ds_notes.append(rest_note)
                 prev_phoneme = rest_phoneme
-            elif gap < max_asp_len:  # 间隙适中，换气
+            elif gap < max_asp_len:  # 间隙适中, 换气
                 asp_phoneme = AspirationDsPhoneme(
                     _duration=round(cur_actual_start_in_secs - prev_actual_end_in_secs, 6)
                 )
@@ -73,7 +73,7 @@ def encode_notes(
                 )
                 ds_notes.append(aps_note)
                 prev_phoneme = asp_phoneme
-            else:  # 间隙很大，换气
+            else:  # 间隙很大, 换气
                 rest_phoneme = RestDsPhoneme(
                     _duration=round(
                         cur_actual_start_in_secs - prev_actual_end_in_secs - max_asp_len,

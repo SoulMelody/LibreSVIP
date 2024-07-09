@@ -27,7 +27,7 @@ from .model import (
     UVoicePart,
     UWavePart,
 )
-from .options import InputOptions
+from .options import InputOptions, OpenUtauEnglishPhonemizerCompatibility
 from .util import BasePitchGenerator
 
 PHONETIC_HINT_RE = re.compile(r"\[(.*?)\]")
@@ -39,6 +39,8 @@ class UstxParser:
     base_pitch_generator: BasePitchGenerator = dataclasses.field(init=False)
 
     def parse_project(self, ustx_project: USTXProject) -> Project:
+        self.breath_lyrics = self.options.breath_lyrics.strip().split()
+        self.silence_lyrics = self.options.silence_lyrics.strip().split()
         self.base_pitch_generator = BasePitchGenerator(ustx_project)
         tempos = self.parse_tempos(ustx_project.tempos)
         time_signatures = self.parse_time_signatures(ustx_project.time_signatures)
@@ -136,10 +138,21 @@ class UstxParser:
 
     def parse_notes(self, notes: list[UNote], tick_prefix: int) -> list[Note]:
         note_list = []
+        prev_ustx_note = None
         for ustx_note in notes:
+            note_lyric = ustx_note.lyric
+            if note_lyric.startswith("+"):
+                if (
+                    note_lyric.removeprefix("+").isdigit()
+                    and self.options.english_phonemizer_compatibility
+                    == OpenUtauEnglishPhonemizerCompatibility.ARPA
+                ):
+                    note_lyric = "+"
+                else:
+                    note_lyric = "-"
             note = Note(
                 key_number=ustx_note.tone,
-                lyric="-" if ustx_note.lyric.startswith("+") else ustx_note.lyric,
+                lyric=note_lyric,
                 start_pos=ustx_note.position + tick_prefix,
                 length=ustx_note.duration,
             )
@@ -151,8 +164,19 @@ class UstxParser:
                 elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
                     note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
                 else:
-                    note.pronunciation = ustx_note.lyric
-            note_list.append(note)
+                    note.pronunciation = ustx_note.lyric.removeprefix("?")
+            if (
+                prev_ustx_note is not None
+                and prev_ustx_note.lyric in self.breath_lyrics
+                and prev_ustx_note.end == ustx_note.position
+            ):
+                note.head_tag = "V"
+            if (
+                ustx_note.lyric not in self.breath_lyrics
+                and ustx_note.lyric not in self.silence_lyrics
+            ):
+                note_list.append(note)
+            prev_ustx_note = ustx_note
         return note_list
 
     def parse_wave_parts(
@@ -162,11 +186,10 @@ class UstxParser:
         if self.options.import_instrumental_track:
             for wave_part in wave_parts:
                 ustx_track = tracks[wave_part.track_no]
-                rel_path = wave_part.relative_path
                 # duration = wave_part.file_duration_ms - wave_part.skip_ms - wave_part.trim_ms
                 track_list.append(
                     InstrumentalTrack(
-                        audio_file_path=rel_path,
+                        audio_file_path=wave_part.relative_path,
                         offset=wave_part.position,
                         title=wave_part.name,
                         mute=ustx_track.mute,

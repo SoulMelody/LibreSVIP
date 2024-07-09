@@ -4,12 +4,14 @@ block_cipher = None
 
 import contextlib
 import os
+import platform
 import sys
 sys.modules['FixTk'] = None
 
 import nicegui
 import shellingham
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+from PyInstaller.utils.hooks import collect_data_files, collect_entry_point, collect_submodules
+from PyInstaller.utils.misc import is_win
 
 from libresvip.core.constants import pkg_dir
 
@@ -23,7 +25,7 @@ with contextlib.suppress(Exception):
 
 
 a = Analysis(
-    ['../libresvip/web/pages.py'],
+    ['../libresvip/web/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
         os.path.join(nicegui.__path__[0], os.pardir)
@@ -32,10 +34,11 @@ a = Analysis(
     datas=[
         (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata"),
+    ] + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
         "bidict",
         "construct_typed",
+        "docutils",
         "drawsvg",
         "google.protobuf.any_pb2",
         "jinja2",
@@ -44,21 +47,23 @@ a = Analysis(
         "portion",
         "proto",
         "pypinyin",
-        "srt",
+        "pysubs2",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
         "wanakana",
-        "xsdata.formats.dataclass.parsers",
-        "xsdata.formats.dataclass.serializers",
+        "xsdata_pydantic.bindings",
+        "xsdata_pydantic.fields",
+        "xsdata_pydantic.hooks.class_type",
         "zstandard",
-    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model"),
+    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[
-        'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3', 'docutils',
+        'FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter', 'sqlite3',
+        'pywintypes', 'pythoncom',
         'numpy', "pandas", "pandas.plotting", 'pandas.io.formats.style',
-        'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image',
+        'jedi', 'IPython', 'parso', 'plotly', 'matplotlib', 'matplotlib.backends', 'PIL', 'PIL.Image', 'zmq',
         'PySide6',
         'PySide6.QtCore',
         'PySide6.QtDataVisualization',
@@ -86,11 +91,15 @@ js_lib_prefix = os.path.join("nicegui", "elements", "lib")
 to_exclude = [
     os.path.join(js_lib_prefix, "aggrid"),
     os.path.join(js_lib_prefix, "echarts"),
+    os.path.join(js_lib_prefix, "echarts-gl"),
+    os.path.join(js_lib_prefix, "leaflet"),
     os.path.join(js_lib_prefix, "mermaid"),
     os.path.join(js_lib_prefix, "plotly"),
     os.path.join(js_lib_prefix, "three"),
     os.path.join(js_lib_prefix, "vanilla-jsoneditor"),
 ]
+if is_win and platform.machine() != "ARM64":
+    to_exclude.append(os.path.join("webview", "lib", "runtimes", "win-arm", "native", "WebView2Loader.dll"))
 
 for (dest, source, kind) in a.datas:
     # Skip anything we don't need.
@@ -100,7 +109,7 @@ for (dest, source, kind) in a.datas:
 
 # Replace list of data files with filtered one.
 a.datas = to_keep
-pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+pyz = PYZ(a.pure, cipher=block_cipher)
 
 exe = EXE(
     pyz,

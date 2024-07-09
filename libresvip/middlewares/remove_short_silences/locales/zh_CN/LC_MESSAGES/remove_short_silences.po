@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/middlewares/remove_short_silences/remove_short_silences.po\n"
+"X-Crowdin-File-ID: 106\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-06-29 03:32\n"
+
+msgid "Zero length note"
+msgstr "零长度音符"
+
+msgid "1/8 note"
+msgstr "8分音符"
+
+msgid "1/16 note"
+msgstr "16分音符"
+
+msgid "1/32 note"
+msgstr "32分音符"
+
+msgid "1/64 note"
+msgstr "64分音符"
+
+msgid "1/128 note"
+msgstr "128分音符"
+
+msgid "Max length to be processed (exclusive)"
+msgstr "适用该处理的最大长度(不含)"
+
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr "当音符之间存在较短的休止符时，将前一个音符延长来填充休止符"
+
+msgid "Remove Short Silences"
+msgstr "移除短的无声间隙"
+
+msgid "Fill short rests"
+msgstr "填充短休止符"
+

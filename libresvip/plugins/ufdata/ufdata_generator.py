@@ -1,5 +1,6 @@
 import dataclasses
 
+from libresvip.core.tick_counter import skip_tempo_list
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -9,7 +10,6 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
-from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
 from .model import (
     UFData,
@@ -39,8 +39,8 @@ class UFDataGenerator:
             )
         )
 
-    @staticmethod
-    def generate_tempos(song_tempo_list: list[SongTempo]) -> list[UFTempos]:
+    def generate_tempos(self, song_tempo_list: list[SongTempo]) -> list[UFTempos]:
+        song_tempo_list = skip_tempo_list(song_tempo_list, self.first_bar_length)
         return [
             UFTempos(
                 tick_position=tempo.position,
@@ -87,14 +87,13 @@ class UFDataGenerator:
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> UFPitch:
         uf_pitch = UFPitch(
-            is_absolute=False,
+            is_absolute=True,
             ticks=[],
             values=[],
         )
         if notes:
-            for point in RelativePitchCurve(self.first_bar_length).from_absolute(
-                pitch.points.root, notes, 5
-            ):
-                uf_pitch.ticks.append(point.x)
-                uf_pitch.values.append(point.y / 100)
+            for point in pitch.points.root:
+                if point.x not in (-192000, 1073741823):
+                    uf_pitch.ticks.append(point.x - self.first_bar_length)
+                    uf_pitch.values.append(0 if point.y == -100 else point.y / 100)
         return uf_pitch

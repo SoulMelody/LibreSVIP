@@ -1,0 +1,86 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/lrc/lrc.po\n"
+"X-Crowdin-File-ID: 126\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-06-29 03:33\n"
+
+msgid "LRC"
+msgstr ""
+
+msgid "LRC lyric file"
+msgstr ""
+
+msgid "Generator plugin for LRC lyric file"
+msgstr ""
+
+msgid "Act on timeline"
+msgstr ""
+
+msgid "Shift the time axis for each line of lyrics, and keep the \"offset\" value in the metadata at 0."
+msgstr ""
+
+msgid "Act on metadata"
+msgstr ""
+
+msgid "Write the offset to the metadata \"offset\" without handling the lyrics time axis. Note that some players may not support the \"offset\" tag in the metadata, and choosing this option may cause the lyrics to display incorrectly."
+msgstr ""
+
+msgid "Both note gap and punctuation"
+msgstr ""
+
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
+msgstr ""
+
+msgid "Note gap only"
+msgstr ""
+
+msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
+msgstr ""
+
+msgid "Punctuation only"
+msgstr ""
+
+msgid "When a punctuation mark is encountered, start a new line."
+msgstr ""
+
+msgid "Singer name"
+msgstr ""
+
+msgid "Song title"
+msgstr ""
+
+msgid "Album name"
+msgstr ""
+
+msgid "Lyric editor"
+msgstr ""
+
+msgid "Offset"
+msgstr ""
+
+msgid "In milliseconds, positive means ahead, negative means opposite."
+msgstr ""
+
+msgid "Offset policy"
+msgstr ""
+
+msgid "New line by"
+msgstr ""
+
+msgid "Write timeline"
+msgstr ""
+
+msgid "If you need lyrics without timeline, turn off this option."
+msgstr ""
+
+msgid "Lyric Text encoding"
+msgstr ""
+

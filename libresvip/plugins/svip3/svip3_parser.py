@@ -1,4 +1,5 @@
 import dataclasses
+import itertools
 import operator
 from collections.abc import MutableSequence
 from typing import Optional
@@ -7,6 +8,7 @@ from urllib.parse import urljoin
 from google.protobuf import any_pb2
 
 from libresvip.core.constants import TICKS_IN_BEAT
+from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -44,6 +46,7 @@ class Svip3Parser:
 
     def parse_project(self, svip3_project: Svip3Project) -> Project:
         time_signature_list = self.parse_time_signatures(svip3_project.beat_list)
+        self.first_bar_length = round(time_signature_list[0].bar_length())
         self.song_tempo_list = self.parse_song_tempos(svip3_project.tempo_list)
         tracks = self.parse_tracks(svip3_project.track_list)
         return Project(
@@ -52,10 +55,9 @@ class Svip3Parser:
             track_list=tracks,
         )
 
-    def parse_time_signatures(
-        self, beat_list: MutableSequence[Svip3SongBeat]
-    ) -> list[TimeSignature]:
-        time_signature_list = [
+    @staticmethod
+    def parse_time_signatures(beat_list: MutableSequence[Svip3SongBeat]) -> list[TimeSignature]:
+        return [
             TimeSignature(
                 bar_index=beat.pos,
                 numerator=beat.beat_size.numerator,
@@ -63,18 +65,18 @@ class Svip3Parser:
             )
             for beat in beat_list
         ]
-        self.first_bar_length = round(time_signature_list[0].bar_length())
-        return time_signature_list
 
-    @staticmethod
-    def parse_song_tempos(tempo_list: MutableSequence[Svip3SongTempo]) -> list[SongTempo]:
-        return [
-            SongTempo(
-                position=tempo.pos,
-                bpm=tempo.tempo / 100.0,
-            )
-            for tempo in tempo_list
-        ]
+    def parse_song_tempos(self, tempo_list: MutableSequence[Svip3SongTempo]) -> list[SongTempo]:
+        return shift_tempo_list(
+            [
+                SongTempo(
+                    position=tempo.pos,
+                    bpm=tempo.tempo / 100.0,
+                )
+                for tempo in tempo_list
+            ],
+            self.first_bar_length,
+        )
 
     def parse_tracks(self, track_list: MutableSequence[any_pb2.Any]) -> list[Track]:
         tracks = []
@@ -199,7 +201,7 @@ class Svip3Parser:
 
     @staticmethod
     def merge_param_curves(curves: list[ParamCurve]) -> list[Point]:
-        return sum((curve.points.root for curve in curves), [])
+        return [*itertools.chain.from_iterable(curve.points.root for curve in curves)]
 
     @staticmethod
     def get_visible_range(pattern: Svip3SingingPattern) -> tuple[int, int]:

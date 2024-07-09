@@ -12,14 +12,10 @@ from .options import InputOptions, OutputOptions
 
 class ACEStudioConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        if options is None:
-            options = InputOptions()
         obj = decompress_ace_studio_project(path)
-        acep_project = AcepProject.model_validate(obj)
+        acep_project = AcepProject.model_validate(obj, context={"path": path})
         return AceParser(options=options).parse_project(acep_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        if options is None:
-            options = OutputOptions()
         ace_project = AceGenerator(options=options).generate_project(project)
         compress_ace_studio_project(ace_project.model_dump(mode="json", by_alias=True), path)
