@@ -292,15 +292,8 @@ def generate_for_dv(
     data = [DvPoint(x=-1, y=-1)]
     last_value = None
     for point in pitch.points.root:
-        if last_value is None and point.y != -100:
+        if (last_value is None and point.y != -100) or point.y == -100:
             data.append(DvPoint(x=point.x - first_bar_length, y=-1))
-        elif last_value is not None and last_value != -100 and point.y == -100:
-            data.append(
-                DvPoint(
-                    x=point.x - first_bar_length,
-                    y=round(convert_note_key(last_value / 100) * 100),
-                )
-            )
         if point.y != -100:
             data.append(
                 DvPoint(
@@ -309,4 +302,5 @@ def generate_for_dv(
                 )
             )
         last_value = point.y
+    data.append(DvPoint(x=data[-1].x + 1 if len(data) > 1 else 307201, y=-1))
     return DvSegmentPitchRawData(0, data)
