@@ -8,9 +8,11 @@ import math
 import pathlib
 import re
 import secrets
+import shutil
 import textwrap
 import traceback
 import uuid
+import webbrowser
 import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
@@ -2071,6 +2073,10 @@ def main() -> None:
     arg_parser.add_argument("--server", action="store_true")
     arg_parser.add_argument("--daemon", action="store_true")
     args, argv = arg_parser.parse_known_args()
+
+    if shutil.which("termux-open-url") is not None:
+        # a workaround for termux platform, from https://github.com/python/cpython/issues/90371#issuecomment-1460738762
+        webbrowser.register("termux-open-url '%s'", None)
 
     secrets_path = app_dir.user_config_path / "secrets.txt"
     if not secrets_path.exists():
