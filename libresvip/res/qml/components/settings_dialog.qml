@@ -888,8 +888,16 @@ Dialog {
             TabButton {
                 id: basicSettingsBtn
                 width: 180
-                text: qsTr("Basic Settings")
-                anchors.horizontalCenter: parent.horizontalCenter
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.application-cog-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Basic Settings")
+                    }
+                }
                 onClicked: {
                     settingsStack.currentIndex = 0
                 }
@@ -898,9 +906,17 @@ Dialog {
             TabButton {
                 id: savePathSettingsBtn
                 width: 180
-                text: qsTr("Save Path Settings")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.folder-download-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Save Path Settings")
+                    }
+                }
                 anchors.top: basicSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 1
@@ -910,10 +926,18 @@ Dialog {
             TabButton {
                 id: pluginsSettingsBtn
                 width: 180
-                text: qsTr("Format Provider Plugins")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.puzzle-check-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Format Provider Plugins")
+                    }
+                }
                 enabled: !taskManager.busy
                 anchors.top: savePathSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 2
@@ -923,9 +947,17 @@ Dialog {
             TabButton {
                 id: lyricReplacementSettingsBtn
                 width: 180
-                text: qsTr("Lyric Replacement Rules")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.find-replace")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Lyric Replacement Rules")
+                    }
+                }
                 anchors.top: pluginsSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 3
@@ -935,9 +967,17 @@ Dialog {
             TabButton {
                 id: updatesSettingsBtn
                 width: 180
-                text: qsTr("Updates Settings")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.update")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Updates Settings")
+                    }
+                }
                 anchors.top: lyricReplacementSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
                     settingsStack.currentIndex = 4
