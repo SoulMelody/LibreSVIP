@@ -53,7 +53,7 @@ dependencies = [
   "wanakana-python<2.0.0,>=1.2.2",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.0.2",
-  "zstandard<0.23.0,>=0.22.0; platform_python_implementation == \"CPython\"",
+  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
 ]
 name = "libresvip"
 dynamic = ["version"]
