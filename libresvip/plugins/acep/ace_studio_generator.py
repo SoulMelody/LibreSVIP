@@ -22,11 +22,10 @@ from libresvip.model.point import Point
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.search import binary_find_first, binary_find_last, find_last_index
 
+from .base_pitch_curve import BasePitchCurve
 from .color_pool import count_color, get_color
 from .enums import AcepLyricsLanguage
 from .model import (
-    AcepAnchorPoint,
-    AcepAnchorPoints,
     AcepAudioPattern,
     AcepAudioTrack,
     AcepNote,
@@ -302,67 +301,63 @@ class AceGenerator:
 
     def generate_pitch_curves(self, curve: ParamCurve) -> AcepParamCurveList:
         ace_curves = AcepParamCurveList()
-        left_bound = self.synchronizer.get_actual_secs_from_ticks(
-            max(0, self.pattern_start + self.ace_note_list[0].pos - 240),
-        )
-        right_bound = self.synchronizer.get_actual_secs_from_ticks(
-            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120,
+        base_pitch = BasePitchCurve(self.ace_note_list, self.synchronizer, self.pattern_start)
+        left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
+        right_bound = max(
+            0, self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120
         )
 
         segments = []
         for seg in curve.split_into_segments(-100):
             if seg[-1].x < self.first_bar_ticks:
                 continue
-            start_sec = (
-                (self.synchronizer.get_actual_secs_from_ticks(seg[0].x - self.first_bar_ticks))
-                if seg[0].x > self.first_bar_ticks
-                else 0
-            )
-            end_sec = self.synchronizer.get_actual_secs_from_ticks(seg[-1].x - self.first_bar_ticks)
-            if start_sec <= right_bound and end_sec >= left_bound:
+            start_ticks = seg[0].x - self.first_bar_ticks if seg[0].x > self.first_bar_ticks else 0
+            end_ticks = seg[-1].x - self.first_bar_ticks
+            if start_ticks <= right_bound and end_ticks >= left_bound:
                 segments.append(seg)
 
         for segment in segments:
             start_point = (
                 binary_find_last(
                     segment,
-                    lambda point: (
-                        point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
-                        )
-                        <= left_bound
-                    ),
+                    lambda point: (0 <= point.x - self.first_bar_ticks <= left_bound),
                 )
                 or segment[0]
             )
             end_point = (
                 binary_find_first(
                     segment,
-                    lambda point: (
-                        point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
-                        )
-                        >= right_bound
-                    ),
+                    lambda point: (right_bound <= point.x - self.first_bar_ticks),
                 )
                 or segment[-1]
             )
             if start_point.x == end_point.x:
                 continue
             ace_curve = AcepParamCurve(
-                curve_type="anchor",
-                offset=round(start_point.x - self.first_bar_ticks - self.pattern_start),
-                points_vuv=[0.0] * 5,
+                offset=round(start_point.x - self.first_bar_ticks - self.pattern_start)
             )
-            ace_curve.points = AcepAnchorPoints()
-            for point in segment:
-                ace_curve.points.append(
-                    AcepAnchorPoint(
-                        pos=point.x - self.first_bar_ticks - self.pattern_start, value=point.y / 100
-                    )
+            curve_end = round(end_point.x - self.first_bar_ticks - self.pattern_start)
+            tick_step = (end_point.x - start_point.x) / (curve_end - ace_curve.offset)
+            tick = float(start_point.x)
+            while tick < self.first_bar_ticks:
+                ace_curve.offset += 1
+                tick += tick_step
+            tick = max(self.first_bar_ticks, tick)
+            tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
+            while tick < left_bound:
+                ace_curve.offset += 1
+                tick += tick_step
+            pos = ace_curve.offset
+            while pos <= min(right_bound, curve_end):
+                second = self.synchronizer.get_actual_secs_from_ticks(
+                    round(tick - self.first_bar_ticks)
                 )
+                ace_curve.values.append(
+                    self.get_value_from_segment(segment, tick) / 100
+                    - base_pitch.semitone_value_at(second)
+                )
+                pos += 1
+                tick += tick_step
             ace_curves.root.append(ace_curve)
         return ace_curves
 
@@ -370,48 +365,30 @@ class AceGenerator:
         self, curve: ParamCurve, mapping_func: Callable[[float], float]
     ) -> AcepParamCurveList:
         ace_curves = AcepParamCurveList()
-        left_bound = self.synchronizer.get_actual_secs_from_ticks(
-            max(0, self.pattern_start + self.ace_note_list[0].pos - 240),
-        )
-        right_bound = self.synchronizer.get_actual_secs_from_ticks(
-            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120,
+        left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
+        right_bound = max(
+            0, self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120
         )
         segments = []
         for seg in curve.split_into_segments(-100):
             if seg[-1].x < self.first_bar_ticks:
                 continue
-            start_sec = (
-                (self.synchronizer.get_actual_secs_from_ticks(seg[0].x - self.first_bar_ticks))
-                if seg[0].x > self.first_bar_ticks
-                else 0
-            )
-            end_sec = self.synchronizer.get_actual_secs_from_ticks(seg[-1].x - self.first_bar_ticks)
-            if start_sec <= right_bound and end_sec >= left_bound:
+            start_ticks = seg[0].x - self.first_bar_ticks if seg[0].x > self.first_bar_ticks else 0
+            end_ticks = seg[-1].x - self.first_bar_ticks
+            if start_ticks <= right_bound and end_ticks >= left_bound:
                 segments.append(seg)
         for segment in segments:
             start_point = (
                 binary_find_last(
                     segment,
-                    lambda point: (
-                        point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
-                        )
-                        <= left_bound
-                    ),
+                    lambda point: (0 <= point.x - self.first_bar_ticks <= left_bound),
                 )
                 or segment[0]
             )
             end_point = (
                 binary_find_first(
                     segment,
-                    lambda point: (
-                        point.x >= self.first_bar_ticks
-                        and self.synchronizer.get_actual_secs_from_ticks(
-                            point.x - self.first_bar_ticks
-                        )
-                        >= right_bound
-                    ),
+                    lambda point: (right_bound <= point.x - self.first_bar_ticks),
                 )
                 or segment[-1]
             )
@@ -426,24 +403,14 @@ class AceGenerator:
                 tick += tick_step
             tick = max(self.first_bar_ticks, tick)
             tick_step = (end_point.x - tick) / (curve_end - ace_curve.offset)
-            second_step = (
-                self.synchronizer.get_duration_secs_from_ticks(
-                    round(tick - self.first_bar_ticks), end_point.x - self.first_bar_ticks
-                )
-            ) / (curve_end - ace_curve.offset)
-            second = self.synchronizer.get_actual_secs_from_ticks(
-                round(tick - self.first_bar_ticks)
-            )
-            while second < left_bound:
+            while tick < left_bound:
                 ace_curve.offset += 1
                 tick += tick_step
-                second += second_step
             pos = ace_curve.offset
-            while pos <= curve_end and second <= right_bound:
+            while pos <= min(right_bound, curve_end):
                 ace_curve.values.append(mapping_func(self.get_value_from_segment(segment, tick)))
                 pos += 1
                 tick += tick_step
-                second += second_step
             ace_curves.root.append(ace_curve)
         return ace_curves
 
