@@ -7,7 +7,7 @@
     "python": "==3.12"
   },
   "rangeStrategy": "bump",
-  "enabledManagers": ["pep621", "github-actions"],
+  "enabledManagers": ["pep621"],
   "labels": ["dependencies"],
   "packageRules": [
     {
@@ -24,13 +24,6 @@
       "automerge": true,
       "groupName": "Project dependencies",
       "groupSlug": "proj"
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions",
-      "groupSlug": "github-actions",
-      "separateMultipleMajor": false,
-      "ignoreDeps": ["macos"]
     }
   ]
 }

@@ -30,6 +30,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.12
+          version: 2.16.1
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
@@ -66,6 +67,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.11
+          version: 2.16.1
       - name: Export requirements
         shell: bash -el {0}
         run: |
@@ -114,6 +116,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.12
+          version: 2.16.1
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
@@ -150,6 +153,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.11
+          version: 2.16.1
       - name: Build with pyinstaller
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
@@ -193,6 +197,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.11
+          version: 2.16.1
       - name: Install OS dependencies
         run: |
           sudo apt-get update
@@ -279,6 +284,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.12
+          version: 2.16.1
       - name: Build with pyinstaller
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
@@ -320,6 +326,7 @@ jobs:
       - uses: pdm-project/setup-pdm@v4
         with:
           python-version: 3.12
+          version: 2.16.1
       - name: Build with pyinstaller
         run: |
           pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
