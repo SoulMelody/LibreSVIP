@@ -223,6 +223,7 @@ class AcepNote(BaseModel):
     syllable: Optional[str] = ""
     br_len: int = Field(0, alias="brLen")
     vibrato: Optional[AcepVibrato] = None
+    extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
 class AcepPattern(BaseModel):
@@ -232,6 +233,7 @@ class AcepPattern(BaseModel):
     clip_pos: int = Field(0, alias="clipPos")
     clip_dur: int = Field(0, alias="clipDur")
     enabled: Optional[bool] = True
+    color: Optional[str] = "#91bcdc"
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
@@ -299,6 +301,7 @@ class AcepCustomSinger(BaseModel):
     singer_id: Optional[int] = Field(DEFAULT_SINGER_ID, alias="id")
     head: Optional[int] = -1
     router: Optional[int] = 1
+    group: Optional[str] = ""
 
 
 class AcepVocalTrack(AcepTrackProperties, BaseModel):
