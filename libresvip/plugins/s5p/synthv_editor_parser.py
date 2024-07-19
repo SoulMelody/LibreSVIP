@@ -159,14 +159,15 @@ class SynthVEditorParser:
                 frequency = (
                     s5p_note.f_f0_vbr if s5p_note.f_f0_vbr is not None else db_defaults.f_f0_vbr
                 )
-                self.vibrato_value_interval_dict[portion.closedopen(vibrato_start, vibrato_end)] = (
-                    functools.partial(
+                if phase is not None and frequency is not None:
+                    self.vibrato_value_interval_dict[
+                        portion.closedopen(vibrato_start, vibrato_end)
+                    ] = functools.partial(
                         self.s5p_vibrato_value,
                         vibrato_start=vibrato_start,
                         phase=phase,
                         frequency=frequency,
                     )
-                )
                 vibrato_attack_time = vibrato_start + (
                     s5p_note.t_f0_vbr_left
                     if s5p_note.t_f0_vbr_left is not None

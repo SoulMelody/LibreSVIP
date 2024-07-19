@@ -74,7 +74,11 @@ class BasePitchCurve:
                     semitone=note.pitch,
                 )
             )
-            if note.vibrato is not None:
+            if (
+                note.vibrato is not None
+                and note.vibrato.attack_level is not None
+                and note.vibrato.release_level is not None
+            ):
                 vibrato_start = synchronizer.get_actual_secs_from_ticks(
                     int(note.pos + note.vibrato.start_pos + tick_offset)
                 )

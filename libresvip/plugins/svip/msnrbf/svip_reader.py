@@ -66,7 +66,7 @@ class SvipReader(NrbfIOBase):
         if class_name == "System.Collections.Generic.List":
             assert isinstance(class_kwargs["items"], list)
             class_kwargs["items"] = class_kwargs["items"][: class_kwargs["size"]]
-        return model_class(**class_kwargs)
+        return model_class(**class_kwargs)  # type: ignore[arg-type]
 
     def build_object(self, obj: Container) -> Optional[Any]:
         if "obj" in obj:
