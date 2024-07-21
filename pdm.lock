@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:ef294ef73267f43fa993db14919442de64d43ad8dbb78cf374a8a764004c9e8d"
+content_hash = "sha256:89108977a0a88f64a6f9758963ea659f29f089137f04acbde76c92a91559bb0b"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -1958,7 +1958,7 @@ files = [
 
 [[package]]
 name = "nuitka"
-version = "2.4"
+version = "2.4.1"
 summary = "Python compiler with full language support and CPython compatibility"
 groups = ["packaging"]
 dependencies = [
@@ -1966,7 +1966,7 @@ dependencies = [
     "zstandard>=0.15",
 ]
 files = [
-    {file = "Nuitka-2.4.tar.gz", hash = "sha256:703c9b28a8db5da9cae138650089fc86119e6113713464d2da909dfbc7a2ca51"},
+    {file = "Nuitka-2.4.1.tar.gz", hash = "sha256:b81457f66c1961cb8545839d2fe4fbd1a8228926df0dd1f13a4bb63cbd503f95"},
 ]
 
 [[package]]
