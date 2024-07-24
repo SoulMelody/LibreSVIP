@@ -110,7 +110,7 @@ linting = [
   "pyodide-py>=0.26.1; python_version >= \"3.12\"",
   "types-lxml>=2024.4.14",
   "types-parsimonious>=0.10.0.20240331",
-  "types-pyyaml>=6.0.12.20240311",
+  "types-pyyaml>=6.0.12.20240724",
   "types-ujson>=5.10.0.20240515",
 ]
 packaging = [
