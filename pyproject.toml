@@ -97,7 +97,7 @@ version = { source = "file", path = "libresvip/__init__.py" }
 [tool.pdm.dev-dependencies]
 code_gen = [
   "datamodel-code-generator>=0.25.8",
-  "gapic-generator>=1.18.3",
+  "gapic-generator>=1.18.4",
   "xsdata[cli]>=24.6.1",
 ]
 i18n = ["babel>=2.15.0"]
@@ -107,7 +107,7 @@ linting = [
   "mypy>=1.11.0",
   "sourcery>=1.21.0",
   "proto-plus-stubs>=0.7.0",
-  "pyodide-py>=0.26.1; python_version >= \"3.12\"",
+  "pyodide-py>=0.26.2; python_version >= \"3.12\"",
   "types-lxml>=2024.4.14",
   "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20240724",
