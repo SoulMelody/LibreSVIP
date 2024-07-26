@@ -45,7 +45,7 @@ dependencies = [
   "pydantic-extra-types<3.0.0,>=2.9.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.51.0",
-  "pysubs2<2.0.0,>=1.7.2",
+  "pysubs2<2.0.0,>=1.7.3",
   "pyzstd<1.0.0,>=0.16.0; platform_python_implementation == \"PyPy\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.7.1",

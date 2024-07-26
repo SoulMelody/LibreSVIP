@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:ce988f97901d4d770a00b8009a17e91200340a711d40cc98f7d8bd535739c63a"
+content_hash = "sha256:df4de51f2a9bda311b4f03b646c258c4ca50ad2dbdab85332d47e88cdd29bb75"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -2653,13 +2653,13 @@ files = [
 
 [[package]]
 name = "pysubs2"
-version = "1.7.2"
+version = "1.7.3"
 requires_python = ">=3.8"
 summary = "A library for editing subtitle files"
 groups = ["default"]
 files = [
-    {file = "pysubs2-1.7.2-py3-none-any.whl", hash = "sha256:f6de61539df485f8d4ad0c5b737f2dc1f2a9c65afcbe93177ebff25815163865"},
-    {file = "pysubs2-1.7.2.tar.gz", hash = "sha256:b708904269cb252dbc51de75a372e04ab00c368939bb8220f7b0f940d978725e"},
+    {file = "pysubs2-1.7.3-py3-none-any.whl", hash = "sha256:de438c868d2c656781c4a78f220ec3a6fd6d52be49266c81fe912d2527002d44"},
+    {file = "pysubs2-1.7.3.tar.gz", hash = "sha256:b0130f373390736754531be4e68a0fa521e825fa15cc8ff506e4f8ca2c17459a"},
 ]
 
 [[package]]
