@@ -233,7 +233,7 @@ class AcepPattern(BaseModel):
     clip_pos: int = Field(0, alias="clipPos")
     clip_dur: int = Field(0, alias="clipDur")
     enabled: Optional[bool] = True
-    color: Optional[str] = "#91bcdc"
+    color: Optional[str] = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
 
@@ -328,7 +328,6 @@ class AcepChord(BaseModel):
 
 
 class AcepChordPattern(AcepPattern):
-    color: str = "#91bcdc"
     chords: list[AcepChord] = Field(default_factory=list)
 
 

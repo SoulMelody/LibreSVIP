@@ -214,7 +214,6 @@ def page_layout(lang: Optional[str] = None) -> None:
         app.on_shutdown(save_settings)
     else:
         settings = LibreSvipWebUserSettings()
-        ui_settings_ctx.set(settings)
         request = request_contextvar.get()
         session_id = request.session["id"]
 
@@ -242,8 +241,23 @@ def page_layout(lang: Optional[str] = None) -> None:
         context.client.on_disconnect(save_settings)
 
     translation = get_translation()
-    lazy_translation.set(translation)
 
+    def set_context_vars() -> None:
+        lazy_translation.set(translation)
+        if app.native.main_window is not None:
+            ui_settings_ctx.set(settings)
+
+    def context_vars_wrapper(func: Any) -> Any:
+        @functools.wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            set_context_vars()
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    set_context_vars()
+
+    @context_vars_wrapper
     def plugin_info(attr_name: str) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
@@ -315,6 +329,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         ),
     )
 
+    @context_vars_wrapper
     def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
         conversion_plugin = plugin_manager.plugin_registry[attr]
@@ -423,6 +438,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     output_options = ui.refreshable(functools.partial(options_form, "output", "dump"))
 
+    @context_vars_wrapper
     def middleware_options_form(attr: str, toggler: Switch) -> None:
         conversion_plugin = middleware_manager.plugin_registry[attr]
         field_types = {}
@@ -609,6 +625,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             self.tasks_container.refresh()
 
         @ui.refreshable
+        @context_vars_wrapper
         def tasks_container(self) -> None:
             with ui.scroll_area().classes("w-full"):
                 for i, info in enumerate(self.files_to_convert.values()):
@@ -700,6 +717,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             "round",
                         ).tooltip(_("Remove"))
 
+        @context_vars_wrapper
         async def _add_task(
             self,
             name: str,
@@ -777,11 +795,9 @@ def page_layout(lang: Optional[str] = None) -> None:
         def task_count(self) -> int:
             return len(self.files_to_convert)
 
+        @context_vars_wrapper
         def convert_one(self, task: ConversionTask, *sub_tasks: list[ConversionTask]) -> None:
             task.reset()
-            lazy_translation.set(translation)
-            if app.native.main_window is None:
-                ui_settings_ctx.set(settings)
             task.running = True
             try:
                 with CatchWarnings() as w:
@@ -870,6 +886,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 task.error = traceback.format_exc()
             task.running = False
 
+        @context_vars_wrapper
         async def batch_convert(self) -> None:
             loop = asyncio.get_event_loop()
             running_tasks = []
@@ -972,6 +989,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 "application/zip",
             )
 
+        @context_vars_wrapper
         async def add_upload(self) -> None:
             nonlocal select_input
             if app.native.main_window is not None and hasattr(
@@ -992,6 +1010,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             else:
                 ui.run_javascript("add_upload()")
 
+        @context_vars_wrapper
         async def save_file(self, file_name: str = "") -> None:
             nonlocal select_output
             if app.native.main_window is not None and hasattr(
