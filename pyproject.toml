@@ -119,7 +119,7 @@ packaging = [
   "pyinstaller>=6.9.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.5.30"]
+docs = ["mkdocs-material<10.0.0,>=9.5.31"]
 test = ["pytest>=8.3.2", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
