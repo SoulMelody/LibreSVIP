@@ -94,7 +94,7 @@ class BasePitchGenerator:
                     )
                     base_pitch = (
                         prev_note.tone * 100
-                        if prev_note is not None and x < prev_note.end
+                        if prev_note is not None and x <= prev_note.end
                         else note.tone * 100
                     )
                     pitches[index] += pitch - base_pitch
