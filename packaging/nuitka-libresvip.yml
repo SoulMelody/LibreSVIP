@@ -43,3 +43,8 @@
       - 'elements'
       - 'static'
       - 'templates'
+
+- module-name: pypinyin
+  data-files:
+    patterns:
+      - '*.json'
