@@ -16,6 +16,8 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.pitch_slide import PitchSlide
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.music_math import (
     clamp,
@@ -44,8 +46,6 @@ from .options import (
     synthv_language_presets,
 )
 from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
-from .pitch_simulator import PitchSimulator
-from .pitch_slide import PitchSlide
 
 if TYPE_CHECKING:
     from libresvip.model.point import Point

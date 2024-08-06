@@ -107,17 +107,21 @@ class TranslationalParam(ParamExpression):
 @dataclasses.dataclass
 class CurveGenerator(ParamExpression):
     base_value: int = dataclasses.field(init=False)
-    interpolation: Callable[[float], float] = dataclasses.field(init=False)
+    interpolation: Callable[[float, tuple[float, float], tuple[float, float]], float] = (
+        dataclasses.field(init=False)
+    )
     point_list: list[Point] = dataclasses.field(init=False)
     _point_list: dataclasses.InitVar[Iterable[Point]]
-    _interpolation: dataclasses.InitVar[Callable[[float], float]]
+    _interpolation: dataclasses.InitVar[
+        Callable[[float, tuple[float, float], tuple[float, float]], float]
+    ]
     _base_value: dataclasses.InitVar[int] = 0
     interval: Optional[portion.Interval] = None
 
     def __post_init__(
         self,
         _point_list: Iterable[Point],
-        _interpolation: Callable[[float], float],
+        _interpolation: Callable[[float, tuple[float, float], tuple[float, float]], float],
         _base_value: int = 0,
     ) -> None:
         self.point_list = []
@@ -146,11 +150,7 @@ class CurveGenerator(ParamExpression):
             return self.point_list[0].y
         if index == len(self.point_list) - 1:
             return self.point_list[-1].y
-        r = self.interpolation(
-            (ticks - self.point_list[index].x)
-            / (self.point_list[index + 1].x - self.point_list[index].x)
-        )
-        return (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
+        return self.interpolation(ticks, self.point_list[index], self.point_list[index + 1])
 
     def get_converted_curve(self, step: int) -> list[Point]:
         result: list[Point] = []
@@ -174,8 +174,7 @@ class CurveGenerator(ParamExpression):
                 )
             else:
                 for p in range(prev_point.x + step, current_point.x, step):
-                    r = self.interpolation((p - prev_point.x) / (current_point.x - prev_point.x))
-                    v = round((1 - r) * prev_point.y + r * current_point.y)
+                    v = round(self.interpolation(p, prev_point, current_point))
                     result.append(Point(p, v))
             prev_point = current_point
         result.extend((Point(prev_point.x, prev_point.y), Point.end_point(prev_point.y)))

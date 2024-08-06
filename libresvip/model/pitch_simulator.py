@@ -2,9 +2,8 @@ import dataclasses
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
+from libresvip.model.pitch_slide import PitchSlide
 from libresvip.utils.search import find_last_index
-
-from .pitch_slide import PitchSlide
 
 
 @dataclasses.dataclass
@@ -74,16 +73,13 @@ class PitchSimulator:
     def pitch_at_secs(self, secs: float) -> float:
         index = find_last_index(self.pitch_tags, lambda tag: tag[0] <= secs)
         if index == -1:
-            return self.pitch_tags[0][1] * 100
+            value = self.pitch_tags[0][1]
         elif index == len(self.pitch_tags) - 1:
-            return self.pitch_tags[-1][1] * 100
+            value = self.pitch_tags[-1][1]
         elif self.pitch_tags[index][1] == self.pitch_tags[index + 1][1]:
-            return self.pitch_tags[index][1] * 100
+            value = self.pitch_tags[index][1]
         else:
-            ratio = self.slide.apply(
-                (secs - self.pitch_tags[index][0])
-                / (self.pitch_tags[index + 1][0] - self.pitch_tags[index][0])
+            value = self.slide.inter_func(  # type: ignore[assignment]
+                secs, self.pitch_tags[index], self.pitch_tags[index + 1]
             )
-            return (
-                self.pitch_tags[index][1] * (1 - ratio) + self.pitch_tags[index + 1][1] * ratio
-            ) * 100
+        return value * 100

@@ -79,7 +79,8 @@ def clamp(
 def linear_interpolation(x: float, start: tuple[float, float], end: tuple[float, float]) -> float:
     x0, y0 = start
     x1, y1 = end
-    return y0 + (x - x0) * (y1 - y0) / (x1 - x0)
+    r = (x - x0) / (x1 - x0)
+    return y0 + (y1 - y0) * r
 
 
 def cosine_easing_in_interpolation(
@@ -87,7 +88,8 @@ def cosine_easing_in_interpolation(
 ) -> float:
     x0, y0 = start
     x1, y1 = end
-    return y1 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi / 2)
+    r = (x - x0) / (x1 - x0)
+    return y0 + (y1 - y0) * (1 - math.cos(r * math.pi / 2))
 
 
 def cosine_easing_out_interpolation(
@@ -95,7 +97,8 @@ def cosine_easing_out_interpolation(
 ) -> float:
     x0, y0 = start
     x1, y1 = end
-    return y0 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi / 2 + math.pi / 2)
+    r = (x - x0) / (x1 - x0)
+    return y0 + (y1 - y0) * math.cos(r * math.pi / 2)
 
 
 def cosine_easing_in_out_interpolation(
@@ -103,7 +106,24 @@ def cosine_easing_in_out_interpolation(
 ) -> float:
     x0, y0 = start
     x1, y1 = end
-    return (y0 + y1) / 2 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi) / 2
+    r = (x - x0) / (x1 - x0)
+    return y0 + (y1 - y0) * (1 - math.cos(r * math.pi)) / 2
+
+
+def cubic_interpolation(x: float, start: tuple[float, float], end: tuple[float, float]) -> float:
+    x0, y0 = start
+    x1, y1 = end
+    r = (x - x0) / (x1 - x0)
+    return y0 + (y1 - y0) * ((3 - 2 * r) * r**2)
+
+
+def sigmoid_interpolation(
+    x: float, start: tuple[float, float], end: tuple[float, float], k: float
+) -> float:
+    x0, y0 = start
+    x1, y1 = end
+    r = (x - x0) / (x1 - x0)
+    return y0 + (y1 - y0) / (1 + math.exp(k * (-2 * r + 1)))
 
 
 def db_to_float(db: float, using_amplitude: bool = True) -> float:

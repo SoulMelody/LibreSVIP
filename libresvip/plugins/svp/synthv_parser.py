@@ -22,10 +22,16 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.point import Point
-from libresvip.utils.music_math import clamp, db_to_float, ratio_to_db
+from libresvip.utils.music_math import (
+    clamp,
+    cosine_easing_in_out_interpolation,
+    cubic_interpolation,
+    db_to_float,
+    linear_interpolation,
+    ratio_to_db,
+)
 from libresvip.utils.search import find_index
 
-from . import interpolation
 from .constants import TICK_RATE
 from .interval_utils import position_to_ticks
 from .model import (
@@ -69,13 +75,15 @@ class SynthVParser:
         return clip(mapping_func(compound_expr.value_at_ticks(ticks) / 1000))
 
     @staticmethod
-    def parse_interpolation(mode: str) -> Callable[[float], float]:
+    def parse_interpolation(
+        mode: str,
+    ) -> Callable[[float, tuple[float, float], tuple[float, float]], float]:
         if mode == "cosine":
-            return interpolation.cosine_interpolation
+            return cosine_easing_in_out_interpolation
         elif mode == "cubic":
-            return interpolation.cubic_interpolation
+            return cubic_interpolation
         else:
-            return interpolation.linear_interpolation
+            return linear_interpolation
 
     def parse_audio_offset(self, offset: int) -> int:
         if offset >= 0:
@@ -105,7 +113,7 @@ class SynthVParser:
         self,
         sv_curve: SVParamCurve,
         mapping_func: Callable[[float], int],
-        base_value: float = 0.0,
+        base_value: Optional[float] = None,
         master_curve: Optional[SVParamCurve] = None,
     ) -> ParamCurve:
         if base_value is None:
