@@ -47,7 +47,7 @@ def ppsf_key_interval_dict(
                         next_note.pos + next_event.portamento_offset + next_event.portamento_length,
                     )
                 ] = functools.partial(
-                    cosine_easing_in_out_interpolation,
+                    cosine_easing_in_out_interpolation,  # type: ignore[call-arg]
                     start=Point(
                         x=next_note.pos + next_event.portamento_offset,
                         y=prev_note.note_number,

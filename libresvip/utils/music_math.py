@@ -1,6 +1,8 @@
+import functools
 import math
 import re
-from typing import Optional
+from collections.abc import Callable
+from typing import Any, Optional
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 
@@ -76,54 +78,49 @@ def clamp(
     return min(max(x, lower), upper)
 
 
-def linear_interpolation(x: float, start: tuple[float, float], end: tuple[float, float]) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    r = (x - x0) / (x1 - x0)
-    return y0 + (y1 - y0) * r
+def _transform_interpolation_args(
+    func: Callable[[float], float],
+) -> Callable[[float, tuple[float, float], tuple[float, float]], float]:
+    @functools.wraps(func)
+    def inner(
+        x: float, start: tuple[float, float], end: tuple[float, float], *args: Any, **kwargs: Any
+    ) -> float:
+        x0, y0 = start
+        x1, y1 = end
+        r = (x - x0) / (x1 - x0)
+        return y0 + (y1 - y0) * func(r, *args, **kwargs)
+
+    return inner
 
 
-def cosine_easing_in_interpolation(
-    x: float, start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    r = (x - x0) / (x1 - x0)
-    return y0 + (y1 - y0) * (1 - math.cos(r * math.pi / 2))
+@_transform_interpolation_args
+def linear_interpolation(r: float) -> float:
+    return r
 
 
-def cosine_easing_out_interpolation(
-    x: float, start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    r = (x - x0) / (x1 - x0)
-    return y0 + (y1 - y0) * math.cos(r * math.pi / 2)
+@_transform_interpolation_args
+def cosine_easing_in_interpolation(r: float) -> float:
+    return 1 - math.cos(r * math.pi / 2)
 
 
-def cosine_easing_in_out_interpolation(
-    x: float, start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    r = (x - x0) / (x1 - x0)
-    return y0 + (y1 - y0) * (1 - math.cos(r * math.pi)) / 2
+@_transform_interpolation_args
+def cosine_easing_out_interpolation(r: float) -> float:
+    return math.cos(r * math.pi / 2)
 
 
-def cubic_interpolation(x: float, start: tuple[float, float], end: tuple[float, float]) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    r = (x - x0) / (x1 - x0)
-    return y0 + (y1 - y0) * ((3 - 2 * r) * r**2)
+@_transform_interpolation_args
+def cosine_easing_in_out_interpolation(r: float) -> float:
+    return (1 - math.cos(r * math.pi)) / 2
 
 
-def sigmoid_interpolation(
-    x: float, start: tuple[float, float], end: tuple[float, float], k: float
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    r = (x - x0) / (x1 - x0)
-    return y0 + (y1 - y0) / (1 + math.exp(k * (-2 * r + 1)))
+@_transform_interpolation_args
+def cubic_interpolation(r: float) -> float:
+    return (3 - 2 * r) * r**2
+
+
+@_transform_interpolation_args  # type: ignore[arg-type]
+def sigmoid_interpolation(r: float, k: float) -> float:
+    return 1 / (1 + math.exp(k * (-2 * r + 1)))
 
 
 def db_to_float(db: float, using_amplitude: bool = True) -> float:

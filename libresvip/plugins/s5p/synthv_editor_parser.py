@@ -185,7 +185,7 @@ class SynthVEditorParser:
                 self.vibrato_coef_interval_dict[
                     portion.closedopen(vibrato_start, vibrato_attack_time)
                 ] = functools.partial(
-                    linear_interpolation,
+                    linear_interpolation,  # type: ignore[call-arg]
                     start=(vibrato_start, 0),
                     end=(vibrato_attack_time, vibrato_depth),
                 )
@@ -195,7 +195,7 @@ class SynthVEditorParser:
                 self.vibrato_coef_interval_dict[
                     portion.closedopen(vibrato_release_time, vibrato_end)
                 ] = functools.partial(
-                    linear_interpolation,
+                    linear_interpolation,  # type: ignore[call-arg]
                     start=(vibrato_release_time, vibrato_depth),
                     end=(vibrato_end, 0),
                 )

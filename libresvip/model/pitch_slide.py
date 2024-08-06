@@ -30,4 +30,4 @@ class PitchSlide:
 
     @classmethod
     def sigmoid_slide(cls) -> PitchSlide:
-        return cls(0.075, 0.48, partial(sigmoid_interpolation, k=5.5))
+        return cls(0.075, 0.48, partial(sigmoid_interpolation, k=5.5))  # type: ignore[call-arg]
