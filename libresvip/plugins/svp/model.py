@@ -230,21 +230,21 @@ class SVNoteAttributes(SVBaseAttributes):
 
     transition_offset = property(_get_transition_offset, _set_transition_offset)  # type: ignore [pydantic-field]
 
-    def _get_slide_left(self) -> float:
-        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_left is None else self.t_f0_left
+    def _get_portamento_left(self) -> float:
+        return constants.DEFAULT_PITCH_PORTAMENTO if self.t_f0_left is None else self.t_f0_left
 
-    def _set_slide_left(self, value: float) -> None:
+    def _set_portamento_left(self, value: float) -> None:
         self.t_f0_left = value
 
-    slide_left = property(_get_slide_left, _set_slide_left)  # type: ignore [pydantic-field]
+    portamento_left = property(_get_portamento_left, _set_portamento_left)  # type: ignore [pydantic-field]
 
-    def _get_slide_right(self) -> float:
-        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_right is None else self.t_f0_right
+    def _get_portamento_right(self) -> float:
+        return constants.DEFAULT_PITCH_PORTAMENTO if self.t_f0_right is None else self.t_f0_right
 
-    def _set_slide_right(self, value: float) -> None:
+    def _set_portamento_right(self, value: float) -> None:
         self.t_f0_right = value
 
-    slide_right = property(_get_slide_right, _set_slide_right)  # type: ignore [pydantic-field]
+    portamento_right = property(_get_portamento_right, _set_portamento_right)  # type: ignore [pydantic-field]
 
     def _get_depth_left(self) -> float:
         return constants.DEFAULT_PITCH_DEPTH if self.d_f0_left is None else self.d_f0_left
@@ -349,8 +349,8 @@ class SVNoteAttributes(SVBaseAttributes):
             transition_edited &= any(
                 x >= tolerance
                 for x in (
-                    abs(self.slide_left - constants.DEFAULT_PITCH_SLIDE),
-                    abs(self.slide_right - constants.DEFAULT_PITCH_SLIDE),
+                    abs(self.portamento_left - constants.DEFAULT_PITCH_PORTAMENTO),
+                    abs(self.portamento_right - constants.DEFAULT_PITCH_PORTAMENTO),
                     abs(self.depth_left - constants.DEFAULT_PITCH_DEPTH),
                     abs(self.depth_right - constants.DEFAULT_PITCH_DEPTH),
                 )

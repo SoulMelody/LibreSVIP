@@ -233,9 +233,9 @@ class PitchGenerator(ParamExpression):
                 end=_synchronizer.get_actual_secs_from_ticks(
                     position_to_ticks(sv_note.onset + sv_note.duration)
                 ),
-                slide_offset=sv_note.attributes.transition_offset,
-                slide_left=sv_note.attributes.slide_left,
-                slide_right=sv_note.attributes.slide_right,
+                portamento_offset=sv_note.attributes.transition_offset,
+                portamento_left=sv_note.attributes.portamento_left,
+                portamento_right=sv_note.attributes.portamento_right,
                 depth_left=sv_note.attributes.depth_left,
                 depth_right=sv_note.attributes.depth_right,
                 vibrato_start=sv_note.attributes.vibrato_start,

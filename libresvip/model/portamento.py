@@ -15,19 +15,19 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class PitchSlide:
+class PortamentoPitch:
     max_inter_time_in_secs: float
     max_inter_time_percent: float
     inter_func: Callable[[float, tuple[float, float], tuple[float, float]], float]
 
     @classmethod
-    def cosine_slide(cls) -> PitchSlide:
+    def cosine_portamento(cls) -> PortamentoPitch:
         return cls(0.05, 0.1, cosine_easing_in_out_interpolation)
 
     @classmethod
-    def cubic_slide(cls) -> PitchSlide:
+    def cubic_portamento(cls) -> PortamentoPitch:
         return cls(0.05, 0.1, cubic_interpolation)
 
     @classmethod
-    def sigmoid_slide(cls) -> PitchSlide:
+    def sigmoid_portamento(cls) -> PortamentoPitch:
         return cls(0.075, 0.48, partial(sigmoid_interpolation, k=5.5))  # type: ignore[call-arg]

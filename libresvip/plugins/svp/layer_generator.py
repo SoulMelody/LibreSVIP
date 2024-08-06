@@ -17,9 +17,9 @@ class NoteStruct(NamedTuple):
     key: int
     start: float
     end: float
-    slide_offset: float
-    slide_left: float
-    slide_right: float
+    portamento_offset: float
+    portamento_left: float
+    portamento_right: float
     depth_left: float
     depth_right: float
     vibrato_start: float
@@ -135,21 +135,21 @@ class BaseLayerGenerator:
         for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
-            if (diameter := current_note.slide_right + next_note.slide_left) and (
+            if (diameter := current_note.portamento_right + next_note.portamento_left) and (
                 next_note.start - current_note.end <= MAX_BREAK
             ):
                 start = clamp(
-                    current_note.end - current_note.slide_right + next_note.slide_offset,
+                    current_note.end - current_note.portamento_right + next_note.portamento_offset,
                     current_note.start,
                     current_note.end,
                 )
                 end = clamp(
-                    next_note.start + next_note.slide_left + next_note.slide_offset,
+                    next_note.start + next_note.portamento_left + next_note.portamento_offset,
                     next_note.start,
                     next_note.end,
                 )
                 mid = clamp(
-                    (current_note.end + next_note.start) / 2 + next_note.slide_offset,
+                    (current_note.end + next_note.start) / 2 + next_note.portamento_offset,
                     start,
                     end,
                 )
@@ -315,7 +315,7 @@ class GaussianLayerGenerator:
                 is_end_point=True,
                 _origin=current_note.start,
                 _depth=-current_note.depth_left,
-                _width=current_note.slide_left,
+                _width=current_note.portamento_left,
                 _length_l=math.nan,
                 _length_r=current_note.end - current_note.start,
             )
@@ -327,7 +327,7 @@ class GaussianLayerGenerator:
                         is_end_point=True,
                         _origin=current_note.end,
                         _depth=current_note.depth_right,
-                        _width=current_note.slide_left,
+                        _width=current_note.portamento_left,
                         _length_l=current_note.end - current_note.start,
                         _length_r=math.nan,
                     )
@@ -337,7 +337,7 @@ class GaussianLayerGenerator:
                         is_end_point=True,
                         _origin=next_note.start,
                         _depth=-next_note.depth_left,
-                        _width=next_note.slide_left,
+                        _width=next_note.portamento_left,
                         _length_l=math.nan,
                         _length_r=next_note.end - next_note.start,
                     )
@@ -345,7 +345,7 @@ class GaussianLayerGenerator:
             else:
                 middle = (current_note.end + next_note.start) / 2
                 origin = clamp(
-                    middle + current_note.slide_offset,
+                    middle + current_note.portamento_offset,
                     current_note.start,
                     current_note.end,
                 )
@@ -360,7 +360,7 @@ class GaussianLayerGenerator:
                         is_end_point=False,
                         _origin=origin,
                         _depth=depth_l,
-                        _width=-current_note.slide_right,
+                        _width=-current_note.portamento_right,
                         _length_l=origin - current_note.start,
                         _length_r=next_note.end - origin,
                     )
@@ -376,7 +376,7 @@ class GaussianLayerGenerator:
                         is_end_point=False,
                         _origin=origin,
                         _depth=depth_r,
-                        _width=next_note.slide_left,
+                        _width=next_note.portamento_left,
                         _length_l=origin - current_note.start,
                         _length_r=next_note.end - origin,
                     )
@@ -386,7 +386,7 @@ class GaussianLayerGenerator:
                 is_end_point=True,
                 _origin=_note_list[-1].end,
                 _depth=-_note_list[-1].depth_right,
-                _width=_note_list[-1].slide_left,
+                _width=_note_list[-1].portamento_left,
                 _length_l=_note_list[-1].end - _note_list[-1].start,
                 _length_r=math.nan,
             )
@@ -446,7 +446,7 @@ class VibratoLayerGenerator:
                 continue
             if i < len(_note_list) - 1 and _note_list[i + 1].start - end < MAX_BREAK:
                 end += min(
-                    _note_list[i + 1].slide_offset,
+                    _note_list[i + 1].portamento_offset,
                     min(
                         _note_list[i + 1].vibrato_start,
                         _note_list[i + 1].end - _note_list[i + 1].start,

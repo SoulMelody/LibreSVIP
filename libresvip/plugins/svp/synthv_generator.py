@@ -17,7 +17,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.pitch_simulator import PitchSimulator
-from libresvip.model.pitch_slide import PitchSlide
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.music_math import (
     clamp,
@@ -123,7 +123,7 @@ class SynthVGenerator:
             self.pitch_simulator = PitchSimulator(
                 synchronizer=self.synchronizer,
                 note_list=track.note_list,
-                slide=PitchSlide.sigmoid_slide(),
+                portamento=PortamentoPitch.sigmoid_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
 
