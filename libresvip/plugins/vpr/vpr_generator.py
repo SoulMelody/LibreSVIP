@@ -224,7 +224,10 @@ class VocaloidGenerator:
 
     def generate_pitch_data(self, track: SingingTrack) -> Optional[list[VocaloidControllers]]:
         raw_pitch_data = generate_for_vocaloid(
-            track.edited_params.pitch, track.note_list, self.first_bar_length
+            track.edited_params.pitch,
+            track.note_list,
+            self.first_bar_length,
+            self.time_synchronizer,
         )
         if not raw_pitch_data:
             return None

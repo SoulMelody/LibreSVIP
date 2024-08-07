@@ -6,7 +6,9 @@ from typing import Optional
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
+from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.search import find_last_index
 
@@ -115,11 +117,10 @@ def pitch_to_utau_mode2_track(
 
 
 def pitch_from_utau_mode2_track(
-    pitch_data: UtauMode2TrackPitchData, notes: list[Note], tempos: list[SongTempo]
+    pitch_data: UtauMode2TrackPitchData, tick_time_transformer: TimeSynchronizer, notes: list[Note]
 ) -> ParamCurve:
     if pitch_data is None:
         return ParamCurve()
-    tick_time_transformer = TimeSynchronizer(tempos)
     pitch_points: list[Point] = []
     last_note: Optional[Note] = None
     pending_pitch_points: list[Point] = []
@@ -191,10 +192,15 @@ def pitch_from_utau_mode2_track(
             )
         last_note = note
     pitch_points.extend(pending_pitch_points)
+    pitch_simulator = PitchSimulator(
+        synchronizer=tick_time_transformer,
+        portamento=PortamentoPitch.no_portamento(),
+        note_list=notes,
+    )
     return RelativePitchCurve(
         lower_bound=notes[0].start_pos,
         upper_bound=notes[-1].end_pos,
-    ).to_absolute(pitch_points, notes)
+    ).to_absolute(pitch_points, pitch_simulator)
 
 
 def fix_points_at_last_note(

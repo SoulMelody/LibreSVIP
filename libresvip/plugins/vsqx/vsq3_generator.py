@@ -227,7 +227,9 @@ class Vsq3Generator:
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq3MCtrl]:
         music_controls: list[Vsq3MCtrl] = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, notes, self.first_bar_length):
+        if pitch_raw_data := generate_for_vocaloid(
+            pitch, notes, self.first_bar_length, self.time_synchronizer
+        ):
             music_controls.extend(
                 Vsq3MCtrl(
                     pos_tick=pbs_event.pos,

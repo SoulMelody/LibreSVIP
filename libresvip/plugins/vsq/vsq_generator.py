@@ -10,6 +10,7 @@ from libresvip.core.constants import (
 )
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
     ParamCurve,
@@ -28,6 +29,7 @@ from .vocaloid_pitch import generate_for_vocaloid
 @dataclasses.dataclass
 class VsqGenerator:
     options: OutputOptions
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     @property
@@ -38,6 +40,7 @@ class VsqGenerator:
 
     def generate_project(self, project: Project) -> mido.MidiFile:
         project = limit_bars(project, 4096)
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         mido_obj = mido.MidiFile(charset=self.options.lyric_encoding)
         mido_obj.ticks_per_beat = self.options.ticks_per_beat
         self.first_bar_length = int(
@@ -224,7 +227,9 @@ class VsqGenerator:
         self, pitch: ParamCurve, tick_prefix: int, note_list: list[Note]
     ) -> list[str]:
         result = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, note_list, self.first_bar_length):
+        if pitch_raw_data := generate_for_vocaloid(
+            pitch, note_list, self.first_bar_length, self.synchronizer
+        ):
             if len(pitch_raw_data.pit):
                 result.append("[PitchBendBPList]")
                 result.extend(f"{pit.pos + tick_prefix}={pit.value}" for pit in pitch_raw_data.pit)

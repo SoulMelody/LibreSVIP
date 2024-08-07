@@ -229,7 +229,9 @@ class Vsq4Generator:
 
     def generate_pitch(self, pitch: ParamCurve, notes: list[Note]) -> list[Vsq4MCtrl]:
         music_controls: list[Vsq4MCtrl] = []
-        if pitch_raw_data := generate_for_vocaloid(pitch, notes, self.first_bar_length):
+        if pitch_raw_data := generate_for_vocaloid(
+            pitch, notes, self.first_bar_length, self.time_synchronizer
+        ):
             music_controls.extend(
                 Vsq4MCtrl(
                     pos_tick=pbs_event.pos,

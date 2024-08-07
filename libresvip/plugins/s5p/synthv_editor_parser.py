@@ -22,7 +22,9 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import db_to_float, linear_interpolation, ratio_to_db
 
@@ -213,8 +215,13 @@ class SynthVEditorParser:
             rel_pitch_points = self.parse_pitch_curve(
                 parameters.pitch_delta, parameters.interval, note_list
             )
+            pitch_simulator = PitchSimulator(
+                synchronizer=self.synchronizer,
+                portamento=PortamentoPitch.sigmoid_portamento(),
+                note_list=note_list,
+            )
             params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
-                rel_pitch_points, note_list
+                rel_pitch_points, pitch_simulator
             )
         return params
 

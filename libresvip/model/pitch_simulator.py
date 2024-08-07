@@ -1,5 +1,6 @@
 import dataclasses
 import functools
+from typing import Optional
 
 import portion
 
@@ -37,23 +38,30 @@ class PitchSimulator:
                 next_note.start_pos, next_note.end_pos
             )
             next_portamento = min(next_dur * max_portamento_percent, max_portamento_time)
-            interval = next_head - current_head - current_dur
-            if interval <= 2 * max_portamento_time:
-                current_portamento_start = next_head - interval / 2 - current_portamento
-                current_portamento_end = next_head - interval / 2 + next_portamento
+            interval = (
+                0.0 if next_note.lyric == "-" else (next_head - current_head - current_dur) / 2
+            ) - self.portamento.offset
+            if interval <= max_portamento_time:
+                current_portamento_start = next_head - interval - current_portamento
+                current_portamento_end = next_head - interval + next_portamento
             else:
-                current_portamento_start = next_head - interval / 2 - max_portamento_time
-                current_portamento_end = next_head - interval / 2 + max_portamento_time
+                current_portamento_start = next_head - interval - max_portamento_time
+                current_portamento_end = next_head - interval + max_portamento_time
             self.interval_dict[
                 portion.closedopen(prev_portamento_end, current_portamento_start)
             ] = current_note.key_number
-            self.interval_dict[
-                portion.closedopen(current_portamento_start, current_portamento_end)
-            ] = functools.partial(  # type: ignore[call-arg]
-                self.portamento.inter_func,
-                start=(current_portamento_start, current_note.key_number),
-                end=(current_portamento_end, next_note.key_number),
-            )
+            if current_note.key_number == next_note.key_number:
+                self.interval_dict[
+                    portion.closedopen(current_portamento_start, current_portamento_end)
+                ] = current_note.key_number
+            else:
+                self.interval_dict[
+                    portion.closedopen(current_portamento_start, current_portamento_end)
+                ] = functools.partial(  # type: ignore[call-arg]
+                    self.portamento.inter_func,
+                    start=(current_portamento_start, current_note.key_number),
+                    end=(current_portamento_end, next_note.key_number),
+                )
             current_note = next_note
             current_head = next_head
             current_dur = next_dur
@@ -63,8 +71,9 @@ class PitchSimulator:
             current_note.key_number
         )
 
-    def pitch_at_ticks(self, ticks: int) -> float:
-        return self.pitch_at_secs(self.synchronizer.get_actual_ticks_from_ticks(ticks))
+    def pitch_at_ticks(self, ticks: int) -> Optional[float]:
+        return self.pitch_at_secs(self.synchronizer.get_actual_secs_from_ticks(ticks))
 
-    def pitch_at_secs(self, secs: float) -> float:
-        return self.interval_dict.get(secs, 0.0) * 100
+    def pitch_at_secs(self, secs: float) -> Optional[float]:
+        if value := self.interval_dict.get(secs):
+            return value * 100

@@ -5,9 +5,13 @@ from typing import Optional
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve
+from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.music_math import clamp
+from libresvip.utils.music_math import (
+    clamp,
+)
 
 from .constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
@@ -106,17 +110,32 @@ def pitch_from_vocaloid_parts(
             )
         )
         prev_pos = pos
+    pitch_simulator = PitchSimulator(
+        synchronizer=synchronizer,
+        portamento=PortamentoPitch.vocaloid_portamento(),
+        note_list=note_list,
+    )
     return (
-        RelativePitchCurve(first_bar_length, lower_bound, upper_bound).to_absolute(data, note_list)
+        RelativePitchCurve(first_bar_length, lower_bound, upper_bound).to_absolute(
+            data, pitch_simulator
+        )
         if data and note_list
         else None
     )
 
 
 def generate_for_vocaloid(
-    pitch: ParamCurve, notes: list[Note], first_bar_length: int
+    pitch: ParamCurve,
+    notes: list[Note],
+    first_bar_length: int,
+    synchronizer: TimeSynchronizer,
 ) -> Optional[VocaloidPartPitchData]:
-    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, notes)
+    pitch_simulator = PitchSimulator(
+        synchronizer=synchronizer,
+        portamento=PortamentoPitch.vocaloid_portamento(),
+        note_list=notes,
+    )
+    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, pitch_simulator)
     if not len(data):
         return None
     pitch_sectioned: list[list[Point]] = [[]]

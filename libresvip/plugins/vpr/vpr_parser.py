@@ -8,6 +8,7 @@ from libresvip.core.constants import (
     DEFAULT_JAPANESE_LYRIC,
     DEFAULT_KOREAN_LYRIC,
 )
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -42,6 +43,7 @@ class VocaloidParser:
     options: InputOptions
     archive_file: zipfile.ZipFile
     first_bar_length: int = dataclasses.field(init=False)
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
 
     def parse_project(self, vpr_project: VocaloidProject) -> Project:
@@ -50,11 +52,13 @@ class VocaloidParser:
             for voice in vpr_project.voices
             if voice.comp_id is not None and voice.name is not None
         }
+        song_tempo_list = self.parse_tempos(vpr_project.master_track.tempo.events)
+        self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
             time_signature_list=self.parse_time_signatures(
                 vpr_project.master_track.time_sig.events
             ),
-            song_tempo_list=self.parse_tempos(vpr_project.master_track.tempo.events),
+            song_tempo_list=song_tempo_list,
             track_list=self.parse_tracks(vpr_project.tracks),
         )
 
@@ -143,7 +147,10 @@ class VocaloidParser:
                         )
                         and (
                             part_pitch := pitch_from_vocaloid_parts(
-                                [part_data], singing_track.note_list, self.first_bar_length
+                                [part_data],
+                                self.synchronizer,
+                                singing_track.note_list,
+                                self.first_bar_length,
                             )
                         )
                         is not None

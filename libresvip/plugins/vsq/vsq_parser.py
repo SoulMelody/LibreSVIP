@@ -198,6 +198,7 @@ class VsqParser:
                     pbs=pbs,
                 )
             ],
+            self.synchronizer,
             note_list,
             self.first_bar_length,
         )
