@@ -77,10 +77,10 @@ class VsqxParser:
         wav_units: VsqxWavUnitList = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part
-            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)  # type: ignore[list-item]
+            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)
         if vsqx_project.stereo_track is not None:
             wav_parts += vsqx_project.stereo_track.wav_part
-            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)  # type: ignore[list-item]
+            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)
         instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,

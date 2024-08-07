@@ -81,7 +81,7 @@ def clamp(
 def _transform_interpolation_args(
     func: Callable[[float], float],
 ) -> Callable[[float, tuple[float, float], tuple[float, float]], float]:
-    @functools.wraps(func)
+    @functools.wraps(func, assigned=["__module__", "__name__", "__qualname__", "__doc__"])
     def inner(
         x: float, start: tuple[float, float], end: tuple[float, float], *args: Any, **kwargs: Any
     ) -> float:
@@ -145,7 +145,4 @@ def ratio_to_db(ratio: float, val2: Optional[float] = None, using_amplitude: boo
     if ratio == 0:
         return -float("inf")
 
-    if using_amplitude:
-        return 20 * math.log10(ratio)
-    else:  # using power
-        return 10 * math.log10(ratio)
+    return 20 * math.log10(ratio) if using_amplitude else 10 * math.log10(ratio)
