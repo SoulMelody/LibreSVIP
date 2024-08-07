@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:8b17f66153cd175001804b0e3363f61227d2aff4e2d4a2fa5df12dbaa11a1383"
+content_hash = "sha256:d6b7f662441066b6f096c8b36595dff842520de994b2defa151dd8afd3d2b6f1"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -3398,18 +3398,18 @@ files = [
 
 [[package]]
 name = "types-lxml"
-version = "2024.4.14"
+version = "2024.8.7"
 requires_python = ">=3.8"
 summary = "Complete lxml external type annotation"
 groups = ["linting"]
 dependencies = [
     "cssselect~=1.2",
     "types-beautifulsoup4~=4.12",
-    "typing-extensions~=4.5",
+    "typing-extensions~=4.10; python_version < \"3.13\"",
 ]
 files = [
-    {file = "types_lxml-2024.4.14-py3-none-any.whl", hash = "sha256:7e5f836067cde4fddce3cdbf2bac7192c764bf5ee6d3eb86c732ad1b84f265c5"},
-    {file = "types_lxml-2024.4.14.tar.gz", hash = "sha256:dd8105b579925af1b6ae77469f4fc835be3872b15e86cb46ad4fcc33b20c781d"},
+    {file = "types_lxml-2024.8.7-py3-none-any.whl", hash = "sha256:a0b8669b2dc57d47dcf31fbbee5007f8ed71b37406f4c7e5fa650e2480568eb9"},
+    {file = "types_lxml-2024.8.7.tar.gz", hash = "sha256:9ee5cdb1efd60f6eeb101b78f92591fd99202e4878b46d621b52f6cd67a9c80f"},
 ]
 
 [[package]]
