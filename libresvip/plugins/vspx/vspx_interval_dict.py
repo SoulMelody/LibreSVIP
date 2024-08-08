@@ -8,16 +8,9 @@ import portion
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.utils.music_math import cosine_easing_in_out_interpolation
 
 from .model import VocalSharpDefaultTrill, VocalSharpNoteTrack, VocalSharpTrill
-
-
-def vspx_cosine_easing_in_out_interpolation(
-    x: int, start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return (y0 + y1) / 2 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi) / 2
 
 
 def vspx_sine_vibrato_interpolation(
@@ -123,8 +116,8 @@ class BasePitchCurve:
                     por_start = middle_secs - note_track.por
                     por_end = middle_secs + note_track.por
                     self.key_interval_dict[portion.closedopen(por_start, por_end)] = (
-                        functools.partial(
-                            vspx_cosine_easing_in_out_interpolation,
+                        functools.partial(  # type: ignore[call-arg]
+                            cosine_easing_in_out_interpolation,
                             start=(por_start, prev_note.key_number),
                             end=(por_end, next_note.key_number),
                         )
