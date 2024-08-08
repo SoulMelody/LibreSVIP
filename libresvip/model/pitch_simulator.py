@@ -54,7 +54,7 @@ class PitchSimulator:
                 self.interval_dict[
                     portion.closedopen(current_portamento_start, current_portamento_end)
                 ] = current_note.key_number
-            else:
+            elif current_portamento_start < current_portamento_end:
                 self.interval_dict[
                     portion.closedopen(current_portamento_start, current_portamento_end)
                 ] = functools.partial(  # type: ignore[call-arg]

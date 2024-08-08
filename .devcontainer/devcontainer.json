@@ -9,12 +9,12 @@
 		"vscode": {
 			"extensions": [
 				"charliermarsh.ruff",
-				"DotJoshJohnson.xml",
 				"hbenl.vscode-test-explorer",
 				"littlefoxteam.vscode-python-test-adapter",
 				"mrorz.language-gettext",
 				"ms-python.mypy-type-checker",
 				"ms-python.python",
+				"redhat.vscode-xml",
 				"redhat.vscode-yaml",
 				"samuelcolvin.jinjahtml",
 				"seanwu.vscode-qt-for-python",
