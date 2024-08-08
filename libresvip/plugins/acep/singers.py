@@ -48,6 +48,9 @@ id2singer = bidict(
         1012: "墨清弦",
         1013: "徵羽摩柯",
         2001: "川",
+        2027: "水音ラル Normal",
+        2028: "水音ラル Power",
+        2029: "水音ラル Gravity",
         3006: "Rowly G.",
         5038: "空诗音Lemi",
     },
@@ -108,5 +111,8 @@ singer2seed = bidict(
         60: "墨清弦",
         61: "徵羽摩柯",
         87: "空诗音Lemi",
+        100: "水音ラル Normal",
+        101: "水音ラル Power",
+        102: "水音ラル Gravity",
     },
 ).inverse
