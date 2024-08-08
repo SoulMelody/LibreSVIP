@@ -333,6 +333,9 @@ ColumnLayout {
                                         successButton.visible = true
                                     }
                                 } else {
+                                    error = converterPage.taskList.model.get(taskRow.index).error
+                                    errorLabel.text = clipboard.shorten_error_message(error)
+                                    errorLabel.errorFullText = error
                                     errorButton.visible = true
                                 }
                             } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
@@ -355,6 +358,9 @@ ColumnLayout {
                                                     successButton.visible = true
                                                 }
                                             } else {
+                                                error = converterPage.taskList.model.get(taskRow.index).error
+                                                errorLabel.text = clipboard.shorten_error_message(error)
+                                                errorLabel.errorFullText = error
                                                 errorButton.visible = true
                                             }
                                         },
