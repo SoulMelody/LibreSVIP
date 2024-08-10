@@ -29,6 +29,7 @@ def install_mingw_deps() -> None:
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
         "anyio": "python-anyio",
+        "cffi": "python-cffi",
         "charset-normalizer": "python-charset-normalizer",
         "cx-freeze": None,
         "cx-logging": None,
@@ -36,6 +37,7 @@ def install_mingw_deps() -> None:
         "lxml": "python-lxml",
         "markupsafe": "python-markupsafe",
         "nuitka": "python-nuitka",
+        "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
