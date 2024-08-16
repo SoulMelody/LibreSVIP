@@ -14,27 +14,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check diff
-        id: check-diff
-        run: |
-          git fetch origin main
-          git merge-base origin/main HEAD
-          REGEXP=".*/LC_MESSAGES/[^\.]*\.po$"
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
-          echo "Changed files: $CHANGED_FILES"
-          PO_CHANGED_COUNT=$(echo $CHANGED_FILES | grep "$REGEXP" | wc -l)
-          PO_CHANGED=$([[ PO_CHANGED_COUNT -gt 0 ]] && echo "true" || echo "false")
-
-          echo "po_changed=$PO_CHANGED" >> $GITHUB_OUTPUT
+      - name: Get changed files
+        id: changed-po-files
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+              **/LC_MESSAGES/*.po
 
       - name: Set up Python
-        if: ${{ steps.check-diff.outputs.po_changed == 'true' }}
+        if: steps.changed-po-files.outputs.any_changed == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Compile catalogs
-        if: ${{ steps.check-diff.outputs.po_changed == 'true' }}
+        if: steps.changed-po-files.outputs.any_changed == 'true'
         run: |
           pip install babel setuptools
           cd scripts
