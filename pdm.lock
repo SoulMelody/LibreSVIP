@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:d8c1e326b8dc2bc4bbf0b241915c8c1f5a93af0ee2f7bcd52be733fbab65770d"
+content_hash = "sha256:eb0247cfeffd14e2457f3d06c73f5077e253e8123710ba99e9dbc6a2b87a7b36"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -1274,7 +1274,7 @@ files = [
 
 [[package]]
 name = "importlib-resources"
-version = "6.4.2"
+version = "6.4.3"
 requires_python = ">=3.8"
 summary = "Read resources from Python packages"
 groups = ["default"]
@@ -1283,8 +1283,8 @@ dependencies = [
     "zipp>=3.1.0; python_version < \"3.10\"",
 ]
 files = [
-    {file = "importlib_resources-6.4.2-py3-none-any.whl", hash = "sha256:8bba8c54a8a3afaa1419910845fa26ebd706dc716dd208d9b158b4b6966f5c5c"},
-    {file = "importlib_resources-6.4.2.tar.gz", hash = "sha256:6cbfbefc449cc6e2095dd184691b7a12a04f40bc75dd4c55d31c34f174cdf57a"},
+    {file = "importlib_resources-6.4.3-py3-none-any.whl", hash = "sha256:2d6dfe3b9e055f72495c2085890837fc8c758984e209115c8792bddcb762cd93"},
+    {file = "importlib_resources-6.4.3.tar.gz", hash = "sha256:4a202b9b9d38563b46da59221d77bb73862ab5d79d461307bcb826d725448b98"},
 ]
 
 [[package]]
