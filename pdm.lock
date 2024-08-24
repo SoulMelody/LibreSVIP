@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:8cc8681605f8e9af621a92b48ca1eb12199a2152895094fd3b77c0d2b3b3759a"
+content_hash = "sha256:d0ffc83b5c9c950311b143f1aa627bee345ce51083e050182c6ca3d18d823214"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -3344,7 +3344,7 @@ files = [
 
 [[package]]
 name = "typer-slim"
-version = "0.12.4"
+version = "0.12.5"
 requires_python = ">=3.7"
 summary = "Typer, build great CLIs. Easy to code. Based on Python type hints."
 groups = ["default"]
@@ -3353,8 +3353,8 @@ dependencies = [
     "typing-extensions>=3.7.4.3",
 ]
 files = [
-    {file = "typer_slim-0.12.4-py3-none-any.whl", hash = "sha256:790a9cd6589494ce063a178473ccdad878fa36bc03f428710f5864670e988144"},
-    {file = "typer_slim-0.12.4.tar.gz", hash = "sha256:4629238b526feb8ea71ad663d058ae8370b1520bb40f48b2f8e0c67a551b399f"},
+    {file = "typer_slim-0.12.5-py3-none-any.whl", hash = "sha256:9a994f721b828783dbf144e17461b1c720bb4598e0d5eff7c1b3f08ee58cb062"},
+    {file = "typer_slim-0.12.5.tar.gz", hash = "sha256:c8e3fcf93cc7dd584036df8755d2e2363f85f8a4dd028c7911eed3f00cf0ebb1"},
 ]
 
 [[package]]
