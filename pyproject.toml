@@ -104,7 +104,7 @@ i18n = ["babel>=2.16.0"]
 linting = [
   "pre-commit>=3.8.0",
   "ruff>=0.6.2",
-  "mypy>=1.11.1",
+  "mypy>=1.11.2",
   "sourcery>=1.22.0",
   "proto-plus-stubs>=0.7.0",
   "pyodide-py>=0.26.2; python_version >= \"3.12\"",
