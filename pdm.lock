@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:d4d099529448ea33e0fbdcf7536779292a3ef99f5ad4f7d4dcaba3c926f17702"
+content_hash = "sha256:da1d69b04ad78a1bf57f8cd05f7c50a717a8e1a8d93ea163476ce1bbe9ca60c7"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
