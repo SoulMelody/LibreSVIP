@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:bef66f488822b695516cb04ff1ebb33f079da247b087de0b0bb16dec5ae05279"
+content_hash = "sha256:660b0b2d6493d28e7aa82901c46887b4057b1592b1c8f10de5669730af7e6c5a"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -1889,7 +1889,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "1.4.37"
+version = "2.0.1"
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
@@ -1899,7 +1899,7 @@ dependencies = [
     "aiohttp>=3.10.2",
     "certifi>=2024.07.04",
     "docutils>=0.19.0",
-    "fastapi<0.110.0,>=0.109.1",
+    "fastapi>=0.109.1",
     "httpx>=0.24.0",
     "ifaddr>=0.2.0",
     "itsdangerous<3.0.0,>=2.1.2",
@@ -1916,24 +1916,24 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-1.4.37-py3-none-any.whl", hash = "sha256:b63ae7cf89ace808fefba866b81514c59a04cff40447b6043640e259747179b6"},
-    {file = "nicegui-1.4.37.tar.gz", hash = "sha256:d55976d7c0c22a0797938cabc0ae534535b42aee9a6ce54d660be72628434f35"},
+    {file = "nicegui-2.0.1-py3-none-any.whl", hash = "sha256:8c04f4df75a1e25d8152875c140cae773631122f0971353fc4c6f9cc2020cda7"},
+    {file = "nicegui-2.0.1.tar.gz", hash = "sha256:deaf5124639ca420d43af8dc75873d6c38d4d1178d7726ab8211a5ced01e4ba0"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "1.4.37"
+version = "2.0.1"
 extras = ["native"]
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
 dependencies = [
-    "nicegui==1.4.37",
+    "nicegui==2.0.1",
     "pywebview<6.0.0,>=5.0.1",
 ]
 files = [
-    {file = "nicegui-1.4.37-py3-none-any.whl", hash = "sha256:b63ae7cf89ace808fefba866b81514c59a04cff40447b6043640e259747179b6"},
-    {file = "nicegui-1.4.37.tar.gz", hash = "sha256:d55976d7c0c22a0797938cabc0ae534535b42aee9a6ce54d660be72628434f35"},
+    {file = "nicegui-2.0.1-py3-none-any.whl", hash = "sha256:8c04f4df75a1e25d8152875c140cae773631122f0971353fc4c6f9cc2020cda7"},
+    {file = "nicegui-2.0.1.tar.gz", hash = "sha256:deaf5124639ca420d43af8dc75873d6c38d4d1178d7726ab8211a5ced01e4ba0"},
 ]
 
 [[package]]
