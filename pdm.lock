@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:bf025f37b9ad932516a5c79f2e0e78598247522b4f272768dc08e8c9c047dc87"
+content_hash = "sha256:f71c935a35de7670e4795c52d4df1a132e65c6698ad076a015b6994058a89e0e"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -3531,7 +3531,7 @@ files = [
 
 [[package]]
 name = "universal-pathlib"
-version = "0.2.4"
+version = "0.2.5"
 requires_python = ">=3.8"
 summary = "pathlib api extended to use fsspec backends"
 groups = ["desktop", "upath", "webui"]
@@ -3539,8 +3539,8 @@ dependencies = [
     "fsspec!=2024.3.1,>=2022.1.0",
 ]
 files = [
-    {file = "universal_pathlib-0.2.4-py3-none-any.whl", hash = "sha256:1a696cda4fe5a25cd7cab0e74c09c911afdbbec991161ef406e5e628dd6e1695"},
-    {file = "universal_pathlib-0.2.4.tar.gz", hash = "sha256:5570a11fd88cad1bbc6220b3e723fdd8adfc5c5e00865209e88af03ff4aa154b"},
+    {file = "universal_pathlib-0.2.5-py3-none-any.whl", hash = "sha256:a634f700eca827b4ad03bfa0267e51161560dd1de83b051cf0fccf39b3e56b32"},
+    {file = "universal_pathlib-0.2.5.tar.gz", hash = "sha256:ea5d4fb8178c2ab469cf4fa46d0ceb16ccb378da46dbbc28a8b9c1eebdccc655"},
 ]
 
 [[package]]
