@@ -41,7 +41,7 @@ dependencies = [
   "platformdirs<5.0.0,>=4.3.2",
   "portion<3.0.0,>=2.4.2",
   "proto-plus<2.0.0,>=1.24.0",
-  "pydantic<3.0.0,>=2.9.0",
+  "pydantic<3.0.0,>=2.9.1",
   "pydantic-extra-types<3.0.0,>=2.9.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.52.0",
