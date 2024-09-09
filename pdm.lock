@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:f71c935a35de7670e4795c52d4df1a132e65c6698ad076a015b6994058a89e0e"
+content_hash = "sha256:9378ec9037f3a1014bca8f24a9a514e5dae85e990169a6cb8a8e1f721e137cf7"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -237,7 +237,7 @@ name = "bidict"
 version = "0.23.1"
 requires_python = ">=3.8"
 summary = "The bidirectional mapping library for Python."
-groups = ["default", "webui"]
+groups = ["default", "desktop", "webui"]
 files = [
     {file = "bidict-0.23.1-py3-none-any.whl", hash = "sha256:5dae8d4d79b552a71cbabc7deb25dfe8ce710b17ff41711e13010ead2abfc3e5"},
     {file = "bidict-0.23.1.tar.gz", hash = "sha256:03069d763bc387bbd20e7d49914e75fc4132a41937fa3405417e1a5a2d006d71"},
@@ -660,26 +660,47 @@ files = [
 ]
 
 [[package]]
-name = "dbus-next"
-version = "0.2.3"
-requires_python = ">=3.6.0"
-summary = "A zero-dependency DBus library for Python with asyncio support"
+name = "dbus-fast"
+version = "2.24.2"
+requires_python = "<4.0,>=3.8"
+summary = "A faster version of dbus-next"
 groups = ["desktop"]
 marker = "sys_platform == \"linux\" and platform_python_implementation == \"CPython\""
 files = [
-    {file = "dbus_next-0.2.3-py3-none-any.whl", hash = "sha256:58948f9aff9db08316734c0be2a120f6dc502124d9642f55e90ac82ffb16a18b"},
-    {file = "dbus_next-0.2.3.tar.gz", hash = "sha256:f4eae26909332ada528c0a3549dda8d4f088f9b365153952a408e28023a626a5"},
+    {file = "dbus_fast-2.24.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4785df473961432e208cd8b96ae58a8e9bf7cbd3f9ced29eb0ecc16dfc1af6f1"},
+    {file = "dbus_fast-2.24.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9879cee2a2e13ce9047a6f012d16d90b2a38fc40784ab4a233d4ddd80c9e803a"},
+    {file = "dbus_fast-2.24.2-cp310-cp310-manylinux_2_31_x86_64.whl", hash = "sha256:72d9b28592dbe65774889cd3fc365e70e25862af79f5807a0bb375c1f7668dac"},
+    {file = "dbus_fast-2.24.2-cp310-cp310-musllinux_1_2_aarch64.whl", hash = "sha256:920a4f303127d25cfbb36c2c62dadf3a9e01b7512c091a1e8f9d6f0496934d54"},
+    {file = "dbus_fast-2.24.2-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:0642e4165361bfbe13878a65c9a5580bb086073300614243f81e8ca3f204e14e"},
+    {file = "dbus_fast-2.24.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f5ff65eb4a42c3416423d65ed66f81798724047e23d3d034702ca3c3cf59f93d"},
+    {file = "dbus_fast-2.24.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8b92b110c7d6ceb53d673281a490fcdccd552beee1c0b6a8f234579f845bd87c"},
+    {file = "dbus_fast-2.24.2-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:5c8eff87f24f8b58f439a716a7fb655eaacfa37dd72c11c98bbff7e391ef8550"},
+    {file = "dbus_fast-2.24.2-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:3c629360152618585a4e1ffeacc88e3ea92b64ee76de180d67d9f4e9bdf85a7e"},
+    {file = "dbus_fast-2.24.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:bf3a971c41d53f4f4ceb29ca3b6b6ffcd9fb92f1d7c7d464292ad000974113f1"},
+    {file = "dbus_fast-2.24.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d20cf9cd64a0dfb5d7efd7d52a6fd927becabdff234082c7819582f74e81dc59"},
+    {file = "dbus_fast-2.24.2-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:fbfe0e2ee611e22f13c0e30f5f65b9264dd4f88c5581499dfd7f8c1578d81a27"},
+    {file = "dbus_fast-2.24.2-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:dfdb015a56b98b6e6c935b4b7e66e26a7d13a46a826320776418ec557a954347"},
+    {file = "dbus_fast-2.24.2-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:871696881a5ca703998f73d5c944f430f7937eb86de8736ca41a44fc1d21b8ba"},
+    {file = "dbus_fast-2.24.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5efd4472b6008f99fe0751cc660f4de72f3267aea719b334940e7086824231ed"},
+    {file = "dbus_fast-2.24.2-cp39-cp39-musllinux_1_2_aarch64.whl", hash = "sha256:5bc6816dc3a53b90aa2d465f44f06f636eb094db8c0b69aca62c11ca8d9a5c26"},
+    {file = "dbus_fast-2.24.2-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:cc5c340970c7b6acaf6ee0cccfaad701d20954c08234f8428c550ae090ee1247"},
+    {file = "dbus_fast-2.24.2-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:522c00aa19411e8abb7934fcb4066b05bcf8c313e9215376ed6fef7137307183"},
+    {file = "dbus_fast-2.24.2-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux_2_5_x86_64.manylinux1_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b3ed265d4285a2aab12935ad143bf6e08933f136ff74dc864b3642c85e646128"},
+    {file = "dbus_fast-2.24.2-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5bec804cde188c445520fc988295cc8cc74044d7cf3b661825cd36fb52a45d45"},
+    {file = "dbus_fast-2.24.2-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux_2_5_x86_64.manylinux1_x86_64.manylinux2014_x86_64.whl", hash = "sha256:70f230ee387a44ff2fa485eb47412d3bf0eefee62ad1c0ef58bdb332560386ce"},
+    {file = "dbus_fast-2.24.2.tar.gz", hash = "sha256:20c517dc70dbc940b8bf2e0f079abf3dfe821fdda3013641a17e3d8f18e131ae"},
 ]
 
 [[package]]
 name = "desktop-notifier"
-version = "5.0.1"
+version = "6.0.0"
 requires_python = ">=3.7"
 summary = "Python library for cross-platform desktop notifications"
 groups = ["desktop"]
 marker = "platform_python_implementation == \"CPython\""
 dependencies = [
-    "dbus-next; sys_platform == \"linux\"",
+    "bidict",
+    "dbus-fast; sys_platform == \"linux\"",
     "packaging",
     "rubicon-objc; sys_platform == \"darwin\"",
     "winrt-windows-applicationmodel-core; sys_platform == \"win32\"",
@@ -690,8 +711,8 @@ dependencies = [
     "winrt-windows-ui-notifications; sys_platform == \"win32\"",
 ]
 files = [
-    {file = "desktop_notifier-5.0.1-py3-none-any.whl", hash = "sha256:eacfd923fd6fd21daede6de6ba3dc86cbaa6511cf3a8b810a589263b692be967"},
-    {file = "desktop_notifier-5.0.1.tar.gz", hash = "sha256:8fbe550fd0e765ec79014a04a087824edd4a3f11577a0b0a892e1cb892f5d7ea"},
+    {file = "desktop_notifier-6.0.0-py3-none-any.whl", hash = "sha256:7caf6f683f9f5afd0fced3da5305d6b04a467148a6d23fb99a11dad85ececb40"},
+    {file = "desktop_notifier-6.0.0.tar.gz", hash = "sha256:188b6cf8f59192afc5c6ed9dc8304d46ee0380b08750e826fcce1048083d5cd8"},
 ]
 
 [[package]]
