@@ -8,11 +8,9 @@ from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional,
 
 from more_itertools import batched, minmax
 from pydantic import (
-    Discriminator,
     Field,
     FieldSerializationInfo,
     RootModel,
-    Tag,
     ValidationInfo,
     field_serializer,
     field_validator,
@@ -338,20 +336,9 @@ class AcepChordTrack(AcepTrackProperties, BaseModel):
     patterns: list[AcepChordPattern] = Field(default_factory=list)
 
 
-def get_discriminator_value(v: Any) -> str:
-    if isinstance(v, dict):
-        return v.get("type", None)
-    return getattr(v, "type_", None)
-
-
 AcepTrack = Annotated[
-    Union[
-        Annotated[AcepAudioTrack, Tag("audio")],
-        Annotated[AcepEmptyTrack, Tag("empty")],
-        Annotated[AcepVocalTrack, Tag("sing")],
-        Annotated[AcepChordTrack, Tag("chord")],
-    ],
-    Discriminator(get_discriminator_value),
+    Union[AcepAudioTrack, AcepEmptyTrack, AcepVocalTrack, AcepChordTrack],
+    Field(discriminator="type_"),
 ]
 
 
