@@ -10,7 +10,7 @@ sys.modules['FixTk'] = None
 
 import nicegui
 import shellingham
-from PyInstaller.utils.hooks import collect_data_files, collect_entry_point, collect_submodules
+from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
 from PyInstaller.utils.misc import is_win
 
 from libresvip.core.constants import pkg_dir
@@ -31,10 +31,7 @@ a = Analysis(
         os.path.join(nicegui.__path__[0], os.pardir)
     ],
     binaries=[],
-    datas=[
-        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
-        (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + collect_data_files("libresvip") + collect_data_files("nicegui") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+    datas=collect_data_files("nicegui") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
         "bidict",
         "construct_typed",
@@ -55,8 +52,8 @@ a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "zstandard",
-    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
-    hookspath=[],
+    ],
+    hookspath=[pkg_dir / "__pyinstaller"],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[
