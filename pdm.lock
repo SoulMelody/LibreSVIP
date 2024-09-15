@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:40c97506967fc7548de05fb4b0c695422be05d28824af9ad272a037b2ec7364c"
+content_hash = "sha256:fa0ff4875c159a2a92005bd297bc3fa81e283468e5aa4cfb91805ba13b7a4768"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -2603,7 +2603,7 @@ files = [
 
 [[package]]
 name = "pypinyin"
-version = "0.52.0"
+version = "0.53.0"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,<4,>=2.6"
 summary = "汉字拼音转换模块/工具."
 groups = ["default"]
@@ -2613,8 +2613,8 @@ dependencies = [
     "typing; python_version < \"3.5\"",
 ]
 files = [
-    {file = "pypinyin-0.52.0-py2.py3-none-any.whl", hash = "sha256:203b2035c323957ff77189deb607c168577a888b6fb7248976b6d952b3fb77da"},
-    {file = "pypinyin-0.52.0.tar.gz", hash = "sha256:2e7cc0911278e0db334c97f028aa7ccad535e028f57bc539296b04f475e04ecd"},
+    {file = "pypinyin-0.53.0-py2.py3-none-any.whl", hash = "sha256:a906768919da3c31771f2c5e0e5a759214dc38d0087e15e6ff67649e03df8097"},
+    {file = "pypinyin-0.53.0.tar.gz", hash = "sha256:a2d39ddc2bd31b55897bbb10d2e11a0c4d399988a97c00ad489c151afd9b106d"},
 ]
 
 [[package]]
