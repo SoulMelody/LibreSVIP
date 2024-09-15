@@ -38,7 +38,7 @@ if not (is_win and platform.machine() == "ARM64"):
         datas=[
             (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
             (str(pkg_dir / "plugins"), "libresvip/plugins"),
-        ] + collect_data_files("libresvip") + collect_data_files("pypinyin") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+        ] + collect_data_files("libresvip") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
         hiddenimports=[
             "bidict",
             "construct_typed",
@@ -126,7 +126,7 @@ gui_a = Analysis(
     datas=[
         (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
         (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("pypinyin") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+    ] + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
         "bidict",
         "construct_typed",
