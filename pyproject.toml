@@ -108,7 +108,7 @@ linting = [
   "sourcery>=1.22.0",
   "proto-plus-stubs>=0.7.0",
   "pyodide-py>=0.26.2; python_version >= \"3.12\"",
-  "types-lxml>=2024.8.7",
+  "types-lxml>=2024.9.16",
   "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20240808",
   "types-ujson>=5.10.0.20240515",
