@@ -155,6 +155,7 @@ class TuneLabTrack(BaseModel):
     pan: float
     mute: bool
     solo: bool
+    color: str = ""
     parts: list[TuneLabPart] = Field(default_factory=list)
 
 

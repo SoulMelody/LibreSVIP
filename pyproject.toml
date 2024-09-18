@@ -124,7 +124,7 @@ test = ["pytest>=8.3.3", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
 includes = ["libresvip"]
-excludes = ["tests", "libresvip/__pyinstaller/*", "libresvip/res/qml/**", "libresvip/res/locales/*.ts", "libresvip/**/*.po", "**/.mypy_cache"]
+excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*.ts", "libresvip/**/*.po", "**/.mypy_cache"]
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"

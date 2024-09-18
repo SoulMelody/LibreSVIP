@@ -186,22 +186,24 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.11"
-      - uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: 3.11
+          version: "latest"
       - name: Install OS dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libegl1
       - name: Build with pyinstaller
         run: |
-          pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
+          uv tool install pdm
+          uv tool run pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+          uv tool run pdm build --no-sdist
+          uv venv --python 3.11
           cd packaging
-          pdm run pyinstaller libresvip.spec
+          uv pip install -r requirements.txt
+          python -m pip install ../dist/*.whl --no-deps
+          uv run pyinstaller libresvip.spec
           cd dist
           tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz libresvip
           rm -rf libresvip
@@ -272,23 +274,19 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python (MacOS x86_64)
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.12"
-      - uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: 3.12
+          version: "latest"
       - name: Build with pyinstaller
         run: |
-          pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          pdm build --no-sdist
-          python -m venv .venv
-          source .venv/bin/activate
+          uv tool install pdm
+          uv tool run pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+          uv tool run pdm build --no-sdist
+          uv venv --python 3.12
           cd packaging
-          python -m ensurepip --upgrade
-          python -m pip install pillow uv
-          python -m uv pip install -r requirements.txt
+          uv pip install pillow
+          uv pip install -r requirements.txt
           python -m pip install ../dist/*.whl --no-deps
           python -m PyInstaller libresvip.spec
           brew install create-dmg
@@ -313,23 +311,19 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python (MacOS arm64)
-        run: |
-          curl -L https://www.python.org/ftp/python/3.12.3/python-3.12.3-macos11.pkg --output ~/Downloads/python.pkg
-          sudo installer -pkg ~/Downloads/python.pkg -target /
-      - uses: pdm-project/setup-pdm@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: 3.12
+          version: "latest"
       - name: Build with pyinstaller
         run: |
-          pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          pdm build --no-sdist
-          python -m venv .venv
-          source .venv/bin/activate
+          uv tool install pdm
+          uv tool run pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
+          uv tool run pdm build --no-sdist
+          uv venv --python 3.12
           cd packaging
-          python -m ensurepip --upgrade
-          python -m pip install pillow uv
-          python -m uv pip install -r requirements.txt
+          uv pip install pillow
+          uv pip install -r requirements.txt
           curl -L https://mediaarea.net/download/binary/libmediainfo0/${LIBMEDIAINFO_VERSION}/MediaInfo_DLL_${LIBMEDIAINFO_VERSION}_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
           tar xvf libmediainfo.tar.bz2
           mv MediaInfoLib/libmediainfo.0.dylib ../.venv/lib/python3.12/site-packages/pymediainfo/
