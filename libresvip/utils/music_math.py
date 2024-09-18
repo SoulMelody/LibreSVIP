@@ -105,7 +105,7 @@ def cosine_easing_in_interpolation(r: float) -> float:
 
 @_transform_interpolation_args
 def cosine_easing_out_interpolation(r: float) -> float:
-    return math.cos(r * math.pi / 2)
+    return math.sin(r * math.pi / 2)
 
 
 @_transform_interpolation_args
