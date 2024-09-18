@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:654e8c017060e64d1b3e560782f133d1f2bf57bcca3d58d605100515d7523d81"
+content_hash = "sha256:b1cc53032c46b21f7100969c99635e40a19babd89859d46dcd65c22d9a124b26"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -2162,16 +2162,16 @@ files = [
 
 [[package]]
 name = "portion"
-version = "2.4.2"
-requires_python = "~= 3.7"
+version = "2.5.0"
+requires_python = "~=3.8"
 summary = "Python data structure and operations for intervals"
 groups = ["default"]
 dependencies = [
     "sortedcontainers~=2.2",
 ]
 files = [
-    {file = "portion-2.4.2-py3-none-any.whl", hash = "sha256:17f0388d7df3488313ac527d8da9542d2c1329dfefb8793a77ad2dfc97596051"},
-    {file = "portion-2.4.2.tar.gz", hash = "sha256:5289b40d98959b16b3f6927781678935d3df1b7c14947f5d7778e5e04dd9a065"},
+    {file = "portion-2.5.0-py3-none-any.whl", hash = "sha256:d24a4a6d0fb0378c9a1e4e5a6eabf92e2f80a47e6588097539163e14796aeb7a"},
+    {file = "portion-2.5.0.tar.gz", hash = "sha256:80ae7bab71f4844e3eb33c57954d76a3bd4cb351039b6e260e779325aeb4a487"},
 ]
 
 [[package]]
