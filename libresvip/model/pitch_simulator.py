@@ -4,10 +4,12 @@ from typing import Optional
 
 import portion
 
+from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note
 from libresvip.model.portamento import PortamentoPitch
+from libresvip.utils.translation import gettext_lazy as _
 
 
 @dataclasses.dataclass
@@ -33,6 +35,9 @@ class PitchSimulator:
         self.interval_dict[portion.closedopen(0.0, current_head)] = current_note.key_number
         prev_portamento_end = current_head
         for next_note in note_list[1:]:
+            if current_note.end_pos > next_note.start_pos:
+                msg = _("Notes Overlapped")
+                raise NotesOverlappedError(msg)
             next_head = self.synchronizer.get_actual_secs_from_ticks(next_note.start_pos)
             next_dur = self.synchronizer.get_duration_secs_from_ticks(
                 next_note.start_pos, next_note.end_pos

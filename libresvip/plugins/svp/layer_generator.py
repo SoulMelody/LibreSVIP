@@ -5,9 +5,10 @@ from typing import NamedTuple
 
 import more_itertools
 
-from libresvip.core.exceptions import ParamsError
+from libresvip.core.exceptions import NotesOverlappedError, ParamsError
 from libresvip.utils.music_math import clamp
 from libresvip.utils.search import find_index
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import MAX_BREAK
 from .lambert_w import LambertW
@@ -135,6 +136,9 @@ class BaseLayerGenerator:
         for current_note, next_note in more_itertools.pairwise(self.note_list):
             if current_note.key == next_note.key:
                 continue
+            elif current_note.end > next_note.start:
+                msg = _("Notes Overlapped")
+                raise NotesOverlappedError(msg)
             if (diameter := current_note.portamento_right + next_note.portamento_left) and (
                 next_note.start - current_note.end <= MAX_BREAK
             ):
