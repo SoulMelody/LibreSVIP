@@ -164,17 +164,20 @@ class VocaloidParser:
         if len(notes):
             next_pos = None
             for note in notes[::-1]:
-                note_list.insert(
-                    0,
-                    Note(
-                        start_pos=note.pos + pos,
-                        length=note.duration
-                        if next_pos is None
-                        else min(note.duration or 0, next_pos - note.pos),
-                        key_number=note.number,
-                        lyric=note.lyric or default_lyric,
-                        pronunciation=None,
-                    ),
-                )
+                if (
+                    normalized_duration := note.duration
+                    if next_pos is None
+                    else min(note.duration or 0, next_pos - note.pos)
+                ) > 0:
+                    note_list.insert(
+                        0,
+                        Note(
+                            start_pos=note.pos + pos,
+                            length=normalized_duration,
+                            key_number=note.number,
+                            lyric=note.lyric or default_lyric,
+                            pronunciation=None,
+                        ),
+                    )
                 next_pos = note.pos
         return note_list
