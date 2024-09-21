@@ -202,7 +202,7 @@ jobs:
           uv venv --python 3.11
           cd packaging
           uv pip install -r requirements.txt
-          python -m pip install ../dist/*.whl --no-deps
+          uv pip install ../dist/*.whl --no-deps
           uv run pyinstaller libresvip.spec
           cd dist
           tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz libresvip
@@ -287,8 +287,8 @@ jobs:
           cd packaging
           uv pip install pillow
           uv pip install -r requirements.txt
-          python -m pip install ../dist/*.whl --no-deps
-          python -m PyInstaller libresvip.spec
+          uv pip install ../dist/*.whl --no-deps
+          uv run python -m PyInstaller libresvip.spec
           brew install create-dmg
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg ./dist/LibreSVIP.app
           rm -rf ./dist/LibreSVIP.app
@@ -327,8 +327,8 @@ jobs:
           curl -L https://mediaarea.net/download/binary/libmediainfo0/${LIBMEDIAINFO_VERSION}/MediaInfo_DLL_${LIBMEDIAINFO_VERSION}_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
           tar xvf libmediainfo.tar.bz2
           mv MediaInfoLib/libmediainfo.0.dylib ../.venv/lib/python3.12/site-packages/pymediainfo/
-          python -m pip install ../dist/*.whl --no-deps
-          python -m PyInstaller libresvip.spec
+          uv pip install ../dist/*.whl --no-deps
+          uv run python -m PyInstaller libresvip.spec
           brew install create-dmg
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg ./dist/LibreSVIP.app
           rm -rf ./dist/LibreSVIP.app
