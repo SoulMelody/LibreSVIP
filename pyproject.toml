@@ -98,12 +98,12 @@ version = { source = "file", path = "libresvip/__init__.py" }
 code_gen = [
   "datamodel-code-generator>=0.26.0",
   "gapic-generator>=1.18.5",
-  "xsdata[cli]>=24.7",
+  "xsdata[cli]>=24.9",
 ]
 i18n = ["babel>=2.16.0"]
 linting = [
   "pre-commit>=3.8.0",
-  "ruff>=0.6.6",
+  "ruff>=0.6.7",
   "mypy>=1.11.2",
   "sourcery>=1.22.0",
   "proto-plus-stubs>=0.7.0",
