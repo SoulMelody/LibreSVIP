@@ -156,6 +156,7 @@ class TuneLabTrack(BaseModel):
     mute: bool
     solo: bool
     color: str = ""
+    as_refer: Optional[bool] = Field(False, alias="asRefer")
     parts: list[TuneLabPart] = Field(default_factory=list)
 
 

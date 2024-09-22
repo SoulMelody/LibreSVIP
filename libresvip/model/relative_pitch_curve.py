@@ -52,9 +52,7 @@ class RelativePitchCurve:
                 and cur_x - prev_x > self.pitch_interval
             ):
                 for tick in range(prev_x + self.pitch_interval, cur_x, self.pitch_interval):
-                    tick_pos = tick + (
-                        -self.first_bar_length if to_absolute else self.first_bar_length
-                    )
+                    tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
                     if (tick_key := pitch_simulator.pitch_at_ticks(tick_pos)) is not None:
                         if to_absolute:
                             converted_data.append(Point(x=tick, y=round(prev_y + tick_key)))

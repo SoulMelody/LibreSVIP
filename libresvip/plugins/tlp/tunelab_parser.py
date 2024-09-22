@@ -183,7 +183,7 @@ class TuneLabParser:
         vibrato_base_interval_dict: PiecewiseIntervalDict,
         vibrato_envelope_interval_dict: PiecewiseIntervalDict,
     ) -> list[Point]:
-        points: list[Point] = []
+        points: list[Point] = [Point.start_point()]
         for pitch_part in pitch:
             for is_first, is_last, tlp_point in more_itertools.mark_ends(pitch_part.root):
                 pitch_pos = int(tlp_point.pos) + offset
@@ -212,4 +212,5 @@ class TuneLabParser:
                             y=-100,
                         )
                     )
+        points.append(Point.end_point())
         return points
