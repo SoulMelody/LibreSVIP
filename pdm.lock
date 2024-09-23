@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:d8e968d189e2e803e8100cb5936e3baddbdd56ed0a236dd11ba13f601e5c79a7"
+content_hash = "sha256:8cdd69c784f1b35397212b998073e9cbb2bcb08a16513ac4c95b53a58554a0a7"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -3310,13 +3310,13 @@ files = [
 
 [[package]]
 name = "sourcery"
-version = "1.22.0"
+version = "1.23.0"
 summary = "Magically refactor Python"
 groups = ["linting"]
 files = [
-    {file = "sourcery-1.22.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:ac5d5db1eff47735a9b2328d5ae0bc444a84c96ffbc8a01f9ebe81f48b7bfaf8"},
-    {file = "sourcery-1.22.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:c45d0e293a6b4f42b77c2dc9cd9184a0b76373a3234171956bd13f05aaed4298"},
-    {file = "sourcery-1.22.0-py2.py3-none-win_amd64.whl", hash = "sha256:18f7d962d9820a8124aa928afb406d92565c2503ee86bac46e23bdd75b58272b"},
+    {file = "sourcery-1.23.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:f62864ae07111156e9ec60ef97bc35325a405a6a631c5bac25836abc19d08a3e"},
+    {file = "sourcery-1.23.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:69300d9825b247c41565540693559b8235a365e05250dd9954d83969bf6cea7d"},
+    {file = "sourcery-1.23.0-py2.py3-none-win_amd64.whl", hash = "sha256:6812f6d7f101540594d02981ef7357ddcb26e53321a7ebbaa35476fc25f29d02"},
 ]
 
 [[package]]
