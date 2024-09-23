@@ -105,7 +105,7 @@ linting = [
   "pre-commit>=3.8.0",
   "ruff>=0.6.7",
   "mypy>=1.11.2",
-  "sourcery>=1.22.0",
+  "sourcery>=1.23.0",
   "proto-plus-stubs>=0.7.0",
   "pyodide-py>=0.26.2; python_version >= \"3.12\"",
   "types-lxml>=2024.9.16",
