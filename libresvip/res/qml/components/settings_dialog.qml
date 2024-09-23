@@ -380,6 +380,7 @@ Dialog {
     Component {
         id: pluginsSettingsPage
         ColumnLayout {
+            anchors.fill: parent
             HorizontalHeaderView {
                 resizableColumns: false
                 syncView: pluginsTableView
@@ -505,9 +506,7 @@ Dialog {
     Component {
         id: lyricReplacementSettingsPage
         ColumnLayout {
-            Layout.margins: 15
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            anchors.fill: parent
             RowLayout {
                 Layout.fillWidth: true
                 ComboBox {
