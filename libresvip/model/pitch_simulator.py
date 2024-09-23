@@ -19,13 +19,24 @@ class PitchSimulator:
     note_list: dataclasses.InitVar[list[Note]]
     interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
 
-    def __post_init__(self, note_list: list[Note]) -> None:
+    def __post_init__(self, note_list: list[Note]) -> None:  # type: ignore[override]
         if not note_list:
             return
-        max_portamento_time = self.portamento.max_inter_time_in_secs
-        max_portamento_percent = self.portamento.max_inter_time_percent
-
         current_note = note_list[0]
+        max_portamento_percent = self.portamento.max_inter_time_percent
+        if self.portamento.vocaloid_mode:  # reference: https://github.com/scskarsper/VocalUtau.Formats/blob/master/VocalUtau.Formats/Model.VocalObject/ParamTranslater/PitchCompiler.cs
+            max_portamento_ticks = max_portamento_percent * current_note.length
+            if max_portamento_ticks >= 60:
+                max_portamento_ticks = 60
+            elif current_note.length <= 120:
+                max_portamento_ticks = current_note.length / 2
+            max_portamento_time = self.synchronizer.get_duration_secs_from_ticks(
+                int(current_note.end_pos - max_portamento_ticks * 1.5),
+                int(current_note.end_pos - max_portamento_ticks * 0.5),
+            )
+        else:
+            max_portamento_time = self.portamento.max_inter_time_in_secs
+
         current_head = self.synchronizer.get_actual_secs_from_ticks(current_note.start_pos)
         current_dur = self.synchronizer.get_duration_secs_from_ticks(
             current_note.start_pos, current_note.end_pos
@@ -43,15 +54,25 @@ class PitchSimulator:
                 next_note.start_pos, next_note.end_pos
             )
             next_portamento = min(next_dur * max_portamento_percent, max_portamento_time)
-            interval = (
-                0.0 if next_note.lyric == "-" else (next_head - current_head - current_dur) / 2
-            ) - self.portamento.offset
-            if interval <= max_portamento_time:
-                current_portamento_start = next_head - interval - current_portamento
-                current_portamento_end = next_head - interval + next_portamento
+            if self.portamento.vocaloid_mode:
+                middle_pos = (
+                    current_note.end_pos
+                    if next_note.lyric == "-"
+                    else (next_note.start_pos + current_note.end_pos) / 2
+                ) - max_portamento_ticks / 2
+                interval = self.synchronizer.get_duration_secs_from_ticks(
+                    int(middle_pos - max_portamento_ticks), int(middle_pos)
+                )
+                middle_time = self.synchronizer.get_actual_secs_from_ticks(int(middle_pos))
             else:
-                current_portamento_start = next_head - interval - max_portamento_time
-                current_portamento_end = next_head - interval + max_portamento_time
+                interval = (next_head - current_head - current_dur) / 2
+                middle_time = (next_head + current_head + current_dur) / 2
+            if interval <= max_portamento_time:
+                current_portamento_start = middle_time - current_portamento
+                current_portamento_end = middle_time + next_portamento
+            else:
+                current_portamento_start = middle_time - max_portamento_time
+                current_portamento_end = middle_time + max_portamento_time
             self.interval_dict[
                 portion.closedopen(prev_portamento_end, current_portamento_start)
             ] = current_note.key_number
@@ -72,6 +93,16 @@ class PitchSimulator:
             current_dur = next_dur
             current_portamento = next_portamento
             prev_portamento_end = current_portamento_end
+            if self.portamento.vocaloid_mode:
+                max_portamento_ticks = max_portamento_percent * current_note.length
+                if max_portamento_ticks >= 60:
+                    max_portamento_ticks = 60
+                elif current_note.length <= 120:
+                    max_portamento_ticks = current_note.length / 2
+                max_portamento_time = self.synchronizer.get_duration_secs_from_ticks(
+                    int(middle_pos - max_portamento_ticks * 1.5),
+                    int(middle_pos - max_portamento_ticks * 0.5),
+                )
         self.interval_dict[portion.closedopen(prev_portamento_end, portion.inf)] = (
             current_note.key_number
         )
