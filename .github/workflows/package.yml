@@ -23,21 +23,20 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.12"
-      - uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: 3.12
+          version: "latest"
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          pdm sync -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
-          pdm run python -m ensurepip
-          pdm run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
+          uv venv --python 3.12
+          uv build --wheel
           cd packaging
-          pdm run pyinstaller libresvip.spec
+          uv pip install -r requirements.txt
+          uv pip install ../dist/*.whl --no-deps
+          uv pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
+          uv run pyinstaller libresvip.spec
           cd dist
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip
           rm -rf libresvip
@@ -59,28 +58,18 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: 3.11
-      - name: Export requirements
-        shell: bash -el {0}
-        run: |
-          pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          pdm build --no-sdist
       - uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
           update: true
           install: >-
             mingw-w64-ucrt-x86_64-python-pip
+            mingw-w64-ucrt-x86_64-uv
             p7zip
       - name: Build with pyinstaller
         shell: msys2 {0}
         run: |
+          uv build --wheel
           cd packaging
           python mingw_install.py
           python -m pip install ../dist/*.whl --no-deps
@@ -107,21 +96,20 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.12"
-      - uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: 3.12
+          version: "latest"
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          pdm sync -G webui -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
-          pdm run python -m ensurepip
-          pdm run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
+          uv tool install pdm
+          uv venv --python 3.12
+          uv tool run pdm sync -G webui -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
+          uv run python -m ensurepip
+          uv run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
           cd packaging
-          pdm run pyinstaller libresvip-web.spec
+          uv run pyinstaller libresvip-web.spec
           cd dist
           7z a LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip-web
           rm -rf libresvip-web
@@ -143,25 +131,22 @@ jobs:
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.11"
-      - uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: 3.11
+          version: "latest"
       - name: Build with pyinstaller
         run: |
-          pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          pdm build --no-sdist
+          uv venv --python 3.11
           cd packaging
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
           export MSYSTEM=CLANGARM64
-          python mingw_install.py
+          uv run python -m ensurepip
+          uv run python mingw_install.py
           docker compose -f docker-compose-msys2-clangarm64.yml up
-          python -m pip download pyinstaller==$PYINSTALLER_VERSION --platform win_arm64 --only-binary=:all:
-          python -m pip install wheel
-          python -m wheel unpack pyinstaller-$PYINSTALLER_VERSION-py3-none-win_arm64.whl
+          uv run python -m pip download pyinstaller==$PYINSTALLER_VERSION --platform win_arm64 --only-binary=:all:
+          uv run python -m pip install wheel
+          uv run python -m wheel unpack pyinstaller-$PYINSTALLER_VERSION-py3-none-win_arm64.whl
           sudo mv ./pyinstaller-$PYINSTALLER_VERSION/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader
           sudo cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python3.11/site-packages/pymediainfo/
           docker compose -f docker-compose-build-wine-arm64.yml up
@@ -196,9 +181,7 @@ jobs:
           sudo apt-get install -y libegl1
       - name: Build with pyinstaller
         run: |
-          uv tool install pdm
-          uv tool run pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          uv tool run pdm build --no-sdist
+          uv build --wheel
           uv venv --python 3.11
           cd packaging
           uv pip install -r requirements.txt
@@ -233,25 +216,16 @@ jobs:
           dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
             apt-get update
-            apt-get install -y software-properties-common
-            add-apt-repository ppa:deadsnakes/ppa
-            apt-get update
-            apt-get install -y binutils libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6 python3.11-dev python3.11-venv
-            update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
+            apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6
           run: |
             cd /libresvip
-            python -m ensurepip --upgrade
-            python -m pip install -U pdm
-            python -m pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-            python -m pdm build --no-sdist
-            python -m venv .venv
-            source .venv/bin/activate
-            python -m ensurepip --upgrade
-            python -m pip install uv
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+            uv venv --python 3.11
+            uv build --wheel
             cd packaging
-            python -m uv pip install -r requirements.txt
-            python -m pip install ../dist/*.whl --no-deps
-            python -m PyInstaller libresvip.spec
+            uv pip install -r requirements.txt
+            uv pip install ../dist/*.whl --no-deps
+            uv run pyinstaller libresvip.spec
             cd dist
             tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
             rm -rf libresvip
@@ -280,9 +254,7 @@ jobs:
           version: "latest"
       - name: Build with pyinstaller
         run: |
-          uv tool install pdm
-          uv tool run pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          uv tool run pdm build --no-sdist
+          uv build --wheel
           uv venv --python 3.12
           cd packaging
           uv pip install pillow
@@ -317,9 +289,7 @@ jobs:
           version: "latest"
       - name: Build with pyinstaller
         run: |
-          uv tool install pdm
-          uv tool run pdm export -G desktop -G ujson -G ruamel_yaml -G lxml -G packaging -o packaging/requirements.txt --without-hashes
-          uv tool run pdm build --no-sdist
+          uv build --wheel
           uv venv --python 3.12
           cd packaging
           uv pip install pillow

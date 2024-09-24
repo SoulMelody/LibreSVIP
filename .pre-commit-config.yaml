@@ -18,6 +18,12 @@ repos:
         pass_filenames: false
         additional_dependencies: [proto-plus-stubs, types-parsimonious, types-pyyaml, types-ujson]
 
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.4.15
+    hooks:
+      - id: pip-compile
+        args: [--universal, --extra, desktop, --extra, ujson, --extra, lxml, --extra, ruamel_yaml, --no-annotate, --no-header, pyproject.toml, packaging/requirements-pyinstaller.in, -o, packaging/requirements.txt]
+
   - repo: https://github.com/pdm-project/pdm
     rev: 2.19.1
     hooks:
