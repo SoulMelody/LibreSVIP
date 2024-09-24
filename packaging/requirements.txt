@@ -1,0 +1,82 @@
+altgraph==0.17.4
+annotated-types==0.7.0
+antlr4-python3-runtime==4.9.3
+anyio==4.6.0
+bidict==0.23.1
+certifi==2024.8.30
+cffi==1.17.1 ; python_full_version < '0'
+charset-normalizer==3.3.2
+click==8.1.7
+colorama==0.4.6 ; sys_platform == 'win32' or platform_system == 'Windows'
+construct==2.10.68
+construct-typing==0.6.2
+dbus-fast==2.24.2 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
+desktop-notifier==6.0.0 ; platform_python_implementation == 'CPython'
+drawsvg==2.4.0
+fonticon-materialdesignicons7==7.2.96
+fsspec==2024.9.0
+h11==0.14.0
+httpcore==1.0.5
+httpx==0.27.2
+idna==3.10
+jinja2==3.1.4
+loguru==0.7.2
+lxml==5.3.0
+macholib==1.16.3 ; sys_platform == 'darwin'
+markdown-it-py==3.0.0
+markupsafe==2.1.5
+mdurl==0.1.2
+mido-fix==1.2.12
+more-itertools==10.5.0
+omegaconf==2.3.0
+packaging==24.1
+parsimonious==0.10.0
+pefile==2024.8.26 ; sys_platform == 'win32'
+platformdirs==4.3.6
+portion==2.5.0
+proto-plus==1.24.0
+protobuf==5.28.2
+pycparser==2.22 ; python_full_version < '0'
+pydantic==2.9.2
+pydantic-core==2.23.4
+pydantic-extra-types==2.9.0
+pygments==2.18.0
+pyinstaller==6.10.0
+pyinstaller-hooks-contrib==2024.8
+pymediainfo==6.1.0 ; sys_platform != 'emscripten'
+pypinyin==0.53.0
+pyside6==6.7.2
+pyside6-addons==6.7.2
+pyside6-essentials==6.7.2
+pysubs2==1.7.3
+pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
+pyyaml==6.0.2
+pyzstd==0.16.1 ; platform_python_implementation == 'PyPy'
+regex==2024.9.11
+retrie==0.3.1
+rich==13.8.1
+ruamel-yaml==0.18.6
+ruamel-yaml-clib==0.2.8 ; python_full_version < '3.13' and platform_python_implementation == 'CPython'
+rubicon-objc==0.4.9 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
+setuptools==75.1.0
+shellingham==1.5.4
+shiboken6==6.7.2
+sniffio==1.3.1
+sortedcontainers==2.4.0
+typer-slim==0.12.5
+typing-extensions==4.12.2
+ujson==5.10.0
+universal-pathlib==0.2.5
+wanakana-python==1.2.2
+win32-setctime==1.1.0 ; sys_platform == 'win32'
+winrt-runtime==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-applicationmodel-core==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-data-xml-dom==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation-collections==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation-interop==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-ui-notifications==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+xsdata==24.9
+xsdata-pydantic==24.5
+zhon==2.0.2
+zstandard==0.23.0 ; platform_python_implementation == 'CPython'
