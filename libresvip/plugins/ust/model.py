@@ -111,7 +111,7 @@ ust_grammar = Grammar(
     newline = ~"\r?\n"
     bool = "1" / "0" / "True" / "False"
     optional_float = float / "null" / ""
-    float = int frac? (~"[eE][+-]?" digits)?
+    float = ((int frac?) / ("-"? frac)) (~"[eE][+-]?" digits)?
     int = "-"? ((digit1to9 digits) / digit)
     frac = "." digits
     digits = digit+
@@ -418,6 +418,9 @@ class UstVisitor(NodeVisitor):
         return int(node.text)
 
     def visit_float(self, node: Node, visited_children: list[Any]) -> float:
+        return float(node.text)
+
+    def visit_frac(self, node: Node, visited_children: list[Any]) -> float:
         return float(node.text)
 
     def visit_optional_float(self, node: Node, visited_children: list[Any]) -> OptionalFloat:
