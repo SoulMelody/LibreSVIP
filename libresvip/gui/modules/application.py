@@ -3,6 +3,8 @@ import asyncio
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine
 
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
+
 from .vendor.qasync import QEventLoop
 
 __all__ = [

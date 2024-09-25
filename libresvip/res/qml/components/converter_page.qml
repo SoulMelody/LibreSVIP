@@ -1058,59 +1058,6 @@ Page {
                         width: 20
                     }
                 }
-                ListView {
-                    id: inputFields
-                    model: taskManager.qget("input_fields")
-                    delegate: Column {
-                        Component.onCompleted: {
-                            if (index == 0) {
-                                for (var i = 0; i < inputFields.count; i++) {
-                                    let model = inputFields.model.get(i)
-                                    let separator_item = separatorItem.createObject(inputContainer)
-                                    this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null
-                                    switch (model.type) {
-                                        case "bool": {
-                                            item = switchItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields
-                                            })
-                                            break
-                                        }
-                                        case "enum": {
-                                            item = comboBoxItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields
-                                            })
-                                            break
-                                        }
-                                        case "color" : {
-                                            item = colorPickerItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields
-                                            })
-                                            break
-                                        }
-                                        default: {
-                                            item = textFieldItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields,
-                                            })
-                                            break
-                                        }
-                                    }
-                                    if (item) {
-                                        this.Component.onDestruction.connect(item.destroy)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
                 Repeater {
                     model: taskManager.qget("middleware_states")
                     delegate: ColumnLayout {
@@ -1392,55 +1339,104 @@ Page {
                         width: 20
                     }
                 }
-                ListView {
+                Repeater {
+                    id: inputFields
+                    model: taskManager.qget("input_fields")
+                    delegate: Rectangle {
+                        width: 0
+                        height: 0
+                        required property var modelData
+                        Component.onCompleted: {
+                            let separator_item = separatorItem.createObject(inputContainer)
+                            this.Component.onDestruction.connect(separator_item.destroy)
+                            let item = null
+                            switch (modelData.type) {
+                                case "bool": {
+                                    item = switchItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    })
+                                    break
+                                }
+                                case "enum": {
+                                    item = comboBoxItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    })
+                                    break
+                                }
+                                case "color" : {
+                                    item = colorPickerItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    })
+                                    break
+                                }
+                                default: {
+                                    item = textFieldItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields,
+                                    })
+                                    break
+                                }
+                            }
+                            if (item) {
+                                this.Component.onDestruction.connect(item.destroy)
+                            }
+                        }
+                    }
+                }
+                Repeater {
                     id: outputFields
                     model: taskManager.qget("output_fields")
-                    delegate: Column {
+                    delegate: Rectangle {
+                        width: 0
+                        height: 0
+                        required property var modelData
                         Component.onCompleted: {
-                            if (index == 0) {
-                                for (var i = 0; i < outputFields.count; i++) {
-                                    let model = outputFields.model.get(i)
-                                    let separator_item = separatorItem.createObject(outputContainer)
-                                    this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null
-                                    switch (model.type) {
-                                        case "bool": {
-                                            item = switchItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                        case "enum": {
-                                            item = comboBoxItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                        case "color" : {
-                                            item = colorPickerItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                        default: {
-                                            item = textFieldItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                    }
-                                    if (item) {
-                                        this.Component.onDestruction.connect(item.destroy)
-                                    }
+                            let separator_item = separatorItem.createObject(outputContainer)
+                            this.Component.onDestruction.connect(separator_item.destroy)
+                            let item = null
+                            switch (modelData.type) {
+                                case "bool": {
+                                    item = switchItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    })
+                                    break
                                 }
+                                case "enum": {
+                                    item = comboBoxItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    })
+                                    break
+                                }
+                                case "color" : {
+                                    item = colorPickerItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    })
+                                    break
+                                }
+                                default: {
+                                    item = textFieldItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    })
+                                    break
+                                }
+                            }
+                            if (item) {
+                                this.Component.onDestruction.connect(item.destroy)
                             }
                         }
                     }
