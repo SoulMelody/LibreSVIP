@@ -118,6 +118,15 @@ def cubic_interpolation(r: float) -> float:
     return (3 - 2 * r) * r**2
 
 
+@_transform_interpolation_args
+def vocaloid_interpolation(r: float) -> float:
+    if r <= 0.5:
+        return math.sin(r * math.pi) / 2
+    else:
+        return r
+    # math.sin((r - 1) * math.pi) / 2 + 1
+
+
 @_transform_interpolation_args  # type: ignore[arg-type]
 def sigmoid_interpolation(r: float, k: float) -> float:
     return 1 / (1 + math.exp(k * (-2 * r + 1)))

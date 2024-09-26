@@ -9,6 +9,7 @@ from libresvip.utils.music_math import (
     cubic_interpolation,
     linear_interpolation,
     sigmoid_interpolation,
+    vocaloid_interpolation,
 )
 
 if TYPE_CHECKING:
@@ -40,4 +41,4 @@ class PortamentoPitch:
 
     @classmethod
     def vocaloid_portamento(cls) -> PortamentoPitch:
-        return cls(0.05, 0.15, cosine_easing_in_out_interpolation, True)
+        return cls(0.05, 0.15, vocaloid_interpolation, True)
