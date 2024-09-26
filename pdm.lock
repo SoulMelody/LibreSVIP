@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:667c5a76b42afedd6824bac379359afc0e39acfb6d4d70dd6dd1cc6b1833629a"
+content_hash = "sha256:fc0294171d7110c95412c673f53e84eb31f6674e6bd2b77d7e8c5de9c9c29875"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -1752,7 +1752,7 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.37"
+version = "9.5.38"
 requires_python = ">=3.8"
 summary = "Documentation that simply works"
 groups = ["docs"]
@@ -1770,8 +1770,8 @@ dependencies = [
     "requests~=2.26",
 ]
 files = [
-    {file = "mkdocs_material-9.5.37-py3-none-any.whl", hash = "sha256:6e8a986abad77be5edec3dd77cf1ddf2480963fb297a8e971f87a82fd464b070"},
-    {file = "mkdocs_material-9.5.37.tar.gz", hash = "sha256:2c31607431ec234db124031255b0a9d4f3e1c3ecc2c47ad97ecfff0460471941"},
+    {file = "mkdocs_material-9.5.38-py3-none-any.whl", hash = "sha256:d4779051d52ba9f1e7e344b34de95449c7c366c212b388e4a2db9a3db043c228"},
+    {file = "mkdocs_material-9.5.38.tar.gz", hash = "sha256:1843c5171ad6b489550aeaf7358e5b7128cc03ddcf0fb4d91d19aa1e691a63b8"},
 ]
 
 [[package]]
@@ -2478,7 +2478,7 @@ files = [
 
 [[package]]
 name = "pymdown-extensions"
-version = "10.10.1"
+version = "10.10.2"
 requires_python = ">=3.8"
 summary = "Extension pack for Python Markdown."
 groups = ["docs"]
@@ -2487,8 +2487,8 @@ dependencies = [
     "pyyaml",
 ]
 files = [
-    {file = "pymdown_extensions-10.10.1-py3-none-any.whl", hash = "sha256:6c74ea6c2e2285186a241417480fc2d3cc52941b3ec2dced4014c84dc78c5493"},
-    {file = "pymdown_extensions-10.10.1.tar.gz", hash = "sha256:ad277ee4739ced051c3b6328d22ce782358a3bec39bc6ca52815ccbf44f7acdc"},
+    {file = "pymdown_extensions-10.10.2-py3-none-any.whl", hash = "sha256:513a9e9432b197cf0539356c8f1fc376e0d10b70ad150cadeb649a5628aacd45"},
+    {file = "pymdown_extensions-10.10.2.tar.gz", hash = "sha256:65d82324ef2497931bc858c8320540c6264ab0d9a292707edb61f4fe0cd56633"},
 ]
 
 [[package]]
