@@ -5,6 +5,8 @@ from typing import Optional
 from libresvip.core.constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
     MAX_PITCH_BEND_SENSITIVITY,
+    MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
+    PITCH_MAX_VALUE,
 )
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
@@ -13,14 +15,7 @@ from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.music_math import (
-    clamp,
-)
-
-from .constants import (
-    MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
-    PITCH_MAX_VALUE,
-)
+from libresvip.utils.music_math import clamp
 
 
 @dataclass

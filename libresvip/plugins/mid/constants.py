@@ -3,9 +3,6 @@ from typing import Final
 
 VELOCITY_CONSTANT: Final[float] = 1.75
 EXPRESSION_CONSTANT: Final[float] = 2.0
-PITCH_MAX_VALUE: Final[int] = 8191
-BORDER_APPEND_RADIUS: Final[int] = 5
-MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS: Final[int] = 480
 
 
 class ControlChange(Enum):

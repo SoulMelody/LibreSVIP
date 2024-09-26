@@ -4,10 +4,7 @@ from typing import Optional
 
 import mido_fix as mido
 
-from libresvip.core.constants import (
-    DEFAULT_PHONEME,
-    TICKS_IN_BEAT,
-)
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.japanese import to_romaji
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
 from libresvip.core.time_sync import TimeSynchronizer
@@ -22,6 +19,7 @@ from libresvip.model.base import (
 )
 from libresvip.model.reset_time_axis import limit_bars
 
+from .constants import DEFAULT_PHONEME
 from .options import OutputOptions
 from .vocaloid_pitch import generate_for_vocaloid
 

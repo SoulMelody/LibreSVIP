@@ -4,6 +4,7 @@ from typing import Optional
 
 import portion
 
+from libresvip.core.constants import MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS
 from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
@@ -50,7 +51,9 @@ class PitchSimulator:
                 msg = _("Notes Overlapped")
                 raise NotesOverlappedError(msg)
             elif (
-                self.portamento.vocaloid_mode and next_note.start_pos - current_note.end_pos >= 480
+                self.portamento.vocaloid_mode
+                and next_note.start_pos - current_note.end_pos
+                >= MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS
             ):
                 max_portamento_time = 0
             next_head = self.synchronizer.get_actual_secs_from_ticks(next_note.start_pos)
