@@ -2,6 +2,10 @@ import math
 from dataclasses import dataclass
 from typing import Optional
 
+from libresvip.core.constants import (
+    DEFAULT_PITCH_BEND_SENSITIVITY,
+    MAX_PITCH_BEND_SENSITIVITY,
+)
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve
 from libresvip.model.pitch_simulator import PitchSimulator
@@ -11,7 +15,6 @@ from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import clamp
 
 from .constants import (
-    DEFAULT_PITCH_BEND_SENSITIVITY,
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
     PITCH_MAX_VALUE,
 )
@@ -123,7 +126,7 @@ def generate_for_vocaloid(
     for section in pitch_sectioned:
         if len(section):
             max_abs_value = max(abs(point.y / 100) for point in section)
-            pbs_for_this_section = math.ceil(max_abs_value)
+            pbs_for_this_section = min(math.ceil(max_abs_value), MAX_PITCH_BEND_SENSITIVITY)
             if pbs_for_this_section > DEFAULT_PITCH_BEND_SENSITIVITY:
                 pbs.extend(
                     (

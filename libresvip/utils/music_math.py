@@ -120,11 +120,7 @@ def cubic_interpolation(r: float) -> float:
 
 @_transform_interpolation_args
 def vocaloid_interpolation(r: float) -> float:
-    if r <= 0.5:
-        return math.sin(r * math.pi) / 2
-    else:
-        return r
-    # math.sin((r - 1) * math.pi) / 2 + 1
+    return math.sin(r * math.pi) / 2 if r <= 0.5 else r
 
 
 @_transform_interpolation_args  # type: ignore[arg-type]
