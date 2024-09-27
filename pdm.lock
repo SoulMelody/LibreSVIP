@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:7fe9e207d501931c99efdb807c6f160defc157082f8f2e7735bea95179d14461"
+content_hash = "sha256:af740160f6b0a5df6f1d7559ce8f5bbb8b7cde977420f688558bfc8c8512fda7"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -637,7 +637,7 @@ files = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.26.0"
+version = "0.26.1"
 requires_python = "<4.0,>=3.8"
 summary = "Datamodel Code Generator"
 groups = ["code_gen"]
@@ -657,8 +657,8 @@ dependencies = [
     "toml<1.0.0,>=0.10.0; python_version < \"3.11\"",
 ]
 files = [
-    {file = "datamodel_code_generator-0.26.0-py3-none-any.whl", hash = "sha256:29af7c1991d6b346d4f6cdf2f11b74c09d84c73b1ed7229adc4f64316dfbb48d"},
-    {file = "datamodel_code_generator-0.26.0.tar.gz", hash = "sha256:5d1db3dd4d31ee8bb70426d8705f5b059bea15e0dd79e015a28373b5da98ff00"},
+    {file = "datamodel_code_generator-0.26.1-py3-none-any.whl", hash = "sha256:bbe8a6cc0b9cfdbfd294e336e02b4c50b481ffc3b3c608b5578b6d7aa02cc8ae"},
+    {file = "datamodel_code_generator-0.26.1.tar.gz", hash = "sha256:3b7b49c4230fa197ca28847e1e8996cd664638a7e91796c826a61c60d4ccd8a2"},
 ]
 
 [[package]]
