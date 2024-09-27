@@ -20,7 +20,7 @@ class PitchSimulator:
     note_list: dataclasses.InitVar[list[Note]]
     interval_dict: PiecewiseIntervalDict = dataclasses.field(default_factory=PiecewiseIntervalDict)
 
-    def __post_init__(self, note_list: list[Note]) -> None:  # type: ignore[override]
+    def __post_init__(self, note_list: list[Note]) -> None:
         if not note_list:
             return
         current_note = note_list[0]

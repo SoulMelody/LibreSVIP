@@ -53,36 +53,6 @@ class TuneLabAutomation(BaseModel):
         return TuneLabPoints(root=values)
 
 
-class TuneLabAutomations(BaseModel):
-    air: Optional[TuneLabAutomation] = Field(None, alias="Air")
-    breathiness: Optional[TuneLabAutomation] = Field(None, alias="Breathiness")
-    brightness: Optional[TuneLabAutomation] = Field(None, alias="Brightness")
-    clearness: Optional[TuneLabAutomation] = Field(None, alias="Clearness")
-    dynamics: Optional[TuneLabAutomation] = Field(None, alias="Dynamics")
-    exciter: Optional[TuneLabAutomation] = Field(None, alias="Exciter")
-    gender: Optional[TuneLabAutomation] = Field(None, alias="Gender")
-    growl: Optional[TuneLabAutomation] = Field(None, alias="Growl")
-    pitch_bend: Optional[TuneLabAutomation] = Field(None, alias="PitchBend")
-    pitch_bend_sensitivity: Optional[TuneLabAutomation] = Field(None, alias="PitchBendSensitivity")
-    vibrato_envelope: Optional[TuneLabAutomation] = Field(None, alias="VibratoEnvelope")
-    volume: Optional[TuneLabAutomation] = Field(None, alias="Volume")
-
-
-class TuneLabAffectedAutomations(BaseModel):
-    air: Optional[float] = Field(None, alias="Air")
-    breathiness: Optional[float] = Field(None, alias="Breathiness")
-    brightness: Optional[float] = Field(None, alias="Brightness")
-    clearness: Optional[float] = Field(None, alias="Clearness")
-    dynamics: Optional[float] = Field(None, alias="Dynamics")
-    exciter: Optional[float] = Field(None, alias="Exciter")
-    gender: Optional[float] = Field(None, alias="Gender")
-    growl: Optional[float] = Field(None, alias="Growl")
-    pitch_bend: Optional[float] = Field(None, alias="PitchBend")
-    pitch_bend_sensitivity: Optional[float] = Field(None, alias="PitchBendSensitivity")
-    vibrato_envelope: Optional[float] = Field(None, alias="VibratoEnvelope")
-    volume: Optional[float] = Field(None, alias="Volume")
-
-
 class TuneLabPhoneme(BaseModel):
     start_time: float = Field(alias="startTime")
     end_time: float = Field(alias="endTime")
@@ -107,8 +77,8 @@ class TuneLabVibrato(BaseModel):
     phase: float
     attack: float
     release: float
-    affected_automations: Optional[TuneLabAffectedAutomations] = Field(
-        None, alias="affectedAutomations"
+    affected_automations: dict[str, float] = Field(
+        default_factory=dict, alias="affectedAutomations"
     )
 
 
@@ -124,7 +94,7 @@ class TuneLabMidiPart(TuneLabBasePart):
     voice: TuneLabVoice = Field(default_factory=TuneLabVoice)
     properties: dict[str, Any] = Field(default_factory=dict)
     notes: list[TuneLabNote] = Field(default_factory=list)
-    automations: Optional[TuneLabAutomations] = None
+    automations: dict[str, TuneLabAutomation] = Field(default_factory=dict)
     pitch: list[TuneLabPoints] = Field(default_factory=list)
     vibratos: list[TuneLabVibrato] = Field(default_factory=list)
 

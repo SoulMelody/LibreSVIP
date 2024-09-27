@@ -7,7 +7,12 @@ import operator
 import mido_fix as mido
 import more_itertools
 
-from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
+from libresvip.core.constants import (
+    DEFAULT_PHONEME,
+    DEFAULT_PITCH_BEND_SENSITIVITY,
+    PITCH_MAX_VALUE,
+    TICKS_IN_BEAT,
+)
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -29,9 +34,7 @@ from libresvip.utils.text import LATIN_ALPHABET
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
-    DEFAULT_PITCH_BEND_SENSITIVITY,
     EXPRESSION_CONSTANT,
-    PITCH_MAX_VALUE,
     VELOCITY_CONSTANT,
     ControlChange,
 )
