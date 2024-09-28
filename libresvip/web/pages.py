@@ -1,11 +1,13 @@
 import argparse
 import asyncio
+import ctypes
 import dataclasses
 import enum
 import functools
 import io
 import math
 import pathlib
+import platform
 import re
 import secrets
 import shutil
@@ -1625,6 +1627,52 @@ def page_layout(lang: Optional[str] = None) -> None:
                 options_tab = ui.tab(_("Advanced Settings"))
             ui.space()
             if app.native.main_window is not None:
+                if platform.system() == "Windows":
+                    import clr
+
+                    clr.AddReference("System")
+                    clr.AddReference("System.Windows.Forms")
+
+                    from System import IntPtr
+                    from System.Windows.Forms import Screen
+
+                    user32 = ctypes.windll.user32
+                    rect_tuple = (0, 0, 1200, 800)
+                    _maximized = False
+
+                    def _maximize() -> None:
+                        nonlocal _maximized, rect_tuple
+                        if not _maximized:
+                            hwnd = user32.GetForegroundWindow()
+                            screen = Screen.FromHandle(IntPtr(hwnd))
+                            rect = ctypes.wintypes.RECT()
+                            user32.GetWindowRect(hwnd, ctypes.pointer(rect))
+                            rect_tuple = (
+                                rect.left,
+                                rect.top,
+                                rect.right - rect.left,
+                                rect.bottom - rect.top,
+                            )
+                            user32.MoveWindow(
+                                hwnd,
+                                screen.Bounds.X,
+                                screen.Bounds.Y,
+                                screen.WorkingArea.Width,
+                                screen.WorkingArea.Height,
+                                True,
+                            )
+                            _maximized = True
+
+                    app.native.main_window.maximize = _maximize
+
+                    def _restore() -> None:
+                        nonlocal _maximized
+                        if _maximized:
+                            _maximized = False
+                        hwnd = user32.GetForegroundWindow()
+                        user32.MoveWindow(hwnd, *rect_tuple, True)
+
+                    app.native.main_window.restore = _restore
                 maximized = False
                 maximize_text = _("Maximize")
                 restore_text = _("Restore")
