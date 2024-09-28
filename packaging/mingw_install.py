@@ -50,6 +50,7 @@ def install_mingw_deps() -> None:
         "ruamel-yaml-clib": "python-ruamel.yaml.clib",
         "shiboken6": None,
         "shellingham": "python-shellingham",
+        "setuptools": "python-setuptools",
         "ujson": "python-ujson",
         "zstandard": "python-zstandard",
     }
