@@ -220,6 +220,7 @@ jobs:
           run: |
             cd /libresvip
             curl -LsSf https://astral.sh/uv/install.sh | sh
+            source $HOME/.cargo/env
             uv venv --python 3.11
             uv build --wheel
             cd packaging
