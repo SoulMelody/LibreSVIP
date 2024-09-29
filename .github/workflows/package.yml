@@ -35,7 +35,6 @@ jobs:
           cd packaging
           uv pip install -r requirements.txt
           uv pip install ../dist/*.whl --no-deps
-          uv pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
           uv run pyinstaller libresvip.spec
           cd dist
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip
@@ -73,7 +72,6 @@ jobs:
           cd packaging
           python mingw_install.py
           python -m pip install ../dist/*.whl --no-deps
-          python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
           pyinstaller libresvip.spec
           cd dist
           7z a LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.msys2-ucrt64.7z libresvip
