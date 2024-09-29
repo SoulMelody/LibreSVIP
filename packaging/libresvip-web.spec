@@ -87,6 +87,7 @@ to_keep = []
 js_lib_prefix = os.path.join("nicegui", "elements", "lib")
 to_exclude = [
     os.path.join(js_lib_prefix, "aggrid"),
+    os.path.join(js_lib_prefix, "codemirror"),
     os.path.join(js_lib_prefix, "echarts"),
     os.path.join(js_lib_prefix, "echarts-gl"),
     os.path.join(js_lib_prefix, "leaflet"),
@@ -119,7 +120,7 @@ exe = EXE(
     strip=False,
     upx=False,
     console=False,
-    disable_windowed_traceback=False,
+    disable_windowed_traceback=True,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
