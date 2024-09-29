@@ -217,7 +217,7 @@ jobs:
           dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
             apt-get update
-            apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6
+            apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6
           run: |
             cd /libresvip
             curl -LsSf https://astral.sh/uv/install.sh | sh
