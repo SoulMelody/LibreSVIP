@@ -137,6 +137,7 @@ jobs:
           version: "latest"
       - name: Build with pyinstaller
         run: |
+          uv build --wheel
           uv venv --python 3.11
           cd packaging
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
