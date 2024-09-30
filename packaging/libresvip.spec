@@ -15,8 +15,6 @@ import shellingham
 from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
 from PyInstaller.utils.misc import is_win
 
-from libresvip.core.constants import pkg_dir
-
 with contextlib.suppress(Exception):
     if (
         ("conda" in sys.version or "Continuum" in sys.version)
@@ -55,7 +53,7 @@ if not (is_win and platform.machine() == "ARM64"):
             "xsdata_pydantic.hooks.class_type",
             "zstandard",
         ],
-        hookspath=[pkg_dir / "__pyinstaller"],
+        hookspath=[],
         hooksconfig={},
         runtime_hooks=[],
         excludes=[
@@ -140,7 +138,7 @@ gui_a = Analysis(
         "xsdata_pydantic.hooks.class_type",
         "zstandard",
     ],
-    hookspath=[pkg_dir / "__pyinstaller"],
+    hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
     excludes=[

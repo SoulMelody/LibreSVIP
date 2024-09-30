@@ -91,6 +91,9 @@ libresvip-web = "libresvip.web.__main__:main"
 [project.gui-scripts]
 libresvip-gui = "libresvip.gui.__main__:run"
 
+[project.entry-points.pyinstaller40]
+hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
+
 [tool.pdm]
 version = { source = "file", path = "libresvip/__init__.py" }
 
