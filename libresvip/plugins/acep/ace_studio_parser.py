@@ -109,10 +109,10 @@ class AceParser:
                 ]
                 prev_ace_note = None
                 for ace_note in ace_notes:
-                    ace_note.dur = min(
-                        ace_note.dur, pattern.clip_pos + pattern.clip_dur - ace_note.pos
+                    ace_note.dur = int(
+                        min(ace_note.dur, pattern.clip_pos + pattern.clip_dur - ace_note.pos)
                     )
-                    ace_note.pos += pattern.pos
+                    ace_note.pos += int(pattern.pos)
                     if (
                         prev_ace_note is not None
                         and prev_ace_note.pos + prev_ace_note.dur > ace_note.pos
@@ -133,10 +133,10 @@ class AceParser:
                         and curve.offset < pattern.clip_pos + pattern.clip_dur
                     ]
                     for ace_curve in ace_curves:
-                        max_length = pattern.clip_pos + pattern.clip_dur - ace_curve.offset
+                        max_length = int(pattern.clip_pos + pattern.clip_dur - ace_curve.offset)
                         if max_length < len(ace_curve.values):
                             ace_curve.values = ace_curve.values[:max_length]
-                        ace_curve.offset += pattern.pos
+                        ace_curve.offset += int(pattern.pos)
                     dst.root.extend(ace_curves)
 
                 merge_curves(pattern.parameters.pitch_delta, ace_params.pitch_delta)
@@ -188,13 +188,7 @@ class AceParser:
         if ace_note.br_len > 0:
             note.head_tag = "V"
         if ace_note.head_consonants:
-            note.edited_phones = Phones(
-                head_length_in_secs=(
-                    self.synchronizer.get_duration_secs_from_ticks(
-                        note.start_pos - ace_note.head_consonants[0], note.start_pos
-                    )
-                )
-            )
+            note.edited_phones = Phones(head_length_in_secs=ace_note.head_consonants[0])
         return note
 
     def parse_params(self, ace_params: AcepParams, ace_note_list: list[AcepNote]) -> Params:

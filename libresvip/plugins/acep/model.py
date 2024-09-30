@@ -216,10 +216,11 @@ class AcepNote(BaseModel):
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     lyric: str = ""
     pronunciation: str = ""
+    freezed_default_syllable: Optional[str] = Field(None, alias="freezedDefaultSyllable")
     new_line: bool = Field(False, alias="newLine")
     consonant_len: Optional[int] = Field(None, alias="consonantLen")
-    head_consonants: Optional[list[int]] = Field(default_factory=list, alias="headConsonants")
-    tail_consonants: Optional[list[int]] = Field(default_factory=list, alias="tailConsonants")
+    head_consonants: Optional[list[float]] = Field(default_factory=list, alias="headConsonants")
+    tail_consonants: Optional[list[float]] = Field(default_factory=list, alias="tailConsonants")
     syllable: Optional[str] = ""
     br_len: int = Field(0, alias="brLen")
     vibrato: Optional[AcepVibrato] = None
@@ -228,10 +229,10 @@ class AcepNote(BaseModel):
 
 class AcepPattern(BaseModel):
     name: str = ""
-    pos: int = 0
-    dur: int = 0
-    clip_pos: int = Field(0, alias="clipPos")
-    clip_dur: int = Field(0, alias="clipDur")
+    pos: float = 0.0
+    dur: float = 0.0
+    clip_pos: float = Field(0.0, alias="clipPos")
+    clip_dur: float = Field(0.0, alias="clipDur")
     enabled: Optional[bool] = True
     color: Optional[str] = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
@@ -244,11 +245,24 @@ class AcepAnalysedBeat(BaseModel):
     scales: list[int] = Field(default_factory=list)
 
 
+class AcepAudioFadeShape(BaseModel):
+    offset_x: float = Field(0.0, alias="offsetX")
+    offset_y: float = Field(0.0, alias="offsetY")
+
+
+class AcepAudioFadeEffect(BaseModel):
+    length: float = 0.0
+    crossfade: Optional[bool] = False
+    shape: AcepAudioFadeShape = Field(default_factory=AcepAudioFadeShape)
+
+
 class AcepAudioPattern(AcepPattern):
     path: str = ""
     gain: Optional[float] = None
     analysed_beat: Optional[AcepAnalysedBeat] = Field(None, alias="analysedBeat")
-
+    time_unit: Optional[str] = Field("sec", alias="timeUnit")
+    fade_in: Optional[AcepAudioFadeEffect] = Field(None, alias="fadeIn")
+    fade_out: Optional[AcepAudioFadeEffect] = Field(None, alias="fadeOut")
     validate_path = field_validator("path", mode="before")(audio_path_validator)
 
 
@@ -256,6 +270,7 @@ class AcepVocalPattern(AcepPattern):
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     extend_lyrics: str = Field("", alias="extendLyrics")
     notes: list[AcepNote] = Field(default_factory=list)
+    time_unit: Optional[str] = Field("tick", alias="timeUnit")
     parameters: AcepParams = Field(default_factory=AcepParams)
 
 
@@ -279,12 +294,6 @@ class AcepEmptyTrack(AcepTrackProperties, BaseModel):
 class AcepAudioTrack(AcepTrackProperties, BaseModel):
     type_: Literal["audio"] = Field(default="audio", alias="type")
     patterns: list[AcepAudioPattern] = Field(default_factory=list)
-
-    def __len__(self) -> int:
-        if not len(self.patterns):
-            return 0
-        last_pattern = self.patterns[-1]
-        return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
 
 
 class AcepSeedComposition(BaseModel):
@@ -314,7 +323,7 @@ class AcepVocalTrack(AcepTrackProperties, BaseModel):
         if not len(self.patterns):
             return 0
         last_pattern = self.patterns[-1]
-        return last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos
+        return int(last_pattern.pos + last_pattern.clip_dur - last_pattern.clip_pos)
 
 
 class AcepChord(BaseModel):
@@ -329,6 +338,7 @@ class AcepChord(BaseModel):
 
 class AcepChordPattern(AcepPattern):
     chords: list[AcepChord] = Field(default_factory=list)
+    time_unit: Optional[str] = Field("tick", alias="timeUnit")
 
 
 class AcepChordTrack(AcepTrackProperties, BaseModel):
@@ -364,6 +374,7 @@ class AcepProject(BaseModel):
     loop_start: Optional[int] = Field(0, alias="loopStart")
     loop_end: Optional[int] = Field(7680, alias="loopEnd")
     version: int = 6
+    version_revision: Optional[int] = Field(0, alias="versionRevision")
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")
     singer_library_id: Optional[str] = "1200593006"

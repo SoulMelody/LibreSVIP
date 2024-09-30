@@ -73,7 +73,14 @@ class AceGenerator:
             if (ace_track := self.generate_track(track)) is not None:
                 ace_project.tracks.append(ace_track)
         ace_project.duration = (
-            max(len(ace_track) for ace_track in ace_project.tracks) if ace_project.tracks else 0
+            max(
+                (
+                    len(ace_track)
+                    for ace_track in ace_project.tracks
+                    if isinstance(ace_track, AcepVocalTrack)
+                ),
+                default=0,
+            )
         ) + 115200
         color_count = count_color()
         color_index = random.randint(0, color_count - 1)
