@@ -1,20 +1,10 @@
 from __future__ import annotations
 
 import abc
-from functools import partial
 from typing import TYPE_CHECKING, Any, Generic, NamedTuple, TypeVar, Union
 
-from more_itertools import pairwise
-
-from libresvip.utils.music_math import (
-    cosine_easing_in_interpolation,
-    cosine_easing_in_out_interpolation,
-    cosine_easing_out_interpolation,
-    linear_interpolation,
-)
-
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Iterable
 
 
 PointType = TypeVar("PointType")
@@ -31,34 +21,6 @@ class Point(NamedTuple):
     @classmethod
     def end_point(cls, value: int = -100) -> Point:
         return cls(1073741823, value)
-
-
-def _inner_interpolate(
-    data: list[Point],
-    sampling_interval_tick: int,
-    mapping: Callable[[int, Point, Point], float],
-) -> list[Point]:
-    return (
-        (
-            [data[0]]
-            + [
-                Point(x=x, y=round(mapping(x, start, end)))
-                for start, end in pairwise(data)
-                for x in range(start.x + 1, end.x, sampling_interval_tick)
-            ]
-            + [data[-1]]
-        )
-        if data
-        else data
-    )
-
-
-interpolate_linear = partial(_inner_interpolate, mapping=linear_interpolation)
-interpolate_cosine_ease_in_out = partial(
-    _inner_interpolate, mapping=cosine_easing_in_out_interpolation
-)
-interpolate_cosine_ease_in = partial(_inner_interpolate, mapping=cosine_easing_in_interpolation)
-interpolate_cosine_ease_out = partial(_inner_interpolate, mapping=cosine_easing_out_interpolation)
 
 
 class PointList(abc.ABC, Generic[PointType]):

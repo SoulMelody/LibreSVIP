@@ -8,8 +8,8 @@ from typing import Optional, SupportsFloat
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
-from libresvip.model.point import (
-    Point,
+from libresvip.model.point import Point
+from libresvip.utils.music_math import (
     interpolate_cosine_ease_in_out,
     interpolate_linear,
 )

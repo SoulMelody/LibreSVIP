@@ -4,7 +4,10 @@ import re
 from collections.abc import Callable
 from typing import Any, Optional
 
+from more_itertools import pairwise
+
 from libresvip.core.constants import KEY_IN_OCTAVE
+from libresvip.model.point import Point
 
 
 def midi2note(midi: float) -> str:
@@ -126,6 +129,38 @@ def vocaloid_interpolation(r: float) -> float:
 @_transform_interpolation_args  # type: ignore[arg-type]
 def sigmoid_interpolation(r: float, k: float) -> float:
     return 1 / (1 + math.exp(k * (-2 * r + 1)))
+
+
+def _inner_interpolate(
+    data: list[Point],
+    sampling_interval_tick: int,
+    mapping: Callable[[int, Point, Point], float],
+) -> list[Point]:
+    return (
+        (
+            [data[0]]
+            + [
+                Point(x=x, y=round(mapping(x, start, end)))
+                for start, end in pairwise(data)
+                for x in range(start.x + 1, end.x, sampling_interval_tick)
+            ]
+            + [data[-1]]
+        )
+        if data
+        else data
+    )
+
+
+interpolate_linear = functools.partial(_inner_interpolate, mapping=linear_interpolation)
+interpolate_cosine_ease_in_out = functools.partial(
+    _inner_interpolate, mapping=cosine_easing_in_out_interpolation
+)
+interpolate_cosine_ease_in = functools.partial(
+    _inner_interpolate, mapping=cosine_easing_in_interpolation
+)
+interpolate_cosine_ease_out = functools.partial(
+    _inner_interpolate, mapping=cosine_easing_out_interpolation
+)
 
 
 def db_to_float(db: float, using_amplitude: bool = True) -> float:
