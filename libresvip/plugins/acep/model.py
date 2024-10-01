@@ -373,7 +373,7 @@ class AcepProject(BaseModel):
     loop: Optional[bool] = False
     loop_start: Optional[int] = Field(0, alias="loopStart")
     loop_end: Optional[int] = Field(7680, alias="loopEnd")
-    version: int = 6
+    version: int = 7
     version_revision: Optional[int] = Field(0, alias="versionRevision")
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")

@@ -91,7 +91,12 @@ class AceParser:
             and isinstance(ace_track, AcepAudioTrack)
             and len(ace_track.patterns)
         ):
-            track = InstrumentalTrack(audio_file_path=ace_track.patterns[0].path)
+            track = InstrumentalTrack(
+                audio_file_path=ace_track.patterns[0].path,
+                offset=int(ace_track.patterns[0].pos)
+                if self.content_version < 7
+                else self.synchronizer.get_actual_ticks_from_secs(ace_track.patterns[0].pos),
+            )
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
                 ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
@@ -188,7 +193,13 @@ class AceParser:
         if ace_note.br_len > 0:
             note.head_tag = "V"
         if ace_note.head_consonants:
-            note.edited_phones = Phones(head_length_in_secs=ace_note.head_consonants[0])
+            note.edited_phones = Phones(
+                head_length_in_secs=self.synchronizer.get_duration_secs_from_ticks(
+                    note.start_pos - int(ace_note.head_consonants[0]), note.start_pos
+                )
+                if self.content_version < 7
+                else ace_note.head_consonants[0]
+            )
         return note
 
     def parse_params(self, ace_params: AcepParams, ace_note_list: list[AcepNote]) -> Params:
@@ -342,23 +353,20 @@ class AceParser:
             for ace_curve in ace_curves.root:
                 pos = ace_curve.offset
                 curve.points.append(Point(pos + self.first_bar_ticks, -100))
-                if ace_curve.curve_type == "anchor":
-                    for value in ace_curve.values:
+                for value in ace_curve.values:
+                    if ace_curve.curve_type == "anchor":
                         curve.points.append(Point(pos + self.first_bar_ticks, round(value * 100)))
-                        pos += 1
-                else:
-                    for value in ace_curve.values:
-                        if not math.isnan(value):
-                            abs_semitone = (
-                                base_pitch.semitone_value_at(
-                                    self.synchronizer.get_actual_secs_from_ticks(pos)
-                                )
-                                + value
+                    elif not math.isnan(value):
+                        abs_semitone = (
+                            base_pitch.semitone_value_at(
+                                self.synchronizer.get_actual_secs_from_ticks(pos)
                             )
-                            curve.points.append(
-                                Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
-                            )
-                        pos += 1
+                            + value
+                        )
+                        curve.points.append(
+                            Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
+                        )
+                    pos += 1
                 curve.points.append(Point(pos - 1 + self.first_bar_ticks, -100))
         curve.points.append(Point.end_point())
         if self.options.curve_sample_interval > 0:

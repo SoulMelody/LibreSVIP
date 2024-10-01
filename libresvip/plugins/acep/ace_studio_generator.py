@@ -104,24 +104,9 @@ class AceGenerator:
         if isinstance(track, InstrumentalTrack):
             ace_audio_track = AcepAudioTrack()
             audio_pattern = AcepAudioPattern(path=track.audio_file_path)
-            actual_original_offset = self.generate_audio_offset(track.offset)
-            if actual_original_offset < 0:
-                audio_pattern.clip_dur = round(-actual_original_offset)
-                audio_pattern.pos = -audio_pattern.clip_dur
-            else:
-                audio_pattern.pos = round(actual_original_offset)
+            audio_pattern.pos = self.synchronizer.get_actual_secs_from_ticks(track.offset)
             if (track_info := audio_track_info(track.audio_file_path)) is not None:
-                offset = (
-                    self.synchronizer.get_actual_secs_from_ticks(audio_pattern.pos)
-                    if audio_pattern.pos > 0
-                    else audio_pattern.pos / self.first_bar_tempo[0].bpm / 8
-                )
-                audio_pattern.dur = round(
-                    self.synchronizer.get_actual_ticks_from_secs(
-                        offset + track_info.duration / 1000
-                    )
-                    - audio_pattern.pos
-                )
+                audio_pattern.dur = track_info.duration / 1000
                 audio_pattern.clip_dur = audio_pattern.dur - audio_pattern.clip_pos
             else:
                 return None
@@ -185,23 +170,6 @@ class AceGenerator:
         ace_track.gain = min(6.0, 20 * math.log10(track.volume))
         return ace_track
 
-    def generate_audio_offset(self, offset: int) -> int:
-        if offset > 0:
-            return offset
-        current_pos = self.first_bar_ticks
-        actual_pos = self.first_bar_ticks + offset
-        res = 0.0
-        i = len(self.first_bar_tempo) - 1
-        while i >= 0 and actual_pos <= self.first_bar_tempo[i].position:
-            res -= current_pos - self.first_bar_tempo[i].position
-            current_pos = self.first_bar_tempo[i].position
-            i -= 1
-        if i >= 0:
-            res -= current_pos - actual_pos
-        else:
-            res += actual_pos
-        return round(res)
-
     @staticmethod
     def adjust_breath_tags(notes: list[AcepNote]) -> None:
         for i in range(1, len(notes)):
@@ -230,14 +198,7 @@ class AceGenerator:
                 note.pronunciation if note.pronunciation is not None else pinyin or ""
             )
             if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
-                phone_start_in_secs = (
-                    self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
-                    - note.edited_phones.head_length_in_secs
-                )
-                phone_start_in_ticks = self.synchronizer.get_actual_ticks_from_secs(
-                    phone_start_in_secs
-                )
-                ace_note.head_consonants = [round(note.start_pos - phone_start_in_ticks)]
+                ace_note.head_consonants = [note.edited_phones.head_length_in_secs]
             elif self.options.default_consonant_length:
                 ace_note.head_consonants = [self.options.default_consonant_length]
         elif (

@@ -205,8 +205,8 @@ class OutputOptions(BaseModel):
             "ACE Studio supports three languages of lyrics. This option is used to set the language of lyrics."
         ),
     )
-    default_consonant_length: int = Field(
-        default=0,
-        title=_("Default consonant length (ticks)"),
+    default_consonant_length: float = Field(
+        default=0.0,
+        title=_("Default consonant length (secs)"),
         description=_("Set default consonant length for notes if not specified"),
     )
