@@ -1,3 +1,4 @@
+# mypy: disable-error-code="attr-defined"
 import ctypes
 from ctypes.wintypes import MSG
 from typing import Optional, SupportsInt

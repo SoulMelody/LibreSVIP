@@ -1636,7 +1636,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     from System import IntPtr
                     from System.Windows.Forms import Screen
 
-                    user32 = ctypes.windll.user32
+                    user32 = ctypes.windll.user32  # type: ignore[attr-defined]
                     rect_tuple = (0, 0, 1200, 800)
                     _maximized = False
 
