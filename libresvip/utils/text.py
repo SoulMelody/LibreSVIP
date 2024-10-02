@@ -5,6 +5,7 @@ import importlib
 import pkgutil
 import re
 import textwrap
+from collections.abc import Callable
 from typing import Any, Optional, cast
 
 import charset_normalizer.constant
@@ -18,6 +19,10 @@ SYMBOL_PATTERN: re.Pattern[str] = re.compile(
 
 
 class CustomBoundriesMixin:
+    re_flags: int
+    parse_re_flags: Callable[[int], int]
+    pattern: Callable[[], str]
+
     def __init__(
         self,
         *args: Any,

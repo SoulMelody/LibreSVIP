@@ -2,8 +2,9 @@ import dataclasses
 from typing import Optional
 
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, ParamCurve, Point
+from libresvip.model.base import Note, ParamCurve
 from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 

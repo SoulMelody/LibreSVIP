@@ -2,7 +2,6 @@ import dataclasses
 import functools
 import math
 import pathlib
-from enum import Enum
 from typing import Optional
 
 import more_itertools
@@ -16,12 +15,12 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 
 from .constants import BPM_RATE
 from .model import (
@@ -31,6 +30,7 @@ from .model import (
     VsqxMasterTrack,
     VsqxMusicalPart,
     VsqxNote,
+    VsqxParameterNames,
     VsqxTempoList,
     VsqxTimeSigList,
     VsqxVsTrackList,
@@ -51,7 +51,7 @@ from .vocaloid_pitch import (
 class VsqxParser:
     options: InputOptions
     src_path: pathlib.Path
-    param_names: type[Enum] = dataclasses.field(init=False)
+    param_names: type[VsqxParameterNames] = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pc2voice: dict[int, VsqxVVoice] = dataclasses.field(default_factory=dict)

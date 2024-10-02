@@ -359,13 +359,6 @@ class XSITrack(abc.ABC):
             "order": 12,
         },
     )
-
-
-@dataclasses.dataclass
-class XSSingingTrack(XSITrack):
-    """SingingTool.Model.SingingTrack"""
-
-    track_type: Literal[XSTrackType.Singing] = XSTrackType.Singing
     volume: float = dataclasses.field(
         default=0.7,
         metadata={
@@ -373,6 +366,13 @@ class XSSingingTrack(XSITrack):
             "order": 8,
         },
     )
+
+
+@dataclasses.dataclass
+class XSSingingTrack(XSITrack):
+    """SingingTool.Model.SingingTrack"""
+
+    track_type: Literal[XSTrackType.Singing] = XSTrackType.Singing
     note_list: XSBufList[XSNote] = dataclasses.field(
         default_factory=XSBufList[XSNote],
         metadata={

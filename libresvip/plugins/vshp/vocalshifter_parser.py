@@ -10,13 +10,13 @@ from libresvip.model.base import (
     Note,
     ParamCurve,
     Params,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 from libresvip.utils.music_math import db_to_float
 
 from .model import (

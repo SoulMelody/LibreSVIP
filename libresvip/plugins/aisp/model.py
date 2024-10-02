@@ -1,6 +1,7 @@
 import enum
 import itertools
-from typing import Annotated, Literal, Optional, Union
+from collections.abc import Iterable
+from typing import Annotated, Literal, Optional, Union, cast
 
 import more_itertools
 from pydantic import (
@@ -43,7 +44,7 @@ class AISNote(BaseModel):
             return None
         value_list = value.split() if isinstance(value, str) else value
         pit_list = []
-        for x in value_list:
+        for x in cast(Iterable[Union[float, str]], value_list):
             if isinstance(x, str) and "x" in x:
                 x, _, repeat_times = x.partition("x")
                 pit_list.extend([float(x)] * int(repeat_times))

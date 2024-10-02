@@ -861,11 +861,11 @@ class TaskManager(QObject):
 
     @Slot(list, result="QVariant")
     def extract_plugin_infos(self, paths: list[str]) -> list[dict[str, str]]:
-        infos = []
+        infos: list[dict[str, str]] = []
         for path in paths:
             zip_file = zipfile.Path(path)
             if (plugin_info_filename := self.plugin_info_file(zip_file)) is not None:
-                plugin_info = plugin_manager.info_cls.load(plugin_info_filename)
+                plugin_info = plugin_manager.plugin_info_class.load(plugin_info_filename)
                 if plugin_info is not None:
                     infos.append(
                         {

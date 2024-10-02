@@ -159,9 +159,9 @@ class TuneLabParser:
             vibrato_base_interval_dict[portion.closed(vibrato_start, vibrato_end)] = (
                 functools.partial(self.vibrato_value, vibrato_start=vibrato_start, vibrato=vibrato)
             )
-        if part.automations is not None and part.automations.vibrato_envelope is not None:
+        if part.automations is not None and part.automations["VibratoEnvelope"] is not None:
             for value, ticks_group in more_itertools.groupby_transform(
-                part.automations.vibrato_envelope.values.root,
+                part.automations["VibratoEnvelope"].values.root,
                 keyfunc=operator.attrgetter("value"),
                 valuefunc=operator.attrgetter("pos"),
             ):

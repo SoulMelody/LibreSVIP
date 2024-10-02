@@ -3,6 +3,8 @@
 # © 2014 Arve Knudsen <arve.knudsen@gmail.com>
 # BSD License
 
+# mypy: disable-error-code="attr-defined"
+
 """Windows specific Quamash functionality."""
 
 from __future__ import annotations

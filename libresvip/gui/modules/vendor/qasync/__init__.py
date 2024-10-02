@@ -8,6 +8,8 @@ Copyright (c) 2014 Arve Knudsen <arve.knudsen@gmail.com>
 BSD License
 """
 
+# mypy: disable-error-code="attr-defined"
+
 from __future__ import annotations
 
 __author__ = (

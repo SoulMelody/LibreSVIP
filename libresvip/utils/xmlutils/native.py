@@ -18,6 +18,7 @@ class EchoGenerator(saxutils.XMLGenerator):
         super().__init__(out, encoding, short_empty_elements)
         self._in_cdata = 0
         self._write: Callable[[str], None]
+        self._finish_pending_start_element: Callable[[], None]
 
     def characters(self, content: str) -> None:
         if self._in_cdata:

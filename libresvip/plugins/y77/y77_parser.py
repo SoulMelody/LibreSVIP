@@ -5,12 +5,12 @@ import pypinyin
 from libresvip.model.base import (
     Note,
     Params,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 
 from .model import Y77Note, Y77Project
 from .options import InputOptions

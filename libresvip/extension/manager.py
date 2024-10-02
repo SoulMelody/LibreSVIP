@@ -61,7 +61,7 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
         if (
             spec := PathFinder.find_spec(fullname, path, target)
         ) is not None and spec.loader is not None:
-            spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)
+            spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)  # type: ignore[attr-defined]
             return spec
 
     def is_plugin(self, member: object) -> TypeGuard[BasePlugin_co]:

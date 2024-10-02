@@ -5,7 +5,6 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
     ParamCurve,
-    Point,
     Points,
     Project,
     SingingTrack,
@@ -13,6 +12,7 @@ from libresvip.model.base import (
     TimeSignature,
 )
 from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 

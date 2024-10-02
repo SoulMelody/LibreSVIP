@@ -19,7 +19,6 @@ from libresvip.model.base import (
     Note,
     ParamCurve,
     Params,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
@@ -27,6 +26,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import ratio_to_db

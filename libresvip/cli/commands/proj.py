@@ -1,3 +1,4 @@
+# mypy: disable-error-code="attr-defined"
 import pathlib
 from typing import Annotated, Optional, get_type_hints
 
