@@ -12,7 +12,7 @@ def _pretty_construct() -> None:
 
     from construct import Container, EnumIntegerString, ListContainer
 
-    def int_enum_repr(self: object) -> str:
+    def int_enum_repr(self: IntEnum) -> str:
         return repr(self.value)
 
     setattr(IntEnum, "__repr__", int_enum_repr)

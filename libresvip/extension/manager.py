@@ -168,7 +168,7 @@ class MiddlewareManager(BasePluginManager[MiddlewareBase, MiddlewarePluginInfo])
 
 plugin_manager = ConverterPluginManager(
     info_extension="yapsy-plugin",
-    plugin_base=SVSConverterBase,
+    plugin_base=SVSConverterBase,  # type: ignore [type-abstract]
     plugin_info_class=FormatProviderPluginInfo,
     plugin_places=[pkg_dir / "plugins", app_dir.user_config_path / "plugins"],
     plugin_namespace="libresvip.plugins",
@@ -177,7 +177,7 @@ plugin_manager = ConverterPluginManager(
 plugin_manager.import_plugins()
 middleware_manager = MiddlewareManager(
     info_extension="yapsy-plugin",
-    plugin_base=MiddlewareBase,
+    plugin_base=MiddlewareBase,  # type: ignore [type-abstract]
     plugin_info_class=MiddlewarePluginInfo,
     plugin_places=[pkg_dir / "middlewares", app_dir.user_config_path / "middlewares"],
     plugin_namespace="libresvip.middlewares",
