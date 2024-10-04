@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import contextlib
+import functools
 import itertools
+import operator
 import os
 import pathlib
 import sys
@@ -106,7 +108,8 @@ def platform_libs_for_qtmodule(module: str) -> list[str]:
 
 
 build_exe_options = {
-    "bin_excludes": sum(
+    "bin_excludes": functools.reduce(
+        operator.add,
         (
             platform_libs_for_qtmodule(module)
             for module in (
@@ -157,7 +160,7 @@ build_exe_options = {
                 "3DRender",
             )
         ),
-        (str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")),
+        [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")],
     ),
     "bin_includes": bin_includes,
     "bin_path_includes": bin_path_includes,

@@ -5,7 +5,6 @@ import re
 from collections.abc import Callable
 from typing import Optional
 
-from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -66,7 +65,7 @@ class AceParser:
             project.time_signature_list.append(
                 TimeSignature(bar_index=0, numerator=ace_project.beats_per_bar, denominator=4)
             )
-        self.first_bar_ticks = TICKS_IN_BEAT * ace_project.beats_per_bar
+        self.first_bar_ticks = int(project.time_signature_list[0].bar_length())
         project.song_tempo_list = shift_tempo_list(
             self.parse_tempos(ace_project.tempos),
             self.first_bar_ticks,

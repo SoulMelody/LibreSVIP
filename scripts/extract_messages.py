@@ -3,7 +3,7 @@ import pathlib
 import subprocess
 from collections.abc import Iterator
 from configparser import RawConfigParser
-from typing import Any, BinaryIO, Optional, Union
+from typing import Any, BinaryIO, Optional, Union, cast
 
 from babel.messages import setuptools_frontend
 from ts_model import TranslationType, Ts
@@ -44,7 +44,7 @@ def extract_plugin_msgs() -> None:
     for entry_path, plugin_info in itertools.chain.from_iterable(
         (middleware_manager._candidates, plugin_manager._candidates)
     ):
-        plugin_dir: pathlib.Path = entry_path.parent
+        plugin_dir = cast(pathlib.Path, entry_path).parent
         cmdinst = setuptools_frontend.extract_messages()
         cmdinst.initialize_options()
         cmdinst.omit_header = True
