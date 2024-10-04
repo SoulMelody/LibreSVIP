@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:adcfb7e0fa4cd002597c9191cb1cda2bf933de6451ce3a6a9cd08bcbfbe24394"
+content_hash = "sha256:c9132f7b6be98f58da3faa2b9dc1b6eec4ebe5c3793b41bfc371b2a2789e6cf1"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -23,13 +23,13 @@ files = [
 
 [[package]]
 name = "aiohappyeyeballs"
-version = "2.4.2"
+version = "2.4.3"
 requires_python = ">=3.8"
 summary = "Happy Eyeballs for asyncio"
 groups = ["webui"]
 files = [
-    {file = "aiohappyeyeballs-2.4.2-py3-none-any.whl", hash = "sha256:8522691d9a154ba1145b157d6d5c15e5c692527ce6a53c5e5f9876977f6dab2f"},
-    {file = "aiohappyeyeballs-2.4.2.tar.gz", hash = "sha256:4ca893e6c5c1f5bf3888b04cb5a3bee24995398efef6e0b9f747b5e89d84fd74"},
+    {file = "aiohappyeyeballs-2.4.3-py3-none-any.whl", hash = "sha256:8a7a83727b2756f394ab2895ea0765a0a8c475e3c71e98d43d76f22b4b435572"},
+    {file = "aiohappyeyeballs-2.4.3.tar.gz", hash = "sha256:75cf88a15106a5002a8eb1dab212525c00d1f4c0fa96e551c9fbe6f09a621586"},
 ]
 
 [[package]]
@@ -1919,7 +1919,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "2.2.0"
+version = "2.3.0"
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
@@ -1946,24 +1946,24 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-2.2.0-py3-none-any.whl", hash = "sha256:17f47b51b2c440f7f8d3de2d2590efc5c7c9cad4b54ae3618620c6a33722bd9c"},
-    {file = "nicegui-2.2.0.tar.gz", hash = "sha256:bf2ee80cda39195b92f121a9b231f93e07621f7a976a1b80a4b8c8e521453877"},
+    {file = "nicegui-2.3.0-py3-none-any.whl", hash = "sha256:55d582b27e5ac9c539b137f0d45d8114ed1123a1261f0bf16d955af6dbc2dd47"},
+    {file = "nicegui-2.3.0.tar.gz", hash = "sha256:b689bbe30f9e17625e9859d6b4840212fd807d68140e1120bce3f7e4ab99b55d"},
 ]
 
 [[package]]
 name = "nicegui"
-version = "2.2.0"
+version = "2.3.0"
 extras = ["native"]
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
 dependencies = [
-    "nicegui==2.2.0",
+    "nicegui==2.3.0",
     "pywebview<6.0.0,>=5.0.1",
 ]
 files = [
-    {file = "nicegui-2.2.0-py3-none-any.whl", hash = "sha256:17f47b51b2c440f7f8d3de2d2590efc5c7c9cad4b54ae3618620c6a33722bd9c"},
-    {file = "nicegui-2.2.0.tar.gz", hash = "sha256:bf2ee80cda39195b92f121a9b231f93e07621f7a976a1b80a4b8c8e521453877"},
+    {file = "nicegui-2.3.0-py3-none-any.whl", hash = "sha256:55d582b27e5ac9c539b137f0d45d8114ed1123a1261f0bf16d955af6dbc2dd47"},
+    {file = "nicegui-2.3.0.tar.gz", hash = "sha256:b689bbe30f9e17625e9859d6b4840212fd807d68140e1120bce3f7e4ab99b55d"},
 ]
 
 [[package]]
@@ -3129,7 +3129,7 @@ files = [
 
 [[package]]
 name = "rich"
-version = "13.9.1"
+version = "13.9.2"
 requires_python = ">=3.8.0"
 summary = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 groups = ["default"]
@@ -3139,8 +3139,8 @@ dependencies = [
     "typing-extensions<5.0,>=4.0.0; python_version < \"3.11\"",
 ]
 files = [
-    {file = "rich-13.9.1-py3-none-any.whl", hash = "sha256:b340e739f30aa58921dc477b8adaa9ecdb7cecc217be01d93730ee1bc8aa83be"},
-    {file = "rich-13.9.1.tar.gz", hash = "sha256:097cffdf85db1babe30cc7deba5ab3a29e1b9885047dab24c57e9a7f8a9c1466"},
+    {file = "rich-13.9.2-py3-none-any.whl", hash = "sha256:8c82a3d3f8dcfe9e734771313e606b39d8247bb6b826e196f4914b333b743cf1"},
+    {file = "rich-13.9.2.tar.gz", hash = "sha256:51a2c62057461aaf7152b4d611168f93a9fc73068f8ded2790f29fe2b5366d0c"},
 ]
 
 [[package]]
