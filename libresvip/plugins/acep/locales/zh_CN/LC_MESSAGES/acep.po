@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-10-06 00:44\n"
+"PO-Revision-Date: 2024-10-06 00:49\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -160,7 +160,7 @@ msgid "ACE Studio supports three languages of lyrics. This option is used to set
 msgstr "ACE Studio 支持三大语种的歌词，本选项用于设定歌词的语言。"
 
 msgid "Default consonant length (secs)"
-msgstr ""
+msgstr "默认辅音长度 (单位为秒)"
 
 msgid "Set default consonant length for notes if not specified"
 msgstr "给未设置辅音长度的音符添加默认值"
