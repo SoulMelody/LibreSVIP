@@ -5,9 +5,9 @@ import QtQuick.Controls.Material.impl
 import LibreSVIP
 
 ComboBox {
+    id: combo
     property string hint
     property var choices
-    id: combo
 
     height: 40
     model: choices
@@ -18,11 +18,7 @@ ComboBox {
     delegate: MenuItem {
         width: ListView.view.width
         contentItem: Label {
-            text: combo.textRole
-                ? (
-                    qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])
-                ) + " (*." + (Array.isArray(combo.model) ? modelData[combo.valueRole] : model[combo.valueRole]) + ")"
-                : qsTr(modelData)
+            text: combo.textRole ? (qsTr(Array.isArray(combo.model) ? modelData[combo.textRole] : model[combo.textRole])) + " (*." + (Array.isArray(combo.model) ? modelData[combo.valueRole] : model[combo.valueRole]) + ")" : qsTr(modelData)
             color: combo.highlightedIndex === index ? Material.accentColor : window.Material.foreground
         }
         highlighted: combo.highlightedIndex === index
@@ -53,18 +49,18 @@ ComboBox {
         verticalAlignment: Text.AlignVCenter
         placeholderText: hint
 
-        cursorDelegate: CursorDelegate { }
+        cursorDelegate: CursorDelegate {}
 
         MouseArea {
             anchors.fill: parent
-            onClicked: (mouse) => {
-                if (combo.popup.opened){
-                    combo.popup.close()
+            onClicked: mouse => {
+                if (combo.popup.opened) {
+                    combo.popup.close();
                 } else {
-                    parent.forceActiveFocus()
-                    combo.popup.open()
+                    parent.forceActiveFocus();
+                    combo.popup.open();
                 }
-                mouse.accepted = false
+                mouse.accepted = false;
             }
         }
     }
@@ -90,15 +86,15 @@ ComboBox {
             model: combo.popup.visible ? combo.delegateModel : null
             currentIndex: combo.highlightedIndex
 
-            ScrollIndicator.vertical: ScrollIndicator { }
+            ScrollIndicator.vertical: ScrollIndicator {}
         }
 
         onAboutToShow: {
-            combo.indicator.text = iconicFontLoader.icon("mdi7.menu-up")
+            combo.indicator.text = iconicFontLoader.icon("mdi7.menu-up");
         }
 
         onAboutToHide: {
-            combo.indicator.text = iconicFontLoader.icon("mdi7.menu-down")
+            combo.indicator.text = iconicFontLoader.icon("mdi7.menu-down");
         }
     }
 }

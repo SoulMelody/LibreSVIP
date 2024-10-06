@@ -24,16 +24,18 @@ Item {
                     QQC2.ButtonGroup.group: folderPresetButtonGroup
                     checked: folderPresetsListView.currentIndex === index
                     onClicked: {
-                        folderPresetsListView.currentIndex = index
+                        folderPresetsListView.currentIndex = index;
                     }
                 }
                 IconButton {
                     icon_name: "mdi7.folder"
                     diameter: 38
                     onClicked: {
-                        chooseFolderDialog.choose_folder(model.path, (folder) => {
-                            folderPresetsListView.model.update(index, {path: folder})
-                        })
+                        chooseFolderDialog.choose_folder(model.path, folder => {
+                            folderPresetsListView.model.update(index, {
+                                path: folder
+                            });
+                        });
                     }
                 }
                 QQC2.TextField {
@@ -43,9 +45,11 @@ Item {
                     text: model.path
                     onEditingFinished: {
                         if (configItems.dir_valid(text) === false) {
-                            undo()
+                            undo();
                         } else {
-                            folderPresetsListView.model.update(index, {path: text})
+                            folderPresetsListView.model.update(index, {
+                                path: text
+                            });
                         }
                     }
                     Rectangle {
@@ -82,7 +86,9 @@ Item {
                             }
                             TapHandler {
                                 onTapped: {
-                                    folderPresetsListView.model.update(index, {path: ""})
+                                    folderPresetsListView.model.update(index, {
+                                        path: ""
+                                    });
                                 }
                             }
                         }
@@ -92,7 +98,7 @@ Item {
                     icon_name: "mdi7.trash-can-outline"
                     diameter: 38
                     onClicked: {
-                        folderPresetsListView.model.delete(index)
+                        folderPresetsListView.model.delete(index);
                     }
                 }
             }
@@ -102,22 +108,22 @@ Item {
     function url2path(url) {
         let url_string = url.toString();
         switch (Qt.platform.os) {
-            case "windows":
-                return url_string.replace(/^(file:\/{3})/, "");
-            default:
-                return url_string.replace(/^(file:\/{2})/, "");
+        case "windows":
+            return url_string.replace(/^(file:\/{3})/, "");
+        default:
+            return url_string.replace(/^(file:\/{2})/, "");
         }
     }
 
     function path2url(path) {
         if (path.length == 0 || path.startsWith(".")) {
-            return ""
+            return "";
         }
         switch (Qt.platform.os) {
-            case "windows":
-                return "file:///" + path;
-            default:
-                return "file://" + path;
+        case "windows":
+            return "file:///" + path;
+        default:
+            return "file://" + path;
         }
     }
 
@@ -126,32 +132,29 @@ Item {
         fileMode: FileDialog.OpenFiles
         currentFolder: ""
         onAccepted: {
-            taskManager.add_task_paths(
-                selectedFiles.map(url2path)
-            )
+            taskManager.add_task_paths(selectedFiles.map(url2path));
         }
     }
 
     property QtObject saveDialog: FolderDialog {
         currentFolder: ""
         onAccepted: {
-            let path = url2path(selectedFolder)
-            configItems.save_folder = path
+            let path = url2path(selectedFolder);
+            configItems.save_folder = path;
         }
-        onRejected: {
-        }
+        onRejected: {}
     }
 
     property QtObject chooseFolderDialog: FolderDialog {
-        property var accept_callback: (value) => {}
+        property var accept_callback: value => {}
         currentFolder: ""
         onAccepted: {
-            accept_callback(url2path(selectedFolder))
+            accept_callback(url2path(selectedFolder));
         }
         function choose_folder(start_folder, callback) {
-            currentFolder = path2url(start_folder)
-            accept_callback = callback
-            open()
+            currentFolder = path2url(start_folder);
+            accept_callback = callback;
+            open();
         }
     }
 
@@ -209,9 +212,7 @@ Item {
                 Layout.fillHeight: true
                 visible: folderPresetsListView.count > 0
                 QQC2.Label {
-                    text: qsTr(
-                        "You can insert " + '"."' + " at the beginning to represent the source path, for example " + '"./subfolder"'
-                    )
+                    text: qsTr("You can insert " + '"."' + " at the beginning to represent the source path, for example " + '"./subfolder"')
                     wrapMode: Text.Wrap
                 }
                 QQC2.ButtonGroup {
@@ -219,8 +220,8 @@ Item {
                     exclusive: true
                 }
                 QQC2.ScrollView {
-                    clip: true
                     id: folderPresetsScrollView
+                    clip: true
                     Layout.minimumHeight: 300
                     Layout.maximumHeight: 300
                     width: 600
@@ -230,12 +231,12 @@ Item {
                         model: configItems.qget("folder_presets")
                         delegate: folderPresetDelegate
                         Component.onCompleted: {
-                            let save_folder = configItems.save_folder
+                            let save_folder = configItems.save_folder;
                             if (count > 0) {
                                 for (let i = 0; i < count; i++) {
                                     if (model.get(i).path == save_folder) {
-                                        currentIndex = i
-                                        break
+                                        currentIndex = i;
+                                        break;
                                     }
                                 }
                             }
@@ -257,7 +258,7 @@ Item {
                         onClicked: {
                             folderPresetsListView.model.append({
                                 "path": ""
-                            })
+                            });
                         }
                     }
                     Rectangle {
@@ -275,19 +276,19 @@ Item {
                     hoverEnabled: true
                     onEntered: {
                         if (folderPresetsListView.count == 0) {
-                            parent.opacity = 0.5
+                            parent.opacity = 0.5;
                         }
                     }
                     onExited: {
                         if (parent.opacity < 1) {
-                            parent.opacity = 1
+                            parent.opacity = 1;
                         }
                     }
                     onClicked: {
                         if (folderPresetsListView.count == 0) {
                             folderPresetsListView.model.append({
                                 "path": ""
-                            })
+                            });
                         }
                     }
                     Column {
@@ -309,14 +310,14 @@ Item {
     }
 
     property QtObject colorDialog: ColorDialog {
-        property var accept_callback: (value) => {}
+        property var accept_callback: value => {}
         onAccepted: {
-            accept_callback(selectedColor)
+            accept_callback(selectedColor);
         }
         function bind_color(color_value, callback) {
-            selectedColor = color_value
-            accept_callback = callback
-            open()
+            selectedColor = color_value;
+            accept_callback = callback;
+            open();
         }
     }
 
@@ -359,7 +360,7 @@ Item {
                         }
                     }
                     onClicked: {
-                        Qt.openUrlExternally("https://space.bilibili.com/175862486")
+                        Qt.openUrlExternally("https://space.bilibili.com/175862486");
                     }
                 }
                 QQC2.Button {
@@ -373,7 +374,7 @@ Item {
                         }
                     }
                     onClicked: {
-                        Qt.openUrlExternally("https://github.com/SoulMelody/LibreSVIP")
+                        Qt.openUrlExternally("https://github.com/SoulMelody/LibreSVIP");
                     }
                 }
             }

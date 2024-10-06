@@ -28,14 +28,14 @@ Controls.BusyIndicator {
     property real speed: 1
 
     onRunningChanged: {
-        if(!running) {
-            changeStage()
+        if (!running) {
+            changeStage();
         }
     }
 
     function changeStage() {
-        canvas.startDeg = 0
-        canvas.endDeg = 2
+        canvas.startDeg = 0;
+        canvas.endDeg = 2;
     }
 
     contentItem: Canvas {
@@ -50,7 +50,9 @@ Controls.BusyIndicator {
         property color primaryColor: Material.accent
 
         Behavior on primaryColor {
-            ColorAnimation { duration: 200 }
+            ColorAnimation {
+                duration: 200
+            }
         }
 
         onStartDegChanged: requestPaint()
@@ -61,11 +63,10 @@ Controls.BusyIndicator {
             function deg2Rad(deg) {
                 return (deg / 180) * Math.PI;
             }
-
             var ctx = canvas.getContext('2d');
             ctx.strokeStyle = primaryColor;
             ctx.lineWidth = 3;
-            ctx.lineCap="round";
+            ctx.lineCap = "round";
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
             ctx.arc(canvas.width / 2, canvas.height / 2, (canvas.height > canvas.width ? canvas.width : canvas.height) / 2 - 8, deg2Rad(startDeg - 90), deg2Rad(endDeg - 90), false);

@@ -10,14 +10,14 @@ ToolBar {
     id: toolBar
     implicitHeight: 32
     height: 32
-    signal openConvertMenu()
-    signal openFormatsMenu()
-    signal openImportFormatMenu()
-    signal openExportFormatMenu()
-    signal openSettingsMenu()
-    signal openThemesMenu()
-    signal openLanguageMenu()
-    signal openHelpMenu()
+    signal openConvertMenu
+    signal openFormatsMenu
+    signal openImportFormatMenu
+    signal openExportFormatMenu
+    signal openSettingsMenu
+    signal openThemesMenu
+    signal openLanguageMenu
+    signal openHelpMenu
 
     function toggleMaximized() {
         if (window.visibility === Window.Maximized) {
@@ -35,10 +35,7 @@ ToolBar {
         implicitHeight: 32
         color: window.Material.background
         border.width: 1
-        border.color: Material.color(
-            Material.Grey,
-            Material.Shade300
-        )
+        border.color: Material.color(Material.Grey, Material.Shade300)
 
         layer.enabled: toolBar.Material.elevation > 0
         layer.effect: ElevationEffect {
@@ -50,12 +47,15 @@ ToolBar {
     Item {
         anchors.fill: parent
         TapHandler {
-            onTapped: if (tapCount === 2) toggleMaximized()
+            onTapped: if (tapCount === 2)
+                toggleMaximized()
             gesturePolicy: TapHandler.DragThreshold
         }
         DragHandler {
             grabPermissions: TapHandler.CanTakeOverFromAnything
-            onActiveChanged: if (active) { window.startSystemMove(); }
+            onActiveChanged: if (active) {
+                window.startSystemMove();
+            }
         }
     }
 
@@ -141,9 +141,9 @@ ToolBar {
                     onClicked: actions.quit.trigger()
                     onHoveredChanged: {
                         if (hovered) {
-                            exitButton.background.color = Material.color(Material.Red)
+                            exitButton.background.color = Material.color(Material.Red);
                         } else {
-                            exitButton.background.color = "transparent"
+                            exitButton.background.color = "transparent";
                         }
                     }
                 }
@@ -175,29 +175,29 @@ ToolBar {
                         width: 300
                         y: parent.height
                         IconMenuItem {
-                            action: actions.openFile;
+                            action: actions.openFile
                             icon_name: "mdi7.file-import-outline"
-                            label: qsTr("Import Projects (Ctrl+O)");
+                            label: qsTr("Import Projects (Ctrl+O)")
                         }
                         IconMenuItem {
                             id: startConversionMenuItem
-                            action: actions.startConversion;
+                            action: actions.startConversion
                             icon_name: "mdi7.share-all-outline"
-                            label: qsTr("Perform All Tasks (Ctrl+Enter)");
+                            label: qsTr("Perform All Tasks (Ctrl+Enter)")
                             enabled: converterPage.startConversionButton.enabled
                         }
                         IconMenuItem {
                             id: clearTasksMenuItem
-                            action: actions.clearTasks;
+                            action: actions.clearTasks
                             icon_name: "mdi7.refresh"
-                            label: qsTr("Clear Tasks (Ctrl+R)");
+                            label: qsTr("Clear Tasks (Ctrl+R)")
                             enabled: taskManager.count > 0
                         }
                         MenuSeparator {}
                         IconMenuItem {
-                            action: actions.swapInputOutput;
+                            action: actions.swapInputOutput
                             icon_name: "mdi7.swap-vertical"
-                            label: qsTr("Swap Input and Output (Ctrl+Tab)");
+                            label: qsTr("Swap Input and Output (Ctrl+Tab)")
                         }
                     }
                 }
@@ -227,45 +227,45 @@ ToolBar {
                                     checked: ListView.isCurrentItem
                                     ButtonGroup.group: inputFormatButtonGroup
                                     onTriggered: {
-                                        taskManager.set_str("input_format", model.value)
+                                        taskManager.set_str("input_format", model.value);
                                     }
                                     text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
                                     target: taskManager
                                     function onInput_format_changed(input_format) {
-                                        let new_index = converterPage.inputFormatComboBox.indexOfValue(input_format)
+                                        let new_index = converterPage.inputFormatComboBox.indexOfValue(input_format);
                                         if (new_index != importMenuList.currentIndex) {
-                                            importMenuList.currentIndex = new_index
+                                            importMenuList.currentIndex = new_index;
                                         }
                                     }
                                 }
                                 focus: true
                                 function navigate(event, key) {
                                     if (count >= 10 + key) {
-                                        let next_focus = 10 * (Math.floor(currentIndex / 10) + 1)
-                                        next_focus = next_focus + key >= count ? key : next_focus + key
-                                        itemAtIndex(next_focus).ListView.focus = true
-                                        currentIndex = next_focus
+                                        let next_focus = 10 * (Math.floor(currentIndex / 10) + 1);
+                                        next_focus = next_focus + key >= count ? key : next_focus + key;
+                                        itemAtIndex(next_focus).ListView.focus = true;
+                                        currentIndex = next_focus;
                                     } else {
-                                        itemAtIndex(key).triggered()
+                                        itemAtIndex(key).triggered();
                                     }
                                 }
-                                Keys.onDigit0Pressed: (event) => navigate(event, 0)
-                                Keys.onDigit1Pressed: (event) => navigate(event, 1)
-                                Keys.onDigit2Pressed: (event) => navigate(event, 2)
-                                Keys.onDigit3Pressed: (event) => navigate(event, 3)
-                                Keys.onDigit4Pressed: (event) => navigate(event, 4)
-                                Keys.onDigit5Pressed: (event) => navigate(event, 5)
-                                Keys.onDigit6Pressed: (event) => navigate(event, 6)
-                                Keys.onDigit7Pressed: (event) => navigate(event, 7)
-                                Keys.onDigit8Pressed: (event) => navigate(event, 8)
-                                Keys.onDigit9Pressed: (event) => navigate(event, 9)
+                                Keys.onDigit0Pressed: event => navigate(event, 0)
+                                Keys.onDigit1Pressed: event => navigate(event, 1)
+                                Keys.onDigit2Pressed: event => navigate(event, 2)
+                                Keys.onDigit3Pressed: event => navigate(event, 3)
+                                Keys.onDigit4Pressed: event => navigate(event, 4)
+                                Keys.onDigit5Pressed: event => navigate(event, 5)
+                                Keys.onDigit6Pressed: event => navigate(event, 6)
+                                Keys.onDigit7Pressed: event => navigate(event, 7)
+                                Keys.onDigit8Pressed: event => navigate(event, 8)
+                                Keys.onDigit9Pressed: event => navigate(event, 9)
                             }
                             implicitHeight: importMenuList.contentHeight
                             onClosed: {
                                 if (importMenuList.currentIndex != converterPage.inputFormatComboBox.currentIndex) {
-                                    importMenuList.currentIndex = converterPage.inputFormatComboBox.currentIndex
+                                    importMenuList.currentIndex = converterPage.inputFormatComboBox.currentIndex;
                                 }
                             }
                         }
@@ -285,45 +285,45 @@ ToolBar {
                                     checked: ListView.isCurrentItem
                                     ButtonGroup.group: exportFormatButtonGroup
                                     onTriggered: {
-                                        taskManager.set_str("output_format", model.value)
+                                        taskManager.set_str("output_format", model.value);
                                     }
                                     text: String(index % 10) + " " + qsTr(model.text ? model.text : "")
                                 }
                                 Connections {
                                     target: taskManager
                                     function onOutput_format_changed(output_format) {
-                                        let new_index = converterPage.outputFormatComboBox.indexOfValue(output_format)
+                                        let new_index = converterPage.outputFormatComboBox.indexOfValue(output_format);
                                         if (new_index != exportMenuList.currentIndex) {
-                                            exportMenuList.currentIndex = new_index
+                                            exportMenuList.currentIndex = new_index;
                                         }
                                     }
                                 }
                                 focus: true
                                 function navigate(event, key) {
                                     if (count >= 10 + key) {
-                                        let next_focus = 10 * (Math.floor(currentIndex / 10) + 1)
-                                        next_focus = next_focus + key >= count ? key : next_focus + key
-                                        itemAtIndex(next_focus).ListView.focus = true
-                                        currentIndex = next_focus
+                                        let next_focus = 10 * (Math.floor(currentIndex / 10) + 1);
+                                        next_focus = next_focus + key >= count ? key : next_focus + key;
+                                        itemAtIndex(next_focus).ListView.focus = true;
+                                        currentIndex = next_focus;
                                     } else {
-                                        itemAtIndex(key).triggered()
+                                        itemAtIndex(key).triggered();
                                     }
                                 }
-                                Keys.onDigit0Pressed: (event) => navigate(event, 0)
-                                Keys.onDigit1Pressed: (event) => navigate(event, 1)
-                                Keys.onDigit2Pressed: (event) => navigate(event, 2)
-                                Keys.onDigit3Pressed: (event) => navigate(event, 3)
-                                Keys.onDigit4Pressed: (event) => navigate(event, 4)
-                                Keys.onDigit5Pressed: (event) => navigate(event, 5)
-                                Keys.onDigit6Pressed: (event) => navigate(event, 6)
-                                Keys.onDigit7Pressed: (event) => navigate(event, 7)
-                                Keys.onDigit8Pressed: (event) => navigate(event, 8)
-                                Keys.onDigit9Pressed: (event) => navigate(event, 9)
+                                Keys.onDigit0Pressed: event => navigate(event, 0)
+                                Keys.onDigit1Pressed: event => navigate(event, 1)
+                                Keys.onDigit2Pressed: event => navigate(event, 2)
+                                Keys.onDigit3Pressed: event => navigate(event, 3)
+                                Keys.onDigit4Pressed: event => navigate(event, 4)
+                                Keys.onDigit5Pressed: event => navigate(event, 5)
+                                Keys.onDigit6Pressed: event => navigate(event, 6)
+                                Keys.onDigit7Pressed: event => navigate(event, 7)
+                                Keys.onDigit8Pressed: event => navigate(event, 8)
+                                Keys.onDigit9Pressed: event => navigate(event, 9)
                             }
                             implicitHeight: exportMenuList.contentHeight
                             onClosed: {
                                 if (exportMenuList.currentIndex != converterPage.outputFormatComboBox.currentIndex) {
-                                    exportMenuList.currentIndex = converterPage.outputFormatComboBox.currentIndex
+                                    exportMenuList.currentIndex = converterPage.outputFormatComboBox.currentIndex;
                                 }
                             }
                         }
@@ -341,7 +341,7 @@ ToolBar {
                         MenuItem {
                             text: qsTr("Options (&O)")
                             onTriggered: {
-                                actions.openOptions.trigger()
+                                actions.openOptions.trigger();
                             }
                         }
                         Menu {
@@ -356,7 +356,7 @@ ToolBar {
                                 ButtonGroup.group: themeButtonGroup
                                 text: qsTr("Light")
                                 onTriggered: {
-                                    handleThemeChange("Light")
+                                    handleThemeChange("Light");
                                 }
                             }
                             MenuItem {
@@ -365,7 +365,7 @@ ToolBar {
                                 ButtonGroup.group: themeButtonGroup
                                 text: qsTr("Dark")
                                 onTriggered: {
-                                    handleThemeChange("Dark")
+                                    handleThemeChange("Dark");
                                 }
                             }
                             MenuItem {
@@ -374,17 +374,17 @@ ToolBar {
                                 ButtonGroup.group: themeButtonGroup
                                 text: qsTr("System")
                                 onTriggered: {
-                                    handleThemeChange("System")
+                                    handleThemeChange("System");
                                 }
                             }
                             Component.onCompleted: {
-                                let currentTheme = configItems.theme
+                                let currentTheme = configItems.theme;
                                 if (currentTheme === "Light") {
-                                    lightThemeMenuItem.checked = true
+                                    lightThemeMenuItem.checked = true;
                                 } else if (currentTheme === "Dark") {
-                                    darkThemeMenuItem.checked = true
+                                    darkThemeMenuItem.checked = true;
                                 } else {
-                                    systemThemeMenuItem.checked = true
+                                    systemThemeMenuItem.checked = true;
                                 }
                             }
                         }
@@ -394,39 +394,39 @@ ToolBar {
                             ButtonGroup {
                                 id: languageButtonGroup
                                 onClicked: {
-                                    dialogs.openDialog.nameFilters[0] = qsTr(converterPage.inputFormatComboBox.currentText) + " (*." + converterPage.inputFormatComboBox.currentValue + ")"
+                                    dialogs.openDialog.nameFilters[0] = qsTr(converterPage.inputFormatComboBox.currentText) + " (*." + converterPage.inputFormatComboBox.currentValue + ")";
                                 }
                             }
                             MenuItem {
                                 id: zhCNMenuItem
                                 checkable: true
                                 ButtonGroup.group: languageButtonGroup
-                                text: "简体中文";
+                                text: "简体中文"
                                 onTriggered: localeSwitcher.switch_language("zh_CN")
                             }
                             MenuItem {
                                 id: enUSMenuItem
                                 checkable: true
                                 ButtonGroup.group: languageButtonGroup
-                                text: "English";
+                                text: "English"
                                 onTriggered: localeSwitcher.switch_language("en_US")
                             }
                             MenuItem {
                                 id: jaJPMenuItem
                                 checkable: true
                                 ButtonGroup.group: languageButtonGroup
-                                text: "日本語";
+                                text: "日本語"
                                 onTriggered: localeSwitcher.switch_language("ja_JP")
                                 enabled: false
                             }
                             Component.onCompleted: {
-                                let currentLanguage = localeSwitcher.get_language()
+                                let currentLanguage = localeSwitcher.get_language();
                                 if (currentLanguage === "zh_CN") {
-                                    zhCNMenuItem.checked = true
+                                    zhCNMenuItem.checked = true;
                                 } else if (currentLanguage === "en_US") {
-                                    enUSMenuItem.checked = true
+                                    enUSMenuItem.checked = true;
                                 } else {
-                                    jaJPMenuItem.checked = true
+                                    jaJPMenuItem.checked = true;
                                 }
                             }
                         }
@@ -443,20 +443,20 @@ ToolBar {
                         width: 250
                         y: parent.height
                         IconMenuItem {
-                            action: actions.openAbout;
+                            action: actions.openAbout
                             icon_name: "mdi7.information-outline"
-                            label: qsTr("About (Ctrl+A)");
+                            label: qsTr("About (Ctrl+A)")
                         }
                         IconMenuItem {
                             icon_name: "mdi7.progress-upload"
-                            label: qsTr("Check for Updates");
+                            label: qsTr("Check for Updates")
                             enabled: true
                             onTriggered: notifier.check_for_updates()
                         }
                         IconMenuItem {
-                            action: actions.openDocumentation;
+                            action: actions.openDocumentation
                             icon_name: "mdi7.text-box-search-outline"
-                            label: qsTr("Documentation (F1)");
+                            label: qsTr("Documentation (F1)")
                         }
                     }
                 }
@@ -466,40 +466,40 @@ ToolBar {
     Connections {
         target: toolBar
         function onOpenConvertMenu() {
-            convertMenu.open()
+            convertMenu.open();
         }
         function openFormatsMenu() {
-            formatsMenu.open()
+            formatsMenu.open();
         }
         function onOpenImportFormatMenu() {
             if (!formatsMenu.opened) {
-                formatsMenu.open()
+                formatsMenu.open();
             }
-            importFormatMenu.open()
+            importFormatMenu.open();
         }
         function onOpenExportFormatMenu() {
             if (!formatsMenu.opened) {
-                formatsMenu.open()
+                formatsMenu.open();
             }
-            exportFormatMenu.open()
+            exportFormatMenu.open();
         }
         function openSettingsMenu() {
-            settingsMenu.open()
+            settingsMenu.open();
         }
         function onOpenThemesMenu() {
             if (!settingsMenu.opened) {
-                settingsMenu.open()
+                settingsMenu.open();
             }
-            themesMenu.open()
+            themesMenu.open();
         }
         function onOpenLanguageMenu() {
             if (!settingsMenu.opened) {
-                settingsMenu.open()
+                settingsMenu.open();
             }
-            languageMenu.open()
+            languageMenu.open();
         }
         function onOpenHelpMenu() {
-            helpMenu.open()
+            helpMenu.open();
         }
     }
 }

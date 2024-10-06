@@ -28,8 +28,7 @@ RoundButton {
         width: diameter
         height: diameter
         radius: diameter / 2
-        color: iconButton.Material.buttonColor(iconButton.Material.theme, iconButton.Material.background,
-            iconButton.Material.accent, iconButton.enabled, iconButton.flat, iconButton.highlighted, iconButton.checked)
+        color: iconButton.Material.buttonColor(iconButton.Material.theme, iconButton.Material.background, iconButton.Material.accent, iconButton.enabled, iconButton.flat, iconButton.highlighted, iconButton.checked)
         HoverHandler {
             acceptedDevices: PointerDevice.AllPointerTypes
             cursorShape: cursor_shape

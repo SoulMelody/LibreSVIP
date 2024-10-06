@@ -5,7 +5,6 @@ import FramelessWindow
 import LibreSVIP
 import "qrc:/qml/components/" as Components
 
-
 FramelessWindow {
     id: window
     title: qsTr("LibreSVIP")
@@ -21,12 +20,12 @@ FramelessWindow {
     Material.accent: "#3F51B5"
     Material.theme: {
         switch (configItems.theme) {
-            case "Dark":
-                return Material.Dark
-            case "Light":
-                return Material.Light
-            default:
-                return Material.System
+        case "Dark":
+            return Material.Dark;
+        case "Light":
+            return Material.Light;
+        default:
+            return Material.System;
         }
     }
 
@@ -73,33 +72,32 @@ FramelessWindow {
 
     Component {
         id: messageBox
-        Components.MessageBox {
-        }
+        Components.MessageBox {}
     }
 
-    function handleThemeChange(theme){
+    function handleThemeChange(theme) {
         switch (theme) {
-            case "Light":
-                window.Material.theme = Material.Light
-                configItems.theme = "Light"
-                break
-            case "Dark":
-                window.Material.theme = Material.Dark
-                configItems.theme = "Dark"
-                break
-            case "System":
-                window.Material.theme = Material.System
-                configItems.theme = "System"
-                break
+        case "Light":
+            window.Material.theme = Material.Light;
+            configItems.theme = "Light";
+            break;
+        case "Dark":
+            window.Material.theme = Material.Dark;
+            configItems.theme = "Dark";
+            break;
+        case "System":
+            window.Material.theme = Material.System;
+            configItems.theme = "System";
+            break;
         }
     }
 
     Connections {
         target: Application.styleHints
         function onColorSchemeChanged(value) {
-            let currentTheme = configItems.theme
+            let currentTheme = configItems.theme;
             if (currentTheme === "System") {
-                handleThemeChange(currentTheme)
+                handleThemeChange(currentTheme);
             }
         }
     }
@@ -107,13 +105,13 @@ FramelessWindow {
     Connections {
         target: configItems
         function onAuto_set_output_extension_changed(value) {
-            taskManager.reset_output_ext("")
+            taskManager.reset_output_ext("");
         }
     }
 
     Component.onCompleted: {
         if (configItems.auto_check_for_updates) {
-            notifier.check_for_updates()
+            notifier.check_for_updates();
         }
     }
 }

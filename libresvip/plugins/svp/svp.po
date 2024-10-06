@@ -1,3 +1,6 @@
+msgid "Notes Overlapped"
+msgstr ""
+
 msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
 msgstr ""
 

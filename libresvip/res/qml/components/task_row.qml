@@ -51,7 +51,9 @@ ColumnLayout {
                 visible: taskManager.conversion_mode === "Merge" ? index === 0 : true
                 text: stem
                 onEditingFinished: {
-                    converterPage.taskList.model.update(index, {stem: this.text})
+                    converterPage.taskList.model.update(index, {
+                        stem: this.text
+                    });
                 }
             }
 
@@ -66,7 +68,7 @@ ColumnLayout {
                 icon_name: "mdi7.trash-can-outline"
                 enabled: !taskManager.busy
                 onClicked: {
-                    converterPage.taskList.model.delete(index)
+                    converterPage.taskList.model.delete(index);
                 }
                 ToolTip.visible: hovered
                 ToolTip.text: qsTr("Remove")
@@ -112,7 +114,7 @@ ColumnLayout {
                                     text: qsTr("Open")
                                 }
                                 onClicked: {
-                                    taskManager.open_output_path(index)
+                                    taskManager.open_output_path(index);
                                 }
                             }
                             Button {
@@ -124,13 +126,13 @@ ColumnLayout {
                                     text: qsTr("Open folder")
                                 }
                                 onClicked: {
-                                    taskManager.open_output_dir(index)
+                                    taskManager.open_output_dir(index);
                                 }
                             }
                         }
                     }
                     onClicked: {
-                        successToolTip.visible = !successToolTip.visible
+                        successToolTip.visible = !successToolTip.visible;
                     }
                 }
 
@@ -167,13 +169,13 @@ ColumnLayout {
                                     text: qsTr("Open folder")
                                 }
                                 onClicked: {
-                                    taskManager.open_output_dir(index)
+                                    taskManager.open_output_dir(index);
                                 }
                             }
                         }
                     }
                     onClicked: {
-                        skipToolTip.visible = !skipToolTip.visible
+                        skipToolTip.visible = !skipToolTip.visible;
                     }
                 }
 
@@ -214,7 +216,7 @@ ColumnLayout {
                         }
                     }
                     onClicked: {
-                        warningToolTip.visible = !warningToolTip.visible
+                        warningToolTip.visible = !warningToolTip.visible;
                     }
                 }
 
@@ -256,10 +258,10 @@ ColumnLayout {
                                 }
                                 text: qsTr("Copy error message")
                                 onClicked: {
-                                    let copy_result = clipboard.set_clipboard(errorLabel.errorFullText)
+                                    let copy_result = clipboard.set_clipboard(errorLabel.errorFullText);
                                     if (copy_result) {
-                                        text = qsTr("Copied")
-                                        resetCopyErrorButtonTimer.start()
+                                        text = qsTr("Copied");
+                                        resetCopyErrorButtonTimer.start();
                                     }
                                 }
                             }
@@ -269,13 +271,13 @@ ColumnLayout {
                                 repeat: false
                                 triggeredOnStart: false
                                 onTriggered: {
-                                    copyErrorButton.text = qsTr("Copy error message")
+                                    copyErrorButton.text = qsTr("Copy error message");
                                 }
                             }
                         }
                     }
                     onClicked: {
-                        errorToolTip.visible = !errorToolTip.visible
+                        errorToolTip.visible = !errorToolTip.visible;
                     }
                 }
                 RunningIndicator {
@@ -298,81 +300,77 @@ ColumnLayout {
         target: converterPage.taskList.model
         function onDataChanged(idx1, idx2, value) {
             if (idx1.row <= taskRow.index && taskRow.index <= idx2.row) {
-                let task_result = converterPage.taskList.model.get(taskRow.index)
-                if (value.includes(2)) { // 2 is the index of the stem field
-                    stemField.text = task_result.stem
-                } 
-                if (value.includes(3)) {  // 3 is the index of the ext field
-                    extLabel.text = task_result.ext
+                let task_result = converterPage.taskList.model.get(taskRow.index);
+                if (value.includes(2)) {
+                    // 2 is the index of the stem field
+                    stemField.text = task_result.stem;
                 }
-                if (value.includes(5)) {  // 5 is the index of the running field
+                if (value.includes(3)) {
+                    // 3 is the index of the ext field
+                    extLabel.text = task_result.ext;
+                }
+                if (value.includes(5)) {
+                    // 5 is the index of the running field
                     if (task_result.running) {
-                        successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
-                        runningIndicator.visible = true
+                        successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false;
+                        runningIndicator.visible = true;
                     } else {
-                        runningIndicator.visible = false
-                        let error = task_result.error
+                        runningIndicator.visible = false;
+                        let error = task_result.error;
                         if (error) {
-                            errorLabel.text = clipboard.shorten_error_message(error)
-                            errorLabel.errorFullText = error
-                            errorButton.visible = true
-                            runningIndicator.visible = false
+                            errorLabel.text = clipboard.shorten_error_message(error);
+                            errorLabel.errorFullText = error;
+                            errorButton.visible = true;
+                            runningIndicator.visible = false;
                         } else if (task_result.success) {
-                            let conflict = taskManager.output_path_exists(index)
-                            let conflict_policy = configItems.conflict_policy
-                            if (!conflict || conflict_policy == "Overwrite" || (
-                                conflict_policy == "Prompt" && window.yesToAll
-                            )) {
-                                let move_result = taskManager.move_to_output(index)
+                            let conflict = taskManager.output_path_exists(index);
+                            let conflict_policy = configItems.conflict_policy;
+                            if (!conflict || conflict_policy == "Overwrite" || (conflict_policy == "Prompt" && window.yesToAll)) {
+                                let move_result = taskManager.move_to_output(index);
                                 if (move_result) {
                                     if (task_result.warning) {
-                                        warningLabel.text = clipboard.shorten_error_message(task_result.warning)
-                                        warningLabel.warningFullText = task_result.warning
-                                        warningButton.visible = true
+                                        warningLabel.text = clipboard.shorten_error_message(task_result.warning);
+                                        warningLabel.warningFullText = task_result.warning;
+                                        warningButton.visible = true;
                                     } else {
-                                        successButton.visible = true
+                                        successButton.visible = true;
                                     }
                                 } else {
-                                    error = converterPage.taskList.model.get(taskRow.index).error
-                                    errorLabel.text = clipboard.shorten_error_message(error)
-                                    errorLabel.errorFullText = error
-                                    errorButton.visible = true
+                                    error = converterPage.taskList.model.get(taskRow.index).error;
+                                    errorLabel.text = clipboard.shorten_error_message(error);
+                                    errorLabel.errorFullText = error;
+                                    errorButton.visible = true;
                                 }
                             } else if (conflict_policy == "Skip" || (conflict_policy == "Prompt" && window.noToAll)) {
-                                skipButton.visible = true
+                                skipButton.visible = true;
                             } else {
-                                let message_box = messageBox.createObject(
-                                    taskList,
-                                    {
-                                        body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
-                                        message: qsTr("File %1 already exists. Overwrite?").arg(
-                                            taskManager.get_output_path(index)
-                                        ),
-                                        onOk: () => {
-                                            let move_result = taskManager.move_to_output(index)
-                                            if (move_result) {
-                                                if (task_result.warning) {
-                                                    warningLabel.text = task_result.warning
-                                                    warningButton.visible = true
-                                                } else {
-                                                    successButton.visible = true
-                                                }
+                                let message_box = messageBox.createObject(taskList, {
+                                    body: "<b>" + qsTr("Do you want to overwrite the file?") + "</b>",
+                                    message: qsTr("File %1 already exists. Overwrite?").arg(taskManager.get_output_path(index)),
+                                    onOk: () => {
+                                        let move_result = taskManager.move_to_output(index);
+                                        if (move_result) {
+                                            if (task_result.warning) {
+                                                warningLabel.text = task_result.warning;
+                                                warningButton.visible = true;
                                             } else {
-                                                error = converterPage.taskList.model.get(taskRow.index).error
-                                                errorLabel.text = clipboard.shorten_error_message(error)
-                                                errorLabel.errorFullText = error
-                                                errorButton.visible = true
+                                                successButton.visible = true;
                                             }
-                                        },
-                                        onCancel: () => {
-                                            skipButton.visible = true
+                                        } else {
+                                            error = converterPage.taskList.model.get(taskRow.index).error;
+                                            errorLabel.text = clipboard.shorten_error_message(error);
+                                            errorLabel.errorFullText = error;
+                                            errorButton.visible = true;
                                         }
+                                    },
+                                    onCancel: () => {
+                                        skipButton.visible = true;
                                     }
-                                )
-                                message_box.open()
+                                });
+                                message_box.open();
                             }
                         } else {
-                            successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false
+                            successButton.visible = errorButton.visible = warningButton.visible = skipButton.visible = false;
                         }
                     }
                 }
