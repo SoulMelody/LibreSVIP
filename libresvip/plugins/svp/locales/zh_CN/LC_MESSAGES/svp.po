@@ -10,7 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-07-02 22:41\n"
+"PO-Revision-Date: 2024-10-06 00:44\n"
+
+msgid "Notes Overlapped"
+msgstr "音符重叠"
 
 msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
 msgstr "与 SynthesizerV Studio 1.9.0 及以下版本兼容"
