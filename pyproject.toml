@@ -46,7 +46,7 @@ dependencies = [
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.53.0",
   "pysubs2<2.0.0,>=1.7.3",
-  "pyzstd<1.0.0,>=0.16.1; platform_python_implementation == \"PyPy\"",
+  "pyzstd<1.0.0,>=0.16.2; platform_python_implementation == \"PyPy\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.9.2",
   "typer-slim<1.0.0,>=0.12.5",
