@@ -143,8 +143,7 @@ class BinarySvipGenerator:
 
             note_list = s_track.note_list.buf.items
             for note in track.note_list:
-                new_note = self.generate_note(note)
-                if new_note is not None:
+                if (new_note := self.generate_note(note)) is not None:
                     note_list.append(new_note)
             s_track.note_list.buf.size = len(note_list)
             s_track.note_list.buf.version = VALUE_LIST_VERSION_SONG_NOTE
@@ -171,39 +170,35 @@ class BinarySvipGenerator:
         s_track.pan = track.pan
         return s_track
 
-    def generate_note(self, note: Note) -> XSNote:
-        if note.lyric or note.pronunciation:
-            xs_note = XSNote(
-                start_pos=round(self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)),
-                key_index=note.key_number + 12,
-                head_tag=XSNoteHeadTag(
-                    value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
-                ),
-                lyric=note.lyric
-                if CHINESE_RE.match(note.lyric) is not None
-                else DEFAULT_CHINESE_LYRIC,
-                pronouncing=note.pronunciation or "",
-            )
-            xs_note.width_pos = (
-                round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos))
-                - xs_note.start_pos
-            )
-            note_duration = self.synchronizer.get_duration_secs_from_ticks(
-                note.start_pos, note.end_pos
-            )
-            if note_duration < MIN_NOTE_DURATION:
-                msg_prefix = _("Note duration is too short:")
-                show_warning(f"{msg_prefix} {note.lyric}")
-            elif note_duration > MAX_NOTE_DURATION:
-                msg_prefix = _("Note duration is too long:")
-                show_warning(f"{msg_prefix} {note.lyric}")
-            if note.edited_phones is not None:
-                xs_note.note_phone_info = self.generate_phones(note.edited_phones)
-            if note.vibrato is not None:
-                percent, vibrato = self.generate_vibrato(note.vibrato)
-                xs_note.vibrato_percent_info = percent
-                xs_note.vibrato = vibrato
-            return xs_note
+    def generate_note(self, note: Note) -> Optional[XSNote]:
+        if not note.lyric and not note.pronunciation:
+            return None
+        xs_note = XSNote(
+            start_pos=round(self.synchronizer.get_actual_ticks_from_ticks(note.start_pos)),
+            key_index=note.key_number + 12,
+            head_tag=XSNoteHeadTag(
+                value=svip_note_head_tags.get(note.head_tag, XSNoteHeadTagEnum.NoTag)
+            ),
+            lyric=note.lyric if CHINESE_RE.match(note.lyric) is not None else DEFAULT_CHINESE_LYRIC,
+            pronouncing=note.pronunciation or "",
+        )
+        xs_note.width_pos = (
+            round(self.synchronizer.get_actual_ticks_from_ticks(note.end_pos)) - xs_note.start_pos
+        )
+        note_duration = self.synchronizer.get_duration_secs_from_ticks(note.start_pos, note.end_pos)
+        if note_duration < MIN_NOTE_DURATION:
+            msg_prefix = _("Note duration is too short:")
+            show_warning(f"{msg_prefix} {note.lyric}")
+        elif note_duration > MAX_NOTE_DURATION:
+            msg_prefix = _("Note duration is too long:")
+            show_warning(f"{msg_prefix} {note.lyric}")
+        if note.edited_phones is not None:
+            xs_note.note_phone_info = self.generate_phones(note.edited_phones)
+        if note.vibrato is not None:
+            percent, vibrato = self.generate_vibrato(note.vibrato)
+            xs_note.vibrato_percent_info = percent
+            xs_note.vibrato = vibrato
+        return xs_note
 
     @staticmethod
     def generate_phones(edited_phones: Phones) -> XSNotePhoneInfo:

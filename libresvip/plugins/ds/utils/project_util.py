@@ -17,7 +17,7 @@ def split_into_segments(
 ) -> Iterable[tuple[float, Project, float]]:
     track = next((t for t in project.track_list if isinstance(t, SingingTrack)), None)
     if not track or not track.note_list:
-        return []
+        return
 
     project = reset_time_axis(project)
     buffer = [track.note_list[0]]

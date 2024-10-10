@@ -45,7 +45,7 @@ class ModelProxy(QAbstractListModel):
             self._defaults = {x: "" for x in role_names}
 
     @property
-    def _role_names(self) -> tuple[str]:
+    def _role_names(self) -> tuple[str, ...]:
         return tuple(self._name_2_role.keys())
 
     @property

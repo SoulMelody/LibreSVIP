@@ -18,7 +18,7 @@ def midi2note(midi: float) -> str:
     return f"{pitch}{octave}"
 
 
-def note2midi(note: str) -> Optional[int]:
+def note2midi(note: str) -> int:
     pitch_map = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
     acc_map = {
         "#": 1,
@@ -37,7 +37,8 @@ def note2midi(note: str) -> Optional[int]:
         note,
     )
     if not match:
-        return None
+        msg = f"Invalid note format: {note!r}"
+        raise ValueError(msg)
 
     pitch = match["note"].upper()
     offset = sum(acc_map[o] for o in match["accidental"])

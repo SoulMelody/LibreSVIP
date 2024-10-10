@@ -201,7 +201,7 @@ class _SimpleTimer(QtCore.QObject):
         self._stopped = False
         self.__debug_enabled = False
 
-    def add_callback(self, handle: asyncio.Handle, delay: float = 0) -> asyncio.Handle:
+    def add_callback(self, handle: asyncio.TimerHandle, delay: float = 0) -> asyncio.TimerHandle:
         timerid = self.start_timer(int(max(0, delay) * 1000))
         self.__log_debug("Registering timer id {}", timerid)
         assert timerid not in self.__callbacks
@@ -283,7 +283,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         self._write_notifiers: dict[FileDescriptor, QtCore.QSocketNotifier] = {}
         self._timer = _SimpleTimer()
 
-        self.__call_soon_signaller = signaller = make_signaller(object, tuple)
+        signaller = make_signaller(object, tuple)
         self.__call_soon_signal = signaller.signal
         signaller.signal.connect(lambda callback, args: self.call_soon(callback, *args))
 
@@ -415,9 +415,9 @@ class _QEventLoop(asyncio.AbstractEventLoop):
             delay,
         )
 
-        return self._add_callback(asyncio.Handle(callback, args, self, context=context), delay)
+        return self._add_callback(asyncio.TimerHandle(delay, callback, args, self, context=context))
 
-    def _add_callback(self, handle: asyncio.Handle, delay: float = 0) -> asyncio.Handle:
+    def _add_callback(self, handle: asyncio.TimerHandle, delay: float = 0) -> asyncio.TimerHandle:
         return self._timer.add_callback(handle, delay)
 
     def call_soon(
@@ -571,7 +571,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
 
     # Methods for interacting with threads.
 
-    def call_soon_threadsafe(
+    def call_soon_threadsafe(  # type: ignore[return-value]
         self,
         callback: Callable[[Unpack[_Ts]], _T],
         *args: Unpack[_Ts],

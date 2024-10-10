@@ -55,7 +55,7 @@ class BasePluginInfo(abc.ABC):
             with plugfile_path.open(encoding="utf-8") as metafile:
                 cp = RawConfigParser()
                 cp.read_file(metafile)
-                return cls(cp)
+                return cls(cp)  # type: ignore[return-value]
         except Exception:
             logger.error(f"Failed to load plugin info from {plugfile_path}")
 
@@ -64,7 +64,7 @@ class BasePluginInfo(abc.ABC):
         with contextlib.suppress(Exception):
             cp = RawConfigParser()
             cp.read_string(content)
-            return cls(cp)
+            return cls(cp)  # type: ignore[return-value]
 
     @property
     @abc.abstractmethod

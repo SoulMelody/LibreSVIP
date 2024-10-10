@@ -159,7 +159,7 @@ class _Selector(selectors.BaseSelector):
         self.__write_notifiers.clear()
 
     def get_map(self) -> Mapping[FileDescriptorLike, selectors.SelectorKey]:
-        return self.__map
+        return self.__map  # type: ignore[return-value]
 
     def _key_from_fd(self, fd: FileDescriptor) -> Optional[selectors.SelectorKey]:
         """

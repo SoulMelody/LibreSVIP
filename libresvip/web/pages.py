@@ -936,7 +936,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if not (task := self.files_to_convert.get(filename)) or not task.success:
-                return
+                return None
             if self._conversion_mode == ConversionMode.SPLIT:
                 buffer = io.BytesIO()
                 with zipfile.ZipFile(buffer, "w") as zip_file:

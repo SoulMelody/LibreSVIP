@@ -187,7 +187,7 @@ ignore = [
 known-first-party = ['libresvip', 'tests']
 
 [tool.mypy]
-disable_error_code = "import-not-found,operator,return-value,unused-ignore"
+disable_error_code = "import-not-found,operator,unused-ignore"
 allow_redefinition = true
 warn_redundant_casts = true
 warn_unused_ignores = true

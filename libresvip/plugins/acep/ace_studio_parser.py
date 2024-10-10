@@ -205,14 +205,14 @@ class AceParser:
         def linear_transform(
             lower_bound: float, middle_value: float, upper_bound: float
         ) -> Callable[[float], int]:
-            return lambda x: clamp(
-                round(
+            return lambda x: round(
+                clamp(
                     (x - middle_value) / (upper_bound - middle_value) * 1000
                     if x >= middle_value
-                    else (x - middle_value) / (middle_value - lower_bound) * 1000
-                ),
-                -1000,
-                1000,
+                    else (x - middle_value) / (middle_value - lower_bound) * 1000,
+                    -1000,
+                    1000,
+                )
             )
 
         if self.options.breath_normalization.enabled:

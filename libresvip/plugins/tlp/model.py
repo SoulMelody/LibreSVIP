@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from itertools import chain
-from typing import Annotated, Any, Literal, NamedTuple, Optional, Union
+from typing import Annotated, Any, Literal, NamedTuple, Optional, Union, cast
 
 from more_itertools import batched
 from pydantic import Field, RootModel, ValidationInfo, field_validator, model_serializer
@@ -101,14 +101,14 @@ class TuneLabMidiPart(TuneLabBasePart):
     @field_validator("pitch", mode="before")
     @classmethod
     def validate_pitch(
-        cls, pitch: list[Union[list[float], TuneLabPoints]], _info: ValidationInfo
-    ) -> TuneLabPoints:
+        cls, pitch: Union[list[list[float]], list[TuneLabPoints]], _info: ValidationInfo
+    ) -> list[TuneLabPoints]:
         if _info.mode == "json":
             return [
                 TuneLabPoints(root=[TuneLabPoint._make(each) for each in batched(values, 2)])
                 for values in pitch
             ]
-        return pitch
+        return cast(list[TuneLabPoints], pitch)
 
 
 class TuneLabAudioPart(TuneLabBasePart):

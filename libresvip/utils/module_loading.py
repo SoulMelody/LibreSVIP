@@ -15,7 +15,7 @@ class ZipLoader(SourcelessFileLoader):
         self.zip_file = zip_file
         self.file_path = file_path
 
-    def create_module(self, spec: ModuleSpec) -> ModuleType:
+    def create_module(self, spec: ModuleSpec) -> Optional[ModuleType]:
         return sys.modules.get(spec.name)
 
     def get_filename(self, name: Optional[str] = None) -> str:

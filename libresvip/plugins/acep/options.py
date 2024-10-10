@@ -168,7 +168,7 @@ class InputOptions(
     ) -> NormalizationArgument:
         if isinstance(v, str):
             v = NormalizationArgument.from_str(v).model_dump()
-        return v
+        return NormalizationArgument.model_validate(v)
 
 
 class OutputOptions(BaseModel):
