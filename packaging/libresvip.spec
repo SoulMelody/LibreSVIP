@@ -110,6 +110,7 @@ if not (is_win and platform.machine() == "ARM64"):
     ])
 
 
+pyside6_dir = pathlib.Path(PySide6.__path__[0])
 gui_a = Analysis(
     ['../libresvip/gui/__main__.py'],
     pathex=[
@@ -150,9 +151,11 @@ gui_a = Analysis(
         'PySide6.QtDataVisualization',
         'PySide6.QtWebChannel',
         'PySide6.QtWebEngineCore',
+        'PySide6.QtWebEngineQuick',
         'PySide6.QtWebEngineWidgets',
         'PySide6.QtPositioning',
         'PySide6.QtPrintSupport',
+        'PySide6.QtQuick3D',
         'PySide6.QtQuickWidgets',
     ],
     win_no_prefer_redirects=False,
@@ -178,6 +181,7 @@ binaries_exclude = sum(
         "Concurrent",
         "DataVisualization",
         "DataVisualizationQml",
+        "Graphs",
         "Location",
         "Multimedia",
         "MultimediaQuick",
@@ -186,7 +190,21 @@ binaries_exclude = sum(
         "Positioning",
         "PositioningQuick",
         "Quick3D",
+        "Quick3DAssetImport",
+        "Quick3DAssetUtils",
+        "Quick3DEffects",
+        "Quick3DHelpers",
+        "Quick3DHelpersImpl",
+        "Quick3DParticleEffects",
+        "Quick3DParticles",
+        "Quick3DRuntimeRender",
+        "Quick3DSpatialAudio",
         "Quick3DUtils",
+        "Quick3DXr",
+        "QuickTest",
+        "QuickTimeline",
+        "QuickTimelineBlendTrees",
+        "QuickWidget",
         "RemoteObjects",
         "RemoteObjectsQml",
         "Scxml",
@@ -194,14 +212,16 @@ binaries_exclude = sum(
         "Sensors",
         "SensorsQuick",
         "ShaderTools",
+        "SpatialAudio",
         "Sql",
         "StateMachine",
         "StateMachineQml",
-        "Svg",
         "Test",
         "TextToSpeech",
         "VirtualKeyboard",
+        "VirtualKeyboardSettings",
         "WebChannel",
+        "WebChannelQuick",
         "WebEngineCore",
         "WebEngineQuick",
         "WebEngineQuickDelegatesQml",
@@ -219,7 +239,7 @@ binaries_exclude = sum(
         "3DQuickScene2D",
         "3DRender",
     )),
-    []
+    [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")]
 )
 
 for (dest, source, kind) in gui_a.binaries:
