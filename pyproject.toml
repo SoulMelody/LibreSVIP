@@ -77,7 +77,7 @@ webui = [
   "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.8.0,>=6.7.3",
+  "pyside6<6.8.1,>=6.8.0",
   "fonticon-materialdesignicons7>=7.2.96",
   "httpx>=0.27.2",
   "desktop-notifier>=6.0.0; platform_python_implementation == \"CPython\"",
