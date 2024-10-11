@@ -40,7 +40,9 @@ core_resolvers = {
 
 
 def set_yaml_grammar(
-    resolver: BaseResolver, grammar_version: str = "1.2", expand_merge_keys: bool = True
+    resolver: BaseResolver,
+    grammar_version: str = "1.2",
+    expand_merge_keys: bool = True,
 ) -> None:
     if grammar_version not in core_resolvers:
         msg = f"Unknown grammar version {grammar_version}"

@@ -94,7 +94,10 @@ class AiSingersGenerator:
             if time_signature.bar_index > prev_bar_index:
                 prev_bar_index = time_signature.bar_index
         for tempo in tempos:
-            ts_index = min(bisect.bisect_left(tick_indexes, tempo.position), len(tick_indexes) - 1)
+            ts_index = min(
+                bisect.bisect_left(tick_indexes, tempo.position),
+                len(tick_indexes) - 1,
+            )
             start_bar = max(
                 (
                     time_signatures[ts_index].bar_index

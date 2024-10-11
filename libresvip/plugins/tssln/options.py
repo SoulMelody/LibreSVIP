@@ -6,7 +6,11 @@ from libresvip.model.option_mixins import (
 )
 
 
-class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
+class InputOptions(
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     pass
 
 

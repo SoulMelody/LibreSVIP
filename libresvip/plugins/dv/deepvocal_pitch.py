@@ -67,7 +67,10 @@ def merge_same_tick_points(points: list[Point]) -> Optional[list[Point]]:
                 merged_points.append(Point(x=tick, y=-100))
             else:
                 merged_points.append(
-                    Point(x=tick, y=round(sum(point.y for point in group_list) / len(group_list)))
+                    Point(
+                        x=tick,
+                        y=round(sum(point.y for point in group_list) / len(group_list)),
+                    )
                 )
         else:
             merged_points.append(group_list[0])
@@ -179,7 +182,10 @@ def get_bend_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) 
                 note.ben_len - 50
             ) // 50 + BEND_LENGTH_MIN_SEC
         end_sec = start_sec + length_sec
-        end_tick = min(transformer.get_actual_ticks_from_secs(end_sec), note.note.start_pos - 1)
+        end_tick = min(
+            transformer.get_actual_ticks_from_secs(end_sec),
+            note.note.start_pos - 1,
+        )
 
         valley_value = -BEND_VALUE_MAX * note.ben_dep
         valley_point = Point(x=round(valley_tick), y=round(valley_value))

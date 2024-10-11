@@ -141,7 +141,8 @@ class VocalSharpParser:
         return ParamCurve(points=Points(root=pitch_points))
 
     def parse_instrumental_tracks(
-        self, track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]]
+        self,
+        track_list: list[Union[VocalSharpMonoTrack, VocalSharpStereoTrack]],
     ) -> list[InstrumentalTrack]:
         tracks = []
         if self.options.import_instrumental_track:

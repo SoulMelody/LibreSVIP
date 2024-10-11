@@ -136,14 +136,20 @@ def params_override_with(
 
 
 def track_override_with(
-    track: SingingTrack, note_list: list[Note], params: Params, first_bar_tick: int
+    track: SingingTrack,
+    note_list: list[Note],
+    params: Params,
+    first_bar_tick: int,
 ) -> None:
     main_note_list = track.note_list
     interval = RangeInterval()
     main_left_index = main_right_index = -1
     for i in range(len(note_list)):
         main_left_index = (
-            find_last_index(main_note_list, lambda note: note.start_pos <= note_list[i].start_pos)
+            find_last_index(
+                main_note_list,
+                lambda note: note.start_pos <= note_list[i].start_pos,
+            )
             if main_left_index < len(main_note_list) - 1
             else -1
         )

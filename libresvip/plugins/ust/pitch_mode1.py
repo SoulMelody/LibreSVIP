@@ -25,7 +25,9 @@ class UtauMode1TrackPitchData:
 
 
 def pitch_from_utau_mode1_track(
-    pitch_data: UtauMode1TrackPitchData, synchronizer: TimeSynchronizer, notes: list[Note]
+    pitch_data: UtauMode1TrackPitchData,
+    synchronizer: TimeSynchronizer,
+    notes: list[Note],
 ) -> ParamCurve:
     pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):

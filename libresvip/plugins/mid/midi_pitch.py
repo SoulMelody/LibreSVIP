@@ -32,7 +32,10 @@ class MIDIPitchData:
 
 
 def generate_for_midi(
-    first_bar_length: int, pitch: ParamCurve, notes: list[Note], synchronizer: TimeSynchronizer
+    first_bar_length: int,
+    pitch: ParamCurve,
+    notes: list[Note],
+    synchronizer: TimeSynchronizer,
 ) -> Optional[MIDIPitchData]:
     pitch_simulator = PitchSimulator(
         synchronizer=synchronizer,

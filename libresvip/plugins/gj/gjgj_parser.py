@@ -179,7 +179,10 @@ class GjgjParser:
             for mod_range in tone.modify_ranges:
                 left_point = Point(self.pitch_time_to_position(mod_range.x), -100)
                 right_point = Point(self.pitch_time_to_position(mod_range.y), -100)
-                index = find_index(tone.modifies, lambda p: (mod_range.x <= p.time <= mod_range.y))
+                index = find_index(
+                    tone.modifies,
+                    lambda p: (mod_range.x <= p.time <= mod_range.y),
+                )
                 if index == -1:
                     continue
                 pitch_curve.points.append(left_point)

@@ -17,7 +17,11 @@ from libresvip.model.base import (
     Track,
 )
 
-from .cevio_pitch import CeVIOParamEvent, CeVIOTrackPitchData, pitch_from_cevio_track
+from .cevio_pitch import (
+    CeVIOParamEvent,
+    CeVIOTrackPitchData,
+    pitch_from_cevio_track,
+)
 from .constants import OCTAVE_OFFSET, TICK_RATE
 from .model import CeVIOCreativeStudioProject, CeVIOData, CeVIOGroup, CeVIOUnit
 from .options import InputOptions
@@ -146,7 +150,10 @@ class CeVIOParser:
 
         tempo_nodes = unit_node.song.tempo.sound if unit_node.song.tempo is not None else []
         tempos = [
-            SongTempo(position=tempo_node.clock // TICK_RATE, bpm=float(tempo_node.tempo))
+            SongTempo(
+                position=tempo_node.clock // TICK_RATE,
+                bpm=float(tempo_node.tempo),
+            )
             for tempo_node in tempo_nodes
             if tempo_node.clock is not None and tempo_node.tempo is not None
         ]
@@ -176,7 +183,14 @@ class CeVIOParser:
             ):
                 if lyric == chr(PROLONGED_SOUND_MARK):
                     lyric = "-"
-                notes.append(Note(key_number=key, lyric=lyric, start_pos=tick_on, length=duration))
+                notes.append(
+                    Note(
+                        key_number=key,
+                        lyric=lyric,
+                        start_pos=tick_on,
+                        length=duration,
+                    )
+                )
 
         cevio_track_pitch_data = None
         if (

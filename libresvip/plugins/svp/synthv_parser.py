@@ -223,7 +223,10 @@ class SynthVParser:
             else:
                 for p in range(prev_point.x, current_point.x, 5):
                     curve.points.append(
-                        Point(p, self.actual_value_at(compound_expr, mapping_func, p))
+                        Point(
+                            p,
+                            self.actual_value_at(compound_expr, mapping_func, p),
+                        )
                     )
             prev_point = current_point
             prev_point_is_base = current_point_is_base
@@ -361,7 +364,10 @@ class SynthVParser:
                 (
                     note
                     for note in sv_notes
-                    if note.pitch_edited(regard_default_vibrato_as_unedited, self.options.instant)
+                    if note.pitch_edited(
+                        regard_default_vibrato_as_unedited,
+                        self.options.instant,
+                    )
                 ),
                 RangeInterval(),
             )
@@ -385,7 +391,10 @@ class SynthVParser:
                 for i in range(start, end, step)
             )
             curve.points.append(
-                Point(end, round(generator.value_at_ticks(end - self.first_bar_tick)))
+                Point(
+                    end,
+                    round(generator.value_at_ticks(end - self.first_bar_tick)),
+                )
             )
             curve.points.append(Point(end, -100))
         curve.points.append(Point.end_point())
@@ -441,7 +450,10 @@ class SynthVParser:
 
     @staticmethod
     def parse_note(sv_note: SVNote, database: SVDatabase) -> Note:
-        note = Note(start_pos=position_to_ticks(sv_note.onset), key_number=sv_note.pitch)
+        note = Note(
+            start_pos=position_to_ticks(sv_note.onset),
+            key_number=sv_note.pitch,
+        )
         note.length = position_to_ticks(sv_note.onset + sv_note.duration) - note.start_pos
         note.lyric = SVNote.normalize_lyric(sv_note.lyrics)
         if sv_note.phonemes:
@@ -489,7 +501,10 @@ class SynthVParser:
         if len(sv_note_list):
             lyrics, languages = zip(
                 *(
-                    (SVNote.normalize_phoneme(note), sv_note.attributes.default_language(database))
+                    (
+                        SVNote.normalize_phoneme(note),
+                        sv_note.attributes.default_language(database),
+                    )
                     for note, sv_note in zip(note_list, sv_note_list)
                 )
             )
@@ -501,7 +516,8 @@ class SynthVParser:
         current_sv_note = sv_note_list[0]
         current_duration = current_sv_note.attributes.dur
         current_phone_marks = default_phone_marks(
-            lyrics_phoneme[0], current_sv_note.attributes.default_language(database)
+            lyrics_phoneme[0],
+            current_sv_note.attributes.default_language(database),
         )
 
         if (
@@ -517,7 +533,8 @@ class SynthVParser:
             next_sv_note = sv_note_list[i + 1]
             next_duration = next_sv_note.attributes.dur
             next_phone_marks = default_phone_marks(
-                lyrics_phoneme[i + 1], next_sv_note.attributes.default_language(database)
+                lyrics_phoneme[i + 1],
+                next_sv_note.attributes.default_language(database),
             )
 
             index = 1 if next_phone_marks[0] > 0 else 0
@@ -637,7 +654,9 @@ class SynthVParser:
                             title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                             note_list=self.parse_note_list(group.notes, sv_ref.database),
                             edited_params=self.parse_params(
-                                group.parameters, group.notes, sv_track.main_group.parameters
+                                group.parameters,
+                                group.notes,
+                                sv_track.main_group.parameters,
                             ),
                         )
                     )
@@ -662,7 +681,9 @@ class SynthVParser:
                                 title=f"{group.name} ({self.group_split_counts[sv_ref.group_id]})",
                                 note_list=self.parse_note_list(group.notes, sv_ref.database),
                                 edited_params=self.parse_params(
-                                    group.parameters, group.notes, sv_track.main_group.parameters
+                                    group.parameters,
+                                    group.notes,
+                                    sv_track.main_group.parameters,
                                 ),
                             )
                         )
@@ -671,7 +692,9 @@ class SynthVParser:
                             singing_track,
                             self.parse_note_list(group.notes, sv_ref.database),
                             self.parse_params(
-                                group.parameters, group.notes, sv_track.main_group.parameters
+                                group.parameters,
+                                group.notes,
+                                sv_track.main_group.parameters,
                             ),
                             self.first_bar_tick,
                         )
@@ -695,7 +718,8 @@ class SynthVParser:
         )
         self.first_bar_tick = round(project.time_signature_list[0].bar_length())
         project.song_tempo_list = shift_tempo_list(
-            [self.parse_tempo(tempo) for tempo in time_sig.tempo], self.first_bar_tick
+            [self.parse_tempo(tempo) for tempo in time_sig.tempo],
+            self.first_bar_tick,
         )
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
 

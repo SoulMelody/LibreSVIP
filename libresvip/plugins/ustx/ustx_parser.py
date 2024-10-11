@@ -134,7 +134,10 @@ class UstxParser:
             for i in range(len(pitches))
         )
         point_list.append(
-            Point(first_bar_length + part.position + len(pitches) * pitch_interval, -100)
+            Point(
+                first_bar_length + part.position + len(pitches) * pitch_interval,
+                -100,
+            )
         )
         return point_list
 

@@ -23,7 +23,11 @@ from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.utils.module_loading import import_module
 
 from .base import BasePlugin_co, MiddlewareBase, SVSConverterBase
-from .meta_info import FormatProviderPluginInfo, MiddlewarePluginInfo, PluginInfo_co
+from .meta_info import (
+    FormatProviderPluginInfo,
+    MiddlewarePluginInfo,
+    PluginInfo_co,
+)
 
 if TYPE_CHECKING:
     import pathlib
@@ -52,7 +56,10 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
         return all_suffixes()
 
     def find_spec(
-        self, fullname: str, path: Optional[list[str]], target: Optional[ModuleType] = None
+        self,
+        fullname: str,
+        path: Optional[list[str]],
+        target: Optional[ModuleType] = None,
     ) -> Optional[ModuleSpec]:
         if not fullname.startswith(self.plugin_namespace) or not path:
             return None
@@ -179,7 +186,10 @@ middleware_manager = MiddlewareManager(
     info_extension="yapsy-plugin",
     plugin_base=MiddlewareBase,  # type: ignore [type-abstract]
     plugin_info_class=MiddlewarePluginInfo,
-    plugin_places=[pkg_dir / "middlewares", app_dir.user_config_path / "middlewares"],
+    plugin_places=[
+        pkg_dir / "middlewares",
+        app_dir.user_config_path / "middlewares",
+    ],
     plugin_namespace="libresvip.middlewares",
     install_path=app_dir.user_config_path / "middlewares",
 )
@@ -187,7 +197,9 @@ middleware_manager.import_plugins()
 
 
 def merge_translation(
-    ori_translation: gettext.NullTranslations, resource_dir: Traversable, lang: str
+    ori_translation: gettext.NullTranslations,
+    resource_dir: Traversable,
+    lang: str,
 ) -> gettext.NullTranslations:
     msg_dir = resource_dir / "locales" / lang / "LC_MESSAGES"
     if msg_dir.is_dir():

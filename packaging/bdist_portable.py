@@ -16,7 +16,11 @@ class BdistPortable(Command):
     description = 'create a "portable" built distribution'
 
     user_options: ClassVar[list[tuple[str, Optional[str], str]]] = [
-        ("bdist-dir=", "d", "temporary directory for creating the distribution"),
+        (
+            "bdist-dir=",
+            "d",
+            "temporary directory for creating the distribution",
+        ),
         (
             "plat-name=",
             "p",
@@ -33,7 +37,11 @@ class BdistPortable(Command):
             "keep the pseudo-installation tree around after " + "creating the distribution archive",
         ),
         ("dist-dir=", "d", "directory to put final built distributions in"),
-        ("skip-build", None, "skip rebuilding everything (for testing/debugging)"),
+        (
+            "skip-build",
+            None,
+            "skip rebuilding everything (for testing/debugging)",
+        ),
         (
             "relative",
             None,
@@ -51,7 +59,11 @@ class BdistPortable(Command):
         ),
     ]
 
-    boolean_options: ClassVar[list[str]] = ["keep-temp", "skip-build", "relative"]
+    boolean_options: ClassVar[list[str]] = [
+        "keep-temp",
+        "skip-build",
+        "relative",
+    ]
 
     default_format: ClassVar[dict[str, str]] = {"posix": "gztar", "nt": "zip"}
 

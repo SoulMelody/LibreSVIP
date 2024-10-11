@@ -62,7 +62,10 @@ class BasePitchCurve:
     values_in_semitone: list[float] = dataclasses.field(default_factory=list)
 
     def __post_init__(
-        self, notes: Iterable[AcepNote], synchronizer: TimeSynchronizer, tick_offset: int
+        self,
+        notes: Iterable[AcepNote],
+        synchronizer: TimeSynchronizer,
+        tick_offset: int,
     ) -> None:
         note_list = []
         for note in notes:

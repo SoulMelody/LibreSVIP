@@ -26,7 +26,8 @@ class QFab(TextElement, DisableableElement, BackgroundColorElement):
             self.on(
                 "click",
                 lambda _: handle_event(
-                    on_click, ClickEventArguments(sender=self, client=self.client)
+                    on_click,
+                    ClickEventArguments(sender=self, client=self.client),
                 ),
             )
 
@@ -59,7 +60,8 @@ class QFabAction(TextElement, DisableableElement, BackgroundColorElement):
             self.on(
                 "click",
                 lambda _: handle_event(
-                    on_click, ClickEventArguments(sender=self, client=self.client)
+                    on_click,
+                    ClickEventArguments(sender=self, client=self.client),
                 ),
             )
 

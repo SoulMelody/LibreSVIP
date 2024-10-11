@@ -269,7 +269,11 @@ class UstVisitor(NodeVisitor):
         elif key == "TimeSignatures":
             numerator, denominator, bar_index = visited_children[0][2][1::2]
             self.pending_metadata["time_signatures"] = [
-                UTAUTimeSignature(numerator=numerator, denominator=denominator, bar_index=bar_index)
+                UTAUTimeSignature(
+                    numerator=numerator,
+                    denominator=denominator,
+                    bar_index=bar_index,
+                )
             ]
             for pair in visited_children[0][3]:
                 numerator, denominator, bar_index = pair[1][1::2]

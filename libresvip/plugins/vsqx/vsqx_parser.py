@@ -132,9 +132,11 @@ class VsqxParser:
                 title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo
             )
             for musical_part in vs_track.musical_part:
-                note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict = (
-                    self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
-                )
+                (
+                    note_list,
+                    vibrato_rate_interval_dict,
+                    vibrato_depth_interval_dict,
+                ) = self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
                 singing_track.note_list.extend(note_list)
                 if (
                     not singing_track.ai_singer_name
@@ -174,7 +176,11 @@ class VsqxParser:
             if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC("):
                 note_list[-1].length += vsqx_note.dur_tick
                 continue
-            elif vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil", "?"]:
+            elif vsqx_note.phnms is None or vsqx_note.phnms.value not in [
+                "Asp",
+                "Sil",
+                "?",
+            ]:
                 note = Note(
                     start_pos=vsqx_note.pos_tick + tick_offset,
                     length=vsqx_note.dur_tick,
@@ -244,7 +250,8 @@ class VsqxParser:
             prev_vsqx_note = vsqx_note
         if self.options.combine_syllables:
             for syllables_group in more_itertools.split_when(
-                note_list, lambda prev_vsqx_note, vsqx_note: not prev_vsqx_note.lyric.endswith("-")
+                note_list,
+                lambda prev_vsqx_note, vsqx_note: not prev_vsqx_note.lyric.endswith("-"),
             ):
                 if len(syllables_group) > 1:
                     syllables_group[0].lyric = "".join(
@@ -253,7 +260,11 @@ class VsqxParser:
                     for vsqx_note in syllables_group[1:]:
                         if vsqx_note.lyric != "-":
                             vsqx_note.lyric = "+"
-        return note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict
+        return (
+            note_list,
+            vibrato_rate_interval_dict,
+            vibrato_depth_interval_dict,
+        )
 
     def parse_pitch(
         self,

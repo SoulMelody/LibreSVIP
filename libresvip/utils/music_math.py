@@ -14,7 +14,20 @@ P = ParamSpec("P")
 
 
 def midi2note(midi: float) -> str:
-    pitch_map = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    pitch_map = [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
+    ]
     midi = int(round(midi))
     octave = (midi // KEY_IN_OCTAVE) - 1
     pitch = pitch_map[midi % KEY_IN_OCTAVE]

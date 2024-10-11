@@ -9,7 +9,13 @@ from sortedcontainers import SortedKeyList
 from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.exceptions import NoTrackError
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.model.base import (
+    Note,
+    Project,
+    SingingTrack,
+    SongTempo,
+    TimeSignature,
+)
 from libresvip.utils.translation import gettext_lazy as _
 
 from .model import UTAUNote, UTAUProject, UTAUTimeSignature
@@ -40,9 +46,11 @@ class USTParser:
         time_signatures = self.parse_time_signatures(ust_project.time_signatures)
         for ust_track in ust_project.track:
             track = SingingTrack()
-            for notes, mode1_track_pitch_data, mode2_track_pitch_data in self.parse_notes(
-                ust_project.tempo, ust_track.notes
-            ):
+            for (
+                notes,
+                mode1_track_pitch_data,
+                mode2_track_pitch_data,
+            ) in self.parse_notes(ust_project.tempo, ust_track.notes):
                 track.note_list.extend(notes)
                 if self.options.import_pitch:
                     synchronizer = TimeSynchronizer(list(self.tempos))

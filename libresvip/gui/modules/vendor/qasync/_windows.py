@@ -150,7 +150,8 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         self,
         conn: socket.socket,
         address: Union[
-            tuple[Incomplete, Incomplete], tuple[Incomplete, Incomplete, Incomplete, Incomplete]
+            tuple[Incomplete, Incomplete],
+            tuple[Incomplete, Incomplete, Incomplete, Incomplete],
         ],
     ) -> asyncio.Future[Any]:
         with QtCore.QMutexLocker(self._lock):

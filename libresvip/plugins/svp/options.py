@@ -30,10 +30,12 @@ synthv_language_presets = {
 
 class SVProjectVersionCompatibility(IntEnum):
     BELOW_1_9_0: Annotated[
-        int, Field(title=_("Compatible with SynthesizerV Studio 1.9.0 and below"))
+        int,
+        Field(title=_("Compatible with SynthesizerV Studio 1.9.0 and below")),
     ] = 100
     ABOVE_1_9_0: Annotated[
-        int, Field(title=_("Incompatible with SynthesizerV Studio 1.9.0 and below"))
+        int,
+        Field(title=_("Incompatible with SynthesizerV Studio 1.9.0 and below")),
     ] = 135
 
 

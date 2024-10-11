@@ -69,7 +69,9 @@ class MidiGenerator:
                 )
 
     def generate_time_signatures(
-        self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
+        self,
+        master_track: mido.MidiTrack,
+        time_signature_list: list[TimeSignature],
     ) -> None:
         prev_ticks = 0
         prev_time_signature = None
@@ -132,7 +134,10 @@ class MidiGenerator:
                 )
             )
         if pitch_data := generate_for_midi(
-            self.first_bar_length, track.edited_params.pitch, track.note_list, self.synchronizer
+            self.first_bar_length,
+            track.edited_params.pitch,
+            track.note_list,
+            self.synchronizer,
         ):
             for pbs_event in pitch_data.pbs:
                 msg_time = round(pbs_event.tick / self.tick_rate)

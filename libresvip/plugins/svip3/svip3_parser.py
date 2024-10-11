@@ -56,7 +56,9 @@ class Svip3Parser:
         )
 
     @staticmethod
-    def parse_time_signatures(beat_list: MutableSequence[Svip3SongBeat]) -> list[TimeSignature]:
+    def parse_time_signatures(
+        beat_list: MutableSequence[Svip3SongBeat],
+    ) -> list[TimeSignature]:
         return [
             TimeSignature(
                 bar_index=beat.pos,

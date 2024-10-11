@@ -149,7 +149,10 @@ settings = cast(LibreSvipSettings, OmegaConf.structured(LibreSvipSettings))
 settings.lyric_replace_rules.setdefault("default", [])
 if config_path.exists():
     with contextlib.suppress(OmegaConfBaseException):
-        settings = cast(LibreSvipSettings, OmegaConf.merge(settings, OmegaConf.load(config_path)))
+        settings = cast(
+            LibreSvipSettings,
+            OmegaConf.merge(settings, OmegaConf.load(config_path)),
+        )
 
 
 def get_ui_settings() -> LibreSvipBaseUISettings:

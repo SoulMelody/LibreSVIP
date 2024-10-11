@@ -16,7 +16,14 @@ from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
-from .model import UFData, UFNotes, UFPitch, UFTempos, UFTimeSignatures, UFTracks
+from .model import (
+    UFData,
+    UFNotes,
+    UFPitch,
+    UFTempos,
+    UFTimeSignatures,
+    UFTracks,
+)
 from .options import InputOptions
 
 
@@ -69,7 +76,8 @@ class UFDataParser:
         track_list = []
         for track in tracks:
             singing_track = SingingTrack(
-                title=track.name, note_list=self.parse_notes(track.notes, tick_prefix)
+                title=track.name,
+                note_list=self.parse_notes(track.notes, tick_prefix),
             )
             if track.pitch is not None:
                 singing_track.edited_params.pitch = self.parse_pitch(
@@ -84,7 +92,12 @@ class UFDataParser:
             prev_point = pitch_points[-1]
             for tick, value in zip(pitch.ticks, pitch.values):
                 if value == 0 and prev_point.y == -100:
-                    pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
+                    pitch_points.append(
+                        Point(
+                            x=tick + tick_prefix + self.first_bar_length,
+                            y=-100,
+                        )
+                    )
                 if value is not None:
                     point = Point(
                         x=tick + tick_prefix + self.first_bar_length,
@@ -92,7 +105,12 @@ class UFDataParser:
                     )
                 pitch_points.append(point)
                 if value == 0 and prev_point.y != -100:
-                    pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
+                    pitch_points.append(
+                        Point(
+                            x=tick + tick_prefix + self.first_bar_length,
+                            y=-100,
+                        )
+                    )
                 prev_point = point
             if prev_point.y == 0:
                 pitch_points.append(prev_point._replace(y=-100))

@@ -76,10 +76,15 @@ class UstxGenerator:
 
     @staticmethod
     def generate_tempo(os_tempo: SongTempo, first_bar_length: int = 1920) -> UTempo:
-        return UTempo(position=max(os_tempo.position - first_bar_length, 0), bpm=os_tempo.bpm)
+        return UTempo(
+            position=max(os_tempo.position - first_bar_length, 0),
+            bpm=os_tempo.bpm,
+        )
 
     @staticmethod
-    def generate_time_signature(os_time_signature: TimeSignature) -> UTimeSignature:
+    def generate_time_signature(
+        os_time_signature: TimeSignature,
+    ) -> UTimeSignature:
         return UTimeSignature(
             bar_position=os_time_signature.bar_index,
             beat_per_bar=os_time_signature.numerator,
@@ -114,7 +119,10 @@ class UstxGenerator:
         self.generate_pitch(
             ustx_voice_part,
             ustx_project,
-            cast(MutableSequence[tuple[int, int]], os_track.edited_params.pitch.points.root),
+            cast(
+                MutableSequence[tuple[int, int]],
+                os_track.edited_params.pitch.points.root,
+            ),
             first_bar_length,
         )
 
@@ -178,7 +186,13 @@ class UstxGenerator:
                         ],
                     ),
                     vibrato=UVibrato(
-                        length=0, period=175, depth=25, in_value=10, out=10, shift=0, drift=0
+                        length=0,
+                        period=175,
+                        depth=25,
+                        in_value=10,
+                        out=10,
+                        shift=0,
+                        drift=0,
                     ),
                 )
             )

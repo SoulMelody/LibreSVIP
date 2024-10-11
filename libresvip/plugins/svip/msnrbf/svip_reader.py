@@ -119,4 +119,7 @@ class SvipReader(NrbfIOBase):
         else:
             raise ValueError(_("Root not found"))
 
-        return f"{self.svip_file.magic}{self.svip_file.version}", self.xstudio_model
+        return (
+            f"{self.svip_file.magic}{self.svip_file.version}",
+            self.xstudio_model,
+        )

@@ -6,7 +6,10 @@ from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
+    legato_chars,
+    romaji2xsampa,
+)
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (

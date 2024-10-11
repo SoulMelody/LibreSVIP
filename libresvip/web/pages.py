@@ -64,7 +64,11 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.extension.manager import (
+    get_translation,
+    middleware_manager,
+    plugin_manager,
+)
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names
@@ -854,12 +858,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     middleware.plugin_object, "process"
                                 ):
                                     middleware_option = getattr(
-                                        self.middleware_options, middleware_abbr
+                                        self.middleware_options,
+                                        middleware_abbr,
                                     )
                                     project = middleware.plugin_object.process(
                                         project,
                                         middleware_option.model_validate(
-                                            middleware_option, from_attributes=True
+                                            middleware_option,
+                                            from_attributes=True,
                                         ),
                                     )
                         output_option = output_option_class(**self.output_options)
@@ -961,7 +967,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                 "application/octet-stream",
             )
 
-        def _export_all(self) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        def _export_all(
+            self,
+        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if len(self.files_to_convert) == 0:
                 return None
             elif len(self.files_to_convert) == 1:
@@ -1054,7 +1062,11 @@ def page_layout(lang: Optional[str] = None) -> None:
     )
     selected_formats = SelectedFormats()
     if app.native.main_window is None:
-        setattr(app.state, f"{context.client.id}_selected_formats", selected_formats)
+        setattr(
+            app.state,
+            f"{context.client.id}_selected_formats",
+            selected_formats,
+        )
 
         def recycle_state() -> None:
             delattr(app.state, f"{context.client.id}_selected_formats")
@@ -1268,11 +1280,18 @@ def page_layout(lang: Optional[str] = None) -> None:
                             target="https://soulmelody.github.io/LibreSVIP",
                             new_tab=True,
                         )
-            with ui.dialog() as settings_dialog, ui.card().classes("min-w-[750px]"):
+            with (
+                ui.dialog() as settings_dialog,
+                ui.card().classes("min-w-[750px]"),
+            ):
                 with ui.splitter(value=25, limits=(25, 30)).classes("w-full") as settings_splitter:
-                    with settings_splitter.before, ui.tabs().props("vertical") as settings_nav:
+                    with (
+                        settings_splitter.before,
+                        ui.tabs().props("vertical") as settings_nav,
+                    ):
                         conversion_settings_tab = ui.tab(
-                            _("Conversion Settings"), icon="settings_applications"
+                            _("Conversion Settings"),
+                            icon="settings_applications",
                         )
                         lyric_replace_rules_tab = ui.tab(
                             _("Lyric Replace Rules"), icon="text_rotation_none"
@@ -1282,7 +1301,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                         settings_splitter.after,
                         ui.tab_panels(settings_nav, value=conversion_settings_tab),
                     ):
-                        with ui.tab_panel(conversion_settings_tab), ui.column():
+                        with (
+                            ui.tab_panel(conversion_settings_tab),
+                            ui.column(),
+                        ):
                             ui.switch(_("Auto detect import format")).bind_value(
                                 settings,
                                 "auto_detect_input_format",
@@ -1295,7 +1317,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                             )
                         with ui.tab_panel(lyric_replace_rules_tab):
                             columns = [
-                                {"name": "mode", "label": _("Mode"), "field": "mode"},
+                                {
+                                    "name": "mode",
+                                    "label": _("Mode"),
+                                    "field": "mode",
+                                },
                                 {
                                     "name": "pattern_prefix",
                                     "label": _("Prefix"),
@@ -1316,11 +1342,21 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     "label": _("Replacement"),
                                     "field": "replacement",
                                 },
-                                {"name": "flags", "label": _("Flags"), "field": "flags"},
-                                {"name": "actions", "label": _("Actions"), "field": "actions"},
+                                {
+                                    "name": "flags",
+                                    "label": _("Flags"),
+                                    "field": "flags",
+                                },
+                                {
+                                    "name": "actions",
+                                    "label": _("Actions"),
+                                    "field": "actions",
+                                },
                             ]
 
-                            def refresh_rules(preset: str) -> list[dict[str, Any]]:
+                            def refresh_rules(
+                                preset: str,
+                            ) -> list[dict[str, Any]]:
                                 return [
                                     {
                                         "id": i + 1,
@@ -1337,8 +1373,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                             rows = refresh_rules(selected_formats.current_preset)
                             replace_mode_options = [
                                 {"label": _("Full match"), "value": "full"},
-                                {"label": _("Alphabetic"), "value": "alphabetic"},
-                                {"label": _("Non-alphabetic"), "value": "non_alphabetic"},
+                                {
+                                    "label": _("Alphabetic"),
+                                    "value": "alphabetic",
+                                },
+                                {
+                                    "label": _("Non-alphabetic"),
+                                    "value": "non_alphabetic",
+                                },
                                 {"label": _("Regex"), "value": "regex"},
                             ]
                             re_flags_options = [
@@ -1346,7 +1388,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     "label": _("Ignore case"),
                                     "value": re.IGNORECASE.value,
                                 },
-                                {"label": _("Case sensitive"), "value": re.UNICODE.value},
+                                {
+                                    "label": _("Case sensitive"),
+                                    "value": re.UNICODE.value,
+                                },
                             ]
                             table = ui.table(columns=columns, rows=rows, pagination=5).classes(
                                 "w-full"
@@ -1456,20 +1501,26 @@ def page_layout(lang: Optional[str] = None) -> None:
                             """,
                             )
 
-                            def modify_field(event: GenericEventArguments) -> None:
+                            def modify_field(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     row_idx := find_index(
-                                        rows, lambda row: row["id"] == event.args["id"]
+                                        rows,
+                                        lambda row: row["id"] == event.args["id"],
                                     )
                                 ) != -1:
                                     rows[row_idx][event.args[1]] = event.args[2]
 
                             table.on("modify_field", modify_field)
 
-                            def move_up_rule(event: GenericEventArguments) -> None:
+                            def move_up_rule(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     row_idx := find_index(
-                                        rows, lambda row: row["id"] == event.args["id"]
+                                        rows,
+                                        lambda row: row["id"] == event.args["id"],
                                     )
                                 ) > 0:
                                     rows[row_idx - 1], rows[row_idx] = (
@@ -1480,12 +1531,15 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                             table.on("move_up", move_up_rule)
 
-                            def move_down_rule(event: GenericEventArguments) -> None:
+                            def move_down_rule(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     -1
                                     < (
                                         row_idx := find_index(
-                                            rows, lambda row: row["id"] == event.args["id"]
+                                            rows,
+                                            lambda row: row["id"] == event.args["id"],
                                         )
                                     )
                                     < len(rows) - 1
@@ -1498,10 +1552,13 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                             table.on("move_down", move_down_rule)
 
-                            def delete_rule(event: GenericEventArguments) -> None:
+                            def delete_rule(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     row_idx := find_index(
-                                        rows, lambda row: row["id"] == event.args["id"]
+                                        rows,
+                                        lambda row: row["id"] == event.args["id"],
                                     )
                                 ) != -1:
                                     table.remove_rows(rows[row_idx])
@@ -1519,12 +1576,17 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     )
 
                                 table_fullscreen_btn = (
-                                    ui.button(icon="fullscreen", on_click=table_toggle_fullscreen)
+                                    ui.button(
+                                        icon="fullscreen",
+                                        on_click=table_toggle_fullscreen,
+                                    )
                                     .props("round")
                                     .tooltip(_("Toggle fullscreen"))
                                 )
 
-                                def refresh_rows(event: ValueChangeEventArguments) -> None:
+                                def refresh_rows(
+                                    event: ValueChangeEventArguments,
+                                ) -> None:
                                     if event.value is not None:
                                         settings.lyric_replace_rules.setdefault(event.value, [])
                                         table.update_rows(refresh_rules(event.value))
@@ -1540,7 +1602,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     if preset_select.value != "default":
                                         settings.lyric_replace_rules.pop(preset_select.value)
                                         preset_select.set_options(
-                                            list(settings.lyric_replace_rules), value="default"
+                                            list(settings.lyric_replace_rules),
+                                            value="default",
                                         )
 
                                 ui.button(icon="remove", on_click=delete_preset).props(
@@ -1599,7 +1662,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         )
                         with ui.tab_panel(language_tab):
 
-                            def switch_language(event: ValueChangeEventArguments) -> None:
+                            def switch_language(
+                                event: ValueChangeEventArguments,
+                            ) -> None:
                                 if event.value == Language.CHINESE:
                                     ui.navigate.to("/?lang=zh_CN")
                                 elif event.value == Language.ENGLISH:
@@ -1698,7 +1763,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ).classes("aspect-square") as maximize_button:
                     maximize_button_tooltip = ui.tooltip(maximize_text)
                 ui.button(
-                    icon="close", color="negative", on_click=app.native.main_window.destroy
+                    icon="close",
+                    color="negative",
+                    on_click=app.native.main_window.destroy,
                 ).classes("aspect-square").tooltip(_("Close"))
 
         async def handle_key(e: KeyEventArguments) -> None:
@@ -1910,7 +1977,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                     backward=ConversionMode.SPLIT.value.__eq__,
                 )
                 ui.knob(
-                    min=1, max=10, step=1, show_value=True, track_color="light-blue"
+                    min=1,
+                    max=10,
+                    step=1,
+                    show_value=True,
+                    track_color="light-blue",
                 ).bind_value(settings, "max_track_count").bind_visibility_from(
                     selected_formats,
                     "conversion_mode",
@@ -1970,7 +2041,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                 middleware_toggler = (
                     ui.switch(_(middleware.name))
                     .props("color=green")
-                    .bind_value(selected_formats.middleware_enabled_states, middleware.identifier)
+                    .bind_value(
+                        selected_formats.middleware_enabled_states,
+                        middleware.identifier,
+                    )
                 )
                 if middleware.description:
                     ui.space()
@@ -2005,7 +2079,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                 input_options()
             ui.separator()
             with ui.expansion().classes("w-full") as middleware_panel:
-                with middleware_panel.add_slot("header"), ui.row().classes("w-full items-center"):
+                with (
+                    middleware_panel.add_slot("header"),
+                    ui.row().classes("w-full items-center"),
+                ):
                     ui.icon("auto_fix_high").classes("text-lg")
                     ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
                 middleware_options()
@@ -2039,7 +2116,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                     "h-full w-full"
                 ) as format_select_splitter,
             ):
-                with format_select_splitter.before, ui.card().classes("h-full w-full"):
+                with (
+                    format_select_splitter.before,
+                    ui.card().classes("h-full w-full"),
+                ):
                     file_format_area()
                 with format_select_splitter.after:
                     tasks_area()

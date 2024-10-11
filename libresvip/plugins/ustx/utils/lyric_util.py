@@ -1,7 +1,9 @@
 from libresvip.utils.text import CustomBoundriesBlacklist
 
 unsupported_symbols = CustomBoundriesBlacklist(
-    [",", "，", ".", "。", "?", "？", "!", "！"], right_boundary="$", match_substrings=True
+    [",", "，", ".", "。", "?", "？", "!", "！"],
+    right_boundary="$",
+    match_substrings=True,
 )
 
 

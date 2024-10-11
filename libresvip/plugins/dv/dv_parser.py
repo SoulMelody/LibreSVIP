@@ -72,7 +72,10 @@ class DeepVocalParser:
             )
             for time_signature in dv_time_signatures
         ]
-        index = max(find_last_index(time_signatures, lambda beat: beat.bar_index <= 1), 0)
+        index = max(
+            find_last_index(time_signatures, lambda beat: beat.bar_index <= 1),
+            0,
+        )
         for i in range(index + 1):
             if i < index:
                 self.tick_prefix += (
@@ -134,7 +137,9 @@ class DeepVocalParser:
                     solo=dv_track.solo,
                     ai_singer_name=segment.singer_name,
                     note_list=self.parse_notes(
-                        segment.notes, note_with_pitch, tick_offset - self.tick_prefix
+                        segment.notes,
+                        note_with_pitch,
+                        tick_offset - self.tick_prefix,
                     ),
                 )
                 if (
@@ -144,7 +149,8 @@ class DeepVocalParser:
                             self.first_bar_length,
                             [
                                 DvSegmentPitchRawData(
-                                    tick_offset - self.tick_prefix, segment.pitch_data
+                                    tick_offset - self.tick_prefix,
+                                    segment.pitch_data,
                                 )
                             ],
                             note_with_pitch,

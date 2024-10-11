@@ -22,7 +22,10 @@ def split_into_segments(
     project = reset_time_axis(project)
     buffer = [track.note_list[0]]
 
-    cur_seg_start = max(track.note_list[0].start_pos - 600, int(track.note_list[0].start_pos * 0.8))
+    cur_seg_start = max(
+        track.note_list[0].start_pos - 600,
+        int(track.note_list[0].start_pos * 0.8),
+    )
     cur_seg_interval = track.note_list[0].start_pos
     for i in range(1, len(track.note_list)):
         prev = track.note_list[i - 1]
@@ -63,7 +66,11 @@ def split_into_segments(
                     )
                 ],
             )
-            yield (seg_note_start_pos - prepare_space) / 1000.0, segment, trailing_space / 1000.0
+            yield (
+                (seg_note_start_pos - prepare_space) / 1000.0,
+                segment,
+                trailing_space / 1000.0,
+            )
 
             buffer = []
 

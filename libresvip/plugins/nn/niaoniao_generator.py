@@ -45,7 +45,8 @@ class NiaoniaoGenerator:
             tempo=nn_tempo,
         )
         nn_project = NNProject(
-            info_line=nn_info_line, notes=self.generate_notes(first_singing_track)
+            info_line=nn_info_line,
+            notes=self.generate_notes(first_singing_track),
         )
         nn_project.note_count = len(nn_project.notes)
         if nn_project.note_count:

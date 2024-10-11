@@ -444,7 +444,10 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         return time.monotonic()
 
     def _add_reader(
-        self, fd: FileDescriptor, callback: Callable[[Unpack[_Ts]], object], *args: Unpack[_Ts]
+        self,
+        fd: FileDescriptor,
+        callback: Callable[[Unpack[_Ts]], object],
+        *args: Unpack[_Ts],
     ) -> None:
         """Register a callback for when a file descriptor is ready for reading."""
         self._check_closed()
@@ -482,7 +485,10 @@ class _QEventLoop(asyncio.AbstractEventLoop):
             return True
 
     def _add_writer(
-        self, fd: FileDescriptor, callback: Callable[[Unpack[_Ts]], object], *args: Unpack[_Ts]
+        self,
+        fd: FileDescriptor,
+        callback: Callable[[Unpack[_Ts]], object],
+        *args: Unpack[_Ts],
     ) -> None:
         """Register a callback for when a file descriptor is ready for writing."""
         self._check_closed()
@@ -567,7 +573,14 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         assert notifier.is_enabled()
         self.__log_debug("Socket notifier for fd {} is ready", fd)
         notifier.set_enabled(False)
-        self.call_soon(self.__notifier_cb_wrapper, notifiers, notifier, fd, callback, *args)
+        self.call_soon(
+            self.__notifier_cb_wrapper,
+            notifiers,
+            notifier,
+            fd,
+            callback,
+            *args,
+        )
 
     # Methods for interacting with threads.
 
@@ -581,7 +594,10 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         self.__call_soon_signal.emit(callback, args)
 
     def run_in_executor(
-        self, executor: Executor, callback: Callable[[Unpack[_Ts]], _T], *args: Unpack[_Ts]
+        self,
+        executor: Executor,
+        callback: Callable[[Unpack[_Ts]], _T],
+        *args: Unpack[_Ts],
     ) -> asyncio.Future[_T]:
         """Run callback in executor.
 

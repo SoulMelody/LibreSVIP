@@ -6,7 +6,11 @@ from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt, Slot
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
-from libresvip.core.config import LyricsReplacement, LyricsReplaceMode, settings
+from libresvip.core.config import (
+    LyricsReplacement,
+    LyricsReplaceMode,
+    settings,
+)
 from libresvip.extension.manager import plugin_manager
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -14,7 +18,12 @@ from libresvip.utils.translation import gettext_lazy as _
 class PluginCadidatesTableModel(QAbstractTableModel):
     def __init__(self) -> None:
         super().__init__()
-        self.column_names = [_("Applicable File Format"), _("Author"), _("Version"), "On/Off"]
+        self.column_names = [
+            _("Applicable File Format"),
+            _("Author"),
+            _("Version"),
+            "On/Off",
+        ]
         self.plugin_candidates: list[dict[int, str]] = []
         self.reload_formats()
 
@@ -52,7 +61,11 @@ class PluginCadidatesTableModel(QAbstractTableModel):
             return self.column_names[section]
         return str(section + 1)
 
-    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Any:
+    def data(
+        self,
+        index: QModelIndex,
+        role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole,
+    ) -> Any:
         if role == Qt.ItemDataRole.DisplayRole or (
             role == Qt.ItemDataRole.EditRole and index.column() == 3
         ):
@@ -67,7 +80,10 @@ class PluginCadidatesTableModel(QAbstractTableModel):
 
     @cache
     def role_names(self) -> dict[int, bytes]:
-        return {Qt.ItemDataRole.DisplayRole: b"display", Qt.ItemDataRole.EditRole: b"value"}
+        return {
+            Qt.ItemDataRole.DisplayRole: b"display",
+            Qt.ItemDataRole.EditRole: b"value",
+        }
 
 
 class LyricReplacementRulesTableModel(QAbstractTableModel):
@@ -108,11 +124,16 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
             return self.column_names[section]
         return str(section + 1)
 
-    def data(self, index: QModelIndex, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole) -> Any:
+    def data(
+        self,
+        index: QModelIndex,
+        role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole,
+    ) -> Any:
         column_index = index.column()
-        if role in [Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.EditRole] and (
-            0 <= column_index < len(self.column_keys)
-        ):
+        if role in [
+            Qt.ItemDataRole.DisplayRole,
+            Qt.ItemDataRole.EditRole,
+        ] and (0 <= column_index < len(self.column_keys)):
             prop = getattr(
                 settings.lyric_replace_rules[self.preset][index.row()],
                 self.column_keys[column_index],
@@ -126,7 +147,10 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
         return ""
 
     def set_data(
-        self, index: QModelIndex, value: Any, role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole
+        self,
+        index: QModelIndex,
+        value: Any,
+        role: Qt.ItemDataRole = Qt.ItemDataRole.DisplayRole,
     ) -> bool:
         key = self.column_keys[index.column()]
         row = index.row()
@@ -134,7 +158,10 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
         if key == "mode":
             return False
         elif key == "flags":
-            flags = getattr(re.RegexFlag, "IGNORECASE" if value == "IGNORECASE" else "UNICODE")
+            flags = getattr(
+                re.RegexFlag,
+                "IGNORECASE" if value == "IGNORECASE" else "UNICODE",
+            )
             setattr(rule, key, flags)
             value = flags.name
         else:
@@ -156,7 +183,10 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
 
     @cache
     def role_names(self) -> dict[int, bytes]:
-        return {Qt.ItemDataRole.DisplayRole: b"display", Qt.ItemDataRole.EditRole: b"value"}
+        return {
+            Qt.ItemDataRole.DisplayRole: b"display",
+            Qt.ItemDataRole.EditRole: b"value",
+        }
 
     @Slot(str)
     def append(self, mode: str) -> None:

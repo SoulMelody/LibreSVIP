@@ -49,7 +49,8 @@ class DiffSingerParser:
             prev_is_breath = False
             for lyric_index, slur_group in enumerate(
                 more_itertools.split_before(
-                    enumerate(ds_item.note_slur or []), lambda pair: pair[1] == 0
+                    enumerate(ds_item.note_slur or []),
+                    lambda pair: pair[1] == 0,
                 )
             ):
                 if not ds_item.note_dur:

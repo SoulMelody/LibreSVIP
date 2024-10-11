@@ -61,7 +61,10 @@ def encode_notes(
                 rest_phoneme = RestDsPhoneme(
                     _duration=round(cur_actual_start_in_secs - prev_actual_end_in_secs, 6)
                 )
-                rest_note = RestDsNote(round(cur_start_in_secs - prev_end_in_secs, 6), rest_phoneme)
+                rest_note = RestDsNote(
+                    round(cur_start_in_secs - prev_end_in_secs, 6),
+                    rest_phoneme,
+                )
                 ds_notes.append(rest_note)
                 prev_phoneme = rest_phoneme
             elif gap < max_asp_len:  # 间隙适中, 换气

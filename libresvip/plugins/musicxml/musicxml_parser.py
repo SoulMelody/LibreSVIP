@@ -2,10 +2,17 @@ import dataclasses
 from typing import Optional
 
 from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
-from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.model.base import (
+    Note,
+    Project,
+    SingingTrack,
+    SongTempo,
+    TimeSignature,
+)
 from libresvip.utils.music_math import note2midi
 
-from .models.mxml2 import ScorePart, ScorePartwise, StartStop
+from .models.enums import StartStop
+from .models.mxml4 import ScorePart, ScorePartwise
 from .options import InputOptions
 
 
@@ -30,13 +37,9 @@ class MusicXMLParser:
         tracks = []
         for index, part in enumerate(part_nodes):
             score_part = None
-            if mxml.part_list is not None and part.part_id is not None:
+            if mxml.part_list is not None and part.id is not None:
                 score_part = next(
-                    (
-                        item
-                        for item in mxml.part_list.score_part
-                        if item.score_part_id == part.part_id
-                    ),
+                    (item for item in mxml.part_list.score_part if item.id == part.id),
                     None,
                 )
             tracks.append(

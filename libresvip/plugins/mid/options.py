@@ -4,7 +4,10 @@ from typing import Annotated
 from pydantic import BaseModel, Field
 
 from libresvip.core.constants import DEFAULT_BPM
-from libresvip.model.option_mixins import EnablePitchImportationMixin, EnableVolumeImportationMixin
+from libresvip.model.option_mixins import (
+    EnablePitchImportationMixin,
+    EnableVolumeImportationMixin,
+)
 from libresvip.utils.translation import gettext_lazy as _
 
 

@@ -74,7 +74,8 @@ def pitch_from_vocaloid_parts(
         if first_pos is None:
             continue
         first_invalid_index_in_previous = next(
-            (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos), None
+            (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos),
+            None,
         )
         if first_invalid_index_in_previous is None:
             pitch_raw_data += list(element.items())

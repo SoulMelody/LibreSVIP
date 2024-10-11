@@ -5,7 +5,10 @@ from typing import Union, cast
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.chinese.vocaloid_xsampa import pinyin2xsampa
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
+    legato_chars,
+    romaji2xsampa,
+)
 from libresvip.core.tick_counter import shift_beat_list, skip_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
@@ -21,7 +24,11 @@ from libresvip.model.base import (
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.translation import gettext_lazy as _
 
-from .constants import BPM_RATE, DEFAULT_CHINESE_PHONEME, DEFAULT_JAPANESE_PHONEME
+from .constants import (
+    BPM_RATE,
+    DEFAULT_CHINESE_PHONEME,
+    DEFAULT_JAPANESE_PHONEME,
+)
 from .enums import VocaloidLanguage
 from .model import (
     VocaloidStyleTypes,
@@ -159,7 +166,9 @@ class Vsq4Generator:
                     musical_part.m_ctrl = pitch
                 vsqx_track.musical_part = [musical_part]
             vsqx_unit = Vsq4VsUnit(
-                vs_track_no=track_index, mute=int(track.mute), solo=int(track.solo)
+                vs_track_no=track_index,
+                mute=int(track.mute),
+                solo=int(track.solo),
             )
             vs_track_list.append(vsqx_track)
             vs_unit_list.append(vsqx_unit)
@@ -219,7 +228,8 @@ class Vsq4Generator:
             elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
                 vsqx_note.phnms = Vsq4TypePhonemes(
                     value=romaji2xsampa.get(
-                        to_romaji(cast(str, vsqx_note.lyric)), DEFAULT_JAPANESE_PHONEME
+                        to_romaji(cast(str, vsqx_note.lyric)),
+                        DEFAULT_JAPANESE_PHONEME,
                     ),
                 )
             else:

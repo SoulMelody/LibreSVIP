@@ -186,7 +186,9 @@ class VoiSonaParser:
         return singing_track, tempos, time_signatures
 
     @staticmethod
-    def parse_param_data(data_element: VoiSonaPointData) -> Optional[VoiSonaParamEvent]:
+    def parse_param_data(
+        data_element: VoiSonaPointData,
+    ) -> Optional[VoiSonaParamEvent]:
         value = float(data_element.value) if data_element.value is not None else None
         if value is not None:
             index = data_element.index or None

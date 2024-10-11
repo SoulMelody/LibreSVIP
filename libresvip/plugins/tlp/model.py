@@ -4,7 +4,13 @@ from itertools import chain
 from typing import Annotated, Any, Literal, NamedTuple, Optional, Union, cast
 
 from more_itertools import batched
-from pydantic import Field, RootModel, ValidationInfo, field_validator, model_serializer
+from pydantic import (
+    Field,
+    RootModel,
+    ValidationInfo,
+    field_validator,
+    model_serializer,
+)
 
 from libresvip.model.base import BaseModel
 from libresvip.model.point import PointList
@@ -101,7 +107,9 @@ class TuneLabMidiPart(TuneLabBasePart):
     @field_validator("pitch", mode="before")
     @classmethod
     def validate_pitch(
-        cls, pitch: Union[list[list[float]], list[TuneLabPoints]], _info: ValidationInfo
+        cls,
+        pitch: Union[list[list[float]], list[TuneLabPoints]],
+        _info: ValidationInfo,
     ) -> list[TuneLabPoints]:
         if _info.mode == "json":
             return [

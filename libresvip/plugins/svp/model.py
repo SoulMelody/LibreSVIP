@@ -392,10 +392,16 @@ class SVNote(BaseModel):
 
     def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
-            by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
+            by_alias=True,
+            exclude_none=True,
+            exclude_unset=True,
+            exclude_defaults=True,
         )
         new_dict = attributes.model_dump(
-            by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
+            by_alias=True,
+            exclude_none=True,
+            exclude_unset=True,
+            exclude_defaults=True,
         )
         ori_dict.update({k: v for k, v in new_dict.items() if k not in ori_dict})
         self.attributes = SVNoteAttributes.model_validate(ori_dict)

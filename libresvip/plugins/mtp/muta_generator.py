@@ -95,7 +95,10 @@ class MutaGenerator:
                 song_track_data=[
                     MutaSongTrackData(
                         start=self.first_bar_length,
-                        length=max((note.end_pos for note in track.note_list), default=0)
+                        length=max(
+                            (note.end_pos for note in track.note_list),
+                            default=0,
+                        )
                         + self.first_bar_length,
                         singer_name=[ord(c) for c in self.options.default_singer_name]
                         + [0] * (258 - len(self.options.default_singer_name)),

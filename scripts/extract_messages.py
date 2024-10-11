@@ -81,7 +81,12 @@ def extract_from_qt_ts(
                         "",
                     )
             else:
-                yield 0, "pgettext", (context_name, message.source.content[0]), ""
+                yield (
+                    0,
+                    "pgettext",
+                    (context_name, message.source.content[0]),
+                    "",
+                )
     for message in ts.message:
         if (
             message.translation is not None

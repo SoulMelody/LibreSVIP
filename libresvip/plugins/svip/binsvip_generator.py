@@ -211,7 +211,8 @@ class BinarySvipGenerator:
         self, vibrato: VibratoParam
     ) -> tuple[XSVibratoPercentInfo, XSVibratoStyle]:
         percent = XSVibratoPercentInfo(
-            start_percent=vibrato.start_percent, end_percent=vibrato.end_percent
+            start_percent=vibrato.start_percent,
+            end_percent=vibrato.end_percent,
         )
         vibrato_style = XSVibratoStyle(
             is_anti_phase=vibrato.is_anti_phase,
@@ -227,7 +228,8 @@ class BinarySvipGenerator:
     def generate_params(self, edited_params: Params) -> dict[str, XSLineParam]:
         return {
             "Pitch": self.generate_param_curve(
-                edited_params.pitch, op=lambda x: x + 1150 if x > -100 else -100
+                edited_params.pitch,
+                op=lambda x: x + 1150 if x > -100 else -100,
             ),
             "Volume": self.generate_param_curve(edited_params.volume),
             "Breath": self.generate_param_curve(edited_params.breath),

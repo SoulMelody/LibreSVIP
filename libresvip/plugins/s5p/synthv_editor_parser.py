@@ -26,7 +26,11 @@ from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
 from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.music_math import db_to_float, linear_interpolation, ratio_to_db
+from libresvip.utils.music_math import (
+    db_to_float,
+    linear_interpolation,
+    ratio_to_db,
+)
 
 from .model import (
     S5pDbDefaults,
@@ -70,7 +74,9 @@ class SynthVEditorParser:
         )
 
     @staticmethod
-    def parse_time_signatures(meter: list[S5pMeterItem]) -> list[TimeSignature]:
+    def parse_time_signatures(
+        meter: list[S5pMeterItem],
+    ) -> list[TimeSignature]:
         time_signatures = [
             TimeSignature(
                 bar_index=item.measure,

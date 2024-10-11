@@ -4,7 +4,15 @@ import itertools
 import math
 import statistics
 from itertools import chain
-from typing import TYPE_CHECKING, Annotated, Any, Literal, NamedTuple, Optional, Union
+from typing import (
+    TYPE_CHECKING,
+    Annotated,
+    Any,
+    Literal,
+    NamedTuple,
+    Optional,
+    Union,
+)
 
 from more_itertools import batched, minmax
 from pydantic import (
@@ -66,7 +74,12 @@ class AcepParamCurve(BaseModel):
                 self.values = interpolate_hermite(
                     [point.pos for point in self.points.root],
                     [point.value for point in self.points.root],
-                    list(range(self.offset, math.ceil(self.points.root[-1].pos) + 1)),
+                    list(
+                        range(
+                            self.offset,
+                            math.ceil(self.points.root[-1].pos) + 1,
+                        )
+                    ),
                 )
             elif len(self.points.root) == 2:
                 self.offset = math.floor(self.points.root[0].pos)
@@ -152,7 +165,8 @@ class AcepParamCurveList(RootModel[list[AcepParamCurve]]):
         if not self.root:
             return self
         min_, max_ = minmax(
-            itertools.chain.from_iterable(curve.values for curve in self.root), default=(0, 0)
+            itertools.chain.from_iterable(curve.values for curve in self.root),
+            default=(0, 0),
         )
         return type(self)(
             root=[

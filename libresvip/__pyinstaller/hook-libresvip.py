@@ -1,4 +1,7 @@
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules  # noqa: N999
+from PyInstaller.utils.hooks import (  # noqa: N999
+    collect_data_files,
+    collect_submodules,
+)
 
 from libresvip.core.constants import pkg_dir
 

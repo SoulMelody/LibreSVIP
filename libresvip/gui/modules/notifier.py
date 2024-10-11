@@ -111,7 +111,8 @@ class Notifier(QObject):
                                             asset
                                             for asset in data["assets"]
                                             if fnmatch.fnmatch(
-                                                asset["name"], "LibreSVIP-*.msys2-*.7z"
+                                                asset["name"],
+                                                "LibreSVIP-*.msys2-*.7z",
                                             )
                                         ),
                                         None,
@@ -122,7 +123,8 @@ class Notifier(QObject):
                                             asset
                                             for asset in data["assets"]
                                             if fnmatch.fnmatch(
-                                                asset["name"], f"LibreSVIP-*.win-{arch}.*"
+                                                asset["name"],
+                                                f"LibreSVIP-*.win-{arch}.*",
                                             )
                                         ),
                                         None,
@@ -210,7 +212,10 @@ class Notifier(QObject):
                 await asyncio.sleep(1 - elapsed)
             self.last_notify_time = time.time()
             return await self.notifier.send(
-                title=title, message=message, buttons=buttons, timeout=send_timeout
+                title=title,
+                message=message,
+                buttons=buttons,
+                timeout=send_timeout,
             )
         except Exception as e:
             logger.exception(e)

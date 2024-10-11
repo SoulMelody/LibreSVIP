@@ -6,7 +6,10 @@ import mido_fix as mido
 
 from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
+    legato_chars,
+    romaji2xsampa,
+)
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
@@ -74,7 +77,9 @@ class VsqGenerator:
             )
 
     def generate_time_signatures(
-        self, master_track: mido.MidiTrack, time_signature_list: list[TimeSignature]
+        self,
+        master_track: mido.MidiTrack,
+        time_signature_list: list[TimeSignature],
     ) -> None:
         ticks = 0
         prev_time_signature = None

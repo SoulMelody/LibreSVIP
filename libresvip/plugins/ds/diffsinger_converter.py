@@ -20,7 +20,9 @@ class DiffSingerConverter(plugin_base.SVSConverterBase):
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         if options.split_threshold >= 0:
             segments = split_into_segments(
-                project, options.min_interval, int(options.split_threshold * 1000)
+                project,
+                options.min_interval,
+                int(options.split_threshold * 1000),
             )
             series = []
             for segment in segments:

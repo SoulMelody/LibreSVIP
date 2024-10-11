@@ -66,7 +66,10 @@ class CeVIOGenerator:
         default_beats = self.generate_time_signatures(project.time_signature_list)
 
         for new_unit, new_group in self.generate_tracks(
-            project.track_list, default_tempos, default_beats, project.song_tempo_list
+            project.track_list,
+            default_tempos,
+            default_beats,
+            project.song_tempo_list,
         ):
             scene_node.units.unit.append(new_unit)
             scene_node.groups.group.append(new_group)
@@ -155,7 +158,8 @@ class CeVIOGenerator:
                     )
                     end_time = XmlTime.from_time(
                         datetime.datetime.fromtimestamp(
-                            track_info.duration / 1000, tz=datetime.timezone.utc
+                            track_info.duration / 1000,
+                            tz=datetime.timezone.utc,
                         ).time()
                     )
                     new_group = CeVIOGroup(

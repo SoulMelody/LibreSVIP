@@ -187,7 +187,10 @@ class SynthVGenerator:
                 lambda val: (
                     val / 1000.0 * 12.0
                     if val >= 0
-                    else max(ratio_to_db(val / 1000.0 + 1.0 if val > -997 else 0.0039), -48.0)
+                    else max(
+                        ratio_to_db(val / 1000.0 + 1.0 if val > -997 else 0.0039),
+                        -48.0,
+                    )
                 ),
             ),
             tension=self.generate_param_curve(
@@ -247,7 +250,10 @@ class SynthVGenerator:
                     buffer.append(point)
         if last_point is not None:
             point_list.append(
-                SVPoint(offset=ticks_to_position(last_point.x + min_interval), value=0)
+                SVPoint(
+                    offset=ticks_to_position(last_point.x + min_interval),
+                    value=0,
+                )
             )
         return sv_curve
 

@@ -56,7 +56,8 @@ def pitch_from_vocaloid_parts(
         if (first_pos := next(iter(element), None)) is None:
             continue
         first_invalid_index_in_previous = next(
-            (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos), None
+            (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos),
+            None,
         )
         if first_invalid_index_in_previous is None:
             pitch_raw_data += list(element.items())
@@ -66,7 +67,8 @@ def pitch_from_vocaloid_parts(
             )
     data = [
         Point(
-            x=pos, y=round(value * 100 / (PITCH_MAX_VALUE if value > 0 else (PITCH_MAX_VALUE + 1)))
+            x=pos,
+            y=round(value * 100 / (PITCH_MAX_VALUE if value > 0 else (PITCH_MAX_VALUE + 1))),
         )
         for pos, value in pitch_raw_data
     ]
@@ -83,7 +85,10 @@ def pitch_from_vocaloid_parts(
 
 
 def generate_for_vocaloid(
-    pitch: ParamCurve, notes: list[Note], first_bar_length: int, synchronizer: TimeSynchronizer
+    pitch: ParamCurve,
+    notes: list[Note],
+    first_bar_length: int,
+    synchronizer: TimeSynchronizer,
 ) -> Optional[VocaloidPartPitchData]:
     pitch_simulator = PitchSimulator(
         synchronizer=synchronizer,

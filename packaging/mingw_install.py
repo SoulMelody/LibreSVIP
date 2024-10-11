@@ -108,7 +108,10 @@ def install_mingw_deps() -> None:
         if (
             requirement.marker is None
             or requirement.marker.evaluate(
-                environment={"platform_system": "Windows", "sys_platform": "win32"}
+                environment={
+                    "platform_system": "Windows",
+                    "sys_platform": "win32",
+                }
             )
             is True
         ) and requirement.name not in [

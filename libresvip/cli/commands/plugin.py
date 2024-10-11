@@ -52,7 +52,9 @@ def detail(plugin_name: str) -> None:
         typer.echo(_("Cannot find plugin ") + f"{plugin_name}!", err=True)
 
 
-def print_plugin_summary(plugins: ValuesView[FormatProviderPluginInfo]) -> None:
+def print_plugin_summary(
+    plugins: ValuesView[FormatProviderPluginInfo],
+) -> None:
     console = Console(color_system="256")
     if not plugins:
         console.print(_("No plugins are currently installed."))

@@ -69,7 +69,9 @@ class Svip3Generator:
         )
 
     @staticmethod
-    def generate_time_signatures(time_signature_list: list[TimeSignature]) -> list[Svip3SongBeat]:
+    def generate_time_signatures(
+        time_signature_list: list[TimeSignature],
+    ) -> list[Svip3SongBeat]:
         return [
             Svip3SongBeat(
                 beat_size=Svip3BeatSize(

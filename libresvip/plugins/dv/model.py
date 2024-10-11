@@ -13,7 +13,13 @@ from construct import (
     PrefixedArray,
     this,
 )
-from construct_typed import DataclassMixin, DataclassStruct, EnumBase, TEnum, csfield
+from construct_typed import (
+    DataclassMixin,
+    DataclassStruct,
+    EnumBase,
+    TEnum,
+    csfield,
+)
 
 from .constants import NOTE_UNKNOWN_DATA_BLOCK
 

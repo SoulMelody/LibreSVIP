@@ -270,7 +270,10 @@ class XSNote(XSIOverlappable):
     )
     vibrato_percent_info: Optional[XSVibratoPercentInfo] = dataclasses.field(
         default=None,
-        metadata={"alias": to_backing_field("VibratoPercentInfo"), "order": 10},
+        metadata={
+            "alias": to_backing_field("VibratoPercentInfo"),
+            "order": 10,
+        },
     )
 
 

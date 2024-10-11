@@ -12,7 +12,10 @@ from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.search import find_last_index
 
-from .constants import MODE2_PITCH_MAX_POINT_COUNT, MODE2_PITCH_SAMPLING_INTERVAL_TICK
+from .constants import (
+    MODE2_PITCH_MAX_POINT_COUNT,
+    MODE2_PITCH_SAMPLING_INTERVAL_TICK,
+)
 from .interpolation import interpolate
 from .model import UtauNoteVibrato, UTAUPitchBendMode
 from .rdp_simplification import simplify_shape_to
@@ -63,7 +66,10 @@ def pitch_to_utau_mode2_track(
                     [point for point in absolute_pitch if point.x < notes[0].end_pos],
                     notes[0].key_number,
                 ),
-                -min((point.x for point in absolute_pitch if point.x < 0), default=0),
+                -min(
+                    (point.x for point in absolute_pitch if point.x < 0),
+                    default=0,
+                ),
                 bpm_for_note(tempos, notes[0]),
             ),  # first note
         ]
@@ -117,7 +123,9 @@ def pitch_to_utau_mode2_track(
 
 
 def pitch_from_utau_mode2_track(
-    pitch_data: UtauMode2TrackPitchData, tick_time_transformer: TimeSynchronizer, notes: list[Note]
+    pitch_data: UtauMode2TrackPitchData,
+    tick_time_transformer: TimeSynchronizer,
+    notes: list[Note],
 ) -> ParamCurve:
     if pitch_data is None:
         return ParamCurve()
@@ -142,7 +150,9 @@ def pitch_from_utau_mode2_track(
                 )
                 points.append(Point(x=round(tick_pos), y=start_shift))
                 for width, shift, curve_type in itertools.zip_longest(
-                    note_pitch.widths, note_pitch.shifts, note_pitch.curve_types
+                    note_pitch.widths,
+                    note_pitch.shifts,
+                    note_pitch.curve_types,
                 ):
                     if width is None:
                         break
@@ -209,7 +219,10 @@ def fix_points_at_last_note(
     if last_note is None or last_note.end_pos != this_note.start_pos:
         return pitch_data
     fixed = [
-        Point(x=point.x, y=point.y + (this_note.key_number - last_note.key_number) * 100)
+        Point(
+            x=point.x,
+            y=point.y + (this_note.key_number - last_note.key_number) * 100,
+        )
         if point.x < this_note.start_pos
         else point
         for point in pitch_data

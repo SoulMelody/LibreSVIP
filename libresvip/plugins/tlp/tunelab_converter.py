@@ -20,6 +20,7 @@ class TuneLabConverter(plugin_base.SVSConverterBase):
         tlp_project = TuneLabGenerator(options).generate_project(project)
         path.write_bytes(
             json.dumps(
-                tlp_project.model_dump(mode="json", by_alias=True), ensure_ascii=False
+                tlp_project.model_dump(mode="json", by_alias=True),
+                ensure_ascii=False,
             ).encode("utf-8")
         )

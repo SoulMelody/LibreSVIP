@@ -163,7 +163,12 @@ class CurveGenerator(ParamExpression):
             )
             return result
         prev_point = self.point_list[0]
-        result.extend((Point.start_point(prev_point.y), Point(prev_point.x, prev_point.y)))
+        result.extend(
+            (
+                Point.start_point(prev_point.y),
+                Point(prev_point.x, prev_point.y),
+            )
+        )
         for current_point in self.point_list[1:]:
             if prev_point.y == self.base_value and current_point.y == self.base_value:
                 result.extend(

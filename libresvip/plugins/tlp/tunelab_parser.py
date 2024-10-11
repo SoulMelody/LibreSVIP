@@ -107,9 +107,10 @@ class TuneLabParser:
                         track_list.append(singing_track)
                     singing_track.note_list.extend(self.parse_notes(part.notes, int(part.pos)))
                     if self.options.import_pitch:
-                        vibrato_base_interval_dict, vibrato_envelope_interval_dict = (
-                            self.parse_vibrato(part)
-                        )
+                        (
+                            vibrato_base_interval_dict,
+                            vibrato_envelope_interval_dict,
+                        ) = self.parse_vibrato(part)
                         if pitch_points := self.parse_pitch(
                             part.pitch,
                             int(part.pos),
@@ -157,7 +158,11 @@ class TuneLabParser:
                 int(vibrato.pos + vibrato.dur)
             )
             vibrato_base_interval_dict[portion.closed(vibrato_start, vibrato_end)] = (
-                functools.partial(self.vibrato_value, vibrato_start=vibrato_start, vibrato=vibrato)
+                functools.partial(
+                    self.vibrato_value,
+                    vibrato_start=vibrato_start,
+                    vibrato=vibrato,
+                )
             )
         if part.automations is not None and part.automations["VibratoEnvelope"] is not None:
             for value, ticks_group in more_itertools.groupby_transform(

@@ -20,7 +20,11 @@ from libresvip.model.base import (
 )
 from libresvip.model.point import Point
 from libresvip.utils.audio import audio_track_info
-from libresvip.utils.search import binary_find_first, binary_find_last, find_last_index
+from libresvip.utils.search import (
+    binary_find_first,
+    binary_find_last,
+    find_last_index,
+)
 
 from .base_pitch_curve import BasePitchCurve
 from .color_pool import count_color, get_color
@@ -178,7 +182,8 @@ class AceGenerator:
                 continue
             actual_breath = min((notes[i].pos - notes[i - 1].pos) // 2, breath)
             notes[i - 1].dur = min(
-                notes[i - 1].dur, notes[i].pos - notes[i - 1].pos - actual_breath
+                notes[i - 1].dur,
+                notes[i].pos - notes[i - 1].pos - actual_breath,
             )
             notes[i].br_len -= actual_breath
 
@@ -252,10 +257,12 @@ class AceGenerator:
         result.pitch_delta = self.generate_pitch_curves(parameters.pitch)
         if self.options.map_strength_info == StrengthMappingOption.BOTH:
             result.energy = self.generate_param_curves(
-                parameters.strength, lambda x: self.linear_transform(0, 1, 2)(x / 2)
+                parameters.strength,
+                lambda x: self.linear_transform(0, 1, 2)(x / 2),
             )
             result.tension = self.generate_param_curves(
-                parameters.strength, lambda x: self.linear_transform(0.7, 1, 1.5)(x / 2)
+                parameters.strength,
+                lambda x: self.linear_transform(0.7, 1, 1.5)(x / 2),
             )
         elif self.options.map_strength_info == StrengthMappingOption.ENERGY:
             result.energy = self.generate_param_curves(
@@ -272,7 +279,8 @@ class AceGenerator:
         base_pitch = BasePitchCurve(self.ace_note_list, self.synchronizer, self.pattern_start)
         left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
         right_bound = max(
-            0, self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120
+            0,
+            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120,
         )
 
         segments = []
@@ -335,7 +343,8 @@ class AceGenerator:
         ace_curves = AcepParamCurveList()
         left_bound = max(0, self.pattern_start + self.ace_note_list[0].pos - 240)
         right_bound = max(
-            0, self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120
+            0,
+            self.pattern_start + self.ace_note_list[-1].pos + self.ace_note_list[-1].dur + 120,
         )
         segments = []
         for seg in curve.split_into_segments(-100):

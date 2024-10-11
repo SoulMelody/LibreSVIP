@@ -45,8 +45,14 @@ class BasePitchGenerator:
         for note in part.notes:
             if note.vibrato.length <= 0:
                 continue
-            start_index = max(0, int((note.position - self.pitch_start) / self.pitch_interval))
-            end_index = min(len(pitches), (note.end - self.pitch_start) // self.pitch_interval)
+            start_index = max(
+                0,
+                int((note.position - self.pitch_start) / self.pitch_interval),
+            )
+            end_index = min(
+                len(pitches),
+                (note.end - self.pitch_start) // self.pitch_interval,
+            )
             n_period = note.vibrato.period / self.time_axis.ms_between_tick_pos(
                 note.position, note.end
             )

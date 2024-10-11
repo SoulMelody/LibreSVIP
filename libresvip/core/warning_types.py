@@ -33,7 +33,9 @@ class CatchWarnings:
 
     def __enter__(self) -> Self:
         self._handler_id = warning_logger.add(
-            self._output, format="{extra[handler_id]}|{message}", level="WARNING"
+            self._output,
+            format="{extra[handler_id]}|{message}",
+            level="WARNING",
         )
         with ExitStack() as exit_stack:
             exit_stack.enter_context(warning_logger.contextualize(handler_id=self._handler_id))

@@ -7,7 +7,11 @@ from libresvip.model.option_mixins import (
 from libresvip.utils.translation import gettext_lazy as _
 
 
-class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
+class InputOptions(
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     pass
 
 
