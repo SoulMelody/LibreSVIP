@@ -2,12 +2,15 @@ import functools
 import math
 import re
 from collections.abc import Callable
-from typing import Any, Optional
+from typing import Optional
 
 from more_itertools import pairwise
+from typing_extensions import Concatenate, ParamSpec
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.model.point import Point
+
+P = ParamSpec("P")
 
 
 def midi2note(midi: float) -> str:
@@ -83,11 +86,15 @@ def clamp(
 
 
 def _transform_interpolation_args(
-    func: Callable[[float], float],
+    func: Callable[Concatenate[float, P], float],
 ) -> Callable[[float, tuple[float, float], tuple[float, float]], float]:
     @functools.wraps(func, assigned=["__module__", "__name__", "__qualname__", "__doc__"])
     def inner(
-        x: float, start: tuple[float, float], end: tuple[float, float], *args: Any, **kwargs: Any
+        x: float,
+        start: tuple[float, float],
+        end: tuple[float, float],
+        *args: P.args,
+        **kwargs: P.kwargs,
     ) -> float:
         x0, y0 = start
         x1, y1 = end
@@ -127,7 +134,7 @@ def vocaloid_interpolation(r: float) -> float:
     return math.sin(r * math.pi) / 2 if r <= 0.5 else r
 
 
-@_transform_interpolation_args  # type: ignore[arg-type]
+@_transform_interpolation_args
 def sigmoid_interpolation(r: float, k: float) -> float:
     return 1 / (1 + math.exp(k * (-2 * r + 1)))
 
