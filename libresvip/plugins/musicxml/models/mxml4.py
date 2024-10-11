@@ -14297,11 +14297,12 @@ class ScorePart(BaseModel):
         },
     )
     part_name: PartName = field(
+        default_factory=PartName,
         metadata={
             "name": "part-name",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     part_name_display: Optional[NameDisplay] = field(
         default=None,
@@ -14992,11 +14993,12 @@ class ScorePartwise(BaseModel):
         },
     )
     part_list: PartList = field(
+        default_factory=PartList,
         metadata={
             "name": "part-list",
             "type": "Element",
             "required": True,
-        }
+        },
     )
     part: list["ScorePartwise.Part"] = field(
         default_factory=list,

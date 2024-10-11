@@ -329,7 +329,7 @@ class MusicXMLGenerator:
                         )
                     )
                     ongoing_note_with_current_head = note, border_pair[1]
-            content_group_border_pair_map[border_pair] = current_content_group
+            content_group_border_pair_map[border_pair] = current_content_group.copy()
 
         return [
             MXmlMeasure(
