@@ -2,13 +2,13 @@
 
 import os
 import pathlib
+from sysconfig import get_python_version
 from typing import ClassVar, Optional
 
 from loguru import logger
 from setuptools import Command
 from setuptools._distutils.dir_util import ensure_relative, remove_tree
 from setuptools._distutils.errors import DistutilsPlatformError
-from setuptools._distutils.sysconfig import get_python_version
 from setuptools._distutils.util import get_platform
 
 

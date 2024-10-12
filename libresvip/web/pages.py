@@ -1,6 +1,5 @@
 import argparse
 import asyncio
-import ctypes
 import dataclasses
 import enum
 import functools
@@ -16,14 +15,15 @@ import traceback
 import uuid
 import webbrowser
 import zipfile
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
 from typing import (
     TYPE_CHECKING,
-    Any,
     BinaryIO,
     Optional,
     SupportsFloat,
+    TypeVar,
     Union,
     get_args,
     get_type_hints,
@@ -43,12 +43,14 @@ from nicegui.events import (
 )
 from nicegui.storage import request_contextvar
 from pydantic import RootModel, create_model
+from pydantic.config import JsonValue
 from pydantic.dataclasses import dataclass
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import Response
+from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
@@ -80,6 +82,10 @@ if TYPE_CHECKING:
     from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
+
+
+P = ParamSpec("P")
+R = TypeVar("R")
 
 
 @dataclass
@@ -253,9 +259,9 @@ def page_layout(lang: Optional[str] = None) -> None:
         if app.native.main_window is not None:
             ui_settings_ctx.set(settings)
 
-    def context_vars_wrapper(func: Any) -> Any:
+    def context_vars_wrapper(func: Callable[P, R]) -> Callable[P, R]:
         @functools.wraps(func)
-        def wrapper(*args: Any, **kwargs: Any) -> Any:
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             set_context_vars()
             return func(*args, **kwargs)
 
@@ -561,14 +567,34 @@ def page_layout(lang: Optional[str] = None) -> None:
     select_input: Select
     select_output: Select
 
+    def _input_format_factory() -> str:
+        return (
+            settings.last_input_format
+            if settings.last_input_format is not None
+            else next(
+                iter(plugin_manager.plugin_registry),
+                "",
+            )
+        )
+
+    def _output_format_factory() -> str:
+        return (
+            settings.last_output_format
+            if settings.last_output_format is not None
+            else next(
+                iter(plugin_manager.plugin_registry),
+                "",
+            )
+        )
+
     @dataclasses.dataclass
     class SelectedFormats:
-        _input_format: str = dataclasses.field(default="")
-        _output_format: str = dataclasses.field(default="")
+        _input_format: str = dataclasses.field(default_factory=_input_format_factory)
+        _output_format: str = dataclasses.field(default_factory=_output_format_factory)
         _conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
         current_preset: str = dataclasses.field(default="default")
-        input_options: dict[str, Any] = dataclasses.field(default_factory=dict)
-        output_options: dict[str, Any] = dataclasses.field(default_factory=dict)
+        input_options: dict[str, JsonValue] = dataclasses.field(default_factory=dict)
+        output_options: dict[str, JsonValue] = dataclasses.field(default_factory=dict)
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
             default_factory=dict,
         )
@@ -594,22 +620,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                     )
                 },
             )()
-            self.input_format = (
-                settings.last_input_format
-                if settings.last_input_format is not None
-                else next(
-                    iter(plugin_manager.plugin_registry),
-                    "",
-                )
-            )
-            self.output_format = (
-                settings.last_output_format
-                if settings.last_output_format is not None
-                else next(
-                    iter(plugin_manager.plugin_registry),
-                    "",
-                )
-            )
 
         @functools.cached_property
         def temp_path(self) -> UPath:
@@ -723,6 +733,36 @@ def page_layout(lang: Optional[str] = None) -> None:
                             "round",
                         ).tooltip(_("Remove"))
 
+        @property
+        def input_format(self) -> str:
+            return self._input_format
+
+        @input_format.setter
+        def input_format(self, value: str) -> None:
+            if value != self._input_format:
+                self._input_format = value
+                if settings.reset_tasks_on_input_change:
+                    self.files_to_convert.clear()
+                settings.last_input_format = value
+                input_plugin_info.refresh()
+                input_panel_header.refresh()
+                input_options.refresh()
+
+        @property
+        def output_format(self) -> str:
+            return self._output_format
+
+        @output_format.setter
+        def output_format(self, value: str) -> None:
+            if value != self._output_format:
+                self._output_format = value
+                settings.last_output_format = value
+                for task in self.files_to_convert.values():
+                    task.reset()
+                output_plugin_info.refresh()
+                output_panel_header.refresh()
+                output_options.refresh()
+
         @context_vars_wrapper
         async def _add_task(
             self,
@@ -766,36 +806,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                 for task in self.files_to_convert.values():
                     task.reset()
                 self.tasks_container.refresh()
-
-        @property  # type: ignore[no-redef]
-        def input_format(self) -> str:
-            return self._input_format
-
-        @input_format.setter
-        def input_format(self, value: str) -> None:
-            if value != self._input_format:
-                self._input_format = value
-                if settings.reset_tasks_on_input_change:
-                    self.files_to_convert.clear()
-                settings.last_input_format = value
-                input_plugin_info.refresh()
-                input_panel_header.refresh()
-                input_options.refresh()
-
-        @property  # type: ignore[no-redef]
-        def output_format(self) -> str:
-            return self._output_format
-
-        @output_format.setter
-        def output_format(self, value: str) -> None:
-            if value != self._output_format:
-                self._output_format = value
-                settings.last_output_format = value
-                for task in self.files_to_convert.values():
-                    task.reset()
-                output_plugin_info.refresh()
-                output_panel_header.refresh()
-                output_options.refresh()
 
         @property
         def task_count(self) -> int:
@@ -1356,7 +1366,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                             def refresh_rules(
                                 preset: str,
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[dict[str, JsonValue]]:
                                 return [
                                     {
                                         "id": i + 1,
@@ -1693,6 +1703,8 @@ def page_layout(lang: Optional[str] = None) -> None:
             ui.space()
             if app.native.main_window is not None:
                 if platform.system() == "Windows":
+                    import ctypes.wintypes
+
                     import clr
 
                     clr.AddReference("System")
@@ -1916,7 +1928,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ).tooltip(_("View Detail Information"))
 
     def tasks_area() -> None:
-        with ui.card().classes("w-full h-full") as tasks_card:
+        with ui.card().classes("w-full h-full").tight() as tasks_card:
             with ui.row().classes("w-full"):
                 ui.label(_("Import project")).classes("text-h5 font-bold")
                 ui.space()
@@ -2003,7 +2015,8 @@ def page_layout(lang: Optional[str] = None) -> None:
             .classes(
                 "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
             )
-            .style("cursor: pointer") as upload_card
+            .style("cursor: pointer")
+            .tight() as upload_card
         ):
             upload_card.on(
                 "dragover",
@@ -2092,7 +2105,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     output_panel_header()
                 output_options()
 
-    with ui.card().classes("w-full min-w-80").style("height: calc(100vh - 120px)"):
+    with ui.card().classes("w-full min-w-80").style("height: calc(100vh - 155px)").tight():
         with ui.splitter(limits=(40, 60)).classes(
             "w-full h-0 sm:invisible lg:h-full lg:visible"
         ) as main_splitter:
@@ -2107,7 +2120,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             with main_splitter.after:
                 options_area()
         with (
-            ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible"),
+            ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible").tight(),
             ui.tab_panels(tabs, value=format_select_tab).classes("h-full w-full"),
         ):
             with (
@@ -2118,7 +2131,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             ):
                 with (
                     format_select_splitter.before,
-                    ui.card().classes("h-full w-full"),
+                    ui.card().classes("h-full w-full").tight(),
                 ):
                     file_format_area()
                 with format_select_splitter.after:
