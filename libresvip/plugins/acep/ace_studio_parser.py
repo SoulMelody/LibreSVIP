@@ -39,7 +39,7 @@ from .model import (
 from .options import InputOptions, NormalizationMethod
 from .singers import id2singer
 
-ACEP_ENGLISH_SPAN_RE = re.compile(r"#(\d+)$")
+ACEP_LATIN_SPAN_RE = re.compile(r"#(\d+)$")
 
 
 @dataclasses.dataclass
@@ -192,14 +192,11 @@ class AceParser:
             lyric=ace_note.lyric,
         )
         if (
-            ace_note.language == AcepLyricsLanguage.ENGLISH
-            and (english_span := ACEP_ENGLISH_SPAN_RE.search(note.lyric)) is not None
+            ace_note.language == [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
+            and (latin_span := ACEP_LATIN_SPAN_RE.search(note.lyric)) is not None
         ):
-            span_index = int(english_span.group(1))
-            if span_index == 1:
-                note.lyric = ACEP_ENGLISH_SPAN_RE.sub("", note.lyric)
-            else:
-                note.lyric = "+"
+            span_index = int(latin_span.group(1))
+            note.lyric = ACEP_LATIN_SPAN_RE.sub("", note.lyric) if span_index == 1 else "+"
         if pinyin is None or "-" not in ace_note.lyric and ace_note.pronunciation != pinyin:
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
