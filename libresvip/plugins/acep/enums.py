@@ -25,3 +25,9 @@ class AcepLyricsLanguage(Enum):
             title=_("English"),
         ),
     ] = "ENG"
+    SPANISH: Annotated[
+        str,
+        Field(
+            title=_("Spanish"),
+        ),
+    ] = "SPA"
