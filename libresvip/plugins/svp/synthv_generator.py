@@ -272,9 +272,14 @@ class SynthVGenerator:
     def generate_pitch_diff(self, pos: int, pitch: int) -> float:
         target_note_index = find_last_index(self.note_buffer, lambda x: x.start_pos <= pos)
         target_note = self.note_buffer[target_note_index] if target_note_index >= 0 else None
-        pitch_diff = pitch - self.pitch_simulator.pitch_at_secs(
-            self.synchronizer.get_actual_secs_from_ticks(pos)
-        )
+        if (
+            simulated_pitch := self.pitch_simulator.pitch_at_secs(
+                self.synchronizer.get_actual_secs_from_ticks(pos)
+            )
+        ) is not None:
+            pitch_diff = pitch - simulated_pitch
+        else:
+            pitch_diff = 0.0
         if target_note is None:
             return pitch_diff
         if (
