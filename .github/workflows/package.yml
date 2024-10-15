@@ -181,7 +181,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.12
+          uv venv --python 3.11
           cd packaging
           uv pip install -r requirements.txt
           uv pip install ../dist/*.whl --no-deps
@@ -220,7 +220,7 @@ jobs:
             cd /libresvip
             curl -LsSf https://astral.sh/uv/install.sh | sh
             source $HOME/.cargo/env
-            uv venv --python 3.12
+            uv venv --python 3.11
             uv build --wheel
             cd packaging
             uv pip install -r requirements.txt
