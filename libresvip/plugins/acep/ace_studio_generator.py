@@ -207,7 +207,7 @@ class AceGenerator:
             elif self.options.default_consonant_length:
                 ace_note.head_consonants = [self.options.default_consonant_length]
         elif (
-            self.options.lyric_language == AcepLyricsLanguage.ENGLISH
+            self.options.lyric_language in [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
             and ace_note.lyric == "+"
             and self.ace_note_list
         ):
