@@ -1,3 +1,4 @@
+# mypy: disable-error-code="operator"
 from __future__ import annotations
 
 import dataclasses

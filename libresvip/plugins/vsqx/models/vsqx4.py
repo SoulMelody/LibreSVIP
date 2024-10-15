@@ -157,16 +157,14 @@ class Tempo(BaseModel):
         name = "tempo"
         namespace = VSQ4_NS
 
-    pos_tick: Optional[int] = field(
-        default=None,
+    pos_tick: int = field(
         metadata={
             "name": "t",
             "type": "Element",
             "required": True,
         },
     )
-    bpm: Optional[int] = field(
-        default=None,
+    bpm: int = field(
         metadata={
             "name": "v",
             "type": "Element",
@@ -926,8 +924,7 @@ class Note(BaseModel):
         name = "note"
         namespace = VSQ4_NS
 
-    pos_tick: Optional[int] = field(
-        default=None,
+    pos_tick: int = field(
         metadata={
             "name": "t",
             "type": "Element",
@@ -1196,16 +1193,14 @@ class MusicalPart(BaseModel):
         name = "vsPart"
         namespace = VSQ4_NS
 
-    pos_tick: Optional[int] = field(
-        default=None,
+    pos_tick: int = field(
         metadata={
             "name": "t",
             "type": "Element",
             "required": True,
         },
     )
-    play_time: Optional[int] = field(
-        default=None,
+    play_time: int = field(
         metadata={
             "name": "playTime",
             "type": "Element",

@@ -146,6 +146,7 @@
     </message>
     <message>
         <location filename="../qml/components/converter_page.qml" line="1445"/>
+        <location filename="../qml/components/converter_page.qml" line="1714"/>
         <source>Output Settings</source>
         <translation>输出设置</translation>
     </message>
@@ -162,11 +163,6 @@
     <message>
         <location filename="../qml/components/converter_page.qml" line="1554"/>
         <source>Deal with Conflicts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/components/converter_page.qml" line="1714"/>
-        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

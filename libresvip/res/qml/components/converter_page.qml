@@ -1711,7 +1711,7 @@ Page {
             }
 
             TabButton {
-                text: qsTr("Export")
+                text: qsTr("Output Settings")
                 onClicked: {
                     smallViewStack.currentIndex = 2;
                 }

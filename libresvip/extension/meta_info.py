@@ -14,7 +14,7 @@ from typing_extensions import TypeVar
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable
 
-    from .base import SVSConverterBase
+    from .base import BasePlugin, MiddlewareBase, SVSConverterBase
 
 
 PluginInfo_co = TypeVar("PluginInfo_co", bound="BasePluginInfo", covariant=True)
@@ -23,7 +23,7 @@ PluginInfo_co = TypeVar("PluginInfo_co", bound="BasePluginInfo", covariant=True)
 @dataclasses.dataclass
 class BasePluginInfo(abc.ABC):
     _config: dataclasses.InitVar[RawConfigParser]
-    plugin_object: Optional[SVSConverterBase] = None
+    plugin_object: Optional[BasePlugin] = None
     name: str = dataclasses.field(init=False)
     module: str = dataclasses.field(init=False)
     version: Version = dataclasses.field(init=False)
@@ -73,6 +73,7 @@ class BasePluginInfo(abc.ABC):
 
 @dataclasses.dataclass
 class FormatProviderPluginInfo(BasePluginInfo):
+    plugin_object: Optional[SVSConverterBase] = None
     file_format: str = dataclasses.field(init=False)
     suffix: str = dataclasses.field(init=False)
     icon_base64: Optional[str] = dataclasses.field(init=False)
@@ -90,6 +91,7 @@ class FormatProviderPluginInfo(BasePluginInfo):
 
 @dataclasses.dataclass
 class MiddlewarePluginInfo(BasePluginInfo):
+    plugin_object: Optional[MiddlewareBase] = None
     abbreviation: str = dataclasses.field(init=False)
 
     def __post_init__(self, _config: RawConfigParser) -> None:

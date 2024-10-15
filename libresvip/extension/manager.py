@@ -71,7 +71,7 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
             spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)  # type: ignore[attr-defined]
             return spec
 
-    def is_plugin(self, member: object) -> TypeGuard[BasePlugin_co]:
+    def is_plugin(self, member: object) -> TypeGuard[type[BasePlugin_co]]:
         return (
             inspect.isclass(member)
             and not inspect.isabstract(member)

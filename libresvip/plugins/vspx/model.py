@@ -150,25 +150,25 @@ class VocalSharpDefaultParameter(BaseModel):
 
 
 class VocalSharpTrillBase(abc.ABC, BaseModel):
-    pos: Optional[float] = field(
+    pos: float = field(
         default=0.25,
         metadata={
             "type": "Element",
         },
     )
-    amplitude: Optional[float] = field(
+    amplitude: float = field(
         default=0,
         metadata={
             "type": "Element",
         },
     )
-    frequency: Optional[float] = field(
+    frequency: float = field(
         default=5.5,
         metadata={
             "type": "Element",
         },
     )
-    phase: Optional[float] = field(
+    phase: float = field(
         default=0,
         metadata={
             "type": "Element",
@@ -402,8 +402,7 @@ class VocalSharpNote(BaseModel):
             "type": "Element",
         },
     )
-    duration: Optional[int] = field(
-        default=None,
+    duration: int = field(
         metadata={
             "type": "Element",
         },
@@ -459,7 +458,7 @@ class VocalSharpNoteTrack(VocalSharpTrackBase):
             "type": "Element",
         },
     )
-    por: Optional[float] = field(
+    por: float = field(
         default=0.07,
         metadata={
             "type": "Element",

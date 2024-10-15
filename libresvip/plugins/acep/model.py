@@ -215,12 +215,12 @@ class AcepVibrato(BaseModel):
     attack_len: float = Field(0.0, alias="attackLen")
     release_len: float = Field(0.0, alias="releaseLen")
     release_vol: float = Field(0.0, alias="releaseVol")
-    phase: Optional[float] = 0.0
-    start_pos: Optional[float] = Field(0.0, alias="startPos")
-    release_level: Optional[float] = Field(0, alias="releaseLevel")
-    release_ratio: Optional[float] = Field(0.0, alias="releaseRatio")
-    attack_level: Optional[float] = Field(0, alias="attackLevel")
-    attack_ratio: Optional[float] = Field(0.0, alias="attackRatio")
+    phase: float = 0.0
+    start_pos: float = Field(0.0, alias="startPos")
+    release_level: float = Field(0.0, alias="releaseLevel")
+    release_ratio: float = Field(0.0, alias="releaseRatio")
+    attack_level: float = Field(0.0, alias="attackLevel")
+    attack_ratio: float = Field(0.0, alias="attackRatio")
 
 
 class AcepNote(BaseModel):

@@ -86,7 +86,7 @@ class UTempo(BaseModel):
 
 
 class UTimeSignature(BaseModel):
-    bar_position: Optional[int] = None
+    bar_position: int = 0
     beat_per_bar: int = 4
     beat_unit: int = 4
 
@@ -116,14 +116,14 @@ class UPitch(BaseModel):
 
 
 class UVibrato(BaseModel):
-    length: float = 0.0
-    period: Optional[float] = None
-    depth: Optional[float] = None
-    in_value: Optional[float] = Field(None, alias="in")
-    out: Optional[float] = None
-    shift: Optional[float] = None
-    drift: Optional[float] = None
-    vol_link: Optional[float] = None
+    length: float = 75.0
+    period: float = 175.0
+    depth: float = 25.0
+    in_value: float = Field(10.0, alias="in")
+    out: float = 10.0
+    shift: float = 0.0
+    drift: float = 0.0
+    vol_link: float = 0.0
 
     @functools.cached_property
     def normalized_start(self) -> float:

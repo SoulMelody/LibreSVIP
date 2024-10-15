@@ -62,8 +62,8 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __mul__(self, other: Union[int, ParamExpression]) -> ParamExpression:
-        if isinstance(other, int):
+    def __mul__(self, other: Union[float, ParamExpression]) -> ParamExpression:
+        if isinstance(other, float):
             return ScaledParam(
                 self,
                 other,
@@ -75,8 +75,8 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __truediv__(self, other: Union[int, ParamExpression]) -> ParamExpression:
-        if isinstance(other, int):
+    def __truediv__(self, other: Union[float, ParamExpression]) -> ParamExpression:
+        if isinstance(other, float):
             return self * (1 / other)
         else:
             return CompoundParam(

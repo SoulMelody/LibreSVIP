@@ -110,7 +110,7 @@ class DiffSingerParser:
                         Point(
                             round(
                                 self.synchronizer.get_actual_ticks_from_secs(
-                                    ds_item.offset + f0_timestep * i
+                                    cast(float, ds_item.offset) + f0_timestep * i
                                 )
                             )
                             + 1920,
@@ -123,7 +123,7 @@ class DiffSingerParser:
                     Point(
                         round(
                             self.synchronizer.get_actual_ticks_from_secs(
-                                ds_item.offset
+                                cast(float, ds_item.offset)
                                 + f0_timestep * (len(cast(list[float], ds_item.f0_seq)) - 1)
                             )
                         )

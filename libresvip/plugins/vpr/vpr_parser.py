@@ -83,6 +83,7 @@ class VocaloidParser:
                 bpm=tempo.value / BPM_RATE,
             )
             for tempo in tempos
+            if tempo.value is not None
         ]
 
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:
@@ -164,11 +165,11 @@ class VocaloidParser:
         if len(notes):
             next_pos = None
             for note in notes[::-1]:
-                if (
-                    normalized_duration := note.duration
-                    if next_pos is None
-                    else min(note.duration or 0, next_pos - note.pos)
-                ) > 0:
+                if next_pos is None:
+                    normalized_duration = note.duration or 0
+                else:
+                    normalized_duration = min(note.duration or 0, next_pos - note.pos)
+                if normalized_duration > 0:
                     note_list.insert(
                         0,
                         Note(

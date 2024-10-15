@@ -314,7 +314,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                             {
                                 "info": {
-                                    "type_name": subcon_class_name + "[]",
+                                    "type_name": f"{subcon_class_name}[]",
                                     "library_id": self.model_library_id,
                                 }
                             }

@@ -43,7 +43,7 @@ class BasePitchGenerator:
             pitches[index:] = [pitches[index - 1]] * (len(pitches) - index)
 
         for note in part.notes:
-            if note.vibrato.length <= 0:
+            if note.vibrato.length <= 0 or note.vibrato.period is None:
                 continue
             start_index = max(
                 0,

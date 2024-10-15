@@ -186,9 +186,8 @@ class SynthVEditorParser:
                     if s5p_note.t_f0_vbr_right is not None
                     else db_defaults.t_f0_vbr_right
                 )
-                vibrato_depth = cast(
-                    float,
-                    s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr,
+                vibrato_depth = (
+                    s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr
                 )
                 self.vibrato_coef_interval_dict[
                     portion.closedopen(vibrato_start, vibrato_attack_time)
@@ -268,11 +267,11 @@ class SynthVEditorParser:
                         )
                     )
             if value_diff := self.vibrato_value_interval_dict.get(pos_secs, 0):
-                value_diff *= self.vibrato_coef_interval_dict[pos_secs] * 2000
+                value_diff *= cast(float, self.vibrato_coef_interval_dict[pos_secs]) * 2000
             points.append(
                 Point(
                     x=pos,
-                    y=value + round(value_diff),
+                    y=value + round(value_diff or 0),
                 )
             )
             prev_pos = pos

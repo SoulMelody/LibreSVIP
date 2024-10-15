@@ -303,7 +303,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ui.label(
                         _(plugin_details[attr]["file_format"] or "")
                         + " "
-                        + plugin_details[attr]["suffix"],
+                        + (plugin_details[attr]["suffix"] or ""),
                     )
         ui.separator()
         with ui.card_section().classes("w-full"):
@@ -1216,7 +1216,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     input_format_item = (
                         ui.radio(
                             {
-                                k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
+                                k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for i, (k, v) in enumerate(plugin_details.items())
                             },
                         )
@@ -1235,7 +1235,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ):
                     output_format_item = ui.radio(
                         {
-                            k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
+                            k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
                     ).bind_value(selected_formats, "output_format")
@@ -1846,7 +1846,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 select_input = (
                     ui.select(
                         {
-                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for k, v in plugin_details.items()
                         },
                         label=_("Import format"),
@@ -1894,7 +1894,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 select_output = (
                     ui.select(
                         {
-                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for k, v in plugin_details.items()
                         },
                         label=_("Export format"),

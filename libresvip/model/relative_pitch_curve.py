@@ -47,6 +47,7 @@ class RelativePitchCurve:
                 y = point.y + (base_key if to_absolute else -base_key)
             if (
                 y is not None
+                and prev_x is not None
                 and prev_y is not None
                 and converted_data
                 and cur_x - prev_x > self.pitch_interval

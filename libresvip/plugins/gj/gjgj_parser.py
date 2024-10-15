@@ -142,7 +142,7 @@ class GjgjParser:
 
     def parse_phones(self, beat_item: GjgjBeatItems, start_pos: int) -> Phones:
         phones = Phones()
-        try:
+        with contextlib.suppress(Exception):
             if beat_item.pre_time != 0:
                 difference = round(beat_item.pre_time * 480 * 3 / 2000)
                 if difference > 0:
@@ -157,8 +157,6 @@ class GjgjParser:
                 phones.mid_ratio_over_tail = essential_vowel_length / tail_vowel_length
             else:
                 phones.mid_ratio_over_tail = -1
-        except Exception:
-            pass
         return phones
 
     def parse_params(self, track: GjgjSingingTrack) -> Params:
