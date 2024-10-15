@@ -100,6 +100,7 @@ class MusicXMLGenerator:
                         measure_node.direction.append(direction_node)
                     elif content.note_type is not None and content.note is not None:
                         if note := self.generate_note_node(content):
+                            note.voice = str(track_index + 2)
                             measure_node.note.append(note)
                     else:
                         measure_node.note.append(self.generate_rest_node(content))

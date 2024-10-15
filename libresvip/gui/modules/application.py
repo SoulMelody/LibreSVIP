@@ -18,7 +18,7 @@ __all__ = [
 ]
 
 if platform.system() == "Windows":
-    os.environ["QT_QPA_PLATFORM"] = "windows:fontengine=gdi"
+    os.environ["QT_QPA_PLATFORM"] = "windows:fontengine=freetype"
 os.environ["QT_QUICK_CONTROLS_MATERIAL_VARIANT"] = "Dense"
 app = QGuiApplication()
 qml_engine = QQmlApplicationEngine()
