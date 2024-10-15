@@ -10,7 +10,7 @@ from libresvip.model.base import Project, SingingTrack, TimeSignature
 from libresvip.utils.music_math import midi2note
 
 from .model import KeyTick, MXmlMeasure, MXmlMeasureContent
-from .models.enums import NoteTypeValue, StartStop, Step, Syllabic
+from .models.enums import NoteTypeValue, StartStop, Step, Syllabic, TiedType
 from .models.mxml4 import (
     Attributes,
     Direction,
@@ -147,12 +147,12 @@ class MusicXMLGenerator:
             )
         )
         tie_type = {
-            MXmlMeasureContent.NoteType.BEGIN: StartStop.START,
-            MXmlMeasureContent.NoteType.END: StartStop.STOP,
+            MXmlMeasureContent.NoteType.BEGIN: "start",
+            MXmlMeasureContent.NoteType.END: "stop",
         }.get(note.note_type)
         if tie_type is not None:
-            note_node.tie.append(Tie(type_value=tie_type))
-            note_node.notations.append(Notations(tied=[Tied(type_value=tie_type)]))
+            note_node.tie.append(Tie(type_value=StartStop(tie_type)))
+            note_node.notations.append(Notations(tied=[Tied(type_value=TiedType(tie_type))]))
         note_node.lyric.append(
             Lyric(
                 syllabic=[getattr(Syllabic, note.note_type.name)],
