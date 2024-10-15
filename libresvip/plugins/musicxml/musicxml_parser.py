@@ -28,7 +28,6 @@ class MusicXMLParser:
         (
             time_signatures,
             tempos,
-            measure_borders,
             import_tick_rate,
         ) = self.parse_master_track(master_track)
         time_signatures = time_signatures or [TimeSignature()]
@@ -42,9 +41,7 @@ class MusicXMLParser:
                     (item for item in mxml.part_list.score_part if item.id == part.id),
                     None,
                 )
-            tracks.append(
-                self.parse_track(index, part, score_part, measure_borders, import_tick_rate)
-            )
+            tracks.append(self.parse_track(index, part, score_part, import_tick_rate))
 
         return Project(
             track_list=tracks,
@@ -54,25 +51,27 @@ class MusicXMLParser:
 
     def parse_master_track(
         self, part_node: ScorePartwise.Part
-    ) -> tuple[list[TimeSignature], list[SongTempo], list[int], float]:
+    ) -> tuple[list[TimeSignature], list[SongTempo], float]:
         measure_nodes = part_node.measure
         assert measure_nodes[0].attributes[0].divisions is not None
         divisions = int(measure_nodes[0].attributes[0].divisions)
         import_tick_rate = TICKS_IN_BEAT / divisions
         tempos = []
         time_signatures = []
-        measure_borders = [0]
         tick_position = 0
         current_time_signature = TimeSignature()
-        for measure_node in measure_nodes:
+        for i, measure_node in enumerate(measure_nodes):
             if (
                 len(measure_node.attributes)
                 and len(measure_node.attributes[0].time)
                 and (time_signature_node := measure_node.attributes[0].time[0])
             ):
+                bar_index = int(time_signature_node.number or i)
                 numerator = int(time_signature_node.beats[0])
                 denominator = int(time_signature_node.beat_type[0])
-                current_time_signature = TimeSignature(numerator=numerator, denominator=denominator)
+                current_time_signature = TimeSignature(
+                    bar_index=bar_index, numerator=numerator, denominator=denominator
+                )
                 time_signatures.append(current_time_signature)
 
             sound_nodes = measure_node.sound
@@ -84,15 +83,13 @@ class MusicXMLParser:
                 tempos.append(tempo)
 
             tick_position += round(current_time_signature.bar_length())
-            measure_borders.append(tick_position)
-        return time_signatures, tempos, measure_borders, import_tick_rate
+        return time_signatures, tempos, import_tick_rate
 
     def parse_track(
         self,
         track_index: int,
         part_node: ScorePartwise.Part,
         score_part: Optional[ScorePart],
-        measure_borders: list[int],
         import_tick_rate: float,
     ) -> SingingTrack:
         track_name = (
@@ -103,8 +100,8 @@ class MusicXMLParser:
         notes = []
         is_inside_note = False
         measure_nodes = part_node.measure
-        for index, measure_node in enumerate(measure_nodes):
-            tick_position = measure_borders[index]
+        tick_position = 0
+        for measure_node in measure_nodes:
             note_nodes = measure_node.note
             for note_node in note_nodes:
                 duration_nodes = note_node.duration
