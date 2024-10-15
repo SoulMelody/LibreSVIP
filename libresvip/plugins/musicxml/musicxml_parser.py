@@ -1,7 +1,7 @@
 import dataclasses
 from typing import Optional
 
-from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
+from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
 from libresvip.model.base import (
     Note,
     Project,
@@ -135,7 +135,11 @@ class MusicXMLParser:
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric
-                lyric = lyric_nodes[0].text[0].value if len(lyric_nodes) else DEFAULT_CHINESE_LYRIC
+                lyric = (
+                    lyric_nodes[0].text[0].value
+                    if len(lyric_nodes) and len(lyric_nodes[0].text)
+                    else DEFAULT_PHONEME
+                )
 
                 if not is_inside_note:
                     note = Note(

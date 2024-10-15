@@ -156,13 +156,7 @@ class MusicXMLGenerator:
         note_node.lyric.append(
             Lyric(
                 syllabic=[getattr(Syllabic, note.note_type.name)],
-                text=[TextElementData(value=note.note.lyric)]
-                if note.note_type
-                in [
-                    MXmlMeasureContent.NoteType.BEGIN,
-                    MXmlMeasureContent.NoteType.SINGLE,
-                ]
-                else [],
+                text=[TextElementData(value=note.note.lyric)],
             )
         )
         return note_node
