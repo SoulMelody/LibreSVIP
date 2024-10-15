@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-10-06 00:45\n"
+"PO-Revision-Date: 2024-10-15 01:35\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -44,86 +44,86 @@ msgstr "无法找到该插件。"
 msgid "Cannot find plugin "
 msgstr "未找到插件 "
 
-#: ../libresvip/cli/commands/plugin.py:58
+#: ../libresvip/cli/commands/plugin.py:60
 msgid "No plugins are currently installed."
 msgstr "目前尚未安装任何插件。"
 
-#: ../libresvip/cli/commands/plugin.py:61
+#: ../libresvip/cli/commands/plugin.py:63
 msgid "No."
 msgstr "序号"
 
-#: ../libresvip/cli/commands/plugin.py:62
+#: ../libresvip/cli/commands/plugin.py:64
 msgid "Name"
 msgstr "名称"
 
-#: ../libresvip/cli/commands/plugin.py:63
-#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:276
+#: ../libresvip/cli/commands/plugin.py:65
+#: ../libresvip/gui/models/table_models.py:24 ../libresvip/web/pages.py:286
 msgid "Version"
 msgstr "版本"
 
-#: ../libresvip/cli/commands/plugin.py:64
-#: ../libresvip/gui/models/table_models.py:17 ../libresvip/web/pages.py:285
+#: ../libresvip/cli/commands/plugin.py:66
+#: ../libresvip/gui/models/table_models.py:23 ../libresvip/web/pages.py:295
 msgid "Author"
 msgstr "作者"
 
-#: ../libresvip/cli/commands/plugin.py:65
+#: ../libresvip/cli/commands/plugin.py:67
 msgid "Identifier"
 msgstr "标识符"
 
-#: ../libresvip/cli/commands/plugin.py:66
+#: ../libresvip/cli/commands/plugin.py:68
 msgid "Applicable file format"
 msgstr "适用格式"
 
-#: ../libresvip/cli/commands/plugin.py:87
+#: ../libresvip/cli/commands/plugin.py:89
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:88 ../libresvip/web/pages.py:1103
+#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/web/pages.py:1125
 msgid "Version: "
 msgstr "版本："
 
-#: ../libresvip/cli/commands/plugin.py:89
+#: ../libresvip/cli/commands/plugin.py:91
 msgid "Author: "
 msgstr "作者： "
 
-#: ../libresvip/cli/commands/plugin.py:93
+#: ../libresvip/cli/commands/plugin.py:95
 msgid "Website: "
 msgstr "主页： "
 
-#: ../libresvip/cli/commands/plugin.py:95
+#: ../libresvip/cli/commands/plugin.py:97
 msgid "This plugin is applicable to"
 msgstr "此插件适用于"
 
-#: ../libresvip/cli/commands/plugin.py:97
+#: ../libresvip/cli/commands/plugin.py:99
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
 msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \"-o {}\"（输出）。"
 
-#: ../libresvip/cli/commands/plugin.py:102
+#: ../libresvip/cli/commands/plugin.py:104
 msgid "Description: "
 msgstr "描述： "
 
-#: ../libresvip/cli/commands/plugin.py:103
+#: ../libresvip/cli/commands/plugin.py:105
 msgid "input"
 msgstr "输入"
 
-#: ../libresvip/cli/commands/plugin.py:103
+#: ../libresvip/cli/commands/plugin.py:105
 msgid "output"
 msgstr "输出"
 
-#: ../libresvip/cli/commands/plugin.py:111
+#: ../libresvip/cli/commands/plugin.py:113
 msgid "This plugin supports the following {} conversion options:"
 msgstr "本插件可指定以下{}转换选项："
 
-#: ../libresvip/cli/commands/plugin.py:119
-#: ../libresvip/cli/commands/plugin.py:140
+#: ../libresvip/cli/commands/plugin.py:121
+#: ../libresvip/cli/commands/plugin.py:142
 msgid "Default: "
 msgstr "默认值："
 
-#: ../libresvip/cli/commands/plugin.py:121
+#: ../libresvip/cli/commands/plugin.py:123
 msgid "Available values:"
 msgstr "可用值如下："
 
-#: ../libresvip/cli/commands/plugin.py:134
+#: ../libresvip/cli/commands/plugin.py:136
 msgid "Available fields:"
 msgstr "可用值如下："
 
@@ -131,67 +131,67 @@ msgstr "可用值如下："
 msgid "Extension {} is not supported. Supported extensions are: {}"
 msgstr "不支持 {} 扩展名。支持的扩展名包括 {}"
 
-#: ../libresvip/cli/commands/proj.py:51 ../libresvip/cli/commands/proj.py:101
-#: ../libresvip/cli/commands/proj.py:178
+#: ../libresvip/cli/commands/proj.py:51 ../libresvip/cli/commands/proj.py:109
+#: ../libresvip/cli/commands/proj.py:212
 msgid "Input Options: "
 msgstr "导入选项： "
 
-#: ../libresvip/cli/commands/proj.py:59 ../libresvip/cli/commands/proj.py:111
-#: ../libresvip/cli/commands/proj.py:157
+#: ../libresvip/cli/commands/proj.py:61 ../libresvip/cli/commands/proj.py:121
+#: ../libresvip/cli/commands/proj.py:185
 msgid "Enable {} middleware?"
 msgstr "启用 {} 中间件吗?"
 
-#: ../libresvip/cli/commands/proj.py:67 ../libresvip/cli/commands/proj.py:119
-#: ../libresvip/cli/commands/proj.py:163
+#: ../libresvip/cli/commands/proj.py:73 ../libresvip/cli/commands/proj.py:133
+#: ../libresvip/cli/commands/proj.py:195
 msgid "Process Options: "
 msgstr "处理选项： "
 
-#: ../libresvip/cli/commands/proj.py:73 ../libresvip/cli/commands/proj.py:127
-#: ../libresvip/cli/commands/proj.py:198
+#: ../libresvip/cli/commands/proj.py:81 ../libresvip/cli/commands/proj.py:147
+#: ../libresvip/cli/commands/proj.py:236
 msgid "Output Options: "
 msgstr "导出选项： "
 
-#: ../libresvip/cli/commands/proj.py:89
+#: ../libresvip/cli/commands/proj.py:97
 msgid "Output format"
 msgstr "输出格式"
 
-#: ../libresvip/cli/commands/proj.py:90
+#: ../libresvip/cli/commands/proj.py:98
 msgid "Maximum track count per file"
 msgstr "每个文件的最大音轨数"
 
-#: ../libresvip/cli/commands/proj.py:133
+#: ../libresvip/cli/commands/proj.py:154
 msgid "Converting ..."
 msgstr "转换中 ..."
 
-#: ../libresvip/gui/models/table_models.py:17
+#: ../libresvip/gui/models/table_models.py:22
 msgid "Applicable File Format"
 msgstr "适用的文件格式"
 
-#: ../libresvip/gui/models/table_models.py:86 ../libresvip/web/pages.py:1298
+#: ../libresvip/gui/models/table_models.py:102 ../libresvip/web/pages.py:1332
 msgid "Mode"
 msgstr "模式"
 
-#: ../libresvip/gui/models/table_models.py:87 ../libresvip/web/pages.py:1301
+#: ../libresvip/gui/models/table_models.py:103 ../libresvip/web/pages.py:1337
 msgid "Prefix"
 msgstr "前綴"
 
-#: ../libresvip/gui/models/table_models.py:88 ../libresvip/web/pages.py:1306
+#: ../libresvip/gui/models/table_models.py:104 ../libresvip/web/pages.py:1342
 msgid "Pattern"
 msgstr "表达式"
 
-#: ../libresvip/gui/models/table_models.py:89 ../libresvip/web/pages.py:1311
+#: ../libresvip/gui/models/table_models.py:105 ../libresvip/web/pages.py:1347
 msgid "Suffix"
 msgstr "后缀"
 
-#: ../libresvip/gui/models/table_models.py:90 ../libresvip/web/pages.py:1316
+#: ../libresvip/gui/models/table_models.py:106 ../libresvip/web/pages.py:1352
 msgid "Replacement"
 msgstr "替换为"
 
-#: ../libresvip/gui/models/table_models.py:91 ../libresvip/web/pages.py:1349
+#: ../libresvip/gui/models/table_models.py:107 ../libresvip/web/pages.py:1402
 msgid "Case sensitive"
 msgstr "区分大小写"
 
-#: ../libresvip/gui/models/table_models.py:92 ../libresvip/web/pages.py:1320
+#: ../libresvip/gui/models/table_models.py:108 ../libresvip/web/pages.py:1362
 msgid "Actions"
 msgstr "操作"
 
@@ -220,31 +220,31 @@ msgstr "检查更新中"
 msgid "Open in Browser"
 msgstr "在浏览器中打开"
 
-#: ../libresvip/gui/modules/notifier.py:157
+#: ../libresvip/gui/modules/notifier.py:159
 msgid "Download"
 msgstr "下载"
 
-#: ../libresvip/gui/modules/notifier.py:167
+#: ../libresvip/gui/modules/notifier.py:169
 msgid "Update Available"
 msgstr "更新可用"
 
-#: ../libresvip/gui/modules/notifier.py:168
+#: ../libresvip/gui/modules/notifier.py:170
 msgid "New version {} is available."
 msgstr "新版本{}已经可用。"
 
-#: ../libresvip/gui/modules/notifier.py:173
+#: ../libresvip/gui/modules/notifier.py:175
 msgid "No Updates"
 msgstr "未找到更新"
 
-#: ../libresvip/gui/modules/notifier.py:174
+#: ../libresvip/gui/modules/notifier.py:176
 msgid "You are using the latest version {}."
 msgstr "你正在使用最新版本 {}。"
 
-#: ../libresvip/gui/modules/notifier.py:182
+#: ../libresvip/gui/modules/notifier.py:184
 msgid "Error occurred while Checking for Updates"
 msgstr "检查更新时出现错误！"
 
-#: ../libresvip/gui/modules/notifier.py:183
+#: ../libresvip/gui/modules/notifier.py:185
 msgid "Failed to check for updates. Please try again later."
 msgstr "检查更新失败，请稍后再试。"
 
@@ -431,6 +431,7 @@ msgid "[Export to "
 msgstr "[ 导出为 "
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1445
+#: ../libresvip/res/locales/libresvip_gui.ts:1714
 msgctxt "converter_page"
 msgid "Output Settings"
 msgstr "输出设置"
@@ -449,11 +450,6 @@ msgstr "输出文件夹"
 msgctxt "converter_page"
 msgid "Deal with Conflicts"
 msgstr "遇到同名文件时"
-
-#: ../libresvip/res/locales/libresvip_gui.ts:1714
-msgctxt "converter_page"
-msgid "Export"
-msgstr "导出"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:1516
 msgctxt "converter_page"
@@ -909,232 +905,232 @@ msgstr "全部否"
 msgid "Audio file not found: "
 msgstr "未找到音频文件："
 
-#: ../libresvip/web/pages.py:272
+#: ../libresvip/web/pages.py:282
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:294 ../libresvip/web/pages.py:311
-#: ../libresvip/web/pages.py:1197 ../libresvip/web/pages.py:1216
-#: ../libresvip/web/pages.py:1770 ../libresvip/web/pages.py:1818
+#: ../libresvip/web/pages.py:304 ../libresvip/web/pages.py:321
+#: ../libresvip/web/pages.py:1219 ../libresvip/web/pages.py:1238
+#: ../libresvip/web/pages.py:1849 ../libresvip/web/pages.py:1897
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:300
+#: ../libresvip/web/pages.py:310
 msgid "Introduction"
 msgstr "简介"
 
-#: ../libresvip/web/pages.py:301
+#: ../libresvip/web/pages.py:311
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:319
+#: ../libresvip/web/pages.py:329
 msgid "Input Options"
 msgstr "输入选项"
 
-#: ../libresvip/web/pages.py:320
+#: ../libresvip/web/pages.py:330
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: ../libresvip/web/pages.py:328
+#: ../libresvip/web/pages.py:338
 msgid "Output Options"
 msgstr "输出选项"
 
-#: ../libresvip/web/pages.py:329
+#: ../libresvip/web/pages.py:339
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: ../libresvip/web/pages.py:426 ../libresvip/web/pages.py:544
+#: ../libresvip/web/pages.py:436 ../libresvip/web/pages.py:554
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:430 ../libresvip/web/pages.py:548
+#: ../libresvip/web/pages.py:440 ../libresvip/web/pages.py:558
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:672 ../libresvip/web/pages.py:702
+#: ../libresvip/web/pages.py:686 ../libresvip/web/pages.py:716
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/web/pages.py:676 ../libresvip/web/pages.py:706
+#: ../libresvip/web/pages.py:690 ../libresvip/web/pages.py:720
 msgid "Copied"
 msgstr "已复制"
 
-#: ../libresvip/web/pages.py:678 ../libresvip/web/pages.py:708
-#: ../libresvip/web/pages.py:1131 ../libresvip/web/pages.py:1619
-#: ../libresvip/web/pages.py:1702 ../libresvip/web/pages.py:1788
-#: ../libresvip/web/pages.py:1841
+#: ../libresvip/web/pages.py:692 ../libresvip/web/pages.py:722
+#: ../libresvip/web/pages.py:1153 ../libresvip/web/pages.py:1694
+#: ../libresvip/web/pages.py:1781 ../libresvip/web/pages.py:1867
+#: ../libresvip/web/pages.py:1920
 msgid "Close"
 msgstr "关闭"
 
-#: ../libresvip/web/pages.py:720
+#: ../libresvip/web/pages.py:734
 msgid "Remove"
 msgstr "移除"
 
-#: ../libresvip/web/pages.py:923
+#: ../libresvip/web/pages.py:939
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:925
+#: ../libresvip/web/pages.py:941
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:1004 ../libresvip/web/pages.py:1039
+#: ../libresvip/web/pages.py:1022 ../libresvip/web/pages.py:1057
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
-#: ../libresvip/web/pages.py:1026
+#: ../libresvip/web/pages.py:1044
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:1036
+#: ../libresvip/web/pages.py:1054
 msgid "Compressed Archive (*.zip)"
 msgstr "压缩文件 (*.zip)"
 
-#: ../libresvip/web/pages.py:1048
+#: ../libresvip/web/pages.py:1066
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:1100 ../libresvip/web/pages.py:1263
+#: ../libresvip/web/pages.py:1122 ../libresvip/web/pages.py:1285
 msgid "About"
 msgstr "关于"
 
-#: ../libresvip/web/pages.py:1102
+#: ../libresvip/web/pages.py:1124
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1106
+#: ../libresvip/web/pages.py:1128
 msgid "Author: SoulMelody"
 msgstr "作者：岁月静好_初心不忘"
 
-#: ../libresvip/web/pages.py:1110
+#: ../libresvip/web/pages.py:1132
 msgid "Author's Profile"
 msgstr "作者主页"
 
-#: ../libresvip/web/pages.py:1116
+#: ../libresvip/web/pages.py:1138
 msgid "Repo URL"
 msgstr "仓库地址"
 
-#: ../libresvip/web/pages.py:1121
+#: ../libresvip/web/pages.py:1143
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
 msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: ../libresvip/web/pages.py:1126
+#: ../libresvip/web/pages.py:1148
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
 
-#: ../libresvip/web/pages.py:1135 ../libresvip/web/pages.py:1164
+#: ../libresvip/web/pages.py:1157 ../libresvip/web/pages.py:1186
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:1150 ../libresvip/web/pages.py:1854
+#: ../libresvip/web/pages.py:1172 ../libresvip/web/pages.py:1933
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:1176 ../libresvip/web/pages.py:1899
+#: ../libresvip/web/pages.py:1198 ../libresvip/web/pages.py:1978
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: ../libresvip/web/pages.py:1183 ../libresvip/web/pages.py:1813
+#: ../libresvip/web/pages.py:1205 ../libresvip/web/pages.py:1892
 msgid "Swap Input and Output"
 msgstr "上下交换"
 
-#: ../libresvip/web/pages.py:1186 ../libresvip/web/pages.py:1773
+#: ../libresvip/web/pages.py:1208 ../libresvip/web/pages.py:1852
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/web/pages.py:1206 ../libresvip/web/pages.py:1821
+#: ../libresvip/web/pages.py:1228 ../libresvip/web/pages.py:1900
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/web/pages.py:1222
+#: ../libresvip/web/pages.py:1244
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/web/pages.py:1235
+#: ../libresvip/web/pages.py:1257
 msgid "Light"
 msgstr "浅色"
 
-#: ../libresvip/web/pages.py:1241
+#: ../libresvip/web/pages.py:1263
 msgid "Dark"
 msgstr "深色"
 
-#: ../libresvip/web/pages.py:1247
+#: ../libresvip/web/pages.py:1269
 msgid "System"
 msgstr "跟随系统"
 
-#: ../libresvip/web/pages.py:1250
+#: ../libresvip/web/pages.py:1272
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:1267
+#: ../libresvip/web/pages.py:1289
 msgid "Documentation"
 msgstr "文档"
 
-#: ../libresvip/web/pages.py:1275
+#: ../libresvip/web/pages.py:1303
 msgid "Conversion Settings"
 msgstr "转换设置"
 
-#: ../libresvip/web/pages.py:1278
+#: ../libresvip/web/pages.py:1307
 msgid "Lyric Replace Rules"
 msgstr "歌词替换规则"
 
-#: ../libresvip/web/pages.py:1280
+#: ../libresvip/web/pages.py:1309
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/web/pages.py:1286 ../libresvip/web/pages.py:1797
+#: ../libresvip/web/pages.py:1318 ../libresvip/web/pages.py:1876
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/web/pages.py:1291 ../libresvip/web/pages.py:1804
+#: ../libresvip/web/pages.py:1323 ../libresvip/web/pages.py:1883
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/web/pages.py:1319
+#: ../libresvip/web/pages.py:1357
 msgid "Flags"
 msgstr "修饰符"
 
-#: ../libresvip/web/pages.py:1339
+#: ../libresvip/web/pages.py:1385
 msgid "Full match"
 msgstr "完全匹配"
 
-#: ../libresvip/web/pages.py:1340
+#: ../libresvip/web/pages.py:1387
 msgid "Alphabetic"
 msgstr "拼音文字"
 
-#: ../libresvip/web/pages.py:1341
+#: ../libresvip/web/pages.py:1391
 msgid "Non-alphabetic"
 msgstr "非拼音文字"
 
-#: ../libresvip/web/pages.py:1342
+#: ../libresvip/web/pages.py:1394
 msgid "Regex"
 msgstr "正则表达式"
 
-#: ../libresvip/web/pages.py:1346
+#: ../libresvip/web/pages.py:1398
 msgid "Ignore case"
 msgstr "忽略大小写"
 
-#: ../libresvip/web/pages.py:1524
+#: ../libresvip/web/pages.py:1594
 msgid "Toggle fullscreen"
 msgstr "全屏开关"
 
-#: ../libresvip/web/pages.py:1534
+#: ../libresvip/web/pages.py:1606
 msgid "Preset: "
 msgstr "预设： "
 
-#: ../libresvip/web/pages.py:1548
+#: ../libresvip/web/pages.py:1621
 msgid "Remove current preset"
 msgstr "删除当前预设"
 
-#: ../libresvip/web/pages.py:1567
+#: ../libresvip/web/pages.py:1640
 msgid "Save current preset"
 msgstr "保存当前预设"
 
-#: ../libresvip/web/pages.py:1590
+#: ../libresvip/web/pages.py:1663
 msgid "Add new rule"
 msgstr "新建规则"
 
-#: ../libresvip/web/pages.py:1591
+#: ../libresvip/web/pages.py:1664
 msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
@@ -1142,71 +1138,71 @@ msgstr "拼音文字模式：适用于拼音文字\n"
 "非拼音文字模式：适用于非拼音文字及标点符号等字符\n"
 "正则模式：适用于了解正则表达式语法的高级用户"
 
-#: ../libresvip/web/pages.py:1623
+#: ../libresvip/web/pages.py:1698
 msgid "Settings (&S)"
 msgstr "设置 (&S)"
 
-#: ../libresvip/web/pages.py:1626
+#: ../libresvip/web/pages.py:1701
 msgid "Select File Formats"
 msgstr "格式选择"
 
-#: ../libresvip/web/pages.py:1627
+#: ../libresvip/web/pages.py:1702
 msgid "Advanced Settings"
 msgstr "高级选项"
 
-#: ../libresvip/web/pages.py:1677
+#: ../libresvip/web/pages.py:1754
 msgid "Maximize"
 msgstr "最大化"
 
-#: ../libresvip/web/pages.py:1678
+#: ../libresvip/web/pages.py:1755
 msgid "Restore"
 msgstr "还原"
 
-#: ../libresvip/web/pages.py:1694
+#: ../libresvip/web/pages.py:1771
 msgid "Minimize"
 msgstr "最小化"
 
-#: ../libresvip/web/pages.py:1761
+#: ../libresvip/web/pages.py:1840
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:1796 ../libresvip/web/pages.py:1849
+#: ../libresvip/web/pages.py:1875 ../libresvip/web/pages.py:1928
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: ../libresvip/web/pages.py:1856
+#: ../libresvip/web/pages.py:1935
 msgid "Conversion Mode:"
 msgstr "转换模式："
 
-#: ../libresvip/web/pages.py:1903
+#: ../libresvip/web/pages.py:1982
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: ../libresvip/web/pages.py:1907
+#: ../libresvip/web/pages.py:1986
 msgid "Max Track count:"
 msgstr "最大轨道数："
 
-#: ../libresvip/web/pages.py:1929
+#: ../libresvip/web/pages.py:2012
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: ../libresvip/web/pages.py:1963
+#: ../libresvip/web/pages.py:2047
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:1992
+#: ../libresvip/web/pages.py:2079
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: ../libresvip/web/pages.py:2000
+#: ../libresvip/web/pages.py:2087
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:2001
+#: ../libresvip/web/pages.py:2088
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/web/pages.py:2010
+#: ../libresvip/web/pages.py:2100
 msgid "Intermediate Processing"
 msgstr "中间环节处理"
 
