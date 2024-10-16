@@ -1,3 +1,3 @@
 shellingham
-pyinstaller==6.10.0 ; platform_system != "Windows"
-https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.10.0-py3-none-any.whl ; platform_system == "Windows"
+pyinstaller==6.11.0 ; platform_system != "Windows"
+https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.0-py3-none-any.whl ; platform_system == "Windows"

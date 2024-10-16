@@ -5,7 +5,7 @@ on:
       - "v*"
 
 env:
-  PYINSTALLER_VERSION: "6.10.0"
+  PYINSTALLER_VERSION: "6.11.0"
   LIBMEDIAINFO_VERSION: "24.06"
 
 jobs:
@@ -181,7 +181,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.11
+          uv venv --python 3.12
           cd packaging
           uv pip install -r requirements.txt
           uv pip install ../dist/*.whl --no-deps
@@ -220,7 +220,7 @@ jobs:
             cd /libresvip
             curl -LsSf https://astral.sh/uv/install.sh | sh
             source $HOME/.cargo/env
-            uv venv --python 3.11
+            uv venv --python 3.12
             uv build --wheel
             cd packaging
             uv pip install -r requirements.txt
