@@ -1114,7 +1114,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         ui.header(elevated=True)
         .style("background-color: primary")
         .classes(
-            "items-center",
+            "items-center pywebview-drag-region",
         )
     ):
         with ui.row().classes("w-full"):

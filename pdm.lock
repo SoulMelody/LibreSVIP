@@ -2910,7 +2910,7 @@ files = [
 
 [[package]]
 name = "pywebview"
-version = "5.2"
+version = "5.3"
 requires_python = ">=3.7"
 summary = "Build GUI for your Python program with JavaScript, HTML, and CSS"
 groups = ["webui"]
@@ -2928,8 +2928,8 @@ dependencies = [
     "typing-extensions",
 ]
 files = [
-    {file = "pywebview-5.2-py3-none-any.whl", hash = "sha256:07acceb74bfeed2b5bf19b9535f23ed68330ec6488ae63aea4d35290941cad7f"},
-    {file = "pywebview-5.2.tar.gz", hash = "sha256:634c6e4547ef3f4de2a35cdaed59464b60fb61247f3f6017d6de4ddc1a2dadc2"},
+    {file = "pywebview-5.3-py3-none-any.whl", hash = "sha256:b63916b50ec3af28642f086d44214d4339dd546ad806612b81f99da89eb3a945"},
+    {file = "pywebview-5.3.tar.gz", hash = "sha256:62b76d5b5de3aa999665f93d9e63b6f2c238d8f25bf4fa6a303dfa6411eeed79"},
 ]
 
 [[package]]
