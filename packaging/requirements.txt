@@ -32,7 +32,7 @@ packaging==24.1
 parsimonious==0.10.0
 pefile==2023.2.7 ; sys_platform == 'win32'
 platformdirs==4.3.6
-portion==2.5.0
+portion==2.6.0
 proto-plus==1.24.0
 protobuf==5.28.2
 pydantic==2.9.2
