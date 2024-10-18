@@ -54,6 +54,13 @@ def install_mingw_deps() -> None:
         "ujson": "python-ujson",
         "zstandard": "python-zstandard",
     }
+    if mingw_arch != "mingw-w64-clang-aarch64":
+        mingw_native_packages.update(
+            {
+                "pyinstaller": "pyinstaller",
+                "pyinstaller-hooks-contrib": "pyinstaller-hooks-contrib",
+            }
+        )
     cwd = pathlib.Path()
     install_msys2_requirements(
         [
