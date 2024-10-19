@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:b3a182db8b1bf0512f2f1cfaa5a759466984a0c9519db1901ab4cde44f2de937"
+content_hash = "sha256:b516fe167e9f12fb9e9526b37498f12daff5e1733b42be5c19e222471dfe3d38"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -2680,14 +2680,14 @@ files = [
 
 [[package]]
 name = "pyodide-py"
-version = "0.26.2"
+version = "0.26.3"
 requires_python = ">=3.12"
 summary = "A Python package providing core interpreter functionality for Pyodide"
 groups = ["linting"]
 marker = "python_version >= \"3.12\""
 files = [
-    {file = "pyodide_py-0.26.2-py3-none-any.whl", hash = "sha256:fe952f498ea45886b9ad0d43f628703ed6ac48a1627dbe04a39199f8cf9b66c6"},
-    {file = "pyodide_py-0.26.2.tar.gz", hash = "sha256:a62220021f81a7eb8d9d2ac87f6cae641419946b6ca996346a1cab898a904783"},
+    {file = "pyodide_py-0.26.3-py3-none-any.whl", hash = "sha256:b63b6847c8906aa8f3c17df362135d0407aabf1d4b023557aed721d822e347a8"},
+    {file = "pyodide_py-0.26.3.tar.gz", hash = "sha256:71a795e4c9ef63c8a8c34f6d55784f9d34bd4101147e6ea082c0afb08d9c4b6a"},
 ]
 
 [[package]]
