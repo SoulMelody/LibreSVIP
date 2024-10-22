@@ -104,6 +104,7 @@ ust_grammar = Grammar(
         (
             (",%," float ("," float ("," float)?)?) /
             (",," float) /
+            ",%" /
             ("," float)*
         )
 
