@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "tui", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:e0b82d52f2f5cd5226c64f9c6694058218a028e42d60b5b335c6124c74963a66"
+content_hash = "sha256:a79a1d410a24e267bba848a3e71aa38df1417a866c4716d049eccc000cf37320"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.13"
@@ -3602,7 +3602,7 @@ files = [
 
 [[package]]
 name = "textual"
-version = "0.83.0"
+version = "0.84.0"
 requires_python = "<4.0.0,>=3.8.1"
 summary = "Modern Text User Interface framework"
 groups = ["test", "tui"]
@@ -3613,8 +3613,8 @@ dependencies = [
     "typing-extensions<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "textual-0.83.0-py3-none-any.whl", hash = "sha256:d6efc1e5c54086fd0a4fe274f18b5638ca24a69325c07e1b4400a7d0a1a14c55"},
-    {file = "textual-0.83.0.tar.gz", hash = "sha256:fc3b97796092d9c7e685e5392f38f3eb2007ffe1b3b1384dee6d3f10d256babd"},
+    {file = "textual-0.84.0-py3-none-any.whl", hash = "sha256:1457d2cb66ba4ea46812355f31adbb4b693424a94e69d052e4affe1dc410ec96"},
+    {file = "textual-0.84.0.tar.gz", hash = "sha256:fb89717960fea7a539823fa264252f7be1c84844e4b8d27360e6d4edb36846a8"},
 ]
 
 [[package]]
