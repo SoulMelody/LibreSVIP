@@ -49,7 +49,7 @@ ust_grammar = Grammar(
 
     ust_note =
         newline ust_note_head
-        (newline ust_note_attr)*
+        (newline ust_note_attr " "*)*
 
     ust_note_head =
         "[#" ~"(\\d+|PREV|NEXT|INSERT|DELETE)" "]"
