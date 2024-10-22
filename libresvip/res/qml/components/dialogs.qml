@@ -106,7 +106,7 @@ Item {
     }
 
     function url2path(url) {
-        let url_string = url.toString();
+        let url_string = unescape(url.toString());
         switch (Qt.platform.os) {
         case "windows":
             return url_string.replace(/^(file:\/{3})/, "");
