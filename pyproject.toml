@@ -40,7 +40,7 @@ dependencies = [
   "parsimonious<0.11.0,>=0.10.0",
   "platformdirs<5.0.0,>=4.3.6",
   "portion<3.0.0,>=2.6.0",
-  "proto-plus<2.0.0,>=1.24.0",
+  "proto-plus<2.0.0,>=1.25.0",
   "pydantic<3.0.0,>=2.9.2",
   "pydantic-extra-types<3.0.0,>=2.9.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
