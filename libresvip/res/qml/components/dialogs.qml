@@ -206,6 +206,7 @@ Item {
             width: 500
             height: 400
             x: parent.width / 2 - width / 2
+            color: "transparent"
             ColumnLayout {
                 x: -50
                 Layout.fillWidth: true
