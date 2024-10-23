@@ -174,16 +174,23 @@ class AceGenerator:
         ace_track.gain = min(6.0, 20 * math.log10(track.volume))
         return ace_track
 
-    @staticmethod
-    def adjust_breath_tags(notes: list[AcepNote]) -> None:
+    def adjust_breath_tags(self, notes: list[AcepNote]) -> None:
         for i in range(1, len(notes)):
             breath = notes[i].br_len
             if breath == 0:
                 continue
-            actual_breath = min((notes[i].pos - notes[i - 1].pos) // 2, breath)
+            distance = self.synchronizer.get_duration_secs_from_ticks(
+                notes[i - 1].pos, notes[i].pos
+            )
+            actual_breath = min(distance / 2, breath)
             notes[i - 1].dur = min(
                 notes[i - 1].dur,
-                notes[i].pos - notes[i - 1].pos - actual_breath,
+                int(
+                    self.synchronizer.get_actual_ticks_from_secs_offset(
+                        notes[i - 1].pos, distance - actual_breath
+                    )
+                )
+                - notes[i - 1].pos,
             )
             notes[i].br_len -= actual_breath
 

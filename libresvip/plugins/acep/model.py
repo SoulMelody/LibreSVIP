@@ -236,7 +236,7 @@ class AcepNote(BaseModel):
     head_consonants: Optional[list[float]] = Field(default_factory=list, alias="headConsonants")
     tail_consonants: Optional[list[float]] = Field(default_factory=list, alias="tailConsonants")
     syllable: Optional[str] = ""
-    br_len: int = Field(0, alias="brLen")
+    br_len: float = Field(0.0, alias="brLen")
     vibrato: Optional[AcepVibrato] = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
 
@@ -387,7 +387,7 @@ class AcepProject(BaseModel):
     loop: Optional[bool] = False
     loop_start: Optional[int] = Field(0, alias="loopStart")
     loop_end: Optional[int] = Field(7680, alias="loopEnd")
-    version: int = 7
+    version: int = 8
     version_revision: Optional[int] = Field(0, alias="versionRevision")
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")
