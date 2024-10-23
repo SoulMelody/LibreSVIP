@@ -12,7 +12,10 @@ from libresvip.core.config import (
     settings,
 )
 from libresvip.extension.manager import plugin_manager
-from libresvip.utils.translation import gettext_lazy as _
+
+
+def _(text: str) -> str:
+    return text
 
 
 class PluginCadidatesTableModel(QAbstractTableModel):
