@@ -110,7 +110,7 @@ code_gen = [
 i18n = ["babel>=2.16.0"]
 linting = [
   "pre-commit>=4.0.1",
-  "ruff>=0.7.0",
+  "ruff>=0.7.1",
   "mypy>=1.13.0",
   "sourcery>=1.23.0",
   "proto-plus-stubs>=0.7.0",
@@ -122,7 +122,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=7.2.3",
-  "nuitka>=2.4.10",
+  "nuitka>=2.4.11",
   "pyinstaller>=6.11.0",
   "shellingham<2.0.0,>=1.5.4",
 ]
