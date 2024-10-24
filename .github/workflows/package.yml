@@ -30,7 +30,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python 3.12
+          uv venv --python 3.13
           uv build --wheel
           cd packaging
           uv pip install -r requirements.txt
@@ -105,7 +105,7 @@ jobs:
           uv venv --python 3.12
           uv tool run pdm sync -G webui -G ujson -G ruamel_yaml -G lxml -G packaging --no-editable
           uv run python -m ensurepip
-          uv run python -m pip install https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
+          uv run python -m pip install pywebview https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-$PYINSTALLER_VERSION-py3-none-any.whl
           cd packaging
           uv run pyinstaller libresvip-web.spec
           cd dist
@@ -181,7 +181,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.12
+          uv venv --python 3.13
           cd packaging
           uv pip install -r requirements.txt
           uv pip install ../dist/*.whl --no-deps
@@ -220,7 +220,7 @@ jobs:
             cd /libresvip
             curl -LsSf https://astral.sh/uv/install.sh | sh
             source $HOME/.cargo/env
-            uv venv --python 3.12
+            uv venv --python 3.13
             uv build --wheel
             cd packaging
             uv pip install -r requirements.txt
@@ -255,7 +255,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.12
+          uv venv --python 3.13
           cd packaging
           uv pip install pillow
           uv pip install -r requirements.txt
@@ -290,7 +290,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.12
+          uv venv --python 3.13
           cd packaging
           uv pip install pillow
           uv pip install -r requirements.txt
