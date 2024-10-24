@@ -29,7 +29,7 @@ jobs:
         if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true'
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
       - name: Compile catalogs
         if: steps.changed-files.outputs.po_any_changed == 'true'
