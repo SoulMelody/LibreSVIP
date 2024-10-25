@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "tui", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:d7041f04bf6912558932a6454dfc6d02f91c39440388068a19279668da6d741c"
+content_hash = "sha256:6bf85248f803baed86bbe25134a231f9f3884b60b0706be26b96e5ac2f3e3e8d"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.14"
@@ -2178,7 +2178,7 @@ files = [
 
 [[package]]
 name = "nicegui"
-version = "2.4.0"
+version = "2.5.0"
 requires_python = "<4.0,>=3.8"
 summary = "Create web-based user interfaces with Python. The nice way."
 groups = ["webui"]
@@ -2205,8 +2205,8 @@ dependencies = [
     "watchfiles>=0.18.1",
 ]
 files = [
-    {file = "nicegui-2.4.0-py3-none-any.whl", hash = "sha256:7ee1ee089382118e224f16aafa44593e69403af458e98ea13b247683ed3c21ea"},
-    {file = "nicegui-2.4.0.tar.gz", hash = "sha256:98fd0558a421f6c39f3d4273e8a9937d9302e1cd4a23c5f177f3d9761c475152"},
+    {file = "nicegui-2.5.0-py3-none-any.whl", hash = "sha256:04d1b2a8927786fa9d0ad1b8b926e41d955ccb52c59a77b699a855a2bb94c74c"},
+    {file = "nicegui-2.5.0.tar.gz", hash = "sha256:e848e822dbf9be2c7cf50d27fbb180c096b135e6e1a817b30dd4a1b6aaac457c"},
 ]
 
 [[package]]
@@ -3658,7 +3658,7 @@ files = [
 
 [[package]]
 name = "textual"
-version = "0.84.0"
+version = "0.85.0"
 requires_python = "<4.0.0,>=3.8.1"
 summary = "Modern Text User Interface framework"
 groups = ["test", "tui"]
@@ -3669,8 +3669,8 @@ dependencies = [
     "typing-extensions<5.0.0,>=4.4.0",
 ]
 files = [
-    {file = "textual-0.84.0-py3-none-any.whl", hash = "sha256:1457d2cb66ba4ea46812355f31adbb4b693424a94e69d052e4affe1dc410ec96"},
-    {file = "textual-0.84.0.tar.gz", hash = "sha256:fb89717960fea7a539823fa264252f7be1c84844e4b8d27360e6d4edb36846a8"},
+    {file = "textual-0.85.0-py3-none-any.whl", hash = "sha256:8e75d023f06b242fb88233926dfb7801792f867643493096dd45dd216dc950f3"},
+    {file = "textual-0.85.0.tar.gz", hash = "sha256:645c0fd0b4f61cd19383df78a1acd4f3b555e2c514cfa2f454e20692dffc10a0"},
 ]
 
 [[package]]
