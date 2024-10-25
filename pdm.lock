@@ -5,7 +5,7 @@
 groups = ["default", "code_gen", "desktop", "docs", "i18n", "linting", "lxml", "packaging", "ruamel_yaml", "test", "tui", "ujson", "upath", "webui"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:6bf85248f803baed86bbe25134a231f9f3884b60b0706be26b96e5ac2f3e3e8d"
+content_hash = "sha256:e19e9219595d572d0c7aee22894476e6c947b6c0909e66af6b5cc238b2c18f81"
 
 [[metadata.targets]]
 requires_python = ">=3.9,<3.14"
@@ -3449,7 +3449,7 @@ version = "0.2.12"
 requires_python = ">=3.9"
 summary = "C version of reader, parser and emitter for ruamel.yaml derived from libyaml"
 groups = ["ruamel_yaml"]
-marker = "platform_python_implementation == \"CPython\" and python_version < \"3.13\""
+marker = "platform_python_implementation == \"CPython\" and python_version <= \"3.13\""
 files = [
     {file = "ruamel.yaml.clib-0.2.12-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:11f891336688faf5156a36293a9c362bdc7c88f03a8a027c2c1d8e0bcde998e5"},
     {file = "ruamel.yaml.clib-0.2.12-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:a606ef75a60ecf3d924613892cc603b154178ee25abb3055db5062da811fd969"},
