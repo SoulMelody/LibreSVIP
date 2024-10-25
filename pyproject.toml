@@ -205,5 +205,5 @@ no_site_packages = true
 explicit_package_bases = true
 
 [build-system]
-requires = ["pdm-backend", "setuptools", "wheel"]
+requires = ["pdm-backend"]
 build-backend = "pdm.backend"

@@ -42,7 +42,7 @@ jobs:
         if: steps.changed-files.outputs.requirements_any_changed == 'true'
         run: |
           pip install uv
-          uv pip compile --universal --extra desktop --extra ujson --extra lxml --extra ruamel_yaml --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in -o packaging/requirements.txt
+          uv pip compile --universal --extra desktop --extra ujson --extra lxml --extra ruamel_yaml -U --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in -o packaging/requirements.txt
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
