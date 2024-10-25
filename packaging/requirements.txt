@@ -1,7 +1,7 @@
 altgraph==0.17.4
 annotated-types==0.7.0
 antlr4-python3-runtime==4.9.3
-anyio==4.6.0
+anyio==4.6.2.post1
 bidict==0.23.1
 certifi==2024.8.30
 charset-normalizer==3.4.0
@@ -9,13 +9,13 @@ click==8.1.7
 colorama==0.4.6 ; sys_platform == 'win32' or platform_system == 'Windows'
 construct==2.10.68
 construct-typing==0.6.2
-dbus-fast==2.24.2 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
+dbus-fast==2.24.3 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.0.0 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
 fonticon-materialdesignicons7==7.2.96
-fsspec==2024.9.0
+fsspec==2024.10.0
 h11==0.14.0
-httpcore==1.0.5
+httpcore==1.0.6
 httpx==0.27.2
 idna==3.10
 jinja2==3.1.4
@@ -23,7 +23,7 @@ loguru==0.7.2
 lxml==5.3.0
 macholib==1.16.3 ; sys_platform == 'darwin'
 markdown-it-py==3.0.0
-markupsafe==2.1.5
+markupsafe==3.0.2
 mdurl==0.1.2
 mido-fix==1.2.12
 more-itertools==10.5.0
@@ -34,14 +34,14 @@ pefile==2023.2.7 ; sys_platform == 'win32'
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
-protobuf==5.28.2
+protobuf==5.28.3
 pydantic==2.9.2
 pydantic-core==2.23.4
 pydantic-extra-types==2.9.0
 pygments==2.18.0
 pyinstaller==6.11.0 ; platform_system != 'Windows'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.0-py3-none-any.whl ; platform_system == 'Windows'
-pyinstaller-hooks-contrib==2024.8
+pyinstaller-hooks-contrib==2024.9
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
 pypinyin==0.53.0
 pyside6==6.8.0.2
@@ -56,7 +56,7 @@ retrie==0.3.1
 rich==13.9.3
 ruamel-yaml==0.18.6
 rubicon-objc==0.4.9 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==75.1.0
+setuptools==75.2.0
 shellingham==1.5.4
 shiboken6==6.8.0.2
 sniffio==1.3.1
@@ -67,13 +67,13 @@ ujson==5.10.0
 universal-pathlib==0.2.5
 wanakana-python==1.2.2
 win32-setctime==1.1.0 ; sys_platform == 'win32'
-winrt-runtime==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-applicationmodel-core==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-data-xml-dom==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-foundation==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-foundation-collections==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-foundation-interop==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-winrt-windows-ui-notifications==2.2.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-runtime==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-applicationmodel-core==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-data-xml-dom==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation-collections==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-foundation-interop==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
+winrt-windows-ui-notifications==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 xsdata==24.9
 xsdata-pydantic==24.5
 zhon==2.0.2
