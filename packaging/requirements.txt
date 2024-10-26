@@ -31,6 +31,7 @@ omegaconf==2.3.0
 packaging==24.1
 parsimonious==0.10.0
 pefile==2023.2.7 ; sys_platform == 'win32'
+pillow==11.0.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
