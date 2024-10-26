@@ -257,7 +257,6 @@ jobs:
           uv build --wheel
           uv venv --python 3.13
           cd packaging
-          uv pip install pillow
           uv pip install -r requirements.txt
           uv pip install ../dist/*.whl --no-deps
           uv run python -m PyInstaller libresvip.spec
@@ -292,7 +291,6 @@ jobs:
           uv build --wheel
           uv venv --python 3.13
           cd packaging
-          uv pip install pillow
           uv pip install -r requirements.txt
           curl -L https://mediaarea.net/download/binary/libmediainfo0/${LIBMEDIAINFO_VERSION}/MediaInfo_DLL_${LIBMEDIAINFO_VERSION}_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
           tar xvf libmediainfo.tar.bz2
