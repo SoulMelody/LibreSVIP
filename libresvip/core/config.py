@@ -7,13 +7,39 @@ import enum
 import locale
 import pathlib
 import re
-from typing import Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
 
-from omegaconf import OmegaConf
+from omegaconf import OmegaConf, _utils
 from omegaconf.errors import OmegaConfBaseException
 from pydantic.dataclasses import dataclass
 
 from .constants import app_dir
+
+if TYPE_CHECKING:
+    import yaml
+
+_get_omegaconf_yaml_loader = _utils.get_yaml_loader
+
+
+def get_omegaconf_yaml_loader() -> yaml.SafeLoader:
+    loader = _get_omegaconf_yaml_loader()
+
+    loader.add_constructor(
+        "tag:yaml.org,2002:python/object/apply:pathlib._local.Path",
+        lambda loader, node: pathlib.Path(*loader.construct_sequence(node)),
+    )
+    loader.add_constructor(
+        "tag:yaml.org,2002:python/object/apply:pathlib._local.PosixPath",
+        lambda loader, node: pathlib.PosixPath(*loader.construct_sequence(node)),
+    )
+    loader.add_constructor(
+        "tag:yaml.org,2002:python/object/apply:pathlib._local.WindowsPath",
+        lambda loader, node: pathlib.WindowsPath(*loader.construct_sequence(node)),
+    )
+    return loader
+
+
+_utils.get_yaml_loader = get_omegaconf_yaml_loader
 
 
 class LyricsReplaceMode(enum.Enum):
