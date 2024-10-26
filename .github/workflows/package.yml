@@ -296,7 +296,7 @@ jobs:
           uv pip install -r requirements.txt
           curl -L https://mediaarea.net/download/binary/libmediainfo0/${LIBMEDIAINFO_VERSION}/MediaInfo_DLL_${LIBMEDIAINFO_VERSION}_Mac_x86_64+arm64.tar.bz2 --output libmediainfo.tar.bz2
           tar xvf libmediainfo.tar.bz2
-          mv MediaInfoLib/libmediainfo.0.dylib ../.venv/lib/python3.12/site-packages/pymediainfo/
+          mv MediaInfoLib/libmediainfo.0.dylib ../.venv/lib/python3.13/site-packages/pymediainfo/
           uv pip install ../dist/*.whl --no-deps
           uv run python -m PyInstaller libresvip.spec
           brew install create-dmg
