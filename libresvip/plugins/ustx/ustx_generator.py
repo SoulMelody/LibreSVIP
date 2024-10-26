@@ -232,6 +232,14 @@ class UstxGenerator:
             if os_pitch[os_pitch_pointer][1] < 0:  # 间断点
                 pitd.xs.append(time)
                 pitd.ys.append(0)
+            elif os_pitch[os_pitch_pointer][0] == os_pitch[os_pitch_pointer + 1][0]:
+                pitd.xs.append(time)
+                pitd.ys.append(
+                    round(
+                        (os_pitch[os_pitch_pointer][1] + os_pitch[os_pitch_pointer + 1][1]) / 2
+                        - int(base_pitch[i])
+                    )
+                )
             else:  # 有实际曲线存在
                 x1 = os_pitch[os_pitch_pointer][0] - first_bar_length
                 x2 = os_pitch[os_pitch_pointer + 1][0] - first_bar_length
