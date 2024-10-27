@@ -12,7 +12,7 @@
   "packageRules": [
     {
       "matchManagers": ["pep621"],
-      "matchDepTypes": ["tool.pdm.dev-dependencies"],
+      "matchDepTypes": ["dependency-groups"],
       "automerge": true,
       "groupName": "Development dependencies",
       "groupSlug": "dev"

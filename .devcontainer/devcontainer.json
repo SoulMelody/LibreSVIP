@@ -2,7 +2,6 @@
 	"name": "LibreSVIP",
 	"image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
 	"features": {
-		"ghcr.io/devcontainers-contrib/features/pdm:2": {},
 		"ghcr.io/devcontainers-contrib/features/protoc:1": {}
 	},
 	"customizations": {

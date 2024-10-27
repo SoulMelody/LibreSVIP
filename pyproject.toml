@@ -92,20 +92,7 @@ desktop = [
   "libresvip[upath]",
 ]
 
-[project.scripts]
-libresvip-cli = "libresvip.cli.__main__:app"
-libresvip-web = "libresvip.web.__main__:main"
-
-[project.gui-scripts]
-libresvip-gui = "libresvip.gui.__main__:run"
-
-[project.entry-points.pyinstaller40]
-hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
-
-[tool.pdm]
-version = { source = "file", path = "libresvip/__init__.py" }
-
-[tool.pdm.dev-dependencies]
+[dependency-groups]
 code_gen = [
   "datamodel-code-generator>=0.26.2",
   "gapic-generator>=1.19.1",
@@ -118,7 +105,6 @@ linting = [
   "mypy>=1.13.0",
   "sourcery>=1.23.0",
   "proto-plus-stubs>=0.7.0",
-  "pyodide-py>=0.26.3; python_version >= \"3.12\"",
   "types-lxml>=2024.9.16",
   "types-parsimonious>=0.10.0.20240331",
   "types-pyyaml>=6.0.12.20240917",
@@ -132,6 +118,27 @@ packaging = [
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.42"]
 test = ["pytest>=8.3.3", "pytest-datadir>=1.5.0", "textual-dev>=1.6.1"]
+all = [
+  {include-group = "code_gen"},
+  {include-group = "i18n"},
+  {include-group = "linting"},
+  {include-group = "packaging"},
+  {include-group = "docs"},
+  {include-group = "test"}
+]
+
+[project.scripts]
+libresvip-cli = "libresvip.cli.__main__:app"
+libresvip-web = "libresvip.web.__main__:main"
+
+[project.gui-scripts]
+libresvip-gui = "libresvip.gui.__main__:run"
+
+[project.entry-points.pyinstaller40]
+hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
+
+[tool.pdm]
+version = { source = "file", path = "libresvip/__init__.py" }
 
 [tool.pdm.build]
 includes = ["libresvip"]
