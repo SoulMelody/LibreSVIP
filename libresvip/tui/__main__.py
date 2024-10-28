@@ -234,7 +234,11 @@ class SelectFormats(Vertical):
 
     @on(Select.Changed, "#input_format")
     def on_input_format_changed(self, event: Select.Changed) -> None:
-        settings.last_input_format = event.value if event.value != Select.BLANK else None
+        last_input_format = event.value if event.value != Select.BLANK else None
+        if settings.last_input_format != last_input_format:
+            settings.last_input_format = last_input_format
+            if settings.reset_tasks_on_input_change:
+                self.app.query_one("ListView#direct").clear()
 
     @on(Select.Changed, "#output_format")
     def on_output_format_changed(self, event: Select.Changed) -> None:
