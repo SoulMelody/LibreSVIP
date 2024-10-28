@@ -23,16 +23,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up PDM
-        uses: pdm-project/setup-pdm@v4
-        with:
-          python-version: "3.13"
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v3
 
       - name: Publish to PyPI
-        run: pdm publish
+        run: uv publish
         env:
-          PDM_PUBLISH_USERNAME: __token__
-          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+          UV_PUBLISH_USERNAME: __token__
+          UV_PUBLISH_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
 
   docker-publish:
     runs-on: ubuntu-latest

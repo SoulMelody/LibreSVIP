@@ -103,9 +103,9 @@ jobs:
         run: |
           uv venv --python 3.12
           uv sync --extra webui --extra ujson --extra ruamel_yaml --extra lxml --no-editable
-          uv pip install pywebview
+          uv pip install pywebview --python .venv/Scripts/python.exe
           cd packaging
-          uv pip install -r requirements-pyinstaller.in
+          uv pip install -r requirements-pyinstaller.in --python ../.venv/Scripts/python.exe
           uv run pyinstaller libresvip-web.spec
           cd dist
           7z a LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip-web
