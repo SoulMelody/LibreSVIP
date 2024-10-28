@@ -6,6 +6,9 @@
   "constraints": {
     "python": "==3.13"
   },
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "rangeStrategy": "bump",
   "enabledManagers": ["pep621"],
   "labels": ["dependencies"],
