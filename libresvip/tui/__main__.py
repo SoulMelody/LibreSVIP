@@ -261,7 +261,7 @@ class SelectFormats(Vertical):
                 id="input_format",
                 classes="fill-width",
             )
-            yield Button("ℹ", id="input_plugin_info", tooltip="Input plugin info")
+            yield Button("ℹ", id="input_plugin_info", tooltip=_("View Detail Information"))
         with Horizontal():
             yield Label(_("Swap Input and Output"), classes="text-middle")
             yield Label("", classes="fill-width")
@@ -285,7 +285,7 @@ class SelectFormats(Vertical):
                 id="output_format",
                 classes="fill-width",
             )
-            yield Button("ℹ", id="output_plugin_info", tooltip="Output plugin info")
+            yield Button("ℹ", id="output_plugin_info", tooltip=_("View Detail Information"))
 
 
 class TUIApp(App[None]):
@@ -348,6 +348,10 @@ class TUIApp(App[None]):
         selected_path = await self.push_screen_wait(
             SelectImportProjectScreen(),
         )
+        ext = selected_path.suffix.removeprefix(".").lower()
+        if ext in plugin_manager.plugin_registry and settings.auto_detect_input_format:
+            settings.last_input_format = ext
+            self.query_one("#input_format")._watch_value(ext)
         direct_view = self.query_one("ListView#direct")
         direct_view.append(ListItem(Label(str(selected_path))))
 
@@ -385,7 +389,7 @@ class TUIApp(App[None]):
         direct_view = self.query_one("ListView#direct")
         item_len = len(direct_view)
         if item_len > 0:
-            direct_view.pop(min(direct_view.index, item_len - 1))
+            direct_view.pop(min(direct_view.index or 0, item_len - 1))
 
     @on(Button.Pressed, "#clear_tasks")
     def handle_clear_tasks(self, event: Button.Pressed) -> None:
