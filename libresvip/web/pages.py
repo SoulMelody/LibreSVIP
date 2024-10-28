@@ -1070,6 +1070,7 @@ def page_layout(lang: Optional[str] = None) -> None:
     dark_toggler = ui.dark_mode().bind_value(
         settings, "dark_mode", forward=str2dark_mode, backward=dark_mode2str
     )
+    dark_toggler.on_value_change(lambda: ui.navigate.to("/"))
     selected_formats = SelectedFormats()
     if app.native.main_window is None:
         setattr(
