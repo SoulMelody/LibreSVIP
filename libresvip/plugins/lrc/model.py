@@ -7,7 +7,7 @@ from libresvip.model.base import BaseModel
 class TimeTag(BaseModel):
     minute: int
     second: int
-    percent_second: int
+    milisecond: int
 
 
 class LyricLine(BaseModel):
