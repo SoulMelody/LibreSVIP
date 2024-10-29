@@ -7,7 +7,14 @@ from typing import Any, Union
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.command import Hit, Hits, Provider
-from textual.containers import Container, Horizontal, Right, Vertical, VerticalScroll
+from textual.containers import (
+    Container,
+    Horizontal,
+    Right,
+    Vertical,
+    VerticalGroup,
+    VerticalScroll,
+)
 from textual.screen import Screen
 from textual.validation import Integer
 from textual.widgets import (
@@ -40,7 +47,7 @@ from typing_extensions import ParamSpec
 
 import libresvip
 from libresvip.core.config import ConflictPolicy, DarkMode, Language, save_settings, settings
-from libresvip.extension.manager import get_translation, plugin_manager
+from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -92,7 +99,7 @@ class RootDirectoryTree(Vertical):
 
     def compose(self) -> ComposeResult:
         if platform.system() == "Windows":
-            with Horizontal(classes="top-pane"):
+            with Horizontal(classes="top-pane row"):
                 yield Label("Select a drive: ", classes="text-middle")
                 yield Select(
                     [(drive, drive) for drive in self.get_logical_drive_strings()],
@@ -292,6 +299,29 @@ class SelectFormats(Vertical):
             yield Button("ℹ", id="output_plugin_info", tooltip=_("View Detail Information"))
 
 
+class MiddlewareForm(VerticalGroup):
+    def __init__(self, middleware_id: str, *args: P.args, **kwargs: P.kwargs) -> None:
+        self.middleware_id = middleware_id
+        super().__init__(*args, **kwargs)
+
+    def on_mount(self) -> None:
+        self.query_one("#content").styles.visibility = "hidden"
+
+    def compose(self) -> ComposeResult:
+        with Horizontal(classes="row"):
+            yield Label(_("Enable"), classes="text-middle fill-width")
+            yield Switch(id="toggle")
+        with Vertical(id="content"):
+            yield Placeholder(label="Content")
+
+    @on(Switch.Changed, "#toggle")
+    def handle_toggle_change(self, event: Switch.Changed) -> None:
+        if event.value:
+            self.query_one("#content").styles.visibility = "visible"
+        else:
+            self.query_one("#content").styles.visibility = "hidden"
+
+
 class TaskRow(Right):
     def __init__(
         self,
@@ -342,12 +372,13 @@ class TUIApp(App[None]):
     .fill-height {
         height: 1fr;
     }
-    .top-pane {
+    .row {
         max-height: 5;
+    }
+    .top-pane {
         dock: top;
     }
     .bottom-pane {
-        max-height: 5;
         dock: bottom;
     }
     .task-row {
@@ -499,11 +530,16 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         pass
-                    with Collapsible(title=_("Intermediate Processing")):
-                        pass
+                    with (
+                        Collapsible(title=_("Intermediate Processing")),
+                        ListView(id="middleware_plugins"),
+                    ):
+                        for middleware_id, middleware in middleware_manager.plugin_registry.items():
+                            with ListItem(id=middleware_id), Collapsible(title=_(middleware.name)):
+                                yield MiddlewareForm(middleware_id)
                     with Collapsible(title=_("Output Options")):
                         pass
-                with Horizontal(classes="bottom-pane card"):
+                with Horizontal(classes="bottom-pane card row"):
                     yield Button("＋", tooltip=_("Add task"), id="add_task")
                     yield Button("▶", tooltip=_("Start conversion"), variant="primary")
                     yield Button("❌", tooltip=_("Delete selected task"), id="delete_task")
@@ -631,7 +667,7 @@ class TUIApp(App[None]):
                 )
                 yield Label(f'{_("Version: ")}{libresvip.__version__}')
                 yield Link(
-                    _("Author: SoulMelody"),
+                    _("Author: SoulMelody") + " 🌐",
                     url="https://space.bilibili.com/175862486",
                     tooltip=_("Author's Profile"),
                 )
