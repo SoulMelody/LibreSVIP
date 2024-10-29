@@ -7,7 +7,7 @@ from typing import Any, Union
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.command import Hit, Hits, Provider
-from textual.containers import Container, Horizontal, Vertical, VerticalScroll
+from textual.containers import Container, Horizontal, Right, Vertical, VerticalScroll
 from textual.screen import Screen
 from textual.validation import Integer
 from textual.widgets import (
@@ -183,7 +183,7 @@ class PluginInfoScreen(Screen[None]):
             yield Markdown(_(plugin_info.description))
             with Horizontal():
                 yield Label("", classes="fill-width")
-                yield Button(_("OK"), id="close", variant="success")
+                yield Button(_("Close"), id="close", variant="success")
 
 
 class SelectImportProjectScreen(Screen[pathlib.Path]):
@@ -292,6 +292,33 @@ class SelectFormats(Vertical):
             yield Button("ℹ", id="output_plugin_info", tooltip=_("View Detail Information"))
 
 
+class TaskRow(Right):
+    def __init__(
+        self,
+        input_path: pathlib.Path,
+        stem: str,
+        ext: str,
+        arrow_symbol: str = "→",
+        *args: P.args,
+        **kwargs: P.kwargs,
+    ) -> None:
+        self.input_path = input_path
+        self.stem = stem
+        self.ext = ext
+        self.arrow_symbol = arrow_symbol
+        super().__init__(*args, **kwargs)
+
+    def compose(self) -> ComposeResult:
+        yield Label(str(self.input_path), classes="text-middle half-width")
+        yield Label(f"  {self.arrow_symbol}  ", classes="text-middle")
+        yield Input(self.stem, id="stem", classes="fill-width")
+        yield Label(self.ext, classes="text-middle")
+
+    @on(Input.Changed, "#stem")
+    def handle_stem_change(self, event: Input.Changed) -> None:
+        self.stem = event.value
+
+
 class TUIApp(App[None]):
     TITLE = "LibreSVIP"
     COMMANDS = App.COMMANDS | {LibreSVIPCommandProvider}
@@ -322,6 +349,12 @@ class TUIApp(App[None]):
     .bottom-pane {
         max-height: 5;
         dock: bottom;
+    }
+    .task-row {
+        layout: horizontal;
+    }
+    .half-width {
+        width: 50%;
     }
     """
     )
@@ -357,7 +390,16 @@ class TUIApp(App[None]):
             settings.last_input_format = ext
             self.query_one("#input_format")._watch_value(ext)
         direct_view = self.query_one("ListView#direct")
-        direct_view.append(ListItem(Label(str(selected_path))))
+        direct_view.append(
+            ListItem(
+                TaskRow(
+                    selected_path,
+                    selected_path.stem,
+                    f".{settings.last_output_format}",
+                    classes="task-row",
+                )
+            )
+        )
 
     @on(Switch.Changed)
     def handle_switch_changed(self, changed: Switch.Changed) -> None:
@@ -464,9 +506,7 @@ class TUIApp(App[None]):
                 with Horizontal(classes="bottom-pane card"):
                     yield Button("＋", tooltip=_("Add task"), id="add_task")
                     yield Button("▶", tooltip=_("Start conversion"), variant="primary")
-                    yield Button(
-                        "X", tooltip=_("Delete selected task"), id="delete_task", variant="error"
-                    )
+                    yield Button("❌", tooltip=_("Delete selected task"), id="delete_task")
                     yield Button("🗑︎", tooltip=_("Clear tasks"), id="clear_tasks", variant="error")
                     yield Label(_("Progress"), classes="text-middle")
                     yield ProgressBar(total=100, show_eta=False, classes="text-middle fill-height")
@@ -585,7 +625,7 @@ class TUIApp(App[None]):
                     )
             with TabPane(_("About")), Vertical():
                 yield Link(
-                    "LibreSVIP",
+                    "LibreSVIP 𝅘𝅥𝅮",
                     url="https://github.com/SoulMelody/LibreSVIP",
                     tooltip=_("Repo URL"),
                 )
