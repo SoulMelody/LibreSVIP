@@ -1,7 +1,13 @@
 import sys
 
 from loguru import _defaults, _logger
-from PySide6.QtCore import QMessageLogContext, QtMsgType
+from PySide6.QtCore import (
+    QMessageLogContext,
+    QtMsgType,
+    qFormatLogMessage,
+    qInstallMessageHandler,
+    qSetMessagePattern,
+)
 
 qt_logger = _logger.Logger(
     core=_logger.Core(),
@@ -25,21 +31,27 @@ if _defaults.LOGURU_AUTOINIT and sys.stderr:
         ),
     )
 log_methods = {
-    QtMsgType.QtInfoMsg: qt_logger.info,
-    QtMsgType.QtWarningMsg: qt_logger.warning,
-    QtMsgType.QtCriticalMsg: qt_logger.critical,
-    QtMsgType.QtFatalMsg: qt_logger.error,
-    QtMsgType.QtDebugMsg: qt_logger.debug,
+    "info": qt_logger.info,
+    "warning": qt_logger.warning,
+    "critical": qt_logger.critical,
+    "fatal": qt_logger.error,
+    "debug": qt_logger.debug,
 }
 
 
 def qt_log_handler(message_type: QtMsgType, ctx: QMessageLogContext, message: str) -> None:
+    msg_type, file_name, function, line, msg = qFormatLogMessage(message_type, ctx, message).split(
+        "\n", maxsplit=5
+    )
     message_prefix = (
-        f"{ctx.file}:{ctx.line}"
-        if ctx.function is None
-        else f"{ctx.file}:{ctx.function}:{ctx.line}"
+        f"{file_name}:{line}" if function == "unknown" else f"{file_name}:{function}:{line}"
     )
     with qt_logger.contextualize(prefix=message_prefix):
-        message = message.removeprefix(f"{message_prefix}: ")
-        log_method = log_methods.get(message_type, qt_logger.info)
-        log_method(message)
+        msg = msg.removeprefix(message_prefix).removeprefix(":9").removeprefix(": ")
+        log_method = log_methods.get(msg_type, qt_logger.info)
+        log_method(msg)
+
+
+def enable_log_handler() -> None:
+    qSetMessagePattern("%{type}\n%{file}\n%{function}\n%{line}\n%{message}")
+    qInstallMessageHandler(qt_log_handler)

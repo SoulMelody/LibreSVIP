@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.7.0
+    rev: v0.7.1
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
@@ -8,7 +8,7 @@ repos:
         args: ["--config", "pyproject.toml", "--exclude", "tests/"]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.12.1
+    rev: v1.13.0
     hooks:
       - id: mypy
         args:
