@@ -1,8 +1,12 @@
+import enum
 import pathlib
 import platform
 from collections.abc import Coroutine
-from typing import Any, Union
+from typing import Any, Optional, Union, get_args, get_type_hints
 
+from pydantic import BaseModel
+from pydantic_core import PydanticUndefined
+from pydantic_extra_types.color import Color
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.command import Hit, Hits, Provider
@@ -14,7 +18,7 @@ from textual.containers import (
     VerticalScroll,
 )
 from textual.screen import Screen
-from textual.validation import Integer
+from textual.validation import Integer, Number
 from textual.widgets import (
     Button,
     Collapsible,
@@ -46,6 +50,7 @@ from typing_extensions import ParamSpec
 import libresvip
 from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.model.base import BaseComplexModel
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -245,6 +250,57 @@ class SelectFormats(Vertical):
             yield Button("ℹ", id="output_plugin_info", tooltip=_("View Detail Information"))
 
 
+class OptionsForm(ListView):
+    def __init__(
+        self, option_class: Optional[BaseModel], *args: P.args, **kwargs: P.kwargs
+    ) -> None:
+        self.option_class = option_class
+        super().__init__(*args, **kwargs)
+
+    def compose(self) -> ComposeResult:
+        if self.option_class is None:
+            return
+        for option_key, field_info in self.option_class.model_fields.items():
+            default_value = None if field_info.default is PydanticUndefined else field_info.default
+            with ListItem(id=f"key_{option_key}"), Horizontal():
+                if issubclass(field_info.annotation, enum.Enum):
+                    default_value = str(default_value.value) if default_value else None
+                    annotations = get_type_hints(
+                        field_info.annotation,
+                        include_extras=True,
+                    )
+                    choices = []
+                    for enum_item in field_info.annotation:
+                        if enum_item.name in annotations:
+                            annotated_args = list(
+                                get_args(annotations[enum_item.name]),
+                            )
+                            if len(annotated_args) >= 2:
+                                enum_field = annotated_args[1]
+                            else:
+                                continue
+                            choices.append((_(enum_field.title), str(enum_item.value)))
+                    yield Label(_(field_info.title), classes="text-middle")
+                    yield Select(choices, allow_blank=False, value=default_value)
+                elif issubclass(field_info.annotation, bool):
+                    yield Label(_(field_info.title), classes="text-middle")
+                    yield Switch(default_value, id=f"value_{option_key}")
+                elif issubclass(field_info.annotation, (int, float, str, Color, BaseComplexModel)):
+                    if issubclass(field_info.annotation, BaseComplexModel):
+                        default_value = field_info.annotation.default_repr()
+                    elif not isinstance(default_value, str):
+                        default_value = str(default_value)
+                    validators = []
+                    if issubclass(field_info.annotation, int):
+                        validators.append(Integer())
+                    elif issubclass(field_info.annotation, float):
+                        validators.append(Number())
+                    yield Label(_(field_info.title), classes="text-middle")
+                    yield Input(default_value, id=f"value_{option_key}", validators=validators)
+                if field_info.description:
+                    yield Button("？", tooltip=_(field_info.description), disabled=True)
+
+
 class TaskRow(Right):
     def __init__(
         self,
@@ -438,16 +494,21 @@ class TUIApp(App[None]):
                 with Vertical(classes="card"), VerticalScroll():
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
-                        pass
+                        yield OptionsForm(None)
                     for middleware in middleware_manager.plugin_registry.values():
-                        with Collapsible(title=_(middleware.name)), VerticalGroup():
-                            with Horizontal(classes="row"):
-                                yield Label(_("Enable"), classes="text-middle fill-width")
-                                yield Switch(id="toggle")
-                            with Vertical():
-                                yield Placeholder(label="Content")
+                        if middleware.plugin_object is not None and (
+                            middleware_option := get_type_hints(
+                                middleware.plugin_object.process
+                            ).get("options")
+                        ):
+                            with Collapsible(title=_(middleware.name)), VerticalGroup():
+                                with Horizontal(classes="row"):
+                                    yield Label(_("Enable"), classes="text-middle fill-width")
+                                    yield Switch(id="toggle")
+                                with Vertical():
+                                    yield OptionsForm(middleware_option)
                     with Collapsible(title=_("Output Options")):
-                        pass
+                        yield OptionsForm(None)
                 with Horizontal(classes="bottom-pane card row"):
                     yield Button("＋", tooltip=_("Add task"), id="add_task")
                     yield Button("▶", tooltip=_("Start conversion"), variant="primary")
