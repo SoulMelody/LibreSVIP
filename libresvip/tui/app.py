@@ -1,4 +1,3 @@
-import contextlib
 import pathlib
 import platform
 from collections.abc import Coroutine
@@ -8,7 +7,6 @@ from textual import on, work
 from textual.app import App, ComposeResult
 from textual.command import Hit, Hits, Provider
 from textual.containers import (
-    Container,
     Horizontal,
     Right,
     Vertical,
@@ -46,7 +44,7 @@ from textual.widgets.selection_list import Selection
 from typing_extensions import ParamSpec
 
 import libresvip
-from libresvip.core.config import ConflictPolicy, DarkMode, Language, save_settings, settings
+from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
@@ -115,58 +113,6 @@ class RootDirectoryTree(Vertical):
             directory_tree.reset_node(
                 directory_tree.root, event.value, DirEntry(directory_tree.PATH(self.root))
             )
-
-
-class PromptScreen(Screen[bool]):
-    DEFAULT_CSS = """
-    #dialog {
-        height: 100%;
-        margin: 4 8;
-        background: $panel;
-        color: $text;
-        border: tall $background;
-        padding: 1 2;
-    }
-    Button {
-        width: 1fr;
-    }
-    .question {
-        text-style: bold;
-        height: 100%;
-        content-align: center middle;
-    }
-    .buttons {
-        width: 100%;
-        height: auto;
-        dock: bottom;
-    }
-    """
-
-    def __init__(self, output_path: str) -> None:
-        self.output_path = output_path
-        super().__init__()
-
-    def compose(self) -> ComposeResult:
-        yield Header(icon="☰")
-        yield Footer()
-        yield Container(
-            Static(
-                _("File {} already exists. Overwrite?").format(self.output_path), classes="question"
-            ),
-            Horizontal(
-                Button(_("OK"), id="yes", variant="success"),
-                Button(_("Cancel"), id="no", variant="error"),
-                classes="buttons",
-            ),
-        )
-
-    @on(Button.Pressed, "#yes")
-    def handle_yes(self) -> None:
-        self.dismiss(True)
-
-    @on(Button.Pressed, "#no")
-    def handle_no(self) -> None:
-        self.dismiss(False)
 
 
 class PluginInfoScreen(Screen[None]):
@@ -299,29 +245,6 @@ class SelectFormats(Vertical):
             yield Button("ℹ", id="output_plugin_info", tooltip=_("View Detail Information"))
 
 
-class MiddlewareForm(VerticalGroup):
-    def __init__(self, middleware_id: str, *args: P.args, **kwargs: P.kwargs) -> None:
-        self.middleware_id = middleware_id
-        super().__init__(*args, **kwargs)
-
-    def on_mount(self) -> None:
-        self.query_one("#content").styles.visibility = "hidden"
-
-    def compose(self) -> ComposeResult:
-        with Horizontal(classes="row"):
-            yield Label(_("Enable"), classes="text-middle fill-width")
-            yield Switch(id="toggle")
-        with Vertical(id="content"):
-            yield Placeholder(label="Content")
-
-    @on(Switch.Changed, "#toggle")
-    def handle_toggle_change(self, event: Switch.Changed) -> None:
-        if event.value:
-            self.query_one("#content").styles.visibility = "visible"
-        else:
-            self.query_one("#content").styles.visibility = "hidden"
-
-
 class TaskRow(Right):
     def __init__(
         self,
@@ -438,16 +361,8 @@ class TUIApp(App[None]):
             settings.auto_detect_input_format = changed.value
         elif changed.switch.id == "reset_tasks_on_input_change":
             settings.reset_tasks_on_input_change = changed.value
-        elif changed.switch.id == "multi_threaded_conversion":
-            settings.multi_threaded_conversion = changed.value
         elif changed.switch.id == "auto_set_output_extension":
             settings.auto_set_output_extension = changed.value
-        elif changed.switch.id == "open_save_folder_on_completion":
-            settings.open_save_folder_on_completion = changed.value
-
-    @on(Select.Changed, "#conflict_policy")
-    def handle_conflict_policy_changed(self, changed: Select.Changed) -> None:
-        settings.conflict_policy = ConflictPolicy(changed.value)
 
     @on(Select.Changed, "#language_select")
     async def handle_language_changed(self, changed: Select.Changed) -> None:
@@ -479,12 +394,6 @@ class TUIApp(App[None]):
             SelectOutputDirectoryScreen(),
         )
         self.query_one("#output_directory").update(str(settings.save_folder))
-
-    def handle_open_output_directory(self, event: Button.Pressed) -> None:
-        with contextlib.suppress(ImportError):
-            import showinfm
-
-            showinfm.show_in_file_manager(str(pathlib.Path().absolute()))
 
     @on(SelectionList.SelectedChanged)
     def handle_plugins_changed(self, selected: SelectionList.SelectedChanged) -> None:
@@ -530,13 +439,13 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         pass
-                    with (
-                        Collapsible(title=_("Intermediate Processing")),
-                        ListView(id="middleware_plugins"),
-                    ):
-                        for middleware_id, middleware in middleware_manager.plugin_registry.items():
-                            with ListItem(id=middleware_id), Collapsible(title=_(middleware.name)):
-                                yield MiddlewareForm(middleware_id)
+                    for middleware in middleware_manager.plugin_registry.values():
+                        with Collapsible(title=_(middleware.name)), VerticalGroup():
+                            with Horizontal(classes="row"):
+                                yield Label(_("Enable"), classes="text-middle fill-width")
+                                yield Switch(id="toggle")
+                            with Vertical():
+                                yield Placeholder(label="Content")
                     with Collapsible(title=_("Output Options")):
                         pass
                 with Horizontal(classes="bottom-pane card row"):
@@ -571,12 +480,6 @@ class TUIApp(App[None]):
                             value=settings.reset_tasks_on_input_change,
                             id="reset_tasks_on_input_change",
                         )
-                    with Horizontal():
-                        yield Label(_("Multi-Threaded Conversion"), classes="text-middle")
-                        yield Label("", classes="fill-width")
-                        yield Switch(
-                            value=settings.multi_threaded_conversion, id="multi_threaded_conversion"
-                        )
                 with Vertical(classes="card"):
                     yield Label(_("Output Settings"), classes="title")
                     with Horizontal():
@@ -588,19 +491,6 @@ class TUIApp(App[None]):
                             value=settings.auto_set_output_extension, id="auto_set_output_extension"
                         )
                     with Horizontal():
-                        yield Label(_("Deal With Conflicts"), classes="text-middle")
-                        yield Select(
-                            [
-                                (_("Overwrite"), "Overwrite"),
-                                (_("Skip"), "Skip"),
-                                (_("Prompt"), "Prompt"),
-                            ],
-                            value=settings.conflict_policy.value,
-                            prompt="",
-                            allow_blank=False,
-                            id="conflict_policy",
-                        )
-                    with Horizontal():
                         yield Label(_("Output Folder"), classes="text-middle")
                         yield Static(
                             str(settings.save_folder),
@@ -608,16 +498,8 @@ class TUIApp(App[None]):
                             disabled=True,
                             id="output_directory",
                         )
-                        # yield Button("🗁", id="open_output_directory", tooltip=_("Open Output Directory"))
                         yield Button(
                             "🗀", id="change_output_directory", tooltip=_("Change Output Directory")
-                        )
-                    with Horizontal():
-                        yield Label(_("Open Output Folder When Done"), classes="text-middle")
-                        yield Label("", classes="fill-width")
-                        yield Switch(
-                            value=settings.open_save_folder_on_completion,
-                            id="open_save_folder_on_completion",
                         )
             with TabPane(_("Other Settings")), Horizontal():
                 with Vertical(classes="card"):

@@ -1,4 +1,4 @@
-from .app import TUIApp
+from libresvip.tui.app import TUIApp
 
 if __name__ == "__main__":
     app = TUIApp()
