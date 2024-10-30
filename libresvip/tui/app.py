@@ -2,6 +2,7 @@ import enum
 import pathlib
 import platform
 from collections.abc import Coroutine
+from dataclasses import dataclass
 from typing import Any, Optional, Union, get_args, get_type_hints
 
 from pydantic import BaseModel
@@ -17,6 +18,7 @@ from textual.containers import (
     VerticalGroup,
     VerticalScroll,
 )
+from textual.message import Message
 from textual.screen import Screen
 from textual.validation import Integer, Number
 from textual.widgets import (
@@ -167,6 +169,14 @@ class SelectOutputDirectoryScreen(Screen[pathlib.Path]):
 
 
 class SelectFormats(Vertical):
+    @dataclass
+    class InputFormatChanged(Message):
+        value: Optional[str]
+
+    @dataclass
+    class OutputFormatChanged(Message):
+        value: Optional[str]
+
     @on(Button.Pressed, "#swap_input_output")
     def on_swap_input_output(self, pressed: Button.Pressed) -> None:
         input_format_select = self.query_one("#input_format")
@@ -177,8 +187,6 @@ class SelectFormats(Vertical):
         )
         input_format_select._watch_value(input_format_value)
         output_format_select._watch_value(output_format_value)
-        if settings.reset_tasks_on_input_change:
-            self.app.query_one("ListView#direct").clear()
 
     @on(Button.Pressed, "#input_plugin_info")
     def on_input_plugin_info(self, pressed: Button.Pressed) -> None:
@@ -195,12 +203,14 @@ class SelectFormats(Vertical):
         last_input_format = event.value if event.value != Select.BLANK else None
         if settings.last_input_format != last_input_format:
             settings.last_input_format = last_input_format
-            if settings.reset_tasks_on_input_change:
-                self.app.query_one("ListView#direct").clear()
+            self.post_message(self.InputFormatChanged(value=last_input_format))
 
     @on(Select.Changed, "#output_format")
     def on_output_format_changed(self, event: Select.Changed) -> None:
-        settings.last_output_format = event.value if event.value != Select.BLANK else None
+        last_output_format = event.value if event.value != Select.BLANK else None
+        if settings.last_output_format != last_output_format:
+            settings.last_output_format = last_output_format
+            self.post_message(self.OutputFormatChanged(value=last_output_format))
 
     def compose(self) -> ComposeResult:
         yield Label(_("Select File Formats"), classes="title")
@@ -281,9 +291,12 @@ class OptionsForm(ListView):
                                 continue
                             choices.append((_(enum_field.title), str(enum_item.value)))
                     yield Label(_(field_info.title), classes="text-middle")
-                    yield Select(choices, allow_blank=False, value=default_value)
+                    yield Select(
+                        choices, allow_blank=False, value=default_value, classes="fill-width"
+                    )
                 elif issubclass(field_info.annotation, bool):
                     yield Label(_(field_info.title), classes="text-middle")
+                    yield Label("", classes="fill-width")
                     yield Switch(default_value, id=f"value_{option_key}")
                 elif issubclass(field_info.annotation, (int, float, str, Color, BaseComplexModel)):
                     if issubclass(field_info.annotation, BaseComplexModel):
@@ -296,7 +309,12 @@ class OptionsForm(ListView):
                     elif issubclass(field_info.annotation, float):
                         validators.append(Number())
                     yield Label(_(field_info.title), classes="text-middle")
-                    yield Input(default_value, id=f"value_{option_key}", validators=validators)
+                    yield Input(
+                        default_value,
+                        id=f"value_{option_key}",
+                        validators=validators,
+                        classes="fill-width",
+                    )
                 if field_info.description:
                     yield Button("？", tooltip=_(field_info.description), disabled=True)
 
@@ -388,6 +406,32 @@ class TUIApp(App[None]):
     def watch_dark(self, dark: bool) -> None:
         settings.dark_mode = DarkMode.DARK if dark else DarkMode.LIGHT
         return super().watch_dark(dark)
+
+    @on(SelectFormats.InputFormatChanged)
+    async def handle_input_format_change(self, event: SelectFormats.InputFormatChanged) -> None:
+        if settings.reset_tasks_on_input_change:
+            self.query_one("ListView#direct").clear()
+        if event.value:
+            plugin_object = plugin_manager.plugin_registry[event.value].plugin_object
+            if plugin_object is not None and (
+                input_option := get_type_hints(plugin_object.load).get("options")
+            ):
+                input_options = self.query_one("#input_options")
+                input_options.option_class = input_option
+                await input_options.recompose()
+
+    @on(SelectFormats.OutputFormatChanged)
+    async def handle_output_format_change(self, event: SelectFormats.OutputFormatChanged) -> None:
+        if settings.auto_set_output_extension:
+            pass
+        if event.value:
+            plugin_object = plugin_manager.plugin_registry[event.value].plugin_object
+            if plugin_object is not None and (
+                output_option := get_type_hints(plugin_object.dump).get("options")
+            ):
+                output_options = self.query_one("#output_options")
+                output_options.option_class = output_option
+                await output_options.recompose()
 
     @on(Button.Pressed, "#add_task")
     @work
@@ -494,7 +538,7 @@ class TUIApp(App[None]):
                 with Vertical(classes="card"), VerticalScroll():
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
-                        yield OptionsForm(None)
+                        yield OptionsForm(None, id="input_options")
                     for middleware in middleware_manager.plugin_registry.values():
                         if middleware.plugin_object is not None and (
                             middleware_option := get_type_hints(
@@ -508,7 +552,7 @@ class TUIApp(App[None]):
                                 with Vertical():
                                     yield OptionsForm(middleware_option)
                     with Collapsible(title=_("Output Options")):
-                        yield OptionsForm(None)
+                        yield OptionsForm(None, id="output_options")
                 with Horizontal(classes="bottom-pane card row"):
                     yield Button("＋", tooltip=_("Add task"), id="add_task")
                     yield Button("▶", tooltip=_("Start conversion"), variant="primary")
