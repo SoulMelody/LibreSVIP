@@ -33,7 +33,6 @@ from textual.widgets import (
     Link,
     ListView,
     Markdown,
-    Placeholder,
     ProgressBar,
     Select,
     SelectionList,
@@ -342,7 +341,7 @@ class TaskRow(Right):
         input_path: pathlib.Path,
         stem: str,
         ext: str,
-        arrow_symbol: str = "→",
+        arrow_symbol: str,
         *args: P.args,
         **kwargs: P.kwargs,
     ) -> None:
@@ -355,8 +354,11 @@ class TaskRow(Right):
     def compose(self) -> ComposeResult:
         yield Label(str(self.input_path), classes="text-middle half-width")
         yield Label(f"  {self.arrow_symbol}  ", classes="text-middle")
-        yield Input(self.stem, id="stem", classes="fill-width")
-        yield Label(self.ext, classes="text-middle")
+        if self.arrow_symbol != "⮥":
+            yield Input(self.stem, id="stem", classes="fill-width")
+            yield Label(self.ext, classes="text-middle")
+        else:
+            yield Label("", classes="fill-width")
 
     @on(Input.Changed, "#stem")
     def handle_stem_change(self, event: Input.Changed) -> None:
@@ -431,7 +433,8 @@ class TUIApp(App[None]):
     @on(SelectFormats.InputFormatChanged)
     async def handle_input_format_change(self, event: SelectFormats.InputFormatChanged) -> None:
         if settings.reset_tasks_on_input_change:
-            self.query_one("ListView#direct").clear()
+            tab_id = self.query_one("#task_list").current
+            self.query_one(f"ListView#{tab_id}").clear()
         if event.value:
             plugin_object = plugin_manager.plugin_registry[event.value].plugin_object
             if plugin_object is not None and (
@@ -464,14 +467,23 @@ class TUIApp(App[None]):
         if ext in plugin_manager.plugin_registry and settings.auto_detect_input_format:
             settings.last_input_format = ext
             self.query_one("#input_format")._watch_value(ext)
-        direct_view = self.query_one("ListView#direct")
-        direct_view.append(
+        tab_id = self.query_one("#task_list").current
+        task_list_view = self.query_one(f"ListView#{tab_id}")
+        task_count = len(task_list_view)
+        if tab_id == "direct" or task_count == 0:
+            arrow_symbol = "→"
+        elif tab_id == "split":
+            return
+        else:
+            arrow_symbol = "⮥"
+        task_list_view.append(
             ListItem(
                 TaskRow(
                     selected_path,
                     selected_path.stem,
                     f".{settings.last_output_format}",
                     classes="task-row",
+                    arrow_symbol=arrow_symbol,
                 )
             )
         )
@@ -499,14 +511,16 @@ class TUIApp(App[None]):
 
     @on(Button.Pressed, "#delete_task")
     def handle_delete_task(self, event: Button.Pressed) -> None:
-        direct_view = self.query_one("ListView#direct")
-        item_len = len(direct_view)
+        tab_id = self.query_one("#task_list").current
+        task_list_view = self.query_one(f"ListView#{tab_id}")
+        item_len = len(task_list_view)
         if item_len > 0:
-            direct_view.pop(min(direct_view.index or 0, item_len - 1))
+            task_list_view.pop(min(task_list_view.index or 0, item_len - 1))
 
     @on(Button.Pressed, "#clear_tasks")
     def handle_clear_tasks(self, event: Button.Pressed) -> None:
-        self.query_one("ListView#direct").clear()
+        tab_id = self.query_one("#task_list").current
+        self.query_one(f"ListView#{tab_id}").clear()
 
     @on(Button.Pressed, "#change_output_directory")
     @work
@@ -530,7 +544,8 @@ class TUIApp(App[None]):
 
     @on(Tabs.TabActivated, "#conversion_mode")
     def handle_conversion_mode_changed(self, activated: Tabs.TabActivated) -> None:
-        self.query_one("#task_list").current = activated.tab.id
+        task_list = self.query_one("#task_list")
+        task_list.current = activated.tab.id
         max_track_count_input = self.query_one("#max_track_count")
         if activated.tab.id == "split":
             max_track_count_input.disabled = False
@@ -554,8 +569,8 @@ class TUIApp(App[None]):
                         )
                         with VerticalScroll(), ContentSwitcher(initial="direct", id="task_list"):
                             yield ListView(id="direct")
-                            yield Placeholder(id="split")
-                            yield Placeholder(id="merge")
+                            yield ListView(id="split")
+                            yield ListView(id="merge")
                 with Vertical(classes="card"), VerticalScroll():
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
