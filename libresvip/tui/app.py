@@ -262,17 +262,27 @@ class SelectFormats(Vertical):
 
 class OptionsForm(ListView):
     def __init__(
-        self, option_class: Optional[BaseModel], *args: P.args, **kwargs: P.kwargs
+        self, option_class: Optional[type[BaseModel]], *args: P.args, **kwargs: P.kwargs
     ) -> None:
         self.option_class = option_class
+        self.option_dict = {} if option_class is None else option_class().model_dump(mode="json")
         super().__init__(*args, **kwargs)
+
+    @on(Input.Changed)
+    @on(Switch.Changed)
+    @on(Select.Changed)
+    def handle_value_changed(
+        self, event: Union[Input.Changed, Switch.Changed, Select.Changed]
+    ) -> None:
+        option_key = event.control.id.removeprefix("value_")
+        self.option_dict[option_key] = event.value
 
     def compose(self) -> ComposeResult:
         if self.option_class is None:
             return
         for option_key, field_info in self.option_class.model_fields.items():
             default_value = None if field_info.default is PydanticUndefined else field_info.default
-            with ListItem(id=f"key_{option_key}"), Horizontal():
+            with ListItem(), Horizontal():
                 if issubclass(field_info.annotation, enum.Enum):
                     default_value = str(default_value.value) if default_value else None
                     annotations = get_type_hints(
@@ -292,7 +302,11 @@ class OptionsForm(ListView):
                             choices.append((_(enum_field.title), str(enum_item.value)))
                     yield Label(_(field_info.title), classes="text-middle")
                     yield Select(
-                        choices, allow_blank=False, value=default_value, classes="fill-width"
+                        choices,
+                        allow_blank=False,
+                        value=default_value,
+                        classes="fill-width",
+                        id=f"value_{option_key}",
                     )
                 elif issubclass(field_info.annotation, bool):
                     yield Label(_(field_info.title), classes="text-middle")
@@ -315,6 +329,9 @@ class OptionsForm(ListView):
                         validators=validators,
                         classes="fill-width",
                     )
+                else:
+                    continue
+                self.option_dict[option_key] = default_value
                 if field_info.description:
                     yield Button("？", tooltip=_(field_info.description), disabled=True)
 
@@ -398,6 +415,10 @@ class TUIApp(App[None]):
         theme_select.watch(self, "dark", update_theme, init=False)
         if settings.dark_mode == DarkMode.LIGHT:
             self.dark = False
+        if settings.last_input_format is not None:
+            self.post_message(SelectFormats.InputFormatChanged(settings.last_input_format))
+        if settings.last_output_format is not None:
+            self.post_message(SelectFormats.OutputFormatChanged(settings.last_output_format))
 
     def _on_exit_app(self) -> Coroutine[Any, Any, None]:
         save_settings()
@@ -539,7 +560,7 @@ class TUIApp(App[None]):
                     yield Label(_("Advanced Settings"), classes="title")
                     with Collapsible(title=_("Input Options")):
                         yield OptionsForm(None, id="input_options")
-                    for middleware in middleware_manager.plugin_registry.values():
+                    for middleware_id, middleware in middleware_manager.plugin_registry.items():
                         if middleware.plugin_object is not None and (
                             middleware_option := get_type_hints(
                                 middleware.plugin_object.process
@@ -548,9 +569,11 @@ class TUIApp(App[None]):
                             with Collapsible(title=_(middleware.name)), VerticalGroup():
                                 with Horizontal(classes="row"):
                                     yield Label(_("Enable"), classes="text-middle fill-width")
-                                    yield Switch(id="toggle")
+                                    yield Switch(id=f"{middleware_id}_switch")
                                 with Vertical():
-                                    yield OptionsForm(middleware_option)
+                                    yield OptionsForm(
+                                        middleware_option, id=f"{middleware_id}_options"
+                                    )
                     with Collapsible(title=_("Output Options")):
                         yield OptionsForm(None, id="output_options")
                 with Horizontal(classes="bottom-pane card row"):
