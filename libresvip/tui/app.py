@@ -373,7 +373,7 @@ class TaskRow(Right):
         self.stem = stem
         self.ext = ext
         self.arrow_symbol = arrow_symbol
-        self.log_text = "foo\nbar\nbaz"
+        self.log_text = ""
         super().__init__(*args, **kwargs)
 
     def compose(self) -> ComposeResult:
@@ -381,7 +381,7 @@ class TaskRow(Right):
         yield Label(f"  {self.arrow_symbol}  ", classes="text-middle")
         if self.arrow_symbol != "⮥":
             yield Input(self.stem, id="stem", classes="fill-width")
-            yield Label(self.ext, classes="text-middle")
+            yield Label(self.ext, id="ext", classes="text-middle")
         else:
             yield Label("", classes="fill-width")
         yield Button("👁", id="view_log", tooltip=_("View Log"))
@@ -475,9 +475,13 @@ class TUIApp(App[None]):
 
     @on(SelectFormats.OutputFormatChanged)
     async def handle_output_format_change(self, event: SelectFormats.OutputFormatChanged) -> None:
-        if settings.auto_set_output_extension:
-            pass
         if event.value:
+            if settings.auto_set_output_extension:
+                tab_id = self.query_one("#task_list").current
+                task_list_view = self.query_one(f"ListView#{tab_id}")
+                for node in task_list_view._nodes:
+                    node.ext = event.value
+                    node.query_one("#ext").update(f".{event.value}")
             plugin_object = plugin_manager.plugin_registry[event.value].plugin_object
             if plugin_object is not None and (
                 output_option := get_type_hints(plugin_object.dump).get("options")
