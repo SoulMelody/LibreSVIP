@@ -92,7 +92,7 @@ class RootDirectoryTree(Vertical):
         import ctypes.wintypes
 
         # adapted from winappdbg
-        _get_logical_drive_strings_w = ctypes.windll.kernel32.GetLogicalDriveStringsW
+        _get_logical_drive_strings_w = ctypes.windll.kernel32.GetLogicalDriveStringsW  # type: ignore[attr-defined]
         _get_logical_drive_strings_w.argtypes = [ctypes.wintypes.DWORD, ctypes.wintypes.LPWSTR]
         _get_logical_drive_strings_w.restype = ctypes.wintypes.DWORD
 
