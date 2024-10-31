@@ -6,8 +6,8 @@ from dataclasses import dataclass
 from typing import Any, Optional, Union, get_args, get_type_hints
 
 from pydantic import BaseModel
-from pydantic_core import PydanticUndefined
-from pydantic_extra_types.color import Color
+from pydantic_core import PydanticCustomError, PydanticUndefined
+from pydantic_extra_types.color import Color, parse_str
 from textual import on, work
 from textual.app import App, ComposeResult
 from textual.command import Hit, Hits, Provider
@@ -20,7 +20,7 @@ from textual.containers import (
 )
 from textual.message import Message
 from textual.screen import Screen
-from textual.validation import Integer, Number
+from textual.validation import Integer, Number, ValidationResult, Validator
 from textual.widgets import (
     Button,
     Collapsible,
@@ -34,6 +34,7 @@ from textual.widgets import (
     ListView,
     Log,
     Markdown,
+    MaskedInput,
     ProgressBar,
     Select,
     SelectionList,
@@ -54,6 +55,7 @@ from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel
 from libresvip.utils import translation
+from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
 
 P = ParamSpec("P")
@@ -283,6 +285,15 @@ class SelectFormats(Vertical):
             yield Button("ℹ", id="output_plugin_info", tooltip=_("View Detail Information"))
 
 
+class ColorValidator(Validator):
+    def validate(self, value: str) -> ValidationResult:
+        try:
+            parse_str(value)
+            return self.success()
+        except PydanticCustomError:
+            return self.failure(_("Invalid color format"))
+
+
 class OptionsForm(ListView):
     def __init__(
         self, option_class: Optional[type[BaseModel]], *args: P.args, **kwargs: P.kwargs
@@ -306,7 +317,27 @@ class OptionsForm(ListView):
         for option_key, field_info in self.option_class.model_fields.items():
             default_value = None if field_info.default is PydanticUndefined else field_info.default
             with ListItem(), Horizontal():
-                if issubclass(field_info.annotation, enum.Enum):
+                if option_key == "lyric_replacement_preset_name":
+                    choices = [(preset, preset) for preset in settings.lyric_replace_rules]
+                    yield Label(_(field_info.title), classes="text-middle")
+                    yield Select(
+                        choices,
+                        allow_blank=False,
+                        value=default_value,
+                        classes="fill-width",
+                        id=f"value_{option_key}",
+                    )
+                elif option_key in ["encoding", "lyric_encoding"]:
+                    choices = [(charset, charset) for charset in supported_charset_names()]
+                    yield Label(_(field_info.title), classes="text-middle")
+                    yield Select(
+                        choices,
+                        allow_blank=False,
+                        value=default_value,
+                        classes="fill-width",
+                        id=f"value_{option_key}",
+                    )
+                elif issubclass(field_info.annotation, enum.Enum):
                     default_value = str(default_value.value) if default_value else None
                     annotations = get_type_hints(
                         field_info.annotation,
@@ -335,7 +366,16 @@ class OptionsForm(ListView):
                     yield Label(_(field_info.title), classes="text-middle")
                     yield Label("", classes="fill-width")
                     yield Switch(default_value, id=f"value_{option_key}")
-                elif issubclass(field_info.annotation, (int, float, str, Color, BaseComplexModel)):
+                elif issubclass(field_info.annotation, Color):
+                    yield Label(_(field_info.title), classes="text-middle")
+                    yield Label("", classes="fill-width")
+                    yield MaskedInput(
+                        "#NNNnnn",
+                        default_value,
+                        id=f"value_{option_key}",
+                        validators=[ColorValidator()],
+                    )
+                elif issubclass(field_info.annotation, (int, float, str, BaseComplexModel)):
                     if issubclass(field_info.annotation, BaseComplexModel):
                         default_value = field_info.annotation.default_repr()
                     elif not isinstance(default_value, str):
