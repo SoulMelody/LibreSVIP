@@ -32,6 +32,7 @@ from textual.widgets import (
     Label,
     Link,
     ListView,
+    Log,
     Markdown,
     ProgressBar,
     Select,
@@ -140,6 +141,29 @@ class PluginInfoScreen(Screen[None]):
             yield Link(f'{_("Author: ")}{plugin_info.author}', url=plugin_info.website)
             yield Label(_("Introduction"))
             yield Markdown(_(plugin_info.description))
+            with Horizontal():
+                yield Label("", classes="fill-width")
+                yield Button(_("Close"), id="close", variant="success")
+
+
+class TaskLogScreen(Screen[None]):
+    def __init__(self, log_text: str) -> None:
+        self.log_text = log_text
+        super().__init__()
+
+    def on_mount(self) -> None:
+        log = self.query_one(Log)
+        log.write_line(self.log_text)
+
+    @on(Button.Pressed, "#close")
+    def on_close(self, event: Button.Pressed) -> None:
+        self.app.pop_screen()
+
+    def compose(self) -> ComposeResult:
+        yield Header(icon="☰")
+        yield Footer()
+        with Vertical():
+            yield Log()
             with Horizontal():
                 yield Label("", classes="fill-width")
                 yield Button(_("Close"), id="close", variant="success")
@@ -349,6 +373,7 @@ class TaskRow(Right):
         self.stem = stem
         self.ext = ext
         self.arrow_symbol = arrow_symbol
+        self.log_text = "foo\nbar\nbaz"
         super().__init__(*args, **kwargs)
 
     def compose(self) -> ComposeResult:
@@ -359,10 +384,16 @@ class TaskRow(Right):
             yield Label(self.ext, classes="text-middle")
         else:
             yield Label("", classes="fill-width")
+        yield Button("👁", id="view_log", tooltip=_("View Log"))
 
     @on(Input.Changed, "#stem")
     def handle_stem_change(self, event: Input.Changed) -> None:
         self.stem = event.value
+
+    @on(Button.Pressed, "#view_log")
+    def handle_view_log(self, event: Button.Pressed) -> None:
+        if self.log_text:
+            self.app.push_screen(TaskLogScreen(self.log_text))
 
 
 class TUIApp(App[None]):
@@ -415,8 +446,6 @@ class TUIApp(App[None]):
                     theme_select._watch_value(int(value))
 
         theme_select.watch(self, "dark", update_theme, init=False)
-        if settings.dark_mode == DarkMode.LIGHT:
-            self.dark = False
         if settings.last_input_format is not None:
             self.post_message(SelectFormats.InputFormatChanged(settings.last_input_format))
         if settings.last_output_format is not None:
@@ -506,6 +535,7 @@ class TUIApp(App[None]):
 
     @on(Select.Changed, "#theme_select")
     def handle_theme_changed(self, changed: Select.Changed) -> None:
+        self.dark: bool
         if self.dark != changed.value:
             self.dark = bool(changed.value)
 
@@ -553,6 +583,8 @@ class TUIApp(App[None]):
             max_track_count_input.disabled = True
 
     def compose(self) -> ComposeResult:
+        if settings.dark_mode == DarkMode.LIGHT:
+            self.dark = False
         yield Header(icon="☰")
         yield Footer()
         with TabbedContent():
