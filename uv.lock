@@ -907,7 +907,7 @@ wheels = [
 
 [[package]]
 name = "gapic-generator"
-version = "1.19.1"
+version = "1.20.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -922,9 +922,9 @@ dependencies = [
     { name = "pypandoc" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/34/b6/6461ef35ebff5000ce8c42236fa5801ce74f78913db6079af9f7640638fe/gapic_generator-1.19.1.tar.gz", hash = "sha256:2bb0b0d05ab88b3e6704b132b6f46f5d617f1020f6f76fae683648e8959ad8d1", size = 1064902 }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/86/a96de293841a9b1aa0418c6670394413357677802f5fe0340180ec8fbdf0/gapic_generator-1.20.2.tar.gz", hash = "sha256:b793e3817d10246ea57c43cd35c47f53898db355a09f857939446b3ddb119442", size = 1057751 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/82/93bebf58a64f462caede9d69ea84a157aed4b4f9441ac6692bb13fb9dca7/gapic_generator-1.19.1-py3-none-any.whl", hash = "sha256:ed23ce08723388d89cc90075f463cc3c0de5f4121ef91240d7e2eee755c90e1c", size = 1594327 },
+    { url = "https://files.pythonhosted.org/packages/88/55/1fdd5188cc5549a9d7707d5eca5f8718fbb367c85c95c8fc8f74ade2df87/gapic_generator-1.20.2-py3-none-any.whl", hash = "sha256:57e03e595ec064621d09866c30c2ace8bd938255f9c1a90ca16531242ba77fa6", size = 1589660 },
 ]
 
 [[package]]
@@ -1363,8 +1363,8 @@ ruamel-yaml = [
     { name = "ruamel-yaml-clib", marker = "python_full_version >= '3.13' and platform_python_implementation == 'CPython'" },
 ]
 tui = [
-    { name = "show-in-file-manager" },
     { name = "textual" },
+    { name = "universal-pathlib" },
 ]
 ujson = [
     { name = "ujson" },
@@ -1447,6 +1447,7 @@ requires-dist = [
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.4.5,<7.0.0" },
     { name = "jinja2", specifier = ">=3.1.4,<4.0.0" },
     { name = "libresvip", extras = ["upath"], marker = "extra == 'desktop'" },
+    { name = "libresvip", extras = ["upath"], marker = "extra == 'tui'" },
     { name = "libresvip", extras = ["upath"], marker = "extra == 'webui'" },
     { name = "loguru", specifier = ">=0.7.2,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
@@ -1470,7 +1471,6 @@ requires-dist = [
     { name = "rich", specifier = ">=13.9.3,<14.0.0" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.6" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
-    { name = "show-in-file-manager", marker = "extra == 'tui'", specifier = ">=1.1.5" },
     { name = "textual", marker = "extra == 'tui'", specifier = ">=0.85.1" },
     { name = "typer-slim", specifier = ">=0.12.5,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
@@ -1486,7 +1486,7 @@ all = [
     { name = "babel", specifier = ">=2.16.0" },
     { name = "cx-freeze", specifier = ">=7.2.4" },
     { name = "datamodel-code-generator", specifier = ">=0.26.2" },
-    { name = "gapic-generator", specifier = ">=1.19.1" },
+    { name = "gapic-generator", specifier = ">=1.20.2" },
     { name = "mkdocs-material", specifier = ">=9.5.42,<10.0.0" },
     { name = "mypy", specifier = ">=1.13.0" },
     { name = "nuitka", specifier = ">=2.4.11" },
@@ -1507,7 +1507,7 @@ all = [
 ]
 code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.26.2" },
-    { name = "gapic-generator", specifier = ">=1.19.1" },
+    { name = "gapic-generator", specifier = ">=1.20.2" },
     { name = "xsdata", extras = ["cli"], specifier = ">=24.9" },
 ]
 docs = [{ name = "mkdocs-material", specifier = ">=9.5.42,<10.0.0" }]
@@ -2886,42 +2886,12 @@ asyncio-client = [
 ]
 
 [[package]]
-name = "pywin32"
-version = "308"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/72/a6/3e9f2c474895c1bb61b11fa9640be00067b5c5b363c501ee9c3fa53aec01/pywin32-308-cp310-cp310-win32.whl", hash = "sha256:796ff4426437896550d2981b9c2ac0ffd75238ad9ea2d3bfa67a1abd546d262e", size = 5927028 },
-    { url = "https://files.pythonhosted.org/packages/d9/b4/84e2463422f869b4b718f79eb7530a4c1693e96b8a4e5e968de38be4d2ba/pywin32-308-cp310-cp310-win_amd64.whl", hash = "sha256:4fc888c59b3c0bef905ce7eb7e2106a07712015ea1c8234b703a088d46110e8e", size = 6558484 },
-    { url = "https://files.pythonhosted.org/packages/9f/8f/fb84ab789713f7c6feacaa08dad3ec8105b88ade8d1c4f0f0dfcaaa017d6/pywin32-308-cp310-cp310-win_arm64.whl", hash = "sha256:a5ab5381813b40f264fa3495b98af850098f814a25a63589a8e9eb12560f450c", size = 7971454 },
-    { url = "https://files.pythonhosted.org/packages/eb/e2/02652007469263fe1466e98439831d65d4ca80ea1a2df29abecedf7e47b7/pywin32-308-cp311-cp311-win32.whl", hash = "sha256:5d8c8015b24a7d6855b1550d8e660d8daa09983c80e5daf89a273e5c6fb5095a", size = 5928156 },
-    { url = "https://files.pythonhosted.org/packages/48/ef/f4fb45e2196bc7ffe09cad0542d9aff66b0e33f6c0954b43e49c33cad7bd/pywin32-308-cp311-cp311-win_amd64.whl", hash = "sha256:575621b90f0dc2695fec346b2d6302faebd4f0f45c05ea29404cefe35d89442b", size = 6559559 },
-    { url = "https://files.pythonhosted.org/packages/79/ef/68bb6aa865c5c9b11a35771329e95917b5559845bd75b65549407f9fc6b4/pywin32-308-cp311-cp311-win_arm64.whl", hash = "sha256:100a5442b7332070983c4cd03f2e906a5648a5104b8a7f50175f7906efd16bb6", size = 7972495 },
-    { url = "https://files.pythonhosted.org/packages/00/7c/d00d6bdd96de4344e06c4afbf218bc86b54436a94c01c71a8701f613aa56/pywin32-308-cp312-cp312-win32.whl", hash = "sha256:587f3e19696f4bf96fde9d8a57cec74a57021ad5f204c9e627e15c33ff568897", size = 5939729 },
-    { url = "https://files.pythonhosted.org/packages/21/27/0c8811fbc3ca188f93b5354e7c286eb91f80a53afa4e11007ef661afa746/pywin32-308-cp312-cp312-win_amd64.whl", hash = "sha256:00b3e11ef09ede56c6a43c71f2d31857cf7c54b0ab6e78ac659497abd2834f47", size = 6543015 },
-    { url = "https://files.pythonhosted.org/packages/9d/0f/d40f8373608caed2255781a3ad9a51d03a594a1248cd632d6a298daca693/pywin32-308-cp312-cp312-win_arm64.whl", hash = "sha256:9b4de86c8d909aed15b7011182c8cab38c8850de36e6afb1f0db22b8959e3091", size = 7976033 },
-    { url = "https://files.pythonhosted.org/packages/a9/a4/aa562d8935e3df5e49c161b427a3a2efad2ed4e9cf81c3de636f1fdddfd0/pywin32-308-cp313-cp313-win32.whl", hash = "sha256:1c44539a37a5b7b21d02ab34e6a4d314e0788f1690d65b48e9b0b89f31abbbed", size = 5938579 },
-    { url = "https://files.pythonhosted.org/packages/c7/50/b0efb8bb66210da67a53ab95fd7a98826a97ee21f1d22949863e6d588b22/pywin32-308-cp313-cp313-win_amd64.whl", hash = "sha256:fd380990e792eaf6827fcb7e187b2b4b1cede0585e3d0c9e84201ec27b9905e4", size = 6542056 },
-    { url = "https://files.pythonhosted.org/packages/26/df/2b63e3e4f2df0224f8aaf6d131f54fe4e8c96400eb9df563e2aae2e1a1f9/pywin32-308-cp313-cp313-win_arm64.whl", hash = "sha256:ef313c46d4c18dfb82a2431e3051ac8f112ccee1a34f29c263c583c568db63cd", size = 7974986 },
-    { url = "https://files.pythonhosted.org/packages/a8/41/ead05a7657ffdbb1edabb954ab80825c4f87a3de0285d59f8290457f9016/pywin32-308-cp39-cp39-win32.whl", hash = "sha256:7873ca4dc60ab3287919881a7d4f88baee4a6e639aa6962de25a98ba6b193341", size = 5991824 },
-    { url = "https://files.pythonhosted.org/packages/e4/cd/0838c9a6063bff2e9bac2388ae36524c26c50288b5d7b6aebb6cdf8d375d/pywin32-308-cp39-cp39-win_amd64.whl", hash = "sha256:71b3322d949b4cc20776436a9c9ba0eeedcbc9c650daa536df63f0ff111bb920", size = 6640327 },
-]
-
-[[package]]
 name = "pywin32-ctypes"
 version = "0.2.3"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/85/9f/01a1a99704853cb63f253eea009390c88e7131c67e66a0a02099a8c917cb/pywin32-ctypes-0.2.3.tar.gz", hash = "sha256:d162dc04946d704503b2edc4d55f3dba5c1d539ead017afa00142c38b9885755", size = 29471 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/de/3d/8161f7711c017e01ac9f008dfddd9410dff3674334c233bde66e7ba65bbf/pywin32_ctypes-0.2.3-py3-none-any.whl", hash = "sha256:8a1513379d709975552d202d942d9837758905c8d01eb82b8bcc30918929e7b8", size = 30756 },
-]
-
-[[package]]
-name = "pyxdg"
-version = "0.28"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b0/25/7998cd2dec731acbd438fbf91bc619603fc5188de0a9a17699a781840452/pyxdg-0.28.tar.gz", hash = "sha256:3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4", size = 77776 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e5/8d/cf41b66a8110670e3ad03dab9b759704eeed07fa96e90fdc0357b2ba70e2/pyxdg-0.28-py2.py3-none-any.whl", hash = "sha256:bdaf595999a0178ecea4052b7f4195569c1ff4d344567bccdc12dfdf02d545ab", size = 49520 },
 ]
 
 [[package]]
@@ -3335,20 +3305,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/42/73/6344e02a6734e17a86c5781df41293fa15245e4d7454992c1d82e77d49a9/shiboken6-6.8.0.2-cp39-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:fa7d411c3c67b4296847b3f5f572268e219d947d029ff9d8bce72fe6982d92bc", size = 200711 },
     { url = "https://files.pythonhosted.org/packages/13/cd/e9a6d0aa8794f777627a9fb3cffed0ac8449881b33e2325b5bcff10c36bc/shiboken6-6.8.0.2-cp39-abi3-manylinux_2_31_aarch64.whl", hash = "sha256:1aaa8b7f9138818322ef029b2c487d1c6e00dc3f53084e62e1d11bdea47e47c2", size = 189864 },
     { url = "https://files.pythonhosted.org/packages/46/1f/4323ee8fdca5c441b349cd5569934d53a1fd9e3695d53089e18e20ef3611/shiboken6-6.8.0.2-cp39-abi3-win_amd64.whl", hash = "sha256:b11e750e696bb565d897e0f5836710edfb86bd355f87b09988bd31b2aad404d3", size = 1146649 },
-]
-
-[[package]]
-name = "show-in-file-manager"
-version = "1.1.5"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "packaging" },
-    { name = "pywin32", marker = "platform_system == 'Windows'" },
-    { name = "pyxdg", marker = "platform_system == 'Linux'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/72/6c/0b8b6acd1e20ffa4e960b636a113f17c73e8022658c538672dd31303c3d3/show-in-file-manager-1.1.5.tar.gz", hash = "sha256:ed13a180a1d48fd88fdd4c58bfbcb3860268641a38805192c814d41387192d84", size = 34638 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/8e/2d/cbae20c55a7a5a327de940eb217a5572ff6473e04406e56ece28729e447a/show_in_file_manager-1.1.5-py3-none-any.whl", hash = "sha256:a92a9ab2cd20fca45db5a8b2d2136e4bec624b182f000900855b2d992abd0cbc", size = 30102 },
 ]
 
 [[package]]
