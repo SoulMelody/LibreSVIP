@@ -19,6 +19,9 @@ msgstr ""
 msgid "English"
 msgstr ""
 
+msgid "Spanish"
+msgstr ""
+
 msgid "Both strength and tension"
 msgstr ""
 
