@@ -1,10 +1,14 @@
 import enum
+import io
 import pathlib
 import platform
+import traceback
+import zipfile
 from collections.abc import Coroutine
 from dataclasses import dataclass
-from typing import Any, Optional, Union, get_args, get_type_hints
+from typing import Any, Optional, Union, cast, get_args, get_type_hints
 
+import more_itertools
 from pydantic import BaseModel
 from pydantic_core import PydanticCustomError, PydanticUndefined
 from pydantic_extra_types.color import Color, parse_str
@@ -49,11 +53,13 @@ from textual.widgets._list_item import ListItem
 from textual.widgets.directory_tree import DirEntry
 from textual.widgets.selection_list import Selection
 from typing_extensions import ParamSpec
+from upath import UPath
 
 import libresvip
 from libresvip.core.config import DarkMode, Language, save_settings, settings
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
-from libresvip.model.base import BaseComplexModel
+from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
@@ -131,6 +137,7 @@ class PluginInfoScreen(Screen[None]):
 
     @on(Button.Pressed, "#close")
     def on_close(self, event: Button.Pressed) -> None:
+        self.app.workers
         self.app.pop_screen()
 
     def compose(self) -> ComposeResult:
@@ -478,6 +485,7 @@ class TUIApp(App[None]):
     )
 
     def on_mount(self) -> None:
+        self.temp_path = UPath("memory:/")
         theme_select = self.query_one("#theme_select")
 
         def update_theme(value: bool) -> None:
@@ -511,6 +519,7 @@ class TUIApp(App[None]):
             ):
                 input_options = self.query_one("#input_options")
                 input_options.option_class = input_option
+                input_options.option_dict = {}
                 await input_options.recompose()
 
     @on(SelectFormats.OutputFormatChanged)
@@ -528,6 +537,7 @@ class TUIApp(App[None]):
             ):
                 output_options = self.query_one("#output_options")
                 output_options.option_class = output_option
+                output_options.option_dict = {}
                 await output_options.recompose()
 
     @on(Button.Pressed, "#add_task")
@@ -582,6 +592,149 @@ class TUIApp(App[None]):
         self.dark: bool
         if self.dark != changed.value:
             self.dark = bool(changed.value)
+
+    @work(thread=True)
+    async def convert_one(
+        self, progress_bar: ProgressBar, task_row_item: ListItem, *sub_task_items: list[ListItem]
+    ) -> None:
+        tab_id = self.query_one("#task_list").current
+        task_row = task_row_item.get_child_by_type(TaskRow)
+        sub_tasks = [
+            cast(ListItem, sub_task_item).get_child_by_type(TaskRow)
+            for sub_task_item in sub_task_items
+        ]
+        task_row.log_text = ""
+        if settings.last_input_format is None or settings.last_output_format is None:
+            return
+        try:
+            with CatchWarnings() as w:
+                output_path = self.temp_path / task_row.stem
+                if tab_id != "split":
+                    output_path = output_path.with_suffix(
+                        f".{settings.last_output_format}",
+                    )
+                input_plugin = plugin_manager.plugin_registry[settings.last_input_format]
+                output_plugin = plugin_manager.plugin_registry[settings.last_output_format]
+                if (
+                    input_plugin.plugin_object is not None
+                    and (
+                        input_option_class := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    )
+                    is not None
+                    and output_plugin.plugin_object is not None
+                    and (
+                        output_option_class := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is not None
+                ):
+                    input_options = self.query_one("#input_options")
+                    input_option = input_option_class(**input_options.option_dict)
+                    if tab_id == "merge":
+                        child_projects = [
+                            input_plugin.plugin_object.load(
+                                sub_task.input_path,
+                                input_option,
+                            )
+                            for sub_task in more_itertools.value_chain(task_row, sub_tasks)
+                        ]
+                        project = Project.merge_projects(child_projects)
+                    else:
+                        project = input_plugin.plugin_object.load(
+                            task_row.input_path,
+                            input_option,
+                        )
+                    for (
+                        middleware_id,
+                        middleware,
+                    ) in middleware_manager.plugin_registry.items():
+                        enabled = self.query_one(f"#{middleware_id}_switch").value
+                        if (
+                            enabled
+                            and middleware.plugin_object is not None
+                            and hasattr(middleware.plugin_object, "process")
+                        ):
+                            option_form = self.query_one(f"#{middleware_id}_options")
+                            project = middleware.plugin_object.process(
+                                project,
+                                option_form.option_class(**option_form.option_dict),
+                            )
+                    output_options = self.query_one("#output_options")
+                    output_option = output_option_class(**output_options.option_dict)
+                    if tab_id == "split":
+                        output_path.mkdir(parents=True, exist_ok=True)
+                        for i, child_project in enumerate(
+                            project.split_tracks(settings.max_track_count)
+                        ):
+                            output_plugin.plugin_object.dump(
+                                output_path
+                                / f"{task_row.stem}_{i + 1:0=2d}.{settings.last_output_format}",
+                                child_project,
+                                output_option,
+                            )
+                    else:
+                        output_plugin.plugin_object.dump(
+                            output_path,
+                            project,
+                            output_option,
+                        )
+            if w.output:
+                task_row.log_text = w.output
+            buffer = io.BytesIO()
+            if output_path.is_file():
+                buffer.write(output_path.read_bytes())
+            else:
+                with zipfile.ZipFile(buffer, "w") as zip_file:
+                    for child_file in output_path.iterdir():
+                        if not child_file.is_file():
+                            continue
+                        zip_file.writestr(
+                            child_file.name,
+                            child_file.read_bytes(),
+                        )
+            self.call_from_thread(
+                self.deliver_binary,
+                buffer,
+                save_directory=settings.save_folder,
+                save_filename=output_path.name if tab_id != "split" else f"{task_row.stem}.zip",
+            )
+        except Exception:
+            task_row.log_text = traceback.format_exc()
+            self.call_from_thread(
+                self.notify,
+                f"Error occurred while converting {task_row.input_path}",
+                severity="error",
+            )
+        self.call_from_thread(progress_bar.advance, 1)
+
+    @work(thread=True, exclusive=True)
+    async def convert_all(self, task_list_view: ListView, progress_bar: ProgressBar) -> None:
+        total = len(task_list_view) if task_list_view.id != "merge" else 1
+        self.call_from_thread(progress_bar.update, total=total)
+        if task_list_view.id == "merge":
+            (task_row,), other_tasks = more_itertools.spy(task_list_view._nodes)
+            self.convert_one(
+                progress_bar,
+                task_row,
+                *other_tasks,
+            )
+        else:
+            for task_row in task_list_view._nodes:
+                self.convert_one(
+                    progress_bar,
+                    task_row,
+                )
+
+    @on(Button.Pressed, "#start_conversion")
+    async def handle_start_conversion(self, event: Button.Pressed) -> None:
+        tab_id = self.query_one("#task_list").current
+        task_list_view = self.query_one(f"ListView#{tab_id}")
+        if len(task_list_view):
+            progress_bar = self.query_one(ProgressBar)
+            self.convert_all(task_list_view, progress_bar)
 
     @on(Button.Pressed, "#delete_task")
     def handle_delete_task(self, event: Button.Pressed) -> None:
@@ -669,7 +822,9 @@ class TUIApp(App[None]):
                         yield OptionsForm(None, id="output_options")
                 with Horizontal(classes="bottom-pane card row"):
                     yield Button("＋", tooltip=_("Add task"), id="add_task")
-                    yield Button("▶", tooltip=_("Start conversion"), variant="primary")
+                    yield Button(
+                        "▶", tooltip=_("Start conversion"), variant="primary", id="start_conversion"
+                    )
                     yield Button("❌", tooltip=_("Delete selected task"), id="delete_task")
                     yield Button("🗑︎", tooltip=_("Clear tasks"), id="clear_tasks", variant="error")
                     yield Label(_("Progress"), classes="text-middle")
@@ -766,13 +921,13 @@ class TUIApp(App[None]):
                     url="https://github.com/SoulMelody/LibreSVIP",
                     tooltip=_("Repo URL"),
                 )
-                yield Label(f'{_("Version: ")}{libresvip.__version__}')
+                yield Label(f'{_("Version: ")}{libresvip.__version__} 🔖')
                 yield Link(
                     _("Author: SoulMelody") + " 🌐",
                     url="https://space.bilibili.com/175862486",
                     tooltip=_("Author's Profile"),
                 )
-                yield Label(_("Introduction"))
+                yield Label(_("Introduction") + " 📖")
                 yield Markdown(f"""
 {_("LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.")}\n
 {_("All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.")}""")

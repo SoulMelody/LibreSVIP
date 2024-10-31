@@ -906,10 +906,10 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         @context_vars_wrapper
         async def batch_convert(self) -> None:
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             running_tasks = []
             with ThreadPoolExecutor(
-                max_workers=max(len(self.files_to_convert), 4),
+                max_workers=min(len(self.files_to_convert), 4),
             ) as executor:
                 futures: list[asyncio.Future[None]]
                 if self._conversion_mode == ConversionMode.MERGE:
@@ -933,7 +933,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         )
                         for task in running_tasks
                     ]
-                for i, future in enumerate(asyncio.as_completed(futures)):
+                for future in asyncio.as_completed(futures):
                     await future
             if any(not task.success for task in running_tasks):
                 ui.notification(_("Conversion Failed"), type="negative")
@@ -956,7 +956,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             if self._conversion_mode == ConversionMode.SPLIT:
                 buffer = io.BytesIO()
                 with zipfile.ZipFile(buffer, "w") as zip_file:
-                    for i, child_file in enumerate(task.output_path.iterdir()):
+                    for child_file in task.output_path.iterdir():
                         if not child_file.is_file():
                             continue
                         zip_file.writestr(
