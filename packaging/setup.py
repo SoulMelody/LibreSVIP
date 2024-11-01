@@ -204,6 +204,7 @@ build_exe_options = {
         "uvicorn",
         "webview",
         "wx",
+        "libresvip.tui",
         "libresvip.web",
     ],
     "include_files": include_files,

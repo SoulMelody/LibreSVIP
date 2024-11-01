@@ -73,6 +73,7 @@ build_exe_options = {
         "debugpy",
         "jedi",
         "libresvip.gui",
+        "libresvip.tui",
         "matplotlib",
         "numpy",
         "IPython",

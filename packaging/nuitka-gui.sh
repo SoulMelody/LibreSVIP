@@ -1,5 +1,5 @@
 python -m nuitka --standalone --assume-yes-for-downloads --output-dir=nuitka --output-filename=libresvip_gui \
- --nofollow-import-to=libresvip.cli --nofollow-import-to=libresvip.web \
+ --nofollow-import-to=libresvip.cli --nofollow-import-to=libresvip.web --nofollow-import-to=libresvip.tui \
  --nofollow-import-to=arrow --nofollow-import-to=chardet --nofollow-import-to=markdown2 \
  --nofollow-import-to=pydantic.mypy --nofollow-import-to=zstd \
  --nofollow-import-to=redis --nofollow-import-to=requests \
