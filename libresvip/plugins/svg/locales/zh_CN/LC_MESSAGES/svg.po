@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-01 06:03\n"
 
 msgid "Align to left"
 msgstr "左对齐"
@@ -54,6 +54,9 @@ msgstr "CSS 颜色值，例如：#FF0000，#66CCFF，rgba(255,0,0,0.5) 等。"
 msgid "Note stroke color"
 msgstr "音符描边颜色"
 
+msgid "Note stroke width"
+msgstr "音符描边宽度"
+
 msgid "Pitch stroke color"
 msgstr "音高曲线描边颜色"
 
@@ -74,6 +77,9 @@ msgstr "音符内部文本颜色"
 
 msgid "The color of the text on the top and bottom of the note"
 msgstr "音符上下方文本颜色"
+
+msgid "Show grid lines"
+msgstr "显示网格线"
 
 msgid "Grid line color"
 msgstr "网格线颜色"
