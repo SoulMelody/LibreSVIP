@@ -129,7 +129,7 @@ all = [
 
 [project.scripts]
 libresvip-cli = "libresvip.cli.__main__:app"
-libresvip-tui = "libresvip.tui.__main__:app"
+libresvip-tui = "libresvip.tui.__main__:main"
 libresvip-web = "libresvip.web.__main__:main"
 
 [project.gui-scripts]
