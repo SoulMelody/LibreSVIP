@@ -35,7 +35,7 @@ class OutputOptions(SelectSingleTrackMixin, BaseModel):
         title=_("Note stroke color"),
         description=_("CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."),
     )
-    note_stroke_width: int = Field(1, title="Note stroke width", description="Unit: pixel.")
+    note_stroke_width: int = Field(1, title=_("Note stroke width"), description="Unit: pixel.")
     pitch_stroke_color: Color = Field(
         "#99aa99",
         title=_("Pitch stroke color"),
@@ -64,7 +64,7 @@ class OutputOptions(SelectSingleTrackMixin, BaseModel):
         title=_("The color of the text on the top and bottom of the note"),
         description=_("CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."),
     )
-    show_grid: bool = Field(default=False, title="Show grid lines")
+    show_grid: bool = Field(default=False, title=_("Show grid lines"))
     grid_color: Color = Field(
         "#CCCCCC",
         title=_("Grid line color"),

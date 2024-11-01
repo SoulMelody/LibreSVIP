@@ -214,52 +214,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="215"/>
+        <location filename="../qml/components/dialogs.qml" line="216"/>
         <source>You can insert &quot;.&quot; at the beginning to represent the source path, for example &quot;./subfolder&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="303"/>
+        <location filename="../qml/components/dialogs.qml" line="304"/>
         <source>Click to add a folder preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="325"/>
+        <location filename="../qml/components/dialogs.qml" line="326"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="338"/>
+        <location filename="../qml/components/dialogs.qml" line="339"/>
         <source>LibreSVIP</source>
         <translation>LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="344"/>
+        <location filename="../qml/components/dialogs.qml" line="345"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="348"/>
+        <location filename="../qml/components/dialogs.qml" line="349"/>
         <source>Author: SoulMelody</source>
         <translation>作者：岁月静好_初心不忘</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="359"/>
+        <location filename="../qml/components/dialogs.qml" line="360"/>
         <source>Author&apos;s Profile</source>
         <translation>作者主页</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="373"/>
+        <location filename="../qml/components/dialogs.qml" line="374"/>
         <source>Repo URL</source>
         <translation>仓库地址</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="383"/>
+        <location filename="../qml/components/dialogs.qml" line="384"/>
         <source>LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.</source>
         <translation>LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="388"/>
+        <location filename="../qml/components/dialogs.qml" line="389"/>
         <source>All people should have the right and freedom to choose. That&apos;s why we&apos;re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.</source>
         <translation>所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。</translation>
     </message>
