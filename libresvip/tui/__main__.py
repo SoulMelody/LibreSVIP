@@ -1,5 +1,10 @@
 from libresvip.tui.app import TUIApp
 
-if __name__ == "__main__":
+
+def main() -> None:
     app = TUIApp()
     app.run()
+
+
+if __name__ == "__main__":
+    main()
