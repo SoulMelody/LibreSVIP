@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-01 02:49\n"
+"PO-Revision-Date: 2024-11-01 06:03\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -941,11 +941,11 @@ msgstr "导出工程格式"
 
 #: ../libresvip/tui/app.py:301
 msgid "Invalid color format"
-msgstr ""
+msgstr "无效的颜色格式"
 
 #: ../libresvip/tui/app.py:434
 msgid "View Log"
-msgstr ""
+msgstr "查看日志"
 
 #: ../libresvip/tui/app.py:788
 msgid "Converter"
@@ -953,19 +953,19 @@ msgstr "转换器"
 
 #: ../libresvip/tui/app.py:792
 msgid "Conversion mode & Task list"
-msgstr ""
+msgstr "转换模式及任务列表"
 
 #: ../libresvip/tui/app.py:794
 msgid "Direct"
-msgstr ""
+msgstr "常规模式"
 
 #: ../libresvip/tui/app.py:795
 msgid "Split"
-msgstr ""
+msgstr "演唱轨拆分模式"
 
 #: ../libresvip/tui/app.py:796
 msgid "Merge"
-msgstr ""
+msgstr "演唱轨合并模式"
 
 #: ../libresvip/tui/app.py:804 ../libresvip/web/pages.py:1703
 msgid "Advanced Settings"
@@ -977,7 +977,7 @@ msgstr "输入选项"
 
 #: ../libresvip/tui/app.py:815
 msgid "Enable"
-msgstr ""
+msgstr "启用"
 
 #: ../libresvip/tui/app.py:821 ../libresvip/web/pages.py:338
 msgid "Output Options"
@@ -985,27 +985,27 @@ msgstr "输出选项"
 
 #: ../libresvip/tui/app.py:824
 msgid "Add task"
-msgstr ""
+msgstr "添加任务"
 
 #: ../libresvip/tui/app.py:826
 msgid "Start conversion"
-msgstr ""
+msgstr "开始转换"
 
 #: ../libresvip/tui/app.py:828
 msgid "Delete selected task"
-msgstr ""
+msgstr "删除选定任务"
 
 #: ../libresvip/tui/app.py:829
 msgid "Clear tasks"
-msgstr ""
+msgstr "清空任务列表"
 
 #: ../libresvip/tui/app.py:830
 msgid "Progress"
-msgstr ""
+msgstr "进度"
 
 #: ../libresvip/tui/app.py:832
 msgid "Max track count"
-msgstr ""
+msgstr "最大轨道数："
 
 #: ../libresvip/tui/app.py:839
 msgid "Basic Settings"
@@ -1039,15 +1039,15 @@ msgstr "输出文件夹"
 
 #: ../libresvip/tui/app.py:876
 msgid "Change Output Directory"
-msgstr ""
+msgstr "更改输出目录"
 
 #: ../libresvip/tui/app.py:878
 msgid "Other Settings"
-msgstr ""
+msgstr "其它设置"
 
 #: ../libresvip/tui/app.py:880
 msgid "Appearance"
-msgstr ""
+msgstr "外观"
 
 #: ../libresvip/tui/app.py:882 ../libresvip/web/pages.py:1310
 msgid "Switch Language"
@@ -1067,7 +1067,7 @@ msgstr "深色"
 
 #: ../libresvip/tui/app.py:907
 msgid "Choose Plugins"
-msgstr ""
+msgstr "选择插件"
 
 #: ../libresvip/tui/app.py:918 ../libresvip/web/pages.py:1123
 #: ../libresvip/web/pages.py:1286
