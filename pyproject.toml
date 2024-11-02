@@ -77,7 +77,7 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=5.3.0"]
 tui = [
-  "textual>=0.85.1",
+  "textual>=0.85.2",
   "libresvip[upath]",
 ]
 webui = [
