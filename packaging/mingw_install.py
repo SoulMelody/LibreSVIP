@@ -29,6 +29,7 @@ def install_mingw_deps() -> None:
     mingw_native_packages = {
         "annotated-types": "python-annotated-types",
         "anyio": "python-anyio",
+        "cffi": "python-cffi",
         "charset-normalizer": "python-charset-normalizer",
         "cx-freeze": None,
         "cx-logging": None,
@@ -36,6 +37,7 @@ def install_mingw_deps() -> None:
         "lxml": "python-lxml",
         "markupsafe": "python-markupsafe",
         "nuitka": "python-nuitka",
+        "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
@@ -48,9 +50,17 @@ def install_mingw_deps() -> None:
         "ruamel-yaml-clib": "python-ruamel.yaml.clib",
         "shiboken6": None,
         "shellingham": "python-shellingham",
+        "setuptools": "python-setuptools",
         "ujson": "python-ujson",
         "zstandard": "python-zstandard",
     }
+    if mingw_arch != "mingw-w64-clang-aarch64":
+        mingw_native_packages.update(
+            {
+                "pyinstaller": "pyinstaller",
+                "pyinstaller-hooks-contrib": "pyinstaller-hooks-contrib",
+            }
+        )
     cwd = pathlib.Path()
     install_msys2_requirements(
         [
@@ -103,7 +113,14 @@ def install_mingw_deps() -> None:
         except InvalidRequirement:
             continue
         if (
-            requirement.marker is None or requirement.marker.evaluate() is True
+            requirement.marker is None
+            or requirement.marker.evaluate(
+                environment={
+                    "platform_system": "Windows",
+                    "sys_platform": "win32",
+                }
+            )
+            is True
         ) and requirement.name not in [
             "libresvip",
         ]:

@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "SoulMelody", email = "yjxrtzyx@gmail.com" }]
 license = { text = "MIT" }
-requires-python = ">=3.9,<3.13"
+requires-python = ">=3.9,<3.14"
 classifiers = [
   'Development Status :: 4 - Beta',
   'Programming Language :: Python',
@@ -12,6 +12,7 @@ classifiers = [
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
+  'Programming Language :: Python :: 3.13',
   'Intended Audience :: Developers',
   'Intended Audience :: End Users/Desktop',
   'License :: OSI Approved :: MIT License',
@@ -27,33 +28,33 @@ classifiers = [
 ]
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.3.2",
+  "charset-normalizer<4.0.0,>=3.4.0",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.4.0",
-  "importlib-resources<7.0.0,>=6.4.0; python_version < \"3.11\"",
+  "importlib-resources<7.0.0,>=6.4.5; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.4",
   "loguru<1.0.0,>=0.7.2",
   "mido-fix<2.0.0,>=1.2.12",
-  "more-itertools<11.0.0,>=10.3.0",
+  "more-itertools<11.0.0,>=10.5.0",
   "omegaconf<3.0.0,>=2.3.0",
   "packaging<24.2,>=24.1",
   "parsimonious<0.11.0,>=0.10.0",
-  "platformdirs<5.0.0,>=4.2.2",
-  "portion<3.0.0,>=2.4.2",
-  "proto-plus<2.0.0,>=1.24.0",
-  "pydantic<3.0.0,>=2.8.2",
+  "platformdirs<5.0.0,>=4.3.6",
+  "portion<3.0.0,>=2.6.0",
+  "proto-plus<2.0.0,>=1.25.0",
+  "pydantic<3.0.0,>=2.9.2",
   "pydantic-extra-types<3.0.0,>=2.9.0",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
-  "pypinyin<1.0.0,>=0.51.0",
-  "pysubs2<2.0.0,>=1.7.2",
-  "pyzstd<1.0.0,>=0.16.0; platform_python_implementation == \"PyPy\"",
+  "pypinyin<1.0.0,>=0.53.0",
+  "pysubs2<2.0.0,>=1.7.3",
+  "pyzstd<1.0.0,>=0.16.2; platform_python_implementation == \"PyPy\"",
   "retrie<1.0.0,>=0.3.1",
-  "rich<14.0.0,>=13.7.1",
-  "typer-slim<1.0.0,>=0.12.3",
+  "rich<14.0.0,>=13.9.4",
+  "typer-slim<1.0.0,>=0.12.5",
   "wanakana-python<2.0.0,>=1.2.2",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.0.2",
-  "zstandard<0.23.0,>=0.22.0; platform_python_implementation == \"CPython\"",
+  "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
 ]
 name = "libresvip"
 dynamic = ["version"]
@@ -68,59 +69,77 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 ujson = ["ujson>=5.10.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.2",
+  "universal-pathlib<1.0.0,>=0.2.5",
 ]
-ruamel_yaml = ["ruamel.yaml>=0.18.6"]
-lxml = ["lxml>=5.2.2"]
+ruamel_yaml = [
+  "ruamel.yaml>=0.18.6",
+  "ruamel.yaml.clib>=0.2.12; platform_python_implementation == \"CPython\" and python_version == \"3.13\"",
+]
+lxml = ["lxml>=5.3.0"]
+tui = [
+  "textual>=0.85.2",
+  "libresvip[upath]",
+]
 webui = [
-    "nicegui[native]>=1.4.29",
-    "libresvip[upath]",
+  "nicegui>=2.5.0",
+  "libresvip[upath]",
 ]
 desktop = [
-  "pyside6<6.8.0,>=6.7.2",
+  "pyside6<6.8.1,>=6.8.0.2",
   "fonticon-materialdesignicons7>=7.2.96",
-  "httpx>=0.27.0",
-  "desktop-notifier>=5.0.1; platform_python_implementation == \"CPython\"",
+  "httpx>=0.27.2",
+  "desktop-notifier>=6.0.0; platform_python_implementation == \"CPython\"",
   "libresvip[upath]",
+]
+
+[dependency-groups]
+code_gen = [
+  "datamodel-code-generator>=0.26.2",
+  "gapic-generator>=1.20.2",
+  "xsdata[cli]>=24.11",
+]
+i18n = ["babel>=2.16.0"]
+linting = [
+  "pre-commit>=4.0.1",
+  "ruff>=0.7.2",
+  "mypy>=1.13.0",
+  "sourcery>=1.23.0",
+  "proto-plus-stubs>=0.7.0",
+  "types-lxml>=2024.9.16",
+  "types-parsimonious>=0.10.0.20240331",
+  "types-pyyaml>=6.0.12.20240917",
+  "types-ujson>=5.10.0.20240515",
+]
+packaging = [
+  "cx-Freeze>=7.2.4",
+  "nuitka>=2.4.11",
+  "pyinstaller>=6.11.0",
+  "shellingham<2.0.0,>=1.5.4",
+]
+docs = ["mkdocs-material<10.0.0,>=9.5.43"]
+test = ["pytest>=8.3.3", "pytest-datadir>=1.5.0", "textual-dev>=1.6.1"]
+all = [
+  {include-group = "code_gen"},
+  {include-group = "i18n"},
+  {include-group = "linting"},
+  {include-group = "packaging"},
+  {include-group = "docs"},
+  {include-group = "test"}
 ]
 
 [project.scripts]
 libresvip-cli = "libresvip.cli.__main__:app"
+libresvip-tui = "libresvip.tui.__main__:main"
 libresvip-web = "libresvip.web.__main__:main"
 
 [project.gui-scripts]
 libresvip-gui = "libresvip.gui.__main__:run"
 
+[project.entry-points.pyinstaller40]
+hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
+
 [tool.pdm]
 version = { source = "file", path = "libresvip/__init__.py" }
-
-[tool.pdm.dev-dependencies]
-code_gen = [
-  "datamodel-code-generator>=0.25.8",
-  "gapic-generator>=1.18.2",
-  "xsdata[cli]>=24.6.1",
-]
-i18n = ["babel>=2.15.0"]
-linting = [
-  "pre-commit>=3.7.1",
-  "ruff>=0.5.1",
-  "mypy>=1.10.1",
-  "sourcery>=1.20.0",
-  "proto-plus-stubs>=0.7.0",
-  "pyodide-py>=0.26.1; python_version >= \"3.12\"",
-  "types-lxml>=2024.4.14",
-  "types-parsimonious>=0.10.0.20240331",
-  "types-pyyaml>=6.0.12.20240311",
-  "types-ujson>=5.10.0.20240515",
-]
-packaging = [
-  "cx-Freeze>=7.1.1",
-  "nuitka>=2.3.11",
-  "pyinstaller>=6.9.0",
-  "shellingham<2.0.0,>=1.5.4",
-]
-docs = ["mkdocs-material<10.0.0,>=9.5.28"]
-test = ["pytest>=8.2.2", "pytest-datadir>=1.5.0"]
 
 [tool.pdm.build]
 includes = ["libresvip"]
@@ -185,7 +204,7 @@ ignore = [
 known-first-party = ['libresvip', 'tests']
 
 [tool.mypy]
-disable_error_code = "attr-defined,import-not-found,operator,return-value,type-abstract,unused-ignore"
+disable_error_code = "import-not-found,unused-ignore"
 allow_redefinition = true
 warn_redundant_casts = true
 warn_unused_ignores = true
@@ -198,5 +217,5 @@ no_site_packages = true
 explicit_package_bases = true
 
 [build-system]
-requires = ["pdm-backend", "setuptools", "wheel"]
+requires = ["pdm-backend"]
 build-backend = "pdm.backend"

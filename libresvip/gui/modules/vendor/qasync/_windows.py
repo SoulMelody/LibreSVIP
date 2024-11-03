@@ -3,6 +3,8 @@
 # © 2014 Arve Knudsen <arve.knudsen@gmail.com>
 # BSD License
 
+# mypy: disable-error-code="attr-defined"
+
 """Windows specific Quamash functionality."""
 
 from __future__ import annotations
@@ -117,10 +119,11 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         with QtCore.QMutexLocker(self._lock):
             return super().recvfrom(conn, nbytes, flags)
 
-    def recvfrom_into(
-        self, conn: socket.socket, buf: WriteableBuffer, flags: int = 0
-    ) -> asyncio.Future[tuple[int, socket._RetAddress]]:
-        if sys.version_info >= (3, 11):
+    if sys.version_info >= (3, 11):
+
+        def recvfrom_into(
+            self, conn: socket.socket, buf: WriteableBuffer, flags: int = 0
+        ) -> asyncio.Future[tuple[int, socket._RetAddress]]:
             with QtCore.QMutexLocker(self._lock):
                 return super().recvfrom_into(conn, buf, flags)
 
@@ -148,7 +151,8 @@ class _IocpProactor(windows_events.IocpProactor):  # type: ignore[name-defined]
         self,
         conn: socket.socket,
         address: Union[
-            tuple[Incomplete, Incomplete], tuple[Incomplete, Incomplete, Incomplete, Incomplete]
+            tuple[Incomplete, Incomplete],
+            tuple[Incomplete, Incomplete, Incomplete, Incomplete],
         ],
     ) -> asyncio.Future[Any]:
         with QtCore.QMutexLocker(self._lock):

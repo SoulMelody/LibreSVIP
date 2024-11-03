@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import contextlib
+import functools
 import itertools
+import operator
 import os
 import pathlib
 import sys
@@ -106,7 +108,8 @@ def platform_libs_for_qtmodule(module: str) -> list[str]:
 
 
 build_exe_options = {
-    "bin_excludes": sum(
+    "bin_excludes": functools.reduce(
+        operator.add,
         (
             platform_libs_for_qtmodule(module)
             for module in (
@@ -115,6 +118,7 @@ build_exe_options = {
                 "Concurrent",
                 "DataVisualization",
                 "DataVisualizationQml",
+                "Graphs",
                 "Location",
                 "Multimedia",
                 "MultimediaQuick",
@@ -123,7 +127,21 @@ build_exe_options = {
                 "Positioning",
                 "PositioningQuick",
                 "Quick3D",
+                "Quick3DAssetImport",
+                "Quick3DAssetUtils",
+                "Quick3DEffects",
+                "Quick3DHelpers",
+                "Quick3DHelpersImpl",
+                "Quick3DParticleEffects",
+                "Quick3DParticles",
+                "Quick3DRuntimeRender",
+                "Quick3DSpatialAudio",
                 "Quick3DUtils",
+                "Quick3DXr",
+                "QuickTest",
+                "QuickTimeline",
+                "QuickTimelineBlendTrees",
+                "QuickWidget",
                 "RemoteObjects",
                 "RemoteObjectsQml",
                 "Scxml",
@@ -131,14 +149,16 @@ build_exe_options = {
                 "Sensors",
                 "SensorsQuick",
                 "ShaderTools",
+                "SpatialAudio",
                 "Sql",
                 "StateMachine",
                 "StateMachineQml",
-                "Svg",
                 "Test",
                 "TextToSpeech",
                 "VirtualKeyboard",
+                "VirtualKeyboardSettings",
                 "WebChannel",
+                "WebChannelQuick",
                 "WebEngineCore",
                 "WebEngineQuick",
                 "WebEngineQuickDelegatesQml",
@@ -157,7 +177,7 @@ build_exe_options = {
                 "3DRender",
             )
         ),
-        (str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")),
+        [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")],
     ),
     "bin_includes": bin_includes,
     "bin_path_includes": bin_path_includes,
@@ -184,6 +204,7 @@ build_exe_options = {
         "uvicorn",
         "webview",
         "wx",
+        "libresvip.tui",
         "libresvip.web",
     ],
     "include_files": include_files,

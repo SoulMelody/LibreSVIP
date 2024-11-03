@@ -5,7 +5,6 @@ import re
 from collections.abc import Callable
 from typing import Optional
 
-from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_sync import TimeSynchronizer
@@ -40,7 +39,7 @@ from .model import (
 from .options import InputOptions, NormalizationMethod
 from .singers import id2singer
 
-ACEP_ENGLISH_SPAN_RE = re.compile(r"#(\d+)$")
+ACEP_LATIN_SPAN_RE = re.compile(r"#(\d+)$")
 
 
 @dataclasses.dataclass
@@ -64,9 +63,13 @@ class AceParser:
             ]
         else:
             project.time_signature_list.append(
-                TimeSignature(bar_index=0, numerator=ace_project.beats_per_bar, denominator=4)
+                TimeSignature(
+                    bar_index=0,
+                    numerator=ace_project.beats_per_bar,
+                    denominator=4,
+                )
             )
-        self.first_bar_ticks = TICKS_IN_BEAT * ace_project.beats_per_bar
+        self.first_bar_ticks = int(project.time_signature_list[0].bar_length())
         project.song_tempo_list = shift_tempo_list(
             self.parse_tempos(ace_project.tempos),
             self.first_bar_ticks,
@@ -91,7 +94,12 @@ class AceParser:
             and isinstance(ace_track, AcepAudioTrack)
             and len(ace_track.patterns)
         ):
-            track = InstrumentalTrack(audio_file_path=ace_track.patterns[0].path)
+            track = InstrumentalTrack(
+                audio_file_path=ace_track.patterns[0].path,
+                offset=int(ace_track.patterns[0].pos)
+                if self.content_version < 7
+                else self.synchronizer.get_actual_ticks_from_secs(ace_track.patterns[0].pos),
+            )
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
                 ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
@@ -109,10 +117,13 @@ class AceParser:
                 ]
                 prev_ace_note = None
                 for ace_note in ace_notes:
-                    ace_note.dur = min(
-                        ace_note.dur, pattern.clip_pos + pattern.clip_dur - ace_note.pos
+                    ace_note.dur = int(
+                        min(
+                            ace_note.dur,
+                            pattern.clip_pos + pattern.clip_dur - ace_note.pos,
+                        )
                     )
-                    ace_note.pos += pattern.pos
+                    ace_note.pos += int(pattern.pos)
                     if (
                         prev_ace_note is not None
                         and prev_ace_note.pos + prev_ace_note.dur > ace_note.pos
@@ -133,10 +144,10 @@ class AceParser:
                         and curve.offset < pattern.clip_pos + pattern.clip_dur
                     ]
                     for ace_curve in ace_curves:
-                        max_length = pattern.clip_pos + pattern.clip_dur - ace_curve.offset
+                        max_length = int(pattern.clip_pos + pattern.clip_dur - ace_curve.offset)
                         if max_length < len(ace_curve.values):
                             ace_curve.values = ace_curve.values[:max_length]
-                        ace_curve.offset += pattern.pos
+                        ace_curve.offset += int(pattern.pos)
                     dst.root.extend(ace_curves)
 
                 merge_curves(pattern.parameters.pitch_delta, ace_params.pitch_delta)
@@ -145,9 +156,15 @@ class AceParser:
                 merge_curves(pattern.parameters.energy, ace_params.energy)
                 merge_curves(pattern.parameters.tension, ace_params.tension)
                 if self.options.breath_normalization.enabled:
-                    merge_curves(pattern.parameters.real_breathiness, ace_params.real_breathiness)
+                    merge_curves(
+                        pattern.parameters.real_breathiness,
+                        ace_params.real_breathiness,
+                    )
                 if self.options.tension_normalization.enabled:
-                    merge_curves(pattern.parameters.real_tension, ace_params.real_tension)
+                    merge_curves(
+                        pattern.parameters.real_tension,
+                        ace_params.real_tension,
+                    )
                 if self.options.energy_normalization.enabled:
                     merge_curves(pattern.parameters.real_energy, ace_params.real_energy)
             ace_note_list.sort(key=operator.attrgetter("pos"))
@@ -175,25 +192,23 @@ class AceParser:
             lyric=ace_note.lyric,
         )
         if (
-            ace_note.language == AcepLyricsLanguage.ENGLISH
-            and (english_span := ACEP_ENGLISH_SPAN_RE.search(note.lyric)) is not None
+            ace_note.language == [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
+            and (latin_span := ACEP_LATIN_SPAN_RE.search(note.lyric)) is not None
         ):
-            span_index = int(english_span.group(1))
-            if span_index == 1:
-                note.lyric = ACEP_ENGLISH_SPAN_RE.sub("", note.lyric)
-            else:
-                note.lyric = "+"
+            span_index = int(latin_span.group(1))
+            note.lyric = ACEP_LATIN_SPAN_RE.sub("", note.lyric) if span_index == 1 else "+"
         if pinyin is None or "-" not in ace_note.lyric and ace_note.pronunciation != pinyin:
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
             note.head_tag = "V"
         if ace_note.head_consonants:
             note.edited_phones = Phones(
-                head_length_in_secs=(
-                    self.synchronizer.get_duration_secs_from_ticks(
-                        note.start_pos - ace_note.head_consonants[0], note.start_pos
-                    )
+                head_length_in_secs=self.synchronizer.get_duration_secs_from_ticks(
+                    note.start_pos - int(ace_note.head_consonants[0]),
+                    note.start_pos,
                 )
+                if self.content_version < 7
+                else ace_note.head_consonants[0]
             )
         return note
 
@@ -201,14 +216,14 @@ class AceParser:
         def linear_transform(
             lower_bound: float, middle_value: float, upper_bound: float
         ) -> Callable[[float], int]:
-            return lambda x: clamp(
-                round(
+            return lambda x: round(
+                clamp(
                     (x - middle_value) / (upper_bound - middle_value) * 1000
                     if x >= middle_value
-                    else (x - middle_value) / (middle_value - lower_bound) * 1000
-                ),
-                -1000,
-                1000,
+                    else (x - middle_value) / (middle_value - lower_bound) * 1000,
+                    -1000,
+                    1000,
+                )
             )
 
         if self.options.breath_normalization.enabled:
@@ -298,7 +313,8 @@ class AceParser:
         if self.options.import_tension and self.options.import_energy:
             transform = linear_transform(0, 1, 2)
             parameters.volume = self.parse_param_curve(
-                ace_params.energy, lambda x: round(self.options.energy_coefficient * transform(x))
+                ace_params.energy,
+                lambda x: round(self.options.energy_coefficient * transform(x)),
             )
             remaining_energy = ace_params.energy.model_copy(
                 deep=True,
@@ -318,10 +334,13 @@ class AceParser:
                 },
             )
             energy_plus_tension = remaining_energy.plus(
-                ace_params.tension, 1.0, lambda x: (x - 1) * 0.5 if x >= 1 else (x - 1) * 0.3
+                ace_params.tension,
+                1.0,
+                lambda x: (x - 1) * 0.5 if x >= 1 else (x - 1) * 0.3,
             )
             parameters.strength = self.parse_param_curve(
-                energy_plus_tension, lambda x: round(self.options.energy_coefficient * transform(x))
+                energy_plus_tension,
+                lambda x: round(self.options.energy_coefficient * transform(x)),
             )
         elif self.options.import_tension:
             parameters.strength = self.parse_param_curve(
@@ -330,7 +349,8 @@ class AceParser:
         elif self.options.import_energy:
             transform = linear_transform(0, 1, 2)
             parameters.volume = self.parse_param_curve(
-                ace_params.energy, lambda x: round(self.options.energy_coefficient * transform(x))
+                ace_params.energy,
+                lambda x: round(self.options.energy_coefficient * transform(x)),
             )
             parameters.strength = self.parse_param_curve(
                 ace_params.energy,
@@ -348,23 +368,23 @@ class AceParser:
             for ace_curve in ace_curves.root:
                 pos = ace_curve.offset
                 curve.points.append(Point(pos + self.first_bar_ticks, -100))
-                if ace_curve.curve_type == "anchor":
-                    for value in ace_curve.values:
+                for value in ace_curve.values:
+                    if ace_curve.curve_type == "anchor":
                         curve.points.append(Point(pos + self.first_bar_ticks, round(value * 100)))
-                        pos += 1
-                else:
-                    for value in ace_curve.values:
-                        if not math.isnan(value):
-                            abs_semitone = (
-                                base_pitch.semitone_value_at(
-                                    self.synchronizer.get_actual_secs_from_ticks(pos)
-                                )
-                                + value
+                    elif not math.isnan(value):
+                        abs_semitone = (
+                            base_pitch.semitone_value_at(
+                                self.synchronizer.get_actual_secs_from_ticks(pos)
                             )
-                            curve.points.append(
-                                Point(pos + self.first_bar_ticks, round(abs_semitone * 100))
+                            + value
+                        )
+                        curve.points.append(
+                            Point(
+                                pos + self.first_bar_ticks,
+                                round(abs_semitone * 100),
                             )
-                        pos += 1
+                        )
+                    pos += 1
                 curve.points.append(Point(pos - 1 + self.first_bar_ticks, -100))
         curve.points.append(Point.end_point())
         if self.options.curve_sample_interval > 0:
@@ -372,7 +392,9 @@ class AceParser:
         return curve
 
     def parse_param_curve(
-        self, ace_curves: AcepParamCurveList, mapping_func: Callable[[float], int]
+        self,
+        ace_curves: AcepParamCurveList,
+        mapping_func: Callable[[float], int],
     ) -> ParamCurve:
         curve = ParamCurve()
         curve.points.append(Point.start_point(0))

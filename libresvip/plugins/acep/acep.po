@@ -19,6 +19,9 @@ msgstr ""
 msgid "English"
 msgstr ""
 
+msgid "Spanish"
+msgstr ""
+
 msgid "Both strength and tension"
 msgstr ""
 
@@ -212,7 +215,7 @@ msgid ""
 " the language of lyrics."
 msgstr ""
 
-msgid "Default consonant length (ticks)"
+msgid "Default consonant length (secs)"
 msgstr ""
 
 msgid "Set default consonant length for notes if not specified"

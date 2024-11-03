@@ -15,7 +15,7 @@ class ZipLoader(SourcelessFileLoader):
         self.zip_file = zip_file
         self.file_path = file_path
 
-    def create_module(self, spec: ModuleSpec) -> ModuleType:
+    def create_module(self, spec: ModuleSpec) -> Optional[ModuleType]:
         return sys.modules.get(spec.name)
 
     def get_filename(self, name: Optional[str] = None) -> str:
@@ -31,7 +31,11 @@ class ZipLoader(SourcelessFileLoader):
 
 def load_module(name: str, plugin_path: Traversable) -> ModuleType:
     spec = None
-    if isinstance(plugin_path, zipfile.Path) and plugin_path.root.filename is not None:
+    if (
+        isinstance(plugin_path, zipfile.Path)
+        and plugin_path.root.filename is not None
+        and hasattr(plugin_path, "at")
+    ):
         loader = ZipLoader(zip_file=plugin_path.root, file_path=plugin_path.at)
         spec = ModuleSpec(name, cast(Loader, loader), is_package=True, origin=plugin_path.at)
     else:

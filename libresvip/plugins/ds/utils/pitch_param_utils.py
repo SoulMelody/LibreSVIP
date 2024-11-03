@@ -13,7 +13,8 @@ class PitchParamUtils:
     def encode(cls, curve: ParamCurve, end: int, time_step: float = 0.005) -> DsParamCurve:
         end += 1920
         return DsParamCurve(
-            step_size=time_step, point_list=cls.encode_point_list(curve.points, end)
+            step_size=time_step,
+            point_list=cls.encode_point_list(curve.points, end),
         )
 
     @classmethod

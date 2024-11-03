@@ -17,20 +17,20 @@ Dialog {
     topPadding: 5
 
     function save_folder_type(save_folder) {
-        let preset_folder = null
+        let preset_folder = null;
         if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-            preset_folder = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+            preset_folder = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path;
         }
         switch (save_folder) {
-            case ".":
-            case "./":
-                return 1
-            case dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]):
-                return 2
-            case preset_folder:
-                return 3
-            default:
-                return 4
+        case ".":
+        case "./":
+            return 1;
+        case dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]):
+            return 2;
+        case preset_folder:
+            return 3;
+        default:
+            return 4;
         }
     }
     header: ColumnLayout {
@@ -95,7 +95,7 @@ Dialog {
                         Switch {
                             checked: configItems.auto_detect_input_format
                             onClicked: {
-                                configItems.auto_detect_input_format = checked
+                                configItems.auto_detect_input_format = checked;
                             }
                         }
                     }
@@ -110,7 +110,7 @@ Dialog {
                         Switch {
                             checked: configItems.reset_tasks_on_input_change
                             onClicked: {
-                                configItems.reset_tasks_on_input_change = checked
+                                configItems.reset_tasks_on_input_change = checked;
                             }
                         }
                     }
@@ -125,12 +125,12 @@ Dialog {
                         Switch {
                             checked: configItems.auto_set_output_extension
                             onClicked: {
-                                configItems.auto_set_output_extension = checked
+                                configItems.auto_set_output_extension = checked;
                             }
                             Component.onCompleted: {
-                                configItems.auto_set_output_extension_changed.connect( (value) => {
-                                    value === checked ? null : checked = value
-                                })
+                                configItems.auto_set_output_extension_changed.connect(value => {
+                                    value === checked ? null : checked = value;
+                                });
                             }
                         }
                     }
@@ -145,7 +145,7 @@ Dialog {
                         Switch {
                             checked: configItems.multi_threaded_conversion
                             onClicked: {
-                                configItems.multi_threaded_conversion = checked
+                                configItems.multi_threaded_conversion = checked;
                             }
                         }
                     }
@@ -183,27 +183,36 @@ Dialog {
                             textRole: "text"
                             valueRole: "value"
                             model: [
-                                {value: "Overwrite", text: qsTr("Overwrite")},
-                                {value: "Skip", text: qsTr("Skip")},
-                                {value: "Prompt", text: qsTr("Prompt")}
+                                {
+                                    value: "Overwrite",
+                                    text: qsTr("Overwrite")
+                                },
+                                {
+                                    value: "Skip",
+                                    text: qsTr("Skip")
+                                },
+                                {
+                                    value: "Prompt",
+                                    text: qsTr("Prompt")
+                                }
                             ]
-                            onActivated: (index) => {
-                                configItems.conflict_policy = currentValue
+                            onActivated: index => {
+                                configItems.conflict_policy = currentValue;
                             }
                             Connections {
                                 target: configItems
                                 function onConflict_policy_changed(value) {
                                     switch (value) {
-                                        case "Overwrite":
-                                        case "Skip":
-                                        case "Prompt":
-                                            conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value)
-                                            break
+                                    case "Overwrite":
+                                    case "Skip":
+                                    case "Prompt":
+                                        conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value);
+                                        break;
                                     }
                                 }
                             }
                             Component.onCompleted: {
-                                currentIndex = indexOfValue(configItems.conflict_policy)
+                                currentIndex = indexOfValue(configItems.conflict_policy);
                             }
                         }
                     }
@@ -218,7 +227,7 @@ Dialog {
                         Switch {
                             checked: configItems.open_save_folder_on_completion
                             onClicked: {
-                                configItems.open_save_folder_on_completion = checked
+                                configItems.open_save_folder_on_completion = checked;
                             }
                         }
                     }
@@ -234,31 +243,36 @@ Dialog {
             Layout.fillWidth: true
             ButtonGroup {
                 id: saveFolderGroup
-                onClicked: (button) => {
-                    let cur_value = null
+                onClicked: button => {
+                    let cur_value = null;
                     switch (button.text) {
-                        case qsTr("Same as Source"): {
-                            cur_value = "."
-                            break
+                    case qsTr("Same as Source"):
+                        {
+                            cur_value = ".";
+                            break;
                         }
-                        case qsTr("Desktop"): {
-                            cur_value = dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0])
-                            break
+                    case qsTr("Desktop"):
+                        {
+                            cur_value = dialogs.url2path(StandardPaths.standardLocations(StandardPaths.DesktopLocation)[0]);
+                            break;
                         }
-                        case qsTr("Preset Folder"): {
-                            cur_value = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                            break
+                    case qsTr("Preset Folder"):
+                        {
+                            cur_value = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path;
+                            break;
                         }
-                        case qsTr("Custom (Browse ...)"): {
-                            actions.chooseSavePath.trigger()
-                            return
+                    case qsTr("Custom (Browse ...)"):
+                        {
+                            actions.chooseSavePath.trigger();
+                            return;
                         }
-                        default: {
-                            cur_value = configItems.save_folder
-                            break
+                    default:
+                        {
+                            cur_value = configItems.save_folder;
+                            break;
                         }
                     }
-                    configItems.save_folder = cur_value
+                    configItems.save_folder = cur_value;
                 }
             }
             ColumnLayout {
@@ -268,27 +282,27 @@ Dialog {
                     rows: 2
                     columns: 2
                     RadioButton {
+                        id: sameAsSourceRadio
                         Layout.fillWidth: true
                         Layout.row: 0
                         Layout.column: 0
                         ButtonGroup.group: saveFolderGroup
-                        id: sameAsSourceRadio
                         text: qsTr("Same as Source")
                     }
                     RadioButton {
+                        id: desktopRadio
                         Layout.fillWidth: true
                         Layout.row: 0
                         Layout.column: 1
                         ButtonGroup.group: saveFolderGroup
-                        id: desktopRadio
                         text: qsTr("Desktop")
                     }
                     RadioButton {
+                        id: presetRadio
                         Layout.fillWidth: true
                         Layout.row: 1
                         Layout.column: 0
                         ButtonGroup.group: saveFolderGroup
-                        id: presetRadio
                         enabled: dialogs.folderPresetsList.count > 0
                         text: qsTr("Preset Folder")
                         ToolTip {
@@ -296,18 +310,18 @@ Dialog {
                             visible: presetRadio.hovered && text !== ""
                             Component.onCompleted: {
                                 if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                    text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                    text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path;
                                 }
                             }
                             Connections {
                                 target: dialogs.folderPresetBtnGroup
                                 function onClicked() {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path;
                                         if (presetRadio.checked) {
-                                            let save_folder = configItems.save_folder
+                                            let save_folder = configItems.save_folder;
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                configItems.save_folder = presetRadioToolTip.text
+                                                configItems.save_folder = presetRadioToolTip.text;
                                             }
                                         }
                                     }
@@ -317,20 +331,20 @@ Dialog {
                                 target: dialogs.folderPresetsList.model
                                 function onDataChanged(idx1, idx2, value) {
                                     if (dialogs.folderPresetsList.count > 0 && dialogs.folderPresetsList.currentIndex >= 0) {
-                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path
-                                        if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row ) {
-                                            let save_folder = configItems.save_folder
+                                        presetRadioToolTip.text = dialogs.folderPresetsList.model.get(dialogs.folderPresetsList.currentIndex).path;
+                                        if (presetRadio.checked && dialogs.folderPresetsList.currentIndex >= idx1.row && dialogs.folderPresetsList.currentIndex <= idx2.row) {
+                                            let save_folder = configItems.save_folder;
                                             if (save_folder !== presetRadioToolTip.text) {
-                                                configItems.save_folder = presetRadioToolTip.text
+                                                configItems.save_folder = presetRadioToolTip.text;
                                             }
                                         }
                                     }
                                 }
                                 function onRowsRemoved(idx, first, last) {
                                     if (first == 0 && last == dialogs.folderPresetsList.count - 1) {
-                                        presetRadioToolTip.text = ""
+                                        presetRadioToolTip.text = "";
                                         if (presetRadio.checked) {
-                                            configItems.save_folder = configItems.save_folder
+                                            configItems.save_folder = configItems.save_folder;
                                         }
                                     }
                                 }
@@ -338,11 +352,11 @@ Dialog {
                         }
                     }
                     RadioButton {
+                        id: customRadio
                         Layout.fillWidth: true
                         Layout.row: 1
                         Layout.column: 1
                         ButtonGroup.group: saveFolderGroup
-                        id: customRadio
                         text: qsTr("Custom (Browse ...)")
                     }
                 }
@@ -355,22 +369,22 @@ Dialog {
                     Layout.alignment: Qt.AlignHCenter
                     text: qsTr("Manage Folders Presets")
                     onClicked: {
-                        dialogs.folderPresetsDialog.open()
+                        dialogs.folderPresetsDialog.open();
                     }
                 }
             }
             Connections {
                 target: configItems
                 function onSave_folder_changed(value) {
-                    let selected_index = save_folder_type(value)
+                    let selected_index = save_folder_type(value);
                     if (selected_index === 1) {
-                        sameAsSourceRadio.checked = true
+                        sameAsSourceRadio.checked = true;
                     } else if (selected_index === 2) {
-                        desktopRadio.checked = true
+                        desktopRadio.checked = true;
                     } else if (selected_index === 3) {
-                        presetRadio.checked = true                        
+                        presetRadio.checked = true;
                     } else {
-                        customRadio.checked = true
+                        customRadio.checked = true;
                     }
                 }
             }
@@ -380,6 +394,7 @@ Dialog {
     Component {
         id: pluginsSettingsPage
         ColumnLayout {
+            anchors.fill: parent
             HorizontalHeaderView {
                 resizableColumns: false
                 syncView: pluginsTableView
@@ -492,7 +507,7 @@ Dialog {
                                 checked: value === "checkbox-marked"
                                 anchors.fill: parent
                                 onToggled: {
-                                    taskManager.toggle_plugin(row)
+                                    taskManager.toggle_plugin(row);
                                 }
                             }
                         }
@@ -501,13 +516,11 @@ Dialog {
             }
         }
     }
-    
+
     Component {
         id: lyricReplacementSettingsPage
         ColumnLayout {
-            Layout.margins: 15
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+            anchors.fill: parent
             RowLayout {
                 Layout.fillWidth: true
                 ComboBox {
@@ -519,12 +532,12 @@ Dialog {
                     ToolTip.text: qsTr("Preset")
                     onAccepted: {
                         if (find(editText) === -1) {
-                            lyricReplacementPresetsComboBox.model.append(editText)
-                            taskManager.middleware_options_updated()
+                            lyricReplacementPresetsComboBox.model.append(editText);
+                            taskManager.middleware_options_updated();
                         }
                     }
-                    onActivated: (index) => {
-                        lyricReplacementRulesTableView.model.modelReset()
+                    onActivated: index => {
+                        lyricReplacementRulesTableView.model.modelReset();
                     }
                 }
                 IconButton {
@@ -534,9 +547,9 @@ Dialog {
                     ToolTip.text: qsTr("Remove current preset")
                     onClicked: {
                         if (lyricReplacementPresetsComboBox.currentText !== "default") {
-                            lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentText)
-                            lyricReplacementPresetsComboBox.currentIndex = 0
-                            taskManager.middleware_options_updated()
+                            lyricReplacementPresetsComboBox.model.remove(lyricReplacementPresetsComboBox.currentText);
+                            lyricReplacementPresetsComboBox.currentIndex = 0;
+                            taskManager.middleware_options_updated();
                         }
                     }
                 }
@@ -552,13 +565,25 @@ Dialog {
                     textRole: "text"
                     valueRole: "value"
                     model: ListModel {
-                        ListElement { text: qsTr("Full match"); value: "full"}
-                        ListElement { text: qsTr("Alphabetic"); value: "alphabetic"}
-                        ListElement { text: qsTr("Non-alphabetic"); value: "non_alphabetic"}
-                        ListElement { text: qsTr("Regex"); value: "regex"}
+                        ListElement {
+                            text: qsTr("Full match")
+                            value: "full"
+                        }
+                        ListElement {
+                            text: qsTr("Alphabetic")
+                            value: "alphabetic"
+                        }
+                        ListElement {
+                            text: qsTr("Non-alphabetic")
+                            value: "non_alphabetic"
+                        }
+                        ListElement {
+                            text: qsTr("Regex")
+                            value: "regex"
+                        }
                     }
                     onActivated: {
-                        lyricReplacementRulesTableView.model.append(currentValue)
+                        lyricReplacementRulesTableView.model.append(currentValue);
                     }
                 }
                 IconButton {
@@ -566,7 +591,7 @@ Dialog {
                     diameter: 35
                     cursor_shape: Qt.WhatsThisCursor
                     ToolTip.visible: hovered
-                    ToolTip.text: qsTr("Alphabetic: Applies to alphabetic characters.\nNon-Alphabetic: For non-alphabetic characters and punctuation marks.\nRegex: for advanced users with knowledge of regular expressions.")    
+                    ToolTip.text: qsTr("Alphabetic: Applies to alphabetic characters.\nNon-Alphabetic: For non-alphabetic characters and punctuation marks.\nRegex: for advanced users with knowledge of regular expressions.")
                 }
             }
             HorizontalHeaderView {
@@ -643,11 +668,11 @@ Dialog {
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
-                                    display = text
-                                    parent.children[0].text = text
+                                    display = text;
+                                    parent.children[0].text = text;
                                 }
                                 TableView.onCommit: {
-                                    editingFinished()
+                                    editingFinished();
                                 }
                             }
                         }
@@ -675,11 +700,11 @@ Dialog {
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
-                                    display = text
-                                    parent.children[0].text = text
+                                    display = text;
+                                    parent.children[0].text = text;
                                 }
                                 TableView.onCommit: {
-                                    editingFinished()
+                                    editingFinished();
                                 }
                             }
                         }
@@ -707,11 +732,11 @@ Dialog {
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
-                                    display = text
-                                    parent.children[0].text = text
+                                    display = text;
+                                    parent.children[0].text = text;
                                 }
                                 TableView.onCommit: {
-                                    editingFinished()
+                                    editingFinished();
                                 }
                             }
                         }
@@ -739,11 +764,11 @@ Dialog {
                                 horizontalAlignment: TextInput.AlignHCenter
                                 verticalAlignment: TextInput.AlignVCenter
                                 onEditingFinished: {
-                                    display = text
-                                    parent.children[0].text = text
+                                    display = text;
+                                    parent.children[0].text = text;
                                 }
                                 TableView.onCommit: {
-                                    editingFinished()
+                                    editingFinished();
                                 }
                             }
                         }
@@ -771,9 +796,9 @@ Dialog {
                                 checked: value === "UNICODE"
                                 anchors.fill: parent
                                 onToggled: {
-                                    let index = TableView.view.index(row, column)
-                                    lyricReplacementRulesTableView.model.setData(index, checked ? "UNICODE" : "IGNORECASE", Qt.DisplayRole)
-                                    parent.children[0].text = iconicFontLoader.icon("mdi7." + (checked ? "checkbox-marked" : "checkbox-blank-outline"))
+                                    let index = TableView.view.index(row, column);
+                                    lyricReplacementRulesTableView.model.setData(index, checked ? "UNICODE" : "IGNORECASE", Qt.DisplayRole);
+                                    parent.children[0].text = iconicFontLoader.icon("mdi7." + (checked ? "checkbox-marked" : "checkbox-blank-outline"));
                                 }
                             }
                         }
@@ -795,7 +820,7 @@ Dialog {
                                     new_padding: 4
                                     visible: row > 0
                                     onClicked: {
-                                        lyricReplacementRulesTableView.model.swap(row - 1, row)
+                                        lyricReplacementRulesTableView.model.swap(row - 1, row);
                                     }
                                 }
                                 IconButton {
@@ -804,7 +829,7 @@ Dialog {
                                     new_padding: 4
                                     visible: row < lyricReplacementRulesTableView.model.rowCount() - 1
                                     onClicked: {
-                                        lyricReplacementRulesTableView.model.swap(row, row + 1)
+                                        lyricReplacementRulesTableView.model.swap(row, row + 1);
                                     }
                                 }
                                 IconButton {
@@ -812,7 +837,7 @@ Dialog {
                                     diameter: 20
                                     new_padding: 4
                                     onClicked: {
-                                        lyricReplacementRulesTableView.model.delete(row)
+                                        lyricReplacementRulesTableView.model.delete(row);
                                     }
                                 }
                             }
@@ -822,7 +847,7 @@ Dialog {
             }
         }
     }
-    
+
     Component {
         id: updatesSettingsPage
         ColumnLayout {
@@ -841,7 +866,7 @@ Dialog {
                 Switch {
                     checked: configItems.auto_check_for_updates
                     onClicked: {
-                        configItems.auto_check_for_updates = checked
+                        configItems.auto_check_for_updates = checked;
                     }
                 }
             }
@@ -888,59 +913,99 @@ Dialog {
             TabButton {
                 id: basicSettingsBtn
                 width: 180
-                text: qsTr("Basic Settings")
-                anchors.horizontalCenter: parent.horizontalCenter
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.application-cog-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Basic Settings")
+                    }
+                }
                 onClicked: {
-                    settingsStack.currentIndex = 0
+                    settingsStack.currentIndex = 0;
                 }
             }
 
             TabButton {
                 id: savePathSettingsBtn
                 width: 180
-                text: qsTr("Save Path Settings")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.folder-download-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Save Path Settings")
+                    }
+                }
                 anchors.top: basicSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
-                    settingsStack.currentIndex = 1
+                    settingsStack.currentIndex = 1;
                 }
             }
 
             TabButton {
                 id: pluginsSettingsBtn
                 width: 180
-                text: qsTr("Format Provider Plugins")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.puzzle-check-outline")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Format Provider Plugins")
+                    }
+                }
                 enabled: !taskManager.busy
                 anchors.top: savePathSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
-                    settingsStack.currentIndex = 2
+                    settingsStack.currentIndex = 2;
                 }
             }
 
             TabButton {
                 id: lyricReplacementSettingsBtn
                 width: 180
-                text: qsTr("Lyric Replacement Rules")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.find-replace")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Lyric Replacement Rules")
+                    }
+                }
                 anchors.top: pluginsSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
-                    settingsStack.currentIndex = 3
+                    settingsStack.currentIndex = 3;
                 }
             }
 
             TabButton {
                 id: updatesSettingsBtn
                 width: 180
-                text: qsTr("Updates Settings")
+                contentItem: RowLayout {
+                    Label {
+                        text: iconicFontLoader.icon("mdi7.update")
+                        font.family: "Material Design Icons"
+                        font.pixelSize: 22
+                    }
+                    Label {
+                        text: qsTr("Updates Settings")
+                    }
+                }
                 anchors.top: lyricReplacementSettingsBtn.bottom
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: parent.spacing
                 onClicked: {
-                    settingsStack.currentIndex = 4
+                    settingsStack.currentIndex = 4;
                 }
             }
         }
@@ -950,18 +1015,18 @@ Dialog {
             color: "lightgrey"
         }
         StackLayout {
+            id: settingsStack
             Layout.fillHeight: true
             Layout.fillWidth: true
-            id: settingsStack
             clip: true
             currentIndex: 0
             Component.onCompleted: {
-                basicSettingsPage.createObject(settingsStack)
-                savePathSettingsPage.createObject(settingsStack)
-                pluginsSettingsPage.createObject(settingsStack)
-                lyricReplacementSettingsPage.createObject(settingsStack)
-                updatesSettingsPage.createObject(settingsStack)
-                configItems.save_folder = configItems.save_folder
+                basicSettingsPage.createObject(settingsStack);
+                savePathSettingsPage.createObject(settingsStack);
+                pluginsSettingsPage.createObject(settingsStack);
+                lyricReplacementSettingsPage.createObject(settingsStack);
+                updatesSettingsPage.createObject(settingsStack);
+                configItems.save_folder = configItems.save_folder;
             }
         }
     }

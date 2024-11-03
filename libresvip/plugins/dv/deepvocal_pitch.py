@@ -8,8 +8,8 @@ from typing import Optional, SupportsFloat
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, ParamCurve, SongTempo
-from libresvip.model.point import (
-    Point,
+from libresvip.model.point import Point
+from libresvip.utils.music_math import (
     interpolate_cosine_ease_in_out,
     interpolate_linear,
 )
@@ -67,7 +67,10 @@ def merge_same_tick_points(points: list[Point]) -> Optional[list[Point]]:
                 merged_points.append(Point(x=tick, y=-100))
             else:
                 merged_points.append(
-                    Point(x=tick, y=round(sum(point.y for point in group_list) / len(group_list)))
+                    Point(
+                        x=tick,
+                        y=round(sum(point.y for point in group_list) / len(group_list)),
+                    )
                 )
         else:
             merged_points.append(group_list[0])
@@ -179,7 +182,10 @@ def get_bend_pitch(notes: list[DvNoteWithPitch], transformer: TimeSynchronizer) 
                 note.ben_len - 50
             ) // 50 + BEND_LENGTH_MIN_SEC
         end_sec = start_sec + length_sec
-        end_tick = min(transformer.get_actual_ticks_from_secs(end_sec), note.note.start_pos - 1)
+        end_tick = min(
+            transformer.get_actual_ticks_from_secs(end_sec),
+            note.note.start_pos - 1,
+        )
 
         valley_value = -BEND_VALUE_MAX * note.ben_dep
         valley_point = Point(x=round(valley_tick), y=round(valley_value))
@@ -292,15 +298,8 @@ def generate_for_dv(
     data = [DvPoint(x=-1, y=-1)]
     last_value = None
     for point in pitch.points.root:
-        if last_value is None and point.y != -100:
+        if (last_value is None and point.y != -100) or point.y == -100:
             data.append(DvPoint(x=point.x - first_bar_length, y=-1))
-        elif last_value is not None and last_value != -100 and point.y == -100:
-            data.append(
-                DvPoint(
-                    x=point.x - first_bar_length,
-                    y=round(convert_note_key(last_value / 100) * 100),
-                )
-            )
         if point.y != -100:
             data.append(
                 DvPoint(
@@ -309,4 +308,5 @@ def generate_for_dv(
                 )
             )
         last_value = point.y
+    data.append(DvPoint(x=data[-1].x + 1 if len(data) > 1 else 307201, y=-1))
     return DvSegmentPitchRawData(0, data)

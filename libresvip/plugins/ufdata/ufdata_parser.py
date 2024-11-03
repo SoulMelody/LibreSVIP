@@ -1,25 +1,36 @@
 import dataclasses
 
 from libresvip.core.tick_counter import shift_beat_list, shift_tempo_list
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
     ParamCurve,
-    Point,
     Points,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
-from .model import UFData, UFNotes, UFPitch, UFTempos, UFTimeSignatures, UFTracks
+from .model import (
+    UFData,
+    UFNotes,
+    UFPitch,
+    UFTempos,
+    UFTimeSignatures,
+    UFTracks,
+)
 from .options import InputOptions
 
 
 @dataclasses.dataclass
 class UFDataParser:
     options: InputOptions
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, ufdata_project: UFData) -> Project:
@@ -27,8 +38,10 @@ class UFDataParser:
         time_signature_list = self.parse_time_signatures(uf_project.time_signatures)
         self.first_bar_length = round(time_signature_list[0].bar_length())
         tick_prefix = int(time_signature_list[0].bar_length() * uf_project.measure_prefix)
+        song_tempo_list = shift_tempo_list(self.parse_tempos(uf_project.tempos), tick_prefix)
+        self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
-            song_tempo_list=shift_tempo_list(self.parse_tempos(uf_project.tempos), tick_prefix),
+            song_tempo_list=song_tempo_list,
             time_signature_list=shift_beat_list(
                 time_signature_list,
                 uf_project.measure_prefix,
@@ -63,7 +76,8 @@ class UFDataParser:
         track_list = []
         for track in tracks:
             singing_track = SingingTrack(
-                title=track.name, note_list=self.parse_notes(track.notes, tick_prefix)
+                title=track.name,
+                note_list=self.parse_notes(track.notes, tick_prefix),
             )
             if track.pitch is not None:
                 singing_track.edited_params.pitch = self.parse_pitch(
@@ -78,7 +92,12 @@ class UFDataParser:
             prev_point = pitch_points[-1]
             for tick, value in zip(pitch.ticks, pitch.values):
                 if value == 0 and prev_point.y == -100:
-                    pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
+                    pitch_points.append(
+                        Point(
+                            x=tick + tick_prefix + self.first_bar_length,
+                            y=-100,
+                        )
+                    )
                 if value is not None:
                     point = Point(
                         x=tick + tick_prefix + self.first_bar_length,
@@ -86,7 +105,12 @@ class UFDataParser:
                     )
                 pitch_points.append(point)
                 if value == 0 and prev_point.y != -100:
-                    pitch_points.append(Point(x=tick + tick_prefix + self.first_bar_length, y=-100))
+                    pitch_points.append(
+                        Point(
+                            x=tick + tick_prefix + self.first_bar_length,
+                            y=-100,
+                        )
+                    )
                 prev_point = point
             if prev_point.y == 0:
                 pitch_points.append(prev_point._replace(y=-100))
@@ -100,7 +124,14 @@ class UFDataParser:
             for tick, value in zip(pitch.ticks, pitch.values)
             if value is not None
         ]
-        return RelativePitchCurve(self.first_bar_length).to_absolute(rel_pitch_points, note_list)
+        pitch_simulator = PitchSimulator(
+            synchronizer=self.synchronizer,
+            portamento=PortamentoPitch.no_portamento(),
+            note_list=note_list,
+        )
+        return RelativePitchCurve(self.first_bar_length).to_absolute(
+            rel_pitch_points, pitch_simulator
+        )
 
     @staticmethod
     def parse_notes(notes: list[UFNotes], tick_prefix: int) -> list[Note]:

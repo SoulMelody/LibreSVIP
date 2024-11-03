@@ -9,7 +9,11 @@ from libresvip.utils.translation import gettext_lazy as _
 from .model import VocaloidLanguage
 
 
-class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
+class InputOptions(
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     extract_audio: bool = Field(
         False,
         title=_("Extract audio"),

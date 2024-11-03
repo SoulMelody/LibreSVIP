@@ -23,7 +23,10 @@ class CustomLoader(yaml.SafeLoader):
     expand_aliases = False
 
     def emit_yq_kv(self, key: Any, value: Any, original_token: yaml.tokens.Token) -> None:
-        marks = {"start_mark": original_token.start_mark, "end_mark": original_token.end_mark}
+        marks = {
+            "start_mark": original_token.start_mark,
+            "end_mark": original_token.end_mark,
+        }
         self.tokens.append(FlowMappingStartToken(**marks))
         self.tokens.append(KeyToken(**marks))
         self.tokens.append(ScalarToken(value=key, plain=True, **marks))
@@ -49,7 +52,9 @@ class CustomLoader(yaml.SafeLoader):
 
 
 def get_loader(
-    use_annotations: bool = False, expand_aliases: bool = True, expand_merge_keys: bool = True
+    use_annotations: bool = False,
+    expand_aliases: bool = True,
+    expand_merge_keys: bool = True,
 ) -> yaml.SafeLoader:
     def construct_sequence(loader: yaml.SafeLoader, node: yaml.nodes.SequenceNode) -> list[Any]:
         annotations = []

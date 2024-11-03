@@ -12,7 +12,9 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import ratio_to_db
 
@@ -43,9 +45,9 @@ class SynthVEditorGenerator:
     def generate_project(self, project: Project) -> S5pProject:
         self.first_bar_length = round(project.time_signature_list[0].bar_length())
         s5p_project = S5pProject(
-            tracks=self.generate_singing_tracks(project.track_list),
             tempo=self.generate_tempos(project.song_tempo_list),
             meter=self.generate_time_signatures(project.time_signature_list),
+            tracks=self.generate_singing_tracks(project.track_list),
         )
         if (
             instrumental_track_and_mixer := next(
@@ -145,8 +147,13 @@ class SynthVEditorGenerator:
 
     def generate_parameters(self, edited_params: Params, note_list: list[Note]) -> S5pParameters:
         interval = round(TICK_RATE * 3.75)
+        pitch_simulator = PitchSimulator(
+            synchronizer=self.synchronizer,
+            portamento=PortamentoPitch.sigmoid_portamento(),
+            note_list=note_list,
+        )
         rel_pitch_points = RelativePitchCurve(self.first_bar_length).from_absolute(
-            edited_params.pitch.points.root, note_list
+            edited_params.pitch.points.root, pitch_simulator
         )
         return S5pParameters(
             pitch_delta=self.generate_pitch_delta(rel_pitch_points, interval),

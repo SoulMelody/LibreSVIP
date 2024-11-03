@@ -12,10 +12,8 @@ sys.modules['FixTk'] = None
 import libresvip
 import PySide6
 import shellingham
-from PyInstaller.utils.hooks import collect_data_files, collect_entry_point, collect_submodules
+from PyInstaller.utils.hooks import collect_data_files, collect_entry_point
 from PyInstaller.utils.misc import is_win
-
-from libresvip.core.constants import pkg_dir
 
 with contextlib.suppress(Exception):
     if (
@@ -31,14 +29,10 @@ if not (is_win and platform.machine() == "ARM64"):
     cli_a = Analysis(
         ['../libresvip/cli/__main__.py'],
         pathex=[
-            os.path.join(os.__file__, os.pardir),
-            os.path.join(PySide6.__path__[0], os.pardir)
+            os.path.join(os.__file__, os.pardir)
         ],
         binaries=[],
-        datas=[
-            (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
-            (str(pkg_dir / "plugins"), "libresvip/plugins"),
-        ] + collect_data_files("libresvip") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+        datas=collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
         hiddenimports=[
             "bidict",
             "construct_typed",
@@ -58,7 +52,7 @@ if not (is_win and platform.machine() == "ARM64"):
             "xsdata_pydantic.fields",
             "xsdata_pydantic.hooks.class_type",
             "zstandard",
-        ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
+        ],
         hookspath=[],
         hooksconfig={},
         runtime_hooks=[],
@@ -116,6 +110,7 @@ if not (is_win and platform.machine() == "ARM64"):
     ])
 
 
+pyside6_dir = pathlib.Path(PySide6.__path__[0])
 gui_a = Analysis(
     ['../libresvip/gui/__main__.py'],
     pathex=[
@@ -123,10 +118,7 @@ gui_a = Analysis(
         os.path.join(PySide6.__path__[0], os.pardir)
     ],
     binaries=[],
-    datas=[
-        (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
-        (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    ] + collect_data_files("libresvip") + collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
+    datas=collect_data_files("desktop_notifier") + collect_data_files("fonticon_mdi7") + collect_data_files("xsdata") + collect_entry_point("xsdata.plugins.class_types")[0],
     hiddenimports=[
         "bidict",
         "construct_typed",
@@ -146,7 +138,7 @@ gui_a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "zstandard",
-    ] + collect_submodules("libresvip.core") + collect_submodules("libresvip.model") + collect_submodules("libresvip.utils"),
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -159,9 +151,11 @@ gui_a = Analysis(
         'PySide6.QtDataVisualization',
         'PySide6.QtWebChannel',
         'PySide6.QtWebEngineCore',
+        'PySide6.QtWebEngineQuick',
         'PySide6.QtWebEngineWidgets',
         'PySide6.QtPositioning',
         'PySide6.QtPrintSupport',
+        'PySide6.QtQuick3D',
         'PySide6.QtQuickWidgets',
     ],
     win_no_prefer_redirects=False,
@@ -187,6 +181,7 @@ binaries_exclude = sum(
         "Concurrent",
         "DataVisualization",
         "DataVisualizationQml",
+        "Graphs",
         "Location",
         "Multimedia",
         "MultimediaQuick",
@@ -195,7 +190,21 @@ binaries_exclude = sum(
         "Positioning",
         "PositioningQuick",
         "Quick3D",
+        "Quick3DAssetImport",
+        "Quick3DAssetUtils",
+        "Quick3DEffects",
+        "Quick3DHelpers",
+        "Quick3DHelpersImpl",
+        "Quick3DParticleEffects",
+        "Quick3DParticles",
+        "Quick3DRuntimeRender",
+        "Quick3DSpatialAudio",
         "Quick3DUtils",
+        "Quick3DXr",
+        "QuickTest",
+        "QuickTimeline",
+        "QuickTimelineBlendTrees",
+        "QuickWidget",
         "RemoteObjects",
         "RemoteObjectsQml",
         "Scxml",
@@ -203,14 +212,16 @@ binaries_exclude = sum(
         "Sensors",
         "SensorsQuick",
         "ShaderTools",
+        "SpatialAudio",
         "Sql",
         "StateMachine",
         "StateMachineQml",
-        "Svg",
         "Test",
         "TextToSpeech",
         "VirtualKeyboard",
+        "VirtualKeyboardSettings",
         "WebChannel",
+        "WebChannelQuick",
         "WebEngineCore",
         "WebEngineQuick",
         "WebEngineQuickDelegatesQml",
@@ -228,7 +239,7 @@ binaries_exclude = sum(
         "3DQuickScene2D",
         "3DRender",
     )),
-    []
+    [str(dbg_lib) for dbg_lib in pyside6_dir.rglob("**/qmldbg*")]
 )
 
 for (dest, source, kind) in gui_a.binaries:

@@ -38,7 +38,9 @@ def _update_curve_points_position(
 
 def reset_time_axis(project: Project, tempo: float = DEFAULT_BPM) -> Project:
     synchronizer = TimeSynchronizer(
-        project.song_tempo_list, _is_absolute_time_code=True, _default_tempo=tempo
+        project.song_tempo_list,
+        _is_absolute_time_code=True,
+        _default_tempo=tempo,
     )
     new_time_signature = TimeSignature(bar_index=0, numerator=4, denominator=4)
     update_curve_points_position = functools.partial(

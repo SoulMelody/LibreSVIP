@@ -62,7 +62,10 @@ class BasePitchCurve:
     values_in_semitone: list[float] = dataclasses.field(default_factory=list)
 
     def __post_init__(
-        self, notes: Iterable[AcepNote], synchronizer: TimeSynchronizer, tick_offset: int
+        self,
+        notes: Iterable[AcepNote],
+        synchronizer: TimeSynchronizer,
+        tick_offset: int,
     ) -> None:
         note_list = []
         for note in notes:
@@ -91,14 +94,14 @@ class BasePitchCurve:
                 if note.vibrato.release_ratio:
                     self.vibrato_coef_interval_dict[portion.openclosed(release_time, note_end)] = (
                         functools.partial(
-                            linear_interpolation,
+                            linear_interpolation,  # type: ignore[call-arg]
                             start=(release_time, note.vibrato.release_level),
                             end=(note_end, 0),
                         )
                     )
                 self.vibrato_coef_interval_dict[portion.closed(attack_time, release_time)] = (
                     functools.partial(
-                        linear_interpolation,
+                        linear_interpolation,  # type: ignore[call-arg]
                         start=(attack_time, note.vibrato.attack_level),
                         end=(release_time, note.vibrato.release_level),
                     )
@@ -107,7 +110,7 @@ class BasePitchCurve:
                     self.vibrato_coef_interval_dict[
                         portion.closedopen(vibrato_start, attack_time)
                     ] = functools.partial(
-                        linear_interpolation,
+                        linear_interpolation,  # type: ignore[call-arg]
                         start=(vibrato_start, 0),
                         end=(attack_time, note.vibrato.attack_level),
                     )

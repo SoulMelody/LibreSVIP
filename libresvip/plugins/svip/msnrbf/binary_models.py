@@ -123,7 +123,11 @@ class Utf8CodePoint(Construct):
         return (byte + stream.read(length - 1)).decode("utf-8")
 
     def _build(
-        self, obj: Union[str, bytes], stream: BinaryIO, context: Context, path: CSPath
+        self,
+        obj: Union[str, bytes],
+        stream: BinaryIO,
+        context: Context,
+        path: CSPath,
     ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")
@@ -155,7 +159,11 @@ class LengthPrefixedString(Construct):
         return content.decode("utf-8")
 
     def _build(
-        self, obj: Union[str, bytes], stream: BinaryIO, context: Context, path: CSPath
+        self,
+        obj: Union[str, bytes],
+        stream: BinaryIO,
+        context: Context,
+        path: CSPath,
     ) -> bytes:
         if isinstance(obj, str):
             obj = obj.encode("utf-8")

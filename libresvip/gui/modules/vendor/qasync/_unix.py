@@ -80,7 +80,10 @@ class _Selector(selectors.BaseSelector):
             raise
 
     def register(
-        self, fileobj: FileDescriptorLike, events: int, data: Optional[Any] = None
+        self,
+        fileobj: FileDescriptorLike,
+        events: int,
+        data: Optional[Any] = None,
     ) -> selectors.SelectorKey:
         if (not events) or (events & ~(EVENT_READ | EVENT_WRITE)):
             msg = f"Invalid events: {events!r}"
@@ -116,7 +119,9 @@ class _Selector(selectors.BaseSelector):
             self.__parent._process_event(key, EVENT_WRITE & key.events)
 
     def unregister(self, fileobj: FileDescriptorLike) -> selectors.SelectorKey:
-        def drop_notifier(notifiers: dict[FileDescriptorLike, QtCore.QSocketNotifier]) -> None:
+        def drop_notifier(
+            notifiers: dict[FileDescriptorLike, QtCore.QSocketNotifier],
+        ) -> None:
             try:
                 notifier = notifiers.pop(key.fd)
             except KeyError:
@@ -136,7 +141,10 @@ class _Selector(selectors.BaseSelector):
         return key
 
     def modify(
-        self, fileobj: FileDescriptorLike, events: int, data: Optional[Any] = None
+        self,
+        fileobj: FileDescriptorLike,
+        events: int,
+        data: Optional[Any] = None,
     ) -> selectors.SelectorKey:
         try:
             key = self._fd_to_key[self._fileobj_lookup(fileobj)]
@@ -159,7 +167,7 @@ class _Selector(selectors.BaseSelector):
         self.__write_notifiers.clear()
 
     def get_map(self) -> Mapping[FileDescriptorLike, selectors.SelectorKey]:
-        return self.__map
+        return self.__map  # type: ignore[return-value]
 
     def _key_from_fd(self, fd: FileDescriptor) -> Optional[selectors.SelectorKey]:
         """

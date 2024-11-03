@@ -4,15 +4,18 @@
     "config:recommended"
   ],
   "constraints": {
-    "python": "==3.12"
+    "python": "==3.13"
+  },
+  "lockFileMaintenance": {
+    "enabled": true
   },
   "rangeStrategy": "bump",
-  "enabledManagers": ["pep621", "github-actions"],
+  "enabledManagers": ["pep621"],
   "labels": ["dependencies"],
   "packageRules": [
     {
       "matchManagers": ["pep621"],
-      "matchDepTypes": ["tool.pdm.dev-dependencies"],
+      "matchDepTypes": ["dependency-groups"],
       "automerge": true,
       "groupName": "Development dependencies",
       "groupSlug": "dev"
@@ -24,13 +27,6 @@
       "automerge": true,
       "groupName": "Project dependencies",
       "groupSlug": "proj"
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "groupName": "GitHub Actions",
-      "groupSlug": "github-actions",
-      "separateMultipleMajor": false,
-      "ignoreDeps": ["macos"]
     }
   ]
 }

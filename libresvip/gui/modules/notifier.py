@@ -78,7 +78,7 @@ class Notifier(QObject):
                 await self.notify_async(
                     title=_("Checking for Updates"),
                     message=_("Please wait..."),
-                    timeout=self.request_timeout,
+                    send_timeout=self.request_timeout,
                 )
                 resp = await client.get(
                     "https://api.github.com/repos/SoulMelody/LibreSVIP/releases/latest"
@@ -111,7 +111,8 @@ class Notifier(QObject):
                                             asset
                                             for asset in data["assets"]
                                             if fnmatch.fnmatch(
-                                                asset["name"], "LibreSVIP-*.msys2-*.7z"
+                                                asset["name"],
+                                                "LibreSVIP-*.msys2-*.7z",
                                             )
                                         ),
                                         None,
@@ -122,7 +123,8 @@ class Notifier(QObject):
                                             asset
                                             for asset in data["assets"]
                                             if fnmatch.fnmatch(
-                                                asset["name"], f"LibreSVIP-*.win-{arch}.*"
+                                                asset["name"],
+                                                f"LibreSVIP-*.win-{arch}.*",
                                             )
                                         ),
                                         None,
@@ -201,7 +203,7 @@ class Notifier(QObject):
         title: str,
         message: str,
         buttons: Sequence[Button] = (),
-        timeout: int = -1,
+        send_timeout: int = -1,
     ) -> Optional[Awaitable[Notification]]:
         try:
             if self.last_notify_time is None:
@@ -210,7 +212,10 @@ class Notifier(QObject):
                 await asyncio.sleep(1 - elapsed)
             self.last_notify_time = time.time()
             return await self.notifier.send(
-                title=title, message=message, buttons=buttons, timeout=timeout
+                title=title,
+                message=message,
+                buttons=buttons,
+                timeout=send_timeout,
             )
         except Exception as e:
             logger.exception(e)

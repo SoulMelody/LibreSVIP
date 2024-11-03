@@ -1,3 +1,4 @@
+# mypy: disable-error-code="attr-defined"
 import dataclasses
 import operator
 
@@ -42,10 +43,16 @@ class BasePitchGenerator:
             pitches[index:] = [pitches[index - 1]] * (len(pitches) - index)
 
         for note in part.notes:
-            if note.vibrato.length <= 0:
+            if note.vibrato.length <= 0 or note.vibrato.period is None:
                 continue
-            start_index = max(0, int((note.position - self.pitch_start) / self.pitch_interval))
-            end_index = min(len(pitches), (note.end - self.pitch_start) // self.pitch_interval)
+            start_index = max(
+                0,
+                int((note.position - self.pitch_start) / self.pitch_interval),
+            )
+            end_index = min(
+                len(pitches),
+                (note.end - self.pitch_start) // self.pitch_interval,
+            )
             n_period = note.vibrato.period / self.time_axis.ms_between_tick_pos(
                 note.position, note.end
             )
@@ -94,7 +101,7 @@ class BasePitchGenerator:
                     )
                     base_pitch = (
                         prev_note.tone * 100
-                        if prev_note is not None and x < prev_note.end
+                        if prev_note is not None and x <= prev_note.end
                         else note.tone * 100
                     )
                     pitches[index] += pitch - base_pitch

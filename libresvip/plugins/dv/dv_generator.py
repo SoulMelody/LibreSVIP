@@ -16,7 +16,11 @@ from libresvip.model.base import (
 )
 from libresvip.utils.audio import audio_track_info
 
-from .constants import DEFAULT_PHONEME_BYTES, DEFAULT_VOLUME, MIN_SEGMENT_LENGTH
+from .constants import (
+    DEFAULT_PHONEME_BYTES,
+    DEFAULT_VOLUME,
+    MIN_SEGMENT_LENGTH,
+)
 from .deepvocal_pitch import convert_note_key, generate_for_dv
 from .model import (
     DvAudioInfo,
@@ -174,7 +178,9 @@ class DeepVocalGenerator:
             )
             if (
                 dv_segment_pitch_raw_data := generate_for_dv(
-                    self.first_bar_length, track.edited_params.pitch, track.note_list
+                    self.first_bar_length,
+                    track.edited_params.pitch,
+                    track.note_list,
                 )
             ) is not None:
                 dv_segment.pitch_data = dv_segment_pitch_raw_data.data

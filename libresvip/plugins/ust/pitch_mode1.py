@@ -1,7 +1,11 @@
 import dataclasses
 from typing import Optional
 
-from libresvip.model.base import Note, ParamCurve, Point
+from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.model.base import Note, ParamCurve
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 
 from .constants import (
@@ -21,7 +25,9 @@ class UtauMode1TrackPitchData:
 
 
 def pitch_from_utau_mode1_track(
-    pitch_data: UtauMode1TrackPitchData, notes: list[Note]
+    pitch_data: UtauMode1TrackPitchData,
+    synchronizer: TimeSynchronizer,
+    notes: list[Note],
 ) -> ParamCurve:
     pitch_points: list[Point] = []
     for note, note_pitch in zip(notes, pitch_data.notes):
@@ -33,10 +39,15 @@ def pitch_from_utau_mode1_track(
                 )
                 for index, value in enumerate(note_pitch.pitch_points)
             )
+    pitch_simulator = PitchSimulator(
+        synchronizer=synchronizer,
+        portamento=PortamentoPitch.no_portamento(),
+        note_list=notes,
+    )
     return RelativePitchCurve(
         lower_bound=notes[0].start_pos,
         upper_bound=notes[-1].end_pos,
-    ).to_absolute(pitch_points, notes)
+    ).to_absolute(pitch_points, pitch_simulator)
 
 
 def pitch_to_utau_mode1_track(pitch: ParamCurve, notes: list[Note]) -> UtauMode1TrackPitchData:

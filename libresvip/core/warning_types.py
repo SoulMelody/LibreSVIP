@@ -4,6 +4,7 @@ from contextlib import ExitStack
 from typing import Optional
 
 from loguru import _logger
+from typing_extensions import Self
 
 warning_logger = _logger.Logger(
     core=_logger.Core(),
@@ -30,9 +31,11 @@ class CatchWarnings:
         self._output = io.StringIO()
         self.output = ""
 
-    def __enter__(self) -> None:
+    def __enter__(self) -> Self:
         self._handler_id = warning_logger.add(
-            self._output, format="{extra[handler_id]}|{message}", level="WARNING"
+            self._output,
+            format="{extra[handler_id]}|{message}",
+            level="WARNING",
         )
         with ExitStack() as exit_stack:
             exit_stack.enter_context(warning_logger.contextualize(handler_id=self._handler_id))

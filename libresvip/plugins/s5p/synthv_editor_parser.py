@@ -22,9 +22,15 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.music_math import db_to_float, linear_interpolation, ratio_to_db
+from libresvip.utils.music_math import (
+    db_to_float,
+    linear_interpolation,
+    ratio_to_db,
+)
 
 from .model import (
     S5pDbDefaults,
@@ -68,7 +74,9 @@ class SynthVEditorParser:
         )
 
     @staticmethod
-    def parse_time_signatures(meter: list[S5pMeterItem]) -> list[TimeSignature]:
+    def parse_time_signatures(
+        meter: list[S5pMeterItem],
+    ) -> list[TimeSignature]:
         time_signatures = [
             TimeSignature(
                 bar_index=item.measure,
@@ -159,14 +167,15 @@ class SynthVEditorParser:
                 frequency = (
                     s5p_note.f_f0_vbr if s5p_note.f_f0_vbr is not None else db_defaults.f_f0_vbr
                 )
-                self.vibrato_value_interval_dict[portion.closedopen(vibrato_start, vibrato_end)] = (
-                    functools.partial(
+                if phase is not None and frequency is not None:
+                    self.vibrato_value_interval_dict[
+                        portion.closedopen(vibrato_start, vibrato_end)
+                    ] = functools.partial(
                         self.s5p_vibrato_value,
                         vibrato_start=vibrato_start,
                         phase=phase,
                         frequency=frequency,
                     )
-                )
                 vibrato_attack_time = vibrato_start + (
                     s5p_note.t_f0_vbr_left
                     if s5p_note.t_f0_vbr_left is not None
@@ -177,14 +186,13 @@ class SynthVEditorParser:
                     if s5p_note.t_f0_vbr_right is not None
                     else db_defaults.t_f0_vbr_right
                 )
-                vibrato_depth = cast(
-                    float,
-                    s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr,
+                vibrato_depth = (
+                    s5p_note.d_f0_vbr if s5p_note.d_f0_vbr is not None else db_defaults.d_f0_vbr
                 )
                 self.vibrato_coef_interval_dict[
                     portion.closedopen(vibrato_start, vibrato_attack_time)
                 ] = functools.partial(
-                    linear_interpolation,
+                    linear_interpolation,  # type: ignore[call-arg]
                     start=(vibrato_start, 0),
                     end=(vibrato_attack_time, vibrato_depth),
                 )
@@ -194,7 +202,7 @@ class SynthVEditorParser:
                 self.vibrato_coef_interval_dict[
                     portion.closedopen(vibrato_release_time, vibrato_end)
                 ] = functools.partial(
-                    linear_interpolation,
+                    linear_interpolation,  # type: ignore[call-arg]
                     start=(vibrato_release_time, vibrato_depth),
                     end=(vibrato_end, 0),
                 )
@@ -212,67 +220,59 @@ class SynthVEditorParser:
             rel_pitch_points = self.parse_pitch_curve(
                 parameters.pitch_delta, parameters.interval, note_list
             )
+            pitch_simulator = PitchSimulator(
+                synchronizer=self.synchronizer,
+                portamento=PortamentoPitch.sigmoid_portamento(),
+                note_list=note_list,
+            )
             params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
-                rel_pitch_points, note_list
+                rel_pitch_points, pitch_simulator
             )
         return params
 
     def parse_pitch_curve(
         self, pitch_delta: S5pPoints, interval: int, note_list: list[Note]
     ) -> list[Point]:
-        points = sortedcontainers.SortedList(key=operator.attrgetter("x"))
-        note_start_positions = [note.start_pos for note in note_list]
-        pitch_intervals = portion.empty()
+        pitch_raw_data = sortedcontainers.SortedList(key=operator.attrgetter("x"))
         for s5p_point_group in more_itertools.split_when(
             pitch_delta.root, lambda p1, p2: p2.offset > p1.offset + 1
         ):
-            pitch_start = None
             for is_first, is_last, s5p_point in more_itertools.mark_ends(s5p_point_group):
                 if is_first and is_last:
                     continue
                 point_ticks = round(s5p_point.offset * (interval / TICK_RATE))
-                point_secs = self.synchronizer.get_actual_secs_from_ticks(point_ticks)
-                if is_first:
-                    pitch_start = point_secs
-                elif is_last:
-                    pitch_intervals |= portion.closed(pitch_start, point_secs)
                 point_value = s5p_point.value
-                if (vibrato_value := self.vibrato_value_interval_dict.get(point_secs)) is not None:
-                    point_value += (
-                        vibrato_value * self.vibrato_coef_interval_dict[point_secs] * 2000
-                    )
-                points.add(
+                pitch_raw_data.add(
                     Point(
                         x=point_ticks,
                         y=round(point_value),
                     )
                 )
-        auto_pitch_intervals = self.vibrato_value_interval_dict.domain() - pitch_intervals
-        self.vibrato_value_interval_dict._last_index = 0
-        self.vibrato_coef_interval_dict._last_index = 0
-        for sub_interval in auto_pitch_intervals:
-            start_tick = round(self.synchronizer.get_actual_ticks_from_secs(sub_interval.lower))
-
-            step_secs = self.synchronizer.get_duration_secs_from_ticks(
-                start_tick, int(start_tick + interval / TICK_RATE)
-            )
-            for is_first, is_last, vibrato_secs in more_itertools.mark_ends(
-                portion.iterate(
-                    sub_interval,
-                    step_secs,
-                )
-            ):
-                vibrato_ticks = int(self.synchronizer.get_actual_ticks_from_secs(vibrato_secs))
-                if (
-                    vibrato_ticks not in note_start_positions
-                    and (vibrato_value := self.vibrato_value_interval_dict.get(vibrato_secs))
-                    is not None
-                ):
-                    vibrato_value *= self.vibrato_coef_interval_dict[vibrato_secs] * 2000
-                    points.add(
+        points = []
+        prev_pos = None
+        value = None
+        for pos, value in pitch_raw_data:
+            pos_secs = self.synchronizer.get_actual_secs_from_ticks(pos)
+            if prev_pos is not None:
+                for interp_pos in range(prev_pos + 5, pos, 5):
+                    interp_pos_secs = self.synchronizer.get_actual_secs_from_ticks(interp_pos)
+                    if interp_value_diff := self.vibrato_value_interval_dict.get(
+                        interp_pos_secs, 0
+                    ):
+                        interp_value_diff *= self.vibrato_coef_interval_dict[interp_pos_secs] * 2000
+                    points.append(
                         Point(
-                            x=vibrato_ticks,
-                            y=round(vibrato_value),
+                            x=interp_pos,
+                            y=value + round(interp_value_diff),
                         )
                     )
-        return list(points)
+            if value_diff := self.vibrato_value_interval_dict.get(pos_secs, 0):
+                value_diff *= cast(float, self.vibrato_coef_interval_dict[pos_secs]) * 2000
+            points.append(
+                Point(
+                    x=pos,
+                    y=value + round(value_diff or 0),
+                )
+            )
+            prev_pos = pos
+        return points

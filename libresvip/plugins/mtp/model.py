@@ -17,7 +17,13 @@ from construct import (
     PrefixedArray,
     this,
 )
-from construct_typed import DataclassMixin, DataclassStruct, EnumBase, TEnum, csfield
+from construct_typed import (
+    DataclassMixin,
+    DataclassStruct,
+    EnumBase,
+    TEnum,
+    csfield,
+)
 
 Int32ul = BytesInteger(4, swapped=True)
 Int32sl = BytesInteger(4, swapped=True, signed=True)

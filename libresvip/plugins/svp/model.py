@@ -228,23 +228,23 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_transition_offset(self, value: float) -> None:
         self.t_f0_offset = value
 
-    transition_offset = property(_get_transition_offset, _set_transition_offset)  # type: ignore [pydantic-field]
+    transition_offset = property(_get_transition_offset, _set_transition_offset)
 
-    def _get_slide_left(self) -> float:
-        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_left is None else self.t_f0_left
+    def _get_portamento_left(self) -> float:
+        return constants.DEFAULT_PITCH_PORTAMENTO if self.t_f0_left is None else self.t_f0_left
 
-    def _set_slide_left(self, value: float) -> None:
+    def _set_portamento_left(self, value: float) -> None:
         self.t_f0_left = value
 
-    slide_left = property(_get_slide_left, _set_slide_left)  # type: ignore [pydantic-field]
+    portamento_left = property(_get_portamento_left, _set_portamento_left)
 
-    def _get_slide_right(self) -> float:
-        return constants.DEFAULT_PITCH_SLIDE if self.t_f0_right is None else self.t_f0_right
+    def _get_portamento_right(self) -> float:
+        return constants.DEFAULT_PITCH_PORTAMENTO if self.t_f0_right is None else self.t_f0_right
 
-    def _set_slide_right(self, value: float) -> None:
+    def _set_portamento_right(self, value: float) -> None:
         self.t_f0_right = value
 
-    slide_right = property(_get_slide_right, _set_slide_right)  # type: ignore [pydantic-field]
+    portamento_right = property(_get_portamento_right, _set_portamento_right)
 
     def _get_depth_left(self) -> float:
         return constants.DEFAULT_PITCH_DEPTH if self.d_f0_left is None else self.d_f0_left
@@ -252,7 +252,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_depth_left(self, value: float) -> None:
         self.d_f0_left = value
 
-    depth_left = property(_get_depth_left, _set_depth_left)  # type: ignore [pydantic-field]
+    depth_left = property(_get_depth_left, _set_depth_left)
 
     def _get_depth_right(self) -> float:
         return constants.DEFAULT_PITCH_DEPTH if self.d_f0_right is None else self.d_f0_right
@@ -260,7 +260,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_depth_right(self, value: float) -> None:
         self.d_f0_right = value
 
-    depth_right = property(_get_depth_right, _set_depth_right)  # type: ignore [pydantic-field]
+    depth_right = property(_get_depth_right, _set_depth_right)
 
     def _get_vibrato_start(self) -> float:
         return (
@@ -270,7 +270,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_start(self, value: float) -> None:
         self.t_f0_vbr_start = value
 
-    vibrato_start = property(_get_vibrato_start, _set_vibrato_start)  # type: ignore [pydantic-field]
+    vibrato_start = property(_get_vibrato_start, _set_vibrato_start)
 
     def _get_vibrato_left(self) -> float:
         return constants.DEFAULT_VIBRATO_FADE if self.t_f0_vbr_left is None else self.t_f0_vbr_left
@@ -278,7 +278,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_left(self, value: float) -> None:
         self.t_f0_vbr_left = value
 
-    vibrato_left = property(_get_vibrato_left, _set_vibrato_left)  # type: ignore [pydantic-field]
+    vibrato_left = property(_get_vibrato_left, _set_vibrato_left)
 
     def _get_vibrato_right(self) -> float:
         return (
@@ -288,7 +288,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_right(self, value: float) -> None:
         self.t_f0_vbr_right = value
 
-    vibrato_right = property(_get_vibrato_right, _set_vibrato_right)  # type: ignore [pydantic-field]
+    vibrato_right = property(_get_vibrato_right, _set_vibrato_right)
 
     def _get_vibrato_depth(self) -> float:
         return constants.DEFAULT_VIBRATO_DEPTH if self.d_f0_vbr is None else self.d_f0_vbr
@@ -296,7 +296,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_depth(self, value: float) -> None:
         self.d_f0_vbr = value
 
-    vibrato_depth = property(_get_vibrato_depth, _set_vibrato_depth)  # type: ignore [pydantic-field]
+    vibrato_depth = property(_get_vibrato_depth, _set_vibrato_depth)
 
     def _get_vibrato_frequency(self) -> float:
         return constants.DEFAULT_VIBRATO_FREQUENCY if self.f_f0_vbr is None else self.f_f0_vbr
@@ -304,7 +304,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_frequency(self, value: float) -> None:
         self.f_f0_vbr = value
 
-    vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)  # type: ignore [pydantic-field]
+    vibrato_frequency = property(_get_vibrato_frequency, _set_vibrato_frequency)
 
     def _get_vibrato_phase(self) -> float:
         return constants.DEFAULT_VIBRATO_PHASE if self.p_f0_vbr is None else self.p_f0_vbr
@@ -312,7 +312,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_phase(self, value: float) -> None:
         self.p_f0_vbr = value
 
-    vibrato_phase = property(_get_vibrato_phase, _set_vibrato_phase)  # type: ignore [pydantic-field]
+    vibrato_phase = property(_get_vibrato_phase, _set_vibrato_phase)
 
     def _get_vibrato_jitter(self) -> float:
         return constants.DEFAULT_VIBRATO_JITTER if self.d_f0_jitter is None else self.d_f0_jitter
@@ -320,7 +320,7 @@ class SVNoteAttributes(SVBaseAttributes):
     def _set_vibrato_jitter(self, value: float) -> None:
         self.d_f0_jitter = value
 
-    vibrato_jitter = property(_get_vibrato_jitter, _set_vibrato_jitter)  # type: ignore [pydantic-field]
+    vibrato_jitter = property(_get_vibrato_jitter, _set_vibrato_jitter)
 
     def set_phone_duration(self, index: int, duration: float) -> None:
         if self.dur is None:
@@ -349,8 +349,8 @@ class SVNoteAttributes(SVBaseAttributes):
             transition_edited &= any(
                 x >= tolerance
                 for x in (
-                    abs(self.slide_left - constants.DEFAULT_PITCH_SLIDE),
-                    abs(self.slide_right - constants.DEFAULT_PITCH_SLIDE),
+                    abs(self.portamento_left - constants.DEFAULT_PITCH_PORTAMENTO),
+                    abs(self.portamento_right - constants.DEFAULT_PITCH_PORTAMENTO),
                     abs(self.depth_left - constants.DEFAULT_PITCH_DEPTH),
                     abs(self.depth_right - constants.DEFAULT_PITCH_DEPTH),
                 )
@@ -392,10 +392,16 @@ class SVNote(BaseModel):
 
     def merge_attributes(self, attributes: SVNoteAttributes) -> None:
         ori_dict = self.attributes.model_dump(
-            by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
+            by_alias=True,
+            exclude_none=True,
+            exclude_unset=True,
+            exclude_defaults=True,
         )
         new_dict = attributes.model_dump(
-            by_alias=True, exclude_none=True, exclude_unset=True, exclude_defaults=True
+            by_alias=True,
+            exclude_none=True,
+            exclude_unset=True,
+            exclude_defaults=True,
         )
         ori_dict.update({k: v for k, v in new_dict.items() if k not in ori_dict})
         self.attributes = SVNoteAttributes.model_validate(ori_dict)

@@ -10,35 +10,38 @@ MessageDialog {
     text: body
     informativeText: message
     buttons: {
-        let buttons = MessageDialog.NoButton
+        let buttons = MessageDialog.NoButton;
         if (onOk) {
-            buttons = MessageDialog.Ok | MessageDialog.YesToAll
+            buttons = MessageDialog.Ok | MessageDialog.YesToAll;
             if (onCancel) {
-                buttons |= MessageDialog.Cancel | MessageDialog.NoToAll
+                buttons |= MessageDialog.Cancel | MessageDialog.NoToAll;
             }
         }
-        return buttons
+        return buttons;
     }
     onButtonClicked: (button, role) => {
         switch (button) {
-            case MessageDialog.Ok:
-                onOk()
-                break;
-            case MessageDialog.Cancel: {
-                onCancel()
-                break;
-            }
-            case MessageDialog.YesToAll: {
-                onOk()
-                window.yesToAll = true
+        case MessageDialog.Ok:
+            onOk();
+            break;
+        case MessageDialog.Cancel:
+            {
+                onCancel();
                 break;
             }
-            case MessageDialog.NoToAll: {
-                onCancel()
-                window.noToAll = true
+        case MessageDialog.YesToAll:
+            {
+                onOk();
+                window.yesToAll = true;
+                break;
+            }
+        case MessageDialog.NoToAll:
+            {
+                onCancel();
+                window.noToAll = true;
                 break;
             }
         }
-        destroy()
+        destroy();
     }
 }

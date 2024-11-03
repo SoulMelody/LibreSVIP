@@ -33,3 +33,6 @@ msgstr ""
 msgid "Conversion plugin for Ustx file format"
 msgstr ""
 
+msgid "Notes Overlapped"
+msgstr ""
+

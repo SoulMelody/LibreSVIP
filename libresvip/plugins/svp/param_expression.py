@@ -62,8 +62,8 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __mul__(self, other: Union[int, ParamExpression]) -> ParamExpression:
-        if isinstance(other, int):
+    def __mul__(self, other: Union[float, ParamExpression]) -> ParamExpression:
+        if isinstance(other, float):
             return ScaledParam(
                 self,
                 other,
@@ -75,8 +75,8 @@ class ParamExpression(abc.ABC):
                 other,
             )
 
-    def __truediv__(self, other: Union[int, ParamExpression]) -> ParamExpression:
-        if isinstance(other, int):
+    def __truediv__(self, other: Union[float, ParamExpression]) -> ParamExpression:
+        if isinstance(other, float):
             return self * (1 / other)
         else:
             return CompoundParam(
@@ -107,17 +107,21 @@ class TranslationalParam(ParamExpression):
 @dataclasses.dataclass
 class CurveGenerator(ParamExpression):
     base_value: int = dataclasses.field(init=False)
-    interpolation: Callable[[float], float] = dataclasses.field(init=False)
+    interpolation: Callable[[float, tuple[float, float], tuple[float, float]], float] = (
+        dataclasses.field(init=False)
+    )
     point_list: list[Point] = dataclasses.field(init=False)
     _point_list: dataclasses.InitVar[Iterable[Point]]
-    _interpolation: dataclasses.InitVar[Callable[[float], float]]
+    _interpolation: dataclasses.InitVar[
+        Callable[[float, tuple[float, float], tuple[float, float]], float]
+    ]
     _base_value: dataclasses.InitVar[int] = 0
     interval: Optional[portion.Interval] = None
 
     def __post_init__(
         self,
         _point_list: Iterable[Point],
-        _interpolation: Callable[[float], float],
+        _interpolation: Callable[[float, tuple[float, float], tuple[float, float]], float],
         _base_value: int = 0,
     ) -> None:
         self.point_list = []
@@ -146,11 +150,7 @@ class CurveGenerator(ParamExpression):
             return self.point_list[0].y
         if index == len(self.point_list) - 1:
             return self.point_list[-1].y
-        r = self.interpolation(
-            (ticks - self.point_list[index].x)
-            / (self.point_list[index + 1].x - self.point_list[index].x)
-        )
-        return (1 - r) * self.point_list[index].y + r * self.point_list[index + 1].y
+        return self.interpolation(ticks, self.point_list[index], self.point_list[index + 1])
 
     def get_converted_curve(self, step: int) -> list[Point]:
         result: list[Point] = []
@@ -163,7 +163,12 @@ class CurveGenerator(ParamExpression):
             )
             return result
         prev_point = self.point_list[0]
-        result.extend((Point.start_point(prev_point.y), Point(prev_point.x, prev_point.y)))
+        result.extend(
+            (
+                Point.start_point(prev_point.y),
+                Point(prev_point.x, prev_point.y),
+            )
+        )
         for current_point in self.point_list[1:]:
             if prev_point.y == self.base_value and current_point.y == self.base_value:
                 result.extend(
@@ -174,8 +179,7 @@ class CurveGenerator(ParamExpression):
                 )
             else:
                 for p in range(prev_point.x + step, current_point.x, step):
-                    r = self.interpolation((p - prev_point.x) / (current_point.x - prev_point.x))
-                    v = round((1 - r) * prev_point.y + r * current_point.y)
+                    v = round(self.interpolation(p, prev_point, current_point))
                     result.append(Point(p, v))
             prev_point = current_point
         result.extend((Point(prev_point.x, prev_point.y), Point.end_point(prev_point.y)))
@@ -234,9 +238,9 @@ class PitchGenerator(ParamExpression):
                 end=_synchronizer.get_actual_secs_from_ticks(
                     position_to_ticks(sv_note.onset + sv_note.duration)
                 ),
-                slide_offset=sv_note.attributes.transition_offset,
-                slide_left=sv_note.attributes.slide_left,
-                slide_right=sv_note.attributes.slide_right,
+                portamento_offset=sv_note.attributes.transition_offset,
+                portamento_left=sv_note.attributes.portamento_left,
+                portamento_right=sv_note.attributes.portamento_right,
                 depth_left=sv_note.attributes.depth_left,
                 depth_right=sv_note.attributes.depth_right,
                 vibrato_start=sv_note.attributes.vibrato_start,

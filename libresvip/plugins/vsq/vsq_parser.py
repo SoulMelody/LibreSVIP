@@ -69,7 +69,9 @@ class VsqParser:
         return master_parser.getint("Master", "PreMeasure", fallback=1)
 
     @staticmethod
-    def extract_vsq_text_from_meta_events(tracks: list[mido.MidiTrack]) -> list[str]:
+    def extract_vsq_text_from_meta_events(
+        tracks: list[mido.MidiTrack],
+    ) -> list[str]:
         return [
             text
             for track in tracks
@@ -198,6 +200,7 @@ class VsqParser:
                     pbs=pbs,
                 )
             ],
+            self.synchronizer,
             note_list,
             self.first_bar_length,
         )

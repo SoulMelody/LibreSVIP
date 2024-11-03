@@ -7,9 +7,9 @@ import LibreSVIP
 Item {
     property QtObject openFile: Action {
         shortcut: "Ctrl+O"
-        onTriggered: {   
+        onTriggered: {
             if (!taskManager.busy) {
-                dialogs.openDialog.open()
+                dialogs.openDialog.open();
             }
         }
     }
@@ -20,24 +20,21 @@ Item {
     property QtObject swapInputOutput: Action {
         shortcut: "Ctrl+Tab"
         onTriggered: {
-            converterPage.swapInputOutputButton.clicked()
+            converterPage.swapInputOutputButton.clicked();
         }
     }
     property QtObject clearTasks: Action {
         shortcut: "Ctrl+R"
         onTriggered: {
             if (!taskManager.busy) {
-                converterPage.taskList.model.clear()
+                converterPage.taskList.model.clear();
             } else {
-                let message_box = messageBox.createObject(
-                    window,
-                    {
-                        body: qsTr("Alert"),
-                        message: qsTr("Cannot restore task list while conversion is in progress."),
-                        onOk: () => {}
-                    }
-                )
-                message_box.open()
+                let message_box = messageBox.createObject(window, {
+                    body: qsTr("Alert"),
+                    message: qsTr("Cannot restore task list while conversion is in progress."),
+                    onOk: () => {}
+                });
+                message_box.open();
             }
         }
     }
@@ -55,17 +52,17 @@ Item {
     }
     property QtObject openImportFormatMenu: Action {
         shortcut: "Alt+I"
-        onTriggered: {   
+        onTriggered: {
             if (!taskManager.busy) {
-                toolbar.openImportFormatMenu()
+                toolbar.openImportFormatMenu();
             }
         }
     }
     property QtObject openExportFormatMenu: Action {
         shortcut: "Alt+E"
-        onTriggered: {   
+        onTriggered: {
             if (!taskManager.busy) {
-                toolbar.openExportFormatMenu()
+                toolbar.openExportFormatMenu();
             }
         }
     }
@@ -85,7 +82,7 @@ Item {
         shortcut: "Ctrl+Enter"
         onTriggered: {
             if (converterPage.startConversionButton.enabled) {
-                taskManager.start_conversion()
+                taskManager.start_conversion();
             }
         }
     }

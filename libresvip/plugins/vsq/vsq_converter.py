@@ -14,7 +14,9 @@ from .vsq_parser import VsqParser
 class VocaloidSequenceConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
         vsq_file = mido.MidiFile(
-            file=io.BytesIO(path.read_bytes()), charset=options.lyric_encoding, clip=True
+            file=io.BytesIO(path.read_bytes()),
+            charset=options.lyric_encoding,
+            clip=True,
         )
         return VsqParser(
             options=options,

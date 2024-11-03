@@ -106,7 +106,10 @@ class ConversionWorker(QRunnable):
                         pathlib.Path(self.input_path),
                         input_option_cls(**self.input_options),
                     )
-                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                    for (
+                        middleware_abbr,
+                        middleware_option,
+                    ) in self.middleware_options.items():
                         middleware = middleware_manager.plugin_registry[middleware_abbr]
                         if (
                             middleware.plugin_object is not None
@@ -201,7 +204,10 @@ class SplitWorker(QRunnable):
                         pathlib.Path(self.input_path),
                         input_option_cls(**self.input_options),
                     )
-                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                    for (
+                        middleware_abbr,
+                        middleware_option,
+                    ) in self.middleware_options.items():
                         middleware = middleware_manager.plugin_registry[middleware_abbr]
                         if (
                             middleware.plugin_object is not None
@@ -302,7 +308,10 @@ class MergeWorker(QRunnable):
                         for input_path in self.input_paths
                     ]
                     project = Project.merge_projects(child_projects)
-                    for middleware_abbr, middleware_option in self.middleware_options.items():
+                    for (
+                        middleware_abbr,
+                        middleware_option,
+                    ) in self.middleware_options.items():
                         middleware = middleware_manager.plugin_registry[middleware_abbr]
                         if (
                             middleware.plugin_object is not None
@@ -431,11 +440,20 @@ class TaskManager(QObject):
             if task["success"] is False or self.delete_tmp_file(QModelIndex(), i, i):
                 self.tasks.update(
                     i,
-                    {"tmp_path": "", "running": False, "success": None, "error": "", "warning": ""},
+                    {
+                        "tmp_path": "",
+                        "running": False,
+                        "success": None,
+                        "error": "",
+                        "warning": "",
+                    },
                 )
 
     conversion_mode = Property(
-        str, get_conversion_mode, set_conversion_mode, notify=conversion_mode_changed
+        str,
+        get_conversion_mode,
+        set_conversion_mode,
+        notify=conversion_mode_changed,
     )
 
     @Property(int, notify=task_count_changed)
@@ -713,7 +731,10 @@ class TaskManager(QObject):
                         "choices": choices,
                     }
                 )
-            elif issubclass(field_info.annotation, (str, int, float, Color, BaseComplexModel)):
+            elif issubclass(
+                field_info.annotation,
+                (str, int, float, Color, BaseComplexModel),
+            ):
                 if issubclass(field_info.annotation, BaseComplexModel):
                     default_value = field_info.annotation.default_repr()
                 fields.append(
@@ -861,11 +882,11 @@ class TaskManager(QObject):
 
     @Slot(list, result="QVariant")
     def extract_plugin_infos(self, paths: list[str]) -> list[dict[str, str]]:
-        infos = []
+        infos: list[dict[str, str]] = []
         for path in paths:
             zip_file = zipfile.Path(path)
             if (plugin_info_filename := self.plugin_info_file(zip_file)) is not None:
-                plugin_info = plugin_manager.info_cls.load(plugin_info_filename)
+                plugin_info = plugin_manager.plugin_info_class.load(plugin_info_filename)
                 if plugin_info is not None:
                     infos.append(
                         {
@@ -912,7 +933,10 @@ class TaskManager(QObject):
         if self.input_format is None or self.output_format is None:
             error_message = "Please select input and output formats first."
             for i in range(len(self.tasks)):
-                self.tasks.update(i, {"success": False, "error": error_message, "warning": ""})
+                self.tasks.update(
+                    i,
+                    {"success": False, "error": error_message, "warning": ""},
+                )
             return
         input_options = {field["name"]: field["value"] for field in self.input_fields}
         output_options = {field["name"]: field["value"] for field in self.output_fields}
@@ -944,10 +968,17 @@ class TaskManager(QObject):
                     middleware_options,
                 )
                 worker.signals.result.connect(
-                    self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+                    self.tasks.update,
+                    type=Qt.ConnectionType.BlockingQueuedConnection,
                 )
                 self.tasks.update(
-                    i, {"running": True, "success": None, "error": None, "warning": None}
+                    i,
+                    {
+                        "running": True,
+                        "success": None,
+                        "error": None,
+                        "warning": None,
+                    },
                 )
                 self.thread_pool.start(worker)
                 if not i:
@@ -967,10 +998,17 @@ class TaskManager(QObject):
                     middleware_options,
                 )
                 worker.signals.result.connect(
-                    self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+                    self.tasks.update,
+                    type=Qt.ConnectionType.BlockingQueuedConnection,
                 )
                 self.tasks.update(
-                    i, {"running": True, "success": None, "error": None, "warning": None}
+                    i,
+                    {
+                        "running": True,
+                        "success": None,
+                        "error": None,
+                        "warning": None,
+                    },
                 )
                 self.thread_pool.start(worker)
                 if not i:
@@ -989,9 +1027,18 @@ class TaskManager(QObject):
                 middleware_options,
             )
             worker.signals.result.connect(
-                self.tasks.update, type=Qt.ConnectionType.BlockingQueuedConnection
+                self.tasks.update,
+                type=Qt.ConnectionType.BlockingQueuedConnection,
             )
-            self.tasks.update(0, {"running": True, "success": None, "error": None, "warning": None})
+            self.tasks.update(
+                0,
+                {
+                    "running": True,
+                    "success": None,
+                    "error": None,
+                    "warning": None,
+                },
+            )
             self.thread_pool.start(worker)
             self.set_busy(True)
         self.timer.start()

@@ -9,7 +9,11 @@ from libresvip.utils.translation import gettext_lazy as _
 from .enums import VocaloidLanguage, VsqxVersion
 
 
-class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
+class InputOptions(
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     combine_syllables: bool = Field(
         False,
         title=_("Combine syllables"),
@@ -20,7 +24,9 @@ class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportati
 class OutputOptions(BaseModel):
     vsqx_version: VsqxVersion = Field(VsqxVersion.VSQ4, title=_("VSQX Version"))
     pretty_xml: bool = Field(
-        True, title=_("Pretty XML"), description=_("Whether to output pretty XML")
+        True,
+        title=_("Pretty XML"),
+        description=_("Whether to output pretty XML"),
     )
     default_lang_id: VocaloidLanguage = Field(
         VocaloidLanguage.SIMPLIFIED_CHINESE,

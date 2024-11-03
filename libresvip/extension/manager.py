@@ -23,7 +23,11 @@ from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.utils.module_loading import import_module
 
 from .base import BasePlugin_co, MiddlewareBase, SVSConverterBase
-from .meta_info import FormatProviderPluginInfo, MiddlewarePluginInfo, PluginInfo_co
+from .meta_info import (
+    FormatProviderPluginInfo,
+    MiddlewarePluginInfo,
+    PluginInfo_co,
+)
 
 if TYPE_CHECKING:
     import pathlib
@@ -52,7 +56,10 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
         return all_suffixes()
 
     def find_spec(
-        self, fullname: str, path: Optional[list[str]], target: Optional[ModuleType] = None
+        self,
+        fullname: str,
+        path: Optional[list[str]],
+        target: Optional[ModuleType] = None,
     ) -> Optional[ModuleSpec]:
         if not fullname.startswith(self.plugin_namespace) or not path:
             return None
@@ -61,10 +68,10 @@ class BasePluginManager(Generic[BasePlugin_co, PluginInfo_co]):
         if (
             spec := PathFinder.find_spec(fullname, path, target)
         ) is not None and spec.loader is not None:
-            spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)
+            spec.loader = SourceFileLoader(spec.loader.name, spec.loader.path)  # type: ignore[attr-defined]
             return spec
 
-    def is_plugin(self, member: object) -> TypeGuard[BasePlugin_co]:
+    def is_plugin(self, member: object) -> TypeGuard[type[BasePlugin_co]]:
         return (
             inspect.isclass(member)
             and not inspect.isabstract(member)
@@ -168,7 +175,7 @@ class MiddlewareManager(BasePluginManager[MiddlewareBase, MiddlewarePluginInfo])
 
 plugin_manager = ConverterPluginManager(
     info_extension="yapsy-plugin",
-    plugin_base=SVSConverterBase,
+    plugin_base=SVSConverterBase,  # type: ignore [type-abstract]
     plugin_info_class=FormatProviderPluginInfo,
     plugin_places=[pkg_dir / "plugins", app_dir.user_config_path / "plugins"],
     plugin_namespace="libresvip.plugins",
@@ -177,9 +184,12 @@ plugin_manager = ConverterPluginManager(
 plugin_manager.import_plugins()
 middleware_manager = MiddlewareManager(
     info_extension="yapsy-plugin",
-    plugin_base=MiddlewareBase,
+    plugin_base=MiddlewareBase,  # type: ignore [type-abstract]
     plugin_info_class=MiddlewarePluginInfo,
-    plugin_places=[pkg_dir / "middlewares", app_dir.user_config_path / "middlewares"],
+    plugin_places=[
+        pkg_dir / "middlewares",
+        app_dir.user_config_path / "middlewares",
+    ],
     plugin_namespace="libresvip.middlewares",
     install_path=app_dir.user_config_path / "middlewares",
 )
@@ -187,7 +197,9 @@ middleware_manager.import_plugins()
 
 
 def merge_translation(
-    ori_translation: gettext.NullTranslations, resource_dir: Traversable, lang: str
+    ori_translation: gettext.NullTranslations,
+    resource_dir: Traversable,
+    lang: str,
 ) -> gettext.NullTranslations:
     msg_dir = resource_dir / "locales" / lang / "LC_MESSAGES"
     if msg_dir.is_dir():

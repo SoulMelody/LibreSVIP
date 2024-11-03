@@ -3,7 +3,14 @@ import struct
 from collections import defaultdict
 from typing import Optional
 
-from construct import Byte, Container, Int16ul, PascalString, PrefixedArray, Struct
+from construct import (
+    Byte,
+    Container,
+    Int16ul,
+    PascalString,
+    PrefixedArray,
+    Struct,
+)
 from more_itertools import split_into
 
 from libresvip.core.constants import TICKS_IN_BEAT

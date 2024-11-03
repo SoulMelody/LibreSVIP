@@ -8,16 +8,9 @@ import portion
 
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.utils.music_math import cosine_easing_in_out_interpolation
 
 from .model import VocalSharpDefaultTrill, VocalSharpNoteTrack, VocalSharpTrill
-
-
-def vspx_cosine_easing_in_out_interpolation(
-    x: int, start: tuple[float, float], end: tuple[float, float]
-) -> float:
-    x0, y0 = start
-    x1, y1 = end
-    return (y0 + y1) / 2 + (y0 - y1) * math.cos((x - x0) / (x1 - x0) * math.pi) / 2
 
 
 def vspx_sine_vibrato_interpolation(
@@ -77,12 +70,16 @@ class BasePitchCurve:
                 )
                 if vibrato_end_secs > vibrato_start_secs:
                     self.set_vspx_vibrato_curve(
-                        vibrato_start_secs, vibrato_end_secs, trill, note_track.por
+                        vibrato_start_secs,
+                        vibrato_end_secs,
+                        trill,
+                        note_track.por,
                     )
         else:
-            for is_first, is_last, (prev_note, next_note) in more_itertools.mark_ends(
-                more_itertools.pairwise(note_track.note)
-            ):
+            for is_first, is_last, (
+                prev_note,
+                next_note,
+            ) in more_itertools.mark_ends(more_itertools.pairwise(note_track.note)):
                 prev_start_secs = self.synchronizer.get_actual_secs_from_ticks(prev_note.pos)
                 prev_end_secs = self.synchronizer.get_actual_secs_from_ticks(
                     prev_note.pos + prev_note.duration
@@ -123,8 +120,8 @@ class BasePitchCurve:
                     por_start = middle_secs - note_track.por
                     por_end = middle_secs + note_track.por
                     self.key_interval_dict[portion.closedopen(por_start, por_end)] = (
-                        functools.partial(
-                            vspx_cosine_easing_in_out_interpolation,
+                        functools.partial(  # type: ignore[call-arg]
+                            cosine_easing_in_out_interpolation,
                             start=(por_start, prev_note.key_number),
                             end=(por_end, next_note.key_number),
                         )
@@ -134,7 +131,10 @@ class BasePitchCurve:
                     vibrato_end_secs = (prev_end_secs + next_start_secs) / 2
                     if vibrato_end_secs > vibrato_start_secs:
                         self.set_vspx_vibrato_curve(
-                            vibrato_start_secs, vibrato_end_secs, trill, note_track.por
+                            vibrato_start_secs,
+                            vibrato_end_secs,
+                            trill,
+                            note_track.por,
                         )
 
     def set_vspx_vibrato_curve(
@@ -145,7 +145,9 @@ class BasePitchCurve:
         por: Optional[float] = None,
     ) -> None:
         self.vibrato_value_interval_dict[portion.closed(start, end)] = functools.partial(
-            vspx_sine_vibrato_interpolation, vibrato_start=start, trill=trill
+            vspx_sine_vibrato_interpolation,
+            vibrato_start=start,
+            trill=trill,
         )
         if por is None or (end - start) < por * 2:
             middle = (start + end) / 2
@@ -170,7 +172,9 @@ class BasePitchCurve:
             )
             self.vibrato_coef_interval_dict[portion.closed(start + por, end - por)] = 1
             self.vibrato_coef_interval_dict[portion.openclosed(end - por, end)] = functools.partial(
-                vspx_cosine_vibrato_coef_release_interpolation, vibrato_end=end, por=por
+                vspx_cosine_vibrato_coef_release_interpolation,
+                vibrato_end=end,
+                por=por,
             )
         else:
             self.vibrato_coef_interval_dict[portion.closed(start, end)] = 0

@@ -70,6 +70,20 @@ class TimeAxis:
         for i in range(len(self.time_sig_segments) - 1):
             self.time_sig_segments[i].bar_end = self.time_sig_segments[i + 1].bar_pos
             self.time_sig_segments[i].tick_end = self.time_sig_segments[i + 1].tick_pos
+        if not self.time_sig_segments:
+            self.time_sig_segments.append(
+                TimeSigSegment(
+                    bar_pos=0,
+                    tick_pos=0,
+                    beat_per_bar=project.beat_per_bar,
+                    beat_unit=project.beat_unit,
+                    ticks_per_bar=project.resolution
+                    * 4
+                    * project.beat_per_bar
+                    // project.beat_unit,
+                    ticks_per_beat=project.resolution * 4 // project.beat_unit,
+                )
+            )
 
         self.tempo_segments.clear()
         self.tempo_segments.extend(

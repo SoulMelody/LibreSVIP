@@ -4,6 +4,7 @@ import re
 import pypinyin
 
 from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.exceptions import NotesOverlappedError
 from libresvip.core.lyric_phoneme.chinese import CHINESE_RE
 from libresvip.core.lyric_phoneme.japanese import is_kana, to_romaji
 from libresvip.model.base import (
@@ -17,6 +18,7 @@ from libresvip.model.base import (
 )
 from libresvip.model.point import Point
 from libresvip.utils.music_math import db_to_float
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import (
     UNote,
@@ -132,7 +134,10 @@ class UstxParser:
             for i in range(len(pitches))
         )
         point_list.append(
-            Point(first_bar_length + part.position + len(pitches) * pitch_interval, -100)
+            Point(
+                first_bar_length + part.position + len(pitches) * pitch_interval,
+                -100,
+            )
         )
         return point_list
 
@@ -165,12 +170,15 @@ class UstxParser:
                     note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
                 else:
                     note.pronunciation = ustx_note.lyric.removeprefix("?")
-            if (
-                prev_ustx_note is not None
-                and prev_ustx_note.lyric in self.breath_lyrics
-                and prev_ustx_note.end == ustx_note.position
-            ):
-                note.head_tag = "V"
+            if prev_ustx_note is not None:
+                if prev_ustx_note.end > ustx_note.position:
+                    msg = _("Notes Overlapped")
+                    raise NotesOverlappedError(msg)
+                elif (
+                    prev_ustx_note.end == ustx_note.position
+                    and prev_ustx_note.lyric in self.breath_lyrics
+                ):
+                    note.head_tag = "V"
             if (
                 ustx_note.lyric not in self.breath_lyrics
                 and ustx_note.lyric not in self.silence_lyrics

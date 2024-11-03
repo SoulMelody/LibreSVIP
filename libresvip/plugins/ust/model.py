@@ -49,7 +49,7 @@ ust_grammar = Grammar(
 
     ust_note =
         newline ust_note_head
-        (newline ust_note_attr)*
+        (newline ust_note_attr " "*)*
 
     ust_note_head =
         "[#" ~"(\\d+|PREV|NEXT|INSERT|DELETE)" "]"
@@ -104,6 +104,7 @@ ust_grammar = Grammar(
         (
             (",%," float ("," float ("," float)?)?) /
             (",," float) /
+            ",%" /
             ("," float)*
         )
 
@@ -111,7 +112,7 @@ ust_grammar = Grammar(
     newline = ~"\r?\n"
     bool = "1" / "0" / "True" / "False"
     optional_float = float / "null" / ""
-    float = int frac? (~"[eE][+-]?" digits)?
+    float = ((int frac?) / ("-"? frac)) (~"[eE][+-]?" digits)?
     int = "-"? ((digit1to9 digits) / digit)
     frac = "." digits
     digits = digit+
@@ -269,7 +270,11 @@ class UstVisitor(NodeVisitor):
         elif key == "TimeSignatures":
             numerator, denominator, bar_index = visited_children[0][2][1::2]
             self.pending_metadata["time_signatures"] = [
-                UTAUTimeSignature(numerator=numerator, denominator=denominator, bar_index=bar_index)
+                UTAUTimeSignature(
+                    numerator=numerator,
+                    denominator=denominator,
+                    bar_index=bar_index,
+                )
             ]
             for pair in visited_children[0][3]:
                 numerator, denominator, bar_index = pair[1][1::2]
@@ -418,6 +423,9 @@ class UstVisitor(NodeVisitor):
         return int(node.text)
 
     def visit_float(self, node: Node, visited_children: list[Any]) -> float:
+        return float(node.text)
+
+    def visit_frac(self, node: Node, visited_children: list[Any]) -> float:
         return float(node.text)
 
     def visit_optional_float(self, node: Node, visited_children: list[Any]) -> OptionalFloat:

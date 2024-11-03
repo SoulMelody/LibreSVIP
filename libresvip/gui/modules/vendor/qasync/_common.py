@@ -9,7 +9,7 @@ import selectors
 
 from PySide6 import QtCore
 
-_fileno = selectors._fileobj_to_fd
+_fileno = selectors._fileobj_to_fd  # type: ignore[attr-defined]
 
 
 def make_signaller(*types: type) -> QtCore.QObject:

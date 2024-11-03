@@ -11,9 +11,9 @@ LRC_TEMPLATE = Template(
 {% endfor %}\
 {% for lyric_line in lrc_model.lyric_lines %}\
 {% for time_tag in lyric_line.time_tags %}\
-[{{ (time_tag.minute).__str__().ljust(2, '0') }}:\
-{{ (time_tag.second).__str__().ljust(2, '0') }}.\
-{{ (time_tag.percent_second).__str__().ljust(3, '0') }}]{% endfor %}\
+[{{ (time_tag.minute).__str__().rjust(2, '0') }}:\
+{{ (time_tag.second).__str__().rjust(2, '0') }}.\
+{{ (time_tag.milisecond).__str__().rjust(3, '0') }}]{% endfor %}\
 {{ lyric_line.lyric }}\
 {% endfor %}"""
 )

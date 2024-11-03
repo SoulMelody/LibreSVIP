@@ -2,7 +2,6 @@ import dataclasses
 import functools
 import math
 import pathlib
-from enum import Enum
 from typing import Optional
 
 import more_itertools
@@ -16,12 +15,12 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 
 from .constants import BPM_RATE
 from .model import (
@@ -31,6 +30,7 @@ from .model import (
     VsqxMasterTrack,
     VsqxMusicalPart,
     VsqxNote,
+    VsqxParameterNames,
     VsqxTempoList,
     VsqxTimeSigList,
     VsqxVsTrackList,
@@ -51,7 +51,7 @@ from .vocaloid_pitch import (
 class VsqxParser:
     options: InputOptions
     src_path: pathlib.Path
-    param_names: type[Enum] = dataclasses.field(init=False)
+    param_names: type[VsqxParameterNames] = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     pc2voice: dict[int, VsqxVVoice] = dataclasses.field(default_factory=dict)
@@ -77,10 +77,10 @@ class VsqxParser:
         wav_units: VsqxWavUnitList = []
         if vsqx_project.mono_track is not None:
             wav_parts += vsqx_project.mono_track.wav_part
-            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)  # type: ignore[list-item]
+            wav_units += [vsqx_project.mixer.mono_unit] * len(vsqx_project.mono_track.wav_part)
         if vsqx_project.stereo_track is not None:
             wav_parts += vsqx_project.stereo_track.wav_part
-            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)  # type: ignore[list-item]
+            wav_units += [vsqx_project.mixer.stereo_unit] * len(vsqx_project.stereo_track.wav_part)
         instrumental_tracks = self.parse_instrumental_tracks(wav_parts, wav_units, tick_prefix)
         return Project(
             song_tempo_list=tempos,
@@ -132,9 +132,11 @@ class VsqxParser:
                 title=vs_track.track_name, mute=vs_unit.mute, solo=vs_unit.solo
             )
             for musical_part in vs_track.musical_part:
-                note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict = (
-                    self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
-                )
+                (
+                    note_list,
+                    vibrato_rate_interval_dict,
+                    vibrato_depth_interval_dict,
+                ) = self.parse_notes(musical_part.note, musical_part.pos_tick - tick_prefix)
                 singing_track.note_list.extend(note_list)
                 if (
                     not singing_track.ai_singer_name
@@ -174,7 +176,11 @@ class VsqxParser:
             if prev_vsqx_note and vsqx_note.lyric.startswith("EVEC("):
                 note_list[-1].length += vsqx_note.dur_tick
                 continue
-            elif vsqx_note.phnms is None or vsqx_note.phnms.value not in ["Asp", "Sil", "?"]:
+            elif vsqx_note.phnms is None or vsqx_note.phnms.value not in [
+                "Asp",
+                "Sil",
+                "?",
+            ]:
                 note = Note(
                     start_pos=vsqx_note.pos_tick + tick_offset,
                     length=vsqx_note.dur_tick,
@@ -244,7 +250,8 @@ class VsqxParser:
             prev_vsqx_note = vsqx_note
         if self.options.combine_syllables:
             for syllables_group in more_itertools.split_when(
-                note_list, lambda prev_vsqx_note, vsqx_note: not prev_vsqx_note.lyric.endswith("-")
+                note_list,
+                lambda prev_vsqx_note, vsqx_note: not prev_vsqx_note.lyric.endswith("-"),
             ):
                 if len(syllables_group) > 1:
                     syllables_group[0].lyric = "".join(
@@ -253,7 +260,11 @@ class VsqxParser:
                     for vsqx_note in syllables_group[1:]:
                         if vsqx_note.lyric != "-":
                             vsqx_note.lyric = "+"
-        return note_list, vibrato_rate_interval_dict, vibrato_depth_interval_dict
+        return (
+            note_list,
+            vibrato_rate_interval_dict,
+            vibrato_depth_interval_dict,
+        )
 
     def parse_pitch(
         self,

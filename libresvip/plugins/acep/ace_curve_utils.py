@@ -1,5 +1,9 @@
 def interpolate_hermite(
-    x: list[float], y: list[float], x_new: list[float], k0: float = 0, kn: float = 0
+    x: list[float],
+    y: list[float],
+    x_new: list[float],
+    k0: float = 0,
+    kn: float = 0,
 ) -> list[float]:
     list1: list[float] = []
     if not x:

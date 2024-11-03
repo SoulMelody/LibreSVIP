@@ -1,12 +1,11 @@
 import sys
 
-from libresvip.model.base import ParamCurve, Point, Points
+from libresvip.model.base import ParamCurve, Points
+from libresvip.model.point import Point
 
 
 def test_curve_split_01() -> None:
-    points = Points(
-        root=[Point(1, 1), Point(2, 1), Point(3, 0), Point(4, 1), Point(5, 1)]
-    )
+    points = Points(root=[Point(1, 1), Point(2, 1), Point(3, 0), Point(4, 1), Point(5, 1)])
     curve = ParamCurve(points=points)
     segments = curve.split_into_segments()
     assert len(segments) == 1

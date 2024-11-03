@@ -1,12 +1,8 @@
-FROM python:3.12-slim as base
+FROM ghcr.io/astral-sh/uv:debian-slim
 WORKDIR /app
 COPY ./ /app
 
-RUN pip install pdm && \
-    pdm config python.use_venv false && \
-    pdm sync --prod -G webui -G ujson -G ruamel_yaml -G lxml && \
-    rm -rf ~/.cache/pip && \
-    rm -rf ~/.cache/pdm
+RUN uv sync --extra webui --extra ujson --extra ruamel_yaml --extra lxml --frozen --no-cache
 
 EXPOSE 8080
-CMD ["pdm", "run", "libresvip-web", "--port=8080", "--host=0.0.0.0", "--server", "--daemon"]
+CMD ["uv", "run", "libresvip-web", "--port=8080", "--host=0.0.0.0", "--server", "--daemon"]

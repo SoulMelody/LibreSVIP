@@ -56,11 +56,9 @@ else:
     from .mediainfo_wasm import MediaInfo
     from .mediainfo_wasm import Track as MediaInfoTrack
 
-    mediainfo_js_ver = "0.3.1"
-
     if not hasattr(js, "MediaInfo"):
         js.importScripts(
-            f"https://fastly.jsdelivr.net/npm/mediainfo.js@{mediainfo_js_ver}/dist/umd/index.min.js"
+            "https://fastly.jsdelivr.net/npm/mediainfo.js@latest/dist/umd/index.min.js"
         )
 
     def audio_track_info(
@@ -79,7 +77,7 @@ else:
             return js_buf
 
         def locate_file(path: str, prefix: str) -> str:
-            return f"https://fastly.jsdelivr.net/npm/mediainfo.js@{mediainfo_js_ver}/dist/MediaInfoModule.wasm"
+            return "https://fastly.jsdelivr.net/npm/mediainfo.js@latest/dist/MediaInfoModule.wasm"
 
         async def parse_media_info() -> str:
             media_info = await MediaInfo.mediaInfoFactory(format="XML", locateFile=locate_file)

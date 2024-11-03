@@ -1,7 +1,10 @@
 import dataclasses
 
 from libresvip.core.lyric_phoneme.japanese import to_romaji
-from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars, romaji2xsampa
+from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
+    legato_chars,
+    romaji2xsampa,
+)
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
@@ -48,10 +51,12 @@ class PiaproStudioGenerator:
         ppsf_project.ppsf.project.meter = self.generate_time_signatures(project.time_signature_list)
         ppsf_project.ppsf.project.tempo = self.generate_tempos(project.song_tempo_list)
         ppsf_project.ppsf.project.dvl_track = self.generate_singing_tracks(
-            project.track_list, ppsf_project.ppsf.gui_settings.track_editor.event_tracks
+            project.track_list,
+            ppsf_project.ppsf.gui_settings.track_editor.event_tracks,
         )
         ppsf_project.ppsf.project.audio_track = self.generate_instrumental_tracks(
-            project.track_list, ppsf_project.ppsf.gui_settings.track_editor.event_tracks
+            project.track_list,
+            ppsf_project.ppsf.gui_settings.track_editor.event_tracks,
         )
         ppsf_project.ppsf.gui_settings.project_length = self.first_bar_length
         for event_track in ppsf_project.ppsf.gui_settings.track_editor.event_tracks:

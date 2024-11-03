@@ -67,20 +67,19 @@ class LrcGenerator:
                         day=1,
                         minute=time_tag.minute,
                         second=time_tag.second,
-                        microsecond=time_tag.percent_second * 10,
+                        microsecond=time_tag.milisecond * 1000,
                         tzinfo=datetime.timezone.utc,
                     )
                     ori_time += datetime.timedelta(microseconds=-self.options.offset)
                     time_tag.minute = ori_time.minute
                     time_tag.second = ori_time.second
-                    time_tag.percent_second = round(ori_time.microsecond / 10)
+                    time_tag.milisecond = ori_time.microsecond // 1000
         elif self.options.offset_policy == OffsetPolicyOption.META:
             info_tags.append(OffsetInfoTag(value=str(self.options.offset)))
-        lyric_file = LrcFile(
+        return LrcFile(
             lyric_lines=lyric_lines,
             info_tags=info_tags,
         )
-        return lyric_file
 
     def commit_current_lyric_line(
         self, lyric_lines: list[LyricLine], buffer: list[tuple[int, str]]
@@ -95,7 +94,7 @@ class LrcGenerator:
                     TimeTag(
                         minute=start_time.minute,
                         second=start_time.second,
-                        percent_second=round(start_time.microsecond / 10),
+                        milisecond=start_time.microsecond // 1000,
                     )
                 ],
                 lyric=lyrics + "\n",

@@ -31,9 +31,21 @@ GridLayout {
                 startY: 0
                 fillColor: window.Material.dialogColor
                 strokeColor: "transparent"
-                PathLine { x: 50; y: 0 }
-                PathArc {x: 0; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Counterclockwise }
-                PathLine { x: 0; y: 0 }
+                PathLine {
+                    x: 50
+                    y: 0
+                }
+                PathArc {
+                    x: 0
+                    y: 50
+                    radiusX: 50
+                    radiusY: 50
+                    direction: PathArc.Counterclockwise
+                }
+                PathLine {
+                    x: 0
+                    y: 0
+                }
             }
 
             ShapePath {
@@ -41,9 +53,21 @@ GridLayout {
                 startY: 100
                 fillColor: window.Material.dialogColor
                 strokeColor: "transparent"
-                PathLine { x: 50; y: 100 }
-                PathArc {x: 0; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Clockwise }
-                PathLine { x: 0; y: 100 }
+                PathLine {
+                    x: 50
+                    y: 100
+                }
+                PathArc {
+                    x: 0
+                    y: 50
+                    radiusX: 50
+                    radiusY: 50
+                    direction: PathArc.Clockwise
+                }
+                PathLine {
+                    x: 0
+                    y: 100
+                }
             }
 
             ShapePath {
@@ -51,9 +75,21 @@ GridLayout {
                 startY: 0
                 fillColor: window.Material.dialogColor
                 strokeColor: "transparent"
-                PathLine { x: 50; y: 0 }
-                PathArc {x: 100; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Clockwise }
-                PathLine { x: 100; y: 0 }
+                PathLine {
+                    x: 50
+                    y: 0
+                }
+                PathArc {
+                    x: 100
+                    y: 50
+                    radiusX: 50
+                    radiusY: 50
+                    direction: PathArc.Clockwise
+                }
+                PathLine {
+                    x: 100
+                    y: 0
+                }
             }
 
             ShapePath {
@@ -61,9 +97,21 @@ GridLayout {
                 startY: 100
                 fillColor: window.Material.dialogColor
                 strokeColor: "transparent"
-                PathLine { x: 50; y: 100 }
-                PathArc {x: 100; y: 50; radiusX: 50; radiusY: 50; direction: PathArc.Counterclockwise }
-                PathLine { x: 100; y: 100 }
+                PathLine {
+                    x: 50
+                    y: 100
+                }
+                PathArc {
+                    x: 100
+                    y: 50
+                    radiusX: 50
+                    radiusY: 50
+                    direction: PathArc.Counterclockwise
+                }
+                PathLine {
+                    x: 100
+                    y: 100
+                }
             }
         }
     }
@@ -155,10 +203,7 @@ GridLayout {
         Layout.fillWidth: true
         height: 1
         color: Material.color(Material.Gray, Material.Shade0)
-        border.color: Material.color(
-            Material.Black,
-            Material.Shade0
-        )
+        border.color: Material.color(Material.Black, Material.Shade0)
         border.width: 1
     }
 

@@ -9,13 +9,13 @@ from libresvip.model.base import (
     Note,
     ParamCurve,
     Params,
-    Point,
     Points,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 from libresvip.utils.music_math import hz2midi, note2midi
 
 from .model import DsItem, DsProject
@@ -49,7 +49,8 @@ class DiffSingerParser:
             prev_is_breath = False
             for lyric_index, slur_group in enumerate(
                 more_itertools.split_before(
-                    enumerate(ds_item.note_slur or []), lambda pair: pair[1] == 0
+                    enumerate(ds_item.note_slur or []),
+                    lambda pair: pair[1] == 0,
                 )
             ):
                 if not ds_item.note_dur:
@@ -109,7 +110,7 @@ class DiffSingerParser:
                         Point(
                             round(
                                 self.synchronizer.get_actual_ticks_from_secs(
-                                    ds_item.offset + f0_timestep * i
+                                    cast(float, ds_item.offset) + f0_timestep * i
                                 )
                             )
                             + 1920,
@@ -122,7 +123,7 @@ class DiffSingerParser:
                     Point(
                         round(
                             self.synchronizer.get_actual_ticks_from_secs(
-                                ds_item.offset
+                                cast(float, ds_item.offset)
                                 + f0_timestep * (len(cast(list[float], ds_item.f0_seq)) - 1)
                             )
                         )

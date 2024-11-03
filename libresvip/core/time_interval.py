@@ -120,7 +120,10 @@ class RangeInterval:
     def _(self, radius_tuple: tuple[int, int]) -> RangeInterval:
         return RangeInterval(
             [
-                (sub_range[0] - radius_tuple[0], sub_range[1] + radius_tuple[1])
+                (
+                    sub_range[0] - radius_tuple[0],
+                    sub_range[1] + radius_tuple[1],
+                )
                 for sub_range in self.sub_ranges()
             ]
         )

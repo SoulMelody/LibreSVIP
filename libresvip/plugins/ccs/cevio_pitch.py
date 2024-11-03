@@ -1,3 +1,4 @@
+# mypy: disable-error-code="operator"
 from __future__ import annotations
 
 import dataclasses
@@ -107,7 +108,9 @@ def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
     return ParamCurve(points=Points(root=converted_points)) if len(converted_points) > 2 else None
 
 
-def append_ending_points(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
+def append_ending_points(
+    events: list[CeVIOParamEvent],
+) -> list[CeVIOParamEvent]:
     result = []
     next_pos = None
     for event in events:
@@ -123,7 +126,9 @@ def append_ending_points(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]
 
 
 def normalize_to_tick(
-    events: list[CeVIOParamEvent], tempo_list: list[SongTempo], tick_prefix: int
+    events: list[CeVIOParamEvent],
+    tempo_list: list[SongTempo],
+    tick_prefix: int,
 ) -> list[CeVIOParamEventFloat]:
     tempos = expand(tempo_list, tick_prefix)
     events = [CeVIOParamEventFloat.from_event(event) for event in events]
@@ -211,7 +216,9 @@ def vibrato_curve(value: float, shift: float, omega: float, phase: float) -> flo
 
 
 def build_cevio_param_interval_dict(
-    events: list[CeVIOParamEvent], synchronizer: TimeSynchronizer, tick_prefix: int
+    events: list[CeVIOParamEvent],
+    synchronizer: TimeSynchronizer,
+    tick_prefix: int,
 ) -> PiecewiseIntervalDict:
     param_interval_dict = PiecewiseIntervalDict()
     for continuous_part in more_itertools.split_before(
@@ -222,7 +229,9 @@ def build_cevio_param_interval_dict(
             more_itertools.prepend(
                 None,
                 normalize_to_tick(
-                    append_ending_points(continuous_part), synchronizer.tempo_list, tick_prefix
+                    append_ending_points(continuous_part),
+                    synchronizer.tempo_list,
+                    tick_prefix,
                 ),
             ),
             2,
@@ -250,7 +259,9 @@ def build_cevio_param_interval_dict(
 
 
 def build_cevio_wave_interval_dict(
-    events: list[CeVIOParamEvent], synchronizer: TimeSynchronizer, tick_prefix: int
+    events: list[CeVIOParamEvent],
+    synchronizer: TimeSynchronizer,
+    tick_prefix: int,
 ) -> PiecewiseIntervalDict:
     param_interval_dict = PiecewiseIntervalDict()
     omega = math.tau * 6
@@ -263,7 +274,9 @@ def build_cevio_wave_interval_dict(
             more_itertools.prepend(
                 None,
                 normalize_to_tick(
-                    append_ending_points(continuous_part), synchronizer.tempo_list, tick_prefix
+                    append_ending_points(continuous_part),
+                    synchronizer.tempo_list,
+                    tick_prefix,
                 ),
             ),
             2,
@@ -380,7 +393,8 @@ def restore_connection(
 ) -> list[CeVIOParamEvent]:
     new_events = []
     for (prev_event, next_event), is_connected_to_next in zip(
-        more_itertools.windowed(itertools.chain(events, [None]), 2), are_events_connected_to_next
+        more_itertools.windowed(itertools.chain(events, [None]), 2),
+        are_events_connected_to_next,
     ):
         if next_event is None or not is_connected_to_next:
             new_events.append(prev_event)
@@ -389,7 +403,9 @@ def restore_connection(
     return new_events
 
 
-def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
+def merge_events_if_possible(
+    events: list[CeVIOParamEvent],
+) -> list[CeVIOParamEvent]:
     new_events: list[CeVIOParamEvent] = []
     for event in events:
         if not new_events:
@@ -400,7 +416,8 @@ def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEv
             if overlapped_len > 0:
                 new_events[-1] = new_events[-1]._replace(repeat=event.idx - last_event.idx)
                 event = event._replace(
-                    idx=overlapped_len + event.idx, repeat=event.repeat - overlapped_len
+                    idx=overlapped_len + event.idx,
+                    repeat=event.repeat - overlapped_len,
                 )
                 last_event = CeVIOParamEvent(
                     event.idx, overlapped_len, event.value + last_event.value
@@ -413,7 +430,9 @@ def merge_events_if_possible(events: list[CeVIOParamEvent]) -> list[CeVIOParamEv
     return new_events
 
 
-def remove_redundant_index(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
+def remove_redundant_index(
+    events: list[CeVIOParamEvent],
+) -> list[CeVIOParamEvent]:
     new_events: list[CeVIOParamEvent] = []
     for event in events:
         if not new_events:
@@ -431,5 +450,7 @@ def remove_redundant_index(events: list[CeVIOParamEvent]) -> list[CeVIOParamEven
     return new_events
 
 
-def remove_redundant_repeat(events: list[CeVIOParamEvent]) -> list[CeVIOParamEvent]:
+def remove_redundant_repeat(
+    events: list[CeVIOParamEvent],
+) -> list[CeVIOParamEvent]:
     return [event if event.repeat > 1 else event._replace(repeat=None) for event in events]

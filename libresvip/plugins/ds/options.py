@@ -1,6 +1,9 @@
 from pydantic import BaseModel, Field
 
-from libresvip.model.option_mixins import EnablePitchImportationMixin, SelectSingleTrackMixin
+from libresvip.model.option_mixins import (
+    EnablePitchImportationMixin,
+    SelectSingleTrackMixin,
+)
 from libresvip.utils.translation import gettext_lazy as _
 
 

@@ -6,20 +6,24 @@ import functools
 import io
 import math
 import pathlib
+import platform
 import re
 import secrets
+import shutil
 import textwrap
 import traceback
 import uuid
+import webbrowser
 import zipfile
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
 from typing import (
     TYPE_CHECKING,
-    Any,
     BinaryIO,
     Optional,
     SupportsFloat,
+    TypeVar,
     Union,
     get_args,
     get_type_hints,
@@ -39,12 +43,14 @@ from nicegui.events import (
 )
 from nicegui.storage import request_contextvar
 from pydantic import RootModel, create_model
+from pydantic.config import JsonValue
 from pydantic.dataclasses import dataclass
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import Response
+from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
@@ -60,7 +66,11 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import app_dir, res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+from libresvip.extension.manager import (
+    get_translation,
+    middleware_manager,
+    plugin_manager,
+)
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.search import find_index
 from libresvip.utils.text import shorten_error_message, supported_charset_names
@@ -72,6 +82,10 @@ if TYPE_CHECKING:
     from nicegui.elements.select import Select
 
 binding.MAX_PROPAGATION_TIME = 0.03
+
+
+P = ParamSpec("P")
+R = TypeVar("R")
 
 
 @dataclass
@@ -212,7 +226,6 @@ def page_layout(lang: Optional[str] = None) -> None:
         app.on_shutdown(save_settings)
     else:
         settings = LibreSvipWebUserSettings()
-        ui_settings_ctx.set(settings)
         request = request_contextvar.get()
         session_id = request.session["id"]
 
@@ -240,8 +253,23 @@ def page_layout(lang: Optional[str] = None) -> None:
         context.client.on_disconnect(save_settings)
 
     translation = get_translation()
-    lazy_translation.set(translation)
 
+    def set_context_vars() -> None:
+        lazy_translation.set(translation)
+        if app.native.main_window is not None:
+            ui_settings_ctx.set(settings)
+
+    def context_vars_wrapper(func: Callable[P, R]) -> Callable[P, R]:
+        @functools.wraps(func)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            set_context_vars()
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    set_context_vars()
+
+    @context_vars_wrapper
     def plugin_info(attr_name: str) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
@@ -275,7 +303,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ui.label(
                         _(plugin_details[attr]["file_format"] or "")
                         + " "
-                        + plugin_details[attr]["suffix"],
+                        + (plugin_details[attr]["suffix"] or ""),
                     )
         ui.separator()
         with ui.card_section().classes("w-full"):
@@ -313,6 +341,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         ),
     )
 
+    @context_vars_wrapper
     def options_form(attr_prefix: str, method: str) -> None:
         attr = getattr(selected_formats, attr_prefix + "_format")
         conversion_plugin = plugin_manager.plugin_registry[attr]
@@ -421,6 +450,7 @@ def page_layout(lang: Optional[str] = None) -> None:
 
     output_options = ui.refreshable(functools.partial(options_form, "output", "dump"))
 
+    @context_vars_wrapper
     def middleware_options_form(attr: str, toggler: Switch) -> None:
         conversion_plugin = middleware_manager.plugin_registry[attr]
         field_types = {}
@@ -537,14 +567,34 @@ def page_layout(lang: Optional[str] = None) -> None:
     select_input: Select
     select_output: Select
 
+    def _input_format_factory() -> str:
+        return (
+            settings.last_input_format
+            if settings.last_input_format is not None
+            else next(
+                iter(plugin_manager.plugin_registry),
+                "",
+            )
+        )
+
+    def _output_format_factory() -> str:
+        return (
+            settings.last_output_format
+            if settings.last_output_format is not None
+            else next(
+                iter(plugin_manager.plugin_registry),
+                "",
+            )
+        )
+
     @dataclasses.dataclass
     class SelectedFormats:
-        _input_format: str = dataclasses.field(default="")
-        _output_format: str = dataclasses.field(default="")
+        _input_format: str = dataclasses.field(default_factory=_input_format_factory)
+        _output_format: str = dataclasses.field(default_factory=_output_format_factory)
         _conversion_mode: ConversionMode = dataclasses.field(default=ConversionMode.DIRECT)
         current_preset: str = dataclasses.field(default="default")
-        input_options: dict[str, Any] = dataclasses.field(default_factory=dict)
-        output_options: dict[str, Any] = dataclasses.field(default_factory=dict)
+        input_options: dict[str, JsonValue] = dataclasses.field(default_factory=dict)
+        output_options: dict[str, JsonValue] = dataclasses.field(default_factory=dict)
         files_to_convert: dict[str, ConversionTask] = dataclasses.field(
             default_factory=dict,
         )
@@ -570,22 +620,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                     )
                 },
             )()
-            self.input_format = (
-                settings.last_input_format
-                if settings.last_input_format is not None
-                else next(
-                    iter(plugin_manager.plugin_registry),
-                    "",
-                )
-            )
-            self.output_format = (
-                settings.last_output_format
-                if settings.last_output_format is not None
-                else next(
-                    iter(plugin_manager.plugin_registry),
-                    "",
-                )
-            )
 
         @functools.cached_property
         def temp_path(self) -> UPath:
@@ -607,6 +641,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             self.tasks_container.refresh()
 
         @ui.refreshable
+        @context_vars_wrapper
         def tasks_container(self) -> None:
             with ui.scroll_area().classes("w-full"):
                 for i, info in enumerate(self.files_to_convert.values()):
@@ -698,6 +733,37 @@ def page_layout(lang: Optional[str] = None) -> None:
                             "round",
                         ).tooltip(_("Remove"))
 
+        @property
+        def input_format(self) -> str:
+            return self._input_format
+
+        @input_format.setter
+        def input_format(self, value: str) -> None:
+            if value != self._input_format:
+                self._input_format = value
+                if settings.reset_tasks_on_input_change:
+                    self.files_to_convert.clear()
+                settings.last_input_format = value
+                input_plugin_info.refresh()
+                input_panel_header.refresh()
+                input_options.refresh()
+
+        @property
+        def output_format(self) -> str:
+            return self._output_format
+
+        @output_format.setter
+        def output_format(self, value: str) -> None:
+            if value != self._output_format:
+                self._output_format = value
+                settings.last_output_format = value
+                for task in self.files_to_convert.values():
+                    task.reset()
+                output_plugin_info.refresh()
+                output_panel_header.refresh()
+                output_options.refresh()
+
+        @context_vars_wrapper
         async def _add_task(
             self,
             name: str,
@@ -741,45 +807,13 @@ def page_layout(lang: Optional[str] = None) -> None:
                     task.reset()
                 self.tasks_container.refresh()
 
-        @property  # type: ignore[no-redef]
-        def input_format(self) -> str:
-            return self._input_format
-
-        @input_format.setter
-        def input_format(self, value: str) -> None:
-            if value != self._input_format:
-                self._input_format = value
-                if settings.reset_tasks_on_input_change:
-                    self.files_to_convert.clear()
-                settings.last_input_format = value
-                input_plugin_info.refresh()
-                input_panel_header.refresh()
-                input_options.refresh()
-
-        @property  # type: ignore[no-redef]
-        def output_format(self) -> str:
-            return self._output_format
-
-        @output_format.setter
-        def output_format(self, value: str) -> None:
-            if value != self._output_format:
-                self._output_format = value
-                settings.last_output_format = value
-                for task in self.files_to_convert.values():
-                    task.reset()
-                output_plugin_info.refresh()
-                output_panel_header.refresh()
-                output_options.refresh()
-
         @property
         def task_count(self) -> int:
             return len(self.files_to_convert)
 
+        @context_vars_wrapper
         def convert_one(self, task: ConversionTask, *sub_tasks: list[ConversionTask]) -> None:
             task.reset()
-            lazy_translation.set(translation)
-            if app.native.main_window is None:
-                ui_settings_ctx.set(settings)
             task.running = True
             try:
                 with CatchWarnings() as w:
@@ -834,12 +868,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     middleware.plugin_object, "process"
                                 ):
                                     middleware_option = getattr(
-                                        self.middleware_options, middleware_abbr
+                                        self.middleware_options,
+                                        middleware_abbr,
                                     )
                                     project = middleware.plugin_object.process(
                                         project,
                                         middleware_option.model_validate(
-                                            middleware_option, from_attributes=True
+                                            middleware_option,
+                                            from_attributes=True,
                                         ),
                                     )
                         output_option = output_option_class(**self.output_options)
@@ -868,11 +904,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                 task.error = traceback.format_exc()
             task.running = False
 
+        @context_vars_wrapper
         async def batch_convert(self) -> None:
-            loop = asyncio.get_event_loop()
+            loop = asyncio.get_running_loop()
             running_tasks = []
             with ThreadPoolExecutor(
-                max_workers=max(len(self.files_to_convert), 4),
+                max_workers=min(len(self.files_to_convert), 4),
             ) as executor:
                 futures: list[asyncio.Future[None]]
                 if self._conversion_mode == ConversionMode.MERGE:
@@ -896,7 +933,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                         )
                         for task in running_tasks
                     ]
-                for i, future in enumerate(asyncio.as_completed(futures)):
+                for future in asyncio.as_completed(futures):
                     await future
             if any(not task.success for task in running_tasks):
                 ui.notification(_("Conversion Failed"), type="negative")
@@ -915,11 +952,11 @@ def page_layout(lang: Optional[str] = None) -> None:
 
         def _export_one(self, filename: str) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if not (task := self.files_to_convert.get(filename)) or not task.success:
-                return
+                return None
             if self._conversion_mode == ConversionMode.SPLIT:
                 buffer = io.BytesIO()
                 with zipfile.ZipFile(buffer, "w") as zip_file:
-                    for i, child_file in enumerate(task.output_path.iterdir()):
+                    for child_file in task.output_path.iterdir():
                         if not child_file.is_file():
                             continue
                         zip_file.writestr(
@@ -940,7 +977,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                 "application/octet-stream",
             )
 
-        def _export_all(self) -> Optional[tuple[bytes, int, dict[str, str], str]]:
+        def _export_all(
+            self,
+        ) -> Optional[tuple[bytes, int, dict[str, str], str]]:
             if len(self.files_to_convert) == 0:
                 return None
             elif len(self.files_to_convert) == 1:
@@ -970,6 +1009,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 "application/zip",
             )
 
+        @context_vars_wrapper
         async def add_upload(self) -> None:
             nonlocal select_input
             if app.native.main_window is not None and hasattr(
@@ -990,6 +1030,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             else:
                 ui.run_javascript("add_upload()")
 
+        @context_vars_wrapper
         async def save_file(self, file_name: str = "") -> None:
             nonlocal select_output
             if app.native.main_window is not None and hasattr(
@@ -1029,9 +1070,14 @@ def page_layout(lang: Optional[str] = None) -> None:
     dark_toggler = ui.dark_mode().bind_value(
         settings, "dark_mode", forward=str2dark_mode, backward=dark_mode2str
     )
+    dark_toggler.on_value_change(lambda: ui.navigate.to("/"))
     selected_formats = SelectedFormats()
     if app.native.main_window is None:
-        setattr(app.state, f"{context.client.id}_selected_formats", selected_formats)
+        setattr(
+            app.state,
+            f"{context.client.id}_selected_formats",
+            selected_formats,
+        )
 
         def recycle_state() -> None:
             delattr(app.state, f"{context.client.id}_selected_formats")
@@ -1069,7 +1115,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         ui.header(elevated=True)
         .style("background-color: primary")
         .classes(
-            "items-center",
+            "items-center pywebview-drag-region",
         )
     ):
         with ui.row().classes("w-full"):
@@ -1171,7 +1217,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     input_format_item = (
                         ui.radio(
                             {
-                                k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
+                                k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                                 for i, (k, v) in enumerate(plugin_details.items())
                             },
                         )
@@ -1190,7 +1236,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ):
                     output_format_item = ui.radio(
                         {
-                            k: f"{i} " + _(v["file_format"] or "") + " " + v["suffix"]
+                            k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for i, (k, v) in enumerate(plugin_details.items())
                         },
                     ).bind_value(selected_formats, "output_format")
@@ -1245,11 +1291,18 @@ def page_layout(lang: Optional[str] = None) -> None:
                             target="https://soulmelody.github.io/LibreSVIP",
                             new_tab=True,
                         )
-            with ui.dialog() as settings_dialog, ui.card().classes("min-w-[750px]"):
+            with (
+                ui.dialog() as settings_dialog,
+                ui.card().classes("min-w-[750px]"),
+            ):
                 with ui.splitter(value=25, limits=(25, 30)).classes("w-full") as settings_splitter:
-                    with settings_splitter.before, ui.tabs().props("vertical") as settings_nav:
+                    with (
+                        settings_splitter.before,
+                        ui.tabs().props("vertical") as settings_nav,
+                    ):
                         conversion_settings_tab = ui.tab(
-                            _("Conversion Settings"), icon="settings_applications"
+                            _("Conversion Settings"),
+                            icon="settings_applications",
                         )
                         lyric_replace_rules_tab = ui.tab(
                             _("Lyric Replace Rules"), icon="text_rotation_none"
@@ -1259,7 +1312,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                         settings_splitter.after,
                         ui.tab_panels(settings_nav, value=conversion_settings_tab),
                     ):
-                        with ui.tab_panel(conversion_settings_tab), ui.column():
+                        with (
+                            ui.tab_panel(conversion_settings_tab),
+                            ui.column(),
+                        ):
                             ui.switch(_("Auto detect import format")).bind_value(
                                 settings,
                                 "auto_detect_input_format",
@@ -1272,7 +1328,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                             )
                         with ui.tab_panel(lyric_replace_rules_tab):
                             columns = [
-                                {"name": "mode", "label": _("Mode"), "field": "mode"},
+                                {
+                                    "name": "mode",
+                                    "label": _("Mode"),
+                                    "field": "mode",
+                                },
                                 {
                                     "name": "pattern_prefix",
                                     "label": _("Prefix"),
@@ -1293,11 +1353,21 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     "label": _("Replacement"),
                                     "field": "replacement",
                                 },
-                                {"name": "flags", "label": _("Flags"), "field": "flags"},
-                                {"name": "actions", "label": _("Actions"), "field": "actions"},
+                                {
+                                    "name": "flags",
+                                    "label": _("Flags"),
+                                    "field": "flags",
+                                },
+                                {
+                                    "name": "actions",
+                                    "label": _("Actions"),
+                                    "field": "actions",
+                                },
                             ]
 
-                            def refresh_rules(preset: str) -> list[dict[str, Any]]:
+                            def refresh_rules(
+                                preset: str,
+                            ) -> list[dict[str, JsonValue]]:
                                 return [
                                     {
                                         "id": i + 1,
@@ -1314,8 +1384,14 @@ def page_layout(lang: Optional[str] = None) -> None:
                             rows = refresh_rules(selected_formats.current_preset)
                             replace_mode_options = [
                                 {"label": _("Full match"), "value": "full"},
-                                {"label": _("Alphabetic"), "value": "alphabetic"},
-                                {"label": _("Non-alphabetic"), "value": "non_alphabetic"},
+                                {
+                                    "label": _("Alphabetic"),
+                                    "value": "alphabetic",
+                                },
+                                {
+                                    "label": _("Non-alphabetic"),
+                                    "value": "non_alphabetic",
+                                },
                                 {"label": _("Regex"), "value": "regex"},
                             ]
                             re_flags_options = [
@@ -1323,7 +1399,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     "label": _("Ignore case"),
                                     "value": re.IGNORECASE.value,
                                 },
-                                {"label": _("Case sensitive"), "value": re.UNICODE.value},
+                                {
+                                    "label": _("Case sensitive"),
+                                    "value": re.UNICODE.value,
+                                },
                             ]
                             table = ui.table(columns=columns, rows=rows, pagination=5).classes(
                                 "w-full"
@@ -1433,20 +1512,26 @@ def page_layout(lang: Optional[str] = None) -> None:
                             """,
                             )
 
-                            def modify_field(event: GenericEventArguments) -> None:
+                            def modify_field(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     row_idx := find_index(
-                                        rows, lambda row: row["id"] == event.args["id"]
+                                        rows,
+                                        lambda row: row["id"] == event.args["id"],
                                     )
                                 ) != -1:
                                     rows[row_idx][event.args[1]] = event.args[2]
 
                             table.on("modify_field", modify_field)
 
-                            def move_up_rule(event: GenericEventArguments) -> None:
+                            def move_up_rule(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     row_idx := find_index(
-                                        rows, lambda row: row["id"] == event.args["id"]
+                                        rows,
+                                        lambda row: row["id"] == event.args["id"],
                                     )
                                 ) > 0:
                                     rows[row_idx - 1], rows[row_idx] = (
@@ -1457,12 +1542,15 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                             table.on("move_up", move_up_rule)
 
-                            def move_down_rule(event: GenericEventArguments) -> None:
+                            def move_down_rule(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     -1
                                     < (
                                         row_idx := find_index(
-                                            rows, lambda row: row["id"] == event.args["id"]
+                                            rows,
+                                            lambda row: row["id"] == event.args["id"],
                                         )
                                     )
                                     < len(rows) - 1
@@ -1475,10 +1563,13 @@ def page_layout(lang: Optional[str] = None) -> None:
 
                             table.on("move_down", move_down_rule)
 
-                            def delete_rule(event: GenericEventArguments) -> None:
+                            def delete_rule(
+                                event: GenericEventArguments,
+                            ) -> None:
                                 if (
                                     row_idx := find_index(
-                                        rows, lambda row: row["id"] == event.args["id"]
+                                        rows,
+                                        lambda row: row["id"] == event.args["id"],
                                     )
                                 ) != -1:
                                     table.remove_rows(rows[row_idx])
@@ -1496,12 +1587,17 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     )
 
                                 table_fullscreen_btn = (
-                                    ui.button(icon="fullscreen", on_click=table_toggle_fullscreen)
+                                    ui.button(
+                                        icon="fullscreen",
+                                        on_click=table_toggle_fullscreen,
+                                    )
                                     .props("round")
                                     .tooltip(_("Toggle fullscreen"))
                                 )
 
-                                def refresh_rows(event: ValueChangeEventArguments) -> None:
+                                def refresh_rows(
+                                    event: ValueChangeEventArguments,
+                                ) -> None:
                                     if event.value is not None:
                                         settings.lyric_replace_rules.setdefault(event.value, [])
                                         table.update_rows(refresh_rules(event.value))
@@ -1517,7 +1613,8 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     if preset_select.value != "default":
                                         settings.lyric_replace_rules.pop(preset_select.value)
                                         preset_select.set_options(
-                                            list(settings.lyric_replace_rules), value="default"
+                                            list(settings.lyric_replace_rules),
+                                            value="default",
                                         )
 
                                 ui.button(icon="remove", on_click=delete_preset).props(
@@ -1576,7 +1673,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         )
                         with ui.tab_panel(language_tab):
 
-                            def switch_language(event: ValueChangeEventArguments) -> None:
+                            def switch_language(
+                                event: ValueChangeEventArguments,
+                            ) -> None:
                                 if event.value == Language.CHINESE:
                                     ui.navigate.to("/?lang=zh_CN")
                                 elif event.value == Language.ENGLISH:
@@ -1604,6 +1703,54 @@ def page_layout(lang: Optional[str] = None) -> None:
                 options_tab = ui.tab(_("Advanced Settings"))
             ui.space()
             if app.native.main_window is not None:
+                if platform.system() == "Windows":
+                    import ctypes.wintypes
+
+                    import clr
+
+                    clr.AddReference("System")
+                    clr.AddReference("System.Windows.Forms")
+
+                    from System import IntPtr
+                    from System.Windows.Forms import Screen
+
+                    user32 = ctypes.windll.user32  # type: ignore[attr-defined]
+                    rect_tuple = (0, 0, 1200, 800)
+                    _maximized = False
+
+                    def _maximize() -> None:
+                        nonlocal _maximized, rect_tuple
+                        if not _maximized:
+                            hwnd = user32.GetForegroundWindow()
+                            screen = Screen.FromHandle(IntPtr(hwnd))
+                            rect = ctypes.wintypes.RECT()
+                            user32.GetWindowRect(hwnd, ctypes.pointer(rect))
+                            rect_tuple = (
+                                rect.left,
+                                rect.top,
+                                rect.right - rect.left,
+                                rect.bottom - rect.top,
+                            )
+                            user32.MoveWindow(
+                                hwnd,
+                                screen.Bounds.X,
+                                screen.Bounds.Y,
+                                screen.WorkingArea.Width,
+                                screen.WorkingArea.Height,
+                                True,
+                            )
+                            _maximized = True
+
+                    app.native.main_window.maximize = _maximize
+
+                    def _restore() -> None:
+                        nonlocal _maximized
+                        if _maximized:
+                            _maximized = False
+                        hwnd = user32.GetForegroundWindow()
+                        user32.MoveWindow(hwnd, *rect_tuple, True)
+
+                    app.native.main_window.restore = _restore
                 maximized = False
                 maximize_text = _("Maximize")
                 restore_text = _("Restore")
@@ -1629,7 +1776,9 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ).classes("aspect-square") as maximize_button:
                     maximize_button_tooltip = ui.tooltip(maximize_text)
                 ui.button(
-                    icon="close", color="negative", on_click=app.native.main_window.destroy
+                    icon="close",
+                    color="negative",
+                    on_click=app.native.main_window.destroy,
                 ).classes("aspect-square").tooltip(_("Close"))
 
         async def handle_key(e: KeyEventArguments) -> None:
@@ -1698,7 +1847,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 select_input = (
                     ui.select(
                         {
-                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for k, v in plugin_details.items()
                         },
                         label=_("Import format"),
@@ -1746,7 +1895,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 select_output = (
                     ui.select(
                         {
-                            k: _(v["file_format"] or "") + " " + v["suffix"]
+                            k: _(v["file_format"] or "") + " " + (v["suffix"] or "")
                             for k, v in plugin_details.items()
                         },
                         label=_("Export format"),
@@ -1780,7 +1929,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 ).tooltip(_("View Detail Information"))
 
     def tasks_area() -> None:
-        with ui.card().classes("w-full h-full") as tasks_card:
+        with ui.card().classes("w-full h-full").tight() as tasks_card:
             with ui.row().classes("w-full"):
                 ui.label(_("Import project")).classes("text-h5 font-bold")
                 ui.space()
@@ -1841,7 +1990,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                     backward=ConversionMode.SPLIT.value.__eq__,
                 )
                 ui.knob(
-                    min=1, max=10, step=1, show_value=True, track_color="light-blue"
+                    min=1,
+                    max=10,
+                    step=1,
+                    show_value=True,
+                    track_color="light-blue",
                 ).bind_value(settings, "max_track_count").bind_visibility_from(
                     selected_formats,
                     "conversion_mode",
@@ -1863,7 +2016,8 @@ def page_layout(lang: Optional[str] = None) -> None:
             .classes(
                 "w-full h-full opacity-60 hover:opacity-100 flex items-center justify-center border-dashed border-2 border-indigo-300 hover:border-indigo-500",
             )
-            .style("cursor: pointer") as upload_card
+            .style("cursor: pointer")
+            .tight() as upload_card
         ):
             upload_card.on(
                 "dragover",
@@ -1901,7 +2055,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                 middleware_toggler = (
                     ui.switch(_(middleware.name))
                     .props("color=green")
-                    .bind_value(selected_formats.middleware_enabled_states, middleware.identifier)
+                    .bind_value(
+                        selected_formats.middleware_enabled_states,
+                        middleware.identifier,
+                    )
                 )
                 if middleware.description:
                     ui.space()
@@ -1936,7 +2093,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                 input_options()
             ui.separator()
             with ui.expansion().classes("w-full") as middleware_panel:
-                with middleware_panel.add_slot("header"), ui.row().classes("w-full items-center"):
+                with (
+                    middleware_panel.add_slot("header"),
+                    ui.row().classes("w-full items-center"),
+                ):
                     ui.icon("auto_fix_high").classes("text-lg")
                     ui.label(_("Intermediate Processing")).classes("text-subtitle1 font-bold")
                 middleware_options()
@@ -1946,7 +2106,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     output_panel_header()
                 output_options()
 
-    with ui.card().classes("w-full min-w-80").style("height: calc(100vh - 120px)"):
+    with ui.card().classes("w-full min-w-80").style("height: calc(100vh - 155px)").tight():
         with ui.splitter(limits=(40, 60)).classes(
             "w-full h-0 sm:invisible lg:h-full lg:visible"
         ) as main_splitter:
@@ -1961,7 +2121,7 @@ def page_layout(lang: Optional[str] = None) -> None:
             with main_splitter.after:
                 options_area()
         with (
-            ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible"),
+            ui.card().classes("w-full h-full sm:visible lg:h-0 lg:invisible").tight(),
             ui.tab_panels(tabs, value=format_select_tab).classes("h-full w-full"),
         ):
             with (
@@ -1970,7 +2130,10 @@ def page_layout(lang: Optional[str] = None) -> None:
                     "h-full w-full"
                 ) as format_select_splitter,
             ):
-                with format_select_splitter.before, ui.card().classes("h-full w-full"):
+                with (
+                    format_select_splitter.before,
+                    ui.card().classes("h-full w-full").tight(),
+                ):
                     file_format_area()
                 with format_select_splitter.after:
                     tasks_area()
@@ -2071,6 +2234,10 @@ def main() -> None:
     arg_parser.add_argument("--server", action="store_true")
     arg_parser.add_argument("--daemon", action="store_true")
     args, argv = arg_parser.parse_known_args()
+
+    if shutil.which("termux-open-url") is not None:
+        # a workaround for termux platform, from https://github.com/python/cpython/issues/90371#issuecomment-1460738762
+        webbrowser.register("termux-open-url '%s'", None)
 
     secrets_path = app_dir.user_config_path / "secrets.txt"
     if not secrets_path.exists():

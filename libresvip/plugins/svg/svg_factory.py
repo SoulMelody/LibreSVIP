@@ -125,7 +125,10 @@ text {{
         elif position == TextPositionOption.INNER:
             insert_pos = parameters.inner_text
         text_element = Text(
-            text, self.coordinate_helper.font_size, x=insert_pos[0], y=insert_pos[1]
+            text,
+            self.coordinate_helper.font_size,
+            x=insert_pos[0],
+            y=insert_pos[1],
         )
         class_name = "inner" if position == TextPositionOption.INNER else "side"
         if is_phoneme:
@@ -146,7 +149,12 @@ text {{
         )
         self.rect_elements.append(rect_element)
         self.draw_text(self.options.lyric_position, note.lyric, parameters, False)
-        self.draw_text(self.options.pronounciation_position, note.pronunciation, parameters, True)
+        self.draw_text(
+            self.options.pronounciation_position,
+            note.pronunciation,
+            parameters,
+            True,
+        )
 
     def draw_pitch(self, point: Point) -> None:
         if point.y == -100:

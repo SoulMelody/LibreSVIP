@@ -1,4 +1,5 @@
 # Ported from QNrbf by SineStriker
+# mypy: disable-error-code="attr-defined"
 import dataclasses
 import enum
 import inspect
@@ -121,7 +122,10 @@ class SvipWriter(NrbfIOBase):
         }
 
     def create_reference(
-        self, value: Container, object_id: int, subcon_class_name: Optional[str]
+        self,
+        value: Container,
+        object_id: int,
+        subcon_class_name: Optional[str],
     ) -> dict[str, Any]:
         result = {
             "record_type_enum": RecordTypeEnum.MemberReference,
@@ -222,9 +226,15 @@ class SvipWriter(NrbfIOBase):
         return self.create_reference(result, object_id, None)
 
     def write_dataclass(
-        self, obj: Container, object_id: int, subcon_class_name: Optional[str] = None
+        self,
+        obj: Container,
+        object_id: int,
+        subcon_class_name: Optional[str] = None,
     ) -> dict[str, Any]:
-        fields = sorted(dataclasses.fields(obj), key=lambda field: field.metadata.get("order", 0))
+        fields = sorted(
+            dataclasses.fields(obj),
+            key=lambda field: field.metadata.get("order", 0),
+        )
         class_name = cast(str, inspect.getdoc(type(obj)))
 
         if (
@@ -304,7 +314,7 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_type_info"]["additional_infos"].append(  # type: ignore[index]
                             {
                                 "info": {
-                                    "type_name": subcon_class_name + "[]",
+                                    "type_name": f"{subcon_class_name}[]",
                                     "library_id": self.model_library_id,
                                 }
                             }
@@ -370,7 +380,9 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append(
                             {
                                 "value": self.write_binary_array(
-                                    value, cast(str, subcon_class_name), self.model_library_id
+                                    value,
+                                    cast(str, subcon_class_name),
+                                    self.model_library_id,
                                 )
                             }
                         )
@@ -410,7 +422,9 @@ class SvipWriter(NrbfIOBase):
                     else:
                         msg = f"Unknown type {field_type}"
                         raise TypeError(msg)
-                    result["obj"]["class_info"]["member_names"].append(field.metadata["alias"])  # type: ignore[index]
+                    result["obj"]["class_info"]["member_names"].append(  # type: ignore[index]
+                        field.metadata["alias"]
+                    )
                     result["obj"]["class_info"]["member_count"] += 1  # type: ignore[index]
             self.class_defs[class_name] = result
             classes_by_id[self.cur_thread_id][object_id] = result["obj"]
@@ -464,7 +478,9 @@ class SvipWriter(NrbfIOBase):
                         result["obj"]["member_values"].append(
                             {
                                 "value": self.write_binary_array(
-                                    value, cast(str, subcon_class_name), self.model_library_id
+                                    value,
+                                    cast(str, subcon_class_name),
+                                    self.model_library_id,
                                 )
                             }
                         )

@@ -1,6 +1,7 @@
 import enum
 import itertools
-from typing import Annotated, Literal, Optional, Union
+from collections.abc import Iterable
+from typing import Annotated, Literal, Optional, Union, cast
 
 import more_itertools
 from pydantic import (
@@ -22,9 +23,9 @@ class AISTrackType(enum.IntEnum):
 
 
 class AISNote(BaseModel):
-    start: Optional[int] = Field(alias="s")
-    length: Optional[int] = Field(alias="l")
-    midi_no: Optional[int] = Field(alias="m")
+    start: int = Field(alias="s")
+    length: int = Field(alias="l")
+    midi_no: int = Field(alias="m")
     lyric: Optional[str] = Field(alias="ly")
     pinyin: Optional[str] = Field(alias="py")
     vel: Optional[int] = 50
@@ -43,7 +44,7 @@ class AISNote(BaseModel):
             return None
         value_list = value.split() if isinstance(value, str) else value
         pit_list = []
-        for x in value_list:
+        for x in cast(Iterable[Union[float, str]], value_list):
             if isinstance(x, str) and "x" in x:
                 x, _, repeat_times = x.partition("x")
                 pit_list.extend([float(x)] * int(repeat_times))
@@ -69,7 +70,7 @@ class AISNote(BaseModel):
 
 class AISBasePattern(BaseModel):
     uid: Optional[int] = None
-    start: Optional[int] = Field(alias="s")
+    start: int = Field(alias="s")
     length: Optional[int] = Field(alias="l")
 
 
@@ -118,9 +119,9 @@ AISTrack = Annotated[
 
 
 class AISTimeSignature(BaseModel):
-    beat_zi: Optional[int] = 4
-    beat_mu: Optional[int] = 4
-    start_bar: Optional[int] = 0
+    beat_zi: int = 4
+    beat_mu: int = 4
+    start_bar: int = 0
 
     @computed_field(alias="str")
     def str_value(self) -> str:
@@ -129,8 +130,8 @@ class AISTimeSignature(BaseModel):
 
 class AISTempo(BaseModel):
     tempo_float: Optional[float] = None
-    start_128: Optional[int] = None
-    start_bar: Optional[int] = None
+    start_128: int
+    start_bar: int
     start_beat_in_bar: Optional[int] = None
 
 

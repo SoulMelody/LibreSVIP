@@ -2,7 +2,9 @@ from typing import Any
 
 try:
     from lxml.etree import CDATA
-    from xsdata.formats.dataclass.serializers.writers.lxml import LxmlEventWriter
+    from xsdata.formats.dataclass.serializers.writers.lxml import (
+        LxmlEventWriter,
+    )
 
     class DefaultXmlWriter(LxmlEventWriter):
         def set_cdata(self, data: Any) -> None:
@@ -12,14 +14,18 @@ try:
 except ImportError:
     from xml.sax.saxutils import XMLGenerator
 
-    from xsdata.formats.dataclass.serializers.writers.native import XmlEventWriter
+    from xsdata.formats.dataclass.serializers.writers.native import (
+        XmlEventWriter,
+    )
 
     from .native import EchoGenerator
 
     class DefaultXmlWriter(XmlEventWriter):  # type: ignore[no-redef]
         def build_handler(self) -> XMLGenerator:
             return EchoGenerator(
-                out=self.output, encoding=self.config.encoding, short_empty_elements=True
+                out=self.output,
+                encoding=self.config.encoding,
+                short_empty_elements=True,
             )
 
         def set_cdata(self, data: Any) -> None:

@@ -42,17 +42,17 @@ class S5pDbDefaults(BaseModel):
     breathiness: Optional[float] = 0.0
     gender: Optional[float] = 0.0
     tension: Optional[float] = 0.0
-    d_f0_vbr: Optional[float] = Field(0.025, alias="dF0Vbr")
-    p_f0_vbr: Optional[float] = Field(0.0, alias="pF0Vbr")
-    t_f0_vbr_left: Optional[float] = Field(0.15, alias="tF0VbrLeft")
-    t_f0_vbr_right: Optional[float] = Field(0.15, alias="tF0VbrRight")
-    t_f0_vbr_start: Optional[float] = Field(0.25, alias="tF0VbrStart")
-    f_f0_vbr: Optional[float] = Field(5.5, alias="fF0Vbr")
-    t_f0_left: Optional[float] = Field(0.07, alias="tF0Left")
-    t_f0_right: Optional[float] = Field(0.07, alias="tF0Right")
-    d_f0_left: Optional[float] = Field(0.0, alias="dF0Left")
-    d_f0_right: Optional[float] = Field(0.0, alias="dF0Right")
-    d_f0_jitter: Optional[float] = Field(1.0, alias="dF0Jitter")
+    d_f0_vbr: float = Field(0.025, alias="dF0Vbr")
+    p_f0_vbr: float = Field(0.0, alias="pF0Vbr")
+    t_f0_vbr_left: float = Field(0.15, alias="tF0VbrLeft")
+    t_f0_vbr_right: float = Field(0.15, alias="tF0VbrRight")
+    t_f0_vbr_start: float = Field(0.25, alias="tF0VbrStart")
+    f_f0_vbr: float = Field(5.5, alias="fF0Vbr")
+    t_f0_left: float = Field(0.07, alias="tF0Left")
+    t_f0_right: float = Field(0.07, alias="tF0Right")
+    d_f0_left: float = Field(0.0, alias="dF0Left")
+    d_f0_right: float = Field(0.0, alias="dF0Right")
+    d_f0_jitter: float = Field(1.0, alias="dF0Jitter")
 
 
 class S5pNote(BaseModel):

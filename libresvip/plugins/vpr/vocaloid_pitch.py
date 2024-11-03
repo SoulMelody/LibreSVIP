@@ -1,21 +1,28 @@
 import math
 from typing import Optional
 
-from libresvip.model.base import Note, ParamCurve
-from libresvip.model.point import Point
-from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.music_math import clamp
-
-from .constants import (
+from libresvip.core.constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
+    MAX_PITCH_BEND_SENSITIVITY,
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
     PITCH_MAX_VALUE,
 )
+from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.model.base import Note, ParamCurve
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
+from libresvip.utils.music_math import clamp
+
 from .model import ControllerEvent, VocaloidPartPitchData
 
 
 def pitch_from_vocaloid_parts(
-    data_by_parts: list[VocaloidPartPitchData], note_list: list[Note], first_bar_length: int
+    data_by_parts: list[VocaloidPartPitchData],
+    synchronizer: TimeSynchronizer,
+    note_list: list[Note],
+    first_bar_length: int,
 ) -> Optional[ParamCurve]:
     pitch_raw_data_by_part = []
     for part in data_by_parts:
@@ -49,7 +56,8 @@ def pitch_from_vocaloid_parts(
         if (first_pos := next(iter(element), None)) is None:
             continue
         first_invalid_index_in_previous = next(
-            (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos), None
+            (i for i, x in enumerate(pitch_raw_data) if x[0] >= first_pos),
+            None,
         )
         if first_invalid_index_in_previous is None:
             pitch_raw_data += list(element.items())
@@ -59,21 +67,35 @@ def pitch_from_vocaloid_parts(
             )
     data = [
         Point(
-            x=pos, y=round(value * 100 / (PITCH_MAX_VALUE if value > 0 else (PITCH_MAX_VALUE + 1)))
+            x=pos,
+            y=round(value * 100 / (PITCH_MAX_VALUE if value > 0 else (PITCH_MAX_VALUE + 1))),
         )
         for pos, value in pitch_raw_data
     ]
+    pitch_simulator = PitchSimulator(
+        synchronizer=synchronizer,
+        portamento=PortamentoPitch.vocaloid_portamento(),
+        note_list=note_list,
+    )
     return (
-        RelativePitchCurve(first_bar_length).to_absolute(data, note_list)
+        RelativePitchCurve(first_bar_length).to_absolute(data, pitch_simulator)
         if data and note_list
         else None
     )
 
 
 def generate_for_vocaloid(
-    pitch: ParamCurve, notes: list[Note], first_bar_length: int
+    pitch: ParamCurve,
+    notes: list[Note],
+    first_bar_length: int,
+    synchronizer: TimeSynchronizer,
 ) -> Optional[VocaloidPartPitchData]:
-    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, notes)
+    pitch_simulator = PitchSimulator(
+        synchronizer=synchronizer,
+        portamento=PortamentoPitch.vocaloid_portamento(),
+        note_list=notes,
+    )
+    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, pitch_simulator)
     if not len(data):
         return None
     pitch_sectioned: list[list[Point]] = [[]]
@@ -92,7 +114,7 @@ def generate_for_vocaloid(
     for section in pitch_sectioned:
         if len(section):
             max_abs_value = max(abs(point.y / 100) for point in section)
-            pbs_for_this_section = math.ceil(max_abs_value)
+            pbs_for_this_section = min(math.ceil(max_abs_value), MAX_PITCH_BEND_SENSITIVITY)
             if pbs_for_this_section > DEFAULT_PITCH_BEND_SENSITIVITY:
                 pbs.extend(
                     (

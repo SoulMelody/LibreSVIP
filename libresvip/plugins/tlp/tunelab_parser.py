@@ -107,9 +107,10 @@ class TuneLabParser:
                         track_list.append(singing_track)
                     singing_track.note_list.extend(self.parse_notes(part.notes, int(part.pos)))
                     if self.options.import_pitch:
-                        vibrato_base_interval_dict, vibrato_envelope_interval_dict = (
-                            self.parse_vibrato(part)
-                        )
+                        (
+                            vibrato_base_interval_dict,
+                            vibrato_envelope_interval_dict,
+                        ) = self.parse_vibrato(part)
                         if pitch_points := self.parse_pitch(
                             part.pitch,
                             int(part.pos),
@@ -157,11 +158,15 @@ class TuneLabParser:
                 int(vibrato.pos + vibrato.dur)
             )
             vibrato_base_interval_dict[portion.closed(vibrato_start, vibrato_end)] = (
-                functools.partial(self.vibrato_value, vibrato_start=vibrato_start, vibrato=vibrato)
+                functools.partial(
+                    self.vibrato_value,
+                    vibrato_start=vibrato_start,
+                    vibrato=vibrato,
+                )
             )
-        if part.automations is not None and part.automations.vibrato_envelope is not None:
+        if part.automations is not None and part.automations["VibratoEnvelope"] is not None:
             for value, ticks_group in more_itertools.groupby_transform(
-                part.automations.vibrato_envelope.values.root,
+                part.automations["VibratoEnvelope"].values.root,
                 keyfunc=operator.attrgetter("value"),
                 valuefunc=operator.attrgetter("pos"),
             ):
@@ -183,7 +188,7 @@ class TuneLabParser:
         vibrato_base_interval_dict: PiecewiseIntervalDict,
         vibrato_envelope_interval_dict: PiecewiseIntervalDict,
     ) -> list[Point]:
-        points: list[Point] = []
+        points: list[Point] = [Point.start_point()]
         for pitch_part in pitch:
             for is_first, is_last, tlp_point in more_itertools.mark_ends(pitch_part.root):
                 pitch_pos = int(tlp_point.pos) + offset
@@ -212,4 +217,5 @@ class TuneLabParser:
                             y=-100,
                         )
                     )
+        points.append(Point.end_point())
         return points

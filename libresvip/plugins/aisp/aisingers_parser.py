@@ -4,7 +4,6 @@ from libresvip.model.base import (
     InstrumentalTrack,
     Note,
     ParamCurve,
-    Point,
     Points,
     Project,
     SingingTrack,
@@ -12,6 +11,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.point import Point
 
 from .model import (
     AISAudioTrack,

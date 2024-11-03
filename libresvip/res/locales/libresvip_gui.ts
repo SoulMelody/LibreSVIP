@@ -4,12 +4,12 @@
 <context>
     <name>actions</name>
     <message>
-        <location filename="../qml/components/actions.qml" line="35"/>
+        <location filename="../qml/components/actions.qml" line="33"/>
         <source>Alert</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/actions.qml" line="36"/>
+        <location filename="../qml/components/actions.qml" line="34"/>
         <source>Cannot restore task list while conversion is in progress.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -22,180 +22,176 @@
         <translation>转换器</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="265"/>
-        <location filename="../qml/components/converter_page.qml" line="1714"/>
+        <location filename="../qml/components/converter_page.qml" line="267"/>
+        <location filename="../qml/components/converter_page.qml" line="1700"/>
         <source>Select File Formats</source>
         <translation>格式选择</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="277"/>
+        <location filename="../qml/components/converter_page.qml" line="279"/>
         <source>Input Format: </source>
         <translation>导入工程格式： </translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="319"/>
-        <location filename="../qml/components/converter_page.qml" line="471"/>
+        <location filename="../qml/components/converter_page.qml" line="318"/>
+        <location filename="../qml/components/converter_page.qml" line="464"/>
         <source>View Detail Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="406"/>
+        <location filename="../qml/components/converter_page.qml" line="405"/>
         <source>Auto-Detect Input File Type</source>
         <translation>自动检测导入格式</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="395"/>
+        <location filename="../qml/components/converter_page.qml" line="394"/>
         <source>Reset Tasks When Changing Input</source>
         <translation>切换格式时重置列表</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="421"/>
+        <location filename="../qml/components/converter_page.qml" line="420"/>
         <source>Swap Input and Output</source>
         <translation>上下交换</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="442"/>
+        <location filename="../qml/components/converter_page.qml" line="435"/>
         <source>Output Format: </source>
         <translation>导出工程格式： </translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="544"/>
+        <location filename="../qml/components/converter_page.qml" line="537"/>
         <source>Set Output File Extension Automatically</source>
         <translation>自动设置后缀名</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="627"/>
+        <location filename="../qml/components/converter_page.qml" line="620"/>
         <source>Direct Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="640"/>
+        <location filename="../qml/components/converter_page.qml" line="633"/>
         <source>Singing Track Merging Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="653"/>
+        <location filename="../qml/components/converter_page.qml" line="646"/>
         <source>Singing Track Grouping Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="934"/>
-        <location filename="../qml/components/converter_page.qml" line="1721"/>
+        <location filename="../qml/components/converter_page.qml" line="901"/>
+        <location filename="../qml/components/converter_page.qml" line="1707"/>
         <source>Advanced Settings</source>
         <translation>高级选项</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="969"/>
+        <location filename="../qml/components/converter_page.qml" line="936"/>
         <source>Input Options</source>
         <translation>输入选项</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1303"/>
+        <location filename="../qml/components/converter_page.qml" line="1231"/>
         <source>Output Options</source>
         <translation>输出选项</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="666"/>
+        <location filename="../qml/components/converter_page.qml" line="659"/>
         <source>Task List</source>
         <translation>任务列表</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="600"/>
+        <location filename="../qml/components/converter_page.qml" line="593"/>
         <source>Drag and drop files here</source>
         <translation>拖拽或单击导入文件</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="614"/>
+        <location filename="../qml/components/converter_page.qml" line="607"/>
         <source>Conversion Mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="800"/>
+        <location filename="../qml/components/converter_page.qml" line="778"/>
         <source>Continue Adding files</source>
         <translation>继续添加文件</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="825"/>
+        <location filename="../qml/components/converter_page.qml" line="800"/>
         <source>Clear Task List</source>
         <translation>清空所有导入</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="851"/>
+        <location filename="../qml/components/converter_page.qml" line="823"/>
         <source>Reset Default Extension</source>
         <translation>恢复默认命名</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="877"/>
+        <location filename="../qml/components/converter_page.qml" line="846"/>
         <source>Remove Tasks With Other Extensions</source>
         <translation>过滤多余项目</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="904"/>
+        <location filename="../qml/components/converter_page.qml" line="874"/>
         <source>Max Track count:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="980"/>
+        <location filename="../qml/components/converter_page.qml" line="947"/>
         <source>[Import as </source>
         <translation>[ 导入自 </translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1314"/>
+        <location filename="../qml/components/converter_page.qml" line="1242"/>
         <source>[Export to </source>
         <translation>[ 导出为 </translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1457"/>
+        <location filename="../qml/components/converter_page.qml" line="1445"/>
+        <location filename="../qml/components/converter_page.qml" line="1714"/>
         <source>Output Settings</source>
         <translation>输出设置</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1546"/>
+        <location filename="../qml/components/converter_page.qml" line="1532"/>
         <source>Choose Output Folder</source>
         <translation>选择输出文件夹</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1554"/>
+        <location filename="../qml/components/converter_page.qml" line="1540"/>
         <source>Output Folder</source>
         <translation>输出文件夹</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1568"/>
+        <location filename="../qml/components/converter_page.qml" line="1554"/>
         <source>Deal with Conflicts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1728"/>
-        <source>Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/components/converter_page.qml" line="1530"/>
+        <location filename="../qml/components/converter_page.qml" line="1516"/>
         <source>Start Conversion</source>
         <translation>开始转换</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1530"/>
+        <location filename="../qml/components/converter_page.qml" line="1516"/>
         <source>Converting</source>
         <translation>转换中</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1462"/>
+        <location filename="../qml/components/converter_page.qml" line="1450"/>
         <source>Open Output Folder When Done</source>
         <translation>完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1576"/>
+        <location filename="../qml/components/converter_page.qml" line="1564"/>
         <source>Overwrite</source>
         <translation>覆盖</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1577"/>
+        <location filename="../qml/components/converter_page.qml" line="1568"/>
         <source>Skip</source>
         <translation>跳过</translation>
     </message>
     <message>
-        <location filename="../qml/components/converter_page.qml" line="1578"/>
+        <location filename="../qml/components/converter_page.qml" line="1572"/>
         <source>Prompt</source>
         <translation>询问</translation>
     </message>
@@ -203,67 +199,67 @@
 <context>
     <name>dialogs</name>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="125"/>
+        <location filename="../qml/components/dialogs.qml" line="131"/>
         <source>All Files (*.*)</source>
         <translation>所有文件 (*.*)</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="61"/>
+        <location filename="../qml/components/dialogs.qml" line="65"/>
         <source>Custom folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="178"/>
+        <location filename="../qml/components/dialogs.qml" line="181"/>
         <source>Folder Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="212"/>
+        <location filename="../qml/components/dialogs.qml" line="216"/>
         <source>You can insert &quot;.&quot; at the beginning to represent the source path, for example &quot;./subfolder&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="302"/>
+        <location filename="../qml/components/dialogs.qml" line="304"/>
         <source>Click to add a folder preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="324"/>
+        <location filename="../qml/components/dialogs.qml" line="326"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="337"/>
+        <location filename="../qml/components/dialogs.qml" line="339"/>
         <source>LibreSVIP</source>
         <translation>LibreSVIP</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="343"/>
+        <location filename="../qml/components/dialogs.qml" line="345"/>
         <source>Version: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="347"/>
+        <location filename="../qml/components/dialogs.qml" line="349"/>
         <source>Author: SoulMelody</source>
         <translation>作者：岁月静好_初心不忘</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="358"/>
+        <location filename="../qml/components/dialogs.qml" line="360"/>
         <source>Author&apos;s Profile</source>
         <translation>作者主页</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="372"/>
+        <location filename="../qml/components/dialogs.qml" line="374"/>
         <source>Repo URL</source>
         <translation>仓库地址</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="382"/>
+        <location filename="../qml/components/dialogs.qml" line="384"/>
         <source>LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.</source>
         <translation>LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。</translation>
     </message>
     <message>
-        <location filename="../qml/components/dialogs.qml" line="387"/>
+        <location filename="../qml/components/dialogs.qml" line="389"/>
         <source>All people should have the right and freedom to choose. That&apos;s why we&apos;re committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.</source>
         <translation>所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。</translation>
     </message>
@@ -271,12 +267,12 @@
 <context>
     <name>plugin_info</name>
     <message>
-        <location filename="../qml/components/plugin_info.qml" line="99"/>
+        <location filename="../qml/components/plugin_info.qml" line="147"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../qml/components/plugin_info.qml" line="171"/>
+        <location filename="../qml/components/plugin_info.qml" line="216"/>
         <source>Introduction</source>
         <translation>简介</translation>
     </message>
@@ -319,108 +315,108 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="213"/>
+        <location filename="../qml/components/settings_dialog.qml" line="222"/>
         <source>Open Output Folder When Done</source>
         <translation type="unfinished">完成后打开输出路径</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="240"/>
-        <location filename="../qml/components/settings_dialog.qml" line="276"/>
+        <location filename="../qml/components/settings_dialog.qml" line="249"/>
+        <location filename="../qml/components/settings_dialog.qml" line="290"/>
         <source>Same as Source</source>
         <translation type="unfinished">源路径</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="244"/>
-        <location filename="../qml/components/settings_dialog.qml" line="284"/>
+        <location filename="../qml/components/settings_dialog.qml" line="254"/>
+        <location filename="../qml/components/settings_dialog.qml" line="298"/>
         <source>Desktop</source>
         <translation type="unfinished">桌面</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="248"/>
-        <location filename="../qml/components/settings_dialog.qml" line="293"/>
+        <location filename="../qml/components/settings_dialog.qml" line="259"/>
+        <location filename="../qml/components/settings_dialog.qml" line="307"/>
         <source>Preset Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="252"/>
-        <location filename="../qml/components/settings_dialog.qml" line="346"/>
+        <location filename="../qml/components/settings_dialog.qml" line="264"/>
+        <location filename="../qml/components/settings_dialog.qml" line="360"/>
         <source>Custom (Browse ...)</source>
         <translation type="unfinished">自定义 (浏览选择)</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="356"/>
+        <location filename="../qml/components/settings_dialog.qml" line="370"/>
         <source>Manage Folders Presets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="519"/>
+        <location filename="../qml/components/settings_dialog.qml" line="532"/>
         <source>Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="534"/>
+        <location filename="../qml/components/settings_dialog.qml" line="547"/>
         <source>Remove current preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="547"/>
+        <location filename="../qml/components/settings_dialog.qml" line="560"/>
         <source>Add new rule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="555"/>
+        <location filename="../qml/components/settings_dialog.qml" line="569"/>
         <source>Full match</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="556"/>
+        <location filename="../qml/components/settings_dialog.qml" line="573"/>
         <source>Alphabetic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="557"/>
+        <location filename="../qml/components/settings_dialog.qml" line="577"/>
         <source>Non-alphabetic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="558"/>
+        <location filename="../qml/components/settings_dialog.qml" line="581"/>
         <source>Regex</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="569"/>
+        <location filename="../qml/components/settings_dialog.qml" line="594"/>
         <source>Alphabetic: Applies to alphabetic characters.
 Non-Alphabetic: For non-alphabetic characters and punctuation marks.
 Regex: for advanced users with knowledge of regular expressions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="913"/>
+        <location filename="../qml/components/settings_dialog.qml" line="961"/>
         <source>Format Provider Plugins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="186"/>
+        <location filename="../qml/components/settings_dialog.qml" line="188"/>
         <source>Overwrite</source>
         <translation type="unfinished">覆盖</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="187"/>
+        <location filename="../qml/components/settings_dialog.qml" line="192"/>
         <source>Skip</source>
         <translation type="unfinished">跳过</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="188"/>
+        <location filename="../qml/components/settings_dialog.qml" line="196"/>
         <source>Prompt</source>
         <translation type="unfinished">询问</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="406"/>
+        <location filename="../qml/components/settings_dialog.qml" line="421"/>
         <source>Plugin is enabled or not (Click to enter editing mode)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="836"/>
+        <location filename="../qml/components/settings_dialog.qml" line="861"/>
         <source>Auto Check for Updates</source>
         <translation type="unfinished">自动检查更新</translation>
     </message>
@@ -430,22 +426,22 @@ Regex: for advanced users with knowledge of regular expressions.</source>
         <translation type="unfinished">转换设置</translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="891"/>
+        <location filename="../qml/components/settings_dialog.qml" line="923"/>
         <source>Basic Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="901"/>
+        <location filename="../qml/components/settings_dialog.qml" line="941"/>
         <source>Save Path Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="926"/>
+        <location filename="../qml/components/settings_dialog.qml" line="982"/>
         <source>Lyric Replacement Rules</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/settings_dialog.qml" line="938"/>
+        <location filename="../qml/components/settings_dialog.qml" line="1002"/>
         <source>Updates Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -453,59 +449,59 @@ Regex: for advanced users with knowledge of regular expressions.</source>
 <context>
     <name>task_row</name>
     <message>
-        <location filename="../qml/components/task_row.qml" line="103"/>
+        <location filename="../qml/components/task_row.qml" line="105"/>
         <source>File successfully converted</source>
         <translation>此文件已成功转换</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="112"/>
+        <location filename="../qml/components/task_row.qml" line="114"/>
         <source>Open</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="124"/>
-        <location filename="../qml/components/task_row.qml" line="167"/>
+        <location filename="../qml/components/task_row.qml" line="126"/>
+        <location filename="../qml/components/task_row.qml" line="169"/>
         <source>Open folder</source>
         <translation>打开目录</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="345"/>
+        <location filename="../qml/components/task_row.qml" line="349"/>
         <source>File %1 already exists. Overwrite?</source>
         <translation>文件 %1 已存在，是否覆盖？</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="159"/>
+        <location filename="../qml/components/task_row.qml" line="161"/>
         <source>File skipped due to conflict</source>
         <translation>已跳过</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="72"/>
+        <location filename="../qml/components/task_row.qml" line="74"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="202"/>
+        <location filename="../qml/components/task_row.qml" line="204"/>
         <source>This project file may contain abnormal or illegal data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="244"/>
+        <location filename="../qml/components/task_row.qml" line="246"/>
         <source>File failed to convert, below is the error message:</source>
         <translation>此文件转换失败，错误信息如下：</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="257"/>
-        <location filename="../qml/components/task_row.qml" line="272"/>
+        <location filename="../qml/components/task_row.qml" line="259"/>
+        <location filename="../qml/components/task_row.qml" line="274"/>
         <source>Copy error message</source>
         <translation>复制错误信息</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="261"/>
+        <location filename="../qml/components/task_row.qml" line="263"/>
         <source>Copied</source>
         <translation>已复制</translation>
     </message>
     <message>
-        <location filename="../qml/components/task_row.qml" line="344"/>
+        <location filename="../qml/components/task_row.qml" line="348"/>
         <source>Do you want to overwrite the file?</source>
         <translation type="unfinished"></translation>
     </message>

@@ -37,9 +37,7 @@ def test_vshp_read(shared_datadir: pathlib.Path) -> None:
 
     proj_path = shared_datadir / "test.vshp"
     vshp_data = VocalShifterProjectData.parse_file(proj_path)
-    path_content = (
-        vshp_data.pattern_metadatas[0].path_and_ext.split(b"\x00", 1)[0].decode("gbk")
-    )
+    path_content = vshp_data.pattern_metadatas[0].path_and_ext.split(b"\x00", 1)[0].decode("gbk")
     normlized_path = pathlib.PureWindowsPath(path_content).as_posix()
     print(normlized_path)
 
@@ -68,7 +66,10 @@ def test_mtp_read(shared_datadir: pathlib.Path) -> None:
 
 @pytest.mark.usefixtures("_pretty_construct")
 def test_tssln_write(shared_datadir: pathlib.Path) -> None:
-    from libresvip.plugins.tssln.model import VoiSonaProject, model_to_value_tree
+    from libresvip.plugins.tssln.model import (
+        VoiSonaProject,
+        model_to_value_tree,
+    )
     from libresvip.plugins.tssln.value_tree import JUCENode, build_tree_dict
 
     value_tree = JUCENode.parse_file(shared_datadir / "test.tssln")
@@ -77,23 +78,17 @@ def test_tssln_write(shared_datadir: pathlib.Path) -> None:
     pathlib.Path("test.tssln").write_bytes(JUCENode.build(model_to_value_tree(project)))
 
 
-def test_ustx_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_ustx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.ustx.model import USTXProject
     from libresvip.utils.yamlutils import load_yaml_1_2
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.ustx"
-        proj = USTXProject.model_validate(
-            load_yaml_1_2(to_unicode(proj_path.read_bytes()))
-        )
+        proj = USTXProject.model_validate(load_yaml_1_2(to_unicode(proj_path.read_bytes())))
         print(proj)
 
 
-def test_ds_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_ds_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.ds.model import DsProject
 
     with capsys.disabled():
@@ -102,9 +97,7 @@ def test_ds_read(
         print(DsProject.model_validate_json(proj_text))
 
 
-def test_y77_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_y77_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.y77.model import Y77Project
 
     with capsys.disabled():
@@ -113,9 +106,7 @@ def test_y77_read(
         print(proj)
 
 
-def test_acep_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_acep_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.acep.acep_io import decompress_ace_studio_project
     from libresvip.plugins.acep.model import AcepProject
 
@@ -144,9 +135,7 @@ def test_ppsf_read(
             print(proj)
 
 
-def test_vog_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_vog_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.vog.model import VogenProject
 
     with capsys.disabled():
@@ -156,9 +145,7 @@ def test_vog_read(
         print(proj)
 
 
-def test_vpr_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_vpr_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     import zipfile
 
     from libresvip.plugins.vpr.model import VocaloidProject
@@ -170,9 +157,7 @@ def test_vpr_read(
         print(proj)
 
 
-def test_aisp_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_aisp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.aisp.model import AISProjectBody, AISProjectHead
 
     with capsys.disabled():
@@ -185,22 +170,16 @@ def test_aisp_read(
         print(body)
 
 
-def test_gj_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_gj_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.gj.model import GjgjProject
 
     with capsys.disabled():
         proj_path = shared_datadir / "test.gj"
-        proj = GjgjProject.model_validate_json(
-            proj_path.read_text(encoding="utf-8-sig")
-        )
+        proj = GjgjProject.model_validate_json(proj_path.read_text(encoding="utf-8-sig"))
         print(proj)
 
 
-def test_dspx_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_dspx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from experimental.dspx.model import DspxModel
 
     with capsys.disabled():
@@ -260,9 +239,7 @@ def test_ccs_read(shared_datadir: pathlib.Path) -> None:
     print(proj)
 
 
-def test_s5p_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_s5p_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.s5p.options import InputOptions
 
     with capsys.disabled():
@@ -272,9 +249,7 @@ def test_s5p_read(
             print(proj)
 
 
-def test_svp_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_svp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.svp.options import InputOptions
 
     with capsys.disabled():
@@ -284,9 +259,7 @@ def test_svp_read(
             print(proj)
 
 
-def test_svp_write(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_svp_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.svp.options import InputOptions, OutputOptions
 
     with capsys.disabled():
@@ -296,9 +269,7 @@ def test_svp_write(
             svp_plugin.dump(pathlib.Path("./test.svp"), proj, OutputOptions())
 
 
-def test_svip_read(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_svip_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     from libresvip.plugins.svip.msnrbf.svip_reader import SvipReader
 
     with capsys.disabled():
@@ -310,9 +281,7 @@ def test_svip_read(
         # proj = svip_plugin.load(proj_path, None)
 
 
-def test_svip_write(
-    shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_svip_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
     # from libresvip.plugins.svip.msnrbf.svip_reader import SvipReader
     # from libresvip.plugins.svip.msnrbf.svip_writer import SvipWriter
     from libresvip.plugins.svip.options import InputOptions, OutputOptions
@@ -331,9 +300,7 @@ def test_svip_write(
 def test_vsq_read(shared_datadir: pathlib.Path) -> None:
     import mido_fix as mido
 
-    vsq_file = mido.MidiFile(
-        shared_datadir / "test.vsq", charset="SHIFT-JIS", clip=True
-    )
+    vsq_file = mido.MidiFile(shared_datadir / "test.vsq", charset="SHIFT-JIS", clip=True)
 
     for track in vsq_file.tracks:
         for msg in track:

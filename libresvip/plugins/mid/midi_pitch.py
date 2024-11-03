@@ -2,16 +2,18 @@ import math
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Optional
 
-from libresvip.model.base import Note, ParamCurve
-from libresvip.model.relative_pitch_curve import RelativePitchCurve
-from libresvip.utils.music_math import clamp
-
-from .constants import (
+from libresvip.core.constants import (
     DEFAULT_PITCH_BEND_SENSITIVITY,
     MAX_PITCH_BEND_SENSITIVITY,
     MIN_BREAK_LENGTH_BETWEEN_PITCH_SECTIONS,
     PITCH_MAX_VALUE,
 )
+from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.model.base import Note, ParamCurve
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.portamento import PortamentoPitch
+from libresvip.model.relative_pitch_curve import RelativePitchCurve
+from libresvip.utils.music_math import clamp
 
 if TYPE_CHECKING:
     from libresvip.model.point import Point
@@ -30,9 +32,17 @@ class MIDIPitchData:
 
 
 def generate_for_midi(
-    first_bar_length: int, pitch: ParamCurve, notes: list[Note]
+    first_bar_length: int,
+    pitch: ParamCurve,
+    notes: list[Note],
+    synchronizer: TimeSynchronizer,
 ) -> Optional[MIDIPitchData]:
-    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, notes)
+    pitch_simulator = PitchSimulator(
+        synchronizer=synchronizer,
+        portamento=PortamentoPitch.no_portamento(),
+        note_list=notes,
+    )
+    data = RelativePitchCurve(first_bar_length).from_absolute(pitch.points.root, pitch_simulator)
     if not len(data):
         return None
     pitch_sectioned: list[list[Point]] = [[]]

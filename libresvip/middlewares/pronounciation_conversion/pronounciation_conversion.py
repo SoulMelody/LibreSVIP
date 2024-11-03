@@ -1,5 +1,9 @@
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
-from libresvip.core.lyric_phoneme.japanese import to_hiragana, to_katakana, to_romaji
+from libresvip.core.lyric_phoneme.japanese import (
+    to_hiragana,
+    to_katakana,
+    to_romaji,
+)
 from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import legato_chars
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project, SingingTrack

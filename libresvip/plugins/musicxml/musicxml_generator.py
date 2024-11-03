@@ -10,29 +10,26 @@ from libresvip.model.base import Project, SingingTrack, TimeSignature
 from libresvip.utils.music_math import midi2note
 
 from .model import KeyTick, MXmlMeasure, MXmlMeasureContent
-from .models.mxml2 import (
+from .models.enums import NoteTypeValue, StartStop, Step, Syllabic, TiedType
+from .models.mxml4 import (
     Attributes,
     Direction,
     DirectionType,
-    DisplayStepOctave,
     Lyric,
     Metronome,
     Notations,
-    NoteTypeValue,
     PerMinute,
     Pitch,
+    Rest,
     ScorePart,
     ScorePartwise,
     Sound,
-    StartStop,
-    Step,
-    Syllabic,
     TextElementData,
     Tie,
     Tied,
     Time,
 )
-from .models.mxml2 import Note as MusicXMLNote
+from .models.mxml4 import Note as MusicXMLNote
 from .options import OutputOptions
 
 DEFAULT_TICK_RATE_CEVIO = 2.0
@@ -48,7 +45,9 @@ class MusicXMLGenerator:
         for i, track in enumerate(project_with_tick_rate_applied.track_list):
             if key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied):
                 track_measures = self.get_measures(
-                    key_ticks, project_with_tick_rate_applied.time_signature_list, i
+                    key_ticks,
+                    project_with_tick_rate_applied.time_signature_list,
+                    i,
                 )
                 measures[i].extend(track_measures)
         musicxml_project = ScorePartwise()
@@ -60,11 +59,14 @@ class MusicXMLGenerator:
         return musicxml_project
 
     def generate_part(
-        self, measures: list[MXmlMeasure], track_index: int, track_title: Optional[str]
+        self,
+        measures: list[MXmlMeasure],
+        track_index: int,
+        track_title: Optional[str],
     ) -> tuple[ScorePartwise.Part, ScorePart]:
         part_id = f"P{track_index + 1}"
-        part_node = ScorePartwise.Part(part_id=part_id)
-        score_part = ScorePart(score_part_id=part_id)
+        part_node = ScorePartwise.Part(id=part_id)
+        score_part = ScorePart(id=part_id)
         if score_part.part_name is not None:
             if track_title:
                 score_part.part_name.value = track_title
@@ -98,6 +100,7 @@ class MusicXMLGenerator:
                         measure_node.direction.append(direction_node)
                     elif content.note_type is not None and content.note is not None:
                         if note := self.generate_note_node(content):
+                            note.voice = str(track_index + 2)
                             measure_node.note.append(note)
                     else:
                         measure_node.note.append(self.generate_rest_node(content))
@@ -119,7 +122,7 @@ class MusicXMLGenerator:
         return sound_node, direction_node
 
     def generate_rest_node(self, rest: MXmlMeasureContent) -> MusicXMLNote:
-        return MusicXMLNote(rest=[DisplayStepOctave()], duration=[Decimal(rest.duration)])
+        return MusicXMLNote(rest=[Rest()], duration=[Decimal(rest.duration)])
 
     def generate_note_node(self, note: MXmlMeasureContent) -> Optional[MusicXMLNote]:
         if note.note is None or note.note_type is None:
@@ -138,25 +141,23 @@ class MusicXMLGenerator:
             return None
         alter = 1 if "#" in key_str else 0
         note_node.pitch.append(
-            Pitch(step=step, alter=Decimal(alter) if alter != 0 else None, octave=octave)
+            Pitch(
+                step=step,
+                alter=Decimal(alter) if alter != 0 else None,
+                octave=octave,
+            )
         )
         tie_type = {
-            MXmlMeasureContent.NoteType.BEGIN: StartStop.START,
-            MXmlMeasureContent.NoteType.END: StartStop.STOP,
+            MXmlMeasureContent.NoteType.BEGIN: "start",
+            MXmlMeasureContent.NoteType.END: "stop",
         }.get(note.note_type)
         if tie_type is not None:
-            note_node.tie.append(Tie(type_value=tie_type))
-            note_node.notations.append(Notations(tied=[Tied(type_value=tie_type)]))
+            note_node.tie.append(Tie(type_value=StartStop(tie_type)))
+            note_node.notations.append(Notations(tied=[Tied(type_value=TiedType(tie_type))]))
         note_node.lyric.append(
             Lyric(
                 syllabic=[getattr(Syllabic, note.note_type.name)],
-                text=[TextElementData(value=note.note.lyric)]
-                if note.note_type
-                in [
-                    MXmlMeasureContent.NoteType.BEGIN,
-                    MXmlMeasureContent.NoteType.SINGLE,
-                ]
-                else [],
+                text=[TextElementData(value=note.note.lyric)],
             )
         )
         return note_node
@@ -204,7 +205,9 @@ class MusicXMLGenerator:
 
     @staticmethod
     def get_measures(
-        key_ticks: list[KeyTick], time_signatures: list[TimeSignature], track_index: int
+        key_ticks: list[KeyTick],
+        time_signatures: list[TimeSignature],
+        track_index: int,
     ) -> list[MXmlMeasure]:
         ticks_in_beat = round(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
         measure_border_ticks = [0]
@@ -272,11 +275,7 @@ class MusicXMLGenerator:
                         )
                     current_tick_in_measure = key_tick_relative
                 if key_tick.tempo is not None:
-                    if ongoing_note_with_current_head is None:
-                        current_content_group.append(
-                            MXmlMeasureContent.with_tempo(bpm=key_tick.tempo.bpm)
-                        )
-                    else:
+                    if ongoing_note_with_current_head is not None:
                         note, head = ongoing_note_with_current_head
                         current_content_group.append(
                             MXmlMeasureContent.note(
@@ -288,11 +287,14 @@ class MusicXMLGenerator:
                             )
                         )
                         ongoing_note_with_current_head = note, key_tick.tick
-                        current_content_group.append(
-                            MXmlMeasureContent.with_tempo(bpm=key_tick.tempo.bpm)
-                        )
+                    current_content_group.append(
+                        MXmlMeasureContent.with_tempo(bpm=key_tick.tempo.bpm)
+                    )
                 elif key_tick.note_start is not None:
-                    ongoing_note_with_current_head = key_tick.note_start, key_tick.tick
+                    ongoing_note_with_current_head = (
+                        key_tick.note_start,
+                        key_tick.tick,
+                    )
                 elif key_tick.note_end is not None and ongoing_note_with_current_head is not None:
                     note, head = ongoing_note_with_current_head
                     current_content_group.append(
@@ -322,16 +324,22 @@ class MusicXMLGenerator:
                         )
                     )
                     ongoing_note_with_current_head = note, border_pair[1]
-            content_group_border_pair_map[border_pair] = current_content_group
+            content_group_border_pair_map[border_pair] = current_content_group.copy()
 
         return [
             MXmlMeasure(
                 tick_start=border_pair[0],
                 length=border_pair[1] - border_pair[0],
-                time_signature=next((ts for ts in time_signatures if ts.bar_index == index), None),
+                time_signature=next(
+                    (ts for ts in time_signatures if ts.bar_index == index),
+                    None,
+                ),
                 contents=contents,
             )
             for index, (border_pair, contents) in enumerate(
-                sorted(content_group_border_pair_map.items(), key=lambda x: x[0][0])
+                sorted(
+                    content_group_border_pair_map.items(),
+                    key=lambda x: x[0][0],
+                )
             )
         ]

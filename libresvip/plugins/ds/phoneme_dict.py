@@ -12,7 +12,9 @@ def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict[str, str]:
         msg = _("Cannot find dict.")
         raise FileNotFoundError(msg)
     reader = csv.DictReader(
-        io.StringIO(dict_content), delimiter="\t", fieldnames=["pinyin", "phone"]
+        io.StringIO(dict_content),
+        delimiter="\t",
+        fieldnames=["pinyin", "phone"],
     )
     for row in reader:
         if g2p:

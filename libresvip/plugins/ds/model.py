@@ -1,3 +1,4 @@
+import enum
 from typing import Literal, Optional, Union
 
 from pydantic import (
@@ -12,6 +13,12 @@ from pydantic import (
 from libresvip.model.base import BaseModel
 
 
+class GlideStyle(enum.Enum):
+    NONE = "none"
+    UP = "up"
+    DOWN = "down"
+
+
 class DsItem(BaseModel):
     text: list[str]
     ph_seq: list[str]
@@ -19,6 +26,7 @@ class DsItem(BaseModel):
     note_dur: Optional[list[float]] = None
     note_dur_seq: Optional[list[float]] = None
     note_slur: Optional[list[int]] = None
+    note_glide: Optional[list[GlideStyle]] = None
     is_slur_seq: Optional[list[int]] = None
     ph_dur: Optional[list[float]] = None
     ph_num: Optional[list[int]] = None
@@ -36,8 +44,15 @@ class DsItem(BaseModel):
 
     @field_validator("text", "note_seq", "ph_seq", mode="before")
     @classmethod
-    def _validate_str_list(cls, value: Optional[str], _info: ValidationInfo) -> list[str]:
+    def _validate_str_list(cls, value: Optional[str], _info: ValidationInfo) -> Optional[list[str]]:
         return None if value is None else value.split()
+
+    @field_validator("note_glide", mode="before")
+    @classmethod
+    def _validate_glide_list(
+        cls, value: Optional[str], _info: ValidationInfo
+    ) -> Optional[list[GlideStyle]]:
+        return None if value is None else [GlideStyle(x) for x in value.split()]
 
     @field_validator(
         "f0_seq",
@@ -49,12 +64,14 @@ class DsItem(BaseModel):
         mode="before",
     )
     @classmethod
-    def _validate_float_list(cls, value: Optional[str], _info: ValidationInfo) -> list[float]:
+    def _validate_float_list(
+        cls, value: Optional[str], _info: ValidationInfo
+    ) -> Optional[list[float]]:
         return None if value is None else [float(x) for x in value.split()]
 
     @field_validator("is_slur_seq", "note_slur", "ph_num", mode="before")
     @classmethod
-    def _validate_int_list(cls, value: Optional[str], _info: ValidationInfo) -> list[int]:
+    def _validate_int_list(cls, value: Optional[str], _info: ValidationInfo) -> Optional[list[int]]:
         return None if value is None else [int(x) for x in value.split()]
 
     @field_serializer(
@@ -75,6 +92,14 @@ class DsItem(BaseModel):
     @classmethod
     def _serialize_list(cls, value: list[Union[str, int, float]], _info: SerializationInfo) -> str:
         return " ".join(str(x) for x in value)
+
+    @field_serializer(
+        "note_glide",
+        when_used="json-unless-none",
+    )
+    @classmethod
+    def _serialize_glide(cls, value: list[GlideStyle], _info: SerializationInfo) -> str:
+        return " ".join(x.value for x in value)
 
     @field_validator("spk_mix", mode="before")
     @classmethod

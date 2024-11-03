@@ -194,7 +194,10 @@ class GjgjGenerator:
         for point in pitch.points.root:
             ori_ticks, ori_value = point.x, point.y
             if ori_prev_ticks != ori_ticks:
-                if ori_value != -100 and ori_ticks not in (-192000, 1073741823):
+                if ori_value != -100 and ori_ticks not in (
+                    -192000,
+                    1073741823,
+                ):
                     ticks_buffer.append(ori_ticks - self.first_bar_length)
                     value_buffer.append(ori_value)
                 elif len(ticks_buffer) > 0 and len(value_buffer) > 0:

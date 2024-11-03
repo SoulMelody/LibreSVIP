@@ -45,7 +45,8 @@ def compress_ace_studio_project(src: dict[str, Any], target: pathlib.Path) -> No
     compressed = zstd.compress(raw_content)
     acep_file = AcepFile.model_construct(content=compressed)
     target.write_bytes(
-        json.dumps(acep_file.model_dump(mode="json", by_alias=True), separators=(",", ":")).encode(
-            "utf-8"
-        )
+        json.dumps(
+            acep_file.model_dump(mode="json", by_alias=True),
+            separators=(",", ":"),
+        ).encode("utf-8")
     )

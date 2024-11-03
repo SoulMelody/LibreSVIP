@@ -16,6 +16,8 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.utils.audio import audio_track_info
 from libresvip.utils.music_math import (
     clamp,
@@ -44,8 +46,6 @@ from .options import (
     synthv_language_presets,
 )
 from .phoneme_utils import default_phone_marks, number_of_phones, sv_g2p
-from .pitch_simulator import PitchSimulator
-from .pitch_slide import PitchSlide
 
 if TYPE_CHECKING:
     from libresvip.model.point import Point
@@ -123,7 +123,7 @@ class SynthVGenerator:
             self.pitch_simulator = PitchSimulator(
                 synchronizer=self.synchronizer,
                 note_list=track.note_list,
-                slide=PitchSlide.sigmoid_slide(),
+                portamento=PortamentoPitch.sigmoid_portamento(),
             )
             sv_track.main_group.parameters = self.generate_params(track.edited_params)
 
@@ -187,7 +187,10 @@ class SynthVGenerator:
                 lambda val: (
                     val / 1000.0 * 12.0
                     if val >= 0
-                    else max(ratio_to_db(val / 1000.0 + 1.0 if val > -997 else 0.0039), -48.0)
+                    else max(
+                        ratio_to_db(val / 1000.0 + 1.0 if val > -997 else 0.0039),
+                        -48.0,
+                    )
                 ),
             ),
             tension=self.generate_param_curve(
@@ -247,7 +250,10 @@ class SynthVGenerator:
                     buffer.append(point)
         if last_point is not None:
             point_list.append(
-                SVPoint(offset=ticks_to_position(last_point.x + min_interval), value=0)
+                SVPoint(
+                    offset=ticks_to_position(last_point.x + min_interval),
+                    value=0,
+                )
             )
         return sv_curve
 
@@ -266,9 +272,14 @@ class SynthVGenerator:
     def generate_pitch_diff(self, pos: int, pitch: int) -> float:
         target_note_index = find_last_index(self.note_buffer, lambda x: x.start_pos <= pos)
         target_note = self.note_buffer[target_note_index] if target_note_index >= 0 else None
-        pitch_diff = pitch - self.pitch_simulator.pitch_at_secs(
-            self.synchronizer.get_actual_secs_from_ticks(pos)
-        )
+        if (
+            simulated_pitch := self.pitch_simulator.pitch_at_secs(
+                self.synchronizer.get_actual_secs_from_ticks(pos)
+            )
+        ) is not None:
+            pitch_diff = pitch - simulated_pitch
+        else:
+            pitch_diff = 0.0
         if target_note is None:
             return pitch_diff
         if (

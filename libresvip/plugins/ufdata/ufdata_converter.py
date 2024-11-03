@@ -20,6 +20,7 @@ class UFDataConverter(plugin_base.SVSConverterBase):
         ufdata_project = UFDataGenerator(options).generate_project(project)
         path.write_bytes(
             json.dumps(
-                ufdata_project.model_dump(mode="json", by_alias=True), ensure_ascii=False
+                ufdata_project.model_dump(mode="json", by_alias=True),
+                ensure_ascii=False,
             ).encode("utf-8")
         )

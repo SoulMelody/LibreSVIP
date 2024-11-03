@@ -1,58 +1,16 @@
 from __future__ import annotations
 
 import dataclasses
+from typing import TYPE_CHECKING, Optional
 
-import more_itertools
 import portion
 
 from libresvip.core.constants import TICKS_IN_BEAT
-from libresvip.core.exceptions import NotesOverlappedError
-from libresvip.core.time_interval import PiecewiseIntervalDict
-from libresvip.model.base import Note, ParamCurve, Points
+from libresvip.model.base import ParamCurve, Points
 from libresvip.model.point import Point
-from libresvip.utils.translation import gettext_lazy as _
 
-
-def get_interval_dict(notes: list[Note], to_absolute: bool) -> PiecewiseIntervalDict:
-    interval_dict = PiecewiseIntervalDict()
-    for is_first, is_last, note in more_itertools.mark_ends(notes):
-        if is_first and is_last:
-            interval = portion.closed(note.start_pos, note.end_pos)
-        elif is_first:
-            interval = portion.closedopen(note.start_pos, note.end_pos)
-        elif is_last:
-            interval = portion.openclosed(note.start_pos, note.end_pos)
-        else:
-            interval = portion.open(note.start_pos, note.end_pos)
-        if not interval.intersection(interval_dict.domain()).empty:
-            msg = _("Notes Overlapped")
-            raise NotesOverlappedError(msg)
-        interval_dict[interval] = note.key_number
-    for prev_note, next_note in more_itertools.windowed(notes, 2):
-        if next_note is None:
-            continue
-        if prev_note.end_pos < next_note.start_pos:
-            if next_note.lyric == "-":
-                interval_dict[portion.singleton(prev_note.end_pos)] = (
-                    prev_note.key_number + next_note.key_number
-                ) / 2
-                interval_dict[portion.openclosed(prev_note.end_pos, next_note.start_pos)] = (
-                    next_note.key_number
-                )
-            else:
-                middle_pos = (prev_note.end_pos + next_note.start_pos) / 2
-                interval_dict[portion.closedopen(prev_note.end_pos, middle_pos)] = (
-                    prev_note.key_number
-                )
-                interval_dict[portion.singleton(middle_pos)] = (
-                    prev_note.key_number + next_note.key_number
-                ) / 2
-                interval_dict[portion.openclosed(middle_pos, next_note.start_pos)] = (
-                    next_note.key_number
-                )
-        else:
-            interval_dict[portion.singleton(next_note.start_pos)] = next_note.key_number
-    return interval_dict
+if TYPE_CHECKING:
+    from libresvip.model.pitch_simulator import PitchSimulator
 
 
 @dataclasses.dataclass
@@ -62,48 +20,50 @@ class RelativePitchCurve:
     upper_bound: float = portion.inf
     pitch_interval: int = 5
 
-    def to_absolute(self, points: list[Point], note_list: list[Note]) -> ParamCurve:
+    def to_absolute(self, points: list[Point], pitch_simulator: PitchSimulator) -> ParamCurve:
         return ParamCurve(
-            points=Points(root=self._convert_relativity(points, note_list, to_absolute=True))
+            points=Points(root=self._convert_relativity(points, pitch_simulator, to_absolute=True))
         )
 
     def _convert_relativity(
         self,
         points: list[Point],
-        note_list: list[Note],
+        pitch_simulator: PitchSimulator,
         to_absolute: bool = False,
     ) -> list[Point]:
         converted_data: list[Point] = []
-        if not len(note_list):
-            return converted_data
-        interval_dict = get_interval_dict(note_list, to_absolute)
         prev_x = None
-        prev_y = None
+        prev_y: Optional[float] = None
         for point in points:
             pos = point.x + (0 if to_absolute else -self.first_bar_length)
             cur_x = point.x + (self.first_bar_length if to_absolute else -self.first_bar_length)
-            if (base_key := interval_dict.get(pos)) is None:
+            if (base_key := pitch_simulator.pitch_at_ticks(pos)) is None:
                 y = None
             elif not to_absolute and point.y == -100:
-                y = 0
+                if point.x in [-192000, 1073741823]:
+                    continue
+                y = 0.0
             else:
-                y = point.y + (base_key if to_absolute else -base_key) * 100
+                y = point.y + (base_key if to_absolute else -base_key)
             if (
                 y is not None
+                and prev_x is not None
                 and prev_y is not None
                 and converted_data
                 and cur_x - prev_x > self.pitch_interval
             ):
                 for tick in range(prev_x + self.pitch_interval, cur_x, self.pitch_interval):
                     tick_pos = tick + (-self.first_bar_length if to_absolute else 0)
-                    if (tick_key := interval_dict.get(tick_pos)) is not None:
+                    if (tick_key := pitch_simulator.pitch_at_ticks(tick_pos)) is not None:
                         if to_absolute:
-                            converted_data.append(Point(x=tick, y=round(prev_y + tick_key * 100)))
+                            converted_data.append(Point(x=tick, y=round(prev_y + tick_key)))
                         else:
                             converted_data.append(
                                 Point(
                                     x=tick,
-                                    y=prev_y + (y - prev_y) * (tick - prev_x) / (cur_x - prev_x),
+                                    y=round(
+                                        prev_y + (y - prev_y) * (tick - prev_x) / (cur_x - prev_x)
+                                    ),
                                 )
                             )
             if y is not None:
@@ -132,6 +92,6 @@ class RelativePitchCurve:
     def from_absolute(
         self,
         points: list[Point],
-        notes: list[Note],
+        pitch_simulator: PitchSimulator,
     ) -> list[Point]:
-        return self._convert_relativity(points, notes, to_absolute=False)
+        return self._convert_relativity(points, pitch_simulator, to_absolute=False)

@@ -25,7 +25,11 @@ class OpenUtauEnglishPhonemizerCompatibility(Enum):
     ] = "arpa"
 
 
-class InputOptions(EnableInstrumentalTrackImportationMixin, EnablePitchImportationMixin, BaseModel):
+class InputOptions(
+    EnableInstrumentalTrackImportationMixin,
+    EnablePitchImportationMixin,
+    BaseModel,
+):
     english_phonemizer_compatibility: OpenUtauEnglishPhonemizerCompatibility = Field(
         OpenUtauEnglishPhonemizerCompatibility.NON_ARPA,
         title=_("The way to handle english multisyllabic words"),

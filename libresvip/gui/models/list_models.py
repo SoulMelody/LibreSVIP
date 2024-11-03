@@ -3,7 +3,13 @@ from __future__ import annotations
 from functools import cache
 from typing import TYPE_CHECKING, Any, Optional, Union
 
-from PySide6.QtCore import QAbstractListModel, QModelIndex, QObject, QStringListModel, Slot
+from PySide6.QtCore import (
+    QAbstractListModel,
+    QModelIndex,
+    QObject,
+    QStringListModel,
+    Slot,
+)
 
 from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
@@ -45,7 +51,7 @@ class ModelProxy(QAbstractListModel):
             self._defaults = {x: "" for x in role_names}
 
     @property
-    def _role_names(self) -> tuple[str]:
+    def _role_names(self) -> tuple[str, ...]:
         return tuple(self._name_2_role.keys())
 
     @property
@@ -136,7 +142,11 @@ class ModelProxy(QAbstractListModel):
     def move_many(self, old_index: int, new_index: int, count: int) -> None:
         assert count > 0
         self.begin_move_rows(
-            QModelIndex(), old_index, old_index + count - 1, QModelIndex(), new_index
+            QModelIndex(),
+            old_index,
+            old_index + count - 1,
+            QModelIndex(),
+            new_index,
         )
         items = self._items[old_index : old_index + count]
         self._items[old_index : old_index + count] = []

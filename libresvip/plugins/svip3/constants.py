@@ -8,5 +8,6 @@ MAX_NOTE_DURATION: Final[float] = 6.0
 
 
 Svip3TrackType = SimpleNamespace(
-    SINGING_TRACK="xstudio.proto.SingingTrack", AUDIO_TRACK="xstudio.proto.AudioTrack"
+    SINGING_TRACK="xstudio.proto.SingingTrack",
+    AUDIO_TRACK="xstudio.proto.AudioTrack",
 )

@@ -7,6 +7,14 @@ from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.model.base import BaseModel
 
 
+class HasWorkSpace(BaseModel):
+    workspace: dict[str, dict[Any, Any]] = Field(default_factory=dict)
+
+
+class HasExtra(HasWorkSpace):
+    extra: dict[str, dict[Any, Any]] = Field(default_factory=dict)
+
+
 class DspxGlobal(BaseModel):
     cent_shift: int = Field(0, alias="centShift")
     name: str
@@ -42,6 +50,7 @@ class DspxTempo(BaseModel):
 
 class DspxTimeSignature(BaseModel):
     index: int = 0
+    pos: int = 0
     numerator: int = 0
     denominator: int = 0
 
@@ -90,6 +99,12 @@ class DspxParam(BaseModel):
 class DspxParams(BaseModel):
     pitch: DspxParam = Field(default_factory=DspxParam)
     energy: DspxParam = Field(default_factory=DspxParam)
+    breathiness: DspxParam = Field(default_factory=DspxParam)
+    expressiveness: DspxParam = Field(default_factory=DspxParam)
+    gender: DspxParam = Field(default_factory=DspxParam)
+    tension: DspxParam = Field(default_factory=DspxParam)
+    velocity: DspxParam = Field(default_factory=DspxParam)
+    voicing: DspxParam = Field(default_factory=DspxParam)
 
 
 class DspxVibratoPoint(BaseModel):
@@ -123,7 +138,7 @@ class DspxPronunciation(BaseModel):
     edited: Optional[str] = None
 
 
-class DspxNote(BaseModel):
+class DspxNote(HasExtra):
     pos: int = 0
     length: int = 0
     key_num: int = Field(0, alias="keyNum")
@@ -133,10 +148,9 @@ class DspxNote(BaseModel):
     vibrato: DspxVibrato = Field(default_factory=DspxVibrato)
     language: str
     cent_shift: int = Field(0, alias="centShift")
-    extra: dict[str, dict[Any, Any]] = Field(default_factory=dict)
 
 
-class DspxClipMixin(abc.ABC, BaseModel):
+class DspxClipMixin(abc.ABC, HasExtra):
     time: DspxTime = Field(default_factory=DspxTime)
     name: str = ""
     control: DspxControl = Field(default_factory=DspxControl)
@@ -169,14 +183,14 @@ class DspxTrackColor(BaseModel):
     value: Optional[str] = None
 
 
-class DspxTrack(BaseModel):
+class DspxTrack(HasExtra):
     name: str = ""
     color: DspxTrackColor = Field(default_factory=DspxTrackColor)
     control: DspxTrackControl = Field(default_factory=DspxTrackControl)
     clips: list[DspxClip] = Field(default_factory=list)
 
 
-class DspxContent(BaseModel):
+class DspxContent(HasExtra):
     global_config: DspxGlobal = Field(alias="global")
     master: DspxMaster = Field(default_factory=DspxMaster)
     timeline: DsTimeline = Field(default_factory=DsTimeline)
@@ -184,7 +198,6 @@ class DspxContent(BaseModel):
     tracks: list[DspxTrack] = Field(default_factory=list)
 
 
-class DspxModel(BaseModel):
+class DspxModel(HasWorkSpace):
     version: str = "1.0.0"
     content: DspxContent = Field(default_factory=DspxContent)
-    workspace: dict[str, dict[Any, Any]] = Field(default_factory=dict)

@@ -36,7 +36,9 @@ Page {
                 Layout.fillWidth: true
                 text: field.value
                 onEditingFinished: {
-                    list_view.model.update(index, {value: text})
+                    list_view.model.update(index, {
+                        value: text
+                    });
                 }
             }
             IconButton {
@@ -44,13 +46,12 @@ Page {
                 diameter: 30
                 new_padding: 6
                 onClicked: {
-                    dialogs.colorDialog.bind_color(
-                        colorField.text,
-                        (color) => {
-                            colorField.text = color
-                            list_view.model.update(index, {value: colorField.text})
-                        }
-                    )
+                    dialogs.colorDialog.bind_color(colorField.text, color => {
+                        colorField.text = color;
+                        list_view.model.update(index, {
+                            value: colorField.text
+                        });
+                    });
                 }
             }
             IconButton {
@@ -86,10 +87,12 @@ Page {
             }
             Switch {
                 Component.onCompleted: {
-                    this.checked = field.value
+                    this.checked = field.value;
                 }
                 onCheckedChanged: {
-                    list_view.model.update(index, {value: this.checked})
+                    list_view.model.update(index, {
+                        value: this.checked
+                    });
                 }
             }
             Rectangle {
@@ -138,9 +141,7 @@ Page {
                 delegate: MenuItem {
                     width: ListView.view.width
                     contentItem: Label {
-                        text: comboBox.textRole
-                            ? qsTr((comboBox.textRole in modelData) ? modelData[comboBox.textRole] : model[comboBox.textRole])
-                            : qsTr(modelData)
+                        text: comboBox.textRole ? qsTr((comboBox.textRole in modelData) ? modelData[comboBox.textRole] : model[comboBox.textRole]) : qsTr(modelData)
                         color: comboBox.highlightedIndex === index ? Material.accentColor : window.Material.foreground
                         ToolTip.visible: hovered && modelData["desc"]
                         ToolTip.text: qsTr(modelData["desc"] || "")
@@ -162,15 +163,17 @@ Page {
                         model: comboBox.popup.visible ? comboBox.delegateModel : null
                         currentIndex: comboBox.highlightedIndex
 
-                        ScrollIndicator.vertical: ScrollIndicator { }
+                        ScrollIndicator.vertical: ScrollIndicator {}
                     }
                 }
 
                 Component.onCompleted: {
-                    this.currentIndex = indexOfValue(field.value)
+                    this.currentIndex = indexOfValue(field.value);
                 }
-                onActivated: (index) => {
-                    list_view.model.update(comboBoxRow.index, {value: this.currentValue})
+                onActivated: index => {
+                    list_view.model.update(comboBoxRow.index, {
+                        value: this.currentValue
+                    });
                 }
                 model: field.choices
             }
@@ -210,18 +213,20 @@ Page {
                 text: field.value
                 Component.onCompleted: {
                     switch (field.type) {
-                        case "int":
-                            validator = Qt.createQmlObject('import QtQuick; IntValidator {}', this)
-                            break
-                        case "float":
-                            validator = Qt.createQmlObject('import QtQuick; DoubleValidator {}', this)
-                            break
-                        default:
-                            break
+                    case "int":
+                        validator = Qt.createQmlObject('import QtQuick; IntValidator {}', this);
+                        break;
+                    case "float":
+                        validator = Qt.createQmlObject('import QtQuick; DoubleValidator {}', this);
+                        break;
+                    default:
+                        break;
                     }
                 }
                 onEditingFinished: {
-                    list_view.model.update(index, {value: text})
+                    list_view.model.update(index, {
+                        value: text
+                    });
                 }
             }
             IconButton {
@@ -250,10 +255,7 @@ Page {
             }
             Rectangle {
                 Layout.fillWidth: true
-                color: Material.color(
-                    Material.Grey,
-                    Material.Shade300
-                )
+                color: Material.color(Material.Grey, Material.Shade300)
                 height: 1
             }
         }
@@ -275,39 +277,36 @@ Page {
                     Layout.fillWidth: true
                     enabled: !taskManager.busy
                     hint: qsTr("Input Format: ")
-                    onActivated: (index) => {
-                        if (
-                            resetTasksOnInputChange.checked &&
-                            taskManager.get_str("input_format") != currentValue
-                        ) {
-                            actions.clearTasks.trigger()
+                    onActivated: index => {
+                        if (resetTasksOnInputChange.checked && taskManager.get_str("input_format") != currentValue) {
+                            actions.clearTasks.trigger();
                         }
-                        taskManager.set_str("input_format", currentValue)
+                        taskManager.set_str("input_format", currentValue);
                     }
                     Component.onCompleted: {
-                        let last_input_format = taskManager.get_str("input_format")
+                        let last_input_format = taskManager.get_str("input_format");
                         if (last_input_format !== "") {
-                            this.currentIndex = indexOfValue(last_input_format)
+                            this.currentIndex = indexOfValue(last_input_format);
                         } else {
-                            this.currentIndex = 0
+                            this.currentIndex = 0;
                         }
-                        dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")"
-                        taskManager.input_format_changed.connect((input_format) => {
-                            let new_index = indexOfValue(input_format)
+                        dialogs.openDialog.nameFilters[0] = qsTr(currentText) + " (*." + currentValue + ")";
+                        taskManager.input_format_changed.connect(input_format => {
+                            let new_index = indexOfValue(input_format);
                             if (new_index < 0) {
-                                currentIndex = 0
-                                taskManager.set_str("input_format", currentValue)
+                                currentIndex = 0;
+                                taskManager.set_str("input_format", currentValue);
                             } else {
                                 if (new_index != currentIndex) {
-                                    currentIndex = new_index
+                                    currentIndex = new_index;
                                 }
-                                let name_filter = qsTr(currentText) + " (*." + currentValue + ")"
+                                let name_filter = qsTr(currentText) + " (*." + currentValue + ")";
                                 if (name_filter != dialogs.openDialog.nameFilters[0]) {
-                                    dialogs.openDialog.nameFilters[0] = name_filter
+                                    dialogs.openDialog.nameFilters[0] = name_filter;
                                 }
                             }
-                        })
-                        taskManager.set_str("input_format", currentValue)
+                        });
+                        taskManager.set_str("input_format", currentValue);
                     }
                     width: parent.width
                     choices: taskManager.qget("input_formats")
@@ -318,8 +317,8 @@ Page {
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("View Detail Information")
                     onClicked: {
-                        inputInfoPowerAnimation.running = true
-                        inputFormatInfo.opened ? inputFormatInfo.close() : inputFormatInfo.open()
+                        inputInfoPowerAnimation.running = true;
+                        inputFormatInfo.opened ? inputFormatInfo.close() : inputFormatInfo.open();
                     }
                     Rectangle {
                         id: inputInfoPower
@@ -373,14 +372,14 @@ Page {
                     Popup {
                         id: inputFormatInfo
                         y: 45
-                        x: smallView.visible ? - width + parent.width : (parent.width - width) * 0.5
+                        x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
                             info: taskManager.plugin_info("input_format")
                             Component.onCompleted: {
-                                taskManager.input_format_changed.connect( (input_format) => {
-                                    info = taskManager.plugin_info("input_format")
-                                })
+                                taskManager.input_format_changed.connect(input_format => {
+                                    info = taskManager.plugin_info("input_format");
+                                });
                             }
                         }
                     }
@@ -395,7 +394,7 @@ Page {
                     text: qsTr("Reset Tasks When Changing Input")
                     checked: configItems.reset_tasks_on_input_change
                     onClicked: {
-                        configItems.reset_tasks_on_input_change = checked
+                        configItems.reset_tasks_on_input_change = checked;
                     }
                 }
                 Item {
@@ -406,7 +405,7 @@ Page {
                     text: qsTr("Auto-Detect Input File Type")
                     checked: configItems.auto_detect_input_format
                     onClicked: {
-                        configItems.auto_detect_input_format = checked
+                        configItems.auto_detect_input_format = checked;
                     }
                 }
                 Item {
@@ -421,15 +420,9 @@ Page {
                     ToolTip.text: qsTr("Swap Input and Output")
                     onClicked: {
                         if (inputFormat.enabled && outputFormat.enabled) {
-                            [
-                                inputFormat.currentIndex,
-                                outputFormat.currentIndex
-                            ] = [
-                                outputFormat.currentIndex,
-                                inputFormat.currentIndex
-                            ]
-                            taskManager.set_str("input_format", inputFormat.currentValue)
-                            taskManager.set_str("output_format", outputFormat.currentValue)
+                            [inputFormat.currentIndex, outputFormat.currentIndex] = [outputFormat.currentIndex, inputFormat.currentIndex];
+                            taskManager.set_str("input_format", inputFormat.currentValue);
+                            taskManager.set_str("output_format", outputFormat.currentValue);
                         }
                     }
                 }
@@ -440,26 +433,26 @@ Page {
                     Layout.fillWidth: true
                     enabled: !taskManager.busy
                     hint: qsTr("Output Format: ")
-                    onActivated: (index) => {
-                        taskManager.set_str("output_format", currentValue)
+                    onActivated: index => {
+                        taskManager.set_str("output_format", currentValue);
                     }
                     Component.onCompleted: {
-                        let last_output_format = taskManager.get_str("output_format")
+                        let last_output_format = taskManager.get_str("output_format");
                         if (last_output_format !== "") {
-                            this.currentIndex = indexOfValue(last_output_format)
+                            this.currentIndex = indexOfValue(last_output_format);
                         } else {
-                            this.currentIndex = 0
+                            this.currentIndex = 0;
                         }
-                        taskManager.output_format_changed.connect((output_format) => {
-                            let new_index = indexOfValue(output_format)
+                        taskManager.output_format_changed.connect(output_format => {
+                            let new_index = indexOfValue(output_format);
                             if (new_index < 0) {
-                                currentIndex = 0
-                                taskManager.set_str("output_format", currentValue)
+                                currentIndex = 0;
+                                taskManager.set_str("output_format", currentValue);
                             } else if (new_index != currentIndex) {
-                                currentIndex = new_index
+                                currentIndex = new_index;
                             }
-                        })
-                        taskManager.set_str("output_format", currentValue)
+                        });
+                        taskManager.set_str("output_format", currentValue);
                     }
                     width: parent.width
                     model: taskManager.qget("output_formats")
@@ -470,8 +463,8 @@ Page {
                     ToolTip.visible: hovered
                     ToolTip.text: qsTr("View Detail Information")
                     onClicked: {
-                        outputInfoPowerAnimation.running = true
-                        outputFormatInfo.opened ? outputFormatInfo.close() : outputFormatInfo.open()
+                        outputInfoPowerAnimation.running = true;
+                        outputFormatInfo.opened ? outputFormatInfo.close() : outputFormatInfo.open();
                     }
                     Rectangle {
                         id: outputInfoPower
@@ -525,14 +518,14 @@ Page {
                     Popup {
                         id: outputFormatInfo
                         y: 45
-                        x: smallView.visible ? - width + parent.width : (parent.width - width) * 0.5
+                        x: smallView.visible ? -width + parent.width : (parent.width - width) * 0.5
                         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
                         contentItem: PluginInfo {
                             info: taskManager.plugin_info("output_format")
                             Component.onCompleted: {
-                                taskManager.output_format_changed.connect( (output_format) => {
-                                    info = taskManager.plugin_info("output_format")
-                                })
+                                taskManager.output_format_changed.connect(output_format => {
+                                    info = taskManager.plugin_info("output_format");
+                                });
                             }
                         }
                     }
@@ -544,12 +537,12 @@ Page {
                     text: qsTr("Set Output File Extension Automatically")
                     checked: configItems.auto_set_output_extension
                     onClicked: {
-                        configItems.auto_set_output_extension = checked
+                        configItems.auto_set_output_extension = checked;
                     }
                     Component.onCompleted: {
-                        configItems.auto_set_output_extension_changed.connect( (value) => {
-                            value === checked ? null : checked = value
-                        })
+                        configItems.auto_set_output_extension_changed.connect(value => {
+                            value === checked ? null : checked = value;
+                        });
                     }
                 }
             }
@@ -559,9 +552,9 @@ Page {
     DropArea {
         id: taskListArea
         clip: true
-        onDropped: (event) => {
+        onDropped: event => {
             if (inputFormat.enabled) {
-                taskManager.add_task_paths(event.urls.map(dialogs.url2path))
+                taskManager.add_task_paths(event.urls.map(dialogs.url2path));
             }
         }
         DashedRectangle {
@@ -575,17 +568,17 @@ Page {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: {
                     if (taskManager.count == 0) {
-                        parent.opacity = 0.5
+                        parent.opacity = 0.5;
                     }
                 }
                 onExited: {
                     if (parent.opacity < 1) {
-                        parent.opacity = 1
+                        parent.opacity = 1;
                     }
                 }
                 onClicked: {
                     if (taskManager.count == 0) {
-                        actions.openFile.trigger()
+                        actions.openFile.trigger();
                     }
                 }
                 Column {
@@ -627,7 +620,7 @@ Page {
                         ToolTip.text: qsTr("Direct Mode")
                         ToolTip.visible: hovered
                         onClicked: {
-                            taskManager.conversion_mode = "Direct"
+                            taskManager.conversion_mode = "Direct";
                         }
                     }
 
@@ -640,7 +633,7 @@ Page {
                         ToolTip.text: qsTr("Singing Track Merging Mode")
                         ToolTip.visible: hovered
                         onClicked: {
-                            taskManager.conversion_mode = "Merge"
+                            taskManager.conversion_mode = "Merge";
                         }
                     }
 
@@ -653,7 +646,7 @@ Page {
                         ToolTip.text: qsTr("Singing Track Grouping Mode")
                         ToolTip.visible: hovered
                         onClicked: {
-                            taskManager.conversion_mode = "Split"
+                            taskManager.conversion_mode = "Split";
                         }
                     }
                 }
@@ -683,9 +676,7 @@ Page {
                     id: taskListView
                     Layout.fillWidth: true
                     model: taskManager.qget("tasks")
-                    delegate: Qt.createComponent(
-                        "task_row.qml"
-                    )
+                    delegate: Qt.createComponent("task_row.qml")
                 }
             }
             RowLayout {
@@ -699,17 +690,11 @@ Page {
                         repeat: true
                         triggeredOnStart: false
                         onTriggered: {
-                            if (
-                                toggleTaskToolbarButton.hovered ||
-                                addTaskButton.hovered ||
-                                clearTaskButton.hovered ||
-                                resetExtensionButton.hovered ||
-                                removeOtherExtensionButton.hovered
-                            ) {
-                                return
+                            if (toggleTaskToolbarButton.hovered || addTaskButton.hovered || clearTaskButton.hovered || resetExtensionButton.hovered || removeOtherExtensionButton.hovered) {
+                                return;
                             }
-                            toggleTaskToolbarButton.state = "collapsed"
-                            this.stop()
+                            toggleTaskToolbarButton.state = "collapsed";
+                            this.stop();
                         }
                     }
                     RoundButton {
@@ -741,10 +726,7 @@ Page {
                         state: "collapsed"
                         background: Rectangle {
                             radius: this.height / 2
-                            color: Material.color(
-                                Material.Indigo,
-                                Material.Shade300
-                            )
+                            color: Material.color(Material.Indigo, Material.Shade300)
                         }
                         text: iconicFontLoader.icon("mdi7.hammer-wrench")
                         y: parent.height - this.height / 2
@@ -759,11 +741,10 @@ Page {
                         }
                         onHoveredChanged: {
                             if (hovered) {
-                                hideTaskToolbarTimer.stop()
-                                state = "expanded"
-                            }
-                            else if (!hideTaskToolbarTimer.running) {
-                                hideTaskToolbarTimer.start()
+                                hideTaskToolbarTimer.stop();
+                                state = "expanded";
+                            } else if (!hideTaskToolbarTimer.running) {
+                                hideTaskToolbarTimer.start();
                             }
                         }
                     }
@@ -788,10 +769,7 @@ Page {
                                 text: iconicFontLoader.icon("mdi7.plus")
                                 background: Rectangle {
                                     radius: this.height / 2
-                                    color: Material.color(
-                                        Material.LightBlue,
-                                        Material.Shade200
-                                    )
+                                    color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -800,11 +778,11 @@ Page {
                                 ToolTip.text: qsTr("Continue Adding files")
                                 onHoveredChanged: {
                                     if (!hovered && !hideTaskToolbarTimer.running) {
-                                        hideTaskToolbarTimer.start()
+                                        hideTaskToolbarTimer.start();
                                     }
                                 }
                                 onClicked: {
-                                    actions.openFile.trigger()
+                                    actions.openFile.trigger();
                                 }
                             }
                             RoundButton {
@@ -812,10 +790,7 @@ Page {
                                 text: iconicFontLoader.icon("mdi7.refresh")
                                 background: Rectangle {
                                     radius: this.height / 2
-                                    color: Material.color(
-                                        Material.LightBlue,
-                                        Material.Shade200
-                                    )
+                                    color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -825,12 +800,12 @@ Page {
                                 ToolTip.text: qsTr("Clear Task List")
                                 onHoveredChanged: {
                                     if (!hovered && !hideTaskToolbarTimer.running) {
-                                        hideTaskToolbarTimer.start()
+                                        hideTaskToolbarTimer.start();
                                     }
                                 }
                                 onClicked: {
                                     if (startConversionBtn.enabled) {
-                                        actions.clearTasks.trigger()
+                                        actions.clearTasks.trigger();
                                     }
                                 }
                             }
@@ -839,10 +814,7 @@ Page {
                                 text: iconicFontLoader.icon("mdi7.form-textbox")
                                 background: Rectangle {
                                     radius: this.height / 2
-                                    color: Material.color(
-                                        Material.LightBlue,
-                                        Material.Shade200
-                                    )
+                                    color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -851,12 +823,12 @@ Page {
                                 ToolTip.text: qsTr("Reset Default Extension")
                                 onHoveredChanged: {
                                     if (!hovered && !hideTaskToolbarTimer.running) {
-                                        hideTaskToolbarTimer.start()
+                                        hideTaskToolbarTimer.start();
                                     }
                                 }
                                 onClicked: {
                                     if (startConversionBtn.enabled) {
-                                        taskManager.reset_stems()
+                                        taskManager.reset_stems();
                                     }
                                 }
                             }
@@ -865,10 +837,7 @@ Page {
                                 text: iconicFontLoader.icon("mdi7.filter-minus-outline")
                                 background: Rectangle {
                                     radius: this.height / 2
-                                    color: Material.color(
-                                        Material.LightBlue,
-                                        Material.Shade200
-                                    )
+                                    color: Material.color(Material.LightBlue, Material.Shade200)
                                 }
                                 font.family: "Material Design Icons"
                                 font.pixelSize: Qt.application.font.pixelSize * 1.5
@@ -877,17 +846,18 @@ Page {
                                 ToolTip.text: qsTr("Remove Tasks With Other Extensions")
                                 onHoveredChanged: {
                                     if (!hovered && !hideTaskToolbarTimer.running) {
-                                        hideTaskToolbarTimer.start()
+                                        hideTaskToolbarTimer.start();
                                     }
                                 }
                                 onClicked: {
-                                    if (startConversionBtn.enabled) {  // TODO
+                                    if (startConversionBtn.enabled) {
+                                        // TODO
                                         for (var i = 0; i < taskListView.count; i++) {
-                                            var task = taskListView.model.get(i)
-                                            let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : ""
+                                            var task = taskListView.model.get(i);
+                                            let extension = task.path.lastIndexOf(".") > -1 ? task.path.slice(task.path.lastIndexOf(".") + 1) : "";
                                             if (extension != inputFormat.currentValue) {
-                                                taskListView.model.delete(i)
-                                                i--
+                                                taskListView.model.delete(i);
+                                                i--;
                                             }
                                         }
                                     }
@@ -909,7 +879,7 @@ Page {
                     value: configItems.max_track_count
                     visible: taskManager.conversion_mode === "Split"
                     onValueModified: {
-                        configItems.max_track_count = value
+                        configItems.max_track_count = value;
                     }
                 }
             }
@@ -918,10 +888,7 @@ Page {
             anchors.fill: parent
             color: "transparent"
             border.width: 1
-            border.color: Material.color(
-                Material.Grey,
-                Material.Shade300
-            )
+            border.color: Material.color(Material.Grey, Material.Shade300)
         }
     }
 
@@ -962,7 +929,7 @@ Page {
                             color: "transparent"
                         }
                         onClicked: {
-                            inputContainer.expanded = !inputContainer.expanded
+                            inputContainer.expanded = !inputContainer.expanded;
                         }
                     }
                     Label {
@@ -978,16 +945,14 @@ Page {
                     Label {
                         property string input_format_name: ""
                         text: qsTr("[Import as ") + qsTr(input_format_name) + "]"
-                        color: Material.color(
-                            Material.Grey
-                        )
+                        color: Material.color(Material.Grey)
                         font.pixelSize: 20
                         anchors.verticalCenter: parent.verticalCenter
                         Component.onCompleted: {
-                            taskManager.input_format_changed.connect((input_format) => {
-                                let plugin_info = taskManager.plugin_info("input_format")
-                                input_format_name = plugin_info.file_format
-                            })
+                            taskManager.input_format_changed.connect(input_format => {
+                                let plugin_info = taskManager.plugin_info("input_format");
+                                input_format_name = plugin_info.file_format;
+                            });
                         }
                     }
                 }
@@ -1035,15 +1000,20 @@ Page {
                                         duration: 300
                                         easing.type: Easing.InOutQuad
                                     }
-                                    PropertyAction { target: inputContainer; property: "visible" }
+                                    PropertyAction {
+                                        target: inputContainer
+                                        property: "visible"
+                                    }
                                 }
                             },
-
                             Transition {
                                 from: "collapsed"
                                 to: "expanded"
                                 SequentialAnimation {
-                                    PropertyAction { target: inputContainer; property: "visible" }
+                                    PropertyAction {
+                                        target: inputContainer
+                                        property: "visible"
+                                    }
                                     PropertyAnimation {
                                         target: inputContainer
                                         properties: "y,opacity,Layout.maximumHeight"
@@ -1056,59 +1026,6 @@ Page {
                     }
                     Rectangle {
                         width: 20
-                    }
-                }
-                ListView {
-                    id: inputFields
-                    model: taskManager.qget("input_fields")
-                    delegate: Column {
-                        Component.onCompleted: {
-                            if (index == 0) {
-                                for (var i = 0; i < inputFields.count; i++) {
-                                    let model = inputFields.model.get(i)
-                                    let separator_item = separatorItem.createObject(inputContainer)
-                                    this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null
-                                    switch (model.type) {
-                                        case "bool": {
-                                            item = switchItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields
-                                            })
-                                            break
-                                        }
-                                        case "enum": {
-                                            item = comboBoxItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields
-                                            })
-                                            break
-                                        }
-                                        case "color" : {
-                                            item = colorPickerItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields
-                                            })
-                                            break
-                                        }
-                                        default: {
-                                            item = textFieldItem.createObject(inputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": inputFields,
-                                            })
-                                            break
-                                        }
-                                    }
-                                    if (item) {
-                                        this.Component.onDestruction.connect(item.destroy)
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
                 Repeater {
@@ -1125,8 +1042,10 @@ Page {
                                     color: "transparent"
                                 }
                                 onToggled: {
-                                    middlewareContainer.expanded = !middlewareContainer.expanded
-                                    taskManager.qget("middleware_states").update(modelData.index, {"value": middlewareContainer.expanded})
+                                    middlewareContainer.expanded = !middlewareContainer.expanded;
+                                    taskManager.qget("middleware_states").update(modelData.index, {
+                                        "value": middlewareContainer.expanded
+                                    });
                                 }
                             }
                             Label {
@@ -1182,7 +1101,7 @@ Page {
                                     }
                                 ]
                                 state: expanded ? "expanded" : "collapsed"
-            
+
                                 transitions: [
                                     Transition {
                                         from: "expanded"
@@ -1194,15 +1113,20 @@ Page {
                                                 duration: 300
                                                 easing.type: Easing.InOutQuad
                                             }
-                                            PropertyAction { target: middlewareContainer; property: "visible" }
+                                            PropertyAction {
+                                                target: middlewareContainer
+                                                property: "visible"
+                                            }
                                         }
                                     },
-            
                                     Transition {
                                         from: "collapsed"
                                         to: "expanded"
                                         SequentialAnimation {
-                                            PropertyAction { target: middlewareContainer; property: "visible" }
+                                            PropertyAction {
+                                                target: middlewareContainer
+                                                property: "visible"
+                                            }
                                             PropertyAnimation {
                                                 target: middlewareContainer
                                                 properties: "y,opacity,Layout.maximumHeight"
@@ -1222,41 +1146,45 @@ Page {
                             model: taskManager.get_middleware_fields(modelData.identifier)
                             function rebuildFields() {
                                 for (var i = 0; i < model.rowCount(); i++) {
-                                    let middleware_state = model.get(i)
-                                    let separator_item = separatorItem.createObject(middlewareContainer)
-                                    let item = null
+                                    let middleware_state = model.get(i);
+                                    let separator_item = separatorItem.createObject(middlewareContainer);
+                                    let item = null;
                                     switch (middleware_state.type) {
-                                        case "bool": {
+                                    case "bool":
+                                        {
                                             item = switchItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
                                                 "list_view": middlewareFields
-                                            })
-                                            break
+                                            });
+                                            break;
                                         }
-                                        case "enum": {
+                                    case "enum":
+                                        {
                                             item = comboBoxItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
                                                 "list_view": middlewareFields
-                                            })
-                                            break
+                                            });
+                                            break;
                                         }
-                                        case "color" : {
+                                    case "color":
+                                        {
                                             item = colorPickerItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
                                                 "list_view": middlewareFields
-                                            })
-                                            break
+                                            });
+                                            break;
                                         }
-                                        default: {
+                                    default:
+                                        {
                                             item = textFieldItem.createObject(middlewareContainer, {
                                                 "field": middleware_state,
                                                 "index": i,
-                                                "list_view": middlewareFields,
-                                            })
-                                            break
+                                                "list_view": middlewareFields
+                                            });
+                                            break;
                                         }
                                     }
                                 }
@@ -1264,8 +1192,8 @@ Page {
                             delegate: Column {
                                 Component.onCompleted: {
                                     if (index == 0) {
-                                        middlewareContainer.children.length = 0
-                                        middlewareFields.rebuildFields()
+                                        middlewareContainer.children.length = 0;
+                                        middlewareFields.rebuildFields();
                                     }
                                 }
                             }
@@ -1296,7 +1224,7 @@ Page {
                             color: "transparent"
                         }
                         onClicked: {
-                            outputContainer.expanded = !outputContainer.expanded
+                            outputContainer.expanded = !outputContainer.expanded;
                         }
                     }
                     Label {
@@ -1313,15 +1241,13 @@ Page {
                         property string output_format_name: ""
                         text: qsTr("[Export to ") + qsTr(output_format_name) + "]"
                         font.pixelSize: 20
-                        color: Material.color(
-                            Material.Grey
-                        )
+                        color: Material.color(Material.Grey)
                         anchors.verticalCenter: parent.verticalCenter
                         Component.onCompleted: {
-                            taskManager.output_format_changed.connect((output_format) => {
-                                let plugin_info = taskManager.plugin_info("output_format")
-                                output_format_name = plugin_info.file_format
-                            })
+                            taskManager.output_format_changed.connect(output_format => {
+                                let plugin_info = taskManager.plugin_info("output_format");
+                                output_format_name = plugin_info.file_format;
+                            });
                         }
                     }
                 }
@@ -1369,15 +1295,20 @@ Page {
                                         duration: 300
                                         easing.type: Easing.InOutQuad
                                     }
-                                    PropertyAction { target: outputContainer; property: "visible" }
+                                    PropertyAction {
+                                        target: outputContainer
+                                        property: "visible"
+                                    }
                                 }
                             },
-
                             Transition {
                                 from: "collapsed"
                                 to: "expanded"
                                 SequentialAnimation {
-                                    PropertyAction { target: outputContainer; property: "visible" }
+                                    PropertyAction {
+                                        target: outputContainer
+                                        property: "visible"
+                                    }
                                     PropertyAnimation {
                                         target: outputContainer
                                         properties: "y,opacity,Layout.maximumHeight"
@@ -1392,55 +1323,112 @@ Page {
                         width: 20
                     }
                 }
-                ListView {
+                Repeater {
+                    id: inputFields
+                    model: taskManager.qget("input_fields")
+                    delegate: Rectangle {
+                        width: 0
+                        height: 0
+                        required property var modelData
+                        Component.onCompleted: {
+                            let separator_item = separatorItem.createObject(inputContainer);
+                            this.Component.onDestruction.connect(separator_item.destroy);
+                            let item = null;
+                            switch (modelData.type) {
+                            case "bool":
+                                {
+                                    item = switchItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    });
+                                    break;
+                                }
+                            case "enum":
+                                {
+                                    item = comboBoxItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    });
+                                    break;
+                                }
+                            case "color":
+                                {
+                                    item = colorPickerItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    });
+                                    break;
+                                }
+                            default:
+                                {
+                                    item = textFieldItem.createObject(inputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": inputFields
+                                    });
+                                    break;
+                                }
+                            }
+                            if (item) {
+                                this.Component.onDestruction.connect(item.destroy);
+                            }
+                        }
+                    }
+                }
+                Repeater {
                     id: outputFields
                     model: taskManager.qget("output_fields")
-                    delegate: Column {
+                    delegate: Rectangle {
+                        width: 0
+                        height: 0
+                        required property var modelData
                         Component.onCompleted: {
-                            if (index == 0) {
-                                for (var i = 0; i < outputFields.count; i++) {
-                                    let model = outputFields.model.get(i)
-                                    let separator_item = separatorItem.createObject(outputContainer)
-                                    this.Component.onDestruction.connect(separator_item.destroy)
-                                    let item = null
-                                    switch (model.type) {
-                                        case "bool": {
-                                            item = switchItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                        case "enum": {
-                                            item = comboBoxItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                        case "color" : {
-                                            item = colorPickerItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                        default: {
-                                            item = textFieldItem.createObject(outputContainer, {
-                                                "field": model,
-                                                "index": i,
-                                                "list_view": outputFields
-                                            })
-                                            break
-                                        }
-                                    }
-                                    if (item) {
-                                        this.Component.onDestruction.connect(item.destroy)
-                                    }
+                            let separator_item = separatorItem.createObject(outputContainer);
+                            this.Component.onDestruction.connect(separator_item.destroy);
+                            let item = null;
+                            switch (modelData.type) {
+                            case "bool":
+                                {
+                                    item = switchItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    });
+                                    break;
                                 }
+                            case "enum":
+                                {
+                                    item = comboBoxItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    });
+                                    break;
+                                }
+                            case "color":
+                                {
+                                    item = colorPickerItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    });
+                                    break;
+                                }
+                            default:
+                                {
+                                    item = textFieldItem.createObject(outputContainer, {
+                                        "field": modelData,
+                                        "index": modelData.index,
+                                        "list_view": outputFields
+                                    });
+                                    break;
+                                }
+                            }
+                            if (item) {
+                                this.Component.onDestruction.connect(item.destroy);
                             }
                         }
                     }
@@ -1448,7 +1436,7 @@ Page {
             }
         }
     }
-    
+
     ColumnLayout {
         id: outputSettingsCard
         RowLayout {
@@ -1462,7 +1450,7 @@ Page {
                 text: qsTr("Open Output Folder When Done")
                 checked: configItems.open_save_folder_on_completion
                 onClicked: {
-                    configItems.open_save_folder_on_completion = checked
+                    configItems.open_save_folder_on_completion = checked;
                 }
             }
         }
@@ -1475,9 +1463,7 @@ Page {
                 Layout.margins: 15
                 RoundButton {
                     id: startConversionBtn
-                    property color base_color: Material.color(
-                        Material.Indigo
-                    )
+                    property color base_color: Material.color(Material.Indigo)
                     property int anim_index: 10
                     property bool anim_running: taskManager.busy
                     anchors.fill: parent
@@ -1534,7 +1520,7 @@ Page {
                         color: "white"
                     }
                     onClicked: {
-                        actions.startConversion.trigger()
+                        actions.startConversion.trigger();
                     }
                 }
             }
@@ -1545,7 +1531,7 @@ Page {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Choose Output Folder")
                         onClicked: {
-                            actions.chooseSavePath.trigger()
+                            actions.chooseSavePath.trigger();
                         }
                     }
                     TextField {
@@ -1555,9 +1541,9 @@ Page {
                         text: configItems.save_folder
                         onEditingFinished: {
                             if (configItems.dir_valid(text) === true) {
-                                configItems.save_folder = text
+                                configItems.save_folder = text;
                             } else {
-                                undo()
+                                undo();
                             }
                         }
                     }
@@ -1573,27 +1559,36 @@ Page {
                         textRole: "text"
                         valueRole: "value"
                         model: [
-                            {value: "Overwrite", text: qsTr("Overwrite")},
-                            {value: "Skip", text: qsTr("Skip")},
-                            {value: "Prompt", text: qsTr("Prompt")}
+                            {
+                                value: "Overwrite",
+                                text: qsTr("Overwrite")
+                            },
+                            {
+                                value: "Skip",
+                                text: qsTr("Skip")
+                            },
+                            {
+                                value: "Prompt",
+                                text: qsTr("Prompt")
+                            }
                         ]
-                        onActivated: (index) => {
-                            configItems.conflict_policy = currentValue
+                        onActivated: index => {
+                            configItems.conflict_policy = currentValue;
                         }
                         Connections {
                             target: configItems
                             function onConflict_policy_changed(value) {
                                 switch (value) {
-                                    case "Overwrite":
-                                    case "Skip":
-                                    case "Prompt":
-                                        conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value)
-                                        break
+                                case "Overwrite":
+                                case "Skip":
+                                case "Prompt":
+                                    conflictPolicyCombo.currentIndex = conflictPolicyCombo.indexOfValue(value);
+                                    break;
                                 }
                             }
                         }
                         Component.onCompleted: {
-                            currentIndex = indexOfValue(configItems.conflict_policy)
+                            currentIndex = indexOfValue(configItems.conflict_policy);
                         }
                     }
                 }
@@ -1620,10 +1615,7 @@ Page {
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
-                    border.color: Material.color(
-                        Material.Grey,
-                        Material.Shade300
-                    )
+                    border.color: Material.color(Material.Grey, Material.Shade300)
                 }
 
                 LayoutItemProxy {
@@ -1654,7 +1646,7 @@ Page {
             SplitView.minimumWidth: 450
             orientation: Qt.Vertical
 
-            Pane {   
+            Pane {
                 SplitView.fillWidth: true
                 SplitView.minimumWidth: parent.width
                 SplitView.preferredHeight: parent.height - 200
@@ -1663,10 +1655,7 @@ Page {
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
-                    border.color: Material.color(
-                        Material.Grey,
-                        Material.Shade300
-                    )
+                    border.color: Material.color(Material.Grey, Material.Shade300)
                 }
 
                 LayoutItemProxy {
@@ -1686,10 +1675,7 @@ Page {
                 background: Rectangle {
                     color: "transparent"
                     border.width: 1
-                    border.color: Material.color(
-                        Material.Grey,
-                        Material.Shade300
-                    )
+                    border.color: Material.color(Material.Grey, Material.Shade300)
                 }
                 LayoutItemProxy {
                     anchors.fill: parent
@@ -1713,21 +1699,21 @@ Page {
             TabButton {
                 text: qsTr("Select File Formats")
                 onClicked: {
-                    smallViewStack.currentIndex = 0
+                    smallViewStack.currentIndex = 0;
                 }
             }
 
             TabButton {
                 text: qsTr("Advanced Settings")
                 onClicked: {
-                    smallViewStack.currentIndex = 1
+                    smallViewStack.currentIndex = 1;
                 }
             }
 
             TabButton {
-                text: qsTr("Export")
+                text: qsTr("Output Settings")
                 onClicked: {
-                    smallViewStack.currentIndex = 2
+                    smallViewStack.currentIndex = 2;
                 }
             }
         }
@@ -1737,9 +1723,9 @@ Page {
             color: "lightgrey"
         }
         StackLayout {
+            id: smallViewStack
             Layout.fillWidth: true
             Layout.fillHeight: true
-            id: smallViewStack
             currentIndex: 0
 
             SplitView {
@@ -1755,10 +1741,7 @@ Page {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Material.color(
-                            Material.Grey,
-                            Material.Shade300
-                        )
+                        border.color: Material.color(Material.Grey, Material.Shade300)
                     }
 
                     LayoutItemProxy {
@@ -1793,10 +1776,7 @@ Page {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Material.color(
-                            Material.Grey,
-                            Material.Shade300
-                        )
+                        border.color: Material.color(Material.Grey, Material.Shade300)
                     }
 
                     LayoutItemProxy {
@@ -1832,10 +1812,7 @@ Page {
                     background: Rectangle {
                         color: "transparent"
                         border.width: 1
-                        border.color: Material.color(
-                            Material.Grey,
-                            Material.Shade300
-                        )
+                        border.color: Material.color(Material.Grey, Material.Shade300)
                     }
                     LayoutItemProxy {
                         anchors.fill: parent
@@ -1862,11 +1839,11 @@ Page {
         target: window
         function onWidthChanged() {
             if (window.width < 1000) {
-                smallView.visible = true
-                largeView.visible = false
+                smallView.visible = true;
+                largeView.visible = false;
             } else {
-                smallView.visible = false
-                largeView.visible = true
+                smallView.visible = false;
+                largeView.visible = true;
             }
         }
     }

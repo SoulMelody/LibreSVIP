@@ -20,7 +20,10 @@ from libresvip.core.config import (
 )
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import plugin_manager
-from libresvip.gui.models.list_models import LyricReplacementPresetsModel, ModelProxy
+from libresvip.gui.models.list_models import (
+    LyricReplacementPresetsModel,
+    ModelProxy,
+)
 from libresvip.gui.models.table_models import LyricReplacementRulesTableModel
 
 from .application import app
@@ -108,7 +111,10 @@ class ConfigItems(QObject, metaclass=AutoBindBaseConfigMetaObject):
         self.conflict_policy_changed.emit(policy)
 
     conflict_policy = Property(
-        str, get_conflict_policy, set_conflict_policy, notify=conflict_policy_changed
+        str,
+        get_conflict_policy,
+        set_conflict_policy,
+        notify=conflict_policy_changed,
     )
 
     def get_theme(self) -> str:

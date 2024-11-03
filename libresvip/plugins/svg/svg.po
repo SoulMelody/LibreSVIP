@@ -40,6 +40,9 @@ msgstr ""
 msgid "Note stroke color"
 msgstr ""
 
+msgid "Note stroke width"
+msgstr ""
+
 msgid "Pitch stroke color"
 msgstr ""
 
@@ -59,6 +62,9 @@ msgid "Inner text color"
 msgstr ""
 
 msgid "The color of the text on the top and bottom of the note"
+msgstr ""
+
+msgid "Show grid lines"
 msgstr ""
 
 msgid "Grid line color"

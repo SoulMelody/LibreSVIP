@@ -7,28 +7,34 @@ import operator
 import mido_fix as mido
 import more_itertools
 
-from libresvip.core.constants import DEFAULT_PHONEME, TICKS_IN_BEAT
+from libresvip.core.constants import (
+    DEFAULT_PHONEME,
+    DEFAULT_PITCH_BEND_SENSITIVITY,
+    PITCH_MAX_VALUE,
+    TICKS_IN_BEAT,
+)
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     Note,
     ParamCurve,
     Params,
-    Point,
     Project,
     SingingTrack,
     SongTempo,
     TimeSignature,
     Track,
 )
+from libresvip.model.pitch_simulator import PitchSimulator
+from libresvip.model.point import Point
+from libresvip.model.portamento import PortamentoPitch
 from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.music_math import ratio_to_db
 from libresvip.utils.text import LATIN_ALPHABET
 from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
-    DEFAULT_PITCH_BEND_SENSITIVITY,
     EXPRESSION_CONSTANT,
-    PITCH_MAX_VALUE,
     VELOCITY_CONSTANT,
     ControlChange,
 )
@@ -49,6 +55,7 @@ class MidiParser:
     options: InputOptions
     ticks_per_beat: int = dataclasses.field(init=False)
     first_bar_length: int = dataclasses.field(init=False)
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     selected_channels: list[int] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -77,6 +84,7 @@ class MidiParser:
             master_track = mido_obj.tracks[0]
             time_signature_list = self.parse_time_signatures(master_track)
         song_tempo_list = self.parse_tempo(mido_obj.tracks)
+        self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
             song_tempo_list=song_tempo_list,
             time_signature_list=time_signature_list,
@@ -253,9 +261,14 @@ class MidiParser:
                 show_warning(msg)
             edited_params = Params(volume=expression)
             if self.options.import_pitch:
+                pitch_simulator = PitchSimulator(
+                    synchronizer=self.synchronizer,
+                    portamento=PortamentoPitch.no_portamento(),
+                    note_list=notes,
+                )
                 rel_pitch_points.sort(key=operator.attrgetter("x"))
                 edited_params.pitch = RelativePitchCurve(self.first_bar_length).to_absolute(
-                    rel_pitch_points, notes
+                    rel_pitch_points, pitch_simulator
                 )
             if len(notes):
                 tracks.append(

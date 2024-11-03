@@ -433,8 +433,7 @@ class CeVIOTime(BaseModel):
     class Meta:
         name = "Time"
 
-    clock: Optional[int] = field(
-        default=None,
+    clock: int = field(
         metadata={
             "name": "Clock",
             "type": "Attribute",

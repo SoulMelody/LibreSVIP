@@ -1,18 +1,27 @@
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture
 def pinyin_example() -> list[str]:
-    return ["山东菏泽", "曹县，", "牛pi", "666我滴", "宝贝儿！", "行-走-", "行-业-", "-"]
+    return [
+        "山东菏泽",
+        "曹县，",
+        "牛pi",
+        "666我滴",
+        "宝贝儿！",
+        "行-走-",
+        "行-业-",
+        "-",
+    ]
 
 
-@pytest.fixture()
+@pytest.fixture
 def _pretty_construct() -> None:
     from enum import IntEnum
 
     from construct import Container, EnumIntegerString, ListContainer
 
-    def int_enum_repr(self: object) -> str:
+    def int_enum_repr(self: IntEnum) -> str:
         return repr(self.value)
 
     setattr(IntEnum, "__repr__", int_enum_repr)

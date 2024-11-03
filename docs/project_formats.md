@@ -31,4 +31,5 @@
 | `vspx`         | VocalSharp                     | 标准序列化格式  | 基于xml                           | 使用了自定义的序列化和解析框架，在生成vspx文件时需特殊处理 | 停止开发 |
 | `vsq`          | Vocaloid 2                     | 自定义二进制格式 | 基于MIDI和INI                      |                                 | 停止开发 |
 | `vsqx`         | Vocaloid 3/4                   | 标准序列化格式  | 基于xml                           |                                 | 尚在维护 |
+| `vvproj`       | VOICEVOX                       | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
 | `y77`          | 元七七编辑器                       | 标准序列化格式  | 基于json                          |                                 | 停止开发 |
