@@ -1,3 +1,4 @@
+# flake8: noqa: PLC2401
 # LibreSVIP支持的格式疑似有点多了
 from construct import (
     ExprAdapter,
@@ -13,7 +14,7 @@ from construct import (
     this,
 )
 
-from libresvip.model.base import json_dumps, json_loads
+from libresvip.core.compat import json
 
 大市唱字符串 = ExprAdapter(
     PrefixedArray(
@@ -30,8 +31,8 @@ from libresvip.model.base import json_dumps, json_loads
 
 大市唱配置 = ExprAdapter(
     大市唱字符串,
-    encoder=lambda obj, ctx: json_dumps(obj, separators=(",", ":")),
-    decoder=lambda obj, ctx: json_loads(obj),
+    encoder=lambda obj, ctx: json.dumps(obj, separators=(",", ":")),
+    decoder=lambda obj, ctx: json.loads(obj),
 )
 
 

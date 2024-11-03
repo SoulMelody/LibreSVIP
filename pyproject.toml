@@ -153,7 +153,6 @@ testpaths = "tests"
 [tool.ruff]
 target-version = "py39"
 src = ['libresvip', 'tests']
-exclude = ["experimental/dsc/model.py"]
 line-length = 100
 fix = true
 

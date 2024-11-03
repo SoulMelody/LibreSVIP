@@ -1,3 +1,4 @@
+# flake8: noqa: N801, PLC2401
 from typing import Any, Optional, Union
 
 from pydantic import BaseModel, Field
@@ -310,11 +311,3 @@ class 大市唱文件格式(BaseModel):
     编曲: Optional[dict[str, Any]] = Field(default=None)
     字典: list[dict[str, Any]] = Field(default_factory=list)
     谱曲: Optional[大市唱谱曲] = Field(default=None)
-
-
-if __name__ == "__main__":
-    import pathlib
-
-    from libresvip.utils.text import to_unicode
-
-    大市唱文件格式.model_validate_json(to_unicode(pathlib.Path("test.dsc").read_bytes()))
