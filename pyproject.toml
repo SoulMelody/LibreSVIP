@@ -96,7 +96,7 @@ desktop = [
 code_gen = [
   "datamodel-code-generator>=0.26.2",
   "gapic-generator>=1.20.2",
-  "xsdata[cli]>=24.9",
+  "xsdata[cli]>=24.11",
 ]
 i18n = ["babel>=2.16.0"]
 linting = [

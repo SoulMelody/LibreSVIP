@@ -1503,12 +1503,12 @@ all = [
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20240917" },
     { name = "types-ujson", specifier = ">=5.10.0.20240515" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=24.9" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=24.11" },
 ]
 code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.26.2" },
     { name = "gapic-generator", specifier = ">=1.20.2" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=24.9" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=24.11" },
 ]
 docs = [{ name = "mkdocs-material", specifier = ">=9.5.43,<10.0.0" }]
 i18n = [{ name = "babel", specifier = ">=2.16.0" }]
@@ -4131,14 +4131,14 @@ wheels = [
 
 [[package]]
 name = "xsdata"
-version = "24.9"
+version = "24.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ca/73/28afeaeab3f26f0a3760a2ec17e735d9397f120e2214ed15e864b2cc9422/xsdata-24.9.tar.gz", hash = "sha256:ecbc872f9bb12658e820126626930371fa3c5170ffa8ac183cc57e342a26e5fb", size = 339679 }
+sdist = { url = "https://files.pythonhosted.org/packages/66/68/2c87ceae0788b6468a637d3d63cd6fcc90ca6b6029e8d23b9313d3d9b741/xsdata-24.11.tar.gz", hash = "sha256:011193f775877d832d736b68e8553de3fe35b8447974effce08fc6cc3305d206", size = 340206 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c1/83/6e4706897d92814d1e6478ceae0e9550a44dcfdd358140377ea80515f4ab/xsdata-24.9-py3-none-any.whl", hash = "sha256:2ff69f75ebf8fbb384df35cc622d3e597616857b6dcc5c0b06a4d7aeec8cefbc", size = 229073 },
+    { url = "https://files.pythonhosted.org/packages/a1/95/5dfb080e293175ed7c490a765bcf382827596b24ce5375aa0e4d785e961a/xsdata-24.11-py3-none-any.whl", hash = "sha256:bb0ba63daab93c190cfc7d8bb3c2392422cc2ad0b7214f3061cf4cde231cce97", size = 229319 },
 ]
 
 [package.optional-dependencies]
