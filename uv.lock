@@ -676,16 +676,16 @@ name = "desktop-notifier"
 version = "6.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "bidict" },
-    { name = "dbus-fast", marker = "sys_platform == 'linux'" },
-    { name = "packaging" },
-    { name = "rubicon-objc", marker = "sys_platform == 'darwin'" },
-    { name = "winrt-windows-applicationmodel-core", marker = "sys_platform == 'win32'" },
-    { name = "winrt-windows-data-xml-dom", marker = "sys_platform == 'win32'" },
-    { name = "winrt-windows-foundation", marker = "sys_platform == 'win32'" },
-    { name = "winrt-windows-foundation-collections", marker = "sys_platform == 'win32'" },
-    { name = "winrt-windows-foundation-interop", marker = "sys_platform == 'win32'" },
-    { name = "winrt-windows-ui-notifications", marker = "sys_platform == 'win32'" },
+    { name = "bidict", marker = "python_full_version < '3.13' or platform_python_implementation == 'CPython'" },
+    { name = "dbus-fast", marker = "(python_full_version < '3.13' and sys_platform == 'linux') or (platform_python_implementation == 'CPython' and sys_platform == 'linux')" },
+    { name = "packaging", marker = "python_full_version < '3.13' or platform_python_implementation == 'CPython'" },
+    { name = "rubicon-objc", marker = "(python_full_version < '3.13' and sys_platform == 'darwin') or (platform_python_implementation == 'CPython' and sys_platform == 'darwin')" },
+    { name = "winrt-windows-applicationmodel-core", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
+    { name = "winrt-windows-data-xml-dom", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
+    { name = "winrt-windows-foundation", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
+    { name = "winrt-windows-foundation-collections", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
+    { name = "winrt-windows-foundation-interop", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
+    { name = "winrt-windows-ui-notifications", marker = "(python_full_version < '3.13' and sys_platform == 'win32') or (platform_python_implementation == 'CPython' and sys_platform == 'win32')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/6f/39/8fdf293aa5e4c571e714ecbfe372a797dddabfd4a43ffd77b5652bfd00bd/desktop_notifier-6.0.0.tar.gz", hash = "sha256:188b6cf8f59192afc5c6ed9dc8304d46ee0380b08750e826fcce1048083d5cd8", size = 33457 }
 wheels = [
@@ -1202,7 +1202,7 @@ name = "importlib-metadata"
 version = "8.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp", marker = "python_full_version < '3.13'" },
+    { name = "zipp", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/cd/12/33e59336dca5be0c398a7482335911a33aa0e20776128f038019f1a95f1b/importlib_metadata-8.5.0.tar.gz", hash = "sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7", size = 55304 }
 wheels = [
@@ -1468,7 +1468,7 @@ requires-dist = [
     { name = "portion", specifier = ">=2.6.0,<3.0.0" },
     { name = "proto-plus", specifier = ">=1.25.0,<2.0.0" },
     { name = "pydantic", specifier = ">=2.9.2,<3.0.0" },
-    { name = "pydantic-extra-types", specifier = ">=2.9.0,<3.0.0" },
+    { name = "pydantic-extra-types", specifier = ">=2.10.0,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=6.1.0,<7.0.0" },
     { name = "pypinyin", specifier = ">=0.53.0,<1.0.0" },
     { name = "pyside6", marker = "extra == 'desktop'", specifier = ">=6.8.0.2,<6.8.1" },
@@ -2645,14 +2645,15 @@ wheels = [
 
 [[package]]
 name = "pydantic-extra-types"
-version = "2.9.0"
+version = "2.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
+    { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fb/95/d61dcadd933cb34461adc271c13bbe14a7080b9922b9e0dc3c1d18b421cb/pydantic_extra_types-2.9.0.tar.gz", hash = "sha256:e061c01636188743bb69f368dcd391f327b8cfbfede2fe1cbb1211b06601ba3b", size = 39578 }
+sdist = { url = "https://files.pythonhosted.org/packages/f4/92/8542f406466d11bf348b795d498906034f9bb9016f09e906ff7fee6444be/pydantic_extra_types-2.10.0.tar.gz", hash = "sha256:552c47dd18fe1d00cfed75d9981162a2f3203cf7e77e55a3d3e70936f59587b9", size = 44559 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/37/2f/efc4877d1a1536ec76ca0114c3e9dee7d0a10a262c53d384d50163f5684c/pydantic_extra_types-2.9.0-py3-none-any.whl", hash = "sha256:f0bb975508572ba7bf3390b7337807588463b7248587e69f43b1ad7c797530d0", size = 30544 },
+    { url = "https://files.pythonhosted.org/packages/38/41/0b0cc8b59c31a04bdfde2ae71fccbb13c11fadafc8bd41a2af3e76db7e44/pydantic_extra_types-2.10.0-py3-none-any.whl", hash = "sha256:b19943914e6286548254f5079d1da094e9c0583ee91a8e611e9df24bfd07dbcd", size = 34185 },
 ]
 
 [[package]]
@@ -3976,7 +3977,7 @@ name = "winrt-windows-applicationmodel-core"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (platform_machine == 'aarch64' and sys_platform != 'linux') or (platform_machine == 'armv7l' and sys_platform != 'linux') or (platform_machine == 'i686' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and sys_platform != 'linux') or (platform_machine == 's390x' and sys_platform != 'linux') or (platform_machine == 'x86_64' and sys_platform != 'linux')" },
+    { name = "winrt-runtime", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (python_full_version < '3.13' and platform_machine == 'aarch64' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'armv7l' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'i686' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'ppc64le' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 's390x' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'x86_64' and sys_platform != 'linux') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and platform_python_implementation == 'CPython') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'armv7l' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'i686' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 's390x' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform != 'linux')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/95/e9/bbe2d682b0da132df02a0715d549ac7be98b83b6157d3dea6eb8ecd872fe/winrt_windows_applicationmodel_core-2.3.0.tar.gz", hash = "sha256:17ac6cb2c6872d51625547b4df5eadd0b296d966e976868520183d6dc45a0884", size = 11402 }
 wheels = [
@@ -4002,7 +4003,7 @@ name = "winrt-windows-data-xml-dom"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (platform_machine == 'aarch64' and sys_platform != 'linux') or (platform_machine == 'armv7l' and sys_platform != 'linux') or (platform_machine == 'i686' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and sys_platform != 'linux') or (platform_machine == 's390x' and sys_platform != 'linux') or (platform_machine == 'x86_64' and sys_platform != 'linux')" },
+    { name = "winrt-runtime", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (python_full_version < '3.13' and platform_machine == 'aarch64' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'armv7l' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'i686' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'ppc64le' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 's390x' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'x86_64' and sys_platform != 'linux') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and platform_python_implementation == 'CPython') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'armv7l' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'i686' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 's390x' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform != 'linux')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/16/15/fbc461056ff571862b72472a78b9038c2debfa06978f967d17fd25b28c1b/winrt_windows_data_xml_dom-2.3.0.tar.gz", hash = "sha256:3a9a8ded7d6ccaf5a141f3bb5eb6abdbdf680a25ec1dc0cd542ea1a4a652571a", size = 39525 }
 wheels = [
@@ -4028,7 +4029,7 @@ name = "winrt-windows-foundation"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (platform_machine == 'aarch64' and sys_platform != 'linux') or (platform_machine == 'armv7l' and sys_platform != 'linux') or (platform_machine == 'i686' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and sys_platform != 'linux') or (platform_machine == 's390x' and sys_platform != 'linux') or (platform_machine == 'x86_64' and sys_platform != 'linux')" },
+    { name = "winrt-runtime", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (python_full_version < '3.13' and platform_machine == 'aarch64' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'armv7l' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'i686' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'ppc64le' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 's390x' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'x86_64' and sys_platform != 'linux') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and platform_python_implementation == 'CPython') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'armv7l' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'i686' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 's390x' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform != 'linux')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/55/7f/93fd748713622d999c5ae71fe66441c6d63b7b826285555e68807481222c/winrt_windows_foundation-2.3.0.tar.gz", hash = "sha256:c5766f011c8debbe89b460af4a97d026ca252144e62d7278c9c79c5581ea0c02", size = 22594 }
 wheels = [
@@ -4054,7 +4055,7 @@ name = "winrt-windows-foundation-collections"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (platform_machine == 'aarch64' and sys_platform != 'linux') or (platform_machine == 'armv7l' and sys_platform != 'linux') or (platform_machine == 'i686' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and sys_platform != 'linux') or (platform_machine == 's390x' and sys_platform != 'linux') or (platform_machine == 'x86_64' and sys_platform != 'linux')" },
+    { name = "winrt-runtime", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (python_full_version < '3.13' and platform_machine == 'aarch64' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'armv7l' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'i686' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'ppc64le' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 's390x' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'x86_64' and sys_platform != 'linux') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and platform_python_implementation == 'CPython') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'armv7l' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'i686' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 's390x' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform != 'linux')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/59/fc/a8687fb0095471b0db29f6c921a8eb971f55ab79e1ccb5bcd01bf1b4baba/winrt_windows_foundation_collections-2.3.0.tar.gz", hash = "sha256:15c997fd6b64ef0400a619319ea3c6851c9c24e31d51b6448ba9bac3616d25a0", size = 12932 }
 wheels = [
@@ -4103,7 +4104,7 @@ name = "winrt-windows-ui-notifications"
 version = "2.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "winrt-runtime", marker = "(platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (platform_machine == 'aarch64' and sys_platform != 'linux') or (platform_machine == 'armv7l' and sys_platform != 'linux') or (platform_machine == 'i686' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and sys_platform != 'linux') or (platform_machine == 's390x' and sys_platform != 'linux') or (platform_machine == 'x86_64' and sys_platform != 'linux')" },
+    { name = "winrt-runtime", marker = "(python_full_version < '3.13' and platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64') or (python_full_version < '3.13' and platform_machine == 'aarch64' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'armv7l' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'i686' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'ppc64le' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 's390x' and sys_platform != 'linux') or (python_full_version < '3.13' and platform_machine == 'x86_64' and sys_platform != 'linux') or (platform_machine != 'aarch64' and platform_machine != 'armv7l' and platform_machine != 'i686' and platform_machine != 'ppc64le' and platform_machine != 's390x' and platform_machine != 'x86_64' and platform_python_implementation == 'CPython') or (platform_machine == 'aarch64' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'armv7l' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'i686' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'ppc64le' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 's390x' and platform_python_implementation == 'CPython' and sys_platform != 'linux') or (platform_machine == 'x86_64' and platform_python_implementation == 'CPython' and sys_platform != 'linux')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/2a/77/eec58fcf1fb6ef494da53a47b78fc783bdd9e3d155d5e2ff387a29f42231/winrt_windows_ui_notifications-2.3.0.tar.gz", hash = "sha256:3bd5b1b991bfe9cd29f9357ebbef2387cccd3dbb5203d7c143c7c5d6d2631227", size = 25567 }
 wheels = [
