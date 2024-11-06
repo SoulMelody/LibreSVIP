@@ -12,7 +12,6 @@ import secrets
 import shutil
 import textwrap
 import traceback
-import uuid
 import webbrowser
 import zipfile
 from collections.abc import Callable
@@ -73,7 +72,7 @@ from libresvip.extension.manager import (
 )
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.search import find_index
-from libresvip.utils.text import shorten_error_message, supported_charset_names
+from libresvip.utils.text import shorten_error_message, supported_charset_names, uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
 from libresvip.web.elements import QFab, QFabAction
@@ -779,7 +778,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 upload_path = self.temp_path / name
                 content.seek(0)
                 upload_path.write_bytes(content.read())
-            output_path = self.temp_path / str(uuid.uuid4())
+            output_path = self.temp_path / uuid_str()
             conversion_task = ConversionTask(
                 name=name,
                 upload_path=upload_path,

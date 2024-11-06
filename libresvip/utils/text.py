@@ -5,6 +5,7 @@ import importlib
 import pkgutil
 import re
 import textwrap
+import uuid
 from collections.abc import Callable
 from typing import Any, Optional, cast
 
@@ -100,3 +101,7 @@ def shorten_error_message(message: Optional[str]) -> str:
     else:
         message = "\n".join(error_lines)
     return message
+
+
+def uuid_str() -> str:
+    return str(uuid.uuid4())

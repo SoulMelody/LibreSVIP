@@ -1,6 +1,5 @@
 import dataclasses
 import datetime
-import uuid
 from typing import Optional
 
 from wanakana import PROLONGED_SOUND_MARK
@@ -21,6 +20,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils.audio import audio_track_info
+from libresvip.utils.text import uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 
 from .cevio_pitch import generate_for_cevio
@@ -125,7 +125,7 @@ class CeVIOGenerator:
         for track in tracks:
             if isinstance(track, SingingTrack):
                 new_group = CeVIOGroup(
-                    group_id=str(uuid.uuid4()),
+                    group_id=uuid_str(),
                     name=track.title,
                     is_muted=track.mute,
                     is_solo=track.solo,
@@ -163,7 +163,7 @@ class CeVIOGenerator:
                         ).time()
                     )
                     new_group = CeVIOGroup(
-                        group_id=str(uuid.uuid4()),
+                        group_id=uuid_str(),
                         name=track.title,
                         is_muted=track.mute,
                         is_solo=track.solo,
