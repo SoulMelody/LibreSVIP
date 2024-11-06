@@ -3,7 +3,6 @@ from typing import cast
 
 import more_itertools
 
-from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
@@ -28,10 +27,10 @@ class DiffSingerParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def parse_project(self, ds_project: DsProject) -> Project:
-        sont_tempo_list = [SongTempo(position=0, bpm=DEFAULT_BPM)]
-        self.synchronizer = TimeSynchronizer(sont_tempo_list)
+        song_tempo_list = [SongTempo(position=0, bpm=self.options.tempo)]
+        self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
-            song_tempo_list=sont_tempo_list,
+            song_tempo_list=song_tempo_list,
             time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
             track_list=[
                 SingingTrack(

@@ -34,7 +34,9 @@ class StaticTempoMixin(BaseModel, abc.ABC):
     tempo: float = Field(
         default=DEFAULT_BPM,
         title=_("Constant tempo"),
-        description=_("Use this tempo to reset time axis of projects with dynamic tempos"),
+        description=_(
+            "Use this tempo to reset time axis of projects with dynamic tempos or without tempos"
+        ),
     )
 
 
