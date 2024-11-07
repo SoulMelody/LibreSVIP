@@ -80,9 +80,10 @@ class MidiParser:
     def parse_project(self, mido_obj: mido.MidiFile) -> Project:
         self.ticks_per_beat = mido_obj.ticks_per_beat
         self._convert_delta_to_cumulative(mido_obj.tracks)
+        time_signature_list = []
         if len(mido_obj.tracks):
             master_track = mido_obj.tracks[0]
-            time_signature_list = self.parse_time_signatures(master_track)
+            time_signature_list.extend(self.parse_time_signatures(master_track))
         song_tempo_list = self.parse_tempo(mido_obj.tracks)
         self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(

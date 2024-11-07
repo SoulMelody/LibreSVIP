@@ -8,6 +8,7 @@ from rich.prompt import Confirm
 
 from libresvip.cli.prompt import prompt_fields
 from libresvip.extension.manager import middleware_manager, plugin_manager
+from libresvip.model.base import Project
 from libresvip.utils.translation import gettext_lazy as _
 
 app = typer.Typer()
@@ -232,7 +233,7 @@ def merge_projects(
         and output_plugin.plugin_object is not None
         and (output_option := get_type_hints(output_plugin.plugin_object.dump).get("options"))
     ):
-        project = project.merge_projects(projects)
+        project = Project.merge_projects(projects)
         option_type, option_class = _("Output Options: "), output_option
         option_kwargs = {}
         if len(option_class.model_fields):

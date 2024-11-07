@@ -290,10 +290,7 @@ class VoiSonaProject(BaseModel):
 
 def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[str, Any]:
     if issubclass(field_type, bool):
-        if field_value is True:
-            variant_type = JUCEVarTypes.BOOL_TRUE
-        elif field_value is False:
-            variant_type = JUCEVarTypes.BOOL_FALSE
+        variant_type = JUCEVarTypes.BOOL_TRUE if field_value is True else JUCEVarTypes.BOOL_FALSE
     elif issubclass(field_type, (enum.IntEnum, int)):
         variant_type = JUCEVarTypes.INT
     elif issubclass(field_type, float):
@@ -303,6 +300,7 @@ def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[s
     elif issubclass(field_type, bytes):
         variant_type = JUCEVarTypes.BINARY
     else:
+        variant_type = None
         msg = f"Unknown field type {field_type} for field {field_name}"
         raise TypeError(msg)
     return {

@@ -594,7 +594,7 @@ class TUIApp(App[None]):
             self.dark = bool(changed.value)
 
     @work(thread=True)
-    async def convert_one(
+    def convert_one(
         self, progress_bar: ProgressBar, task_row_item: ListItem, *sub_task_items: list[ListItem]
     ) -> None:
         tab_id = self.query_one("#task_list").current
@@ -711,7 +711,7 @@ class TUIApp(App[None]):
         self.call_from_thread(progress_bar.advance, 1)
 
     @work(thread=True, exclusive=True)
-    async def convert_all(self, task_list_view: ListView, progress_bar: ProgressBar) -> None:
+    def convert_all(self, task_list_view: ListView, progress_bar: ProgressBar) -> None:
         total = len(task_list_view) if task_list_view.id != "merge" else 1
         self.call_from_thread(progress_bar.update, total=total)
         if task_list_view.id == "merge":
@@ -774,10 +774,7 @@ class TUIApp(App[None]):
         task_list = self.query_one("#task_list")
         task_list.current = activated.tab.id
         max_track_count_input = self.query_one("#max_track_count")
-        if activated.tab.id == "split":
-            max_track_count_input.disabled = False
-        else:
-            max_track_count_input.disabled = True
+        max_track_count_input.disabled = activated.tab.id != "split"
 
     def compose(self) -> ComposeResult:
         if settings.dark_mode == DarkMode.LIGHT:

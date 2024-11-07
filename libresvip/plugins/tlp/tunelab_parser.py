@@ -164,7 +164,7 @@ class TuneLabParser:
                     vibrato=vibrato,
                 )
             )
-        if part.automations is not None and part.automations["VibratoEnvelope"] is not None:
+        if part.automations.get("VibratoEnvelope"):
             for value, ticks_group in more_itertools.groupby_transform(
                 part.automations["VibratoEnvelope"].values.root,
                 keyfunc=operator.attrgetter("value"),

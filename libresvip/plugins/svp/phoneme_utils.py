@@ -26,6 +26,7 @@ phoneme_dictionary = {
 def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     phoneme_list: list[str] = []
     builder: list[str] = []
+    language = None
     for lyric, language in zip(lyrics, languages):
         if LATIN_ALPHABET.match(lyric) is not None:
             if len(builder):

@@ -278,7 +278,7 @@ class MusicXMLGenerator:
                     if ongoing_note_with_current_head is not None:
                         note, head = ongoing_note_with_current_head
                         current_content_group.append(
-                            MXmlMeasureContent.note(
+                            MXmlMeasureContent.with_note(
                                 duration=key_tick.tick - head,
                                 note=note,
                                 note_type=MXmlMeasureContent.NoteType.BEGIN
