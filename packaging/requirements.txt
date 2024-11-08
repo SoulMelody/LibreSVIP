@@ -52,7 +52,7 @@ pysubs2==1.7.3
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
-regex==2024.9.11
+regex==2024.11.6
 retrie==0.3.1
 rich==13.9.4
 ruamel-yaml==0.18.6
@@ -63,7 +63,7 @@ shellingham==1.5.4
 shiboken6==6.8.0.2
 sniffio==1.3.1
 sortedcontainers==2.4.0
-typer-slim==0.12.5
+typer-slim==0.13.0
 typing-extensions==4.12.2
 ujson==5.10.0
 universal-pathlib==0.2.5
