@@ -90,6 +90,7 @@ class UFDataParser:
         if pitch.is_absolute:
             pitch_points = [Point.start_point()]
             prev_point = pitch_points[-1]
+            point = None
             for tick, value in zip(pitch.ticks, pitch.values):
                 if value == 0 and prev_point.y == -100:
                     pitch_points.append(
@@ -103,7 +104,8 @@ class UFDataParser:
                         x=tick + tick_prefix + self.first_bar_length,
                         y=round(value * 100),
                     )
-                pitch_points.append(point)
+                if point is not None:
+                    pitch_points.append(point)
                 if value == 0 and prev_point.y != -100:
                     pitch_points.append(
                         Point(
@@ -111,7 +113,8 @@ class UFDataParser:
                             y=-100,
                         )
                     )
-                prev_point = point
+                if point is not None:
+                    prev_point = point
             if prev_point.y == 0:
                 pitch_points.append(prev_point._replace(y=-100))
             pitch_points.append(Point.end_point())
