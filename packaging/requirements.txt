@@ -28,7 +28,7 @@ mdurl==0.1.2
 mido-fix==1.2.12
 more-itertools==10.5.0
 omegaconf==2.3.0
-packaging==24.1
+packaging==24.2
 parsimonious==0.10.0
 pefile==2023.2.7 ; sys_platform == 'win32'
 pillow==11.0.0 ; sys_platform == 'darwin'
