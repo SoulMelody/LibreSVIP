@@ -1479,7 +1479,7 @@ requires-dist = [
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.6" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
     { name = "textual", marker = "extra == 'tui'", specifier = ">=0.85.2" },
-    { name = "typer-slim", specifier = ">=0.12.5,<1.0.0" },
+    { name = "typer-slim", specifier = ">=0.13.0,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'upath'", specifier = ">=0.2.5,<1.0.0" },
     { name = "wanakana-python", specifier = ">=1.2.2,<2.0.0" },
@@ -3454,15 +3454,15 @@ wheels = [
 
 [[package]]
 name = "typer-slim"
-version = "0.12.5"
+version = "0.13.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/4d/d79c0dd7f8df554fb6810528a61430e7e74de76fd83f03db1bcb25906678/typer_slim-0.12.5.tar.gz", hash = "sha256:c8e3fcf93cc7dd584036df8755d2e2363f85f8a4dd028c7911eed3f00cf0ebb1", size = 99015 }
+sdist = { url = "https://files.pythonhosted.org/packages/b7/37/e477b8fc65bdb0321e0275b92cafffeb63e18eb3b40e976682a9c7da0e3a/typer_slim-0.13.0.tar.gz", hash = "sha256:7d7d3b0ad211ddcc9bcfe3d51e7d5903b0f10ae07938cca33f8af1f578c5007b", size = 97626 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/98/d4/ced1f8074819b43804a0a5015f33bae422330e8d38b1992be91fa947190c/typer_slim-0.12.5-py3-none-any.whl", hash = "sha256:9a994f721b828783dbf144e17461b1c720bb4598e0d5eff7c1b3f08ee58cb062", size = 47110 },
+    { url = "https://files.pythonhosted.org/packages/a5/2c/f239c0b214617b1eefef76c81a8b98765716df665b5ac87b6cd1aeda800a/typer_slim-0.13.0-py3-none-any.whl", hash = "sha256:33aad8029b717ee98228315f208cfae2f247765796f243ca314cb09fd652dc44", size = 44255 },
 ]
 
 [[package]]
