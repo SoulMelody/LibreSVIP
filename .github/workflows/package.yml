@@ -6,7 +6,7 @@ on:
 
 env:
   PYINSTALLER_VERSION: "6.11.0"
-  LIBMEDIAINFO_VERSION: "24.06"
+  LIBMEDIAINFO_VERSION: "24.11"
 
 jobs:
   make-outputs:
