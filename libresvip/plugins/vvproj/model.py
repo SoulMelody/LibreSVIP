@@ -10,12 +10,13 @@ from libresvip.utils.text import uuid_str
 
 
 class VoiceVoxSinger(BaseModel):
-    engine_id: str = Field(default_factory=uuid_str, alias="engineId")
+    engine_id: str = Field("074fc39e-678b-4c13-8916-ffca8d505d1d", alias="engineId")
     style_id: int = Field(3002, alias="styleId")
 
 
 class VoiceVoxVoice(VoiceVoxSinger):
-    speaker_id: str = Field(alias="speakerId")
+    speaker_id: str = Field("7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff", alias="speakerId")
+    style_id: int = Field(2, alias="styleId")
 
 
 class VoiceVoxMora(BaseModel):
@@ -30,28 +31,30 @@ class VoiceVoxMora(BaseModel):
 class VoiceVoxAccentPhrase(BaseModel):
     moras: list[VoiceVoxMora]
     accent: int
+    mora: Optional[VoiceVoxMora] = None
     is_interrogative: bool = Field(alias="isInterrogative")
 
 
 class VoiceVoxQuery(BaseModel):
     accent_phrases: list[VoiceVoxAccentPhrase] = Field(alias="accentPhrases")
-    speed_scale: int = Field(alias="speedScale")
-    pitch_scale: int = Field(alias="pitchScale")
-    intonation_scale: int = Field(alias="intonationScale")
-    volume_scale: int = Field(alias="volumeScale")
+    speed_scale: float = Field(alias="speedScale")
+    pitch_scale: float = Field(alias="pitchScale")
+    intonation_scale: float = Field(alias="intonationScale")
+    volume_scale: float = Field(alias="volumeScale")
     pre_phoneme_length: float = Field(alias="prePhonemeLength")
     post_phoneme_length: float = Field(alias="postPhonemeLength")
-    pause_length_scale: int = Field(alias="pauseLengthScale")
+    pause_length: Optional[float] = Field(None, alias="pauseLength")
+    pause_length_scale: float = Field(1, alias="pauseLengthScale")
     output_sampling_rate: int = Field(alias="outputSamplingRate")
     output_stereo: bool = Field(alias="outputStereo")
-    kana: str
+    kana: Optional[str] = None
 
 
 class VoiceVoxAudioItem(BaseModel):
     text: str
     voice: VoiceVoxVoice
     query: VoiceVoxQuery
-    preset_key: str = Field(alias="presetKey")
+    preset_key: str = Field(default_factory=uuid_str, alias="presetKey")
 
 
 class VoiceVoxTalk(BaseModel):

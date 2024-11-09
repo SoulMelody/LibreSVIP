@@ -69,7 +69,7 @@ class VOICEVOXGenerator:
         if not is_kana(note.lyric):
             lyric = DEFAULT_JAPANESE_LYRIC
             msg_prefix = _("Unsupported lyric: ")
-            show_warning(f"{msg_prefix} {lyric}")
+            show_warning(f"{msg_prefix} {note.lyric}")
         else:
             lyric = note.lyric
         return VoiceVoxNote(
