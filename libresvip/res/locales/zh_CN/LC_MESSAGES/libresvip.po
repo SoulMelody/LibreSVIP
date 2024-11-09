@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-09 23:16\n"
+"PO-Revision-Date: 2024-11-09 23:20\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -279,7 +279,7 @@ msgstr "恒定曲速"
 
 #: ../libresvip/model/option_mixins.py:37
 msgid "Use this tempo to reset time axis of projects with dynamic tempos or without tempos"
-msgstr ""
+msgstr "使用此曲速重设变速音乐或无速度信息工程的时间轴"
 
 #: ../libresvip/model/option_mixins.py:46
 msgid "Track index"
