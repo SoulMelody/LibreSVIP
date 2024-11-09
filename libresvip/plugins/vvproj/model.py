@@ -4,13 +4,18 @@ from typing import Optional
 
 from pydantic import Field
 
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.model.base import BaseModel
+from libresvip.utils.text import uuid_str
 
 
-class VoiceVoxVoice(BaseModel):
-    engine_id: str = Field(alias="engineId")
+class VoiceVoxSinger(BaseModel):
+    engine_id: str = Field(default_factory=uuid_str, alias="engineId")
+    style_id: int = Field(3002, alias="styleId")
+
+
+class VoiceVoxVoice(VoiceVoxSinger):
     speaker_id: str = Field(alias="speakerId")
-    style_id: int = Field(alias="styleId")
 
 
 class VoiceVoxMora(BaseModel):
@@ -50,8 +55,8 @@ class VoiceVoxAudioItem(BaseModel):
 
 
 class VoiceVoxTalk(BaseModel):
-    audio_keys: list[str] = Field(alias="audioKeys")
-    audio_items: dict[str, VoiceVoxAudioItem] = Field(alias="audioItems")
+    audio_keys: list[str] = Field(default_factory=list, alias="audioKeys")
+    audio_items: dict[str, VoiceVoxAudioItem] = Field(default_factory=dict, alias="audioItems")
 
 
 class VoiceVoxTempo(BaseModel):
@@ -65,13 +70,8 @@ class VoiceVoxTimeSignature(BaseModel):
     beat_type: int = Field(alias="beatType")
 
 
-class VoiceVoxSinger(BaseModel):
-    engine_id: str = Field(alias="engineId")
-    style_id: int = Field(alias="styleId")
-
-
 class VoiceVoxNote(BaseModel):
-    id: str
+    id: str = Field(default_factory=uuid_str)
     position: int
     duration: int
     note_number: int = Field(alias="noteNumber")
@@ -80,26 +80,28 @@ class VoiceVoxNote(BaseModel):
 
 class VoiceVoxTrack(BaseModel):
     name: str
-    singer: VoiceVoxSinger
-    key_range_adjustment: int = Field(alias="keyRangeAdjustment")
-    volume_range_adjustment: int = Field(alias="volumeRangeAdjustment")
-    notes: list[VoiceVoxNote]
-    pitch_edit_data: list[float] = Field(alias="pitchEditData")
-    solo: bool
-    mute: bool
-    gain: int
-    pan: int
+    singer: VoiceVoxSinger = Field(default_factory=VoiceVoxSinger)
+    key_range_adjustment: int = Field(0, alias="keyRangeAdjustment")
+    volume_range_adjustment: int = Field(0, alias="volumeRangeAdjustment")
+    notes: list[VoiceVoxNote] = Field(default_factory=list)
+    pitch_edit_data: list[float] = Field(alias="pitchEditData", default_factory=list)
+    solo: bool = False
+    mute: bool = False
+    gain: float = 1.0
+    pan: float = 0.0
 
 
 class VoiceVoxSong(BaseModel):
-    tpqn: int
-    tempos: list[VoiceVoxTempo]
-    time_signatures: list[VoiceVoxTimeSignature] = Field(alias="timeSignatures")
-    tracks: dict[str, VoiceVoxTrack]
-    track_order: list[str] = Field(alias="trackOrder")
+    tpqn: int = TICKS_IN_BEAT
+    tempos: list[VoiceVoxTempo] = Field(default_factory=list)
+    time_signatures: list[VoiceVoxTimeSignature] = Field(
+        alias="timeSignatures", default_factory=list
+    )
+    tracks: dict[str, VoiceVoxTrack] = Field(default_factory=dict)
+    track_order: list[str] = Field(alias="trackOrder", default_factory=list)
 
 
 class VoiceVoxProject(BaseModel):
-    app_version: str = Field(alias="appVersion")
-    talk: VoiceVoxTalk
-    song: VoiceVoxSong
+    app_version: str = Field("0.21.1", alias="appVersion")
+    talk: VoiceVoxTalk = Field(default_factory=VoiceVoxTalk)
+    song: VoiceVoxSong = Field(default_factory=VoiceVoxSong)
