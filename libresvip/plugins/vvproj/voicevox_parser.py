@@ -82,7 +82,7 @@ class VOICEVOXParser:
     def parse_pitch(self, pitch_edit_data: list[float]) -> list[Point]:
         secs = 0.0
         secs_step = 4 / 375
-        points = []
+        points = [Point.start_point()]
         for part in more_itertools.split_when(
             pitch_edit_data,
             lambda x, y: [x, y].count(-1) == 1,
@@ -113,4 +113,5 @@ class VOICEVOXParser:
                         -100,
                     )
                 )
+        points.append(Point.end_point())
         return points

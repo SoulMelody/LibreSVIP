@@ -1,10 +1,17 @@
 import dataclasses
+import functools
+
+import more_itertools
+import portion
 
 from libresvip.core.constants import DEFAULT_JAPANESE_LYRIC
 from libresvip.core.lyric_phoneme.japanese import is_kana
+from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
-from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.model.base import Note, ParamCurve, Project, SingingTrack, SongTempo, TimeSignature
+from libresvip.model.point import Point
+from libresvip.utils.music_math import linear_interpolation, midi2hz
 from libresvip.utils.text import uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -63,6 +70,7 @@ class VOICEVOXGenerator:
             mute=track.mute,
             gain=track.volume,
             notes=[self.generate_note(note) for note in track.note_list],
+            pitch_edit_data=self.generate_pitch(track.edited_params.pitch),
         )
 
     def generate_note(self, note: Note) -> VoiceVoxNote:
@@ -78,3 +86,37 @@ class VOICEVOXGenerator:
             duration=note.length,
             note_number=note.key_number,
         )
+
+    def generate_pitch(self, pitch: ParamCurve) -> list[float]:
+        frequency_interval_dict = PiecewiseIntervalDict()
+        max_pitch_secs = 0
+        secs_step = 4 / 375
+        prev_secs = None
+        prev_freq: float = -1
+        for point in pitch.points.root:
+            if point.y == -100:
+                if prev_secs is not None:
+                    max_pitch_secs = prev_secs
+                prev_secs = None
+                prev_freq = -1
+            else:
+                secs = self.time_synchronizer.get_actual_secs_from_ticks(
+                    point.x - self.first_bar_length
+                )
+                freq = midi2hz(point.y / 100)
+                if prev_secs is not None:
+                    frequency_interval_dict[portion.openclosed(prev_secs, secs)] = (
+                        functools.partial(
+                            linear_interpolation,
+                            start=Point(x=prev_secs, y=prev_freq),
+                            end=Point(x=secs, y=freq),
+                        )
+                    )
+                else:
+                    frequency_interval_dict[portion.singleton(secs)] = freq
+                prev_secs = secs
+                prev_freq = freq
+        return [
+            frequency_interval_dict.get(secs, -1)
+            for secs in more_itertools.numeric_range(0, max_pitch_secs, secs_step)
+        ]
