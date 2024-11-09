@@ -1,0 +1,18 @@
+msgid "Constant tempo"
+msgstr ""
+
+msgid "Use this tempo to reset time axis of projects with dynamic tempos"
+msgstr ""
+
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "VVProj"
+msgstr ""
+
+msgid "VOICEVOX Project file"
+msgstr ""
+
+msgid "Conversion plugin for VOICEVOX Project file"
+msgstr ""
+
