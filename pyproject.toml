@@ -94,7 +94,7 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.26.2",
+  "datamodel-code-generator>=0.26.3",
   "gapic-generator>=1.20.2",
   "xsdata[cli]>=24.11",
 ]
@@ -113,7 +113,7 @@ linting = [
 packaging = [
   "cx-Freeze>=7.2.4",
   "nuitka>=2.4.11",
-  "pyinstaller>=6.11.0",
+  "pyinstaller>=6.11.1",
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.44"]
