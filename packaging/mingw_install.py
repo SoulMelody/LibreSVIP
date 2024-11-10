@@ -149,7 +149,7 @@ def install_mingw_deps() -> None:
         )
     else:
         (cwd / "install_msys2_requirements.sh").write_text(
-            f"pacman -S {' '.join(msys2_requirements)} --noconfirm --needed"
+            f"pacman -Sy\npacman -S {' '.join(msys2_requirements)} --noconfirm --needed"
         )
 
 
