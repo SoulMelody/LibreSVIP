@@ -260,6 +260,11 @@ jobs:
           uv pip install ../dist/*.whl --no-deps
           uv run python -m PyInstaller libresvip.spec
           brew install create-dmg
+          echo "Killing XProtect processes..."
+          sudo pkill -9 XProtect || true
+          echo "Waiting for XProtect processes to terminate..."
+          while pgrep XProtect; do sleep 5; done
+          echo "XProtect processes terminated."
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg ./dist/LibreSVIP.app
           rm -rf ./dist/LibreSVIP.app
           cd ..
