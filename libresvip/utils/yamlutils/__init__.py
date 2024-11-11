@@ -12,7 +12,7 @@ try:
 
     def dump_yaml_1_2(data: dict[str, Any]) -> str:
         stream = io.StringIO()
-        with YAML(typ="rtsc", output=stream) as yml:
+        with YAML(output=stream) as yml:
             yml.dump(data)
             return stream.getvalue()
 
