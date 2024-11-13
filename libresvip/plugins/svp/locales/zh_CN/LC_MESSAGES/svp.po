@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "Notes Overlapped"
 msgstr "音符重叠"
@@ -141,5 +141,5 @@ msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌
 "请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "YQ之神"
 
