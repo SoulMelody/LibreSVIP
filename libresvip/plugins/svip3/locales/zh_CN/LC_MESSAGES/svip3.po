@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "Svip3"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr "网易云音乐·X Studio 工程文件"
 
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr "网易云音乐·X Studio 工程转换插件"
+
+msgid "FlutyDeer"
+msgstr ""
 
 msgid "Unsupported pinyin:"
 msgstr "不支持的拼音："
