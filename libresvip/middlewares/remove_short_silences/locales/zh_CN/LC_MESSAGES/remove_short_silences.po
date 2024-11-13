@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "Zero length note"
 msgstr "零长度音符"
@@ -41,4 +41,7 @@ msgstr "移除短的无声间隙"
 
 msgid "Fill short rests"
 msgstr "填充短休止符"
+
+msgid "SoulMelody"
+msgstr ""
 
