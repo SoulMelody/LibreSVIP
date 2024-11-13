@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 #: ../libresvip/cli/commands/conf.py:19
 msgid "Setting {} is not supported in cli mode."
@@ -1087,7 +1087,7 @@ msgstr "名称"
 
 #: ../libresvip/web/pages.py:296
 msgid "author"
-msgstr ""
+msgstr "作者"
 
 #: ../libresvip/web/pages.py:303 ../libresvip/web/pages.py:320
 #: ../libresvip/web/pages.py:1219 ../libresvip/web/pages.py:1238
