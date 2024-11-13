@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "JsonSvip"
 msgstr ""
@@ -22,7 +22,7 @@ msgid "Conversion plugin for OpenSVIP Model, which is based on json"
 msgstr "OpenSVIP Model 的 JSON 格式转换插件。"
 
 msgid "yqzhishen"
-msgstr ""
+msgstr "YQ之神"
 
 msgid "Generate JSON file with indentation"
 msgstr "生成带缩进格式的 JSON 文件"
