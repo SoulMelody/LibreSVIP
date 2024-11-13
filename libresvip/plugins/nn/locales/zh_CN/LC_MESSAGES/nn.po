@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "No singing track found"
 msgstr "未找到演唱轨"
@@ -23,6 +23,9 @@ msgstr "袅袅虚拟歌手工程文件"
 
 msgid "Conversion plugin for NIAONiao project file"
 msgstr "袅袅工程格式转换插件"
+
+msgid "SoulMelody"
+msgstr ""
 
 msgid "Version"
 msgstr "版本"
