@@ -696,8 +696,9 @@ class TUIApp(App[None]):
                             child_file.read_bytes(),
                         )
             self.call_from_thread(
-                self.deliver_binary,
-                buffer,
+                self.deliver_text,
+                io.StringIO(buffer.getvalue().decode("latin-1")),
+                encoding="latin-1",
                 save_directory=settings.save_folder,
                 save_filename=output_path.name if tab_id != "split" else f"{task_row.stem}.zip",
             )
