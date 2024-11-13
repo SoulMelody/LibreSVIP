@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "No singing track found"
 msgstr "未找到演唱轨"
@@ -25,7 +25,7 @@ msgid "DiffSinger plugin."
 msgstr "DiffSinger 参数格式转换插件。"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "岁月静好_初心不忘"
 
 msgid "Dictionary Name"
 msgstr "词典名称"
