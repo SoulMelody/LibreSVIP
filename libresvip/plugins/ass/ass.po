@@ -7,6 +7,9 @@ msgstr ""
 msgid "Generator plugin for ASS subtitle file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+
 msgid "Both note gap and punctuation"
 msgstr ""
 

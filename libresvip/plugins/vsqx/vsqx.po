@@ -71,3 +71,6 @@ msgstr ""
 msgid "Conversion plugin for Vocaloid Sequence XML file"
 msgstr ""
 
+msgid "Sder Colin"
+msgstr ""
+

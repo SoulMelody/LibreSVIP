@@ -64,12 +64,11 @@ msgstr ""
 msgid "Plugin: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/tui/app.py:149
-#: ../libresvip/tui/app.py:921 ../libresvip/web/pages.py:1125
+#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/web/pages.py:1125
 msgid "Version: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:91 ../libresvip/tui/app.py:150
+#: ../libresvip/cli/commands/plugin.py:91
 msgid "Author: "
 msgstr ""
 
@@ -77,18 +76,10 @@ msgstr ""
 msgid "Website: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:97
-msgid "This plugin is applicable to"
-msgstr ""
-
 #: ../libresvip/cli/commands/plugin.py:99
 msgid ""
 "If you want to use this plugin, please specify '-i {}' (input) or '-o {}'"
 " (output) when converting."
-msgstr ""
-
-#: ../libresvip/cli/commands/plugin.py:104
-msgid "Description: "
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:105
@@ -899,7 +890,7 @@ msgctxt "QPlatformTheme"
 msgid "N&o to All"
 msgstr ""
 
-#: ../libresvip/tui/app.py:151 ../libresvip/tui/app.py:927
+#: ../libresvip/tui/app.py:151 ../libresvip/tui/app.py:928
 #: ../libresvip/web/pages.py:309
 msgid "Introduction"
 msgstr ""
@@ -944,157 +935,143 @@ msgstr ""
 msgid "View Log"
 msgstr ""
 
-#: ../libresvip/tui/app.py:785
+#: ../libresvip/tui/app.py:786
 msgid "Converter"
 msgstr ""
 
-#: ../libresvip/tui/app.py:789
+#: ../libresvip/tui/app.py:790
 msgid "Conversion mode & Task list"
 msgstr ""
 
-#: ../libresvip/tui/app.py:791
+#: ../libresvip/tui/app.py:792
 msgid "Direct"
 msgstr ""
 
-#: ../libresvip/tui/app.py:792
+#: ../libresvip/tui/app.py:793
 msgid "Split"
 msgstr ""
 
-#: ../libresvip/tui/app.py:793
+#: ../libresvip/tui/app.py:794
 msgid "Merge"
 msgstr ""
 
-#: ../libresvip/tui/app.py:801 ../libresvip/web/pages.py:1702
+#: ../libresvip/tui/app.py:802 ../libresvip/web/pages.py:1702
 msgid "Advanced Settings"
 msgstr ""
 
-#: ../libresvip/tui/app.py:802 ../libresvip/web/pages.py:328
+#: ../libresvip/tui/app.py:803 ../libresvip/web/pages.py:328
 msgid "Input Options"
 msgstr ""
 
-#: ../libresvip/tui/app.py:812
+#: ../libresvip/tui/app.py:813
 msgid "Enable"
 msgstr ""
 
-#: ../libresvip/tui/app.py:818 ../libresvip/web/pages.py:337
+#: ../libresvip/tui/app.py:819 ../libresvip/web/pages.py:337
 msgid "Output Options"
 msgstr ""
 
-#: ../libresvip/tui/app.py:821
+#: ../libresvip/tui/app.py:822
 msgid "Add task"
 msgstr ""
 
-#: ../libresvip/tui/app.py:823
+#: ../libresvip/tui/app.py:824
 msgid "Start conversion"
 msgstr ""
 
-#: ../libresvip/tui/app.py:825
+#: ../libresvip/tui/app.py:826
 msgid "Delete selected task"
 msgstr ""
 
-#: ../libresvip/tui/app.py:826
+#: ../libresvip/tui/app.py:827
 msgid "Clear tasks"
 msgstr ""
 
-#: ../libresvip/tui/app.py:827
+#: ../libresvip/tui/app.py:828
 msgid "Progress"
 msgstr ""
 
-#: ../libresvip/tui/app.py:829
+#: ../libresvip/tui/app.py:830
 msgid "Max track count"
 msgstr ""
 
-#: ../libresvip/tui/app.py:836
+#: ../libresvip/tui/app.py:837
 msgid "Basic Settings"
 msgstr ""
 
-#: ../libresvip/tui/app.py:838 ../libresvip/web/pages.py:1303
+#: ../libresvip/tui/app.py:839 ../libresvip/web/pages.py:1303
 msgid "Conversion Settings"
 msgstr ""
 
-#: ../libresvip/tui/app.py:840 ../libresvip/web/pages.py:1318
+#: ../libresvip/tui/app.py:841 ../libresvip/web/pages.py:1318
 #: ../libresvip/web/pages.py:1876
 msgid "Auto detect import format"
 msgstr ""
 
-#: ../libresvip/tui/app.py:847 ../libresvip/web/pages.py:1323
+#: ../libresvip/tui/app.py:848 ../libresvip/web/pages.py:1323
 #: ../libresvip/web/pages.py:1883
 msgid "Reset list when import format changed"
 msgstr ""
 
-#: ../libresvip/tui/app.py:855
+#: ../libresvip/tui/app.py:856
 msgid "Output Settings"
 msgstr ""
 
-#: ../libresvip/tui/app.py:858
+#: ../libresvip/tui/app.py:859
 msgid "Set Output File Extension Automatically"
 msgstr ""
 
-#: ../libresvip/tui/app.py:865
+#: ../libresvip/tui/app.py:866
 msgid "Output Folder"
 msgstr ""
 
-#: ../libresvip/tui/app.py:873
+#: ../libresvip/tui/app.py:874
 msgid "Change Output Directory"
 msgstr ""
 
-#: ../libresvip/tui/app.py:875
+#: ../libresvip/tui/app.py:876
 msgid "Other Settings"
 msgstr ""
 
-#: ../libresvip/tui/app.py:877
+#: ../libresvip/tui/app.py:878
 msgid "Appearance"
 msgstr ""
 
-#: ../libresvip/tui/app.py:879 ../libresvip/web/pages.py:1309
+#: ../libresvip/tui/app.py:880 ../libresvip/web/pages.py:1309
 msgid "Switch Language"
 msgstr ""
 
-#: ../libresvip/tui/app.py:892 ../libresvip/web/pages.py:1244
+#: ../libresvip/tui/app.py:893 ../libresvip/web/pages.py:1244
 msgid "Switch Theme"
 msgstr ""
 
-#: ../libresvip/tui/app.py:895 ../libresvip/web/pages.py:1257
+#: ../libresvip/tui/app.py:896 ../libresvip/web/pages.py:1257
 msgid "Light"
 msgstr ""
 
-#: ../libresvip/tui/app.py:896 ../libresvip/web/pages.py:1263
+#: ../libresvip/tui/app.py:897 ../libresvip/web/pages.py:1263
 msgid "Dark"
 msgstr ""
 
-#: ../libresvip/tui/app.py:904
+#: ../libresvip/tui/app.py:905
 msgid "Choose Plugins"
 msgstr ""
 
-#: ../libresvip/tui/app.py:915 ../libresvip/web/pages.py:1122
+#: ../libresvip/tui/app.py:916 ../libresvip/web/pages.py:1122
 #: ../libresvip/web/pages.py:1285
 msgid "About"
 msgstr ""
 
-#: ../libresvip/tui/app.py:919 ../libresvip/web/pages.py:1138
+#: ../libresvip/tui/app.py:920 ../libresvip/web/pages.py:1138
 msgid "Repo URL"
 msgstr ""
 
-#: ../libresvip/tui/app.py:923 ../libresvip/web/pages.py:1128
+#: ../libresvip/tui/app.py:924 ../libresvip/web/pages.py:1128
 msgid "Author: SoulMelody"
 msgstr ""
 
-#: ../libresvip/tui/app.py:925 ../libresvip/web/pages.py:1132
+#: ../libresvip/tui/app.py:926 ../libresvip/web/pages.py:1132
 msgid "Author's Profile"
-msgstr ""
-
-#: ../libresvip/tui/app.py:929 ../libresvip/web/pages.py:1143
-msgid ""
-"LibreSVIP is an open-sourced, liberal and extensionable framework that "
-"can convert your singing synthesis projects between different file "
-"formats."
-msgstr ""
-
-#: ../libresvip/tui/app.py:930 ../libresvip/web/pages.py:1148
-msgid ""
-"All people should have the right and freedom to choose. That's why we're "
-"committed to giving you a second chance to keep your creations free from "
-"the constraints of platforms and coterie."
 msgstr ""
 
 #: ../libresvip/utils/audio.py:48 ../libresvip/utils/audio.py:102
@@ -1103,6 +1080,10 @@ msgstr ""
 
 #: ../libresvip/web/pages.py:281
 msgid "name"
+msgstr ""
+
+#: ../libresvip/web/pages.py:296
+msgid "author"
 msgstr ""
 
 #: ../libresvip/web/pages.py:303 ../libresvip/web/pages.py:320
@@ -1169,6 +1150,20 @@ msgstr ""
 
 #: ../libresvip/web/pages.py:1124
 msgid "LibreSVIP"
+msgstr ""
+
+#: ../libresvip/web/pages.py:1143
+msgid ""
+"LibreSVIP is an open-sourced, liberal and extensionable framework that "
+"can convert your singing synthesis projects between different file "
+"formats."
+msgstr ""
+
+#: ../libresvip/web/pages.py:1148
+msgid ""
+"All people should have the right and freedom to choose. That's why we're "
+"committed to giving you a second chance to keep your creations free from "
+"the constraints of platforms and coterie."
 msgstr ""
 
 #: ../libresvip/web/pages.py:1157 ../libresvip/web/pages.py:1186

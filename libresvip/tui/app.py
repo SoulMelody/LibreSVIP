@@ -147,7 +147,7 @@ class PluginInfoScreen(Screen[None]):
         with Vertical():
             yield Label(plugin_info.name, classes="title")
             yield Label(f'{_("Version: ")}{plugin_info.version}')
-            yield Link(f'{_("Author: ")}{plugin_info.author}', url=plugin_info.website)
+            yield Link(f'{_("Author: ")}{_(plugin_info.author)}', url=plugin_info.website)
             yield Label(_("Introduction"))
             yield Markdown(_(plugin_info.description))
             with Horizontal():

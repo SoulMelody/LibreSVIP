@@ -9,6 +9,9 @@ msgid ""
 "Only Gejigeji v2.0 spec is supported."
 msgstr ""
 
+msgid "FlutyDeer"
+msgstr ""
+
 msgid "Unsupported pinyin:"
 msgstr ""
 

@@ -37,3 +37,6 @@ msgstr ""
 msgid "Zoom in/out project"
 msgstr ""
 
+msgid "Sder Colin"
+msgstr ""
+

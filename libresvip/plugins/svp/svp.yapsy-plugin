@@ -3,7 +3,7 @@ name = SynthV Studio
 module = synthv_studio_converter
 
 [Documentation]
-Author = YQ之神
+Author = yqzhishen
 Version = 1.8.4
 Website = https://space.bilibili.com/102844209
 Format = Synthesizer V Studio project file

@@ -293,7 +293,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ):
                         ui.label(_("Author") + ": ")
                         ui.link(
-                            plugin_details[attr]["author"],
+                            _(plugin_details[attr]["author"] or ""),
                             plugin_details[attr]["website"],
                             new_tab=True,
                         )

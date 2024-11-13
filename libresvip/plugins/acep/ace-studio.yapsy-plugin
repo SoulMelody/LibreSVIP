@@ -3,7 +3,7 @@ name = ACE Studio
 module = ace_studio_converter
 
 [Documentation]
-Author = YQ之神
+Author = yqzhishen
 Version = 0.8.3
 Website = https://space.bilibili.com/175862486
 Format = ACE Studio project File

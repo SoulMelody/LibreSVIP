@@ -7,3 +7,6 @@ msgstr ""
 msgid "Convertion plugin for TuneLab project file"
 msgstr ""
 
+msgid "LiuYunPlayer"
+msgstr ""
+

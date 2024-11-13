@@ -3,7 +3,7 @@ name = Y77
 module = y77_converter
 
 [Documentation]
-Author = 笛鹿FlutyDeer
+Author = FlutyDeer
 Version = 1.0.0
 Website = https://space.bilibili.com/386270936
 Format = Yuan77 project file

@@ -13,3 +13,6 @@ msgstr ""
 msgid "Conversion plugin for Vogen project file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+

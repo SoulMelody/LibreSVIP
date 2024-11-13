@@ -3,7 +3,7 @@ name = Svip3
 module = svip3_converter
 
 [Documentation]
-Author = 笛鹿FlutyDeer
+Author = FlutyDeer
 Version = 0.0.1
 Website = https://space.bilibili.com/386270936
 Format = Netease Cloud Music XStudio project file

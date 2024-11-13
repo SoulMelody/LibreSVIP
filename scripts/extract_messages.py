@@ -38,6 +38,7 @@ def extract_from_plugin_metadata(
             yield 2, "gettext", plugin_info.file_format, ""
         if plugin_info.description:
             yield 3, "gettext", plugin_info.description, ""
+        yield 4, "gettext", plugin_info.author, ""
 
 
 def extract_plugin_msgs() -> None:

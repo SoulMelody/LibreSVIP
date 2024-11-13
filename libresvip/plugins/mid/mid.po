@@ -7,6 +7,9 @@ msgstr ""
 msgid "Conversion plugin for midi file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+
 msgid "No tempo labels found in the imported project."
 msgstr ""
 

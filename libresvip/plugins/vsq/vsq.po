@@ -31,3 +31,6 @@ msgstr ""
 msgid "Conversion plugin for Vocaloid 2 sequence file"
 msgstr ""
 
+msgid "Selio Jiang"
+msgstr ""
+

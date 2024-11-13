@@ -16,6 +16,9 @@ msgstr ""
 msgid "Conversion plugin for UST file format"
 msgstr ""
 
+msgid "Sder Colin"
+msgstr ""
+
 msgid "No singing track found"
 msgstr ""
 

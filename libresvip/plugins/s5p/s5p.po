@@ -7,3 +7,6 @@ msgstr ""
 msgid "Conversion plugin for Synthesizer V Editor project file"
 msgstr ""
 
+msgid "Sder Colin"
+msgstr ""
+

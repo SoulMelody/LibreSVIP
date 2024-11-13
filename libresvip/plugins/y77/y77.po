@@ -7,3 +7,6 @@ msgstr ""
 msgid "Conversion plugin for Yuan77 project file"
 msgstr ""
 
+msgid "FlutyDeer"
+msgstr ""
+

@@ -25,3 +25,6 @@ msgstr ""
 msgid "For Chinese and Japanese Lyrics"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+

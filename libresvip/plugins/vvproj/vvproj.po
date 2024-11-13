@@ -16,3 +16,6 @@ msgstr ""
 msgid "Conversion plugin for VOICEVOX Project file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+

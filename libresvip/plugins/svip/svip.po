@@ -7,6 +7,9 @@ msgstr ""
 msgid "Conversion plugin for the original .svip binary file format"
 msgstr ""
 
+msgid "yqzhishen"
+msgstr ""
+
 msgid "Unexpected enum value"
 msgstr ""
 

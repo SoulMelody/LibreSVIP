@@ -84,3 +84,6 @@ msgid ""
 "the first or specified singing track will be imported."
 msgstr ""
 
+msgid "CrSjimo"
+msgstr ""
+
