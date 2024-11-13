@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-01 02:49\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr "ACE Studio 工程文件"
 
 msgid "Conversion Plugin for ACE Studio project file"
 msgstr "ACE Studio 工程文件转换插件"
+
+msgid "yqzhishen"
+msgstr ""
 
 msgid "Unsupported project version"
 msgstr "不支持的工程版本"
