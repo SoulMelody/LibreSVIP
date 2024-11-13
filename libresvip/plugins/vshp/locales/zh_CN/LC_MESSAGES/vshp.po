@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Convert wave pattern to singing pattern"
 msgstr "将音频片段导入为演唱轨"
@@ -38,4 +38,7 @@ msgstr "VocalShifter 工程文件"
 
 msgid "Import parameters from VocalShifter project file."
 msgstr "从 VoralShifter 工程文件导入参数。"
+
+msgid "SoulMelody"
+msgstr ""
 
