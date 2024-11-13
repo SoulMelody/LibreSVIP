@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "Muta"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr "Muta工程文件"
 
 msgid "Conversion plugin for mtp file"
 msgstr "mtp 格式转换插件"
+
+msgid "SoulMelody"
+msgstr ""
 
 msgid "Default Singer Name"
 msgstr "默认歌手名称"
