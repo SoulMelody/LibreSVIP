@@ -180,7 +180,7 @@ class UPart(BaseModel):
     name: str
     position: int = 0
     track_no: int
-    comment: Optional[str] = None
+    comment: Optional[str] = ""
 
 
 class UVoicePart(UPart):

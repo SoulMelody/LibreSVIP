@@ -11,7 +11,7 @@ from libresvip.model.base import (
 )
 from libresvip.utils.music_math import note2midi
 
-from .models.enums import StartStop
+from .models.enums import StartStop, StartStopContinue
 from .models.mxml4 import ScorePart, ScorePartwise
 from .options import InputOptions
 
@@ -132,11 +132,16 @@ class MusicXMLParser:
                 key = note2midi(f"{step.value}{octave}") + alter
 
                 lyric_nodes = note_node.lyric
-                lyric = (
-                    lyric_nodes[0].text[0].value
-                    if len(lyric_nodes) and len(lyric_nodes[0].text)
-                    else DEFAULT_PHONEME
-                )
+                if any(
+                    slur.type_value in [StartStopContinue.CONTINUE, StartStopContinue.STOP]
+                    for notation in note_node.notations
+                    for slur in notation.slur
+                ):
+                    lyric = "-"
+                elif len(lyric_nodes) and len(lyric_nodes[0].text):
+                    lyric = lyric_nodes[0].text[0].value
+                else:
+                    lyric = DEFAULT_PHONEME
 
                 if not is_inside_note:
                     note = Note(
