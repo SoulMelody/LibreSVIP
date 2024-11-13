@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Ignore all breath notes"
 msgstr "忽略所有换气音符"
@@ -41,4 +41,7 @@ msgstr "Vocaloid 2 序列文件"
 
 msgid "Conversion plugin for Vocaloid 2 sequence file"
 msgstr "Vocaloid 2 序列文件转换插件"
+
+msgid "Selio Jiang"
+msgstr ""
 
