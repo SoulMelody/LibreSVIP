@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "Both note gap and punctuation"
 msgstr ""
@@ -49,5 +49,8 @@ msgid "SubRip subtitle file"
 msgstr ""
 
 msgid "Generator plugin for SRT subtitle file"
+msgstr ""
+
+msgid "SoulMelody"
 msgstr ""
 
