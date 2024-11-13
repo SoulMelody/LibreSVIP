@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-10-06 00:45\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr "与 ARPAsing系列音素器不兼容"
@@ -44,6 +44,9 @@ msgstr "OpenUtau 工程文件"
 
 msgid "Conversion plugin for Ustx file format"
 msgstr "Ustx格式转换插件"
+
+msgid "Oxygen Dioxide"
+msgstr ""
 
 msgid "Notes Overlapped"
 msgstr "音符重叠"

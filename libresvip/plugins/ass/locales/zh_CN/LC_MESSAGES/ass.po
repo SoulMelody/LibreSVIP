@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "ASS"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr "ASS字幕文件"
 
 msgid "Generator plugin for ASS subtitle file"
 msgstr "ASS 字幕格式转换插件"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
 
 msgid "Both note gap and punctuation"
 msgstr "音符间隙和标点符号"

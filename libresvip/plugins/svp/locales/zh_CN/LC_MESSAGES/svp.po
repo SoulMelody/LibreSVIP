@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-10-06 00:44\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "Notes Overlapped"
 msgstr "音符重叠"
@@ -139,4 +139,7 @@ msgid "Conversion plugin for Synthesizer V Studio project file, it supports read
 "Notes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
 msgstr "Synthesizer V Studio 工程格式转换插件，支持包括曲谱、歌词、参数曲线、音符属性、音符组、即时音高模式在内所有数据的读取与写入。\n"
 "请注意：输入带有重叠音符的工程文件是未定义的行为，可能导致无法预料的异常。"
+
+msgid "yqzhishen"
+msgstr "YQ之神"
 

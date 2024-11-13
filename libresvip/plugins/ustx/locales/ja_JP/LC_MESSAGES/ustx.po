@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-10-06 00:45\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr ""
@@ -43,6 +43,9 @@ msgid "OpenUtau project file"
 msgstr ""
 
 msgid "Conversion plugin for Ustx file format"
+msgstr ""
+
+msgid "Oxygen Dioxide"
 msgstr ""
 
 msgid "Notes Overlapped"

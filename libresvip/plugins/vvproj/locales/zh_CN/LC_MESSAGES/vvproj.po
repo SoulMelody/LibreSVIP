@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-09 23:20\n"
+"PO-Revision-Date: 2024-11-13 06:39\n"
 
 msgid "Constant tempo"
 msgstr "恒定曲速"
@@ -29,4 +29,7 @@ msgstr "VOICEVOX 工程文件"
 
 msgid "Conversion plugin for VOICEVOX Project file"
 msgstr "VOICEVOX 工程格式转换插件"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
 

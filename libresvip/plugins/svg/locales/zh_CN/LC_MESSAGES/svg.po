@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-01 06:03\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "Align to left"
 msgstr "左对齐"
@@ -95,4 +95,7 @@ msgstr "可缩放矢量图形"
 
 msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
 msgstr "生成 SVG 格式的可视化音符图形。本插件只生成导入工程首条或指定演唱轨的图形。"
+
+msgid "CrSjimo"
+msgstr ""
 

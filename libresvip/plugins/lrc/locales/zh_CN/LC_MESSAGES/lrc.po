@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "LRC"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr "LRC 歌词文件"
 
 msgid "Generator plugin for LRC lyric file"
 msgstr "LRC 歌词格式转换插件"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
 
 msgid "Act on timeline"
 msgstr "作用于时间轴"

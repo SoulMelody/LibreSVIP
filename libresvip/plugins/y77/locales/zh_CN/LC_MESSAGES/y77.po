@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Y77"
 msgstr ""
@@ -20,4 +20,7 @@ msgstr "元七七工程文件"
 
 msgid "Conversion plugin for Yuan77 project file"
 msgstr "元七七工程格式转换插件"
+
+msgid "FlutyDeer"
+msgstr ""
 

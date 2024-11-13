@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Ignore all breath notes"
 msgstr ""
@@ -40,5 +40,8 @@ msgid "Vocaloid 2 Sequence file"
 msgstr ""
 
 msgid "Conversion plugin for Vocaloid 2 sequence file"
+msgstr ""
+
+msgid "Selio Jiang"
 msgstr ""
 

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "Name of lyric replacement preset"
 msgstr "歌词替换预设的名称"
@@ -20,4 +20,7 @@ msgstr "替换歌词"
 
 msgid "Replace lyrics using preset rules. You can customize the lyrics replacement rules in the program configuration page"
 msgstr "使用预设规则对歌词进行替换。你可以在程序配置页面中编辑歌词替换规则"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
 

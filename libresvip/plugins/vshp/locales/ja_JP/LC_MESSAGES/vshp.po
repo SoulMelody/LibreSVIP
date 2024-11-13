@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "Convert wave pattern to singing pattern"
 msgstr ""
@@ -37,5 +37,8 @@ msgid "VocalShifter project file"
 msgstr ""
 
 msgid "Import parameters from VocalShifter project file."
+msgstr ""
+
+msgid "SoulMelody"
 msgstr ""
 
