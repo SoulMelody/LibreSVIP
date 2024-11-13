@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "SynthV Editor"
 msgstr ""
@@ -19,5 +19,8 @@ msgid "Synthesizer V Editor project file"
 msgstr ""
 
 msgid "Conversion plugin for Synthesizer V Editor project file"
+msgstr ""
+
+msgid "Sder Colin"
 msgstr ""
 
