@@ -40,8 +40,8 @@ pydantic==2.9.2
 pydantic-core==2.23.4
 pydantic-extra-types==2.10.0
 pygments==2.18.0
-pyinstaller==6.11.0 ; platform_system != 'Windows'
-pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.0-py3-none-any.whl ; platform_system == 'Windows'
+pyinstaller==6.11.1 ; platform_system != 'Windows'
+pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_system == 'Windows'
 pyinstaller-hooks-contrib==2024.10
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
 pypinyin==0.53.0
@@ -58,7 +58,7 @@ rich==13.9.4
 ruamel-yaml==0.18.6
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.4.9 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==75.4.0
+setuptools==75.5.0
 shellingham==1.5.4
 shiboken6==6.8.0.2
 sniffio==1.3.1
