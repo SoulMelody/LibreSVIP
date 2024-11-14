@@ -25,7 +25,7 @@ with contextlib.suppress(Exception):
 
 
 cli_collections = []
-if not (is_win and platform.machine() == "ARM64"):
+if platform.machine() != "ARM64":
     cli_a = Analysis(
         ['../libresvip/cli/__main__.py'],
         pathex=[
