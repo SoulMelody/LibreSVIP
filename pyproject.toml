@@ -57,9 +57,8 @@ dependencies = [
   "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
 ]
 name = "libresvip"
-dynamic = ["version"]
+dynamic = ["readme", "version"]
 description = "Universal Converter for Singing Voice Projects"
-readme = "README.md"
 
 [project.urls]
 repository = "https://github.com/SoulMelody/LibreSVIP"
@@ -138,12 +137,28 @@ libresvip-gui = "libresvip.gui.__main__:run"
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
 
-[tool.pdm]
-version = { source = "file", path = "libresvip/__init__.py" }
+[tool.hatch.version]
+path = "libresvip/__init__.py"
 
-[tool.pdm.build]
-includes = ["libresvip"]
-excludes = ["tests", "libresvip/res/qml/**", "libresvip/res/locales/*.ts", "libresvip/**/*.po", "**/.mypy_cache"]
+[tool.hatch.build.targets.sdist]
+only-include = [
+  "libresvip",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["libresvip"]
+exclude = [
+  "*.po",
+  "*.ts",
+  "tests",
+  "libresvip/res/qml/**",
+]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
 
 [tool.pytest.ini_options]
 addopts = "-s -p no:warnings"
@@ -204,7 +219,6 @@ known-first-party = ['libresvip', 'tests']
 
 [tool.mypy]
 disable_error_code = "import-not-found,unused-ignore"
-allow_redefinition = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true
@@ -216,5 +230,5 @@ no_site_packages = true
 explicit_package_bases = true
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"

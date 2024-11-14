@@ -131,12 +131,12 @@ def normalize_to_tick(
     tick_prefix: int,
 ) -> list[CeVIOParamEventFloat]:
     tempos = expand(tempo_list, tick_prefix)
-    events = [CeVIOParamEventFloat.from_event(event) for event in events]
     events_normalized: list[CeVIOParamEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
-    for event in events:
+    for _event in events:
+        event = CeVIOParamEventFloat.from_event(_event)
         pos = event.idx if event.idx is not None else next_pos
         if event.idx is None:
             tick_pos = next_tick_pos

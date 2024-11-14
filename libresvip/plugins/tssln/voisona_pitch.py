@@ -133,12 +133,12 @@ def normalize_to_tick(
     tick_prefix: int,
 ) -> list[VoiSonaParamEventFloat]:
     tempos = expand(tempo_list, tick_prefix)
-    events = [VoiSonaParamEventFloat.from_event(event) for event in events]
     events_normalized: list[VoiSonaParamEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
-    for event in events:
+    for _event in events:
+        event = VoiSonaParamEventFloat.from_event(_event)
         pos = event.idx if event.idx is not None else next_pos
         if event.idx is None:
             tick_pos = next_tick_pos
