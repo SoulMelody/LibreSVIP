@@ -4,10 +4,6 @@ on:
     tags:
       - "v*"
 
-env:
-  PYINSTALLER_VERSION: "6.11.0"
-  LIBMEDIAINFO_VERSION: "24.11"
-
 jobs:
   make-outputs:
     runs-on: ubuntu-latest
@@ -126,6 +122,9 @@ jobs:
   release_windows_arm64:
     runs-on: ubuntu-latest
     needs: [make-outputs]
+    env:
+      PYINSTALLER_VERSION: "6.11.1"
+      PYTHON_VERSION: "3.12"
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
@@ -135,7 +134,7 @@ jobs:
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.12
+          uv venv --python $PYTHON_VERSION
           cd packaging
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
           export MSYSTEM=CLANGARM64
@@ -145,8 +144,8 @@ jobs:
           uv run python -m pip download pyinstaller==$PYINSTALLER_VERSION --platform win_arm64 --only-binary=:all:
           uv run python -m pip install wheel
           uv run python -m wheel unpack pyinstaller-$PYINSTALLER_VERSION-py3-none-win_arm64.whl
-          sudo mv ./pyinstaller-$PYINSTALLER_VERSION/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python3.12/site-packages/PyInstaller/bootloader
-          sudo cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python3.12/site-packages/pymediainfo/
+          sudo mv ./pyinstaller-$PYINSTALLER_VERSION/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python$PYTHON_VERSION/site-packages/PyInstaller/bootloader
+          sudo cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python$PYTHON_VERSION/site-packages/pymediainfo/
           docker compose -f docker-compose-build-wine-arm64.yml up
           mkdir archive
           cd dist
@@ -284,6 +283,8 @@ jobs:
   release_macos_arm64:
     runs-on: macos-latest
     needs: [make-outputs]
+    env:
+      LIBMEDIAINFO_VERSION: "24.11"
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
