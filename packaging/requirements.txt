@@ -15,7 +15,7 @@ drawsvg==2.4.0
 fonticon-materialdesignicons7==7.2.96
 fsspec==2024.10.0
 h11==0.14.0
-httpcore==1.0.6
+httpcore==1.0.7
 httpx==0.27.2
 idna==3.10
 jinja2==3.1.4
