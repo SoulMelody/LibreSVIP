@@ -54,7 +54,6 @@ class Notifier(QObject):
                     raise RuntimeError(msg)  # noqa: TRY301
 
             self.notifier = DesktopNotifier(app_name=PACKAGE_NAME, app_icon=icon_path.__enter__())
-            self.notifier._loop = event_loop
         except Exception:
             self.notifier = None
 
@@ -169,7 +168,7 @@ class Notifier(QObject):
                                 buttons.append(
                                     Button(
                                         _("Download"),
-                                        lambda: self.notifier._loop.create_task(
+                                        lambda: asyncio.create_task(
                                             self.download_release(
                                                 asset["browser_download_url"],
                                                 asset["name"],

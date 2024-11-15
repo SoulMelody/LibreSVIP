@@ -283,9 +283,8 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         self._write_notifiers: dict[FileDescriptor, QtCore.QSocketNotifier] = {}
         self._timer = _SimpleTimer()
 
-        signaller = make_signaller(object, tuple)
-        self.__call_soon_signal = signaller.signal
-        signaller.signal.connect(lambda callback, args: self.call_soon(callback, *args))
+        self.signaller = make_signaller(object, tuple)
+        self.signaller.signal.connect(lambda callback, args: self.call_soon(callback, *args))
 
         assert self.__app is not None
         super().__init__()
@@ -591,7 +590,7 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         context: Optional[Context] = None,
     ) -> asyncio.Handle:
         """Thread-safe version of call_soon."""
-        self.__call_soon_signal.emit(callback, args)
+        self.signaller.signal.emit(callback, args)
 
     def run_in_executor(
         self,
