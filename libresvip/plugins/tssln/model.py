@@ -44,6 +44,9 @@ class VoiSonaPanelControllerStatus(BaseModel):
     beat_panel: Optional[bool] = Field(None, alias="BeatPanel")
     key_panel: Optional[bool] = Field(None, alias="KeyPanel")
     dynamics_panel: Optional[bool] = Field(None, alias="DynamicsPanel")
+    global_param_panel: Optional[bool] = Field(None, alias="GlobalParamPanel")
+    lyric_panel: Optional[bool] = Field(None, alias="LyricPanel")
+    property_panel: Optional[bool] = Field(None, alias="PropertyPanel")
 
 
 class VoiSonaMainPanelStatus(VoiSonaPanelControllerStatus):
@@ -77,6 +80,11 @@ class VoiSonaEmotionListItem(BaseModel):
     emotion: list[VoiSonaEmotionItem] = Field(default_factory=list, alias="Emotion")
 
 
+class VoiSonaSpecialSymbol(BaseModel):
+    special_symbol_raspy: list[int] = Field(default_factory=list, alias="SpecialSymbolRaspy")
+    special_symbol_falsetto: list[int] = Field(default_factory=list, alias="SpecialSymbolFalsetto")
+
+
 class VoiSonaVoiceInformation(BaseModel):
     neural_vocoder_list: list[VoiSonaNeuralVocoderListItem] = Field(
         default_factory=list, alias="NeuralVocoderList"
@@ -90,6 +98,7 @@ class VoiSonaVoiceInformation(BaseModel):
     voice_version: str = Field(alias="VoiceVersion")
     voice_hash: Optional[str] = Field(None, alias="VoiceHash")
     voice_lib_hash: Optional[str] = Field(None, alias="VoiceLibHash")
+    special_symbol: list[VoiSonaSpecialSymbol] = Field(default_factory=list, alias="SpecialSymbol")
 
 
 class VoiSonaGlobalParameter(BaseModel):
@@ -144,6 +153,10 @@ class VoiSonaNoteItem(BaseModel):
     staccato: Optional[bool] = Field(None, alias="Staccato")
     slur_start: Optional[bool] = Field(None, alias="SlurStart")
     slur_stop: Optional[bool] = Field(None, alias="SlurStop")
+    default_phoneme: Optional[str] = Field(None, alias="DefaultPhoneme")
+    past_analyzed_phoneme: Optional[str] = Field(None, alias="PastAnalyzedPhoneme")
+    special_symbol_raspy: Optional[bool] = Field(None, alias="SpecialSymbolRaspy")
+    special_symbol_falsetto: Optional[bool] = Field(None, alias="SpecialSymbolFalsetto")
 
 
 class VoiSonaScoreItem(BaseModel):

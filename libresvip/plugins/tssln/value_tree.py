@@ -14,6 +14,7 @@ from construct import (
     CString,
     Float64l,
     GreedyBytes,
+    Int16sl,
     Int64sl,
     LazyBound,
     Prefixed,
@@ -29,7 +30,6 @@ from construct_typed import Context
 from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
-Int32ul = BytesInteger(4, swapped=True)
 Node = dict[str, Union[bool, int, float, str, bytes, "Node", list["Node"]]]
 
 JUCEVarTypes = CSEnum(
@@ -96,7 +96,7 @@ JUCEVariant: Container = Struct(
                     "INT64": Int64sl,
                     "ARRAY": PrefixedArray(
                         JUCECompressedInt,
-                        LazyBound(lambda: JUCEVariant),
+                        Int16sl,
                     ),
                     "BINARY": GreedyBytes,
                 },
