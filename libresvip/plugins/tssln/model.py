@@ -81,8 +81,8 @@ class VoiSonaEmotionListItem(BaseModel):
 
 
 class VoiSonaSpecialSymbol(BaseModel):
-    special_symbol_raspy: list[int] = Field(default_factory=list, alias="SpecialSymbolRaspy")
-    special_symbol_falsetto: list[int] = Field(default_factory=list, alias="SpecialSymbolFalsetto")
+    special_symbol_raspy: list[str] = Field(default_factory=list, alias="SpecialSymbolRaspy")
+    special_symbol_falsetto: list[str] = Field(default_factory=list, alias="SpecialSymbolFalsetto")
 
 
 class VoiSonaVoiceInformation(BaseModel):
@@ -200,7 +200,7 @@ class VoiSonaParametersItem(BaseModel):
 
 
 class VoiSonaSignerConfig(BaseModel):
-    pass
+    snap_shot: Optional[str] = Field(None, alias="SnapShot")
 
 
 class VoiSonaStateInformation(BaseModel):
@@ -246,15 +246,9 @@ class VoiSonaTrackType(enum.IntEnum):
     AUDIO = 2
 
 
-class VoiSonaTrackState(enum.IntEnum):
-    NONE = 0
-    MUTE = 1
-    SOLO = 2
-
-
 class VoiSonaBaseTrackItem(BaseModel):
     name: str = Field(alias="Name")
-    state: VoiSonaTrackState = Field(VoiSonaTrackState.NONE, alias="State")
+    state: int = Field(0, alias="State")
     volume: float = Field(0, alias="Volume")
     pan: float = Field(0, alias="Pan")
 
@@ -301,7 +295,7 @@ class VoiSonaProject(BaseModel):
         return value
 
 
-def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[str, Any]:
+def value_to_dict(field_value: Any, field_type: type) -> dict[str, Any]:
     if issubclass(field_type, bool):
         variant_type = JUCEVarTypes.BOOL_TRUE if field_value is True else JUCEVarTypes.BOOL_FALSE
     elif issubclass(field_type, (enum.IntEnum, int)):
@@ -312,16 +306,16 @@ def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[s
         variant_type = JUCEVarTypes.STRING
     elif issubclass(field_type, bytes):
         variant_type = JUCEVarTypes.BINARY
+    elif issubclass(field_type, list):
+        variant_type = JUCEVarTypes.ARRAY
+        field_value = [value_to_dict(item, type(item)) for item in field_value]
     else:
         variant_type = None
-        msg = f"Unknown field type {field_type} for field {field_name}"
+        msg = f"Unknown field type {field_type}"
         raise TypeError(msg)
     return {
-        "name": field_name,
-        "data": {
-            "type": variant_type,
-            "value": field_value,
-        },
+        "type": variant_type,
+        "value": field_value,
     }
 
 
@@ -352,7 +346,8 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str,
                     )
                 else:
                     value_tree["attrs"].extend(
-                        value_to_dict(alias_field_name, item, inner_type) for item in field_value
+                        {"name": alias_field_name, "data": value_to_dict(item, inner_type)}
+                        for item in field_value
                     )
             elif alias_field_name == "PluginData":
                 value_tree["attrs"].append(
@@ -372,5 +367,7 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str,
             elif issubclass(field_type, BaseModel):
                 value_tree["children"].append(model_to_value_tree(field_value, alias_field_name))
             else:
-                value_tree["attrs"].append(value_to_dict(alias_field_name, field_value, field_type))
+                value_tree["attrs"].append(
+                    {"name": alias_field_name, "data": value_to_dict(field_value, field_type)}
+                )
     return value_tree

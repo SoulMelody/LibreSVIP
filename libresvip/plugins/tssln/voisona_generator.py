@@ -33,7 +33,6 @@ from .model import (
     VoiSonaTempoItem,
     VoiSonaTimeItem,
     VoiSonaTrack,
-    VoiSonaTrackState,
 )
 from .options import OutputOptions
 from .voisona_pitch import generate_for_voisona
@@ -53,16 +52,9 @@ class VoisonaGenerator:
         default_tempos = self.generate_tempos(project.song_tempo_list)
         voisona_project.tracks.append(VoiSonaTrack())
         for i, track in enumerate(project.track_list):
-            if track.mute:
-                track_state = VoiSonaTrackState.MUTE
-            elif track.solo:
-                track_state = VoiSonaTrackState.SOLO
-            else:
-                track_state = VoiSonaTrackState.NONE
             if isinstance(track, InstrumentalTrack):
                 audio_track = VoiSonaAudioTrackItem(
                     name=f"Audio{i}",
-                    state=track_state,
                     audio_event=[
                         VoiSonaAudioEventItem(
                             path=track.audio_file_path,
@@ -74,7 +66,6 @@ class VoisonaGenerator:
             elif isinstance(track, SingingTrack):
                 singing_track = VoiSonaSingingTrackItem(
                     name=f"Singer{i}",
-                    state=track_state,
                 )
                 song_item = VoiSonaSongItem(
                     beat=[default_time_signatures],
