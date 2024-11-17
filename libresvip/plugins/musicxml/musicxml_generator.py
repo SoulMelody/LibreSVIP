@@ -148,6 +148,20 @@ class MusicXMLGenerator:
                             prev_note_node = note
                             prev_is_slur = is_slur
                     else:
+                        if prev_note_node is not None and prev_is_slur:
+                            if prev_note_node.notations:
+                                prev_notation = prev_note_node.notations[0]
+                            else:
+                                prev_notation = Notations()
+                                prev_note_node.notations.append(prev_notation)
+                            prev_slur_number = next(
+                                (slur.number for slur in prev_notation.slur), slur_number
+                            )
+                            prev_notation.slur.append(
+                                Slur(type_value=StartStopContinue.STOP, number=prev_slur_number)
+                            )
+                            prev_note_node = None
+                            prev_is_slur = False
                         measure_node.note.append(self.generate_rest_node(content))
             part_node.measure.append(measure_node)
         if prev_note_node is not None and prev_is_slur:

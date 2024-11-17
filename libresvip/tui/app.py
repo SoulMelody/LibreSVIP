@@ -484,6 +484,14 @@ class TUIApp(App[None]):
     """
     )
 
+    @property
+    def dark(self) -> bool:
+        return self.theme != "textual-light"
+
+    @dark.setter
+    def dark(self, value: bool) -> None:
+        self.theme = "textual-dark" if value else "textual-light"
+
     def on_mount(self) -> None:
         self.temp_path = UPath("memory:/")
         theme_select = self.query_one("#theme_select")
@@ -589,7 +597,6 @@ class TUIApp(App[None]):
 
     @on(Select.Changed, "#theme_select")
     def handle_theme_changed(self, changed: Select.Changed) -> None:
-        self.dark: bool
         if self.dark != changed.value:
             self.dark = bool(changed.value)
 
