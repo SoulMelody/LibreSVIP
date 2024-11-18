@@ -116,7 +116,7 @@ packaging = [
   "shellingham<2.0.0,>=1.5.4",
 ]
 docs = ["mkdocs-material<10.0.0,>=9.5.44"]
-test = ["pytest>=8.3.3", "pytest-datadir>=1.5.0", "textual-dev>=1.6.1"]
+test = ["pytest>=8.3.3", "pytest-datadir>=1.5.0", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
   {include-group = "i18n"},
