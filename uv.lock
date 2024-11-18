@@ -1202,7 +1202,7 @@ name = "importlib-metadata"
 version = "8.5.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp", marker = "python_full_version < '3.13'" },
+    { name = "zipp", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/cd/12/33e59336dca5be0c398a7482335911a33aa0e20776128f038019f1a95f1b/importlib_metadata-8.5.0.tar.gz", hash = "sha256:71522656f0abace1d072b9e5481a48f07c138e00f079c38c8f883823f9c26bd7", size = 55304 }
 wheels = [
@@ -1496,7 +1496,7 @@ all = [
     { name = "gapic-generator", specifier = ">=1.20.2" },
     { name = "mkdocs-material", specifier = ">=9.5.44,<10.0.0" },
     { name = "mypy", specifier = ">=1.13.0" },
-    { name = "nuitka", specifier = ">=2.5" },
+    { name = "nuitka", specifier = ">=2.5.1" },
     { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
@@ -1504,7 +1504,7 @@ all = [
     { name = "pytest-datadir", specifier = ">=1.5.0" },
     { name = "ruff", specifier = ">=0.7.4" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
-    { name = "sourcery", specifier = ">=1.24.0" },
+    { name = "sourcery", specifier = ">=1.25.0" },
     { name = "textual-dev", specifier = ">=1.6.1" },
     { name = "types-lxml", specifier = ">=2024.11.8" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
@@ -1524,7 +1524,7 @@ linting = [
     { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "ruff", specifier = ">=0.7.4" },
-    { name = "sourcery", specifier = ">=1.24.0" },
+    { name = "sourcery", specifier = ">=1.25.0" },
     { name = "types-lxml", specifier = ">=2024.11.8" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20240917" },
@@ -1532,7 +1532,7 @@ linting = [
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=7.2.5" },
-    { name = "nuitka", specifier = ">=2.5" },
+    { name = "nuitka", specifier = ">=2.5.1" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
@@ -2175,13 +2175,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.5"
+version = "2.5.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/23/fe/777114831836065debfb288e176ed1318f61499c5f6655a1d422d7fec04b/Nuitka-2.5.tar.gz", hash = "sha256:696c2cf7b9c3adefbf9afc26e701f34abe2a25a649f7fc65a873435e0bb1c0fa", size = 3775959 }
+sdist = { url = "https://files.pythonhosted.org/packages/fb/35/dae04ffd525a49a736489264d07d86aee324c6b3995ced8eaf819915e86b/Nuitka-2.5.1.tar.gz", hash = "sha256:5fec9404a04de124b8d0094a6ebbc69cf63e30f0982b8dbd4618bec48a5288c5", size = 3776847 }
 
 [[package]]
 name = "omegaconf"
@@ -3356,12 +3356,12 @@ wheels = [
 
 [[package]]
 name = "sourcery"
-version = "1.24.0"
+version = "1.25.0"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/91/51/c61c48750af3d406573148ad043721046f316d7746a09278726a51bcc140/sourcery-1.24.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:2c65bddfc80b01f725c8aecd97edd874a1d78371c370ce4196262b1db53da3f2", size = 106266674 },
-    { url = "https://files.pythonhosted.org/packages/77/a0/3fe4e4a8a0b6cf1bdf2655a084484f83a043e8a0d9027918ca433ecce27d/sourcery-1.24.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:5bd8e91e267c46c3a416e68484c66f3a6aff992ed9acc7162e304bcd41ce152b", size = 136622458 },
-    { url = "https://files.pythonhosted.org/packages/19/5a/d0a4d67a16ac6f7f05b74ab663d56c009a75fc7665c5ea904a3df7e3c475/sourcery-1.24.0-py2.py3-none-win_amd64.whl", hash = "sha256:80de37a59a42762b8dcf3e80dc8335c86aa607c6d17fc85b238e83fb444f8cb4", size = 103621476 },
+    { url = "https://files.pythonhosted.org/packages/fa/12/d39f0e3ddc27fbb8c3b906043f062f35dfb141da8554572ad4d2870706e4/sourcery-1.25.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:b7b54e7bd30dac1145d0a82b78a6935779397141f7a4c907af0b55d31fd59948", size = 103659627 },
+    { url = "https://files.pythonhosted.org/packages/74/7e/bb80391bad90cfb56d520884d9d1693beeb24eec97b2182a82d88dd58264/sourcery-1.25.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:5e6aecf938dbef4f5e2d7c434393cbb6934c6942b1371eac94e9ddff27e13bd1", size = 133025603 },
+    { url = "https://files.pythonhosted.org/packages/d8/d6/a9d2d008a7cdda611a71de02a0eee52a425e838ea98e64039f7e2f697ad2/sourcery-1.25.0-py2.py3-none-win_amd64.whl", hash = "sha256:f74976ab5b296bbe7542584f71379f2879d162bb42bdd3366ad639b5d0ccf7c6", size = 101419677 },
 ]
 
 [[package]]
