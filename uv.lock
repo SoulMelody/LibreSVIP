@@ -1475,7 +1475,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.6" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
-    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.86.1" },
+    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.86.2" },
     { name = "typer-slim", specifier = ">=0.13.0,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.5,<1.0.0" },
@@ -3379,7 +3379,7 @@ wheels = [
 
 [[package]]
 name = "textual"
-version = "0.86.1"
+version = "0.86.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown-it-py", extra = ["linkify", "plugins"] },
@@ -3387,9 +3387,9 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/56/c6/435723343db6a65ed92950d1e20ded920c4c22e6e785ea0e369abd4ac1c7/textual-0.86.1.tar.gz", hash = "sha256:a6e68de5383415f222f26b4049c2a92ed204071fdfebe3d729f8dd373ca5f519", size = 1496752 }
+sdist = { url = "https://files.pythonhosted.org/packages/c3/d2/2f08cbc8c9290c9aeca93840e63c5d208ca6e50a7cddef9fa9cafca7cd68/textual-0.86.2.tar.gz", hash = "sha256:43073f9eb52d0f38a5af2f124ba68b378f91d260df4b1c92f384a3b5cbbbcb70", size = 1498282 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fe/a3/2b7bfd8d0665072a77459f51b600445939aee8a9d25bc3d546c9ac879a19/textual-0.86.1-py3-none-any.whl", hash = "sha256:ebc2bfd92c2f1a451c12dcbcfda002598a2fc9793d1684be83514b5fba75f915", size = 646857 },
+    { url = "https://files.pythonhosted.org/packages/01/c3/d7f602e00e05acd0c966409884a26c66e9748e542a88960f09ff7af95f5c/textual-0.86.2-py3-none-any.whl", hash = "sha256:2c0744feda959554aff1f169341e6e1fba6e51cdc45fb0a878675307d5719ca6", size = 647190 },
 ]
 
 [[package]]
