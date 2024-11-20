@@ -1484,7 +1484,7 @@ requires-dist = [
     { name = "universal-pathlib", marker = "extra == 'webui'", specifier = ">=0.2.5,<1.0.0" },
     { name = "wanakana-python", specifier = ">=1.2.2,<2.0.0" },
     { name = "xsdata-pydantic", specifier = ">=24.5,<24.6" },
-    { name = "zhon", specifier = ">=2.0.2,<3.0.0" },
+    { name = "zhon", specifier = ">=2.1.1,<3.0.0" },
     { name = "zstandard", marker = "platform_python_implementation == 'CPython'", specifier = ">=0.23.0,<0.23.1" },
 ]
 
@@ -4268,11 +4268,11 @@ wheels = [
 
 [[package]]
 name = "zhon"
-version = "2.0.2"
+version = "2.1.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/cf/da/1ff0761d6c0d2fca7f19e65d19e960354dfe6cbc1664041e3c3e711d757a/zhon-2.0.2.tar.gz", hash = "sha256:c834df6b1b182f7e973e796ded80ed1f61f271fd25f6b0dc0c44f7c4ea467184", size = 84497 }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/8d/e6c8ee4df75940ddecb6f5e7b2753a9a3914e6cd357e7238987661723d81/zhon-2.1.1.tar.gz", hash = "sha256:c8da424fad4aa698ddd3e1735515b49ff522c84dd1091e8fafd986ac7c6898f0", size = 84448 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cf/e1/fedce8230b9f4b07d34f2a25ea5f08071712ea512f959d831f32d257aee9/zhon-2.0.2-py3-none-any.whl", hash = "sha256:e868e8308766e04866eacf37e8cf054a089d4b07cac62179b03f90a80757afe6", size = 83983 },
+    { url = "https://files.pythonhosted.org/packages/be/13/b8d6ca3a41bf5959bc3915678837385bf668162a7295140d81ccae0b96b7/zhon-2.1.1-py3-none-any.whl", hash = "sha256:9ec0d42229ae60708a045270f755ccefb48f2689f2a6ce0bc6597abf6c4a9871", size = 83933 },
 ]
 
 [[package]]
