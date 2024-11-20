@@ -115,7 +115,7 @@ packaging = [
   "pyinstaller>=6.11.1",
   "shellingham<2.0.0,>=1.5.4",
 ]
-docs = ["mkdocs-material<10.0.0,>=9.5.44"]
+docs = ["mkdocs-material<10.0.0,>=9.5.45"]
 test = ["pytest>=8.3.3", "pytest-datadir>=1.5.0", "textual-dev>=1.7.0"]
 all = [
   {include-group = "code_gen"},
