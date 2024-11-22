@@ -32,6 +32,7 @@ def download_win_arm64_web_wheels() -> None:
     native_packages = {}
     third_party_arm64_packages = {
         "aiohttp": None,
+        "cffi": None,
         "lxml": None,
         "markupsafe": None,
         "orjson": None,
