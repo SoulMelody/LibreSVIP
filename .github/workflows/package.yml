@@ -183,7 +183,8 @@ jobs:
           uv run python download_win_arm64_web_wheels.py
           ls *.whl > requirements-web.txt
           mkdir python
-          curl -LsSf https://www.python.org/ftp/python/3.12.7/python-3.12.7-embed-arm64.zip | unzip -d python
+          curl -O https://www.python.org/ftp/python/3.12.7/python-3.12.7-embed-arm64.zip
+          unzip python-3.12.7-embed-arm64.zip -d python
           rm python/python312._pth
           curl https://bootstrap.pypa.io/get-pip.py -o python/get-pip.py
           docker compose -f docker-compose-webui-wine-arm64.yml up
