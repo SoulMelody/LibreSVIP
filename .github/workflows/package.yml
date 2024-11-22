@@ -149,7 +149,7 @@ jobs:
           docker compose -f docker-compose-build-wine-arm64.yml up
           mkdir archive
           cd dist
-          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip-web
+          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -190,7 +190,7 @@ jobs:
           docker compose -f docker-compose-webui-wine-arm64.yml up
           mkdir archive
           cd dist
-          7z a ../archive/LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
+          7z a ../archive/LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip-web
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
