@@ -197,7 +197,7 @@ class AceParser:
         ):
             span_index = int(latin_span.group(1))
             note.lyric = ACEP_LATIN_SPAN_RE.sub("", note.lyric) if span_index == 1 else "+"
-        if pinyin is None or "-" not in ace_note.lyric and ace_note.pronunciation != pinyin:
+        if pinyin is None or ("-" not in ace_note.lyric and ace_note.pronunciation != pinyin):
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
             note.head_tag = "V"

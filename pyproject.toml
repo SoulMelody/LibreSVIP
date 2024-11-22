@@ -205,8 +205,6 @@ select = [
   "YTT",   # sys.version
 ]
 ignore = [
-  "ANN101", # Missing type annotation for `self` in method
-  "ANN102", # Missing type annotation for `cls` in classmethod
   "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
   "UP007",  # Use `X | Y` for type annotations

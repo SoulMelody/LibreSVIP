@@ -240,11 +240,8 @@ class MidiParser:
                             and len(pitchbend_range_changed[event.time]) >= 2
                         ):
                             pitch_bend_sensitivity = event.value
-                        elif (
-                            event.is_cc(ControlChange.RPN_MSB)
-                            and event.value == 0
-                            or event.is_cc(ControlChange.RPN_LSB)
-                            and event.value == 0
+                        elif (event.is_cc(ControlChange.RPN_MSB) and event.value == 0) or (
+                            event.is_cc(ControlChange.RPN_LSB) and event.value == 0
                         ):
                             pitchbend_range_changed[event.time].append(event.value)
                     if self.options.import_volume:
