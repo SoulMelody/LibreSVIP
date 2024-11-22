@@ -48,7 +48,7 @@ def download_win_arm64_web_wheels() -> None:
             if pkg_name in third_party_arm64_packages and not pkg_name.startswith("pydantic"):
                 native_packages[third_party_arm64_packages[pkg_name] or pkg_name] = wheel_path
 
-    requirements_path = cwd / "requirements-web.txt"
+    requirements_path = cwd / "requirements-webui.txt"
     for requirement_str in requirements_path.read_text().splitlines():
         try:
             requirement = Requirement(requirement_str)
