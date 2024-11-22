@@ -12,12 +12,14 @@ construct-typing==0.6.2
 dbus-fast==2.24.4 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.0.0 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
+exceptiongroup==1.2.2 ; python_full_version < '3.11'
 fonticon-materialdesignicons7==7.2.96
 fsspec==2024.10.0
 h11==0.14.0
 httpcore==1.0.7
 httpx==0.27.2
 idna==3.10
+importlib-resources==6.4.5 ; python_full_version < '3.11'
 jinja2==3.1.4
 loguru==0.7.2
 lxml==5.3.0
@@ -40,8 +42,8 @@ pydantic==2.10.1
 pydantic-core==2.27.1
 pydantic-extra-types==2.10.0
 pygments==2.18.0
-pyinstaller==6.11.1 ; platform_system != 'Windows'
-pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_system == 'Windows'
+pyinstaller==6.11.1 ; platform_system != 'Windows' or platform_machine == 'arm64'
+pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_machine != 'arm64' and platform_system == 'Windows'
 pyinstaller-hooks-contrib==2024.10
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
 pypinyin==0.53.0
