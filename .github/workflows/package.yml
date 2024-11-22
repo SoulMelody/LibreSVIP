@@ -181,7 +181,9 @@ jobs:
           cd packaging
           uv run python -m ensurepip
           uv run python download_win_arm64_web_wheels.py
-          cat *.whl > requirements_web.txt
+          cat *.whl > requirements-web.txt
+          mkdir python_installer
+          curl https://www.python.org/ftp/python/3.12.7/python-3.12.7-arm64.exe -o python_installer/python-arm64.exe
           docker compose -f docker-compose-webui-wine-arm64.yml up
           mkdir archive
           cd dist
