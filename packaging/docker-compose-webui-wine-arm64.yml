@@ -1,0 +1,15 @@
+version: "3"
+services:
+  install_and_build:
+    image: linaro/wine-arm64
+    volumes:
+      - ./python_installer:/python_installer
+      - ../:/src
+    command: >
+      wine-arm64 cmd /c "cd /src/dist &&
+      /python_installer/python-arm64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0 &&
+      dir *.whl /b > requirements.txt &&
+      python -m pip install -r requirements.txt --no-deps &&
+      cd ../packaging &&
+      python -m pip install -r requirements-web.txt &&
+      pyinstaller libresvip-web.spec"

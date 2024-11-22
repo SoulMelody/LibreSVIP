@@ -24,25 +24,43 @@ jobs:
             requirements:
               - "pyproject.toml"
               - "packaging/requirements-pyinstaller.in"
+              - "packaging/requirements-pywebview.in"
+            docs:
+              - "docs/**"
+              - "mkdocs.yml"
 
-      - name: Set up Python
-        if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true'
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
+        uses: astral-sh/setup-uv@v3
         with:
-          python-version: "3.13"
+          version: "latest"
 
       - name: Compile catalogs
         if: steps.changed-files.outputs.po_any_changed == 'true'
         run: |
-          pip install babel setuptools
+          uv venv
+          uv pip install babel setuptools
           cd scripts
-          python batch_compile_catalog.py
+          uv run python batch_compile_catalog.py
 
       - name: Compile requirements.txt
         if: steps.changed-files.outputs.requirements_any_changed == 'true'
         run: |
-          pip install uv
           uv pip compile --universal --extra desktop --extra ujson --extra lxml --extra ruamel_yaml -U --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in -o packaging/requirements.txt
+          uv pip compile --universal --extra webui --extra ujson --extra lxml --extra ruamel_yaml -U --no-annotate --no-header --no-emit-package httptools pyproject.toml packaging/requirements-pywebview.in packaging/requirements-pyinstaller.in -o packaging/requirements-webui.txt
+
+      - name: Build docs
+        if: steps.changed-files.outputs.docs_any_changed == 'true'
+        run: |
+          uv venv
+          uv pip install mkdocs-material
+          uv run mkdocs build
+
+      - uses: peaceiris/actions-gh-pages@v4
+        if: steps.changed-files.outputs.docs_any_changed == 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
