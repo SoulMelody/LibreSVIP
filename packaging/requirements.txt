@@ -36,8 +36,8 @@ platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
 protobuf==5.28.3
-pydantic==2.10.0
-pydantic-core==2.27.0
+pydantic==2.10.1
+pydantic-core==2.27.1
 pydantic-extra-types==2.10.0
 pygments==2.18.0
 pyinstaller==6.11.1 ; platform_system != 'Windows'
