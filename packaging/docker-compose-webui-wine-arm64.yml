@@ -12,5 +12,5 @@ services:
       dir *.whl /b > requirements.txt &&
       python -m pip install -r requirements.txt --no-deps &&
       cd ../packaging &&
-      python -m pip install -r requirements-web.txt &&
+      python -m pip install -r requirements-web.txt --no-deps &&
       python -m PyInstaller libresvip-web.spec"
