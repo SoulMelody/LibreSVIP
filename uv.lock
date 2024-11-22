@@ -1457,7 +1457,7 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
     { name = "mido-fix", specifier = ">=1.2.12,<2.0.0" },
     { name = "more-itertools", specifier = ">=10.5.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.5.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.7.0" },
     { name = "omegaconf", specifier = ">=2.3.0,<3.0.0" },
     { name = "packaging", specifier = ">=24.2,<24.3" },
     { name = "parsimonious", specifier = ">=0.10.0,<0.11.0" },
@@ -2135,7 +2135,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.5.0"
+version = "2.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2159,9 +2159,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bd/b8/8f3279763a71148e410b8f36d9bf917206d235d9631179c93a1dd14d8a63/nicegui-2.5.0.tar.gz", hash = "sha256:e848e822dbf9be2c7cf50d27fbb180c096b135e6e1a817b30dd4a1b6aaac457c", size = 16051000 }
+sdist = { url = "https://files.pythonhosted.org/packages/8e/2a/664f09a888a578b86e6abf24cfca1c49a736fe154e47ceb36ae4978bbcf0/nicegui-2.7.0.tar.gz", hash = "sha256:f53ccc6f74333cae9fe0f732cacc0e330421c458446fc7e8b9da722117886914", size = 16054071 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a4/fa/4ea15e4aff450f244656f718322d41f07d5385fbcfffc31de37eca0c5c6a/nicegui-2.5.0-py3-none-any.whl", hash = "sha256:04d1b2a8927786fa9d0ad1b8b926e41d955ccb52c59a77b699a855a2bb94c74c", size = 16465397 },
+    { url = "https://files.pythonhosted.org/packages/d8/65/76010cc0361a753c50928d378cf58a65dd32d6fac3cac88d64c1bc0b4a07/nicegui-2.7.0-py3-none-any.whl", hash = "sha256:ab9e72f29b6c87ae8d1540cc5cd0271d2b9ed5dc7f6c896d99f82dfceeeb2e40", size = 16467748 },
 ]
 
 [[package]]
