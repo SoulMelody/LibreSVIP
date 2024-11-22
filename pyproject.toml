@@ -80,7 +80,7 @@ tui = [
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.5.0",
+  "nicegui>=2.7.0",
   "libresvip[upath]",
 ]
 desktop = [
