@@ -149,7 +149,7 @@ jobs:
           docker compose -f docker-compose-build-wine-arm64.yml up
           mkdir archive
           cd dist
-          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip
+          7z a ../archive/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.win-arm64.7z libresvip-web
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
@@ -300,11 +300,6 @@ jobs:
           uv pip install ../dist/*.whl --no-deps
           uv run python -m PyInstaller libresvip.spec
           brew install create-dmg
-          echo "Killing XProtect processes..."
-          sudo pkill -9 XProtect || true
-          echo "Waiting for XProtect processes to terminate..."
-          while pgrep XProtect; do sleep 5; done
-          echo "XProtect processes terminated."
           create-dmg --volname "LibreSVIP" dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-x86_64.dmg ./dist/LibreSVIP.app
           rm -rf ./dist/LibreSVIP.app
           cd ..
