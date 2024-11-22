@@ -22,12 +22,12 @@ def download_win_arm64_web_wheels() -> None:
     bundle_url = "https://github.com/cgohlke/win_arm64-wheels/releases/download/v2024.11.3/2024.11.3-experimental-cp312-win_arm64.whl.zip"
     bundle_path = pathlib.Path(bundle_url)
     arm64_wheels_archive = cwd / bundle_path.name
-    wheels_dir = cwd / bundle_path.with_suffix("").name
+    wheels_dir = cwd / "wheels"
     if not wheels_dir.exists():
         if not arm64_wheels_archive.exists():
             with urllib.request.urlopen(bundle_url) as response:
                 arm64_wheels_archive.write_bytes(response.read())
-        shutil.unpack_archive(arm64_wheels_archive)
+        shutil.unpack_archive(arm64_wheels_archive, wheels_dir)
 
     native_packages = {}
     third_party_arm64_packages = {
@@ -43,8 +43,11 @@ def download_win_arm64_web_wheels() -> None:
         "zstandard": None,
     }
 
-    for wheel_path in wheels_dir.glob("*.whl"):
-        if (matcher := WHEEL_INFO_RE.match(wheel_path.name)) is not None:
+    for wheel_path in wheels_dir.glob("**/*.whl"):
+        if (
+            not wheel_path.is_dir()
+            and (matcher := WHEEL_INFO_RE.match(wheel_path.name)) is not None
+        ):
             pkg_name = matcher.group("name").lower()
             if pkg_name in third_party_arm64_packages and not pkg_name.startswith("pydantic"):
                 native_packages[third_party_arm64_packages[pkg_name] or pkg_name] = wheel_path
