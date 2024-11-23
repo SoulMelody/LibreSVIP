@@ -44,7 +44,7 @@ more-itertools==10.5.0
 multidict==6.1.0
 nicegui==2.7.0
 omegaconf==2.3.0
-orjson==3.10.11 ; platform_machine != 'i386' and platform_machine != 'i686'
+orjson==3.10.12 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 parsimonious==0.10.0
 pefile==2023.2.7 ; sys_platform == 'win32'
