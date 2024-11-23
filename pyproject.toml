@@ -198,7 +198,7 @@ select = [
   "SIM",   # simplify
   "T10",   # debugger
   "T20",   # print
-  "TCH",   # type-checking
+  "TC",   # type-checking
   "TRY",   # tryceratops
   "UP",    # pyupgrade
   "W",     # style warnings
