@@ -559,6 +559,7 @@ dependencies = [
     { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "typing-extensions", marker = "python_full_version < '3.10'" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/5e/c9/5b9cb8079c9e66e0030df97fbd3b3a59c4ae352111aea69616160b41f13b/cx_freeze-7.2.6.tar.gz", hash = "sha256:68d0d7eb52f88bfd32716269279b989dfd1635fa871506ac50904af831837555", size = 2971654 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/93/e2/52d83c64a5a8ce2cb6a5ea825553fafbb3bb961e1061f11178b5425d4036/cx_Freeze-7.2.6-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:bc43be8d5abf02a0c089085fe1d89664d2f363cee9c26cde6c908d24737e1757", size = 18975855 },
     { url = "https://files.pythonhosted.org/packages/74/ef/a0fd84025defd4c9b078faafb14190163800524925cbcf1c3a5b1a7e542d/cx_Freeze-7.2.6-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1bd6eab7bf6970d69bff83b070aaa5e1a72452b2e952402c965e04502cff89d1", size = 11904552 },
@@ -1481,7 +1482,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.6" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
-    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.86.3" },
+    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.87.0" },
     { name = "typer-slim", specifier = ">=0.13.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.5,<1.0.0" },
@@ -3395,7 +3396,7 @@ wheels = [
 
 [[package]]
 name = "textual"
-version = "0.86.3"
+version = "0.87.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown-it-py", extra = ["linkify", "plugins"] },
@@ -3403,9 +3404,9 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4a/a6/c62991e51e3030a7e0bfb196f22c9c57a36257d52b09f6a6b6c78aaa6508/textual-0.86.3.tar.gz", hash = "sha256:3c4d68612243af351e8b2d3dabe44d3cf87624624d7ea657f4d718853206188f", size = 1498694 }
+sdist = { url = "https://files.pythonhosted.org/packages/9b/ff/fa8fbc5559325549a9c56c06c55d023c0f707d823c9be611f916ccfe9a15/textual-0.87.0.tar.gz", hash = "sha256:15638863197dcc08f906523ef60341be754269b29fd656625a716aef7503d45e", size = 1508726 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/77/82e0593c98895e7bc18f15323c353d30e74fc0d2096a6d326fc31fddcc88/textual-0.86.3-py3-none-any.whl", hash = "sha256:ffe85bc749de7d71e0e048af301b6027abfca8942263ffb680620261cd1baa6f", size = 647192 },
+    { url = "https://files.pythonhosted.org/packages/50/fd/ff710d5559be63a29a8b348e9a9f855a12f98e975bd507688b5b0027c483/textual-0.87.0-py3-none-any.whl", hash = "sha256:e0f3e51e9568b7639011e4eb07082e8d0179576ea35df1a2181daabc7ba4c108", size = 654641 },
 ]
 
 [[package]]
