@@ -81,13 +81,13 @@ class VocalShifterParser:
                 track = self.parse_instrumental_track(
                     pattern_metadata,
                     pattern_data,
-                    vshp_proj.track_metadatas[pattern_metadata.track_index],
+                    vshp_proj.track_metadatas[pattern_metadata.track_index - 1],
                 )
             else:
                 track = self.parse_singing_track(
                     pattern_metadata,
                     pattern_data,
-                    vshp_proj.track_metadatas[pattern_metadata.track_index],
+                    vshp_proj.track_metadatas[pattern_metadata.track_index - 1],
                 )
             track_list.append(track)
         return track_list
