@@ -33,13 +33,17 @@ def download_win_arm64_web_wheels() -> None:
     third_party_arm64_packages = {
         "aiohttp": None,
         "cffi": None,
+        "frozenlist": None,
         "lxml": None,
         "markupsafe": None,
+        "multidict": None,
         "orjson": None,
         "pyyaml": None,
         "regex": None,
         "ruamel.yaml.clib": "ruamel-yaml-clib",
         "ujson": None,
+        "watchfiles": None,
+        "yarl": None,
         "zstandard": None,
     }
 
