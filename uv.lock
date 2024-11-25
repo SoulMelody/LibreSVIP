@@ -1503,7 +1503,7 @@ all = [
     { name = "gapic-generator", specifier = ">=1.20.2" },
     { name = "mkdocs-material", specifier = ">=9.5.46,<10.0.0" },
     { name = "mypy", specifier = ">=1.13.0" },
-    { name = "nuitka", specifier = ">=2.5.3" },
+    { name = "nuitka", specifier = ">=2.5.4" },
     { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
@@ -1539,7 +1539,7 @@ linting = [
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=7.2.6" },
-    { name = "nuitka", specifier = ">=2.5.3" },
+    { name = "nuitka", specifier = ">=2.5.4" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
@@ -2182,13 +2182,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.5.3"
+version = "2.5.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bd/5e/0e2b76066ce2c1e6a2c33125a95a83166fe2b7aa0c213d90cc701aae390d/Nuitka-2.5.3.tar.gz", hash = "sha256:ecfc907bb1b10eabf311c1663ec0553eab493806da492da2ed1cabe5e9ccd817", size = 3778941 }
+sdist = { url = "https://files.pythonhosted.org/packages/3a/db/26044ca82190af2a3f930ae4f681a5486deb196d203b5ff63c3e43443c9c/Nuitka-2.5.4.tar.gz", hash = "sha256:52f3ec8df460d567362d3adf9e722534e07f4cc7bf51c2da874c86ba4103c6c1", size = 3779553 }
 
 [[package]]
 name = "omegaconf"
