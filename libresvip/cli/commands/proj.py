@@ -30,10 +30,10 @@ def option_callback(ctx: typer.Context, value: pathlib.Path) -> Optional[pathlib
 @app.command()
 def convert(
     in_path: Annotated[
-        pathlib.Path, typer.Argument("", exists=True, dir_okay=False, callback=option_callback)
+        pathlib.Path, typer.Argument(exists=True, dir_okay=False, callback=option_callback)
     ],
     out_path: Annotated[
-        pathlib.Path, typer.Argument("", exists=False, dir_okay=False, callback=option_callback)
+        pathlib.Path, typer.Argument(exists=False, dir_okay=False, callback=option_callback)
     ],
 ) -> None:
     """
@@ -92,11 +92,11 @@ def convert(
 @app.command("split")
 def split_project(
     in_path: Annotated[
-        pathlib.Path, typer.Argument("", exists=True, dir_okay=False, callback=option_callback)
+        pathlib.Path, typer.Argument(exists=True, dir_okay=False, callback=option_callback)
     ],
-    out_dir: Annotated[pathlib.Path, typer.Argument("", exists=True, dir_okay=True)],
-    output_ext: Annotated[str, typer.Option("ust", help=_("Output format"))],
-    max_track_count: Annotated[int, typer.Option(1, help=_("Maximum track count per file"))],
+    out_dir: Annotated[pathlib.Path, typer.Argument(exists=True, dir_okay=True)],
+    output_ext: Annotated[str, typer.Option(help=_("Output format"))] = "ust",
+    max_track_count: Annotated[int, typer.Option(help=_("Maximum track count per file"))] = 1,
 ) -> None:
     input_ext = in_path.suffix.lstrip(".").lower()
     input_plugin = plugin_manager.plugin_registry[input_ext]

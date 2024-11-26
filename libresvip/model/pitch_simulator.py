@@ -69,7 +69,7 @@ class PitchSimulator:
                 ) - max_portamento_ticks * 0.4  # pyright: ignore[reportPossiblyUnboundVariable]
                 interval = self.synchronizer.get_duration_secs_from_ticks(
                     int(middle_pos - max_portamento_ticks),  # pyright: ignore[reportPossiblyUnboundVariable]
-                    int(middle_pos),  # pyright: ignore[reportPossiblyUnboundVariable]
+                    int(middle_pos),
                 )
                 middle_time = self.synchronizer.get_actual_secs_from_ticks(int(middle_pos))
             else:
