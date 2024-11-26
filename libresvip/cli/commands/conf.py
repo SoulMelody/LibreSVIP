@@ -1,3 +1,5 @@
+from typing import Annotated
+
 import typer
 from omegaconf import OmegaConf
 
@@ -23,8 +25,8 @@ def conf_key_callback(value: str) -> str:
 
 @app.command("set")
 def set_configuration(
-    name: str = typer.Argument(callback=conf_key_callback),
-    value: str = typer.Argument(),
+    name: Annotated[str, typer.Argument(callback=conf_key_callback)],
+    value: Annotated[str, typer.Argument()],
 ) -> None:
     setattr(settings, name, value)
     save_settings()

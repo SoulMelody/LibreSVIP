@@ -248,8 +248,10 @@ class BinarySvipGenerator:
     ) -> XSLineParam:
         if op is None:
 
-            def op(x: float) -> float:
+            def _op(x: float) -> float:
                 return x
+
+            op = _op
 
         line = XSLineParam()
         # param_curve.points = sorted(param_curve.points, key=operator.attrgetter("x"))

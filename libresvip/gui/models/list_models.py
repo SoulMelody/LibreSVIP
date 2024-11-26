@@ -76,13 +76,19 @@ class ModelProxy(QAbstractListModel):
 
     @Slot(dict)
     def append(self, item: Item) -> None:
-        self.begin_insert_rows(QModelIndex(), self.row_count(), self.row_count())
+        model_index = QModelIndex()
+        self.begin_insert_rows(
+            model_index, self.row_count(model_index), self.row_count(model_index)
+        )
         self._items.append(self._auto_complete(item))
         self.end_insert_rows()
 
     @Slot(list)
     def append_many(self, items: Items) -> None:
-        self.begin_insert_rows(QModelIndex(), self.row_count(), self.row_count() + len(items) - 1)
+        model_index = QModelIndex()
+        self.begin_insert_rows(
+            model_index, self.row_count(model_index), self.row_count(model_index) + len(items) - 1
+        )
         self._items.extend(map(self._auto_complete, items))
         self.end_insert_rows()
 
@@ -233,7 +239,7 @@ class ModelProxy(QAbstractListModel):
         self.dataChanged.emit(index, index)
         return True
 
-    def row_count(self, parent: QModelIndex = QModelIndex()) -> int:
+    def row_count(self, parent: QModelIndex) -> int:
         return len(self._items)
 
     @cache

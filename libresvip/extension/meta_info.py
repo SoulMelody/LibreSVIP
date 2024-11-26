@@ -9,15 +9,12 @@ from typing import TYPE_CHECKING, Optional
 from loguru import logger
 from packaging.specifiers import SpecifierSet
 from packaging.version import Version
-from typing_extensions import TypeVar
+from typing_extensions import Self
 
 if TYPE_CHECKING:
     from libresvip.core.compat import Traversable
 
     from .base import BasePlugin, MiddlewareBase, SVSConverterBase
-
-
-PluginInfo_co = TypeVar("PluginInfo_co", bound="BasePluginInfo", covariant=True)
 
 
 @dataclasses.dataclass
@@ -50,21 +47,21 @@ class BasePluginInfo(abc.ABC):
         )
 
     @classmethod
-    def load(cls, plugfile_path: Traversable) -> Optional[PluginInfo_co]:
+    def load(cls, plugfile_path: Traversable) -> Optional[Self]:
         try:
             with plugfile_path.open(encoding="utf-8") as metafile:
                 cp = RawConfigParser()
                 cp.read_file(metafile)
-                return cls(cp)  # type: ignore[return-value]
+                return cls(cp)
         except Exception:
             logger.error(f"Failed to load plugin info from {plugfile_path}")
 
     @classmethod
-    def load_from_string(cls, content: str) -> Optional[PluginInfo_co]:
+    def load_from_string(cls, content: str) -> Optional[Self]:
         with contextlib.suppress(Exception):
             cp = RawConfigParser()
             cp.read_string(content)
-            return cls(cp)  # type: ignore[return-value]
+            return cls(cp)
 
     @property
     @abc.abstractmethod

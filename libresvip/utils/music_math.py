@@ -77,8 +77,8 @@ def midi2hz(midi: float, a4_midi: int = 69, base_freq: float = 440.0) -> float:
 
 def clamp(
     x: float,
-    lower: float = float("-inf"),
-    upper: float = float("inf"),
+    lower: Optional[float] = None,
+    upper: Optional[float] = None,
 ) -> float:
     """Limit a value to a given range.
 
@@ -92,6 +92,10 @@ def clamp(
     .. from boltons: https://boltons.readthedocs.io/en/latest/mathutils.html#boltons.mathutils.clamp
 
     """
+    if lower is None:
+        lower = float("-inf")
+    if upper is None:
+        upper = float("inf")
     if upper < lower:
         msg = f"expected upper bound ({upper!r}) >= lower bound ({lower!r})"
         raise ValueError(msg)

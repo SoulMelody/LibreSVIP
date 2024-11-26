@@ -27,7 +27,7 @@ def extract_from_plugin_metadata(
     keywords: list[str],
     comment_tags: list[str],
     options: dict[str, Any],
-) -> Iterator[tuple[int, str, Union[Optional[str], tuple[Optional[str], ...]], list[str]]]:
+) -> Iterator[tuple[int, str, Union[Optional[str], tuple[Optional[str], ...]], str]]:
     try:
         plugin_info = DummyPluginInfo.load_from_string(fileobj.read().decode("utf-8"))
     except UnicodeDecodeError:

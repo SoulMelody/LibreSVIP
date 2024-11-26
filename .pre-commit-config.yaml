@@ -18,6 +18,11 @@ repos:
         pass_filenames: false
         additional_dependencies: [proto-plus-stubs, types-lxml, types-parsimonious, types-pyyaml, types-ujson]
 
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.389
+    hooks:
+    - id: pyright
+
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: 0.5.4
     hooks:

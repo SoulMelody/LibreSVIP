@@ -27,7 +27,7 @@ from PySide6.QtCore import (
 from PySide6.QtQml import QmlElement
 from upath import UPath
 
-from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found]
 
 from libresvip.core.config import ConversionMode, get_ui_settings, settings
 from libresvip.core.warning_types import CatchWarnings
@@ -894,7 +894,7 @@ class TaskManager(QObject):
                             "version": plugin_info.version,
                             "file_format": plugin_info.file_format,
                             "suffix": f"(*.{plugin_info.suffix})",
-                            "info_filename": plugin_info_filename,
+                            "info_filename": str(plugin_info_filename),
                         }
                     )
                     logger.debug(infos)

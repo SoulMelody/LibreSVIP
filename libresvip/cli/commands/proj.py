@@ -29,12 +29,12 @@ def option_callback(ctx: typer.Context, value: pathlib.Path) -> Optional[pathlib
 
 @app.command()
 def convert(
-    in_path: pathlib.Path = typer.Argument(
-        "", exists=True, dir_okay=False, callback=option_callback
-    ),
-    out_path: pathlib.Path = typer.Argument(
-        "", exists=False, dir_okay=False, callback=option_callback
-    ),
+    in_path: Annotated[
+        pathlib.Path, typer.Argument("", exists=True, dir_okay=False, callback=option_callback)
+    ],
+    out_path: Annotated[
+        pathlib.Path, typer.Argument("", exists=False, dir_okay=False, callback=option_callback)
+    ],
 ) -> None:
     """
     Convert a file from one format to another.
@@ -86,17 +86,17 @@ def convert(
             option_kwargs = prompt_fields(option_class)
         output_plugin.plugin_object.dump(out_path, project, option_class(**option_kwargs))
     else:
-        typer.secho("Invalid options", err=True, color="red")
+        typer.secho("Invalid options", err=True, color=True, fg="red")
 
 
 @app.command("split")
 def split_project(
-    in_path: pathlib.Path = typer.Argument(
-        "", exists=True, dir_okay=False, callback=option_callback
-    ),
-    out_dir: pathlib.Path = typer.Argument("", exists=True, dir_okay=True),
-    output_ext: str = typer.Option("ust", help=_("Output format")),
-    max_track_count: int = typer.Option(1, help=_("Maximum track count per file")),
+    in_path: Annotated[
+        pathlib.Path, typer.Argument("", exists=True, dir_okay=False, callback=option_callback)
+    ],
+    out_dir: Annotated[pathlib.Path, typer.Argument("", exists=True, dir_okay=True)],
+    output_ext: Annotated[str, typer.Option("ust", help=_("Output format"))],
+    max_track_count: Annotated[int, typer.Option(1, help=_("Maximum track count per file"))],
 ) -> None:
     input_ext = in_path.suffix.lstrip(".").lower()
     input_plugin = plugin_manager.plugin_registry[input_ext]
@@ -167,15 +167,15 @@ def split_project(
                 option_class(**option_kwargs),
             )
     else:
-        typer.secho("Invalid options", err=True, color="red")
+        typer.secho("Invalid options", err=True, color=True, fg="red")
 
 
 @app.command("merge")
 def merge_projects(
     in_paths: Annotated[list[pathlib.Path], typer.Argument()],
-    out_path: pathlib.Path = typer.Option(
-        "", exists=False, dir_okay=False, callback=option_callback
-    ),
+    out_path: Annotated[
+        pathlib.Path, typer.Option("", exists=False, dir_okay=False, callback=option_callback)
+    ],
 ) -> None:
     projects = []
     middleware_with_options = []
@@ -224,7 +224,7 @@ def merge_projects(
                 project = middleware_func(project, option_class(**option_kwargs))
             projects.append(project)
         else:
-            typer.secho("Invalid options", err=True, color="red")
+            typer.secho("Invalid options", err=True, color=True, fg="red")
             break
     output_ext = out_path.suffix.lstrip(".").lower()
     output_plugin = plugin_manager.plugin_registry[output_ext]
@@ -241,4 +241,4 @@ def merge_projects(
             option_kwargs = prompt_fields(option_class)
         output_plugin.plugin_object.dump(out_path, project, option_class(**option_kwargs))
     else:
-        typer.secho("Invalid options", err=True, color="red")
+        typer.secho("Invalid options", err=True, color=True, fg="red")

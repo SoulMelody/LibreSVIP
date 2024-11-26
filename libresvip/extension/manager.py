@@ -15,7 +15,7 @@ from importlib.machinery import (
 from typing import TYPE_CHECKING, Generic, Optional, cast
 
 from loguru import logger
-from typing_extensions import TypeGuard
+from typing_extensions import TypeGuard, TypeVar
 
 from libresvip.core.compat import package_path
 from libresvip.core.config import get_ui_settings, settings
@@ -24,9 +24,9 @@ from libresvip.utils.module_loading import import_module
 
 from .base import BasePlugin_co, MiddlewareBase, SVSConverterBase
 from .meta_info import (
+    BasePluginInfo,
     FormatProviderPluginInfo,
     MiddlewarePluginInfo,
-    PluginInfo_co,
 )
 
 if TYPE_CHECKING:
@@ -35,6 +35,9 @@ if TYPE_CHECKING:
     from types import ModuleType
 
     from libresvip.core.compat import Traversable
+
+
+PluginInfo_co = TypeVar("PluginInfo_co", bound="BasePluginInfo", covariant=True)
 
 
 @dataclasses.dataclass

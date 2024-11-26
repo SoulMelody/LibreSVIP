@@ -359,9 +359,13 @@ def denormalize_from_tick(
     ]
     events = []
     current_tempo_index = 0
+    tick_pos = None
     for event_double in events_with_full_params:
         if event_double.idx is not None:
             tick_pos = event_double.idx
+        if tick_pos is None or event_double.idx is None:
+            msg = "Invalid event"
+            raise ValueError(msg)
         while (
             current_tempo_index + 1 < len(tempos) and tempos[current_tempo_index + 1][1] < tick_pos
         ):
