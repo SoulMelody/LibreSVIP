@@ -639,7 +639,7 @@ class TUIApp(App[None]):
                     is not None
                 ):
                     input_options = self.query_one("#input_options")
-                    input_option = input_option_class(**input_options.option_dict)
+                    input_option = input_option_class.model_validate(input_options.option_dict)
                     if tab_id == "merge":
                         child_projects = [
                             input_plugin.plugin_object.load(
@@ -667,10 +667,10 @@ class TUIApp(App[None]):
                             option_form = self.query_one(f"#{middleware_id}_options")
                             project = middleware.plugin_object.process(
                                 project,
-                                option_form.option_class(**option_form.option_dict),
+                                option_form.option_class.model_validate(option_form.option_dict),
                             )
                     output_options = self.query_one("#output_options")
-                    output_option = output_option_class(**output_options.option_dict)
+                    output_option = output_option_class.model_validate(output_options.option_dict)
                     if tab_id == "split":
                         output_path.mkdir(parents=True, exist_ok=True)
                         for i, child_project in enumerate(
