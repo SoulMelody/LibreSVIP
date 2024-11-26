@@ -57,7 +57,7 @@ protobuf==5.28.3
 proxy-tools==0.1.0
 pscript==0.7.7
 pycparser==2.22 ; sys_platform == 'win32'
-pydantic==2.10.1
+pydantic==2.10.2
 pydantic-core==2.27.1
 pydantic-extra-types==2.10.0
 pygments==2.18.0
