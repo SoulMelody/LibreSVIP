@@ -8,7 +8,10 @@ except ImportError:
 try:
     import pyzstd as zstd
 except ImportError:
-    import zstandard as zstd
+    try:
+        import numcodecs.zstd as zstd
+    except ImportError:
+        import zstandard as zstd
 
 __all__ = ["Traversable", "as_file", "json", "package_path", "zstd"]
 
