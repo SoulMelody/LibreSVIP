@@ -48,56 +48,64 @@ if platform.system() != "Emscripten":
                 show_warning(_("Audio file not found: ") + f"{file_path}")
         return None
 else:
-    import js
-    from pyodide.ffi import run_sync
     from xsdata.formats.dataclass.parsers.config import ParserConfig
     from xsdata_pydantic.bindings import XmlParser
 
     from .mediainfo_wasm import MediaInfo
     from .mediainfo_wasm import Track as MediaInfoTrack
 
-    if not hasattr(js, "MediaInfo"):
-        js.importScripts(
-            "https://fastly.jsdelivr.net/npm/mediainfo.js@latest/dist/umd/index.min.js"
-        )
+    MEDIAINFO_JS_DIST_PATH = "https://fastly.jsdelivr.net/npm/mediainfo.js@latest/dist"
 
-    def audio_track_info(
-        file_path: Union[str, pathlib.Path], only_wav: bool = False
-    ) -> Optional[MediaInfoTrack]:
-        if isinstance(file_path, str):
-            file_path = pathlib.Path(file_path)
+    try:
+        import js
+        from pyodide.ffi import run_sync
 
-        def filter_func(track: MediaInfoTrack) -> bool:
-            return track.format == "PCM" if only_wav else (track.duration is not None)
+        if not hasattr(js, "MediaInfo"):
+            js.importScripts(f"{MEDIAINFO_JS_DIST_PATH}/umd/index.min.js")
 
-        def read_chunk(size: int, offset: int) -> js.Uint8Array:
-            chunk = content[offset : offset + size]
-            js_buf = js.Uint8Array.new(len(chunk))
-            js_buf.assign(chunk)
-            return js_buf
+        def audio_track_info(
+            file_path: Union[str, pathlib.Path], only_wav: bool = False
+        ) -> Optional[MediaInfoTrack]:
+            if isinstance(file_path, str):
+                file_path = pathlib.Path(file_path)
 
-        def locate_file(path: str, prefix: str) -> str:
-            return "https://fastly.jsdelivr.net/npm/mediainfo.js@latest/dist/MediaInfoModule.wasm"
+            def filter_func(track: MediaInfoTrack) -> bool:
+                return track.format == "PCM" if only_wav else (track.duration is not None)
 
-        async def parse_media_info() -> str:
-            media_info = await MediaInfo.mediaInfoFactory(format="XML", locateFile=locate_file)
-            result = await media_info.analyzeData(len(content), read_chunk)
-            media_info.close()
-            return result
+            def read_chunk(size: int, offset: int) -> js.Uint8Array:
+                chunk = content[offset : offset + size]
+                js_buf = js.Uint8Array.new(len(chunk))
+                js_buf.assign(chunk)
+                return js_buf
 
-        if hasattr(js, "MediaInfo"):
-            if file_path.exists():
-                with contextlib.suppress(RuntimeError, ValueError):
-                    content = file_path.read_bytes()
-                    xml_str = run_sync(parse_media_info())
-                    media_info = XmlParser(
-                        config=ParserConfig(fail_on_unknown_properties=False)
-                    ).from_string(xml_str, MediaInfo)
-                    if not len(media_info.video_tracks):
-                        return next(
-                            (track for track in media_info.audio_tracks if filter_func(track)),
-                            None,
-                        )
-            else:
-                show_warning(_("Audio file not found: ") + f"{file_path}")
-        return None
+            def locate_file(path: str, prefix: str) -> str:
+                return f"{MEDIAINFO_JS_DIST_PATH}/MediaInfoModule.wasm"
+
+            async def parse_media_info() -> str:
+                media_info = await MediaInfo.mediaInfoFactory(format="XML", locateFile=locate_file)
+                result = await media_info.analyzeData(len(content), read_chunk)
+                media_info.close()
+                return result
+
+            if hasattr(js, "MediaInfo"):
+                if file_path.exists():
+                    with contextlib.suppress(RuntimeError, ValueError):
+                        content = file_path.read_bytes()
+                        xml_str = run_sync(parse_media_info())
+                        media_info = XmlParser(
+                            config=ParserConfig(fail_on_unknown_properties=False)
+                        ).from_string(xml_str, MediaInfo)
+                        if not len(media_info.video_tracks):
+                            return next(
+                                (track for track in media_info.audio_tracks if filter_func(track)),
+                                None,
+                            )
+                else:
+                    show_warning(_("Audio file not found: ") + f"{file_path}")
+            return None
+    except ImportError:
+
+        def audio_track_info(
+            file_path: Union[str, pathlib.Path], only_wav: bool = False
+        ) -> Optional[MediaInfoTrack]:  # not implemented yet
+            return None
