@@ -207,13 +207,15 @@ select = [
 ignore = [
   "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
   "E501",   # Line too long
-  "UP007",  # Use `X | Y` for type annotations
   "RUF001", # String contains ambiguous symbol
   "RUF009", # Do not perform function call in dataclass defaults
 ]
 
 [tool.ruff.lint.isort]
 known-first-party = ['libresvip', 'tests']
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
 
 [tool.mypy]
 disable_error_code = "import-not-found,unused-ignore"
