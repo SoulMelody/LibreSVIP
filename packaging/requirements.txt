@@ -17,7 +17,7 @@ fonticon-materialdesignicons7==7.2.96
 fsspec==2024.10.0
 h11==0.14.0
 httpcore==1.0.7
-httpx==0.27.2
+httpx==0.28.0
 idna==3.10
 importlib-resources==6.4.5 ; python_full_version < '3.11'
 jinja2==3.1.4
@@ -37,7 +37,7 @@ pillow==11.0.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
-protobuf==5.28.3
+protobuf==5.29.0
 pydantic==2.10.2
 pydantic-core==2.27.1
 pydantic-extra-types==2.10.0
