@@ -1,4 +1,5 @@
 {
+    "pythonVersion": "3.9",
     "enableTypeIgnoreComments": true,
     "typeCheckingMode": "strict",
     "reportAttributeAccessIssue": "none",
@@ -12,14 +13,10 @@
     "reportUnknownParameterType": "none",
     "reportUnknownVariableType": "none",
     "reportUnusedFunction": "none",
-    "reportCallInDefaultInitializer": "error",
     "reportUninitializedInstanceVariable": "none",
-    "reportShadowedImports": "none",
     "reportMissingModuleSource": "none",
     "reportIncompatibleMethodOverride": "none",
     "reportIncompatibleVariableOverride": "none",
-    "reportPropertyTypeMismatch": "none",
-    "reportOverlappingOverload": "none",
     "reportUnknownArgumentType": "none",
     "reportUnusedVariable": "none",
     "reportUnusedImport": "none",
@@ -42,5 +39,6 @@
     "reportUnnecessaryIsInstance": "warning",
     "reportOperatorIssue": "warning",
     "reportArgumentType": "warning",
-    "reportIndexIssue": "warning"
+    "reportIndexIssue": "warning",
+    "reportCallInDefaultInitializer": "error"
 }

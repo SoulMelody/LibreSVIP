@@ -10,7 +10,6 @@ from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import Note, ParamCurve, Project, SingingTrack, SongTempo, TimeSignature
-from libresvip.model.point import Point
 from libresvip.utils.music_math import linear_interpolation, midi2hz
 from libresvip.utils.text import uuid_str
 from libresvip.utils.translation import gettext_lazy as _
@@ -108,8 +107,8 @@ class VOICEVOXGenerator:
                     frequency_interval_dict[portion.openclosed(prev_secs, secs)] = (
                         functools.partial(
                             linear_interpolation,
-                            start=Point(x=prev_secs, y=prev_freq),
-                            end=Point(x=secs, y=freq),
+                            start=(prev_secs, prev_freq),
+                            end=(secs, freq),
                         )
                     )
                 else:
