@@ -102,7 +102,7 @@ class AceParser:
             )
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
-                ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
+                ai_singer_name=(id2singer.get(ace_track.singers[0].singer.singer_id, None) or "")
             )
             ace_note_list = []
             ace_params = AcepParams()

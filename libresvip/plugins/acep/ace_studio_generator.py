@@ -38,6 +38,7 @@ from .model import (
     AcepParams,
     AcepProject,
     AcepSeedComposition,
+    AcepSingerConfig,
     AcepTempo,
     AcepTimeSignature,
     AcepTrack,
@@ -120,16 +121,18 @@ class AceGenerator:
             ace_vocal_track = AcepVocalTrack(
                 language=self.options.lyric_language,
             )
+            singer_config = AcepSingerConfig()
             if track.ai_singer_name in singer2id and track.ai_singer_name in singer2seed:
-                ace_vocal_track.singer.singer_id = singer2id.get(
+                singer_config.singer.singer_id = singer2id.get(
                     track.ai_singer_name, DEFAULT_SINGER_ID
                 )
-                ace_vocal_track.singer.composition.append(
+                singer_config.singer.composition.append(
                     AcepSeedComposition(code=singer2seed.get(track.ai_singer_name, DEFAULT_SEED))
                 )
             else:
-                ace_vocal_track.singer.singer_id = DEFAULT_SINGER_ID
-                ace_vocal_track.singer.composition.append(AcepSeedComposition(code=DEFAULT_SEED))
+                singer_config.singer.singer_id = DEFAULT_SINGER_ID
+                singer_config.singer.composition.append(AcepSeedComposition(code=DEFAULT_SEED))
+            ace_vocal_track.singers.append(singer_config)
             if len(track.note_list):
                 buffer = [track.note_list[0]]
 

@@ -22,7 +22,9 @@ from pydantic import (
     ValidationInfo,
     field_serializer,
     field_validator,
+    model_validator,
 )
+from typing_extensions import Self
 
 from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
@@ -299,6 +301,7 @@ class AcepTrackProperties(BaseModel):
     channel: Optional[int] = 0
     listen: Optional[bool] = False
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")
+    built_in_fx: dict[str, Any] = Field(default_factory=dict, alias="builtInFx")
 
 
 class AcepEmptyTrack(AcepTrackProperties, BaseModel):
@@ -327,11 +330,26 @@ class AcepCustomSinger(BaseModel):
     group: Optional[str] = ""
 
 
+class AcepSingerConfig(BaseModel):
+    singer: AcepCustomSinger = Field(default_factory=AcepCustomSinger)
+    gain: float = 0.0
+    mute: bool = False
+    random_seed: int = Field(0, alias="randomSeed")
+
+
 class AcepVocalTrack(AcepTrackProperties, BaseModel):
     type_: Literal["sing"] = Field(default="sing", alias="type")
-    singer: AcepCustomSinger = Field(default_factory=AcepCustomSinger)
+    singer: Optional[AcepCustomSinger] = None
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     patterns: list[AcepVocalPattern] = Field(default_factory=list)
+    choir_info: dict[str, Any] = Field(default_factory=dict, alias="choirInfo")
+    singers: list[AcepSingerConfig] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def migrate_singer_attr(self) -> Self:
+        if self.singer is not None:
+            self.singers.append(AcepSingerConfig(singer=self.singer))
+        return self
 
     def __len__(self) -> int:
         if not len(self.patterns):
@@ -387,7 +405,7 @@ class AcepProject(BaseModel):
     loop: Optional[bool] = False
     loop_start: Optional[int] = Field(0, alias="loopStart")
     loop_end: Optional[int] = Field(7680, alias="loopEnd")
-    version: int = 8
+    version: int = 9
     version_revision: Optional[int] = Field(0, alias="versionRevision")
     merged_pattern_index: int = Field(0, alias="mergedPatternIndex")
     record_pattern_index: int = Field(0, alias="recordPatternIndex")
