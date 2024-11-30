@@ -1,5 +1,5 @@
 aiofiles==24.1.0
-aiohappyeyeballs==2.4.3
+aiohappyeyeballs==2.4.4
 aiohttp==3.11.8
 aiosignal==1.3.1
 altgraph==0.17.4
@@ -65,11 +65,11 @@ pyinstaller==6.11.1 ; platform_system != 'Windows' or platform_machine == 'arm64
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_machine != 'arm64' and platform_system == 'Windows'
 pyinstaller-hooks-contrib==2024.10
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
-pyobjc-core==10.3.1 ; sys_platform == 'darwin'
-pyobjc-framework-cocoa==10.3.1 ; sys_platform == 'darwin'
-pyobjc-framework-quartz==10.3.1 ; sys_platform == 'darwin'
-pyobjc-framework-security==10.3.1 ; sys_platform == 'darwin'
-pyobjc-framework-webkit==10.3.1 ; sys_platform == 'darwin'
+pyobjc-core==10.3.2 ; sys_platform == 'darwin'
+pyobjc-framework-cocoa==10.3.2 ; sys_platform == 'darwin'
+pyobjc-framework-quartz==10.3.2 ; sys_platform == 'darwin'
+pyobjc-framework-security==10.3.2 ; sys_platform == 'darwin'
+pyobjc-framework-webkit==10.3.2 ; sys_platform == 'darwin'
 pypinyin==0.53.0
 pysubs2==1.7.3
 python-dotenv==1.0.1
