@@ -110,7 +110,7 @@ linting = [
   "types-ujson>=5.10.0.20240515",
 ]
 packaging = [
-  "cx-Freeze>=7.2.6",
+  "cx-Freeze>=7.2.7",
   "nuitka>=2.5.4",
   "pyinstaller>=6.11.1",
   "shellingham<2.0.0,>=1.5.4",
