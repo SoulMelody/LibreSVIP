@@ -1501,7 +1501,7 @@ all = [
     { name = "cx-freeze", specifier = ">=7.2.7" },
     { name = "datamodel-code-generator", specifier = ">=0.26.3" },
     { name = "gapic-generator", specifier = ">=1.20.2" },
-    { name = "mkdocs-material", specifier = ">=9.5.46,<10.0.0" },
+    { name = "mkdocs-material", specifier = ">=9.5.47,<10.0.0" },
     { name = "mypy", specifier = ">=1.13.0" },
     { name = "nuitka", specifier = ">=2.5.4" },
     { name = "pre-commit", specifier = ">=4.0.1" },
@@ -1524,7 +1524,7 @@ code-gen = [
     { name = "gapic-generator", specifier = ">=1.20.2" },
     { name = "xsdata", extras = ["cli"], specifier = ">=24.11" },
 ]
-docs = [{ name = "mkdocs-material", specifier = ">=9.5.46,<10.0.0" }]
+docs = [{ name = "mkdocs-material", specifier = ">=9.5.47,<10.0.0" }]
 i18n = [{ name = "babel", specifier = ">=2.16.0" }]
 linting = [
     { name = "mypy", specifier = ">=1.13.0" },
@@ -1904,7 +1904,7 @@ wheels = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.46"
+version = "9.5.47"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "babel" },
@@ -1919,9 +1919,9 @@ dependencies = [
     { name = "regex" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/79/f1/3efdd8f000e497e9a13ba9429d4fdeb0d87f0f876bebd7d8613ff86a8910/mkdocs_material-9.5.46.tar.gz", hash = "sha256:ae2043f4238e572f9a40e0b577f50400d6fc31e2fef8ea141800aebf3bd273d7", size = 3910723 }
+sdist = { url = "https://files.pythonhosted.org/packages/7a/0a/6b5a5761d6e500f0c6de9ae24461ac93c66b35785faac331e6d66522776f/mkdocs_material-9.5.47.tar.gz", hash = "sha256:fc3b7a8e00ad896660bd3a5cc12ca0cb28bdc2bcbe2a946b5714c23ac91b0ede", size = 3910665 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9f/64/af210ec1bc40fb2f195b7feede4c895c54c94acc48b108a2ad28b79d226f/mkdocs_material-9.5.46-py3-none-any.whl", hash = "sha256:98f0a2039c62e551a68aad0791a8d41324ff90c03a6e6cea381a384b84908b83", size = 8625807 },
+    { url = "https://files.pythonhosted.org/packages/aa/ef/25150e53836255bc8a2cee958e251516035e85b307774fbcfc6bda0d0388/mkdocs_material-9.5.47-py3-none-any.whl", hash = "sha256:53fb9c9624e7865da6ec807d116cd7be24b3cb36ab31b1d1d1a9af58c56009a2", size = 8625827 },
 ]
 
 [[package]]
