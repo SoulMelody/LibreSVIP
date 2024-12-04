@@ -37,7 +37,7 @@ pillow==11.0.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
-protobuf==5.29.0
+protobuf==5.29.1
 pydantic==2.10.3
 pydantic-core==2.27.1
 pydantic-extra-types==2.10.0
@@ -65,7 +65,7 @@ shellingham==1.5.4
 shiboken6==6.8.1
 sniffio==1.3.1
 sortedcontainers==2.4.0
-typer-slim==0.15.0
+typer-slim==0.15.1
 typing-extensions==4.12.2
 ujson==5.10.0
 universal-pathlib==0.2.5
