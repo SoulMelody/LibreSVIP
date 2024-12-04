@@ -1483,7 +1483,7 @@ requires-dist = [
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.6" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
     { name = "textual", marker = "extra == 'tui'", specifier = ">=0.88.1" },
-    { name = "typer-slim", specifier = ">=0.15.0,<1.0.0" },
+    { name = "typer-slim", specifier = ">=0.15.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.5,<1.0.0" },
     { name = "universal-pathlib", marker = "extra == 'tui'", specifier = ">=0.2.5,<1.0.0" },
@@ -3471,15 +3471,15 @@ wheels = [
 
 [[package]]
 name = "typer-slim"
-version = "0.15.0"
+version = "0.15.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7f/6e/883641eb1c853db6cfdbc7a02ccf6ecbeafc1d9baa3976246ae97df29253/typer_slim-0.15.0.tar.gz", hash = "sha256:405f7553330ef5a2b90aee39ccab8e19269a9c64f93c38da3c864dbf09f65dde", size = 99861 }
+sdist = { url = "https://files.pythonhosted.org/packages/f8/7d/f8e0a2678a44573b2bb1e20abecb10f937a7101ce2b8e07f4eab4c721a3d/typer_slim-0.15.1.tar.gz", hash = "sha256:b8ce8fd2a3c7d52f0d0c1318776e7f2bf897fa203daf899f3863514aa926c725", size = 99874 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ed/99/f3b75f4b0da2edf8933f7a20a0c777edf65625676b6eac60e623c5267f7a/typer_slim-0.15.0-py3-none-any.whl", hash = "sha256:2d1f220c708d4f81c99494d4416389298b5acb463700e74d345cb78edd095b03", size = 44793 },
+    { url = "https://files.pythonhosted.org/packages/1f/7b/032ecd581e2170513bb6dc3cdb2581e20fdb94a272bae70fe93f2bca580b/typer_slim-0.15.1-py3-none-any.whl", hash = "sha256:20233cb89938ea3cca633afee10b906a1b0e7c5330f31ed8c55f4f0779efe6df", size = 44968 },
 ]
 
 [[package]]
