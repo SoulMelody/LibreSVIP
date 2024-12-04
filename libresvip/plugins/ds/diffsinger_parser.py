@@ -58,7 +58,9 @@ class DiffSingerParser:
                     text = ds_item.text[lyric_index]
                     note_dur = ds_item.note_dur[note_index]
                     note = ds_item.note_seq[note_index]
-                    note_dur = self.synchronizer.get_actual_ticks_from_secs(note_dur)
+                    next_time = self.synchronizer.get_actual_ticks_from_secs_offset(
+                        int(cur_time), note_dur
+                    )
                     if text == "SP":
                         pass
                     elif text == "AP":
@@ -69,7 +71,7 @@ class DiffSingerParser:
                             notes.append(
                                 Note(
                                     start_pos=int(cur_time),
-                                    length=int(note_dur),
+                                    length=int(next_time) - int(cur_time),
                                     key_number=midi_key,
                                     lyric=text,
                                     head_tag="V" if prev_is_breath else None,
@@ -80,12 +82,12 @@ class DiffSingerParser:
                             notes.append(
                                 Note(
                                     start_pos=int(cur_time),
-                                    length=int(note_dur),
+                                    length=int(next_time) - int(cur_time),
                                     key_number=midi_key,
                                     lyric="-",
                                 )
                             )
-                    cur_time += note_dur
+                    cur_time = next_time
             all_notes.extend(notes)
         return all_notes
 
