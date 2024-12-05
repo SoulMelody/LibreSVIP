@@ -1464,7 +1464,7 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
     { name = "mido-fix", specifier = ">=1.2.12,<2.0.0" },
     { name = "more-itertools", specifier = ">=10.5.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.7.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.8.0" },
     { name = "omegaconf", specifier = ">=2.3.0,<3.0.0" },
     { name = "packaging", specifier = ">=24.2,<24.3" },
     { name = "parsimonious", specifier = ">=0.10.0,<0.11.0" },
@@ -1482,7 +1482,7 @@ requires-dist = [
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
     { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.6" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
-    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.88.1" },
+    { name = "textual", marker = "extra == 'tui'", specifier = ">=0.89.0" },
     { name = "typer-slim", specifier = ">=0.15.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
     { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.5,<1.0.0" },
@@ -2142,7 +2142,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.7.0"
+version = "2.8.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2166,9 +2166,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8e/2a/664f09a888a578b86e6abf24cfca1c49a736fe154e47ceb36ae4978bbcf0/nicegui-2.7.0.tar.gz", hash = "sha256:f53ccc6f74333cae9fe0f732cacc0e330421c458446fc7e8b9da722117886914", size = 16054071 }
+sdist = { url = "https://files.pythonhosted.org/packages/4b/62/31a24a5c71cf6f831525df8317e50dcaeb9cb83f10d7acce6747f9284ade/nicegui-2.8.0.tar.gz", hash = "sha256:78d365bffe9f8fc5a61e14a833ca7ffa6aaba61ae9e15d91e6d5a1cada5a7f40", size = 16054395 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d8/65/76010cc0361a753c50928d378cf58a65dd32d6fac3cac88d64c1bc0b4a07/nicegui-2.7.0-py3-none-any.whl", hash = "sha256:ab9e72f29b6c87ae8d1540cc5cd0271d2b9ed5dc7f6c896d99f82dfceeeb2e40", size = 16467748 },
+    { url = "https://files.pythonhosted.org/packages/b6/61/ea3667d4327b35584f01c51af08e8e6c9a356399f7e14318722bf73b9d95/nicegui-2.8.0-py3-none-any.whl", hash = "sha256:e46c4a2659f8526fe0216dd51c5c02c3c5f4b6bbd7c2c2edc7abc3807007322a", size = 16468322 },
 ]
 
 [[package]]
@@ -2885,11 +2885,11 @@ wheels = [
 
 [[package]]
 name = "python-multipart"
-version = "0.0.17"
+version = "0.0.19"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/40/22/edea41c2d4a22e666c0c7db7acdcbf7bc8c1c1f7d3b3ca246ec982fec612/python_multipart-0.0.17.tar.gz", hash = "sha256:41330d831cae6e2f22902704ead2826ea038d0419530eadff3ea80175aec5538", size = 36452 }
+sdist = { url = "https://files.pythonhosted.org/packages/c1/19/93bfb43a3c41b1dd0fa1fa66a08286f6467d36d30297a7aaab8c0b176a26/python_multipart-0.0.19.tar.gz", hash = "sha256:905502ef39050557b7a6af411f454bc19526529ca46ae6831508438890ce12cc", size = 36886 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b4/fb/275137a799169392f1fa88fff2be92f16eee38e982720a8aaadefc4a36b2/python_multipart-0.0.17-py3-none-any.whl", hash = "sha256:15dc4f487e0a9476cc1201261188ee0940165cffc94429b6fc565c4d3045cb5d", size = 24453 },
+    { url = "https://files.pythonhosted.org/packages/e1/f4/ddd0fcdc454cf3870153ae16a818256523d31c3c8136e216bc6836ed4cd1/python_multipart-0.0.19-py3-none-any.whl", hash = "sha256:f8d5b0b9c618575bf9df01c684ded1d94a338839bdd8223838afacfb4bb2082d", size = 24448 },
 ]
 
 [[package]]
@@ -3396,7 +3396,7 @@ wheels = [
 
 [[package]]
 name = "textual"
-version = "0.88.1"
+version = "0.89.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown-it-py", extra = ["linkify", "plugins"] },
@@ -3404,9 +3404,9 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a4/e8/76b3aa49dd2f83410ab78b5ab04d65fee095e4720d2811f9ef72f073d11f/textual-0.88.1.tar.gz", hash = "sha256:9c56d953dc7d1a8ddf06acc910d9224027e02416551f92920e70f435bd28e062", size = 1516320 }
+sdist = { url = "https://files.pythonhosted.org/packages/8f/e8/11bf8e6c7bae661d6d8ac3f05cc3449f860223b2fb411ee1d16822cb26c6/textual-0.89.0.tar.gz", hash = "sha256:b3282598ded248410623f0c5ee83cbfc8f5424aa0f92222bc44fdc422700a03f", size = 1515777 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4f/99/3e99a58f62426771a628a83de300588e0ec04383d76652afb2f944a46852/textual-0.88.1-py3-none-any.whl", hash = "sha256:f2db8ce892007f724dab57a2b791e55f9d7ce04d333c50fb4b6fb7f3990d4cec", size = 654912 },
+    { url = "https://files.pythonhosted.org/packages/9c/97/513af288bfa13cb8541deae8061a36e128b1d409d93a5f7cf9840a57d63a/textual-0.89.0-py3-none-any.whl", hash = "sha256:2968094ad6d0caee3f26700861cfd505dcb7ed17070041e1c42b6066010f3906", size = 656043 },
 ]
 
 [[package]]

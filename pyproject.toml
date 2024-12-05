@@ -76,11 +76,11 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=5.3.0"]
 tui = [
-  "textual>=0.88.1",
+  "textual>=0.89.0",
   "libresvip[upath]",
 ]
 webui = [
-  "nicegui>=2.7.0",
+  "nicegui>=2.8.0",
   "libresvip[upath]",
 ]
 desktop = [
