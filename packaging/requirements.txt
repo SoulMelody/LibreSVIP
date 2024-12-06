@@ -21,7 +21,7 @@ httpx==0.28.0
 idna==3.10
 importlib-resources==6.4.5 ; python_full_version < '3.11'
 jinja2==3.1.4
-loguru==0.7.2
+loguru==0.7.3
 lxml==5.3.0
 macholib==1.16.3 ; sys_platform == 'darwin'
 markdown-it-py==3.0.0
