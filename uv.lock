@@ -1164,7 +1164,7 @@ wheels = [
 
 [[package]]
 name = "httpx"
-version = "0.28.0"
+version = "0.28.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -1172,9 +1172,9 @@ dependencies = [
     { name = "httpcore" },
     { name = "idna" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/10/df/676b7cf674dd1bdc71a64ad393c89879f75e4a0ab8395165b498262ae106/httpx-0.28.0.tar.gz", hash = "sha256:0858d3bab51ba7e386637f22a61d8ccddaeec5f3fe4209da3a6168dbb91573e0", size = 141307 }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/df/48c586a5fe32a0f01324ee087459e112ebb7224f646c0b5023f5e79e9956/httpx-0.28.1.tar.gz", hash = "sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc", size = 141406 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8f/fb/a19866137577ba60c6d8b69498dc36be479b13ba454f691348ddf428f185/httpx-0.28.0-py3-none-any.whl", hash = "sha256:dc0b419a0cfeb6e8b34e85167c0da2671206f5095f1baa9663d23bcfd6b535fc", size = 73551 },
+    { url = "https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl", hash = "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad", size = 73517 },
 ]
 
 [[package]]
@@ -1457,14 +1457,14 @@ requires-dist = [
     { name = "desktop-notifier", marker = "platform_python_implementation == 'CPython' and extra == 'desktop'", specifier = ">=6.0.0" },
     { name = "drawsvg", specifier = ">=2.4.0,<3.0.0" },
     { name = "fonticon-materialdesignicons7", marker = "extra == 'desktop'", specifier = ">=7.2.96" },
-    { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.0" },
+    { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
     { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.4.5,<7.0.0" },
     { name = "jinja2", specifier = ">=3.1.4,<4.0.0" },
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
     { name = "mido-fix", specifier = ">=1.2.12,<2.0.0" },
     { name = "more-itertools", specifier = ">=10.5.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.8.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.8.1" },
     { name = "omegaconf", specifier = ">=2.3.0,<3.0.0" },
     { name = "packaging", specifier = ">=24.2,<24.3" },
     { name = "parsimonious", specifier = ">=0.10.0,<0.11.0" },
@@ -2142,7 +2142,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.8.0"
+version = "2.8.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2166,9 +2166,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4b/62/31a24a5c71cf6f831525df8317e50dcaeb9cb83f10d7acce6747f9284ade/nicegui-2.8.0.tar.gz", hash = "sha256:78d365bffe9f8fc5a61e14a833ca7ffa6aaba61ae9e15d91e6d5a1cada5a7f40", size = 16054395 }
+sdist = { url = "https://files.pythonhosted.org/packages/e1/4b/1d9d6c850d8416e08183932f65c41a32f822fcc04d0489063cf524c9b71d/nicegui-2.8.1.tar.gz", hash = "sha256:ed3cc3d79638f81757e71c78183915fad0c88cecbcb0069238b9b21ca5bf6302", size = 16054526 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b6/61/ea3667d4327b35584f01c51af08e8e6c9a356399f7e14318722bf73b9d95/nicegui-2.8.0-py3-none-any.whl", hash = "sha256:e46c4a2659f8526fe0216dd51c5c02c3c5f4b6bbd7c2c2edc7abc3807007322a", size = 16468322 },
+    { url = "https://files.pythonhosted.org/packages/08/a4/f877e0562f114e23909fb0ac7d8cec4218eeb1b4223b32b829149987a73d/nicegui-2.8.1-py3-none-any.whl", hash = "sha256:6ec91ecf9206de00726391faafee014fc300fb66f146c662a475ad3dfadb4c61", size = 16468298 },
 ]
 
 [[package]]
