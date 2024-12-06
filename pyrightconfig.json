@@ -24,6 +24,7 @@
     "reportRedeclaration": "none",
     "reportUntypedFunctionDecorator": "none",
     "reportUntypedClassDecorator": "none",
+    "reportFunctionMemberAccess": "none",
     "reportUntypedBaseClass": "warning",
     "reportAbstractUsage": "warning",
     "reportMissingTypeArgument": "warning",

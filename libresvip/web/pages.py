@@ -273,7 +273,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
             with ui.element("div").classes("w-100 h-100") as icon:
-                icon._props["style"] = (
+                icon.props["style"] = (
                     f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
                 )
             ui.separator().props("vertical")
@@ -283,18 +283,18 @@ def page_layout(lang: Optional[str] = None) -> None:
                 )
                 with ui.row().classes("w-full"):
                     with ui.element("q-chip").props("icon=tag").tooltip(_("Version")):
-                        ui.label(plugin_details[attr]["version"])
+                        ui.label(plugin_details[attr]["version"] or "")
                     ui.separator().props("vertical")
                     with (
                         ui.element("q-chip")
                         .props("icon=person")
-                        .tooltip(plugin_details[attr]["website"]),
+                        .tooltip(plugin_details[attr]["website"] or ""),
                         ui.row().classes("items-center"),
                     ):
                         ui.label(_("Author") + ": ")
                         ui.link(
                             _(plugin_details[attr]["author"] or ""),
-                            plugin_details[attr]["website"],
+                            plugin_details[attr]["website"] or "",
                             new_tab=True,
                         )
                         ui.icon("open_in_new")
@@ -365,11 +365,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 )
                 with ui.row().classes("items-center w-full") as row:
                     if i:
-                        row._props["style"] = """
+                        row.style("""
                             background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
                             background-size: 8px 1px;
-                            background-repeat: repeat-x;
-                        """
+                            background-repeat: repeat-x
+                        """)
                     if issubclass(field_info.annotation, bool):
                         ui.switch(
                             _(field_info.title),
@@ -483,11 +483,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 )
                 with ui.row().classes("items-center w-full") as row:
                     if i:
-                        row._props["style"] = """
+                        row.style("""
                             background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
                             background-size: 8px 1px;
-                            background-repeat: repeat-x;
-                        """
+                            background-repeat: repeat-x
+                        """)
                     if issubclass(field_info.annotation, bool):
                         ui.switch(
                             _(field_info.title),
@@ -674,7 +674,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 .style("width: 500px; height: 16rem;")
                             ):
                                 ui.label().classes("text-lg").style(
-                                    "word-break: break-all; white-space: pre-wrap;",
+                                    "word-break: break-all; white-space: pre-wrap",
                                 ).bind_text_from(
                                     info,
                                     "error",
@@ -683,9 +683,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             with error_banner.add_slot("action"):
                                 ui.button(
                                     _("Copy to clipboard"),
-                                    on_click=lambda: ui.run_javascript(
-                                        f"navigator.clipboard.writeText({info.error!r})",
-                                    )
+                                    on_click=lambda: ui.clipboard.write(info.error or "")
                                     and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=error_dialog.close)
@@ -708,14 +706,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 .style("width: 500px; height: 16rem;")
                             ):
                                 ui.label().classes("text-lg").style(
-                                    "word-break: break-all; white-space: pre-wrap;",
+                                    "word-break: break-all; white-space: pre-wrap",
                                 ).bind_text_from(info, "warning", backward=str)
                             with warn_banner.add_slot("action"):
                                 ui.button(
                                     _("Copy to clipboard"),
-                                    on_click=lambda: ui.run_javascript(
-                                        f"navigator.clipboard.writeText({info.warning!r})",
-                                    )
+                                    on_click=lambda: ui.clipboard.write(info.warning or "")
                                     and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=warn_dialog.close)
@@ -1956,7 +1952,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 js_handler=f"""(event) => {{
                 for (let file of event.dataTransfer.files) {{
                     let file_name = file.name
-                    post_form('{uploader._props['url']}', {{
+                    post_form('{uploader.props['url']}', {{
                         file_name: file
                     }})
                 }}
@@ -2029,7 +2025,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 js_handler=f"""(event) => {{
                 for (let file of event.dataTransfer.files) {{
                     let file_name = file.name
-                    post_form('{uploader._props['url']}', {{
+                    post_form('{uploader.props['url']}', {{
                         file_name: file
                     }})
                 }}
@@ -2209,7 +2205,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             for (const fileHandle of fileHandles) {{
                                 const file = await fileHandle.getFile();
                                 let file_name = file.name
-                                post_form('{uploader._props['url']}', {{
+                                post_form('{uploader.props['url']}', {{
                                     file_name: file
                                 }})
                             }}
