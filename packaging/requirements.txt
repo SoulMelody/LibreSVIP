@@ -40,7 +40,7 @@ proto-plus==1.25.0
 protobuf==5.29.1
 pydantic==2.10.3
 pydantic-core==2.27.1
-pydantic-extra-types==2.10.0
+pydantic-extra-types==2.10.1
 pygments==2.18.0
 pyinstaller==6.11.1 ; platform_system != 'Windows' or platform_machine == 'arm64'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_machine != 'arm64' and platform_system == 'Windows'
