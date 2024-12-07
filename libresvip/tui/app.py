@@ -113,9 +113,10 @@ class RootDirectoryTree(Vertical):
     def compose(self) -> ComposeResult:
         if platform.system() == "Windows":
             with Horizontal(classes="top-pane row"):
-                yield Label("Select a drive: ", classes="text-middle")
+                yield Label(_("Select a drive"), classes="text-middle")
                 yield Select(
                     [(drive, drive) for drive in self.get_logical_drive_strings()],
+                    prompt="",
                     id="drive-select",
                 )
         yield DirectoryTree(self.root, id=self.tree_id)
