@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-07 03:17\n"
+"PO-Revision-Date: 2024-12-07 19:11\n"
 
 #: ../libresvip/cli/commands/conf.py:21
 msgid "Setting {} is not supported in cli mode."
@@ -895,7 +895,7 @@ msgstr "全部否"
 
 #: ../libresvip/tui/app.py:116
 msgid "Select a drive"
-msgstr ""
+msgstr "选择驱动器"
 
 #: ../libresvip/tui/app.py:152 ../libresvip/tui/app.py:936
 #: ../libresvip/web/pages.py:309
@@ -1169,7 +1169,7 @@ msgstr "所有人都应享有选择的权利和自由。因此，我们致力于
 
 #: ../libresvip/web/pages.py:1160
 msgid "Toggle menu"
-msgstr ""
+msgstr "隐藏/显示菜单"
 
 #: ../libresvip/web/pages.py:1176
 msgid "Lyric Replace Rules"
@@ -1257,7 +1257,7 @@ msgstr "跟随系统"
 
 #: ../libresvip/web/pages.py:1762
 msgid "Settings"
-msgstr ""
+msgstr "设置"
 
 #: ../libresvip/web/pages.py:1765
 msgid "Alt+S"
