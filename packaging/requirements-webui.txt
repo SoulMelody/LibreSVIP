@@ -105,7 +105,7 @@ vbuild==0.8.2
 wanakana-python==1.2.2
 watchfiles==1.0.0
 websockets==14.1
-win32-setctime==1.1.0 ; sys_platform == 'win32'
+win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
 xsdata==24.11
 xsdata-pydantic==24.5
