@@ -280,7 +280,7 @@ jobs:
     runs-on: macos-latest
     needs: [make-outputs]
     env:
-      LIBMEDIAINFO_VERSION: "24.11"
+      LIBMEDIAINFO_VERSION: "24.12"
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
