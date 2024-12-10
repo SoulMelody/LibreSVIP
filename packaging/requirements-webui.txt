@@ -103,7 +103,7 @@ uvicorn==0.32.1
 uvloop==0.21.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
 vbuild==0.8.2
 wanakana-python==1.2.2
-watchfiles==1.0.0
+watchfiles==1.0.1
 websockets==14.1
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
