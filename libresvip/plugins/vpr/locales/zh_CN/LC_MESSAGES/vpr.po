@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-12 01:23\n"
+"PO-Revision-Date: 2024-12-12 14:44\n"
 
 msgid "日本語"
 msgstr ""
@@ -73,8 +73,8 @@ msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert
 msgstr "所有音符的音素都被设为了\"la\"。请使用VOCALOID菜单中的「任务」->「发音符号匹配」功能来重置音素。"
 
 msgid "Note overlap detected, cutting note "
-msgstr ""
+msgstr "检测到音符重叠，裁剪音符 "
 
 msgid "Note overlap detected, skipping note "
-msgstr ""
+msgstr "检测到音符重叠，跳过音符 "
 
