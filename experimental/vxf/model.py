@@ -8,6 +8,7 @@ from construct import (
     Int16ub,
     Int32ub,
     PaddedString,
+    Select,
     Struct,
     obj_,
 )
@@ -50,8 +51,10 @@ EndPitch = ExprAdapter(
 )
 
 UmpClipName = Struct(
-    "magic" / Const(b"\xd0\x10\x01\x03"),
-    "name" / PaddedString(12, "utf-8"),
+    "header" / Const(b"\xd0"),
+    "seq_stat" / Int8ub,
+    "magic" / Const(b"\x01\x03"),
+    "data" / PaddedString(12, "utf-8"),
 )
 
 UmpStartOfClip = Struct(
@@ -102,11 +105,9 @@ VxNote = Struct(
 )
 
 VxTrack = Struct(
-    "title" / UmpClipName,
+    "title_parts" / GreedyRange(UmpClipName),
     "start_of_clip" / UmpStartOfClip,
-    "tempos" / GreedyRange(UmpTempo),
-    "time_signatures" / GreedyRange(UmpTimeSignature),
-    "lyrics" / GreedyRange(UmpLyric),
+    "events" / GreedyRange(Select(UmpTempo, UmpTimeSignature, UmpLyric)),
     "notes" / GreedyRange(VxNote),
     "end_of_clip" / UmpEndOfClip,
 )
