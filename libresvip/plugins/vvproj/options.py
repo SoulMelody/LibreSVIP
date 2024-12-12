@@ -1,10 +1,6 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-from libresvip.core.constants import DEFAULT_BPM
-from libresvip.model.option_mixins import (
-    EnablePitchImportationMixin,
-)
-from libresvip.utils.translation import gettext_lazy as _
+from libresvip.model.option_mixins import EnablePitchImportationMixin
 
 
 class InputOptions(EnablePitchImportationMixin, BaseModel):
@@ -12,8 +8,4 @@ class InputOptions(EnablePitchImportationMixin, BaseModel):
 
 
 class OutputOptions(BaseModel):
-    tempo: int = Field(
-        default=int(DEFAULT_BPM),
-        title=_("Constant tempo"),
-        description=_("Use this tempo to reset time axis of projects with dynamic tempos"),
-    )
+    pass

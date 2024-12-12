@@ -62,3 +62,9 @@ msgid ""
 " Phonemes to Match Languages in the menu of VOCALOID to reset them."
 msgstr ""
 
+msgid "Note overlap detected, cutting note "
+msgstr ""
+
+msgid "Note overlap detected, skipping note "
+msgstr ""
+

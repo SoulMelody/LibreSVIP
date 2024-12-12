@@ -54,7 +54,7 @@ class VOICEVOXGenerator:
                 beats=time_signature.numerator,
                 beat_type=time_signature.denominator,
             )
-            for time_signature in time_signature_list[:1]
+            for time_signature in time_signature_list
         ]
 
     def generate_tempos(self, tempo_list: list[SongTempo]) -> list[VoiceVoxTempo]:

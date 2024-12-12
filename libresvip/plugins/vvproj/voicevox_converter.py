@@ -3,7 +3,6 @@ import pathlib
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
-from libresvip.model.reset_time_axis import reset_time_axis
 
 from .model import VoiceVoxProject
 from .options import InputOptions, OutputOptions
@@ -17,8 +16,6 @@ class VOICEVOXConverter(plugin_base.SVSConverterBase):
         return VOICEVOXParser(options).parse_project(voicevox_project)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
-        if len(project.song_tempo_list) != 1:
-            project = reset_time_axis(project, options.tempo)
         voicevox_project = VOICEVOXGenerator(options).generate_project(project)
         path.write_bytes(
             json.dumps(voicevox_project.model_dump(mode="json", by_alias=True)).encode("utf-8")
