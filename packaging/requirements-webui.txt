@@ -15,7 +15,7 @@ cffi==1.17.1 ; sys_platform == 'win32'
 charset-normalizer==3.4.0
 click==8.1.7
 clr-loader==0.2.6 ; sys_platform == 'win32'
-colorama==0.4.6 ; sys_platform == 'win32' or platform_system == 'Windows'
+colorama==0.4.6 ; platform_system == 'Windows' or sys_platform == 'win32'
 construct==2.10.68
 construct-typing==0.6.2
 docutils==0.21.2
@@ -34,9 +34,9 @@ itsdangerous==2.2.0
 jinja2==3.1.4
 loguru==0.7.3
 lxml==5.3.0
-macholib==1.16.3 ; sys_platform == 'darwin'
+macholib==1.16.3 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
 markdown-it-py==3.0.0
-markdown2==2.5.1
+markdown2==2.5.2
 markupsafe==3.0.2
 mdurl==0.1.2
 mido-fix==1.2.12
@@ -48,7 +48,7 @@ orjson==3.10.12 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 parsimonious==0.10.0
 pefile==2023.2.7 ; sys_platform == 'win32'
-pillow==11.0.0 ; sys_platform == 'darwin'
+pillow==11.0.0 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
 platformdirs==4.3.6
 portion==2.6.0
 propcache==0.2.1
@@ -61,15 +61,15 @@ pydantic==2.10.3
 pydantic-core==2.27.1
 pydantic-extra-types==2.10.1
 pygments==2.18.0
-pyinstaller==6.11.1 ; platform_system != 'Windows' or platform_machine == 'arm64'
+pyinstaller==6.11.1 ; platform_machine == 'arm64' or platform_system != 'Windows'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_machine != 'arm64' and platform_system == 'Windows'
 pyinstaller-hooks-contrib==2024.10
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
-pyobjc-core==10.3.2 ; sys_platform == 'darwin'
-pyobjc-framework-cocoa==10.3.2 ; sys_platform == 'darwin'
-pyobjc-framework-quartz==10.3.2 ; sys_platform == 'darwin'
-pyobjc-framework-security==10.3.2 ; sys_platform == 'darwin'
-pyobjc-framework-webkit==10.3.2 ; sys_platform == 'darwin'
+pyobjc-core==10.3.2 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
+pyobjc-framework-cocoa==10.3.2 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
+pyobjc-framework-quartz==10.3.2 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
+pyobjc-framework-security==10.3.2 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
+pyobjc-framework-webkit==10.3.2 ; (platform_machine == 'arm64' and sys_platform == 'darwin') or (platform_system != 'Windows' and sys_platform == 'darwin')
 pypinyin==0.53.0
 pysubs2==1.7.3
 python-dotenv==1.0.1
@@ -103,7 +103,7 @@ uvicorn==0.32.1
 uvloop==0.21.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
 vbuild==0.8.2
 wanakana-python==1.2.2
-watchfiles==1.0.1
+watchfiles==1.0.3
 websockets==14.1
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
