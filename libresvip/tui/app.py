@@ -169,6 +169,11 @@ class TaskLogScreen(Screen[None]):
     def on_close(self, event: Button.Pressed) -> None:
         self.app.pop_screen()
 
+    @on(Button.Pressed, "#copy")
+    def on_copy(self, event: Button.Pressed) -> None:
+        self.app.copy_to_clipboard(self.log_text)
+        self.app.notify(_("Copied"))
+
     def compose(self) -> ComposeResult:
         yield Header(icon="☰")
         yield Footer()
@@ -176,6 +181,7 @@ class TaskLogScreen(Screen[None]):
             yield Log()
             with Horizontal():
                 yield Label("", classes="fill-width")
+                yield Button(_("Copy to clipboard"), id="copy", variant="primary")
                 yield Button(_("Close"), id="close", variant="success")
 
 
