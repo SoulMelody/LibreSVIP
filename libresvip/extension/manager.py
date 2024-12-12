@@ -17,7 +17,7 @@ from typing import TYPE_CHECKING, Generic, Optional, cast
 from loguru import logger
 from typing_extensions import TypeGuard, TypeVar
 
-from libresvip.core.compat import package_path
+from libresvip.core.compat import files
 from libresvip.core.config import get_ui_settings, settings
 from libresvip.core.constants import app_dir, pkg_dir, res_dir
 from libresvip.utils.module_loading import import_module
@@ -225,6 +225,6 @@ def get_translation(lang: Optional[str] = None) -> gettext.NullTranslations:
     translation = merge_translation(translation, res_dir, lang)
     for manager in [plugin_manager, middleware_manager]:
         for plugin_id in manager.plugin_registry:
-            plugin_base_dir = package_path(f"{manager.plugin_namespace}.{plugin_id}")
+            plugin_base_dir = files(f"{manager.plugin_namespace}.{plugin_id}")
             translation = merge_translation(translation, plugin_base_dir, lang)
     return translation

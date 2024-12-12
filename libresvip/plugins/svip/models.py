@@ -3,7 +3,7 @@ import re
 
 from bidict import bidict
 
-from libresvip.core.compat import json, package_path
+from libresvip.core.compat import files, json
 
 from .msnrbf.xstudio_models import (
     XSNoteHeadTagEnum,
@@ -16,7 +16,7 @@ class OpenSvipSingers:
     singers: bidict[str, str] = dataclasses.field(init=False)
 
     def __post_init__(self) -> None:
-        singers_data_path = package_path("libresvip.plugins.svip") / "singers.json"
+        singers_data_path = files("libresvip.plugins.svip") / "singers.json"
         self.singers = bidict(json.loads(singers_data_path.read_text(encoding="utf-8")))
 
     def get_name(self, id_: str) -> str:

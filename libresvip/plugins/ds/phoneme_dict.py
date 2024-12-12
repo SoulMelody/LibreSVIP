@@ -1,13 +1,13 @@
 import csv
 import io
 
-from libresvip.core.compat import package_path
+from libresvip.core.compat import files
 from libresvip.utils.translation import gettext_lazy as _
 
 
 def get_opencpop_dict(dict_name: str, g2p: bool = True) -> dict[str, str]:
     opencpop_dict = {}
-    dict_dir = package_path("libresvip.plugins.ds") / "dicts"
+    dict_dir = files("libresvip.plugins.ds") / "dicts"
     if (dict_content := (dict_dir / f"{dict_name}.txt").read_text(encoding="utf-8")) is None:
         msg = _("Cannot find dict.")
         raise FileNotFoundError(msg)

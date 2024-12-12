@@ -2,7 +2,7 @@ from typing import Final
 
 import platformdirs
 
-from libresvip.core.compat import package_path
+from libresvip.core.compat import files
 
 PACKAGE_NAME: Final[str] = "libresvip"
 
@@ -25,5 +25,5 @@ PITCH_MAX_VALUE: Final[int] = 8191
 
 app_dir = platformdirs.AppDirs(PACKAGE_NAME)
 
-pkg_dir = package_path(PACKAGE_NAME)
+pkg_dir = files(PACKAGE_NAME)
 res_dir = pkg_dir / "res"

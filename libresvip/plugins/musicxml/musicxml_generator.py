@@ -46,11 +46,12 @@ class MusicXMLGenerator:
         project_with_tick_rate_applied = self.apply_tick_rate(project)
         measures: dict[int, list[MXmlMeasure]] = defaultdict(list)
         for i, track in enumerate(project_with_tick_rate_applied.track_list):
-            if key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied):
+            if isinstance(track, SingingTrack) and (
+                key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied)
+            ):
                 track_measures = self.get_measures(
                     key_ticks,
                     project_with_tick_rate_applied.time_signature_list,
-                    i,
                 )
                 measures[i].extend(track_measures)
         musicxml_project = ScorePartwise(
@@ -76,11 +77,7 @@ class MusicXMLGenerator:
         part_id = f"P{track_index + 1}"
         part_node = ScorePartwise.Part(id=part_id)
         score_part = ScorePart(id=part_id)
-        if score_part.part_name is not None:
-            if track_title:
-                score_part.part_name.value = track_title
-            else:
-                score_part.part_name.value = f"Track {track_index + 1}"
+        score_part.part_name.value = track_title or f"Track {track_index + 1}"
         prev_note_node = None
         prev_is_slur = False
         slur_number = 1
@@ -276,7 +273,6 @@ class MusicXMLGenerator:
     def get_measures(
         key_ticks: list[KeyTick],
         time_signatures: list[TimeSignature],
-        track_index: int,
     ) -> list[MXmlMeasure]:
         ticks_in_beat = round(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
         measure_border_ticks = [0]
