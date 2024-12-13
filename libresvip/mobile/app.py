@@ -234,7 +234,7 @@ async def main(page: ft.Page) -> None:
                                     ),
                                     ft.ResponsiveRow(
                                         [
-                                            ft.Icon(ft.Icons.TAG_OUTLINED, col=1),
+                                            ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
                                             ft.Text(
                                                 str(plugin_obj.version), tooltip=_("Version"), col=3
                                             ),
@@ -257,7 +257,7 @@ async def main(page: ft.Page) -> None:
                                                 ],
                                                 col=7,
                                             ),
-                                            ft.Icon(ft.Icons.FOLDER_OPEN_OUTLINED, col=1),
+                                            ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
                                             ft.Text(
                                                 f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
                                                 col=11,
@@ -330,13 +330,22 @@ async def main(page: ft.Page) -> None:
                             elevation=8,
                             controls=[
                                 ft.ExpansionPanel(
-                                    header=ft.ListTile(title=ft.Text(_("Input Options"))),
+                                    header=ft.ListTile(
+                                        leading=ft.Icon(ft.Icons.INPUT),
+                                        title=ft.Text(_("Input Options")),
+                                    ),
                                 ),
                                 ft.ExpansionPanel(
-                                    header=ft.ListTile(title=ft.Text(_("Intermediate Processing"))),
+                                    header=ft.ListTile(
+                                        leading=ft.Icon(ft.Icons.AUTO_FIX_HIGH),
+                                        title=ft.Text(_("Intermediate Processing")),
+                                    ),
                                 ),
                                 ft.ExpansionPanel(
-                                    header=ft.ListTile(title=ft.Text(_("Output Options"))),
+                                    header=ft.ListTile(
+                                        leading=ft.Icon(ft.Icons.OUTPUT),
+                                        title=ft.Text(_("Output Options")),
+                                    ),
                                 ),
                             ],
                         )
@@ -349,11 +358,13 @@ async def main(page: ft.Page) -> None:
                             leading=ft.Stack(
                                 [
                                     ft.Icon(
-                                        ft.Icons.CHECK_CIRCLE_OUTLINED, color=ft.colors.GREEN_400
+                                        ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
+                                        color=ft.colors.GREEN_400,
                                     ),
                                     ft.ProgressRing(visible=False),
                                 ]
                             ),
+                            toggle_inputs=True,
                             title=ft.Text("Foo"),
                             subtitle=ft.Text("Bar"),
                             trailing=ft.PopupMenuButton(
@@ -517,13 +528,13 @@ async def main(page: ft.Page) -> None:
                             ),
                             ft.TextButton(
                                 _("Author's Profile"),
-                                icon=ft.Icons.PERSON_OUTLINED,
+                                icon=ft.Icons.LIVE_TV_OUTLINED,
                                 url="https://space.bilibili.com/175862486",
                                 col=6,
                             ),
                             ft.TextButton(
                                 _("Repo URL"),
-                                icon=ft.Icons.CODE_OUTLINED,
+                                icon=ft.Icons.LOGO_DEV_OUTLINED,
                                 url="https://github.com/SoulMelody/LibreSVIP",
                                 col=6,
                             ),
