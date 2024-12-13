@@ -143,22 +143,6 @@ async def main(page: ft.Page) -> None:
             ft.NavigationBarDestination(icon=ft.Icons.HELP_OUTLINED, label=_("About")),
         ],
     )
-    bs: ft.BottomSheet = ft.BottomSheet(
-        content=ft.Column(
-            [
-                ft.Row(
-                    tight=True,
-                    controls=[
-                        ft.Text("This is bottom sheet's content!"),
-                        ft.IconButton(ft.Icons.CLOSE_OUTLINED, on_click=lambda _: page.close(bs)),
-                    ],
-                )
-            ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            height=600,
-            width=400,
-        ),
-    )
     switch_theme_btn = ft.PopupMenuButton(
         icon=ft.Icons.PALETTE_OUTLINED,
         tooltip=_("Switch Theme"),
@@ -252,7 +236,7 @@ async def main(page: ft.Page) -> None:
                                         [
                                             ft.Icon(ft.Icons.TAG_OUTLINED, col=1),
                                             ft.Text(
-                                                str(plugin_obj.version), tooltip=_("Version"), col=5
+                                                str(plugin_obj.version), tooltip=_("Version"), col=3
                                             ),
                                             ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
                                             ft.Row(
@@ -271,7 +255,7 @@ async def main(page: ft.Page) -> None:
                                                     ),
                                                     ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
                                                 ],
-                                                col=5,
+                                                col=7,
                                             ),
                                             ft.Icon(ft.Icons.FOLDER_OPEN_OUTLINED, col=1),
                                             ft.Text(
@@ -334,7 +318,8 @@ async def main(page: ft.Page) -> None:
                                     col=2,
                                     on_click=lambda _: show_plugin_info(output_select),
                                 ),
-                            ]
+                            ],
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
                     ],
                     visible=True,
@@ -358,6 +343,39 @@ async def main(page: ft.Page) -> None:
                     ],
                     visible=False,
                 ),
+                ft.ListView(
+                    controls=[
+                        ft.ListTile(
+                            leading=ft.Stack(
+                                [
+                                    ft.Icon(
+                                        ft.Icons.CHECK_CIRCLE_OUTLINED, color=ft.colors.GREEN_400
+                                    ),
+                                    ft.ProgressRing(visible=False),
+                                ]
+                            ),
+                            title=ft.Text("Foo"),
+                            subtitle=ft.Text("Bar"),
+                            trailing=ft.PopupMenuButton(
+                                items=[
+                                    ft.PopupMenuItem(
+                                        icon=ft.icons.REMOVE_RED_EYE_OUTLINED, text=_("View Log")
+                                    ),
+                                    ft.PopupMenuItem(icon=ft.icons.EDIT, text=_("Rename")),
+                                    ft.PopupMenuItem(
+                                        icon=ft.icons.DELETE_OUTLINE, text=_("Remove")
+                                    ),
+                                ],
+                                tooltip=_("Actions"),
+                            ),
+                        ),
+                    ],
+                    expand=1,
+                    spacing=10,
+                    auto_scroll=True,
+                    visible=False,
+                    padding=ft.padding.symmetric(vertical=10),
+                ),
             ]
 
             def select_page(e: ft.ControlEvent) -> None:
@@ -375,6 +393,10 @@ async def main(page: ft.Page) -> None:
                         icon=ft.Icons.SETTINGS_OUTLINED,
                         label=_("Advanced Options"),
                     ),
+                    ft.NavigationDrawerDestination(
+                        icon=ft.Icons.TASK_ALT_OUTLINED,
+                        label=_("Task List"),
+                    ),
                 ],
                 on_change=select_page,
             )
@@ -382,6 +404,7 @@ async def main(page: ft.Page) -> None:
             view = ft.View(
                 "/",
                 appbar=ft.AppBar(
+                    title=ft.Text("LibreSVIP"),
                     leading=ft.IconButton(
                         ft.Icons.MENU_OUTLINED, on_click=lambda _: page.open(drawer)
                     ),
@@ -393,11 +416,6 @@ async def main(page: ft.Page) -> None:
                             on_click=lambda e: file_picker.pick_files(
                                 _("Select files to convert"), allow_multiple=True
                             ),
-                        ),
-                        ft.IconButton(
-                            ft.Icons.TASK_ALT_OUTLINED,
-                            tooltip=_("Task List"),
-                            on_click=lambda _: page.open(bs),
                         ),
                         switch_theme_btn,
                         switch_language_btn,
@@ -462,6 +480,7 @@ async def main(page: ft.Page) -> None:
                                 col=12,
                             ),
                         ],
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     )
                 ],
                 navigation_bar=bottom_nav_bar,
