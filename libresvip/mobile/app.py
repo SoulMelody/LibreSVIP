@@ -48,7 +48,7 @@ async def main(page: ft.Page) -> None:
     if not (await page.client_storage.contains_key_async("save_folder")):
         await page.client_storage.set_async("save_folder", ".")
     save_folder_text_field = ft.TextField(
-        value=await page.client_storage.get_async("save_folder"), col=6
+        label=_("Output Folder"), value=await page.client_storage.get_async("save_folder"), col=10
     )
 
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
@@ -243,7 +243,11 @@ async def main(page: ft.Page) -> None:
                         controls=[
                             ft.ResponsiveRow(
                                 [
-                                    ft.Image(src_base64=plugin_obj.icon_base64, col=3),
+                                    ft.Image(
+                                        src_base64=plugin_obj.icon_base64,
+                                        fit=ft.ImageFit.FILL,
+                                        col=3,
+                                    ),
                                     ft.ResponsiveRow(
                                         [
                                             ft.Icon(ft.Icons.TAG_OUTLINED, col=1),
@@ -442,7 +446,6 @@ async def main(page: ft.Page) -> None:
                                 col=8,
                                 on_change=change_max_track_count,
                             ),
-                            ft.Text(_("Output Folder"), col=4),
                             save_folder_text_field,
                             ft.IconButton(
                                 ft.Icons.FOLDER_OPEN_OUTLINED,
@@ -452,7 +455,7 @@ async def main(page: ft.Page) -> None:
                                     _("Change Output Directory")
                                 ),
                             ),
-                            ft.OutlinedButton(
+                            ft.ElevatedButton(
                                 _("Request permission to access files"),
                                 data=ft.PermissionType.MANAGE_EXTERNAL_STORAGE,
                                 on_click=check_permission,
