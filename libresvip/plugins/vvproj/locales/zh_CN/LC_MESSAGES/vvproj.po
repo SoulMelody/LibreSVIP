@@ -10,13 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:39\n"
-
-msgid "Constant tempo"
-msgstr "恒定曲速"
-
-msgid "Use this tempo to reset time axis of projects with dynamic tempos"
-msgstr "使用此曲速重设变速音乐的时间轴"
+"PO-Revision-Date: 2024-12-12 01:23\n"
 
 msgid "Unsupported lyric: "
 msgstr "不支持的歌词: "
