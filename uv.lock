@@ -1513,7 +1513,7 @@ all = [
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
     { name = "sourcery", specifier = ">=1.27.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
-    { name = "types-lxml", specifier = ">=2024.11.8" },
+    { name = "types-lxml", specifier = ">=2024.12.13" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20240917" },
     { name = "types-ujson", specifier = ">=5.10.0.20240515" },
@@ -1532,7 +1532,7 @@ linting = [
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "ruff", specifier = ">=0.8.3" },
     { name = "sourcery", specifier = ">=1.27.0" },
-    { name = "types-lxml", specifier = ">=2024.11.8" },
+    { name = "types-lxml", specifier = ">=2024.12.13" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20240917" },
     { name = "types-ujson", specifier = ">=5.10.0.20240515" },
@@ -3510,16 +3510,16 @@ wheels = [
 
 [[package]]
 name = "types-lxml"
-version = "2024.11.8"
+version = "2024.12.13"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cssselect" },
     { name = "types-beautifulsoup4" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f9/9a/ee69fbc1ba4ac7be523e3595c39c7e251c71e154e5b3022b8e2ec3dcac91/types_lxml-2024.11.8.tar.gz", hash = "sha256:0cdb4d943cb104e019b7273fd24af72a0826d0043b3e5100b672c3bb99028e00", size = 126526 }
+sdist = { url = "https://files.pythonhosted.org/packages/24/ed/1a5bf2be373e9c4a27c8e97ba8b6dc22c3bccdcf7af9851a058c5234fdd0/types_lxml-2024.12.13.tar.gz", hash = "sha256:e2dadb92c7f730cd369daf1efe93ebc2ebfa8b692d4415cfc91b727419152e37", size = 130209 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3d/da/c3c2601ca9024107cff6635c6799bd401a48e77cd193868f8139ce24207d/types_lxml-2024.11.8-py3-none-any.whl", hash = "sha256:4b4fa7f9e2f1d5f58b98ac9852a75927e4e0f69363249f9cebc78db095c046e0", size = 84279 },
+    { url = "https://files.pythonhosted.org/packages/1d/dc/eaa78d32ac5520383180ee9f4133969d80f2c3841b05662d913bd3033891/types_lxml-2024.12.13-py3-none-any.whl", hash = "sha256:d4830c99ef6f7b9eae176297a2b8dc840b3a75986bf4449592ca09a9a449b27e", size = 86008 },
 ]
 
 [[package]]
