@@ -97,7 +97,7 @@ jobs:
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python 3.12
+          uv venv --python 3.13
           uv build --wheel
           cd packaging
           uv pip install -r requirements-webui.txt
