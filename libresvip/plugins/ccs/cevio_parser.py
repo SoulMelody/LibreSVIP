@@ -126,7 +126,7 @@ class CeVIOParser:
             numerator = time_node.beats
             denominator = time_node.beat_type
 
-            if tick is not None and numerator is not None and denominator is not None:
+            if numerator is not None and denominator is not None:
                 ticks_in_measure = time_signatures[-1].bar_length()
                 tick_diff = tick - prev_tick
                 measure_diff = tick_diff / ticks_in_measure
@@ -183,21 +183,21 @@ class CeVIOParser:
             ):
                 if lyric == chr(PROLONGED_SOUND_MARK):
                     lyric = "-"
+                phoneme = None
+                if note_node.phonetic is not None:
+                    phoneme = note_node.phonetic.replace(",", "")
                 notes.append(
                     Note(
                         key_number=key,
                         lyric=lyric,
                         start_pos=tick_on,
                         length=duration,
+                        pronunciation=phoneme,
                     )
                 )
 
         cevio_track_pitch_data = None
-        if (
-            self.options.import_pitch
-            and unit_node.song.parameter is not None
-            and unit_node.song.parameter.log_f0 is not None
-        ):
+        if self.options.import_pitch and unit_node.song.parameter.log_f0 is not None:
             pitch_data_nodes: list[CeVIOData] = cast(
                 list[CeVIOData], unit_node.song.parameter.log_f0.data
             )

@@ -7,10 +7,10 @@ from xsdata.models.datatype import XmlTime
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
+from libresvip.core.lyric_phoneme.japanese.cevio_romaji_mapping import romaji2phoneme
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
-    InstrumentalTrack,
     Note,
     ParamCurve,
     Project,
@@ -148,7 +148,7 @@ class CeVIOGenerator:
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
                     new_unit.song.parameter.log_f0 = log_f0
                 results.append((new_unit, new_group))
-            elif isinstance(track, InstrumentalTrack):
+            else:
                 if (
                     track_info := audio_track_info(track.audio_file_path, only_wav=True)
                 ) is not None:
@@ -184,7 +184,9 @@ class CeVIOGenerator:
         for note in notes:
             lyric = chr(PROLONGED_SOUND_MARK) if note.lyric == "-" else note.lyric
             phonetic = None
-            if not is_kana(lyric) and not is_romaji(lyric):
+            if note.pronunciation in romaji2phoneme:
+                phonetic = romaji2phoneme[note.pronunciation]
+            elif not is_kana(lyric) and not is_romaji(lyric):
                 phonetic = DEFAULT_PHONEME
                 msg_prefix = _("Unsupported lyric: ")
                 show_warning(f"{msg_prefix} {lyric}")
