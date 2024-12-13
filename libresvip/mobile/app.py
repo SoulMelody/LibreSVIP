@@ -15,38 +15,20 @@ async def main(page: ft.Page) -> None:
 
     if not (await page.client_storage.contains_key_async("dark_mode")):
         await page.client_storage.set_async("dark_mode", "System")
-    dark_mode = await page.client_storage.get_async("dark_mode")
-    page.theme_mode = ft.ThemeMode((dark_mode or "System").lower())
-
-    if not (await page.client_storage.contains_key_async("language")):
-        await page.client_storage.set_async("language", "en_US")
-    lang = await page.client_storage.get_async("language")
-    translation.singleton_translation = get_translation(lang)
-
-    if not (await page.client_storage.contains_key_async("save_folder")):
-        await page.client_storage.set_async("save_folder", ".")
-    save_folder = await page.client_storage.get_async("save_folder")
-    save_folder_text_field = ft.TextField(value=save_folder, col=6)
-
-    with as_file(res_dir / "libresvip.ico") as icon:
-        page.window.icon = str(icon)
-
-    def on_files_selected(e: ft.FilePickerResultEvent) -> None:
-        if e.files:
-            pass
-        if e.path:
-            page.client_storage.set("save_folder", e.path)
-            save_folder_text_field.value = e.path
-            save_folder_text_field.update()
-
-    file_picker = ft.FilePicker(on_result=on_files_selected)
-    permission_handler = ft.PermissionHandler()
-    page.overlay.extend([file_picker, permission_handler])
+    page.theme_mode = ft.ThemeMode(
+        (await page.client_storage.get_async("dark_mode") or "System").lower()
+    )
 
     def change_theme(dark_mode: str) -> None:
         page.theme_mode = ft.ThemeMode(dark_mode.lower())
         page.client_storage.set("dark_mode", dark_mode)
         page.update()
+
+    if not (await page.client_storage.contains_key_async("language")):
+        await page.client_storage.set_async("language", "en_US")
+    translation.singleton_translation = get_translation(
+        await page.client_storage.get_async("language")
+    )
 
     def change_language(lang: str) -> None:
         page.client_storage.set("language", lang)
@@ -62,6 +44,51 @@ async def main(page: ft.Page) -> None:
             actions=[dismiss_btn],
         )
         page.open(banner)
+
+    if not (await page.client_storage.contains_key_async("save_folder")):
+        await page.client_storage.set_async("save_folder", ".")
+    save_folder_text_field = ft.TextField(
+        value=await page.client_storage.get_async("save_folder"), col=6
+    )
+
+    def on_files_selected(e: ft.FilePickerResultEvent) -> None:
+        if e.files:
+            pass
+        if e.path:
+            page.client_storage.set("save_folder", e.path)
+            save_folder_text_field.value = e.path
+            save_folder_text_field.update()
+
+    if not (await page.client_storage.contains_key_async("auto_detect_input_format")):
+        await page.client_storage.set_async("auto_detect_input_format", True)
+
+    def change_auto_detect_input_format(e: ft.ControlEvent) -> None:
+        page.client_storage.set("auto_detect_input_format", e.control.value)
+
+    if not (await page.client_storage.contains_key_async("reset_tasks_on_input_change")):
+        await page.client_storage.set_async("reset_tasks_on_input_change", True)
+
+    def change_reset_tasks_on_input_change(e: ft.ControlEvent) -> None:
+        page.client_storage.set("reset_tasks_on_input_change", e.control.value)
+
+    if not (await page.client_storage.contains_key_async("max_track_count")):
+        await page.client_storage.set_async("max_track_count", 1)
+
+    def change_max_track_count(e: ft.ControlEvent) -> None:
+        page.client_storage.set("max_track_count", e.control.value)
+
+    def change_last_input_format(e: ft.ControlEvent) -> None:
+        page.client_storage.set("last_input_format", e.control.value)
+
+    def change_last_output_format(e: ft.ControlEvent) -> None:
+        page.client_storage.set("last_output_format", e.control.value)
+
+    with as_file(res_dir / "libresvip.ico") as icon:
+        page.window.icon = str(icon)
+
+    file_picker = ft.FilePicker(on_result=on_files_selected)
+    permission_handler = ft.PermissionHandler()
+    page.overlay.extend([file_picker, permission_handler])
 
     def click_navigation_bar(event: ft.ControlEvent) -> None:
         if event.control.selected_index == 0:
@@ -166,7 +193,9 @@ async def main(page: ft.Page) -> None:
         page.views.clear()
         if event.route == "/":
             input_select = ft.Dropdown(
+                value=page.client_storage.get("last_input_format"),
                 label=_("Import format"),
+                text_size=16,
                 options=[
                     ft.dropdown.Option(
                         plugin_id, f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})"
@@ -174,9 +203,12 @@ async def main(page: ft.Page) -> None:
                     for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
                 ],
                 col=10,
+                on_change=change_last_input_format,
             )
             output_select = ft.Dropdown(
+                value=page.client_storage.get("last_output_format"),
                 label=_("Export format"),
+                text_size=16,
                 options=[
                     ft.dropdown.Option(
                         plugin_id, f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})"
@@ -184,10 +216,13 @@ async def main(page: ft.Page) -> None:
                     for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
                 ],
                 col=10,
+                on_change=change_last_output_format,
             )
 
             def swap_formats(e: ft.ControlEvent) -> None:
                 input_select.value, output_select.value = output_select.value, input_select.value
+                page.client_storage.set("last_input_format", input_select.value)
+                page.client_storage.set("last_output_format", output_select.value)
                 page.update()
 
             def show_plugin_info(control: ft.Dropdown) -> None:
@@ -385,20 +420,36 @@ async def main(page: ft.Page) -> None:
                 controls=[
                     ft.ResponsiveRow(
                         [
-                            ft.Switch(_("Auto detect import format"), value=True, col=12),
                             ft.Switch(
-                                _("Reset list when import format changed"), value=True, col=12
+                                _("Auto detect import format"),
+                                value=page.client_storage.get("auto_detect_input_format"),
+                                col=12,
+                                on_change=change_auto_detect_input_format,
+                            ),
+                            ft.Switch(
+                                _("Reset list when import format changed"),
+                                value=page.client_storage.get("reset_tasks_on_input_change"),
+                                col=12,
+                                on_change=change_reset_tasks_on_input_change,
                             ),
                             ft.Text(_("Max track count"), col=4),
-                            ft.Slider(min=1, max=100, divisions=100, label="{value}", col=8),
+                            ft.Slider(
+                                value=page.client_storage.get("max_track_count"),
+                                min=1,
+                                max=100,
+                                divisions=100,
+                                label="{value}",
+                                col=8,
+                                on_change=change_max_track_count,
+                            ),
                             ft.Text(_("Output Folder"), col=4),
                             save_folder_text_field,
                             ft.IconButton(
                                 ft.Icons.FOLDER_OPEN_OUTLINED,
-                                tooltip=_("Select save location"),
+                                tooltip=_("Change Output Directory"),
                                 col=2,
                                 on_click=lambda e: file_picker.get_directory_path(
-                                    _("Select save location")
+                                    _("Change Output Directory")
                                 ),
                             ),
                             ft.OutlinedButton(
