@@ -14,7 +14,7 @@ certifi==2024.8.30
 cffi==1.17.1 ; sys_platform == 'win32'
 charset-normalizer==3.4.0
 click==8.1.7
-clr-loader==0.2.6 ; sys_platform == 'win32'
+clr-loader==0.2.7.post0 ; sys_platform == 'win32'
 colorama==0.4.6 ; platform_system == 'Windows' or sys_platform == 'win32'
 construct==2.10.68
 construct-typing==0.6.2
@@ -97,7 +97,7 @@ starlette==0.41.3
 typer-slim==0.15.1
 typing-extensions==4.12.2
 ujson==5.10.0
-universal-pathlib==0.2.5
+universal-pathlib==0.2.6
 urllib3==2.2.3
 uvicorn==0.32.1
 uvloop==0.21.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
