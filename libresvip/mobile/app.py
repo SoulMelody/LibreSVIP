@@ -23,6 +23,11 @@ async def main(page: ft.Page) -> None:
     lang = await page.client_storage.get_async("language")
     translation.singleton_translation = get_translation(lang)
 
+    if not (await page.client_storage.contains_key_async("save_folder")):
+        await page.client_storage.set_async("save_folder", ".")
+    save_folder = await page.client_storage.get_async("save_folder")
+    save_folder_text_field = ft.TextField(value=save_folder, col=6)
+
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
 
@@ -30,7 +35,9 @@ async def main(page: ft.Page) -> None:
         if e.files:
             pass
         if e.path:
-            pass
+            page.client_storage.set("save_folder", e.path)
+            save_folder_text_field.value = e.path
+            save_folder_text_field.update()
 
     file_picker = ft.FilePicker(on_result=on_files_selected)
     permission_handler = ft.PermissionHandler()
@@ -66,12 +73,12 @@ async def main(page: ft.Page) -> None:
 
     def check_permission(e: ft.ControlEvent) -> None:
         result = permission_handler.check_permission(e.control.data)
+
+        def close_banner(e: ft.ControlEvent) -> None:
+            page.close(banner)
+
+        dismiss_btn = ft.TextButton(text=_("OK"), on_click=close_banner)
         if result != ft.PermissionStatus.GRANTED:
-
-            def close_banner(e: ft.ControlEvent) -> None:
-                page.close(banner)
-
-            dismiss_btn = ft.TextButton(text=_("OK"), on_click=close_banner)
             result = permission_handler.request_permission(e.control.data)
             if result == ft.PermissionStatus.GRANTED:
                 banner = ft.Banner(
@@ -89,7 +96,15 @@ async def main(page: ft.Page) -> None:
                     leading=ft.Icon(ft.Icons.WARNING_OUTLINED),
                     actions=[dismiss_btn],
                 )
-            page.open(banner)
+        else:
+            banner = ft.Banner(
+                ft.Text(
+                    _("Permission already granted, you can now select files from your device.")
+                ),
+                leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINED),
+                actions=[dismiss_btn],
+            )
+        page.open(banner)
 
     bottom_nav_bar = ft.NavigationBar(
         on_change=click_navigation_bar,
@@ -377,7 +392,7 @@ async def main(page: ft.Page) -> None:
                             ft.Text(_("Max track count"), col=4),
                             ft.Slider(min=1, max=100, divisions=100, label="{value}", col=8),
                             ft.Text(_("Output Folder"), col=4),
-                            ft.TextField(".", col=6),
+                            save_folder_text_field,
                             ft.IconButton(
                                 ft.Icons.FOLDER_OPEN_OUTLINED,
                                 tooltip=_("Select save location"),
