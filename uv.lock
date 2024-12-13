@@ -1485,10 +1485,10 @@ requires-dist = [
     { name = "textual", marker = "extra == 'tui'", specifier = ">=1.0.0" },
     { name = "typer-slim", specifier = ">=0.15.1,<1.0.0" },
     { name = "ujson", marker = "extra == 'ujson'", specifier = ">=5.10.0" },
-    { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.5,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'tui'", specifier = ">=0.2.5,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'upath'", specifier = ">=0.2.5,<1.0.0" },
-    { name = "universal-pathlib", marker = "extra == 'webui'", specifier = ">=0.2.5,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'desktop'", specifier = ">=0.2.6,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'tui'", specifier = ">=0.2.6,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'upath'", specifier = ">=0.2.6,<1.0.0" },
+    { name = "universal-pathlib", marker = "extra == 'webui'", specifier = ">=0.2.6,<1.0.0" },
     { name = "wanakana-python", specifier = ">=1.2.2,<2.0.0" },
     { name = "xsdata-pydantic", specifier = ">=24.5,<24.6" },
     { name = "zhon", specifier = ">=2.1.1,<3.0.0" },
@@ -3648,14 +3648,14 @@ wheels = [
 
 [[package]]
 name = "universal-pathlib"
-version = "0.2.5"
+version = "0.2.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fsspec" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/24/67/6c31ba464eafda05c677628dd7859ed4904597a78694d9cc81b593c6bad2/universal_pathlib-0.2.5.tar.gz", hash = "sha256:ea5d4fb8178c2ab469cf4fa46d0ceb16ccb378da46dbbc28a8b9c1eebdccc655", size = 174755 }
+sdist = { url = "https://files.pythonhosted.org/packages/eb/21/dd871495af3933e585261adce42678dcdf1168c9d6fa0a8f7b6565e54472/universal_pathlib-0.2.6.tar.gz", hash = "sha256:50817aaeaa9f4163cb1e76f5bdf84207fa05ce728b23fd779479b3462e5430ac", size = 175427 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/d9/289d308f889aac33639703a60906e3a0f3ec97419b7ca5bedaddc77648fd/universal_pathlib-0.2.5-py3-none-any.whl", hash = "sha256:a634f700eca827b4ad03bfa0267e51161560dd1de83b051cf0fccf39b3e56b32", size = 49892 },
+    { url = "https://files.pythonhosted.org/packages/e5/4d/2e577f6db7aa0f932d19f799c18f604b2b302c65f733419b900ec07dbade/universal_pathlib-0.2.6-py3-none-any.whl", hash = "sha256:700dec2b58ef34b87998513de6d2ae153b22f083197dfafb8544744edabd1b18", size = 50087 },
 ]
 
 [[package]]

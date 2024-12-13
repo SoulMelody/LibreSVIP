@@ -68,7 +68,7 @@ documentation = "https://soulmelody.github.io/LibreSVIP"
 
 ujson = ["ujson>=5.10.0"]
 upath = [
-  "universal-pathlib<1.0.0,>=0.2.5",
+  "universal-pathlib<1.0.0,>=0.2.6",
 ]
 ruamel_yaml = [
   "ruamel.yaml>=0.18.6",
