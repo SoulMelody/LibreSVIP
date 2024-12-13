@@ -76,7 +76,7 @@ python-dotenv==1.0.1
 python-engineio==4.10.1
 python-multipart==0.0.19
 python-socketio==5.11.4
-pythonnet==3.0.4 ; sys_platform == 'win32'
+pythonnet==3.0.5 ; sys_platform == 'win32'
 pywebview==5.3.2
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2
