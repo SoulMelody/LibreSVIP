@@ -11,6 +11,9 @@ from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.model.point import Point
 
 P = ParamSpec("P")
+NOTE_RE = re.compile(
+    r"^(?P<note>[A-Ga-g])" r"(?P<accidental>[#♯𝄪b!♭𝄫♮]*)" r"(?P<octave>[+-]?\d+)?$"
+)
 
 
 def midi2note(midi: float) -> str:
@@ -48,11 +51,7 @@ def note2midi(note: str) -> int:
         "♮": 0,
     }
 
-    match = re.match(
-        r"^(?P<note>[A-Ga-g])" r"(?P<accidental>[#♯𝄪b!♭𝄫♮]*)" r"(?P<octave>[+-]?\d+)?$",
-        note,
-    )
-    if not match:
+    if (match := NOTE_RE.match(note)) is None:
         msg = f"Invalid note format: {note!r}"
         raise ValueError(msg)
 
