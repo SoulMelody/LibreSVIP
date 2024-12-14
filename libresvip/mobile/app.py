@@ -18,7 +18,6 @@ from libresvip.utils.translation import gettext_lazy as _
 
 async def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
-    page.auto_scroll = True
     page.window.width = 600
     page.window.height = 700
 
