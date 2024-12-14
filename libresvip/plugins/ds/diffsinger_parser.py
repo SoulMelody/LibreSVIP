@@ -1,4 +1,5 @@
 import dataclasses
+import re
 from typing import cast
 
 import more_itertools
@@ -19,6 +20,8 @@ from libresvip.utils.music_math import hz2midi, note2midi
 
 from .model import DsItem, DsProject
 from .options import InputOptions
+
+CENTS_RE = re.compile(r"[+-]\d+$")
 
 
 @dataclasses.dataclass
@@ -66,7 +69,7 @@ class DiffSingerParser:
                     elif text == "AP":
                         prev_is_breath = True
                     else:
-                        midi_key = note2midi(note)
+                        midi_key = note2midi(CENTS_RE.sub("", note))
                         if not is_slur:
                             notes.append(
                                 Note(
