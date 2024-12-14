@@ -40,14 +40,10 @@ async def main(page: ft.Page) -> None:
         page.client_storage.set("language", lang)
         translation.singleton_translation = get_translation(lang)
 
-        def close_banner(e: ft.ControlEvent) -> None:
-            page.close(banner)
-
-        dismiss_btn = ft.TextButton(text=_("OK"), on_click=close_banner)
-        banner = ft.Banner(
+        banner: ft.Banner = ft.Banner(
             ft.Text(_("Language settings changed, please restart the app to apply the changes.")),
             leading=ft.Icon(ft.Icons.WARNING_OUTLINED),
-            actions=[dismiss_btn],
+            actions=[ft.TextButton(text=_("OK"), on_click=lambda _: page.close(banner))],
         )
         page.open(banner)
 
@@ -80,7 +76,6 @@ async def main(page: ft.Page) -> None:
             auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
             for file in e.files:
                 last_input_format = page.client_storage.get("last_input_format")
-                last_output_format = page.client_storage.get("last_output_format")
                 file_path = pathlib.Path(file.path)
                 suffix = file_path.suffix.lower().removeprefix(".")
                 if (
@@ -102,16 +97,22 @@ async def main(page: ft.Page) -> None:
                         ),
                         toggle_inputs=True,
                         title=ft.Text(file.name),
-                        subtitle=ft.Text(
-                            file_path.with_suffix(f".{last_output_format or ''}").name
-                        ),
+                        subtitle=ft.Text(file_path.stem),
                         trailing=ft.PopupMenuButton(
                             items=[
                                 ft.PopupMenuItem(
                                     icon=ft.icons.REMOVE_RED_EYE_OUTLINED, text=_("View Log")
                                 ),
-                                ft.PopupMenuItem(icon=ft.icons.EDIT, text=_("Rename")),
-                                ft.PopupMenuItem(icon=ft.icons.DELETE_OUTLINE, text=_("Remove")),
+                                ft.PopupMenuItem(
+                                    icon=ft.icons.EDIT,
+                                    text=_("Rename"),
+                                    on_click=open_rename_dialog,
+                                ),
+                                ft.PopupMenuItem(
+                                    icon=ft.icons.DELETE_OUTLINE,
+                                    text=_("Remove"),
+                                    on_click=remove_task,
+                                ),
                             ],
                             tooltip=_("Actions"),
                         ),
@@ -156,16 +157,14 @@ async def main(page: ft.Page) -> None:
 
     def check_permission(e: ft.ControlEvent) -> None:
         result = permission_handler.check_permission(e.control.data)
-
-        def close_banner(e: ft.ControlEvent) -> None:
-            page.close(banner)
-
-        dismiss_btn = ft.TextButton(text=_("OK"), on_click=close_banner)
+        banner_ref = ft.Ref[ft.Banner]()
+        dismiss_btn = ft.TextButton(text=_("OK"), on_click=lambda _: page.close(banner_ref.current))
         if result != ft.PermissionStatus.GRANTED:
             result = permission_handler.request_permission(e.control.data)
             if result == ft.PermissionStatus.GRANTED:
                 banner = ft.Banner(
                     ft.Text(_("Permission granted, you can now select files from your device.")),
+                    ref=banner_ref,
                     leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINED),
                     actions=[dismiss_btn],
                 )
@@ -176,6 +175,7 @@ async def main(page: ft.Page) -> None:
                             "Permission denied, please grant the permission to manage external storage."
                         )
                     ),
+                    ref=banner_ref,
                     leading=ft.Icon(ft.Icons.WARNING_OUTLINED),
                     actions=[dismiss_btn],
                 )
@@ -184,10 +184,33 @@ async def main(page: ft.Page) -> None:
                 ft.Text(
                     _("Permission already granted, you can now select files from your device.")
                 ),
+                ref=banner_ref,
                 leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINED),
                 actions=[dismiss_btn],
             )
         page.open(banner)
+
+    def open_rename_dialog(e: ft.ControlEvent) -> None:
+        list_tile = e.control.parent.parent
+
+        def close_rename_dialog() -> None:
+            list_tile.subtitle.value = rename_dialog.content.value
+            list_tile.subtitle.update()
+            page.close(rename_dialog)
+
+        rename_dialog: ft.AlertDialog = ft.AlertDialog(
+            title=ft.Text(_("Rename")),
+            content=ft.TextField(list_tile.subtitle.value),
+            actions=[
+                ft.TextButton(_("OK"), on_click=lambda _: close_rename_dialog()),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        page.open(rename_dialog)
+
+    def remove_task(e: ft.ControlEvent) -> None:
+        task_list_view.current.controls.remove(e.control.parent.parent)
+        task_list_view.current.update()
 
     bottom_nav_bar = ft.NavigationBar(
         on_change=click_navigation_bar,
