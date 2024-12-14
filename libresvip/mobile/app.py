@@ -68,28 +68,12 @@ async def main(page: ft.Page) -> None:
                 task_list_view.current.controls.clear()
                 task_list_view.current.update()
             input_select.current.value = value
-            change_last_input_format(
-                ft.ControlEvent(
-                    input_select.current._Control__uid,
-                    name="change",
-                    data=value,
-                    control=input_select.current,
-                    page=page,
-                )
-            )
+            page.client_storage.set("last_input_format", value)
 
     def set_last_output_format(value: Optional[str]) -> None:
         if output_select.current.value != value:
             output_select.current.value = value
-            change_last_output_format(
-                ft.ControlEvent(
-                    output_select.current._Control__uid,
-                    name="change",
-                    data=value,
-                    control=output_select.current,
-                    page=page,
-                )
-            )
+            page.client_storage.set("last_output_format", value)
 
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
         if e.files:
@@ -157,12 +141,6 @@ async def main(page: ft.Page) -> None:
 
     def change_max_track_count(e: ft.ControlEvent) -> None:
         page.client_storage.set("max_track_count", e.control.value)
-
-    def change_last_input_format(e: ft.ControlEvent) -> None:
-        page.client_storage.set("last_input_format", e.control.value)
-
-    def change_last_output_format(e: ft.ControlEvent) -> None:
-        page.client_storage.set("last_output_format", e.control.value)
 
     file_picker = ft.FilePicker(on_result=on_files_selected)
     permission_handler = ft.PermissionHandler()
@@ -356,7 +334,7 @@ async def main(page: ft.Page) -> None:
                                         for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
                                     ],
                                     col=10,
-                                    on_change=change_last_input_format,
+                                    on_change=lambda e: set_last_input_format(e.control.value),
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
@@ -384,7 +362,7 @@ async def main(page: ft.Page) -> None:
                                         for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
                                     ],
                                     col=10,
-                                    on_change=change_last_output_format,
+                                    on_change=lambda e: set_last_output_format(e.control.value),
                                 ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
