@@ -1,6 +1,6 @@
 import enum
 import pathlib
-from typing import Optional, get_args, get_type_hints
+from typing import Any, Optional, get_args, get_type_hints
 
 import flet as ft
 from pydantic import BaseModel
@@ -61,6 +61,7 @@ async def main(page: ft.Page) -> None:
     task_list_view = ft.Ref[ft.ListView]()
     input_select = ft.Ref[ft.Dropdown]()
     output_select = ft.Ref[ft.Dropdown]()
+    conversion_mode_select = ft.Ref[ft.Dropdown]()
     input_options = ft.Ref[ft.ResponsiveRow]()
     output_options = ft.Ref[ft.ResponsiveRow]()
 
@@ -204,6 +205,53 @@ async def main(page: ft.Page) -> None:
             build_output_options(value)
             page.client_storage.set("last_output_format", value)
 
+    def show_task_log(e: ft.ControlEvent) -> None:
+        list_tile = e.control.parent.parent
+        if list_tile.data.get("log_text"):
+
+            def copy_log_text(e: ft.ControlEvent) -> None:
+                page.set_clipboard(list_tile.data["log_text"])
+                banner: ft.Banner = ft.Banner(
+                    ft.Text(_("Copied")),
+                    leading=ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE),
+                    actions=[ft.TextButton(text=_("OK"), on_click=lambda _: page.close(banner))],
+                )
+                page.open(banner)
+
+            task_log_view: ft.View = ft.View(
+                "/task_log",
+                appbar=ft.AppBar(
+                    title=ft.Text(_("Task log")),
+                    bgcolor=ft.Colors.SURFACE,
+                    leading=ft.IconButton(
+                        ft.Icons.ARROW_BACK_OUTLINED,
+                        tooltip=_("Back"),
+                        on_click=lambda _: view_pop(task_log_view),
+                    ),
+                ),
+                controls=[
+                    ft.Column(
+                        [
+                            ft.Text(
+                                value=list_tile.data["log_text"],
+                            ),
+                            ft.Row(
+                                [
+                                    ft.ElevatedButton(
+                                        text=_("Copy to clipboard"),
+                                        on_click=copy_log_text,
+                                    )
+                                ],
+                                alignment=ft.MainAxisAlignment.END,
+                            ),
+                        ],
+                        height=400,
+                    )
+                ],
+            )
+            page.views.append(task_log_view)
+            page.update()
+
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
         if e.files:
             auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
@@ -233,7 +281,9 @@ async def main(page: ft.Page) -> None:
                         trailing=ft.PopupMenuButton(
                             items=[
                                 ft.PopupMenuItem(
-                                    icon=ft.icons.REMOVE_RED_EYE_OUTLINED, text=_("View Log")
+                                    icon=ft.icons.REMOVE_RED_EYE_OUTLINED,
+                                    text=_("View Log"),
+                                    on_click=show_task_log,
                                 ),
                                 ft.PopupMenuItem(
                                     icon=ft.icons.EDIT,
@@ -248,7 +298,7 @@ async def main(page: ft.Page) -> None:
                             ],
                             tooltip=_("Actions"),
                         ),
-                        data={"path": file_path},
+                        data={"path": file_path, "log_text": ""},
                     )
                 )
             page.update()
@@ -343,6 +393,19 @@ async def main(page: ft.Page) -> None:
     def remove_task(e: ft.ControlEvent) -> None:
         task_list_view.current.controls.remove(e.control.parent.parent)
         task_list_view.current.update()
+
+    def convert_one(list_tile: ft.ListTile) -> Any:
+        if list_tile.data is not None:
+            list_tile.data["log_text"] = ""
+        if list_tile.leading is not None:
+            list_tile.leading.controls[0].visible = False
+            list_tile.leading.controls[1].visible = True
+            list_tile.leading.update()
+
+    def convert_all(e: ft.ControlEvent) -> None:
+        if conversion_mode_select.current.value == "direct":
+            for list_tile in task_list_view.current.controls:
+                page.run_thread(convert_one, list_tile)
 
     bottom_nav_bar = ft.NavigationBar(
         on_change=click_navigation_bar,
@@ -582,6 +645,7 @@ async def main(page: ft.Page) -> None:
                 ft.Column(
                     [
                         ft.Dropdown(
+                            ref=conversion_mode_select,
                             value="direct",
                             label=_("Conversion mode"),
                             options=[
@@ -647,7 +711,9 @@ async def main(page: ft.Page) -> None:
                 ),
                 navigation_bar=bottom_nav_bar,
                 floating_action_button=ft.FloatingActionButton(
-                    icon=ft.Icons.PLAY_ARROW_OUTLINED, tooltip=_("Start Conversion")
+                    icon=ft.Icons.PLAY_ARROW_OUTLINED,
+                    tooltip=_("Start Conversion"),
+                    on_click=convert_all,
                 ),
                 drawer=drawer,
                 controls=[
