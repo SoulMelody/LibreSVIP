@@ -850,6 +850,10 @@ async def main(page: ft.Page) -> None:
         top_view = page.views[-1]
         page.go(top_view.route or "/")
 
+    def on_keyboard_event(event: ft.KeyboardEvent) -> None:
+        if event.key in ["Back", "Escape"] and len(page.views) > 1:
+            view_pop(page.views[-1])
+
+    page.on_keyboard_event = on_keyboard_event
     page.on_route_change = on_route_change
-    page.on_view_pop = view_pop
     page.go("/")
