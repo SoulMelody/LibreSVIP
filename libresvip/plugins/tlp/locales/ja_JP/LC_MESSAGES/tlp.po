@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2024-12-12 01:22\n"
 
 msgid "TuneLab"
 msgstr ""
@@ -22,5 +22,11 @@ msgid "Convertion plugin for TuneLab project file"
 msgstr ""
 
 msgid "LiuYunPlayer"
+msgstr ""
+
+msgid "Note overlap detected, cutting note "
+msgstr ""
+
+msgid "Note overlap detected, skipping note "
 msgstr ""
 

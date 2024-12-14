@@ -3,6 +3,7 @@ from typing import Optional
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
+from libresvip.core.lyric_phoneme.japanese.cevio_romaji_mapping import romaji2phoneme
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -10,7 +11,6 @@ from libresvip.model.base import (
     Note,
     ParamCurve,
     Project,
-    SingingTrack,
     SongTempo,
     TimeSignature,
 )
@@ -63,7 +63,7 @@ class VoisonaGenerator:
                     ],
                 )
                 voisona_project.tracks[0].track.append(audio_track)
-            elif isinstance(track, SingingTrack):
+            else:
                 singing_track = VoiSonaSingingTrackItem(
                     name=f"Singer{i}",
                 )
@@ -125,7 +125,9 @@ class VoisonaGenerator:
         for note in notes:
             lyric = note.lyric
             phoneme = ""
-            if not is_kana(lyric) and not is_romaji(lyric):
+            if note.pronunciation in romaji2phoneme:
+                phoneme = romaji2phoneme[note.pronunciation]
+            elif not is_kana(lyric) and not is_romaji(lyric):
                 phoneme = DEFAULT_PHONEME
                 msg_prefix = _("Unsupported lyric: ")
                 show_warning(f"{msg_prefix} {lyric}")

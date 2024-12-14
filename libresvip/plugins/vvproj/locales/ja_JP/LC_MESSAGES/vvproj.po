@@ -10,13 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:32\n"
-
-msgid "Constant tempo"
-msgstr ""
-
-msgid "Use this tempo to reset time axis of projects with dynamic tempos"
-msgstr ""
+"PO-Revision-Date: 2024-12-12 01:22\n"
 
 msgid "Unsupported lyric: "
 msgstr ""
