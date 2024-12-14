@@ -70,6 +70,7 @@ async def main(page: ft.Page) -> None:
         for option_key, field_info in option_class.model_fields.items():
             default_value = None if field_info.default is PydanticUndefined else field_info.default
             if issubclass(field_info.annotation, enum.Enum):
+                default_value = default_value.name if default_value is not None else None
                 annotations = get_type_hints(
                     field_info.annotation,
                     include_extras=True,
