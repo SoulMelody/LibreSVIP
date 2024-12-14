@@ -128,21 +128,11 @@ async def main(page: ft.Page) -> None:
                         label=_(field_info.title or ""),
                         value=default_value,
                         data=option_key,
-                        input_filter=ft.InputFilter(regex_string=r"^-?\d+(\.\d+)?$"),
+                        input_filter=ft.InputFilter(regex_string=r"^-?\d+(\.\d*)?$"),
                         col=10 if field_info.description is not None else 12,
                     )
                 )
-            elif issubclass(field_info.annotation, Color):
-                fields.append(
-                    ft.TextField(
-                        label=_(field_info.title or ""),
-                        value=default_value,
-                        data=option_key,
-                        input_filter=ft.InputFilter(regex_string=r"^#[0-9A-Fa-f]{6}$"),
-                        col=10 if field_info.description is not None else 12,
-                    )
-                )
-            elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+            elif issubclass(field_info.annotation, (str, BaseComplexModel, Color)):
                 if issubclass(field_info.annotation, BaseComplexModel):
                     default_value = field_info.annotation.default_repr()
                 fields.append(
