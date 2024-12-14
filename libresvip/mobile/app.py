@@ -1,18 +1,24 @@
+import enum
 import pathlib
-from typing import Optional
+from typing import Optional, get_args, get_type_hints
 
 import flet as ft
+from pydantic import BaseModel
+from pydantic_core import PydanticUndefined
+from pydantic_extra_types.color import Color
 
 import libresvip
 from libresvip.core.compat import as_file
 from libresvip.core.constants import res_dir
 from libresvip.extension.manager import get_translation, plugin_manager
+from libresvip.model.base import BaseComplexModel
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
 
 
 async def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
+    page.auto_scroll = True
     page.window.width = 600
     page.window.height = 700
 
@@ -56,19 +62,156 @@ async def main(page: ft.Page) -> None:
     task_list_view = ft.Ref[ft.ListView]()
     input_select = ft.Ref[ft.Dropdown]()
     output_select = ft.Ref[ft.Dropdown]()
+    input_options = ft.Ref[ft.ResponsiveRow]()
+    output_options = ft.Ref[ft.ResponsiveRow]()
+
+    def build_options(option_class: BaseModel) -> list[ft.Control]:
+        fields = []
+        for option_key, field_info in option_class.model_fields.items():
+            default_value = None if field_info.default is PydanticUndefined else field_info.default
+            if issubclass(field_info.annotation, enum.Enum):
+                annotations = get_type_hints(
+                    field_info.annotation,
+                    include_extras=True,
+                )
+                choices = []
+                for enum_item in field_info.annotation:
+                    if enum_item.name in annotations:
+                        annotated_args = list(
+                            get_args(annotations[enum_item.name]),
+                        )
+                        if len(annotated_args) >= 2:
+                            enum_field = annotated_args[1]
+                        else:
+                            continue
+                        choices.append(
+                            ft.dropdown.Option(
+                                enum_item.name,
+                                _(enum_field.title),
+                                content=ft.Text(
+                                    _(enum_field.title), tooltip=_(enum_field.description or "")
+                                ),
+                            )
+                        )
+                fields.append(
+                    ft.Dropdown(
+                        options=choices,
+                        label=_(field_info.title or ""),
+                        value=default_value,
+                        data=option_key,
+                        col=10 if field_info.description is not None else 12,
+                    )
+                )
+            elif issubclass(field_info.annotation, bool):
+                fields.append(
+                    ft.Switch(
+                        label=_(field_info.title or ""),
+                        value=default_value,
+                        data=option_key,
+                        col=10 if field_info.description is not None else 12,
+                    )
+                )
+            elif issubclass(field_info.annotation, int):
+                fields.append(
+                    ft.TextField(
+                        label=_(field_info.title or ""),
+                        value=default_value,
+                        data=option_key,
+                        input_filter=ft.NumbersOnlyInputFilter(),
+                        col=10 if field_info.description is not None else 12,
+                    )
+                )
+            elif issubclass(field_info.annotation, float):
+                fields.append(
+                    ft.TextField(
+                        label=_(field_info.title or ""),
+                        value=default_value,
+                        data=option_key,
+                        input_filter=ft.InputFilter(regex_string=r"^-?\d+(\.\d+)?$"),
+                        col=10 if field_info.description is not None else 12,
+                    )
+                )
+            elif issubclass(field_info.annotation, Color):
+                fields.append(
+                    ft.TextField(
+                        label=_(field_info.title or ""),
+                        value=default_value,
+                        data=option_key,
+                        input_filter=ft.InputFilter(regex_string=r"^#[0-9A-Fa-f]{6}$"),
+                        col=10 if field_info.description is not None else 12,
+                    )
+                )
+            elif issubclass(field_info.annotation, (str, BaseComplexModel)):
+                if issubclass(field_info.annotation, BaseComplexModel):
+                    default_value = field_info.annotation.default_repr()
+                fields.append(
+                    ft.TextField(
+                        label=_(field_info.title or ""),
+                        value=default_value,
+                        data=option_key,
+                        col=10 if field_info.description is not None else 12,
+                    )
+                )
+            else:
+                continue
+            if field_info.description:
+                fields.append(
+                    ft.IconButton(
+                        ft.Icons.HELP_OUTLINE_OUTLINED, tooltip=_(field_info.description), col=2
+                    )
+                )
+        return fields
+
+    def build_input_options(value: Optional[str]) -> None:
+        input_options.current.controls.clear()
+        if value in plugin_manager.plugin_registry:
+            input_plugin = plugin_manager.plugin_registry[value]
+            if (
+                input_plugin.plugin_object is not None
+                and (
+                    input_option_cls := get_type_hints(input_plugin.plugin_object.load).get(
+                        "options",
+                    )
+                )
+                is not None
+            ):
+                input_options.current.controls.extend(build_options(input_option_cls))
+        input_options.current.update()
+
+    def build_output_options(value: Optional[str]) -> None:
+        output_options.current.controls.clear()
+        if value in plugin_manager.plugin_registry:
+            output_plugin = plugin_manager.plugin_registry[value]
+            if (
+                output_plugin.plugin_object is not None
+                and (
+                    output_option_cls := get_type_hints(output_plugin.plugin_object.dump).get(
+                        "options",
+                    )
+                )
+                is not None
+            ):
+                output_options.current.controls.extend(build_options(output_option_cls))
+        output_options.current.update()
 
     def set_last_input_format(value: Optional[str]) -> None:
         if input_select.current.value != value:
+            input_select.current.value = value
+        last_input_format = page.client_storage.get("last_input_format")
+        if last_input_format != value:
+            build_input_options(value)
             reset_tasks_on_input_change = page.client_storage.get("reset_tasks_on_input_change")
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
                 task_list_view.current.update()
-            input_select.current.value = value
             page.client_storage.set("last_input_format", value)
 
     def set_last_output_format(value: Optional[str]) -> None:
         if output_select.current.value != value:
             output_select.current.value = value
+        last_output_format = page.client_storage.get("last_output_format")
+        if last_output_format != value:
+            build_output_options(value)
             page.client_storage.set("last_output_format", value)
 
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
@@ -95,7 +238,6 @@ async def main(page: ft.Page) -> None:
                                 ft.ProgressRing(visible=False),
                             ]
                         ),
-                        toggle_inputs=True,
                         title=ft.Text(file.name),
                         subtitle=ft.Text(file_path.stem),
                         trailing=ft.PopupMenuButton(
@@ -409,6 +551,15 @@ async def main(page: ft.Page) -> None:
                                         leading=ft.Icon(ft.Icons.INPUT),
                                         title=ft.Text(_("Input Options")),
                                     ),
+                                    content=ft.Column(
+                                        [
+                                            ft.Container(height=2),
+                                            ft.ResponsiveRow(
+                                                ref=input_options,
+                                                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                                            ),
+                                        ]
+                                    ),
                                 ),
                                 ft.ExpansionPanel(
                                     header=ft.ListTile(
@@ -421,10 +572,21 @@ async def main(page: ft.Page) -> None:
                                         leading=ft.Icon(ft.Icons.OUTPUT),
                                         title=ft.Text(_("Output Options")),
                                     ),
+                                    content=ft.Column(
+                                        [
+                                            ft.Container(height=2),
+                                            ft.ResponsiveRow(
+                                                ref=output_options,
+                                                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                                            ),
+                                        ],
+                                    ),
                                 ),
                             ],
                         )
                     ],
+                    scroll=ft.ScrollMode.ALWAYS,
+                    height=400,
                     visible=False,
                 ),
                 ft.Column(
@@ -623,6 +785,9 @@ async def main(page: ft.Page) -> None:
             )
             page.views.append(view)
         page.update()
+        if event.route == "/":
+            build_input_options(page.client_storage.get("last_input_format"))
+            build_output_options(page.client_storage.get("last_output_format"))
 
     def view_pop(view: ft.View) -> None:
         page.views.remove(view)
