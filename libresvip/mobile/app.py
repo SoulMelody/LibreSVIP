@@ -1,3 +1,6 @@
+import pathlib
+from typing import Optional
+
 import flet as ft
 
 import libresvip
@@ -12,6 +15,9 @@ async def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
     page.window.width = 600
     page.window.height = 700
+
+    with as_file(res_dir / "libresvip.ico") as icon:
+        page.window.icon = str(icon)
 
     if not (await page.client_storage.contains_key_async("dark_mode")):
         await page.client_storage.set_async("dark_mode", "System")
@@ -51,9 +57,84 @@ async def main(page: ft.Page) -> None:
         label=_("Output Folder"), value=await page.client_storage.get_async("save_folder"), col=10
     )
 
+    task_list_view = ft.Ref[ft.ListView]()
+    input_select = ft.Ref[ft.Dropdown]()
+    output_select = ft.Ref[ft.Dropdown]()
+
+    def set_last_input_format(value: Optional[str]) -> None:
+        if input_select.current.value != value:
+            reset_tasks_on_input_change = page.client_storage.get("reset_tasks_on_input_change")
+            if reset_tasks_on_input_change:
+                task_list_view.current.controls.clear()
+                task_list_view.current.update()
+            input_select.current.value = value
+            change_last_input_format(
+                ft.ControlEvent(
+                    input_select.current._Control__uid,
+                    name="change",
+                    data=value,
+                    control=input_select.current,
+                    page=page,
+                )
+            )
+
+    def set_last_output_format(value: Optional[str]) -> None:
+        if output_select.current.value != value:
+            output_select.current.value = value
+            change_last_output_format(
+                ft.ControlEvent(
+                    output_select.current._Control__uid,
+                    name="change",
+                    data=value,
+                    control=output_select.current,
+                    page=page,
+                )
+            )
+
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
         if e.files:
-            pass
+            auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
+            for file in e.files:
+                last_input_format = page.client_storage.get("last_input_format")
+                last_output_format = page.client_storage.get("last_output_format")
+                file_path = pathlib.Path(file.path)
+                suffix = file_path.suffix.lower().removeprefix(".")
+                if (
+                    suffix != last_input_format
+                    and auto_detect_input_format
+                    and suffix in plugin_manager.plugin_registry
+                ):
+                    set_last_input_format(suffix)
+                task_list_view.current.controls.append(
+                    ft.ListTile(
+                        leading=ft.Stack(
+                            [
+                                ft.Icon(
+                                    ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
+                                    color=ft.colors.GREY_400,
+                                ),
+                                ft.ProgressRing(visible=False),
+                            ]
+                        ),
+                        toggle_inputs=True,
+                        title=ft.Text(file.name),
+                        subtitle=ft.Text(
+                            file_path.with_suffix(f".{last_output_format or ''}").name
+                        ),
+                        trailing=ft.PopupMenuButton(
+                            items=[
+                                ft.PopupMenuItem(
+                                    icon=ft.icons.REMOVE_RED_EYE_OUTLINED, text=_("View Log")
+                                ),
+                                ft.PopupMenuItem(icon=ft.icons.EDIT, text=_("Rename")),
+                                ft.PopupMenuItem(icon=ft.icons.DELETE_OUTLINE, text=_("Remove")),
+                            ],
+                            tooltip=_("Actions"),
+                        ),
+                        data={"path": file_path},
+                    )
+                )
+            page.update()
         if e.path:
             page.client_storage.set("save_folder", e.path)
             save_folder_text_field.value = e.path
@@ -82,9 +163,6 @@ async def main(page: ft.Page) -> None:
 
     def change_last_output_format(e: ft.ControlEvent) -> None:
         page.client_storage.set("last_output_format", e.control.value)
-
-    with as_file(res_dir / "libresvip.ico") as icon:
-        page.window.icon = str(icon)
 
     file_picker = ft.FilePicker(on_result=on_files_selected)
     permission_handler = ft.PermissionHandler()
@@ -176,42 +254,19 @@ async def main(page: ft.Page) -> None:
     def on_route_change(event: ft.RouteChangeEvent) -> None:
         page.views.clear()
         if event.route == "/":
-            input_select = ft.Dropdown(
-                value=page.client_storage.get("last_input_format"),
-                label=_("Import format"),
-                text_size=16,
-                options=[
-                    ft.dropdown.Option(
-                        plugin_id, f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})"
-                    )
-                    for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
-                ],
-                col=10,
-                on_change=change_last_input_format,
-            )
-            output_select = ft.Dropdown(
-                value=page.client_storage.get("last_output_format"),
-                label=_("Export format"),
-                text_size=16,
-                options=[
-                    ft.dropdown.Option(
-                        plugin_id, f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})"
-                    )
-                    for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
-                ],
-                col=10,
-                on_change=change_last_output_format,
-            )
 
             def swap_formats(e: ft.ControlEvent) -> None:
-                input_select.value, output_select.value = output_select.value, input_select.value
-                page.client_storage.set("last_input_format", input_select.value)
-                page.client_storage.set("last_output_format", output_select.value)
+                last_output_format, last_input_format = (
+                    output_select.current.value,
+                    input_select.current.value,
+                )
+                set_last_output_format(last_input_format)
+                set_last_input_format(last_output_format)
                 page.update()
 
-            def show_plugin_info(control: ft.Dropdown) -> None:
-                if control.value:
-                    plugin_obj = plugin_manager.plugin_registry[control.value]
+            def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
+                if control.current.value:
+                    plugin_obj = plugin_manager.plugin_registry[control.current.value]
                     plugin_info_view: ft.View = ft.View(
                         "/plugin_info",
                         appbar=ft.AppBar(
@@ -286,18 +341,23 @@ async def main(page: ft.Page) -> None:
             pages = [
                 ft.Column(
                     [
-                        ft.Dropdown(
-                            value="direct",
-                            label=_("Conversion mode"),
-                            options=[
-                                ft.dropdown.Option("direct", _("Direct")),
-                                ft.dropdown.Option("split", _("Split")),
-                                ft.dropdown.Option("merge", _("Merge")),
-                            ],
-                        ),
                         ft.ResponsiveRow(
                             [
-                                input_select,
+                                ft.Dropdown(
+                                    ref=input_select,
+                                    value=page.client_storage.get("last_input_format"),
+                                    label=_("Import format"),
+                                    text_size=16,
+                                    options=[
+                                        ft.dropdown.Option(
+                                            plugin_id,
+                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                        )
+                                        for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
+                                    ],
+                                    col=10,
+                                    on_change=change_last_input_format,
+                                ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
                                     tooltip=_("View Detail Information"),
@@ -311,7 +371,21 @@ async def main(page: ft.Page) -> None:
                                     col=2,
                                     on_click=swap_formats,
                                 ),
-                                output_select,
+                                ft.Dropdown(
+                                    ref=output_select,
+                                    value=page.client_storage.get("last_output_format"),
+                                    label=_("Export format"),
+                                    text_size=16,
+                                    options=[
+                                        ft.dropdown.Option(
+                                            plugin_id,
+                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                        )
+                                        for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
+                                    ],
+                                    col=10,
+                                    on_change=change_last_output_format,
+                                ),
                                 ft.IconButton(
                                     icon=ft.Icons.INFO_OUTLINE,
                                     tooltip=_("View Detail Information"),
@@ -352,40 +426,26 @@ async def main(page: ft.Page) -> None:
                     ],
                     visible=False,
                 ),
-                ft.ListView(
-                    controls=[
-                        ft.ListTile(
-                            leading=ft.Stack(
-                                [
-                                    ft.Icon(
-                                        ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
-                                        color=ft.colors.GREEN_400,
-                                    ),
-                                    ft.ProgressRing(visible=False),
-                                ]
-                            ),
-                            toggle_inputs=True,
-                            title=ft.Text("Foo"),
-                            subtitle=ft.Text("Bar"),
-                            trailing=ft.PopupMenuButton(
-                                items=[
-                                    ft.PopupMenuItem(
-                                        icon=ft.icons.REMOVE_RED_EYE_OUTLINED, text=_("View Log")
-                                    ),
-                                    ft.PopupMenuItem(icon=ft.icons.EDIT, text=_("Rename")),
-                                    ft.PopupMenuItem(
-                                        icon=ft.icons.DELETE_OUTLINE, text=_("Remove")
-                                    ),
-                                ],
-                                tooltip=_("Actions"),
-                            ),
+                ft.Column(
+                    [
+                        ft.Dropdown(
+                            value="direct",
+                            label=_("Conversion mode"),
+                            options=[
+                                ft.dropdown.Option("direct", _("Direct")),
+                                ft.dropdown.Option("split", _("Split")),
+                                ft.dropdown.Option("merge", _("Merge")),
+                            ],
+                        ),
+                        ft.ListView(
+                            ref=task_list_view,
+                            expand=1,
+                            spacing=10,
+                            auto_scroll=True,
+                            padding=ft.padding.symmetric(vertical=10),
                         ),
                     ],
-                    expand=1,
-                    spacing=10,
-                    auto_scroll=True,
                     visible=False,
-                    padding=ft.padding.symmetric(vertical=10),
                 ),
             ]
 
@@ -406,7 +466,7 @@ async def main(page: ft.Page) -> None:
                     ),
                     ft.NavigationDrawerDestination(
                         icon=ft.Icons.TASK_ALT_OUTLINED,
-                        label=_("Task List"),
+                        label=_("Conversion mode & Task list"),
                     ),
                 ],
                 on_change=select_page,
