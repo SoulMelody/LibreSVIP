@@ -276,7 +276,6 @@ async def main(page: ft.Page) -> None:
                                 alignment=ft.MainAxisAlignment.END,
                             ),
                         ],
-                        height=400,
                     )
                 ],
             )
