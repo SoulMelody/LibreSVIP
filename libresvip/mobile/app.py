@@ -1,17 +1,23 @@
 import enum
+import io
 import pathlib
-from typing import Any, Optional, get_args, get_type_hints
+import traceback
+import zipfile
+from typing import Optional, get_args, get_type_hints
 
 import flet as ft
+import more_itertools
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
+from upath import UPath
 
 import libresvip
 from libresvip.core.compat import as_file
 from libresvip.core.constants import res_dir
+from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, plugin_manager
-from libresvip.model.base import BaseComplexModel
+from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -57,6 +63,7 @@ async def main(page: ft.Page) -> None:
     save_folder_text_field = ft.TextField(
         label=_("Output Folder"), value=await page.client_storage.get_async("save_folder"), col=10
     )
+    temp_path = UPath("memory:/")
 
     task_list_view = ft.Ref[ft.ListView]()
     input_select = ft.Ref[ft.Dropdown]()
@@ -69,8 +76,10 @@ async def main(page: ft.Page) -> None:
         fields = []
         for option_key, field_info in option_class.model_fields.items():
             default_value = None if field_info.default is PydanticUndefined else field_info.default
-            if issubclass(field_info.annotation, enum.Enum):
-                default_value = default_value.name if default_value is not None else None
+            if field_info.annotation is None:
+                continue
+            elif issubclass(field_info.annotation, enum.Enum):
+                default_value = default_value.value if default_value is not None else None
                 annotations = get_type_hints(
                     field_info.annotation,
                     include_extras=True,
@@ -87,7 +96,7 @@ async def main(page: ft.Page) -> None:
                             continue
                         choices.append(
                             ft.dropdown.Option(
-                                enum_item.name,
+                                enum_item.value,
                                 _(enum_field.title),
                                 content=ft.Text(
                                     _(enum_field.title), tooltip=_(enum_field.description or "")
@@ -394,18 +403,134 @@ async def main(page: ft.Page) -> None:
         task_list_view.current.controls.remove(e.control.parent.parent)
         task_list_view.current.update()
 
-    def convert_one(list_tile: ft.ListTile) -> Any:
-        if list_tile.data is not None:
-            list_tile.data["log_text"] = ""
-        if list_tile.leading is not None:
-            list_tile.leading.controls[0].visible = False
-            list_tile.leading.controls[1].visible = True
-            list_tile.leading.update()
+    def convert_one(list_tile: ft.ListTile, *sub_tasks: list[ft.ListTile]) -> None:
+        conversion_mode = conversion_mode_select.current.value
+        save_folder = pathlib.Path(save_folder_text_field.value)
+        if (
+            (input_format := page.client_storage.get("last_input_format")) is None
+            or (output_format := page.client_storage.get("last_output_format")) is None
+            or (max_track_count := page.client_storage.get("max_track_count")) is None
+            or list_tile.leading is None
+            or list_tile.subtitle is None
+            or list_tile.data is None
+            or list_tile.trailing is None
+        ):
+            return
+        list_tile.data["log_text"] = ""
+        list_tile.leading.controls[0].visible = False
+        list_tile.leading.controls[1].visible = True
+        list_tile.trailing.items[-1].disabled = True
+        list_tile.update()
+        try:
+            with CatchWarnings() as w:
+                output_path = temp_path / list_tile.subtitle.value
+                if conversion_mode != "split":
+                    output_path = output_path.with_suffix(
+                        f".{output_format}",
+                    )
+                input_plugin = plugin_manager.plugin_registry[input_format]
+                output_plugin = plugin_manager.plugin_registry[output_format]
+                if (
+                    input_plugin.plugin_object is not None
+                    and (
+                        input_option_class := get_type_hints(input_plugin.plugin_object.load).get(
+                            "options",
+                        )
+                    )
+                    is not None
+                    and output_plugin.plugin_object is not None
+                    and (
+                        output_option_class := get_type_hints(
+                            output_plugin.plugin_object.dump,
+                        ).get("options")
+                    )
+                    is not None
+                ):
+                    input_option = input_option_class.model_validate(
+                        {
+                            control.data: control.value
+                            for control in input_options.current.controls
+                            if control.data is not None and hasattr(control, "value")
+                        }
+                    )
+                    if conversion_mode == "merge":
+                        child_projects = [
+                            input_plugin.plugin_object.load(
+                                sub_task.data["path"],
+                                input_option,
+                            )
+                            for sub_task in more_itertools.value_chain(list_tile, sub_tasks)
+                            if sub_task.data is not None
+                        ]
+                        project = Project.merge_projects(child_projects)
+                    else:
+                        project = input_plugin.plugin_object.load(
+                            list_tile.data["path"],
+                            input_option,
+                        )
+                    output_option = output_option_class.model_validate(
+                        {
+                            control.data: control.value
+                            for control in output_options.current.controls
+                            if control.data is not None and hasattr(control, "value")
+                        }
+                    )
+                    if conversion_mode == "split":
+                        output_path.mkdir(parents=True, exist_ok=True)
+                        for i, child_project in enumerate(project.split_tracks(max_track_count)):
+                            output_plugin.plugin_object.dump(
+                                output_path
+                                / f"{list_tile.subtitle.value}_{i + 1:0=2d}.{output_format}",
+                                child_project,
+                                output_option,
+                            )
+                    else:
+                        output_plugin.plugin_object.dump(
+                            output_path,
+                            project,
+                            output_option,
+                        )
+            if w.output:
+                list_tile.data["log_text"] = w.output
+            buffer = io.BytesIO()
+            if output_path.is_file():
+                buffer.write(output_path.read_bytes())
+            else:
+                with zipfile.ZipFile(buffer, "w") as zip_file:
+                    for child_file in output_path.iterdir():
+                        if not child_file.is_file():
+                            continue
+                        zip_file.writestr(
+                            child_file.name,
+                            child_file.read_bytes(),
+                        )
+            if conversion_mode != "split":
+                save_path = save_folder / output_path.name
+            else:
+                save_path = save_folder / f"{list_tile.subtitle.value}.zip"
+            save_path.write_bytes(buffer.getvalue())
+            if w.output:
+                list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
+            else:
+                list_tile.leading.controls[0].name = ft.Icons.CHECK_CIRCLE_OUTLINED
+        except Exception:
+            list_tile.leading.controls[0].name = ft.Icons.ERROR_OUTLINED
+            list_tile.data["log_text"] = traceback.format_exc()
+        list_tile.leading.controls[0].visible = True
+        list_tile.leading.controls[1].visible = False
+        list_tile.trailing.items[-1].disabled = False
+        list_tile.update()
 
     def convert_all(e: ft.ControlEvent) -> None:
-        if conversion_mode_select.current.value == "direct":
+        if conversion_mode_select.current.value != "merge":
             for list_tile in task_list_view.current.controls:
                 page.run_thread(convert_one, list_tile)
+        elif len(task_list_view.current.controls) > 0:
+            page.run_thread(
+                convert_one,
+                task_list_view.current.controls[0],
+                *task_list_view.current.controls[1:],
+            )
 
     bottom_nav_bar = ft.NavigationBar(
         on_change=click_navigation_bar,
