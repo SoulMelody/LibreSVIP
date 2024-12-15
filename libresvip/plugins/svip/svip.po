@@ -60,6 +60,15 @@ msgstr ""
 msgid "Default tempo"
 msgstr ""
 
+msgid ""
+"The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out"
+" of range, the absolute timeline will be used to ensure the alignment of "
+"notes. Please set this value to an integer multiple or integer fraction "
+"of the tempo in the source project file as much as possible; as long as "
+"it is within a reasonable range, the value of this option will not affect"
+" the alignment effect."
+msgstr ""
+
 msgid "Specify the version of the generated .svip file"
 msgstr ""
 

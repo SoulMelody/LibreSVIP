@@ -83,6 +83,10 @@ webui = [
   "nicegui>=2.8.1",
   "libresvip[upath]",
 ]
+mobile = [
+  "flet[cli,desktop]>=0.25.2",
+  "libresvip[upath]",
+]
 desktop = [
   "pyside6<6.8.2,>=6.8.1",
   "fonticon-materialdesignicons7>=7.2.96",
@@ -130,6 +134,7 @@ all = [
 libresvip-cli = "libresvip.cli.__main__:app"
 libresvip-tui = "libresvip.tui.__main__:main"
 libresvip-web = "libresvip.web.__main__:main"
+libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.gui-scripts]
 libresvip-gui = "libresvip.gui.__main__:run"

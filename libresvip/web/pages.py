@@ -282,7 +282,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                     "text-h5 w-full font-bold text-center",
                 )
                 with ui.row().classes("w-full"):
-                    with ui.element("q-chip").props("icon=tag").tooltip(_("Version")):
+                    with ui.element("q-chip").props("icon=bookmark").tooltip(_("Version")):
                         ui.label(plugin_details[attr]["version"] or "")
                     ui.separator().props("vertical")
                     with (
