@@ -16,7 +16,7 @@ import libresvip
 from libresvip.core.compat import as_file
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import get_translation, plugin_manager
+from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
@@ -71,6 +71,10 @@ async def main(page: ft.Page) -> None:
     conversion_mode_select = ft.Ref[ft.Dropdown]()
     input_options = ft.Ref[ft.ResponsiveRow]()
     output_options = ft.Ref[ft.ResponsiveRow]()
+    middleware_options = {
+        middleware_id: ft.Ref[ft.ExpansionPanel]()
+        for middleware_id in middleware_manager.plugin_registry
+    }
 
     def build_options(option_class: BaseModel) -> list[ft.Control]:
         fields = []
@@ -162,8 +166,7 @@ async def main(page: ft.Page) -> None:
                 )
         return fields
 
-    def build_input_options(value: Optional[str]) -> None:
-        input_options.current.controls.clear()
+    def build_input_options(value: Optional[str]) -> list[ft.Control]:
         if value in plugin_manager.plugin_registry:
             input_plugin = plugin_manager.plugin_registry[value]
             if (
@@ -175,11 +178,25 @@ async def main(page: ft.Page) -> None:
                 )
                 is not None
             ):
-                input_options.current.controls.extend(build_options(input_option_cls))
-        input_options.current.update()
+                return build_options(input_option_cls)
+        return []
 
-    def build_output_options(value: Optional[str]) -> None:
-        output_options.current.controls.clear()
+    def build_middleware_options(value: str) -> list[ft.Control]:
+        if value in middleware_manager.plugin_registry:
+            middleware = middleware_manager.plugin_registry[value]
+            if (
+                middleware.plugin_object is not None
+                and (
+                    middleware_option_cls := get_type_hints(middleware.plugin_object.process).get(
+                        "options"
+                    )
+                )
+                is not None
+            ):
+                return build_options(middleware_option_cls)
+        return []
+
+    def build_output_options(value: Optional[str]) -> list[ft.Control]:
         if value in plugin_manager.plugin_registry:
             output_plugin = plugin_manager.plugin_registry[value]
             if (
@@ -191,15 +208,16 @@ async def main(page: ft.Page) -> None:
                 )
                 is not None
             ):
-                output_options.current.controls.extend(build_options(output_option_cls))
-        output_options.current.update()
+                return build_options(output_option_cls)
+        return []
 
     def set_last_input_format(value: Optional[str]) -> None:
         if input_select.current.value != value:
             input_select.current.value = value
         last_input_format = page.client_storage.get("last_input_format")
         if last_input_format != value:
-            build_input_options(value)
+            input_options.current.controls = build_input_options(value)
+            input_options.current.update()
             reset_tasks_on_input_change = page.client_storage.get("reset_tasks_on_input_change")
             if reset_tasks_on_input_change:
                 task_list_view.current.controls.clear()
@@ -211,7 +229,8 @@ async def main(page: ft.Page) -> None:
             output_select.current.value = value
         last_output_format = page.client_storage.get("last_output_format")
         if last_output_format != value:
-            build_output_options(value)
+            output_options.current.controls = build_output_options(value)
+            output_options.current.update()
             page.client_storage.set("last_output_format", value)
 
     def show_task_log(e: ft.ControlEvent) -> None:
@@ -468,6 +487,37 @@ async def main(page: ft.Page) -> None:
                             list_tile.data["path"],
                             input_option,
                         )
+                    for middleware_id, middleware_ref in middleware_options.items():
+                        if (
+                            middleware_ref.current.header is not None
+                            and middleware_ref.current.header.leading.value
+                        ):
+                            middleware = middleware_manager.plugin_registry[middleware_id]
+                            if (
+                                middleware_ref.current.content is not None
+                                and middleware.plugin_object is not None
+                                and hasattr(middleware.plugin_object, "process")
+                                and (
+                                    middleware_option_cls := get_type_hints(
+                                        middleware.plugin_object.process
+                                    ).get(
+                                        "options",
+                                    )
+                                )
+                            ):
+                                project = middleware.plugin_object.process(
+                                    project,
+                                    middleware_option_cls.model_validate(
+                                        {
+                                            control.data: control.value
+                                            for control in middleware_ref.current.content.controls[
+                                                -1
+                                            ].controls
+                                            if control.data is not None
+                                            and hasattr(control, "value")
+                                        }
+                                    ),
+                                )
                     output_option = output_option_class.model_validate(
                         {
                             control.data: control.value
@@ -511,10 +561,13 @@ async def main(page: ft.Page) -> None:
             save_path.write_bytes(buffer.getvalue())
             if w.output:
                 list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
+                list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
             else:
                 list_tile.leading.controls[0].name = ft.Icons.CHECK_CIRCLE_OUTLINED
+                list_tile.leading.controls[0].color = ft.Colors.GREEN_400
         except Exception:
             list_tile.leading.controls[0].name = ft.Icons.ERROR_OUTLINED
+            list_tile.leading.controls[0].color = ft.Colors.RED_400
             list_tile.data["log_text"] = traceback.format_exc()
         list_tile.leading.controls[0].visible = True
         list_tile.leading.controls[1].visible = False
@@ -733,17 +786,41 @@ async def main(page: ft.Page) -> None:
                                         [
                                             ft.Container(height=2),
                                             ft.ResponsiveRow(
+                                                controls=build_input_options(
+                                                    page.client_storage.get("last_input_format")
+                                                ),
                                                 ref=input_options,
                                                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
                                             ),
                                         ]
                                     ),
                                 ),
-                                ft.ExpansionPanel(
-                                    header=ft.ListTile(
-                                        leading=ft.Icon(ft.Icons.AUTO_FIX_HIGH),
-                                        title=ft.Text(_("Intermediate Processing")),
-                                    ),
+                                *(
+                                    ft.ExpansionPanel(
+                                        ref=middleware_ref,
+                                        header=ft.ListTile(
+                                            leading=ft.Switch(value=False),
+                                            title=ft.Text(
+                                                _(
+                                                    middleware_manager.plugin_registry[
+                                                        middleware_id
+                                                    ].name
+                                                )
+                                            ),
+                                        ),
+                                        content=ft.Column(
+                                            [
+                                                ft.Container(height=2),
+                                                ft.ResponsiveRow(
+                                                    controls=build_middleware_options(
+                                                        middleware_id
+                                                    ),
+                                                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                                                ),
+                                            ]
+                                        ),
+                                    )
+                                    for middleware_id, middleware_ref in middleware_options.items()
                                 ),
                                 ft.ExpansionPanel(
                                     header=ft.ListTile(
@@ -754,6 +831,9 @@ async def main(page: ft.Page) -> None:
                                         [
                                             ft.Container(height=2),
                                             ft.ResponsiveRow(
+                                                controls=build_output_options(
+                                                    page.client_storage.get("last_output_format")
+                                                ),
                                                 ref=output_options,
                                                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
                                             ),
@@ -966,9 +1046,6 @@ async def main(page: ft.Page) -> None:
             )
             page.views.append(view)
         page.update()
-        if event.route == "/":
-            build_input_options(page.client_storage.get("last_input_format"))
-            build_output_options(page.client_storage.get("last_output_format"))
 
     def view_pop(view: ft.View) -> None:
         page.views.remove(view)
