@@ -97,7 +97,7 @@ desktop = [
 
 [dependency-groups]
 code_gen = [
-  "datamodel-code-generator>=0.26.3",
+  "datamodel-code-generator>=0.26.4",
   "gapic-generator>=1.21.0",
   "xsdata[cli]>=24.11",
 ]
