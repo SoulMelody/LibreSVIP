@@ -260,9 +260,11 @@ async def main(page: ft.Page) -> None:
                 controls=[
                     ft.Column(
                         [
-                            ft.Text(
+                            ft.TextField(
                                 value=list_tile.data["log_text"],
+                                multiline=True,
                                 max_lines=24,
+                                autofocus=True,
                             ),
                             ft.Row(
                                 [
@@ -1056,7 +1058,7 @@ async def main(page: ft.Page) -> None:
         page.go(top_view.route or "/")
 
     def on_keyboard_event(event: ft.KeyboardEvent) -> None:
-        if event.key in ["Back", "Escape"] and len(page.views) > 1:
+        if event.key == "Escape" and len(page.views) > 1:
             view_pop(page.views[-1])
 
     page.on_keyboard_event = on_keyboard_event
