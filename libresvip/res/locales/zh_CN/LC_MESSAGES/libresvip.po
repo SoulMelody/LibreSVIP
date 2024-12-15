@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-15 02:50\n"
+"PO-Revision-Date: 2024-12-15 03:01\n"
 
 #: ../libresvip/cli/commands/conf.py:21
 msgid "Setting {} is not supported in cli mode."
@@ -95,7 +95,7 @@ msgstr "主页： "
 
 #: ../libresvip/cli/commands/plugin.py:97
 msgid "This plugin is applicable to"
-msgstr ""
+msgstr "此插件适用于"
 
 #: ../libresvip/cli/commands/plugin.py:99
 msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
@@ -103,7 +103,7 @@ msgstr "若要使用此插件，请在转换时指定 \"-i {}\"（输入）或 \
 
 #: ../libresvip/cli/commands/plugin.py:104
 msgid "Description: "
-msgstr ""
+msgstr "描述： "
 
 #: ../libresvip/cli/commands/plugin.py:105
 msgid "input"
@@ -254,7 +254,7 @@ msgstr "检查更新失败，请稍后再试。"
 
 #: ../libresvip/mobile/app.py:55
 msgid "Language settings changed, please restart the app to apply the changes."
-msgstr ""
+msgstr "语言设置已更改，请重新启动应用以应用更改。"
 
 #: ../libresvip/mobile/app.py:57 ../libresvip/mobile/app.py:245
 #: ../libresvip/mobile/app.py:371 ../libresvip/mobile/app.py:415
@@ -272,11 +272,11 @@ msgstr "已复制"
 
 #: ../libresvip/mobile/app.py:252
 msgid "Task log"
-msgstr ""
+msgstr "任务日志"
 
 #: ../libresvip/mobile/app.py:256 ../libresvip/mobile/app.py:652
 msgid "Back"
-msgstr ""
+msgstr "后退"
 
 #: ../libresvip/mobile/app.py:269 ../libresvip/tui/app.py:184
 #: ../libresvip/web/pages.py:685 ../libresvip/web/pages.py:713
@@ -289,7 +289,7 @@ msgstr "查看日志"
 
 #: ../libresvip/mobile/app.py:318 ../libresvip/mobile/app.py:412
 msgid "Rename"
-msgstr ""
+msgstr "重命名"
 
 #: ../libresvip/mobile/app.py:323 ../libresvip/web/pages.py:729
 msgid "Remove"
@@ -297,15 +297,15 @@ msgstr "移除"
 
 #: ../libresvip/mobile/app.py:376
 msgid "Permission granted, you can now select files from your device."
-msgstr ""
+msgstr "授予了权限，您现在可以从您的设备中选择文件了。"
 
 #: ../libresvip/mobile/app.py:384
 msgid "Permission denied, please grant the permission to manage external storage."
-msgstr ""
+msgstr "权限被拒绝，请授予管理外部存储的权限。"
 
 #: ../libresvip/mobile/app.py:395
 msgid "Permission already granted, you can now select files from your device."
-msgstr ""
+msgstr "已授予权限，您现在可以从您的设备中选择文件了。"
 
 #: ../libresvip/mobile/app.py:591 ../libresvip/tui/app.py:800
 msgid "Converter"
@@ -384,7 +384,7 @@ msgstr "输出选项"
 
 #: ../libresvip/mobile/app.py:855
 msgid "Conversion mode"
-msgstr ""
+msgstr "转换模式"
 
 #: ../libresvip/mobile/app.py:857 ../libresvip/tui/app.py:806
 msgid "Direct"
@@ -417,7 +417,7 @@ msgstr "继续添加文件"
 
 #: ../libresvip/mobile/app.py:910
 msgid "Select files to convert"
-msgstr ""
+msgstr "选择要转换的文件"
 
 #: ../libresvip/mobile/app.py:920 ../libresvip/web/pages.py:2086
 msgid "Start Conversion"
@@ -444,7 +444,7 @@ msgstr "更改输出目录"
 
 #: ../libresvip/mobile/app.py:972
 msgid "Request permission to access files"
-msgstr ""
+msgstr "请求访问文件的权限"
 
 #: ../libresvip/mobile/app.py:1011 ../libresvip/tui/app.py:938
 #: ../libresvip/web/pages.py:1124
