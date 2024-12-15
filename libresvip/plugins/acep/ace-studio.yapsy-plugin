@@ -4,8 +4,8 @@ module = ace_studio_converter
 
 [Documentation]
 Author = yqzhishen
-Version = 0.8.3
-Website = https://space.bilibili.com/175862486
+Version = 1.9.5
+Website = https://space.bilibili.com/102844209
 Format = ACE Studio project File
 Description = Conversion Plugin for ACE Studio project file
 Suffix = acep

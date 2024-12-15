@@ -262,6 +262,7 @@ async def main(page: ft.Page) -> None:
                         [
                             ft.Text(
                                 value=list_tile.data["log_text"],
+                                max_lines=24,
                             ),
                             ft.Row(
                                 [
@@ -721,7 +722,7 @@ async def main(page: ft.Page) -> None:
                                     ref=input_select,
                                     value=page.client_storage.get("last_input_format"),
                                     label=_("Import format"),
-                                    text_size=16,
+                                    text_size=14,
                                     options=[
                                         ft.dropdown.Option(
                                             plugin_id,
@@ -730,6 +731,7 @@ async def main(page: ft.Page) -> None:
                                         for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
                                     ],
                                     col=10,
+                                    dense=True,
                                     on_change=lambda e: set_last_input_format(e.control.value),
                                 ),
                                 ft.IconButton(
@@ -749,7 +751,7 @@ async def main(page: ft.Page) -> None:
                                     ref=output_select,
                                     value=page.client_storage.get("last_output_format"),
                                     label=_("Export format"),
-                                    text_size=16,
+                                    text_size=14,
                                     options=[
                                         ft.dropdown.Option(
                                             plugin_id,
@@ -758,6 +760,7 @@ async def main(page: ft.Page) -> None:
                                         for plugin_id, plugin_obj in plugin_manager.plugin_registry.items()
                                     ],
                                     col=10,
+                                    dense=True,
                                     on_change=lambda e: set_last_output_format(e.control.value),
                                 ),
                                 ft.IconButton(

@@ -1762,7 +1762,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 _("Settings"),
                 icon="settings",
                 on_click=settings_dialog.open,
-            ).tooltip(_("Alt+S"))
+            ).tooltip("Alt+S")
             with (
                 ui.button(
                     _("Help"),
