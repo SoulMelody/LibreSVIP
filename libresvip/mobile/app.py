@@ -112,7 +112,11 @@ async def main(page: ft.Page) -> None:
                                 enum_item.value,
                                 _(enum_field.title),
                                 content=ft.Text(
-                                    _(enum_field.title), tooltip=_(enum_field.description or "")
+                                    _(enum_field.title),
+                                    tooltip=ft.Tooltip(
+                                        _(enum_field.description or ""),
+                                        trigger_mode=ft.TooltipTriggerMode.TAP,
+                                    ),
                                 ),
                             )
                         )
@@ -170,7 +174,11 @@ async def main(page: ft.Page) -> None:
             if field_info.description:
                 fields.append(
                     ft.IconButton(
-                        ft.Icons.HELP_OUTLINE_OUTLINED, tooltip=_(field_info.description), col=2
+                        ft.Icons.HELP_OUTLINE_OUTLINED,
+                        tooltip=ft.Tooltip(
+                            _(field_info.description), trigger_mode=ft.TooltipTriggerMode.TAP
+                        ),
+                        col=2,
                     )
                 )
         return fields
