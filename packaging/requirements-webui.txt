@@ -7,7 +7,7 @@ annotated-types==0.7.0
 antlr4-python3-runtime==4.9.3
 anyio==4.7.0
 async-timeout==5.0.1 ; python_full_version < '3.11'
-attrs==24.2.0
+attrs==24.3.0
 bidict==0.23.1
 bottle==0.13.2
 certifi==2024.12.14
