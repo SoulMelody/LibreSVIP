@@ -6,26 +6,35 @@ import zipfile
 from typing import Optional, get_args, get_type_hints
 
 import flet as ft
-import more_itertools
-from pydantic import BaseModel
-from pydantic_core import PydanticUndefined
-from pydantic_extra_types.color import Color
-from upath import UPath
-
-import libresvip
-from libresvip.core.compat import as_file
-from libresvip.core.constants import res_dir
-from libresvip.core.warning_types import CatchWarnings
-from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
-from libresvip.model.base import BaseComplexModel, Project
-from libresvip.utils import translation
-from libresvip.utils.translation import gettext_lazy as _
 
 
 async def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
     page.window.width = 600
     page.window.height = 700
+    page.overlay.append(
+        ft.Column(
+            [ft.Row([ft.ProgressRing()], expand=True, alignment=ft.MainAxisAlignment.CENTER)],
+            expand=True,
+            alignment=ft.MainAxisAlignment.CENTER,
+        )
+    )
+    page.update()
+
+    import more_itertools
+    from pydantic import BaseModel
+    from pydantic_core import PydanticUndefined
+    from pydantic_extra_types.color import Color
+    from upath import UPath
+
+    import libresvip
+    from libresvip.core.compat import as_file
+    from libresvip.core.constants import res_dir
+    from libresvip.core.warning_types import CatchWarnings
+    from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
+    from libresvip.model.base import BaseComplexModel, Project
+    from libresvip.utils import translation
+    from libresvip.utils.translation import gettext_lazy as _
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
@@ -357,7 +366,7 @@ async def main(page: ft.Page) -> None:
 
     file_picker = ft.FilePicker(on_result=on_files_selected)
     permission_handler = ft.PermissionHandler()
-    page.overlay.extend([file_picker, permission_handler])
+    page.overlay[:] = [file_picker, permission_handler]
 
     def click_navigation_bar(event: ft.ControlEvent) -> None:
         if event.control.selected_index == 0:
