@@ -50,19 +50,11 @@ async def main(page: ft.Page) -> None:
     def change_language(lang: str) -> None:
         page.client_storage.set("language", lang)
         translation.singleton_translation = get_translation(lang)
-
-        banner: ft.Banner = ft.Banner(
-            ft.Text(_("Language settings changed, please restart the app to apply the changes.")),
-            leading=ft.Icon(ft.Icons.WARNING_OUTLINED),
-            actions=[ft.TextButton(text=_("OK"), on_click=lambda _: page.close(banner))],
-        )
-        page.open(banner)
+        page.go(f"/?lang={lang}")
 
     if not (await page.client_storage.contains_key_async("save_folder")):
         await page.client_storage.set_async("save_folder", ".")
-    save_folder_text_field = ft.TextField(
-        label=_("Output Folder"), value=await page.client_storage.get_async("save_folder"), col=10
-    )
+    save_folder_text_field = ft.Ref[ft.TextField]()
     temp_path = UPath("memory:/")
 
     task_list_view = ft.Ref[ft.ListView]()
@@ -342,8 +334,8 @@ async def main(page: ft.Page) -> None:
             page.update()
         if e.path:
             page.client_storage.set("save_folder", e.path)
-            save_folder_text_field.value = e.path
-            save_folder_text_field.update()
+            save_folder_text_field.current.value = e.path
+            save_folder_text_field.current.update()
 
     if not (await page.client_storage.contains_key_async("auto_detect_input_format")):
         await page.client_storage.set_async("auto_detect_input_format", True)
@@ -434,7 +426,6 @@ async def main(page: ft.Page) -> None:
 
     def convert_one(list_tile: ft.ListTile, *sub_tasks: list[ft.ListTile]) -> None:
         conversion_mode = conversion_mode_select.current.value
-        save_folder = pathlib.Path(save_folder_text_field.value)
         if (
             (input_format := page.client_storage.get("last_input_format")) is None
             or (output_format := page.client_storage.get("last_output_format")) is None
@@ -443,8 +434,10 @@ async def main(page: ft.Page) -> None:
             or list_tile.subtitle is None
             or list_tile.data is None
             or list_tile.trailing is None
+            or save_folder_text_field.current.value is None
         ):
             return
+        save_folder = pathlib.Path(save_folder_text_field.current.value)
         list_tile.data["log_text"] = ""
         list_tile.leading.controls[0].visible = False
         list_tile.leading.controls[1].visible = True
@@ -595,49 +588,48 @@ async def main(page: ft.Page) -> None:
                 *task_list_view.current.controls[1:],
             )
 
-    bottom_nav_bar = ft.NavigationBar(
-        on_change=click_navigation_bar,
-        destinations=[
-            ft.NavigationBarDestination(icon=ft.Icons.LOOP_OUTLINED, label=_("Converter")),
-            ft.NavigationBarDestination(
-                icon=ft.Icons.SETTINGS_APPLICATIONS_OUTLINED, label=_("Basic Settings")
-            ),
-            ft.NavigationBarDestination(icon=ft.Icons.HELP_OUTLINED, label=_("About")),
-        ],
-    )
-    switch_theme_btn = ft.PopupMenuButton(
-        icon=ft.Icons.PALETTE_OUTLINED,
-        tooltip=_("Switch Theme"),
-        items=[
-            ft.PopupMenuItem(
-                text=_("System"),
-                icon=ft.Icons.BRIGHTNESS_AUTO_OUTLINED,
-                on_click=lambda _: change_theme("System"),
-            ),
-            ft.PopupMenuItem(
-                text=_("Light"),
-                icon=ft.Icons.LIGHT_MODE_OUTLINED,
-                on_click=lambda _: change_theme("Light"),
-            ),
-            ft.PopupMenuItem(
-                text=_("Dark"),
-                icon=ft.Icons.DARK_MODE_OUTLINED,
-                on_click=lambda _: change_theme("Dark"),
-            ),
-        ],
-    )
-    switch_language_btn = ft.PopupMenuButton(
-        icon=ft.Icons.TRANSLATE_OUTLINED,
-        tooltip=_("Switch Language"),
-        items=[
-            ft.PopupMenuItem(text="简体中文", on_click=lambda _: change_language("zh_CN")),
-            ft.PopupMenuItem(text="English", on_click=lambda _: change_language("en_US")),
-        ],
-    )
-
     def on_route_change(event: ft.RouteChangeEvent) -> None:
         page.views.clear()
-        if event.route == "/":
+        bottom_nav_bar = ft.NavigationBar(
+            on_change=click_navigation_bar,
+            destinations=[
+                ft.NavigationBarDestination(icon=ft.Icons.LOOP_OUTLINED, label=_("Converter")),
+                ft.NavigationBarDestination(
+                    icon=ft.Icons.SETTINGS_APPLICATIONS_OUTLINED, label=_("Basic Settings")
+                ),
+                ft.NavigationBarDestination(icon=ft.Icons.HELP_OUTLINED, label=_("About")),
+            ],
+        )
+        switch_theme_btn = ft.PopupMenuButton(
+            icon=ft.Icons.PALETTE_OUTLINED,
+            tooltip=_("Switch Theme"),
+            items=[
+                ft.PopupMenuItem(
+                    text=_("System"),
+                    icon=ft.Icons.BRIGHTNESS_AUTO_OUTLINED,
+                    on_click=lambda _: change_theme("System"),
+                ),
+                ft.PopupMenuItem(
+                    text=_("Light"),
+                    icon=ft.Icons.LIGHT_MODE_OUTLINED,
+                    on_click=lambda _: change_theme("Light"),
+                ),
+                ft.PopupMenuItem(
+                    text=_("Dark"),
+                    icon=ft.Icons.DARK_MODE_OUTLINED,
+                    on_click=lambda _: change_theme("Dark"),
+                ),
+            ],
+        )
+        switch_language_btn = ft.PopupMenuButton(
+            icon=ft.Icons.TRANSLATE_OUTLINED,
+            tooltip=_("Switch Language"),
+            items=[
+                ft.PopupMenuItem(text="简体中文", on_click=lambda _: change_language("zh_CN")),
+                ft.PopupMenuItem(text="English", on_click=lambda _: change_language("en_US")),
+            ],
+        )
+        if event.route.partition("?")[0] == "/":
 
             def swap_formats(e: ft.ControlEvent) -> None:
                 last_output_format, last_input_format = (
@@ -971,7 +963,12 @@ async def main(page: ft.Page) -> None:
                                 col=8,
                                 on_change=change_max_track_count,
                             ),
-                            save_folder_text_field,
+                            ft.TextField(
+                                ref=save_folder_text_field,
+                                label=_("Output Folder"),
+                                value=page.client_storage.get("save_folder"),
+                                col=10,
+                            ),
                             ft.IconButton(
                                 ft.Icons.FOLDER_OPEN_OUTLINED,
                                 tooltip=_("Change Output Directory"),

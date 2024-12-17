@@ -20,11 +20,7 @@ ToolBar {
     signal openHelpMenu
 
     function toggleMaximized() {
-        if (window.visibility === Window.Maximized) {
-            window.showNormal();
-        } else {
-            window.showMaximized();
-        }
+        window.click_maximize_btn()
     }
 
     LocaleSwitcher {
