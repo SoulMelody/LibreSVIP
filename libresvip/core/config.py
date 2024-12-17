@@ -92,6 +92,7 @@ class Language(enum.Enum):
     CHINESE = "zh_CN"
     ENGLISH = "en_US"
     JAPANESE = "ja_JP"
+    GERMAN = "de_DE"
 
     @staticmethod
     def to_language(locale: str) -> str:
@@ -105,12 +106,12 @@ class Language(enum.Enum):
     @classmethod
     def from_locale(cls, locale: str) -> Language:
         locale = cls.to_language(locale)
-        if locale == "zh-cn":
-            return cls.CHINESE
-        elif locale == "ja-jp":
-            return cls.JAPANESE
-        else:
-            return cls.ENGLISH
+        return {
+            "zh-cn": cls.CHINESE,
+            "en-us": cls.ENGLISH,
+            "ja-jp": cls.JAPANESE,
+            "de-de": cls.GERMAN,
+        }[locale]
 
     @classmethod
     def auto(cls) -> Language:

@@ -1548,12 +1548,15 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     ui.navigate.to("/?lang=zh_CN")
                                 elif event.value == Language.ENGLISH:
                                     ui.navigate.to("/?lang=en_US")
+                                elif event.value == Language.GERMAN:
+                                    ui.navigate.to("/?lang=de_DE")
 
                             ui.select(
                                 {
                                     Language.CHINESE: "简体中文",
                                     Language.ENGLISH: "English",
                                     Language.JAPANESE: "日本語",
+                                    Language.GERMAN: "Deutsch",
                                 },
                             ).bind_value(
                                 settings,

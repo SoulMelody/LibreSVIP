@@ -627,6 +627,7 @@ async def main(page: ft.Page) -> None:
             items=[
                 ft.PopupMenuItem(text="简体中文", on_click=lambda _: change_language("zh_CN")),
                 ft.PopupMenuItem(text="English", on_click=lambda _: change_language("en_US")),
+                ft.PopupMenuItem(text="Deutsch", on_click=lambda _: change_language("de_DE")),
             ],
         )
         if event.route.partition("?")[0] == "/":

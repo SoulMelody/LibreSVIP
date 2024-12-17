@@ -21,6 +21,8 @@ jobs:
           files_yaml: |
             po:
               - "**/LC_MESSAGES/*.po"
+            qml:
+              - "**/*.qml"
             requirements:
               - "pyproject.toml"
               - "packaging/requirements-pyinstaller.in"
@@ -30,7 +32,7 @@ jobs:
               - "mkdocs.yml"
 
       - name: Set up uv
-        if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
+        if: steps.changed-files.outputs.po_any_changed == 'true' || steps.changed-files.outputs.qml_any_changed == 'true' || steps.changed-files.outputs.requirements_any_changed == 'true' || steps.changed-files.outputs.docs_any_changed == 'true'
         uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
@@ -42,6 +44,14 @@ jobs:
           uv pip install babel setuptools
           cd scripts
           uv run python batch_compile_catalog.py
+      
+      - name: Compile qt resources
+        if: steps.changed-files.outputs.qml_any_changed == 'true'
+        run: |
+          uv venv
+          uv pip install pyside6
+          cd scripts
+          uv run python patch_qt_resource.py
 
       - name: Compile requirements.txt
         if: steps.changed-files.outputs.requirements_any_changed == 'true'
