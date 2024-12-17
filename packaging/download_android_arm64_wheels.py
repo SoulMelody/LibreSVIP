@@ -31,7 +31,7 @@ def download_android_arm64_wheels() -> None:
         "lxml": None,
         "markupsafe": None,
         "protobuf": None,
-        "pydantic-core": "==2.23.1",
+        "pydantic-core": "==2.23.3",
         "pyyaml": None,
         "regex": None,
         "ruamel-yaml-clib": None,
@@ -104,7 +104,7 @@ def download_android_arm64_wheels() -> None:
                                 "-m",
                                 "pip",
                                 "download",
-                                "pydantic==2.9.0"
+                                "pydantic==2.9.1"
                                 if requirement.name == "pydantic"
                                 else f"{requirement.name}{requirement.specifier}",
                                 "--no-deps",
