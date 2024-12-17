@@ -46,3 +46,4 @@
 | retrie                        | Efficient Trie-based regex unions for blacklist/whitelist filtering and one-pass mapping-based string replacing                                                            | MIT License                                         |
 | lxml                          | Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API.                                                                 | BSD License (BSD-3-Clause)                          |
 | textual                       | Modern Text User Interface framework                                                                 | MIT License                                         |
+| flet                          | Flet for Python - easily build interactive multi-platform apps in Python                             | Apache Software License                             |
