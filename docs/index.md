@@ -22,8 +22,9 @@ pip install libresvip[desktop]
 
 ## 翻译
 
-![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[1].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
-![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[0].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![zh-CN translation](https://img.shields.io/badge/dynamic/json?color=blue&label=zh-CN&style=flat&logo=crowdin&query=%24.progress[2].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![ja translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[1].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
+![de translation](https://img.shields.io/badge/dynamic/json?color=blue&label=ja&style=flat&logo=crowdin&query=%24.progress[0].data.translationProgress&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-16219268-645830.json)
 
 如果你想给一种新的语言或现有语言的翻译作出贡献, 请参阅 [LibreSVIP在Crowdin上的页面](https://crowdin.com/project/libresvip). 
 
