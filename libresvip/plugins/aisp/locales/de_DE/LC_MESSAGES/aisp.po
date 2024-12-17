@@ -13,14 +13,13 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:01\n"
 
 msgid "AISingers"
-msgstr ""
+msgstr "AISingers"
 
 msgid "AISingers Studio project file"
-msgstr ""
+msgstr "AISingers Studio Projektdatei"
 
 msgid "Conversion plugin for AISingers Studio project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für AISingers Studio Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
-
+msgstr "SoulMelody"

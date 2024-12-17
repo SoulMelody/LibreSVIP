@@ -13,44 +13,44 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:01\n"
 
 msgid "ASS"
-msgstr ""
+msgstr "ASS"
 
 msgid "Advanced SubStation Alpha subtitle file"
-msgstr ""
+msgstr "Advanced SubStation Alpha Untertiteldatei"
 
 msgid "Generator plugin for ASS subtitle file"
-msgstr ""
+msgstr "Generator-Plugin für ASS Untertiteldateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Both note gap and punctuation"
-msgstr ""
+msgstr "Sowohl Notenabstand als auch Interpunktion"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr ""
+msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist oder ein Interpunktionszeichen auftritt, beginne eine neue Zeile."
 
 msgid "Note gap only"
-msgstr ""
+msgstr "Nur Notenabstand"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
-msgstr ""
+msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist, beginne eine neue Zeile."
 
 msgid "Punctuation only"
-msgstr ""
+msgstr "Nur Interpunktion"
 
 msgid "When a punctuation mark is encountered, start a new line."
-msgstr ""
+msgstr "Wenn ein Interpunktionszeichen auftritt, beginne eine neue Zeile."
 
 msgid "Offset"
-msgstr ""
+msgstr "Offset"
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
-msgstr ""
+msgstr "In Millisekunden, positiv bedeutet voraus, negativ bedeutet entgegengesetzt."
 
 msgid "New line by"
-msgstr ""
+msgstr "Neue Zeile durch"
 
 msgid "Text encoding"
-msgstr ""
+msgstr "Textkodierung"
 
