@@ -463,7 +463,7 @@ Dialog {
                             color: window.Material.dialogColor
 
                             Label {
-                                text: display
+                                text: qsTr(display)
                                 anchors.centerIn: parent
                             }
                         }
