@@ -263,10 +263,26 @@ Page {
 
     ColumnLayout {
         id: selectFormatCard
-        Label {
-            text: qsTr("Select File Formats")
-            font.pixelSize: 20
-            Layout.alignment: Qt.AlignVCenter
+        RowLayout {
+            id: formatsTitleRow
+            Layout.fillWidth: true
+            Label {
+                text: qsTr("Select File Formats")
+                font.pixelSize: 20
+                Layout.alignment: Qt.AlignVCenter
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+            Switch {
+                id: resetTasksOnInputChange
+                height: 40
+                text: qsTr("Reset Tasks When Changing Input")
+                checked: configItems.reset_tasks_on_input_change
+                onClicked: {
+                    configItems.reset_tasks_on_input_change = checked;
+                }
+            }
         }
         ColumnLayout {
             Layout.fillWidth: true
@@ -386,20 +402,7 @@ Page {
                 }
             }
             RowLayout {
-                id: inputOptionsRow
                 Layout.fillWidth: true
-                Switch {
-                    id: resetTasksOnInputChange
-                    height: 40
-                    text: qsTr("Reset Tasks When Changing Input")
-                    checked: configItems.reset_tasks_on_input_change
-                    onClicked: {
-                        configItems.reset_tasks_on_input_change = checked;
-                    }
-                }
-                Item {
-                    Layout.fillWidth: true
-                }
                 Switch {
                     height: 40
                     text: qsTr("Auto-Detect Input File Type")
@@ -1604,7 +1607,7 @@ Page {
         SplitView {
             SplitView.fillHeight: true
             SplitView.preferredWidth: parent.width / 2
-            SplitView.minimumWidth: inputOptionsRow.implicitWidth + 50
+            SplitView.minimumWidth: formatsTitleRow.implicitWidth + 50
             orientation: Qt.Vertical
 
             Pane {
