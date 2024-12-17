@@ -1,0 +1,53 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/middlewares/project_zoom/project_zoom.po\n"
+"X-Crowdin-File-ID: 102\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:01\n"
+
+msgid "None"
+msgstr ""
+
+msgid "1/2"
+msgstr ""
+
+msgid "5/3"
+msgstr ""
+
+msgid "3/2"
+msgstr ""
+
+msgid "6/5"
+msgstr ""
+
+msgid "4/5"
+msgstr ""
+
+msgid "3/5"
+msgstr ""
+
+msgid "3/4"
+msgstr ""
+
+msgid "Zoom factor"
+msgstr ""
+
+msgid "Change Bpm and notes in parallel so that the actual singing speed is kept. For example, with factor 2, 60 bpm becomes 120 bpm and all notes become twice the length"
+msgstr ""
+
+msgid "Project Zoom"
+msgstr ""
+
+msgid "Zoom in/out project"
+msgstr ""
+
+msgid "Sder Colin"
+msgstr ""
+

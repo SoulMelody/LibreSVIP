@@ -1,35 +1,35 @@
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Crowdin-Project: libresvip\n"
 "X-Crowdin-Project-ID: 645830\n"
-"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-Language: de\n"
 "X-Crowdin-File: /main/libresvip/plugins/svip3/svip3.po\n"
 "X-Crowdin-File-ID: 146\n"
 "Project-Id-Version: libresvip\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Language-Team: Chinese Simplified\n"
-"Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-17 11:16\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Svip3"
 msgstr ""
 
 msgid "Netease Cloud Music XStudio project file"
-msgstr "网易云音乐·X Studio 工程文件"
+msgstr ""
 
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
-msgstr "网易云音乐·X Studio 工程转换插件"
+msgstr ""
 
 msgid "FlutyDeer"
-msgstr "笛鹿"
+msgstr ""
 
 msgid "Unsupported pinyin:"
-msgstr "不支持的拼音："
+msgstr ""
 
 msgid "Note duration is too short:"
-msgstr "音符时长过短："
+msgstr ""
 
 msgid "Note duration is too long:"
-msgstr "音符时长过长："
+msgstr ""
 

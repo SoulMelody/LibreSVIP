@@ -1,3 +1,17 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/res/libresvip.po\n"
+"X-Crowdin-File-ID: 174\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
 #: ../libresvip/cli/commands/conf.py:21
 msgid "Setting {} is not supported in cli mode."
 msgstr "Die Einstellung {} wird im CLI-Modus nicht unterstützt."
@@ -40,13 +54,13 @@ msgstr "Nr."
 
 #: ../libresvip/cli/commands/plugin.py:64
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:65
 #: ../libresvip/gui/models/table_models.py:27 ../libresvip/mobile/app.py:668
 #: ../libresvip/web/pages.py:285
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:66
 #: ../libresvip/gui/models/table_models.py:26 ../libresvip/web/pages.py:294
@@ -63,13 +77,13 @@ msgstr "Anwendbares Dateiformat"
 
 #: ../libresvip/cli/commands/plugin.py:89
 msgid "Plugin: "
-msgstr "Plugin: "
+msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:90 ../libresvip/mobile/app.py:1006
 #: ../libresvip/tui/app.py:150 ../libresvip/tui/app.py:936
 #: ../libresvip/web/pages.py:1121
 msgid "Version: "
-msgstr "Version: "
+msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:91 ../libresvip/tui/app.py:151
 msgid "Author: "
@@ -84,11 +98,8 @@ msgid "This plugin is applicable to"
 msgstr "Dieses Plugin ist anwendbar auf"
 
 #: ../libresvip/cli/commands/plugin.py:99
-msgid ""
-"If you want to use this plugin, please specify '-i {}' (input) or '-o {}'"
-" (output) when converting."
-msgstr ""
-"Wenn du dieses Plugin verwenden möchtest, gebe bitte '-i {}' (Eingabe) oder '-o {}' (Ausgabe) beim Konvertieren an."
+msgid "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
+msgstr "Wenn du dieses Plugin verwenden möchtest, gebe bitte '-i {}' (Eingabe) oder '-o {}' (Ausgabe) beim Konvertieren an."
 
 #: ../libresvip/cli/commands/plugin.py:104
 msgid "Description: "
@@ -173,7 +184,7 @@ msgstr "Muster"
 
 #: ../libresvip/gui/models/table_models.py:108 ../libresvip/web/pages.py:1216
 msgid "Suffix"
-msgstr "Suffix"
+msgstr ""
 
 #: ../libresvip/gui/models/table_models.py:109 ../libresvip/web/pages.py:1221
 msgid "Replacement"
@@ -248,7 +259,7 @@ msgstr "Spracheinstellungen geändert, bitte starte die App neu, um die Änderun
 #: ../libresvip/mobile/app.py:57 ../libresvip/mobile/app.py:245
 #: ../libresvip/mobile/app.py:371 ../libresvip/mobile/app.py:415
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: ../libresvip/mobile/app.py:64 ../libresvip/tui/app.py:880
 msgid "Output Folder"
@@ -318,7 +329,7 @@ msgstr "Thema wechseln"
 
 #: ../libresvip/mobile/app.py:603 ../libresvip/web/pages.py:1760
 msgid "System"
-msgstr "System"
+msgstr ""
 
 #: ../libresvip/mobile/app.py:608 ../libresvip/tui/app.py:910
 #: ../libresvip/web/pages.py:1748
@@ -452,25 +463,13 @@ msgstr "Repo-URL"
 
 #: ../libresvip/mobile/app.py:1029 ../libresvip/tui/app.py:944
 #: ../libresvip/web/pages.py:1139
-msgid ""
-"LibreSVIP is an open-sourced, liberal and extensionable framework that "
-"can convert your singing synthesis projects between different file "
-"formats."
-msgstr ""
-"LibreSVIP ist ein quelloffenes, freies und erweiterbares Framework, das "
-"deine Gesangssynthese-Projekte zwischen verschiedenen Dateiformaten "
-"konvertieren kann."
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr "LibreSVIP ist ein quelloffenes, freies und erweiterbares Framework, das deine Gesangssynthese-Projekte zwischen verschiedenen Dateiformaten konvertieren kann."
 
 #: ../libresvip/mobile/app.py:1034 ../libresvip/tui/app.py:945
 #: ../libresvip/web/pages.py:1144
-msgid ""
-"All people should have the right and freedom to choose. That's why we're "
-"committed to giving you a second chance to keep your creations free from "
-"the constraints of platforms and coterie."
-msgstr ""
-"Alle Menschen sollten das Recht und die Freiheit haben, zu wählen. Deshalb "
-"setzen wir uns dafür ein, dir eine zweite Chance zu geben, deine "
-"Kreationen von den Zwängen von Plattformen zu befreien."
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr "Alle Menschen sollten das Recht und die Freiheit haben, zu wählen. Deshalb setzen wir uns dafür ein, dir eine zweite Chance zu geben, deinee Kreationen von den Zwängen von Plattformen zu befreien."
 
 #: ../libresvip/model/option_mixins.py:10
 msgid "Import instrumental tracks"
@@ -501,12 +500,8 @@ msgid "Constant tempo"
 msgstr "Konstantes Tempo"
 
 #: ../libresvip/model/option_mixins.py:37
-msgid ""
-"Use this tempo to reset time axis of projects with dynamic tempos or "
-"without tempos"
-msgstr ""
-"Verwende dieses Tempo, um die Zeitachse von Projekten mit dynamischen "
-"Tempi oder ohne Tempi zurückzusetzen"
+msgid "Use this tempo to reset time axis of projects with dynamic tempos or without tempos"
+msgstr "Verwende dieses Tempo, um die Zeitachse von Projekten mit dynamischen Tempi oder ohne Tempi zurückzusetzen"
 
 #: ../libresvip/model/option_mixins.py:46
 msgid "Track index"
@@ -726,11 +721,8 @@ msgstr "Ordner-Voreinstellungen"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:216
 msgctxt "dialogs"
-msgid ""
-"You can insert \".\" at the beginning to represent the source path, for "
-"example \"./subfolder\""
-msgstr ""
-"Du kannst \".\" am Anfang einfügen, um den Quellpfad darzustellen, zum Beispiel \"./Unterordner\""
+msgid "You can insert \".\" at the beginning to represent the source path, for example \"./subfolder\""
+msgstr "Du kannst \".\" am Anfang einfügen, um den Quellpfad darzustellen, zum Beispiel \"./Unterordner\""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:304
 msgctxt "dialogs"
@@ -745,12 +737,12 @@ msgstr "Über"
 #: ../libresvip/res/locales/libresvip_gui.ts:339
 msgctxt "dialogs"
 msgid "LibreSVIP"
-msgstr "LibreSVIP"
+msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:345
 msgctxt "dialogs"
 msgid "Version: "
-msgstr "Version: "
+msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:349
 msgctxt "dialogs"
@@ -769,30 +761,18 @@ msgstr "Repo-URL"
 
 #: ../libresvip/res/locales/libresvip_gui.ts:384
 msgctxt "dialogs"
-msgid ""
-"LibreSVIP is an open-sourced, liberal and extensionable framework that "
-"can convert your singing synthesis projects between different file "
-"formats."
-msgstr ""
-"LibreSVIP ist ein quelloffenes, freies und erweiterbares Framework, das "
-"deine Gesangssynthese-Projekte zwischen verschiedenen Dateiformaten "
-"konvertieren kann."
+msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
+msgstr "LibreSVIP ist ein quelloffenes, freies und erweiterbares Framework, das deine Gesangssynthese-Projekte zwischen verschiedenen Dateiformaten konvertieren kann."
 
 #: ../libresvip/res/locales/libresvip_gui.ts:389
 msgctxt "dialogs"
-msgid ""
-"All people should have the right and freedom to choose. That's why we're "
-"committed to giving you a second chance to keep your creations free from "
-"the constraints of platforms and coterie."
-msgstr ""
-"Alle Menschen sollten das Recht und die Freiheit haben, zu wählen. Deshalb "
-"setzen wir uns dafür ein, dir eine zweite Chance zu geben, deinee "
-"Kreationen von den Zwängen von Plattformen zu befreien."
+msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
+msgstr "Alle Menschen sollten das Recht und die Freiheit haben, zu wählen. Deshalb setzen wir uns dafür ein, dir eine zweite Chance zu geben, deinee Kreationen von den Zwängen von Plattformen zu befreien."
 
 #: ../libresvip/res/locales/libresvip_gui.ts:147
 msgctxt "plugin_info"
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:216
 msgctxt "plugin_info"
@@ -849,7 +829,7 @@ msgstr "Gleich wie Quelle"
 #: ../libresvip/res/locales/libresvip_gui.ts:298
 msgctxt "settings_dialog"
 msgid "Desktop"
-msgstr "Desktop"
+msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:259
 #: ../libresvip/res/locales/libresvip_gui.ts:307
@@ -901,16 +881,14 @@ msgstr "Nicht-alphabetisch"
 #: ../libresvip/res/locales/libresvip_gui.ts:581
 msgctxt "settings_dialog"
 msgid "Regex"
-msgstr "Regex"
+msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:594
 msgctxt "settings_dialog"
-msgid ""
-"Alphabetic: Applies to alphabetic characters.\n"
+msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
-msgstr ""
-"Alphabetisch: Gilt für alphabetische Zeichen.\n"
+msgstr "Alphabetisch: Gilt für alphabetische Zeichen.\n"
 "Nicht-Alphabetisch: Für nicht-alphabetische Zeichen und Satzzeichen.\n"
 "Regex: für fortgeschrittene Benutzer mit Kenntnissen in regulären Ausdrücken."
 
@@ -1094,7 +1072,7 @@ msgstr "Dunkel"
 #: ../libresvip/res/locales/libresvip_gui.ts:375
 msgctxt "top_toolbar"
 msgid "System"
-msgstr "System"
+msgstr ""
 
 #: ../libresvip/res/locales/libresvip_gui.ts:393
 msgctxt "top_toolbar"
@@ -1129,7 +1107,7 @@ msgstr "SVS-Projekte-Konverter"
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: ../libresvip/res/locales/qt_standard_buttons.ts
 msgctxt "QPlatformTheme"
@@ -1278,7 +1256,7 @@ msgstr "Gespeichert"
 
 #: ../libresvip/web/pages.py:1120
 msgid "LibreSVIP"
-msgstr "LibreSVIP"
+msgstr ""
 
 #: ../libresvip/web/pages.py:1160
 msgid "Toggle menu"
@@ -1290,7 +1268,7 @@ msgstr "Liedtext-Ersetzungsregeln"
 
 #: ../libresvip/web/pages.py:1226
 msgid "Flags"
-msgstr "Flags"
+msgstr ""
 
 #: ../libresvip/web/pages.py:1254
 msgid "Full match"
@@ -1306,7 +1284,7 @@ msgstr "Nicht-alphabetisch"
 
 #: ../libresvip/web/pages.py:1263
 msgid "Regex"
-msgstr "Regex"
+msgstr ""
 
 #: ../libresvip/web/pages.py:1267
 msgid "Ignore case"
@@ -1333,12 +1311,10 @@ msgid "Add new rule"
 msgstr "Neue Regel hinzufügen"
 
 #: ../libresvip/web/pages.py:1533
-msgid ""
-"Alphabetic: Applies to alphabetic characters.\n"
+msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
-msgstr ""
-"Alphabetisch: Gilt für alphabetische Zeichen.\n"
+msgstr "Alphabetisch: Gilt für alphabetische Zeichen.\n"
 "Nicht-Alphabetisch: Für nicht-alphabetische Zeichen und Satzzeichen.\n"
 "Regex: für fortgeschrittene Benutzer mit Kenntnissen in regulären Ausdrücken."
 
@@ -1372,7 +1348,7 @@ msgstr "Einstellungen"
 
 #: ../libresvip/web/pages.py:1765
 msgid "Alt+S"
-msgstr "Alt+S"
+msgstr ""
 
 #: ../libresvip/web/pages.py:1768
 msgid "Help"
