@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/vshp/vshp.po\n"
+"X-Crowdin-File-ID: 164\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Convert wave pattern to singing pattern"
+msgstr ""
+
+msgid "Use edited pitch curve"
+msgstr ""
+
+msgid "Use edited dynamics curve"
+msgstr ""
+
+msgid "Import dynamics curve"
+msgstr ""
+
+msgid "Import formant curve"
+msgstr ""
+
+msgid "Import breath curve"
+msgstr ""
+
+msgid "VocalShifter"
+msgstr ""
+
+msgid "VocalShifter project file"
+msgstr ""
+
+msgid "Import parameters from VocalShifter project file."
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
