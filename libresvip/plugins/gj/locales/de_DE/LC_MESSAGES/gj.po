@@ -13,27 +13,26 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:01\n"
 
 msgid "gjgj"
-msgstr ""
+msgstr "gjgj"
 
 msgid "Gejigeji project file"
-msgstr ""
+msgstr "Gejigeji Projektdatei"
 
-msgid "Conversion plugin for Gejigeji project file.\n"
-"Only Gejigeji v2.0 spec is supported."
-msgstr ""
+msgid "Conversion plugin for Gejigeji project file.\nOnly Gejigeji v2.0 spec is supported."
+msgstr "Konvertierungs-Plugin für Gejigeji Projektdateien.\nNur die Gejigeji v2.0 Spezifikation wird unterstützt."
 
 msgid "FlutyDeer"
-msgstr ""
+msgstr "FlutyDeer"
 
 msgid "Unsupported pinyin:"
-msgstr ""
+msgstr "Nicht unterstütztes Pinyin:"
 
 msgid "Average sampling interval for the volume parameter"
-msgstr ""
+msgstr "Durchschnittliches Abtastintervall für den Lautstärkeparameter"
 
 msgid "The unit is Tick. The larger the value, the smoother the editor; the smaller the value, the more accurate the volume parameter."
-msgstr ""
+msgstr "Die Einheit ist Tick. Je größer der Wert, desto flüssiger der Editor; je kleiner der Wert, desto genauer der Lautstärkeparameter."
 
 msgid "Default singer"
-msgstr ""
+msgstr "Standardsänger"
 
