@@ -20,7 +20,7 @@ ToolBar {
     signal openHelpMenu
 
     function toggleMaximized() {
-        window.click_maximize_btn()
+        window.click_maximize_btn();
     }
 
     LocaleSwitcher {
