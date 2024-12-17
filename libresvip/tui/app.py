@@ -896,6 +896,7 @@ class TUIApp(App[None]):
                             [
                                 ("简体中文", "zh_CN"),
                                 ("English", "en_US"),
+                                ("Deutsch", "de_DE"),
                                 # ("日本語", "ja_JP")
                             ],
                             value=settings.language.value,

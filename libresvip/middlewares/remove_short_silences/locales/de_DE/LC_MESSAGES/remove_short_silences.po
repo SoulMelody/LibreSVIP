@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/middlewares/remove_short_silences/remove_short_silences.po\n"
+"X-Crowdin-File-ID: 106\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:01\n"
+
+msgid "Zero length note"
+msgstr ""
+
+msgid "1/8 note"
+msgstr ""
+
+msgid "1/16 note"
+msgstr ""
+
+msgid "1/32 note"
+msgstr ""
+
+msgid "1/64 note"
+msgstr ""
+
+msgid "1/128 note"
+msgstr ""
+
+msgid "Max length to be processed (exclusive)"
+msgstr ""
+
+msgid "Extend note to fill the short silences between it and its next note"
+msgstr ""
+
+msgid "Remove Short Silences"
+msgstr ""
+
+msgid "Fill short rests"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

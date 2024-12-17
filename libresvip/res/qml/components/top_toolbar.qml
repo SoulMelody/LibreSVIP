@@ -20,7 +20,7 @@ ToolBar {
     signal openHelpMenu
 
     function toggleMaximized() {
-        window.click_maximize_btn()
+        window.click_maximize_btn();
     }
 
     LocaleSwitcher {
@@ -415,14 +415,23 @@ ToolBar {
                                 onTriggered: localeSwitcher.switch_language("ja_JP")
                                 enabled: false
                             }
+                            MenuItem {
+                                id: deDEMenuItem
+                                checkable: true
+                                ButtonGroup.group: languageButtonGroup
+                                text: "Deutsch"
+                                onTriggered: localeSwitcher.switch_language("de_DE")
+                            }
                             Component.onCompleted: {
                                 let currentLanguage = localeSwitcher.get_language();
                                 if (currentLanguage === "zh_CN") {
                                     zhCNMenuItem.checked = true;
-                                } else if (currentLanguage === "en_US") {
-                                    enUSMenuItem.checked = true;
-                                } else {
+                                } else if (currentLanguage === "ja_JP") {
                                     jaJPMenuItem.checked = true;
+                                } else if (currentLanguage === "en_US") {
+                                    deDEMenuItem.checked = true;
+                                } else {
+                                    enUSMenuItem.checked = true;
                                 }
                             }
                         }

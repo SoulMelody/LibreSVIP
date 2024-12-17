@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/middlewares/pitch_shift/pitch_shift.po\n"
+"X-Crowdin-File-ID: 100\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:01\n"
+
+msgid "Key transition of pitch"
+msgstr ""
+
+msgid "Pitch shift in semitones."
+msgstr ""
+
+msgid "Pitch Shift"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

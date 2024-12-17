@@ -28,7 +28,7 @@ class MARGINS(ctypes.Structure):
 
 @QmlElement
 class FramelessWindow(QQuickWindow):
-    def __init__(self, parent: Optional[QWindow] = None, border_width: int = 0) -> None:
+    def __init__(self, parent: Optional[QWindow] = None, border_width: int = 5) -> None:
         super().__init__(parent)
         self.flags: Qt.WindowType = (
             self.flags
