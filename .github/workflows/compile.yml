@@ -48,6 +48,7 @@ jobs:
         run: |
           uv pip compile --universal --extra desktop --extra ujson --extra lxml --extra ruamel_yaml -U --no-annotate --no-header pyproject.toml packaging/requirements-pyinstaller.in -o packaging/requirements.txt
           uv pip compile --universal --extra webui --extra ujson --extra lxml --extra ruamel_yaml -U --no-annotate --no-header --no-emit-package httptools pyproject.toml packaging/requirements-pywebview.in packaging/requirements-pyinstaller.in -o packaging/requirements-webui.txt
+          uv pip compile --universal --extra lxml --extra ruamel_yaml --extra upath -U --no-annotate --no-header pyproject.toml packaging/requirements-flet.in -o packaging/requirements-android.txt
 
       - name: Build docs
         if: steps.changed-files.outputs.docs_any_changed == 'true'
