@@ -29,6 +29,7 @@ httpcore==1.0.7
 httpx==0.28.1
 idna==3.10
 ifaddr==0.2.0
+importlib-metadata==8.5.0 ; python_full_version < '3.10'
 importlib-resources==6.4.5 ; python_full_version < '3.11'
 itsdangerous==2.2.0
 jinja2==3.1.4
@@ -73,8 +74,8 @@ pyobjc-framework-webkit==10.3.2 ; (platform_machine == 'arm64' and sys_platform 
 pypinyin==0.53.0
 pysubs2==1.7.3
 python-dotenv==1.0.1
-python-engineio==4.10.1
-python-multipart==0.0.19
+python-engineio==4.11.0
+python-multipart==0.0.20
 python-socketio==5.11.4
 pythonnet==3.0.5 ; sys_platform == 'win32'
 pywebview==5.3.2
@@ -111,6 +112,7 @@ xsdata==24.11
 xsdata-pydantic==24.5
 yarl==1.18.3
 zhon==2.1.1
+zipp==3.21.0 ; python_full_version < '3.10'
 zstandard==0.23.0 ; platform_python_implementation == 'CPython'
 
 # The following packages were excluded from the output:
