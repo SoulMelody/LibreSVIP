@@ -13,14 +13,14 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "SynthV Editor"
-msgstr ""
+msgstr "SynthV Editor"
 
 msgid "Synthesizer V Editor project file"
-msgstr ""
+msgstr "Synthesizer V Editor Projektdatei"
 
 msgid "Conversion plugin for Synthesizer V Editor project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Synthesizer V Editor Projektdateien"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
