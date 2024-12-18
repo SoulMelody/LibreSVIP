@@ -32,9 +32,9 @@ parsimonious==0.10.0
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
-protobuf==5.29.1
-pydantic==2.10.3
-pydantic-core==2.27.1
+protobuf==5.29.2
+pydantic==2.10.4
+pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
 pygments==2.18.0
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
