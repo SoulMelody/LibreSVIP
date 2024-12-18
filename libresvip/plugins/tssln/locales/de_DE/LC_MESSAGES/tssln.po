@@ -13,23 +13,23 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Unsupported project version"
-msgstr ""
+msgstr "Nicht unterstützte Projektversion"
 
 msgid "TSSln"
-msgstr ""
+msgstr "TSSln"
 
 msgid "Techno-Speech Solution file"
-msgstr ""
+msgstr "Techno-Speech Solution Datei"
 
 msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
-msgstr ""
+msgstr "Konvertierungs-Plugin für VoiSona Projektdatei (nur Versionen 1.8.0 und höher werden unterstützt)"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Unsupported lyric: "
-msgstr ""
+msgstr "Nicht unterstützter Text: "
 
 msgid "Pitch value is out of bounds"
-msgstr ""
+msgstr "Tonhöhenwert ist außerhalb des zulässigen Bereichs"
 

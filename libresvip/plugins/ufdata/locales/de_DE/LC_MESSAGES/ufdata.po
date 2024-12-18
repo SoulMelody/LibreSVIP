@@ -13,14 +13,14 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "UFData"
-msgstr ""
+msgstr "UFData"
 
 msgid "UtaFormatix3 data format"
-msgstr ""
+msgstr "UtaFormatix3 Datenformat"
 
 msgid "Convertion plugin for UFData format"
-msgstr ""
+msgstr "Konvertierungs-Plugin für das Ufdata-Format"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 

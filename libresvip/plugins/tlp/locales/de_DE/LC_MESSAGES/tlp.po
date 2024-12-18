@@ -13,20 +13,20 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "TuneLab"
-msgstr ""
+msgstr "TuneLab"
 
 msgid "TuneLab project file"
-msgstr ""
+msgstr "TuneLab Projektdatei"
 
 msgid "Convertion plugin for TuneLab project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für TuneLab Projektdateien"
 
 msgid "LiuYunPlayer"
-msgstr ""
+msgstr "LiuYunPlayer"
 
 msgid "Note overlap detected, cutting note "
-msgstr ""
+msgstr "Notenüberlappung erkannt, Note wird geschnitten "
 
 msgid "Note overlap detected, skipping note "
-msgstr ""
+msgstr "Notenüberlappung erkannt, Note wird übersprungen "
 
