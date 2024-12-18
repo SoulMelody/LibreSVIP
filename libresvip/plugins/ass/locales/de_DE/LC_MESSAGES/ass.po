@@ -25,10 +25,10 @@ msgid "SoulMelody"
 msgstr "SoulMelody"
 
 msgid "Both note gap and punctuation"
-msgstr "Sowohl Notenabstand als auch Interpunktion"
+msgstr "Sowohl Notenabstand als auch Satzzeichen"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist oder ein Interpunktionszeichen auftritt, beginne eine neue Zeile."
+msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist oder ein Satzzeichen auftritt, beginne eine neue Zeile."
 
 msgid "Note gap only"
 msgstr "Nur Notenabstand"
@@ -37,10 +37,10 @@ msgid "When the interval between two adjacent notes is greater than or equal to 
 msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist, beginne eine neue Zeile."
 
 msgid "Punctuation only"
-msgstr "Nur Interpunktion"
+msgstr "Nur Satzzeichen"
 
 msgid "When a punctuation mark is encountered, start a new line."
-msgstr "Wenn ein Interpunktionszeichen auftritt, beginne eine neue Zeile."
+msgstr "Wenn ein Satzzeichen auftritt, beginne eine neue Zeile."
 
 msgid "Offset"
 msgstr "Offset"
