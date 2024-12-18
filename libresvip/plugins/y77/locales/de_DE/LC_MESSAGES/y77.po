@@ -13,14 +13,14 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Y77"
-msgstr ""
+msgstr "Y77"
 
 msgid "Yuan77 project file"
-msgstr ""
+msgstr "Yuan77 Projektdatei"
 
 msgid "Conversion plugin for Yuan77 project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Yuan77-Projektdateien"
 
 msgid "FlutyDeer"
-msgstr ""
+msgstr "FlutyDeer"
 

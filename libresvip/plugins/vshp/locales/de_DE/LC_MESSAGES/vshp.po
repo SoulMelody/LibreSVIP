@@ -13,32 +13,32 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Convert wave pattern to singing pattern"
-msgstr ""
+msgstr "Wellenmuster in Gesangsmuster umwandeln"
 
 msgid "Use edited pitch curve"
-msgstr ""
+msgstr "Bearbeitete Tonhöhenkurve verwenden"
 
 msgid "Use edited dynamics curve"
-msgstr ""
+msgstr "Bearbeitete Dynamikkurve verwenden"
 
 msgid "Import dynamics curve"
-msgstr ""
+msgstr "Dynamikkurve importieren"
 
 msgid "Import formant curve"
-msgstr ""
+msgstr "Formantkurve importieren"
 
 msgid "Import breath curve"
-msgstr ""
+msgstr "Atemkurve importieren"
 
 msgid "VocalShifter"
-msgstr ""
+msgstr "VocalShifter"
 
 msgid "VocalShifter project file"
-msgstr ""
+msgstr "VocalShifter-Projektdatei"
 
 msgid "Import parameters from VocalShifter project file."
-msgstr ""
+msgstr "Parameter aus VocalShifter-Projektdatei importieren."
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
