@@ -10,13 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:01\n"
+"PO-Revision-Date: 2024-12-19 01:02\n"
 
 msgid "No singing track found"
 msgstr "Kein Gesangstrack gefunden"
 
 msgid "DiffSinger"
-msgstr "DiffSinger"
+msgstr ""
 
 msgid "DiffSinger parameters file"
 msgstr "DiffSinger Parameterdatei"
@@ -25,7 +25,7 @@ msgid "DiffSinger plugin."
 msgstr "DiffSinger Plugin."
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 
 msgid "Dictionary Name"
 msgstr "Wörterbuchname"
@@ -43,7 +43,7 @@ msgid "This option controls the minimum interval between notes. It is recommende
 msgstr "Diese Option steuert das Mindestintervall zwischen den Noten. Es wird empfohlen, es auf einen Wert größer als 300 Millisekunden zu setzen."
 
 msgid "Seed"
-msgstr "Seed"
+msgstr ""
 
 msgid "A fixed random seed can get a stable and reproducible synthesis effect. This option takes effect when the non-negative value is set."
 msgstr "Ein fester Zufalls-Seed kann einen stabilen und reproduzierbaren Syntheseeffekt erzielen. Diese Option wird wirksam, wenn ein nicht-negativer Wert eingestellt ist."
