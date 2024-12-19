@@ -117,6 +117,8 @@ def append_ending_points(
     next_pos = None
     for event in events:
         pos = event.idx if event.idx is not None else next_pos
+        if pos is None:
+            continue
         length = event.repeat if event.repeat is not None else 1
         if next_pos is not None and next_pos < pos:
             result.append(VoiSonaParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
@@ -238,6 +240,8 @@ def build_voisona_param_interval_dict(
             ),
             2,
         ):
+            if next_event is None:
+                continue
             next_start = synchronizer.get_actual_secs_from_ticks(next_event.idx - tick_prefix)
             if (
                 prev_event is not None

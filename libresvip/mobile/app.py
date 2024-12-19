@@ -260,12 +260,6 @@ async def main(page: ft.Page) -> None:
                 controls=[
                     ft.Column(
                         [
-                            ft.TextField(
-                                value=list_tile.data["log_text"],
-                                multiline=True,
-                                max_lines=24,
-                                autofocus=True,
-                            ),
                             ft.Row(
                                 [
                                     ft.ElevatedButton(
@@ -274,6 +268,12 @@ async def main(page: ft.Page) -> None:
                                     )
                                 ],
                                 alignment=ft.MainAxisAlignment.END,
+                            ),
+                            ft.TextField(
+                                value=list_tile.data["log_text"],
+                                multiline=True,
+                                max_lines=24,
+                                autofocus=True,
                             ),
                         ],
                     )
