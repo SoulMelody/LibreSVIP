@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:02\n"
 
 msgid "MIDI"
-msgstr "MIDI"
+msgstr ""
 
 msgid "Standard MIDI file (SMF)"
 msgstr "Standard-MIDI-Datei (SMF)"
@@ -22,7 +22,7 @@ msgid "Conversion plugin for midi file"
 msgstr "Konvertierungs-Plugin für MIDI-Dateien"
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 
 msgid "No tempo labels found in the imported project."
 msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."
