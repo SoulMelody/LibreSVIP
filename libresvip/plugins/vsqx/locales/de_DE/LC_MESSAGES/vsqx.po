@@ -10,13 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:03\n"
 
 msgid "VSQx 3"
-msgstr "VSQx 3"
+msgstr ""
 
 msgid "VSQx 4"
-msgstr "VSQx 4"
+msgstr ""
 
 msgid "日本語"
 msgstr "Japanisch"
@@ -40,7 +40,7 @@ msgid "Combine multisyllabic lyrics into single words"
 msgstr "Mehrsilbige Texte zu einzelnen Wörtern kombinieren"
 
 msgid "VSQX Version"
-msgstr "VSQX Version"
+msgstr ""
 
 msgid "Pretty XML"
 msgstr "Leserliches XML"
@@ -55,10 +55,10 @@ msgid "Default language id of voicebank and notes"
 msgstr "Standard-Sprach-ID der Voicebank und Notizen"
 
 msgid "Default Comp ID"
-msgstr "Standard Comp ID"
+msgstr "Standard-Comp-ID"
 
 msgid "Default comp_id of voicebank"
-msgstr "Standard comp_id der Voicebank"
+msgstr "Standard-Comp-ID der Voicebank"
 
 msgid "Default Singer Name"
 msgstr "Standard-Sängername"
@@ -73,7 +73,7 @@ msgid "Phonemes of all notes were set to \"la\". Please use \"Lyrics\" -> \"Conv
 msgstr "Die Phoneme aller Noten wurden auf \"la\" gesetzt. Bitte benutze \"Lyrics\" -> \"Convert Phonemes\" im Menü von VOCALOID4, um sie zurückzusetzen."
 
 msgid "Vsqx"
-msgstr "Vsqx"
+msgstr ""
 
 msgid "Vocaloid Sequence XML file"
 msgstr "Vocaloid Sequenz-XML-Datei"
@@ -82,4 +82,5 @@ msgid "Conversion plugin for Vocaloid Sequence XML file"
 msgstr "Konvertierungs-Plugin für Vocaloid Sequenz-XML-Dateien"
 
 msgid "Sder Colin"
-msgstr "Sder Colin"
+msgstr ""
+
