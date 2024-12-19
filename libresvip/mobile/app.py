@@ -334,8 +334,6 @@ async def main(page: ft.Page) -> None:
             page.update()
         if e.path:
             page.client_storage.set("save_folder", e.path)
-            save_folder_text_field.current.value = e.path
-            save_folder_text_field.current.update()
 
     if not (await page.client_storage.contains_key_async("auto_detect_input_format")):
         await page.client_storage.set_async("auto_detect_input_format", True)
@@ -430,14 +428,14 @@ async def main(page: ft.Page) -> None:
             (input_format := page.client_storage.get("last_input_format")) is None
             or (output_format := page.client_storage.get("last_output_format")) is None
             or (max_track_count := page.client_storage.get("max_track_count")) is None
+            or (save_folder_str := page.client_storage.get("save_folder")) is None
             or list_tile.leading is None
             or list_tile.subtitle is None
             or list_tile.data is None
             or list_tile.trailing is None
-            or save_folder_text_field.current.value is None
         ):
             return
-        save_folder = pathlib.Path(save_folder_text_field.current.value)
+        save_folder = pathlib.Path(save_folder_str)
         list_tile.data["log_text"] = ""
         list_tile.leading.controls[0].visible = False
         list_tile.leading.controls[1].visible = True

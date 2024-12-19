@@ -102,7 +102,7 @@ ust_grammar = Grammar(
     ust_envelope =
         float ("," float){6}
         (
-            (",%," float ("," float ("," float)?)?) /
+            (",%," float? ("," float? ("," float?)?)?) /
             (",," float) /
             ",%" /
             ("," float)*
@@ -302,11 +302,15 @@ class UstVisitor(NodeVisitor):
             elif visited_children[2][0][0].text == ",,":
                 kwargs["p4"] = visited_children[2][0][1]
             elif visited_children[2][0][0].text == ",%,":
-                kwargs["p4"] = visited_children[2][0][1]
+                if isinstance(visited_children[2][0][1], list):
+                    kwargs["p4"] = visited_children[2][0][1][0]
                 if isinstance(visited_children[2][0][2], list):
-                    kwargs["p5"] = visited_children[2][0][2][0][1]
-                    if isinstance(visited_children[2][0][2][0][2], list):
-                        kwargs["v5"] = visited_children[2][0][2][0][2][0][1]
+                    if isinstance(visited_children[2][0][2][0][1], list):
+                        kwargs["p5"] = visited_children[2][0][2][0][1][0]
+                    if isinstance(visited_children[2][0][2][0][2], list) and isinstance(
+                        visited_children[2][0][2][0][2][0][1], list
+                    ):
+                        kwargs["v5"] = visited_children[2][0][2][0][2][0][1][0]
         return UTAUEnvelope(**kwargs)
 
     def visit_value(self, node: Node, visited_children: list[Any]) -> str:
