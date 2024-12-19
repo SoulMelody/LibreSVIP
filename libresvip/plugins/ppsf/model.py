@@ -18,12 +18,6 @@ class PpsfCurveType(enum.IntEnum):
     NORMAL: Annotated[int, Field(title="Normal")] = 1
 
 
-class PpsfMuteflag(enum.IntEnum):
-    NONE: Annotated[int, Field(title="None")] = 0
-    MUTE: Annotated[int, Field(title="Mute")] = 1
-    SOLO: Annotated[int, Field(title="Solo")] = 2
-
-
 class PpsfCurvePointSeq(BaseModel):
     border_type: Optional[int] = Field(None, alias="border-type")
     note_index: Optional[int] = Field(None, alias="note-index")
@@ -125,7 +119,7 @@ class PpsfEventTrack(BaseModel):
     fsm_effects: Optional[list[PpsfFsmEffect]] = Field(default_factory=list, alias="fsm-effects")
     height: int = 64
     index: int
-    mute_solo: Optional[PpsfMuteflag] = Field(PpsfMuteflag.NONE, alias="mute-solo")
+    mute_solo: int = Field(0, alias="mute-solo")
     notes: list[PpsfNote] = Field(default_factory=list)
     nt_envelope_preset_id: Optional[int] = Field(None, alias="nt-envelope-preset-id")
     regions: list[PpsfRegion] = Field(default_factory=list)

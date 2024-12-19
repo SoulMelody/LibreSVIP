@@ -104,6 +104,8 @@ class PiaproStudioNTParser:
                     title=track.name,
                     ai_singer_name=track.singer.singer_name,
                     note_list=self.parse_notes(track.events),
+                    solo=event_track.mute_solo > 0,
+                    mute=event_track.mute_solo < 0,
                 )
                 for parameter in track.parameters:
                     if (
