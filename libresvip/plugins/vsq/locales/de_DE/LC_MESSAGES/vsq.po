@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:03\n"
 
 msgid "Ignore all breath notes"
 msgstr "Alle Atemnoten ignorieren"
@@ -19,22 +19,22 @@ msgid "Keep as normal notes"
 msgstr "Als normale Noten behalten"
 
 msgid "Lyric text encoding"
-msgstr "Kodierung der Texte"
+msgstr "Liedtextkodierung"
 
 msgid "Unless the lyrics are garbled, this option should not be changed."
 msgstr "Diese Option sollte nicht geändert werden, es sei denn, die Texte sind unverständlich."
 
 msgid "The way to handle breath notes"
-msgstr "Behandlung von Atemnoten"
+msgstr "Die Art und Weise, Atemnoten zu behandeln"
 
 msgid "Ticks per beat"
 msgstr "Ticks pro Schlag"
 
 msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
-msgstr "Auch bekannt als parts per quarter, Ticks pro Viertelnote, die Anzahl der Impulse pro Viertelnote. Diese Einstellung sollte nicht geändert werden, es sei denn, du weißt, was es ist."
+msgstr "Auch bekannt als ticks per quarter, Ticks pro Viertelnote, die Anzahl der Impulse pro Viertelnote. Diese Einstellung sollte nur geändert werden, wenn du weißt, was sie bewirkt."
 
 msgid "Vsq"
-msgstr "Vsq"
+msgstr ""
 
 msgid "Vocaloid 2 Sequence file"
 msgstr "Vocaloid 2 Sequenz-Datei"
@@ -43,4 +43,5 @@ msgid "Conversion plugin for Vocaloid 2 sequence file"
 msgstr "Konvertierungs-Plugin für Vocaloid 2 Sequenzdateien"
 
 msgid "Selio Jiang"
-msgstr "Selio Jiang"
+msgstr ""
+

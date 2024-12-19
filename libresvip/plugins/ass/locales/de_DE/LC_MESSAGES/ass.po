@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:01\n"
+"PO-Revision-Date: 2024-12-19 01:02\n"
 
 msgid "ASS"
-msgstr "ASS"
+msgstr ""
 
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced SubStation Alpha Untertiteldatei"
@@ -22,7 +22,7 @@ msgid "Generator plugin for ASS subtitle file"
 msgstr "Generator-Plugin für ASS Untertiteldateien"
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 
 msgid "Both note gap and punctuation"
 msgstr "Sowohl Notenabstand als auch Satzzeichen"
@@ -43,7 +43,7 @@ msgid "When a punctuation mark is encountered, start a new line."
 msgstr "Wenn ein Satzzeichen auftritt, beginne eine neue Zeile."
 
 msgid "Offset"
-msgstr "Offset"
+msgstr ""
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
 msgstr "In Millisekunden, positiv bedeutet voraus, negativ bedeutet entgegengesetzt."

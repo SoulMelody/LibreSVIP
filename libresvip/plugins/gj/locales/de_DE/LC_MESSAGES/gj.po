@@ -10,19 +10,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:01\n"
+"PO-Revision-Date: 2024-12-19 01:02\n"
 
 msgid "gjgj"
-msgstr "gjgj"
+msgstr ""
 
 msgid "Gejigeji project file"
 msgstr "Gejigeji Projektdatei"
 
-msgid "Conversion plugin for Gejigeji project file.\nOnly Gejigeji v2.0 spec is supported."
-msgstr "Konvertierungs-Plugin für Gejigeji Projektdateien.\nNur die Gejigeji v2.0 Spezifikation wird unterstützt."
+msgid "Conversion plugin for Gejigeji project file.\n"
+"Only Gejigeji v2.0 spec is supported."
+msgstr "Konvertierungs-Plugin für Gejigeji Projektdateien.\n"
+"Nur die Gejigeji v2.0 Spezifikation wird unterstützt."
 
 msgid "FlutyDeer"
-msgstr "FlutyDeer"
+msgstr ""
 
 msgid "Unsupported pinyin:"
 msgstr "Nicht unterstütztes Pinyin:"

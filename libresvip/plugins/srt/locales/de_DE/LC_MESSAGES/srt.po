@@ -10,19 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:02\n"
 
 msgid "Both note gap and punctuation"
 msgstr "Sowohl Notenabstand als auch Satzzeichen"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note or a punctuation mark is encountered, start a new line."
-msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstel-Note ist oder ein Satzzeichen auftritt, beginne eine neue Zeile."
+msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist oder ein Satzzeichen auftritt, beginne eine neue Zeile."
 
 msgid "Note gap only"
 msgstr "Nur Notenabstand"
 
 msgid "When the interval between two adjacent notes is greater than or equal to thirty-second note, start a new line."
-msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstel-Note ist, beginne eine neue Zeile."
+msgstr "Wenn der Abstand zwischen zwei benachbarten Noten größer oder gleich einer Zweiunddreißigstelnote ist, beginne eine neue Zeile."
 
 msgid "Punctuation only"
 msgstr "Nur Satzzeichen"
@@ -31,7 +31,7 @@ msgid "When a punctuation mark is encountered, start a new line."
 msgstr "Wenn ein Satzzeichen auftritt, beginne eine neue Zeile."
 
 msgid "Offset"
-msgstr "Offset"
+msgstr ""
 
 msgid "In milliseconds, positive means ahead, negative means opposite."
 msgstr "In Millisekunden, positiv bedeutet voraus, negativ bedeutet entgegengesetzt."
@@ -43,7 +43,7 @@ msgid "Text encoding"
 msgstr "Textkodierung"
 
 msgid "SRT"
-msgstr "SRT"
+msgstr ""
 
 msgid "SubRip subtitle file"
 msgstr "SubRip-Untertiteldatei"
@@ -52,5 +52,5 @@ msgid "Generator plugin for SRT subtitle file"
 msgstr "Generator-Plugin für SRT-Untertiteldateien"
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 

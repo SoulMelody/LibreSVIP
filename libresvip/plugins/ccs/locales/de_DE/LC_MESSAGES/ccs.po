@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:01\n"
+"PO-Revision-Date: 2024-12-19 01:02\n"
 
 msgid "CeVIO"
-msgstr "CeVIO"
+msgstr ""
 
 msgid "CeVIO Creative Studio Project file"
 msgstr "CeVIO Creative Studio Projektdatei"
@@ -22,7 +22,7 @@ msgid "Conversion plugin for CeVIO Creative Studio project file"
 msgstr "Konvertierungs-Plugin für CeVIO Creative Studio Projektdateien"
 
 msgid "Sder Colin"
-msgstr "Sder Colin"
+msgstr ""
 
 msgid "Unsupported lyric: "
 msgstr "Nicht unterstützter Text: "

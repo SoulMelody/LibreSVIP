@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:03\n"
 
 msgid "Convert wave pattern to singing pattern"
 msgstr "Wellenmuster in Gesangsmuster umwandeln"
@@ -31,7 +31,7 @@ msgid "Import breath curve"
 msgstr "Atemkurve importieren"
 
 msgid "VocalShifter"
-msgstr "VocalShifter"
+msgstr ""
 
 msgid "VocalShifter project file"
 msgstr "VocalShifter-Projektdatei"
@@ -40,5 +40,5 @@ msgid "Import parameters from VocalShifter project file."
 msgstr "Parameter aus VocalShifter-Projektdatei importieren."
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 

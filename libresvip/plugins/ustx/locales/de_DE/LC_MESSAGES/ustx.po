@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:03\n"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
 msgstr "Inkompatibel mit Phonemizern der ARPAsing-Serie"
@@ -37,7 +37,7 @@ msgid "Special lyrics that will be ignored, each separated by a space"
 msgstr "Spezielle Texte, die ignoriert werden, jeweils durch ein Leerzeichen getrennt"
 
 msgid "Ustx"
-msgstr "Ustx"
+msgstr ""
 
 msgid "OpenUtau project file"
 msgstr "OpenUtau Projektdatei"
@@ -46,7 +46,7 @@ msgid "Conversion plugin for Ustx file format"
 msgstr "Konvertierungs-Plugin für das Ustx-Dateiformat"
 
 msgid "Oxygen Dioxide"
-msgstr "Oxygen Dioxide"
+msgstr ""
 
 msgid "Notes Overlapped"
 msgstr "Noten überlappen sich"
