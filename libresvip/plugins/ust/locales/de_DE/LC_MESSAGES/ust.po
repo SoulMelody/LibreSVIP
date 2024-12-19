@@ -13,29 +13,29 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Text encoding"
-msgstr ""
+msgstr "Textkodierung"
 
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgid "UST file version"
-msgstr ""
+msgstr "UST-Dateiversion"
 
 msgid "Ust"
-msgstr ""
+msgstr "Ust"
 
 msgid "UTAU Sequence Text"
-msgstr ""
+msgstr "UTAU Sequenztext"
 
 msgid "Conversion plugin for UST file format"
-msgstr ""
+msgstr "Konvertierungs-Plugin für das UST-Dateiformat"
 
 msgid "Sder Colin"
-msgstr ""
+msgstr "Sder Colin"
 
 msgid "No singing track found"
-msgstr ""
+msgstr "Keine Gesangsspur gefunden"
 
 msgid "UST project has no track"
-msgstr ""
+msgstr "UST-Projekt hat keine Spuren"
 

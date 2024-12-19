@@ -13,23 +13,23 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Svip3"
-msgstr ""
+msgstr "Svip3"
 
 msgid "Netease Cloud Music XStudio project file"
-msgstr ""
+msgstr "Netease Cloud Music XStudio Projektdatei"
 
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Netease Cloud Music XStudio Projektdateien"
 
 msgid "FlutyDeer"
-msgstr ""
+msgstr "FlutyDeer"
 
 msgid "Unsupported pinyin:"
-msgstr ""
+msgstr "Nicht unterstütztes Pinyin:"
 
 msgid "Note duration is too short:"
-msgstr ""
+msgstr "Notendauer ist zu kurz:"
 
 msgid "Note duration is too long:"
-msgstr ""
+msgstr "Notendauer ist zu lang:"
 

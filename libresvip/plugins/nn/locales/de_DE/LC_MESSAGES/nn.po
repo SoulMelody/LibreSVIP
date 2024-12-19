@@ -13,23 +13,23 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "No singing track found"
-msgstr ""
+msgstr "Kein Gesangstrack gefunden"
 
 msgid "NIAONiao"
-msgstr ""
+msgstr "NIAONiao"
 
 msgid "NIAONiao Virtual Singer project file"
-msgstr ""
+msgstr "NIAONiao Virtual Singer-Projektdatei"
 
 msgid "Conversion plugin for NIAONiao project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für NIAONiao-Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgid "Version of NIAONiao project file"
-msgstr ""
+msgstr "Version der NIAONiao-Projektdatei"
 

@@ -13,20 +13,20 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Singer name"
-msgstr ""
+msgstr "Sängername"
 
 msgid "Please enter the singer's English name."
-msgstr ""
+msgstr "Bitte gebe den englischen Sängernamen ein."
 
 msgid "Vogen"
-msgstr ""
+msgstr "Vogen"
 
 msgid "Vogen project file"
-msgstr ""
+msgstr "Vogen Projektdatei"
 
 msgid "Conversion plugin for Vogen project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Vogen-Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

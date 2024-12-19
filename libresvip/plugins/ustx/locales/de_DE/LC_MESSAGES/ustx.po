@@ -13,40 +13,40 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Incompatible with ARPAsing-series Phonemizers"
-msgstr ""
+msgstr "Inkompatibel mit Phonemizern der ARPAsing-Serie"
 
 msgid "Compatible with ARPAsing-series Phonemizers"
-msgstr ""
+msgstr "Kompatibel mit Phonemizern der ARPAsing-Serie"
 
 msgid "The way to handle english multisyllabic words"
-msgstr ""
+msgstr "Die Art und Weise, englische mehrsilbige Wörter zu behandeln"
 
 msgid "Compatibility with ARPAsing-series Phonemizer"
-msgstr ""
+msgstr "Kompatibilität mit Phonemizern der ARPAsing-Serie"
 
 msgid "Breath lyrics"
-msgstr ""
+msgstr "Atemtexte"
 
 msgid "Special lyrics that will be recognized as breath notes only when immediately followed by a regular note, each separated by a space"
-msgstr ""
+msgstr "Spezielle Texte, die nur als Atemnoten erkannt werden, wenn ihnen unmittelbar eine reguläre Note folgt, jeweils durch ein Leerzeichen getrennt"
 
 msgid "Silence lyrics"
-msgstr ""
+msgstr "Stille Texte"
 
 msgid "Special lyrics that will be ignored, each separated by a space"
-msgstr ""
+msgstr "Spezielle Texte, die ignoriert werden, jeweils durch ein Leerzeichen getrennt"
 
 msgid "Ustx"
-msgstr ""
+msgstr "Ustx"
 
 msgid "OpenUtau project file"
-msgstr ""
+msgstr "OpenUtau Projektdatei"
 
 msgid "Conversion plugin for Ustx file format"
-msgstr ""
+msgstr "Konvertierungs-Plugin für das Ustx-Dateiformat"
 
 msgid "Oxygen Dioxide"
-msgstr ""
+msgstr "Oxygen Dioxide"
 
 msgid "Notes Overlapped"
 msgstr "Noten überlappen sich"

@@ -13,14 +13,14 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Ppsf"
-msgstr ""
+msgstr "Ppsf"
 
 msgid "Piapro Studio Song file"
-msgstr ""
+msgstr "Piapro Studio Song-Datei"
 
 msgid "Conversion plugin for Piapro Studio project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für Piapro Studio Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

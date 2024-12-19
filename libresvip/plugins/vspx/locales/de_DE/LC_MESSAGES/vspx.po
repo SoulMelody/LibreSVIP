@@ -13,14 +13,14 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "VocalSharp"
-msgstr ""
+msgstr "VocalSharp"
 
 msgid "VocalSharp project file"
-msgstr ""
+msgstr "VocalSharp Projektdatei"
 
 msgid "Conversion plugin for VocalSharp project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für VocalSharp Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 

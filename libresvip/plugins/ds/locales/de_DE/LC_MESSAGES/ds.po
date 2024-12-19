@@ -13,56 +13,56 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:01\n"
 
 msgid "No singing track found"
-msgstr ""
+msgstr "Kein Gesangstrack gefunden"
 
 msgid "DiffSinger"
-msgstr ""
+msgstr "DiffSinger"
 
 msgid "DiffSinger parameters file"
-msgstr ""
+msgstr "DiffSinger Parameterdatei"
 
 msgid "DiffSinger plugin."
-msgstr ""
+msgstr "DiffSinger Plugin."
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "Dictionary Name"
-msgstr ""
+msgstr "Wörterbuchname"
 
 msgid "Split threshold (in seconds)"
-msgstr ""
+msgstr "Aufteilungsschwelle (in Sekunden)"
 
 msgid "This option controls the segmentation strategy during conversion. When the value of this option is negative, no segmentation is performed; when the value of this option is 0, segmentation is performed at the threshold where the interval between all notes reaches the threshold; when the value of this option is positive, the minimum length of each segment can be controlled on the basis of segmentation. Setting a reasonable segmentation strategy can reduce the memory usage during synthesis while maximizing the utilization of performance and improving the synthesis effect."
-msgstr ""
+msgstr "Diese Option steuert die Segmentierungsstrategie während der Konvertierung. Wenn der Wert dieser Option negativ ist, wird keine Segmentierung durchgeführt; wenn der Wert dieser Option 0 ist, wird die Segmentierung an der Schwelle durchgeführt, an der das Intervall zwischen allen Noten die Schwelle erreicht; wenn der Wert dieser Option positiv ist, kann die Mindestlänge jedes Segments auf Basis der Segmentierung gesteuert werden. Eine vernünftige Segmentierungsstrategie kann den Speicherverbrauch während der Synthese reduzieren, die Leistung maximieren und den Syntheseeffekt verbessern."
 
 msgid "Minimum interval (in milliseconds)"
-msgstr ""
+msgstr "Mindestintervall (in Millisekunden)"
 
 msgid "This option controls the minimum interval between notes. It is recommended to set it to a value greater than 300 milliseconds."
-msgstr ""
+msgstr "Diese Option steuert das Mindestintervall zwischen den Noten. Es wird empfohlen, es auf einen Wert größer als 300 Millisekunden zu setzen."
 
 msgid "Seed"
-msgstr ""
+msgstr "Seed"
 
 msgid "A fixed random seed can get a stable and reproducible synthesis effect. This option takes effect when the non-negative value is set."
-msgstr ""
+msgstr "Ein fester Zufalls-Seed kann einen stabilen und reproduzierbaren Syntheseeffekt erzielen. Diese Option wird wirksam, wenn ein nicht-negativer Wert eingestellt ist."
 
 msgid "Export gender parameter"
-msgstr ""
+msgstr "Geschlechtsparameter exportieren"
 
 msgid "Indentation"
-msgstr ""
+msgstr "Einrückung"
 
 msgid "The number of spaces used for indentation. When the value is negative, no formatting is performed."
-msgstr ""
+msgstr "Die Anzahl der Leerzeichen, die für die Einrückung verwendet werden. Wenn der Wert negativ ist, wird keine Formatierung durchgeführt."
 
 msgid "Cannot find dict."
-msgstr ""
+msgstr "Wörterbuch nicht gefunden."
 
 msgid "The source file lacks phoneme parameters."
-msgstr ""
+msgstr "Der Quelldatei fehlen Phoneme-Parameter."
 
 msgid "The selected dictionary does not contain the pronunciation \"{}\". Please check the pronunciation or try another dictionary."
-msgstr ""
+msgstr "Das ausgewählte Wörterbuch enthält die Aussprache \"{}\" nicht. Bitte überprüfe die Aussprache oder versuche ein anderes Wörterbuch."
 

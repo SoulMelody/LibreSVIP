@@ -13,83 +13,83 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "MIDI"
-msgstr ""
+msgstr "MIDI"
 
 msgid "Standard MIDI file (SMF)"
-msgstr ""
+msgstr "Standard-MIDI-Datei (SMF)"
 
 msgid "Conversion plugin for midi file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für MIDI-Dateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
 msgid "No tempo labels found in the imported project."
-msgstr ""
+msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."
 
 msgid "Overlapping notes in track {}"
-msgstr ""
+msgstr "Überlappende Noten im Track {}"
 
 msgid "Import first channel only"
-msgstr ""
+msgstr "Nur den ersten Kanal importieren"
 
 msgid "Split into tracks"
-msgstr ""
+msgstr "In Tracks aufteilen"
 
 msgid "Custom import range"
-msgstr ""
+msgstr "Benutzerdefinierter Importbereich"
 
 msgid "Import lyrics"
-msgstr ""
+msgstr "Liedtexte importieren"
 
 msgid "Lyric text encoding"
-msgstr ""
+msgstr "Liedtextkodierung"
 
 msgid "Unless the lyrics are garbled, this option should not be changed."
-msgstr ""
+msgstr "Diese Option sollte nicht geändert werden, es sei denn, die Texte sind unverständlich."
 
 msgid "Import time signatures"
-msgstr ""
+msgstr "Taktangaben importieren"
 
 msgid "If this option is unset, the time signature is set to 4/4."
-msgstr ""
+msgstr "Wenn diese Option nicht aktiviert ist, wird die Taktart auf 4/4 gesetzt."
 
 msgid "Multi-channel processing method"
-msgstr ""
+msgstr "Mehrkanal-Verarbeitungsmethode"
 
 msgid "Channels to import"
-msgstr ""
+msgstr "Kanäle zum Importieren"
 
 msgid "Specify which channels to import notes from. Enter channel numbers and/or channel ranges (separated by commas), e.g. 1,3,5-12. Range: 1-16. Only valid when the option \"Custom import range\" is selected in \"Multi-channel processing method\"."
-msgstr ""
+msgstr "Gib an, von welchen Kanälen Noten importiert werden sollen. Gib Kanalnummern und/oder Kanalbereiche ein (mit Kommata getrennt), z.B. 1,3,5-12. Bereich: 1-16. Nur gültig, wenn die Option \"Benutzerdefinierter Importbereich\" in \"Mehrkanal-Verarbeitungsmethode\" ausgewählt ist."
 
 msgid "Default BPM"
-msgstr ""
+msgstr "Standard-BPM"
 
 msgid "Used when no BPM information is found in the MIDI file."
-msgstr ""
+msgstr "Wird verwendet, wenn keine BPM-Informationen in der MIDI-Datei gefunden werden."
 
 msgid "Export lyrics"
-msgstr ""
+msgstr "Liedtexte exportieren"
 
 msgid "Remove symbols from lyrics"
-msgstr ""
+msgstr "Symbole aus Liedtexten entfernen"
 
 msgid "Remove commas, periods, question marks and exclamation marks in Chinese and English to prevent lyric import failure in some vocal synthesizers."
-msgstr ""
+msgstr "Entferne Kommas, Punkte, Fragezeichen und Ausrufezeichen in Chinesisch und Englisch, um einen Fehler beim Import der Liedtexte in einigen Stimmensynthesizern zu verhindern."
 
 msgid "Lyric compatibility mode"
-msgstr ""
+msgstr "Liedtext-Kompatibilitätsmodus"
 
 msgid "Convert all Chinese lyrics to pinyin to prevent garbled characters in MIDI files with Chinese lyrics from being imported by vocal synthesizers that do not support Chinese lyrics."
-msgstr ""
+msgstr "Wandle alle chinesischen Liedtexte in Pinyin um, um unverständliche Zeichen in MIDI-Dateien mit chinesischen Liedtexten zu verhindern, die von Stimmensynthesizern importiert werden, die keine chinesischen Liedtexte unterstützen."
 
 msgid "Transpose"
-msgstr ""
+msgstr "Transponieren"
 
 msgid "Ticks per beat"
-msgstr ""
+msgstr "Ticks pro Schlag"
 
 msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
-msgstr ""
+msgstr "Auch bekannt als ticks per quarter, Ticks pro Viertelnote, die Anzahl der Impulse pro Viertelnote. Diese Einstellung sollte nur geändert werden, wenn du weißt, was sie bewirkt."
 

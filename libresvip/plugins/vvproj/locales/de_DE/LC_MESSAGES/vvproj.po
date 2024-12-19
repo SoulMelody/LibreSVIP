@@ -13,17 +13,17 @@ msgstr ""
 "PO-Revision-Date: 2024-12-17 09:02\n"
 
 msgid "Unsupported lyric: "
-msgstr ""
+msgstr "Nicht unterstützter Liedtext: "
 
 msgid "VVProj"
-msgstr ""
+msgstr "VVProj"
 
 msgid "VOICEVOX Project file"
-msgstr ""
+msgstr "VOICEVOX Projektdatei"
 
 msgid "Conversion plugin for VOICEVOX Project file"
-msgstr ""
+msgstr "Konvertierungs-Plugin für VOICEVOX-Projektdateien"
 
 msgid "SoulMelody"
-msgstr ""
+msgstr "SoulMelody"
 
