@@ -232,7 +232,7 @@ class YamlSettings(pydantic_settings.BaseSettings):
         return settings_object
 
     def save(self) -> None:
-        file_path = self._settings_dir / f"2{self.__FILENAME__}"
+        file_path = self._settings_dir / self.__FILENAME__
         try:
             file_path.write_text(
                 yaml.dump(self.model_dump(), None, get_omega_conf_dumper()), encoding="utf-8"
