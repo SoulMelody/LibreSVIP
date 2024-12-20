@@ -231,13 +231,13 @@ class AcepNote(BaseModel):
     pitch: int = 0
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     lyric: str = ""
-    pronunciation: str = ""
+    pronunciation: Optional[str] = None
     freezed_default_syllable: Optional[str] = Field(None, alias="freezedDefaultSyllable")
     new_line: bool = Field(False, alias="newLine")
     consonant_len: Optional[int] = Field(None, alias="consonantLen")
     head_consonants: Optional[list[float]] = Field(default_factory=list, alias="headConsonants")
     tail_consonants: Optional[list[float]] = Field(default_factory=list, alias="tailConsonants")
-    syllable: Optional[str] = ""
+    syllable: str = ""
     br_len: float = Field(0.0, alias="brLen")
     vibrato: Optional[AcepVibrato] = None
     extra_info: dict[str, Any] = Field(default_factory=dict, alias="extraInfo")

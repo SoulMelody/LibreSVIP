@@ -189,13 +189,14 @@ class AceParser:
         track.volume = 10 ** (ace_track.gain / 20)
         return track
 
-    def parse_note(self, ace_note: AcepNote, pinyin: Optional[str] = None) -> Note:
+    def parse_note(self, ace_note: AcepNote) -> Note:
         if (
             not self.options.keep_all_pronunciation
             and ace_note.language == AcepLyricsLanguage.CHINESE
-            and pinyin is None
         ):
-            pinyin = next(iter(get_pinyin_series(ace_note.lyric)), None)
+            pronunciation = next(iter(get_pinyin_series(ace_note.lyric)), None)
+        else:
+            pronunciation = None
         note = Note(
             key_number=ace_note.pitch,
             start_pos=ace_note.pos,
@@ -208,7 +209,11 @@ class AceParser:
         ):
             span_index = int(latin_span.group(1))
             note.lyric = ACEP_LATIN_SPAN_RE.sub("", note.lyric) if span_index == 1 else "+"
-        if pinyin is None or ("-" not in ace_note.lyric and ace_note.pronunciation != pinyin):
+        if ace_note.syllable:
+            note.pronunciation = f"[{ace_note.syllable}]"
+        elif pronunciation is None or (
+            "-" not in ace_note.lyric and ace_note.pronunciation != pronunciation
+        ):
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
             note.head_tag = "V"
