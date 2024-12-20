@@ -34,6 +34,7 @@ class BaseModel(PydanticBaseModel):
         # # Uncomment the following lines to enable strict mode
         # extra="forbid",
         # strict=True,
+        # validate_assignment=True,
     )
 
 

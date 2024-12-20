@@ -106,15 +106,15 @@ class AceParser:
             )
             ace_note_list = []
             ace_params = AcepParams()
-            for pattern in ace_track.patterns:
-                if len(pattern.notes) == 0:
-                    continue
+            for pattern in sorted(ace_track.patterns, key=operator.attrgetter("clip_pos")):
                 ace_notes = [
                     note
                     for note in pattern.notes
                     if note.pos + pattern.pos >= 0
                     and pattern.clip_pos <= note.pos < pattern.clip_pos + pattern.clip_dur
                 ]
+                if not ace_notes:
+                    continue
                 prev_ace_note = None
                 for ace_note in ace_notes:
                     ace_note.dur = int(
@@ -168,6 +168,17 @@ class AceParser:
                 if self.options.energy_normalization.enabled:
                     merge_curves(pattern.parameters.real_energy, ace_params.real_energy)
             ace_note_list.sort(key=operator.attrgetter("pos"))
+            ace_params.pitch_delta.root.sort(key=operator.attrgetter("offset"))
+            ace_params.breathiness.root.sort(key=operator.attrgetter("offset"))
+            ace_params.gender.root.sort(key=operator.attrgetter("offset"))
+            ace_params.energy.root.sort(key=operator.attrgetter("offset"))
+            ace_params.tension.root.sort(key=operator.attrgetter("offset"))
+            if self.options.breath_normalization.enabled:
+                ace_params.real_breathiness.root.sort(key=operator.attrgetter("offset"))
+            if self.options.tension_normalization.enabled:
+                ace_params.real_tension.root.sort(key=operator.attrgetter("offset"))
+            if self.options.energy_normalization.enabled:
+                ace_params.real_energy.root.sort(key=operator.attrgetter("offset"))
             track.note_list = [self.parse_note(ace_note) for ace_note in ace_note_list]
             track.edited_params = self.parse_params(ace_params, ace_note_list)
         else:
