@@ -43,7 +43,6 @@ from nicegui.events import (
 from nicegui.storage import request_contextvar
 from pydantic import RootModel, create_model
 from pydantic.config import JsonValue
-from pydantic.dataclasses import dataclass
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -87,7 +86,6 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-@dataclass
 class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
     def __post_init__(self) -> None:
         self.lyric_replace_rules.setdefault("default", [])
