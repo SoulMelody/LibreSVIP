@@ -1438,7 +1438,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         lambda row: row["id"] == event.args["id"],
                                     )
                                 ) != -1:
-                                    table.remove_rows(rows[row_idx])
+                                    table.remove_row(rows[row_idx])
 
                             table.on("delete", delete_rule)
 
@@ -1515,7 +1515,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     elif mode_value == LyricsReplaceMode.ALPHABETIC.value:
                                         pattern_prefix = r"(?<=^|\b)"
                                         pattern_suffix = r"(?=$|\b)"
-                                    table.add_rows(
+                                    table.add_row(
                                         {
                                             "id": rows[-1]["id"] + 1 if len(rows) else 1,
                                             "mode": mode_value,
