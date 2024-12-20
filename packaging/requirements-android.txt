@@ -1,5 +1,4 @@
 annotated-types==0.7.0
-antlr4-python3-runtime==4.9.3
 anyio==4.7.0 ; platform_system != 'Pyodide'
 bidict==0.23.1
 certifi==2024.12.14 ; platform_system != 'Pyodide'
@@ -26,7 +25,6 @@ mdurl==0.1.2
 mido-fix==1.2.12
 more-itertools==10.5.0
 oauthlib==3.2.2 ; platform_system != 'Pyodide'
-omegaconf==2.3.0
 packaging==24.2
 parsimonious==0.10.0
 platformdirs==4.3.6
@@ -36,10 +34,12 @@ protobuf==5.29.2
 pydantic==2.10.4
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
+pydantic-settings==2.7.0
 pygments==2.18.0
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
 pypinyin==0.53.0
 pysubs2==1.7.3
+python-dotenv==1.0.1
 pyyaml==6.0.2
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 regex==2024.11.6

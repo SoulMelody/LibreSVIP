@@ -4,7 +4,6 @@ aiohttp==3.11.11
 aiosignal==1.3.2
 altgraph==0.17.4
 annotated-types==0.7.0
-antlr4-python3-runtime==4.9.3
 anyio==4.7.0
 async-timeout==5.0.1 ; python_full_version < '3.11'
 attrs==24.3.0
@@ -44,7 +43,6 @@ mido-fix==1.2.12
 more-itertools==10.5.0
 multidict==6.1.0
 nicegui==2.9.0
-omegaconf==2.3.0
 orjson==3.10.12 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 parsimonious==0.10.0
@@ -61,6 +59,7 @@ pycparser==2.22 ; sys_platform == 'win32'
 pydantic==2.10.4
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
+pydantic-settings==2.7.0
 pygments==2.18.0
 pyinstaller==6.11.1 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
