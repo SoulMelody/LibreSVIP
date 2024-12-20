@@ -977,6 +977,7 @@ async def main(page: ft.Page) -> None:
                 )
             )
         elif event.route == "/settings":
+            bottom_nav_bar.selected_index = 1
             page.views.append(
                 ft.View(
                     appbar=ft.AppBar(
@@ -1040,6 +1041,7 @@ async def main(page: ft.Page) -> None:
                 )
             )
         elif event.route == "/about":
+            bottom_nav_bar.selected_index = 2
             page.views.append(
                 ft.View(
                     appbar=ft.AppBar(
