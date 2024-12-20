@@ -160,6 +160,7 @@ async def main(page: ft.Page) -> None:
                 fields.append(
                     ft.IconButton(
                         ft.Icons.HELP_OUTLINE_OUTLINED,
+                        mouse_cursor=ft.MouseCursor.HELP,
                         tooltip=ft.Tooltip(
                             _(field_info.description), trigger_mode=ft.TooltipTriggerMode.TAP
                         ),
@@ -664,6 +665,7 @@ async def main(page: ft.Page) -> None:
                     ),
                     ft.IconButton(
                         icon=ft.Icons.CLOSE_OUTLINED,
+                        hover_color=ft.Colors.RED_400,
                         tooltip=_("Close"),
                         on_click=lambda _: page.window.close(),
                     ),
