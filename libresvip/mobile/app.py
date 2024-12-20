@@ -26,6 +26,8 @@ async def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
     page.window.width = 600
     page.window.height = 700
+    page.window.title_bar_hidden = True
+    page.window.title_bar_buttons_hidden = True
 
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
@@ -628,6 +630,45 @@ async def main(page: ft.Page) -> None:
                 ft.PopupMenuItem(text="Deutsch", on_click=lambda _: change_language("de_DE")),
             ],
         )
+        window_buttons = []
+        if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID]:
+            maximize_button = ft.Ref[ft.IconButton]()
+
+            def on_minimize_click(e: ft.ControlEvent) -> None:
+                page.window.minimized = True
+                page.update()
+
+            def on_maximize_click(e: ft.ControlEvent) -> None:
+                page.window.maximized = not page.window.maximized
+                page.update()
+                if page.window.maximized:
+                    maximize_button.current.icon = ft.Icons.CLOSE_FULLSCREEN_OUTLINED
+                    maximize_button.current.tooltip = _("Restore")
+                else:
+                    maximize_button.current.icon = ft.Icons.OPEN_IN_FULL_OUTLINED
+                    maximize_button.current.tooltip = _("Maximize")
+                maximize_button.current.update()
+
+            window_buttons.extend(
+                [
+                    ft.IconButton(
+                        icon=ft.Icons.MINIMIZE_OUTLINED,
+                        tooltip=_("Minimize"),
+                        on_click=on_minimize_click,
+                    ),
+                    ft.IconButton(
+                        ref=maximize_button,
+                        icon=ft.Icons.OPEN_IN_FULL_OUTLINED,
+                        tooltip=_("Maximize"),
+                        on_click=on_maximize_click,
+                    ),
+                    ft.IconButton(
+                        icon=ft.Icons.CLOSE_OUTLINED,
+                        tooltip=_("Close"),
+                        on_click=lambda _: page.window.close(),
+                    ),
+                ]
+            )
         if event.route.partition("?")[0] == "/":
 
             def swap_formats(e: ft.ControlEvent) -> None:
@@ -897,162 +938,172 @@ async def main(page: ft.Page) -> None:
                 on_change=select_page,
             )
 
-            view = ft.View(
-                "/",
-                appbar=ft.AppBar(
-                    title=ft.Text("LibreSVIP"),
-                    leading=ft.IconButton(
-                        ft.Icons.MENU_OUTLINED, on_click=lambda _: page.open(drawer)
-                    ),
-                    bgcolor=ft.Colors.SURFACE,
-                    actions=[
-                        ft.IconButton(
-                            ft.Icons.ADD_OUTLINED,
-                            tooltip=_("Continue Adding files"),
-                            on_click=lambda e: file_picker.pick_files(
-                                _("Select files to convert"), allow_multiple=True
-                            ),
+            page.views.append(
+                ft.View(
+                    "/",
+                    appbar=ft.AppBar(
+                        title=ft.WindowDragArea(
+                            ft.Row([ft.Text("LibreSVIP")], expand=True), expand=True
                         ),
-                        switch_theme_btn,
-                        switch_language_btn,
-                    ],
-                ),
-                navigation_bar=bottom_nav_bar,
-                floating_action_button=ft.FloatingActionButton(
-                    icon=ft.Icons.PLAY_ARROW_OUTLINED,
-                    tooltip=_("Start Conversion"),
-                    on_click=convert_all,
-                ),
-                drawer=drawer,
-                controls=[
-                    ft.Column(pages, alignment=ft.MainAxisAlignment.START, expand=True),
-                ],
-            )
-            page.views.append(view)
-        elif event.route == "/settings":
-            view = ft.View(
-                appbar=ft.AppBar(
-                    title=ft.Text(_("Basic Settings")),
-                    center_title=True,
-                    bgcolor=ft.Colors.SURFACE,
-                    actions=[switch_theme_btn, switch_language_btn],
-                ),
-                controls=[
-                    ft.ResponsiveRow(
-                        [
-                            ft.Switch(
-                                _("Auto detect import format"),
-                                value=page.client_storage.get("auto_detect_input_format"),
-                                col=12,
-                                on_change=change_auto_detect_input_format,
-                            ),
-                            ft.Switch(
-                                _("Reset list when import format changed"),
-                                value=page.client_storage.get("reset_tasks_on_input_change"),
-                                col=12,
-                                on_change=change_reset_tasks_on_input_change,
-                            ),
-                            ft.Text(_("Max track count"), col=4),
-                            ft.Slider(
-                                value=page.client_storage.get("max_track_count"),
-                                min=1,
-                                max=100,
-                                divisions=100,
-                                label="{value}",
-                                col=8,
-                                on_change=change_max_track_count,
-                            ),
-                            ft.TextField(
-                                ref=save_folder_text_field,
-                                label=_("Output Folder"),
-                                value=page.client_storage.get("save_folder"),
-                                col=10,
-                            ),
+                        leading=ft.IconButton(
+                            ft.Icons.MENU_OUTLINED, on_click=lambda _: page.open(drawer)
+                        ),
+                        bgcolor=ft.Colors.SURFACE,
+                        actions=[
                             ft.IconButton(
-                                ft.Icons.FOLDER_OPEN_OUTLINED,
-                                tooltip=_("Change Output Directory"),
-                                col=2,
-                                on_click=lambda e: file_picker.get_directory_path(
-                                    _("Change Output Directory")
+                                ft.Icons.ADD_OUTLINED,
+                                tooltip=_("Continue Adding files"),
+                                on_click=lambda e: file_picker.pick_files(
+                                    _("Select files to convert"), allow_multiple=True
                                 ),
                             ),
-                            ft.ElevatedButton(
-                                _("Request permission to access files"),
-                                data=ft.PermissionType.MANAGE_EXTERNAL_STORAGE,
-                                on_click=check_permission,
-                                col=12,
-                            ),
+                            switch_theme_btn,
+                            switch_language_btn,
+                            *window_buttons,
                         ],
-                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                    )
-                ],
-                navigation_bar=bottom_nav_bar,
+                    ),
+                    navigation_bar=bottom_nav_bar,
+                    floating_action_button=ft.FloatingActionButton(
+                        icon=ft.Icons.PLAY_ARROW_OUTLINED,
+                        tooltip=_("Start Conversion"),
+                        on_click=convert_all,
+                    ),
+                    drawer=drawer,
+                    controls=[
+                        ft.Column(pages, alignment=ft.MainAxisAlignment.START, expand=True),
+                    ],
+                )
             )
-            page.views.append(view)
-        elif event.route == "/about":
-            view = ft.View(
-                appbar=ft.AppBar(
-                    title=ft.Text(_("About")),
-                    center_title=True,
-                    bgcolor=ft.Colors.SURFACE,
-                    actions=[switch_theme_btn, switch_language_btn],
-                ),
-                controls=[
-                    ft.ResponsiveRow(
-                        [
-                            ft.Text(
-                                spans=[
-                                    ft.TextSpan(
-                                        "LibreSVIP",
-                                        ft.TextStyle(size=24, weight=ft.FontWeight.BOLD),
+        elif event.route == "/settings":
+            page.views.append(
+                ft.View(
+                    appbar=ft.AppBar(
+                        title=ft.WindowDragArea(
+                            ft.Row([ft.Text("Basic Settings")], expand=True), expand=True
+                        ),
+                        center_title=True,
+                        bgcolor=ft.Colors.SURFACE,
+                        actions=[switch_theme_btn, switch_language_btn, *window_buttons],
+                    ),
+                    controls=[
+                        ft.ResponsiveRow(
+                            [
+                                ft.Switch(
+                                    _("Auto detect import format"),
+                                    value=page.client_storage.get("auto_detect_input_format"),
+                                    col=12,
+                                    on_change=change_auto_detect_input_format,
+                                ),
+                                ft.Switch(
+                                    _("Reset list when import format changed"),
+                                    value=page.client_storage.get("reset_tasks_on_input_change"),
+                                    col=12,
+                                    on_change=change_reset_tasks_on_input_change,
+                                ),
+                                ft.Text(_("Max track count"), col=4),
+                                ft.Slider(
+                                    value=page.client_storage.get("max_track_count"),
+                                    min=1,
+                                    max=100,
+                                    divisions=100,
+                                    label="{value}",
+                                    col=8,
+                                    on_change=change_max_track_count,
+                                ),
+                                ft.TextField(
+                                    ref=save_folder_text_field,
+                                    label=_("Output Folder"),
+                                    value=page.client_storage.get("save_folder"),
+                                    col=10,
+                                ),
+                                ft.IconButton(
+                                    ft.Icons.FOLDER_OPEN_OUTLINED,
+                                    tooltip=_("Change Output Directory"),
+                                    col=2,
+                                    on_click=lambda e: file_picker.get_directory_path(
+                                        _("Change Output Directory")
                                     ),
-                                ],
-                                text_align=ft.TextAlign.CENTER,
-                                col=12,
-                            ),
-                            ft.Text(
-                                _("Version: ") + libresvip.__version__,
-                                text_align=ft.TextAlign.CENTER,
-                                col=12,
-                            ),
-                            ft.Text(
-                                _("Author: SoulMelody"), text_align=ft.TextAlign.CENTER, col=12
-                            ),
-                            ft.TextButton(
-                                _("Author's Profile"),
-                                icon=ft.Icons.LIVE_TV_OUTLINED,
-                                url="https://space.bilibili.com/175862486",
-                                col=6,
-                            ),
-                            ft.TextButton(
-                                _("Repo URL"),
-                                icon=ft.Icons.LOGO_DEV_OUTLINED,
-                                url="https://github.com/SoulMelody/LibreSVIP",
-                                col=6,
-                            ),
-                            ft.Card(
-                                ft.Column(
-                                    [
-                                        ft.Text(
-                                            _(
-                                                "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.",
-                                            )
-                                        ),
-                                        ft.Text(
-                                            _(
-                                                "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.",
-                                            )
-                                        ),
-                                    ]
                                 ),
-                                col=12,
-                            ),
-                        ],
-                    )
-                ],
-                navigation_bar=bottom_nav_bar,
+                                ft.ElevatedButton(
+                                    _("Request permission to access files"),
+                                    data=ft.PermissionType.MANAGE_EXTERNAL_STORAGE,
+                                    on_click=check_permission,
+                                    col=12,
+                                ),
+                            ],
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                        )
+                    ],
+                    navigation_bar=bottom_nav_bar,
+                )
             )
-            page.views.append(view)
+        elif event.route == "/about":
+            page.views.append(
+                ft.View(
+                    appbar=ft.AppBar(
+                        title=ft.WindowDragArea(
+                            ft.Row([ft.Text("About")], expand=True), expand=True
+                        ),
+                        center_title=True,
+                        bgcolor=ft.Colors.SURFACE,
+                        actions=[switch_theme_btn, switch_language_btn, *window_buttons],
+                    ),
+                    controls=[
+                        ft.ResponsiveRow(
+                            [
+                                ft.Text(
+                                    spans=[
+                                        ft.TextSpan(
+                                            "LibreSVIP",
+                                            ft.TextStyle(size=24, weight=ft.FontWeight.BOLD),
+                                        ),
+                                    ],
+                                    text_align=ft.TextAlign.CENTER,
+                                    col=12,
+                                ),
+                                ft.Text(
+                                    _("Version: ") + libresvip.__version__,
+                                    text_align=ft.TextAlign.CENTER,
+                                    col=12,
+                                ),
+                                ft.Text(
+                                    _("Author: SoulMelody"), text_align=ft.TextAlign.CENTER, col=12
+                                ),
+                                ft.TextButton(
+                                    _("Author's Profile"),
+                                    icon=ft.Icons.LIVE_TV_OUTLINED,
+                                    url="https://space.bilibili.com/175862486",
+                                    col=6,
+                                ),
+                                ft.TextButton(
+                                    _("Repo URL"),
+                                    icon=ft.Icons.LOGO_DEV_OUTLINED,
+                                    url="https://github.com/SoulMelody/LibreSVIP",
+                                    col=6,
+                                ),
+                                ft.Card(
+                                    ft.Column(
+                                        [
+                                            ft.Text(
+                                                _(
+                                                    "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats.",
+                                                )
+                                            ),
+                                            ft.Text(
+                                                _(
+                                                    "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie.",
+                                                )
+                                            ),
+                                        ]
+                                    ),
+                                    col=12,
+                                ),
+                            ],
+                        )
+                    ],
+                    navigation_bar=bottom_nav_bar,
+                )
+            )
         page.update()
 
     def view_pop(view: ft.View) -> None:
