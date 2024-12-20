@@ -1,7 +1,6 @@
 from typing import Annotated
 
 import typer
-from omegaconf import OmegaConf
 
 from libresvip.core.config import save_settings, settings
 from libresvip.utils.translation import gettext_lazy as _
@@ -11,7 +10,7 @@ app = typer.Typer()
 
 @app.command("list")
 def list_configurations() -> None:
-    for name, value in OmegaConf.to_container(settings, resolve=True).items():
+    for name, value in settings.model_dump().items():
         typer.echo(f"{name}: {value}")
 
 

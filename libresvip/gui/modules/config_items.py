@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import base64
-import dataclasses
 import pathlib
 from typing import Any, Optional
 
@@ -49,11 +48,11 @@ def base_prop_factory(attrs: dict[str, Any], field_name: str, field_type: type) 
 
 class AutoBindBaseConfigMetaObject(type(QObject)):  # type: ignore[misc]
     def __new__(cls, name: str, bases: tuple[type], attrs: dict[str, Any]) -> type[QObject]:
-        for field in dataclasses.fields(LibreSvipSettings):  # type: ignore[arg-type]
-            if field.type == "bool":
-                base_prop_factory(attrs, field.name, bool)
-            elif field.type == "int":
-                base_prop_factory(attrs, field.name, int)
+        for field_name, field_info in LibreSvipSettings.model_fields.items():
+            if field_info.annotation is bool:
+                base_prop_factory(attrs, field_name, bool)
+            elif field_info.annotation is int:
+                base_prop_factory(attrs, field_name, int)
         return super().__new__(cls, name, bases, attrs)
 
 
