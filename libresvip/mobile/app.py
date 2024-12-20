@@ -982,7 +982,7 @@ async def main(page: ft.Page) -> None:
                 ft.View(
                     appbar=ft.AppBar(
                         title=ft.WindowDragArea(
-                            ft.Row([ft.Text("Basic Settings")], expand=True), expand=True
+                            ft.Row([ft.Text(_("Basic Settings"))], expand=True), expand=True
                         ),
                         center_title=True,
                         bgcolor=ft.Colors.SURFACE,
@@ -1046,7 +1046,7 @@ async def main(page: ft.Page) -> None:
                 ft.View(
                     appbar=ft.AppBar(
                         title=ft.WindowDragArea(
-                            ft.Row([ft.Text("About")], expand=True), expand=True
+                            ft.Row([ft.Text(_("About"))], expand=True), expand=True
                         ),
                         center_title=True,
                         bgcolor=ft.Colors.SURFACE,
