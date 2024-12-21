@@ -5,7 +5,7 @@ import enum
 import locale
 import pathlib
 import re
-from typing import Any, Optional, TypeVar, Union
+from typing import Annotated, Any, Optional, TypeVar, Union
 
 import pydantic_settings
 import yaml
@@ -254,8 +254,8 @@ class LyricsReplacement(BaseModel):
     pattern_main: str
     pattern_prefix: str = ""
     pattern_suffix: str = ""
-    flags: pydantic_enum(re.RegexFlag) = re.IGNORECASE  # type: ignore[valid-type]
-    mode: pydantic_enum(LyricsReplaceMode) = LyricsReplaceMode.FULL  # type: ignore[valid-type]
+    flags: Annotated[re.RegexFlag, pydantic_enum(re.RegexFlag)] = re.IGNORECASE
+    mode: Annotated[LyricsReplaceMode, pydantic_enum(LyricsReplaceMode)] = LyricsReplaceMode.FULL
 
     def __post_init__(self) -> None:
         if self.mode == LyricsReplaceMode.FULL:
@@ -337,10 +337,10 @@ class ConversionMode(enum.Enum):
 
 
 class LibreSvipBaseUISettings(YamlSettings):
-    language: pydantic_enum(Language) = Field(default_factory=Language.auto)  # type: ignore[valid-type]
+    language: Annotated[Language, pydantic_enum(Language)] = Field(default_factory=Language.auto)
     last_input_format: Optional[str] = Field(default=None)
     last_output_format: Optional[str] = Field(default=None)
-    dark_mode: pydantic_enum(DarkMode) = Field(default=DarkMode.SYSTEM)  # type: ignore[valid-type]
+    dark_mode: Annotated[DarkMode, pydantic_enum(DarkMode)] = Field(default=DarkMode.SYSTEM)
     auto_detect_input_format: bool = Field(default=True)
     reset_tasks_on_input_change: bool = Field(default=True)
     max_track_count: int = Field(default=1)
@@ -357,7 +357,9 @@ class LibreSvipSettings(LibreSvipBaseUISettings):
     # GUI Only
     save_folder: pathlib.Path = Field(default=pathlib.Path("./"))
     folder_presets: list[pathlib.Path] = Field(default_factory=list)
-    conflict_policy: pydantic_enum(ConflictPolicy) = Field(default=ConflictPolicy.PROMPT)  # type: ignore[valid-type]
+    conflict_policy: Annotated[ConflictPolicy, pydantic_enum(ConflictPolicy)] = Field(
+        default=ConflictPolicy.PROMPT
+    )
     multi_threaded_conversion: bool = Field(default=True)
     open_save_folder_on_completion: bool = Field(default=True)
     auto_set_output_extension: bool = Field(default=True)

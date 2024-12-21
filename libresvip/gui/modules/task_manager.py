@@ -27,7 +27,7 @@ from PySide6.QtCore import (
 from PySide6.QtQml import QmlElement
 from upath import UPath
 
-from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found]
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import ConversionMode, get_ui_settings, settings
 from libresvip.core.warning_types import CatchWarnings
