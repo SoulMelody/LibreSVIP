@@ -6,7 +6,7 @@ import math
 from types import SimpleNamespace
 from typing import Annotated, Literal, Optional, Union
 
-from pydantic import Field, field_validator
+from pydantic import Field, computed_field, field_validator
 
 from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
 from libresvip.model.base import BaseModel
@@ -100,6 +100,7 @@ class URendererSettings(BaseModel):
 class UTrack(BaseModel):
     track_name: Optional[str] = None
     track_color: Optional[str] = None
+    track_expressions: Optional[list[UExpression]] = Field(default_factory=list)
     voice_color_names: Optional[list[str]] = None
     singer: Optional[str] = None
     phonemizer: Optional[str] = None
@@ -186,6 +187,10 @@ class UPart(BaseModel):
 class UVoicePart(UPart):
     notes: list[UNote] = Field(default_factory=list)
     curves: list[UCurve] = Field(default_factory=list)
+
+    @computed_field
+    def duration(self) -> int:
+        return max(self.notes[-1].end - self.position if self.notes else 0, 480)
 
 
 class UWavePart(UPart):

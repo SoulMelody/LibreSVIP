@@ -166,9 +166,3 @@ class TimeAxis:
 
     def ms_between_tick_pos(self, tick_pos: float, tick_end: float) -> float:
         return self.tick_pos_to_ms_pos(tick_end) - self.tick_pos_to_ms_pos(tick_pos)
-
-    def clone(self) -> TimeAxis:
-        return TimeAxis(
-            time_sig_segments=self.time_sig_segments.copy(),
-            tempo_segments=self.tempo_segments.copy(),
-        )
