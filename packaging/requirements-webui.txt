@@ -12,7 +12,7 @@ bottle==0.13.2
 certifi==2024.12.14
 cffi==1.17.1 ; sys_platform == 'win32'
 charset-normalizer==3.4.0
-click==8.1.7
+click==8.1.8
 clr-loader==0.2.7.post0 ; sys_platform == 'win32'
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.68
@@ -31,7 +31,7 @@ ifaddr==0.2.0
 importlib-metadata==8.5.0 ; python_full_version < '3.10'
 importlib-resources==6.4.5 ; python_full_version < '3.11'
 itsdangerous==2.2.0
-jinja2==3.1.4
+jinja2==3.1.5
 loguru==0.7.3
 lxml==5.3.0
 macholib==1.16.3 ; sys_platform == 'darwin'
