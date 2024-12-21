@@ -185,7 +185,7 @@ class CeVIOParser:
                     lyric = "-"
                 phoneme = None
                 if note_node.phonetic is not None:
-                    phoneme = note_node.phonetic.replace(",", "")
+                    phoneme = note_node.phonetic.replace(",", " ")
                 notes.append(
                     Note(
                         key_number=key,

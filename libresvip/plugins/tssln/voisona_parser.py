@@ -129,7 +129,7 @@ class VoiSonaParser:
                     pitch_octave = note_node.pitch_octave - OCTAVE_OFFSET
                     phoneme = None
                     if note_node.phoneme:
-                        phoneme = note_node.phoneme.replace(",", "")
+                        phoneme = note_node.phoneme.replace(",", " ")
                     notes.append(
                         Note(
                             key_number=note_node.pitch_step + pitch_octave * 12,
