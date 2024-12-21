@@ -134,10 +134,10 @@ all = [
 libresvip-cli = "libresvip.cli.__main__:app"
 libresvip-tui = "libresvip.tui.__main__:main"
 libresvip-web = "libresvip.web.__main__:main"
-libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.gui-scripts]
 libresvip-gui = "libresvip.gui.__main__:run"
+libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"

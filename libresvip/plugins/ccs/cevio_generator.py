@@ -7,7 +7,6 @@ from xsdata.models.datatype import XmlTime
 
 from libresvip.core.constants import KEY_IN_OCTAVE
 from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
-from libresvip.core.lyric_phoneme.japanese.cevio_romaji_mapping import romaji2phoneme
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
@@ -184,8 +183,8 @@ class CeVIOGenerator:
         for note in notes:
             lyric = chr(PROLONGED_SOUND_MARK) if note.lyric == "-" else note.lyric
             phonetic = None
-            if note.pronunciation in romaji2phoneme:
-                phonetic = romaji2phoneme[note.pronunciation]
+            if note.pronunciation:
+                phonetic = note.pronunciation
             elif not is_kana(lyric) and not is_romaji(lyric):
                 phonetic = DEFAULT_PHONEME
                 msg_prefix = _("Unsupported lyric: ")
