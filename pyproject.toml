@@ -223,7 +223,7 @@ known-first-party = ['libresvip', 'tests']
 keep-runtime-typing = true
 
 [tool.mypy]
-disable_error_code = "import-not-found,unused-ignore"
+disable_error_code = "import-not-found,import-untyped,unused-ignore"
 warn_redundant_casts = true
 warn_unused_ignores = true
 disallow_any_generics = true

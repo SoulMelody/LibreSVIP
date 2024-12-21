@@ -216,7 +216,7 @@ class VsqParser:
                     and (length := vsq_note.getint("length"))
                     and (key := vsq_note.getint("note#"))
                 ):
-                    lyric_handle = vsq_note.get("lyrichandle", fallback="")
+                    lyric_handle = vsq_note.get("lyrichandle") or ""
                     lyric_value, phoneme_value = vsq_track.get(
                         lyric_handle, "L0", fallback=","
                     ).split(",")[:2]

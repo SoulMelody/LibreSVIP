@@ -1,3 +1,4 @@
+# mypy: disable-error-code="misc"
 import enum
 import uuid
 from typing import Annotated, Any, Optional
