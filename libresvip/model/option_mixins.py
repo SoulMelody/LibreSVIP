@@ -46,3 +46,13 @@ class SelectSingleTrackMixin(BaseModel, abc.ABC):
         title=_("Track index"),
         description=_("Start from 0, -1 means automatic selection"),
     )
+
+
+class ExtractEmbededAudioMixin(BaseModel, abc.ABC):
+    extract_audio: bool = Field(
+        False,
+        title=_("Extract audio"),
+        description=_(
+            "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
+        ),
+    )

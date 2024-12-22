@@ -1623,7 +1623,7 @@ all = [
     { name = "gapic-generator", specifier = ">=1.21.0" },
     { name = "mkdocs-material", specifier = ">=9.5.49,<10.0.0" },
     { name = "mypy", specifier = ">=1.14.0" },
-    { name = "nuitka", specifier = ">=2.5.7" },
+    { name = "nuitka", specifier = ">=2.5.8" },
     { name = "pre-commit", specifier = ">=4.0.1" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
@@ -1637,12 +1637,12 @@ all = [
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20241221" },
     { name = "types-ujson", specifier = ">=5.10.0.20240515" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=24.11" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
 code-gen = [
     { name = "datamodel-code-generator", specifier = ">=0.26.4" },
     { name = "gapic-generator", specifier = ">=1.21.0" },
-    { name = "xsdata", extras = ["cli"], specifier = ">=24.11" },
+    { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
 docs = [{ name = "mkdocs-material", specifier = ">=9.5.49,<10.0.0" }]
 i18n = [{ name = "babel", specifier = ">=2.16.0" }]
@@ -1659,7 +1659,7 @@ linting = [
 ]
 packaging = [
     { name = "cx-freeze", specifier = ">=7.2.7" },
-    { name = "nuitka", specifier = ">=2.5.7" },
+    { name = "nuitka", specifier = ">=2.5.8" },
     { name = "pyinstaller", specifier = ">=6.11.1" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
 ]
@@ -2302,13 +2302,13 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "2.5.7"
+version = "2.5.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ordered-set" },
     { name = "zstandard" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9c/5e/69b0cea4048e03866b4ae2476add1c2c9705c41bdaf467c7bcbd034280ea/Nuitka-2.5.7.tar.gz", hash = "sha256:b4eb9ee138c07484f67a254eed3f1f2178dc9845c58f2fa1218296b3608b99d1", size = 3779250 }
+sdist = { url = "https://files.pythonhosted.org/packages/4e/62/eaf070b3f56d382403fa9cf85ab9cb81924e96b19f614af27c3695e99f88/Nuitka-2.5.8.tar.gz", hash = "sha256:ad1d5a080c2d488dc9a90f23e20b8d5cc9657444b1aba9a3b497a107fdfa6bae", size = 3777360 }
 
 [[package]]
 name = "oauthlib"
@@ -4360,14 +4360,14 @@ wheels = [
 
 [[package]]
 name = "xsdata"
-version = "24.11"
+version = "24.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/68/2c87ceae0788b6468a637d3d63cd6fcc90ca6b6029e8d23b9313d3d9b741/xsdata-24.11.tar.gz", hash = "sha256:011193f775877d832d736b68e8553de3fe35b8447974effce08fc6cc3305d206", size = 340206 }
+sdist = { url = "https://files.pythonhosted.org/packages/29/82/c2b73724bdd31f81e263e1f87e4b9bd70703dd4282ce44ffe1978cda541b/xsdata-24.12.tar.gz", hash = "sha256:67c16c032bbde82c064f6c28cdf6b4f8adcbd0498e2668a346ff8e52a3a200b4", size = 343596 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a1/95/5dfb080e293175ed7c490a765bcf382827596b24ce5375aa0e4d785e961a/xsdata-24.11-py3-none-any.whl", hash = "sha256:bb0ba63daab93c190cfc7d8bb3c2392422cc2ad0b7214f3061cf4cde231cce97", size = 229319 },
+    { url = "https://files.pythonhosted.org/packages/0c/e5/70026869f5ab3c6be413ab5a978849cfe2037f2e82bd1da8550c7627caa3/xsdata-24.12-py3-none-any.whl", hash = "sha256:2656cfa7240d215a4f2ff30abeebee9afad1e72b805f3ed29ded518a7d3785ee", size = 232617 },
 ]
 
 [package.optional-dependencies]

@@ -56,7 +56,7 @@ typing-extensions==4.12.2
 universal-pathlib==0.2.6
 wanakana-python==1.2.2
 win32-setctime==1.2.0 ; sys_platform == 'win32'
-xsdata==24.11
+xsdata==24.12
 xsdata-pydantic==24.5
 zhon==2.1.1
 zipp==3.21.0 ; python_full_version < '3.10'

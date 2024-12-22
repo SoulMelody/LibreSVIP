@@ -98,7 +98,7 @@ typer-slim==0.15.1
 typing-extensions==4.12.2
 ujson==5.10.0
 universal-pathlib==0.2.6
-urllib3==2.2.3
+urllib3==2.3.0
 uvicorn==0.34.0
 uvloop==0.21.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
 vbuild==0.8.2
@@ -107,7 +107,7 @@ watchfiles==1.0.3
 websockets==14.1
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
-xsdata==24.11
+xsdata==24.12
 xsdata-pydantic==24.5
 yarl==1.18.3
 zhon==2.1.1
