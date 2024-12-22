@@ -209,8 +209,8 @@ class AceParser:
         ):
             span_index = int(latin_span.group(1))
             note.lyric = ACEP_LATIN_SPAN_RE.sub("", note.lyric) if span_index == 1 else "+"
-        if ace_note.syllable:
-            note.pronunciation = f"[{ace_note.syllable}]"
+        if ace_note.syllable and ace_note.syllable != ace_note.freezed_default_syllable:
+            note.pronunciation = ace_note.syllable
         elif pronunciation is None or (
             "-" not in ace_note.lyric and ace_note.pronunciation != pronunciation
         ):
@@ -226,6 +226,8 @@ class AceParser:
                 if self.content_version < 7
                 else ace_note.head_consonants[0]
             )
+        else:
+            note.edited_phones = Phones(head_length_in_secs=0)
         return note
 
     def parse_params(self, ace_params: AcepParams, ace_note_list: list[AcepNote]) -> Params:

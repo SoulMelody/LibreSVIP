@@ -198,10 +198,6 @@ class AceGenerator:
             notes[i].br_len -= actual_breath
 
     def generate_note(self, note: Note) -> None:
-        if self.options.lyric_language == AcepLyricsLanguage.CHINESE:
-            pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
-        else:
-            pronunciation = None
         ace_note = AcepNote(
             pos=round(note.start_pos) - self.pattern_start,
             pitch=note.key_number,
@@ -211,14 +207,12 @@ class AceGenerator:
         ace_note.dur = round(note.end_pos - note.start_pos)
 
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
-            if note.pronunciation is not None:
-                if note.pronunciation.startswith("[") and note.pronunciation.endswith("]"):
-                    ace_note.pronunciation = None
-                    ace_note.syllable = note.pronunciation[1:-1]
-                else:
-                    ace_note.pronunciation = note.pronunciation
+            if self.options.lyric_language == AcepLyricsLanguage.CHINESE:
+                pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
             else:
-                ace_note.pronunciation = pronunciation
+                pronunciation = None
+            if note.pronunciation is not None and note.pronunciation != pronunciation:
+                ace_note.syllable = note.pronunciation
             if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
                 ace_note.head_consonants = [note.edited_phones.head_length_in_secs]
             elif self.options.default_consonant_length:
