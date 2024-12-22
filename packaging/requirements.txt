@@ -79,7 +79,7 @@ winrt-windows-foundation==2.3.0 ; platform_python_implementation == 'CPython' an
 winrt-windows-foundation-collections==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-foundation-interop==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-ui-notifications==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
-xsdata==24.11
+xsdata==24.12
 xsdata-pydantic==24.5
 zhon==2.1.1
 zipp==3.21.0 ; python_full_version < '3.10'
