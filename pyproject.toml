@@ -99,7 +99,7 @@ desktop = [
 code_gen = [
   "datamodel-code-generator>=0.26.4",
   "gapic-generator>=1.21.0",
-  "xsdata[cli]>=24.11",
+  "xsdata[cli]>=24.12",
 ]
 i18n = ["babel>=2.16.0"]
 linting = [
@@ -115,7 +115,7 @@ linting = [
 ]
 packaging = [
   "cx-Freeze>=7.2.7",
-  "nuitka>=2.5.7",
+  "nuitka>=2.5.8",
   "pyinstaller>=6.11.1",
   "shellingham<2.0.0,>=1.5.4",
 ]
