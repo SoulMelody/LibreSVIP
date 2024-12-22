@@ -14,9 +14,16 @@ from .vpr_parser import VocaloidParser
 
 class VocaloidConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        archive_file = zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r")
-        proj = VocaloidProject.model_validate_json(archive_file.read("Project/sequence.json"))
-        return VocaloidParser(options, archive_file).parse_project(proj)
+        with zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r") as archive_file:
+            proj = VocaloidProject.model_validate_json(
+                archive_file.read("Project/sequence.json"),
+                context={
+                    "extract_audio": options.extract_audio,
+                    "path": path,
+                    "archive_file": archive_file,
+                },
+            )
+            return VocaloidParser(options, path).parse_project(proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         buffer = io.BytesIO()

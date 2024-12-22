@@ -1,6 +1,5 @@
 import dataclasses
 import pathlib
-import zipfile
 
 from libresvip.core.constants import (
     DEFAULT_CHINESE_LYRIC,
@@ -43,7 +42,7 @@ from .vocaloid_pitch import pitch_from_vocaloid_parts
 @dataclasses.dataclass
 class VocaloidParser:
     options: InputOptions
-    archive_file: zipfile.ZipFile
+    path: pathlib.Path
     first_bar_length: int = dataclasses.field(init=False)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
     comp_id2name: dict[str, str] = dataclasses.field(init=False)
@@ -96,18 +95,14 @@ class VocaloidParser:
                     for part in track.parts:
                         if part.wav is None:
                             continue
-                        if self.options.extract_audio:
-                            archive_wav_path = f"Project/Audio/{part.wav.name}"
-                            if not (
-                                wav_path := pathlib.Path(part.wav.original_name or part.wav.name)
-                            ).exists():
-                                wav_path.write_bytes(self.archive_file.read(archive_wav_path))
                         instrumental_track = InstrumentalTrack(
                             title=part.name,
                             offset=part.pos,
                             mute=track.is_muted,
                             solo=track.is_solo_mode,
-                            audio_file_path=part.wav.original_name or part.wav.name,
+                            audio_file_path=str(
+                                self.path.parent / (part.wav.original_name or part.wav.name)
+                            ),
                         )
                         track_list.append(instrumental_track)
             else:

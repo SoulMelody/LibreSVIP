@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from libresvip.model.option_mixins import (
     EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
+    ExtractEmbededAudioMixin,
 )
 from libresvip.utils.translation import gettext_lazy as _
 
@@ -12,15 +13,10 @@ from .model import VocaloidLanguage
 class InputOptions(
     EnableInstrumentalTrackImportationMixin,
     EnablePitchImportationMixin,
+    ExtractEmbededAudioMixin,
     BaseModel,
 ):
-    extract_audio: bool = Field(
-        False,
-        title=_("Extract audio"),
-        description=_(
-            "Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)"
-        ),
-    )
+    pass
 
 
 class OutputOptions(BaseModel):

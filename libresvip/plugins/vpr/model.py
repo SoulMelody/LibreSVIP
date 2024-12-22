@@ -3,7 +3,8 @@ import enum
 from dataclasses import dataclass
 from typing import Annotated, Literal, Optional, Union
 
-from pydantic import ConfigDict, Field
+from pydantic import ConfigDict, Field, ValidationInfo, model_validator
+from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
 from libresvip.utils.translation import gettext_lazy as _
@@ -209,6 +210,20 @@ class VocaloidNotes(VocaloidLangID, VocaloidWithDur):
 class VocaloidWav(BaseModel):
     name: str
     original_name: Optional[str] = Field(None, alias="originalName")
+
+    @model_validator(mode="after")
+    def extract_audio(self, info: ValidationInfo) -> Self:
+        if (
+            info.context is not None
+            and info.context["extract_audio"]
+            and not hasattr(info.context["path"], "protocol")
+        ):
+            archive_wav_path = f"Project/Audio/{self.name}"
+            if not (
+                wav_path := (info.context["path"].parent / (self.original_name or self.name))
+            ).exists():
+                wav_path.write_bytes(info.context["archive_file"].read(archive_wav_path))
+        return self
 
 
 class VocaloidVoicePart(VocaloidWithDur):
