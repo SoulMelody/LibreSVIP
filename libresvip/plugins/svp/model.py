@@ -4,7 +4,6 @@ import re
 import sys
 from itertools import chain
 from typing import Any, Literal, NamedTuple, Optional, Union
-from uuid import uuid4
 
 import zhon
 from more_itertools import batched
@@ -25,6 +24,7 @@ from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel, Note
 from libresvip.model.point import PointList
 from libresvip.utils.audio import audio_path_validator
+from libresvip.utils.text import uuid_str
 
 from . import constants
 from .interval_utils import position_to_ticks
@@ -81,10 +81,6 @@ symbols_blacklist = Blacklist(
     ],
     match_substrings=True,
 )
-
-
-def uuid_str() -> str:
-    return str(uuid4())
 
 
 class SVPoint(NamedTuple):

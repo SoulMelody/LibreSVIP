@@ -29,8 +29,8 @@ from construct_typed import Context
 from typing_extensions import Never
 
 Int32sl = BytesInteger(4, swapped=True, signed=True)
-Int32ul = BytesInteger(4, swapped=True)
-Node = dict[str, Union[bool, int, float, str, bytes, "Node", list["Node"]]]
+Variant = Union[bool, int, float, str, bytes, list["Variant"]]
+Node = dict[str, Union[Variant, "Node", list["Node"]]]
 
 JUCEVarTypes = CSEnum(
     Byte,
@@ -77,37 +77,38 @@ class JUCECompressedIntStruct(Construct):
 JUCECompressedInt = JUCECompressedIntStruct()
 
 
-JUCEVariant: Container = Struct(
-    "name" / CString("utf-8"),
-    "data"
-    / Prefixed(
-        JUCECompressedInt,
-        Struct(
-            "type" / JUCEVarTypes,
-            "value"
-            / Switch(
-                this.type,
-                {
-                    "INT": Int32sl,
-                    "BOOL_TRUE": Computed(lambda ctx: True),
-                    "BOOL_FALSE": Computed(lambda ctx: False),
-                    "DOUBLE": Float64l,
-                    "STRING": CString("utf-8"),
-                    "INT64": Int64sl,
-                    "ARRAY": PrefixedArray(
-                        JUCECompressedInt,
-                        LazyBound(lambda: JUCEVariant),
-                    ),
-                    "BINARY": GreedyBytes,
-                },
-            ),
+JUCEVariant: Container = Prefixed(
+    JUCECompressedInt,
+    Struct(
+        "type" / JUCEVarTypes,
+        "value"
+        / Switch(
+            this.type,
+            {
+                "INT": Int32sl,
+                "BOOL_TRUE": Computed(lambda ctx: True),
+                "BOOL_FALSE": Computed(lambda ctx: False),
+                "DOUBLE": Float64l,
+                "STRING": CString("utf-8"),
+                "INT64": Int64sl,
+                "ARRAY": PrefixedArray(
+                    JUCECompressedInt,
+                    LazyBound(lambda: JUCEVariant),
+                ),
+                "BINARY": GreedyBytes,
+            },
         ),
     ),
 )
 
+JUCENamedVariant: Container = Struct(
+    "name" / CString("utf-8"),
+    "data" / JUCEVariant,
+)
+
 JUCENode: Container = Struct(
     "name" / CString("utf-8"),
-    "attrs" / PrefixedArray(JUCECompressedInt, JUCEVariant),
+    "attrs" / PrefixedArray(JUCECompressedInt, JUCENamedVariant),
     "children" / PrefixedArray(JUCECompressedInt, LazyBound(lambda: JUCENode)),
 )
 
@@ -122,11 +123,19 @@ JUCEPluginData = Prefixed(
 )
 
 
+def build_variant(variant: Container) -> Variant:
+    if isinstance(variant.value, list):
+        return [build_variant(x) for x in variant.value]
+    return variant.value
+
+
 def build_tree_dict(node: Container) -> Node:
     attr_dict: Node = {
-        attr.name: build_tree_dict(JUCENode.parse(attr.data.value))
-        if isinstance(attr.data.value, bytes)
-        else attr.data.value
+        attr.name: (
+            build_tree_dict(JUCENode.parse(attr.data.value))
+            if isinstance(attr.data.value, bytes)
+            else build_variant(attr.data)
+        )
         for attr in node.attrs
     }
     buckets = more_itertools.bucket(

@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/ust/ust.po\n"
+"X-Crowdin-File-ID: 156\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Text encoding"
+msgstr "Textkodierung"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "UST file version"
+msgstr "UST-Dateiversion"
+
+msgid "Ust"
+msgstr "Ust"
+
+msgid "UTAU Sequence Text"
+msgstr "UTAU Sequenztext"
+
+msgid "Conversion plugin for UST file format"
+msgstr "Konvertierungs-Plugin für das UST-Dateiformat"
+
+msgid "Sder Colin"
+msgstr "Sder Colin"
+
+msgid "No singing track found"
+msgstr "Keine Gesangsspur gefunden"
+
+msgid "UST project has no track"
+msgstr "UST-Projekt hat keine Spuren"
+

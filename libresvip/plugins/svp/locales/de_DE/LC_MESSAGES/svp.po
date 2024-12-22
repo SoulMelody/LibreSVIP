@@ -1,0 +1,143 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/svp/svp.po\n"
+"X-Crowdin-File-ID: 148\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Notes Overlapped"
+msgstr "Noten überlappen sich"
+
+msgid "Compatible with SynthesizerV Studio 1.9.0 and below"
+msgstr "Kompatibel mit SynthesizerV Studio 1.9.0 und älter"
+
+msgid "Incompatible with SynthesizerV Studio 1.9.0 and below"
+msgstr "Inkompatibel mit SynthesizerV Studio 1.9.0 und älter"
+
+msgid "Mandarin"
+msgstr "Mandarin"
+
+msgid "Cantonese"
+msgstr "Kantonesisch"
+
+msgid "Japanese"
+msgstr "Japanisch"
+
+msgid "English"
+msgstr "Englisch"
+
+msgid "Spanish"
+msgstr "Spanisch"
+
+msgid "Ignore all breath notes"
+msgstr "Alle Atemnoten ignorieren"
+
+msgid "Keep as normal notes"
+msgstr "Als normale Noten behalten"
+
+msgid "Convert to breath mark"
+msgstr "In Atemzeichen umwandeln"
+
+msgid "Split all to tracks"
+msgstr "Alle in Spuren aufteilen"
+
+msgid "Generate a track for each note group reference"
+msgstr "Eine Spur für jede Notengruppe erstellen"
+
+msgid "Keep original position"
+msgstr "Originalposition beibehalten"
+
+msgid "Split note groups to separate tracks only when notes overlap"
+msgstr "Notengruppen nur bei Überlappung in separate Spuren aufteilen"
+
+msgid "Full pitch curve"
+msgstr "Volle Tonhöhenkurve"
+
+msgid "Input the full pitch curve regardless of editing"
+msgstr "Die volle Tonhöhenkurve unabhängig von der Bearbeitung eingeben"
+
+msgid "Edited part only (vibrato mode)"
+msgstr "Nur bearbeiteter Teil (Vibrato-Modus)"
+
+msgid "Input the edited part of pitch curve; default vibrato will be imported if not edited"
+msgstr "Den bearbeiteten Teil der Tonhöhenkurve eingeben; Standard-Vibrato wird importiert, wenn nicht bearbeitet"
+
+msgid "Edited part only (plain mode)"
+msgstr "Nur bearbeiteter Teil (einfacher Modus)"
+
+msgid "Input the edited part of pitch curve; default vibrato will be ignored"
+msgstr "Den bearbeiteten Teil der Tonhöhenkurve eingeben; Standard-Vibrato wird ignoriert"
+
+msgid "All removed"
+msgstr "Alles entfernt"
+
+msgid "All notes will be set to 0 vibrato depth to ensure the output pitch curve is the same as input"
+msgstr "Alle Noten werden auf 0 Vibrato-Tiefe gesetzt, um sicherzustellen, dass die ausgegebene Tonhöhenkurve der Eingabe entspricht"
+
+msgid "All kept"
+msgstr "Alles behalten"
+
+msgid "Keep all notes' default vibrato, but may cause inconsistent pitch curves"
+msgstr "Das Standard-Vibrato aller Noten beibehalten, kann jedoch zu inkonsistenten Tonhöhenkurven führen"
+
+msgid "Hybrid mode"
+msgstr "Hybridmodus"
+
+msgid "Remove vibrato in edited part, keep default vibrato in other parts"
+msgstr "Vibrato im bearbeiteten Teil entfernen, Standard-Vibrato in anderen Teilen beibehalten"
+
+msgid "Always follow instant pitch mode"
+msgstr "Immer dem sofortigen Tonhöhenmodus folgen"
+
+msgid "When this option is turned off, the default pitch curve will always be imported regardless of the project setting. If you have tuned the pitch curve based on instant pitch mode, it is recommended to turn on this option."
+msgstr "Wenn diese Option deaktiviert ist, wird die Standard-Tonhöhenkurve immer importiert, unabhängig von der Projekteinstellung. Wenn du die Tonhöhenkurve basierend auf dem sofortigen Tonhöhenmodus abgestimmt hast, wird empfohlen, diese Option zu aktivieren."
+
+msgid "Pitch input mode"
+msgstr "Tonhöhen-Eingabemodus"
+
+msgid "This option controls the range of pitch curve to be imported and the judgment condition. The definition of \"edited part\" is: the pitch deviation in the parameter panel, the pitch transition in the vibrato envelope and the pitch transition in the note properties have been edited."
+msgstr "Diese Option steuert den Bereich der zu importierenden Tonhöhenkurve und die Beurteilungsbedingung. Die Definition des \"bearbeiteten Teils\" lautet: die Tonhöhenabweichung im Parameterfeld, der Tonhöhenübergang in der Vibrato-Hüllkurve und der Tonhöhenübergang in den Noteneigenschaften wurden bearbeitet."
+
+msgid "The way to handle breath notes"
+msgstr "Die Art und Weise, Atemnoten zu behandeln"
+
+msgid "The way to handle note groups"
+msgstr "Die Art und Weise, Notengruppen zu behandeln"
+
+msgid "Notice: If there are too many note groups, please choose \"Keep original position\" to avoid excessive track count. But if there are notes that are adjacent (but not overlapped) between note groups or between note groups and main group, it is recommended to choose \"Split to tracks\" to ensure the paragraph division is not broken."
+msgstr "Hinweis: Wenn es zu viele Notengruppen gibt, wähle bitte \"Originalposition beibehalten\", um eine übermäßige Anzahl von Spuren zu vermeiden. Wenn jedoch Noten zwischen Notengruppen oder zwischen Notengruppen und Hauptgruppe benachbart (aber nicht überlappend) sind, wird empfohlen, \"In Spuren aufteilen\" zu wählen, um sicherzustellen, dass die Absatzteilung nicht unterbrochen wird."
+
+msgid "Version compatibility"
+msgstr "Versionskompatibilität"
+
+msgid "The way to handle vibrato notes"
+msgstr "Die Art und Weise, Vibrato-Noten zu behandeln"
+
+msgid "Set the average sampling interval of parameter points to improve performance (0 means no limit)"
+msgstr "Das durchschnittliche Abtastintervall der Parameterpunkte einstellen, um die Leistung zu verbessern (0 bedeutet keine Begrenzung)"
+
+msgid "Reduce the sampling interval to improve the accuracy of parameter curves, but may cause rendering lag (e.g. Synthesizer V Studio Pro + AI voicebank). Please set this value according to your hardware configuration and actual experience."
+msgstr "Das Abtastintervall reduzieren, um die Genauigkeit der Parameterkurven zu verbessern, kann jedoch zu Renderverzögerungen führen (z.B. Synthesizer V Studio Pro + AI-Voicebank). Bitte stelle diesen Wert entsprechend deiner Hardwarekonfiguration und tatsächlichen Erfahrung ein."
+
+msgid "Override default language for the voicebank"
+msgstr "Standardsprache für die Voicebank überschreiben"
+
+msgid "SynthV Studio"
+msgstr "SynthV Studio"
+
+msgid "Synthesizer V Studio project file"
+msgstr "Synthesizer V Studio Projektdatei"
+
+msgid "Conversion plugin for Synthesizer V Studio project file, it supports reading and writing of all parameters including notes, lyrics, parameter curve, note attributes, note group, and instant pitch mode.\nNotes: Importing a project file with overlapping notes is undefined behavior that can lead to unforeseen exceptions."
+msgstr "Konvertierungs-Plugin für Synthesizer V Studio Projektdateien, es unterstützt das Lesen und Schreiben aller Parameter einschließlich Noten, Texte, Parameterkurve, Noteneigenschaften, Notengruppe und sofortigem Tonhöhenmodus.\nHinweis: Das Importieren einer Projektdatei mit überlappenden Noten ist ein undefiniertes Verhalten, das zu unvorhergesehenen Ausnahmen führen kann."
+
+msgid "yqzhishen"
+msgstr "yqzhishen"
+

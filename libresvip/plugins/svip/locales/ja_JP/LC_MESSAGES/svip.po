@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-12-15 02:50\n"
 
 msgid "BinSvip"
 msgstr ""
@@ -19,6 +19,9 @@ msgid "X Studio project file"
 msgstr ""
 
 msgid "Conversion plugin for the original .svip binary file format"
+msgstr ""
+
+msgid "yqzhishen"
 msgstr ""
 
 msgid "Unexpected enum value"
@@ -57,6 +60,9 @@ msgid "Please enter the singer's name in Chinese. If the specified singer does n
 msgstr ""
 
 msgid "Default tempo"
+msgstr ""
+
+msgid "The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out of range, the absolute timeline will be used to ensure the alignment of notes. Please set this value to an integer multiple or integer fraction of the tempo in the source project file as much as possible; as long as it is within a reasonable range, the value of this option will not affect the alignment effect."
 msgstr ""
 
 msgid "Specify the version of the generated .svip file"

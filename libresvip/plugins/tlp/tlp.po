@@ -7,3 +7,12 @@ msgstr ""
 msgid "Convertion plugin for TuneLab project file"
 msgstr ""
 
+msgid "LiuYunPlayer"
+msgstr ""
+
+msgid "Note overlap detected, cutting note "
+msgstr ""
+
+msgid "Note overlap detected, skipping note "
+msgstr ""
+

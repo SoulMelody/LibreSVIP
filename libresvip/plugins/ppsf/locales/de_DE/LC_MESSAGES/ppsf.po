@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/ppsf/ppsf.po\n"
+"X-Crowdin-File-ID: 136\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Ppsf"
+msgstr "Ppsf"
+
+msgid "Piapro Studio Song file"
+msgstr "Piapro Studio Song-Datei"
+
+msgid "Conversion plugin for Piapro Studio project file"
+msgstr "Konvertierungs-Plugin für Piapro Studio Projektdateien"
+
+msgid "SoulMelody"
+msgstr "SoulMelody"
+

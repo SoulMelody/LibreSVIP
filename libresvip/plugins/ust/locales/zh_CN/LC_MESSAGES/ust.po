@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 06:39\n"
 
 msgid "Text encoding"
 msgstr "文本编码"
@@ -29,6 +29,9 @@ msgstr "UTAU 序列文本"
 
 msgid "Conversion plugin for UST file format"
 msgstr "UST文件格式转换插件"
+
+msgid "Sder Colin"
+msgstr "科林"
 
 msgid "No singing track found"
 msgstr "未找到演唱轨"

@@ -48,10 +48,10 @@ class PluginCadidatesTableModel(QAbstractTableModel):
         ]
         self.end_insert_rows()
 
-    def row_count(self, parent: QModelIndex = QModelIndex()) -> int:
+    def row_count(self, parent: QModelIndex) -> int:
         return len(self.plugin_candidates)
 
-    def column_count(self, parent: QModelIndex = QModelIndex()) -> int:
+    def column_count(self, parent: QModelIndex) -> int:
         return len(self.column_names)
 
     def header_data(
@@ -111,10 +111,10 @@ class LyricReplacementRulesTableModel(QAbstractTableModel):
             _("Actions"),
         ]
 
-    def row_count(self, parent: QModelIndex = QModelIndex()) -> int:
+    def row_count(self, parent: QModelIndex) -> int:
         return len(settings.lyric_replace_rules[self.preset])
 
-    def column_count(self, parent: QModelIndex = QModelIndex()) -> int:
+    def column_count(self, parent: QModelIndex) -> int:
         return len(self.column_names)
 
     def header_data(

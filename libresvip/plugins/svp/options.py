@@ -1,3 +1,4 @@
+# mypy: disable-error-code="misc"
 from enum import Enum, IntEnum
 from typing import Annotated, NamedTuple
 

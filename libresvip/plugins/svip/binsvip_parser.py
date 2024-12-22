@@ -143,8 +143,10 @@ class BinarySvipParser:
     ) -> ParamCurve:
         if op is None:
 
-            def op(x: float) -> float:
+            def _op(x: float) -> float:
                 return x
+
+            op = _op
 
         param_curve = ParamCurve()
         for point in line.nodes:

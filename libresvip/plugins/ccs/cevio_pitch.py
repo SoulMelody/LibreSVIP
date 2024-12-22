@@ -115,6 +115,8 @@ def append_ending_points(
     next_pos = None
     for event in events:
         pos = event.idx if event.idx is not None else next_pos
+        if pos is None:
+            continue
         length = event.repeat if event.repeat is not None else 1
         if next_pos is not None and next_pos < pos:
             result.append(CeVIOParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
@@ -131,12 +133,12 @@ def normalize_to_tick(
     tick_prefix: int,
 ) -> list[CeVIOParamEventFloat]:
     tempos = expand(tempo_list, tick_prefix)
-    events = [CeVIOParamEventFloat.from_event(event) for event in events]
     events_normalized: list[CeVIOParamEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
-    for event in events:
+    for _event in events:
+        event = CeVIOParamEventFloat.from_event(_event)
         pos = event.idx if event.idx is not None else next_pos
         if event.idx is None:
             tick_pos = next_tick_pos
@@ -236,6 +238,8 @@ def build_cevio_param_interval_dict(
             ),
             2,
         ):
+            if next_event is None:
+                continue
             next_start = synchronizer.get_actual_secs_from_ticks(next_event.idx - tick_prefix)
             if (
                 prev_event is not None
@@ -359,9 +363,13 @@ def denormalize_from_tick(
     ]
     events = []
     current_tempo_index = 0
+    tick_pos = None
     for event_double in events_with_full_params:
         if event_double.idx is not None:
             tick_pos = event_double.idx
+        if tick_pos is None or event_double.idx is None:
+            msg = "Invalid event"
+            raise ValueError(msg)
         while (
             current_tempo_index + 1 < len(tempos) and tempos[current_tempo_index + 1][1] < tick_pos
         ):

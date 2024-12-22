@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "MIDI"
 msgstr ""
@@ -19,6 +19,9 @@ msgid "Standard MIDI file (SMF)"
 msgstr ""
 
 msgid "Conversion plugin for midi file"
+msgstr ""
+
+msgid "SoulMelody"
 msgstr ""
 
 msgid "No tempo labels found in the imported project."

@@ -1,0 +1,35 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/nn/nn.po\n"
+"X-Crowdin-File-ID: 134\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "No singing track found"
+msgstr "Kein Gesangstrack gefunden"
+
+msgid "NIAONiao"
+msgstr "NIAONiao"
+
+msgid "NIAONiao Virtual Singer project file"
+msgstr "NIAONiao Virtual Singer-Projektdatei"
+
+msgid "Conversion plugin for NIAONiao project file"
+msgstr "Konvertierungs-Plugin für NIAONiao-Projektdateien"
+
+msgid "SoulMelody"
+msgstr "SoulMelody"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Version of NIAONiao project file"
+msgstr "Version der NIAONiao-Projektdatei"
+

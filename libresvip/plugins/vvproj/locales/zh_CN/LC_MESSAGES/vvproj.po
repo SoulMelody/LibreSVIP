@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/vvproj/vvproj.po\n"
+"X-Crowdin-File-ID: 182\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-12-12 01:23\n"
+
+msgid "Unsupported lyric: "
+msgstr "不支持的歌词: "
+
+msgid "VVProj"
+msgstr ""
+
+msgid "VOICEVOX Project file"
+msgstr "VOICEVOX 工程文件"
+
+msgid "Conversion plugin for VOICEVOX Project file"
+msgstr "VOICEVOX 工程格式转换插件"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
+

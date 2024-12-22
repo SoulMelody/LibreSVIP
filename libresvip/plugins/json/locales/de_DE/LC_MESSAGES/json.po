@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/json/json.po\n"
+"X-Crowdin-File-ID: 124\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:01\n"
+
+msgid "JsonSvip"
+msgstr "JsonSvip"
+
+msgid "OpenSVIP file"
+msgstr "OpenSVIP Datei"
+
+msgid "Conversion plugin for OpenSVIP Model, which is based on json"
+msgstr "Konvertierungs-Plugin für das OpenSVIP Modell, welches auf JSON basiert"
+
+msgid "yqzhishen"
+msgstr "yqzhishen"
+
+msgid "Generate JSON file with indentation"
+msgstr "JSON-Datei mit Einrückung erzeugen"
+
+msgid "The indented format is easier to read and modify, but it will take up a larger file size."
+msgstr "Das eingerückte Format ist leichter zu lesen und zu bearbeiten, nimmt aber mehr Speicherplatz in Anspruch."
+

@@ -3,7 +3,7 @@ name = JsonSvip
 module = jsonsvip_converter
 
 [Documentation]
-Author = YQ之神
+Author = yqzhishen
 Version = 1.0.0
 Website = https://space.bilibili.com/102844209
 Format = OpenSVIP file

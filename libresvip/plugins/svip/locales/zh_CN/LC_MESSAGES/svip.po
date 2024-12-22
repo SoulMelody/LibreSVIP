@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-12-15 03:01\n"
 
 msgid "BinSvip"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr "X Studio 工程文件"
 
 msgid "Conversion plugin for the original .svip binary file format"
 msgstr "原始二进制 .svip 文件转换插件"
+
+msgid "yqzhishen"
+msgstr "YQ之神"
 
 msgid "Unexpected enum value"
 msgstr "预期外的枚举值"
@@ -60,6 +63,9 @@ msgstr "请输入完整无误的歌手名字。若此选项指定的歌手不存
 
 msgid "Default tempo"
 msgstr "曲速过低或过高时，使用此曲速进行对齐"
+
+msgid "The allowed range of tempo in X Studio is 20 ~ 300. When the tempo is out of range, the absolute timeline will be used to ensure the alignment of notes. Please set this value to an integer multiple or integer fraction of the tempo in the source project file as much as possible; as long as it is within a reasonable range, the value of this option will not affect the alignment effect."
+msgstr "X Studio 支持的曲速范围为 20 ~ 300。曲速超出范围时，将会启用绝对时间轴以确保音符对齐。请尽量将此值设置为源工程文件中曲速的整数倍或整数分之一；只要在合理数值范围内，此选项的值不会影响对齐效果。"
 
 msgid "Specify the version of the generated .svip file"
 msgstr "指定生成的 .svip 文件版本"

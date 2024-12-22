@@ -37,12 +37,24 @@ class Notifier(QObject):
     def __init__(self) -> None:
         super().__init__()
         self.request_timeout = 30
+        self.notify_timeout = 5
         self.last_notify_time: Optional[float] = None
         try:
             icon_path: AbstractContextManager[Path] = as_file(res_dir / "libresvip.ico")
             app.aboutToQuit.connect(lambda: icon_path.__exit__(None, None, None))
+
+            if platform.system() == "Darwin":
+                from desktop_notifier.backends.macos_support import (
+                    is_bundle,
+                    is_signed_bundle,
+                    macos_version,
+                )
+
+                if macos_version >= Version("10.14") and is_bundle() and not is_signed_bundle():
+                    msg = "macOS app is not signed"
+                    raise RuntimeError(msg)  # noqa: TRY301
+
             self.notifier = DesktopNotifier(app_name=PACKAGE_NAME, app_icon=icon_path.__enter__())
-            self.notifier._loop = event_loop
         except Exception:
             self.notifier = None
 
@@ -51,7 +63,11 @@ class Notifier(QObject):
         async with httpx.AsyncClient(follow_redirects=True, verify=False) as client:
             try:
                 await self.clear_all_messages_async()
-                await self.notify_async(title=_("Downloading"), message=_("Please wait..."))
+                await self.notify_async(
+                    title=_("Downloading"),
+                    message=_("Please wait..."),
+                    send_timeout=self.request_timeout,
+                )
                 with (app_dir.user_downloads_path / filename).open("wb") as f:
                     async with client.stream("GET", url) as response:
                         response.raise_for_status()
@@ -65,6 +81,7 @@ class Notifier(QObject):
                     message=_("Failed to download file {}. Please try again later.").format(
                         filename
                     ),
+                    send_timeout=self.notify_timeout,
                 )
 
     async def _check_for_updates(self) -> None:
@@ -78,7 +95,7 @@ class Notifier(QObject):
                 await self.notify_async(
                     title=_("Checking for Updates"),
                     message=_("Please wait..."),
-                    send_timeout=self.request_timeout,
+                    send_timeout=self.notify_timeout,
                 )
                 resp = await client.get(
                     "https://api.github.com/repos/SoulMelody/LibreSVIP/releases/latest"
@@ -157,7 +174,7 @@ class Notifier(QObject):
                                 buttons.append(
                                     Button(
                                         _("Download"),
-                                        lambda: self.notifier._loop.create_task(
+                                        lambda: asyncio.create_task(
                                             self.download_release(
                                                 asset["browser_download_url"],
                                                 asset["name"],
@@ -183,6 +200,7 @@ class Notifier(QObject):
                 await self.notify_async(
                     title=_("Error occurred while Checking for Updates"),
                     message=_("Failed to check for updates. Please try again later."),
+                    send_timeout=self.notify_timeout,
                 )
 
     @Slot(result=None)
@@ -222,7 +240,7 @@ class Notifier(QObject):
 
     async def clear_all_messages_async(self) -> None:
         try:
-            if len(self.notifier.current_notifications):
+            if len(await self.notifier.get_current_notifications()):
                 await self.notifier.clear_all()
         except Exception as e:
             logger.exception(e)

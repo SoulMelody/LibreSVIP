@@ -10,6 +10,9 @@ msgstr ""
 msgid "Conversion plugin for NIAONiao project file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+
 msgid "Version"
 msgstr ""
 

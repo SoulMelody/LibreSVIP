@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/y77/y77.po\n"
+"X-Crowdin-File-ID: 172\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Y77"
+msgstr "Y77"
+
+msgid "Yuan77 project file"
+msgstr "Yuan77 Projektdatei"
+
+msgid "Conversion plugin for Yuan77 project file"
+msgstr "Konvertierungs-Plugin für Yuan77-Projektdateien"
+
+msgid "FlutyDeer"
+msgstr "FlutyDeer"
+

@@ -3,7 +3,7 @@ from collections.abc import Iterable
 
 from bidict import bidict
 
-from libresvip.core.compat import json, package_path
+from libresvip.core.compat import files, json
 from libresvip.core.constants import DEFAULT_PHONEME
 from libresvip.core.lyric_phoneme.chinese import get_pinyin_series
 from libresvip.core.lyric_phoneme.japanese import to_romaji
@@ -11,7 +11,7 @@ from libresvip.utils.text import LATIN_ALPHABET
 
 from .constants import DEFAULT_DURATIONS, DEFAULT_PHONE_RATIO
 
-resource_dir = package_path("libresvip.plugins.svp")
+resource_dir = files("libresvip.plugins.svp")
 phoneme_categories_by_language = json.loads(
     (resource_dir / "phoneme_categories.json").read_text(encoding="utf-8")
 )
@@ -26,6 +26,7 @@ phoneme_dictionary = {
 def sv_g2p(lyrics: Iterable[str], languages: Iterable[str]) -> list[str]:
     phoneme_list: list[str] = []
     builder: list[str] = []
+    language = None
     for lyric, language in zip(lyrics, languages):
         if LATIN_ALPHABET.match(lyric) is not None:
             if len(builder):

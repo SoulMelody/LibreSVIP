@@ -1,0 +1,15 @@
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "VVProj"
+msgstr ""
+
+msgid "VOICEVOX Project file"
+msgstr ""
+
+msgid "Conversion plugin for VOICEVOX Project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

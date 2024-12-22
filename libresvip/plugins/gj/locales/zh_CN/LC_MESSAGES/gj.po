@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-12-17 11:16\n"
 
 msgid "gjgj"
 msgstr "歌叽歌叽"
@@ -22,6 +22,9 @@ msgid "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
 msgstr "歌叽歌叽工程格式转换插件。\n"
 "仅支持歌叽歌叽2.0版本。"
+
+msgid "FlutyDeer"
+msgstr "笛鹿"
 
 msgid "Unsupported pinyin:"
 msgstr "不支持的拼音："

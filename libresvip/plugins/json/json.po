@@ -7,6 +7,9 @@ msgstr ""
 msgid "Conversion plugin for OpenSVIP Model, which is based on json"
 msgstr ""
 
+msgid "yqzhishen"
+msgstr ""
+
 msgid "Generate JSON file with indentation"
 msgstr ""
 

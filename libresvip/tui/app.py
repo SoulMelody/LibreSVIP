@@ -113,9 +113,10 @@ class RootDirectoryTree(Vertical):
     def compose(self) -> ComposeResult:
         if platform.system() == "Windows":
             with Horizontal(classes="top-pane row"):
-                yield Label("Select a drive: ", classes="text-middle")
+                yield Label(_("Select a drive"), classes="text-middle")
                 yield Select(
                     [(drive, drive) for drive in self.get_logical_drive_strings()],
+                    prompt="",
                     id="drive-select",
                 )
         yield DirectoryTree(self.root, id=self.tree_id)
@@ -147,7 +148,7 @@ class PluginInfoScreen(Screen[None]):
         with Vertical():
             yield Label(plugin_info.name, classes="title")
             yield Label(f'{_("Version: ")}{plugin_info.version}')
-            yield Link(f'{_("Author: ")}{plugin_info.author}', url=plugin_info.website)
+            yield Link(f'{_("Author: ")}{_(plugin_info.author)}', url=plugin_info.website)
             yield Label(_("Introduction"))
             yield Markdown(_(plugin_info.description))
             with Horizontal():
@@ -168,6 +169,11 @@ class TaskLogScreen(Screen[None]):
     def on_close(self, event: Button.Pressed) -> None:
         self.app.pop_screen()
 
+    @on(Button.Pressed, "#copy")
+    def on_copy(self, event: Button.Pressed) -> None:
+        self.app.copy_to_clipboard(self.log_text)
+        self.app.notify(_("Copied"))
+
     def compose(self) -> ComposeResult:
         yield Header(icon="☰")
         yield Footer()
@@ -175,6 +181,7 @@ class TaskLogScreen(Screen[None]):
             yield Log()
             with Horizontal():
                 yield Label("", classes="fill-width")
+                yield Button(_("Copy to clipboard"), id="copy", variant="primary")
                 yield Button(_("Close"), id="close", variant="success")
 
 
@@ -484,6 +491,14 @@ class TUIApp(App[None]):
     """
     )
 
+    @property
+    def dark(self) -> bool:
+        return self.theme != "textual-light"
+
+    @dark.setter
+    def dark(self, value: bool) -> None:
+        self.theme = "textual-dark" if value else "textual-light"
+
     def on_mount(self) -> None:
         self.temp_path = UPath("memory:/")
         theme_select = self.query_one("#theme_select")
@@ -589,12 +604,11 @@ class TUIApp(App[None]):
 
     @on(Select.Changed, "#theme_select")
     def handle_theme_changed(self, changed: Select.Changed) -> None:
-        self.dark: bool
         if self.dark != changed.value:
             self.dark = bool(changed.value)
 
     @work(thread=True)
-    async def convert_one(
+    def convert_one(
         self, progress_bar: ProgressBar, task_row_item: ListItem, *sub_task_items: list[ListItem]
     ) -> None:
         tab_id = self.query_one("#task_list").current
@@ -632,7 +646,7 @@ class TUIApp(App[None]):
                     is not None
                 ):
                     input_options = self.query_one("#input_options")
-                    input_option = input_option_class(**input_options.option_dict)
+                    input_option = input_option_class.model_validate(input_options.option_dict)
                     if tab_id == "merge":
                         child_projects = [
                             input_plugin.plugin_object.load(
@@ -660,10 +674,10 @@ class TUIApp(App[None]):
                             option_form = self.query_one(f"#{middleware_id}_options")
                             project = middleware.plugin_object.process(
                                 project,
-                                option_form.option_class(**option_form.option_dict),
+                                option_form.option_class.model_validate(option_form.option_dict),
                             )
                     output_options = self.query_one("#output_options")
-                    output_option = output_option_class(**output_options.option_dict)
+                    output_option = output_option_class.model_validate(output_options.option_dict)
                     if tab_id == "split":
                         output_path.mkdir(parents=True, exist_ok=True)
                         for i, child_project in enumerate(
@@ -696,8 +710,9 @@ class TUIApp(App[None]):
                             child_file.read_bytes(),
                         )
             self.call_from_thread(
-                self.deliver_binary,
-                buffer,
+                self.deliver_text,
+                io.StringIO(buffer.getvalue().decode("latin-1")),
+                encoding="latin-1",
                 save_directory=settings.save_folder,
                 save_filename=output_path.name if tab_id != "split" else f"{task_row.stem}.zip",
             )
@@ -711,7 +726,7 @@ class TUIApp(App[None]):
         self.call_from_thread(progress_bar.advance, 1)
 
     @work(thread=True, exclusive=True)
-    async def convert_all(self, task_list_view: ListView, progress_bar: ProgressBar) -> None:
+    def convert_all(self, task_list_view: ListView, progress_bar: ProgressBar) -> None:
         total = len(task_list_view) if task_list_view.id != "merge" else 1
         self.call_from_thread(progress_bar.update, total=total)
         if task_list_view.id == "merge":
@@ -774,10 +789,7 @@ class TUIApp(App[None]):
         task_list = self.query_one("#task_list")
         task_list.current = activated.tab.id
         max_track_count_input = self.query_one("#max_track_count")
-        if activated.tab.id == "split":
-            max_track_count_input.disabled = False
-        else:
-            max_track_count_input.disabled = True
+        max_track_count_input.disabled = activated.tab.id != "split"
 
     def compose(self) -> ComposeResult:
         if settings.dark_mode == DarkMode.LIGHT:
@@ -884,6 +896,7 @@ class TUIApp(App[None]):
                             [
                                 ("简体中文", "zh_CN"),
                                 ("English", "en_US"),
+                                ("Deutsch", "de_DE"),
                                 # ("日本語", "ja_JP")
                             ],
                             value=settings.language.value,

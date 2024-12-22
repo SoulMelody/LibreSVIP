@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "None"
 msgstr "无"
@@ -38,4 +38,7 @@ msgstr "歌词发音转换"
 
 msgid "For Chinese and Japanese Lyrics"
 msgstr "仅限中文及日文歌词"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
 

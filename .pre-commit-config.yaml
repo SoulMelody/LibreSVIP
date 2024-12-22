@@ -1,6 +1,9 @@
+ci:
+    skip: [pyright]
+
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.7.1
+    rev: v0.8.3
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
@@ -18,8 +21,13 @@ repos:
         pass_filenames: false
         additional_dependencies: [proto-plus-stubs, types-lxml, types-parsimonious, types-pyyaml, types-ujson]
 
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.390
+    hooks:
+    - id: pyright
+
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.4.27
+    rev: 0.5.9
     hooks:
       - id: uv-lock
         args: ["--frozen"]

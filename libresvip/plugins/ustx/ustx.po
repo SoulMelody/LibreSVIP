@@ -33,6 +33,9 @@ msgstr ""
 msgid "Conversion plugin for Ustx file format"
 msgstr ""
 
+msgid "Oxygen Dioxide"
+msgstr ""
+
 msgid "Notes Overlapped"
 msgstr ""
 

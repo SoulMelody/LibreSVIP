@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: ja\n"
+"X-Crowdin-File: /main/libresvip/plugins/vvproj/vvproj.po\n"
+"X-Crowdin-File-ID: 182\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Japanese\n"
+"Language: ja_JP\n"
+"PO-Revision-Date: 2024-12-12 01:22\n"
+
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "VVProj"
+msgstr ""
+
+msgid "VOICEVOX Project file"
+msgstr ""
+
+msgid "Conversion plugin for VOICEVOX Project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

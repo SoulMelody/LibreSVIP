@@ -9,21 +9,16 @@
 
 from __future__ import annotations
 
+import _overlapped
+import _winapi
 import asyncio
-import contextlib
 import math
 import sys
+from asyncio import windows_events
 from typing import IO, TYPE_CHECKING, Any, Optional, Union
 
 from loguru import logger
 from PySide6 import QtCore
-
-with contextlib.suppress(
-    ImportError
-):  # w/o guarding this import py.test can't gather doctests on platforms w/o _winapi
-    import _overlapped
-    import _winapi
-    from asyncio import windows_events
 
 if TYPE_CHECKING:
     import socket

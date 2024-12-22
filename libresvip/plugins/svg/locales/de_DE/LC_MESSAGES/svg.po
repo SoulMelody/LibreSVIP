@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/svg/svg.po\n"
+"X-Crowdin-File-ID: 142\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Align to left"
+msgstr "Links ausrichten"
+
+msgid "Align to middle"
+msgstr "Mittig ausrichten"
+
+msgid "Align to right"
+msgstr "Rechts ausrichten"
+
+msgid "Above the note"
+msgstr "Über der Note"
+
+msgid "Inside the note"
+msgstr "In der Note"
+
+msgid "Below the note"
+msgstr "Unter der Note"
+
+msgid "Don't show"
+msgstr "Nicht anzeigen"
+
+msgid "Pixels per beat"
+msgstr "Pixel pro Schlag"
+
+msgid "Unit: pixel."
+msgstr "Einheit: Pixel."
+
+msgid "Note height"
+msgstr "Notenhöhe"
+
+msgid "Note radius"
+msgstr "Notenradius"
+
+msgid "Note fill color"
+msgstr "Notenfüllfarbe"
+
+msgid "CSS color value, e.g. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+msgstr "CSS-Farbwert, z.B. #FF0000, #66CCFF, rgba(255,0,0,0.5), etc."
+
+msgid "Note stroke color"
+msgstr "Notenstrichfarbe"
+
+msgid "Note stroke width"
+msgstr "Notenstrichbreite"
+
+msgid "Pitch stroke color"
+msgstr "Tonhöhenstrichfarbe"
+
+msgid "Pitch stroke width"
+msgstr "Tonhöhenstrichbreite"
+
+msgid "Lyric position"
+msgstr "Liedtextposition"
+
+msgid "Pronounciation position"
+msgstr "Ausspracheposition"
+
+msgid "Text align"
+msgstr "Textausrichtung"
+
+msgid "Inner text color"
+msgstr "Innere Textfarbe"
+
+msgid "The color of the text on the top and bottom of the note"
+msgstr "Die Farbe des Textes oben und unten an der Note"
+
+msgid "Show grid lines"
+msgstr "Rasterlinien anzeigen"
+
+msgid "Grid line color"
+msgstr "Rasterlinienfarbe"
+
+msgid "Grid line width"
+msgstr "Rasterlinienbreite"
+
+msgid "Svg"
+msgstr "Svg"
+
+msgid "Scalable Vector Graphics"
+msgstr "Skalierbare Vektorgrafiken"
+
+msgid "Generate graphics containing notes and pitch curve in SVG format. Only the first or specified singing track will be imported."
+msgstr "Erzeuge Grafiken mit Noten und Tonhöhenkurve im SVG-Format. Es wird nur die erste oder angegebene Gesangsspur importiert."
+
+msgid "CrSjimo"
+msgstr "CrSjimo"
+

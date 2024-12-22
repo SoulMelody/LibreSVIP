@@ -106,29 +106,30 @@ class VoiSonaParser:
                     numerator = time_node.beats
                     denominator = time_node.beat_type
 
-                    if tick is not None and numerator is not None and denominator is not None:
-                        ticks_in_measure = time_signatures[-1].bar_length()
-                        tick_diff = tick - prev_tick
-                        measure_diff = tick_diff / ticks_in_measure
-                        time_signatures.append(
-                            TimeSignature(
-                                bar_index=int(
-                                    time_signatures[-1].bar_index + measure_diff,
-                                ),
-                                numerator=numerator,
-                                denominator=denominator,
-                            )
+                    ticks_in_measure = time_signatures[-1].bar_length()
+                    tick_diff = tick - prev_tick
+                    measure_diff = tick_diff / ticks_in_measure
+                    time_signatures.append(
+                        TimeSignature(
+                            bar_index=int(
+                                time_signatures[-1].bar_index + measure_diff,
+                            ),
+                            numerator=numerator,
+                            denominator=denominator,
                         )
-                        prev_tick = tick
+                    )
+                    prev_tick = tick
             for tempo in song.tempo:
                 for tempo_node in tempo.sound:
                     tick = int(tempo_node.clock / TICK_RATE)
-                    bpm = float(tempo_node.tempo) if tempo_node.tempo is not None else None
-                    if tick is not None and bpm is not None:
-                        tempos.append(SongTempo(position=tick, bpm=bpm))
+                    bpm = float(tempo_node.tempo)
+                    tempos.append(SongTempo(position=tick, bpm=bpm))
             for score in song.score:
                 for note_node in score.note:
                     pitch_octave = note_node.pitch_octave - OCTAVE_OFFSET
+                    phoneme = None
+                    if note_node.phoneme:
+                        phoneme = note_node.phoneme.replace(",", " ")
                     notes.append(
                         Note(
                             key_number=note_node.pitch_step + pitch_octave * 12,
@@ -137,6 +138,7 @@ class VoiSonaParser:
                             else note_node.lyric,
                             start_pos=(note_node.clock // TICK_RATE),
                             length=note_node.duration // TICK_RATE,
+                            pronunciation=phoneme,
                         )
                     )
         tempos = shift_tempo_list(tempos, tick_prefix)
@@ -189,8 +191,7 @@ class VoiSonaParser:
     def parse_param_data(
         data_element: VoiSonaPointData,
     ) -> Optional[VoiSonaParamEvent]:
-        value = float(data_element.value) if data_element.value is not None else None
-        if value is not None:
-            index = data_element.index or None
-            repeat = data_element.repeat or None
-            return VoiSonaParamEvent(idx=index, repeat=repeat, value=value)
+        value = float(data_element.value)
+        index = data_element.index or None
+        repeat = data_element.repeat or None
+        return VoiSonaParamEvent(idx=index, repeat=repeat, value=value)

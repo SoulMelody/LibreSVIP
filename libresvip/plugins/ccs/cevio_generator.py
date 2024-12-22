@@ -1,6 +1,5 @@
 import dataclasses
 import datetime
-import uuid
 from typing import Optional
 
 from wanakana import PROLONGED_SOUND_MARK
@@ -11,7 +10,6 @@ from libresvip.core.lyric_phoneme.japanese import is_kana, is_romaji
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
-    InstrumentalTrack,
     Note,
     ParamCurve,
     Project,
@@ -21,6 +19,7 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils.audio import audio_track_info
+from libresvip.utils.text import uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 
 from .cevio_pitch import generate_for_cevio
@@ -125,7 +124,7 @@ class CeVIOGenerator:
         for track in tracks:
             if isinstance(track, SingingTrack):
                 new_group = CeVIOGroup(
-                    group_id=str(uuid.uuid4()),
+                    group_id=uuid_str(),
                     name=track.title,
                     is_muted=track.mute,
                     is_solo=track.solo,
@@ -148,7 +147,7 @@ class CeVIOGenerator:
                 if log_f0 := self.generate_pitch(track.edited_params.pitch, tempo_list):
                     new_unit.song.parameter.log_f0 = log_f0
                 results.append((new_unit, new_group))
-            elif isinstance(track, InstrumentalTrack):
+            else:
                 if (
                     track_info := audio_track_info(track.audio_file_path, only_wav=True)
                 ) is not None:
@@ -163,7 +162,7 @@ class CeVIOGenerator:
                         ).time()
                     )
                     new_group = CeVIOGroup(
-                        group_id=str(uuid.uuid4()),
+                        group_id=uuid_str(),
                         name=track.title,
                         is_muted=track.mute,
                         is_solo=track.solo,
@@ -184,7 +183,9 @@ class CeVIOGenerator:
         for note in notes:
             lyric = chr(PROLONGED_SOUND_MARK) if note.lyric == "-" else note.lyric
             phonetic = None
-            if not is_kana(lyric) and not is_romaji(lyric):
+            if note.pronunciation:
+                phonetic = note.pronunciation
+            elif not is_kana(lyric) and not is_romaji(lyric):
                 phonetic = DEFAULT_PHONEME
                 msg_prefix = _("Unsupported lyric: ")
                 show_warning(f"{msg_prefix} {lyric}")

@@ -72,7 +72,7 @@ def print_plugin_summary(
             f"[{num + 1}] ",
             plugin.name + margin,
             str(plugin.version) + margin,
-            plugin.author + margin,
+            _(plugin.author) + margin,
             plugin.suffix + margin,
             format_desc + margin,
         )
@@ -85,7 +85,7 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     typer.echo()
     typer.echo("--------------------------------------------------\n")
     typer.echo(
-        f"{{}}{plugin.name}\t{{}}{plugin.version!s}\t{{}}{plugin.author}".format(
+        f"{{}}{plugin.name}\t{{}}{plugin.version!s}\t{{}}{_(plugin.author)}".format(
             _("Plugin: "),
             _("Version: "),
             _("Author: "),

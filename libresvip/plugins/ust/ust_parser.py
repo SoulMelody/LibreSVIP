@@ -35,7 +35,7 @@ from .pitch_mode2 import (
 @dataclasses.dataclass
 class USTParser:
     options: InputOptions
-    tempos: SortedKeyList[SongTempo] = dataclasses.field(
+    tempos: SortedKeyList = dataclasses.field(
         default_factory=functools.partial(SortedKeyList, key=operator.attrgetter("position"))
     )
 

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 06:38\n"
 
 msgid "Key transition of pitch"
 msgstr "音高变化量"
@@ -20,4 +20,7 @@ msgstr "音高变化（以半音为单位）。"
 
 msgid "Pitch Shift"
 msgstr "音高变调"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
 

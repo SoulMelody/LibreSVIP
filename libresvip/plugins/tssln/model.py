@@ -44,6 +44,9 @@ class VoiSonaPanelControllerStatus(BaseModel):
     beat_panel: Optional[bool] = Field(None, alias="BeatPanel")
     key_panel: Optional[bool] = Field(None, alias="KeyPanel")
     dynamics_panel: Optional[bool] = Field(None, alias="DynamicsPanel")
+    global_param_panel: Optional[bool] = Field(None, alias="GlobalParamPanel")
+    lyric_panel: Optional[bool] = Field(None, alias="LyricPanel")
+    property_panel: Optional[bool] = Field(None, alias="PropertyPanel")
 
 
 class VoiSonaMainPanelStatus(VoiSonaPanelControllerStatus):
@@ -77,6 +80,11 @@ class VoiSonaEmotionListItem(BaseModel):
     emotion: list[VoiSonaEmotionItem] = Field(default_factory=list, alias="Emotion")
 
 
+class VoiSonaSpecialSymbol(BaseModel):
+    special_symbol_raspy: list[str] = Field(default_factory=list, alias="SpecialSymbolRaspy")
+    special_symbol_falsetto: list[str] = Field(default_factory=list, alias="SpecialSymbolFalsetto")
+
+
 class VoiSonaVoiceInformation(BaseModel):
     neural_vocoder_list: list[VoiSonaNeuralVocoderListItem] = Field(
         default_factory=list, alias="NeuralVocoderList"
@@ -90,6 +98,7 @@ class VoiSonaVoiceInformation(BaseModel):
     voice_version: str = Field(alias="VoiceVersion")
     voice_hash: Optional[str] = Field(None, alias="VoiceHash")
     voice_lib_hash: Optional[str] = Field(None, alias="VoiceLibHash")
+    special_symbol: list[VoiSonaSpecialSymbol] = Field(default_factory=list, alias="SpecialSymbol")
 
 
 class VoiSonaGlobalParameter(BaseModel):
@@ -144,6 +153,10 @@ class VoiSonaNoteItem(BaseModel):
     staccato: Optional[bool] = Field(None, alias="Staccato")
     slur_start: Optional[bool] = Field(None, alias="SlurStart")
     slur_stop: Optional[bool] = Field(None, alias="SlurStop")
+    default_phoneme: Optional[str] = Field(None, alias="DefaultPhoneme")
+    past_analyzed_phoneme: Optional[str] = Field(None, alias="PastAnalyzedPhoneme")
+    special_symbol_raspy: Optional[bool] = Field(None, alias="SpecialSymbolRaspy")
+    special_symbol_falsetto: Optional[bool] = Field(None, alias="SpecialSymbolFalsetto")
 
 
 class VoiSonaScoreItem(BaseModel):
@@ -187,7 +200,7 @@ class VoiSonaParametersItem(BaseModel):
 
 
 class VoiSonaSignerConfig(BaseModel):
-    pass
+    snap_shot: Optional[str] = Field(None, alias="SnapShot")
 
 
 class VoiSonaStateInformation(BaseModel):
@@ -233,15 +246,9 @@ class VoiSonaTrackType(enum.IntEnum):
     AUDIO = 2
 
 
-class VoiSonaTrackState(enum.IntEnum):
-    NONE = 0
-    MUTE = 1
-    SOLO = 2
-
-
 class VoiSonaBaseTrackItem(BaseModel):
     name: str = Field(alias="Name")
-    state: VoiSonaTrackState = Field(VoiSonaTrackState.NONE, alias="State")
+    state: int = Field(0, alias="State")
     volume: float = Field(0, alias="Volume")
     pan: float = Field(0, alias="Pan")
 
@@ -288,12 +295,9 @@ class VoiSonaProject(BaseModel):
         return value
 
 
-def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[str, Any]:
+def value_to_dict(field_value: Any, field_type: type) -> dict[str, Any]:
     if issubclass(field_type, bool):
-        if field_value is True:
-            variant_type = JUCEVarTypes.BOOL_TRUE
-        elif field_value is False:
-            variant_type = JUCEVarTypes.BOOL_FALSE
+        variant_type = JUCEVarTypes.BOOL_TRUE if field_value is True else JUCEVarTypes.BOOL_FALSE
     elif issubclass(field_type, (enum.IntEnum, int)):
         variant_type = JUCEVarTypes.INT
     elif issubclass(field_type, float):
@@ -302,15 +306,16 @@ def value_to_dict(field_name: str, field_value: Any, field_type: type) -> dict[s
         variant_type = JUCEVarTypes.STRING
     elif issubclass(field_type, bytes):
         variant_type = JUCEVarTypes.BINARY
+    elif issubclass(field_type, list):
+        variant_type = JUCEVarTypes.ARRAY
+        field_value = [value_to_dict(item, type(item)) for item in field_value]
     else:
-        msg = f"Unknown field type {field_type} for field {field_name}"
+        variant_type = None
+        msg = f"Unknown field type {field_type}"
         raise TypeError(msg)
     return {
-        "name": field_name,
-        "data": {
-            "type": variant_type,
-            "value": field_value,
-        },
+        "type": variant_type,
+        "value": field_value,
     }
 
 
@@ -341,7 +346,8 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str,
                     )
                 else:
                     value_tree["attrs"].extend(
-                        value_to_dict(alias_field_name, item, inner_type) for item in field_value
+                        {"name": alias_field_name, "data": value_to_dict(item, inner_type)}
+                        for item in field_value
                     )
             elif alias_field_name == "PluginData":
                 value_tree["attrs"].append(
@@ -361,5 +367,7 @@ def model_to_value_tree(model: BaseModel, name: str = "TSSolution") -> dict[str,
             elif issubclass(field_type, BaseModel):
                 value_tree["children"].append(model_to_value_tree(field_value, alias_field_name))
             else:
-                value_tree["attrs"].append(value_to_dict(alias_field_name, field_value, field_type))
+                value_tree["attrs"].append(
+                    {"name": alias_field_name, "data": value_to_dict(field_value, field_type)}
+                )
     return value_tree

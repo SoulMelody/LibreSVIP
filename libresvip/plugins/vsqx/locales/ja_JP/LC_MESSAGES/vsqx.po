@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:33\n"
+"PO-Revision-Date: 2024-11-13 04:32\n"
 
 msgid "VSQx 3"
 msgstr ""
@@ -79,5 +79,8 @@ msgid "Vocaloid Sequence XML file"
 msgstr ""
 
 msgid "Conversion plugin for Vocaloid Sequence XML file"
+msgstr ""
+
+msgid "Sder Colin"
 msgstr ""
 

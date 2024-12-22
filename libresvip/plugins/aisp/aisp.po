@@ -7,3 +7,6 @@ msgstr ""
 msgid "Conversion plugin for AISingers Studio project file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+

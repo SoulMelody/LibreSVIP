@@ -9,6 +9,7 @@ import portion
 from libresvip.core.tick_counter import shift_tempo_list
 from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -20,6 +21,7 @@ from libresvip.model.base import (
 )
 from libresvip.model.point import Point
 from libresvip.utils.music_math import db_to_float, ratio_to_db
+from libresvip.utils.translation import gettext_lazy as _
 
 from .model import (
     TuneLabAudioPart,
@@ -129,16 +131,32 @@ class TuneLabParser:
 
     @staticmethod
     def parse_notes(notes: list[TuneLabNote], offset: int) -> list[Note]:
-        return [
-            Note(
-                start_pos=int(tlp_note.pos + offset),
-                length=int(tlp_note.dur),
-                key_number=tlp_note.pitch,
-                lyric=tlp_note.lyric,
-                pronunciation=tlp_note.pronunciation,
-            )
-            for tlp_note in notes
-        ]
+        note_list: list[Note] = []
+        if len(notes):
+            next_pos = None
+            for tlp_note in notes[::-1]:
+                normalized_duration = int(tlp_note.dur)
+                if next_pos is not None:
+                    distance = next_pos - tlp_note.pos
+                    if distance < normalized_duration:
+                        normalized_duration = distance
+                        if normalized_duration > 0:
+                            show_warning(_("Note overlap detected, cutting note ") + tlp_note.lyric)
+                if normalized_duration > 0:
+                    note_list.insert(
+                        0,
+                        Note(
+                            start_pos=int(tlp_note.pos + offset),
+                            length=normalized_duration,
+                            key_number=tlp_note.pitch,
+                            lyric=tlp_note.lyric,
+                            pronunciation=tlp_note.pronunciation,
+                        ),
+                    )
+                else:
+                    show_warning(_("Note overlap detected, skipping note ") + tlp_note.lyric)
+                next_pos = int(tlp_note.pos)
+        return note_list
 
     @staticmethod
     def vibrato_value(seconds: float, vibrato_start: float, vibrato: TuneLabVibrato) -> float:
@@ -164,7 +182,7 @@ class TuneLabParser:
                     vibrato=vibrato,
                 )
             )
-        if part.automations is not None and part.automations["VibratoEnvelope"] is not None:
+        if part.automations.get("VibratoEnvelope"):
             for value, ticks_group in more_itertools.groupby_transform(
                 part.automations["VibratoEnvelope"].values.root,
                 keyfunc=operator.attrgetter("value"),
@@ -201,6 +219,8 @@ class TuneLabParser:
                     )
                 pitch_secs = self.synchronizer.get_actual_secs_from_ticks(pitch_pos)
                 pitch_value = tlp_point.value
+                if math.isnan(pitch_value):
+                    continue
                 if (vibrato_value := vibrato_base_interval_dict.get(pitch_secs)) is not None:
                     vibrato_value *= vibrato_envelope_interval_dict.get(pitch_secs, 1)
                     pitch_value += vibrato_value

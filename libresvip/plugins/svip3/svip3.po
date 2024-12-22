@@ -7,6 +7,9 @@ msgstr ""
 msgid "Conversion plugin for Netease Cloud Music XStudio project file"
 msgstr ""
 
+msgid "FlutyDeer"
+msgstr ""
+
 msgid "Unsupported pinyin:"
 msgstr ""
 

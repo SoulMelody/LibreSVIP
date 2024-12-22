@@ -1,3 +1,4 @@
+# mypy: disable-error-code="misc"
 import enum
 from dataclasses import dataclass
 from typing import Annotated, Literal, Optional, Union

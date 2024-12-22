@@ -1,3 +1,4 @@
+# mypy: disable-error-code="misc"
 import enum
 from typing import Annotated
 

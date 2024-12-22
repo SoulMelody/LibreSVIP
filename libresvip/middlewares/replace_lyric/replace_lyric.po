@@ -9,3 +9,6 @@ msgid ""
 "replacement rules in the program configuration page"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+

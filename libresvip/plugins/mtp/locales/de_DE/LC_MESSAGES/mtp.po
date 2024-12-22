@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/mtp/mtp.po\n"
+"X-Crowdin-File-ID: 130\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "Muta"
+msgstr "Muta"
+
+msgid "Muta project file"
+msgstr "Muta-Projektdatei"
+
+msgid "Conversion plugin for mtp file"
+msgstr "Konvertierungs-Plugin für MTP-Dateien"
+
+msgid "SoulMelody"
+msgstr "SoulMelody"
+
+msgid "Default Singer Name"
+msgstr "Standard-Sängername"
+
+msgid "The default singer name to use for all tracks"
+msgstr "Der Standard-Sängername, der für alle Tracks verwendet werden soll"
+

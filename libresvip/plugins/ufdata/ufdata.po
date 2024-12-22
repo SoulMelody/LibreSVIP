@@ -7,3 +7,6 @@ msgstr ""
 msgid "Convertion plugin for UFData format"
 msgstr ""
 
+msgid "Sder Colin"
+msgstr ""
+

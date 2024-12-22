@@ -65,6 +65,8 @@ id2singer = bidict(
         70: "Karolyn",
         78: "Clara Epic",
         81: "Clara Dark",
+        82: "汐蕾",
+        83: "喜天",
         1006: "言和",
         1007: "乐正绫",
         1011: "乐正龙牙",

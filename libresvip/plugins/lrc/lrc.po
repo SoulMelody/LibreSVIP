@@ -7,6 +7,9 @@ msgstr ""
 msgid "Generator plugin for LRC lyric file"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+
 msgid "Act on timeline"
 msgstr ""
 

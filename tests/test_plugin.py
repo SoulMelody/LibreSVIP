@@ -4,7 +4,7 @@ from dataclasses import asdict
 from typing import TYPE_CHECKING
 
 import pytest
-from rich import print
+import rich
 
 from libresvip.extension.manager import plugin_manager
 from libresvip.utils.text import to_unicode
@@ -29,7 +29,7 @@ def test_nn_read(shared_datadir: pathlib.Path) -> None:
     tree = nn_grammar.parse(proj_path.read_text(encoding="utf-8"))
     proj = nn_visitor.visit(tree)
     for note in proj.notes:
-        print(len(note.dynamics.points))
+        rich.print(len(note.dynamics.points))
 
 
 def test_vshp_read(shared_datadir: pathlib.Path) -> None:
@@ -39,7 +39,7 @@ def test_vshp_read(shared_datadir: pathlib.Path) -> None:
     vshp_data = VocalShifterProjectData.parse_file(proj_path)
     path_content = vshp_data.pattern_metadatas[0].path_and_ext.split(b"\x00", 1)[0].decode("gbk")
     normlized_path = pathlib.PureWindowsPath(path_content).as_posix()
-    print(normlized_path)
+    rich.print(normlized_path)
 
 
 @pytest.mark.usefixtures("_pretty_construct")
@@ -48,7 +48,7 @@ def test_dv_read(shared_datadir: pathlib.Path) -> None:
 
     proj_path = shared_datadir / "test.dv"
     proj = dv_project_struct.parse_file(proj_path)
-    print(asdict(proj))
+    rich.print(asdict(proj))
 
 
 @pytest.mark.usefixtures("_pretty_construct")
@@ -57,11 +57,11 @@ def test_mtp_read(shared_datadir: pathlib.Path) -> None:
 
     proj_path = shared_datadir / "test.mtp"
     proj = muta_project_struct.parse_file(proj_path)
-    print(asdict(proj))
+    rich.print(asdict(proj))
     # for track in proj.tracks:
     #     if track.track_type == MutaTrackType.SONG:
     #         for note in track.song_track_data.notes:
-    #             print(chr(note.lyric[0]))
+    #             rich.print(chr(note.lyric[0]))
 
 
 @pytest.mark.usefixtures("_pretty_construct")
@@ -85,7 +85,7 @@ def test_ustx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
     with capsys.disabled():
         proj_path = shared_datadir / "test.ustx"
         proj = USTXProject.model_validate(load_yaml_1_2(to_unicode(proj_path.read_bytes())))
-        print(proj)
+        rich.print(proj)
 
 
 def test_ds_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -94,7 +94,7 @@ def test_ds_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str
     with capsys.disabled():
         proj_path = shared_datadir / "test.ds"
         proj_text = proj_path.read_text(encoding="utf-8")
-        print(DsProject.model_validate_json(proj_text))
+        rich.print(DsProject.model_validate_json(proj_text))
 
 
 def test_y77_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -103,7 +103,7 @@ def test_y77_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
     with capsys.disabled():
         proj_path = shared_datadir / "test.y77"
         proj = Y77Project.model_validate_json(proj_path.read_text(encoding="utf-8"))
-        print(proj)
+        rich.print(proj)
 
 
 def test_acep_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -113,7 +113,7 @@ def test_acep_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
     with capsys.disabled():
         proj_path = shared_datadir / "test.acep"
         proj = AcepProject.model_validate(decompress_ace_studio_project(proj_path))
-        print(proj)
+        rich.print(proj)
 
 
 @pytest.mark.usefixtures("_pretty_construct")
@@ -129,10 +129,10 @@ def test_ppsf_read(
         try:
             proj_text = zipfile.ZipFile(proj_path, "r").read("ppsf.json")
             proj = PpsfProject.model_validate_json(proj_text)
-            print(proj)
+            rich.print(proj)
         except zipfile.BadZipFile:
             proj = PpsfLegacyProject.parse_file(proj_path)
-            print(proj)
+            rich.print(proj)
 
 
 def test_vog_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -142,7 +142,7 @@ def test_vog_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
         proj_path = shared_datadir / "test.vog"
         proj_text = zipfile.ZipFile(proj_path, "r").read("chart.json")
         proj = VogenProject.model_validate_json(proj_text)
-        print(proj)
+        rich.print(proj)
 
 
 def test_vpr_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -154,7 +154,7 @@ def test_vpr_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
         proj_path = shared_datadir / "test.vpr"
         proj_text = zipfile.ZipFile(proj_path, "r").read("Project/sequence.json")
         proj = VocaloidProject.model_validate_json(proj_text)
-        print(proj)
+        rich.print(proj)
 
 
 def test_aisp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -166,8 +166,8 @@ def test_aisp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
         first_two_lines = proj_text.splitlines()[:2]
         head = AISProjectHead.model_validate_json(first_two_lines[0])
         body = AISProjectBody.model_validate_json(first_two_lines[1])
-        print(head)
-        print(body)
+        rich.print(head)
+        rich.print(body)
 
 
 def test_gj_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -176,7 +176,7 @@ def test_gj_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str
     with capsys.disabled():
         proj_path = shared_datadir / "test.gj"
         proj = GjgjProject.model_validate_json(proj_path.read_text(encoding="utf-8-sig"))
-        print(proj)
+        rich.print(proj)
 
 
 def test_dspx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -185,7 +185,7 @@ def test_dspx_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[s
     with capsys.disabled():
         proj_path = shared_datadir / "test.dspx"
         proj = DspxModel.model_validate_json(proj_path.read_text(encoding="utf-8"))
-        print(proj)
+        rich.print(proj)
 
 
 def test_vspx_read(shared_datadir: pathlib.Path) -> None:
@@ -197,7 +197,7 @@ def test_vspx_read(shared_datadir: pathlib.Path) -> None:
 
     xml_parser = XmlParser()
     proj = xml_parser.from_path(proj_path, VocalSharpProject)
-    print(proj)
+    rich.print(proj)
 
 
 def test_vsqx_read(shared_datadir: pathlib.Path) -> None:
@@ -210,7 +210,7 @@ def test_vsqx_read(shared_datadir: pathlib.Path) -> None:
 
     xml_parser = XmlParser()
     proj: Vsqx = xml_parser.from_path(proj_path)
-    print(type(proj))
+    rich.print(type(proj))
 
 
 def test_musicxml_read(shared_datadir: pathlib.Path) -> None:
@@ -222,7 +222,7 @@ def test_musicxml_read(shared_datadir: pathlib.Path) -> None:
     proj_path = shared_datadir / "test.musicxml"
     xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
     proj = xml_parser.from_path(proj_path, ScorePartwise)
-    print(proj)
+    rich.print(proj)
 
 
 def test_ccs_read(shared_datadir: pathlib.Path) -> None:
@@ -236,7 +236,7 @@ def test_ccs_read(shared_datadir: pathlib.Path) -> None:
         # config=ParserConfig(fail_on_unknown_attributes=True)
     )
     proj = xml_parser.from_path(proj_path, CeVIOCreativeStudioProject)
-    print(proj)
+    rich.print(proj)
 
 
 def test_s5p_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -246,7 +246,7 @@ def test_s5p_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
         if s5p_plugin := plugin_registry["s5p"].plugin_object:
             proj_path = shared_datadir / "test.s5p"
             proj = s5p_plugin.load(proj_path, InputOptions())
-            print(proj)
+            rich.print(proj)
 
 
 def test_svp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -256,7 +256,7 @@ def test_svp_read(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[st
         if svp_plugin := plugin_registry["svp"].plugin_object:
             proj_path = shared_datadir / "test.svp"
             proj = svp_plugin.load(proj_path, InputOptions())
-            print(proj)
+            rich.print(proj)
 
 
 def test_svp_write(shared_datadir: pathlib.Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -305,4 +305,4 @@ def test_vsq_read(shared_datadir: pathlib.Path) -> None:
     for track in vsq_file.tracks:
         for msg in track:
             if isinstance(msg, mido.MetaMessage) and msg.type == "text":
-                print(msg)
+                rich.print(msg)

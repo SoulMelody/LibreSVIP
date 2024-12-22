@@ -5,7 +5,6 @@ import dataclasses
 import enum
 import pathlib
 import traceback
-import uuid
 import zipfile
 from typing import Any, Optional, get_args, get_type_hints
 
@@ -28,7 +27,7 @@ from PySide6.QtCore import (
 from PySide6.QtQml import QmlElement
 from upath import UPath
 
-from __feature__ import snake_case, true_property  # isort:skip # noqa: F401  # type: ignore[import-not-found,reportMissingImports]
+from __feature__ import snake_case, true_property  # isort:skip # noqa: F401
 
 from libresvip.core.config import ConversionMode, get_ui_settings, settings
 from libresvip.core.warning_types import CatchWarnings
@@ -37,7 +36,7 @@ from libresvip.gui.models.base_task import BaseTask
 from libresvip.gui.models.list_models import ModelProxy
 from libresvip.gui.models.table_models import PluginCadidatesTableModel
 from libresvip.model.base import BaseComplexModel, BaseModel, Project
-from libresvip.utils.text import supported_charset_names
+from libresvip.utils.text import supported_charset_names, uuid_str
 
 from .url_opener import open_path
 
@@ -227,7 +226,7 @@ class SplitWorker(QRunnable):
                     output_option = output_option_cls(**self.output_options)
                     for child_project in project.split_tracks(settings.max_track_count):
                         output_plugin.plugin_object.dump(
-                            UPath(self.output_dir) / f"{uuid.uuid4()}",
+                            UPath(self.output_dir) / uuid_str(),
                             child_project,
                             output_option,
                         )
@@ -895,7 +894,7 @@ class TaskManager(QObject):
                             "version": plugin_info.version,
                             "file_format": plugin_info.file_format,
                             "suffix": f"(*.{plugin_info.suffix})",
-                            "info_filename": plugin_info_filename,
+                            "info_filename": str(plugin_info_filename),
                         }
                     )
                     logger.debug(infos)
@@ -956,7 +955,7 @@ class TaskManager(QObject):
         if self._conversion_mode == ConversionMode.DIRECT:
             for i in range(len(self.tasks)):
                 input_path = self.tasks[i]["path"]
-                output_path = f"memory:/{uuid.uuid4()}"
+                output_path = f"memory:/{uuid_str()}"
                 worker = ConversionWorker(
                     i,
                     input_path,
@@ -986,7 +985,7 @@ class TaskManager(QObject):
         elif self._conversion_mode == ConversionMode.SPLIT:
             for i in range(len(self.tasks)):
                 input_path = self.tasks[i]["path"]
-                output_dir = f"memory:/{uuid.uuid4()}"
+                output_dir = f"memory:/{uuid_str()}"
                 worker = SplitWorker(
                     i,
                     input_path,
@@ -1015,7 +1014,7 @@ class TaskManager(QObject):
                     self.set_busy(True)
         elif self._conversion_mode == ConversionMode.MERGE and len(self.tasks):
             input_paths = [task["path"] for task in self.tasks]
-            output_path = f"memory:/{uuid.uuid4()}"
+            output_path = f"memory:/{uuid_str()}"
             worker = MergeWorker(
                 0,
                 input_paths,

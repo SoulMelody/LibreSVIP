@@ -1,9 +1,9 @@
 import dataclasses
+import re
 from typing import cast
 
 import more_itertools
 
-from libresvip.core.constants import DEFAULT_BPM
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     Note,
@@ -21,6 +21,8 @@ from libresvip.utils.music_math import hz2midi, note2midi
 from .model import DsItem, DsProject
 from .options import InputOptions
 
+CENTS_RE = re.compile(r"[+-]\d+$")
+
 
 @dataclasses.dataclass
 class DiffSingerParser:
@@ -28,10 +30,10 @@ class DiffSingerParser:
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def parse_project(self, ds_project: DsProject) -> Project:
-        sont_tempo_list = [SongTempo(position=0, bpm=DEFAULT_BPM)]
-        self.synchronizer = TimeSynchronizer(sont_tempo_list)
+        song_tempo_list = [SongTempo(position=0, bpm=self.options.tempo)]
+        self.synchronizer = TimeSynchronizer(song_tempo_list)
         return Project(
-            song_tempo_list=sont_tempo_list,
+            song_tempo_list=song_tempo_list,
             time_signature_list=[TimeSignature(bar_index=0, numerator=4, denominator=4)],
             track_list=[
                 SingingTrack(
@@ -59,18 +61,20 @@ class DiffSingerParser:
                     text = ds_item.text[lyric_index]
                     note_dur = ds_item.note_dur[note_index]
                     note = ds_item.note_seq[note_index]
-                    note_dur = self.synchronizer.get_actual_ticks_from_secs(note_dur)
+                    next_time = self.synchronizer.get_actual_ticks_from_secs_offset(
+                        int(cur_time), note_dur
+                    )
                     if text == "SP":
                         pass
                     elif text == "AP":
                         prev_is_breath = True
                     else:
-                        midi_key = note2midi(note)
+                        midi_key = note2midi(CENTS_RE.sub("", note))
                         if not is_slur:
                             notes.append(
                                 Note(
                                     start_pos=int(cur_time),
-                                    length=int(note_dur),
+                                    length=int(next_time) - int(cur_time),
                                     key_number=midi_key,
                                     lyric=text,
                                     head_tag="V" if prev_is_breath else None,
@@ -81,12 +85,12 @@ class DiffSingerParser:
                             notes.append(
                                 Note(
                                     start_pos=int(cur_time),
-                                    length=int(note_dur),
+                                    length=int(next_time) - int(cur_time),
                                     key_number=midi_key,
                                     lyric="-",
                                 )
                             )
-                    cur_time += note_dur
+                    cur_time = next_time
             all_notes.extend(notes)
         return all_notes
 

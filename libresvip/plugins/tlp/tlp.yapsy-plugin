@@ -3,8 +3,8 @@ name = TuneLab
 module = tunelab_converter
 
 [Documentation]
-Author = 金刚
-Version = 0.3.0
+Author = LiuYunPlayer
+Version = 0.5.8
 Website = https://space.bilibili.com/24331207
 Format = TuneLab project file
 Description = Convertion plugin for TuneLab project file

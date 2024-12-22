@@ -38,6 +38,7 @@ from .model import (
     AcepParams,
     AcepProject,
     AcepSeedComposition,
+    AcepSingerConfig,
     AcepTempo,
     AcepTimeSignature,
     AcepTrack,
@@ -120,16 +121,18 @@ class AceGenerator:
             ace_vocal_track = AcepVocalTrack(
                 language=self.options.lyric_language,
             )
+            singer_config = AcepSingerConfig()
             if track.ai_singer_name in singer2id and track.ai_singer_name in singer2seed:
-                ace_vocal_track.singer.singer_id = singer2id.get(
+                singer_config.singer.singer_id = singer2id.get(
                     track.ai_singer_name, DEFAULT_SINGER_ID
                 )
-                ace_vocal_track.singer.composition.append(
+                singer_config.singer.composition.append(
                     AcepSeedComposition(code=singer2seed.get(track.ai_singer_name, DEFAULT_SEED))
                 )
             else:
-                ace_vocal_track.singer.singer_id = DEFAULT_SINGER_ID
-                ace_vocal_track.singer.composition.append(AcepSeedComposition(code=DEFAULT_SEED))
+                singer_config.singer.singer_id = DEFAULT_SINGER_ID
+                singer_config.singer.composition.append(AcepSeedComposition(code=DEFAULT_SEED))
+            ace_vocal_track.singers.append(singer_config)
             if len(track.note_list):
                 buffer = [track.note_list[0]]
 
@@ -194,9 +197,7 @@ class AceGenerator:
             )
             notes[i].br_len -= actual_breath
 
-    def generate_note(self, note: Note, pinyin: Optional[str] = None) -> None:
-        if self.options.lyric_language == AcepLyricsLanguage.CHINESE and not pinyin:
-            pinyin = next(iter(get_pinyin_series(note.lyric)), None)
+    def generate_note(self, note: Note) -> None:
         ace_note = AcepNote(
             pos=round(note.start_pos) - self.pattern_start,
             pitch=note.key_number,
@@ -206,9 +207,12 @@ class AceGenerator:
         ace_note.dur = round(note.end_pos - note.start_pos)
 
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
-            ace_note.pronunciation = (
-                note.pronunciation if note.pronunciation is not None else pinyin or ""
-            )
+            if self.options.lyric_language == AcepLyricsLanguage.CHINESE:
+                pronunciation = next(iter(get_pinyin_series(note.lyric)), None)
+            else:
+                pronunciation = None
+            if note.pronunciation is not None and note.pronunciation != pronunciation:
+                ace_note.syllable = note.pronunciation
             if note.edited_phones is not None and note.edited_phones.head_length_in_secs >= 0:
                 ace_note.head_consonants = [note.edited_phones.head_length_in_secs]
             elif self.options.default_consonant_length:

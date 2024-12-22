@@ -23,9 +23,10 @@ with contextlib.suppress(Exception):
     ):
         os.environ["PATH"] += f"{os.pathsep}{sys.base_prefix}/Library/bin"
 
+here = pathlib.Path(".")
 
 cli_collections = []
-if not (is_win and platform.machine() == "ARM64"):
+if platform.machine() != "ARM64":
     cli_a = Analysis(
         ['../libresvip/cli/__main__.py'],
         pathex=[
@@ -267,7 +268,7 @@ gui_exe = EXE(
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
-    entitlements_file=None,
+    entitlements_file=str(here / "macos-entitlements.plist"),
     icon=['../libresvip/res/libresvip.ico'],
 )
 coll = COLLECT(

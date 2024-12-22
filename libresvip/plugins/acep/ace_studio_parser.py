@@ -102,19 +102,19 @@ class AceParser:
             )
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
-                ai_singer_name=(id2singer.get(ace_track.singer.singer_id, None) or "")
+                ai_singer_name=(id2singer.get(ace_track.singers[0].singer.singer_id, None) or "")
             )
             ace_note_list = []
             ace_params = AcepParams()
-            for pattern in ace_track.patterns:
-                if len(pattern.notes) == 0:
-                    continue
+            for pattern in sorted(ace_track.patterns, key=operator.attrgetter("clip_pos")):
                 ace_notes = [
                     note
                     for note in pattern.notes
                     if note.pos + pattern.pos >= 0
                     and pattern.clip_pos <= note.pos < pattern.clip_pos + pattern.clip_dur
                 ]
+                if not ace_notes:
+                    continue
                 prev_ace_note = None
                 for ace_note in ace_notes:
                     ace_note.dur = int(
@@ -168,6 +168,17 @@ class AceParser:
                 if self.options.energy_normalization.enabled:
                     merge_curves(pattern.parameters.real_energy, ace_params.real_energy)
             ace_note_list.sort(key=operator.attrgetter("pos"))
+            ace_params.pitch_delta.root.sort(key=operator.attrgetter("offset"))
+            ace_params.breathiness.root.sort(key=operator.attrgetter("offset"))
+            ace_params.gender.root.sort(key=operator.attrgetter("offset"))
+            ace_params.energy.root.sort(key=operator.attrgetter("offset"))
+            ace_params.tension.root.sort(key=operator.attrgetter("offset"))
+            if self.options.breath_normalization.enabled:
+                ace_params.real_breathiness.root.sort(key=operator.attrgetter("offset"))
+            if self.options.tension_normalization.enabled:
+                ace_params.real_tension.root.sort(key=operator.attrgetter("offset"))
+            if self.options.energy_normalization.enabled:
+                ace_params.real_energy.root.sort(key=operator.attrgetter("offset"))
             track.note_list = [self.parse_note(ace_note) for ace_note in ace_note_list]
             track.edited_params = self.parse_params(ace_params, ace_note_list)
         else:
@@ -178,13 +189,14 @@ class AceParser:
         track.volume = 10 ** (ace_track.gain / 20)
         return track
 
-    def parse_note(self, ace_note: AcepNote, pinyin: Optional[str] = None) -> Note:
+    def parse_note(self, ace_note: AcepNote) -> Note:
         if (
             not self.options.keep_all_pronunciation
             and ace_note.language == AcepLyricsLanguage.CHINESE
-            and pinyin is None
         ):
-            pinyin = next(iter(get_pinyin_series(ace_note.lyric)), None)
+            pronunciation = next(iter(get_pinyin_series(ace_note.lyric)), None)
+        else:
+            pronunciation = None
         note = Note(
             key_number=ace_note.pitch,
             start_pos=ace_note.pos,
@@ -197,7 +209,11 @@ class AceParser:
         ):
             span_index = int(latin_span.group(1))
             note.lyric = ACEP_LATIN_SPAN_RE.sub("", note.lyric) if span_index == 1 else "+"
-        if pinyin is None or "-" not in ace_note.lyric and ace_note.pronunciation != pinyin:
+        if ace_note.syllable and ace_note.syllable != ace_note.freezed_default_syllable:
+            note.pronunciation = ace_note.syllable
+        elif pronunciation is None or (
+            "-" not in ace_note.lyric and ace_note.pronunciation != pronunciation
+        ):
             note.pronunciation = ace_note.pronunciation
         if ace_note.br_len > 0:
             note.head_tag = "V"
@@ -210,6 +226,8 @@ class AceParser:
                 if self.content_version < 7
                 else ace_note.head_consonants[0]
             )
+        else:
+            note.edited_phones = Phones(head_length_in_secs=0)
         return note
 
     def parse_params(self, ace_params: AcepParams, ace_note_list: list[AcepNote]) -> Params:

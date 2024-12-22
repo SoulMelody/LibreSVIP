@@ -28,3 +28,6 @@ msgstr ""
 msgid "Fill short rests"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+

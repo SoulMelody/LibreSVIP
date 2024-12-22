@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "gjgj"
 msgstr ""
@@ -20,6 +20,9 @@ msgstr ""
 
 msgid "Conversion plugin for Gejigeji project file.\n"
 "Only Gejigeji v2.0 spec is supported."
+msgstr ""
+
+msgid "FlutyDeer"
 msgstr ""
 
 msgid "Unsupported pinyin:"

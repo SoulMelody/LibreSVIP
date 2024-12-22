@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-06-29 03:32\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "ASS"
 msgstr ""
@@ -19,6 +19,9 @@ msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
 
 msgid "Generator plugin for ASS subtitle file"
+msgstr ""
+
+msgid "SoulMelody"
 msgstr ""
 
 msgid "Both note gap and punctuation"

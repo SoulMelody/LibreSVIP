@@ -12,7 +12,6 @@ import secrets
 import shutil
 import textwrap
 import traceback
-import uuid
 import webbrowser
 import zipfile
 from collections.abc import Callable
@@ -44,7 +43,6 @@ from nicegui.events import (
 from nicegui.storage import request_contextvar
 from pydantic import RootModel, create_model
 from pydantic.config import JsonValue
-from pydantic.dataclasses import dataclass
 from pydantic_core import PydanticUndefined
 from pydantic_extra_types.color import Color
 from starlette.exceptions import HTTPException
@@ -73,7 +71,7 @@ from libresvip.extension.manager import (
 )
 from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils.search import find_index
-from libresvip.utils.text import shorten_error_message, supported_charset_names
+from libresvip.utils.text import shorten_error_message, supported_charset_names, uuid_str
 from libresvip.utils.translation import gettext_lazy as _
 from libresvip.utils.translation import lazy_translation
 from libresvip.web.elements import QFab, QFabAction
@@ -88,7 +86,6 @@ P = ParamSpec("P")
 R = TypeVar("R")
 
 
-@dataclass
 class LibreSvipWebUserSettings(LibreSvipBaseUISettings):
     def __post_init__(self) -> None:
         self.lyric_replace_rules.setdefault("default", [])
@@ -274,7 +271,7 @@ def page_layout(lang: Optional[str] = None) -> None:
         attr = getattr(selected_formats, attr_name)
         with ui.row().classes("w-full h-full"):
             with ui.element("div").classes("w-100 h-100") as icon:
-                icon._props["style"] = (
+                icon.props["style"] = (
                     f"""background: url('data:image/png;base64,{plugin_details[attr]["icon_base64"]}'); background-size: contain; border-radius: 50%; width: 100px; height: 100px"""
                 )
             ui.separator().props("vertical")
@@ -283,19 +280,19 @@ def page_layout(lang: Optional[str] = None) -> None:
                     "text-h5 w-full font-bold text-center",
                 )
                 with ui.row().classes("w-full"):
-                    with ui.element("q-chip").props("icon=tag").tooltip(_("Version")):
-                        ui.label(plugin_details[attr]["version"])
+                    with ui.element("q-chip").props("icon=bookmark").tooltip(_("Version")):
+                        ui.label(plugin_details[attr]["version"] or "")
                     ui.separator().props("vertical")
                     with (
                         ui.element("q-chip")
                         .props("icon=person")
-                        .tooltip(plugin_details[attr]["website"]),
+                        .tooltip(plugin_details[attr]["website"] or ""),
                         ui.row().classes("items-center"),
                     ):
                         ui.label(_("Author") + ": ")
                         ui.link(
-                            plugin_details[attr]["author"],
-                            plugin_details[attr]["website"],
+                            _(plugin_details[attr]["author"] or ""),
+                            plugin_details[attr]["website"] or "",
                             new_tab=True,
                         )
                         ui.icon("open_in_new")
@@ -366,11 +363,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 )
                 with ui.row().classes("items-center w-full") as row:
                     if i:
-                        row._props["style"] = """
+                        row.style("""
                             background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
                             background-size: 8px 1px;
-                            background-repeat: repeat-x;
-                        """
+                            background-repeat: repeat-x
+                        """)
                     if issubclass(field_info.annotation, bool):
                         ui.switch(
                             _(field_info.title),
@@ -484,11 +481,11 @@ def page_layout(lang: Optional[str] = None) -> None:
                 )
                 with ui.row().classes("items-center w-full") as row:
                     if i:
-                        row._props["style"] = """
+                        row.style("""
                             background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, transparent 50%);
                             background-size: 8px 1px;
-                            background-repeat: repeat-x;
-                        """
+                            background-repeat: repeat-x
+                        """)
                     if issubclass(field_info.annotation, bool):
                         ui.switch(
                             _(field_info.title),
@@ -675,7 +672,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 .style("width: 500px; height: 16rem;")
                             ):
                                 ui.label().classes("text-lg").style(
-                                    "word-break: break-all; white-space: pre-wrap;",
+                                    "word-break: break-all; white-space: pre-wrap",
                                 ).bind_text_from(
                                     info,
                                     "error",
@@ -684,9 +681,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             with error_banner.add_slot("action"):
                                 ui.button(
                                     _("Copy to clipboard"),
-                                    on_click=lambda: ui.run_javascript(
-                                        f"navigator.clipboard.writeText({info.error!r})",
-                                    )
+                                    on_click=lambda: ui.clipboard.write(info.error or "")
                                     and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=error_dialog.close)
@@ -709,14 +704,12 @@ def page_layout(lang: Optional[str] = None) -> None:
                                 .style("width: 500px; height: 16rem;")
                             ):
                                 ui.label().classes("text-lg").style(
-                                    "word-break: break-all; white-space: pre-wrap;",
+                                    "word-break: break-all; white-space: pre-wrap",
                                 ).bind_text_from(info, "warning", backward=str)
                             with warn_banner.add_slot("action"):
                                 ui.button(
                                     _("Copy to clipboard"),
-                                    on_click=lambda: ui.run_javascript(
-                                        f"navigator.clipboard.writeText({info.warning!r})",
-                                    )
+                                    on_click=lambda: ui.clipboard.write(info.warning or "")
                                     and ui.notify(_("Copied"), type="info"),
                                 )
                                 ui.button(_("Close"), on_click=warn_dialog.close)
@@ -779,7 +772,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 upload_path = self.temp_path / name
                 content.seek(0)
                 upload_path.write_bytes(content.read())
-            output_path = self.temp_path / str(uuid.uuid4())
+            output_path = self.temp_path / uuid_str()
             conversion_task = ConversionTask(
                 name=name,
                 upload_path=upload_path,
@@ -1152,145 +1145,18 @@ def page_layout(lang: Optional[str] = None) -> None:
                     ).classes("text-md w-full")
                 with ui.card_actions().props("align=right").classes("w-full"):
                     ui.button(_("Close"), on_click=about_dialog.close)
-            with QFab(icon="menu").props("square direction=down vertical-actions-align=left"):
-                with (
-                    QFabAction(
-                        _("Convert"),
-                        icon="loop",
-                        on_click=lambda: convert_menu.open(),
-                    )
-                    .props("square")
-                    .tooltip("Alt+C"),
-                    ui.menu() as convert_menu,
-                ):
-                    with (
-                        ui.menu_item(
-                            on_click=selected_formats.add_upload,
-                        ).tooltip("Alt+O"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("file_open").classes("text-lg")
-                        ui.label(_("Import project"))
-                    with (
-                        ui.menu_item(
-                            on_click=selected_formats.batch_convert,
-                        )
-                        .bind_visibility_from(
-                            selected_formats,
-                            "task_count",
-                            backward=bool,
-                        )
-                        .tooltip("Alt+Enter"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("play_arrow").classes("text-lg")
-                        ui.label(_("Convert"))
-                    with (
-                        ui.menu_item(on_click=selected_formats.reset)
-                        .bind_visibility_from(
-                            selected_formats,
-                            "task_count",
-                            backward=bool,
-                        )
-                        .tooltip("Alt+/"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("refresh").classes("text-lg")
-                        ui.label(_("Clear Task List"))
-                    ui.separator()
-                    with (
-                        ui.menu_item(on_click=swap_values).tooltip("Alt+\\"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("swap_vert").classes("text-lg")
-                        ui.label(_("Swap Input and Output"))
-                with (
-                    QFabAction(
-                        _("Import format"),
-                        icon="login",
-                        on_click=lambda: input_formats_menu.open(),
-                    )
-                    .props("square")
-                    .tooltip("Alt+["),
-                    ui.menu() as input_formats_menu,
-                ):
-                    input_format_item = (
-                        ui.radio(
-                            {
-                                k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
-                                for i, (k, v) in enumerate(plugin_details.items())
-                            },
-                        )
-                        .bind_value(selected_formats, "input_format")
-                        .classes("text-sm")
-                    )
-                with (
-                    QFabAction(
-                        _("Export format"),
-                        icon="logout",
-                        on_click=lambda: output_formats_menu.open(),
-                    )
-                    .props("square")
-                    .tooltip("Alt+]"),
-                    ui.menu() as output_formats_menu,
-                ):
-                    output_format_item = ui.radio(
-                        {
-                            k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
-                            for i, (k, v) in enumerate(plugin_details.items())
-                        },
-                    ).bind_value(selected_formats, "output_format")
-                with (
-                    QFabAction(
-                        _("Switch Theme"),
-                        icon="palette",
-                        on_click=lambda: theme_menu.open(),
-                    )
-                    .props("square")
-                    .tooltip("Alt+T"),
-                    ui.menu() as theme_menu,
-                ):
-                    with (
-                        ui.menu_item(on_click=dark_toggler.disable).tooltip("Alt+W"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("light_mode").classes("text-lg")
-                        ui.label(_("Light"))
-                    with (
-                        ui.menu_item(on_click=dark_toggler.enable).tooltip("Alt+B"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("dark_mode").classes("text-lg")
-                        ui.label(_("Dark"))
-                    with (
-                        ui.menu_item(on_click=dark_toggler.auto).tooltip("Alt+A"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("brightness_auto").classes("text-lg")
-                        ui.label(_("System"))
-                with (
-                    QFabAction(
-                        _("Help"),
-                        icon="help",
-                        on_click=lambda: help_menu.open(),
-                    )
-                    .props("square")
-                    .tooltip("Alt+H"),
-                    ui.menu() as help_menu,
-                ):
-                    with (
-                        ui.menu_item(on_click=about_dialog.open).tooltip("Alt+I"),
-                        ui.row().classes("items-center"),
-                    ):
-                        ui.icon("info").classes("text-lg")
-                        ui.label(_("About"))
-                    with ui.menu_item(), ui.row().classes("items-center"):
-                        ui.icon("text_snippet").classes("text-lg")
-                        ui.link(
-                            _("Documentation"),
-                            target="https://soulmelody.github.io/LibreSVIP",
-                            new_tab=True,
-                        )
+
+            def toggle_menu() -> None:
+                submenu.classes(toggle="hidden")
+                toggle_menu_btn.props(
+                    "icon=arrow_drop_down" if "hidden" in submenu.classes else "icon=arrow_drop_up"
+                )
+
+            toggle_menu_btn = (
+                ui.button(icon="arrow_drop_down", on_click=toggle_menu)
+                .classes("aspect-square")
+                .tooltip(_("Toggle menu"))
+            )
             with (
                 ui.dialog() as settings_dialog,
                 ui.card().classes("min-w-[750px]"),
@@ -1572,7 +1438,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                         lambda row: row["id"] == event.args["id"],
                                     )
                                 ) != -1:
-                                    table.remove_rows(rows[row_idx])
+                                    table.remove_row(rows[row_idx])
 
                             table.on("delete", delete_rule)
 
@@ -1649,7 +1515,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     elif mode_value == LyricsReplaceMode.ALPHABETIC.value:
                                         pattern_prefix = r"(?<=^|\b)"
                                         pattern_suffix = r"(?=$|\b)"
-                                    table.add_rows(
+                                    table.add_row(
                                         {
                                             "id": rows[-1]["id"] + 1 if len(rows) else 1,
                                             "mode": mode_value,
@@ -1680,12 +1546,15 @@ def page_layout(lang: Optional[str] = None) -> None:
                                     ui.navigate.to("/?lang=zh_CN")
                                 elif event.value == Language.ENGLISH:
                                     ui.navigate.to("/?lang=en_US")
+                                elif event.value == Language.GERMAN:
+                                    ui.navigate.to("/?lang=de_DE")
 
                             ui.select(
                                 {
                                     Language.CHINESE: "简体中文",
                                     Language.ENGLISH: "English",
                                     Language.JAPANESE: "日本語",
+                                    Language.GERMAN: "Deutsch",
                                 },
                             ).bind_value(
                                 settings,
@@ -1693,10 +1562,6 @@ def page_layout(lang: Optional[str] = None) -> None:
                             ).on_value_change(switch_language)
                 with ui.card_actions().props("align=right").classes("w-full"):
                     ui.button(_("Close"), on_click=settings_dialog.close)
-            ui.button(
-                icon="settings",
-                on_click=settings_dialog.open,
-            ).classes("aspect-square").tooltip(_("Settings (&S)"))
             ui.space()
             with ui.tabs().classes("sm:visible lg:h-0 lg:invisible") as tabs:
                 format_select_tab = ui.tab(_("Select File Formats"))
@@ -1780,6 +1645,148 @@ def page_layout(lang: Optional[str] = None) -> None:
                     color="negative",
                     on_click=app.native.main_window.destroy,
                 ).classes("aspect-square").tooltip(_("Close"))
+        with ui.row().classes("hidden") as submenu:
+            with (
+                ui.button(
+                    _("Convert"),
+                    icon="loop",
+                    on_click=lambda: convert_menu.open(),  # type: ignore[has-type]
+                )
+                .props("square")
+                .tooltip("Alt+C"),
+                ui.menu() as convert_menu,
+            ):
+                with (
+                    ui.menu_item(
+                        on_click=selected_formats.add_upload,
+                    ).tooltip("Alt+O"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("file_open").classes("text-lg")
+                    ui.label(_("Import project"))
+                with (
+                    ui.menu_item(
+                        on_click=selected_formats.batch_convert,
+                    )
+                    .bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    )
+                    .tooltip("Alt+Enter"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("play_arrow").classes("text-lg")
+                    ui.label(_("Convert"))
+                with (
+                    ui.menu_item(on_click=selected_formats.reset)
+                    .bind_visibility_from(
+                        selected_formats,
+                        "task_count",
+                        backward=bool,
+                    )
+                    .tooltip("Alt+/"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("refresh").classes("text-lg")
+                    ui.label(_("Clear Task List"))
+                ui.separator()
+                with (
+                    ui.menu_item(on_click=swap_values).tooltip("Alt+\\"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("swap_vert").classes("text-lg")
+                    ui.label(_("Swap Input and Output"))
+            with (
+                ui.button(
+                    _("Import format"),
+                    icon="login",
+                    on_click=lambda: input_formats_menu.open(),  # type: ignore[has-type]
+                )
+                .props("square")
+                .tooltip("Alt+["),
+                ui.menu() as input_formats_menu,
+            ):
+                input_format_item = (
+                    ui.radio(
+                        {
+                            k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
+                            for i, (k, v) in enumerate(plugin_details.items())
+                        },
+                    )
+                    .bind_value(selected_formats, "input_format")
+                    .classes("text-sm")
+                )
+            with (
+                ui.button(
+                    _("Export format"),
+                    icon="logout",
+                    on_click=lambda: output_formats_menu.open(),  # type: ignore[has-type]
+                )
+                .props("square")
+                .tooltip("Alt+]"),
+                ui.menu() as output_formats_menu,
+            ):
+                output_format_item = ui.radio(
+                    {
+                        k: f"{i} " + _(v["file_format"] or "") + " " + (v["suffix"] or "")
+                        for i, (k, v) in enumerate(plugin_details.items())
+                    },
+                ).bind_value(selected_formats, "output_format")
+            with (
+                ui.button(
+                    _("Switch Theme"),
+                    icon="palette",
+                    on_click=lambda: theme_menu.open(),  # type: ignore[has-type]
+                ).tooltip("Alt+T"),
+                ui.menu() as theme_menu,
+            ):
+                with (
+                    ui.menu_item(on_click=dark_toggler.disable).tooltip("Alt+W"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("light_mode").classes("text-lg")
+                    ui.label(_("Light"))
+                with (
+                    ui.menu_item(on_click=dark_toggler.enable).tooltip("Alt+B"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("dark_mode").classes("text-lg")
+                    ui.label(_("Dark"))
+                with (
+                    ui.menu_item(on_click=dark_toggler.auto).tooltip("Alt+A"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("brightness_auto").classes("text-lg")
+                    ui.label(_("System"))
+            ui.button(
+                _("Settings"),
+                icon="settings",
+                on_click=settings_dialog.open,
+            ).tooltip("Alt+S")
+            with (
+                ui.button(
+                    _("Help"),
+                    icon="help",
+                    on_click=lambda: help_menu.open(),  # type: ignore[has-type]
+                )
+                .props("square")
+                .tooltip("Alt+H"),
+                ui.menu() as help_menu,
+            ):
+                with (
+                    ui.menu_item(on_click=about_dialog.open).tooltip("Alt+I"),
+                    ui.row().classes("items-center"),
+                ):
+                    ui.icon("info").classes("text-lg")
+                    ui.label(_("About"))
+                with ui.menu_item(), ui.row().classes("items-center"):
+                    ui.icon("text_snippet").classes("text-lg")
+                    ui.link(
+                        _("Documentation"),
+                        target="https://soulmelody.github.io/LibreSVIP",
+                        new_tab=True,
+                    )
 
         async def handle_key(e: KeyEventArguments) -> None:
             if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
@@ -1957,7 +1964,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 js_handler=f"""(event) => {{
                 for (let file of event.dataTransfer.files) {{
                     let file_name = file.name
-                    post_form('{uploader._props['url']}', {{
+                    post_form('{uploader.props['url']}', {{
                         file_name: file
                     }})
                 }}
@@ -2030,7 +2037,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 js_handler=f"""(event) => {{
                 for (let file of event.dataTransfer.files) {{
                     let file_name = file.name
-                    post_form('{uploader._props['url']}', {{
+                    post_form('{uploader.props['url']}', {{
                         file_name: file
                     }})
                 }}
@@ -2210,7 +2217,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             for (const fileHandle of fileHandles) {{
                                 const file = await fileHandle.getFile();
                                 let file_name = file.name
-                                post_form('{uploader._props['url']}', {{
+                                post_form('{uploader.props['url']}', {{
                                     file_name: file
                                 }})
                             }}

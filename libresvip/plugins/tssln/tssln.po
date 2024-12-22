@@ -12,6 +12,9 @@ msgid ""
 " are supported)"
 msgstr ""
 
+msgid "SoulMelody"
+msgstr ""
+
 msgid "Unsupported lyric: "
 msgstr ""
 

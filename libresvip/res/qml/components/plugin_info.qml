@@ -162,7 +162,7 @@ GridLayout {
             }
 
             Label {
-                text: info.author
+                text: qsTr(info.author)
                 font.underline: true
                 HoverHandler {
                     acceptedDevices: PointerDevice.AllPointerTypes

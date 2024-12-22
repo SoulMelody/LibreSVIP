@@ -10,11 +10,13 @@ from libresvip.model.base import Project, SingingTrack, TimeSignature
 from libresvip.utils.music_math import midi2note
 
 from .model import KeyTick, MXmlMeasure, MXmlMeasureContent
-from .models.enums import NoteTypeValue, StartStop, Step, Syllabic, TiedType
+from .models.enums import NoteTypeValue, StartStop, StartStopContinue, Step, Syllabic, TiedType
 from .models.mxml4 import (
     Attributes,
     Direction,
     DirectionType,
+    Encoding,
+    Identification,
     Lyric,
     Metronome,
     Notations,
@@ -23,6 +25,7 @@ from .models.mxml4 import (
     Rest,
     ScorePart,
     ScorePartwise,
+    Slur,
     Sound,
     TextElementData,
     Tie,
@@ -43,14 +46,21 @@ class MusicXMLGenerator:
         project_with_tick_rate_applied = self.apply_tick_rate(project)
         measures: dict[int, list[MXmlMeasure]] = defaultdict(list)
         for i, track in enumerate(project_with_tick_rate_applied.track_list):
-            if key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied):
+            if isinstance(track, SingingTrack) and (
+                key_ticks := self.get_key_ticks(i, track, project_with_tick_rate_applied)
+            ):
                 track_measures = self.get_measures(
                     key_ticks,
                     project_with_tick_rate_applied.time_signature_list,
-                    i,
                 )
                 measures[i].extend(track_measures)
-        musicxml_project = ScorePartwise()
+        musicxml_project = ScorePartwise(
+            identification=Identification(
+                encoding=Encoding(
+                    software=["LibreSVIP"],
+                )
+            )
+        )
         for track_index, measures_part in measures.items():
             track_title = project_with_tick_rate_applied.track_list[track_index].title
             part_node, score_part_node = self.generate_part(measures_part, track_index, track_title)
@@ -67,12 +77,12 @@ class MusicXMLGenerator:
         part_id = f"P{track_index + 1}"
         part_node = ScorePartwise.Part(id=part_id)
         score_part = ScorePart(id=part_id)
-        if score_part.part_name is not None:
-            if track_title:
-                score_part.part_name.value = track_title
-            else:
-                score_part.part_name.value = f"Track {track_index + 1}"
+        score_part.part_name.value = track_title or f"Track {track_index + 1}"
+        prev_note_node = None
+        prev_is_slur = False
+        slur_number = 1
         for i, measure in enumerate(measures):
+            slur_number = 1
             measure_node = ScorePartwise.Part.Measure(
                 number=str(i + 1),
                 attributes=[
@@ -99,12 +109,68 @@ class MusicXMLGenerator:
                         measure_node.sound.append(sound_node)
                         measure_node.direction.append(direction_node)
                     elif content.note_type is not None and content.note is not None:
+                        is_slur = content.note.lyric == "-"
+                        if prev_note_node is not None:
+                            if prev_note_node.notations:
+                                prev_notation = prev_note_node.notations[0]
+                            else:
+                                prev_notation = Notations()
+                                prev_note_node.notations.append(prev_notation)
+                            if is_slur and not prev_is_slur:
+                                prev_notation.slur.append(
+                                    Slur(type_value=StartStopContinue.START, number=slur_number)
+                                )
+                            elif prev_is_slur:
+                                prev_slur_number = next(
+                                    (slur.number for slur in prev_notation.slur), slur_number
+                                )
+                                if is_slur:
+                                    prev_notation.slur.append(
+                                        Slur(
+                                            type_value=StartStopContinue.CONTINUE,
+                                            number=prev_slur_number,
+                                        )
+                                    )
+                                else:
+                                    prev_notation.slur.append(
+                                        Slur(
+                                            type_value=StartStopContinue.STOP,
+                                            number=prev_slur_number,
+                                        )
+                                    )
+                                    slur_number += 1
                         if note := self.generate_note_node(content):
                             note.voice = str(track_index + 2)
                             measure_node.note.append(note)
+                            prev_note_node = note
+                            prev_is_slur = is_slur
                     else:
+                        if prev_note_node is not None and prev_is_slur:
+                            if prev_note_node.notations:
+                                prev_notation = prev_note_node.notations[0]
+                            else:
+                                prev_notation = Notations()
+                                prev_note_node.notations.append(prev_notation)
+                            prev_slur_number = next(
+                                (slur.number for slur in prev_notation.slur), slur_number
+                            )
+                            prev_notation.slur.append(
+                                Slur(type_value=StartStopContinue.STOP, number=prev_slur_number)
+                            )
+                            prev_note_node = None
+                            prev_is_slur = False
                         measure_node.note.append(self.generate_rest_node(content))
             part_node.measure.append(measure_node)
+        if prev_note_node is not None and prev_is_slur:
+            if prev_note_node.notations:
+                prev_notation = prev_note_node.notations[0]
+            else:
+                prev_notation = Notations()
+                prev_note_node.notations.append(prev_notation)
+            prev_slur_number = next((slur.number for slur in prev_notation.slur), slur_number)
+            prev_notation.slur.append(
+                Slur(type_value=StartStopContinue.STOP, number=prev_slur_number)
+            )
         return part_node, score_part
 
     def generate_nodes_for_tempo(self, tempo: MXmlMeasureContent) -> tuple[Sound, Direction]:
@@ -207,7 +273,6 @@ class MusicXMLGenerator:
     def get_measures(
         key_ticks: list[KeyTick],
         time_signatures: list[TimeSignature],
-        track_index: int,
     ) -> list[MXmlMeasure]:
         ticks_in_beat = round(TICKS_IN_BEAT * DEFAULT_TICK_RATE_CEVIO)
         measure_border_ticks = [0]
@@ -258,12 +323,11 @@ class MusicXMLGenerator:
             for border_pair in zip(measure_border_ticks, measure_border_ticks[1:])
         ]
 
-        current_content_group: list[MXmlMeasureContent] = []
         content_group_border_pair_map = {}
         ongoing_note_with_current_head = None
         for border_pair, key_tick_group in key_ticks_with_measure_borders:
             current_tick_in_measure = 0
-            current_content_group.clear()
+            current_content_group: list[MXmlMeasureContent] = []
             for key_tick in key_tick_group:
                 key_tick_relative = key_tick.tick - border_pair[0]
                 if key_tick_relative > current_tick_in_measure:
@@ -278,7 +342,7 @@ class MusicXMLGenerator:
                     if ongoing_note_with_current_head is not None:
                         note, head = ongoing_note_with_current_head
                         current_content_group.append(
-                            MXmlMeasureContent.note(
+                            MXmlMeasureContent.with_note(
                                 duration=key_tick.tick - head,
                                 note=note,
                                 note_type=MXmlMeasureContent.NoteType.BEGIN
@@ -324,7 +388,7 @@ class MusicXMLGenerator:
                         )
                     )
                     ongoing_note_with_current_head = note, border_pair[1]
-            content_group_border_pair_map[border_pair] = current_content_group.copy()
+            content_group_border_pair_map[border_pair] = current_content_group
 
         return [
             MXmlMeasure(

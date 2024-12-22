@@ -9,6 +9,7 @@ from libresvip.core.constants import (
     DEFAULT_KOREAN_LYRIC,
 )
 from libresvip.core.time_sync import TimeSynchronizer
+from libresvip.core.warning_types import show_warning
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
@@ -18,6 +19,7 @@ from libresvip.model.base import (
     TimeSignature,
     Track,
 )
+from libresvip.utils.translation import gettext_lazy as _
 
 from .constants import (
     BPM_RATE,
@@ -165,10 +167,13 @@ class VocaloidParser:
         if len(notes):
             next_pos = None
             for note in notes[::-1]:
-                if next_pos is None:
-                    normalized_duration = note.duration or 0
-                else:
-                    normalized_duration = min(note.duration or 0, next_pos - note.pos)
+                normalized_duration = note.duration or 0
+                if next_pos is not None:
+                    distance = next_pos - note.pos
+                    if distance < normalized_duration:
+                        normalized_duration = distance
+                        if normalized_duration > 0:
+                            show_warning(_("Note overlap detected, cutting note ") + note.lyric)
                 if normalized_duration > 0:
                     note_list.insert(
                         0,
@@ -180,5 +185,7 @@ class VocaloidParser:
                             pronunciation=None,
                         ),
                     )
+                else:
+                    show_warning(_("Note overlap detected, skipping note ") + note.lyric)
                 next_pos = note.pos
         return note_list

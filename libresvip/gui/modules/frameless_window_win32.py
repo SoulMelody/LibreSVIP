@@ -3,7 +3,7 @@ import ctypes
 from ctypes.wintypes import MSG
 from typing import Optional, SupportsInt
 
-from PySide6.QtCore import QPoint, QRect, Qt
+from PySide6.QtCore import QPoint, QRect, Qt, Slot
 from PySide6.QtGui import QGuiApplication, QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickItem, QQuickWindow
@@ -46,6 +46,17 @@ class FramelessWindow(QQuickWindow):
             (screen_geometry.height() - 800) // 2,
         )
         self.prev_visibility = None
+
+    @Slot()
+    def click_maximize_btn(self) -> None:
+        if self.visibility != QQuickWindow.Visibility.Maximized:
+            ctypes.windll.user32.SendMessageW(
+                self.hwnd, win32con.WM_SYSCOMMAND, win32con.SC_MAXIMIZE, 0
+            )
+        else:
+            ctypes.windll.user32.SendMessageW(
+                self.hwnd, win32con.WM_SYSCOMMAND, win32con.SC_RESTORE, 0
+            )
 
     def get_point_from_lparam(self, l_param: int) -> tuple[int, int]:
         pixel_ratio = self.screen().device_pixel_ratio

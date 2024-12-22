@@ -5,8 +5,9 @@ import importlib
 import pkgutil
 import re
 import textwrap
+import uuid
 from collections.abc import Callable
-from typing import Any, Optional, cast
+from typing import Any, Optional
 
 import charset_normalizer.constant
 import zhon
@@ -70,9 +71,7 @@ class CustomBoundriesBlacklist(CustomBoundriesMixin, Blacklist):
 
 def to_unicode(content: bytes) -> str:
     guessed_charset = charset_normalizer.detect(content)
-    encoding = (
-        "utf-8" if guessed_charset["encoding"] is None else cast(str, guessed_charset["encoding"])
-    )
+    encoding = guessed_charset["encoding"] or "utf-8"
     return content.decode(encoding)
 
 
@@ -100,3 +99,7 @@ def shorten_error_message(message: Optional[str]) -> str:
     else:
         message = "\n".join(error_lines)
     return message
+
+
+def uuid_str() -> str:
+    return str(uuid.uuid4())

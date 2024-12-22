@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-07-02 22:18\n"
+"PO-Revision-Date: 2024-11-13 04:31\n"
 
 msgid "Unsupported project version"
 msgstr ""
@@ -22,6 +22,9 @@ msgid "Techno-Speech Solution file"
 msgstr ""
 
 msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
+msgstr ""
+
+msgid "SoulMelody"
 msgstr ""
 
 msgid "Unsupported lyric: "

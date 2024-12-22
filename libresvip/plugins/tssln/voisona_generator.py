@@ -10,7 +10,6 @@ from libresvip.model.base import (
     Note,
     ParamCurve,
     Project,
-    SingingTrack,
     SongTempo,
     TimeSignature,
 )
@@ -33,7 +32,6 @@ from .model import (
     VoiSonaTempoItem,
     VoiSonaTimeItem,
     VoiSonaTrack,
-    VoiSonaTrackState,
 )
 from .options import OutputOptions
 from .voisona_pitch import generate_for_voisona
@@ -53,16 +51,9 @@ class VoisonaGenerator:
         default_tempos = self.generate_tempos(project.song_tempo_list)
         voisona_project.tracks.append(VoiSonaTrack())
         for i, track in enumerate(project.track_list):
-            if track.mute:
-                track_state = VoiSonaTrackState.MUTE
-            elif track.solo:
-                track_state = VoiSonaTrackState.SOLO
-            else:
-                track_state = VoiSonaTrackState.NONE
             if isinstance(track, InstrumentalTrack):
                 audio_track = VoiSonaAudioTrackItem(
                     name=f"Audio{i}",
-                    state=track_state,
                     audio_event=[
                         VoiSonaAudioEventItem(
                             path=track.audio_file_path,
@@ -71,10 +62,9 @@ class VoisonaGenerator:
                     ],
                 )
                 voisona_project.tracks[0].track.append(audio_track)
-            elif isinstance(track, SingingTrack):
+            else:
                 singing_track = VoiSonaSingingTrackItem(
                     name=f"Singer{i}",
-                    state=track_state,
                 )
                 song_item = VoiSonaSongItem(
                     beat=[default_time_signatures],
@@ -134,7 +124,9 @@ class VoisonaGenerator:
         for note in notes:
             lyric = note.lyric
             phoneme = ""
-            if not is_kana(lyric) and not is_romaji(lyric):
+            if note.pronunciation:
+                phoneme = note.pronunciation
+            elif not is_kana(lyric) and not is_romaji(lyric):
                 phoneme = DEFAULT_PHONEME
                 msg_prefix = _("Unsupported lyric: ")
                 show_warning(f"{msg_prefix} {lyric}")

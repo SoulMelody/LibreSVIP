@@ -102,7 +102,7 @@ ust_grammar = Grammar(
     ust_envelope =
         float ("," float){6}
         (
-            (",%," float ("," float ("," float)?)?) /
+            (",%," float? ("," float? ("," float?)?)?) /
             (",," float) /
             ",%" /
             ("," float)*
@@ -112,11 +112,9 @@ ust_grammar = Grammar(
     newline = ~"\r?\n"
     bool = "1" / "0" / "True" / "False"
     optional_float = float / "null" / ""
-    float = ((int frac?) / ("-"? frac)) (~"[eE][+-]?" digits)?
-    int = "-"? ((digit1to9 digits) / digit)
-    frac = "." digits
+    float = ((int "."? digit*) / ("-"? "." digits)) (~"[eE][+-]?" digits)?
+    int = "-"? digits
     digits = digit+
-    digit1to9 = ~"[1-9]"
     digit = ~"[0-9]"
     """
 )
@@ -302,11 +300,15 @@ class UstVisitor(NodeVisitor):
             elif visited_children[2][0][0].text == ",,":
                 kwargs["p4"] = visited_children[2][0][1]
             elif visited_children[2][0][0].text == ",%,":
-                kwargs["p4"] = visited_children[2][0][1]
+                if isinstance(visited_children[2][0][1], list):
+                    kwargs["p4"] = visited_children[2][0][1][0]
                 if isinstance(visited_children[2][0][2], list):
-                    kwargs["p5"] = visited_children[2][0][2][0][1]
-                    if isinstance(visited_children[2][0][2][0][2], list):
-                        kwargs["v5"] = visited_children[2][0][2][0][2][0][1]
+                    if isinstance(visited_children[2][0][2][0][1], list):
+                        kwargs["p5"] = visited_children[2][0][2][0][1][0]
+                    if isinstance(visited_children[2][0][2][0][2], list) and isinstance(
+                        visited_children[2][0][2][0][2][0][1], list
+                    ):
+                        kwargs["v5"] = visited_children[2][0][2][0][2][0][1][0]
         return UTAUEnvelope(**kwargs)
 
     def visit_value(self, node: Node, visited_children: list[Any]) -> str:
@@ -423,9 +425,6 @@ class UstVisitor(NodeVisitor):
         return int(node.text)
 
     def visit_float(self, node: Node, visited_children: list[Any]) -> float:
-        return float(node.text)
-
-    def visit_frac(self, node: Node, visited_children: list[Any]) -> float:
         return float(node.text)
 
     def visit_optional_float(self, node: Node, visited_children: list[Any]) -> OptionalFloat:

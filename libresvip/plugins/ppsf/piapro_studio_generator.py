@@ -27,7 +27,6 @@ from .model import (
     PpsfFileAudioData,
     PpsfMeter,
     PpsfMeters,
-    PpsfMuteflag,
     PpsfNote,
     PpsfProject,
     PpsfRegion,
@@ -106,11 +105,12 @@ class PiaproStudioGenerator:
         dvl_tracks = []
         for track in tracks:
             if isinstance(track, SingingTrack):
-                mute_flag = PpsfMuteflag.NONE
                 if track.mute:
-                    mute_flag = PpsfMuteflag.MUTE
+                    mute_flag = -1
                 elif track.solo:
-                    mute_flag = PpsfMuteflag.SOLO
+                    mute_flag = 1
+                else:
+                    mute_flag = 0
                 event_track = PpsfEventTrack(
                     index=len(event_tracks),
                     track_type=4,
@@ -161,11 +161,12 @@ class PiaproStudioGenerator:
                     ],
                 )
                 audio_tracks.append(audio_track)
-                mute_flag = PpsfMuteflag.NONE
                 if track.mute:
-                    mute_flag = PpsfMuteflag.MUTE
+                    mute_flag = -1
                 elif track.solo:
-                    mute_flag = PpsfMuteflag.SOLO
+                    mute_flag = 1
+                else:
+                    mute_flag = 0
                 event_tracks.append(
                     PpsfEventTrack(
                         index=len(event_tracks),

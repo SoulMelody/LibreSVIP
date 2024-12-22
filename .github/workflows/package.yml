@@ -4,10 +4,6 @@ on:
     tags:
       - "v*"
 
-env:
-  PYINSTALLER_VERSION: "6.11.0"
-  LIBMEDIAINFO_VERSION: "24.06"
-
 jobs:
   make-outputs:
     runs-on: ubuntu-latest
@@ -24,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
       - name: Build with pyinstaller
@@ -42,7 +38,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-win-amd64.7z
+          name: libresvip-win-amd64.zip
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -79,7 +75,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-msys2-ucrt64.7z
+          name: libresvip-msys2-ucrt64.zip
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -95,17 +91,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
       - name: Build with pyinstaller
         shell: bash -el {0}
         run: |
-          uv venv --python 3.12
-          uv sync --extra webui --extra ujson --extra ruamel_yaml --extra lxml --no-editable
-          uv pip install pywebview --python .venv/Scripts/python.exe
+          uv venv --python 3.13
+          uv build --wheel
           cd packaging
-          uv pip install -r requirements-pyinstaller.in --python ../.venv/Scripts/python.exe
+          uv pip install -r requirements-webui.txt
+          uv pip install ../dist/*.whl --no-deps
           uv run pyinstaller libresvip-web.spec
           cd dist
           7z a LibreSVIP-web-${{ needs.make-outputs.outputs.VERSION }}.win-amd64.7z libresvip-web
@@ -113,7 +109,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-web-win-amd64.7z
+          name: libresvip-web-win-amd64.zip
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -126,16 +122,19 @@ jobs:
   release_windows_arm64:
     runs-on: ubuntu-latest
     needs: [make-outputs]
+    env:
+      PYINSTALLER_VERSION: "6.11.1"
+      PYTHON_VERSION: "3.12"
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
       - name: Build with pyinstaller
         run: |
           uv build --wheel
-          uv venv --python 3.11
+          uv venv --python $PYTHON_VERSION
           cd packaging
           export MINGW_PACKAGE_PREFIX=mingw-w64-clang-aarch64
           export MSYSTEM=CLANGARM64
@@ -145,8 +144,8 @@ jobs:
           uv run python -m pip download pyinstaller==$PYINSTALLER_VERSION --platform win_arm64 --only-binary=:all:
           uv run python -m pip install wheel
           uv run python -m wheel unpack pyinstaller-$PYINSTALLER_VERSION-py3-none-win_arm64.whl
-          sudo mv ./pyinstaller-$PYINSTALLER_VERSION/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python3.11/site-packages/PyInstaller/bootloader
-          sudo cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python3.11/site-packages/pymediainfo/
+          sudo mv ./pyinstaller-$PYINSTALLER_VERSION/PyInstaller/bootloader/Windows-64bit-arm ./clangarm64/lib/python$PYTHON_VERSION/site-packages/PyInstaller/bootloader
+          sudo cp ./clangarm64/bin/libmediainfo-0.dll ./clangarm64/lib/python$PYTHON_VERSION/site-packages/pymediainfo/
           docker compose -f docker-compose-build-wine-arm64.yml up
           mkdir archive
           cd dist
@@ -154,7 +153,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-win-arm64.7z
+          name: libresvip-win-arm64.zip
           path: ./packaging/archive/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -170,7 +169,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
       - name: Install OS dependencies
@@ -191,7 +190,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-linux-x86_64.tar.gz
+          name: libresvip-linux-x86_64.zip
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -209,16 +208,17 @@ jobs:
       - uses: uraimo/run-on-arch-action@v2
         name: Build artifact
         with:
-          arch: aarch64
-          distro: ubuntu20.04
+          arch: none
+          distro: none
+          base_image: "--platform=linux/arm64 arm64v8/ubuntu:24.04"
           dockerRunArgs: --volume "${PWD}:/libresvip"
           install: |
             apt-get update
-            apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libmediainfo-dev libtiff5 libwayland-dev libwebp6 libwebpdemux2 libwebpmux3 libxt6
+            apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libmediainfo-dev libtiff6 libwayland-dev libwebp7 libwebpdemux2 libwebpmux3 libxt6
           run: |
             cd /libresvip
             curl -LsSf https://astral.sh/uv/install.sh | sh
-            source $HOME/.cargo/env
+            source $HOME/.local/bin/env
             uv venv --python 3.13
             uv build --wheel
             cd packaging
@@ -232,7 +232,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-linux-aarch64.tar.gz
+          name: libresvip-linux-aarch64.zip
           path: ./packaging/dist
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -248,7 +248,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
       - name: Build with pyinstaller
@@ -266,7 +266,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-macos-x86_64.dmg
+          name: libresvip-macos-x86_64.zip
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
@@ -279,10 +279,12 @@ jobs:
   release_macos_arm64:
     runs-on: macos-latest
     needs: [make-outputs]
+    env:
+      LIBMEDIAINFO_VERSION: "24.12"
     steps:
       - uses: actions/checkout@v4
       - name: Set up uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
         with:
           version: "latest"
       - name: Build with pyinstaller
@@ -303,7 +305,7 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: libresvip-macos-arm64.dmg
+          name: libresvip-macos-arm64.zip
           path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2

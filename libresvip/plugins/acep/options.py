@@ -1,3 +1,4 @@
+# mypy: disable-error-code="misc"
 from __future__ import annotations
 
 from enum import Enum

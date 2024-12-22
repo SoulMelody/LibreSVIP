@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/vspx/vspx.po\n"
+"X-Crowdin-File-ID: 166\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:02\n"
+
+msgid "VocalSharp"
+msgstr "VocalSharp"
+
+msgid "VocalSharp project file"
+msgstr "VocalSharp Projektdatei"
+
+msgid "Conversion plugin for VocalSharp project file"
+msgstr "Konvertierungs-Plugin für VocalSharp Projektdateien"
+
+msgid "SoulMelody"
+msgstr "SoulMelody"
+

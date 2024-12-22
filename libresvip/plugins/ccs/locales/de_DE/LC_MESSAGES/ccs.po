@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/ccs/ccs.po\n"
+"X-Crowdin-File-ID: 116\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-17 09:01\n"
+
+msgid "CeVIO"
+msgstr "CeVIO"
+
+msgid "CeVIO Creative Studio Project file"
+msgstr "CeVIO Creative Studio Projektdatei"
+
+msgid "Conversion plugin for CeVIO Creative Studio project file"
+msgstr "Konvertierungs-Plugin für CeVIO Creative Studio Projektdateien"
+
+msgid "Sder Colin"
+msgstr "Sder Colin"
+
+msgid "Unsupported lyric: "
+msgstr "Nicht unterstützter Text: "
+
+msgid "Pitch value is out of bounds"
+msgstr "Tonhöhenwert ist außerhalb des zulässigen Bereichs"
+
+msgid "Default Singer Name"
+msgstr "Standard-Sängername"
+
+msgid "Default Voicebank ID"
+msgstr "Standard-Voicebank-ID"
+
+msgid "Default Voicebank Version"
+msgstr "Standard-Voicebank-Version"
+

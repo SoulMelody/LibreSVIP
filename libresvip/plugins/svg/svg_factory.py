@@ -116,7 +116,7 @@ text {{
         parameters: NotePositionParameters,
         is_phoneme: bool,
     ) -> None:
-        if position == TextPositionOption.NONE or not text:
+        if not text:
             return
         elif position == TextPositionOption.UPPER:
             insert_pos = parameters.upper_text
@@ -124,6 +124,8 @@ text {{
             insert_pos = parameters.lower_text
         elif position == TextPositionOption.INNER:
             insert_pos = parameters.inner_text
+        else:
+            return
         text_element = Text(
             text,
             self.coordinate_helper.font_size,

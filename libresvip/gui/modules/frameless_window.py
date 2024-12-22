@@ -1,6 +1,6 @@
 from typing import Optional
 
-from PySide6.QtCore import QCoreApplication, QEvent, QObject, Qt
+from PySide6.QtCore import QCoreApplication, QEvent, QObject, Qt, Slot
 from PySide6.QtGui import QMouseEvent, QWindow
 from PySide6.QtQml import QmlElement
 from PySide6.QtQuick import QQuickWindow
@@ -21,6 +21,13 @@ class FramelessWindow(QQuickWindow):
         )
         self.border_width = border_width
         QCoreApplication.instance().install_event_filter(self)
+
+    @Slot()
+    def click_maximize_btn(self) -> None:
+        if self.visibility != QQuickWindow.Visibility.Maximized:
+            self.show_maximized()
+        else:
+            self.show_normal()
 
     def event_filter(self, obj: QObject, event: QEvent) -> bool:
         et = event.type()

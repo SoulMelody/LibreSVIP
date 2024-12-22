@@ -8,7 +8,6 @@ from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
 
 def install_mingw_deps() -> None:
-    os.environ.setdefault("SETUPTOOLS_USE_DISTUTILS", "stdlib")
     sys_site_packages_path = site.getsitepackages()[-1]
     mingw_arch = os.environ.get("MINGW_PACKAGE_PREFIX", "mingw-w64-ucrt-x86_64")
     assert mingw_arch.endswith("64")
@@ -150,7 +149,7 @@ def install_mingw_deps() -> None:
         )
     else:
         (cwd / "install_msys2_requirements.sh").write_text(
-            f"pacman -S {' '.join(msys2_requirements)} --noconfirm --needed"
+            f"pacman -Sy\npacman -S {' '.join(msys2_requirements)} --noconfirm --needed"
         )
 
 
