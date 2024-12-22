@@ -143,10 +143,7 @@ class AceGenerator:
                             buffer[0].start_pos - 240,
                         )
                     )
-                    self.ace_note_list = []
-                    for note in buffer:
-                        if note.lyric:
-                            self.generate_note(note)
+                    self.ace_note_list = [self.generate_note(note) for note in buffer if note.lyric]
                     vocal_pattern = AcepVocalPattern(
                         pos=self.pattern_start,
                         dur=round(buffer[-1].end_pos) - self.pattern_start,
@@ -197,14 +194,14 @@ class AceGenerator:
             )
             notes[i].br_len -= actual_breath
 
-    def generate_note(self, note: Note) -> None:
+    def generate_note(self, note: Note) -> AcepNote:
         ace_note = AcepNote(
             pos=round(note.start_pos) - self.pattern_start,
+            dur=note.length,
             pitch=note.key_number,
             lyric=note.lyric,
             language=self.options.lyric_language,
         )
-        ace_note.dur = round(note.end_pos - note.start_pos)
 
         if all(symbol not in note.lyric for symbol in ["-", "+"]):
             if self.options.lyric_language == AcepLyricsLanguage.CHINESE:
@@ -244,7 +241,7 @@ class AceGenerator:
                 breath_start_in_secs
             )
             ace_note.br_len = round(note.start_pos - breath_start_in_ticks)
-        self.ace_note_list.append(ace_note)
+        return ace_note
 
     @staticmethod
     def linear_transform(
