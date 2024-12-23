@@ -38,6 +38,7 @@ def install_mingw_deps() -> None:
         "nuitka": "python-nuitka",
         "platformdirs": "python-platformdirs",
         "protobuf": "python-protobuf",
+        "pycryptodomex": "python-pycryptodomex",
         "pydantic": "python-pydantic",
         "pydantic-core": "python-pydantic-core",
         "pyside6": "pyside6",
