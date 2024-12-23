@@ -7,6 +7,7 @@ from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    Phones,
     Project,
     SingingTrack,
     SongTempo,
@@ -73,6 +74,12 @@ class PocketSingerParser:
                     self.synchronizer.get_actual_ticks_from_secs(ps_note.end_time) - start_pos
                 ),
             )
+            if ps_note.br_note is not None:
+                note.head_tag = "V"
+            if ps_note.consonant_time_head:
+                note.edited_phones = Phones(head_length_in_secs=ps_note.consonant_time_head[0])
+            else:
+                note.edited_phones = Phones(head_length_in_secs=0)
             notes.append(note)
         return notes
 
