@@ -31,6 +31,7 @@ def download_android_arm64_wheels() -> None:
         "lxml": None,
         "markupsafe": None,
         "protobuf": None,
+        "pycryptodomex": None,
         "pydantic-core": "==2.23.3",
         "pyyaml": None,
         "regex": None,
