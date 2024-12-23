@@ -1,6 +1,7 @@
-from typing import Optional
+from typing import Literal, Optional
 
-from pydantic import Field
+from pydantic import Field, ValidationInfo, model_validator
+from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
 
@@ -15,6 +16,22 @@ class PocketSingerBgmMetadata(BaseModel):
     file_name: str = Field(alias="fileName")
     file_type: str = Field(alias="fileType")
     first_beat_offset: float = Field(alias="firstBeatOffset")
+
+    @model_validator(mode="after")
+    def extract_audio(self, info: ValidationInfo) -> Self:
+        if (
+            info.context is not None
+            and info.context["extract_audio"]
+            and not hasattr(info.context["path"], "protocol")
+        ):
+            archive_audio_path = f"{self.file_name}.{self.file_type}"
+            if not (
+                audio_path := (
+                    info.context["path"].parent / f"{self.display_name}.{self.file_type}"
+                )
+            ).exists():
+                audio_path.write_bytes(info.context["archive_file"].read(archive_audio_path))
+        return self
 
 
 class PocketSingerMetadata(BaseModel):
@@ -40,14 +57,14 @@ class PocketSingerSinWave(BaseModel):
     attack_len: float
     amp: float
     start_pos: float
-    release_vol: int
+    release_vol: float
 
 
 class PocketSingerNoteBase(BaseModel):
     start_time: float
     end_time: float
     type: str
-    identifier: int
+    identifier: Optional[int] = None
     energy_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
     air_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
     tension_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
@@ -59,12 +76,12 @@ class PocketSingerBrNote(PocketSingerNoteBase):
 
 
 class PocketSingerNote(PocketSingerNoteBase):
-    pitch_bends: list[PocketSingerPitchBend] = Field(alias="pitchBends")
+    pitch_bends: list[PocketSingerPitchBend] = Field(default_factory=list, alias="pitchBends")
     consonant_time_head: Optional[list[float]] = None
     phone: list[str]
     grapheme_count: int
     grapheme_index: int
-    language: str
+    language: Literal["ch", "en", "jp"] = "ch"
     grapheme: str
     pitch: int
     type: str = "phone"
@@ -77,23 +94,23 @@ class PocketSingerNote(PocketSingerNoteBase):
 
 
 class PocketSingerRoleInfo(BaseModel):
-    name: str
+    name: str = ""
     role_id: int
 
 
 class PocketSingerTrack(BaseModel):
     sound_effect: int
-    pan: int
-    ai_svs_mode: bool = Field(alias="AI_SVS_mode")
-    lyric: str
+    pan: float
+    ai_svs_mode: bool = Field(True, alias="AI_SVS_mode")
+    lyric: str = ""
     solo: bool
-    notes: list[PocketSingerNote]
-    language: str
-    mix_info: str
-    br_notes: list[PocketSingerBrNote]
+    notes: list[PocketSingerNote] = Field(default_factory=list)
+    language: Literal["ch", "en", "jp"] = "ch"
+    mix_info: Optional[str] = None
+    br_notes: list[PocketSingerBrNote] = Field(default_factory=list)
     role_info: PocketSingerRoleInfo
     mute: bool
-    front: bool
+    front: bool = False
     singer_volume: float
 
 
@@ -107,18 +124,18 @@ class PocketSingerBgmTrack(BaseModel):
 
 
 class PocketSingerBgmInfo(BaseModel):
-    tracks: list[PocketSingerBgmTrack]
+    tracks: list[PocketSingerBgmTrack] = Field(default_factory=list)
     mute: bool
     bgm_volume: float
     solo: bool
 
 
 class PocketSingerDebugInfo(BaseModel):
-    version: str
+    version: str = "1.6.2"
     record_type: str = Field(alias="recordType")
     os: str
     device: str
-    build_version: str = Field(alias="buildVersion")
+    build_version: Optional[str] = Field(None, alias="buildVersion")
     platform: str
 
 
@@ -126,7 +143,6 @@ class PocketSingerSongInfo(BaseModel):
     start: int
     first_beat_offset: int
     scale: list[int]
-    origin_duration: int
     key: str
     segment_of_beat: int
     operate_scale: list[int] = Field(alias="operateScale")
@@ -134,17 +150,18 @@ class PocketSingerSongInfo(BaseModel):
     duration: float
     beat_of_bar: int
     name: str
-    origin_start: int
-    author: str
+    origin_duration: Optional[int] = None
+    origin_start: Optional[int] = None
+    author: Optional[str] = None
     song_id: Optional[int] = None
     user_id: Optional[int] = None
 
 
 class PocketSingerProject(BaseModel):
     tracks: list[PocketSingerTrack]
-    bpm: float
+    bpm: Optional[float] = None
     bgm_info: PocketSingerBgmInfo
     debug_info: PocketSingerDebugInfo
     version: int
-    timestamp: int
+    timestamp: Optional[int] = None
     song_info: PocketSingerSongInfo
