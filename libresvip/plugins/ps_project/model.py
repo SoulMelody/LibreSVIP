@@ -91,6 +91,11 @@ class PocketSingerNote(PocketSingerNoteBase):
     consonant_time_tail: Optional[list[float]] = None
     br_note: Optional[PocketSingerBrNote] = Field(None, alias="brNote")
     user_phone: Optional[list[str]] = Field(None, alias="userPhone")
+    valid: Optional[bool] = None
+    key: Optional[str] = None
+    scale: Optional[list[int]] = None
+    config: Optional[str] = None
+    is_edit_phone: Optional[bool] = Field(None, alias="isEditPhone")
 
 
 class PocketSingerRoleInfo(BaseModel):
@@ -137,6 +142,7 @@ class PocketSingerDebugInfo(BaseModel):
     device: str
     build_version: Optional[str] = Field(None, alias="buildVersion")
     platform: str
+    user_language: Optional[Literal["ch", "en", "jp"]] = Field(None, alias="userLanguage")
 
 
 class PocketSingerSongInfo(BaseModel):
@@ -153,6 +159,7 @@ class PocketSingerSongInfo(BaseModel):
     origin_duration: Optional[int] = None
     origin_start: Optional[int] = None
     author: Optional[str] = None
+    tuner: Optional[str] = None
     song_id: Optional[int] = None
     user_id: Optional[int] = None
 
