@@ -130,18 +130,18 @@ class PocketSingerBgmTrack(BaseModel):
 
 class PocketSingerBgmInfo(BaseModel):
     tracks: list[PocketSingerBgmTrack] = Field(default_factory=list)
-    mute: bool
-    bgm_volume: float
-    solo: bool
+    mute: bool = False
+    bgm_volume: float = 1
+    solo: bool = False
 
 
 class PocketSingerDebugInfo(BaseModel):
     version: str = "1.6.2"
-    record_type: str = Field(alias="recordType")
-    os: str
-    device: str
+    record_type: str = Field("create", alias="recordType")
+    os: str = "16"
+    device: str = "iPad8,3"
     build_version: Optional[str] = Field(None, alias="buildVersion")
-    platform: str
+    platform: str = "iOS"
     user_language: Optional[Literal["ch", "en", "jp"]] = Field(None, alias="userLanguage")
 
 
@@ -165,10 +165,10 @@ class PocketSingerSongInfo(BaseModel):
 
 
 class PocketSingerProject(BaseModel):
-    tracks: list[PocketSingerTrack]
+    tracks: list[PocketSingerTrack] = Field(default_factory=list)
     bpm: Optional[float] = None
-    bgm_info: PocketSingerBgmInfo
-    debug_info: PocketSingerDebugInfo
-    version: int
+    bgm_info: PocketSingerBgmInfo = Field(default_factory=PocketSingerBgmInfo)
+    debug_info: PocketSingerDebugInfo = Field(default_factory=PocketSingerDebugInfo)
+    version: int = 3
     timestamp: Optional[int] = None
     song_info: PocketSingerSongInfo

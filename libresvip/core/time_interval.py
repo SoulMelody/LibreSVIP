@@ -39,7 +39,9 @@ class PiecewiseIntervalDict(portion.IntervalDict):
                 break
             _last_index += 1
 
-    def __setitem__(self, key: portion.Interval, value: UnaryFunctionOrConstant) -> None:
+    def __setitem__(
+        self, key: Union[portion.Interval, float], value: UnaryFunctionOrConstant
+    ) -> None:
         if isinstance(key, portion.Interval):
             interval = key
         else:

@@ -13,8 +13,14 @@ from libresvip.model.base import (
     SongTempo,
     TimeSignature,
 )
+from libresvip.model.point import Point
 
-from .model import PocketSingerMetadata, PocketSingerNote, PocketSingerProject
+from .model import (
+    PocketSingerMetadata,
+    PocketSingerNote,
+    PocketSingerPitchBend,
+    PocketSingerProject,
+)
 from .options import InputOptions
 
 
@@ -52,27 +58,30 @@ class PocketSingerParser:
     def parse_singing_tracks(self) -> list[SingingTrack]:
         singing_tracks: list[SingingTrack] = []
         for track in self.project.tracks:
+            notes, pitch_points = self.parse_notes(track.notes)
             singing_track = SingingTrack(
                 mute=track.mute,
                 solo=track.solo,
                 pan=track.pan,
                 ai_singer_name=track.role_info.name,
-                note_list=self.parse_notes(track.notes),
+                note_list=notes,
             )
+            if self.options.import_pitch:
+                singing_track.edited_params.pitch.points.root = pitch_points
             singing_tracks.append(singing_track)
         return singing_tracks
 
-    def parse_notes(self, ps_notes: list[PocketSingerNote]) -> list[Note]:
+    def parse_notes(self, ps_notes: list[PocketSingerNote]) -> tuple[list[Note], list[Point]]:
         notes: list[Note] = []
+        pitch_points: list[Point] = []
         for ps_note in ps_notes:
-            start_pos = self.synchronizer.get_actual_ticks_from_secs(ps_note.start_time)
+            start_pos = int(self.synchronizer.get_actual_ticks_from_secs(ps_note.start_time))
             note = Note(
-                lyric=ps_note.grapheme if ps_note.grapheme_index == 0 else "-",
+                lyric=ps_note.grapheme if ps_note.grapheme_index == 0 else "+",
                 key_number=ps_note.pitch,
-                start_pos=int(start_pos),
-                length=int(
-                    self.synchronizer.get_actual_ticks_from_secs(ps_note.end_time) - start_pos
-                ),
+                start_pos=start_pos,
+                length=int(self.synchronizer.get_actual_ticks_from_secs(ps_note.end_time))
+                - start_pos,
             )
             if ps_note.br_note is not None:
                 note.head_tag = "V"
@@ -80,8 +89,25 @@ class PocketSingerParser:
                 note.edited_phones = Phones(head_length_in_secs=ps_note.consonant_time_head[0])
             else:
                 note.edited_phones = Phones(head_length_in_secs=0)
+            if self.options.import_pitch:
+                pitch_bends = ps_note.pitch_bends or ps_note.user_pitch or []
+                if not pitch_bends:
+                    pitch_bends = [PocketSingerPitchBend(pitch=0, time=ps_note.start_time)]
+                pitch_points.extend(
+                    Point(
+                        x=int(
+                            self.synchronizer.get_actual_ticks_from_secs(pitch_bend.time)
+                            + self.first_bar_length
+                        ),
+                        y=int((pitch_bend.pitch + ps_note.pitch) * 100),
+                    )
+                    for pitch_bend in pitch_bends
+                )
+                if pitch_points:
+                    pitch_points.insert(0, Point(x=pitch_points[0].x, y=-100))
+                    pitch_points.append(Point(x=pitch_points[-1].x, y=-100))
             notes.append(note)
-        return notes
+        return notes, pitch_points
 
     def parse_instrumental_tracks(self) -> list[InstrumentalTrack]:
         instrumental_tracks: list[InstrumentalTrack] = []

@@ -5,6 +5,7 @@ from pyzipper import WZ_AES, ZIP_STORED, AESZipFile
 
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.model.reset_time_axis import reset_time_axis
 
 from .model import PocketSingerMetadata
 from .options import InputOptions, OutputOptions
@@ -32,6 +33,8 @@ class PocketSingerConverter(plugin_base.SVSConverterBase):
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
         buffer = io.BytesIO()
+        if len(project.song_tempo_list) != 1:
+            project = reset_time_axis(project, options.tempo)
         with AESZipFile(buffer, "w", compression=ZIP_STORED, encryption=WZ_AES) as archive_file:
             archive_file.setpassword(POCKET_SIGER_PASSWORD)
             generator = PocketSingerGenerator(options)
