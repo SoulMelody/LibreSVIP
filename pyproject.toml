@@ -28,7 +28,7 @@ classifiers = [
 ]
 dependencies = [
   "bidict<0.23.2,>=0.23.1",
-  "charset-normalizer<4.0.0,>=3.4.0",
+  "charset-normalizer<4.0.0,>=3.4.1",
   "construct-typing<1.0.0,>=0.6.2",
   "drawsvg<3.0.0,>=2.4.0",
   "importlib-resources<7.0.0,>=6.4.5; python_version < \"3.11\"",
