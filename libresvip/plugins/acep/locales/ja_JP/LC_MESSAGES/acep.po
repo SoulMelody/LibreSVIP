@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2024-12-25 22:50\n"
 
 msgid "ACE Studio"
 msgstr ""
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Lyrics language"
 msgstr ""
 
-msgid "ACE Studio supports three languages of lyrics. This option is used to set the language of lyrics."
+msgid "ACE Studio supports four languages of lyrics. This option is used to set the language of lyrics."
 msgstr ""
 
 msgid "Default consonant length (secs)"
