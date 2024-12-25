@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-12 14:44\n"
+"PO-Revision-Date: 2024-12-25 22:51\n"
 
 msgid "日本語"
 msgstr ""
@@ -26,12 +26,6 @@ msgstr ""
 
 msgid "简体中文"
 msgstr ""
-
-msgid "Extract audio"
-msgstr "解压音频文件"
-
-msgid "Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)"
-msgstr "若音频文件路径不存在，则从vocaloid工程文件中解压以供后续使用（此选项有写入额外文件的副作用）"
 
 msgid "Is AI Singer"
 msgstr "是否AI歌手"
