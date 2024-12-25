@@ -1,9 +1,11 @@
-from typing import Literal, Optional
+from typing import Optional
 
 from pydantic import Field, ValidationInfo, model_validator
 from typing_extensions import Self
 
 from libresvip.model.base import BaseModel
+
+from .enums import PocketSingerLyricsLanguage
 
 
 class PocketSingerBgmMetadata(BaseModel):
@@ -81,7 +83,7 @@ class PocketSingerNote(PocketSingerNoteBase):
     phone: list[str]
     grapheme_count: int
     grapheme_index: int
-    language: Literal["ch", "en", "jp"] = "ch"
+    language: PocketSingerLyricsLanguage = PocketSingerLyricsLanguage.CHINESE
     grapheme: str
     pitch: int
     type: str = "phone"
@@ -100,7 +102,7 @@ class PocketSingerNote(PocketSingerNoteBase):
 
 class PocketSingerRoleInfo(BaseModel):
     name: str = ""
-    role_id: int
+    role_id: int = 0
 
 
 class PocketSingerTrack(BaseModel):
@@ -110,10 +112,10 @@ class PocketSingerTrack(BaseModel):
     lyric: str = ""
     solo: bool
     notes: list[PocketSingerNote] = Field(default_factory=list)
-    language: Literal["ch", "en", "jp"] = "ch"
+    language: PocketSingerLyricsLanguage = PocketSingerLyricsLanguage.CHINESE
     mix_info: Optional[str] = None
     br_notes: list[PocketSingerBrNote] = Field(default_factory=list)
-    role_info: PocketSingerRoleInfo
+    role_info: PocketSingerRoleInfo = Field(default_factory=PocketSingerRoleInfo)
     mute: bool
     front: bool = False
     singer_volume: float
@@ -142,7 +144,7 @@ class PocketSingerDebugInfo(BaseModel):
     device: str = "iPad8,3"
     build_version: Optional[str] = Field(None, alias="buildVersion")
     platform: str = "iOS"
-    user_language: Optional[Literal["ch", "en", "jp"]] = Field(None, alias="userLanguage")
+    user_language: Optional[PocketSingerLyricsLanguage] = Field(None, alias="userLanguage")
 
 
 class PocketSingerSongInfo(BaseModel):

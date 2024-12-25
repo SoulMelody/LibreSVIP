@@ -5,7 +5,7 @@ import pathlib
 from typing import Optional
 
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import InstrumentalTrack, Project, SongTempo
+from libresvip.model.base import InstrumentalTrack, Project, SingingTrack, SongTempo
 from libresvip.utils.audio import audio_track_info
 
 from .model import (
@@ -14,6 +14,7 @@ from .model import (
     PocketSingerMetadata,
     PocketSingerProject,
     PocketSingerSongInfo,
+    PocketSingerTrack,
 )
 from .options import OutputOptions
 
@@ -36,6 +37,11 @@ class PocketSingerGenerator:
             )
         ) and (bgm_info := self.generate_bgm_info(first_instrumental_track)):
             ps_project.bgm_info = bgm_info
+        ps_project.tracks.extend(
+            self.generate_track(track)
+            for track in project.track_list
+            if isinstance(track, SingingTrack)
+        )
         self.buffer.write(
             ps_project.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
         )
@@ -115,3 +121,9 @@ class PocketSingerGenerator:
                 )
             ],
         )
+
+    def generate_track(self, track: SingingTrack) -> PocketSingerTrack:
+        ps_track = PocketSingerTrack(
+            mute=track.mute, solo=track.solo, pan=track.pan, sound_effect=0, singer_volume=1
+        )
+        return ps_track

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from libresvip.model.option_mixins import (
     EnableInstrumentalTrackImportationMixin,
@@ -6,6 +6,9 @@ from libresvip.model.option_mixins import (
     ExtractEmbededAudioMixin,
     StaticTempoMixin,
 )
+from libresvip.utils.translation import gettext_lazy as _
+
+from .enums import PocketSingerLyricsLanguage
 
 
 class InputOptions(
@@ -18,4 +21,7 @@ class InputOptions(
 
 
 class OutputOptions(StaticTempoMixin, BaseModel):
-    pass
+    lyric_language: PocketSingerLyricsLanguage = Field(
+        default=PocketSingerLyricsLanguage.CHINESE,
+        title=_("Lyrics language"),
+    )
