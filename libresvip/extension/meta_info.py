@@ -69,7 +69,7 @@ class BasePluginInfo(abc.ABC):
 
 
 @dataclasses.dataclass
-class FormatProviderPluginInfo(BasePluginInfo):
+class FormatProviderPluginInfo(BasePluginInfo):  # type: ignore[override]
     plugin_object: Optional[SVSConverterBase] = None
     file_format: str = dataclasses.field(init=False)
     suffix: str = dataclasses.field(init=False)
@@ -87,7 +87,7 @@ class FormatProviderPluginInfo(BasePluginInfo):
 
 
 @dataclasses.dataclass
-class MiddlewarePluginInfo(BasePluginInfo):
+class MiddlewarePluginInfo(BasePluginInfo):  # type: ignore[override]
     plugin_object: Optional[MiddlewareBase] = None
     abbreviation: str = dataclasses.field(init=False)
 

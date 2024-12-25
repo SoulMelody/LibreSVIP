@@ -372,7 +372,7 @@ class XSITrack(abc.ABC):
 
 
 @dataclasses.dataclass
-class XSSingingTrack(XSITrack):
+class XSSingingTrack(XSITrack):  # type: ignore[override]
     """SingingTool.Model.SingingTrack"""
 
     track_type: Literal[XSTrackType.Singing] = XSTrackType.Singing
@@ -442,7 +442,7 @@ class XSSingingTrack(XSITrack):
 
 
 @dataclasses.dataclass
-class XSInstrumentTrack(XSITrack):
+class XSInstrumentTrack(XSITrack):  # type: ignore[override]
     """SingingTool.Model.InstrumentTrack"""
 
     track_type: Literal[XSTrackType.Instrument] = XSTrackType.Instrument

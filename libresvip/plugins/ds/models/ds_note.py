@@ -36,7 +36,7 @@ class AspirationDsPhoneme(DsPhoneme):
 
 
 @dataclass
-class AspirationDsNote(DsNote):
+class AspirationDsNote(DsNote):  # type: ignore[override]
     ds_phoneme: AspirationDsPhoneme
     lyric: Literal["AP"] = "AP"
     note_name: Literal["rest"] = "rest"
@@ -51,7 +51,7 @@ class RestDsPhoneme(DsPhoneme):
 
 
 @dataclass
-class RestDsNote(DsNote):
+class RestDsNote(DsNote):  # type: ignore[override]
     ds_phoneme: RestDsPhoneme
     lyric: Literal["SP"] = "SP"
     note_name: Literal["rest"] = "rest"
