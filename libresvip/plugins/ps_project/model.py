@@ -147,7 +147,7 @@ class PocketSingerDebugInfo(BaseModel):
 
 class PocketSingerSongInfo(BaseModel):
     start: int
-    first_beat_offset: int
+    first_beat_offset: float
     scale: list[int]
     key: str
     segment_of_beat: int
@@ -156,7 +156,7 @@ class PocketSingerSongInfo(BaseModel):
     duration: float
     beat_of_bar: int
     name: str
-    origin_duration: Optional[int] = None
+    origin_duration: Optional[float] = None
     origin_start: Optional[int] = None
     author: Optional[str] = None
     tuner: Optional[str] = None
