@@ -6,11 +6,12 @@ from typing import Optional
 
 import more_itertools
 
-from libresvip.core.constants import TICKS_IN_BEAT
+from libresvip.core.constants import DEFAULT_CHINESE_LYRIC, TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import InstrumentalTrack, Note, Params, Project, SingingTrack, SongTempo
 from libresvip.utils.audio import audio_track_info
 
+from .enums import PocketSingerLyricsLanguage
 from .model import (
     PocketSingerBgmInfo,
     PocketSingerBgmTrack,
@@ -138,7 +139,8 @@ class PocketSingerGenerator:
             singer_volume=1,
         )
         patched_notes = self.patch_notes(track.note_list)
-        ps_track.notes.extend(self.generate_notes(patched_notes, track.edited_params))
+        ps_notes, ps_track.lyric = self.generate_notes(patched_notes, track.params)
+        ps_track.notes.extend(ps_notes)
         return ps_track
 
     def patch_notes(self, notes: list[Note]) -> list[Note]:
@@ -161,10 +163,13 @@ class PocketSingerGenerator:
             else:
                 patched_notes.append(note)
             prev_note = note
-        return notes
+        return patched_notes
 
-    def generate_notes(self, notes: list[Note], params: Params) -> list[PocketSingerNote]:
+    def generate_notes(
+        self, notes: list[Note], params: Params
+    ) -> tuple[list[PocketSingerNote], str]:
         ps_notes = []
+        lyrics = []
         for note_group in more_itertools.split_when(
             notes,
             lambda prev_note, note: note.lyric != "+",
@@ -180,7 +185,14 @@ class PocketSingerGenerator:
                     start_time=self.synchronizer.get_actual_secs_from_ticks(note.start_pos),
                     end_time=self.synchronizer.get_actual_secs_from_ticks(note.end_pos),
                 )
+                if (
+                    self.options.lyric_language != PocketSingerLyricsLanguage.ENGLISH
+                    and len(group_lyric) == 1
+                ):
+                    lyrics.append(group_lyric)
+                else:
+                    lyrics.append(DEFAULT_CHINESE_LYRIC)
                 if note.edited_phones is not None:
                     ps_note.consonant_time_head = [note.edited_phones.head_length_in_secs]
                 ps_notes.append(ps_note)
-        return ps_notes
+        return ps_notes, "".join(lyrics)
