@@ -3,16 +3,16 @@ from PyInstaller.utils.hooks import (  # noqa: N999
     collect_submodules,
 )
 
-from libresvip.core.constants import pkg_dir
-
 hiddenimports = (
     collect_submodules("libresvip.core")
     + collect_submodules("libresvip.model")
     + collect_submodules("libresvip.utils")
 )
 
-datas = [
-    (str(pkg_dir / "middlewares"), "libresvip/middlewares"),
-    (str(pkg_dir / "plugins"), "libresvip/plugins"),
-    *collect_data_files("libresvip", excludes=["__pyinstaller"]),
-]
+datas = (
+    collect_data_files("libresvip.middlewares", include_py_files=True, excludes=["**/*.po"])
+    + collect_data_files("libresvip.plugins", include_py_files=True, excludes=["**/*.po"])
+    + collect_data_files(
+        "libresvip.res", excludes=["**/*.po", "**/*.qml", "**/*.qrc", "**/*.ts", "**/qmldir"]
+    )
+)
