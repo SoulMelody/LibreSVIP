@@ -214,8 +214,8 @@ msgid "Lyrics language"
 msgstr ""
 
 msgid ""
-"ACE Studio supports three languages of lyrics. This option is used to set"
-" the language of lyrics."
+"ACE Studio supports four languages of lyrics. This option is used to set "
+"the language of lyrics."
 msgstr ""
 
 msgid "Default consonant length (secs)"
