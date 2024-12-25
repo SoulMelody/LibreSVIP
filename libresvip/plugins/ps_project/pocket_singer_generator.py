@@ -17,6 +17,7 @@ from .model import (
     PocketSingerBgmTrack,
     PocketSingerMetadata,
     PocketSingerNote,
+    PocketSingerPitchBend,
     PocketSingerProject,
     PocketSingerSongInfo,
     PocketSingerTrack,
@@ -97,7 +98,7 @@ class PocketSingerGenerator:
             segment_of_beat=2,
             operate_scale=[72, 71, 69, 67, 65, 64, 62, 60, 59, 57, 55],
             bpm=tempo.bpm,
-            name="New Project",
+            name=self.options.title,
             duration=0.0,
             beat_of_bar=4,
         )
@@ -139,7 +140,7 @@ class PocketSingerGenerator:
             singer_volume=1,
         )
         patched_notes = self.patch_notes(track.note_list)
-        ps_notes, ps_track.lyric = self.generate_notes(patched_notes, track.params)
+        ps_notes, ps_track.lyric = self.generate_notes(patched_notes, track.edited_params)
         ps_track.notes.extend(ps_notes)
         return ps_track
 
@@ -194,5 +195,15 @@ class PocketSingerGenerator:
                     lyrics.append(DEFAULT_CHINESE_LYRIC)
                 if note.edited_phones is not None:
                     ps_note.consonant_time_head = [note.edited_phones.head_length_in_secs]
+                for point in params.pitch.points.root:
+                    if note.start_pos <= point.x - self.first_bar_length <= note.end_pos:
+                        ps_note.pitch_bends.append(
+                            PocketSingerPitchBend(
+                                time=self.synchronizer.get_actual_secs_from_ticks(
+                                    point.x - self.first_bar_length
+                                ),
+                                pitch=(point.y / 100 - note.key_number) if point.y != -100 else 0,
+                            )
+                        )
                 ps_notes.append(ps_note)
         return ps_notes, "".join(lyrics)

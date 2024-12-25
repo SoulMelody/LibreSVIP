@@ -25,3 +25,7 @@ class OutputOptions(StaticTempoMixin, BaseModel):
         default=PocketSingerLyricsLanguage.CHINESE,
         title=_("Lyrics language"),
     )
+    title: str = Field(
+        default="New Project",
+        title=_("Title of the project"),
+    )
