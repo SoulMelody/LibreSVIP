@@ -2,7 +2,7 @@ annotated-types==0.7.0
 anyio==4.7.0 ; platform_system != 'Pyodide'
 bidict==0.23.1
 certifi==2024.12.14 ; platform_system != 'Pyodide'
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.68
