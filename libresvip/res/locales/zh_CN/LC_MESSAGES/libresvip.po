@@ -10,13 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-15 03:01\n"
+"PO-Revision-Date: 2024-12-25 22:50\n"
 
-#: ../libresvip/cli/commands/conf.py:21
+#: ../libresvip/cli/commands/conf.py:20
 msgid "Setting {} is not supported in cli mode."
 msgstr "在命令行模式中不支持设置 {} 选项"
 
-#: ../libresvip/cli/commands/conf.py:33
+#: ../libresvip/cli/commands/conf.py:32
 msgid "Set {} to {}"
 msgstr "已将 {} 设置为 {}"
 
@@ -57,13 +57,13 @@ msgid "Name"
 msgstr "名称"
 
 #: ../libresvip/cli/commands/plugin.py:65
-#: ../libresvip/gui/models/table_models.py:27 ../libresvip/mobile/app.py:668
-#: ../libresvip/web/pages.py:285
+#: ../libresvip/gui/models/table_models.py:27 ../libresvip/mobile/app.py:712
+#: ../libresvip/web/pages.py:283
 msgid "Version"
 msgstr "版本"
 
 #: ../libresvip/cli/commands/plugin.py:66
-#: ../libresvip/gui/models/table_models.py:26 ../libresvip/web/pages.py:294
+#: ../libresvip/gui/models/table_models.py:26 ../libresvip/web/pages.py:292
 msgid "Author"
 msgstr "作者"
 
@@ -79,9 +79,9 @@ msgstr "适用格式"
 msgid "Plugin: "
 msgstr "插件： "
 
-#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/mobile/app.py:1006
-#: ../libresvip/tui/app.py:150 ../libresvip/tui/app.py:936
-#: ../libresvip/web/pages.py:1121
+#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/mobile/app.py:1069
+#: ../libresvip/tui/app.py:150 ../libresvip/tui/app.py:937
+#: ../libresvip/web/pages.py:1119
 msgid "Version: "
 msgstr "版本："
 
@@ -170,32 +170,32 @@ msgstr "转换中 ..."
 msgid "Applicable File Format"
 msgstr "适用的文件格式"
 
-#: ../libresvip/gui/models/table_models.py:105 ../libresvip/web/pages.py:1201
+#: ../libresvip/gui/models/table_models.py:105 ../libresvip/web/pages.py:1199
 msgid "Mode"
 msgstr "模式"
 
-#: ../libresvip/gui/models/table_models.py:106 ../libresvip/web/pages.py:1206
+#: ../libresvip/gui/models/table_models.py:106 ../libresvip/web/pages.py:1204
 msgid "Prefix"
 msgstr "前綴"
 
-#: ../libresvip/gui/models/table_models.py:107 ../libresvip/web/pages.py:1211
+#: ../libresvip/gui/models/table_models.py:107 ../libresvip/web/pages.py:1209
 msgid "Pattern"
 msgstr "表达式"
 
-#: ../libresvip/gui/models/table_models.py:108 ../libresvip/web/pages.py:1216
+#: ../libresvip/gui/models/table_models.py:108 ../libresvip/web/pages.py:1214
 msgid "Suffix"
 msgstr "后缀"
 
-#: ../libresvip/gui/models/table_models.py:109 ../libresvip/web/pages.py:1221
+#: ../libresvip/gui/models/table_models.py:109 ../libresvip/web/pages.py:1219
 msgid "Replacement"
 msgstr "替换为"
 
-#: ../libresvip/gui/models/table_models.py:110 ../libresvip/web/pages.py:1271
+#: ../libresvip/gui/models/table_models.py:110 ../libresvip/web/pages.py:1269
 msgid "Case sensitive"
 msgstr "区分大小写"
 
-#: ../libresvip/gui/models/table_models.py:111 ../libresvip/mobile/app.py:327
-#: ../libresvip/web/pages.py:1231
+#: ../libresvip/gui/models/table_models.py:111 ../libresvip/mobile/app.py:332
+#: ../libresvip/web/pages.py:1229
 msgid "Actions"
 msgstr "操作"
 
@@ -252,222 +252,239 @@ msgstr "检查更新时出现错误！"
 msgid "Failed to check for updates. Please try again later."
 msgstr "检查更新失败，请稍后再试。"
 
-#: ../libresvip/mobile/app.py:55
-msgid "Language settings changed, please restart the app to apply the changes."
-msgstr "语言设置已更改，请重新启动应用以应用更改。"
-
-#: ../libresvip/mobile/app.py:57 ../libresvip/mobile/app.py:245
-#: ../libresvip/mobile/app.py:371 ../libresvip/mobile/app.py:415
-msgid "OK"
-msgstr "确定"
-
-#: ../libresvip/mobile/app.py:64 ../libresvip/tui/app.py:880
-msgid "Output Folder"
-msgstr "输出文件夹"
-
-#: ../libresvip/mobile/app.py:243 ../libresvip/tui/app.py:175
-#: ../libresvip/web/pages.py:687 ../libresvip/web/pages.py:715
+#: ../libresvip/mobile/app.py:246 ../libresvip/tui/app.py:175
+#: ../libresvip/web/pages.py:685 ../libresvip/web/pages.py:713
 msgid "Copied"
 msgstr "已复制"
 
-#: ../libresvip/mobile/app.py:252
+#: ../libresvip/mobile/app.py:248 ../libresvip/mobile/app.py:374
+#: ../libresvip/mobile/app.py:418
+msgid "OK"
+msgstr "确定"
+
+#: ../libresvip/mobile/app.py:255
 msgid "Task log"
 msgstr "任务日志"
 
-#: ../libresvip/mobile/app.py:256 ../libresvip/mobile/app.py:652
+#: ../libresvip/mobile/app.py:259 ../libresvip/mobile/app.py:696
 msgid "Back"
 msgstr "后退"
 
 #: ../libresvip/mobile/app.py:269 ../libresvip/tui/app.py:184
-#: ../libresvip/web/pages.py:685 ../libresvip/web/pages.py:713
+#: ../libresvip/web/pages.py:683 ../libresvip/web/pages.py:711
 msgid "Copy to clipboard"
 msgstr "复制到剪贴板"
 
-#: ../libresvip/mobile/app.py:313 ../libresvip/tui/app.py:441
+#: ../libresvip/mobile/app.py:318 ../libresvip/tui/app.py:441
 msgid "View Log"
 msgstr "查看日志"
 
-#: ../libresvip/mobile/app.py:318 ../libresvip/mobile/app.py:412
+#: ../libresvip/mobile/app.py:323 ../libresvip/mobile/app.py:415
 msgid "Rename"
 msgstr "重命名"
 
-#: ../libresvip/mobile/app.py:323 ../libresvip/web/pages.py:729
+#: ../libresvip/mobile/app.py:328 ../libresvip/web/pages.py:727
 msgid "Remove"
 msgstr "移除"
 
-#: ../libresvip/mobile/app.py:376
+#: ../libresvip/mobile/app.py:379
 msgid "Permission granted, you can now select files from your device."
 msgstr "授予了权限，您现在可以从您的设备中选择文件了。"
 
-#: ../libresvip/mobile/app.py:384
+#: ../libresvip/mobile/app.py:387
 msgid "Permission denied, please grant the permission to manage external storage."
 msgstr "权限被拒绝，请授予管理外部存储的权限。"
 
-#: ../libresvip/mobile/app.py:395
+#: ../libresvip/mobile/app.py:398
 msgid "Permission already granted, you can now select files from your device."
 msgstr "已授予权限，您现在可以从您的设备中选择文件了。"
 
-#: ../libresvip/mobile/app.py:591 ../libresvip/tui/app.py:800
+#: ../libresvip/mobile/app.py:597 ../libresvip/tui/app.py:800
 msgid "Converter"
 msgstr "转换器"
 
-#: ../libresvip/mobile/app.py:593 ../libresvip/mobile/app.py:932
+#: ../libresvip/mobile/app.py:599 ../libresvip/mobile/app.py:985
 #: ../libresvip/tui/app.py:851
 msgid "Basic Settings"
 msgstr "基础设置"
 
-#: ../libresvip/mobile/app.py:595 ../libresvip/mobile/app.py:987
-#: ../libresvip/tui/app.py:930 ../libresvip/web/pages.py:1118
-#: ../libresvip/web/pages.py:1781
+#: ../libresvip/mobile/app.py:601 ../libresvip/mobile/app.py:1049
+#: ../libresvip/tui/app.py:931 ../libresvip/web/pages.py:1116
+#: ../libresvip/web/pages.py:1782
 msgid "About"
 msgstr "关于"
 
-#: ../libresvip/mobile/app.py:600 ../libresvip/tui/app.py:907
-#: ../libresvip/web/pages.py:1737
+#: ../libresvip/mobile/app.py:606 ../libresvip/tui/app.py:908
+#: ../libresvip/web/pages.py:1738
 msgid "Switch Theme"
 msgstr "切换主题"
 
-#: ../libresvip/mobile/app.py:603 ../libresvip/web/pages.py:1760
+#: ../libresvip/mobile/app.py:609 ../libresvip/web/pages.py:1761
 msgid "System"
 msgstr "跟随系统"
 
-#: ../libresvip/mobile/app.py:608 ../libresvip/tui/app.py:910
-#: ../libresvip/web/pages.py:1748
+#: ../libresvip/mobile/app.py:614 ../libresvip/tui/app.py:911
+#: ../libresvip/web/pages.py:1749
 msgid "Light"
 msgstr "浅色"
 
-#: ../libresvip/mobile/app.py:613 ../libresvip/tui/app.py:911
-#: ../libresvip/web/pages.py:1754
+#: ../libresvip/mobile/app.py:619 ../libresvip/tui/app.py:912
+#: ../libresvip/web/pages.py:1755
 msgid "Dark"
 msgstr "深色"
 
-#: ../libresvip/mobile/app.py:621 ../libresvip/tui/app.py:894
-#: ../libresvip/web/pages.py:1178
+#: ../libresvip/mobile/app.py:627 ../libresvip/tui/app.py:894
+#: ../libresvip/web/pages.py:1176
 msgid "Switch Language"
 msgstr "切换语言"
 
-#: ../libresvip/mobile/app.py:701 ../libresvip/tui/app.py:152
-#: ../libresvip/tui/app.py:942 ../libresvip/web/pages.py:309
+#: ../libresvip/mobile/app.py:647 ../libresvip/web/pages.py:1621
+msgid "Restore"
+msgstr "还原"
+
+#: ../libresvip/mobile/app.py:650 ../libresvip/mobile/app.py:663
+#: ../libresvip/web/pages.py:1620
+msgid "Maximize"
+msgstr "最大化"
+
+#: ../libresvip/mobile/app.py:657 ../libresvip/web/pages.py:1637
+msgid "Minimize"
+msgstr "最小化"
+
+#: ../libresvip/mobile/app.py:669 ../libresvip/tui/app.py:156
+#: ../libresvip/tui/app.py:185 ../libresvip/web/pages.py:687
+#: ../libresvip/web/pages.py:715 ../libresvip/web/pages.py:1147
+#: ../libresvip/web/pages.py:1564 ../libresvip/web/pages.py:1647
+#: ../libresvip/web/pages.py:1875 ../libresvip/web/pages.py:1928
+msgid "Close"
+msgstr "关闭"
+
+#: ../libresvip/mobile/app.py:745 ../libresvip/tui/app.py:152
+#: ../libresvip/tui/app.py:943 ../libresvip/web/pages.py:307
 msgid "Introduction"
 msgstr "简介"
 
-#: ../libresvip/mobile/app.py:723 ../libresvip/tui/app.py:257
-#: ../libresvip/web/pages.py:1701 ../libresvip/web/pages.py:1859
+#: ../libresvip/mobile/app.py:767 ../libresvip/tui/app.py:257
+#: ../libresvip/web/pages.py:1702 ../libresvip/web/pages.py:1860
 msgid "Import format"
 msgstr "导入工程格式"
 
-#: ../libresvip/mobile/app.py:737 ../libresvip/mobile/app.py:765
+#: ../libresvip/mobile/app.py:782 ../libresvip/mobile/app.py:811
 #: ../libresvip/tui/app.py:275 ../libresvip/tui/app.py:299
-#: ../libresvip/web/pages.py:1882 ../libresvip/web/pages.py:1935
+#: ../libresvip/web/pages.py:1883 ../libresvip/web/pages.py:1936
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: ../libresvip/mobile/app.py:744 ../libresvip/tui/app.py:277
-#: ../libresvip/web/pages.py:1698 ../libresvip/web/pages.py:1899
+#: ../libresvip/mobile/app.py:789 ../libresvip/tui/app.py:277
+#: ../libresvip/web/pages.py:1699 ../libresvip/web/pages.py:1900
 msgid "Swap Input and Output"
 msgstr "上下交换"
 
-#: ../libresvip/mobile/app.py:751 ../libresvip/tui/app.py:281
-#: ../libresvip/web/pages.py:1721 ../libresvip/web/pages.py:1907
+#: ../libresvip/mobile/app.py:796 ../libresvip/tui/app.py:281
+#: ../libresvip/web/pages.py:1722 ../libresvip/web/pages.py:1908
 msgid "Export format"
 msgstr "导出工程格式"
 
-#: ../libresvip/mobile/app.py:783 ../libresvip/tui/app.py:817
-#: ../libresvip/web/pages.py:328
+#: ../libresvip/mobile/app.py:829 ../libresvip/tui/app.py:817
+#: ../libresvip/web/pages.py:326
 msgid "Input Options"
 msgstr "输入选项"
 
-#: ../libresvip/mobile/app.py:828 ../libresvip/tui/app.py:833
-#: ../libresvip/web/pages.py:337
+#: ../libresvip/mobile/app.py:874 ../libresvip/tui/app.py:833
+#: ../libresvip/web/pages.py:335
 msgid "Output Options"
 msgstr "输出选项"
 
-#: ../libresvip/mobile/app.py:855
+#: ../libresvip/mobile/app.py:901
 msgid "Conversion mode"
 msgstr "转换模式"
 
-#: ../libresvip/mobile/app.py:857 ../libresvip/tui/app.py:806
+#: ../libresvip/mobile/app.py:903 ../libresvip/tui/app.py:806
 msgid "Direct"
 msgstr "常规模式"
 
-#: ../libresvip/mobile/app.py:858 ../libresvip/tui/app.py:807
+#: ../libresvip/mobile/app.py:904 ../libresvip/tui/app.py:807
 msgid "Split"
 msgstr "演唱轨拆分模式"
 
-#: ../libresvip/mobile/app.py:859 ../libresvip/tui/app.py:808
+#: ../libresvip/mobile/app.py:905 ../libresvip/tui/app.py:808
 msgid "Merge"
 msgstr "演唱轨合并模式"
 
-#: ../libresvip/mobile/app.py:883 ../libresvip/tui/app.py:255
-#: ../libresvip/web/pages.py:1566
+#: ../libresvip/mobile/app.py:929 ../libresvip/tui/app.py:255
+#: ../libresvip/web/pages.py:1567
 msgid "Select File Formats"
 msgstr "格式选择"
 
-#: ../libresvip/mobile/app.py:887 ../libresvip/web/pages.py:2095
+#: ../libresvip/mobile/app.py:933 ../libresvip/web/pages.py:2096
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: ../libresvip/mobile/app.py:891 ../libresvip/tui/app.py:804
+#: ../libresvip/mobile/app.py:937 ../libresvip/tui/app.py:804
 msgid "Conversion mode & Task list"
 msgstr "转换模式及任务列表"
 
-#: ../libresvip/mobile/app.py:908 ../libresvip/web/pages.py:2019
+#: ../libresvip/mobile/app.py:957 ../libresvip/web/pages.py:2020
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: ../libresvip/mobile/app.py:910
+#: ../libresvip/mobile/app.py:959
 msgid "Select files to convert"
 msgstr "选择要转换的文件"
 
-#: ../libresvip/mobile/app.py:920 ../libresvip/web/pages.py:2086
+#: ../libresvip/mobile/app.py:970 ../libresvip/web/pages.py:2087
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: ../libresvip/mobile/app.py:941 ../libresvip/tui/app.py:855
-#: ../libresvip/web/pages.py:1187 ../libresvip/web/pages.py:1883
+#: ../libresvip/mobile/app.py:995 ../libresvip/tui/app.py:855
+#: ../libresvip/web/pages.py:1185 ../libresvip/web/pages.py:1884
 msgid "Auto detect import format"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/mobile/app.py:947 ../libresvip/tui/app.py:862
-#: ../libresvip/web/pages.py:1192 ../libresvip/web/pages.py:1890
+#: ../libresvip/mobile/app.py:1001 ../libresvip/tui/app.py:862
+#: ../libresvip/web/pages.py:1190 ../libresvip/web/pages.py:1891
 msgid "Reset list when import format changed"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/mobile/app.py:952 ../libresvip/tui/app.py:844
+#: ../libresvip/mobile/app.py:1006 ../libresvip/tui/app.py:844
 msgid "Max track count"
 msgstr "最大轨道数："
 
-#: ../libresvip/mobile/app.py:965 ../libresvip/mobile/app.py:968
+#: ../libresvip/mobile/app.py:1018 ../libresvip/tui/app.py:880
+msgid "Output Folder"
+msgstr "输出文件夹"
+
+#: ../libresvip/mobile/app.py:1024 ../libresvip/mobile/app.py:1027
 #: ../libresvip/tui/app.py:888
 msgid "Change Output Directory"
 msgstr "更改输出目录"
 
-#: ../libresvip/mobile/app.py:972
+#: ../libresvip/mobile/app.py:1031
 msgid "Request permission to access files"
 msgstr "请求访问文件的权限"
 
-#: ../libresvip/mobile/app.py:1011 ../libresvip/tui/app.py:938
-#: ../libresvip/web/pages.py:1124
+#: ../libresvip/mobile/app.py:1074 ../libresvip/tui/app.py:939
+#: ../libresvip/web/pages.py:1122
 msgid "Author: SoulMelody"
 msgstr "作者：岁月静好_初心不忘"
 
-#: ../libresvip/mobile/app.py:1014 ../libresvip/tui/app.py:940
-#: ../libresvip/web/pages.py:1128
+#: ../libresvip/mobile/app.py:1077 ../libresvip/tui/app.py:941
+#: ../libresvip/web/pages.py:1126
 msgid "Author's Profile"
 msgstr "作者主页"
 
-#: ../libresvip/mobile/app.py:1020 ../libresvip/tui/app.py:934
-#: ../libresvip/web/pages.py:1134
+#: ../libresvip/mobile/app.py:1083 ../libresvip/tui/app.py:935
+#: ../libresvip/web/pages.py:1132
 msgid "Repo URL"
 msgstr "仓库地址"
 
-#: ../libresvip/mobile/app.py:1029 ../libresvip/tui/app.py:944
-#: ../libresvip/web/pages.py:1139
+#: ../libresvip/mobile/app.py:1092 ../libresvip/tui/app.py:945
+#: ../libresvip/web/pages.py:1137
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
 msgstr "LibreSVIP 是一个开源、自由、插件化的歌声合成工程文件中介与转换平台。"
 
-#: ../libresvip/mobile/app.py:1034 ../libresvip/tui/app.py:945
-#: ../libresvip/web/pages.py:1144
+#: ../libresvip/mobile/app.py:1097 ../libresvip/tui/app.py:946
+#: ../libresvip/web/pages.py:1142
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr "所有人都应享有选择的权利和自由。因此，我们致力于为您带来第二次机会，使您的创作免受平台的制约与圈子的束缚。"
 
@@ -511,6 +528,14 @@ msgstr "音轨序号"
 msgid "Start from 0, -1 means automatic selection"
 msgstr "从0开始，-1表示自动选择"
 
+#: ../libresvip/model/option_mixins.py:54
+msgid "Extract audio"
+msgstr ""
+
+#: ../libresvip/model/option_mixins.py:55
+msgid "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
+msgstr ""
+
 #: ../libresvip/model/pitch_simulator.py:51
 msgid "Notes Overlapped"
 msgstr "音符重叠"
@@ -530,176 +555,176 @@ msgctxt "converter_page"
 msgid "Converter"
 msgstr "转换器"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:267
-#: ../libresvip/res/locales/libresvip_gui.ts:1700
+#: ../libresvip/res/locales/libresvip_gui.ts:270
+#: ../libresvip/res/locales/libresvip_gui.ts:1703
 msgctxt "converter_page"
 msgid "Select File Formats"
 msgstr "格式选择"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:279
+#: ../libresvip/res/locales/libresvip_gui.ts:295
 msgctxt "converter_page"
 msgid "Input Format: "
 msgstr "导入工程格式： "
 
-#: ../libresvip/res/locales/libresvip_gui.ts:318
-#: ../libresvip/res/locales/libresvip_gui.ts:464
+#: ../libresvip/res/locales/libresvip_gui.ts:334
+#: ../libresvip/res/locales/libresvip_gui.ts:467
 msgctxt "converter_page"
 msgid "View Detail Information"
 msgstr "查看详细信息"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:405
+#: ../libresvip/res/locales/libresvip_gui.ts:408
 msgctxt "converter_page"
 msgid "Auto-Detect Input File Type"
 msgstr "自动检测导入格式"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:394
+#: ../libresvip/res/locales/libresvip_gui.ts:280
 msgctxt "converter_page"
 msgid "Reset Tasks When Changing Input"
 msgstr "切换格式时重置列表"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:420
+#: ../libresvip/res/locales/libresvip_gui.ts:423
 msgctxt "converter_page"
 msgid "Swap Input and Output"
 msgstr "上下交换"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:435
+#: ../libresvip/res/locales/libresvip_gui.ts:438
 msgctxt "converter_page"
 msgid "Output Format: "
 msgstr "导出工程格式： "
 
-#: ../libresvip/res/locales/libresvip_gui.ts:537
+#: ../libresvip/res/locales/libresvip_gui.ts:540
 msgctxt "converter_page"
 msgid "Set Output File Extension Automatically"
 msgstr "自动设置后缀名"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:620
+#: ../libresvip/res/locales/libresvip_gui.ts:623
 msgctxt "converter_page"
 msgid "Direct Mode"
 msgstr "常规模式"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:633
+#: ../libresvip/res/locales/libresvip_gui.ts:636
 msgctxt "converter_page"
 msgid "Singing Track Merging Mode"
 msgstr "演唱轨合并模式"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:646
+#: ../libresvip/res/locales/libresvip_gui.ts:649
 msgctxt "converter_page"
 msgid "Singing Track Grouping Mode"
 msgstr "演唱轨分组模式"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:901
-#: ../libresvip/res/locales/libresvip_gui.ts:1707
+#: ../libresvip/res/locales/libresvip_gui.ts:904
+#: ../libresvip/res/locales/libresvip_gui.ts:1710
 msgctxt "converter_page"
 msgid "Advanced Settings"
 msgstr "高级选项"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:936
+#: ../libresvip/res/locales/libresvip_gui.ts:939
 msgctxt "converter_page"
 msgid "Input Options"
 msgstr "输入选项"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1231
+#: ../libresvip/res/locales/libresvip_gui.ts:1234
 msgctxt "converter_page"
 msgid "Output Options"
 msgstr "输出选项"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:659
+#: ../libresvip/res/locales/libresvip_gui.ts:662
 msgctxt "converter_page"
 msgid "Task List"
 msgstr "任务列表"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:593
+#: ../libresvip/res/locales/libresvip_gui.ts:596
 msgctxt "converter_page"
 msgid "Drag and drop files here"
 msgstr "拖拽或单击导入文件"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:607
+#: ../libresvip/res/locales/libresvip_gui.ts:610
 msgctxt "converter_page"
 msgid "Conversion Mode:"
 msgstr "转换模式："
 
-#: ../libresvip/res/locales/libresvip_gui.ts:778
+#: ../libresvip/res/locales/libresvip_gui.ts:781
 msgctxt "converter_page"
 msgid "Continue Adding files"
 msgstr "继续添加文件"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:800
+#: ../libresvip/res/locales/libresvip_gui.ts:803
 msgctxt "converter_page"
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:823
+#: ../libresvip/res/locales/libresvip_gui.ts:826
 msgctxt "converter_page"
 msgid "Reset Default Extension"
 msgstr "恢复默认命名"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:846
+#: ../libresvip/res/locales/libresvip_gui.ts:849
 msgctxt "converter_page"
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:874
+#: ../libresvip/res/locales/libresvip_gui.ts:877
 msgctxt "converter_page"
 msgid "Max Track count:"
 msgstr "最大轨道数："
 
-#: ../libresvip/res/locales/libresvip_gui.ts:947
+#: ../libresvip/res/locales/libresvip_gui.ts:950
 msgctxt "converter_page"
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1242
+#: ../libresvip/res/locales/libresvip_gui.ts:1245
 msgctxt "converter_page"
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1445
-#: ../libresvip/res/locales/libresvip_gui.ts:1714
+#: ../libresvip/res/locales/libresvip_gui.ts:1448
+#: ../libresvip/res/locales/libresvip_gui.ts:1717
 msgctxt "converter_page"
 msgid "Output Settings"
 msgstr "输出设置"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1532
+#: ../libresvip/res/locales/libresvip_gui.ts:1535
 msgctxt "converter_page"
 msgid "Choose Output Folder"
 msgstr "选择输出文件夹"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1540
+#: ../libresvip/res/locales/libresvip_gui.ts:1543
 msgctxt "converter_page"
 msgid "Output Folder"
 msgstr "输出文件夹"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1554
+#: ../libresvip/res/locales/libresvip_gui.ts:1557
 msgctxt "converter_page"
 msgid "Deal with Conflicts"
 msgstr "遇到同名文件时"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1516
+#: ../libresvip/res/locales/libresvip_gui.ts:1519
 msgctxt "converter_page"
 msgid "Start Conversion"
 msgstr "开始转换"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1516
+#: ../libresvip/res/locales/libresvip_gui.ts:1519
 msgctxt "converter_page"
 msgid "Converting"
 msgstr "转换中"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1450
+#: ../libresvip/res/locales/libresvip_gui.ts:1453
 msgctxt "converter_page"
 msgid "Open Output Folder When Done"
 msgstr "完成后打开输出路径"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1564
+#: ../libresvip/res/locales/libresvip_gui.ts:1567
 msgctxt "converter_page"
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1568
+#: ../libresvip/res/locales/libresvip_gui.ts:1571
 msgctxt "converter_page"
 msgid "Skip"
 msgstr "跳过"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:1572
+#: ../libresvip/res/locales/libresvip_gui.ts:1575
 msgctxt "converter_page"
 msgid "Prompt"
 msgstr "询问"
@@ -1004,102 +1029,102 @@ msgctxt "task_row"
 msgid "Do you want to overwrite the file?"
 msgstr "是否覆盖文件？"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:171
+#: ../libresvip/res/locales/libresvip_gui.ts:167
 msgctxt "top_toolbar"
 msgid "Convert (&C)"
 msgstr "转换 (&C)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:180
+#: ../libresvip/res/locales/libresvip_gui.ts:176
 msgctxt "top_toolbar"
 msgid "Import Projects (Ctrl+O)"
 msgstr "导入文件 (Ctrl+O)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:186
+#: ../libresvip/res/locales/libresvip_gui.ts:182
 msgctxt "top_toolbar"
 msgid "Perform All Tasks (Ctrl+Enter)"
 msgstr "开始转换 (Ctrl+Enter)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:193
+#: ../libresvip/res/locales/libresvip_gui.ts:189
 msgctxt "top_toolbar"
 msgid "Clear Tasks (Ctrl+R)"
 msgstr "清空所有导入 (Ctrl+R)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:200
+#: ../libresvip/res/locales/libresvip_gui.ts:196
 msgctxt "top_toolbar"
 msgid "Swap Input and Output (Ctrl+Tab)"
 msgstr "上下交换 (Ctrl+Tab)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:275
+#: ../libresvip/res/locales/libresvip_gui.ts:271
 msgctxt "top_toolbar"
 msgid "Output Format (&E)"
 msgstr "导出格式 (&E)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:208
+#: ../libresvip/res/locales/libresvip_gui.ts:204
 msgctxt "top_toolbar"
 msgid "Formats (&F)"
 msgstr "格式 (&F)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:217
+#: ../libresvip/res/locales/libresvip_gui.ts:213
 msgctxt "top_toolbar"
 msgid "Input Format (&I)"
 msgstr "导入格式 (&I)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:336
+#: ../libresvip/res/locales/libresvip_gui.ts:332
 msgctxt "top_toolbar"
 msgid "Settings (&S)"
 msgstr "设置 (&S)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:342
+#: ../libresvip/res/locales/libresvip_gui.ts:338
 msgctxt "top_toolbar"
 msgid "Options (&O)"
 msgstr "选项 (&O)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:349
+#: ../libresvip/res/locales/libresvip_gui.ts:345
 msgctxt "top_toolbar"
 msgid "Themes (&T)"
 msgstr "主题 (&T)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:357
+#: ../libresvip/res/locales/libresvip_gui.ts:353
 msgctxt "top_toolbar"
 msgid "Light"
 msgstr "浅色"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:366
+#: ../libresvip/res/locales/libresvip_gui.ts:362
 msgctxt "top_toolbar"
 msgid "Dark"
 msgstr "深色"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:375
+#: ../libresvip/res/locales/libresvip_gui.ts:371
 msgctxt "top_toolbar"
 msgid "System"
 msgstr "跟随系统"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:393
+#: ../libresvip/res/locales/libresvip_gui.ts:389
 msgctxt "top_toolbar"
 msgid "Language (&L)"
 msgstr "语言 (&L)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:439
+#: ../libresvip/res/locales/libresvip_gui.ts:444
 msgctxt "top_toolbar"
 msgid "Help (&H)"
 msgstr "帮助 (&H)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:448
+#: ../libresvip/res/locales/libresvip_gui.ts:453
 msgctxt "top_toolbar"
 msgid "About (Ctrl+A)"
 msgstr "关于 (Ctrl+A)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:452
+#: ../libresvip/res/locales/libresvip_gui.ts:457
 msgctxt "top_toolbar"
 msgid "Check for Updates"
 msgstr "检查更新"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:459
+#: ../libresvip/res/locales/libresvip_gui.ts:464
 msgctxt "top_toolbar"
 msgid "Documentation (F1)"
 msgstr "在线文档 (F1)"
 
-#: ../libresvip/res/locales/libresvip_gui.ts:157
+#: ../libresvip/res/locales/libresvip_gui.ts:153
 msgctxt "top_toolbar"
 msgid "SVS Projects Converter"
 msgstr "歌声合成工程文件转换器"
@@ -1128,19 +1153,11 @@ msgstr "全部否"
 msgid "Select a drive"
 msgstr "选择驱动器"
 
-#: ../libresvip/tui/app.py:156 ../libresvip/tui/app.py:185
-#: ../libresvip/web/pages.py:689 ../libresvip/web/pages.py:717
-#: ../libresvip/web/pages.py:1149 ../libresvip/web/pages.py:1563
-#: ../libresvip/web/pages.py:1646 ../libresvip/web/pages.py:1874
-#: ../libresvip/web/pages.py:1927
-msgid "Close"
-msgstr "关闭"
-
 #: ../libresvip/tui/app.py:308
 msgid "Invalid color format"
 msgstr "无效的颜色格式"
 
-#: ../libresvip/tui/app.py:816 ../libresvip/web/pages.py:1567
+#: ../libresvip/tui/app.py:816 ../libresvip/web/pages.py:1568
 msgid "Advanced Settings"
 msgstr "高级选项"
 
@@ -1168,7 +1185,7 @@ msgstr "清空任务列表"
 msgid "Progress"
 msgstr "进度"
 
-#: ../libresvip/tui/app.py:853 ../libresvip/web/pages.py:1172
+#: ../libresvip/tui/app.py:853 ../libresvip/web/pages.py:1170
 msgid "Conversion Settings"
 msgstr "转换设置"
 
@@ -1188,7 +1205,7 @@ msgstr "其它设置"
 msgid "Appearance"
 msgstr "外观"
 
-#: ../libresvip/tui/app.py:919
+#: ../libresvip/tui/app.py:920
 msgid "Choose Plugins"
 msgstr "选择插件"
 
@@ -1196,121 +1213,121 @@ msgstr "选择插件"
 msgid "Audio file not found: "
 msgstr "未找到音频文件："
 
-#: ../libresvip/web/pages.py:281
+#: ../libresvip/web/pages.py:279
 msgid "name"
 msgstr "名称"
 
-#: ../libresvip/web/pages.py:296
+#: ../libresvip/web/pages.py:294
 msgid "author"
 msgstr "作者"
 
-#: ../libresvip/web/pages.py:303 ../libresvip/web/pages.py:320
-#: ../libresvip/web/pages.py:1712 ../libresvip/web/pages.py:1731
-#: ../libresvip/web/pages.py:1856 ../libresvip/web/pages.py:1904
+#: ../libresvip/web/pages.py:301 ../libresvip/web/pages.py:318
+#: ../libresvip/web/pages.py:1713 ../libresvip/web/pages.py:1732
+#: ../libresvip/web/pages.py:1857 ../libresvip/web/pages.py:1905
 msgid "file_format"
 msgstr "文件格式"
 
-#: ../libresvip/web/pages.py:310
+#: ../libresvip/web/pages.py:308
 msgid "description"
 msgstr "描述"
 
-#: ../libresvip/web/pages.py:329
+#: ../libresvip/web/pages.py:327
 msgid "[Import as "
 msgstr "[ 导入自 "
 
-#: ../libresvip/web/pages.py:338
+#: ../libresvip/web/pages.py:336
 msgid "[Export to "
 msgstr "[ 导出为 "
 
-#: ../libresvip/web/pages.py:435 ../libresvip/web/pages.py:553
+#: ../libresvip/web/pages.py:433 ../libresvip/web/pages.py:551
 msgid "Invalid integer"
 msgstr "无效的整数"
 
-#: ../libresvip/web/pages.py:439 ../libresvip/web/pages.py:557
+#: ../libresvip/web/pages.py:437 ../libresvip/web/pages.py:555
 msgid "Invalid float"
 msgstr "无效的浮点数"
 
-#: ../libresvip/web/pages.py:934
+#: ../libresvip/web/pages.py:932
 msgid "Conversion Failed"
 msgstr "转换失败"
 
-#: ../libresvip/web/pages.py:936
+#: ../libresvip/web/pages.py:934
 msgid "Conversion Successful"
 msgstr "转换成功"
 
-#: ../libresvip/web/pages.py:1017 ../libresvip/web/pages.py:1052
+#: ../libresvip/web/pages.py:1015 ../libresvip/web/pages.py:1050
 msgid "All files (*.*)"
 msgstr "所有文件 (*.*)"
 
-#: ../libresvip/web/pages.py:1039
+#: ../libresvip/web/pages.py:1037
 msgid "Save failed!"
 msgstr "保存失败！"
 
-#: ../libresvip/web/pages.py:1049
+#: ../libresvip/web/pages.py:1047
 msgid "Compressed Archive (*.zip)"
 msgstr "压缩文件 (*.zip)"
 
-#: ../libresvip/web/pages.py:1061
+#: ../libresvip/web/pages.py:1059
 msgid "Saved"
 msgstr "已保存"
 
-#: ../libresvip/web/pages.py:1120
+#: ../libresvip/web/pages.py:1118
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1160
+#: ../libresvip/web/pages.py:1158
 msgid "Toggle menu"
 msgstr "隐藏/显示菜单"
 
-#: ../libresvip/web/pages.py:1176
+#: ../libresvip/web/pages.py:1174
 msgid "Lyric Replace Rules"
 msgstr "歌词替换规则"
 
-#: ../libresvip/web/pages.py:1226
+#: ../libresvip/web/pages.py:1224
 msgid "Flags"
 msgstr "修饰符"
 
-#: ../libresvip/web/pages.py:1254
+#: ../libresvip/web/pages.py:1252
 msgid "Full match"
 msgstr "完全匹配"
 
-#: ../libresvip/web/pages.py:1256
+#: ../libresvip/web/pages.py:1254
 msgid "Alphabetic"
 msgstr "拼音文字"
 
-#: ../libresvip/web/pages.py:1260
+#: ../libresvip/web/pages.py:1258
 msgid "Non-alphabetic"
 msgstr "非拼音文字"
 
-#: ../libresvip/web/pages.py:1263
+#: ../libresvip/web/pages.py:1261
 msgid "Regex"
 msgstr "正则表达式"
 
-#: ../libresvip/web/pages.py:1267
+#: ../libresvip/web/pages.py:1265
 msgid "Ignore case"
 msgstr "忽略大小写"
 
-#: ../libresvip/web/pages.py:1463
+#: ../libresvip/web/pages.py:1461
 msgid "Toggle fullscreen"
 msgstr "全屏开关"
 
-#: ../libresvip/web/pages.py:1475
+#: ../libresvip/web/pages.py:1473
 msgid "Preset: "
 msgstr "预设： "
 
-#: ../libresvip/web/pages.py:1490
+#: ../libresvip/web/pages.py:1488
 msgid "Remove current preset"
 msgstr "删除当前预设"
 
-#: ../libresvip/web/pages.py:1509
+#: ../libresvip/web/pages.py:1507
 msgid "Save current preset"
 msgstr "保存当前预设"
 
-#: ../libresvip/web/pages.py:1532
+#: ../libresvip/web/pages.py:1530
 msgid "Add new rule"
 msgstr "新建规则"
 
-#: ../libresvip/web/pages.py:1533
+#: ../libresvip/web/pages.py:1531
 msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
@@ -1318,71 +1335,55 @@ msgstr "拼音文字模式：适用于拼音文字\n"
 "非拼音文字模式：适用于非拼音文字及标点符号等字符\n"
 "正则模式：适用于了解正则表达式语法的高级用户"
 
-#: ../libresvip/web/pages.py:1619
-msgid "Maximize"
-msgstr "最大化"
-
-#: ../libresvip/web/pages.py:1620
-msgid "Restore"
-msgstr "还原"
-
-#: ../libresvip/web/pages.py:1636
-msgid "Minimize"
-msgstr "最小化"
-
-#: ../libresvip/web/pages.py:1650 ../libresvip/web/pages.py:1679
+#: ../libresvip/web/pages.py:1651 ../libresvip/web/pages.py:1680
 msgid "Convert"
 msgstr "转换"
 
-#: ../libresvip/web/pages.py:1665 ../libresvip/web/pages.py:1940
+#: ../libresvip/web/pages.py:1666 ../libresvip/web/pages.py:1941
 msgid "Import project"
 msgstr "导入工程"
 
-#: ../libresvip/web/pages.py:1691 ../libresvip/web/pages.py:1985
+#: ../libresvip/web/pages.py:1692 ../libresvip/web/pages.py:1986
 msgid "Clear Task List"
 msgstr "清空所有导入"
 
-#: ../libresvip/web/pages.py:1762
+#: ../libresvip/web/pages.py:1763
 msgid "Settings"
 msgstr "设置"
 
-#: ../libresvip/web/pages.py:1765
-msgid "Alt+S"
-msgstr ""
-
-#: ../libresvip/web/pages.py:1768
+#: ../libresvip/web/pages.py:1769
 msgid "Help"
 msgstr "帮助"
 
-#: ../libresvip/web/pages.py:1785
+#: ../libresvip/web/pages.py:1786
 msgid "Documentation"
 msgstr "文档"
 
-#: ../libresvip/web/pages.py:1847
+#: ../libresvip/web/pages.py:1848
 msgid "Choose file format"
 msgstr "选择格式"
 
-#: ../libresvip/web/pages.py:1942
+#: ../libresvip/web/pages.py:1943
 msgid "Conversion Mode:"
 msgstr "转换模式："
 
-#: ../libresvip/web/pages.py:1989
+#: ../libresvip/web/pages.py:1990
 msgid "Remove Tasks With Other Extensions"
 msgstr "过滤多余项目"
 
-#: ../libresvip/web/pages.py:1993
+#: ../libresvip/web/pages.py:1994
 msgid "Max Track count:"
 msgstr "最大轨道数："
 
-#: ../libresvip/web/pages.py:2054
+#: ../libresvip/web/pages.py:2055
 msgid "Drag and drop files here or click to upload"
 msgstr "拖放文件或点击导入"
 
-#: ../libresvip/web/pages.py:2094
+#: ../libresvip/web/pages.py:2095
 msgid "Export"
 msgstr "导出"
 
-#: ../libresvip/web/pages.py:2107
+#: ../libresvip/web/pages.py:2108
 msgid "Intermediate Processing"
 msgstr "中间环节处理"
 
