@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import Field, ValidationInfo, model_validator
 from typing_extensions import Self
@@ -65,7 +65,6 @@ class PocketSingerSinWave(BaseModel):
 class PocketSingerNoteBase(BaseModel):
     start_time: float
     end_time: float
-    type: str
     identifier: Optional[int] = None
     energy_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
     air_envolope: Optional[list[PocketSingerEnvolopeItem]] = None
@@ -74,19 +73,19 @@ class PocketSingerNoteBase(BaseModel):
 
 
 class PocketSingerBrNote(PocketSingerNoteBase):
-    type: str = "br"
+    type: Literal["br"] = "br"
 
 
 class PocketSingerNote(PocketSingerNoteBase):
     pitch_bends: list[PocketSingerPitchBend] = Field(default_factory=list, alias="pitchBends")
     consonant_time_head: Optional[list[float]] = None
-    phone: list[str]
+    phone: list[str] = Field(default_factory=list)
     grapheme_count: int
     grapheme_index: int
     language: PocketSingerLyricsLanguage = PocketSingerLyricsLanguage.CHINESE
     grapheme: str
     pitch: int
-    type: str = "phone"
+    type: Literal["phone"] = "phone"
     br: bool = False
     sin_wave: Optional[PocketSingerSinWave] = None
     user_pitch: Optional[list[PocketSingerPitchBend]] = None

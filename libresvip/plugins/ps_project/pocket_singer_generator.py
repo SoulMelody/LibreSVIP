@@ -4,14 +4,18 @@ import io
 import pathlib
 from typing import Optional
 
+import more_itertools
+
+from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
-from libresvip.model.base import InstrumentalTrack, Project, SingingTrack, SongTempo
+from libresvip.model.base import InstrumentalTrack, Note, Params, Project, SingingTrack, SongTempo
 from libresvip.utils.audio import audio_track_info
 
 from .model import (
     PocketSingerBgmInfo,
     PocketSingerBgmTrack,
     PocketSingerMetadata,
+    PocketSingerNote,
     PocketSingerProject,
     PocketSingerSongInfo,
     PocketSingerTrack,
@@ -25,9 +29,11 @@ class PocketSingerGenerator:
     buffer: io.BytesIO = dataclasses.field(default_factory=io.BytesIO)
     audio_paths: dict[str, pathlib.Path] = dataclasses.field(default_factory=dict)
     synchronizer: TimeSynchronizer = dataclasses.field(init=False)
+    first_bar_length: int = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> PocketSingerMetadata:
         self.synchronizer = TimeSynchronizer(project.song_tempo_list)
+        self.first_bar_length = TICKS_IN_BEAT * 4
         song_info = self.generate_song_info(project.song_tempo_list[0])
         ps_project = PocketSingerProject(song_info=song_info)
         if (
@@ -45,7 +51,7 @@ class PocketSingerGenerator:
         self.buffer.write(
             ps_project.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
         )
-        return PocketSingerMetadata(ace_file_name="export.ace")
+        return PocketSingerMetadata(ace_file_name="ps_structure.ps")
 
     def generate_song_info(self, tempo: SongTempo) -> PocketSingerSongInfo:
         return PocketSingerSongInfo(
@@ -124,6 +130,57 @@ class PocketSingerGenerator:
 
     def generate_track(self, track: SingingTrack) -> PocketSingerTrack:
         ps_track = PocketSingerTrack(
-            mute=track.mute, solo=track.solo, pan=track.pan, sound_effect=0, singer_volume=1
+            language=self.options.lyric_language,
+            mute=track.mute,
+            solo=track.solo,
+            pan=track.pan,
+            sound_effect=0,
+            singer_volume=1,
         )
+        patched_notes = self.patch_notes(track.note_list)
+        ps_track.notes.extend(self.generate_notes(patched_notes, track.edited_params))
         return ps_track
+
+    def patch_notes(self, notes: list[Note]) -> list[Note]:
+        prev_note = None
+        patched_notes = []
+        for note in notes:
+            if not note.lyric:
+                continue
+            elif note.lyric in ["-", "+"] and prev_note is not None:
+                if note.start_pos == prev_note.end_pos:
+                    note.key_number = prev_note.key_number
+                    if note.lyric == "-":
+                        prev_note.length += note.length
+                        continue
+                    else:
+                        patched_notes.append(note)
+                else:
+                    prev_note = None
+                    continue
+            else:
+                patched_notes.append(note)
+            prev_note = note
+        return notes
+
+    def generate_notes(self, notes: list[Note], params: Params) -> list[PocketSingerNote]:
+        ps_notes = []
+        for note_group in more_itertools.split_when(
+            notes,
+            lambda prev_note, note: note.lyric != "+",
+        ):
+            group_lyric = note_group[0].lyric
+            for i, note in enumerate(note_group):
+                ps_note = PocketSingerNote(
+                    language=self.options.lyric_language,
+                    grapheme_count=len(note_group),
+                    grapheme_index=i,
+                    grapheme=group_lyric,
+                    pitch=note.key_number,
+                    start_time=self.synchronizer.get_actual_secs_from_ticks(note.start_pos),
+                    end_time=self.synchronizer.get_actual_secs_from_ticks(note.end_pos),
+                )
+                if note.edited_phones is not None:
+                    ps_note.consonant_time_head = [note.edited_phones.head_length_in_secs]
+                ps_notes.append(ps_note)
+        return ps_notes
