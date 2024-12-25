@@ -204,7 +204,7 @@ class AceParser:
             lyric=ace_note.lyric,
         )
         if (
-            ace_note.language == [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
+            ace_note.language in [AcepLyricsLanguage.ENGLISH, AcepLyricsLanguage.SPANISH]
             and (latin_span := ACEP_LATIN_SPAN_RE.search(note.lyric)) is not None
         ):
             span_index = int(latin_span.group(1))

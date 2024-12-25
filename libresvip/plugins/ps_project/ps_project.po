@@ -1,0 +1,27 @@
+msgid "Chinese"
+msgstr ""
+
+msgid "Japanese"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Lyrics language"
+msgstr ""
+
+msgid "Title of the project"
+msgstr ""
+
+msgid "PocketSinger"
+msgstr ""
+
+msgid "Pocket Singer Project file"
+msgstr ""
+
+msgid "Conversion plugin for Pocket Singer project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

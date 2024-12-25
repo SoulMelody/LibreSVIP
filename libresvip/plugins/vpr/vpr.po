@@ -13,14 +13,6 @@ msgstr ""
 msgid "简体中文"
 msgstr ""
 
-msgid "Extract audio"
-msgstr ""
-
-msgid ""
-"Extract audio from vocaloid project for later use if the path does not "
-"exist (this option has the side effect of writing additional files)"
-msgstr ""
-
 msgid "Is AI Singer"
 msgstr ""
 

@@ -217,7 +217,7 @@ def test_musicxml_read(shared_datadir: pathlib.Path) -> None:
     from xsdata.formats.dataclass.parsers.config import ParserConfig
     from xsdata_pydantic.bindings import XmlParser
 
-    from libresvip.plugins.musicxml.models.mxml2 import ScorePartwise
+    from libresvip.plugins.musicxml.models.mxml4 import ScorePartwise
 
     proj_path = shared_datadir / "test.musicxml"
     xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
@@ -306,3 +306,19 @@ def test_vsq_read(shared_datadir: pathlib.Path) -> None:
         for msg in track:
             if isinstance(msg, mido.MetaMessage) and msg.type == "text":
                 rich.print(msg)
+
+
+def test_ps_project_read(shared_datadir: pathlib.Path) -> None:
+    import io
+
+    from pyzipper import WZ_AES, ZIP_STORED, AESZipFile
+
+    proj_path = shared_datadir / "test.ps_project"
+    with AESZipFile(
+        io.BytesIO(proj_path.read_bytes()),
+        "r",
+        compression=ZIP_STORED,
+        encryption=WZ_AES
+    ) as zf:
+        zf.setpassword(b"a022ab39cb3b7b1de92ee441978c9e08")
+        rich.print(zf.read("config.json"))
