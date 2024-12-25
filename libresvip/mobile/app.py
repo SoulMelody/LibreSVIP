@@ -337,6 +337,9 @@ async def main(page: ft.Page) -> None:
             page.update()
         if e.path:
             page.client_storage.set("save_folder", e.path)
+            if save_folder_text_field.current is not None:
+                save_folder_text_field.current.value = e.path
+                save_folder_text_field.current.update()
 
     if not (await page.client_storage.contains_key_async("auto_detect_input_format")):
         await page.client_storage.set_async("auto_detect_input_format", True)
