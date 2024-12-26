@@ -1,6 +1,11 @@
 import io
 import pathlib
+import sys
 
+try:
+    __import__("Cryptodome")
+except ImportError:
+    sys.modules["Cryptodome"] = __import__("Crypto")
 from pyzipper import WZ_AES, ZIP_STORED, AESZipFile
 
 from libresvip.extension import base as plugin_base
