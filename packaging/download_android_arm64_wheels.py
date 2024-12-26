@@ -28,6 +28,7 @@ def download_android_arm64_wheels() -> None:
     os.chdir(wheels_dir)
 
     native_packages = {
+        "cffi": None,
         "lxml": None,
         "markupsafe": None,
         "protobuf": None,

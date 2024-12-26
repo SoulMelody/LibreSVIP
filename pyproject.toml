@@ -65,7 +65,10 @@ repository = "https://github.com/SoulMelody/LibreSVIP"
 documentation = "https://soulmelody.github.io/LibreSVIP"
 
 [project.optional-dependencies]
-crypto = ["pyzipper>=0.3.6"]
+crypto = [
+  "cffi>=1.17.1; sys_platform != \"win32\" or python_version <= \"3.11\"",
+  "pyzipper>=0.3.6",
+]
 ujson = ["ujson>=5.10.0"]
 upath = [
   "universal-pathlib<1.0.0,>=0.2.6",
