@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-25 22:51\n"
+"PO-Revision-Date: 2024-12-26 18:52\n"
 
 msgid "Chinese"
 msgstr "中文"
@@ -25,16 +25,16 @@ msgid "Lyrics language"
 msgstr "歌词语言"
 
 msgid "Title of the project"
-msgstr ""
+msgstr "工程标题"
 
 msgid "PocketSinger"
 msgstr ""
 
 msgid "Pocket Singer Project file"
-msgstr ""
+msgstr "Pocket Singer 工程文件"
 
 msgid "Conversion plugin for Pocket Singer project file"
-msgstr ""
+msgstr "Pocket Singer 工程格式转换插件"
 
 msgid "SoulMelody"
 msgstr "岁月静好_初心不忘"
