@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-12-25 22:50\n"
+"PO-Revision-Date: 2024-12-26 18:51\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 msgid "Setting {} is not supported in cli mode."
@@ -530,11 +530,11 @@ msgstr "从0开始，-1表示自动选择"
 
 #: ../libresvip/model/option_mixins.py:54
 msgid "Extract audio"
-msgstr ""
+msgstr "解压音频文件"
 
 #: ../libresvip/model/option_mixins.py:55
 msgid "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
-msgstr ""
+msgstr "若音频文件路径不存在，则从工程文件中解压以供后续使用 (此选项有写入额外文件的副作用)"
 
 #: ../libresvip/model/pitch_simulator.py:51
 msgid "Notes Overlapped"
