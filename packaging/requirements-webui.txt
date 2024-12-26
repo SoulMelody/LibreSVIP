@@ -10,7 +10,7 @@ attrs==24.3.0
 bidict==0.23.1
 bottle==0.13.2
 certifi==2024.12.14
-cffi==1.17.1 ; sys_platform == 'win32'
+cffi==1.17.1
 charset-normalizer==3.4.1
 click==8.1.8
 clr-loader==0.2.7.post0 ; sys_platform == 'win32'
@@ -55,7 +55,8 @@ proto-plus==1.25.0
 protobuf==5.29.2
 proxy-tools==0.1.0
 pscript==0.7.7
-pycparser==2.22 ; sys_platform == 'win32'
+pycparser==2.22
+pycryptodomex==3.21.0
 pydantic==2.10.4
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
@@ -80,6 +81,7 @@ pythonnet==3.0.5 ; sys_platform == 'win32'
 pywebview==5.3.2
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2
+pyzipper==0.3.6
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 qtpy==2.4.2 ; sys_platform == 'openbsd6'
 regex==2024.11.6

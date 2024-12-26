@@ -2,6 +2,7 @@ annotated-types==0.7.0
 anyio==4.7.0 ; platform_system != 'Pyodide'
 bidict==0.23.1
 certifi==2024.12.14 ; platform_system != 'Pyodide'
+cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6 ; sys_platform == 'win32'
@@ -31,6 +32,8 @@ platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
 protobuf==5.29.2
+pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
+pycryptodomex==3.21.0
 pydantic==2.10.4
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
@@ -41,6 +44,7 @@ pypinyin==0.53.0
 pysubs2==1.8.0
 python-dotenv==1.0.1
 pyyaml==6.0.2
+pyzipper==0.3.6
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 regex==2024.11.6
 repath==0.9.0
