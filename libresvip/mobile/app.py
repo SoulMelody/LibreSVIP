@@ -247,40 +247,41 @@ async def main(page: ft.Page) -> None:
                 )
                 page.open(banner)
 
-            task_log_view: ft.View = ft.View(
-                "/task_log",
-                appbar=ft.AppBar(
-                    title=ft.Text(_("Task log")),
-                    bgcolor=ft.Colors.SURFACE,
-                    leading=ft.IconButton(
-                        ft.Icons.ARROW_BACK_OUTLINED,
-                        tooltip=_("Back"),
-                        on_click=lambda _: view_pop(task_log_view),
+            page.views.append(
+                ft.View(
+                    "/task_log",
+                    appbar=ft.AppBar(
+                        title=ft.Text(_("Task log")),
+                        bgcolor=ft.Colors.SURFACE,
+                        leading=ft.IconButton(
+                            ft.Icons.ARROW_BACK_OUTLINED,
+                            tooltip=_("Back"),
+                            on_click=lambda _: view_pop(None),
+                        ),
                     ),
-                ),
-                controls=[
-                    ft.Column(
-                        [
-                            ft.Row(
-                                [
-                                    ft.ElevatedButton(
-                                        text=_("Copy to clipboard"),
-                                        on_click=copy_log_text,
-                                    )
-                                ],
-                                alignment=ft.MainAxisAlignment.END,
-                            ),
-                            ft.TextField(
-                                value=list_tile.data["log_text"],
-                                multiline=True,
-                                max_lines=24,
-                                autofocus=True,
-                            ),
-                        ],
-                    )
-                ],
+                    controls=[
+                        ft.Column(
+                            [
+                                ft.Row(
+                                    [
+                                        ft.ElevatedButton(
+                                            text=_("Copy to clipboard"),
+                                            on_click=copy_log_text,
+                                        )
+                                    ],
+                                    alignment=ft.MainAxisAlignment.END,
+                                ),
+                                ft.TextField(
+                                    value=list_tile.data["log_text"],
+                                    multiline=True,
+                                    max_lines=24,
+                                    autofocus=True,
+                                ),
+                            ],
+                        )
+                    ],
+                )
             )
-            page.views.append(task_log_view)
             page.update()
 
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
@@ -689,75 +690,76 @@ async def main(page: ft.Page) -> None:
         def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
             if control.current.value:
                 plugin_obj = plugin_manager.plugin_registry[control.current.value]
-                plugin_info_view: ft.View = ft.View(
-                    "/plugin_info",
-                    appbar=ft.AppBar(
-                        title=ft.Text(plugin_obj.name),
-                        center_title=True,
-                        bgcolor=ft.Colors.SURFACE,
-                        leading=ft.IconButton(
-                            ft.Icons.ARROW_BACK_OUTLINED,
-                            tooltip=_("Back"),
-                            on_click=lambda _: view_pop(plugin_info_view),
+                page.views.append(
+                    ft.View(
+                        "/plugin_info",
+                        appbar=ft.AppBar(
+                            title=ft.Text(plugin_obj.name),
+                            center_title=True,
+                            bgcolor=ft.Colors.SURFACE,
+                            leading=ft.IconButton(
+                                ft.Icons.ARROW_BACK_OUTLINED,
+                                tooltip=_("Back"),
+                                on_click=lambda _: view_pop(None),
+                            ),
                         ),
-                    ),
-                    controls=[
-                        ft.ResponsiveRow(
-                            [
-                                ft.Image(
-                                    src_base64=plugin_obj.icon_base64,
-                                    fit=ft.ImageFit.FILL,
-                                    col=3,
-                                ),
-                                ft.ResponsiveRow(
-                                    [
-                                        ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
-                                        ft.Text(
-                                            str(plugin_obj.version), tooltip=_("Version"), col=3
-                                        ),
-                                        ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
-                                        ft.Row(
-                                            [
-                                                ft.Text(
-                                                    spans=[
-                                                        ft.TextSpan(
-                                                            _(plugin_obj.author),
-                                                            ft.TextStyle(
-                                                                decoration=ft.TextDecoration.UNDERLINE
+                        controls=[
+                            ft.ResponsiveRow(
+                                [
+                                    ft.Image(
+                                        src_base64=plugin_obj.icon_base64,
+                                        fit=ft.ImageFit.FILL,
+                                        col=3,
+                                    ),
+                                    ft.ResponsiveRow(
+                                        [
+                                            ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
+                                            ft.Text(
+                                                str(plugin_obj.version), tooltip=_("Version"), col=3
+                                            ),
+                                            ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
+                                            ft.Row(
+                                                [
+                                                    ft.Text(
+                                                        spans=[
+                                                            ft.TextSpan(
+                                                                _(plugin_obj.author),
+                                                                ft.TextStyle(
+                                                                    decoration=ft.TextDecoration.UNDERLINE
+                                                                ),
+                                                                url=plugin_obj.website,
                                                             ),
-                                                            url=plugin_obj.website,
-                                                        ),
-                                                    ],
-                                                    tooltip=plugin_obj.website,
-                                                ),
-                                                ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
-                                            ],
-                                            col=7,
-                                        ),
-                                        ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
-                                        ft.Text(
-                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
-                                            col=11,
-                                        ),
-                                    ],
-                                    col=9,
-                                ),
-                                ft.Divider(),
-                                ft.Text(
-                                    spans=[
-                                        ft.TextSpan(
-                                            _("Introduction"),
-                                            ft.TextStyle(weight=ft.FontWeight.BOLD),
-                                        ),
-                                    ],
-                                    col=12,
-                                ),
-                                ft.Text(_(plugin_obj.description)),
-                            ],
-                        )
-                    ],
+                                                        ],
+                                                        tooltip=plugin_obj.website,
+                                                    ),
+                                                    ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
+                                                ],
+                                                col=7,
+                                            ),
+                                            ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
+                                            ft.Text(
+                                                f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                                col=11,
+                                            ),
+                                        ],
+                                        col=9,
+                                    ),
+                                    ft.Divider(),
+                                    ft.Text(
+                                        spans=[
+                                            ft.TextSpan(
+                                                _("Introduction"),
+                                                ft.TextStyle(weight=ft.FontWeight.BOLD),
+                                            ),
+                                        ],
+                                        col=12,
+                                    ),
+                                    ft.Text(_(plugin_obj.description)),
+                                ],
+                            )
+                        ],
+                    )
                 )
-                page.views.append(plugin_info_view)
                 page.update()
 
         pages = ft.Stack(
@@ -990,6 +992,11 @@ async def main(page: ft.Page) -> None:
                         center_title=True,
                         bgcolor=ft.Colors.SURFACE,
                         actions=[switch_theme_btn, switch_language_btn, *window_buttons],
+                        leading=ft.IconButton(
+                            ft.Icons.ARROW_BACK_OUTLINED,
+                            tooltip=_("Back"),
+                            on_click=lambda _: view_pop(None),
+                        ),
                     ),
                     controls=[
                         ft.ResponsiveRow(
@@ -1052,6 +1059,11 @@ async def main(page: ft.Page) -> None:
                         center_title=True,
                         bgcolor=ft.Colors.SURFACE,
                         actions=[switch_theme_btn, switch_language_btn, *window_buttons],
+                        leading=ft.IconButton(
+                            ft.Icons.ARROW_BACK_OUTLINED,
+                            tooltip=_("Back"),
+                            on_click=lambda _: view_pop(None),
+                        ),
                     ),
                     controls=[
                         ft.ResponsiveRow(
@@ -1110,7 +1122,7 @@ async def main(page: ft.Page) -> None:
             )
         page.update()
 
-    def view_pop(view: ft.View) -> None:
+    def view_pop(view: Optional[ft.View]) -> None:
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route or "/")
