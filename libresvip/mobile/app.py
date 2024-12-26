@@ -1114,14 +1114,18 @@ async def main(page: ft.Page) -> None:
         page.update()
 
     def view_pop(view: ft.View) -> None:
-        page.views.remove(view)
+        page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route or "/")
+
+    def on_view_pop(event: ft.ViewPopEvent) -> None:
+        view_pop(event.view)
 
     def on_keyboard_event(event: ft.KeyboardEvent) -> None:
         if event.key == "Escape" and len(page.views) > 1:
             view_pop(page.views[-1])
 
+    page.on_view_pop = on_view_pop
     page.on_keyboard_event = on_keyboard_event
     page.on_route_change = on_route_change
     page.go("/")
