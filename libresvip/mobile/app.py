@@ -161,9 +161,7 @@ async def main(page: ft.Page) -> None:
                     ft.IconButton(
                         ft.Icons.HELP_OUTLINE_OUTLINED,
                         mouse_cursor=ft.MouseCursor.HELP,
-                        tooltip=ft.Tooltip(
-                            _(field_info.description), trigger_mode=ft.TooltipTriggerMode.TAP
-                        ),
+                        tooltip=ft.Tooltip(_(field_info.description)),
                         col=2,
                     )
                 )
@@ -362,14 +360,6 @@ async def main(page: ft.Page) -> None:
     file_picker = ft.FilePicker(on_result=on_files_selected)
     permission_handler = ft.PermissionHandler()
     page.overlay.extend([file_picker, permission_handler])
-
-    def click_navigation_bar(event: ft.ControlEvent) -> None:
-        if event.control.selected_index == 0:
-            page.go("/")
-        elif event.control.selected_index == 1:
-            page.go("/settings")
-        else:
-            page.go("/about")
 
     def check_permission(e: ft.ControlEvent) -> None:
         result = permission_handler.check_permission(e.control.data)
@@ -581,27 +571,39 @@ async def main(page: ft.Page) -> None:
         list_tile.trailing.items[-1].disabled = False
         list_tile.update()
 
-    def convert_all(e: ft.ControlEvent) -> None:
-        if conversion_mode_select.current.value != "merge":
-            for list_tile in task_list_view.current.controls:
-                page.run_thread(convert_one, list_tile)
-        elif len(task_list_view.current.controls) > 0:
-            page.run_thread(
-                convert_one,
-                task_list_view.current.controls[0],
-                *task_list_view.current.controls[1:],
-            )
-
     def on_route_change(event: ft.RouteChangeEvent) -> None:
         page.views.clear()
+
+        def click_navigation_bar(event: Optional[ft.ControlEvent]) -> None:
+            for index, p in enumerate(pages.controls):
+                p.visible = index == bottom_nav_bar.selected_index
+            page.update()
+
+        def convert_all(e: ft.ControlEvent) -> None:
+            bottom_nav_bar.selected_index = 1
+            click_navigation_bar(None)
+            if conversion_mode_select.current.value != "merge":
+                for list_tile in task_list_view.current.controls:
+                    page.run_thread(convert_one, list_tile)
+            elif len(task_list_view.current.controls) > 0:
+                page.run_thread(
+                    convert_one,
+                    task_list_view.current.controls[0],
+                    *task_list_view.current.controls[1:],
+                )
+
         bottom_nav_bar = ft.NavigationBar(
             on_change=click_navigation_bar,
             destinations=[
-                ft.NavigationBarDestination(icon=ft.Icons.LOOP_OUTLINED, label=_("Converter")),
                 ft.NavigationBarDestination(
-                    icon=ft.Icons.SETTINGS_APPLICATIONS_OUTLINED, label=_("Basic Settings")
+                    icon=ft.Icons.SWAP_HORIZ_OUTLINED, label=_("Select File Formats")
                 ),
-                ft.NavigationBarDestination(icon=ft.Icons.HELP_OUTLINED, label=_("About")),
+                ft.NavigationBarDestination(
+                    icon=ft.Icons.TASK_ALT_OUTLINED, label=_("Conversion mode & Task list")
+                ),
+                ft.NavigationBarDestination(
+                    icon=ft.Icons.SETTINGS_OUTLINED, label=_("Advanced Options")
+                ),
             ],
         )
         switch_theme_btn = ft.PopupMenuButton(
@@ -674,92 +676,92 @@ async def main(page: ft.Page) -> None:
                     ),
                 ]
             )
-        if event.route.partition("?")[0] == "/":
 
-            def swap_formats(e: ft.ControlEvent) -> None:
-                last_output_format, last_input_format = (
-                    output_select.current.value,
-                    input_select.current.value,
+        def swap_formats(e: ft.ControlEvent) -> None:
+            last_output_format, last_input_format = (
+                output_select.current.value,
+                input_select.current.value,
+            )
+            set_last_output_format(last_input_format)
+            set_last_input_format(last_output_format)
+            page.update()
+
+        def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
+            if control.current.value:
+                plugin_obj = plugin_manager.plugin_registry[control.current.value]
+                plugin_info_view: ft.View = ft.View(
+                    "/plugin_info",
+                    appbar=ft.AppBar(
+                        title=ft.Text(plugin_obj.name),
+                        center_title=True,
+                        bgcolor=ft.Colors.SURFACE,
+                        leading=ft.IconButton(
+                            ft.Icons.ARROW_BACK_OUTLINED,
+                            tooltip=_("Back"),
+                            on_click=lambda _: view_pop(plugin_info_view),
+                        ),
+                    ),
+                    controls=[
+                        ft.ResponsiveRow(
+                            [
+                                ft.Image(
+                                    src_base64=plugin_obj.icon_base64,
+                                    fit=ft.ImageFit.FILL,
+                                    col=3,
+                                ),
+                                ft.ResponsiveRow(
+                                    [
+                                        ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
+                                        ft.Text(
+                                            str(plugin_obj.version), tooltip=_("Version"), col=3
+                                        ),
+                                        ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
+                                        ft.Row(
+                                            [
+                                                ft.Text(
+                                                    spans=[
+                                                        ft.TextSpan(
+                                                            _(plugin_obj.author),
+                                                            ft.TextStyle(
+                                                                decoration=ft.TextDecoration.UNDERLINE
+                                                            ),
+                                                            url=plugin_obj.website,
+                                                        ),
+                                                    ],
+                                                    tooltip=plugin_obj.website,
+                                                ),
+                                                ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
+                                            ],
+                                            col=7,
+                                        ),
+                                        ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
+                                        ft.Text(
+                                            f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
+                                            col=11,
+                                        ),
+                                    ],
+                                    col=9,
+                                ),
+                                ft.Divider(),
+                                ft.Text(
+                                    spans=[
+                                        ft.TextSpan(
+                                            _("Introduction"),
+                                            ft.TextStyle(weight=ft.FontWeight.BOLD),
+                                        ),
+                                    ],
+                                    col=12,
+                                ),
+                                ft.Text(_(plugin_obj.description)),
+                            ],
+                        )
+                    ],
                 )
-                set_last_output_format(last_input_format)
-                set_last_input_format(last_output_format)
+                page.views.append(plugin_info_view)
                 page.update()
 
-            def show_plugin_info(control: ft.Ref[ft.Dropdown]) -> None:
-                if control.current.value:
-                    plugin_obj = plugin_manager.plugin_registry[control.current.value]
-                    plugin_info_view: ft.View = ft.View(
-                        "/plugin_info",
-                        appbar=ft.AppBar(
-                            title=ft.Text(plugin_obj.name),
-                            center_title=True,
-                            bgcolor=ft.Colors.SURFACE,
-                            leading=ft.IconButton(
-                                ft.Icons.ARROW_BACK_OUTLINED,
-                                tooltip=_("Back"),
-                                on_click=lambda _: view_pop(plugin_info_view),
-                            ),
-                        ),
-                        controls=[
-                            ft.ResponsiveRow(
-                                [
-                                    ft.Image(
-                                        src_base64=plugin_obj.icon_base64,
-                                        fit=ft.ImageFit.FILL,
-                                        col=3,
-                                    ),
-                                    ft.ResponsiveRow(
-                                        [
-                                            ft.Icon(ft.Icons.BOOKMARK_OUTLINE_OUTLINED, col=1),
-                                            ft.Text(
-                                                str(plugin_obj.version), tooltip=_("Version"), col=3
-                                            ),
-                                            ft.Icon(ft.Icons.PERSON_OUTLINE_OUTLINED, col=1),
-                                            ft.Row(
-                                                [
-                                                    ft.Text(
-                                                        spans=[
-                                                            ft.TextSpan(
-                                                                _(plugin_obj.author),
-                                                                ft.TextStyle(
-                                                                    decoration=ft.TextDecoration.UNDERLINE
-                                                                ),
-                                                                url=plugin_obj.website,
-                                                            ),
-                                                        ],
-                                                        tooltip=plugin_obj.website,
-                                                    ),
-                                                    ft.Icon(ft.Icons.OPEN_IN_NEW_OUTLINED),
-                                                ],
-                                                col=7,
-                                            ),
-                                            ft.Icon(ft.Icons.INSERT_DRIVE_FILE_OUTLINED, col=1),
-                                            ft.Text(
-                                                f"{_(plugin_obj.file_format)} (*.{plugin_obj.suffix})",
-                                                col=11,
-                                            ),
-                                        ],
-                                        col=9,
-                                    ),
-                                    ft.Divider(),
-                                    ft.Text(
-                                        spans=[
-                                            ft.TextSpan(
-                                                _("Introduction"),
-                                                ft.TextStyle(weight=ft.FontWeight.BOLD),
-                                            ),
-                                        ],
-                                        col=12,
-                                    ),
-                                    ft.Text(_(plugin_obj.description)),
-                                ],
-                            )
-                        ],
-                    )
-                    page.views.append(plugin_info_view)
-                    page.update()
-
-            pages = [
+        pages = ft.Stack(
+            [
                 ft.Column(
                     [
                         ft.ResponsiveRow(
@@ -820,6 +822,28 @@ async def main(page: ft.Page) -> None:
                         ),
                     ],
                     visible=True,
+                ),
+                ft.Column(
+                    [
+                        ft.Dropdown(
+                            ref=conversion_mode_select,
+                            value="direct",
+                            label=_("Conversion mode"),
+                            options=[
+                                ft.dropdown.Option("direct", _("Direct")),
+                                ft.dropdown.Option("split", _("Split")),
+                                ft.dropdown.Option("merge", _("Merge")),
+                            ],
+                        ),
+                        ft.ListView(
+                            ref=task_list_view,
+                            expand=1,
+                            spacing=10,
+                            auto_scroll=True,
+                            padding=ft.padding.symmetric(vertical=10),
+                        ),
+                    ],
+                    visible=False,
                 ),
                 ft.Column(
                     [
@@ -896,91 +920,67 @@ async def main(page: ft.Page) -> None:
                     height=400,
                     visible=False,
                 ),
-                ft.Column(
-                    [
-                        ft.Dropdown(
-                            ref=conversion_mode_select,
-                            value="direct",
-                            label=_("Conversion mode"),
-                            options=[
-                                ft.dropdown.Option("direct", _("Direct")),
-                                ft.dropdown.Option("split", _("Split")),
-                                ft.dropdown.Option("merge", _("Merge")),
-                            ],
-                        ),
-                        ft.ListView(
-                            ref=task_list_view,
-                            expand=1,
-                            spacing=10,
-                            auto_scroll=True,
-                            padding=ft.padding.symmetric(vertical=10),
-                        ),
-                    ],
-                    visible=False,
-                ),
             ]
+        )
 
-            def select_page(e: ft.ControlEvent) -> None:
-                for index, p in enumerate(pages):
-                    p.visible = index == drawer.selected_index
-                drawer.open = False
-                page.update()
+        def select_page(e: ft.ControlEvent) -> None:
+            if drawer.selected_index == 0:
+                page.go("/")
+            elif drawer.selected_index == 1:
+                page.go("/settings")
+            else:
+                page.go("/about")
 
-            drawer = ft.NavigationDrawer(
-                controls=[
-                    ft.NavigationDrawerDestination(
-                        icon=ft.Icons.SWAP_HORIZ_OUTLINED, label=_("Select File Formats")
-                    ),
-                    ft.NavigationDrawerDestination(
-                        icon=ft.Icons.SETTINGS_OUTLINED,
-                        label=_("Advanced Options"),
-                    ),
-                    ft.NavigationDrawerDestination(
-                        icon=ft.Icons.TASK_ALT_OUTLINED,
-                        label=_("Conversion mode & Task list"),
-                    ),
-                ],
-                on_change=select_page,
-            )
+        drawer = ft.NavigationDrawer(
+            controls=[
+                ft.NavigationDrawerDestination(icon=ft.Icons.LOOP_OUTLINED, label=_("Converter")),
+                ft.NavigationDrawerDestination(
+                    icon=ft.Icons.SETTINGS_APPLICATIONS_OUTLINED,
+                    label=_("Basic Settings"),
+                ),
+                ft.NavigationDrawerDestination(
+                    icon=ft.Icons.HELP_OUTLINED,
+                    label=_("About"),
+                ),
+            ],
+            on_change=select_page,
+        )
 
-            page.views.append(
-                ft.View(
-                    "/",
-                    appbar=ft.AppBar(
-                        title=ft.WindowDragArea(
-                            ft.Row([ft.Text("LibreSVIP")], expand=True), expand=True
-                        ),
-                        leading=ft.IconButton(
-                            ft.Icons.MENU_OUTLINED, on_click=lambda _: page.open(drawer)
-                        ),
-                        bgcolor=ft.Colors.SURFACE,
-                        actions=[
-                            ft.IconButton(
-                                ft.Icons.ADD_OUTLINED,
-                                tooltip=_("Continue Adding files"),
-                                on_click=lambda e: file_picker.pick_files(
-                                    _("Select files to convert"), allow_multiple=True
-                                ),
+        page.views.append(
+            ft.View(
+                "/",
+                appbar=ft.AppBar(
+                    title=ft.WindowDragArea(
+                        ft.Row([ft.Text("LibreSVIP")], expand=True), expand=True
+                    ),
+                    leading=ft.IconButton(
+                        ft.Icons.MENU_OUTLINED, on_click=lambda _: page.open(drawer)
+                    ),
+                    bgcolor=ft.Colors.SURFACE,
+                    actions=[
+                        ft.IconButton(
+                            ft.Icons.ADD_OUTLINED,
+                            tooltip=_("Continue Adding files"),
+                            on_click=lambda e: file_picker.pick_files(
+                                _("Select files to convert"), allow_multiple=True
                             ),
-                            switch_theme_btn,
-                            switch_language_btn,
-                            *window_buttons,
-                        ],
-                    ),
-                    navigation_bar=bottom_nav_bar,
-                    floating_action_button=ft.FloatingActionButton(
-                        icon=ft.Icons.PLAY_ARROW_OUTLINED,
-                        tooltip=_("Start Conversion"),
-                        on_click=convert_all,
-                    ),
-                    drawer=drawer,
-                    controls=[
-                        ft.Column(pages, alignment=ft.MainAxisAlignment.START, expand=True),
+                        ),
+                        switch_theme_btn,
+                        switch_language_btn,
+                        *window_buttons,
                     ],
-                )
+                ),
+                navigation_bar=bottom_nav_bar,
+                floating_action_button=ft.FloatingActionButton(
+                    icon=ft.Icons.PLAY_ARROW_OUTLINED,
+                    tooltip=_("Start Conversion"),
+                    on_click=convert_all,
+                ),
+                drawer=drawer,
+                controls=[pages],
             )
-        elif event.route == "/settings":
-            bottom_nav_bar.selected_index = 1
+        )
+        if event.route == "/settings":
             page.views.append(
                 ft.View(
                     appbar=ft.AppBar(
@@ -1040,11 +1040,9 @@ async def main(page: ft.Page) -> None:
                             vertical_alignment=ft.CrossAxisAlignment.CENTER,
                         )
                     ],
-                    navigation_bar=bottom_nav_bar,
                 )
             )
         elif event.route == "/about":
-            bottom_nav_bar.selected_index = 2
             page.views.append(
                 ft.View(
                     appbar=ft.AppBar(
@@ -1108,7 +1106,6 @@ async def main(page: ft.Page) -> None:
                             ],
                         )
                     ],
-                    navigation_bar=bottom_nav_bar,
                 )
             )
         page.update()
