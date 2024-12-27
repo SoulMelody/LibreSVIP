@@ -1,3 +1,5 @@
+import math
+
 from construct import (
     Byte,
     Bytes,
@@ -5,10 +7,10 @@ from construct import (
     Const,
     ExprAdapter,
     FixedSized,
-    FocusedSeq,
     GreedyRange,
     Int16ub,
     Int16ul,
+    Int32ub,
     Mapping,
     PaddedString,
     PascalString,
@@ -18,11 +20,29 @@ from construct import (
     Struct,
     Subconstruct,
     Switch,
-    obj_,
     this,
 )
+from construct_typed import Context
 
 Int32ul = BytesInteger(4, swapped=True)
+
+
+def ppsf_int_encoder(value: int, ctx: Context) -> int:
+    low = value & 0x7F
+    high = (value >> 7) << 8
+    width = math.floor(math.log(high, 256))
+    base = 0x80 << (width * 8)
+    high += base
+    return high + low
+
+
+def ppsf_int_decoder(value: int, ctx: Context) -> int:
+    high = value >> 8
+    low = value & 0xFF
+    width = math.floor(math.log(high, 256))
+    base = 0x80 << (width * 8)
+    high -= base
+    return (high << 7) + low
 
 
 def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
@@ -31,34 +51,24 @@ def ppsf_prefixed_array(subcon: Subconstruct) -> Select:
         PrefixedArray(
             ExprAdapter(
                 Int16ub,
-                encoder=obj_ ^ 56960,
-                decoder=obj_ ^ 56960,
+                encoder=ppsf_int_encoder,
+                decoder=ppsf_int_decoder,
             ),
             subcon,
         ),
         PrefixedArray(
-            FocusedSeq(
-                "size",
-                Const(b"\x81"),
-                "size"
-                / ExprAdapter(
-                    Byte,
-                    encoder=obj_ ^ 128,
-                    decoder=obj_ ^ 128,
-                ),
+            ExprAdapter(
+                BytesInteger(3),
+                encoder=ppsf_int_encoder,
+                decoder=ppsf_int_decoder,
             ),
             subcon,
         ),
         PrefixedArray(
-            FocusedSeq(
-                "size",
-                Const(b"\x81"),
-                "size"
-                / ExprAdapter(
-                    Int16ub,
-                    encoder=obj_ * 2 - (obj_ & 127),
-                    decoder=((obj_ & 127) + obj_) // 2,
-                ),
+            ExprAdapter(
+                Int32ub,
+                encoder=ppsf_int_encoder,
+                decoder=ppsf_int_decoder,
             ),
             subcon,
         ),
