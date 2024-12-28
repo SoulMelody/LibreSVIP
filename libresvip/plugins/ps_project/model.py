@@ -80,10 +80,10 @@ class PocketSingerNote(PocketSingerNoteBase):
     pitch_bends: list[PocketSingerPitchBend] = Field(default_factory=list, alias="pitchBends")
     consonant_time_head: Optional[list[float]] = None
     phone: list[str] = Field(default_factory=list)
-    grapheme_count: int
-    grapheme_index: int
+    grapheme_count: int = 1
+    grapheme_index: int = 0
     language: PocketSingerLyricsLanguage = PocketSingerLyricsLanguage.CHINESE
-    grapheme: str
+    grapheme: str = Field(validation_alias="word")
     pitch: int
     type: Literal["phone"] = "phone"
     br: bool = False

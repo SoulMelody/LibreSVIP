@@ -76,9 +76,10 @@ class PocketSingerParser:
         pitch_points: list[Point] = []
         for ps_note in ps_notes:
             start_pos = int(self.synchronizer.get_actual_ticks_from_secs(ps_note.start_time))
+            real_pitch = ps_note.pitch - 12 if self.project.version < 3 else ps_note.pitch
             note = Note(
                 lyric=ps_note.grapheme if ps_note.grapheme_index == 0 else "+",
-                key_number=ps_note.pitch,
+                key_number=real_pitch,
                 start_pos=start_pos,
                 length=int(self.synchronizer.get_actual_ticks_from_secs(ps_note.end_time))
                 - start_pos,
@@ -99,7 +100,7 @@ class PocketSingerParser:
                             self.synchronizer.get_actual_ticks_from_secs(pitch_bend.time)
                             + self.first_bar_length
                         ),
-                        y=int((pitch_bend.pitch + ps_note.pitch) * 100),
+                        y=int((pitch_bend.pitch + real_pitch) * 100),
                     )
                     for pitch_bend in pitch_bends
                 )
