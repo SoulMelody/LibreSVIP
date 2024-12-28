@@ -619,7 +619,8 @@ def main(page: ft.Page) -> None:
             else:
                 save_path = save_folder / f"{list_tile.subtitle.value}.zip"
             save_path.write_bytes(buffer.getvalue())
-            page.launch_url(f"/download/{save_path.name}")
+            if page.web:
+                page.launch_url(f"/download/{save_path.name}")
             if w.output:
                 list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
