@@ -105,19 +105,19 @@ class PocketSingerRoleInfo(BaseModel):
 
 
 class PocketSingerTrack(BaseModel):
-    sound_effect: int
-    pan: float
+    sound_effect: int = 0
+    pan: float = 0
     ai_svs_mode: bool = Field(True, alias="AI_SVS_mode")
     lyric: str = ""
-    solo: bool
+    solo: bool = False
     notes: list[PocketSingerNote] = Field(default_factory=list)
     language: PocketSingerLyricsLanguage = PocketSingerLyricsLanguage.CHINESE
     mix_info: Optional[str] = None
     br_notes: list[PocketSingerBrNote] = Field(default_factory=list)
     role_info: PocketSingerRoleInfo = Field(default_factory=PocketSingerRoleInfo)
-    mute: bool
+    mute: bool = False
     front: bool = False
-    singer_volume: float
+    singer_volume: float = 1
 
 
 class PocketSingerBgmTrack(BaseModel):
@@ -166,6 +166,7 @@ class PocketSingerSongInfo(BaseModel):
 
 
 class PocketSingerProject(BaseModel):
+    notes: Optional[list[PocketSingerNote]] = None
     tracks: list[PocketSingerTrack] = Field(default_factory=list)
     bpm: Optional[float] = None
     bgm_info: PocketSingerBgmInfo = Field(default_factory=PocketSingerBgmInfo)
@@ -173,3 +174,14 @@ class PocketSingerProject(BaseModel):
     version: int = 3
     timestamp: Optional[int] = None
     song_info: PocketSingerSongInfo
+
+    @model_validator(mode="after")
+    def migrate_notes(self) -> Self:
+        if self.notes is not None:
+            self.version = 1
+            self.tracks.append(
+                PocketSingerTrack(
+                    notes=self.notes,
+                )
+            )
+        return self
