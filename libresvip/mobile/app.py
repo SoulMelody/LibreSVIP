@@ -14,6 +14,7 @@ from upath import UPath
 
 import libresvip
 from libresvip.core.compat import as_file
+from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
@@ -22,7 +23,7 @@ from libresvip.utils import translation
 from libresvip.utils.translation import gettext_lazy as _
 
 
-async def main(page: ft.Page) -> None:
+def main(page: ft.Page) -> None:
     page.title = "LibreSVIP"
     page.window.width = 600
     page.window.height = 700
@@ -32,30 +33,26 @@ async def main(page: ft.Page) -> None:
     with as_file(res_dir / "libresvip.ico") as icon:
         page.window.icon = str(icon)
 
-    if not (await page.client_storage.contains_key_async("dark_mode")):
-        await page.client_storage.set_async("dark_mode", "System")
-    page.theme_mode = ft.ThemeMode(
-        (await page.client_storage.get_async("dark_mode") or "System").lower()
-    )
+    if not page.client_storage.contains_key("dark_mode"):
+        page.client_storage.set("dark_mode", "System")
+    page.theme_mode = ft.ThemeMode((page.client_storage.get("dark_mode") or "System").lower())
 
     def change_theme(dark_mode: str) -> None:
         page.theme_mode = ft.ThemeMode(dark_mode.lower())
         page.client_storage.set("dark_mode", dark_mode)
         page.update()
 
-    if not (await page.client_storage.contains_key_async("language")):
-        await page.client_storage.set_async("language", "en_US")
-    translation.singleton_translation = get_translation(
-        await page.client_storage.get_async("language")
-    )
+    if not (page.client_storage.contains_key("language")):
+        page.client_storage.set("language", "en_US")
+    translation.singleton_translation = get_translation(page.client_storage.get("language"))
 
     def change_language(lang: str) -> None:
         page.client_storage.set("language", lang)
         translation.singleton_translation = get_translation(lang)
         page.go(f"/?lang={lang}")
 
-    if not (await page.client_storage.contains_key_async("save_folder")):
-        await page.client_storage.set_async("save_folder", ".")
+    if not (page.client_storage.contains_key("save_folder")):
+        page.client_storage.set("save_folder", ".")
     save_folder_text_field = ft.Ref[ft.TextField]()
     temp_path = UPath("memory:/")
 
@@ -287,6 +284,16 @@ async def main(page: ft.Page) -> None:
     def on_files_selected(e: ft.FilePickerResultEvent) -> None:
         if e.files:
             auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
+            if page.web:
+                uf = [
+                    ft.FilePickerUploadFile(
+                        f.name,
+                        upload_url=page.get_upload_url(f.name, 600),
+                    )
+                    for f in e.files
+                ]
+                file_picker.upload(uf)
+                return
             for file in e.files:
                 last_input_format = page.client_storage.get("last_input_format")
                 file_path = pathlib.Path(file.path)
@@ -340,25 +347,75 @@ async def main(page: ft.Page) -> None:
                 save_folder_text_field.current.value = e.path
                 save_folder_text_field.current.update()
 
-    if not (await page.client_storage.contains_key_async("auto_detect_input_format")):
-        await page.client_storage.set_async("auto_detect_input_format", True)
+    if not (page.client_storage.contains_key("auto_detect_input_format")):
+        page.client_storage.set("auto_detect_input_format", True)
 
     def change_auto_detect_input_format(e: ft.ControlEvent) -> None:
         page.client_storage.set("auto_detect_input_format", e.control.value)
 
-    if not (await page.client_storage.contains_key_async("reset_tasks_on_input_change")):
-        await page.client_storage.set_async("reset_tasks_on_input_change", True)
+    if not (page.client_storage.contains_key("reset_tasks_on_input_change")):
+        page.client_storage.set("reset_tasks_on_input_change", True)
 
     def change_reset_tasks_on_input_change(e: ft.ControlEvent) -> None:
         page.client_storage.set("reset_tasks_on_input_change", e.control.value)
 
-    if not (await page.client_storage.contains_key_async("max_track_count")):
-        await page.client_storage.set_async("max_track_count", 1)
+    if not (page.client_storage.contains_key("max_track_count")):
+        page.client_storage.set("max_track_count", 1)
 
     def change_max_track_count(e: ft.ControlEvent) -> None:
         page.client_storage.set("max_track_count", e.control.value)
 
-    file_picker = ft.FilePicker(on_result=on_files_selected)
+    def on_upload_progress(e: ft.FilePickerUploadEvent) -> None:
+        if e.progress == 1.0:
+            auto_detect_input_format = page.client_storage.get("auto_detect_input_format")
+            last_input_format = page.client_storage.get("last_input_format")
+            file_path = settings.save_folder / e.file_name
+            suffix = file_path.suffix.lower().removeprefix(".")
+            if (
+                suffix != last_input_format
+                and auto_detect_input_format
+                and suffix in plugin_manager.plugin_registry
+            ):
+                set_last_input_format(suffix)
+            task_list_view.current.controls.append(
+                ft.ListTile(
+                    leading=ft.Stack(
+                        [
+                            ft.Icon(
+                                ft.Icons.ACCESS_TIME_FILLED_OUTLINED,
+                                color=ft.colors.GREY_400,
+                            ),
+                            ft.ProgressRing(visible=False),
+                        ]
+                    ),
+                    title=ft.Text(e.file_name),
+                    subtitle=ft.Text(file_path.stem),
+                    trailing=ft.PopupMenuButton(
+                        items=[
+                            ft.PopupMenuItem(
+                                icon=ft.icons.REMOVE_RED_EYE_OUTLINED,
+                                text=_("View Log"),
+                                on_click=show_task_log,
+                            ),
+                            ft.PopupMenuItem(
+                                icon=ft.icons.EDIT,
+                                text=_("Rename"),
+                                on_click=open_rename_dialog,
+                            ),
+                            ft.PopupMenuItem(
+                                icon=ft.icons.DELETE_OUTLINE,
+                                text=_("Remove"),
+                                on_click=remove_task,
+                            ),
+                        ],
+                        tooltip=_("Actions"),
+                    ),
+                    data={"path": file_path, "log_text": ""},
+                )
+            )
+            task_list_view.current.update()
+
+    file_picker = ft.FilePicker(on_result=on_files_selected, on_upload=on_upload_progress)
     permission_handler = ft.PermissionHandler()
     page.overlay.extend([file_picker, permission_handler])
 
@@ -425,7 +482,12 @@ async def main(page: ft.Page) -> None:
             (input_format := page.client_storage.get("last_input_format")) is None
             or (output_format := page.client_storage.get("last_output_format")) is None
             or (max_track_count := page.client_storage.get("max_track_count")) is None
-            or (save_folder_str := page.client_storage.get("save_folder")) is None
+            or (
+                save_folder_str := (
+                    settings.save_folder if page.web else page.client_storage.get("save_folder")
+                )
+            )
+            is None
             or list_tile.leading is None
             or list_tile.subtitle is None
             or list_tile.data is None
@@ -557,6 +619,7 @@ async def main(page: ft.Page) -> None:
             else:
                 save_path = save_folder / f"{list_tile.subtitle.value}.zip"
             save_path.write_bytes(buffer.getvalue())
+            page.launch_url(f"/download/{save_path.name}")
             if w.output:
                 list_tile.leading.controls[0].name = ft.Icons.WARNING_OUTLINED
                 list_tile.leading.controls[0].color = ft.Colors.YELLOW_400
@@ -638,7 +701,7 @@ async def main(page: ft.Page) -> None:
             ],
         )
         window_buttons = []
-        if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID]:
+        if page.platform not in [ft.PagePlatform.IOS, ft.PagePlatform.ANDROID] and not page.web:
             maximize_button = ft.Ref[ft.IconButton]()
 
             def on_minimize_click(e: ft.ControlEvent) -> None:
