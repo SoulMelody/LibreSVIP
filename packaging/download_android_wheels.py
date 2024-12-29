@@ -1,3 +1,4 @@
+import argparse
 import os
 import pathlib
 import subprocess
@@ -6,19 +7,8 @@ import sys
 from loguru import logger
 from pip._vendor.packaging.requirements import InvalidRequirement, Requirement
 
-ANDROID_PYPI_INDEXES = [
-    {
-        "url": "https://pypi.flet.dev/",
-        "platform": "android_24_arm64_v8a",
-    },
-    {
-        "url": "https://chaquo.com/pypi-13.1/",
-        "platform": "android_21_arm64_v8a",
-    },
-]
 
-
-def download_android_arm64_wheels() -> None:
+def download_android_wheels(platform: str) -> None:
     cwd = pathlib.Path()
 
     python_version = "3.12"
@@ -59,9 +49,7 @@ def download_android_arm64_wheels() -> None:
             is True
         ):
             logger.info(f"Downloading {requirement.name}...")
-            for index in ANDROID_PYPI_INDEXES:
-                if requirement.name not in native_packages:
-                    continue
+            if requirement.name in native_packages:
                 try:
                     subprocess.check_call(
                         [
@@ -72,13 +60,13 @@ def download_android_arm64_wheels() -> None:
                             f"{requirement.name}{native_packages[requirement.name] or ''}",
                             "--no-deps",
                             "--platform",
-                            index["platform"],
+                            platform,
                             "--only-binary",
                             ":all:",
                             "--python-version",
                             python_version,
                             "--index-url",
-                            index["url"],
+                            "https://pypi.flet.dev/",
                         ]
                     )
                     break
@@ -132,4 +120,10 @@ def download_android_arm64_wheels() -> None:
 
 
 if __name__ == "__main__":
-    download_android_arm64_wheels()
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--platform",
+        default="android_24_arm64_v8a",
+    )
+    args = parser.parse_args()
+    download_android_wheels(args.platform)
