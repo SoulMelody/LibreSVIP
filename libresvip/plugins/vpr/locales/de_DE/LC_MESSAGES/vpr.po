@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-25 22:51\n"
+"PO-Revision-Date: 2024-12-29 18:18\n"
 
 msgid "日本語"
 msgstr "Japanisch"
@@ -67,8 +67,8 @@ msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert
 msgstr "Phonemes aller Noten wurden auf \"la\" gesetzt. Bitte benutze \"Job\" -> \"convert Phonemes, um Sprachen im VOCALOID-Menü anzupassen\", um sie zurückzusetzen."
 
 msgid "Note overlap detected, cutting note "
-msgstr "Notenüberlappung erkannt, Note wird geschnitten "
+msgstr "Notenüberlappung erkannt, schneide Note "
 
 msgid "Note overlap detected, skipping note "
-msgstr "Notenüberlappung erkannt, Note wird übersprungen "
+msgstr "Notenüberlappung erkannt, überspringe Note "
 
