@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/ps_project/ps_project.po\n"
+"X-Crowdin-File-ID: 186\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2024-12-25 22:51\n"
+
+msgid "Chinese"
+msgstr "Chinesisch"
+
+msgid "Japanese"
+msgstr "Japanisch"
+
+msgid "English"
+msgstr "Englisch"
+
+msgid "Lyrics language"
+msgstr "Liedtextsprache"
+
+msgid "Title of the project"
+msgstr ""
+
+msgid "PocketSinger"
+msgstr ""
+
+msgid "Pocket Singer Project file"
+msgstr ""
+
+msgid "Conversion plugin for Pocket Singer project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

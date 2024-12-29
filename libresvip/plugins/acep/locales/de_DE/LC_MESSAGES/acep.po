@@ -10,10 +10,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:01\n"
+"PO-Revision-Date: 2024-12-29 18:12\n"
 
 msgid "ACE Studio"
-msgstr "ACE Studio"
+msgstr ""
 
 msgid "ACE Studio project File"
 msgstr "ACE Studio Projektdatei"
@@ -22,7 +22,7 @@ msgid "Conversion Plugin for ACE Studio project file"
 msgstr "Konvertierungs-Plugin für ACE Studio Projektdateien"
 
 msgid "yqzhishen"
-msgstr "yqzhishen"
+msgstr ""
 
 msgid "Unsupported project version"
 msgstr "Nicht unterstützte Projektversion"
@@ -156,14 +156,14 @@ msgstr "ACE Studio hat sowohl Stärke- als auch Spannungsparameter, die beide di
 msgid "Threshold for splitting"
 msgstr "Schwellenwert für das Aufteilen"
 
-msgid "When the distance between notes exceeds the set value, they will be split into different segments (patterns) for subsequent editing. The threshold unit is the value of a quarter note, and the default is 1, which means that when the distance between notes exceeds 1 quarter note (480 ticks), they will be split. If you don't want to split at all, please set this option to 0 or a negative value."
+msgid "When the distance between notes exceeds the set value, they will be split into different segments (patterns) for subsequent editing. The threshold unit is the value of a quarter note, and the default is 1, which means that when the distance between notes exceeds 1 quarter notes (480 ticks), they will be split. If you don't want to split at all, please set this option to 0 or a negative value."
 msgstr "Wenn der Abstand zwischen den Noten den eingestellten Wert überschreitet, werden sie in verschiedene Segmente (Muster) zur nachfolgenden Bearbeitung aufgeteilt. Die Schwellenwerteinheit ist der Wert einer Viertelnote, und der Standardwert ist 1, was bedeutet, dass die Noten aufgeteilt werden, wenn der Abstand zwischen den Noten 1 Viertelnote (480 Ticks) überschreitet. Wenn du überhaupt nicht aufteilen möchtest, setze diese Option bitte auf 0 oder einen negativen Wert."
 
 msgid "Lyrics language"
 msgstr "Liedtextsprache"
 
-msgid "ACE Studio supports three languages of lyrics. This option is used to set the language of lyrics."
-msgstr "ACE Studio unterstützt drei Sprachen für Liedtexte. Diese Option wird verwendet, um die Sprache der Liedtexte festzulegen."
+msgid "ACE Studio supports four languages of lyrics. This option is used to set the language of lyrics."
+msgstr "ACE Studio unterstützt vier Sprachen für Liedtexte. Diese Option wird verwendet, um die Sprache der Liedtexte festzulegen."
 
 msgid "Default consonant length (secs)"
 msgstr "Standard-Konsonantenlänge (Sekunden)"

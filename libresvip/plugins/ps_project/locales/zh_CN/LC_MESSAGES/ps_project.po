@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/ps_project/ps_project.po\n"
+"X-Crowdin-File-ID: 186\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2024-12-26 18:52\n"
+
+msgid "Chinese"
+msgstr "中文"
+
+msgid "Japanese"
+msgstr "日语"
+
+msgid "English"
+msgstr "英语"
+
+msgid "Lyrics language"
+msgstr "歌词语言"
+
+msgid "Title of the project"
+msgstr "工程标题"
+
+msgid "PocketSinger"
+msgstr ""
+
+msgid "Pocket Singer Project file"
+msgstr "Pocket Singer 工程文件"
+
+msgid "Conversion plugin for Pocket Singer project file"
+msgstr "Pocket Singer 工程格式转换插件"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
+

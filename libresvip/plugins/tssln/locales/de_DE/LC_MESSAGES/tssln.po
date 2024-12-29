@@ -10,13 +10,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-19 01:03\n"
 
 msgid "Unsupported project version"
 msgstr "Nicht unterstützte Projektversion"
 
 msgid "TSSln"
-msgstr "TSSln"
+msgstr ""
 
 msgid "Techno-Speech Solution file"
 msgstr "Techno-Speech Solution Datei"
@@ -25,7 +25,7 @@ msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later
 msgstr "Konvertierungs-Plugin für VoiSona Projektdatei (nur Versionen 1.8.0 und höher werden unterstützt)"
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 
 msgid "Unsupported lyric: "
 msgstr "Nicht unterstützter Text: "

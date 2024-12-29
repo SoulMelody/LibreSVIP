@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-29 18:18\n"
 
 msgid "日本語"
 msgstr "Japanisch"
@@ -26,12 +26,6 @@ msgstr "Spanisch"
 
 msgid "简体中文"
 msgstr "Vereinfachtes Chinesisch"
-
-msgid "Extract audio"
-msgstr "Audio extrahieren"
-
-msgid "Extract audio from vocaloid project for later use if the path does not exist (this option has the side effect of writing additional files)"
-msgstr "Audio aus dem Vocaloid-Projekt extrahieren, falls der Pfad nicht existiert (diese Option hat den Nebeneffekt, zusätzliche Dateien zu schreiben)"
 
 msgid "Is AI Singer"
 msgstr "Ist ein AI-Sänger"
@@ -58,7 +52,7 @@ msgid "Default singer name of voicebank"
 msgstr "Standard-Sängername der Voicebank"
 
 msgid "Vpr"
-msgstr "Vpr"
+msgstr ""
 
 msgid "New Vocaloid Project file"
 msgstr "Neue Vocaloid-Projektdatei"
@@ -67,7 +61,7 @@ msgid "Conversion plugin for New Vocaloid project file"
 msgstr "Konvertierungs-Plugin für neue Vocaloid-Projektdateien"
 
 msgid "SoulMelody"
-msgstr "SoulMelody"
+msgstr ""
 
 msgid "Phonemes of all notes were set to \"la\". Please use \"Job\" -> \"Convert Phonemes to Match Languages in the menu of VOCALOID to reset them."
 msgstr "Phonemes aller Noten wurden auf \"la\" gesetzt. Bitte benutze \"Job\" -> \"convert Phonemes, um Sprachen im VOCALOID-Menü anzupassen\", um sie zurückzusetzen."

@@ -10,19 +10,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-17 09:02\n"
+"PO-Revision-Date: 2024-12-29 18:18\n"
 
 msgid "Text encoding"
 msgstr "Textkodierung"
 
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 msgid "UST file version"
 msgstr "UST-Dateiversion"
 
 msgid "Ust"
-msgstr "Ust"
+msgstr ""
 
 msgid "UTAU Sequence Text"
 msgstr "UTAU Sequenztext"
@@ -31,7 +31,7 @@ msgid "Conversion plugin for UST file format"
 msgstr "Konvertierungs-Plugin für das UST-Dateiformat"
 
 msgid "Sder Colin"
-msgstr "Sder Colin"
+msgstr ""
 
 msgid "No singing track found"
 msgstr "Keine Gesangsspur gefunden"
