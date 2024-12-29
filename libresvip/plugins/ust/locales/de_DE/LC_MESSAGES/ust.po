@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-19 01:03\n"
+"PO-Revision-Date: 2024-12-29 18:18\n"
 
 msgid "Text encoding"
 msgstr "Textkodierung"
@@ -34,7 +34,7 @@ msgid "Sder Colin"
 msgstr ""
 
 msgid "No singing track found"
-msgstr "Kein Gesangstrack gefunden"
+msgstr "Keine Gesangsspur gefunden"
 
 msgid "UST project has no track"
 msgstr "UST-Projekt hat keine Spuren"
