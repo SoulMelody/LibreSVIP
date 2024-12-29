@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-25 22:51\n"
+"PO-Revision-Date: 2024-12-29 18:18\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 msgid "Setting {} is not supported in cli mode."
@@ -530,11 +530,11 @@ msgstr "Beginnt bei 0, -1 bedeutet automatische Auswahl"
 
 #: ../libresvip/model/option_mixins.py:54
 msgid "Extract audio"
-msgstr ""
+msgstr "Audio extrahieren"
 
 #: ../libresvip/model/option_mixins.py:55
 msgid "Extract audio from project file for later use if the path does not exist (this option has the side effect of writing additional files)"
-msgstr ""
+msgstr "Audio aus dem Projekt extrahieren, falls der Pfad nicht existiert (diese Option hat den Nebeneffekt, zusätzliche Dateien zu schreiben)"
 
 #: ../libresvip/model/pitch_simulator.py:51
 msgid "Notes Overlapped"
