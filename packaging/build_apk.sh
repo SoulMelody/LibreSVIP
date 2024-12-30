@@ -2,7 +2,7 @@ export LIBRESVIP_VERSION=`python -c 'import libresvip;print(libresvip.__version_
 export FLET_VERSION=`python -c 'import flet;print(flet.version.version)'`
 cp  ../libresvip/mobile/__main__.py main.py
 rm requirements.txt
-flet build apk \
+uv run flet build apk \
     --android-permissions android.permission.READ_EXTERNAL_STORAGE=True android.permission.WRITE_EXTERNAL_STORAGE=True android.permission.MANAGE_EXTERNAL_STORAGE=True \
     --include-packages flet_permission_handler \
     --org org.soulmelody \
