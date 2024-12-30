@@ -314,3 +314,58 @@ jobs:
           tag_name: v${{ needs.make-outputs.outputs.VERSION }}
           files: |
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.macos-arm64.dmg
+
+  release_apk:
+    runs-on: ubuntu-latest
+    needs: [make-outputs]
+    env:
+      FLUTTER_VERSION: "3.24.4"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Install Python Dependencies
+        run: |
+          uv venv --python 3.12
+          uv sync --extra mobile
+          uv run python -m ensurepip --upgrade
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Flet Build APK
+        run: |
+          flutter config --no-analytics
+          cd packaging
+          uv run python install_mobile_requirements.py --platform android_24_arm64_v8a --arch arm64-v8a
+          uv run python install_mobile_requirements.py --platform android_24_armeabi_v7a --arch armeabi-v7a
+          uv run python install_mobile_requirements.py --platform android_24_x86_64 --arch x86_64
+          bash build_apk.sh
+          mv build/apk/app-release.apk build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
+          cd ..
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libresvip-android.zip
+          path: build/apk
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag_name: v${{ needs.make-outputs.outputs.VERSION }}
+          files: |
+            ./packaging/build/apk/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.apk
