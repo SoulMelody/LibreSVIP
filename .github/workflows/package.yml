@@ -330,6 +330,7 @@ jobs:
 
       - name: Install Python Dependencies
         run: |
+          uv build --wheel
           uv venv --python 3.12
           uv sync --extra mobile
           uv run python -m ensurepip --upgrade
