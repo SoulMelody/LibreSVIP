@@ -360,7 +360,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: libresvip-android.zip
-          path: build/apk
+          path: ./packaging/build/apk
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
