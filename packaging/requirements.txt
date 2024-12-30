@@ -62,7 +62,7 @@ pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 regex==2024.11.6
 retrie==0.3.1
 rich==13.9.4
-ruamel-yaml==0.18.6
+ruamel-yaml==0.18.7
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.4.9 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==75.6.0
