@@ -75,7 +75,7 @@ class PiaproStudioLegacyParser:
         tempos = []
         time_signatures: list[TimeSignature] = []
         if events_chunk is not None:
-            prev_tick = -TICKS_IN_BEAT * 4
+            prev_tick = 0
             for event_group in events_chunk.data.events:
                 events_by_level: list[list[tuple[int, bytes]]] = []
                 for event in event_group:

@@ -7,7 +7,7 @@ import operator
 from typing import TYPE_CHECKING, Optional, Union
 
 from libresvip.model.point import Point
-from libresvip.utils.search import find_last_index
+from libresvip.utils.search import binary_find_last
 
 from .interval_utils import position_to_ticks
 from .layer_generator import (
@@ -111,6 +111,7 @@ class CurveGenerator(ParamExpression):
         dataclasses.field(init=False)
     )
     point_list: list[Point] = dataclasses.field(init=False)
+    pos_indexes: list[tuple[int, int]] = dataclasses.field(init=False)
     _point_list: dataclasses.InitVar[Iterable[Point]]
     _interpolation: dataclasses.InitVar[
         Callable[[float, tuple[float, float], tuple[float, float]], float]
@@ -129,25 +130,26 @@ class CurveGenerator(ParamExpression):
         current_sum = 0
         overlap_count = 0
         for pos, value in _point_list:
-            if pos == current_pos or current_pos < 0:
-                current_sum += value
-                overlap_count += 1
-            else:
+            if pos != current_pos and current_pos >= 0:
                 self.point_list.append(Point(current_pos, round(current_sum / overlap_count)))
-                current_sum = value
-                overlap_count = 1
+                current_sum = 0
+                overlap_count = 0
+            current_sum += value
+            overlap_count += 1
             current_pos = pos
         if current_pos != -1:
             self.point_list.append(Point(current_pos, round(current_sum / overlap_count)))
         self.interpolation = _interpolation
         self.base_value = _base_value
+        self.pos_indexes = [(p.x, i) for i, p in enumerate(self.point_list)]
 
     def value_at_ticks(self, ticks: int) -> float:
         if len(self.point_list) == 0 or (self.interval is not None and ticks not in self.interval):
             return self.base_value
-        index = find_last_index(self.point_list, lambda point: point.x <= ticks)
-        if index == -1:
+        index_item = binary_find_last(self.pos_indexes, lambda item: item[0] <= ticks)
+        if index_item is None:
             return self.point_list[0].y
+        pos, index = index_item
         if index == len(self.point_list) - 1:
             return self.point_list[-1].y
         return self.interpolation(ticks, self.point_list[index], self.point_list[index + 1])
