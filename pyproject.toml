@@ -43,7 +43,7 @@ dependencies = [
   "proto-plus<2.0.0,>=1.25.0",
   "pydantic<3.0.0,>=2.10.4",
   "pydantic-extra-types<3.0.0,>=2.10.1",
-  "pydantic-settings[yaml]<3.0.0,>=2.7.0",
+  "pydantic-settings[yaml]<3.0.0,>=2.7.1",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.53.0",
   "pysubs2<2.0.0,>=1.8.0",
