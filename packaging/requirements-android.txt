@@ -37,7 +37,7 @@ pycryptodomex==3.21.0
 pydantic==2.10.4
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
-pydantic-settings==2.7.0
+pydantic-settings==2.7.1
 pygments==2.18.0
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
 pypinyin==0.53.0
