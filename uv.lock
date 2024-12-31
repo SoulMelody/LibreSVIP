@@ -608,8 +608,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/11/3d/0ccdfb7f7d559bb3c6e67ad6c4c3811343dbb6ec12689ec96be663ce7267/cx_Freeze-7.2.7-cp310-cp310-win32.whl", hash = "sha256:c34a6e85897f5cb1be84a204feef564adb6f1c753626bf0cf7713a8c4809ed27", size = 2045061 },
     { url = "https://files.pythonhosted.org/packages/c2/dc/7cec5a53e76e4ba77a0bb9f26d842f103699e923a0de616e139e0e4e1dbe/cx_Freeze-7.2.7-cp310-cp310-win_amd64.whl", hash = "sha256:5ea3f05d31a7432b0516a58e4b7301277c0a5ac693597d531d9ca913d79169ce", size = 2048050 },
     { url = "https://files.pythonhosted.org/packages/76/03/6bca494b60dea12e63cfa0204768d8655fc72a14ff7195d57a3100e0e47d/cx_Freeze-7.2.7-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:65e900cec673dc9bf6b8e21a760b3964b5b20b2586f274184c4c474c78e343f3", size = 21452464 },
-    { url = "https://files.pythonhosted.org/packages/ca/e5/c16cbe2bd1e284ceffb9b8e1ad9602dd049f604267f49f8788004a5bd2b3/cx_Freeze-7.2.7-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:8c9119b8dbe93b362d4658ed817e28d9d2fd9c29d5ade565ca23cd0e049440a8", size = 21448198 },
-    { url = "https://files.pythonhosted.org/packages/a7/78/e2449f38958c4bf557d4fb45fd8a3132f6a45b9e85c96384c83ba69baa35/cx_Freeze-7.2.7-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:3a26b65bd4e2414bbab84307a906ea207de3c1f3198bc9f6286a81597ddebe38", size = 21448026 },
     { url = "https://files.pythonhosted.org/packages/aa/09/aeca5e86a75b25b1a2455b7e0fa3166eae7ead07d795c0061c1bcedc5eb0/cx_Freeze-7.2.7-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:aa7e75e8dd4ffce44465141c2857fcf5fb5a31dfbcabbbee9929b55e79f051e2", size = 12271990 },
     { url = "https://files.pythonhosted.org/packages/a3/f4/a060909a2ea8f7425c5379ac9be74a192cc0847f612cd1c92649c1deeb86/cx_Freeze-7.2.7-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:b7b1fe00f689a0c06197bef07ba3dce985d768c405e0042dfa796bbafa53d6b4", size = 13547629 },
     { url = "https://files.pythonhosted.org/packages/96/9f/ac656645d9c399b68811b5ef8e7f6bdabc324685b5c6b72ae5a9b937582d/cx_Freeze-7.2.7-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:34d0ec5a41d59c55878711cf3812f46444d71f911c8ed1de467591c36aed9d6d", size = 12395854 },
@@ -619,8 +617,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/c3/fc/7f84ec40ab8b25ccc362e08adfae4ab3c1fe3acac0863f2c1dc6d79fb219/cx_Freeze-7.2.7-cp311-cp311-win32.whl", hash = "sha256:909784281dad31c92c0f402894d99a6188bb81f22b593d9d55fc437d54ab35e0", size = 2141804 },
     { url = "https://files.pythonhosted.org/packages/b2/6f/c92b2c12c47d388c8f9bcca63d1f823434df98f42633e4d0638424f28dae/cx_Freeze-7.2.7-cp311-cp311-win_amd64.whl", hash = "sha256:8fff35321128f680a825d28074edd14b81bdd68b98128d4fa655c6c8901de3ce", size = 2144806 },
     { url = "https://files.pythonhosted.org/packages/b1/7d/7e6e2693cca37c95a943c967a1e62ce25c19b6548c28b18477eb0023edf1/cx_Freeze-7.2.7-cp312-cp312-macosx_10_13_universal2.whl", hash = "sha256:6e22b449cf401a7d152e97a5feec71b492083067ca0336b74eb988fbfebfb3a6", size = 21390857 },
-    { url = "https://files.pythonhosted.org/packages/70/cf/4fc0f3e360533c3e4bc2b7bebfb7c02c32e0933c2a33e71755b2b31b5c49/cx_Freeze-7.2.7-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:8611df6e740a7980145f2d6a3d9f9161fe4d6a12c0055da52ccccffe7d77d470", size = 21386752 },
-    { url = "https://files.pythonhosted.org/packages/13/59/fde9eb2428c32447c3b117d821dab8411d6ae0804c6cb70c895c77fa519e/cx_Freeze-7.2.7-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:66fa38df2423a3ded9c59a6a089293db3b7a6d3493a701b31d24f97cd29f2143", size = 21386692 },
     { url = "https://files.pythonhosted.org/packages/77/79/043d442716ec36f9a0d1e9ebc6fdc6b966da2c5131d7e481dbe3e6c45df8/cx_Freeze-7.2.7-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:41c6fd1e77a733fc1a0f4e3678e136726cc45a11b37ff5722ac18afdad703934", size = 12640332 },
     { url = "https://files.pythonhosted.org/packages/2c/32/3db0938fac59d082694c1aab3087354828a838d0853d0909116716a6bd3d/cx_Freeze-7.2.7-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:d00dc0bf7ed9a30491ec34bfb8f4347446afae506febc2afc2531ecbf9db94bf", size = 13939795 },
     { url = "https://files.pythonhosted.org/packages/1b/06/db74d3ab4a851cdd45254b3afdb305e454a6420f9d043159e80c0e3a6f9a/cx_Freeze-7.2.7-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a5a27b2a1925138e122435ef3d52c281d185a57d1f67e08232ea61be83174cd0", size = 12777403 },
@@ -1586,7 +1582,7 @@ requires-dist = [
     { name = "proto-plus", specifier = ">=1.25.0,<2.0.0" },
     { name = "pydantic", specifier = ">=2.10.4,<3.0.0" },
     { name = "pydantic-extra-types", specifier = ">=2.10.1,<3.0.0" },
-    { name = "pydantic-settings", extras = ["yaml"], specifier = ">=2.7.0,<3.0.0" },
+    { name = "pydantic-settings", extras = ["yaml"], specifier = ">=2.7.1,<3.0.0" },
     { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=6.1.0,<7.0.0" },
     { name = "pypinyin", specifier = ">=0.53.0,<1.0.0" },
     { name = "pyside6", marker = "extra == 'desktop'", specifier = ">=6.8.1,!=6.8.1.1,<6.8.2" },
@@ -2820,15 +2816,15 @@ wheels = [
 
 [[package]]
 name = "pydantic-settings"
-version = "2.7.0"
+version = "2.7.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "python-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/86/41/19b62b99e7530cfa1d6ccd16199afd9289a12929bef1a03aa4382b22e683/pydantic_settings-2.7.0.tar.gz", hash = "sha256:ac4bfd4a36831a48dbf8b2d9325425b549a0a6f18cea118436d728eb4f1c4d66", size = 79743 }
+sdist = { url = "https://files.pythonhosted.org/packages/73/7b/c58a586cd7d9ac66d2ee4ba60ca2d241fa837c02bca9bea80a9a8c3d22a9/pydantic_settings-2.7.1.tar.gz", hash = "sha256:10c9caad35e64bfb3c2fbf70a078c0e25cc92499782e5200747f942a065dec93", size = 79920 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/00/57b4540deb5c3a39ba689bb519a4e03124b24ab8589e618be4aac2c769bd/pydantic_settings-2.7.0-py3-none-any.whl", hash = "sha256:e00c05d5fa6cbbb227c84bd7487c5c1065084119b750df7c8c1a554aed236eb5", size = 29549 },
+    { url = "https://files.pythonhosted.org/packages/b4/46/93416fdae86d40879714f72956ac14df9c7b76f7d41a4d68aa9f71a0028b/pydantic_settings-2.7.1-py3-none-any.whl", hash = "sha256:590be9e6e24d06db33a4262829edef682500ef008565a969c73d39d5f8bfb3fd", size = 29718 },
 ]
 
 [package.optional-dependencies]
