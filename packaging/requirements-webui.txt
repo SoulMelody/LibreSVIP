@@ -47,7 +47,7 @@ orjson==3.10.13 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 parsimonious==0.10.0
 pefile==2023.2.7 ; sys_platform == 'win32'
-pillow==11.0.0 ; sys_platform == 'darwin'
+pillow==11.1.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
 propcache==0.2.1
@@ -88,7 +88,7 @@ regex==2024.11.6
 requests==2.32.3
 retrie==0.3.1
 rich==13.9.4
-ruamel-yaml==0.18.7
+ruamel-yaml==0.18.8
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 setuptools==75.6.0
 shellingham==1.5.4
