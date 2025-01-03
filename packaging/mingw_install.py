@@ -106,7 +106,7 @@ def install_mingw_deps() -> None:
             ]
         )
 
-    requirements_path = cwd / "requirements.txt"
+    requirements_path = cwd / "requirements-desktop.txt"
     for requirement_str in requirements_path.read_text().splitlines():
         try:
             requirement = Requirement(requirement_str)
@@ -139,7 +139,7 @@ def install_mingw_deps() -> None:
                 new_requirements.append(requirement_str)
     requirements_path.write_text("\n".join(new_requirements))
     if pacman_available:
-        subprocess.call(["pip", "install", "-r", "requirements.txt", "--no-deps"])
+        subprocess.call(["pip", "install", "-r", "requirements-desktop.txt", "--no-deps"])
         subprocess.call(
             [
                 "ln",

@@ -18,7 +18,7 @@ services:
       dir *.whl /b > requirements.txt &&
       python -m pip install -r requirements.txt --no-deps &&
       cd ../packaging &&
-      python -m pip install -r requirements.txt"
+      python -m pip install -r requirements-desktop.txt"
     depends_on:
       install_mingw_dependencies:
         condition: service_completed_successfully
