@@ -339,7 +339,7 @@ class AcepSingerConfig(BaseModel):
 
 class AcepVocalTrack(AcepTrackProperties, BaseModel):
     type_: Literal["sing"] = Field(default="sing", alias="type")
-    singer: Optional[AcepCustomSinger] = None
+    singer: Optional[Union[int, AcepCustomSinger]] = None
     language: AcepLyricsLanguage = AcepLyricsLanguage.CHINESE
     patterns: list[AcepVocalPattern] = Field(default_factory=list)
     choir_info: dict[str, Any] = Field(default_factory=dict, alias="choirInfo")
@@ -348,7 +348,12 @@ class AcepVocalTrack(AcepTrackProperties, BaseModel):
     @model_validator(mode="after")
     def migrate_singer_attr(self) -> Self:
         if self.singer is not None:
-            self.singers.append(AcepSingerConfig(singer=self.singer))
+            if isinstance(self.singer, int):
+                self.singers.append(
+                    AcepSingerConfig(singer=AcepCustomSinger(singer_id=self.singer))
+                )
+            else:
+                self.singers.append(AcepSingerConfig(singer=self.singer))
         return self
 
     def __len__(self) -> int:
