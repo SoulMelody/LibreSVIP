@@ -1318,14 +1318,14 @@ wheels = [
 
 [[package]]
 name = "importlib-resources"
-version = "6.5.1"
+version = "6.5.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "zipp", marker = "python_full_version < '3.10'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/06/e6d5465162bbb9addbc350304156a2324b06adf949e663b16a295241285f/importlib_resources-6.5.1.tar.gz", hash = "sha256:095007d90b03799a362408af71a9657657b2f147358585ba451bb4214d72c7a8", size = 44686 }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/8c/f834fbf984f691b4f7ff60f50b514cc3de5cc08abfc3295564dd89c5e2e7/importlib_resources-6.5.2.tar.gz", hash = "sha256:185f87adef5bcc288449d98fb4fba07cea78bc036455dd44c5fc4a2fe78fed2c", size = 44693 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7e/11/47845fb8497ecf2c2c25766eadbd432e72a572cf5ae07062e40b0f23d3f3/importlib_resources-6.5.1-py3-none-any.whl", hash = "sha256:1db285ef06f980573f0a2c33de835cf9bcbd511c320d7bb332adfc4860c1ec2c", size = 37471 },
+    { url = "https://files.pythonhosted.org/packages/a4/ed/1f1afb2e9e7f38a545d628f864d562a5ae64fe6f7a10e28ffb9b185b4e89/importlib_resources-6.5.2-py3-none-any.whl", hash = "sha256:789cfdc3ed28c78b67a06acb8126751ced69a3d5f79c095a98298cd8a760ccec", size = 37461 },
 ]
 
 [[package]]
@@ -1568,7 +1568,7 @@ requires-dist = [
     { name = "flet", extras = ["cli", "desktop"], marker = "extra == 'mobile'", specifier = ">=0.25.2" },
     { name = "fonticon-materialdesignicons7", marker = "extra == 'desktop'", specifier = ">=7.2.96" },
     { name = "httpx", marker = "extra == 'desktop'", specifier = ">=0.28.1" },
-    { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.5.1,<7.0.0" },
+    { name = "importlib-resources", marker = "python_full_version < '3.11'", specifier = ">=6.5.2,<7.0.0" },
     { name = "jinja2", specifier = ">=3.1.5,<4.0.0" },
     { name = "loguru", specifier = ">=0.7.3,<1.0.0" },
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
