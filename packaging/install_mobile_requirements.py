@@ -26,18 +26,18 @@ def install_mobile_requirements(platform: str, arch: str) -> None:
         "--no-compile",
     ]
 
-    native_packages = {
-        "cffi": None,
-        "lxml": None,
-        "markupsafe": None,
-        "protobuf": None,
-        "pycryptodomex": None,
-        "pydantic-core": "==2.23.3",
-        "pyyaml": None,
-        "regex": None,
-        "ruamel-yaml-clib": None,
-        "zstandard": None,
-    }
+    native_packages = [
+        "cffi",
+        "lxml",
+        "markupsafe",
+        "protobuf",
+        "pycryptodomex",
+        "pydantic-core",
+        "pyyaml",
+        "regex",
+        "ruamel-yaml-clib",
+        "zstandard",
+    ]
 
     requirements_path = cwd / "requirements-android.txt"
     requirements = requirements_path.read_text().splitlines()
@@ -62,10 +62,14 @@ def install_mobile_requirements(platform: str, arch: str) -> None:
         ):
             logger.info(f"Installing {requirement.name}...")
             if requirement.name in native_packages:
+                if requirement.name == "pydantic-core":
+                    requirement_str = f"{requirement.name}{requirement.specifier}"
+                else:
+                    requirement_str = requirement.name
                 subprocess.check_call(
                     [
                         *common_args,
-                        f"{requirement.name}{native_packages[requirement.name] or ''}",
+                        requirement_str,
                         "--platform",
                         platform,
                         "--only-binary",
@@ -86,9 +90,7 @@ def install_mobile_requirements(platform: str, arch: str) -> None:
                     ]
                 )
             else:
-                if requirement.name == "pydantic":
-                    requirement_str = "pydantic==2.9.1"
-                elif requirement.url:
+                if requirement.url:
                     requirement_str = requirement.url
                 else:
                     requirement_str = f"{requirement.name}{requirement.specifier}"

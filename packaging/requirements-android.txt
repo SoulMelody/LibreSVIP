@@ -2,21 +2,19 @@ annotated-types==0.7.0
 anyio==4.7.0 ; platform_system != 'Pyodide'
 bidict==0.23.1
 certifi==2024.12.14 ; platform_system != 'Pyodide'
-cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
+cffi==1.17.1 ; sys_platform != 'win32'
 charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.68
 construct-typing==0.6.2
 drawsvg==2.4.0
-exceptiongroup==1.2.2 ; python_full_version < '3.11' and platform_system != 'Pyodide'
 flet==0.25.2
 fsspec==2024.12.0
 h11==0.14.0 ; platform_system != 'Pyodide'
 httpcore==1.0.7 ; platform_system != 'Pyodide'
 httpx==0.28.1 ; platform_system != 'Pyodide'
 idna==3.10 ; platform_system != 'Pyodide'
-importlib-resources==6.5.2 ; python_full_version < '3.11'
 jinja2==3.1.5
 loguru==0.7.3
 lxml==5.3.0
@@ -32,10 +30,10 @@ platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
 protobuf==5.29.2
-pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
+pycparser==2.22 ; sys_platform != 'win32'
 pycryptodomex==3.21.0
-pydantic==2.10.4
-pydantic-core==2.27.2
+pydantic==2.9.1
+pydantic-core==2.23.3
 pydantic-extra-types==2.10.1
 pydantic-settings==2.7.1
 pygments==2.18.0
@@ -63,5 +61,4 @@ win32-setctime==1.2.0 ; sys_platform == 'win32'
 xsdata==24.12
 xsdata-pydantic==24.5
 zhon==2.1.1
-zipp==3.21.0 ; python_full_version < '3.10'
 zstandard==0.23.0 ; platform_python_implementation == 'CPython'
