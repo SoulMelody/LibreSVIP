@@ -18,7 +18,6 @@ from libresvip.model.point import Point
 from .model import (
     PocketSingerMetadata,
     PocketSingerNote,
-    PocketSingerPitchBend,
     PocketSingerProject,
 )
 from .options import InputOptions
@@ -76,13 +75,13 @@ class PocketSingerParser:
         pitch_points: list[Point] = []
         for ps_note in ps_notes:
             start_pos = int(self.synchronizer.get_actual_ticks_from_secs(ps_note.start_time))
+            end_pos = int(self.synchronizer.get_actual_ticks_from_secs(ps_note.end_time))
             real_pitch = ps_note.pitch - 12 if self.project.version < 3 else ps_note.pitch
             note = Note(
                 lyric=ps_note.grapheme if ps_note.grapheme_index == 0 else "+",
                 key_number=real_pitch,
                 start_pos=start_pos,
-                length=int(self.synchronizer.get_actual_ticks_from_secs(ps_note.end_time))
-                - start_pos,
+                length=end_pos - start_pos,
             )
             if ps_note.br_note is not None:
                 note.head_tag = "V"
@@ -92,9 +91,7 @@ class PocketSingerParser:
                 note.edited_phones = Phones(head_length_in_secs=0)
             if self.options.import_pitch:
                 pitch_bends = ps_note.pitch_bends or ps_note.user_pitch or []
-                if not pitch_bends:
-                    pitch_bends = [PocketSingerPitchBend(pitch=0, time=ps_note.start_time)]
-                pitch_points.extend(
+                if note_pitch_points := [
                     Point(
                         x=int(
                             self.synchronizer.get_actual_ticks_from_secs(pitch_bend.time)
@@ -103,10 +100,14 @@ class PocketSingerParser:
                         y=int((pitch_bend.pitch + real_pitch) * 100),
                     )
                     for pitch_bend in pitch_bends
-                )
-                if pitch_points:
-                    pitch_points.insert(0, Point(x=pitch_points[0].x, y=-100))
-                    pitch_points.append(Point(x=pitch_points[-1].x, y=-100))
+                ]:
+                    if note_pitch_points[-1].x < end_pos + self.first_bar_length:
+                        note_pitch_points.append(
+                            Point(x=end_pos + self.first_bar_length, y=note_pitch_points[-1].y)
+                        )
+                    note_pitch_points.insert(0, Point(x=note_pitch_points[0].x, y=-100))
+                    note_pitch_points.append(Point(x=end_pos + self.first_bar_length, y=-100))
+                    pitch_points.extend(note_pitch_points)
             notes.append(note)
         return notes, pitch_points
 
