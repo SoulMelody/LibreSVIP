@@ -1,3 +1,4 @@
+import contextlib
 import hashlib
 import pathlib
 import sys
@@ -6,7 +7,8 @@ from typing import Any
 try:
     __import__("Cryptodome")
 except ImportError:
-    sys.modules["Cryptodome"] = __import__("Crypto")
+    with contextlib.suppress(ImportError):
+        sys.modules["Cryptodome"] = __import__("Crypto")
 from pydantic import Base64Bytes, Field, ValidationInfo, field_validator
 
 from libresvip.core.compat import json, zstd
