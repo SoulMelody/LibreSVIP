@@ -107,7 +107,7 @@ code_gen = [
 i18n = ["babel>=2.16.0"]
 linting = [
   "pre-commit>=4.0.1",
-  "ruff>=0.8.5",
+  "ruff>=0.8.6",
   "mypy>=1.14.1",
   "sourcery>=1.28.0",
   "proto-plus-stubs>=0.7.0",
