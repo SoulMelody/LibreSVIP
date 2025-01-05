@@ -596,7 +596,9 @@ dependencies = [
     { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "typing-extensions", marker = "python_full_version < '3.10'" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/ba/6e/62c5612a9f7cf7b15fc7eb4638f679302edb1193c560e4fc2a30467ed5d1/cx_freeze-7.2.8.tar.gz", hash = "sha256:678fe5b074c1511918eded7b3cbe542ea57b4ee292645cdaceb9c691ce13293e", size = 3135388 }
 wheels = [
+    { url = "https://files.pythonhosted.org/packages/dc/7b/712cb20085fc08e19495501449d1bdc8dd3c6d9ade268dd0438f8140cc08/cx_Freeze-7.2.8-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:a26a27643f07fd3dca5b07c231bc037e9a7660ef3e80b75aa884360747e127e6", size = 18987296 },
     { url = "https://files.pythonhosted.org/packages/37/d7/e917d7864e07e1d0686ff491eefded66eb97f57c0b745bd9814d8d40de53/cx_Freeze-7.2.8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:ef1b01483ad092a69d9e61406e96de6c9047ba761eb7c47a25e71a5b03ba54fa", size = 11913024 },
     { url = "https://files.pythonhosted.org/packages/85/74/66e8fb87dafe99bb0f30f4b35f2248afebd77127ceecca0ef7f32b226b2c/cx_Freeze-7.2.8-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:28354eeba38efab82711deaf5dbec4ce1981dd3643aa023733ddcac3811ce975", size = 13178692 },
     { url = "https://files.pythonhosted.org/packages/2d/28/a5fd87d4f06684b7f0a9cbeab0dd64ea210fb30a171e229484c240aa5b43/cx_Freeze-7.2.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a3675e33cd6fc2be4df9804e814e325bb8ed17c6ce4cac8fb66010ff96d1e1b6", size = 12027837 },
@@ -617,6 +619,8 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/c4/e4/a7eb53535ff8e5cfdc513d19c8882606464b6d9d7ad3fd57a3d6d93e7ac0/cx_Freeze-7.2.8-cp312-cp312-musllinux_1_2_aarch64.whl", hash = "sha256:01e9ee99c102c567c20fb4f8568944da9a5661c53298f96c507cd1a8f9a70350", size = 13766085 },
     { url = "https://files.pythonhosted.org/packages/b2/eb/2287d9391881dcfbd828cfdfa0d94cddecb06d21cce73e8ab214648c7584/cx_Freeze-7.2.8-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:26dfebbbf689712b24c5f6cd2764a4c393d13fdbfde8ff32df601ee0be59aea1", size = 13314642 },
     { url = "https://files.pythonhosted.org/packages/6d/50/02c5ce60b51ea4110c39f170397454f4317446181f972e6f0e0b920dea83/cx_Freeze-7.2.8-cp312-cp312-win_amd64.whl", hash = "sha256:c4c43cb6433455fefd4b92c79ef567276bc79aa182172f5550095aaa4e2210e8", size = 2139066 },
+    { url = "https://files.pythonhosted.org/packages/77/77/bcbb1506a4d8eb8cddf270a02d7a3ded697b6256fcb99aa2756628a00ca1/cx_Freeze-7.2.8-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:6f035d07931ccc89e4fadbbc44da4da791a06cea6da0b9d904c6cd528807657b", size = 17929754 },
+    { url = "https://files.pythonhosted.org/packages/31/f4/0a3c35562923e6237728b4000ba086b523320b7fc31d439c73c05b207d06/cx_Freeze-7.2.8-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:935b1abd87cfab1076c8f509c5b2843e2c2ae750f5c13df328e972e8656599b0", size = 11866591 },
     { url = "https://files.pythonhosted.org/packages/29/43/ca8ece9b7b9f91e0ac1e98b9e24db8660e8cfb1145dfc18c79cc7e2adee9/cx_Freeze-7.2.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ec9a24080ce28adcc8e5601a10e5aeed1c74ec6f67a6bd59276ee03509071f8e", size = 11981483 },
     { url = "https://files.pythonhosted.org/packages/e8/34/38cd36ed68d38e4ad4f85aaa6256d7caf17099be0a039ddc8e15451790f3/cx_Freeze-7.2.8-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:26c098a50b537d9f3bdbcadab1bc7434a38b0e4066af9f8dbed674367b280d77", size = 12392201 },
     { url = "https://files.pythonhosted.org/packages/f0/56/2c66e14a74320dd923254efbc978eb9d27e53b946527e255735597d7dd7a/cx_Freeze-7.2.8-cp39-cp39-win_amd64.whl", hash = "sha256:a4abaa58990ad31ab77abaca0f1c51c294059bf9bd00a88e56ac0143570802b6", size = 2053467 },
@@ -1573,7 +1577,7 @@ requires-dist = [
     { name = "pyzstd", marker = "platform_python_implementation == 'PyPy'", specifier = ">=0.16.2,<1.0.0" },
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
-    { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.8" },
+    { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.9" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
     { name = "textual", marker = "extra == 'tui'", specifier = ">=1.0.0" },
     { name = "typer-slim", specifier = ">=0.15.1,<1.0.0" },
@@ -3411,14 +3415,14 @@ wheels = [
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.18.8"
+version = "0.18.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ruamel-yaml-clib", marker = "python_full_version < '3.13' and platform_python_implementation == 'CPython'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4a/9f/a073b2c0d916045c3decf885b6fea12d2d1b02f235e89a02606140111138/ruamel.yaml-0.18.8.tar.gz", hash = "sha256:1b7e14f28a4b8d09f8cd40dca158852db9b22ac84f22da5bb711def35cb5c548", size = 143528 }
+sdist = { url = "https://files.pythonhosted.org/packages/37/8f/135c0b5292c36adf8b6ebd1f4747be709b67cfce23f6f16a4776131111a6/ruamel.yaml-0.18.9.tar.gz", hash = "sha256:59d0f8b10c658bd55ecd107e334d4117d766a2b9cc8f5176afcdadcff6f84a5e", size = 143739 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9f/01/bb9350e3446a3b31658054a1e254fb9d5ace2f931c4edad5cda2a8c991b8/ruamel.yaml-0.18.8-py3-none-any.whl", hash = "sha256:a7c02af6ec9789495b4d19335addabc4d04ab1e0dad3e491c0c9457bbc881100", size = 117497 },
+    { url = "https://files.pythonhosted.org/packages/9d/9c/a4f8d531861f7e00025672844ecfda1a653dc9147f91df5ac9f7aa09dc35/ruamel.yaml-0.18.9-py3-none-any.whl", hash = "sha256:c17d2a7ccf7fd2dd4b6d699111c37e94f12277a1db71e847ad7f3d19b8e3e9f4", size = 117578 },
 ]
 
 [[package]]
