@@ -61,6 +61,14 @@ class VOXFactoryAudioViewProperty(BaseModel):
     bins_per_octave: int = Field(alias="binsPerOctave")
 
 
+class VOXFactoryDevice(BaseModel):
+    type: str
+    track_type: str = Field(alias="trackType")
+    name: str
+    data: dict[str, Any]
+    on: bool
+
+
 class VOXFactoryTrack(BaseModel):
     type: str
     name: str
@@ -74,7 +82,7 @@ class VOXFactoryTrack(BaseModel):
     arm: bool
     clip_bank: dict[str, VOXFactoryClip] = Field(alias="clipBank")
     clip_order: list[str] = Field(alias="clipOrder")
-    device_bank: dict[str, Any] = Field(alias="deviceBank")
+    device_bank: dict[str, VOXFactoryDevice] = Field(alias="deviceBank")
     device_order: list[str] = Field(alias="deviceOrder")
     audio_view_property: VOXFactoryAudioViewProperty = Field(alias="audioViewProperty")
 
