@@ -33,6 +33,7 @@ from .model import (
     AcepParams,
     AcepProject,
     AcepTempo,
+    AcepTimeSignature,
     AcepTrack,
     AcepVocalTrack,
 )
@@ -52,23 +53,7 @@ class AceParser:
     def parse_project(self, ace_project: AcepProject) -> Project:
         project = Project()
         self.content_version = ace_project.version
-        if ace_project.time_signatures:
-            project.time_signature_list = [
-                TimeSignature(
-                    bar_index=ace_time_sig.bar_pos,
-                    numerator=ace_time_sig.numerator,
-                    denominator=ace_time_sig.denominator,
-                )
-                for ace_time_sig in ace_project.time_signatures
-            ]
-        else:
-            project.time_signature_list.append(
-                TimeSignature(
-                    bar_index=0,
-                    numerator=ace_project.beats_per_bar,
-                    denominator=4,
-                )
-            )
+        project.time_signature_list = self.parse_time_signatures(ace_project.time_signatures)
         self.first_bar_ticks = int(project.time_signature_list[0].bar_length())
         project.song_tempo_list = shift_tempo_list(
             self.parse_tempos(ace_project.tempos),
@@ -81,6 +66,17 @@ class AceParser:
             if (track := self.parse_track(ace_track)) is not None:
                 project.track_list.append(track)
         return project
+
+    @staticmethod
+    def parse_time_signatures(ace_time_sigs: list[AcepTimeSignature]) -> list[TimeSignature]:
+        return [
+            TimeSignature(
+                bar_index=ace_time_sig.bar_pos,
+                numerator=ace_time_sig.numerator,
+                denominator=ace_time_sig.denominator,
+            )
+            for ace_time_sig in ace_time_sigs
+        ]
 
     @staticmethod
     def parse_tempos(ace_tempos: list[AcepTempo]) -> list[SongTempo]:

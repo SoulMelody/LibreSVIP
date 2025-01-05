@@ -417,3 +417,15 @@ class AcepProject(BaseModel):
     singer_library_id: Optional[str] = "1200593006"
     time_signatures: list[AcepTimeSignature] = Field(default_factory=list, alias="timeSignatures")
     track_control_panel_w: Optional[int] = Field(0, alias="trackControlPanelW")
+
+    @model_validator(mode="after")
+    def migrate_time_signatures(self) -> Self:
+        if not self.time_signatures:
+            self.time_signatures.append(
+                AcepTimeSignature(
+                    bar_pos=0,
+                    numerator=self.beats_per_bar,
+                    denominator=4,
+                )
+            )
+        return self
