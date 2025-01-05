@@ -96,9 +96,11 @@ class AceParser:
         ):
             track = InstrumentalTrack(
                 audio_file_path=ace_track.patterns[0].path,
-                offset=int(ace_track.patterns[0].pos)
-                if self.content_version < 7
-                else self.synchronizer.get_actual_ticks_from_secs(ace_track.patterns[0].pos),
+                offset=int(
+                    ace_track.patterns[0].pos
+                    if self.content_version < 7
+                    else self.synchronizer.get_actual_ticks_from_secs(ace_track.patterns[0].pos)
+                ),
             )
         elif isinstance(ace_track, AcepVocalTrack):
             track = SingingTrack(
