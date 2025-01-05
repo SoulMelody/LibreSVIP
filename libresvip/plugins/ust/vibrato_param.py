@@ -28,14 +28,10 @@ def append_utau_note_vibrato(
         * 1000
     )
     vibrato_length = note_length * vibrato_params.length / 100
-    if vibrato_length <= 0:
+    depth = vibrato_params.depth / 100
+    if vibrato_length <= 0 or not vibrato_params.period or depth <= 0:
         return note_values
     frequency: float = 1.0 / vibrato_params.period
-    if not math.isfinite(frequency):
-        return note_values
-    depth = vibrato_params.depth / 100
-    if depth <= 0:
-        return note_values
     ease_in_length = note_length * vibrato_params.fade_in / 100
     ease_out_length = note_length * vibrato_params.fade_out / 100
     phase = vibrato_params.phase_shift / 100
