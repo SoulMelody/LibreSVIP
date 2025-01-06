@@ -16,6 +16,7 @@ from libresvip.model.base import (
     VibratoParam,
 )
 from libresvip.model.point import Point
+from libresvip.utils.text import CustomBoundriesBlacklist
 
 from .models import opensvip_singers, svip_note_head_tags, svip_reverb_presets
 from .msnrbf.xstudio_models import (
@@ -30,6 +31,12 @@ from .msnrbf.xstudio_models import (
     XSSongTempo,
 )
 from .options import InputOptions
+
+unsupported_symbols = CustomBoundriesBlacklist(
+    [",", "，", ".", "。", "?", "？", "!", "！"],
+    right_boundary="$",
+    match_substrings=True,
+)
 
 
 @dataclasses.dataclass
@@ -106,7 +113,7 @@ class BinarySvipParser:
             length=note.width_pos,
             key_number=note.key_index - 12,
             head_tag=svip_note_head_tags.inverse.get(note.head_tag.value),
-            lyric=note.lyric,
+            lyric=unsupported_symbols.cleanse_text(note.lyric),
         )
         if pronunciation := note.pronouncing:
             result_note.pronunciation = pronunciation

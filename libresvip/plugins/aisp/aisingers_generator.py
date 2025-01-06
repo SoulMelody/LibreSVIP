@@ -134,7 +134,8 @@ class AiSingersGenerator:
                             AISSingVoicePattern(
                                 uid=len(tracks) + len(ais_tracks),
                                 start=0,
-                                length=max(note.start + note.length for note in note_list),
+                                length=max(note.start + note.length for note in note_list)
+                                + self.first_bar_length,
                                 notes=note_list,
                             )
                         ],
@@ -169,10 +170,11 @@ class AiSingersGenerator:
     def generate_notes(self, track: SingingTrack) -> list[AISNote]:
         ais_notes = []
         for note in track.note_list:
+            note_start = int(note.start_pos / 15)
             ais_note = AISNote(
                 midi_no=note.key_number - 12,
-                start=round(note.start_pos / 15),
-                length=round(note.length / 15),
+                start=note_start,
+                length=int(note.end_pos / 15) - note_start,
                 lyric=note.lyric,
                 pinyin=note.pronunciation
                 or (
