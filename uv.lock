@@ -1560,7 +1560,7 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
     { name = "mido-fix", specifier = ">=1.2.12,<2.0.0" },
     { name = "more-itertools", specifier = ">=10.5.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.9.0" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.9.1" },
     { name = "packaging", specifier = ">=24.2,<24.3" },
     { name = "parsimonious", specifier = ">=0.10.0,<0.11.0" },
     { name = "platformdirs", specifier = ">=4.3.6,<5.0.0" },
@@ -1577,7 +1577,7 @@ requires-dist = [
     { name = "pyzstd", marker = "platform_python_implementation == 'PyPy'", specifier = ">=0.16.2,<1.0.0" },
     { name = "retrie", specifier = ">=0.3.1,<1.0.0" },
     { name = "rich", specifier = ">=13.9.4,<14.0.0" },
-    { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.9" },
+    { name = "ruamel-yaml", marker = "extra == 'ruamel-yaml'", specifier = ">=0.18.10" },
     { name = "ruamel-yaml-clib", marker = "python_full_version == '3.13.*' and platform_python_implementation == 'CPython' and extra == 'ruamel-yaml'", specifier = ">=0.2.12" },
     { name = "textual", marker = "extra == 'tui'", specifier = ">=1.0.0" },
     { name = "typer-slim", specifier = ">=0.15.1,<1.0.0" },
@@ -2245,7 +2245,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.9.0"
+version = "2.9.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2269,9 +2269,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/96/1f/b0507b3add8f05f4bb0557b953a163768db52552b609ea86ef8f7853a230/nicegui-2.9.0.tar.gz", hash = "sha256:1d909a6a805f6339df2c2512725c151672692b476bcb0e44366d8ebee6741504", size = 16055933 }
+sdist = { url = "https://files.pythonhosted.org/packages/5d/01/c13b95dac1211382e0f31f1dd95246c9efa21e9a0cbde0b3eb97e0200425/nicegui-2.9.1.tar.gz", hash = "sha256:1cb944340353fefb6db0c6a27d10b43792fd400d3dbc748426efcef59192c250", size = 16026564 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/65/dc/187e7f97e2bb7b3d6c687c2291db32f13fc651213716f8d434d1a6bd7ffb/nicegui-2.9.0-py3-none-any.whl", hash = "sha256:0780f8e8a470a8be98096a3fd4639c2c49645a8b63186ec8f0ede4aac35f18e6", size = 16470171 },
+    { url = "https://files.pythonhosted.org/packages/7b/c9/092767e120e6d0077c5f2ef38356d116f2953b5d441215c29e3c4b3988b5/nicegui-2.9.1-py3-none-any.whl", hash = "sha256:5456f1de34c7d3b62d9349879855b99c6623ea67e4c0b5ff0635010ad3b57d22", size = 16470186 },
 ]
 
 [[package]]
@@ -3415,14 +3415,14 @@ wheels = [
 
 [[package]]
 name = "ruamel-yaml"
-version = "0.18.9"
+version = "0.18.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ruamel-yaml-clib", marker = "python_full_version < '3.13' and platform_python_implementation == 'CPython'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/37/8f/135c0b5292c36adf8b6ebd1f4747be709b67cfce23f6f16a4776131111a6/ruamel.yaml-0.18.9.tar.gz", hash = "sha256:59d0f8b10c658bd55ecd107e334d4117d766a2b9cc8f5176afcdadcff6f84a5e", size = 143739 }
+sdist = { url = "https://files.pythonhosted.org/packages/ea/46/f44d8be06b85bc7c4d8c95d658be2b68f27711f279bf9dd0612a5e4794f5/ruamel.yaml-0.18.10.tar.gz", hash = "sha256:20c86ab29ac2153f80a428e1254a8adf686d3383df04490514ca3b79a362db58", size = 143447 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9d/9c/a4f8d531861f7e00025672844ecfda1a653dc9147f91df5ac9f7aa09dc35/ruamel.yaml-0.18.9-py3-none-any.whl", hash = "sha256:c17d2a7ccf7fd2dd4b6d699111c37e94f12277a1db71e847ad7f3d19b8e3e9f4", size = 117578 },
+    { url = "https://files.pythonhosted.org/packages/c2/36/dfc1ebc0081e6d39924a2cc53654497f967a084a436bb64402dfce4254d9/ruamel.yaml-0.18.10-py3-none-any.whl", hash = "sha256:30f22513ab2301b3d2b577adc121c6471f28734d3d9728581245f1e76468b4f1", size = 117729 },
 ]
 
 [[package]]
