@@ -42,7 +42,7 @@ mdurl==0.1.2
 mido-fix==1.2.12
 more-itertools==10.5.0
 multidict==6.1.0
-nicegui==2.9.0
+nicegui==2.9.1
 orjson==3.10.13 ; platform_machine != 'i386' and platform_machine != 'i686'
 packaging==24.2
 parsimonious==0.10.0
