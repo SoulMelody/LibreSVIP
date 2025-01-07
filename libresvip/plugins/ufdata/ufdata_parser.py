@@ -79,7 +79,7 @@ class UFDataParser:
                 title=track.name,
                 note_list=self.parse_notes(track.notes, tick_prefix),
             )
-            if track.pitch is not None:
+            if self.options.import_pitch and track.pitch is not None:
                 singing_track.edited_params.pitch = self.parse_pitch(
                     track.pitch, singing_track.note_list, tick_prefix
                 )

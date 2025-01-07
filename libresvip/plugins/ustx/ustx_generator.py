@@ -43,7 +43,7 @@ class UstxGenerator:
             self.generate_time_signature(ts) for ts in os_project.time_signature_list
         ]
         if not ustx_time_signatures:
-            ustx_time_signatures.append(UTimeSignature(0, 4, 4))
+            ustx_time_signatures.append(UTimeSignature())
         first_bar_length = int(
             1920 * ustx_time_signatures[0].beat_per_bar / ustx_time_signatures[0].beat_unit
         )

@@ -1,6 +1,10 @@
-from typing import Any, Optional
+import pathlib
+from typing import Annotated, Any, Literal, Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import Field, ValidationInfo, model_validator
+from typing_extensions import Self
+
+from libresvip.model.base import BaseModel
 
 
 class VOXFactoryNote(BaseModel):
@@ -8,15 +12,15 @@ class VOXFactoryNote(BaseModel):
     midi: int
     name: str
     syllable: str
-    ticks: int
+    ticks: float
     duration: float
-    duration_ticks: int = Field(alias="durationTicks")
+    duration_ticks: float = Field(alias="durationTicks")
     velocity: int
     note_type: None = Field(alias="noteType")
-    vibrato_depth: float = Field(alias="vibratoDepth")
-    pre_bend: float = Field(alias="preBend")
-    post_bend: float = Field(alias="postBend")
-    harmonic_ratio: float = Field(alias="harmonicRatio")
+    vibrato_depth: Optional[float] = Field(None, alias="vibratoDepth")
+    pre_bend: Optional[float] = Field(None, alias="preBend")
+    post_bend: Optional[float] = Field(None, alias="postBend")
+    harmonic_ratio: Optional[float] = Field(None, alias="harmonicRatio")
     pitch_bends: list[float] = Field(alias="pitchBends")
 
 
@@ -26,24 +30,50 @@ class VOXFactoryMetadata(BaseModel):
     transpose: int
     harmonic_ratio: float = Field(alias="harmonicRatio")
     pitch_detection: Optional[str] = Field(None, alias="pitchDetection")
+    instrument: Optional[str] = None
 
 
-class VOXFactoryClip(BaseModel):
-    type: str
-    length_type: str = Field(alias="lengthType")
+class VOXFactoryClipBase(BaseModel):
     name: str
-    start_quarter: int = Field(alias="startQuarter")
-    offset_quarter: int = Field(alias="offsetQuarter")
-    length: int
+    start_quarter: float = Field(alias="startQuarter")
+    offset_quarter: float = Field(alias="offsetQuarter")
+    length: float
+    use_source: bool = Field(alias="useSource")
+    audio_data_key: Optional[str] = Field(None, alias="audioDataKey")
+    audio_data_order: list[str] = Field(alias="audioDataOrder")
+    audio_data_quarter: float = Field(alias="audioDataQuarter")
     note_bank: dict[str, VOXFactoryNote] = Field(alias="noteBank")
     note_order: list[str] = Field(alias="noteOrder")
     next_note_index: int = Field(alias="nextNoteIndex")
-    use_source: bool = Field(alias="useSource")
     pinned_audio_data_order: list[str] = Field(alias="pinnedAudioDataOrder")
-    audio_data_order: list[str] = Field(alias="audioDataOrder")
-    audio_data_quarter: int = Field(alias="audioDataQuarter")
-    metadata: VOXFactoryMetadata
-    audio_data_key: str = Field(alias="audioDataKey")
+    metadata: Optional[VOXFactoryMetadata] = None
+
+
+class VOXFactoryVocalClip(VOXFactoryClipBase):
+    type: Literal["vocal"] = "vocal"
+    length_type: Literal["quarter"] = Field("quarter", alias="lengthType")
+
+
+class VOXFactoryAudioClip(VOXFactoryClipBase):
+    type: Literal["audio"] = "audio"
+    length_type: Literal["time"] = Field("time", alias="lengthType")
+    source_audio_data_key: str = Field(alias="sourceAudioDataKey")
+
+    @model_validator(mode="after")
+    def extract_audio(self, info: ValidationInfo) -> Self:
+        if (
+            info.context is not None
+            and info.context["extract_audio"]
+            and not hasattr(info.context["path"], "protocol")
+        ):
+            archive_audio_path = f"resources/{self.source_audio_data_key}"
+            if not (
+                audio_path := (info.context["path"].parent / self.name).with_suffix(
+                    pathlib.Path(archive_audio_path).suffix
+                )
+            ).exists():
+                audio_path.write_bytes(info.context["archive_file"].read(archive_audio_path))
+        return self
 
 
 class VOXFactoryAudioViewProperty(BaseModel):
@@ -69,10 +99,9 @@ class VOXFactoryDevice(BaseModel):
     on: bool
 
 
-class VOXFactoryTrack(BaseModel):
-    type: str
+class VOXFactoryTrackBase(BaseModel):
     name: str
-    instrument: str
+    instrument: Optional[str] = None
     h: int
     color: str
     volume: float
@@ -80,11 +109,26 @@ class VOXFactoryTrack(BaseModel):
     solo: bool
     mute: bool
     arm: bool
-    clip_bank: dict[str, VOXFactoryClip] = Field(alias="clipBank")
     clip_order: list[str] = Field(alias="clipOrder")
     device_bank: dict[str, VOXFactoryDevice] = Field(alias="deviceBank")
     device_order: list[str] = Field(alias="deviceOrder")
     audio_view_property: VOXFactoryAudioViewProperty = Field(alias="audioViewProperty")
+
+
+class VOXFactoryVocalTrack(VOXFactoryTrackBase):
+    type: Literal["vocal"] = "vocal"
+    clip_bank: dict[str, VOXFactoryVocalClip] = Field(alias="clipBank")
+
+
+class VOXFactoryAudioTrack(VOXFactoryTrackBase):
+    type: Literal["audio"] = "audio"
+    clip_bank: dict[str, VOXFactoryAudioClip] = Field(alias="clipBank")
+
+
+VOXFactoryTrack = Annotated[
+    Union[VOXFactoryVocalTrack, VOXFactoryAudioTrack],
+    Field(discriminator="type"),
+]
 
 
 class VOXFactorySelectedClipBankItem(BaseModel):
@@ -102,7 +146,7 @@ class VOXFactoryAudioData(BaseModel):
     sample_rate: int = Field(alias="sampleRate")
     number_of_channels: int = Field(alias="numberOfChannels")
     sample_length: int = Field(alias="sampleLength")
-    metadata: VOXFactoryMetadata
+    metadata: Optional[VOXFactoryMetadata] = None
 
 
 class VOXFactoryProject(BaseModel):
