@@ -116,7 +116,7 @@ class VOXFactoryParser:
     def parse_notes(
         self, clip_data: VOXFactoryVocalClip, clip_offset: int
     ) -> tuple[list[Note], list[Point]]:
-        notes = []
+        notes: list[Note] = []
         pitch_points: list[Point] = []
         f0_secs_step = 1024 / 44100
         for _, note_data in sorted(
@@ -130,6 +130,8 @@ class VOXFactoryParser:
                 lyric=note_data.name,
                 pronunciation=note_data.syllable,
             )
+            if notes and note.start_pos < notes[-1].end_pos:
+                notes[-1].length = note.start_pos - notes[-1].start_pos
             if self.options.import_pitch and note_data.pitch_bends:
                 pitch_start = int(note_data.ticks + clip_offset + (note_data.pre_bend or 0))
                 note_pitch_points = [Point(x=pitch_start + self.first_bar_length, y=-100)]
