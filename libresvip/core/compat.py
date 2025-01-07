@@ -5,6 +5,10 @@ try:
 except ImportError:
     import json
 
+    if hasattr(json, "_default_encoder"):
+        json._default_encoder.item_separator = ","
+        json._default_encoder.key_separator = ":"
+
 try:
     import pyzstd as zstd
 except ImportError:
