@@ -16,7 +16,7 @@ class VOXFactoryNote(BaseModel):
     duration: float
     duration_ticks: float = Field(alias="durationTicks")
     velocity: int
-    note_type: None = Field(alias="noteType")
+    note_type: Optional[str] = Field(None, alias="noteType")
     vibrato_depth: Optional[float] = Field(None, alias="vibratoDepth")
     pre_bend: Optional[float] = Field(None, alias="preBend")
     post_bend: Optional[float] = Field(None, alias="postBend")

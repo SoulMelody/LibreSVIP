@@ -66,6 +66,8 @@ class PocketSingerParser:
                 note_list=notes,
             )
             if self.options.import_pitch:
+                pitch_points.insert(0, Point.start_point())
+                pitch_points.append(Point.end_point())
                 singing_track.edited_params.pitch.points.root = pitch_points
             singing_tracks.append(singing_track)
         return singing_tracks
