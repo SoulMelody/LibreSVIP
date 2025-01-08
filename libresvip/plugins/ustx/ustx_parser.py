@@ -168,7 +168,7 @@ class UstxParser:
                     note.pronunciation = to_romaji(ustx_note.lyric)
                 elif (chinese_char := CHINESE_RE.search(ustx_note.lyric)) is not None:
                     note.pronunciation = " ".join(pypinyin.lazy_pinyin(chinese_char.group()))
-                else:
+                elif not ustx_note.lyric.startswith("+"):
                     note.pronunciation = ustx_note.lyric.removeprefix("?")
             if prev_ustx_note is not None:
                 if prev_ustx_note.end > ustx_note.position:

@@ -164,7 +164,7 @@ class VocaloidGenerator:
                             is_solo_mode=track.solo,
                         )
                     )
-            elif isinstance(track, SingingTrack):
+            else:
                 singing_track_found = True
                 notes = [
                     VocaloidNotes(

@@ -42,8 +42,8 @@ class VOXFactoryClipBase(BaseModel):
     audio_data_key: Optional[str] = Field(None, alias="audioDataKey")
     audio_data_order: list[str] = Field(default_factory=list, alias="audioDataOrder")
     audio_data_quarter: float = Field(0, alias="audioDataQuarter")
-    note_bank: dict[str, VOXFactoryNote] = Field(alias="noteBank")
-    note_order: list[str] = Field(alias="noteOrder")
+    note_bank: dict[str, VOXFactoryNote] = Field(default_factory=dict, alias="noteBank")
+    note_order: list[str] = Field(default_factory=list, alias="noteOrder")
     next_note_index: int = Field(0, alias="nextNoteIndex")
     pinned_audio_data_order: list[str] = Field(default_factory=list, alias="pinnedAudioDataOrder")
     metadata: Optional[VOXFactoryMetadata] = None
