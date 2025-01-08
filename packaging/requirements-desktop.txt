@@ -9,7 +9,7 @@ click==8.1.8
 colorama==0.4.6 ; sys_platform == 'win32'
 construct==2.10.68
 construct-typing==0.6.2
-dbus-fast==2.24.4 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
+dbus-fast==2.28.0 ; platform_python_implementation == 'CPython' and sys_platform == 'linux'
 desktop-notifier==6.0.0 ; platform_python_implementation == 'CPython'
 drawsvg==2.4.0
 exceptiongroup==1.2.2 ; python_full_version < '3.11'
@@ -44,7 +44,7 @@ pydantic==2.10.4
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
 pydantic-settings==2.7.1
-pygments==2.19.0
+pygments==2.19.1
 pyinstaller==6.11.1 ; platform_machine == 'arm64' or sys_platform != 'win32'
 pyinstaller @ https://github.com/webcomics/pyinstaller-builder/releases/download/snapshot/pyinstaller-6.11.1-py3-none-any.whl ; platform_machine != 'arm64' and sys_platform == 'win32'
 pyinstaller-hooks-contrib==2024.11
@@ -64,7 +64,7 @@ retrie==0.3.1
 rich==13.9.4
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
-rubicon-objc==0.4.9 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
+rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
 setuptools==75.7.0
 shellingham==1.5.4
 shiboken6==6.8.1
