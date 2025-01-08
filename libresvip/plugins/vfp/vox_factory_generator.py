@@ -1,7 +1,10 @@
 import dataclasses
+import math
 import pathlib
+import secrets
 
-from libresvip.core.constants import DEFAULT_BPM
+from libresvip.core.constants import DEFAULT_BPM, TICKS_IN_BEAT
+from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature, Track
 
 from .model import (
@@ -17,9 +20,13 @@ from .options import OutputOptions
 @dataclasses.dataclass
 class VOXFactoryGenerator:
     options: OutputOptions
+    prefix: str = dataclasses.field(init=False)
     audio_paths: dict[str, pathlib.Path] = dataclasses.field(default_factory=dict)
+    synchronizer: TimeSynchronizer = dataclasses.field(init=False)
 
     def generate_project(self, project: Project) -> VOXFactoryProject:
+        self.prefix = secrets.token_hex(5)
+        self.synchronizer = TimeSynchronizer(project.song_tempo_list)
         vox_project = VOXFactoryProject(
             tempo=self.generate_tempo(project.song_tempo_list),
             time_signature=self.generate_time_signature(project.time_signature_list),
@@ -41,10 +48,9 @@ class VOXFactoryGenerator:
         track_bank = {}
         for i, track in enumerate(tracks):
             if isinstance(track, SingingTrack):
-                note_list = self.generate_notes(track.note_list)
-                clip_bank = {f"clip_{i}": clip for i, clip in enumerate(note_list)}
+                clip_bank = self.generate_notes(track.note_list)
                 clip_order = sorted(clip_bank.keys())
-                track_bank[str(i)] = VOXFactoryVocalTrack(
+                track_bank[f"{self.prefix}-tr{i}"] = VOXFactoryVocalTrack(
                     clip_bank=clip_bank,
                     clip_order=clip_order,
                 )
@@ -53,18 +59,27 @@ class VOXFactoryGenerator:
     def generate_notes(self, notes: list[Note]) -> dict[str, VOXFactoryVocalClip]:
         note_bank = {}
         note_order = []
+        max_ticks = notes[-1].end_pos if notes else 0
+        max_quarter = max_ticks / TICKS_IN_BEAT
         for i, note in enumerate(notes):
-            note_bank[f"note_{i}"] = self.generate_note(note)
-            note_order.append(f"note_{i}")
-        return {
-            "clip": VOXFactoryVocalClip(
+            note_bank[f"{self.prefix}-no{i}"] = self.generate_note(note)
+            note_order.append(f"{self.prefix}-no{i}")
+        clip_count = math.ceil(max_quarter / 32)
+        clip_bank = {}
+        for i in range(clip_count):
+            clip_bank[f"{self.prefix}-cl{i}"] = VOXFactoryVocalClip(
+                start_quarter=32 * i,
+                offset_quarter=32 * i,
+                length=32,
                 note_bank=note_bank,
                 note_order=note_order,
-            ),
-        }
+            )
+        return clip_bank
 
     def generate_note(self, note: Note) -> VOXFactoryNote:
+        note_start_time = self.synchronizer.get_actual_secs_from_ticks(note.start_pos)
         return VOXFactoryNote(
+            time=note_start_time,
             ticks=note.start_pos,
             duration_ticks=note.length,
             midi=note.key_number,

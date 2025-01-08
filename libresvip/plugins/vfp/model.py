@@ -13,15 +13,15 @@ class VOXFactoryNote(BaseModel):
     name: str
     syllable: str
     ticks: float
-    duration: float
     duration_ticks: float = Field(alias="durationTicks")
-    velocity: int
+    duration: float = 0.25
+    velocity: int = 1
     note_type: Optional[str] = Field(None, alias="noteType")
     vibrato_depth: Optional[float] = Field(None, alias="vibratoDepth")
     pre_bend: Optional[float] = Field(None, alias="preBend")
     post_bend: Optional[float] = Field(None, alias="postBend")
     harmonic_ratio: Optional[float] = Field(None, alias="harmonicRatio")
-    pitch_bends: list[float] = Field(alias="pitchBends")
+    pitch_bends: list[float] = Field(default_factory=list, alias="pitchBends")
 
 
 class VOXFactoryMetadata(BaseModel):
@@ -34,18 +34,18 @@ class VOXFactoryMetadata(BaseModel):
 
 
 class VOXFactoryClipBase(BaseModel):
-    name: str
-    start_quarter: float = Field(alias="startQuarter")
-    offset_quarter: float = Field(alias="offsetQuarter")
+    name: str = ""
+    start_quarter: float = Field(0, alias="startQuarter")
+    offset_quarter: float = Field(0, alias="offsetQuarter")
     length: float
-    use_source: bool = Field(alias="useSource")
+    use_source: bool = Field(True, alias="useSource")
     audio_data_key: Optional[str] = Field(None, alias="audioDataKey")
-    audio_data_order: list[str] = Field(alias="audioDataOrder")
-    audio_data_quarter: float = Field(alias="audioDataQuarter")
+    audio_data_order: list[str] = Field(default_factory=list, alias="audioDataOrder")
+    audio_data_quarter: float = Field(0, alias="audioDataQuarter")
     note_bank: dict[str, VOXFactoryNote] = Field(alias="noteBank")
     note_order: list[str] = Field(alias="noteOrder")
-    next_note_index: int = Field(alias="nextNoteIndex")
-    pinned_audio_data_order: list[str] = Field(alias="pinnedAudioDataOrder")
+    next_note_index: int = Field(0, alias="nextNoteIndex")
+    pinned_audio_data_order: list[str] = Field(default_factory=list, alias="pinnedAudioDataOrder")
     metadata: Optional[VOXFactoryMetadata] = None
 
 
@@ -77,18 +77,18 @@ class VOXFactoryAudioClip(VOXFactoryClipBase):
 
 
 class VOXFactoryAudioViewProperty(BaseModel):
-    view: str
-    colormap: str
-    window: str
-    window_size: int = Field(alias="windowSize")
-    hop_size: int = Field(alias="hopSize")
-    f_min: float = Field(alias="fMin")
-    f_max: None = Field(alias="fMax")
-    level_min: None = Field(alias="levelMin")
-    level_max: None = Field(alias="levelMax")
-    level_scale: str = Field(alias="levelScale")
-    num_bins: int = Field(alias="numBins")
-    bins_per_octave: int = Field(alias="binsPerOctave")
+    view: str = "waveform"
+    colormap: str = "Heated Metal"
+    window: str = "Hann"
+    window_size: int = Field(1024, alias="windowSize")
+    hop_size: int = Field(256, alias="hopSize")
+    f_min: float = Field(27.5, alias="fMin")
+    f_max: Optional[float] = Field(None, alias="fMax")
+    level_min: Optional[float] = Field(None, alias="levelMin")
+    level_max: Optional[float] = Field(None, alias="levelMax")
+    level_scale: str = Field("dB", alias="levelScale")
+    num_bins: int = Field(230, alias="numBins")
+    bins_per_octave: int = Field(24, alias="binsPerOctave")
 
 
 class VOXFactoryDevice(BaseModel):
@@ -100,19 +100,21 @@ class VOXFactoryDevice(BaseModel):
 
 
 class VOXFactoryTrackBase(BaseModel):
-    name: str
+    name: str = ""
     instrument: Optional[str] = None
-    h: int
-    color: str
-    volume: float
-    pan: float
-    solo: bool
-    mute: bool
-    arm: bool
+    h: int = 3
+    color: str = "#7878f1"
+    volume: float = 1.0
+    pan: float = 0.0
+    solo: bool = False
+    mute: bool = False
+    arm: bool = False
     clip_order: list[str] = Field(alias="clipOrder")
-    device_bank: dict[str, VOXFactoryDevice] = Field(alias="deviceBank")
-    device_order: list[str] = Field(alias="deviceOrder")
-    audio_view_property: VOXFactoryAudioViewProperty = Field(alias="audioViewProperty")
+    device_bank: dict[str, VOXFactoryDevice] = Field(default_factory=dict, alias="deviceBank")
+    device_order: list[str] = Field(default_factory=list, alias="deviceOrder")
+    audio_view_property: VOXFactoryAudioViewProperty = Field(
+        default_factory=VOXFactoryAudioViewProperty, alias="audioViewProperty"
+    )
 
 
 class VOXFactoryVocalTrack(VOXFactoryTrackBase):
@@ -150,13 +152,19 @@ class VOXFactoryAudioData(BaseModel):
 
 
 class VOXFactoryProject(BaseModel):
-    version: str
+    version: str = "0.12.0"
     tempo: float
     time_signature: list[int] = Field(alias="timeSignature")
-    project_name: str = Field(alias="projectName")
+    project_name: str = Field("Untitled Project", alias="projectName")
     track_bank: dict[str, VOXFactoryTrack] = Field(alias="trackBank")
-    track_order: list[str] = Field(alias="trackOrder")
-    selected_track_bank: list[str] = Field(alias="selectedTrackBank")
-    selected_clip_bank: list[VOXFactorySelectedClipBankItem] = Field(alias="selectedClipBank")
-    selected_note_bank: list[VOXFactorySelectedNoteBankItem] = Field(alias="selectedNoteBank")
-    audio_data_bank: dict[str, VOXFactoryAudioData] = Field(alias="audioDataBank")
+    track_order: list[str] = Field(default_factory=list, alias="trackOrder")
+    selected_track_bank: list[str] = Field(default_factory=list, alias="selectedTrackBank")
+    selected_clip_bank: list[VOXFactorySelectedClipBankItem] = Field(
+        default_factory=list, alias="selectedClipBank"
+    )
+    selected_note_bank: list[VOXFactorySelectedNoteBankItem] = Field(
+        default_factory=list, alias="selectedNoteBank"
+    )
+    audio_data_bank: dict[str, VOXFactoryAudioData] = Field(
+        default_factory=dict, alias="audioDataBank"
+    )

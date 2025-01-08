@@ -33,10 +33,11 @@ class VOXFactoryConverter(plugin_base.SVSConverterBase):
             archive_file.writestr(
                 "project.json",
                 json.dumps(
-                    vox_factory_project.model_dump(mode="json", exclude_none=True, by_alias=True),
+                    vox_factory_project.model_dump(mode="json", by_alias=True),
                     ensure_ascii=False,
                 ),
             )
+            archive_file.mkdir("resources")
             for audio_name, audio_path in generator.audio_paths.items():
                 archive_file.writestr(f"resources/{audio_name}", audio_path.read_bytes())
         path.write_bytes(buffer.getvalue())

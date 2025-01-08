@@ -30,12 +30,11 @@ class VOXFactoryParser:
     first_bar_length: int = dataclasses.field(init=False)
 
     def parse_project(self, vox_project: VOXFactoryProject) -> Project:
-        project = Project(
+        return Project(
             song_tempo_list=self.parse_tempos(vox_project.tempo),
             time_signature_list=self.parse_time_signatures(vox_project.time_signature),
             track_list=self.parse_tracks(vox_project),
         )
-        return project
 
     def parse_tempos(self, tempo: float) -> list[SongTempo]:
         tempos = [
