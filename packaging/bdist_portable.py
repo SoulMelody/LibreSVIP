@@ -24,12 +24,12 @@ class BdistPortable(Command):
         (
             "plat-name=",
             "p",
-            "platform name to embed in generated filenames " f"(default: {get_platform()})",
+            f"platform name to embed in generated filenames (default: {get_platform()})",
         ),
         (
             "format=",
             "f",
-            "archive format to create (tar, gztar, bztar, xztar, " "ztar, zip)",
+            "archive format to create (tar, gztar, bztar, xztar, ztar, zip)",
         ),
         (
             "keep-temp",
@@ -45,17 +45,17 @@ class BdistPortable(Command):
         (
             "relative",
             None,
-            "build the archive using relative paths " "(default: false)",
+            "build the archive using relative paths (default: false)",
         ),
         (
             "owner=",
             "u",
-            "Owner name used when creating a tar file" " [default: current user]",
+            "Owner name used when creating a tar file [default: current user]",
         ),
         (
             "group=",
             "g",
-            "Group name used when creating a tar file" " [default: current group]",
+            "Group name used when creating a tar file [default: current group]",
         ),
     ]
 
@@ -89,10 +89,7 @@ class BdistPortable(Command):
             try:
                 self.format = self.default_format[os.name]
             except KeyError as exc:
-                msg = (
-                    "don't know how to create portable built distributions "
-                    f"on platform {os.name}"
-                )
+                msg = f"don't know how to create portable built distributions on platform {os.name}"
                 raise DistutilsPlatformError(msg) from exc
 
         self.set_undefined_options(
