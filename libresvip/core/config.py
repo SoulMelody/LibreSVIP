@@ -298,7 +298,7 @@ class Language(enum.Enum):
         """Turn a locale name (en_US) into a language name (en-us)."""
         p = locale.find("_")
         if p >= 0:
-            return f"{locale[:p].lower()}-{locale[p + 1:].lower()}"
+            return f"{locale[:p].lower()}-{locale[p + 1 :].lower()}"
         else:
             return locale.lower()
 

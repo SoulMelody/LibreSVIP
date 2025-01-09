@@ -315,10 +315,7 @@ def test_ps_project_read(shared_datadir: pathlib.Path) -> None:
 
     proj_path = shared_datadir / "test.ps_project"
     with AESZipFile(
-        io.BytesIO(proj_path.read_bytes()),
-        "r",
-        compression=ZIP_STORED,
-        encryption=WZ_AES
+        io.BytesIO(proj_path.read_bytes()), "r", compression=ZIP_STORED, encryption=WZ_AES
     ) as zf:
         zf.setpassword(b"a022ab39cb3b7b1de92ee441978c9e08")
         rich.print(zf.read("config.json"))

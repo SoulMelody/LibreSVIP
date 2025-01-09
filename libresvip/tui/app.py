@@ -147,8 +147,8 @@ class PluginInfoScreen(Screen[None]):
         plugin_info = plugin_manager.plugin_registry[self.plugin_id]
         with Vertical():
             yield Label(plugin_info.name, classes="title")
-            yield Label(f'{_("Version: ")}{plugin_info.version}')
-            yield Link(f'{_("Author: ")}{_(plugin_info.author)}', url=plugin_info.website)
+            yield Label(f"{_('Version: ')}{plugin_info.version}")
+            yield Link(f"{_('Author: ')}{_(plugin_info.author)}", url=plugin_info.website)
             yield Label(_("Introduction"))
             yield Markdown(_(plugin_info.description))
             with Horizontal():
@@ -934,7 +934,7 @@ class TUIApp(App[None]):
                     url="https://github.com/SoulMelody/LibreSVIP",
                     tooltip=_("Repo URL"),
                 )
-                yield Label(f'{_("Version: ")}{libresvip.__version__} 🔖')
+                yield Label(f"{_('Version: ')}{libresvip.__version__} 🔖")
                 yield Link(
                     _("Author: SoulMelody") + " 🌐",
                     url="https://space.bilibili.com/175862486",

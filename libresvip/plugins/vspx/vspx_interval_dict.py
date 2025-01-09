@@ -54,7 +54,7 @@ class BasePitchCurve:
     def __post_init__(
         self,
         note_track: VocalSharpNoteTrack,
-        default_trill: Optional[VocalSharpDefaultTrill] = None,
+        default_trill: Optional[VocalSharpDefaultTrill],
     ) -> None:
         if not len(note_track.note):
             pass

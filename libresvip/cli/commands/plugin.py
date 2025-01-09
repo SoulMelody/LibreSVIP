@@ -94,14 +94,14 @@ def print_plugin_details(plugin: FormatProviderPluginInfo) -> None:
     if plugin.website:
         typer.echo("\n" + _("Website: ") + plugin.website)
     format_desc = f"{_(plugin.file_format)} (*.{plugin.suffix})"
-    typer.echo("\n" + f'{_("This plugin is applicable to")} {format_desc}.')
+    typer.echo("\n" + f"{_('This plugin is applicable to')} {format_desc}.")
     typer.echo(
         _(
             "If you want to use this plugin, please specify '-i {}' (input) or '-o {}' (output) when converting."
         ).format(plugin.suffix.lower(), plugin.suffix.lower())
     )
     if plugin.description:
-        typer.echo(f'\n{_("Description: ")}\n{_(plugin.description)}')
+        typer.echo(f"\n{_('Description: ')}\n{_(plugin.description)}")
     op_arr = [_("input"), _("output")]
     options_arr = [
         get_type_hints(plugin.plugin_object.load).get("options", None),

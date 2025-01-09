@@ -285,9 +285,9 @@ class Project(BaseModel):
         )
 
     def split_tracks(self, max_track_count: int) -> list[Project]:
-        assert any(
-            isinstance(track, SingingTrack) for track in self.track_list
-        ), "No singing tracks found"
+        assert any(isinstance(track, SingingTrack) for track in self.track_list), (
+            "No singing tracks found"
+        )
         return [
             self.model_copy(update={"track_list": track_chunk}, deep=True)
             for track_chunk in more_itertools.chunked(

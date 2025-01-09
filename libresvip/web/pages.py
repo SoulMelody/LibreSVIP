@@ -1964,7 +1964,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 js_handler=f"""(event) => {{
                 for (let file of event.dataTransfer.files) {{
                     let file_name = file.name
-                    post_form('{uploader.props['url']}', {{
+                    post_form('{uploader.props["url"]}', {{
                         file_name: file
                     }})
                 }}
@@ -2037,7 +2037,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 js_handler=f"""(event) => {{
                 for (let file of event.dataTransfer.files) {{
                     let file_name = file.name
-                    post_form('{uploader.props['url']}', {{
+                    post_form('{uploader.props["url"]}', {{
                         file_name: file
                     }})
                 }}
@@ -2217,7 +2217,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                             for (const fileHandle of fileHandles) {{
                                 const file = await fileHandle.getFile();
                                 let file_name = file.name
-                                post_form('{uploader.props['url']}', {{
+                                post_form('{uploader.props["url"]}', {{
                                     file_name: file
                                 }})
                             }}

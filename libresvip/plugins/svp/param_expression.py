@@ -116,14 +116,14 @@ class CurveGenerator(ParamExpression):
     _interpolation: dataclasses.InitVar[
         Callable[[float, tuple[float, float], tuple[float, float]], float]
     ]
-    _base_value: dataclasses.InitVar[int] = 0
+    _base_value: dataclasses.InitVar[int]
     interval: Optional[portion.Interval] = None
 
     def __post_init__(
         self,
         _point_list: Iterable[Point],
         _interpolation: Callable[[float, tuple[float, float], tuple[float, float]], float],
-        _base_value: int = 0,
+        _base_value: int,
     ) -> None:
         self.point_list = []
         current_pos = -1

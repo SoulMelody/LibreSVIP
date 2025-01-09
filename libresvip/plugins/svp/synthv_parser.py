@@ -174,6 +174,7 @@ class SynthVParser:
                 for point in master_curve.points.root
             ],
             _interpolation=self.parse_interpolation(master_curve.mode),
+            _base_value=0,
         )
         compound_expr = group_expr + master_expr
         group_points = group_expr.point_list
@@ -266,6 +267,7 @@ class SynthVParser:
                 for point in pitch_diff.points.root
             ],
             _interpolation=self.parse_interpolation(pitch_diff.mode),
+            _base_value=0,
         )
         vibrato_env_expr: ParamExpression = CurveGenerator(
             _point_list=[
@@ -288,6 +290,7 @@ class SynthVParser:
                     for point in master_pitch_diff.points.root
                 ],
                 _interpolation=self.parse_interpolation(master_pitch_diff.mode),
+                _base_value=0,
             )
         if master_vibrato_env is not None:
             vibrato_env_expr += CurveGenerator(
@@ -299,6 +302,7 @@ class SynthVParser:
                     for point in master_vibrato_env.points.root
                 ],
                 _interpolation=self.parse_interpolation(vibrato_env.mode),
+                _base_value=0,
             )
         if self.options.instant:
             instant_interval = RangeInterval(
@@ -321,6 +325,7 @@ class SynthVParser:
                     for point in self.instant_pitch.points.root
                 ],
                 _interpolation=self.parse_interpolation(self.instant_pitch.mode),
+                _base_value=0,
             )
         interval = RangeInterval(
             [
