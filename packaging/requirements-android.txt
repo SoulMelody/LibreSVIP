@@ -21,7 +21,7 @@ lxml==5.3.0
 markdown-it-py==3.0.0
 markupsafe==3.0.2
 mdurl==0.1.2
-mido-fix==1.2.12
+mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.5.0
 oauthlib==3.2.2 ; platform_system != 'Pyodide'
 packaging==24.2
@@ -56,7 +56,7 @@ sortedcontainers==2.4.0
 typer-slim==0.15.1
 typing-extensions==4.12.2
 universal-pathlib==0.2.6
-wanakana-python==1.2.2
+wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 xsdata==24.12
 xsdata-pydantic==24.5

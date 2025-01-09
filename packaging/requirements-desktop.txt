@@ -28,7 +28,7 @@ macholib==1.16.3 ; sys_platform == 'darwin'
 markdown-it-py==3.0.0
 markupsafe==3.0.2
 mdurl==0.1.2
-mido-fix==1.2.12
+mido-fix @ https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl
 more-itertools==10.5.0
 packaging==24.2
 parsimonious==0.10.0
@@ -74,7 +74,7 @@ typer-slim==0.15.1
 typing-extensions==4.12.2
 ujson==5.10.0
 universal-pathlib==0.2.6
-wanakana-python==1.2.2
+wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 winrt-runtime==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
 winrt-windows-applicationmodel-core==2.3.0 ; platform_python_implementation == 'CPython' and sys_platform == 'win32'
