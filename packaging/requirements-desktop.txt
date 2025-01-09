@@ -37,10 +37,10 @@ pillow==11.1.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
-protobuf==5.29.2
+protobuf==5.29.3
 pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.21.0
-pydantic==2.10.4
+pydantic==2.10.5
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.1
 pydantic-settings==2.7.1
@@ -65,7 +65,7 @@ rich==13.9.4
 ruamel-yaml==0.18.10
 ruamel-yaml-clib==0.2.12 ; python_full_version < '3.14' and platform_python_implementation == 'CPython'
 rubicon-objc==0.5.0 ; platform_python_implementation == 'CPython' and sys_platform == 'darwin'
-setuptools==75.7.0
+setuptools==75.8.0
 shellingham==1.5.4
 shiboken6==6.8.1
 sniffio==1.3.1

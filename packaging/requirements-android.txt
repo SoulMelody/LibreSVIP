@@ -29,7 +29,7 @@ parsimonious==0.10.0
 platformdirs==4.3.6
 portion==2.6.0
 proto-plus==1.25.0
-protobuf==5.29.2
+protobuf==5.29.3
 pycparser==2.22 ; sys_platform != 'win32'
 pycryptodomex==3.21.0
 pydantic==2.9.1
