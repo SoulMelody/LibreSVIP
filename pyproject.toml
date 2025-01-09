@@ -34,7 +34,7 @@ dependencies = [
   "importlib-resources<7.0.0,>=6.5.2; python_version < \"3.11\"",
   "jinja2<4.0.0,>=3.1.5",
   "loguru<1.0.0,>=0.7.3",
-  "mido-fix<2.0.0,>=1.2.12",
+  "mido-fix",
   "more-itertools<11.0.0,>=10.5.0",
   "packaging<24.3,>=24.2",
   "parsimonious<0.11.0,>=0.10.0",
@@ -51,7 +51,7 @@ dependencies = [
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.9.4",
   "typer-slim<1.0.0,>=0.15.1",
-  "wanakana-python<2.0.0,>=1.2.2",
+  "wanakana-python",
   "xsdata-pydantic<24.6,>=24.5",
   "zhon<3.0.0,>=2.1.1",
   "zstandard<0.23.1,>=0.23.0; platform_python_implementation == \"CPython\"",
@@ -144,6 +144,10 @@ libresvip-mobile = "libresvip.mobile.__main__:main"
 
 [project.entry-points.pyinstaller40]
 hook-dirs = "libresvip.__pyinstaller:get_hook_dirs"
+
+[tool.uv.sources]
+mido-fix = { url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" }
+wanakana-python = { url = "https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl" }
 
 [tool.hatch.version]
 path = "libresvip/__init__.py"
