@@ -105,7 +105,7 @@ uvicorn==0.34.0
 uvloop==0.21.0 ; platform_python_implementation != 'PyPy' and sys_platform != 'cygwin' and sys_platform != 'win32'
 vbuild==0.8.2
 wanakana-python @ https://www.piwheels.org/simple/wanakana-python/wanakana_python-1.2.2-py3-none-any.whl
-watchfiles==1.0.3
+watchfiles==1.0.4
 websockets==14.1
 win32-setctime==1.2.0 ; sys_platform == 'win32'
 wsproto==1.2.0
