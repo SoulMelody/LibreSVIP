@@ -84,7 +84,7 @@ class VocaloidParser:
                 bpm=tempo.value / BPM_RATE,
             )
             for tempo in tempos
-            if tempo.value is not None
+            if isinstance(tempo.value, (int, float))
         ]
 
     def parse_tracks(self, tracks: list[VocaloidTracks]) -> list[Track]:

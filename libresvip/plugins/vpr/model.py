@@ -46,7 +46,7 @@ class VocaloidWithDur(VocaloidBasePos):
 
 
 class VocaloidPoint(VocaloidBasePos):
-    value: Optional[Union[int, float]] = None
+    value: Optional[Union[int, float, Literal["ZeroPitch"]]] = None
 
 
 class VocaloidTimeSig(BaseModel):
@@ -77,6 +77,8 @@ class VocaloidAIExp(BaseModel):
     formant_whole: Optional[float] = Field(None, alias="formantWhole")
     formant_start: Optional[float] = Field(None, alias="formantStart")
     formant_end: Optional[float] = Field(None, alias="formantEnd")
+    vibrato_leading_depth: Optional[float] = Field(None, alias="vibratoLeadingDepth")
+    vibrato_following_depth: Optional[float] = Field(None, alias="vibratoFollowingDepth")
 
 
 class VocaloidEnabled(BaseModel):
@@ -177,6 +179,7 @@ class VocaloidMasterTrack(BaseModel):
     tempo: VocaloidTempo = Field(default_factory=VocaloidTempo)
     time_sig: VocaloidTimeSigs = Field(alias="timeSig", default_factory=VocaloidTimeSigs)
     volume: VocaloidAutomation = Field(default_factory=VocaloidAutomation)
+    main_tuning: float = Field(440, alias="mainTuning")
 
 
 class VocaloidDVQMRelease(VocaloidCompID):
@@ -194,7 +197,9 @@ class VocaloidDVQM(BaseModel):
 class VocaloidNotes(VocaloidLangID, VocaloidWithDur):
     exp: Optional[VocaloidExp] = Field(default_factory=VocaloidExp)
     ai_exp: Optional[VocaloidAIExp] = Field(None, alias="aiExp")
+    direct_pitches: Optional[list[VocaloidPoint]] = Field(None, alias="directPitches")
     is_protected: Optional[bool] = Field(False, alias="isProtected")
+    is_ai_vibrato_enabled: Optional[bool] = Field(False, alias="isAiVibratoEnabled")
     lyric: str
     number: int
     phoneme: Optional[str] = None
