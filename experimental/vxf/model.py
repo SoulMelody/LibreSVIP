@@ -1,6 +1,5 @@
 import mido_fix as mido
 from construct import (
-    Bytes,
     Const,
     ExprAdapter,
     GreedyRange,
@@ -90,9 +89,20 @@ UmpTimeSignature = Struct(
 
 UmpLyric = Struct(
     "delta_ticks" / DeltaTicks,
-    "magic" / Const(b"\xd0\x10\x01\x50"),
+    "header" / Const(b"\xd0"),
+    "seq_stat" / Int8ub,
+    "magic" / Const(b"\x01\x50"),
     "seq_num" / Int16ub,
     "lyric" / PaddedString(10, "utf-8"),
+)
+
+UmpMetadata = Struct(
+    "delta_ticks" / DeltaTicks,
+    "header" / Const(b"\xd0"),
+    "seq_stat" / Int8ub,
+    "magic" / Const(b"\x01\x51"),
+    "seq_num" / Int16ub,
+    "text" / PaddedString(10, "utf-8"),
 )
 
 VxNote = Struct(
@@ -101,13 +111,13 @@ VxNote = Struct(
     "seq_num" / NoteNumber,
     "duration" / DeltaTicks,
     "end_pitch" / EndPitch,
-    "padding" / Bytes(4),
+    "padding" / Const(b"\x00" * 4),
 )
 
 VxTrack = Struct(
     "title_parts" / GreedyRange(UmpClipName),
     "start_of_clip" / UmpStartOfClip,
-    "events" / GreedyRange(Select(UmpTempo, UmpTimeSignature, UmpLyric)),
+    "events" / GreedyRange(Select(UmpTempo, UmpTimeSignature, UmpLyric, UmpMetadata)),
     "notes" / GreedyRange(VxNote),
     "end_of_clip" / UmpEndOfClip,
 )
