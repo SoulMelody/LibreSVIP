@@ -23,7 +23,6 @@ from libresvip.model.base import (
     SingingTrack,
     SongTempo,
     TimeSignature,
-    Track,
 )
 from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
@@ -278,7 +277,7 @@ class MidiParser:
                 )
         return tracks
 
-    def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[Track]:
+    def parse_tracks(self, midi_tracks: list[mido.MidiTrack]) -> list[SingingTrack]:
         return [
             *itertools.chain.from_iterable(
                 (self.parse_track(track_idx, track) for track_idx, track in enumerate(midi_tracks)),

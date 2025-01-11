@@ -1,5 +1,6 @@
 from construct import (
     Check,
+    Computed,
     Const,
     ExprAdapter,
     GreedyRange,
@@ -57,6 +58,7 @@ UmpClipName = Struct(
     "seq_stat" / Int8ub,
     "magic" / Const(b"\x01\x03"),
     "data" / PaddedString(12, "utf-8"),
+    "type" / Computed("track_name"),
 )
 
 UmpStartOfClip = Struct(
@@ -70,7 +72,7 @@ UmpEndOfClip = Struct(
 )
 
 UmpTempo = Struct(
-    "delta_ticks" / DeltaTicks,
+    "time" / DeltaTicks,
     "magic" / Const(b"\xd0\x10\x00\x00"),
     "tempo"
     / ExprAdapter(
@@ -79,10 +81,11 @@ UmpTempo = Struct(
         decoder=lambda obj, context: 1705032600 / obj,
     ),
     "padding" / Const(b"\x00" * 8),
+    "type" / Computed("set_tempo"),
 )
 
 UmpTimeSignature = Struct(
-    "delta_ticks" / DeltaTicks,
+    "time" / DeltaTicks,
     "magic" / Const(b"\xd0\x10\x00\x01"),
     "numerator" / Int8ub,
     "denominator"
@@ -92,23 +95,26 @@ UmpTimeSignature = Struct(
         decoder=lambda obj, context: 1 << obj,
     ),
     "padding" / Const(b"\x08" + b"\x00" * 9),
+    "type" / Computed("time_signature"),
 )
 
 UmpLyric = Struct(
-    "delta_ticks" / DeltaTicks,
+    "time" / DeltaTicks,
     "header" / Const(b"\xd0"),
     "seq_stat" / Int8ub,
     "magic" / Const(b"\x01\x50"),
     "seq_num" / Int16ub,
     "lyric" / PaddedString(10, "utf-8"),
+    "type" / Computed("lyrics"),
 )
 
 UmpMetadata = Struct(
-    "delta_ticks" / DeltaTicks,
+    "time" / DeltaTicks,
     "header" / Const(b"\xd0"),
     "seq_stat" / Int8ub,
     "magic" / Const(b"\x01\x51"),
     "text" / PaddedString(12, "utf-8"),
+    "type" / Computed("metadata"),
 )
 
 UmpNoteOn = Struct(
@@ -116,7 +122,8 @@ UmpNoteOn = Struct(
     "note" / StartPitch,
     Check(lambda ctx: 0 <= ctx.note <= 127),
     "velocity" / Int16ub,
-    "attribute" / Int16ub,
+    "data" / Int16ub,
+    "type" / Computed("note_on"),
 )
 
 UmpNoteOff = Struct(
@@ -124,7 +131,8 @@ UmpNoteOff = Struct(
     "note" / EndPitch,
     Check(lambda ctx: 0 <= ctx.note <= 127),
     "velocity" / Int16ub,
-    "attribute" / Int16ub,
+    "data" / Int16ub,
+    "type" / Computed("note_off"),
 )
 
 VxTrack = Struct(
@@ -137,7 +145,7 @@ VxTrack = Struct(
 
 VxFile = Struct(
     "magic" / Const(b"SMF2CLIP"),
-    "ppqn" / PPQN,
+    "ticks_per_beat" / PPQN,
     "tracks" / GreedyRange(VxTrack),
 )
 
