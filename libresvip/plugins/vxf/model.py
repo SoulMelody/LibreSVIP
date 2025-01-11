@@ -1,5 +1,5 @@
-import mido_fix as mido
 from construct import (
+    Check,
     Const,
     ExprAdapter,
     GreedyRange,
@@ -69,12 +69,7 @@ UmpEndOfClip = Struct(
 UmpTempo = Struct(
     "delta_ticks" / DeltaTicks,
     "magic" / Const(b"\xd0\x10\x00\x00"),
-    "tempo"
-    / ExprAdapter(
-        Int32ub,
-        encoder=lambda x, _: mido.bpm2tempo(x / 100),
-        decoder=lambda x, _: mido.tempo2bpm(x) * 100,
-    ),
+    "tempo" / Int32ub,
     "padding" / Const(b"\x00" * 8),
 )
 
@@ -105,20 +100,27 @@ UmpMetadata = Struct(
     "text" / PaddedString(10, "utf-8"),
 )
 
-VxNote = Struct(
-    "offset" / DeltaTicks,
-    "start_pitch" / StartPitch,
-    "seq_num" / NoteNumber,
-    "duration" / DeltaTicks,
-    "end_pitch" / EndPitch,
-    "padding" / Const(b"\x00" * 4),
+UmpNoteOn = Struct(
+    "time" / DeltaTicks,
+    "note" / StartPitch,
+    Check(lambda ctx: 0 <= ctx.note <= 127),
+    "velocity" / Int16ub,
+    "attribute" / Int16ub,
+)
+
+UmpNoteOff = Struct(
+    "time" / DeltaTicks,
+    "note" / EndPitch,
+    Check(lambda ctx: 0 <= ctx.note <= 127),
+    "velocity" / Int16ub,
+    "attribute" / Int16ub,
 )
 
 VxTrack = Struct(
     "title_parts" / GreedyRange(UmpClipName),
     "start_of_clip" / UmpStartOfClip,
-    "events" / GreedyRange(Select(UmpTempo, UmpTimeSignature, UmpLyric, UmpMetadata)),
-    "notes" / GreedyRange(VxNote),
+    "events"
+    / GreedyRange(Select(UmpTempo, UmpTimeSignature, UmpLyric, UmpMetadata, UmpNoteOn, UmpNoteOff)),
     "end_of_clip" / UmpEndOfClip,
 )
 
