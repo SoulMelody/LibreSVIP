@@ -62,7 +62,7 @@ class JUCECompressedIntStruct(Construct):
         if obj < 0:
             msg = "Negative numbers not supported"
             raise ValueError(msg)
-        width = math.ceil(math.log(obj + 1, 256))
+        width = max(math.ceil(obj.bit_length() / 8), 1)
         try:
             content = obj.to_bytes(width, "little", signed=False)
             stream.write(struct.pack("<B", width))

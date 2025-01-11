@@ -30,7 +30,7 @@ Int32ul = BytesInteger(4, swapped=True)
 def ppsf_int_encoder(value: int, ctx: Context) -> int:
     low = value & 0x7F
     high = (value >> 7) << 8
-    width = math.floor(math.log(high, 256))
+    width = math.floor(high.bit_length() / 8)
     base = 0x80 << (width * 8)
     high += base
     return high + low
@@ -39,7 +39,7 @@ def ppsf_int_encoder(value: int, ctx: Context) -> int:
 def ppsf_int_decoder(value: int, ctx: Context) -> int:
     high = value >> 8
     low = value & 0xFF
-    width = math.floor(math.log(high, 256))
+    width = math.floor(high.bit_length() / 8)
     base = 0x80 << (width * 8)
     high -= base
     return (high << 7) + low

@@ -11,6 +11,9 @@ from construct import (
     Struct,
     obj_,
 )
+from pydantic import Field
+
+from libresvip.model.base import BaseModel
 
 # Reference: https://github.com/jazz-soft/JZZ/blob/master/javascript/JZZ.js
 BASE_DCTPQ = 0x30
@@ -69,7 +72,12 @@ UmpEndOfClip = Struct(
 UmpTempo = Struct(
     "delta_ticks" / DeltaTicks,
     "magic" / Const(b"\xd0\x10\x00\x00"),
-    "tempo" / Int32ub,
+    "tempo"
+    / ExprAdapter(
+        Int32ub,
+        encoder=lambda obj, context: int(1705032600 * obj),
+        decoder=lambda obj, context: 1705032600 / obj,
+    ),
     "padding" / Const(b"\x00" * 8),
 )
 
@@ -77,9 +85,13 @@ UmpTimeSignature = Struct(
     "delta_ticks" / DeltaTicks,
     "magic" / Const(b"\xd0\x10\x00\x01"),
     "numerator" / Int8ub,
-    "cc" / Int8ub,
-    "dd" / Int8ub,
-    "padding" / Const(b"\x00" * 9),
+    "denominator"
+    / ExprAdapter(
+        Int8ub,
+        encoder=lambda obj, context: obj.bit_length() - 1,
+        decoder=lambda obj, context: 1 << obj,
+    ),
+    "padding" / Const(b"\x08" + b"\x00" * 9),
 )
 
 UmpLyric = Struct(
@@ -96,8 +108,7 @@ UmpMetadata = Struct(
     "header" / Const(b"\xd0"),
     "seq_stat" / Int8ub,
     "magic" / Const(b"\x01\x51"),
-    "seq_num" / Int16ub,
-    "text" / PaddedString(10, "utf-8"),
+    "text" / PaddedString(12, "utf-8"),
 )
 
 UmpNoteOn = Struct(
@@ -129,3 +140,19 @@ VxFile = Struct(
     "ppqn" / PPQN,
     "tracks" / GreedyRange(VxTrack),
 )
+
+
+class VxPitchPoint(BaseModel):
+    pitch: float
+    applicable: bool
+    position: int
+
+
+class VxTimeBasedPitchSequence(BaseModel):
+    time_frame_period_seconds: float = Field(alias="timeFramePeriodSeconds")
+    num_frames_overall_sequence: int = Field(alias="numFramesOverallSequence")
+    pitch_sequence: list[VxPitchPoint] = Field(alias="pitchSequence")
+
+
+class VxPitchData(BaseModel):
+    time_based_pitch_sequence: VxTimeBasedPitchSequence = Field(alias="TimeBasedPitchSequence")
