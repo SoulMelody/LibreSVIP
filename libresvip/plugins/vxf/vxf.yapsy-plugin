@@ -1,0 +1,11 @@
+[Core]
+name = VX-β
+module = vx_beta_converter
+
+[Documentation]
+Author = SoulMelody
+Version = 3.0.2
+Website = https://space.bilibili.com/175862486
+Format = VX-β project file
+Description = Convertion plugin for VX-β project file
+Suffix = vxf

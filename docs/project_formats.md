@@ -25,6 +25,7 @@
 | `ufdata`       | UtaFormatix 3                  | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
 | `ust`          | Ameya UTAU                     | 自定义文本格式  |                                 |                                 | 尚在维护 |
 | `ustx`         | OpenUTAU                       | 标准序列化格式  | 基于yaml                          |                                 | 活跃开发 |
+| `vfp`          | VOX Factory                    | 标准序列化格式  | 基于json，并使用zip压缩                 |                                 | 活跃开发 |
 | `vog`          | Vogen                          | 标准序列化格式  | 基于json，并使用zip压缩                 |                                 | 疑似暂停 |
 | `vpr`          | Vocaloid 5+                    | 标准序列化格式  | 基于json，并使用zip压缩                 |                                 | 活跃开发 |
 | `vsp`          | Vocalina Studio                | 自定义二进制格式 |                                 |                                 | 停止开发 |
@@ -32,4 +33,5 @@
 | `vsq`          | Vocaloid 2                     | 自定义二进制格式 | 基于MIDI和INI                      |                                 | 停止开发 |
 | `vsqx`         | Vocaloid 3/4                   | 标准序列化格式  | 基于xml                           |                                 | 尚在维护 |
 | `vvproj`       | VOICEVOX                       | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
+| `vxf`     | VOCALOID β-STUDIO                   | 自定义二进制格式 | 基于MIDI2.0切片(SMF2CLIP)格式                   |                                 | 活跃开发 |
 | `y77`          | 元七七编辑器                       | 标准序列化格式  | 基于json                          |                                 | 停止开发 |

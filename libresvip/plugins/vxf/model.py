@@ -4,6 +4,8 @@ from construct import (
     Const,
     ExprAdapter,
     GreedyRange,
+    If,
+    IfThenElse,
     Int8ub,
     Int16ub,
     Int32ub,
@@ -57,7 +59,7 @@ UmpClipName = Struct(
     "header" / Const(b"\xd0"),
     "seq_stat" / Int8ub,
     "magic" / Const(b"\x01\x03"),
-    "data" / PaddedString(12, "utf-8"),
+    "name" / PaddedString(12, "utf-8"),
     "type" / Computed("track_name"),
 )
 
@@ -103,8 +105,13 @@ UmpLyric = Struct(
     "header" / Const(b"\xd0"),
     "seq_stat" / Int8ub,
     "magic" / Const(b"\x01\x50"),
-    "seq_num" / Int16ub,
-    "lyric" / PaddedString(10, "utf-8"),
+    "seq_num" / If(lambda this: (this.seq_stat - 16) // 64 <= 1, Int16ub),
+    "text"
+    / IfThenElse(
+        lambda this: (this.seq_stat - 16) // 64 <= 1,
+        PaddedString(10, "ascii"),
+        PaddedString(12, "ascii"),
+    ),
     "type" / Computed("lyrics"),
 )
 
