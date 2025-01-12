@@ -159,14 +159,14 @@ VxFile = Struct(
 
 class VxPitchPoint(BaseModel):
     pitch: float
-    applicable: bool
     position: int
+    applicable: bool = True
 
 
 class VxTimeBasedPitchSequence(BaseModel):
     time_frame_period_seconds: float = Field(alias="timeFramePeriodSeconds")
-    num_frames_overall_sequence: int = Field(alias="numFramesOverallSequence")
-    pitch_sequence: list[VxPitchPoint] = Field(alias="pitchSequence")
+    num_frames_overall_sequence: int = Field(0, alias="numFramesOverallSequence")
+    pitch_sequence: list[VxPitchPoint] = Field(default_factory=list, alias="pitchSequence")
 
 
 class VxPitchData(BaseModel):

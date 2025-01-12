@@ -8,6 +8,7 @@ from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack, SongTempo, TimeSignature, Track
 
+from .model import VxPitchData, VxPitchPoint, VxTimeBasedPitchSequence
 from .options import OutputOptions
 
 Container = dict[str, Any]
@@ -178,5 +179,89 @@ class VxBetaGenerator:
                     },
                 ]
             )
+        prev_point = None
+        secs_step = 1 / 200
+        pitch_data = VxPitchData(
+            time_based_pitch_sequence=VxTimeBasedPitchSequence(
+                time_frame_period_seconds=secs_step,
+            )
+        )
+        for pitch_point in track.edited_params.pitch.points.root:
+            if pitch_point.y != -100:
+                pos = int(
+                    self.synchronizer.get_actual_secs_from_ticks(
+                        pitch_point.x - self.first_bar_length
+                    )
+                    / secs_step
+                )
+                if prev_point is not None:
+                    pitch_data.time_based_pitch_sequence.pitch_sequence.extend(
+                        [
+                            VxPitchPoint(
+                                position=interp_pos,
+                                pitch=(
+                                    prev_point.pitch
+                                    + (pitch_point.y - 6900 - prev_point.pitch)
+                                    * (
+                                        (interp_pos - prev_point.position)
+                                        / (pos - prev_point.position)
+                                    )
+                                )
+                                if interp_pos != pos
+                                else pitch_point.y - 6900,
+                            )
+                            for interp_pos in range(prev_point.position + 1, pos + 1)
+                        ]
+                    )
+                else:
+                    pitch_data.time_based_pitch_sequence.pitch_sequence.append(
+                        VxPitchPoint(position=pos, pitch=pitch_point.y - 6900)
+                    )
+                prev_point = pitch_data.time_based_pitch_sequence.pitch_sequence[-1]
+            else:
+                prev_point = None
+            if pitch_data.time_based_pitch_sequence.pitch_sequence:
+                pitch_data.time_based_pitch_sequence.num_frames_overall_sequence = (
+                    pitch_data.time_based_pitch_sequence.pitch_sequence[-1].position
+                )
+        pitch_data_json = pitch_data.model_dump_json(by_alias=True)
+        for is_first, is_last, offset in more_itertools.mark_ends(
+            range(0, len(pitch_data_json), 12)
+        ):
+            if len(pitch_data_json) <= 12:
+                events.append(
+                    {
+                        "type": "metadata",
+                        "text": pitch_data_json[:12],
+                        "time": 0,
+                    }
+                )
+            elif is_first:
+                events.append(
+                    {
+                        "type": "metadata",
+                        "seq_stat": 0x50,
+                        "text": pitch_data_json[:12],
+                        "time": 0,
+                    }
+                )
+            elif is_last:
+                events.append(
+                    {
+                        "type": "metadata",
+                        "seq_stat": 0xD0,
+                        "text": pitch_data_json[offset:],
+                        "time": 0,
+                    }
+                )
+            else:
+                events.append(
+                    {
+                        "type": "metadata",
+                        "seq_stat": 0x90,
+                        "text": pitch_data_json[offset : offset + 12],
+                        "time": 0,
+                    }
+                )
         if events:
             return {"title_parts": title_parts, "events": events}
