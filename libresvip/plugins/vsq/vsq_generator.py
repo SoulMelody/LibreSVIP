@@ -35,9 +35,7 @@ class VsqGenerator:
 
     @property
     def tick_rate(self) -> float:
-        if self.options is not None:
-            return TICKS_IN_BEAT / self.options.ticks_per_beat
-        return 1
+        return TICKS_IN_BEAT / self.options.ticks_per_beat
 
     def generate_project(self, project: Project) -> mido.MidiFile:
         project = limit_bars(project, 4096)

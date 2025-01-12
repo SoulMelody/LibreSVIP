@@ -36,9 +36,7 @@ class VsqParser:
 
     @property
     def tick_rate(self) -> float:
-        if self.ticks_per_beat is not None:
-            return TICKS_IN_BEAT / self.ticks_per_beat
-        return 1
+        return TICKS_IN_BEAT / self.ticks_per_beat
 
     def parse_project(self, vsq_project: mido.MidiFile) -> Project:
         self.ticks_per_beat = vsq_project.ticks_per_beat

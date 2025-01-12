@@ -79,7 +79,7 @@ UmpTempo = Struct(
     "tempo"
     / ExprAdapter(
         Int32ub,
-        encoder=lambda obj, context: int(1705032600 * obj),
+        encoder=lambda obj, context: int(1705032600 / obj),
         decoder=lambda obj, context: 1705032600 / obj,
     ),
     "padding" / Const(b"\x00" * 8),
@@ -129,7 +129,7 @@ UmpNoteOn = Struct(
     "note" / StartPitch,
     Check(lambda ctx: 0 <= ctx.note <= 127),
     "velocity" / Int16ub,
-    "data" / Int16ub,
+    "on_data" / Int16ub,
     "type" / Computed("note_on"),
 )
 
@@ -138,7 +138,7 @@ UmpNoteOff = Struct(
     "note" / EndPitch,
     Check(lambda ctx: 0 <= ctx.note <= 127),
     "velocity" / Int16ub,
-    "data" / Int16ub,
+    "off_data" / Int16ub,
     "type" / Computed("note_off"),
 )
 

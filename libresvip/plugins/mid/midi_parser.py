@@ -72,9 +72,7 @@ class MidiParser:
 
     @property
     def tick_rate(self) -> float:
-        if self.ticks_per_beat is not None:
-            return TICKS_IN_BEAT / self.ticks_per_beat
-        return 1
+        return TICKS_IN_BEAT / self.ticks_per_beat
 
     def parse_project(self, mido_obj: mido.MidiFile) -> Project:
         self.ticks_per_beat = mido_obj.ticks_per_beat

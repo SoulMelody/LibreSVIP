@@ -7,10 +7,7 @@ from libresvip.core.constants import TICKS_IN_BEAT
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.core.warning_types import show_warning
 from libresvip.model.base import Note, Project, SingingTrack, SongTempo, TimeSignature
-from libresvip.model.pitch_simulator import PitchSimulator
 from libresvip.model.point import Point
-from libresvip.model.portamento import PortamentoPitch
-from libresvip.model.relative_pitch_curve import RelativePitchCurve
 from libresvip.utils.translation import gettext_lazy as _
 
 from .model import VxFile, VxPitchData, VxTrack
@@ -142,36 +139,51 @@ class VxBetaParser:
             buffer := "".join(event.text for event in track.events if event.type == "metadata")
         ):
             pitch_data = VxPitchData.model_validate_json(buffer)
-            rel_pitch_points = []
+            pitch_points = [Point.start_point()]
             prev_pos = None
             for point in pitch_data.time_based_pitch_sequence.pitch_sequence:
-                if prev_pos and point.position - prev_pos > 1 and len(rel_pitch_points):
-                    rel_pitch_points.append(
+                if prev_pos and point.position - prev_pos > 1 and len(pitch_points):
+                    pitch_points.append(
                         Point(
-                            x=rel_pitch_points[-1].x,
-                            y=0,
+                            x=pitch_points[-1].x,
+                            y=-100,
                         )
                     )
-                rel_pitch_points.append(
+                if pitch_points[-1].y == -100:
+                    pitch_points.append(
+                        Point(
+                            x=int(
+                                self.synchronizer.get_actual_ticks_from_secs(
+                                    point.position
+                                    * pitch_data.time_based_pitch_sequence.time_frame_period_seconds
+                                )
+                            )
+                            + self.first_bar_length,
+                            y=-100,
+                        )
+                    )
+                pitch_points.append(
                     Point(
                         x=int(
                             self.synchronizer.get_actual_ticks_from_secs(
                                 point.position
                                 * pitch_data.time_based_pitch_sequence.time_frame_period_seconds
                             )
-                        ),
-                        y=int(point.pitch),
+                        )
+                        + self.first_bar_length,
+                        y=int(point.pitch) + 6900,
                     )
                 )
                 prev_pos = point.position
-            pitch_simulator = PitchSimulator(
-                synchronizer=self.synchronizer,
-                portamento=PortamentoPitch.no_portamento(),
-                note_list=[note.model_copy(update={"key_number": 69}) for note in notes],
-            )
-            singing_track.edited_params.pitch = RelativePitchCurve(
-                self.first_bar_length
-            ).to_absolute(rel_pitch_points, pitch_simulator)
+            if len(pitch_points) > 1:
+                pitch_points.append(
+                    Point(
+                        x=pitch_points[-1].x,
+                        y=-100,
+                    )
+                )
+            pitch_points.append(Point.end_point())
+            singing_track.edited_params.pitch.points.root = pitch_points
         return singing_track
 
     def parse_tracks(self, vx_tracks: list[VxTrack]) -> list[SingingTrack]:
