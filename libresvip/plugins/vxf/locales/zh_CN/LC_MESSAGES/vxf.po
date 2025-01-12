@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: zh-CN\n"
+"X-Crowdin-File: /main/libresvip/plugins/vxf/vxf.po\n"
+"X-Crowdin-File-ID: 194\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Chinese Simplified\n"
+"Language: zh_CN\n"
+"PO-Revision-Date: 2025-01-12 03:00\n"
+
+msgid "Default BPM"
+msgstr "默认BPM"
+
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr "当MIDI文件中不存在BPM信息时，使用此值。"
+
+msgid "Ticks per beat"
+msgstr "每拍ticks数"
+
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr "即 parts per quarter, 又名 ticks per quarter note，每四分音符的脉冲数。除非你知道这是什么，否则不应更改此设置。"
+
+msgid "No tempo labels found in the imported project."
+msgstr "在导入的工程中未找到速度记号。"
+
+msgid "VX-β"
+msgstr ""
+
+msgid "VX-β project file"
+msgstr "VX-β 工程文件"
+
+msgid "Convertion plugin for VX-β project file"
+msgstr "VX-β 工程格式转换插件"
+
+msgid "SoulMelody"
+msgstr "岁月静好_初心不忘"
+

@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/vfp/vfp.po\n"
+"X-Crowdin-File-ID: 192\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2025-01-12 02:57\n"
+
+msgid "VOX Factory"
+msgstr ""
+
+msgid "VOX Factory Project File"
+msgstr ""
+
+msgid "Conversion plugin for VOX Factory Project File"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
