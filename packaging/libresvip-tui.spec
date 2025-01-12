@@ -40,6 +40,7 @@ a = Analysis(
         "proto",
         "pypinyin",
         "pysubs2",
+        "pyzipper",
         "fsspec.implementations.memory",
         "upath.implementations.memory",
         "wanakana",

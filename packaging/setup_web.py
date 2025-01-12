@@ -122,6 +122,7 @@ build_exe_options = {
         "proto",
         "pymediainfo",
         "pysubs2",
+        "pyzipper",
         "webview",
         "xsdata_pydantic",
         "email._header_value_parser",

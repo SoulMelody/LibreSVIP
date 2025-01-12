@@ -19,6 +19,7 @@
       - .parsimonious
       - .proto
       - .pysubs2
+      - .pyzipper
       - .xsdata_pydantic
 
 - module-name: xsdata
