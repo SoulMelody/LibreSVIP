@@ -1,0 +1,41 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/vxf/vxf.po\n"
+"X-Crowdin-File-ID: 194\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2025-01-12 02:57\n"
+
+msgid "Default BPM"
+msgstr "Standard-BPM"
+
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr "Wird verwendet, wenn keine BPM-Informationen in der MIDI-Datei gefunden werden."
+
+msgid "Ticks per beat"
+msgstr "Ticks pro Schlag"
+
+msgid "Also known as parts per quarter, ticks per quarter note, the number of pulses per quarter note. This setting should not be changed unless you know what it is."
+msgstr "Auch bekannt als ticks per quarter, Ticks pro Viertelnote, die Anzahl der Impulse pro Viertelnote. Diese Einstellung sollte nur geändert werden, wenn du weißt, was sie bewirkt."
+
+msgid "No tempo labels found in the imported project."
+msgstr "Keine Tempobezeichnungen im importierten Projekt gefunden."
+
+msgid "VX-β"
+msgstr ""
+
+msgid "VX-β project file"
+msgstr ""
+
+msgid "Convertion plugin for VX-β project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
