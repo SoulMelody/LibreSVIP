@@ -10,16 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-01-12 02:57\n"
+"PO-Revision-Date: 2025-01-12 03:00\n"
 
 msgid "VOX Factory"
 msgstr ""
 
 msgid "VOX Factory Project File"
-msgstr ""
+msgstr "VOX Factory 工程文件"
 
 msgid "Conversion plugin for VOX Factory Project File"
-msgstr ""
+msgstr "VOX Factory 工程格式转换插件"
 
 msgid "SoulMelody"
 msgstr "岁月静好_初心不忘"
