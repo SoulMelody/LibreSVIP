@@ -1,0 +1,12 @@
+msgid "VOX Factory"
+msgstr ""
+
+msgid "VOX Factory Project File"
+msgstr ""
+
+msgid "Conversion plugin for VOX Factory Project File"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+

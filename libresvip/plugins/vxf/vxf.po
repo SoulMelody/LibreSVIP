@@ -1,0 +1,30 @@
+msgid "Default BPM"
+msgstr ""
+
+msgid "Used when no BPM information is found in the MIDI file."
+msgstr ""
+
+msgid "Ticks per beat"
+msgstr ""
+
+msgid ""
+"Also known as parts per quarter, ticks per quarter note, the number of "
+"pulses per quarter note. This setting should not be changed unless you "
+"know what it is."
+msgstr ""
+
+msgid "No tempo labels found in the imported project."
+msgstr ""
+
+msgid "VX-β"
+msgstr ""
+
+msgid "VX-β project file"
+msgstr ""
+
+msgid "Convertion plugin for VX-β project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
