@@ -5,6 +5,7 @@ import zipfile
 from libresvip.core.compat import json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
+from libresvip.model.reset_time_axis import reset_time_axis
 
 from .model import VOXFactoryProject
 from .options import InputOptions, OutputOptions
@@ -26,6 +27,8 @@ class VOXFactoryConverter(plugin_base.SVSConverterBase):
             return VOXFactoryParser(options, path).parse_project(proj)
 
     def dump(self, path: pathlib.Path, project: Project, options: OutputOptions) -> None:
+        if len(project.song_tempo_list) != 1:
+            project = reset_time_axis(project, options.tempo)
         buffer = io.BytesIO()
         generator = VOXFactoryGenerator(options)
         vox_factory_project = generator.generate_project(project)
