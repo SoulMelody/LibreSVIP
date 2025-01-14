@@ -3,7 +3,6 @@ import io
 import pathlib
 import platform
 import traceback
-import zipfile
 from collections.abc import Coroutine
 from dataclasses import dataclass
 from typing import Any, Optional, Union, cast, get_args, get_type_hints
@@ -56,6 +55,7 @@ from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
+from libresvip.core.compat import ZipFile
 from libresvip.core.config import DarkMode, Language, save_settings, settings
 from libresvip.core.warning_types import CatchWarnings
 from libresvip.extension.manager import get_translation, middleware_manager, plugin_manager
@@ -701,7 +701,7 @@ class TUIApp(App[None]):
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                with zipfile.ZipFile(buffer, "w") as zip_file:
+                with ZipFile(buffer, "w") as zip_file:
                     for child_file in output_path.iterdir():
                         if not child_file.is_file():
                             continue

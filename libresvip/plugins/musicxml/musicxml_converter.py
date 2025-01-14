@@ -1,11 +1,11 @@
 import io
 import pathlib
-import zipfile
 
 from xsdata.formats.dataclass.parsers.config import ParserConfig
 from xsdata.formats.dataclass.serializers.config import SerializerConfig
 from xsdata_pydantic.bindings import XmlParser, XmlSerializer
 
+from libresvip.core.compat import ZipFile
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.utils.xmlutils import DefaultXmlWriter
@@ -31,7 +31,7 @@ class MusicXMLConverter(plugin_base.SVSConverterBase):
         content = path.read_bytes()
         xml_parser = XmlParser(config=ParserConfig(fail_on_unknown_properties=False))
         if content[:2] == b"PK":  # TODO: support mxl file extension
-            with zipfile.ZipFile(io.BytesIO(content), "r") as zf:
+            with ZipFile(io.BytesIO(content), "r") as zf:
                 container_content = zf.read("META-INF/container.xml")
                 container = xml_parser.from_bytes(container_content, Container)
                 first_file = zf.read(container.rootfiles.rootfile[0].full_path)

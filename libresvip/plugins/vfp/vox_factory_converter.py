@@ -1,8 +1,7 @@
 import io
 import pathlib
-import zipfile
 
-from libresvip.core.compat import json
+from libresvip.core.compat import ZipFile, json
 from libresvip.extension import base as plugin_base
 from libresvip.model.base import Project
 from libresvip.model.reset_time_axis import reset_time_axis
@@ -15,7 +14,7 @@ from .vox_factory_parser import VOXFactoryParser
 
 class VOXFactoryConverter(plugin_base.SVSConverterBase):
     def load(self, path: pathlib.Path, options: InputOptions) -> Project:
-        with zipfile.ZipFile(io.BytesIO(path.read_bytes()), "r") as archive_file:
+        with ZipFile(io.BytesIO(path.read_bytes()), "r") as archive_file:
             proj = VOXFactoryProject.model_validate_json(
                 archive_file.read("project.json"),
                 context={
@@ -32,7 +31,7 @@ class VOXFactoryConverter(plugin_base.SVSConverterBase):
         buffer = io.BytesIO()
         generator = VOXFactoryGenerator(options)
         vox_factory_project = generator.generate_project(project)
-        with zipfile.ZipFile(buffer, "w") as archive_file:
+        with ZipFile(buffer, "w") as archive_file:
             archive_file.writestr(
                 "project.json",
                 json.dumps(

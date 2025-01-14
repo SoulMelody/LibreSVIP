@@ -13,7 +13,6 @@ import shutil
 import textwrap
 import traceback
 import webbrowser
-import zipfile
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from operator import not_
@@ -52,7 +51,7 @@ from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import as_file
+from libresvip.core.compat import ZipFile, as_file
 from libresvip.core.config import (
     ConversionMode,
     DarkMode,
@@ -948,7 +947,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 return None
             if self._conversion_mode == ConversionMode.SPLIT:
                 buffer = io.BytesIO()
-                with zipfile.ZipFile(buffer, "w") as zip_file:
+                with ZipFile(buffer, "w") as zip_file:
                     for child_file in task.output_path.iterdir():
                         if not child_file.is_file():
                             continue
@@ -979,7 +978,7 @@ def page_layout(lang: Optional[str] = None) -> None:
                 filename = next(iter(self.files_to_convert))
                 return self._export_one(filename)
             buffer = io.BytesIO()
-            with zipfile.ZipFile(buffer, "w") as zip_file:
+            with ZipFile(buffer, "w") as zip_file:
                 for task in self.files_to_convert.values():
                     if task.success:
                         if task.output_path.is_dir():

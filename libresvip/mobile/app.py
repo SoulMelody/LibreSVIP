@@ -2,7 +2,6 @@ import enum
 import io
 import pathlib
 import traceback
-import zipfile
 from typing import Optional, get_args, get_type_hints
 
 import flet as ft
@@ -13,7 +12,7 @@ from pydantic_extra_types.color import Color
 from upath import UPath
 
 import libresvip
-from libresvip.core.compat import as_file
+from libresvip.core.compat import ZipFile, as_file
 from libresvip.core.config import settings
 from libresvip.core.constants import res_dir
 from libresvip.core.warning_types import CatchWarnings
@@ -606,7 +605,7 @@ def main(page: ft.Page) -> None:
             if output_path.is_file():
                 buffer.write(output_path.read_bytes())
             else:
-                with zipfile.ZipFile(buffer, "w") as zip_file:
+                with ZipFile(buffer, "w") as zip_file:
                     for child_file in output_path.iterdir():
                         if not child_file.is_file():
                             continue

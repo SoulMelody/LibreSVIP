@@ -48,6 +48,7 @@ dependencies = [
   "pypinyin<1.0.0,>=0.53.0",
   "pysubs2<2.0.0,>=1.8.0",
   "pyzstd<1.0.0,>=0.16.2; platform_python_implementation == \"PyPy\"",
+  "repro-zipfile<1.0.0,>=0.3.1; python_version < \"3.11\"",
   "retrie<1.0.0,>=0.3.1",
   "rich<14.0.0,>=13.9.4",
   "typer-slim<1.0.0,>=0.15.1",
