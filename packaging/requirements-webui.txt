@@ -85,6 +85,7 @@ pyzipper==0.3.6
 pyzstd==0.16.2 ; platform_python_implementation == 'PyPy'
 qtpy==2.4.2 ; sys_platform == 'openbsd6'
 regex==2024.11.6
+repro-zipfile==0.3.1 ; python_full_version < '3.11'
 requests==2.32.3
 retrie==0.3.1
 rich==13.9.4
