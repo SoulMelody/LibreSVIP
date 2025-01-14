@@ -45,11 +45,9 @@ class PocketSingerGenerator:
             )
         ) and (bgm_info := self.generate_bgm_info(first_instrumental_track)):
             ps_project.bgm_info = bgm_info
-        ps_project.tracks.extend(
-            self.generate_track(track)
-            for track in project.track_list
-            if isinstance(track, SingingTrack)
-        )
+        for track in project.track_list:
+            if isinstance(track, SingingTrack) and (ps_track := self.generate_track(track)):
+                ps_project.tracks.append(ps_track)
         self.buffer.write(
             ps_project.model_dump_json(by_alias=True, exclude_none=True).encode("utf-8")
         )
@@ -130,7 +128,7 @@ class PocketSingerGenerator:
             ],
         )
 
-    def generate_track(self, track: SingingTrack) -> PocketSingerTrack:
+    def generate_track(self, track: SingingTrack) -> Optional[PocketSingerTrack]:
         ps_track = PocketSingerTrack(
             language=self.options.lyric_language,
             mute=track.mute,
@@ -139,10 +137,10 @@ class PocketSingerGenerator:
             sound_effect=0,
             singer_volume=1,
         )
-        patched_notes = self.patch_notes(track.note_list)
-        ps_notes, ps_track.lyric = self.generate_notes(patched_notes, track.edited_params)
-        ps_track.notes.extend(ps_notes)
-        return ps_track
+        if patched_notes := self.patch_notes(track.note_list):
+            ps_notes, ps_track.lyric = self.generate_notes(patched_notes, track.edited_params)
+            ps_track.notes.extend(ps_notes)
+            return ps_track
 
     def patch_notes(self, notes: list[Note]) -> list[Note]:
         prev_note = None
