@@ -1,11 +1,11 @@
 # mypy: disable-error-code="misc"
 import enum
-import uuid
 from typing import Annotated, Any, Optional
 
-from pydantic import UUID4, Field
+from pydantic import Field
 
 from libresvip.model.base import BaseModel
+from libresvip.utils.text import uuid_str
 
 
 class PpsfLanguage(enum.IntEnum):
@@ -23,6 +23,9 @@ class PpsfCurvePointSeq(BaseModel):
     border_type: Optional[int] = Field(None, alias="border-type")
     note_index: Optional[int] = Field(None, alias="note-index")
     region_index: int = Field(alias="region-index")
+    edited_by_user: Optional[bool] = Field(False, alias="edited-by-user")
+    seg_array_id: Optional[int] = Field(None, alias="seg-array-id")
+    abs_value: Optional[int] = Field(None, alias="abs-value")
 
 
 class PpsfCurvePoint(BaseModel):
@@ -60,6 +63,15 @@ class PpsfNote(BaseModel):
     portamento_offset: Optional[int] = -120
     vibrato_depth: Optional[int] = 0
     vibrato_rate: Optional[int] = 0
+    auto_ai_consonant_length_enabled: Optional[bool] = False
+    auto_ai_f0_enabled: Optional[bool] = True
+    auto_ai_vibrato_blend_amount: Optional[int] = None
+    auto_ai_vibrato_blend_type: Optional[int] = None
+    auto_ai_vibrato_default_type: Optional[int] = None
+    auto_ai_vibrato_depth: Optional[int] = 0
+    auto_ai_vibrato_enabled: Optional[bool] = False
+    auto_ai_vibrato_offset: Optional[float] = None
+    auto_ai_vibrato_offset_by_user: Optional[bool] = False
 
 
 class PpsfRegion(BaseModel):
@@ -85,6 +97,10 @@ class PpsfParamPoint(BaseModel):
     pos: int
     value: int
     region_index: Optional[int] = Field(None, alias="region-index")
+    border_type: Optional[int] = Field(None, alias="border-type")
+    note_index: Optional[int] = Field(None, alias="note-index")
+    edited_by_user: Optional[bool] = Field(False, alias="edited-by-user")
+    seg_array_id: Optional[int] = Field(None, alias="seg-array-id")
 
 
 class PpsfBaseSequence(BaseModel):
@@ -169,6 +185,8 @@ class PpsfGuiSettings(BaseModel):
     playback_position: int = Field(0, alias="playback-position")
     project_length: int = Field(0, alias="project-length")
     track_editor: PpsfTrackEditor = Field(default_factory=PpsfTrackEditor, alias="track-editor")
+    auto_connect_interval_msec: Optional[int] = Field(None, alias="auto-connect-interval-msec")
+    is_saved_by_nt2: Optional[bool] = Field(None, alias="is-saved-by-nt2")
 
 
 class PpsfFileAudioData(BaseModel):
@@ -283,7 +301,7 @@ class PpsfSinger(BaseModel):
     frame_shift: float = 0.001
     gender: int = 0
     language_id: PpsfLanguage = PpsfLanguage.JAPANESE
-    library_id: UUID4 = Field(default_factory=uuid.uuid4)
+    library_id: str = Field(default_factory=uuid_str)
     name: str = ""
     singer_name: str = "HATSUNE MIKU NT Original"
     stationaly_type: str = "ParamedNDR"
@@ -324,6 +342,7 @@ class PpsfDvlTrackEvent(BaseModel):
     release_speed_rate: int = 1400000
     symbols: str = ""
     vcl_like_note_off: Optional[bool] = False
+    is_consonant_length_by_user: Optional[bool] = False
 
     @property
     def end_pos(self) -> int:
