@@ -126,6 +126,6 @@ class BasePitchCurve:
             clipped_left_index
         ] + lambda_ * self.values_in_semitone[clipped_right_index]
         if (vibrato_value := self.vibrato_value_interval_dict.get(seconds)) is not None:
-            vibrato_value *= self.vibrato_coef_interval_dict[seconds]
+            vibrato_value *= self.vibrato_coef_interval_dict.get(seconds, 0)
             pitch_value += vibrato_value
         return pitch_value
