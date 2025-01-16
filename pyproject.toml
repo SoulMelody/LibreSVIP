@@ -42,7 +42,7 @@ dependencies = [
   "portion<3.0.0,>=2.6.0",
   "proto-plus<2.0.0,>=1.25.0",
   "pydantic<3.0.0,>=2.10.5",
-  "pydantic-extra-types<3.0.0,>=2.10.1",
+  "pydantic-extra-types<3.0.0,>=2.10.2",
   "pydantic-settings[yaml]<3.0.0,>=2.7.1",
   "pymediainfo<7.0.0,>=6.1.0; sys_platform != \"emscripten\"",
   "pypinyin<1.0.0,>=0.53.0",
@@ -80,7 +80,7 @@ ruamel_yaml = [
 ]
 lxml = ["lxml>=5.3.0"]
 tui = [
-  "textual-fspicker>=0.1.0",
+  "textual-fspicker>=0.1.1",
   "libresvip[upath]",
 ]
 webui = [
