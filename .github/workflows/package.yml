@@ -201,39 +201,34 @@ jobs:
             ./packaging/dist/LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-x86_64.tar.gz
 
   release_linux_aarch64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     needs: [make-outputs]
     steps:
       - uses: actions/checkout@v4
-      - uses: uraimo/run-on-arch-action@v2
-        name: Build artifact
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
         with:
-          arch: none
-          distro: none
-          base_image: "--platform=linux/arm64 arm64v8/ubuntu:24.04"
-          dockerRunArgs: --volume "${PWD}:/libresvip"
-          install: |
-            apt-get update
-            apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libmediainfo-dev libtiff6 libwayland-dev libwebp7 libwebpdemux2 libwebpmux3 libxt6
-          run: |
-            cd /libresvip
-            curl -LsSf https://astral.sh/uv/install.sh | sh
-            source $HOME/.local/bin/env
-            uv venv --python 3.13
-            uv build --wheel
-            cd packaging
-            uv pip install -r requirements-desktop.txt
-            uv pip install ../dist/*.whl --no-deps
-            uv run pyinstaller libresvip.spec
-            cd dist
-            tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
-            rm -rf libresvip
-            cd ../..
+          version: "latest"
+      - name: Install OS dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libmediainfo-dev libtiff6 libwayland-dev libwebp7 libwebpdemux2 libwebpmux3 libxt6
+      - name: Build with pyinstaller
+        run: |
+          uv build --wheel
+          uv venv --python 3.13
+          cd packaging
+          uv pip install -r requirements-desktop.txt
+          uv pip install ../dist/*.whl --no-deps
+          uv run pyinstaller libresvip.spec
+          cd dist
+          tar -czvf LibreSVIP-${{ needs.make-outputs.outputs.VERSION }}.linux-aarch64.tar.gz libresvip
+          rm -rf libresvip
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: libresvip-linux-aarch64.zip
-          path: ./packaging/dist
+          path: ./packaging/dist/
       - name: Create Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
