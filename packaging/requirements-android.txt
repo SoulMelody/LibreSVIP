@@ -34,7 +34,7 @@ pycparser==2.22 ; sys_platform != 'win32'
 pycryptodomex==3.21.0
 pydantic==2.9.1
 pydantic-core==2.23.3
-pydantic-extra-types==2.10.1
+pydantic-extra-types==2.10.2
 pydantic-settings==2.7.1
 pygments==2.19.1
 pymediainfo==6.1.0 ; sys_platform != 'emscripten'
