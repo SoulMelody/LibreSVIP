@@ -1,7 +1,6 @@
 import enum
 import io
 import pathlib
-import platform
 import traceback
 from collections.abc import Coroutine
 from dataclasses import dataclass
@@ -28,7 +27,6 @@ from textual.widgets import (
     Button,
     Collapsible,
     ContentSwitcher,
-    DirectoryTree,
     Footer,
     Header,
     Input,
@@ -49,8 +47,8 @@ from textual.widgets import (
     Tabs,
 )
 from textual.widgets._list_item import ListItem
-from textual.widgets.directory_tree import DirEntry
 from textual.widgets.selection_list import Selection
+from textual_fspicker import FileOpen, SelectDirectory
 from typing_extensions import ParamSpec
 from upath import UPath
 
@@ -80,55 +78,6 @@ class LibreSVIPCommandProvider(Provider):
                     callback,
                     help=help_text,
                 )
-
-
-class RootDirectoryTree(Vertical):
-    def __init__(self, root: Union[str, pathlib.Path], *args: P.args, **kwargs: P.kwargs) -> None:
-        self.root = root
-        self.tree_id = kwargs.pop("id", None)
-        super().__init__(*args, **kwargs)
-
-    def get_logical_drive_strings(self) -> list[str]:
-        import ctypes.wintypes
-
-        # adapted from winappdbg
-        _get_logical_drive_strings_w = ctypes.windll.kernel32.GetLogicalDriveStringsW  # type: ignore[attr-defined]
-        _get_logical_drive_strings_w.argtypes = [ctypes.wintypes.DWORD, ctypes.wintypes.LPWSTR]
-        _get_logical_drive_strings_w.restype = ctypes.wintypes.DWORD
-
-        buffer_len = (4 * 26) + 1  # "X:\\\0" from A to Z plus empty string
-        buffer = ctypes.create_unicode_buffer("", buffer_len)
-        _get_logical_drive_strings_w(buffer_len, buffer)
-        drive_strings = []
-        string_p = ctypes.addressof(buffer)
-        sizeof_wchar = ctypes.sizeof(ctypes.c_wchar)
-        while True:
-            string_v = ctypes.wstring_at(string_p)
-            if string_v == "":
-                break
-            drive_strings.append(string_v)
-            string_p += (len(string_v) * sizeof_wchar) + sizeof_wchar
-        return drive_strings
-
-    def compose(self) -> ComposeResult:
-        if platform.system() == "Windows":
-            with Horizontal(classes="top-pane row"):
-                yield Label(_("Select a drive"), classes="text-middle")
-                yield Select(
-                    [(drive, drive) for drive in self.get_logical_drive_strings()],
-                    prompt="",
-                    id="drive-select",
-                )
-        yield DirectoryTree(self.root, id=self.tree_id)
-
-    @on(Select.Changed, "#drive-select")
-    def on_drive_select(self, event: Select.Changed) -> None:
-        if event.value != Select.BLANK:
-            self.root = pathlib.Path(event.value)
-            directory_tree = self.query_one(DirectoryTree)
-            directory_tree.reset_node(
-                directory_tree.root, event.value, DirEntry(directory_tree.PATH(self.root))
-            )
 
 
 class PluginInfoScreen(Screen[None]):
@@ -183,28 +132,6 @@ class TaskLogScreen(Screen[None]):
                 yield Label("", classes="fill-width")
                 yield Button(_("Copy to clipboard"), id="copy", variant="primary")
                 yield Button(_("Close"), id="close", variant="success")
-
-
-class SelectImportProjectScreen(Screen[pathlib.Path]):
-    def compose(self) -> ComposeResult:
-        yield Header(icon="☰")
-        yield Footer()
-        yield RootDirectoryTree("/", id="file_selector")
-
-    @on(DirectoryTree.FileSelected, "#file_selector")
-    def on_directory_selected(self, event: DirectoryTree.FileSelected) -> None:
-        self.dismiss(event.path)
-
-
-class SelectOutputDirectoryScreen(Screen[pathlib.Path]):
-    def compose(self) -> ComposeResult:
-        yield Header(icon="☰")
-        yield Footer()
-        yield RootDirectoryTree("/", id="directory_selector")
-
-    @on(DirectoryTree.DirectorySelected, "#directory_selector")
-    def on_directory_selected(self, event: DirectoryTree.DirectorySelected) -> None:
-        self.dismiss(event.path)
 
 
 class SelectFormats(Vertical):
@@ -559,7 +486,7 @@ class TUIApp(App[None]):
     @work
     async def handle_add_task(self, event: Button.Pressed) -> None:
         selected_path = await self.push_screen_wait(
-            SelectImportProjectScreen(),
+            FileOpen(),
         )
         ext = selected_path.suffix.removeprefix(".").lower()
         if ext in plugin_manager.plugin_registry and settings.auto_detect_input_format:
@@ -768,7 +695,7 @@ class TUIApp(App[None]):
     @work
     async def handle_change_output_directory(self, event: Button.Pressed) -> None:
         settings.save_folder = await self.push_screen_wait(
-            SelectOutputDirectoryScreen(),
+            SelectDirectory(),
         )
         self.query_one("#output_directory").update(str(settings.save_folder))
 
