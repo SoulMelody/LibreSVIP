@@ -485,9 +485,12 @@ class TUIApp(App[None]):
     @on(Button.Pressed, "#add_task")
     @work
     async def handle_add_task(self, event: Button.Pressed) -> None:
-        selected_path = await self.push_screen_wait(
-            FileOpen(),
-        )
+        if path_str := await self.push_screen_wait(
+            FileOpen("/", title=_("Open")),
+        ):
+            selected_path = pathlib.Path(path_str)
+        else:
+            return
         ext = selected_path.suffix.removeprefix(".").lower()
         if ext in plugin_manager.plugin_registry and settings.auto_detect_input_format:
             settings.last_input_format = ext
@@ -694,10 +697,11 @@ class TUIApp(App[None]):
     @on(Button.Pressed, "#change_output_directory")
     @work
     async def handle_change_output_directory(self, event: Button.Pressed) -> None:
-        settings.save_folder = await self.push_screen_wait(
-            SelectDirectory(),
-        )
-        self.query_one("#output_directory").update(str(settings.save_folder))
+        if directory := await self.push_screen_wait(
+            SelectDirectory("/", title=_("Select directory")),
+        ):
+            settings.save_folder = pathlib.Path(directory)
+            self.query_one("#output_directory").update(directory)
 
     @on(SelectionList.SelectedChanged)
     def handle_plugins_changed(self, selected: SelectionList.SelectedChanged) -> None:
