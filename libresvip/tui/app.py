@@ -701,7 +701,7 @@ class TUIApp(App[None]):
             SelectDirectory("/", title=_("Select directory")),
         ):
             settings.save_folder = pathlib.Path(directory)
-            self.query_one("#output_directory").update(directory)
+            self.query_one("#output_directory").update(str(directory))
 
     @on(SelectionList.SelectedChanged)
     def handle_plugins_changed(self, selected: SelectionList.SelectedChanged) -> None:
