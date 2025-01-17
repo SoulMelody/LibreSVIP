@@ -549,7 +549,9 @@ class SVGroup(BaseModel):
     @field_validator("notes", mode="before")
     @classmethod
     def validate_notes(cls, v: list[dict[str, Any]], _info: ValidationInfo) -> list[dict[str, Any]]:
-        return [note for note in v if note["onset"] >= 0]
+        if _info.mode == "json":
+            return [note for note in v if note["onset"] >= 0]
+        return v
 
     def overlapped_with(self, other: SVGroup) -> bool:
         for note in self.notes:
@@ -564,18 +566,20 @@ class SVGroup(BaseModel):
         return False
 
     def __add__(self, blick_offset: int) -> SVGroup:
-        new_group = self.model_copy(deep=True)
-        new_group.notes = [
-            note + blick_offset for note in self.notes if note.onset + blick_offset >= 0
-        ]
-        new_group.parameters += blick_offset
-        return new_group
+        return self.model_copy(
+            deep=True,
+            update={
+                "notes": [
+                    note + blick_offset for note in self.notes if note.onset + blick_offset >= 0
+                ],
+                "parameters": self.parameters + blick_offset,
+            },
+        )
 
     def __xor__(self, pitch_offset: int) -> SVGroup:
-        new_group = self.model_copy(deep=True)
-        for note in new_group.notes:
-            note ^= pitch_offset
-        return new_group
+        return self.model_copy(
+            deep=True, update={"notes": [note ^ pitch_offset for note in self.notes]}
+        )
 
 
 class SVMixer(BaseModel):
