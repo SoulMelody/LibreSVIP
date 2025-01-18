@@ -99,7 +99,7 @@ class PpsfParamPoint(BaseModel):
     region_index: Optional[int] = Field(None, alias="region-index")
     border_type: Optional[int] = Field(None, alias="border-type")
     note_index: Optional[int] = Field(None, alias="note-index")
-    edited_by_user: Optional[bool] = Field(False, alias="edited-by-user")
+    edited_by_user: Optional[bool] = Field(None, alias="edited-by-user")
     seg_array_id: Optional[int] = Field(None, alias="seg-array-id")
 
 
@@ -318,7 +318,7 @@ class PpsfEnvelope(BaseModel):
 
 
 def default_portamento_envelope() -> PpsfEnvelope:
-    return PpsfEnvelope(length=161, offset=-107)
+    return PpsfEnvelope(length=0, offset=0)
 
 
 class PpsfDvlTrackEvent(BaseModel):

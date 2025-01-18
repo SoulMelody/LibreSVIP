@@ -5,10 +5,12 @@ from libresvip.core.lyric_phoneme.japanese.vocaloid_xsampa import (
     legato_chars,
     romaji2xsampa,
 )
+from libresvip.core.time_interval import PiecewiseIntervalDict
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import (
     InstrumentalTrack,
     Note,
+    ParamCurve,
     Project,
     SingingTrack,
     SongTempo,
@@ -16,10 +18,14 @@ from libresvip.model.base import (
     Track,
 )
 from libresvip.utils.audio import audio_track_info
+from libresvip.utils.search import find_index
 
 from .model import (
     PpsfAudioTrackEvent,
     PpsfAudioTrackItem,
+    PpsfBaseSequence,
+    PpsfCurvePoint,
+    PpsfCurvePointSeq,
     PpsfCurveType,
     PpsfDvlTrackEvent,
     PpsfDvlTrackItem,
@@ -28,13 +34,16 @@ from .model import (
     PpsfMeter,
     PpsfMeters,
     PpsfNote,
+    PpsfParamPoint,
     PpsfProject,
     PpsfRegion,
+    PpsfSeqParam,
     PpsfSyllable,
     PpsfTempo,
     PpsfTempos,
 )
 from .options import OutputOptions
+from .ppsf_interval_dict import ppsf_key_interval_dict
 
 
 @dataclasses.dataclass
@@ -129,9 +138,98 @@ class PiaproStudioGenerator:
                         else 0,
                     )
                 )
-                dvl_tracks.append(PpsfDvlTrackItem(name=track.title, events=track_events))
+                key_interval_dict = ppsf_key_interval_dict(track_events, event_track.notes)
+                pitch_param, pitch_curve_point = self.generate_pitch(
+                    track.edited_params.pitch, key_interval_dict, track.note_list
+                )
+                event_track.curve_points.append(pitch_curve_point)
+                dvl_track = PpsfDvlTrackItem(
+                    name=track.title, events=track_events, parameters=[pitch_param]
+                )
+                dvl_tracks.append(dvl_track)
                 event_tracks.append(event_track)
         return dvl_tracks
+
+    def generate_pitch(
+        self, pitch: ParamCurve, key_interval_dict: PiecewiseIntervalDict, notes: list[Note]
+    ) -> tuple[PpsfSeqParam, PpsfCurvePoint]:
+        pitch_param = PpsfSeqParam()
+        curve_point = PpsfCurvePoint(
+            sub_track_category=7,
+            sub_track_id=2,
+        )
+        pitch_param.base_sequence = PpsfBaseSequence(
+            constant=0,
+            name="pitch_bend",
+            use_sequence=True,
+        )
+        in_pitch_part = False
+        for point in pitch.points.root:
+            pos = point.x - self.first_bar_length
+            if point.y == -100:
+                if (
+                    point.x not in [-192000, 1073741823]
+                    and in_pitch_part
+                    and len(pitch_param.base_sequence.sequence)
+                ):
+                    pitch_param.base_sequence.sequence.append(
+                        PpsfParamPoint(
+                            curve_type=PpsfCurveType.BORDER,
+                            pos=pitch_param.base_sequence.sequence[-1].pos,
+                            value=pitch_param.base_sequence.sequence[-1].value,
+                        )
+                    )
+                    curve_point.sequence.append(
+                        PpsfCurvePointSeq(
+                            border_type=7,
+                            abs_value=-1,
+                            edited_by_user=True,
+                            region_index=-1,
+                            note_index=-1,
+                            seg_array_id=-1,
+                        )
+                    )
+                    in_pitch_part = False
+            elif (base_key := key_interval_dict.get(pos)) is not None:
+                if not in_pitch_part:
+                    pitch_param.base_sequence.sequence.append(
+                        PpsfParamPoint(
+                            curve_type=PpsfCurveType.BORDER,
+                            pos=pos - 1,
+                            value=0,
+                        )
+                    )
+                    curve_point.sequence.append(
+                        PpsfCurvePointSeq(
+                            border_type=6,
+                            abs_value=-1,
+                            edited_by_user=True,
+                            region_index=-1,
+                            note_index=-1,
+                            seg_array_id=-1,
+                        )
+                    )
+                    in_pitch_part = True
+                pitch_param.base_sequence.sequence.append(
+                    PpsfParamPoint(
+                        curve_type=PpsfCurveType.NORMAL,
+                        pos=pos,
+                        value=point.y - round(base_key * 100),
+                    )
+                )
+                curve_point.sequence.append(
+                    PpsfCurvePointSeq(
+                        border_type=1,
+                        abs_value=point.y,
+                        edited_by_user=True,
+                        region_index=-1,
+                        note_index=find_index(
+                            notes, lambda note: note.start_pos <= pos <= note.end_pos
+                        ),
+                        seg_array_id=-1,
+                    )
+                )
+        return pitch_param, curve_point
 
     def generate_instrumental_tracks(
         self, tracks: list[Track], event_tracks: list[PpsfEventTrack]
