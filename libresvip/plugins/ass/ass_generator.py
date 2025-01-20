@@ -45,6 +45,12 @@ class AssGenerator:
                 buffer = []
         return lyric_lines
 
+    def lyric_included(self, lyric: str) -> bool:
+        if self.options.ignore_slur_notes:
+            return lyric != "-"
+        else:
+            return True
+
     def commit_current_lyric_line(self, lyric_lines: list[SSAEvent], buffer: list[Note]) -> None:
         start_time = int(self.synchronizer.get_actual_secs_from_ticks(buffer[0].start_pos) * 1000)
         end_time = int(self.synchronizer.get_actual_secs_from_ticks(buffer[-1].end_pos) * 1000)
@@ -52,6 +58,7 @@ class AssGenerator:
             SYMBOL_PATTERN.sub("", note.lyric)
             + (" " if LATIN_ALPHABET.search(note.lyric) is not None else "")
             for note in buffer
+            if self.lyric_included(note.lyric)
         )
         lyric_lines.append(
             SSAEvent(

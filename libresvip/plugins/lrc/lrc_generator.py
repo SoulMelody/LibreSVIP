@@ -3,7 +3,7 @@ import datetime
 
 from libresvip.core.time_sync import TimeSynchronizer
 from libresvip.model.base import Project, SingingTrack
-from libresvip.utils.text import SYMBOL_PATTERN
+from libresvip.utils.text import LATIN_ALPHABET, SYMBOL_PATTERN
 
 from .model import (
     AlbumInfoTag,
@@ -81,13 +81,22 @@ class LrcGenerator:
             info_tags=info_tags,
         )
 
+    def lyric_included(self, lyric: str) -> bool:
+        if self.options.ignore_slur_notes:
+            return lyric != "-"
+        else:
+            return True
+
     def commit_current_lyric_line(
         self, lyric_lines: list[LyricLine], buffer: list[tuple[int, str]]
     ) -> None:
         start_time = self.get_time_from_ticks(buffer[0][0])
         lyrics = ""
         for _, lyric in buffer:
-            lyrics += SYMBOL_PATTERN.sub("", lyric)
+            if self.lyric_included(lyric):
+                lyrics += SYMBOL_PATTERN.sub("", lyric) + (
+                    " " if LATIN_ALPHABET.search(lyric) is not None else ""
+                )
         lyric_lines.append(
             LyricLine(
                 time_tags=[
