@@ -70,6 +70,10 @@ class OutputOptions(BaseModel):
         title=_("Offset policy"), default=OffsetPolicyOption.TIMELINE
     )
     split_by: SplitOption = Field(title=_("New line by"), default=SplitOption.BOTH)
+    ignore_slur_notes:bool = Field(
+        title=_("Ignore slur notes"),
+        description=_("Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."),
+        default=True)
     timeline: bool = Field(
         title=_("Write timeline"),
         description=_("If you need lyrics without timeline, turn off this option."),
