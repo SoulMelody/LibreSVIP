@@ -1560,7 +1560,7 @@ requires-dist = [
     { name = "lxml", marker = "extra == 'lxml'", specifier = ">=5.3.0" },
     { name = "mido-fix", url = "https://www.piwheels.org/simple/mido-fix/mido_fix-1.2.12-py2.py3-none-any.whl" },
     { name = "more-itertools", specifier = ">=10.6.0,<11.0.0" },
-    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.9.1" },
+    { name = "nicegui", marker = "extra == 'webui'", specifier = ">=2.10.0" },
     { name = "packaging", specifier = ">=24.2,<24.3" },
     { name = "parsimonious", specifier = ">=0.10.0,<0.11.0" },
     { name = "platformdirs", specifier = ">=4.3.6,<5.0.0" },
@@ -2257,7 +2257,7 @@ wheels = [
 
 [[package]]
 name = "nicegui"
-version = "2.9.1"
+version = "2.10.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -2281,9 +2281,9 @@ dependencies = [
     { name = "vbuild" },
     { name = "watchfiles" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5d/01/c13b95dac1211382e0f31f1dd95246c9efa21e9a0cbde0b3eb97e0200425/nicegui-2.9.1.tar.gz", hash = "sha256:1cb944340353fefb6db0c6a27d10b43792fd400d3dbc748426efcef59192c250", size = 16026564 }
+sdist = { url = "https://files.pythonhosted.org/packages/ad/ad/afee761fbaf1ad27ed53ffb9d33ca7dbd4b61cd79a80124e6c8a5e987191/nicegui-2.10.0.tar.gz", hash = "sha256:d09fe3bb815cb5e0129f4db04df03867bcdb7341059ea22a63e7bf4b6562a8b9", size = 16029242 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7b/c9/092767e120e6d0077c5f2ef38356d116f2953b5d441215c29e3c4b3988b5/nicegui-2.9.1-py3-none-any.whl", hash = "sha256:5456f1de34c7d3b62d9349879855b99c6623ea67e4c0b5ff0635010ad3b57d22", size = 16470186 },
+    { url = "https://files.pythonhosted.org/packages/0f/a9/74bb1a047a7ea17d3f4f890ef706b8ccbde321744bb6d16c31a7533bf59a/nicegui-2.10.0-py3-none-any.whl", hash = "sha256:9d5a1199b85ce879e04340748a66924eaf1ec189c495a348afabd23d10206ad1", size = 16474742 },
 ]
 
 [[package]]
