@@ -46,7 +46,7 @@ class AssGenerator:
         return lyric_lines
 
     def lyric_included(self, lyric: str) -> bool:
-        if(self.options.ignore_slur_notes):
+        if self.options.ignore_slur_notes:
             return lyric != "-"
         else:
             return True

@@ -82,7 +82,7 @@ class LrcGenerator:
         )
 
     def lyric_included(self, lyric: str) -> bool:
-        if(self.options.ignore_slur_notes):
+        if self.options.ignore_slur_notes:
             return lyric != "-"
         else:
             return True
@@ -93,9 +93,10 @@ class LrcGenerator:
         start_time = self.get_time_from_ticks(buffer[0][0])
         lyrics = ""
         for _, lyric in buffer:
-            if(self.lyric_included(lyric)):
-                lyrics += SYMBOL_PATTERN.sub("", lyric) \
-                    + (" " if LATIN_ALPHABET.search(lyric) is not None else "")
+            if self.lyric_included(lyric):
+                lyrics += SYMBOL_PATTERN.sub("", lyric) + (
+                    " " if LATIN_ALPHABET.search(lyric) is not None else ""
+                )
         lyric_lines.append(
             LyricLine(
                 time_tags=[

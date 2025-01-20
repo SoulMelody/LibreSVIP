@@ -43,8 +43,11 @@ class OutputOptions(SelectSingleTrackMixin, BaseModel):
         description=_("In milliseconds, positive means ahead, negative means opposite."),
     )
     split_by: SplitOption = Field(title=_("New line by"), default=SplitOption.BOTH)
-    ignore_slur_notes:bool = Field(
+    ignore_slur_notes: bool = Field(
         title=_("Ignore slur notes"),
-        description=_("Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."),
-        default=True)
+        description=_(
+            "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
+        ),
+        default=True,
+    )
     encoding: str = Field(title=_("Text encoding"), default="utf-8")
