@@ -27,19 +27,19 @@ from .constants import (
 )
 
 
-class CeVIOParamEvent(NamedTuple):
+class VoiSonaMobileParamEvent(NamedTuple):
     idx: Optional[int]
     repeat: Optional[int]
     value: float
 
 
-class CeVIOParamEventFloat(NamedTuple):
+class VoiSonaMobileParamEventFloat(NamedTuple):
     idx: Optional[float]
     repeat: Optional[float]
     value: Optional[float]
 
     @classmethod
-    def from_event(cls, event: CeVIOParamEvent) -> CeVIOParamEventFloat:
+    def from_event(cls, event: VoiSonaMobileParamEvent) -> VoiSonaMobileParamEventFloat:
         return cls(
             float(event.idx) if event.idx is not None else None,
             float(event.repeat) if event.repeat is not None else None,
@@ -48,12 +48,16 @@ class CeVIOParamEventFloat(NamedTuple):
 
 
 @dataclasses.dataclass
-class CeVIOTrackPitchData:
-    events: list[CeVIOParamEvent]
+class VoiSonaMobileTrackPitchData:
+    events: list[VoiSonaMobileParamEvent]
     tempos: list[SongTempo]
     tick_prefix: int
-    vibrato_amplitude_events: list[CeVIOParamEvent] = dataclasses.field(default_factory=list)
-    vibrato_frequency_events: list[CeVIOParamEvent] = dataclasses.field(default_factory=list)
+    vibrato_amplitude_events: list[VoiSonaMobileParamEvent] = dataclasses.field(
+        default_factory=list
+    )
+    vibrato_frequency_events: list[VoiSonaMobileParamEvent] = dataclasses.field(
+        default_factory=list
+    )
 
     @property
     def length(self) -> int:
@@ -64,15 +68,17 @@ class CeVIOTrackPitchData:
         return length + MIN_DATA_LENGTH
 
 
-def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
+def pitch_from_voisona_track(
+    data: VoiSonaMobileTrackPitchData,
+) -> Optional[ParamCurve]:
     converted_points = [Point.start_point()]
     current_value = -100
 
     synchronizer = TimeSynchronizer(data.tempos)
-    vibrato_amplitude_interval_dict = build_cevio_param_interval_dict(
+    vibrato_amplitude_interval_dict = build_voisona_param_interval_dict(
         data.vibrato_amplitude_events, synchronizer, data.tick_prefix
     )
-    vibrato_value_interval_dict = build_cevio_wave_interval_dict(
+    vibrato_value_interval_dict = build_voisona_wave_interval_dict(
         data.vibrato_frequency_events, synchronizer, data.tick_prefix
     )
 
@@ -109,8 +115,8 @@ def pitch_from_cevio_track(data: CeVIOTrackPitchData) -> Optional[ParamCurve]:
 
 
 def append_ending_points(
-    events: list[CeVIOParamEvent],
-) -> list[CeVIOParamEvent]:
+    events: list[VoiSonaMobileParamEvent],
+) -> list[VoiSonaMobileParamEvent]:
     result = []
     next_pos = None
     for event in events:
@@ -119,26 +125,26 @@ def append_ending_points(
             continue
         length = event.repeat if event.repeat is not None else 1
         if next_pos is not None and next_pos < pos:
-            result.append(CeVIOParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
-        result.append(CeVIOParamEvent(pos, length, event.value))
+            result.append(VoiSonaMobileParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+        result.append(VoiSonaMobileParamEvent(pos, length, event.value))
         next_pos = pos + length
     if next_pos is not None:
-        result.append(CeVIOParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
+        result.append(VoiSonaMobileParamEvent(next_pos, None, TEMP_VALUE_AS_NULL))
     return result
 
 
 def normalize_to_tick(
-    events: list[CeVIOParamEvent],
+    events: list[VoiSonaMobileParamEvent],
     tempo_list: list[SongTempo],
     tick_prefix: int,
-) -> list[CeVIOParamEventFloat]:
+) -> list[VoiSonaMobileParamEventFloat]:
     tempos = expand(tempo_list, tick_prefix)
-    events_normalized: list[CeVIOParamEventFloat] = []
+    events_normalized: list[VoiSonaMobileParamEventFloat] = []
     current_tempo_index = 0
     next_pos = 0.0
     next_tick_pos = 0.0
     for _event in events:
-        event = CeVIOParamEventFloat.from_event(_event)
+        event = VoiSonaMobileParamEventFloat.from_event(_event)
         pos = event.idx if event.idx is not None else next_pos
         if event.idx is None:
             tick_pos = next_tick_pos
@@ -172,9 +178,11 @@ def normalize_to_tick(
         )
         next_pos = pos + repeat
         next_tick_pos = tick_pos + repeat_in_ticks
-        events_normalized.append(CeVIOParamEventFloat(tick_pos, repeat_in_ticks, event.value))
+        events_normalized.append(
+            VoiSonaMobileParamEventFloat(tick_pos, repeat_in_ticks, event.value)
+        )
     return [
-        CeVIOParamEventFloat(
+        VoiSonaMobileParamEventFloat(
             tick.idx + tick_prefix,
             tick.repeat,
             tick.value if tick.value != TEMP_VALUE_AS_NULL else None,
@@ -184,9 +192,9 @@ def normalize_to_tick(
 
 
 def shape_events(
-    events_with_full_params: list[CeVIOParamEventFloat],
-) -> list[CeVIOParamEventFloat]:
-    result: list[CeVIOParamEventFloat] = []
+    events_with_full_params: list[VoiSonaMobileParamEventFloat],
+) -> list[VoiSonaMobileParamEventFloat]:
+    result: list[VoiSonaMobileParamEventFloat] = []
     for event in events_with_full_params:
         if event.repeat is not None and event.repeat > 0:
             if result:
@@ -217,8 +225,8 @@ def vibrato_curve(value: float, shift: float, omega: float, phase: float) -> flo
     return math.sin(omega * (value - shift) + phase)
 
 
-def build_cevio_param_interval_dict(
-    events: list[CeVIOParamEvent],
+def build_voisona_param_interval_dict(
+    events: list[VoiSonaMobileParamEvent],
     synchronizer: TimeSynchronizer,
     tick_prefix: int,
 ) -> PiecewiseIntervalDict:
@@ -262,8 +270,8 @@ def build_cevio_param_interval_dict(
     return param_interval_dict
 
 
-def build_cevio_wave_interval_dict(
-    events: list[CeVIOParamEvent],
+def build_voisona_wave_interval_dict(
+    events: list[VoiSonaMobileParamEvent],
     synchronizer: TimeSynchronizer,
     tick_prefix: int,
 ) -> PiecewiseIntervalDict:
@@ -310,9 +318,9 @@ def build_cevio_wave_interval_dict(
     return param_interval_dict
 
 
-def generate_for_cevio(
+def generate_for_voisona(
     pitch: ParamCurve, tempos: list[SongTempo], tick_prefix: int
-) -> Optional[CeVIOTrackPitchData]:
+) -> Optional[VoiSonaMobileTrackPitchData]:
     events_with_full_params = []
     for i, this_point in enumerate(pitch.points.root):
         next_point = pitch.points[i + 1] if i + 1 < len(pitch.points) else None
@@ -323,7 +331,7 @@ def generate_for_cevio(
         value = math.log(midi2hz(this_point.y / 100)) if this_point.y != -100 else None
         if value is not None and (next_point is None or next_point.y != -100):
             events_with_full_params.append(
-                CeVIOParamEventFloat(float(index), float(repeat), float(value))
+                VoiSonaMobileParamEventFloat(float(index), float(repeat), float(value))
             )
     are_events_connected_to_next = [
         this_event.idx + this_event.repeat >= next_event.idx if next_event else False
@@ -345,14 +353,14 @@ def generate_for_cevio(
         length = last_event_with_index.idx
         for event in events[events.index(last_event_with_index) :]:
             length += event.repeat or 1
-    return CeVIOTrackPitchData(events, [], tick_prefix)
+    return VoiSonaMobileTrackPitchData(events, [], tick_prefix)
 
 
 def denormalize_from_tick(
-    events_with_full_params: list[CeVIOParamEventFloat],
+    events_with_full_params: list[VoiSonaMobileParamEventFloat],
     tempos_in_ticks: list[SongTempo],
     tick_prefix: int,
-) -> list[CeVIOParamEvent]:
+) -> list[VoiSonaMobileParamEvent]:
     tempos = expand(
         shift_tempo_list(tempos_in_ticks, tick_prefix),
         tick_prefix,
@@ -391,14 +399,14 @@ def denormalize_from_tick(
             current_tempo_index += 1
         repeat += repeat_in_ticks / (TIME_UNIT_AS_TICKS_PER_BPM * tempos[current_tempo_index][2])
         events.append(
-            CeVIOParamEvent(round(pos), int(round(max(repeat, 1))), event_double.value or 0)
+            VoiSonaMobileParamEvent(round(pos), int(round(max(repeat, 1))), event_double.value or 0)
         )
     return events
 
 
 def restore_connection(
-    events: list[CeVIOParamEvent], are_events_connected_to_next: list[bool]
-) -> list[CeVIOParamEvent]:
+    events: list[VoiSonaMobileParamEvent], are_events_connected_to_next: list[bool]
+) -> list[VoiSonaMobileParamEvent]:
     new_events = []
     for (prev_event, next_event), is_connected_to_next in zip(
         more_itertools.windowed(itertools.chain(events, [None]), 2),
@@ -412,9 +420,9 @@ def restore_connection(
 
 
 def merge_events_if_possible(
-    events: list[CeVIOParamEvent],
-) -> list[CeVIOParamEvent]:
-    new_events: list[CeVIOParamEvent] = []
+    events: list[VoiSonaMobileParamEvent],
+) -> list[VoiSonaMobileParamEvent]:
+    new_events: list[VoiSonaMobileParamEvent] = []
     for event in events:
         if not new_events:
             new_events.append(event)
@@ -427,7 +435,7 @@ def merge_events_if_possible(
                     idx=overlapped_len + event.idx,
                     repeat=event.repeat - overlapped_len,
                 )
-                last_event = CeVIOParamEvent(
+                last_event = VoiSonaMobileParamEvent(
                     event.idx, overlapped_len, event.value + last_event.value
                 )
                 new_events.append(last_event)
@@ -439,9 +447,9 @@ def merge_events_if_possible(
 
 
 def remove_redundant_index(
-    events: list[CeVIOParamEvent],
-) -> list[CeVIOParamEvent]:
-    new_events: list[CeVIOParamEvent] = []
+    events: list[VoiSonaMobileParamEvent],
+) -> list[VoiSonaMobileParamEvent]:
+    new_events: list[VoiSonaMobileParamEvent] = []
     for event in events:
         if not new_events:
             new_events.append(event)
@@ -459,6 +467,6 @@ def remove_redundant_index(
 
 
 def remove_redundant_repeat(
-    events: list[CeVIOParamEvent],
-) -> list[CeVIOParamEvent]:
-    return [event if event.repeat > 1 else event._replace(repeat=None) for event in events]
+    events: list[VoiSonaMobileParamEvent],
+) -> list[VoiSonaMobileParamEvent]:
+    return [event if event.repeat != 1 else event._replace(repeat=None) for event in events]

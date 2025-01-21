@@ -323,7 +323,7 @@ def generate_for_voisona(
         repeat = end_tick - index if end_tick else 1
         repeat = max(repeat, 1)
         value = math.log(midi2hz(this_point.y / 100)) if this_point.y != -100 else None
-        if value is not None:
+        if value is not None and (next_point is None or next_point.y != -100):
             events_with_full_params.append(
                 VoiSonaParamEventFloat(float(index), float(repeat), float(value))
             )
