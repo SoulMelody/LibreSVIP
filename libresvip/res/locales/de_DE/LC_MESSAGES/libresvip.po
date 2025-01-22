@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2025-01-12 02:57\n"
+"PO-Revision-Date: 2025-01-22 19:48\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 msgid "Setting {} is not supported in cli mode."
@@ -57,13 +57,13 @@ msgid "Name"
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:65
-#: ../libresvip/gui/models/table_models.py:27 ../libresvip/mobile/app.py:782
-#: ../libresvip/web/pages.py:283
+#: ../libresvip/gui/models/table_models.py:27 ../libresvip/mobile/app.py:781
+#: ../libresvip/web/pages.py:282
 msgid "Version"
 msgstr ""
 
 #: ../libresvip/cli/commands/plugin.py:66
-#: ../libresvip/gui/models/table_models.py:26 ../libresvip/web/pages.py:292
+#: ../libresvip/gui/models/table_models.py:26 ../libresvip/web/pages.py:291
 msgid "Author"
 msgstr "Autor"
 
@@ -79,13 +79,13 @@ msgstr "Anwendbares Dateiformat"
 msgid "Plugin: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/mobile/app.py:1146
-#: ../libresvip/tui/app.py:150 ../libresvip/tui/app.py:937
-#: ../libresvip/web/pages.py:1119
+#: ../libresvip/cli/commands/plugin.py:90 ../libresvip/mobile/app.py:1145
+#: ../libresvip/tui/app.py:99 ../libresvip/tui/app.py:868
+#: ../libresvip/web/pages.py:1118
 msgid "Version: "
 msgstr ""
 
-#: ../libresvip/cli/commands/plugin.py:91 ../libresvip/tui/app.py:151
+#: ../libresvip/cli/commands/plugin.py:91 ../libresvip/tui/app.py:100
 msgid "Author: "
 msgstr "Autor: "
 
@@ -170,32 +170,32 @@ msgstr "Konvertiere ..."
 msgid "Applicable File Format"
 msgstr "Anwendbares Dateiformat"
 
-#: ../libresvip/gui/models/table_models.py:105 ../libresvip/web/pages.py:1199
+#: ../libresvip/gui/models/table_models.py:105 ../libresvip/web/pages.py:1198
 msgid "Mode"
 msgstr "Modus"
 
-#: ../libresvip/gui/models/table_models.py:106 ../libresvip/web/pages.py:1204
+#: ../libresvip/gui/models/table_models.py:106 ../libresvip/web/pages.py:1203
 msgid "Prefix"
 msgstr "Präfix"
 
-#: ../libresvip/gui/models/table_models.py:107 ../libresvip/web/pages.py:1209
+#: ../libresvip/gui/models/table_models.py:107 ../libresvip/web/pages.py:1208
 msgid "Pattern"
 msgstr "Muster"
 
-#: ../libresvip/gui/models/table_models.py:108 ../libresvip/web/pages.py:1214
+#: ../libresvip/gui/models/table_models.py:108 ../libresvip/web/pages.py:1213
 msgid "Suffix"
 msgstr ""
 
-#: ../libresvip/gui/models/table_models.py:109 ../libresvip/web/pages.py:1219
+#: ../libresvip/gui/models/table_models.py:109 ../libresvip/web/pages.py:1218
 msgid "Replacement"
 msgstr "Ersetzung"
 
-#: ../libresvip/gui/models/table_models.py:110 ../libresvip/web/pages.py:1269
+#: ../libresvip/gui/models/table_models.py:110 ../libresvip/web/pages.py:1268
 msgid "Case sensitive"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: ../libresvip/gui/models/table_models.py:111 ../libresvip/mobile/app.py:338
-#: ../libresvip/mobile/app.py:411 ../libresvip/web/pages.py:1229
+#: ../libresvip/gui/models/table_models.py:111 ../libresvip/mobile/app.py:337
+#: ../libresvip/mobile/app.py:410 ../libresvip/web/pages.py:1228
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -252,243 +252,243 @@ msgstr "Fehler beim Überprüfen auf Updates aufgetreten"
 msgid "Failed to check for updates. Please try again later."
 msgstr "Fehler beim Überprüfen auf Updates. Bitte versuche es später erneut."
 
-#: ../libresvip/mobile/app.py:241 ../libresvip/tui/app.py:175
-#: ../libresvip/web/pages.py:685 ../libresvip/web/pages.py:713
+#: ../libresvip/mobile/app.py:240 ../libresvip/tui/app.py:124
+#: ../libresvip/web/pages.py:684 ../libresvip/web/pages.py:712
 msgid "Copied"
 msgstr "Kopiert"
 
-#: ../libresvip/mobile/app.py:243 ../libresvip/mobile/app.py:425
-#: ../libresvip/mobile/app.py:469
+#: ../libresvip/mobile/app.py:242 ../libresvip/mobile/app.py:424
+#: ../libresvip/mobile/app.py:468
 msgid "OK"
 msgstr ""
 
-#: ../libresvip/mobile/app.py:251
+#: ../libresvip/mobile/app.py:250
 msgid "Task log"
 msgstr "Aufgabenprotokoll"
 
-#: ../libresvip/mobile/app.py:255 ../libresvip/mobile/app.py:766
-#: ../libresvip/mobile/app.py:1061 ../libresvip/mobile/app.py:1128
+#: ../libresvip/mobile/app.py:254 ../libresvip/mobile/app.py:765
+#: ../libresvip/mobile/app.py:1060 ../libresvip/mobile/app.py:1127
 msgid "Back"
 msgstr "Zurück"
 
-#: ../libresvip/mobile/app.py:265 ../libresvip/tui/app.py:184
-#: ../libresvip/web/pages.py:683 ../libresvip/web/pages.py:711
+#: ../libresvip/mobile/app.py:264 ../libresvip/tui/app.py:133
+#: ../libresvip/web/pages.py:682 ../libresvip/web/pages.py:710
 msgid "Copy to clipboard"
 msgstr "In die Zwischenablage kopieren"
 
-#: ../libresvip/mobile/app.py:324 ../libresvip/mobile/app.py:397
-#: ../libresvip/tui/app.py:441
+#: ../libresvip/mobile/app.py:323 ../libresvip/mobile/app.py:396
+#: ../libresvip/tui/app.py:368
 msgid "View Log"
 msgstr "Protokoll anzeigen"
 
-#: ../libresvip/mobile/app.py:329 ../libresvip/mobile/app.py:402
-#: ../libresvip/mobile/app.py:466
+#: ../libresvip/mobile/app.py:328 ../libresvip/mobile/app.py:401
+#: ../libresvip/mobile/app.py:465
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: ../libresvip/mobile/app.py:334 ../libresvip/mobile/app.py:407
-#: ../libresvip/web/pages.py:727
+#: ../libresvip/mobile/app.py:333 ../libresvip/mobile/app.py:406
+#: ../libresvip/web/pages.py:726
 msgid "Remove"
 msgstr "Entfernen"
 
-#: ../libresvip/mobile/app.py:430
+#: ../libresvip/mobile/app.py:429
 msgid "Permission granted, you can now select files from your device."
 msgstr "Berechtigung erteilt, du kannst nun Dateien von deinem Gerät auswählen."
 
-#: ../libresvip/mobile/app.py:438
+#: ../libresvip/mobile/app.py:437
 msgid "Permission denied, please grant the permission to manage external storage."
 msgstr "Berechtigung verweigert, bitte erteile die Berechtigung zur Verwaltung des externen Speichers."
 
-#: ../libresvip/mobile/app.py:449
+#: ../libresvip/mobile/app.py:448
 msgid "Permission already granted, you can now select files from your device."
 msgstr "Berechtigung bereits erteilt, du kannst nun Dateien von deinem Gerät auswählen."
 
-#: ../libresvip/mobile/app.py:664 ../libresvip/tui/app.py:255
-#: ../libresvip/web/pages.py:1567
+#: ../libresvip/mobile/app.py:663 ../libresvip/tui/app.py:182
+#: ../libresvip/web/pages.py:1566
 msgid "Select File Formats"
 msgstr "Dateiformate auswählen"
 
-#: ../libresvip/mobile/app.py:667 ../libresvip/tui/app.py:804
+#: ../libresvip/mobile/app.py:666 ../libresvip/tui/app.py:735
 msgid "Conversion mode & Task list"
 msgstr "Konvertierungsmodus & Aufgabenliste"
 
-#: ../libresvip/mobile/app.py:670 ../libresvip/web/pages.py:2096
+#: ../libresvip/mobile/app.py:669 ../libresvip/web/pages.py:2095
 msgid "Advanced Options"
 msgstr "Erweiterte Optionen"
 
-#: ../libresvip/mobile/app.py:676 ../libresvip/tui/app.py:908
-#: ../libresvip/web/pages.py:1738
+#: ../libresvip/mobile/app.py:675 ../libresvip/tui/app.py:839
+#: ../libresvip/web/pages.py:1737
 msgid "Switch Theme"
 msgstr "Thema wechseln"
 
-#: ../libresvip/mobile/app.py:679 ../libresvip/web/pages.py:1761
+#: ../libresvip/mobile/app.py:678 ../libresvip/web/pages.py:1760
 msgid "System"
 msgstr ""
 
-#: ../libresvip/mobile/app.py:684 ../libresvip/tui/app.py:911
-#: ../libresvip/web/pages.py:1749
+#: ../libresvip/mobile/app.py:683 ../libresvip/tui/app.py:842
+#: ../libresvip/web/pages.py:1748
 msgid "Light"
 msgstr "Hell"
 
-#: ../libresvip/mobile/app.py:689 ../libresvip/tui/app.py:912
-#: ../libresvip/web/pages.py:1755
+#: ../libresvip/mobile/app.py:688 ../libresvip/tui/app.py:843
+#: ../libresvip/web/pages.py:1754
 msgid "Dark"
 msgstr "Dunkel"
 
-#: ../libresvip/mobile/app.py:697 ../libresvip/tui/app.py:894
-#: ../libresvip/web/pages.py:1176
+#: ../libresvip/mobile/app.py:696 ../libresvip/tui/app.py:825
+#: ../libresvip/web/pages.py:1175
 msgid "Switch Language"
 msgstr "Sprache wechseln"
 
-#: ../libresvip/mobile/app.py:717 ../libresvip/web/pages.py:1621
+#: ../libresvip/mobile/app.py:716 ../libresvip/web/pages.py:1620
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: ../libresvip/mobile/app.py:720 ../libresvip/mobile/app.py:733
-#: ../libresvip/web/pages.py:1620
+#: ../libresvip/mobile/app.py:719 ../libresvip/mobile/app.py:732
+#: ../libresvip/web/pages.py:1619
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: ../libresvip/mobile/app.py:727 ../libresvip/web/pages.py:1637
+#: ../libresvip/mobile/app.py:726 ../libresvip/web/pages.py:1636
 msgid "Minimize"
 msgstr "Minimieren"
 
-#: ../libresvip/mobile/app.py:739 ../libresvip/tui/app.py:156
-#: ../libresvip/tui/app.py:185 ../libresvip/web/pages.py:687
-#: ../libresvip/web/pages.py:715 ../libresvip/web/pages.py:1147
-#: ../libresvip/web/pages.py:1564 ../libresvip/web/pages.py:1647
-#: ../libresvip/web/pages.py:1875 ../libresvip/web/pages.py:1928
+#: ../libresvip/mobile/app.py:738 ../libresvip/tui/app.py:105
+#: ../libresvip/tui/app.py:134 ../libresvip/web/pages.py:686
+#: ../libresvip/web/pages.py:714 ../libresvip/web/pages.py:1146
+#: ../libresvip/web/pages.py:1563 ../libresvip/web/pages.py:1646
+#: ../libresvip/web/pages.py:1874 ../libresvip/web/pages.py:1927
 msgid "Close"
 msgstr "Schließen"
 
-#: ../libresvip/mobile/app.py:815 ../libresvip/tui/app.py:152
-#: ../libresvip/tui/app.py:943 ../libresvip/web/pages.py:307
+#: ../libresvip/mobile/app.py:814 ../libresvip/tui/app.py:101
+#: ../libresvip/tui/app.py:874 ../libresvip/web/pages.py:306
 msgid "Introduction"
 msgstr "Einführung"
 
-#: ../libresvip/mobile/app.py:838 ../libresvip/tui/app.py:257
-#: ../libresvip/web/pages.py:1702 ../libresvip/web/pages.py:1860
+#: ../libresvip/mobile/app.py:837 ../libresvip/tui/app.py:184
+#: ../libresvip/web/pages.py:1701 ../libresvip/web/pages.py:1859
 msgid "Import format"
 msgstr "Importformat"
 
-#: ../libresvip/mobile/app.py:853 ../libresvip/mobile/app.py:882
-#: ../libresvip/tui/app.py:275 ../libresvip/tui/app.py:299
-#: ../libresvip/web/pages.py:1883 ../libresvip/web/pages.py:1936
+#: ../libresvip/mobile/app.py:852 ../libresvip/mobile/app.py:881
+#: ../libresvip/tui/app.py:202 ../libresvip/tui/app.py:226
+#: ../libresvip/web/pages.py:1882 ../libresvip/web/pages.py:1935
 msgid "View Detail Information"
 msgstr "Detaillierte Informationen anzeigen"
 
-#: ../libresvip/mobile/app.py:860 ../libresvip/tui/app.py:277
-#: ../libresvip/web/pages.py:1699 ../libresvip/web/pages.py:1900
+#: ../libresvip/mobile/app.py:859 ../libresvip/tui/app.py:204
+#: ../libresvip/web/pages.py:1698 ../libresvip/web/pages.py:1899
 msgid "Swap Input and Output"
 msgstr "Eingabe und Ausgabe tauschen"
 
-#: ../libresvip/mobile/app.py:867 ../libresvip/tui/app.py:281
-#: ../libresvip/web/pages.py:1722 ../libresvip/web/pages.py:1908
+#: ../libresvip/mobile/app.py:866 ../libresvip/tui/app.py:208
+#: ../libresvip/web/pages.py:1721 ../libresvip/web/pages.py:1907
 msgid "Export format"
 msgstr "Exportformat"
 
-#: ../libresvip/mobile/app.py:897
+#: ../libresvip/mobile/app.py:896
 msgid "Conversion mode"
 msgstr "Konvertierungsmodus"
 
-#: ../libresvip/mobile/app.py:899 ../libresvip/tui/app.py:806
+#: ../libresvip/mobile/app.py:898 ../libresvip/tui/app.py:737
 msgid "Direct"
 msgstr "Direkt"
 
-#: ../libresvip/mobile/app.py:900 ../libresvip/tui/app.py:807
+#: ../libresvip/mobile/app.py:899 ../libresvip/tui/app.py:738
 msgid "Split"
 msgstr "Teilen"
 
-#: ../libresvip/mobile/app.py:901 ../libresvip/tui/app.py:808
+#: ../libresvip/mobile/app.py:900 ../libresvip/tui/app.py:739
 msgid "Merge"
 msgstr "Zusammenführen"
 
-#: ../libresvip/mobile/app.py:922 ../libresvip/tui/app.py:817
-#: ../libresvip/web/pages.py:326
+#: ../libresvip/mobile/app.py:921 ../libresvip/tui/app.py:748
+#: ../libresvip/web/pages.py:325
 msgid "Input Options"
 msgstr "Eingabeoptionen"
 
-#: ../libresvip/mobile/app.py:967 ../libresvip/tui/app.py:833
-#: ../libresvip/web/pages.py:335
+#: ../libresvip/mobile/app.py:966 ../libresvip/tui/app.py:764
+#: ../libresvip/web/pages.py:334
 msgid "Output Options"
 msgstr "Ausgabeoptionen"
 
-#: ../libresvip/mobile/app.py:1002 ../libresvip/tui/app.py:800
+#: ../libresvip/mobile/app.py:1001 ../libresvip/tui/app.py:731
 msgid "Converter"
 msgstr "Konverter"
 
-#: ../libresvip/mobile/app.py:1005 ../libresvip/mobile/app.py:1054
-#: ../libresvip/tui/app.py:851
+#: ../libresvip/mobile/app.py:1004 ../libresvip/mobile/app.py:1053
+#: ../libresvip/tui/app.py:782
 msgid "Basic Settings"
 msgstr "Grundeinstellungen"
 
-#: ../libresvip/mobile/app.py:1009 ../libresvip/mobile/app.py:1121
-#: ../libresvip/tui/app.py:931 ../libresvip/web/pages.py:1116
-#: ../libresvip/web/pages.py:1782
+#: ../libresvip/mobile/app.py:1008 ../libresvip/mobile/app.py:1120
+#: ../libresvip/tui/app.py:862 ../libresvip/web/pages.py:1115
+#: ../libresvip/web/pages.py:1781
 msgid "About"
 msgstr "Über"
 
-#: ../libresvip/mobile/app.py:1029 ../libresvip/web/pages.py:2020
+#: ../libresvip/mobile/app.py:1028 ../libresvip/web/pages.py:2019
 msgid "Continue Adding files"
 msgstr "Weiter Dateien hinzufügen"
 
-#: ../libresvip/mobile/app.py:1031
+#: ../libresvip/mobile/app.py:1030
 msgid "Select files to convert"
 msgstr "Dateien zum Konvertieren auswählen"
 
-#: ../libresvip/mobile/app.py:1042 ../libresvip/web/pages.py:2087
+#: ../libresvip/mobile/app.py:1041 ../libresvip/web/pages.py:2086
 msgid "Start Conversion"
 msgstr "Konvertierung starten"
 
-#: ../libresvip/mobile/app.py:1069 ../libresvip/tui/app.py:855
-#: ../libresvip/web/pages.py:1185 ../libresvip/web/pages.py:1884
+#: ../libresvip/mobile/app.py:1068 ../libresvip/tui/app.py:786
+#: ../libresvip/web/pages.py:1184 ../libresvip/web/pages.py:1883
 msgid "Auto detect import format"
 msgstr "Importformat automatisch erkennen"
 
-#: ../libresvip/mobile/app.py:1075 ../libresvip/tui/app.py:862
-#: ../libresvip/web/pages.py:1190 ../libresvip/web/pages.py:1891
+#: ../libresvip/mobile/app.py:1074 ../libresvip/tui/app.py:793
+#: ../libresvip/web/pages.py:1189 ../libresvip/web/pages.py:1890
 msgid "Reset list when import format changed"
 msgstr "Liste zurücksetzen, wenn sich das Importformat ändert"
 
-#: ../libresvip/mobile/app.py:1080 ../libresvip/tui/app.py:844
+#: ../libresvip/mobile/app.py:1079 ../libresvip/tui/app.py:775
 msgid "Max track count"
 msgstr "Maximale Spuranzahl"
 
-#: ../libresvip/mobile/app.py:1092 ../libresvip/tui/app.py:880
+#: ../libresvip/mobile/app.py:1091 ../libresvip/tui/app.py:811
 msgid "Output Folder"
 msgstr "Ausgabeordner"
 
-#: ../libresvip/mobile/app.py:1098 ../libresvip/mobile/app.py:1101
-#: ../libresvip/tui/app.py:888
+#: ../libresvip/mobile/app.py:1097 ../libresvip/mobile/app.py:1100
+#: ../libresvip/tui/app.py:819
 msgid "Change Output Directory"
 msgstr "Ausgabeverzeichnis ändern"
 
-#: ../libresvip/mobile/app.py:1105
+#: ../libresvip/mobile/app.py:1104
 msgid "Request permission to access files"
 msgstr "Berechtigung zum Zugriff auf Dateien anfordern"
 
-#: ../libresvip/mobile/app.py:1151 ../libresvip/tui/app.py:939
-#: ../libresvip/web/pages.py:1122
+#: ../libresvip/mobile/app.py:1150 ../libresvip/tui/app.py:870
+#: ../libresvip/web/pages.py:1121
 msgid "Author: SoulMelody"
 msgstr "Autor: SoulMelody"
 
-#: ../libresvip/mobile/app.py:1154 ../libresvip/tui/app.py:941
-#: ../libresvip/web/pages.py:1126
+#: ../libresvip/mobile/app.py:1153 ../libresvip/tui/app.py:872
+#: ../libresvip/web/pages.py:1125
 msgid "Author's Profile"
 msgstr "Profil des Autors"
 
-#: ../libresvip/mobile/app.py:1160 ../libresvip/tui/app.py:935
-#: ../libresvip/web/pages.py:1132
+#: ../libresvip/mobile/app.py:1159 ../libresvip/tui/app.py:866
+#: ../libresvip/web/pages.py:1131
 msgid "Repo URL"
 msgstr "Repo-URL"
 
-#: ../libresvip/mobile/app.py:1169 ../libresvip/tui/app.py:945
-#: ../libresvip/web/pages.py:1137
+#: ../libresvip/mobile/app.py:1168 ../libresvip/tui/app.py:876
+#: ../libresvip/web/pages.py:1136
 msgid "LibreSVIP is an open-sourced, liberal and extensionable framework that can convert your singing synthesis projects between different file formats."
 msgstr "LibreSVIP ist ein quelloffenes, freies und erweiterbares Framework, das deine Gesangssynthese-Projekte zwischen verschiedenen Dateiformaten konvertieren kann."
 
-#: ../libresvip/mobile/app.py:1174 ../libresvip/tui/app.py:946
-#: ../libresvip/web/pages.py:1142
+#: ../libresvip/mobile/app.py:1173 ../libresvip/tui/app.py:877
+#: ../libresvip/web/pages.py:1141
 msgid "All people should have the right and freedom to choose. That's why we're committed to giving you a second chance to keep your creations free from the constraints of platforms and coterie."
 msgstr "Alle Menschen sollten das Recht und die Freiheit haben, zu wählen. Deshalb setzen wir uns dafür ein, dir eine zweite Chance zu geben, deinee Kreationen von den Zwängen von Plattformen zu befreien."
 
@@ -1153,63 +1153,67 @@ msgctxt "QPlatformTheme"
 msgid "N&o to All"
 msgstr "N&ein zu Allen"
 
-#: ../libresvip/tui/app.py:116
-msgid "Select a drive"
-msgstr "Laufwerk auswählen"
-
-#: ../libresvip/tui/app.py:308
+#: ../libresvip/tui/app.py:235
 msgid "Invalid color format"
 msgstr "Ungültiges Farbformat"
 
-#: ../libresvip/tui/app.py:816 ../libresvip/web/pages.py:1568
+#: ../libresvip/tui/app.py:489
+msgid "Open"
+msgstr "Öffnen"
+
+#: ../libresvip/tui/app.py:701
+msgid "Select directory"
+msgstr ""
+
+#: ../libresvip/tui/app.py:747 ../libresvip/web/pages.py:1567
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-#: ../libresvip/tui/app.py:827
+#: ../libresvip/tui/app.py:758
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: ../libresvip/tui/app.py:836
+#: ../libresvip/tui/app.py:767
 msgid "Add task"
 msgstr "Aufgabe hinzufügen"
 
-#: ../libresvip/tui/app.py:838
+#: ../libresvip/tui/app.py:769
 msgid "Start conversion"
 msgstr "Konvertierung starten"
 
-#: ../libresvip/tui/app.py:840
+#: ../libresvip/tui/app.py:771
 msgid "Delete selected task"
 msgstr "Ausgewählte Aufgabe löschen"
 
-#: ../libresvip/tui/app.py:841
+#: ../libresvip/tui/app.py:772
 msgid "Clear tasks"
 msgstr "Aufgaben löschen"
 
-#: ../libresvip/tui/app.py:842
+#: ../libresvip/tui/app.py:773
 msgid "Progress"
 msgstr "Fortschritt"
 
-#: ../libresvip/tui/app.py:853 ../libresvip/web/pages.py:1170
+#: ../libresvip/tui/app.py:784 ../libresvip/web/pages.py:1169
 msgid "Conversion Settings"
 msgstr "Konvertierungseinstellungen"
 
-#: ../libresvip/tui/app.py:870
+#: ../libresvip/tui/app.py:801
 msgid "Output Settings"
 msgstr "Ausgabeeinstellungen"
 
-#: ../libresvip/tui/app.py:873
+#: ../libresvip/tui/app.py:804
 msgid "Set Output File Extension Automatically"
 msgstr "Ausgabedateierweiterung automatisch festlegen"
 
-#: ../libresvip/tui/app.py:890
+#: ../libresvip/tui/app.py:821
 msgid "Other Settings"
 msgstr "Andere Einstellungen"
 
-#: ../libresvip/tui/app.py:892
+#: ../libresvip/tui/app.py:823
 msgid "Appearance"
 msgstr "Erscheinungsbild"
 
-#: ../libresvip/tui/app.py:920
+#: ../libresvip/tui/app.py:851
 msgid "Choose Plugins"
 msgstr "Plugins auswählen"
 
@@ -1217,121 +1221,121 @@ msgstr "Plugins auswählen"
 msgid "Audio file not found: "
 msgstr "Audiodatei nicht gefunden: "
 
-#: ../libresvip/web/pages.py:279
+#: ../libresvip/web/pages.py:278
 msgid "name"
 msgstr "Name"
 
-#: ../libresvip/web/pages.py:294
+#: ../libresvip/web/pages.py:293
 msgid "author"
 msgstr "Autor"
 
-#: ../libresvip/web/pages.py:301 ../libresvip/web/pages.py:318
-#: ../libresvip/web/pages.py:1713 ../libresvip/web/pages.py:1732
-#: ../libresvip/web/pages.py:1857 ../libresvip/web/pages.py:1905
+#: ../libresvip/web/pages.py:300 ../libresvip/web/pages.py:317
+#: ../libresvip/web/pages.py:1712 ../libresvip/web/pages.py:1731
+#: ../libresvip/web/pages.py:1856 ../libresvip/web/pages.py:1904
 msgid "file_format"
 msgstr "Dateiformat"
 
-#: ../libresvip/web/pages.py:308
+#: ../libresvip/web/pages.py:307
 msgid "description"
 msgstr "Beschreibung"
 
-#: ../libresvip/web/pages.py:327
+#: ../libresvip/web/pages.py:326
 msgid "[Import as "
 msgstr "[Importieren als "
 
-#: ../libresvip/web/pages.py:336
+#: ../libresvip/web/pages.py:335
 msgid "[Export to "
 msgstr "[Exportieren nach "
 
-#: ../libresvip/web/pages.py:433 ../libresvip/web/pages.py:551
+#: ../libresvip/web/pages.py:432 ../libresvip/web/pages.py:550
 msgid "Invalid integer"
 msgstr "Ungültige Ganzzahl"
 
-#: ../libresvip/web/pages.py:437 ../libresvip/web/pages.py:555
+#: ../libresvip/web/pages.py:436 ../libresvip/web/pages.py:554
 msgid "Invalid float"
 msgstr "Ungültige Gleitkommazahl"
 
-#: ../libresvip/web/pages.py:932
+#: ../libresvip/web/pages.py:931
 msgid "Conversion Failed"
 msgstr "Konvertierung fehlgeschlagen"
 
-#: ../libresvip/web/pages.py:934
+#: ../libresvip/web/pages.py:933
 msgid "Conversion Successful"
 msgstr "Konvertierung erfolgreich"
 
-#: ../libresvip/web/pages.py:1015 ../libresvip/web/pages.py:1050
+#: ../libresvip/web/pages.py:1014 ../libresvip/web/pages.py:1049
 msgid "All files (*.*)"
 msgstr "Alle Dateien (*.*)"
 
-#: ../libresvip/web/pages.py:1037
+#: ../libresvip/web/pages.py:1036
 msgid "Save failed!"
 msgstr "Speichern fehlgeschlagen!"
 
-#: ../libresvip/web/pages.py:1047
+#: ../libresvip/web/pages.py:1046
 msgid "Compressed Archive (*.zip)"
 msgstr "Komprimiertes Archiv (*.zip)"
 
-#: ../libresvip/web/pages.py:1059
+#: ../libresvip/web/pages.py:1058
 msgid "Saved"
 msgstr "Gespeichert"
 
-#: ../libresvip/web/pages.py:1118
+#: ../libresvip/web/pages.py:1117
 msgid "LibreSVIP"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1158
+#: ../libresvip/web/pages.py:1157
 msgid "Toggle menu"
 msgstr "Menü umschalten"
 
-#: ../libresvip/web/pages.py:1174
+#: ../libresvip/web/pages.py:1173
 msgid "Lyric Replace Rules"
 msgstr "Liedtext-Ersetzungsregeln"
 
-#: ../libresvip/web/pages.py:1224
+#: ../libresvip/web/pages.py:1223
 msgid "Flags"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1252
+#: ../libresvip/web/pages.py:1251
 msgid "Full match"
 msgstr "Vollständige Übereinstimmung"
 
-#: ../libresvip/web/pages.py:1254
+#: ../libresvip/web/pages.py:1253
 msgid "Alphabetic"
 msgstr "Alphabetisch"
 
-#: ../libresvip/web/pages.py:1258
+#: ../libresvip/web/pages.py:1257
 msgid "Non-alphabetic"
 msgstr "Nicht-alphabetisch"
 
-#: ../libresvip/web/pages.py:1261
+#: ../libresvip/web/pages.py:1260
 msgid "Regex"
 msgstr ""
 
-#: ../libresvip/web/pages.py:1265
+#: ../libresvip/web/pages.py:1264
 msgid "Ignore case"
 msgstr "Groß-/Kleinschreibung ignorieren"
 
-#: ../libresvip/web/pages.py:1461
+#: ../libresvip/web/pages.py:1460
 msgid "Toggle fullscreen"
 msgstr "Vollbild umschalten"
 
-#: ../libresvip/web/pages.py:1473
+#: ../libresvip/web/pages.py:1472
 msgid "Preset: "
 msgstr "Voreinstellung: "
 
-#: ../libresvip/web/pages.py:1488
+#: ../libresvip/web/pages.py:1487
 msgid "Remove current preset"
 msgstr "Aktuelle Voreinstellung entfernen"
 
-#: ../libresvip/web/pages.py:1507
+#: ../libresvip/web/pages.py:1506
 msgid "Save current preset"
 msgstr "Aktuelle Voreinstellung speichern"
 
-#: ../libresvip/web/pages.py:1530
+#: ../libresvip/web/pages.py:1529
 msgid "Add new rule"
 msgstr "Neue Regel hinzufügen"
 
-#: ../libresvip/web/pages.py:1531
+#: ../libresvip/web/pages.py:1530
 msgid "Alphabetic: Applies to alphabetic characters.\n"
 "Non-Alphabetic: For non-alphabetic characters and punctuation marks.\n"
 "Regex: for advanced users with knowledge of regular expressions."
@@ -1339,55 +1343,55 @@ msgstr "Alphabetisch: Gilt für alphabetische Zeichen.\n"
 "Nicht-Alphabetisch: Für nicht-alphabetische Zeichen und Satzzeichen.\n"
 "Regex: für fortgeschrittene Benutzer mit Kenntnissen in regulären Ausdrücken."
 
-#: ../libresvip/web/pages.py:1651 ../libresvip/web/pages.py:1680
+#: ../libresvip/web/pages.py:1650 ../libresvip/web/pages.py:1679
 msgid "Convert"
 msgstr "Konvertieren"
 
-#: ../libresvip/web/pages.py:1666 ../libresvip/web/pages.py:1941
+#: ../libresvip/web/pages.py:1665 ../libresvip/web/pages.py:1940
 msgid "Import project"
 msgstr "Projekt importieren"
 
-#: ../libresvip/web/pages.py:1692 ../libresvip/web/pages.py:1986
+#: ../libresvip/web/pages.py:1691 ../libresvip/web/pages.py:1985
 msgid "Clear Task List"
 msgstr "Aufgabenliste löschen"
 
-#: ../libresvip/web/pages.py:1763
+#: ../libresvip/web/pages.py:1762
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: ../libresvip/web/pages.py:1769
+#: ../libresvip/web/pages.py:1768
 msgid "Help"
 msgstr "Hilfe"
 
-#: ../libresvip/web/pages.py:1786
+#: ../libresvip/web/pages.py:1785
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: ../libresvip/web/pages.py:1848
+#: ../libresvip/web/pages.py:1847
 msgid "Choose file format"
 msgstr "Dateiformat wählen"
 
-#: ../libresvip/web/pages.py:1943
+#: ../libresvip/web/pages.py:1942
 msgid "Conversion Mode:"
 msgstr "Konvertierungsmodus:"
 
-#: ../libresvip/web/pages.py:1990
+#: ../libresvip/web/pages.py:1989
 msgid "Remove Tasks With Other Extensions"
 msgstr "Aufgaben mit anderen Erweiterungen entfernen"
 
-#: ../libresvip/web/pages.py:1994
+#: ../libresvip/web/pages.py:1993
 msgid "Max Track count:"
 msgstr "Maximale Spuranzahl:"
 
-#: ../libresvip/web/pages.py:2055
+#: ../libresvip/web/pages.py:2054
 msgid "Drag and drop files here or click to upload"
 msgstr "Dateien hierher ziehen und ablegen oder klicken, um hochzuladen"
 
-#: ../libresvip/web/pages.py:2095
+#: ../libresvip/web/pages.py:2094
 msgid "Export"
 msgstr "Exportieren"
 
-#: ../libresvip/web/pages.py:2108
+#: ../libresvip/web/pages.py:2107
 msgid "Intermediate Processing"
 msgstr "Zwischenverarbeitung"
 
