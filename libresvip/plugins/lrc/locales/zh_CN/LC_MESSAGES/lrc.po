@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:38\n"
+"PO-Revision-Date: 2025-01-22 19:48\n"
 
 msgid "LRC"
 msgstr ""
@@ -77,6 +77,12 @@ msgstr "偏移处理方式"
 
 msgid "New line by"
 msgstr "歌词换行方式"
+
+msgid "Ignore slur notes"
+msgstr ""
+
+msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
+msgstr ""
 
 msgid "Write timeline"
 msgstr "写入时间轴"
