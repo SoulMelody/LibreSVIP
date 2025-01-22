@@ -21,6 +21,8 @@ class CoordinateHelper:
     key_range_end: int = dataclasses.field(init=False)
 
     def calculate_range(self, track: SingingTrack) -> None:
+        if not len(track.edited_params.pitch.points):
+            track.edited_params.pitch.points.root = [Point.start_point(), Point.end_point()]
         self.position_range_start = min(
             track.note_list[0].start_pos, track.edited_params.pitch.points[1].x
         )

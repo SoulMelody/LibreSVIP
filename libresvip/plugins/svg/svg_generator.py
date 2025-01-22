@@ -33,7 +33,7 @@ class SvgGenerator:
             )
         else:
             first_singing_track = project.track_list[self.options.track_index]
-        if first_singing_track is not None:
+        if isinstance(first_singing_track, SingingTrack):
             self.coordinate_helper.calculate_range(first_singing_track)
             if self.options.show_grid:
                 self.svg_factory.draw_grid(project.time_signature_list)
