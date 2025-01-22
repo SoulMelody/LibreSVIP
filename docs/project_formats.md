@@ -1,8 +1,8 @@
 | 格式后缀         | 适用引擎/软件                        | 基本类型     | 类型说明                            | 备注                              | 开发状态 |
 | ------------ | ------------------------------ | -------- | ------------------------------- | ------------------------------- | ---- |
 | `acep`         | ACE Studio                     | 标准序列化格式  | 基于json；内容使用了zstandard压缩         | 公测期间曾更换过加密方法，最终于1.7.8版本移除       | 活跃开发 |
-| `ais`          | AISingers Web                  | 混合类型     | 将json头和自定义文本拼接而成                |                                 | 尚在维护 |
-| `aisp`         | AISingers Studio               | 混合类型     | 基于json；为两段json拼接而成              |                                 | 活跃开发 |
+| `ais`          | AISingers Web                  | 混合类型     | 将json头和自定义文本拼接而成                |                                 | 暂停维护 |
+| `aisp`         | AISingers Studio               | 混合类型     | 基于json；为两段json拼接而成              |                                 | 尚在维护 |
 | `ccs/ccst`     | CeVIO Creative Studio          | 标准序列化格式  | 基于xml                           |                                 | 活跃开发 |
 | `ds`           | DiffSinger                     | 标准序列化格式  | 基于json                          | 为临时解决方案                         | 活跃开发 |
 | `dsc`          | 大市唱                         | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
@@ -35,6 +35,6 @@
 | `vsq`          | Vocaloid 2                     | 自定义二进制格式 | 基于MIDI和INI                      |                                 | 停止开发 |
 | `vsqx`         | Vocaloid 3/4                   | 标准序列化格式  | 基于xml                           |                                 | 尚在维护 |
 | `vvproj`       | VOICEVOX                       | 标准序列化格式  | 基于json                          |                                 | 活跃开发 |
-| `vxf`     | VOCALOID β-STUDIO                   | 自定义二进制格式 | 基于MIDI2.0切片(SMF2CLIP)格式                   |                                 | 活跃开发 |
+| `vxf`          | VOCALOID β-STUDIO              | 自定义二进制格式 | 基于MIDI2.0切片(SMF2CLIP)格式                   |                                 | 活跃开发 |
 | `xvsq`         | Cadencii                   | 标准序列化格式  | 基于xml                           |                                 | 停止开发 |
 | `y77`          | 元七七编辑器                       | 标准序列化格式  | 基于json                          |                                 | 停止开发 |

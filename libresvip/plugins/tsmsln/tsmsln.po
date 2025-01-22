@@ -1,0 +1,18 @@
+msgid "TSMSln"
+msgstr ""
+
+msgid "Techno-Speech Mobile Solution file"
+msgstr ""
+
+msgid "Conversion plugin for VoiSona Mobile project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
+msgid "Unsupported lyric: "
+msgstr ""
+
+msgid "Pitch value is out of bounds"
+msgstr ""
+

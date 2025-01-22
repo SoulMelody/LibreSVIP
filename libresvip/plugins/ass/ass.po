@@ -42,6 +42,14 @@ msgstr ""
 msgid "New line by"
 msgstr ""
 
+msgid "Ignore slur notes"
+msgstr ""
+
+msgid ""
+"Ignore '-' lyrics that are used to indicate slur notes in singing "
+"synthesizers."
+msgstr ""
+
 msgid "Text encoding"
 msgstr ""
 
