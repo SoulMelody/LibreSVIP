@@ -1610,7 +1610,7 @@ all = [
     { name = "pytest-datadir", specifier = ">=1.5.0" },
     { name = "ruff", specifier = ">=0.9.2" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
-    { name = "sourcery", specifier = ">=1.31.0" },
+    { name = "sourcery", specifier = ">=1.32.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
     { name = "types-lxml", specifier = ">=2024.12.13" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
@@ -1630,7 +1630,7 @@ linting = [
     { name = "pre-commit", specifier = ">=4.1.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "ruff", specifier = ">=0.9.2" },
-    { name = "sourcery", specifier = ">=1.31.0" },
+    { name = "sourcery", specifier = ">=1.32.0" },
     { name = "types-lxml", specifier = ">=2024.12.13" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20241230" },
@@ -3601,12 +3601,12 @@ wheels = [
 
 [[package]]
 name = "sourcery"
-version = "1.31.0"
+version = "1.32.0"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d0/a7/4debc8dcd148ce0d7eb94cdd02ed592300b2a89cd915d76cced76d8d6732/sourcery-1.31.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:3ad108813e8529673a1f5de7ff3ef807f6acd81c5dff683f116e7ed56dcdfe4d", size = 77748399 },
-    { url = "https://files.pythonhosted.org/packages/4d/d7/25085d9250551b902ab04b806797f1536ae34ae98311f784f5c0ce1d3b9e/sourcery-1.31.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:7315f75f95a02baa699ee44d0e6595c50b766abef156a684b4ba240e700cf046", size = 98172942 },
-    { url = "https://files.pythonhosted.org/packages/c5/24/ce04f0388d190ccfe06fc4e50a257d2e922ed5868762dc44b8707fbf7f31/sourcery-1.31.0-py2.py3-none-win_amd64.whl", hash = "sha256:7c420f5120f19a38dc95de61290bb560456a3b64da9f9201724166b44c527f7f", size = 77905361 },
+    { url = "https://files.pythonhosted.org/packages/56/35/a6d57270aa656acb64d3063a485e09497beeb7a3943835206b7d678baa59/sourcery-1.32.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:5cac2d767908f0806e09aea59d98d47b0241283d328c90f9d796c9f5888b082a", size = 77734701 },
+    { url = "https://files.pythonhosted.org/packages/78/f7/8559847c4d46626983d079964c22b9c44d54b725075f570b36b4a71ba060/sourcery-1.32.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:8787cfc9b16c23c05cf8998b28a9fe97c5e2e96e021debbef25b92b07e562a06", size = 98155200 },
+    { url = "https://files.pythonhosted.org/packages/d5/1d/f6155df15731a5b333fc1ee39cb70a91a5c2dc43da5227c5ce1cf5a81530/sourcery-1.32.0-py2.py3-none-win_amd64.whl", hash = "sha256:9b3cce1522685bdd21a4086b97f67795faf68954bad6a88980a7c0239c9cb45d", size = 77882750 },
 ]
 
 [[package]]
