@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2024-11-13 06:39\n"
+"PO-Revision-Date: 2025-01-23 18:59\n"
 
 msgid "Unsupported project version"
 msgstr "不支持的工程版本"
@@ -22,7 +22,7 @@ msgid "Techno-Speech Solution file"
 msgstr "Techno-Speech 项目文件"
 
 msgid "Conversion plugin for VoiSona project file (Only versions 1.8.0 and later are supported)"
-msgstr "Voisona 工程文件转换插件 (仅支持1.8.0及以上版本保存的工程)"
+msgstr "VoiSona 工程文件转换插件 (仅支持1.8.0及以上版本保存的工程)"
 
 msgid "SoulMelody"
 msgstr "岁月静好_初心不忘"
