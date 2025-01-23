@@ -10,16 +10,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-01-22 19:48\n"
+"PO-Revision-Date: 2025-01-23 19:00\n"
 
 msgid "TSMSln"
 msgstr ""
 
 msgid "Techno-Speech Mobile Solution file"
-msgstr ""
+msgstr "Techno-Speech 移动版项目文件"
 
 msgid "Conversion plugin for VoiSona Mobile project file"
-msgstr ""
+msgstr "VoiSona 移动版工程文件转换插件"
 
 msgid "SoulMelody"
 msgstr "岁月静好_初心不忘"
