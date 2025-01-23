@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: German\n"
 "Language: de_DE\n"
-"PO-Revision-Date: 2024-12-29 18:18\n"
+"PO-Revision-Date: 2025-01-22 19:48\n"
 
 msgid "LRC"
 msgstr ""
@@ -77,6 +77,12 @@ msgstr "Offset-Richtlinie"
 
 msgid "New line by"
 msgstr "Neue Zeile durch"
+
+msgid "Ignore slur notes"
+msgstr ""
+
+msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
+msgstr ""
 
 msgid "Write timeline"
 msgstr "Zeitachse schreiben"

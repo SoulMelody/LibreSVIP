@@ -1,0 +1,32 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: libresvip\n"
+"X-Crowdin-Project-ID: 645830\n"
+"X-Crowdin-Language: de\n"
+"X-Crowdin-File: /main/libresvip/plugins/tsmsln/tsmsln.po\n"
+"X-Crowdin-File-ID: 198\n"
+"Project-Id-Version: libresvip\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"PO-Revision-Date: 2025-01-22 19:48\n"
+
+msgid "TSMSln"
+msgstr ""
+
+msgid "Techno-Speech Mobile Solution file"
+msgstr ""
+
+msgid "Conversion plugin for VoiSona Mobile project file"
+msgstr ""
+
+msgid "SoulMelody"
+msgstr ""
+
+msgid "Unsupported lyric: "
+msgstr "Nicht unterstützter Text: "
+
+msgid "Pitch value is out of bounds"
+msgstr "Tonhöhenwert ist außerhalb des zulässigen Bereichs"
+

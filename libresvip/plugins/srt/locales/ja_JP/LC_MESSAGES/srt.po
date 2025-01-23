@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
-"PO-Revision-Date: 2024-11-13 04:31\n"
+"PO-Revision-Date: 2025-01-22 19:48\n"
 
 msgid "Both note gap and punctuation"
 msgstr ""
@@ -37,6 +37,12 @@ msgid "In milliseconds, positive means ahead, negative means opposite."
 msgstr ""
 
 msgid "New line by"
+msgstr ""
+
+msgid "Ignore slur notes"
+msgstr ""
+
+msgid "Ignore '-' lyrics that are used to indicate slur notes in singing synthesizers."
 msgstr ""
 
 msgid "Text encoding"
