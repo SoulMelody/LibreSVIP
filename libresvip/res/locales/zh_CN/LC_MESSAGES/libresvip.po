@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
-"PO-Revision-Date: 2025-01-22 19:48\n"
+"PO-Revision-Date: 2025-01-23 18:52\n"
 
 #: ../libresvip/cli/commands/conf.py:20
 msgid "Setting {} is not supported in cli mode."
@@ -1163,7 +1163,7 @@ msgstr "打开文件"
 
 #: ../libresvip/tui/app.py:701
 msgid "Select directory"
-msgstr ""
+msgstr "选择目录"
 
 #: ../libresvip/tui/app.py:747 ../libresvip/web/pages.py:1567
 msgid "Advanced Settings"
