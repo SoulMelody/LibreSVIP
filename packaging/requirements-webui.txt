@@ -57,7 +57,7 @@ proxy-tools==0.1.0
 pscript==0.7.7
 pycparser==2.22
 pycryptodomex==3.21.0
-pydantic==2.10.5
+pydantic==2.10.6
 pydantic-core==2.27.2
 pydantic-extra-types==2.10.2
 pydantic-settings==2.7.1
