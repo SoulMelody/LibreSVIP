@@ -209,44 +209,39 @@ class TuneLabParser:
     ) -> list[Point]:
         points: list[Point] = [Point.start_point()]
         for pitch_part in pitch:
-            for anchor_group in more_itertools.split_at(
-                pitch_part.root, lambda x: math.isnan(x.value)
-            ):
-                if len(anchor_group) < 2:
-                    continue
-                interpolator = HermiteInterpolator(
-                    points=cast(list[tuple[float, float]], anchor_group)
-                )
-                xs = list(
-                    more_itertools.numeric_range(anchor_group[0].pos, anchor_group[-1].pos + 1, 5)
-                )
-                ys = interpolator.interpolate(xs)
-                for is_first, is_last, i in more_itertools.mark_ends(range(len(xs))):
-                    pitch_pos = int(xs[i]) + offset
-                    if is_first:
-                        points.append(
-                            Point(
-                                x=pitch_pos + self.first_bar_length,
-                                y=-100,
-                            )
-                        )
-                    pitch_secs = self.synchronizer.get_actual_secs_from_ticks(pitch_pos)
-                    pitch_value = ys[i]
-                    if (vibrato_value := vibrato_base_interval_dict.get(pitch_secs)) is not None:
-                        vibrato_value *= vibrato_envelope_interval_dict.get(pitch_secs, 1)
-                        pitch_value += vibrato_value
+            anchor_group = [point for point in pitch_part.root if not math.isnan(point.value)]
+            if len(anchor_group) < 2:
+                continue
+            interpolator = HermiteInterpolator(points=cast(list[tuple[float, float]], anchor_group))
+            xs = list(
+                more_itertools.numeric_range(anchor_group[0].pos, anchor_group[-1].pos + 1, 5)
+            )
+            ys = interpolator.interpolate(xs)
+            for i, (x, y) in enumerate(zip(xs, ys)):
+                pitch_pos = int(x) + offset
+                if i == 0:
                     points.append(
                         Point(
                             x=pitch_pos + self.first_bar_length,
-                            y=round(pitch_value * 100),
+                            y=-100,
                         )
                     )
-                    if is_last:
-                        points.append(
-                            Point(
-                                x=points[-1].x,
-                                y=-100,
-                            )
-                        )
+                pitch_secs = self.synchronizer.get_actual_secs_from_ticks(pitch_pos)
+                pitch_value = y
+                if (vibrato_value := vibrato_base_interval_dict.get(pitch_secs)) is not None:
+                    vibrato_value *= vibrato_envelope_interval_dict.get(pitch_secs, 1)
+                    pitch_value += vibrato_value
+                points.append(
+                    Point(
+                        x=pitch_pos + self.first_bar_length,
+                        y=round(pitch_value * 100),
+                    )
+                )
+            points.append(
+                Point(
+                    x=points[-1].x,
+                    y=-100,
+                )
+            )
         points.append(Point.end_point())
         return points
