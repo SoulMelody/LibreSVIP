@@ -229,20 +229,21 @@ class HermiteInterpolator:
                 ys.append(self.points[0][1])
             elif point_index == len(self.points):
                 ys.append(self.points[-1][1])
-            last_point = self.points[point_index - 1]
-            last_delta = self.slope_at(point_index - 1)
-            next_point = self.points[point_index]
-            next_delta = self.slope_at(point_index)
-            delta_1 = x - last_point[0]
-            delta_2 = x - next_point[0]
-            t1 = delta_1 / (next_point[0] - last_point[0])
-            t2 = delta_2 / (last_point[0] - next_point[0])
-            ys.append(
-                self.f1(t1, t2) * last_point[1]
-                + self.f1(t2, t1) * next_point[1]
-                + self.f3(t2, delta_1) * last_delta
-                + self.f3(t1, delta_2) * next_delta
-            )
+            else:
+                last_point = self.points[point_index - 1]
+                last_delta = self.slope_at(point_index - 1)
+                next_point = self.points[point_index]
+                next_delta = self.slope_at(point_index)
+                delta_1 = x - last_point[0]
+                delta_2 = x - next_point[0]
+                t1 = delta_1 / (next_point[0] - last_point[0])
+                t2 = delta_2 / (last_point[0] - next_point[0])
+                ys.append(
+                    self.f1(t1, t2) * last_point[1]
+                    + self.f1(t2, t1) * next_point[1]
+                    + self.f3(t2, delta_1) * last_delta
+                    + self.f3(t1, delta_2) * next_delta
+                )
         return ys
 
 
