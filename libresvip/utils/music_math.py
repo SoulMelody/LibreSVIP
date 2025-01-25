@@ -204,7 +204,7 @@ class HermiteInterpolator:
 
     @staticmethod
     def slope(p1: tuple[float, float], p2: tuple[float, float]) -> float:
-        return (p2[1] - p1[1]) / (p2[0] - p1[0])
+        return (p2[1] - p1[1]) / (p2[0] - p1[0]) if p2[0] != p1[0] else math.nan
 
     def slope_at(self, point_index: int) -> float:
         if point_index in [0, len(self.points) - 1]:
