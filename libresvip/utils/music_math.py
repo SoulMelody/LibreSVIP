@@ -1,3 +1,4 @@
+import dataclasses
 import functools
 import math
 import re
@@ -185,6 +186,64 @@ interpolate_cosine_ease_in = functools.partial(
 interpolate_cosine_ease_out = functools.partial(
     _inner_interpolate, mapping=cosine_easing_out_interpolation
 )
+
+
+@dataclasses.dataclass
+class HermiteInterpolator:
+    # from https://github.com/LiuYunPlayer/TuneLab/blob/master/TuneLab.Base/Science/HermiteInterpolation.cs
+
+    points: list[tuple[float, float]]
+
+    @staticmethod
+    def f1(t1: float, t2: float) -> float:
+        return (1 + 2 * t1) * t2**2
+
+    @staticmethod
+    def f3(t: float, d: float) -> float:
+        return t**2 * d
+
+    @staticmethod
+    def slope(p1: tuple[float, float], p2: tuple[float, float]) -> float:
+        return (p2[1] - p1[1]) / (p2[0] - p1[0])
+
+    def slope_at(self, point_index: int) -> float:
+        if point_index in [0, len(self.points) - 1]:
+            return 0
+        point = self.points[point_index]
+        last_k = self.slope(point, self.points[point_index - 1])
+        next_k = self.slope(point, self.points[point_index + 1])
+        kk = last_k * next_k
+        return 0 if kk <= 0 else 2 / (1 / last_k + 1 / next_k)
+
+    def interpolate(self, xs: list[float]) -> list[float]:
+        if len(self.points) < 2:
+            return [self.points[0][1] if len(self.points) == 1 else 0] * len(xs)
+        elif len(self.points) == 2:
+            return [linear_interpolation(x, self.points[0], self.points[1]) for x in xs]
+        point_index = 0
+        ys = []
+        for x in xs:
+            while point_index < len(self.points) and self.points[point_index][0] < x:
+                point_index += 1
+            if point_index == 0:
+                ys.append(self.points[0][1])
+            elif point_index == len(self.points):
+                ys.append(self.points[-1][1])
+            last_point = self.points[point_index - 1]
+            last_delta = self.slope_at(point_index - 1)
+            next_point = self.points[point_index]
+            next_delta = self.slope_at(point_index)
+            delta_1 = x - last_point[0]
+            delta_2 = x - next_point[0]
+            t1 = delta_1 / (next_point[0] - last_point[0])
+            t2 = delta_2 / (last_point[0] - next_point[0])
+            ys.append(
+                self.f1(t1, t2) * last_point[1]
+                + self.f1(t2, t1) * next_point[1]
+                + self.f3(t2, delta_1) * last_delta
+                + self.f3(t1, delta_2) * next_delta
+            )
+        return ys
 
 
 def db_to_float(db: float, using_amplitude: bool = True) -> float:

@@ -12,6 +12,7 @@ from typing import (
     NamedTuple,
     Optional,
     Union,
+    cast,
 )
 
 from more_itertools import batched, minmax
@@ -30,9 +31,8 @@ from libresvip.core.time_interval import RangeInterval
 from libresvip.model.base import BaseModel
 from libresvip.model.point import PointList
 from libresvip.utils.audio import audio_path_validator
-from libresvip.utils.music_math import linear_interpolation
+from libresvip.utils.music_math import HermiteInterpolator
 
-from .ace_curve_utils import interpolate_hermite
 from .enums import AcepLyricsLanguage
 from .singers import DEFAULT_SEED, DEFAULT_SINGER, DEFAULT_SINGER_ID
 
@@ -69,26 +69,22 @@ class AcepParamCurve(BaseModel):
     ) -> list[float]:
         return list(chain.from_iterable(points.root))
 
-    def points2values(self) -> None:
-        if self.curve_type == "anchor" and self.points is not None:
-            if len(self.points.root) > 2:
-                self.offset = math.floor(self.points.root[0].pos)
-                self.values = interpolate_hermite(
-                    [point.pos for point in self.points.root],
-                    [point.value for point in self.points.root],
-                    list(
-                        range(
-                            self.offset,
-                            math.ceil(self.points.root[-1].pos) + 1,
-                        )
-                    ),
-                )
-            elif len(self.points.root) == 2:
-                self.offset = math.floor(self.points.root[0].pos)
-                self.values = [
-                    linear_interpolation(pos, self.points.root[0], self.points.root[-1])
-                    for pos in range(self.offset, math.ceil(self.points.root[-1].pos) + 1)
-                ]
+    @model_validator(mode="after")
+    def points2values(self) -> Self:
+        if self.curve_type == "anchor" and self.points is not None and len(self.points.root):
+            interpolator = HermiteInterpolator(
+                cast(list[tuple[float, float]], self.points.root),
+            )
+            self.offset = math.floor(self.points.root[0].pos)
+            self.values = interpolator.interpolate(
+                list(
+                    range(
+                        self.offset,
+                        math.ceil(self.points.root[-1].pos) + 1,
+                    )
+                ),
+            )
+        return self
 
     def transform(self, value_transform: Callable[[float], float]) -> AcepParamCurve:
         return self.model_copy(

@@ -131,9 +131,6 @@ class AceParser:
                 ace_note_list.extend(ace_notes)
 
                 def merge_curves(src: AcepParamCurveList, dst: AcepParamCurveList) -> None:
-                    for curve in src.root:
-                        if curve.curve_type == "anchor":
-                            curve.points2values()
                     ace_curves = [
                         curve
                         for curve in src.root
