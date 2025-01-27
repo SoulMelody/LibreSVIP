@@ -36,7 +36,7 @@ pefile==2023.2.7 ; sys_platform == 'win32'
 pillow==11.1.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
-proto-plus==1.25.0
+proto-plus==1.26.0
 protobuf==5.29.3
 pycparser==2.22 ; python_full_version < '3.12' or sys_platform != 'win32'
 pycryptodomex==3.21.0

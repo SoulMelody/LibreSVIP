@@ -51,7 +51,7 @@ pillow==11.1.0 ; sys_platform == 'darwin'
 platformdirs==4.3.6
 portion==2.6.0
 propcache==0.2.1
-proto-plus==1.25.0
+proto-plus==1.26.0
 protobuf==5.29.3
 proxy-tools==0.1.0
 pscript==0.7.7
