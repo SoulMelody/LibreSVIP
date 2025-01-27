@@ -88,7 +88,7 @@ webui = [
   "libresvip[upath]",
 ]
 mobile = [
-  "flet[cli,desktop]>=0.25.2",
+  "flet[cli,desktop]>=0.26.0",
   "libresvip[upath]",
 ]
 desktop = [
