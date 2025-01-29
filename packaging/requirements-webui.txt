@@ -78,7 +78,7 @@ python-engineio==4.11.2
 python-multipart==0.0.20
 python-socketio==5.12.1
 pythonnet==3.0.5 ; sys_platform == 'win32'
-pywebview==5.3.2
+pywebview==5.4
 pywin32-ctypes==0.2.3 ; sys_platform == 'win32'
 pyyaml==6.0.2
 pyzipper==0.3.6
