@@ -2,7 +2,7 @@ altgraph==0.17.4
 annotated-types==0.7.0
 anyio==4.8.0
 bidict==0.23.1
-certifi==2024.12.14
+certifi==2025.1.31
 cffi==1.17.1 ; python_full_version < '3.12' or sys_platform != 'win32'
 charset-normalizer==3.4.1
 click==8.1.8
