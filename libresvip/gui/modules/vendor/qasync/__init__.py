@@ -67,8 +67,8 @@ class _QThreadWorker(QtCore.QThread):
                 tuple[
                     Future[_T],
                     Callable[_P, _T],
-                    _P.args,
-                    _P.kwargs,
+                    Any,
+                    Any,
                 ]
             ]
         ],
@@ -237,7 +237,7 @@ class _SimpleTimer(QtCore.QObject):
     def set_debug(self, enabled: bool) -> None:
         self.__debug_enabled = enabled
 
-    def __log_debug(self, *args: _P.args, **kwargs: _P.kwargs) -> None:
+    def __log_debug(self, *args: Any, **kwargs: Any) -> None:
         if self.__debug_enabled:
             logger.debug(*args, **kwargs)
 
@@ -717,12 +717,12 @@ class _QEventLoop(asyncio.AbstractEventLoop):
         self.stop()
         self.close()
 
-    def __log_debug(self, *args: _P.args, **kwargs: _P.kwargs) -> None:
+    def __log_debug(self, *args: Any, **kwargs: Any) -> None:
         if self.__debug_enabled:
             logger.debug(*args, **kwargs)
 
     @classmethod
-    def __log_error(cls, *args: _P.args, **kwds: _P.kwargs) -> None:
+    def __log_error(cls, *args: Any, **kwds: Any) -> None:
         # In some cases, the error method itself fails, don't have a lot of options in that case
         try:
             logger.exception(*args, **kwds)

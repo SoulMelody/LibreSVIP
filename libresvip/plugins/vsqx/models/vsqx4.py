@@ -931,8 +931,7 @@ class Note(BaseModel):
             "required": True,
         },
     )
-    dur_tick: Optional[int] = field(
-        default=None,
+    dur_tick: int = field(
         metadata={
             "name": "dur",
             "type": "Element",
@@ -959,8 +958,7 @@ class Note(BaseModel):
             "max_inclusive": 127,
         },
     )
-    lyric: Optional[str] = field(
-        default=None,
+    lyric: str = field(
         metadata={
             "name": "y",
             "type": "Element",

@@ -140,7 +140,7 @@ class TuneLabParser:
                 if next_pos is not None:
                     distance = next_pos - tlp_note.pos
                     if distance < normalized_duration:
-                        normalized_duration = distance
+                        normalized_duration = int(distance)
                         if normalized_duration > 0:
                             show_warning(_("Note overlap detected, cutting note ") + tlp_note.lyric)
                 if normalized_duration > 0:

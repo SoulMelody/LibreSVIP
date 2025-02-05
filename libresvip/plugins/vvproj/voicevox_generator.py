@@ -88,7 +88,7 @@ class VOICEVOXGenerator:
 
     def generate_pitch(self, pitch: ParamCurve) -> list[float]:
         frequency_interval_dict = PiecewiseIntervalDict()
-        max_pitch_secs = 0
+        max_pitch_secs = 0.0
         secs_step = 4 / 375
         prev_secs = None
         prev_freq: float = -1
@@ -106,7 +106,7 @@ class VOICEVOXGenerator:
                 if prev_secs is not None:
                     frequency_interval_dict[portion.openclosed(prev_secs, secs)] = (
                         functools.partial(
-                            linear_interpolation,
+                            linear_interpolation,  # type: ignore[call-arg]
                             start=(prev_secs, prev_freq),
                             end=(secs, freq),
                         )

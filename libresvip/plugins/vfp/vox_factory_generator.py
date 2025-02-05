@@ -165,7 +165,7 @@ class VOXFactoryGenerator:
                 key = point.y / 100
                 if prev_secs is not None:
                     key_interval_dict[portion.openclosed(prev_secs, secs)] = functools.partial(
-                        linear_interpolation,
+                        linear_interpolation,  # type: ignore[call-arg]
                         start=(prev_secs, prev_key - note.key_number),
                         end=(secs, key - note.key_number),
                     )

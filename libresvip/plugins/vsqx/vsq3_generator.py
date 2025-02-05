@@ -226,7 +226,7 @@ class Vsq3Generator:
             elif self.options.default_lang_id == VocaloidLanguage.JAPANESE:
                 vsqx_note.phnms = Vsq3TypePhonemes(
                     value=romaji2xsampa.get(
-                        to_romaji(cast(str, vsqx_note.lyric)),
+                        to_romaji(vsqx_note.lyric),
                         DEFAULT_JAPANESE_PHONEME,
                     ),
                 )

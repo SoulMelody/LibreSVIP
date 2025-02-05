@@ -49,7 +49,6 @@ from textual.widgets import (
 from textual.widgets._list_item import ListItem
 from textual.widgets.selection_list import Selection
 from textual_fspicker import FileOpen, SelectDirectory
-from typing_extensions import ParamSpec
 from upath import UPath
 
 import libresvip
@@ -61,8 +60,6 @@ from libresvip.model.base import BaseComplexModel, Project
 from libresvip.utils import translation
 from libresvip.utils.text import supported_charset_names
 from libresvip.utils.translation import gettext_lazy as _
-
-P = ParamSpec("P")
 
 translation.singleton_translation = get_translation()
 
@@ -236,9 +233,7 @@ class ColorValidator(Validator):
 
 
 class OptionsForm(ListView):
-    def __init__(
-        self, option_class: Optional[type[BaseModel]], *args: P.args, **kwargs: P.kwargs
-    ) -> None:
+    def __init__(self, option_class: Optional[type[BaseModel]], *args: Any, **kwargs: Any) -> None:
         self.option_class = option_class
         self.option_dict = {} if option_class is None else option_class().model_dump(mode="json")
         super().__init__(*args, **kwargs)
@@ -347,8 +342,8 @@ class TaskRow(Right):
         stem: str,
         ext: str,
         arrow_symbol: str,
-        *args: P.args,
-        **kwargs: P.kwargs,
+        *args: Any,
+        **kwargs: Any,
     ) -> None:
         self.input_path = input_path
         self.stem = stem

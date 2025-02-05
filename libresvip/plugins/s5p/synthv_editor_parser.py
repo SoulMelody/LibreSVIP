@@ -259,11 +259,11 @@ class SynthVEditorParser:
                     if interp_value_diff := self.vibrato_value_interval_dict.get(
                         interp_pos_secs, 0
                     ):
-                        interp_value_diff *= self.vibrato_coef_interval_dict[interp_pos_secs] * 2000
+                        interp_value_diff *= self.vibrato_coef_interval_dict[interp_pos_secs] * 2000  # type: ignore[operator]
                     points.append(
                         Point(
                             x=interp_pos,
-                            y=value + round(interp_value_diff),
+                            y=value + round(interp_value_diff),  # type: ignore[operator]
                         )
                     )
             if value_diff := self.vibrato_value_interval_dict.get(pos_secs, 0):
