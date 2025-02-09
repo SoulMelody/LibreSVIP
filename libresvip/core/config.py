@@ -307,10 +307,9 @@ class Language(enum.Enum):
         locale = cls.to_language(locale)
         return {
             "zh-cn": cls.CHINESE,
-            "en-us": cls.ENGLISH,
             "ja-jp": cls.JAPANESE,
             "de-de": cls.GERMAN,
-        }[locale]
+        }.get(locale, cls.ENGLISH)
 
     @classmethod
     def auto(cls) -> Language:
