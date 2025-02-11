@@ -1547,7 +1547,7 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.10.6,<3.0.0" },
     { name = "pydantic-extra-types", specifier = ">=2.10.2,<3.0.0" },
     { name = "pydantic-settings", extras = ["yaml"], specifier = ">=2.7.1,<3.0.0" },
-    { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=6.1.0,<7.0.0" },
+    { name = "pymediainfo", marker = "sys_platform != 'emscripten'", specifier = ">=7.0.0,<7.0.1" },
     { name = "pypinyin", specifier = ">=0.53.0,<1.0.0" },
     { name = "pyside6", marker = "extra == 'desktop'", specifier = ">=6.8.2.1,<6.8.3" },
     { name = "pysubs2", specifier = ">=1.8.0,<2.0.0" },
@@ -2868,13 +2868,15 @@ wheels = [
 
 [[package]]
 name = "pymediainfo"
-version = "6.1.0"
+version = "7.0.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/0f/ed/a02b18943f9162644f90354fe6445410e942c857dd21ded758f630ba41c0/pymediainfo-6.1.0.tar.gz", hash = "sha256:186a0b41a94524f0984d085ca6b945c79a254465b7097f2560dc0c04e8d1d8a5", size = 446466 }
+sdist = { url = "https://files.pythonhosted.org/packages/5b/d1/2776403be61945d927a03cdf794c58e51b40f8e4e3cb88ee93873b2b41f1/pymediainfo-7.0.0.tar.gz", hash = "sha256:b78e979e42e50a714f439452679c53d9e99b6f35a25542837aee97886d06dd45", size = 437822 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/20/47/675bac72d4ab5031f69179b1b8e617a57f766ba063b724a82023da06b9c9/pymediainfo-6.1.0-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:69d5d3cac056c24a68a1129216aec82a222e804a35f88567c08585e8ae7ef2b3", size = 6322766 },
-    { url = "https://files.pythonhosted.org/packages/62/13/e3938e187a0c48057ffecc031d473b5739d13056d3eefb8b14b7652c27e1/pymediainfo-6.1.0-py3-none-win32.whl", hash = "sha256:19e6baeca3db71f12ed568f056de899fd02f380990fb10f43a26c32b67362dd3", size = 2762429 },
-    { url = "https://files.pythonhosted.org/packages/61/36/369234e2f568e11ed3195292cd89c60e7444346eb1dd25bf5d996dc5d78a/pymediainfo-6.1.0-py3-none-win_amd64.whl", hash = "sha256:f3f6bad666c65ac993dd8d64f45a2b26ba2acd50f9875f74cebb624dbf2f8da0", size = 2963468 },
+    { url = "https://files.pythonhosted.org/packages/ab/ea/11e7eacae70873c44e110aee541b80b611c3bdc516139ad368fd6ebdd25d/pymediainfo-7.0.0-py3-none-macosx_10_10_universal2.whl", hash = "sha256:9bf0dcecad0c8286e93457423cfa09a04f9b1caa139ef234f5c9b289d2528a58", size = 6980920 },
+    { url = "https://files.pythonhosted.org/packages/62/c4/65ee8e13fc2d28361191b8b9cd1978273c685afbbdca43f6255dc725b9b7/pymediainfo-7.0.0-py3-none-manylinux_2_27_aarch64.whl", hash = "sha256:89308e1e4f9b299074bc37e1c951bc5765c008f998184a61d34e6757c536e9cb", size = 5765669 },
+    { url = "https://files.pythonhosted.org/packages/c1/5c/47779d4cfa65169f888facb865148ec51df68695adc6d3062c0d4a88f00d/pymediainfo-7.0.0-py3-none-manylinux_2_27_x86_64.whl", hash = "sha256:5347f3058fe2eb0e923a3738d07ca943b160496e0ff9568821863395f7202365", size = 5999141 },
+    { url = "https://files.pythonhosted.org/packages/86/54/5ad6beb21292dd33e09519357b942ef2dc0562b6d794aa3d3fdb999be2be/pymediainfo-7.0.0-py3-none-win32.whl", hash = "sha256:a8dbd528f9d89d2257d514313ba92f0c9f09e9d64424ea29629411d95a437548", size = 3122633 },
+    { url = "https://files.pythonhosted.org/packages/71/79/9c089c9d3a62b68c8881b8c1f28c613554ce04b83d0610f00edd458b55b5/pymediainfo-7.0.0-py3-none-win_amd64.whl", hash = "sha256:83c421840b9dedf1fd9d1912ae02835de88e4aba5d0005255da5b0697d27e2b6", size = 3268817 },
 ]
 
 [[package]]
