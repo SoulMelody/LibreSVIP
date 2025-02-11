@@ -649,7 +649,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.27.2"
+version = "0.27.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -663,9 +663,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8c/49/9cb4f868856304dd4e2fc0795d848889a7c9c6f2539165ad24977cef0da3/datamodel_code_generator-0.27.2.tar.gz", hash = "sha256:1a7655f5fd3a61329b57534904f5c40dd850850e420696fd946ec7a4f59c32b8", size = 436345 }
+sdist = { url = "https://files.pythonhosted.org/packages/53/17/53cec24a4edb2021c3b89a3c50c83a9a8dd0e506495d5f7ce486be4a24fa/datamodel_code_generator-0.27.3.tar.gz", hash = "sha256:01e928c00b800aec8d2ee77b5d4b47e1bc159a3a1c32f0f405df0a442d9ab5e7", size = 440612 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/73/a0/678f10ecc40f1cce3c170246c3dd1b86735867d2844eb9f4596abf187dac/datamodel_code_generator-0.27.2-py3-none-any.whl", hash = "sha256:efcbfbe6a1488d3411fc588b1ce1af5f854f5107810b1cc9026a6d6333a7c4d8", size = 115483 },
+    { url = "https://files.pythonhosted.org/packages/08/28/a72154c09d09b4c331fee613bb43451a8c43860b52f349777db7935dde04/datamodel_code_generator-0.27.3-py3-none-any.whl", hash = "sha256:ddef49e66e2b90a4c9b238f6ce42dc5a2a23f6ab1b8370eaca08576777921e43", size = 116023 },
 ]
 
 [[package]]
@@ -1579,7 +1579,7 @@ requires-dist = [
 all = [
     { name = "babel", specifier = ">=2.17.0" },
     { name = "cx-freeze", specifier = ">=7.2.10" },
-    { name = "datamodel-code-generator", specifier = ">=0.27.2" },
+    { name = "datamodel-code-generator", specifier = ">=0.27.3" },
     { name = "gapic-generator", specifier = ">=1.22.0" },
     { name = "mkdocs-material", specifier = ">=9.6.3,<10.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -1591,7 +1591,7 @@ all = [
     { name = "pytest-datadir", specifier = ">=1.6.1" },
     { name = "ruff", specifier = ">=0.9.6" },
     { name = "shellingham", specifier = ">=1.5.4,<2.0.0" },
-    { name = "sourcery", specifier = ">=1.33.0" },
+    { name = "sourcery", specifier = ">=1.34.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
     { name = "types-lxml", specifier = ">=2024.12.13" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
@@ -1600,7 +1600,7 @@ all = [
     { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
 code-gen = [
-    { name = "datamodel-code-generator", specifier = ">=0.27.2" },
+    { name = "datamodel-code-generator", specifier = ">=0.27.3" },
     { name = "gapic-generator", specifier = ">=1.22.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
@@ -1611,7 +1611,7 @@ linting = [
     { name = "pre-commit", specifier = ">=4.1.0" },
     { name = "proto-plus-stubs", specifier = ">=0.7.0" },
     { name = "ruff", specifier = ">=0.9.6" },
-    { name = "sourcery", specifier = ">=1.33.0" },
+    { name = "sourcery", specifier = ">=1.34.0" },
     { name = "types-lxml", specifier = ">=2024.12.13" },
     { name = "types-parsimonious", specifier = ">=0.10.0.20240331" },
     { name = "types-pyyaml", specifier = ">=6.0.12.20241230" },
@@ -3579,12 +3579,12 @@ wheels = [
 
 [[package]]
 name = "sourcery"
-version = "1.33.0"
+version = "1.34.0"
 source = { registry = "https://pypi.org/simple" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b7/80/e0e06449df77f3caf268a3840cb69ae4683230a0eb912835c63922fa4693/sourcery-1.33.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:451373656791f5e7235aafcaee63fdaae7932513b5f469c5abff09bcd475f315", size = 77838426 },
-    { url = "https://files.pythonhosted.org/packages/bd/5c/242294e8eb11d6deab6b5f989c9938ca672dd5b076a1e2d39fab2f63208f/sourcery-1.33.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:dd58cb01aa933ec69a9337159e7c637ade6862fada93cc5a5263ee473e299893", size = 98271419 },
-    { url = "https://files.pythonhosted.org/packages/ab/cf/94876c080b90356e55ea5e933e7c54cffda69b851eaaef42b6af9c124c83/sourcery-1.33.0-py2.py3-none-win_amd64.whl", hash = "sha256:9e89548f89d729f6bdbf11339f708c2de5aa32689a8f42999c6f1812cf33b720", size = 78000415 },
+    { url = "https://files.pythonhosted.org/packages/43/50/331686d09c40a732c33823f497f15ffc9664ac6a1e42401e76a78c43e69b/sourcery-1.34.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:d7aae0f47e25e24abd68f2cb3829632d4325de877c22c6194255153eeacc5b73", size = 77832925 },
+    { url = "https://files.pythonhosted.org/packages/78/a5/6cd76f1c261e446a1ca2989c594d5bd1fd3f4b316c35e96ac1a1e37535e7/sourcery-1.34.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:28d9f66c5678d5aacbbeb6c7017444af17a84cb109924c54b9e9c3fc07f2525b", size = 98271638 },
+    { url = "https://files.pythonhosted.org/packages/cc/ec/744104eea92c45b536f10db90ac4e39dc80b6729977e4cfc7c67bdb2151f/sourcery-1.34.0-py2.py3-none-win_amd64.whl", hash = "sha256:23e6e54e3ba894b115a442de61c54edfb23d2633523892f3911a233c4cf18cb4", size = 78007261 },
 ]
 
 [[package]]
