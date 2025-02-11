@@ -38,7 +38,7 @@ if platform.system() != "Emscripten":
         if MediaInfo.can_parse(library_name):
             try:
                 with contextlib.suppress(ET.ParseError, RuntimeError, ValueError):
-                    media_info = MediaInfo.parse(file_path, library_name)
+                    media_info = MediaInfo.parse(file_path, library_file=library_name)
                     if not len(media_info.video_tracks):
                         return next(
                             (track for track in media_info.audio_tracks if filter_func(track)),

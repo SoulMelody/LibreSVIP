@@ -212,7 +212,7 @@ jobs:
       - name: Install OS dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libmediainfo-dev libtiff6 libwayland-dev libwebp7 libwebpdemux2 libwebpmux3 libxt6
+          sudo apt-get install -y binutils curl libdouble-conversion3 libfreetype6 libfontconfig1 libegl1 libgl1 libglib2.0-0 libtiff6 libwayland-dev libwebp7 libwebpdemux2 libwebpmux3 libxt6
       - name: Build with pyinstaller
         run: |
           uv build --wheel
