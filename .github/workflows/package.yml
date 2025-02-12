@@ -309,7 +309,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [make-outputs]
     env:
-      FLUTTER_VERSION: "3.24.4"
+      FLUTTER_VERSION: "3.27.3"
 
     steps:
       - uses: actions/checkout@v4
