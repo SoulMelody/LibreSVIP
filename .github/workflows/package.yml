@@ -320,6 +320,7 @@ jobs:
 
       - name: Install Python Dependencies
         run: |
+          uv build --wheel
           uv venv --python 3.12
           uv sync --extra mobile
           uv run python -m ensurepip --upgrade
@@ -337,7 +338,6 @@ jobs:
 
       - name: Flet Build APK
         run: |
-          uv build --wheel
           flutter config --no-analytics
           cd packaging
           uv run python install_mobile_requirements.py --platform android_24_arm64_v8a --arch arm64-v8a

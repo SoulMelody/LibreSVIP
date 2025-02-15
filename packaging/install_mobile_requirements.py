@@ -42,7 +42,17 @@ def install_mobile_requirements(platform: str, arch: str) -> None:
     requirements_path = cwd / "requirements-android.txt"
     requirements = requirements_path.read_text().splitlines()
     project_wheel = next((cwd / "../dist/").glob("*.whl"))
-    requirements.insert(0, f"libresvip @ {project_wheel.resolve()!s}")
+    logger.info("Installing libresvip...")
+    subprocess.check_call(
+        [
+            *common_args,
+            str(project_wheel),
+            "--platform",
+            "none",
+            "--only-binary",
+            ":all:",
+        ]
+    )
     for requirement_str in requirements:
         try:
             requirement = Requirement(requirement_str)
