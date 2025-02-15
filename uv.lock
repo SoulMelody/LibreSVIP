@@ -650,7 +650,7 @@ wheels = [
 
 [[package]]
 name = "datamodel-code-generator"
-version = "0.28.0"
+version = "0.28.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "argcomplete" },
@@ -664,9 +664,9 @@ dependencies = [
     { name = "pyyaml" },
     { name = "tomli", marker = "python_full_version < '3.12'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/38/5a/dcee4ffa9cf146e9b268753c45e49852bde4e31b205ddfed094c0aaa4813/datamodel_code_generator-0.28.0.tar.gz", hash = "sha256:a28b43f0ab9bf38d5f1a9dd3892c6d23c02464ebbbd7bf2e81ad7d13e82c8212", size = 434162 }
+sdist = { url = "https://files.pythonhosted.org/packages/cb/d3/80f6a2394bbf3b46b150fc75afa5b0050f91baa5771e9be87df148013d83/datamodel_code_generator-0.28.1.tar.gz", hash = "sha256:37ef5f3b488f7d7a3f0b5b3ba0f2bc1ae01bab4dc7e0f6b99ff6c40713a6beb3", size = 434901 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/f8/a527e5608ba3b76824d2df1c794df284e42feadc2bb2f2acdc7a594b2b0b/datamodel_code_generator-0.28.0-py3-none-any.whl", hash = "sha256:00f6a5cb5565ed931c1823ea44a24b660503101ca48d3d47bca553b2219e0c67", size = 115551 },
+    { url = "https://files.pythonhosted.org/packages/c8/17/2876ca0a4ac7dd7cb5f56a2f0f6d9ac910969f467e8142c847c45a76b897/datamodel_code_generator-0.28.1-py3-none-any.whl", hash = "sha256:1ff8a56f9550a82bcba3e1ad7ebdb89bc655eeabbc4bc6acfb05977cbdc6381c", size = 115601 },
 ]
 
 [[package]]
@@ -1581,7 +1581,7 @@ provides-extras = ["crypto", "desktop", "lxml", "mobile", "ruamel-yaml", "tui", 
 all = [
     { name = "babel", specifier = ">=2.17.0" },
     { name = "cx-freeze", specifier = ">=7.2.10" },
-    { name = "datamodel-code-generator", specifier = ">=0.28.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.28.1" },
     { name = "gapic-generator", specifier = ">=1.23.0" },
     { name = "mkdocs-material", specifier = ">=9.6.4,<10.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -1602,7 +1602,7 @@ all = [
     { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
 code-gen = [
-    { name = "datamodel-code-generator", specifier = ">=0.28.0" },
+    { name = "datamodel-code-generator", specifier = ">=0.28.1" },
     { name = "gapic-generator", specifier = ">=1.23.0" },
     { name = "xsdata", extras = ["cli"], specifier = ">=24.12" },
 ]
