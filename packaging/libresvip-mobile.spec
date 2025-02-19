@@ -21,7 +21,7 @@ with contextlib.suppress(Exception):
 
 
 a = Analysis(
-    ['../libresvip/tui/__main__.py'],
+    ['../libresvip/mobile/__main__.py'],
     pathex=[
         os.path.join(os.__file__, os.pardir),
     ],
@@ -47,7 +47,7 @@ a = Analysis(
         "xsdata_pydantic.fields",
         "xsdata_pydantic.hooks.class_type",
         "zstandard",
-    ] + collect_submodules("textual.widgets"),
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -87,12 +87,12 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='libresvip-tui',
+    name='libresvip-mobile',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=False,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
@@ -108,5 +108,5 @@ coll = COLLECT(
     strip=False,
     upx=False,
     upx_exclude=[],
-    name='libresvip-tui',
+    name='libresvip-mobile',
 )
