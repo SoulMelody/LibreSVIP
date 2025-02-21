@@ -41,5 +41,6 @@
     "reportOperatorIssue": "warning",
     "reportArgumentType": "warning",
     "reportIndexIssue": "warning",
+    "reportMatchNotExhaustive": "warning",
     "reportCallInDefaultInitializer": "error"
 }
