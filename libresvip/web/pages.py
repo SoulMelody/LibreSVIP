@@ -1009,7 +1009,7 @@ def page_layout(lang: str | None = None) -> None:
                 file_paths = await app.native.main_window.create_file_dialog(
                     allow_multiple=True,
                     file_types=[
-                        select_input.options[select_input.value],
+                        " " + select_input.options[select_input.value].rpartition(" ")[-1],
                         _("All files (*.*)"),
                     ],
                 )
@@ -1044,7 +1044,7 @@ def page_layout(lang: str | None = None) -> None:
                     file_types=(
                         _("Compressed Archive (*.zip)")
                         if save_filename.endswith(".zip")
-                        else select_output.options[select_output.value],
+                        else " " + select_output.options[select_output.value].rpartition(" ")[-1],
                         _("All files (*.*)"),
                     ),
                 )
@@ -1789,34 +1789,35 @@ def page_layout(lang: str | None = None) -> None:
         async def handle_key(e: KeyEventArguments) -> None:
             if e.modifiers.alt or e.modifiers.ctrl or e.modifiers.meta or e.modifiers.shift:
                 if e.modifiers.alt and e.action.keyup and not e.action.repeat:
-                    if e.key == "c":
-                        convert_menu.open()
-                    elif e.key == "[":
-                        input_formats_menu.open()
-                    elif e.key == "]":
-                        output_formats_menu.open()
-                    elif e.key == "t":
-                        theme_menu.open()
-                    elif e.key == "h":
-                        help_menu.open()
-                    elif e.key == "o":
-                        await selected_formats.add_upload()
-                    elif e.key == "i":
-                        about_dialog.open()
-                    elif e.key == "\\":
-                        swap_values()
-                    elif e.key == "/":
-                        selected_formats.reset()
-                    elif e.key == "w":
-                        dark_toggler.disable()
-                    elif e.key == "b":
-                        dark_toggler.enable()
-                    elif e.key == "a":
-                        dark_toggler.auto()
-                    elif e.key == "s":
-                        settings_dialog.open()
-                    elif e.key == "Enter":
-                        await selected_formats.batch_convert()
+                    match e.key.name:
+                        case "c":
+                            convert_menu.open()
+                        case "[":
+                            input_formats_menu.open()
+                        case "]":
+                            output_formats_menu.open()
+                        case "t":
+                            theme_menu.open()
+                        case "h":
+                            help_menu.open()
+                        case "o":
+                            await selected_formats.add_upload()
+                        case "i":
+                            about_dialog.open()
+                        case "\\":
+                            swap_values()
+                        case "/":
+                            selected_formats.reset()
+                        case "w":
+                            dark_toggler.disable()
+                        case "b":
+                            dark_toggler.enable()
+                        case "a":
+                            dark_toggler.auto()
+                        case "s":
+                            settings_dialog.open()
+                        case "Enter":
+                            await selected_formats.batch_convert()
             elif e.key.number is not None and not e.action.repeat and e.action.keyup:
                 key = e.key.number
                 for formats_menu, format_item in [
